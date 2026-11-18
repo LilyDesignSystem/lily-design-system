@@ -63,7 +63,7 @@ BANNER = (
 FRAMEWORK = {
     "html": "HTML", "svelte": "Svelte 5", "react": "React", "vue": "Vue 3",
     "angular": "Angular 22", "blazor": "Blazor", "nunjucks": "Nunjucks",
-    "web-components": "Web Components", "alpine": "Alpine.js",
+    "web-components": "Web Components", "alpine": "Alpine.js", "solid": "Solid 2",
 }
 
 LINK = re.compile(r"\[([^\]]*)\]\(([^)\s]+)(\s+\"[^\"]*\")?\)")
@@ -236,6 +236,7 @@ PUBLISHED_NPM = {
     "lily-design-system-angular-headless", "lily-design-system-nunjucks-headless",
     "lily-design-system-web-components-headless",
     "lily-design-system-alpine-headless",
+    "lily-design-system-solid-headless",
 }
 
 PUBLISHED_NUGET = {"lily-design-system-blazor-headless"}

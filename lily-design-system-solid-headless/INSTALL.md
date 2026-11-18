@@ -1,28 +1,27 @@
 # Install
 
-This is a Lily Design System subproject.
+This is the Solid 2 headless component library: all 608 catalog components, unstyled and accessible.
 
 Its source is the `lily-design-system-solid-headless/` directory of the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.
 
 Full documentation and the searchable component catalog: <https://lilydesignsystem.com/>
 
-## Run this example application
+## Install
 
 ```sh
-git clone https://github.com/LilyDesignSystem/lily-design-system.git
-cd lily-design-system/lily-design-system-solid-headless
-npm install
-npm run dev
+npm install @lilydesignsystem/solid-headless
 ```
 
-It ships three required routes — `/`, `/components` (the full searchable catalog),
-and `/components/{slug}` (a live demo per component) — plus composed-page
-demonstrations. The stylesheet targets Lily's kebab-case class names directly, with
-no CSS-framework dependency; the current visual reference is the NHS UK design
-system.
+Import any of the 571 catalog components from the package root; the barrel is
+tree-shakeable (`sideEffects: false`), so your bundler drops what you do not use.
 
-Lily is not affiliated with or endorsed by NHS.
+The components ship semantic HTML, ARIA, focus management, and keyboard
+behaviour — and **no CSS**. Style them through the kebab-case class hook on each
+root element. See the canonical
+[css-style-sheet-template.css](https://github.com/LilyDesignSystem/lily-design-system/blob/main/css-style-sheet-template.css)
+for a hook per component, and the 45 ready-made stylesheets in
+[themes/](https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes).
 
 ## License
 

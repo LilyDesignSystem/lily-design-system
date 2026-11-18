@@ -335,12 +335,13 @@ updates:
           - "*"
 
   - package-ecosystem: "npm"
-    # One top-level subproject per Solid helper package (2026-11-17).
+    # One top-level subproject per Solid helper package (2026-11-17), and the Solid example app (2026-11-18).
     directories:
       - "/lily-design-system-solid-calendar"
       - "/lily-design-system-solid-color-picker"
       - "/lily-design-system-solid-data-grid"
       - "/lily-design-system-solid-date-time-picker"
+      - "/lily-design-system-solid-examples"
       - "/lily-design-system-solid-filter"
       - "/lily-design-system-solid-gantt-chart"
       - "/lily-design-system-solid-kanban-board"

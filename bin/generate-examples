@@ -14,7 +14,7 @@
 //               data table, a derived "graphic only" variant.
 //
 // Outputs (overwritten in full, or region-replaced):
-//   - {svelte-sveltekit,react-next,vue-nuxt,angular} component-examples.ts
+//   - {svelte-sveltekit,react-next,solid,vue-nuxt,angular} component-examples.ts
 //   - blazor-web Data/ComponentExamples.cs
 //   - html-css-js assets/js/pages/component.js (componentExamples region)
 //   - nunjucks-eleventy src/components/{slug}.njk (generated examples region)
@@ -68,6 +68,8 @@ function usageFrom(file) {
 const libDoc = {
   svelte: (c) => `lily-design-system-svelte-headless/components/${c.name}/index.md`,
   react: (c) => `lily-design-system-react-headless/components/${c.name}.md`,
+  // Solid has no per-component docs: it takes React's usage, made Solid (see solidUsage below).
+  solid: (c) => `lily-design-system-react-headless/components/${c.name}.md`,
   vue: (c) => `lily-design-system-vue-headless/components/${c.name}.md`,
   angular: (c) => `lily-design-system-angular-headless/components/${c.name}.md`,
   blazor: (c) => `lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/${c.name}.md`,
@@ -96,6 +98,7 @@ function variantsFor(c) {
 const fitsApp = {
   svelte: ["svelte", "html", "text"],
   react: ["tsx", "jsx", "html", "text"],
+  solid: ["tsx", "jsx", "html", "text"],
   vue: ["vue", "html", "text"],
   angular: ["html", "ts", "angular", "text"],
   blazor: ["razor", "html", "cs", "text"],
@@ -106,11 +109,22 @@ const fitsApp = {
 // A usage block that is only a placeholder (`<Kbd>...</Kbd>`, `<X />`) teaches nothing.
 const trivial = (u) => !u || (u.code.trim().length < 70 && /(\u2026|\.\.\.|\/>\s*$)/.test(u.code));
 
+// React's usage as Solid: `class` and `for` for `className` and `htmlFor`. A usage built on a React-only API
+// (state or effect hooks, the React namespace) would mislead in a Solid app, so it gives way to the demo markup.
+const REACT_ONLY = /\b(useState|useRef|useEffect|useMemo|useCallback|React\.)/;
+function solidUsage(u) {
+  if (!u || !["tsx", "jsx"].includes(u.lang)) return u;
+  if (REACT_ONLY.test(u.code)) return null;
+  return { lang: u.lang, code: u.code.replace(/\bclassName=/g, "class=").replace(/\bhtmlFor=/g, "for=") };
+}
+
 function exampleFor(app, c) {
   let usage = usageFrom(libDoc[app](c));
+  if (app === "solid") usage = solidUsage(usage);
   const cat = usageFrom(catalogDoc(c));
   if (trivial(usage) && cat && !trivial(cat) && fitsApp[app].includes(cat.lang)) usage = cat;
   if (!usage && cat && fitsApp[app].includes(cat.lang)) usage = cat;
+  if (app === "solid") usage = solidUsage(usage);
   // Still a placeholder (or nothing)? The demo's own HTML markup is real usage.
   if (trivial(usage) && demos[c.slug]) usage = { lang: "html", code: demos[c.slug].replace(/\s+$/, "") + "\n" };
   const variants = variantsFor(c);
@@ -164,6 +178,7 @@ function tsFor(app) {
 
 write("lily-design-system-svelte-sveltekit-examples/src/lib/data/component-examples.ts", tsFor("svelte"));
 write("lily-design-system-react-next-examples/app/data/component-examples.ts", tsFor("react"));
+write("lily-design-system-solid-examples/src/data/component-examples.ts", tsFor("solid"));
 write("lily-design-system-vue-nuxt-examples/data/component-examples.ts", tsFor("vue"));
 write("lily-design-system-angular-examples/src/app/component-examples.ts", tsFor("angular"));
 

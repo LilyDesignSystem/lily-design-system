@@ -43,6 +43,7 @@ whose `Alpine.data` behaviours own state and keyboard for the interactive ones. 
 - [Lily Design System: Blazor Web examples](../lily-design-system-blazor-web-examples)
 - [Lily Design System: Nunjucks Eleventy examples](../lily-design-system-nunjucks-eleventy-examples)
 - [Lily Design System: Alpine.js examples](../lily-design-system-alpine-examples) (a static site built by `node build.mjs`)
+- [Lily Design System: Solid examples](../lily-design-system-solid-examples) (a Vite single-page app on Solid Router 2.0)
 
 There is no Web Components example app.
 

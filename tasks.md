@@ -3880,15 +3880,18 @@ library comes first; its plan, decisions and the list of components still to por
       tests, every React test ported. The rules the larger ports needed are in each helper's `AGENTS/conventions.md`
       ("Lists and focus", "Forms"). `solid-calendar`, `solid-gantt-chart` and `solid-picker-bar` install their unpublished
       Solid siblings through pnpm link overrides until P36-T6.)_
-- [ ] **P36-T4 Solid example app** with the three required routes (`/`, `/components`, `/components/{slug}`), on Solid 2's
-      Vite plugin (SolidStart is retired). Verify: its e2e and axe sweeps pass.
+- [x] **P36-T4 Solid example app** with the three required routes (`/`, `/components`, `/components/{slug}`), on Solid 2's
+      Vite plugin (SolidStart is retired). Verify: its e2e and axe sweeps pass. _(2026-11-18:
+      `lily-design-system-solid-examples`, a Vite single-page app on Solid Router 2.0 using the published Solid packages;
+      its data comes from `bin/generate-registries` and `bin/generate-examples` (React's usage made Solid), its themes
+      from `bin/sync`. 61 Playwright specs pass in Chromium and the 114 cross-engine ones in Firefox and WebKit. The
+      React app's fourteen composed pages are not ported yet.)_
 - [ ] **P36-T5 Solid skills:** `lily-design-system-solid-headless-skill`, `-helpers-skill` and `-skill`.
       Verify: each has the required files and is listed in `spec/agent-skills`.
 - [x] **P36-T6 Publish** `@lilydesignsystem/solid-headless` and the helpers (maintainer approval). _(2026-11-17:
       `@lilydesignsystem/solid-headless` 0.1.0 published from 07b6885d1, after a clean `bin/ci --full`. 2026-11-18:
       `solid-headless` 0.1.1 (the form-reset fix, P36-T7) and the 21 helpers at 0.1.0, published from e0153ab77 after a
-      clean `bin/ci --full`, in `bin/list-helper-packages solid` order; `bin/verify-published --framework solid` finds all
-      21. The pnpm link overrides in `solid-calendar`, `solid-gantt-chart` and `solid-picker-bar` are gone; they install
+      clean `bin/ci --full`, in `bin/list-helper-packages solid` order; `bin/verify-published --framework solid` finds all 21. The pnpm link overrides in `solid-calendar`, `solid-gantt-chart` and `solid-picker-bar` are gone; they install
       their siblings from npm.)_
       Verify: `bin/verify-published` finds each version.
 - [x] **P36-T7 Form reset keeps bound fields** (2026-11-18). Solid writes a bound `value` or `checked` as the DOM

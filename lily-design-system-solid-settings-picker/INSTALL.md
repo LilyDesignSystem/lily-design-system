@@ -1,28 +1,22 @@
 # Install
 
-This is a Lily Design System subproject.
+This is the Solid 2 settings-picker helper: a cog icon button that opens whatever the app provides.
 
 Its source is the `lily-design-system-solid-settings-picker/` directory of the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.
 
 Full documentation and the searchable component catalog: <https://lilydesignsystem.com/>
 
-## Run this example application
+## Install
 
 ```sh
-git clone https://github.com/LilyDesignSystem/lily-design-system.git
-cd lily-design-system/lily-design-system-solid-settings-picker
-npm install
-npm run dev
+npm install @lilydesignsystem/solid-settings-picker
 ```
 
-It ships three required routes — `/`, `/components` (the full searchable catalog),
-and `/components/{slug}` (a live demo per component) — plus composed-page
-demonstrations. The stylesheet targets Lily's kebab-case class names directly, with
-no CSS-framework dependency; the current visual reference is the NHS UK design
-system.
-
-Lily is not affiliated with or endorsed by NHS.
+It ships semantic HTML, ARIA, focus management, and keyboard behaviour — and
+**no CSS** — and every user-facing string is a prop, with no English defaults.
+Its contract is the package's own `spec/index.md`, summarised in
+[spec/helpers/index.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/helpers/index.md).
 
 ## License
 

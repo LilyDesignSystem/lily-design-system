@@ -20,7 +20,7 @@ identifiers:
 repository-code: 'https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-solid-settings-picker'
 url: 'https://lilydesignsystem.com/'
 abstract: >-
-  This is a Lily Design System subproject.
+  This is the Solid 2 settings-picker helper: a cog icon button that opens whatever the app provides.
   It is one subproject of Lily Design System, a free open-source headless
   design system whose canonical catalog of 571 components is implemented
   across eight frameworks. Its source is the lily-design-system-solid-settings-picker directory

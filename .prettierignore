@@ -13,6 +13,7 @@ lily-design-system-svelte-locale-picker/examples/ssr-cookie.svelte
 # Written by bin/generate-registries
 lily-design-system-svelte-sveltekit-examples/src/lib/data/components.ts
 lily-design-system-react-next-examples/app/data/components.ts
+lily-design-system-solid-examples/src/data/components.ts
 lily-design-system-angular-examples/src/app/components-data.ts
 lily-design-system-vue-nuxt-examples/data/components.ts
 lilydesignsystem.github.io/src/lib/components.ts

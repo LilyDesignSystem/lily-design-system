@@ -20,7 +20,7 @@ identifiers:
 repository-code: 'https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-solid-locale-translations'
 url: 'https://lilydesignsystem.com/'
 abstract: >-
-  This is a Lily Design System subproject.
+  This is the Solid 2 example application: a fully styled reference app demonstrating every catalog component.
   It is one subproject of Lily Design System, a free open-source headless
   design system whose canonical catalog of 571 components is implemented
   across eight frameworks. Its source is the lily-design-system-solid-locale-translations directory

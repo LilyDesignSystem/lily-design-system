@@ -1,0 +1,69 @@
+import { test, expect } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
+
+// WCAG conformance smoke check across the Solid examples app.
+// See the SvelteKit examples app's accessibility.spec.ts for the rationale
+// — this file mirrors that pattern for the Solid route shape.
+
+const wcagTags = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"];
+
+async function expectNoViolations(page: import("@playwright/test").Page, label: string) {
+    // Let CSS transitions finish first: the themes fade button colours over
+    // 120ms, and axe sampling mid-fade reports a false contrast failure (seen in
+    // Firefox, P18-T1). Endless animations (spinners) give up after 5 seconds.
+    await page
+        .waitForFunction(
+            () => document.getAnimations().every((a) => a.playState !== "running"),
+            undefined,
+            { timeout: 5000 },
+        )
+        .catch(() => undefined);
+    const results = await new AxeBuilder({ page }).withTags(wcagTags).analyze();
+    if (results.violations.length > 0) {
+        const summary = results.violations
+            .map((v) => `  - ${v.id} (${v.impact}): ${v.help} [${v.nodes.length} node(s)]`)
+            .join("\n");
+        throw new Error(
+            `axe found ${results.violations.length} WCAG violations on ${label}:\n${summary}`,
+        );
+    }
+}
+
+test.describe("accessibility: top-level routes", () => {
+    test("home /", async ({ page }) => {
+        await page.goto("/");
+        await expectNoViolations(page, "home");
+    });
+
+    test("catalog /components", async ({ page }) => {
+        await page.goto("/components");
+        await expectNoViolations(page, "/components");
+    });
+});
+
+const componentSamples = [
+    "button",
+    "text-input",
+    "data-table",
+    "dialog",
+    "badge",
+    "breadcrumb-nav",
+    "check-list",
+    "header",
+    "footer",
+    "grail-layout",
+    "select",
+    "fieldset",
+    "figure",
+    "progress",
+    "meter",
+];
+
+test.describe("accessibility: component-detail samples", () => {
+    for (const slug of componentSamples) {
+        test(`/components/${slug}`, async ({ page }) => {
+            await page.goto(`/components/${slug}`);
+            await expectNoViolations(page, `/components/${slug}`);
+        });
+    }
+});

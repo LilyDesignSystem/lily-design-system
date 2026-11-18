@@ -13,12 +13,12 @@
 //       bin/generate-component-demos.js, then curate in place)
 //
 // Outputs (overwritten in full or region-replaced):
-//   - {svelte-sveltekit,react-next,vue-nuxt,angular} components registry .ts
+//   - {svelte-sveltekit,react-next,solid,vue-nuxt,angular} components registry .ts
 //     (each entry carries tag + category; category id resolves via the
 //     exported CATEGORY_LABEL map, also written into each registry file —
 //     see plan P6-T5, the /components search category + suffix-pattern
 //     filters)
-//   - {react-next,vue-nuxt,angular} component-demos.ts (copies of canonical)
+//   - {react-next,solid,vue-nuxt,angular} component-demos.ts (copies of canonical)
 //   - blazor-web ComponentData.cs (slug/name/description/tag/category + demo HTML)
 //   - html-css-js assets/js/pages/{components-index,component}.js embedded arrays
 //   - lilydesignsystem.github.io/src/lib/components.ts
@@ -154,6 +154,27 @@ ${categoryLabelEntries(2)}
 );
 
 write(
+  "lily-design-system-solid-examples/src/data/components.ts",
+  `export interface Component {
+  slug: string;
+  name: string;
+  description: string;
+  tag: string;
+  category: string;
+}
+
+export const components: Component[] = [
+${tsEntries(2)}
+];
+
+/** Category id → display label (plan P6-T5's category filter). */
+export const CATEGORY_LABEL: Record<string, string> = {
+${categoryLabelEntries(2)}
+};
+`
+);
+
+write(
   "lily-design-system-angular-examples/src/app/components-data.ts",
   `export interface ComponentMeta {
   slug: string;
@@ -233,6 +254,7 @@ ${components
 
 for (const p of [
   "lily-design-system-react-next-examples/app/data/component-demos.ts",
+  "lily-design-system-solid-examples/src/data/component-demos.ts",
   "lily-design-system-vue-nuxt-examples/data/component-demos.ts",
   "lily-design-system-angular-examples/src/app/component-demos.ts",
 ]) {
