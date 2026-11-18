@@ -1,0 +1,23 @@
+---
+layout: layouts/component-demo.njk
+title: QazaqstanZhekeSaikestendiruNomiriView
+description: a read-only display of Kazakhstan's Individual Identification Number (IIN)
+---
+
+{% from "components/qazaqstan-zheke-saikestendiru-nomiri-view/macro.njk" import qazaqstanZhekeSaikestendiruNomiriView %}
+
+<h2>Default</h2>
+<p>{{ qazaqstanZhekeSaikestendiruNomiriView({ text: "QazaqstanZhekeSaikestendiruNomiriView example", label: "QazaqstanZhekeSaikestendiruNomiriView example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;SummaryList&gt;
+  &lt;SummaryListItem term="Individual Identification Number (IIN)"&gt;
+    &lt;QazaqstanZhekeSaikestendiruNomiriView
+      label="Individual Identification Number (IIN)"
+      value="{value}"
+    /&gt;
+  &lt;/SummaryListItem&gt;
+&lt;/SummaryList&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

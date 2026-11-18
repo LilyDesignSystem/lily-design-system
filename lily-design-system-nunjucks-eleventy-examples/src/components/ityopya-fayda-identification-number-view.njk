@@ -1,0 +1,23 @@
+---
+layout: layouts/component-demo.njk
+title: ItyopyaFaydaIdentificationNumberView
+description: a read-only display of Ethiopia's Fayda Identification Number (FIN)
+---
+
+{% from "components/ityopya-fayda-identification-number-view/macro.njk" import ityopyaFaydaIdentificationNumberView %}
+
+<h2>Default</h2>
+<p>{{ ityopyaFaydaIdentificationNumberView({ text: "ItyopyaFaydaIdentificationNumberView example", label: "ItyopyaFaydaIdentificationNumberView example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;SummaryList&gt;
+  &lt;SummaryListItem term="Fayda Identification Number (FIN)"&gt;
+    &lt;ItyopyaFaydaIdentificationNumberView
+      label="Fayda Identification Number (FIN)"
+      value="{value}"
+    /&gt;
+  &lt;/SummaryListItem&gt;
+&lt;/SummaryList&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

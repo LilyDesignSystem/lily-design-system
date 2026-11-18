@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "peru-documento-nacional-de-identidad-input",
+  "type": "registry:component",
+  "title": "PeruDocumentoNacionalDeIdentidadInput",
+  "description": "An input for entering Peru's Documento Nacional de Identidad (DNI).",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "registryDependencies": [
+    "@lily/dev-warning-utils"
+  ],
+  "files": [
+    {
+      "path": "lily-design-system-react-headless-identifiers/components/PeruDocumentoNacionalDeIdentidadInput.tsx",
+      "content": "import React from \"react\";\nimport { warnMissingName } from \"./dev-warning\";\n\n// PeruDocumentoNacionalDeIdentidadInput component\n//\n// A headless input for entering Peru's Documento Nacional de Identidad (DNI).\n// Format: Eight digits, the Código Único de Identificación (CUI), often followed by a hyphen and a check character (10117410-2). The check character is a digit or a letter: multiply the eight digits by the weights 3, 2, 7, 6, 5, 4, 3, 2, sum them and take the remainder modulo 11, r; the digit is \"65432110987\"[r] and the letter \"KJIHGFEDCBA\"[r], and either is accepted.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". Bindable input value; supports value + onChange.\n//   required — boolean, default false. Whether the input is required for form submission.\n//   disabled — boolean, default false. Whether the input is disabled.\n//   ...restProps — additional HTML attributes spread onto the <input>.\n//\n// Syntax:\n//   <PeruDocumentoNacionalDeIdentidadInput label=\"Documento Nacional de Identidad (DNI)\" value={value} onChange={setValue} />\n//\n// Accessibility:\n//   - aria-label provides the accessible name for screen readers\n//   - autoComplete=\"off\" protects sensitive identifiers\n//   - required and disabled states are conveyed to assistive technology\n//\n// References:\n//   - https://es.wikipedia.org/wiki/Documento_Nacional_de_Identidad_(Per%C3%BA)\n\nexport interface PeruDocumentoNacionalDeIdentidadInputProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The current value of the input, bindable */\n    value?: string;\n    /** Whether the input is required for form submission */\n    required?: boolean;\n    /** Whether the input is disabled */\n    disabled?: boolean;\n    /** Callback when value changes. */\n    onChange?: (value: string) => void;\n    [key: string]: unknown;\n}\n\nexport default function PeruDocumentoNacionalDeIdentidadInput({\n    className = \"\",\n    label,\n    value = \"\",\n    required = false,\n    disabled = false,\n    onChange,\n    ...restProps\n}: PeruDocumentoNacionalDeIdentidadInputProps) {\n    warnMissingName(\n        \"PeruDocumentoNacionalDeIdentidadInput\",\n        label,\n        restProps[\"aria-label\"],\n        restProps[\"aria-labelledby\"],\n    );\n    return (\n        <input\n            className={`peru-documento-nacional-de-identidad-input ${className}`}\n            type=\"text\"\n            aria-label={label}\n            autoComplete=\"off\"\n            spellCheck={false}\n            value={value}\n            onChange={(e) => onChange?.(e.target.value)}\n            required={required}\n            disabled={disabled}\n            {...restProps}\n        />\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/PeruDocumentoNacionalDeIdentidadInput.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/peru-documento-nacional-de-identidad-input/"
+}

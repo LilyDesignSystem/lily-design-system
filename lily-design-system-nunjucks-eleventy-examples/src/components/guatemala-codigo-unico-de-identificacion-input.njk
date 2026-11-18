@@ -1,0 +1,32 @@
+---
+layout: layouts/component-demo.njk
+title: GuatemalaCodigoUnicoDeIdentificacionInput
+description: an input for entering Guatemala's Código Único de Identificación (CUI)
+---
+
+{% from "components/guatemala-codigo-unico-de-identificacion-input/macro.njk" import guatemalaCodigoUnicoDeIdentificacionInput %}
+
+<h2>Default</h2>
+<p>{{ guatemalaCodigoUnicoDeIdentificacionInput({ text: "GuatemalaCodigoUnicoDeIdentificacionInput example", label: "GuatemalaCodigoUnicoDeIdentificacionInput example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field
+  label="Código Único de Identificación (CUI)"
+  required
+&gt;
+  &lt;GuatemalaCodigoUnicoDeIdentificacionInput
+    label="Código Único de Identificación (CUI)"
+    value="{value}"
+    required
+  /&gt;
+  &lt;Hint
+    &gt;Thirteen digits, written 4-5-4 on the DPI card: eight assigned in sequence, one check digit,
+    then two for the department and two for the municipality of birth (RENAP). RENAP does not
+    publish the check-digit formula; open-source validators use weights 2 to 9 over the first eight
+    digits, modulo 11, but that is not confirmed by the registry.&lt;/Hint
+  &gt;
+  &lt;ErrorMessage&gt;Please enter a valid Código Único de Identificación (CUI)&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

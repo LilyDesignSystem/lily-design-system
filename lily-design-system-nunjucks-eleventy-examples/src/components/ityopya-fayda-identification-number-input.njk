@@ -1,0 +1,32 @@
+---
+layout: layouts/component-demo.njk
+title: ItyopyaFaydaIdentificationNumberInput
+description: an input for entering Ethiopia's Fayda Identification Number (FIN)
+---
+
+{% from "components/ityopya-fayda-identification-number-input/macro.njk" import ityopyaFaydaIdentificationNumberInput %}
+
+<h2>Default</h2>
+<p>{{ ityopyaFaydaIdentificationNumberInput({ text: "ItyopyaFaydaIdentificationNumberInput example", label: "ItyopyaFaydaIdentificationNumberInput example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field
+  label="Fayda Identification Number (FIN)"
+  required
+&gt;
+  &lt;ItyopyaFaydaIdentificationNumberInput
+    label="Fayda Identification Number (FIN)"
+    value="{value}"
+    required
+  /&gt;
+  &lt;Hint
+    &gt;Twelve digits issued by the National ID Program (NIDP). The number encodes no personal
+    attributes and no check-digit algorithm is published, so only the length and digits can be
+    checked. Do not confuse it with the six-digit Fayda alternative number used to link bank
+    accounts.&lt;/Hint
+  &gt;
+  &lt;ErrorMessage&gt;Please enter a valid Fayda Identification Number (FIN)&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

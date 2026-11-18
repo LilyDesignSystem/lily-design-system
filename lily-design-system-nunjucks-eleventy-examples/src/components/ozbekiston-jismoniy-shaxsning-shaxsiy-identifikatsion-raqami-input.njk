@@ -1,0 +1,32 @@
+---
+layout: layouts/component-demo.njk
+title: OzbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiInput
+description: an input for entering Uzbekistan's Personal identification number (JShShIR / PINFL)
+---
+
+{% from "components/ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-input/macro.njk" import ozbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiInput %}
+
+<h2>Default</h2>
+<p>{{ ozbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiInput({ text: "OzbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiInput example", label: "OzbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiInput example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field
+  label="Personal identification number (JShShIR / PINFL)"
+  required
+&gt;
+  &lt;OzbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiInput
+    label="Personal identification number (JShShIR / PINFL)"
+    value="{value}"
+    required
+  /&gt;
+  &lt;Hint
+    &gt;Fourteen digits in five groups (Cabinet of Ministers Resolution No. 177 of 2022): a first digit
+    from 1 to 6 for sex and century of birth, then groups for the date of birth and the issuing
+    district, a three-digit sequence and a final check digit. The check-digit formula is not
+    published, so check the length, the digits and the first digit's range.&lt;/Hint
+  &gt;
+  &lt;ErrorMessage&gt;Please enter a valid Personal identification number (JShShIR / PINFL)&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

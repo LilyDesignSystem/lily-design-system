@@ -125,7 +125,7 @@ committing.
 
 ### In scope
 
-- A canonical catalog of 637 components (`components.tsv`).
+- A canonical catalog of 661 components (`components.tsv`).
 - Seven full-catalog headless component libraries: HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks (Angular has every Svelte prop, or a recorded reason in `bin/check-port-logic.allow.json`, since 2026-11-06) — plus an 8th, native-custom-element one (Web Components, added 2026-09-03) at its full achievable scope since 2026-09-06: 602 of 637, the remaining 35 permanently excluded by a real architectural limitation, not backlog.
 - Seven example applications: HTML+CSS+JS, SvelteKit, Next.js, Nuxt.js,
   Angular Analog, Blazor Web, Nunjucks Eleventy — plus an eighth, the Alpine.js
@@ -160,8 +160,8 @@ The repository root holds the canonical catalog and tools
 (`components.tsv`, `css-style-sheet-template.css`, `bin/`, `spec/`,
 `AGENTS/*.md`, `themes/`); 225 implementation subprojects hang off it —
 8 full-catalog headless libraries (Solid since 2026-11-17), 1 headless library at its full
-achievable scope (Web Components, 602/637), 1 Alpine.js headless library
-(637/637 as markup snippets plus one plugin; added 2026-10-21), and since 2026-11-18 each headless library ships the
+achievable scope (Web Components, 626/661), 1 Alpine.js headless library
+(661/661 as markup snippets plus one plugin; added 2026-10-21), and since 2026-11-18 each headless library ships the
 473 core components while its 164 national identifiers are a separate add-on package (10
 `-headless-identifiers` subprojects; [spec/headless-identifiers](headless-identifiers/index.md)), 9 example apps (Solid
 since 2026-11-18) and 196 helper packages, one top-level
@@ -257,7 +257,7 @@ tab-separated columns: slug, PascalCase name, description. Mirrored by
 implementations; the example-app registries are regenerated from it by
 `bin/generate-registries`.
 
-**Current count: 637 components** (491 + 24 national-identifier types × 2, added 2026-09-22 in two same-day rounds — see `spec/national-identifiers/index.md` — + 16 added 2026-10-05, triaged from a survey of Baby UI: `one-time-password-input`, `multi-select`, `multi-select-with-extras`, `empty-state`, `show-more`, `kbd-shortcut`, `calendar-year-table`, `calendar-month-table`, `calendar-week-table`, `calendar-day-table`, `thinking`, `gauge-chart`, `heatmap-chart`, `radar-chart`, `sankey-chart`, `file-tree` — + 7 charts added 2026-10-05 from the same Baby UI survey: `pie-chart`, `ring-chart`, `funnel-chart`, `candlestick-chart`, `composed-chart`, `choropleth-chart`, `sunburst-chart` — + `streaming-text` (2026-10-05, deliberately narrow: a busy-aware status region, no sources/citations/actions) + `tool-call` with its five inner parts `tool-call-name`, `tool-call-status`, `tool-call-input`, `tool-call-output`, `tool-call-error` + `mark` (2026-10-05, a Lily idea prompted by the Baby UI survey, not a Baby UI component) + `chat-composer` (2026-10-05, Baby UI's chat input built narrowly: no model picker, menus or thread) + `heatmap-chart-with-year-of-days`, `middle-truncation` and `wheel-picker` (2026-10-23) + the `convert-div` family of seven (`convert-div`, `convert-from-div`, `convert-from-value-div`, `convert-from-unit-div`, `convert-into-div`, `convert-into-value-div`, `convert-into-unit-div`; 2026-10-24) + `picture` (2026-10-28: the native `<picture>` wrapper, from the Stephcraft responsive-CSS review) + `iban-input` and `iban-view` (2026-11-03, from the design system survey: the International Bank Account Number, in the forms group, not among the national identifiers) − `mutually-exclusive` (removed 2026-11-09: its contract promised checkboxes that uncheck each other, which no catalog implemented; use `radio-group` with a "None" option, a single `checkbox-input`, or `fieldset`) + seven healthcare display components (2026-11-14, [spec/healthcare-ui](healthcare-ui/index.md)): `observation-view`, `allergy-record-list`, `allergy-record-list-item`, `medication-view`, `decision-support-card`, `early-warning-score-view`, `age-view`, then `numeric-rating-scale-picker` and `body-map` the same day; then the record lists the same day (tasks.md P28-T3): `record-list` and `allergy-`, `medication-`, `problem-`, `immunization-`, `procedure-` and `device-record-list`, each with an `-item`, `allergy-list` and `allergy-list-item` renamed `allergy-record-list` and `allergy-record-list-item`; then fourteen radio groups and inputs (2026-11-15): `red-amber-green-`, `red-orange-yellow-green-blue-`, `five-face-rating-`, `five-star-rating-`, `net-promoter-score-`, `color-` and `emoji-character-radio-group`, each with its `-radio-input`, replacing the thirteen pickers and picker buttons they supersede (`color-picker`, `emoji-character-picker` and the five rating and status pickers, each with its `-button`), which were removed; then `international-patient-summary` and `international-patient-summary-section` (2026-11-15, structure only: the root adds any missing required section, in words); then `duration-view` (2026-11-17, [spec/lessons/openehr](lessons/openehr/index.md)); then `range-fieldset` (2026-11-17, [spec/lessons/retool](lessons/retool/index.md), the maintainer's name for the two-thumb range); catalog-registered and fully implemented in all 8 headless catalogs, including Web Components).
+**Current count: 661 components** (491 + 24 national-identifier types × 2, added 2026-09-22 in two same-day rounds — see `spec/national-identifiers/index.md` — + 16 added 2026-10-05, triaged from a survey of Baby UI: `one-time-password-input`, `multi-select`, `multi-select-with-extras`, `empty-state`, `show-more`, `kbd-shortcut`, `calendar-year-table`, `calendar-month-table`, `calendar-week-table`, `calendar-day-table`, `thinking`, `gauge-chart`, `heatmap-chart`, `radar-chart`, `sankey-chart`, `file-tree` — + 7 charts added 2026-10-05 from the same Baby UI survey: `pie-chart`, `ring-chart`, `funnel-chart`, `candlestick-chart`, `composed-chart`, `choropleth-chart`, `sunburst-chart` — + `streaming-text` (2026-10-05, deliberately narrow: a busy-aware status region, no sources/citations/actions) + `tool-call` with its five inner parts `tool-call-name`, `tool-call-status`, `tool-call-input`, `tool-call-output`, `tool-call-error` + `mark` (2026-10-05, a Lily idea prompted by the Baby UI survey, not a Baby UI component) + `chat-composer` (2026-10-05, Baby UI's chat input built narrowly: no model picker, menus or thread) + `heatmap-chart-with-year-of-days`, `middle-truncation` and `wheel-picker` (2026-10-23) + the `convert-div` family of seven (`convert-div`, `convert-from-div`, `convert-from-value-div`, `convert-from-unit-div`, `convert-into-div`, `convert-into-value-div`, `convert-into-unit-div`; 2026-10-24) + `picture` (2026-10-28: the native `<picture>` wrapper, from the Stephcraft responsive-CSS review) + `iban-input` and `iban-view` (2026-11-03, from the design system survey: the International Bank Account Number, in the forms group, not among the national identifiers) − `mutually-exclusive` (removed 2026-11-09: its contract promised checkboxes that uncheck each other, which no catalog implemented; use `radio-group` with a "None" option, a single `checkbox-input`, or `fieldset`) + seven healthcare display components (2026-11-14, [spec/healthcare-ui](healthcare-ui/index.md)): `observation-view`, `allergy-record-list`, `allergy-record-list-item`, `medication-view`, `decision-support-card`, `early-warning-score-view`, `age-view`, then `numeric-rating-scale-picker` and `body-map` the same day; then the record lists the same day (tasks.md P28-T3): `record-list` and `allergy-`, `medication-`, `problem-`, `immunization-`, `procedure-` and `device-record-list`, each with an `-item`, `allergy-list` and `allergy-list-item` renamed `allergy-record-list` and `allergy-record-list-item`; then fourteen radio groups and inputs (2026-11-15): `red-amber-green-`, `red-orange-yellow-green-blue-`, `five-face-rating-`, `five-star-rating-`, `net-promoter-score-`, `color-` and `emoji-character-radio-group`, each with its `-radio-input`, replacing the thirteen pickers and picker buttons they supersede (`color-picker`, `emoji-character-picker` and the five rating and status pickers, each with its `-button`), which were removed; then `international-patient-summary` and `international-patient-summary-section` (2026-11-15, structure only: the root adds any missing required section, in words); then `duration-view` (2026-11-17, [spec/lessons/openehr](lessons/openehr/index.md)); then `range-fieldset` (2026-11-17, [spec/lessons/retool](lessons/retool/index.md), the maintainer's name for the two-thumb range); then twelve more national identifier types, 24 components (2026-11-18, [spec/national-identifiers](national-identifiers/index.md)); catalog-registered and fully implemented in all 8 headless catalogs, including Web Components).
 
 The catalog spans forms, navigation, tables, layout, editorial /
 scrollytelling, data visualisation, media, overlays, pickers and
@@ -346,7 +346,7 @@ different, shorter file with its own structure, not a mirror of the above.
 - Code examples use semantic HTML with proper ARIA.
 - No hardcoded user-facing strings in examples — use realistic placeholder
   content.
-- Consistent voice across all 637 components.
+- Consistent voice across all 661 components.
 
 ### 8.2 Component demo strategy (example subprojects)
 
@@ -468,11 +468,11 @@ checked is considered live work; anything unchecked is queued in §12.
 
 ### 11.1 Catalog & docs
 
-- [x] Canonical component list defined (637 components in `components.tsv`).
+- [x] Canonical component list defined (661 components in `components.tsv`).
 - [x] CSS style sheet template covers every component class hook.
-- [x] All 637 components have a directory in `components/` with `index.md`,
+- [x] All 661 components have a directory in `components/` with `index.md`,
       `README.md` (symlink), `AGENTS.md`, `spec/index.md`.
-- [x] All 637 components have separate "When to Use" and "When Not to Use"
+- [x] All 661 components have separate "When to Use" and "When Not to Use"
       sections (not combined).
 - [x] All "When Not to Use" sections name specific Lily component alternatives.
 - [x] All 37 NHS-equivalent components enhanced with NHS-researched guidance.
@@ -652,7 +652,7 @@ Long-term: versioned releases per subproject npm/NuGet package
   [LICENSE.md](../LICENSE.md) — it is the single source of truth, and every
   package manifest carries the same expression.
 - Contact: Joel Parker Henderson <joel@joelparkerhenderson.com>
-- Canonical catalog: [components.tsv](../components.tsv) (637 rows, tab-separated:
+- Canonical catalog: [components.tsv](../components.tsv) (661 rows, tab-separated:
   slug, name, description)
 - Companion docs: [AGENTS.md](../AGENTS.md), [AGENTS/*.md](../AGENTS/),
   [index.md](../index.md), [CHANGELOG.md](../CHANGELOG.md)

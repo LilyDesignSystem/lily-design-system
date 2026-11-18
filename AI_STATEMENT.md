@@ -183,7 +183,7 @@ therefore not in any prompt. Demo content in the example applications is invente
 
 Two points a reader should check rather than take on trust:
 
-- The 164 national personal identifier components validate identifier _formats_
+- The 188 national personal identifier components validate identifier _formats_
   (checksums, structure, normalization). The test fixtures are synthetic values
   constructed to satisfy those algorithms, not real identifiers belonging to real
   people. This is a structural property verifiable against the tree.

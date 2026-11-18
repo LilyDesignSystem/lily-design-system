@@ -6,7 +6,7 @@
 const path = require("path");
 const fs = require("fs");
 
-/** Absolute path to the directory holding the 164 national identifier component .html files. */
+/** Absolute path to the directory holding the 188 national identifier component .html files. */
 const componentsDir = path.join(__dirname, "components");
 
 /** Read one component's annotated HTML snippet by kebab-case slug. */

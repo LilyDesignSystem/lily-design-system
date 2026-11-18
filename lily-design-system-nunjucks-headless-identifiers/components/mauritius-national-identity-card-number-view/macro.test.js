@@ -1,0 +1,46 @@
+import { describe, it, expect } from "vitest";
+import { render } from "../../test/render.js";
+
+describe("mauritius-national-identity-card-number-view", () => {
+    it("renders a <span> with the base class", () => {
+        const { document } = render("mauritius-national-identity-card-number-view", {
+            value: "test-value",
+        });
+        const el = document.querySelector("span");
+        expect(el).toBeTruthy();
+        expect(el.classList.contains("mauritius-national-identity-card-number-view")).toBe(true);
+    });
+
+    it("renders the value as text content", () => {
+        const { document } = render("mauritius-national-identity-card-number-view", {
+            value: "test-value",
+        });
+        expect(document.querySelector("span").textContent).toBe("test-value");
+    });
+
+    it("sets aria-label from the label param", () => {
+        const { document } = render("mauritius-national-identity-card-number-view", {
+            value: "v",
+            label: "lbl",
+        });
+        expect(document.querySelector(".screen-reader-span").textContent).toBe(`${"lbl"} `);
+        expect(document.querySelector("span").hasAttribute("aria-label")).toBe(false);
+    });
+
+    it("appends params.classes", () => {
+        const { document } = render("mauritius-national-identity-card-number-view", {
+            value: "v",
+            classes: "highlight",
+        });
+        expect(
+            document.querySelector("span.mauritius-national-identity-card-number-view.highlight"),
+        ).toBeTruthy();
+    });
+
+    it("contains no <style> or <script> tags", () => {
+        const { html } = render("mauritius-national-identity-card-number-view", { value: "v" });
+        expect(html).not.toContain("<style");
+        expect(html).not.toContain("<script");
+        expect(html).not.toContain("style=");
+    });
+});

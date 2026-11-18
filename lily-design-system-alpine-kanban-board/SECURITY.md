@@ -189,7 +189,7 @@ they are why Lily's attack surface is small:
 - **No telemetry and no analytics anywhere.** Nothing about your use of Lily reaches
   the project.
 - **No personal data in the repository** — not in fixtures, not in demo content. The
-  164 national identifier components validate identifier _formats_; their test
+  188 national identifier components validate identifier _formats_; their test
   fixtures are synthetic values constructed to satisfy the algorithms, not real
   identifiers belonging to real people.
 - **No bundled fonts, images, or icon assets.** The pickers' icons are inline SVG in

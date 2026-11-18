@@ -14,7 +14,7 @@ A small contact form with labelled fields and a submit button, wired with a few 
 
 ## Before you start
 
-You need Node.js and a bundler or any setup that resolves bare module imports. The catalog covers 602 of the 637 components; the table sub-elements and a few list-item families are left out, because an autonomous custom element cannot stand in for a `<tr>` or an `<li>`.
+You need Node.js and a bundler or any setup that resolves bare module imports. The catalog covers 626 of the 661 components; the table sub-elements and a few list-item families are left out, because an autonomous custom element cannot stand in for a `<tr>` or an `<li>`.
 
 ## Step 1 — Install and register
 

@@ -2,7 +2,7 @@
 
 Read [spec/index.md](spec/index.md), then [AGENTS/](AGENTS/) (copied from the repository root by `bin/sync`).
 
-- `components/{Name}.tsx` and `components/{Name}.test.tsx` for each of the 164 national identifier components
+- `components/{Name}.tsx` and `components/{Name}.test.tsx` for each of the 188 national identifier components
   (category `national` in `components-categories.tsv`); the rules are in `AGENTS/national-personal-identifier-normalization.md`.
 - `components/dev-warning.ts` is a copy kept by `bin/sync-shared-modules`; `defaults.ts`, `test-utils.ts` and
   `test-act.ts` are copies of `lily-design-system-solid-headless/components/`'s. Edit the source, never the copy.

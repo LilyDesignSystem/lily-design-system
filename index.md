@@ -27,7 +27,7 @@ see the modular specification docs under [spec/](spec/index.md).
 
 ## How the pieces fit
 
-Lily is a stack of layers, each owning one job: the **catalog** (637 named components, `components.tsv`), **headless** libraries (the catalog as unstyled, accessible components in nine frameworks), **helpers** (packages that own a whole interaction: pickers, data grid, kanban board, calendar, Gantt chart, filter), **themes** (63 stylesheets), **examples** (styled apps, one per framework) and **skills** (instructions for AI agents). Which one to reach for: the site page [How the pieces fit](https://lilydesignsystem.com/how-the-pieces-fit/).
+Lily is a stack of layers, each owning one job: the **catalog** (661 named components, `components.tsv`), **headless** libraries (the catalog as unstyled, accessible components in nine frameworks), **helpers** (packages that own a whole interaction: pickers, data grid, kanban board, calendar, Gantt chart, filter), **themes** (63 stylesheets), **examples** (styled apps, one per framework) and **skills** (instructions for AI agents). Which one to reach for: the site page [How the pieces fit](https://lilydesignsystem.com/how-the-pieces-fit/).
 
 ## AI agent support
 
@@ -85,8 +85,8 @@ Headless versions if you want to use components with all your own styles:
 - [Angular headless](lily-design-system-angular-headless)
 - [Blazor headless](lily-design-system-blazor-headless)
 - [Nunjucks headless](lily-design-system-nunjucks-headless)
-- [Web Components headless](lily-design-system-web-components-headless) — an 8th catalog at its full achievable scope (602 of 637; the remaining 35 are permanently excluded, not backlog)
-- [Alpine.js headless](lily-design-system-alpine-headless) — a 9th catalog, added 2026-10-21: all 637 components as annotated HTML snippets plus one Alpine plugin (`@lilydesignsystem/alpine-headless`, not yet published), with its own [example app](lily-design-system-alpine-examples) and six helpers: the data grid, kanban board, calendar, Gantt chart, Markdown editor and Org editor
+- [Web Components headless](lily-design-system-web-components-headless) — an 8th catalog at its full achievable scope (626 of 661; the remaining 35 are permanently excluded, not backlog)
+- [Alpine.js headless](lily-design-system-alpine-headless) — a 9th catalog, added 2026-10-21: all 661 components as annotated HTML snippets plus one Alpine plugin (`@lilydesignsystem/alpine-headless`, not yet published), with its own [example app](lily-design-system-alpine-examples) and six helpers: the data grid, kanban board, calendar, Gantt chart, Markdown editor and Org editor
 
 ## Helpers
 
@@ -304,7 +304,7 @@ The theme-picker helper loads them at runtime.
 
 ## Components
 
-The canonical catalog is [components.tsv](components.tsv) — 637 components. Each
+The canonical catalog is [components.tsv](components.tsv) — 661 components. Each
 slug below links to the per-component documentation.
 
 - [accordion-checkbox](components/accordion-checkbox): a checkbox option that reveals an accordion panel when checked
@@ -789,6 +789,8 @@ general-purpose catalog above. See
 [spec/national-identifiers](spec/national-identifiers/index.md) for the
 full contract.
 
+- [al-imarat-raqm-al-huwiyah-input](components/al-imarat-raqm-al-huwiyah-input): an input for entering the United Arab Emirates' Emirates ID number
+- [al-imarat-raqm-al-huwiyah-view](components/al-imarat-raqm-al-huwiyah-view): a read-only display of the United Arab Emirates' Emirates ID number
 - [alba-community-health-index-input](components/alba-community-health-index-input): an input for entering Scotland's Community Health Index (CHI)
 - [alba-community-health-index-view](components/alba-community-health-index-view): a read-only display of Scotland's Community Health Index (CHI)
 - [aotearoa-national-health-index-input](components/aotearoa-national-health-index-input): an input for entering New Zealand's National Health Index (NHI) Number
@@ -801,6 +803,8 @@ full contract.
 - [australia-individual-healthcare-identifier-view](components/australia-individual-healthcare-identifier-view): a read-only display of Australia's Individual Healthcare Identifier (IHI)
 - [australia-tax-file-number-input](components/australia-tax-file-number-input): an input for entering Australia's Tax File Number (TFN)
 - [australia-tax-file-number-view](components/australia-tax-file-number-view): a read-only display of Australia's Tax File Number (TFN)
+- [bangladesh-national-identity-card-input](components/bangladesh-national-identity-card-input): an input for entering Bangladesh's National ID (NID) number
+- [bangladesh-national-identity-card-view](components/bangladesh-national-identity-card-view): a read-only display of Bangladesh's National ID (NID) number
 - [belgique-numero-de-registre-national-input](components/belgique-numero-de-registre-national-input): an input for entering Belgium's Numéro de Registre National / Rijksregisternummer (NRN)
 - [belgique-numero-de-registre-national-view](components/belgique-numero-de-registre-national-view): a read-only display of Belgium's Numéro de Registre National / Rijksregisternummer (NRN)
 - [bharat-aadhaar-input](components/bharat-aadhaar-input): an input for entering India's Aadhaar number
@@ -819,6 +823,8 @@ full contract.
 - [chile-rol-unico-nacional-view](components/chile-rol-unico-nacional-view): a read-only display of Chile's Rol Unico Nacional (RUN)
 - [colombia-cedula-de-ciudadania-input](components/colombia-cedula-de-ciudadania-input): an input for entering Colombia's Cedula de Ciudadania Number
 - [colombia-cedula-de-ciudadania-view](components/colombia-cedula-de-ciudadania-view): a read-only display of Colombia's Cedula de Ciudadania Number
+- [costa-rica-cedula-de-identidad-input](components/costa-rica-cedula-de-identidad-input): an input for entering Costa Rica's Cédula de Identidad
+- [costa-rica-cedula-de-identidad-view](components/costa-rica-cedula-de-identidad-view): a read-only display of Costa Rica's Cédula de Identidad
 - [cymru-rhif-y-gwasanaeth-iechyd-gwladol-input](components/cymru-rhif-y-gwasanaeth-iechyd-gwladol-input): an input for entering Wales's Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG)
 - [cymru-rhif-y-gwasanaeth-iechyd-gwladol-view](components/cymru-rhif-y-gwasanaeth-iechyd-gwladol-view): a read-only display of Wales's Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG)
 - [danmark-personnummer-input](components/danmark-personnummer-input): an input for entering Denmark's Personnummer (CPR-nummer) (CPR)
@@ -841,6 +847,10 @@ full contract.
 - [espana-tarjeta-sanitaria-individual-view](components/espana-tarjeta-sanitaria-individual-view): a read-only display of an España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier
 - [france-numero-d-identification-au-repertoire-input](components/france-numero-d-identification-au-repertoire-input): an input for entering a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
 - [france-numero-d-identification-au-repertoire-view](components/france-numero-d-identification-au-repertoire-view): a read-only display of a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
+- [ghana-card-personal-identification-number-input](components/ghana-card-personal-identification-number-input): an input for entering Ghana's Ghana Card PIN
+- [ghana-card-personal-identification-number-view](components/ghana-card-personal-identification-number-view): a read-only display of Ghana's Ghana Card PIN
+- [guatemala-codigo-unico-de-identificacion-input](components/guatemala-codigo-unico-de-identificacion-input): an input for entering Guatemala's Código Único de Identificación (CUI)
+- [guatemala-codigo-unico-de-identificacion-view](components/guatemala-codigo-unico-de-identificacion-view): a read-only display of Guatemala's Código Único de Identificación (CUI)
 - [hanguk-jumin-deungnok-beonho-input](components/hanguk-jumin-deungnok-beonho-input): an input for entering South Korea's Resident Registration Number
 - [hanguk-jumin-deungnok-beonho-view](components/hanguk-jumin-deungnok-beonho-view): a read-only display of South Korea's Resident Registration Number
 - [hong-kong-identity-card-input](components/hong-kong-identity-card-input): an input for entering Hong Kong's Identity Card Number
@@ -855,6 +865,8 @@ full contract.
 - [island-kennitala-view](components/island-kennitala-view): a read-only display of Iceland's Kennitala
 - [italia-codice-fiscale-input](components/italia-codice-fiscale-input): an input for entering Italy's Codice fiscale (CF)
 - [italia-codice-fiscale-view](components/italia-codice-fiscale-view): a read-only display of Italy's Codice fiscale (CF)
+- [ityopya-fayda-identification-number-input](components/ityopya-fayda-identification-number-input): an input for entering Ethiopia's Fayda Identification Number (FIN)
+- [ityopya-fayda-identification-number-view](components/ityopya-fayda-identification-number-view): a read-only display of Ethiopia's Fayda Identification Number (FIN)
 - [kypros-national-passport-number-input](components/kypros-national-passport-number-input): an input for entering Kypros's National Passport Number
 - [kypros-national-passport-number-view](components/kypros-national-passport-number-view): a read-only display of Kypros's National Passport Number
 - [latvija-personas-kods-input](components/latvija-personas-kods-input): an input for entering Latvia's Personas kods
@@ -877,6 +889,8 @@ full contract.
 - [malta-national-identification-number-view](components/malta-national-identification-number-view): a read-only display of Malta's Malta National Identification Number
 - [malta-passport-number-input](components/malta-passport-number-input): an input for entering Malta's Malta Passport Number
 - [malta-passport-number-view](components/malta-passport-number-view): a read-only display of Malta's Malta Passport Number
+- [mauritius-national-identity-card-number-input](components/mauritius-national-identity-card-number-input): an input for entering Mauritius's National Identity Card number
+- [mauritius-national-identity-card-number-view](components/mauritius-national-identity-card-number-view): a read-only display of Mauritius's National Identity Card number
 - [mexico-clave-unica-de-registro-de-poblacion-input](components/mexico-clave-unica-de-registro-de-poblacion-input): an input for entering Mexico's Clave Unica de Registro de Poblacion (CURP)
 - [mexico-clave-unica-de-registro-de-poblacion-view](components/mexico-clave-unica-de-registro-de-poblacion-view): a read-only display of Mexico's Clave Unica de Registro de Poblacion (CURP)
 - [misr-al-raqm-al-qawmi-input](components/misr-al-raqm-al-qawmi-input): an input for entering Egypt's National Number
@@ -895,8 +909,12 @@ full contract.
 - [norge-fodselsnummer-view](components/norge-fodselsnummer-view): a read-only display of Norway's Fødselsnummer
 - [osterreich-sozialversicherungsnummer-input](components/osterreich-sozialversicherungsnummer-input): an input for entering Austria's Sozialversicherungsnummer (SVNR)
 - [osterreich-sozialversicherungsnummer-view](components/osterreich-sozialversicherungsnummer-view): a read-only display of Austria's Sozialversicherungsnummer (SVNR)
+- [ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-input](components/ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-input): an input for entering Uzbekistan's Personal identification number (JShShIR / PINFL)
+- [ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-view](components/ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-view): a read-only display of Uzbekistan's Personal identification number (JShShIR / PINFL)
 - [pakistan-computerized-national-identity-card-input](components/pakistan-computerized-national-identity-card-input): an input for entering Pakistan's Computerized National Identity Card Number (CNIC)
 - [pakistan-computerized-national-identity-card-view](components/pakistan-computerized-national-identity-card-view): a read-only display of Pakistan's Computerized National Identity Card Number (CNIC)
+- [peru-documento-nacional-de-identidad-input](components/peru-documento-nacional-de-identidad-input): an input for entering Peru's Documento Nacional de Identidad (DNI)
+- [peru-documento-nacional-de-identidad-view](components/peru-documento-nacional-de-identidad-view): a read-only display of Peru's Documento Nacional de Identidad (DNI)
 - [pilipinas-philhealth-identification-number-input](components/pilipinas-philhealth-identification-number-input): an input for entering the Philippines' PhilHealth Identification Number (PIN)
 - [pilipinas-philhealth-identification-number-view](components/pilipinas-philhealth-identification-number-view): a read-only display of the Philippines' PhilHealth Identification Number (PIN)
 - [polska-numer-identyfikacji-podatkowej-input](components/polska-numer-identyfikacji-podatkowej-input): an input for entering Poland's Numer Identyfikacji Podatkowej (NIP)
@@ -909,6 +927,10 @@ full contract.
 - [portugal-passaporte-view](components/portugal-passaporte-view): a read-only display of Portugal's Passaporte
 - [prathet-thai-lek-prajam-tua-prachachon-input](components/prathet-thai-lek-prajam-tua-prachachon-input): an input for entering Thailand's National Identification Number
 - [prathet-thai-lek-prajam-tua-prachachon-view](components/prathet-thai-lek-prajam-tua-prachachon-view): a read-only display of Thailand's National Identification Number
+- [qazaqstan-zheke-saikestendiru-nomiri-input](components/qazaqstan-zheke-saikestendiru-nomiri-input): an input for entering Kazakhstan's Individual Identification Number (IIN)
+- [qazaqstan-zheke-saikestendiru-nomiri-view](components/qazaqstan-zheke-saikestendiru-nomiri-view): a read-only display of Kazakhstan's Individual Identification Number (IIN)
+- [republica-dominicana-cedula-de-identidad-y-electoral-input](components/republica-dominicana-cedula-de-identidad-y-electoral-input): an input for entering the Dominican Republic's Cédula de Identidad y Electoral
+- [republica-dominicana-cedula-de-identidad-y-electoral-view](components/republica-dominicana-cedula-de-identidad-y-electoral-view): a read-only display of the Dominican Republic's Cédula de Identidad y Electoral
 - [romania-cod-numeric-personal-input](components/romania-cod-numeric-personal-input): an input for entering Romania's Cod Numeric Personal (CNP)
 - [romania-cod-numeric-personal-view](components/romania-cod-numeric-personal-view): a read-only display of Romania's Cod Numeric Personal (CNP)
 - [romania-pasaport-input](components/romania-pasaport-input): an input for entering Romania's Paşaport
@@ -927,6 +949,8 @@ full contract.
 - [slovensko-rodne-cislo-view](components/slovensko-rodne-cislo-view): a read-only display of Slovakia's Rodné číslo (RČ)
 - [south-africa-identity-number-input](components/south-africa-identity-number-input): an input for entering South Africa's Identity Number
 - [south-africa-identity-number-view](components/south-africa-identity-number-view): a read-only display of South Africa's Identity Number
+- [sri-lanka-national-identity-card-input](components/sri-lanka-national-identity-card-input): an input for entering Sri Lanka's National Identity Card (NIC) number
+- [sri-lanka-national-identity-card-view](components/sri-lanka-national-identity-card-view): a read-only display of Sri Lanka's National Identity Card (NIC) number
 - [suomi-henkilotunnus-input](components/suomi-henkilotunnus-input): an input for entering Finland's Henkilötunnus (HETU)
 - [suomi-henkilotunnus-view](components/suomi-henkilotunnus-view): a read-only display of Finland's Henkilötunnus (HETU)
 - [sverige-personnummer-input](components/sverige-personnummer-input): an input for entering Sweden's Personnummer

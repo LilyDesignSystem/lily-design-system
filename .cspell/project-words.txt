@@ -390,6 +390,26 @@ pengenalan
 saudiyah
 tongyi
 wataniyah
+Cédula
+cédula
+Documento
+documento
+dominicana
+Fayda
+fayda
+identifikatsion
+imarat
+ityopya
+jismoniy
+nomiri
+ozbekiston
+PINFL
+qazaqstan
+raqami
+saikestendiru
+shaxsiy
+shaxsning
+zheke
 # Non-English UI strings quoted in docs (the picker labels' locales)
 Padrão
 Tudalennau

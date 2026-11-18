@@ -1,0 +1,32 @@
+---
+layout: layouts/component-demo.njk
+title: BangladeshNationalIdentityCardInput
+description: an input for entering Bangladesh's National ID (NID) number
+---
+
+{% from "components/bangladesh-national-identity-card-input/macro.njk" import bangladeshNationalIdentityCardInput %}
+
+<h2>Default</h2>
+<p>{{ bangladeshNationalIdentityCardInput({ text: "BangladeshNationalIdentityCardInput example", label: "BangladeshNationalIdentityCardInput example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field
+  label="National ID (NID) number"
+  required
+&gt;
+  &lt;BangladeshNationalIdentityCardInput
+    label="National ID (NID) number"
+    value="{value}"
+    required
+  /&gt;
+  &lt;Hint
+    &gt;Three lengths are in use: 13 digits on the older laminated cards, 17 digits (the 13-digit
+    number with the four-digit year of birth in front) and 10 digits on the smart card since 2016,
+    nine of them random and the last a check digit whose algorithm is not published. Accept all
+    three lengths.&lt;/Hint
+  &gt;
+  &lt;ErrorMessage&gt;Please enter a valid National ID (NID) number&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

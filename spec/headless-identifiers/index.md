@@ -12,7 +12,7 @@ Decided by the maintainer on 2026-11-17; tracked in [tasks.md](../../tasks.md) a
   Components, Alpine, Solid); their components, tests, stories and package builds; the root checks that read them; the
   example apps that render them; the docs that count them.
 - Not changed: the canonical catalog. `components.tsv`, `components-categories.tsv` (category `national`) and
-  `components/{slug}/` keep all 637 rows. The docs say "473 core + 164 identifiers".
+  `components/{slug}/` keep all 661 rows. The docs say "473 core + 188 identifiers" (164 at the split, 188 since the 2026-11-18 round).
 - Not changed: what an identifier component renders, its props, class hooks, keyboard and ARIA contract, and the rules
   in [national-identifiers](../national-identifiers/index.md).
 

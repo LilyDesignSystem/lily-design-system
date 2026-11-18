@@ -4,14 +4,14 @@ Living specification: [spec/index.md](../spec/index.md)
 
 [CSS style sheet template](../css-style-sheet-template.css)
 
-Canonical component list: [components.tsv](../components.tsv) — 637 components.
+Canonical component list: [components.tsv](../components.tsv) — 661 components.
 
 ## Subprojects for headless components
 
-The seven framework pairs below are the canonical, full-catalog (637/637)
+The seven framework pairs below are the canonical, full-catalog (661/661, with their national identifier add-ons)
 headless libraries. Angular has every Svelte prop, or a recorded reason in `bin/check-port-logic.allow.json`, since 2026-11-06. An 8th headless catalog joined 2026-09-03:
 [Lily Design System: Web Components headless](../lily-design-system-web-components-headless)
-ships its full achievable scope: 602 of the 637 (since `mutually-exclusive` was removed, 2026-11-09)
+ships its full achievable scope: 626 of the 661 (since `mutually-exclusive` was removed, 2026-11-09)
 components as native custom elements (no framework runtime). The other 35
 are permanently excluded by a real architectural limitation (table
 sub-elements and interactive `*ListItem` families — no wrapper-host-safe
@@ -21,7 +21,7 @@ backlog. See its own `spec/index.md` for the architecture decisions
 and the exact scope.
 
 A 9th, [Lily Design System: Alpine.js headless](../lily-design-system-alpine-headless)
-(added 2026-10-21; `@lilydesignsystem/alpine-headless`, first published 0.1.0 on 2026-11-14), covers all 637 components as annotated HTML
+(added 2026-10-21; `@lilydesignsystem/alpine-headless`, first published 0.1.0 on 2026-11-14), covers all 661 components as annotated HTML
 snippets (`components/{slug}.html`) plus one Alpine plugin (`lily-alpine.js`)
 whose `Alpine.data` behaviours own state and keyboard for the interactive ones. Its example app is [`lily-design-system-alpine-examples`](../lily-design-system-alpine-examples); its six helpers are `lily-design-system-alpine-{data-grid,kanban-board,calendar,gantt-chart,markdown-editor,org-editor}` (`@lilydesignsystem/alpine-*`), each a subset of its Svelte reference. See its `spec/index.md`.
 
@@ -35,12 +35,12 @@ whose `Alpine.data` behaviours own state and keyboard for the interactive ones. 
 
 ## Subprojects for headless national identifiers
 
-The catalog's 637 components are 473 core components and 164 national personal identifier components (an `-input` and a
-`-view` for each of 82 identifier types). Since 2026-11-18 each headless library ships the 473, and the 164 are an add-on
+The catalog's 661 components are 473 core components and 188 national personal identifier components (an `-input` and a
+`-view` for each of 94 identifier types). Since 2026-11-18 each headless library ships the 473, and the 188 are an add-on
 package per catalog, `lily-design-system-{framework}-headless-identifiers`: npm `@lilydesignsystem/{framework}-headless-identifiers`,
 NuGet `LilyDesignSystem.Blazor.Headless.Identifiers`. Each keeps its catalog's file layout, so a root check finds an identifier
 by its headless path with `-headless/` read as `-headless-identifiers/`; the Blazor one depends on the headless package (for
-`ValueInputBase`), the others on nothing. `components.tsv` keeps all 637 rows (category `national` in
+`ValueInputBase`), the others on nothing. `components.tsv` keeps all 661 rows (category `national` in
 `components-categories.tsv`). Spec: [spec/headless-identifiers](../spec/headless-identifiers/index.md).
 
 - [Svelte](../lily-design-system-svelte-headless-identifiers), [React](../lily-design-system-react-headless-identifiers),

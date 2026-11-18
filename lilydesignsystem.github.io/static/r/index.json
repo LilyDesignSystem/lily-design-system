@@ -1,5 +1,5 @@
 {
-  "count": 637,
+  "count": 661,
   "components": [
     {
       "slug": "accordion-checkbox",
@@ -84,6 +84,18 @@
       "name": "AiLabel",
       "description": "an indicator of AI instances that is a pathway to AI explainability",
       "manifest": "https://lilydesignsystem.com/r/ai-label.json"
+    },
+    {
+      "slug": "al-imarat-raqm-al-huwiyah-input",
+      "name": "AlImaratRaqmAlHuwiyahInput",
+      "description": "an input for entering the United Arab Emirates' Emirates ID number",
+      "manifest": "https://lilydesignsystem.com/r/al-imarat-raqm-al-huwiyah-input.json"
+    },
+    {
+      "slug": "al-imarat-raqm-al-huwiyah-view",
+      "name": "AlImaratRaqmAlHuwiyahView",
+      "description": "a read-only display of the United Arab Emirates' Emirates ID number",
+      "manifest": "https://lilydesignsystem.com/r/al-imarat-raqm-al-huwiyah-view.json"
     },
     {
       "slug": "alba-community-health-index-input",
@@ -258,6 +270,18 @@
       "name": "Badge",
       "description": "a small label for counts, statuses, or categories",
       "manifest": "https://lilydesignsystem.com/r/badge.json"
+    },
+    {
+      "slug": "bangladesh-national-identity-card-input",
+      "name": "BangladeshNationalIdentityCardInput",
+      "description": "an input for entering Bangladesh's National ID (NID) number",
+      "manifest": "https://lilydesignsystem.com/r/bangladesh-national-identity-card-input.json"
+    },
+    {
+      "slug": "bangladesh-national-identity-card-view",
+      "name": "BangladeshNationalIdentityCardView",
+      "description": "a read-only display of Bangladesh's National ID (NID) number",
+      "manifest": "https://lilydesignsystem.com/r/bangladesh-national-identity-card-view.json"
     },
     {
       "slug": "banner",
@@ -858,6 +882,18 @@
       "name": "ConvertIntoValueDiv",
       "description": "the converted value, such as a text input showing the number of euros",
       "manifest": "https://lilydesignsystem.com/r/convert-into-value-div.json"
+    },
+    {
+      "slug": "costa-rica-cedula-de-identidad-input",
+      "name": "CostaRicaCedulaDeIdentidadInput",
+      "description": "an input for entering Costa Rica's Cédula de Identidad",
+      "manifest": "https://lilydesignsystem.com/r/costa-rica-cedula-de-identidad-input.json"
+    },
+    {
+      "slug": "costa-rica-cedula-de-identidad-view",
+      "name": "CostaRicaCedulaDeIdentidadView",
+      "description": "a read-only display of Costa Rica's Cédula de Identidad",
+      "manifest": "https://lilydesignsystem.com/r/costa-rica-cedula-de-identidad-view.json"
     },
     {
       "slug": "currency-input",
@@ -1496,6 +1532,18 @@
       "manifest": "https://lilydesignsystem.com/r/gauge-chart.json"
     },
     {
+      "slug": "ghana-card-personal-identification-number-input",
+      "name": "GhanaCardPersonalIdentificationNumberInput",
+      "description": "an input for entering Ghana's Ghana Card PIN",
+      "manifest": "https://lilydesignsystem.com/r/ghana-card-personal-identification-number-input.json"
+    },
+    {
+      "slug": "ghana-card-personal-identification-number-view",
+      "name": "GhanaCardPersonalIdentificationNumberView",
+      "description": "a read-only display of Ghana's Ghana Card PIN",
+      "manifest": "https://lilydesignsystem.com/r/ghana-card-personal-identification-number-view.json"
+    },
+    {
       "slug": "go-to-next-section",
       "name": "GoToNextSection",
       "description": "a link that takes users to the next section of the current page",
@@ -1572,6 +1620,18 @@
       "name": "Grid",
       "description": "a CSS grid layout container with configurable columns and gap",
       "manifest": "https://lilydesignsystem.com/r/grid.json"
+    },
+    {
+      "slug": "guatemala-codigo-unico-de-identificacion-input",
+      "name": "GuatemalaCodigoUnicoDeIdentificacionInput",
+      "description": "an input for entering Guatemala's Código Único de Identificación (CUI)",
+      "manifest": "https://lilydesignsystem.com/r/guatemala-codigo-unico-de-identificacion-input.json"
+    },
+    {
+      "slug": "guatemala-codigo-unico-de-identificacion-view",
+      "name": "GuatemalaCodigoUnicoDeIdentificacionView",
+      "description": "a read-only display of Guatemala's Código Único de Identificación (CUI)",
+      "manifest": "https://lilydesignsystem.com/r/guatemala-codigo-unico-de-identificacion-view.json"
     },
     {
       "slug": "hamburger-menu",
@@ -1844,6 +1904,18 @@
       "manifest": "https://lilydesignsystem.com/r/italia-codice-fiscale-view.json"
     },
     {
+      "slug": "ityopya-fayda-identification-number-input",
+      "name": "ItyopyaFaydaIdentificationNumberInput",
+      "description": "an input for entering Ethiopia's Fayda Identification Number (FIN)",
+      "manifest": "https://lilydesignsystem.com/r/ityopya-fayda-identification-number-input.json"
+    },
+    {
+      "slug": "ityopya-fayda-identification-number-view",
+      "name": "ItyopyaFaydaIdentificationNumberView",
+      "description": "a read-only display of Ethiopia's Fayda Identification Number (FIN)",
+      "manifest": "https://lilydesignsystem.com/r/ityopya-fayda-identification-number-view.json"
+    },
+    {
       "slug": "kanban-table",
       "name": "KanbanTable",
       "description": "a kanban board table interactive grid for organizing items by status <table>",
@@ -2064,6 +2136,18 @@
       "name": "Masonry",
       "description": "a masonry layout container for variable-height items",
       "manifest": "https://lilydesignsystem.com/r/masonry.json"
+    },
+    {
+      "slug": "mauritius-national-identity-card-number-input",
+      "name": "MauritiusNationalIdentityCardNumberInput",
+      "description": "an input for entering Mauritius's National Identity Card number",
+      "manifest": "https://lilydesignsystem.com/r/mauritius-national-identity-card-number-input.json"
+    },
+    {
+      "slug": "mauritius-national-identity-card-number-view",
+      "name": "MauritiusNationalIdentityCardNumberView",
+      "description": "a read-only display of Mauritius's National Identity Card number",
+      "manifest": "https://lilydesignsystem.com/r/mauritius-national-identity-card-number-view.json"
     },
     {
       "slug": "measurement-instance-input",
@@ -2450,6 +2534,18 @@
       "manifest": "https://lilydesignsystem.com/r/overlay-container.json"
     },
     {
+      "slug": "ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-input",
+      "name": "OzbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiInput",
+      "description": "an input for entering Uzbekistan's Personal identification number (JShShIR / PINFL)",
+      "manifest": "https://lilydesignsystem.com/r/ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-input.json"
+    },
+    {
+      "slug": "ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-view",
+      "name": "OzbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiView",
+      "description": "a read-only display of Uzbekistan's Personal identification number (JShShIR / PINFL)",
+      "manifest": "https://lilydesignsystem.com/r/ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-view.json"
+    },
+    {
       "slug": "padding-reset",
       "name": "PaddingReset",
       "description": "a container that resets padding inside fluid-width containers",
@@ -2514,6 +2610,18 @@
       "name": "Person",
       "description": "a person component that contains other person-related information",
       "manifest": "https://lilydesignsystem.com/r/person.json"
+    },
+    {
+      "slug": "peru-documento-nacional-de-identidad-input",
+      "name": "PeruDocumentoNacionalDeIdentidadInput",
+      "description": "an input for entering Peru's Documento Nacional de Identidad (DNI)",
+      "manifest": "https://lilydesignsystem.com/r/peru-documento-nacional-de-identidad-input.json"
+    },
+    {
+      "slug": "peru-documento-nacional-de-identidad-view",
+      "name": "PeruDocumentoNacionalDeIdentidadView",
+      "description": "a read-only display of Peru's Documento Nacional de Identidad (DNI)",
+      "manifest": "https://lilydesignsystem.com/r/peru-documento-nacional-de-identidad-view.json"
     },
     {
       "slug": "phase-banner",
@@ -2714,6 +2822,18 @@
       "manifest": "https://lilydesignsystem.com/r/progress-spinner.json"
     },
     {
+      "slug": "qazaqstan-zheke-saikestendiru-nomiri-input",
+      "name": "QazaqstanZhekeSaikestendiruNomiriInput",
+      "description": "an input for entering Kazakhstan's Individual Identification Number (IIN)",
+      "manifest": "https://lilydesignsystem.com/r/qazaqstan-zheke-saikestendiru-nomiri-input.json"
+    },
+    {
+      "slug": "qazaqstan-zheke-saikestendiru-nomiri-view",
+      "name": "QazaqstanZhekeSaikestendiruNomiriView",
+      "description": "a read-only display of Kazakhstan's Individual Identification Number (IIN)",
+      "manifest": "https://lilydesignsystem.com/r/qazaqstan-zheke-saikestendiru-nomiri-view.json"
+    },
+    {
       "slug": "qr-code-image",
       "name": "QrCodeImage",
       "description": "a QR code image generated from text or URL data",
@@ -2826,6 +2946,18 @@
       "name": "RepeatableFieldset",
       "description": "a group of identical fieldsets that a person adds to and removes from (\"add another\")",
       "manifest": "https://lilydesignsystem.com/r/repeatable-fieldset.json"
+    },
+    {
+      "slug": "republica-dominicana-cedula-de-identidad-y-electoral-input",
+      "name": "RepublicaDominicanaCedulaDeIdentidadYElectoralInput",
+      "description": "an input for entering the Dominican Republic's Cédula de Identidad y Electoral",
+      "manifest": "https://lilydesignsystem.com/r/republica-dominicana-cedula-de-identidad-y-electoral-input.json"
+    },
+    {
+      "slug": "republica-dominicana-cedula-de-identidad-y-electoral-view",
+      "name": "RepublicaDominicanaCedulaDeIdentidadYElectoralView",
+      "description": "a read-only display of the Dominican Republic's Cédula de Identidad y Electoral",
+      "manifest": "https://lilydesignsystem.com/r/republica-dominicana-cedula-de-identidad-y-electoral-view.json"
     },
     {
       "slug": "reset-input",
@@ -3162,6 +3294,18 @@
       "name": "Splitter",
       "description": "a draggable divider for resizing adjacent panels",
       "manifest": "https://lilydesignsystem.com/r/splitter.json"
+    },
+    {
+      "slug": "sri-lanka-national-identity-card-input",
+      "name": "SriLankaNationalIdentityCardInput",
+      "description": "an input for entering Sri Lanka's National Identity Card (NIC) number",
+      "manifest": "https://lilydesignsystem.com/r/sri-lanka-national-identity-card-input.json"
+    },
+    {
+      "slug": "sri-lanka-national-identity-card-view",
+      "name": "SriLankaNationalIdentityCardView",
+      "description": "a read-only display of Sri Lanka's National Identity Card (NIC) number",
+      "manifest": "https://lilydesignsystem.com/r/sri-lanka-national-identity-card-view.json"
     },
     {
       "slug": "statistic",

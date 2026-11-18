@@ -53,7 +53,7 @@ the compound name-family patterns, rather than the short list in SKILL.md.
 | Category                      | Count | Examples                                                              |
 | ----------------------------- | ----- | --------------------------------------------------------------------- |
 | Content                       | 165   | Byline, Headline, ContentBlock, FeaturePhoto, Scroller*               |
-| National personal identifiers | 164   | 82 identifier types × `-input`/`-view` across 50+ countries           |
+| National personal identifiers | 164   | 94 identifier types × `-input`/`-view` across 50+ countries           |
 | Forms                         | 61    | TextInput, Field, ErrorSummary, Fieldset, RadioGroup                  |
 | Navigation                    | 55    | BreadcrumbNav, TabBar, AccordionNav, PaginationNav                    |
 | Lists                         | 40    | CheckList, SummaryList, TaskList, TreeList                            |

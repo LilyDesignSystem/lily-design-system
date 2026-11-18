@@ -81,7 +81,7 @@ component list is more consistently component-shaped than GOV.UK's.
 
 ## Special-Purpose Identifiers (NHS-specific, no upstream equivalent)
 
-nhsuk-frontend has no equivalent to Lily's 164 national personal
+nhsuk-frontend has no equivalent to Lily's 188 national personal
 identifier components — including the ten UK-specific ones (NHS
 number, and identifiers for other UK nations and territories). See
 [spec/national-identifiers](../../spec/national-identifiers/index.md).

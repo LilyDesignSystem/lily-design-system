@@ -1,0 +1,32 @@
+---
+layout: layouts/component-demo.njk
+title: GhanaCardPersonalIdentificationNumberInput
+description: an input for entering Ghana's Ghana Card PIN
+---
+
+{% from "components/ghana-card-personal-identification-number-input/macro.njk" import ghanaCardPersonalIdentificationNumberInput %}
+
+<h2>Default</h2>
+<p>{{ ghanaCardPersonalIdentificationNumberInput({ text: "GhanaCardPersonalIdentificationNumberInput example", label: "GhanaCardPersonalIdentificationNumberInput example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field
+  label="Ghana Card PIN"
+  required
+&gt;
+  &lt;GhanaCardPersonalIdentificationNumberInput
+    label="Ghana Card PIN"
+    value="{value}"
+    required
+  /&gt;
+  &lt;Hint
+    &gt;A three-letter prefix (GHA for citizens), a hyphen, a run of digits and a hyphen before a final
+    check character (GHA-123456789-1). Sources disagree on the length of the digit run (eight, nine
+    or ten), and the National Identification Authority does not publish the check-character
+    algorithm, so check the prefix and shape, not the checksum.&lt;/Hint
+  &gt;
+  &lt;ErrorMessage&gt;Please enter a valid Ghana Card PIN&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

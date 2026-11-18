@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+@inherits ValueInputBase
+
+@*
+    MauritiusNationalIdentityCardNumberInput component
+    an input for entering Mauritius's National Identity Card number
+*@
+
+<input class="@($"mauritius-national-identity-card-number-input {CssClass}".Trim())" type="text" aria-label="@Label" autocomplete="off" spellcheck="false" @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput" @attributes="AdditionalAttributes" />
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

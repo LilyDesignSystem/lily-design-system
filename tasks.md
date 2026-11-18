@@ -3924,6 +3924,10 @@ release; the canonical catalog keeps all 637. Plan: [spec/headless-identifiers](
       `bin/publish-headless`. Verify: `bin/check-links` and `bin/test`. _(2026-11-18: `AGENTS/lily.md` lists the ten,
       the architecture counts are 225 implementation subprojects, each headless skill has a "National identifiers"
       section, `bin/publish-headless` publishes all ten.)_
+- [x] **P37-T6 More national identifiers** (the queued "research more national identifiers and add them"). Verify:
+      each `-headless-identifiers` package's tests pass, every drift check passes, `bin/check-worldwide` counts the new
+      types by region. _(2026-11-18: 12 types, 24 components, catalog 661; packages 0.2.0, not yet published;
+      [spec/national-identifiers](spec/national-identifiers/index.md) has the round and the sources.)_
 - [ ] **P37-T5 Stale catalog counts in the skills and package descriptions.** Some headless skills and package
       descriptions still give an old catalog size (609, 608, 571, 491). Restate each as the package's own share (473, or
       the Web Components and Alpine scopes) or point at `components.tsv`. Verify: no stale count left in a `SKILL.md`, a

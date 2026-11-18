@@ -1,10 +1,10 @@
 {
   "name": "@lilydesignsystem/react-headless-identifiers",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "engines": {
     "node": ">=26"
   },
-  "description": "Headless, accessible, unstyled React 19 components for national personal identifiers (164: an input and a view for each of 82 identifier types across 50+ countries), the add-on to @lilydesignsystem/react-headless.",
+  "description": "Headless, accessible, unstyled React 19 components for national personal identifiers (188: an input and a view for each of 94 identifier types across 50+ countries), the add-on to @lilydesignsystem/react-headless.",
   "main": "./dist/index.js",
   "scripts": {
     "build": "node build.mjs",

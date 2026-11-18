@@ -1,6 +1,6 @@
 # Install
 
-This is the React headless national identifier components: the 164 national personal identifier components (an input and a view for each of 82 identifier types), the add-on to the headless library.
+This is the React headless national identifier components: the 188 national personal identifier components (an input and a view for each of 94 identifier types), the add-on to the headless library.
 
 Its source is the `lily-design-system-react-headless-identifiers/` directory of the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.
@@ -13,7 +13,7 @@ Full documentation and the searchable component catalog: <https://lilydesignsyst
 npm install @lilydesignsystem/react-headless-identifiers
 ```
 
-Import any of the 164 national identifier components from the package root; the barrel is
+Import any of the 188 national identifier components from the package root; the barrel is
 tree-shakeable (`sideEffects: false`), so your bundler drops what you do not use.
 
 The components ship semantic HTML, ARIA, focus management, and keyboard

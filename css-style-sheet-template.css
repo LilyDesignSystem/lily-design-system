@@ -2362,6 +2362,102 @@
 .nigeria-national-identification-number-view {
 }
 
+/* peru-documento-nacional-de-identidad-input: an input for entering Peru's Documento Nacional de Identidad (DNI) */
+.peru-documento-nacional-de-identidad-input {
+}
+
+/* peru-documento-nacional-de-identidad-view: a read-only display of Peru's Documento Nacional de Identidad (DNI) */
+.peru-documento-nacional-de-identidad-view {
+}
+
+/* republica-dominicana-cedula-de-identidad-y-electoral-input: an input for entering the Dominican Republic's Cédula de Identidad y Electoral */
+.republica-dominicana-cedula-de-identidad-y-electoral-input {
+}
+
+/* republica-dominicana-cedula-de-identidad-y-electoral-view: a read-only display of the Dominican Republic's Cédula de Identidad y Electoral */
+.republica-dominicana-cedula-de-identidad-y-electoral-view {
+}
+
+/* costa-rica-cedula-de-identidad-input: an input for entering Costa Rica's Cédula de Identidad */
+.costa-rica-cedula-de-identidad-input {
+}
+
+/* costa-rica-cedula-de-identidad-view: a read-only display of Costa Rica's Cédula de Identidad */
+.costa-rica-cedula-de-identidad-view {
+}
+
+/* guatemala-codigo-unico-de-identificacion-input: an input for entering Guatemala's Código Único de Identificación (CUI) */
+.guatemala-codigo-unico-de-identificacion-input {
+}
+
+/* guatemala-codigo-unico-de-identificacion-view: a read-only display of Guatemala's Código Único de Identificación (CUI) */
+.guatemala-codigo-unico-de-identificacion-view {
+}
+
+/* mauritius-national-identity-card-number-input: an input for entering Mauritius's National Identity Card number */
+.mauritius-national-identity-card-number-input {
+}
+
+/* mauritius-national-identity-card-number-view: a read-only display of Mauritius's National Identity Card number */
+.mauritius-national-identity-card-number-view {
+}
+
+/* ghana-card-personal-identification-number-input: an input for entering Ghana's Ghana Card PIN */
+.ghana-card-personal-identification-number-input {
+}
+
+/* ghana-card-personal-identification-number-view: a read-only display of Ghana's Ghana Card PIN */
+.ghana-card-personal-identification-number-view {
+}
+
+/* ityopya-fayda-identification-number-input: an input for entering Ethiopia's Fayda Identification Number (FIN) */
+.ityopya-fayda-identification-number-input {
+}
+
+/* ityopya-fayda-identification-number-view: a read-only display of Ethiopia's Fayda Identification Number (FIN) */
+.ityopya-fayda-identification-number-view {
+}
+
+/* sri-lanka-national-identity-card-input: an input for entering Sri Lanka's National Identity Card (NIC) number */
+.sri-lanka-national-identity-card-input {
+}
+
+/* sri-lanka-national-identity-card-view: a read-only display of Sri Lanka's National Identity Card (NIC) number */
+.sri-lanka-national-identity-card-view {
+}
+
+/* bangladesh-national-identity-card-input: an input for entering Bangladesh's National ID (NID) number */
+.bangladesh-national-identity-card-input {
+}
+
+/* bangladesh-national-identity-card-view: a read-only display of Bangladesh's National ID (NID) number */
+.bangladesh-national-identity-card-view {
+}
+
+/* qazaqstan-zheke-saikestendiru-nomiri-input: an input for entering Kazakhstan's Individual Identification Number (IIN) */
+.qazaqstan-zheke-saikestendiru-nomiri-input {
+}
+
+/* qazaqstan-zheke-saikestendiru-nomiri-view: a read-only display of Kazakhstan's Individual Identification Number (IIN) */
+.qazaqstan-zheke-saikestendiru-nomiri-view {
+}
+
+/* ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-input: an input for entering Uzbekistan's Personal identification number (JShShIR / PINFL) */
+.ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-input {
+}
+
+/* ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-view: a read-only display of Uzbekistan's Personal identification number (JShShIR / PINFL) */
+.ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-view {
+}
+
+/* al-imarat-raqm-al-huwiyah-input: an input for entering the United Arab Emirates' Emirates ID number */
+.al-imarat-raqm-al-huwiyah-input {
+}
+
+/* al-imarat-raqm-al-huwiyah-view: a read-only display of the United Arab Emirates' Emirates ID number */
+.al-imarat-raqm-al-huwiyah-view {
+}
+
 /* one-time-password-input: a single one-time-password input with a numeric keypad, SMS autofill, and a fixed length */
 .one-time-password-input {
 }

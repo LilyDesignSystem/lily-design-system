@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+@inherits ValueInputBase
+
+@*
+    GhanaCardPersonalIdentificationNumberInput component
+    an input for entering Ghana's Ghana Card PIN
+*@
+
+<input class="@($"ghana-card-personal-identification-number-input {CssClass}".Trim())" type="text" aria-label="@Label" autocomplete="off" spellcheck="false" @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput" @attributes="AdditionalAttributes" />
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

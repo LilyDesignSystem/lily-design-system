@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "costa-rica-cedula-de-identidad-view",
+  "type": "registry:component",
+  "title": "CostaRicaCedulaDeIdentidadView",
+  "description": "A read-only display of Costa Rica's Cédula de Identidad.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless-identifiers/components/CostaRicaCedulaDeIdentidadView.tsx",
+      "content": "import React from \"react\";\n\n// CostaRicaCedulaDeIdentidadView component\n//\n// A headless display component for showing Costa Rica's\n// Cédula de Identidad in a read-only format.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, optional. Hidden text naming the value. Leave it out when a visible caption, such as a dt or a SummaryListItem term, already names it.\n//   value — string, default \"\". The identifier string to display.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <CostaRicaCedulaDeIdentidadView label=\"Cédula de Identidad\" value={value} />\n//\n// Accessibility:\n//   - A visible caption names the value, or label renders as hidden text; a plain span cannot take aria-label.\n//\n// References:\n//   - https://es.wikipedia.org/wiki/C%C3%A9dula_de_identidad_(Costa_Rica)\n\nexport interface CostaRicaCedulaDeIdentidadViewProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label?: string;\n    /** The identifier to display */\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function CostaRicaCedulaDeIdentidadView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: CostaRicaCedulaDeIdentidadViewProps) {\n    return (\n        <span\n            className={`costa-rica-cedula-de-identidad-view ${className}`}\n            {...restProps}\n        >\n            {label ? <span className=\"screen-reader-span\">{`${label} `}</span> : null}\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/CostaRicaCedulaDeIdentidadView.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/costa-rica-cedula-de-identidad-view/"
+}

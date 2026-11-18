@@ -20,7 +20,7 @@ identifiers:
 repository-code: 'https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-headless-identifiers'
 url: 'https://lilydesignsystem.com/'
 abstract: >-
-  This is the Angular 22 headless national identifier components: the 164 national personal identifier components (an input and a view for each of 82 identifier types), the add-on to the headless library.
+  This is the Angular 22 headless national identifier components: the 188 national personal identifier components (an input and a view for each of 94 identifier types), the add-on to the headless library.
   It is one subproject of Lily Design System, a free open-source headless
   design system whose canonical catalog of 571 components is implemented
   across eight frameworks. Its source is the lily-design-system-angular-headless-identifiers directory

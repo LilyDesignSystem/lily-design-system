@@ -54,6 +54,9 @@ for (const m of demosSource.matchAll(/^ {2}'([^']+)': '((?:[^'\\]|\\.)*)',$/gm))
 
 const MAX_USAGE = 3000;
 function usageFrom(file) {
+  // A national identifier's per-framework doc lives in the -headless-identifiers package since 2026-11-18, in the
+  // same layout (spec/headless-identifiers).
+  if (file && !exists(file) && file.includes("-headless/")) file = file.replace("-headless/", "-headless-identifiers/");
   if (!file || !exists(file)) return null;
   const s = read(file);
   const sec = s.match(/\n## Usage\n([\s\S]*?)(?=\n## |$)/);

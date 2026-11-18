@@ -1,0 +1,32 @@
+---
+layout: layouts/component-demo.njk
+title: RepublicaDominicanaCedulaDeIdentidadYElectoralInput
+description: an input for entering the Dominican Republic's Cédula de Identidad y Electoral
+---
+
+{% from "components/republica-dominicana-cedula-de-identidad-y-electoral-input/macro.njk" import republicaDominicanaCedulaDeIdentidadYElectoralInput %}
+
+<h2>Default</h2>
+<p>{{ republicaDominicanaCedulaDeIdentidadYElectoralInput({ text: "RepublicaDominicanaCedulaDeIdentidadYElectoralInput example", label: "RepublicaDominicanaCedulaDeIdentidadYElectoralInput example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field
+  label="Cédula de Identidad y Electoral"
+  required
+&gt;
+  &lt;RepublicaDominicanaCedulaDeIdentidadYElectoralInput
+    label="Cédula de Identidad y Electoral"
+    value="{value}"
+    required
+  /&gt;
+  &lt;Hint
+    &gt;Eleven digits, usually written 3-7-1 (001-1391820-5): a three-digit issuing office, a
+    seven-digit sequence and a check digit computed with the Luhn algorithm over all eleven digits.
+    A few early numbers fail the check and are still valid, so treat a Luhn failure as a warning,
+    not a rejection.&lt;/Hint
+  &gt;
+  &lt;ErrorMessage&gt;Please enter a valid Cédula de Identidad y Electoral&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

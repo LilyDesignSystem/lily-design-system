@@ -1,0 +1,23 @@
+---
+layout: layouts/component-demo.njk
+title: GuatemalaCodigoUnicoDeIdentificacionView
+description: a read-only display of Guatemala's Código Único de Identificación (CUI)
+---
+
+{% from "components/guatemala-codigo-unico-de-identificacion-view/macro.njk" import guatemalaCodigoUnicoDeIdentificacionView %}
+
+<h2>Default</h2>
+<p>{{ guatemalaCodigoUnicoDeIdentificacionView({ text: "GuatemalaCodigoUnicoDeIdentificacionView example", label: "GuatemalaCodigoUnicoDeIdentificacionView example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;SummaryList&gt;
+  &lt;SummaryListItem term="Código Único de Identificación (CUI)"&gt;
+    &lt;GuatemalaCodigoUnicoDeIdentificacionView
+      label="Código Único de Identificación (CUI)"
+      value="{value}"
+    /&gt;
+  &lt;/SummaryListItem&gt;
+&lt;/SummaryList&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

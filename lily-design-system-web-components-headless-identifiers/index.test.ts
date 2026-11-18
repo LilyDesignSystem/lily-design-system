@@ -30,9 +30,9 @@ describe("dist/index.js (built package entry point)", () => {
                 `lily-${slug} should be defined`,
             ).toBeTruthy();
         }
-        // The 164 national personal identifier components (82 identifier types, an input and a view each),
+        // The 188 national personal identifier components (94 identifier types, an input and a view each),
         // moved here from web-components-headless (spec/headless-identifiers).
-        expect(SLUGS.length).toBe(164);
+        expect(SLUGS.length).toBe(188);
     });
 
     test("a component rendered via the built bundle behaves like the source version", async () => {

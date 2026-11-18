@@ -78,7 +78,7 @@ your macros comes from the examples on your site. Correct us where we have it wr
 - **Worldwide.** Lily's target is every country, region and federation, not one nation's conventions, so we are glad to share
   the Welsh-language and text-expansion work in a form other regions can reuse; a DHCW component that assumes a UK shape
   (postal code, phone, NHS number) is worth marking as regional in its page.
-- **Catalog.** Lily has components DHCW lacks (a data table, calendar, Gantt chart, chat input, 164 national identifier
+- **Catalog.** Lily has components DHCW lacks (a data table, calendar, Gantt chart, chat input, 188 national identifier
   inputs). Linking to Lily from your site where a team needs one would save them a search, and we link to yours from ours.
 
 ## Licensing

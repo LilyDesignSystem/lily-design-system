@@ -22,7 +22,7 @@
   <h2>Before you start</h2>
   <p>
     You need Node.js and a bundler or any setup that resolves bare module
-    imports. The catalog covers 602 of the 637 components; the table
+    imports. The catalog covers 626 of the 661 components; the table
     sub-elements and a few list-item families are left out, because an
     autonomous custom element cannot stand in for a <code>&lt;tr&gt;</code>
     or an <code>&lt;li&gt;</code>.

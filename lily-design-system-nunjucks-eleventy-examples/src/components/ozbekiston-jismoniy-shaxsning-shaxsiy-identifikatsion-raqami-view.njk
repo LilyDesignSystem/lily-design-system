@@ -1,0 +1,23 @@
+---
+layout: layouts/component-demo.njk
+title: OzbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiView
+description: a read-only display of Uzbekistan's Personal identification number (JShShIR / PINFL)
+---
+
+{% from "components/ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-view/macro.njk" import ozbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiView %}
+
+<h2>Default</h2>
+<p>{{ ozbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiView({ text: "OzbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiView example", label: "OzbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiView example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;SummaryList&gt;
+  &lt;SummaryListItem term="Personal identification number (JShShIR / PINFL)"&gt;
+    &lt;OzbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiView
+      label="Personal identification number (JShShIR / PINFL)"
+      value="{value}"
+    /&gt;
+  &lt;/SummaryListItem&gt;
+&lt;/SummaryList&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

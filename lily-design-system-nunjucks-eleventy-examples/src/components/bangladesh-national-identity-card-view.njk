@@ -1,0 +1,23 @@
+---
+layout: layouts/component-demo.njk
+title: BangladeshNationalIdentityCardView
+description: a read-only display of Bangladesh's National ID (NID) number
+---
+
+{% from "components/bangladesh-national-identity-card-view/macro.njk" import bangladeshNationalIdentityCardView %}
+
+<h2>Default</h2>
+<p>{{ bangladeshNationalIdentityCardView({ text: "BangladeshNationalIdentityCardView example", label: "BangladeshNationalIdentityCardView example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;SummaryList&gt;
+  &lt;SummaryListItem term="National ID (NID) number"&gt;
+    &lt;BangladeshNationalIdentityCardView
+      label="National ID (NID) number"
+      value="{value}"
+    /&gt;
+  &lt;/SummaryListItem&gt;
+&lt;/SummaryList&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

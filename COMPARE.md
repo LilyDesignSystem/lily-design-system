@@ -80,7 +80,7 @@ defaults and a translation mechanism bolted on afterwards.
 
 **4. Public-sector reference coverage.**
 63 themes covering NHS England, Scotland and Wales in patient and practitioner
-variants, GOV.UK GDS, and USWDS, plus 164 national personal identifier components
+variants, GOV.UK GDS, and USWDS, plus 188 national personal identifier components
 across 30+ countries with normalization and validation. Nothing else in the table
 addresses this, and it is the one area where Lily's breadth is not just breadth.
 

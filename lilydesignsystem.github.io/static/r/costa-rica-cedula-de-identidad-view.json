@@ -1,0 +1,39 @@
+{
+  "slug": "costa-rica-cedula-de-identidad-view",
+  "name": "CostaRicaCedulaDeIdentidadView",
+  "description": "a read-only display of Costa Rica's Cédula de Identidad",
+  "htmlTag": "span",
+  "category": "national",
+  "baseClass": ".costa-rica-cedula-de-identidad-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow",
+  "aria": [
+    "No ARIA. A plain `<span>` cannot be named: `aria-label` is prohibited on it, and most screen readers drop it. A visible caption names the value, or the optional `label` renders as hidden text"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`value`: string (default: \"\") — the identifier to display",
+    "`label`: string (optional) — hidden text naming the value, in a `.screen-reader-span`. Leave it out when a visible caption names the value",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "costa-rica-cedula-de-identidad-input",
+    "summary-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless-identifiers/components/costa-rica-cedula-de-identidad-view.html",
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/CostaRicaCedulaDeIdentidadView/CostaRicaCedulaDeIdentidadView.svelte",
+    "react": "lily-design-system-react-headless-identifiers/components/CostaRicaCedulaDeIdentidadView.tsx",
+    "vue": "lily-design-system-vue-headless-identifiers/components/CostaRicaCedulaDeIdentidadView.vue",
+    "angular": "lily-design-system-angular-headless-identifiers/components/CostaRicaCedulaDeIdentidadView.ts",
+    "web-components": "lily-design-system-web-components-headless-identifiers/components/costa-rica-cedula-de-identidad-view.ts",
+    "alpine": "lily-design-system-alpine-headless-identifiers/components/costa-rica-cedula-de-identidad-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/costa-rica-cedula-de-identidad-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/CostaRicaCedulaDeIdentidadView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/costa-rica-cedula-de-identidad-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/costa-rica-cedula-de-identidad-view/AGENTS.md"
+}

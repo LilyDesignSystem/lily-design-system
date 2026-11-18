@@ -103,10 +103,10 @@ def scan():
 REGION = {
     **dict.fromkeys("AT BE BG HR CY CZ DK EE FI FR DE GR HU IE IT LV LT LU MT NL PL PT RO SK SI ES SE GB IS LI NO CH UA"
                     .split(), "Europe"),
-    **dict.fromkeys("CN IN ID IL JP KR PH SG TH TR RU MY VN PK BD LK NP AE SA QA KW BH OM IR IQ TW HK".split(), "Asia"),
-    **dict.fromkeys("US CA MX BR AR CL CO PE UY PY BO EC VE".split(), "Americas"),
+    **dict.fromkeys("CN IN ID IL JP KR PH SG TH TR RU MY VN PK BD LK NP AE SA QA KW BH OM IR IQ TW HK KZ UZ".split(), "Asia"),
+    **dict.fromkeys("US CA MX BR AR CL CO PE UY PY BO EC VE DO CR GT".split(), "Americas"),
     **dict.fromkeys("AU NZ FJ PG".split(), "Oceania"),
-    **dict.fromkeys("ZA EG NG KE ET GH MA TZ UG DZ".split(), "Africa"),
+    **dict.fromkeys("ZA EG NG KE ET GH MA TZ UG DZ MU".split(), "Africa"),
 }
 
 

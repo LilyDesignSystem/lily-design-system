@@ -1,0 +1,55 @@
+using Bunit;
+using LilyBlazorHeadless.Components;
+using Xunit;
+
+namespace LilyBlazorHeadless.Tests.Components;
+
+public class GhanaCardPersonalIdentificationNumberViewTests : TestContext
+{
+    [Fact]
+    public void Renders_as_span_with_kebab_base_class()
+    {
+        var cut = RenderComponent<GhanaCardPersonalIdentificationNumberView>(p => p.Add(x => x.Label, "Label"));
+        var root = cut.Find(".ghana-card-personal-identification-number-view");
+        Assert.Equal("span", root.TagName.ToLowerInvariant());
+    }
+
+    [Fact]
+    public void Aria_label_is_set_from_Label()
+    {
+        var cut = RenderComponent<GhanaCardPersonalIdentificationNumberView>(p => p.Add(x => x.Label, "Label"));
+        var root = cut.Find(".ghana-card-personal-identification-number-view");
+        Assert.Equal("Label" + " ", root.QuerySelector(".screen-reader-span")!.TextContent);
+        Assert.False(root.HasAttribute("aria-label"));
+    }
+
+    [Fact]
+    public void Renders_child_content_as_text()
+    {
+        var cut = RenderComponent<GhanaCardPersonalIdentificationNumberView>(p => p
+            .Add(x => x.Label, "Label")
+            .AddChildContent("123456789"));
+        var root = cut.Find(".ghana-card-personal-identification-number-view");
+        Assert.Equal("Label" + " " + "123456789", root.TextContent);
+    }
+
+    [Fact]
+    public void CssClass_is_appended_to_kebab_base_class()
+    {
+        var cut = RenderComponent<GhanaCardPersonalIdentificationNumberView>(p => p
+            .Add(x => x.Label, "Label")
+            .Add(x => x.CssClass, "extra"));
+        var root = cut.Find(".ghana-card-personal-identification-number-view");
+        Assert.Contains("extra", root.GetAttribute("class"));
+    }
+
+    [Fact]
+    public void AdditionalAttributes_pass_through_to_root()
+    {
+        var cut = RenderComponent<GhanaCardPersonalIdentificationNumberView>(p => p
+            .Add(x => x.Label, "Label")
+            .AddUnmatched("data-test", "value"));
+        var root = cut.Find(".ghana-card-personal-identification-number-view");
+        Assert.Equal("value", root.GetAttribute("data-test"));
+    }
+}

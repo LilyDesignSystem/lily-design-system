@@ -1,0 +1,23 @@
+---
+layout: layouts/component-demo.njk
+title: GhanaCardPersonalIdentificationNumberView
+description: a read-only display of Ghana's Ghana Card PIN
+---
+
+{% from "components/ghana-card-personal-identification-number-view/macro.njk" import ghanaCardPersonalIdentificationNumberView %}
+
+<h2>Default</h2>
+<p>{{ ghanaCardPersonalIdentificationNumberView({ text: "GhanaCardPersonalIdentificationNumberView example", label: "GhanaCardPersonalIdentificationNumberView example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;SummaryList&gt;
+  &lt;SummaryListItem term="Ghana Card PIN"&gt;
+    &lt;GhanaCardPersonalIdentificationNumberView
+      label="Ghana Card PIN"
+      value="{value}"
+    /&gt;
+  &lt;/SummaryListItem&gt;
+&lt;/SummaryList&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

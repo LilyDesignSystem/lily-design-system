@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+@inherits ValueInputBase
+
+@*
+    GuatemalaCodigoUnicoDeIdentificacionInput component
+    an input for entering Guatemala's Código Único de Identificación (CUI)
+*@
+
+<input class="@($"guatemala-codigo-unico-de-identificacion-input {CssClass}".Trim())" type="text" aria-label="@Label" autocomplete="off" spellcheck="false" @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput" @attributes="AdditionalAttributes" />
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

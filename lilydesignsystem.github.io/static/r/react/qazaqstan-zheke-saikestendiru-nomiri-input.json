@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "qazaqstan-zheke-saikestendiru-nomiri-input",
+  "type": "registry:component",
+  "title": "QazaqstanZhekeSaikestendiruNomiriInput",
+  "description": "An input for entering Kazakhstan's Individual Identification Number (IIN).",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "registryDependencies": [
+    "@lily/dev-warning-utils"
+  ],
+  "files": [
+    {
+      "path": "lily-design-system-react-headless-identifiers/components/QazaqstanZhekeSaikestendiruNomiriInput.tsx",
+      "content": "import React from \"react\";\nimport { warnMissingName } from \"./dev-warning\";\n\n// QazaqstanZhekeSaikestendiruNomiriInput component\n//\n// A headless input for entering Kazakhstan's Individual Identification Number (IIN).\n// Format: Twelve digits: the date of birth as YYMMDD, a digit for century and sex, a four-digit serial and a check digit. The check digit is the sum of the first eleven digits times the weights 1 to 11, modulo 11; if that is 10, repeat with the weights 3, 4, 5, 6, 7, 8, 9, 10, 11, 1, 2, and if it is 10 again the number is not issued.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". Bindable input value; supports value + onChange.\n//   required — boolean, default false. Whether the input is required for form submission.\n//   disabled — boolean, default false. Whether the input is disabled.\n//   ...restProps — additional HTML attributes spread onto the <input>.\n//\n// Syntax:\n//   <QazaqstanZhekeSaikestendiruNomiriInput label=\"Individual Identification Number (IIN)\" value={value} onChange={setValue} />\n//\n// Accessibility:\n//   - aria-label provides the accessible name for screen readers\n//   - autoComplete=\"off\" protects sensitive identifiers\n//   - required and disabled states are conveyed to assistive technology\n//\n// References:\n//   - https://www.oecd.org/tax/automatic-exchange/crs-implementation-and-assistance/tax-identification-numbers/Kazakhstan-TIN.pdf\n\nexport interface QazaqstanZhekeSaikestendiruNomiriInputProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The current value of the input, bindable */\n    value?: string;\n    /** Whether the input is required for form submission */\n    required?: boolean;\n    /** Whether the input is disabled */\n    disabled?: boolean;\n    /** Callback when value changes. */\n    onChange?: (value: string) => void;\n    [key: string]: unknown;\n}\n\nexport default function QazaqstanZhekeSaikestendiruNomiriInput({\n    className = \"\",\n    label,\n    value = \"\",\n    required = false,\n    disabled = false,\n    onChange,\n    ...restProps\n}: QazaqstanZhekeSaikestendiruNomiriInputProps) {\n    warnMissingName(\n        \"QazaqstanZhekeSaikestendiruNomiriInput\",\n        label,\n        restProps[\"aria-label\"],\n        restProps[\"aria-labelledby\"],\n    );\n    return (\n        <input\n            className={`qazaqstan-zheke-saikestendiru-nomiri-input ${className}`}\n            type=\"text\"\n            aria-label={label}\n            autoComplete=\"off\"\n            spellCheck={false}\n            value={value}\n            onChange={(e) => onChange?.(e.target.value)}\n            required={required}\n            disabled={disabled}\n            {...restProps}\n        />\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/QazaqstanZhekeSaikestendiruNomiriInput.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/qazaqstan-zheke-saikestendiru-nomiri-input/"
+}

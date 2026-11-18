@@ -1,6 +1,6 @@
 # Install
 
-This is the Blazor headless national identifier components: the 164 national personal identifier components (an input and a view for each of 82 identifier types), the add-on to the headless library.
+This is the Blazor headless national identifier components: the 188 national personal identifier components (an input and a view for each of 94 identifier types), the add-on to the headless library.
 
 Its source is the `lily-design-system-blazor-headless-identifiers/` directory of the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.
@@ -13,7 +13,7 @@ Full documentation and the searchable component catalog: <https://lilydesignsyst
 dotnet add package LilyDesignSystem.Blazor.Headless.Identifiers
 ```
 
-Use any of the 164 national identifier components as Razor components. The
+Use any of the 188 national identifier components as Razor components. The
 components ship semantic HTML, ARIA, focus management, and keyboard
 behaviour — and **no CSS**. Style them through the kebab-case class hook on each
 root element. See the canonical

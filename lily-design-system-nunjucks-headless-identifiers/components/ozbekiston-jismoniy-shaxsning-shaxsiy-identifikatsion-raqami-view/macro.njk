@@ -1,0 +1,20 @@
+{#
+  OzbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiView macro -- a read-only display of Personal identification number (JShShIR / PINFL).
+
+  HTML tag: <span>
+  CSS class: ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-view
+
+  Params:
+    value, label, id, classes, attributes.
+
+  Usage:
+    {% from "components/ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-view/macro.njk" import ozbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiView %}
+    {{ ozbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiView({ value: "sample", label: "Personal identification number (JShShIR / PINFL)" }) }}
+#}
+{%- macro ozbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiView(params) -%}
+<span
+  class="ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-view{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>{% if params.label %}<span class="screen-reader-span">{{ params.label }} </span>{% endif %}{{ params.value | default("") }}</span>
+{%- endmacro -%}

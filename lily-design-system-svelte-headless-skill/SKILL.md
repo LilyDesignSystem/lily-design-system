@@ -118,7 +118,7 @@ them. Per-component decisions: each `components/{slug}/AGENTS.md` § "Native pla
 
 ## National identifiers
 
-The 164 national personal identifier components (an `-input` and a `-view` for each of 82 identifier types: health
+The 188 national personal identifier components (an `-input` and a `-view` for each of 94 identifier types: health
 numbers, national identity numbers, tax numbers, passports) are not in the headless package since 2026-11-18. They are its
 add-on, `@lilydesignsystem/svelte-headless-identifiers`:
 

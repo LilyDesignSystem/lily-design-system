@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+@inherits ValueInputBase
+
+@*
+    BangladeshNationalIdentityCardInput component
+    an input for entering Bangladesh's National ID (NID) number
+*@
+
+<input class="@($"bangladesh-national-identity-card-input {CssClass}".Trim())" type="text" aria-label="@Label" autocomplete="off" spellcheck="false" @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput" @attributes="AdditionalAttributes" />
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

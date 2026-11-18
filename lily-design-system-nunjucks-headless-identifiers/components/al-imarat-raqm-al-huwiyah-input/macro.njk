@@ -1,0 +1,35 @@
+{#
+  AlImaratRaqmAlHuwiyahInput macro -- an input for entering Emirates ID number.
+
+  HTML tag: <input type="text">
+  CSS class: al-imarat-raqm-al-huwiyah-input
+  Format: Fifteen digits, written 784-YYYY-NNNNNNN-C: 784 (the country's ISO numeric code), four digits that are usually but not always the year of birth, a seven-digit serial and a check digit. Vendors document a Luhn check over the fifteen digits; the issuer does not publish it, so treat a failure as a warning.
+  Accessibility: autocomplete="off", spellcheck suppressed.
+
+  Params:
+    id, name, value, label, describedBy, errormessage, invalid,
+    required, disabled, readonly, classes, attributes.
+
+  Usage:
+    {% from "components/al-imarat-raqm-al-huwiyah-input/macro.njk" import alImaratRaqmAlHuwiyahInput %}
+    {{ alImaratRaqmAlHuwiyahInput({ id: "field-id", label: "Emirates ID number" }) }}
+#}
+{%- macro alImaratRaqmAlHuwiyahInput(params) -%}
+<input
+  class="al-imarat-raqm-al-huwiyah-input{% if params.classes %} {{ params.classes }}{% endif %}"
+  type="text"
+  id="{{ params.id }}"
+  name="{{ params.name | default(params.id) }}"
+  value="{{ params.value | default('') }}"
+  autocomplete="off"
+  spellcheck="false"
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.describedBy %} aria-describedby="{{ params.describedBy }}"{% endif %}
+  {%- if params.errormessage %} aria-errormessage="{{ params.errormessage }}"{% endif %}
+  {%- if params.invalid %} aria-invalid="true"{% endif %}
+  {%- if params.required %} required{% endif %}
+  {%- if params.disabled %} disabled{% endif %}
+  {%- if params.readonly %} readonly{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+{%- endmacro -%}

@@ -1,0 +1,32 @@
+---
+layout: layouts/component-demo.njk
+title: MauritiusNationalIdentityCardNumberInput
+description: an input for entering Mauritius's National Identity Card number
+---
+
+{% from "components/mauritius-national-identity-card-number-input/macro.njk" import mauritiusNationalIdentityCardNumberInput %}
+
+<h2>Default</h2>
+<p>{{ mauritiusNationalIdentityCardNumberInput({ text: "MauritiusNationalIdentityCardNumberInput example", label: "MauritiusNationalIdentityCardNumberInput example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field
+  label="National Identity Card number"
+  required
+&gt;
+  &lt;MauritiusNationalIdentityCardNumberInput
+    label="National Identity Card number"
+    value="{value}"
+    required
+  /&gt;
+  &lt;Hint
+    &gt;Fourteen characters: the first letter of the surname at birth, the date of birth as DDMMYY, a
+    six-digit serial and a check character. The check character comes from the alphabet 0-9A-Z: sum
+    each of the first thirteen characters' positions in that alphabet times the weights 14 down to
+    2, and take the character at (17 - sum) modulo 17.&lt;/Hint
+  &gt;
+  &lt;ErrorMessage&gt;Please enter a valid National Identity Card number&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

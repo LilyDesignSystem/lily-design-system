@@ -1,0 +1,32 @@
+---
+layout: layouts/component-demo.njk
+title: QazaqstanZhekeSaikestendiruNomiriInput
+description: an input for entering Kazakhstan's Individual Identification Number (IIN)
+---
+
+{% from "components/qazaqstan-zheke-saikestendiru-nomiri-input/macro.njk" import qazaqstanZhekeSaikestendiruNomiriInput %}
+
+<h2>Default</h2>
+<p>{{ qazaqstanZhekeSaikestendiruNomiriInput({ text: "QazaqstanZhekeSaikestendiruNomiriInput example", label: "QazaqstanZhekeSaikestendiruNomiriInput example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field
+  label="Individual Identification Number (IIN)"
+  required
+&gt;
+  &lt;QazaqstanZhekeSaikestendiruNomiriInput
+    label="Individual Identification Number (IIN)"
+    value="{value}"
+    required
+  /&gt;
+  &lt;Hint
+    &gt;Twelve digits: the date of birth as YYMMDD, a digit for century and sex, a four-digit serial
+    and a check digit. The check digit is the sum of the first eleven digits times the weights 1 to
+    11, modulo 11; if that is 10, repeat with the weights 3, 4, 5, 6, 7, 8, 9, 10, 11, 1, 2, and if
+    it is 10 again the number is not issued.&lt;/Hint
+  &gt;
+  &lt;ErrorMessage&gt;Please enter a valid Individual Identification Number (IIN)&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

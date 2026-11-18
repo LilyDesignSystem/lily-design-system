@@ -2,7 +2,7 @@
 
 Read [spec/index.md](spec/index.md), then [AGENTS/](AGENTS/) (copied from the repository root by `bin/sync`).
 
-- The 164 national identifier components (category `national` in `components-categories.tsv`), with their tests, in the
+- The 188 national identifier components (category `national` in `components-categories.tsv`), with their tests, in the
   same layout as `lily-design-system-svelte-headless`, whose conventions apply unchanged. The rules are in
   `AGENTS/national-personal-identifier-normalization.md`.
 - Helper modules the components import are copies kept by `bin/sync-shared-modules` (or copied from the headless

@@ -1,7 +1,7 @@
 # Lily Design System™ Web Components headless identifiers
 
-`@lilydesignsystem/web-components-headless-identifiers`: the 164 national personal identifier components of the Lily Design System catalog for Web Components, an `-input` and
-a `-view` for each of 82 identifier types across more than 50 countries (health numbers, national identity numbers, tax
+`@lilydesignsystem/web-components-headless-identifiers`: the 188 national personal identifier components of the Lily Design System catalog for Web Components, an `-input` and
+a `-view` for each of 94 identifier types across more than 50 countries (health numbers, national identity numbers, tax
 numbers, passports). It is the add-on to [`@lilydesignsystem/web-components-headless`](../lily-design-system-web-components-headless/), which
 has the other 473 components.
 

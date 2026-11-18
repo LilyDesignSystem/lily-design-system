@@ -4278,6 +4278,18 @@
     .colombia-cedula-de-ciudadania-view,
     .australia-tax-file-number-view,
     .nigeria-national-identification-number-view,
+    .peru-documento-nacional-de-identidad-view,
+    .republica-dominicana-cedula-de-identidad-y-electoral-view,
+    .costa-rica-cedula-de-identidad-view,
+    .guatemala-codigo-unico-de-identificacion-view,
+    .mauritius-national-identity-card-number-view,
+    .ghana-card-personal-identification-number-view,
+    .ityopya-fayda-identification-number-view,
+    .sri-lanka-national-identity-card-view,
+    .bangladesh-national-identity-card-view,
+    .qazaqstan-zheke-saikestendiru-nomiri-view,
+    .ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-view,
+    .al-imarat-raqm-al-huwiyah-view,
     .misr-al-raqm-al-qawmi-view
 ) {
     overflow-wrap: anywhere;

@@ -2,6 +2,14 @@
 // Barrel export + custom-element registration for every component in
 // the national personal identifier components (spec/headless-identifiers).
 
+export { AlImaratRaqmAlHuwiyahInput } from "./components/al-imarat-raqm-al-huwiyah-input.js";
+import { AlImaratRaqmAlHuwiyahInput as _AlImaratRaqmAlHuwiyahInput } from "./components/al-imarat-raqm-al-huwiyah-input.js";
+if (!customElements.get("lily-al-imarat-raqm-al-huwiyah-input")) customElements.define("lily-al-imarat-raqm-al-huwiyah-input", _AlImaratRaqmAlHuwiyahInput);
+
+export { AlImaratRaqmAlHuwiyahView } from "./components/al-imarat-raqm-al-huwiyah-view.js";
+import { AlImaratRaqmAlHuwiyahView as _AlImaratRaqmAlHuwiyahView } from "./components/al-imarat-raqm-al-huwiyah-view.js";
+if (!customElements.get("lily-al-imarat-raqm-al-huwiyah-view")) customElements.define("lily-al-imarat-raqm-al-huwiyah-view", _AlImaratRaqmAlHuwiyahView);
+
 export { AlbaCommunityHealthIndexInput } from "./components/alba-community-health-index-input.js";
 import { AlbaCommunityHealthIndexInput as _AlbaCommunityHealthIndexInput } from "./components/alba-community-health-index-input.js";
 if (!customElements.get("lily-alba-community-health-index-input")) customElements.define("lily-alba-community-health-index-input", _AlbaCommunityHealthIndexInput);
@@ -49,6 +57,14 @@ if (!customElements.get("lily-australia-tax-file-number-input")) customElements.
 export { AustraliaTaxFileNumberView } from "./components/australia-tax-file-number-view.js";
 import { AustraliaTaxFileNumberView as _AustraliaTaxFileNumberView } from "./components/australia-tax-file-number-view.js";
 if (!customElements.get("lily-australia-tax-file-number-view")) customElements.define("lily-australia-tax-file-number-view", _AustraliaTaxFileNumberView);
+
+export { BangladeshNationalIdentityCardInput } from "./components/bangladesh-national-identity-card-input.js";
+import { BangladeshNationalIdentityCardInput as _BangladeshNationalIdentityCardInput } from "./components/bangladesh-national-identity-card-input.js";
+if (!customElements.get("lily-bangladesh-national-identity-card-input")) customElements.define("lily-bangladesh-national-identity-card-input", _BangladeshNationalIdentityCardInput);
+
+export { BangladeshNationalIdentityCardView } from "./components/bangladesh-national-identity-card-view.js";
+import { BangladeshNationalIdentityCardView as _BangladeshNationalIdentityCardView } from "./components/bangladesh-national-identity-card-view.js";
+if (!customElements.get("lily-bangladesh-national-identity-card-view")) customElements.define("lily-bangladesh-national-identity-card-view", _BangladeshNationalIdentityCardView);
 
 export { BelgiqueNumeroDeRegistreNationalInput } from "./components/belgique-numero-de-registre-national-input.js";
 import { BelgiqueNumeroDeRegistreNationalInput as _BelgiqueNumeroDeRegistreNationalInput } from "./components/belgique-numero-de-registre-national-input.js";
@@ -121,6 +137,14 @@ if (!customElements.get("lily-colombia-cedula-de-ciudadania-input")) customEleme
 export { ColombiaCedulaDeCiudadaniaView } from "./components/colombia-cedula-de-ciudadania-view.js";
 import { ColombiaCedulaDeCiudadaniaView as _ColombiaCedulaDeCiudadaniaView } from "./components/colombia-cedula-de-ciudadania-view.js";
 if (!customElements.get("lily-colombia-cedula-de-ciudadania-view")) customElements.define("lily-colombia-cedula-de-ciudadania-view", _ColombiaCedulaDeCiudadaniaView);
+
+export { CostaRicaCedulaDeIdentidadInput } from "./components/costa-rica-cedula-de-identidad-input.js";
+import { CostaRicaCedulaDeIdentidadInput as _CostaRicaCedulaDeIdentidadInput } from "./components/costa-rica-cedula-de-identidad-input.js";
+if (!customElements.get("lily-costa-rica-cedula-de-identidad-input")) customElements.define("lily-costa-rica-cedula-de-identidad-input", _CostaRicaCedulaDeIdentidadInput);
+
+export { CostaRicaCedulaDeIdentidadView } from "./components/costa-rica-cedula-de-identidad-view.js";
+import { CostaRicaCedulaDeIdentidadView as _CostaRicaCedulaDeIdentidadView } from "./components/costa-rica-cedula-de-identidad-view.js";
+if (!customElements.get("lily-costa-rica-cedula-de-identidad-view")) customElements.define("lily-costa-rica-cedula-de-identidad-view", _CostaRicaCedulaDeIdentidadView);
 
 export { CymruRhifYGwasanaethIechydGwladolInput } from "./components/cymru-rhif-y-gwasanaeth-iechyd-gwladol-input.js";
 import { CymruRhifYGwasanaethIechydGwladolInput as _CymruRhifYGwasanaethIechydGwladolInput } from "./components/cymru-rhif-y-gwasanaeth-iechyd-gwladol-input.js";
@@ -210,6 +234,22 @@ export { FranceNumeroDIdentificationAuRepertoireView } from "./components/france
 import { FranceNumeroDIdentificationAuRepertoireView as _FranceNumeroDIdentificationAuRepertoireView } from "./components/france-numero-d-identification-au-repertoire-view.js";
 if (!customElements.get("lily-france-numero-d-identification-au-repertoire-view")) customElements.define("lily-france-numero-d-identification-au-repertoire-view", _FranceNumeroDIdentificationAuRepertoireView);
 
+export { GhanaCardPersonalIdentificationNumberInput } from "./components/ghana-card-personal-identification-number-input.js";
+import { GhanaCardPersonalIdentificationNumberInput as _GhanaCardPersonalIdentificationNumberInput } from "./components/ghana-card-personal-identification-number-input.js";
+if (!customElements.get("lily-ghana-card-personal-identification-number-input")) customElements.define("lily-ghana-card-personal-identification-number-input", _GhanaCardPersonalIdentificationNumberInput);
+
+export { GhanaCardPersonalIdentificationNumberView } from "./components/ghana-card-personal-identification-number-view.js";
+import { GhanaCardPersonalIdentificationNumberView as _GhanaCardPersonalIdentificationNumberView } from "./components/ghana-card-personal-identification-number-view.js";
+if (!customElements.get("lily-ghana-card-personal-identification-number-view")) customElements.define("lily-ghana-card-personal-identification-number-view", _GhanaCardPersonalIdentificationNumberView);
+
+export { GuatemalaCodigoUnicoDeIdentificacionInput } from "./components/guatemala-codigo-unico-de-identificacion-input.js";
+import { GuatemalaCodigoUnicoDeIdentificacionInput as _GuatemalaCodigoUnicoDeIdentificacionInput } from "./components/guatemala-codigo-unico-de-identificacion-input.js";
+if (!customElements.get("lily-guatemala-codigo-unico-de-identificacion-input")) customElements.define("lily-guatemala-codigo-unico-de-identificacion-input", _GuatemalaCodigoUnicoDeIdentificacionInput);
+
+export { GuatemalaCodigoUnicoDeIdentificacionView } from "./components/guatemala-codigo-unico-de-identificacion-view.js";
+import { GuatemalaCodigoUnicoDeIdentificacionView as _GuatemalaCodigoUnicoDeIdentificacionView } from "./components/guatemala-codigo-unico-de-identificacion-view.js";
+if (!customElements.get("lily-guatemala-codigo-unico-de-identificacion-view")) customElements.define("lily-guatemala-codigo-unico-de-identificacion-view", _GuatemalaCodigoUnicoDeIdentificacionView);
+
 export { HangukJuminDeungnokBeonhoInput } from "./components/hanguk-jumin-deungnok-beonho-input.js";
 import { HangukJuminDeungnokBeonhoInput as _HangukJuminDeungnokBeonhoInput } from "./components/hanguk-jumin-deungnok-beonho-input.js";
 if (!customElements.get("lily-hanguk-jumin-deungnok-beonho-input")) customElements.define("lily-hanguk-jumin-deungnok-beonho-input", _HangukJuminDeungnokBeonhoInput);
@@ -265,6 +305,14 @@ if (!customElements.get("lily-italia-codice-fiscale-input")) customElements.defi
 export { ItaliaCodiceFiscaleView } from "./components/italia-codice-fiscale-view.js";
 import { ItaliaCodiceFiscaleView as _ItaliaCodiceFiscaleView } from "./components/italia-codice-fiscale-view.js";
 if (!customElements.get("lily-italia-codice-fiscale-view")) customElements.define("lily-italia-codice-fiscale-view", _ItaliaCodiceFiscaleView);
+
+export { ItyopyaFaydaIdentificationNumberInput } from "./components/ityopya-fayda-identification-number-input.js";
+import { ItyopyaFaydaIdentificationNumberInput as _ItyopyaFaydaIdentificationNumberInput } from "./components/ityopya-fayda-identification-number-input.js";
+if (!customElements.get("lily-ityopya-fayda-identification-number-input")) customElements.define("lily-ityopya-fayda-identification-number-input", _ItyopyaFaydaIdentificationNumberInput);
+
+export { ItyopyaFaydaIdentificationNumberView } from "./components/ityopya-fayda-identification-number-view.js";
+import { ItyopyaFaydaIdentificationNumberView as _ItyopyaFaydaIdentificationNumberView } from "./components/ityopya-fayda-identification-number-view.js";
+if (!customElements.get("lily-ityopya-fayda-identification-number-view")) customElements.define("lily-ityopya-fayda-identification-number-view", _ItyopyaFaydaIdentificationNumberView);
 
 export { KyprosNationalPassportNumberInput } from "./components/kypros-national-passport-number-input.js";
 import { KyprosNationalPassportNumberInput as _KyprosNationalPassportNumberInput } from "./components/kypros-national-passport-number-input.js";
@@ -354,6 +402,14 @@ export { MaltaPassportNumberView } from "./components/malta-passport-number-view
 import { MaltaPassportNumberView as _MaltaPassportNumberView } from "./components/malta-passport-number-view.js";
 if (!customElements.get("lily-malta-passport-number-view")) customElements.define("lily-malta-passport-number-view", _MaltaPassportNumberView);
 
+export { MauritiusNationalIdentityCardNumberInput } from "./components/mauritius-national-identity-card-number-input.js";
+import { MauritiusNationalIdentityCardNumberInput as _MauritiusNationalIdentityCardNumberInput } from "./components/mauritius-national-identity-card-number-input.js";
+if (!customElements.get("lily-mauritius-national-identity-card-number-input")) customElements.define("lily-mauritius-national-identity-card-number-input", _MauritiusNationalIdentityCardNumberInput);
+
+export { MauritiusNationalIdentityCardNumberView } from "./components/mauritius-national-identity-card-number-view.js";
+import { MauritiusNationalIdentityCardNumberView as _MauritiusNationalIdentityCardNumberView } from "./components/mauritius-national-identity-card-number-view.js";
+if (!customElements.get("lily-mauritius-national-identity-card-number-view")) customElements.define("lily-mauritius-national-identity-card-number-view", _MauritiusNationalIdentityCardNumberView);
+
 export { MexicoClaveUnicaDeRegistroDePoblacionInput } from "./components/mexico-clave-unica-de-registro-de-poblacion-input.js";
 import { MexicoClaveUnicaDeRegistroDePoblacionInput as _MexicoClaveUnicaDeRegistroDePoblacionInput } from "./components/mexico-clave-unica-de-registro-de-poblacion-input.js";
 if (!customElements.get("lily-mexico-clave-unica-de-registro-de-poblacion-input")) customElements.define("lily-mexico-clave-unica-de-registro-de-poblacion-input", _MexicoClaveUnicaDeRegistroDePoblacionInput);
@@ -426,6 +482,14 @@ export { OsterreichSozialversicherungsnummerView } from "./components/osterreich
 import { OsterreichSozialversicherungsnummerView as _OsterreichSozialversicherungsnummerView } from "./components/osterreich-sozialversicherungsnummer-view.js";
 if (!customElements.get("lily-osterreich-sozialversicherungsnummer-view")) customElements.define("lily-osterreich-sozialversicherungsnummer-view", _OsterreichSozialversicherungsnummerView);
 
+export { OzbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiInput } from "./components/ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-input.js";
+import { OzbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiInput as _OzbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiInput } from "./components/ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-input.js";
+if (!customElements.get("lily-ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-input")) customElements.define("lily-ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-input", _OzbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiInput);
+
+export { OzbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiView } from "./components/ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-view.js";
+import { OzbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiView as _OzbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiView } from "./components/ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-view.js";
+if (!customElements.get("lily-ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-view")) customElements.define("lily-ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-view", _OzbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiView);
+
 export { PakistanComputerizedNationalIdentityCardInput } from "./components/pakistan-computerized-national-identity-card-input.js";
 import { PakistanComputerizedNationalIdentityCardInput as _PakistanComputerizedNationalIdentityCardInput } from "./components/pakistan-computerized-national-identity-card-input.js";
 if (!customElements.get("lily-pakistan-computerized-national-identity-card-input")) customElements.define("lily-pakistan-computerized-national-identity-card-input", _PakistanComputerizedNationalIdentityCardInput);
@@ -433,6 +497,14 @@ if (!customElements.get("lily-pakistan-computerized-national-identity-card-input
 export { PakistanComputerizedNationalIdentityCardView } from "./components/pakistan-computerized-national-identity-card-view.js";
 import { PakistanComputerizedNationalIdentityCardView as _PakistanComputerizedNationalIdentityCardView } from "./components/pakistan-computerized-national-identity-card-view.js";
 if (!customElements.get("lily-pakistan-computerized-national-identity-card-view")) customElements.define("lily-pakistan-computerized-national-identity-card-view", _PakistanComputerizedNationalIdentityCardView);
+
+export { PeruDocumentoNacionalDeIdentidadInput } from "./components/peru-documento-nacional-de-identidad-input.js";
+import { PeruDocumentoNacionalDeIdentidadInput as _PeruDocumentoNacionalDeIdentidadInput } from "./components/peru-documento-nacional-de-identidad-input.js";
+if (!customElements.get("lily-peru-documento-nacional-de-identidad-input")) customElements.define("lily-peru-documento-nacional-de-identidad-input", _PeruDocumentoNacionalDeIdentidadInput);
+
+export { PeruDocumentoNacionalDeIdentidadView } from "./components/peru-documento-nacional-de-identidad-view.js";
+import { PeruDocumentoNacionalDeIdentidadView as _PeruDocumentoNacionalDeIdentidadView } from "./components/peru-documento-nacional-de-identidad-view.js";
+if (!customElements.get("lily-peru-documento-nacional-de-identidad-view")) customElements.define("lily-peru-documento-nacional-de-identidad-view", _PeruDocumentoNacionalDeIdentidadView);
 
 export { PilipinasPhilhealthIdentificationNumberInput } from "./components/pilipinas-philhealth-identification-number-input.js";
 import { PilipinasPhilhealthIdentificationNumberInput as _PilipinasPhilhealthIdentificationNumberInput } from "./components/pilipinas-philhealth-identification-number-input.js";
@@ -481,6 +553,22 @@ if (!customElements.get("lily-prathet-thai-lek-prajam-tua-prachachon-input")) cu
 export { PrathetThaiLekPrajamTuaPrachachonView } from "./components/prathet-thai-lek-prajam-tua-prachachon-view.js";
 import { PrathetThaiLekPrajamTuaPrachachonView as _PrathetThaiLekPrajamTuaPrachachonView } from "./components/prathet-thai-lek-prajam-tua-prachachon-view.js";
 if (!customElements.get("lily-prathet-thai-lek-prajam-tua-prachachon-view")) customElements.define("lily-prathet-thai-lek-prajam-tua-prachachon-view", _PrathetThaiLekPrajamTuaPrachachonView);
+
+export { QazaqstanZhekeSaikestendiruNomiriInput } from "./components/qazaqstan-zheke-saikestendiru-nomiri-input.js";
+import { QazaqstanZhekeSaikestendiruNomiriInput as _QazaqstanZhekeSaikestendiruNomiriInput } from "./components/qazaqstan-zheke-saikestendiru-nomiri-input.js";
+if (!customElements.get("lily-qazaqstan-zheke-saikestendiru-nomiri-input")) customElements.define("lily-qazaqstan-zheke-saikestendiru-nomiri-input", _QazaqstanZhekeSaikestendiruNomiriInput);
+
+export { QazaqstanZhekeSaikestendiruNomiriView } from "./components/qazaqstan-zheke-saikestendiru-nomiri-view.js";
+import { QazaqstanZhekeSaikestendiruNomiriView as _QazaqstanZhekeSaikestendiruNomiriView } from "./components/qazaqstan-zheke-saikestendiru-nomiri-view.js";
+if (!customElements.get("lily-qazaqstan-zheke-saikestendiru-nomiri-view")) customElements.define("lily-qazaqstan-zheke-saikestendiru-nomiri-view", _QazaqstanZhekeSaikestendiruNomiriView);
+
+export { RepublicaDominicanaCedulaDeIdentidadYElectoralInput } from "./components/republica-dominicana-cedula-de-identidad-y-electoral-input.js";
+import { RepublicaDominicanaCedulaDeIdentidadYElectoralInput as _RepublicaDominicanaCedulaDeIdentidadYElectoralInput } from "./components/republica-dominicana-cedula-de-identidad-y-electoral-input.js";
+if (!customElements.get("lily-republica-dominicana-cedula-de-identidad-y-electoral-input")) customElements.define("lily-republica-dominicana-cedula-de-identidad-y-electoral-input", _RepublicaDominicanaCedulaDeIdentidadYElectoralInput);
+
+export { RepublicaDominicanaCedulaDeIdentidadYElectoralView } from "./components/republica-dominicana-cedula-de-identidad-y-electoral-view.js";
+import { RepublicaDominicanaCedulaDeIdentidadYElectoralView as _RepublicaDominicanaCedulaDeIdentidadYElectoralView } from "./components/republica-dominicana-cedula-de-identidad-y-electoral-view.js";
+if (!customElements.get("lily-republica-dominicana-cedula-de-identidad-y-electoral-view")) customElements.define("lily-republica-dominicana-cedula-de-identidad-y-electoral-view", _RepublicaDominicanaCedulaDeIdentidadYElectoralView);
 
 export { RomaniaCodNumericPersonalInput } from "./components/romania-cod-numeric-personal-input.js";
 import { RomaniaCodNumericPersonalInput as _RomaniaCodNumericPersonalInput } from "./components/romania-cod-numeric-personal-input.js";
@@ -553,6 +641,14 @@ if (!customElements.get("lily-south-africa-identity-number-input")) customElemen
 export { SouthAfricaIdentityNumberView } from "./components/south-africa-identity-number-view.js";
 import { SouthAfricaIdentityNumberView as _SouthAfricaIdentityNumberView } from "./components/south-africa-identity-number-view.js";
 if (!customElements.get("lily-south-africa-identity-number-view")) customElements.define("lily-south-africa-identity-number-view", _SouthAfricaIdentityNumberView);
+
+export { SriLankaNationalIdentityCardInput } from "./components/sri-lanka-national-identity-card-input.js";
+import { SriLankaNationalIdentityCardInput as _SriLankaNationalIdentityCardInput } from "./components/sri-lanka-national-identity-card-input.js";
+if (!customElements.get("lily-sri-lanka-national-identity-card-input")) customElements.define("lily-sri-lanka-national-identity-card-input", _SriLankaNationalIdentityCardInput);
+
+export { SriLankaNationalIdentityCardView } from "./components/sri-lanka-national-identity-card-view.js";
+import { SriLankaNationalIdentityCardView as _SriLankaNationalIdentityCardView } from "./components/sri-lanka-national-identity-card-view.js";
+if (!customElements.get("lily-sri-lanka-national-identity-card-view")) customElements.define("lily-sri-lanka-national-identity-card-view", _SriLankaNationalIdentityCardView);
 
 export { SuomiHenkilotunnusInput } from "./components/suomi-henkilotunnus-input.js";
 import { SuomiHenkilotunnusInput as _SuomiHenkilotunnusInput } from "./components/suomi-henkilotunnus-input.js";

@@ -1,0 +1,32 @@
+---
+layout: layouts/component-demo.njk
+title: CostaRicaCedulaDeIdentidadInput
+description: an input for entering Costa Rica's Cédula de Identidad
+---
+
+{% from "components/costa-rica-cedula-de-identidad-input/macro.njk" import costaRicaCedulaDeIdentidadInput %}
+
+<h2>Default</h2>
+<p>{{ costaRicaCedulaDeIdentidadInput({ text: "CostaRicaCedulaDeIdentidadInput example", label: "CostaRicaCedulaDeIdentidadInput example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field
+  label="Cédula de Identidad"
+  required
+&gt;
+  &lt;CostaRicaCedulaDeIdentidadInput
+    label="Cédula de Identidad"
+    value="{value}"
+    required
+  /&gt;
+  &lt;Hint
+    &gt;A province digit, a volume (tomo) of up to four digits and an entry (asiento) of up to four
+    digits, written P-TTTT-AAAA (1-0613-0584) and often stored as nine or ten digits with the
+    leading zeroes padded. It has no check digit, so only the parts and their lengths can be
+    checked.&lt;/Hint
+  &gt;
+  &lt;ErrorMessage&gt;Please enter a valid Cédula de Identidad&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

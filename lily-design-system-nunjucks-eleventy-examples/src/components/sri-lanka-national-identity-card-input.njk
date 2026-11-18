@@ -1,0 +1,32 @@
+---
+layout: layouts/component-demo.njk
+title: SriLankaNationalIdentityCardInput
+description: an input for entering Sri Lanka's National Identity Card (NIC) number
+---
+
+{% from "components/sri-lanka-national-identity-card-input/macro.njk" import sriLankaNationalIdentityCardInput %}
+
+<h2>Default</h2>
+<p>{{ sriLankaNationalIdentityCardInput({ text: "SriLankaNationalIdentityCardInput example", label: "SriLankaNationalIdentityCardInput example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field
+  label="National Identity Card (NIC) number"
+  required
+&gt;
+  &lt;SriLankaNationalIdentityCardInput
+    label="National Identity Card (NIC) number"
+    value="{value}"
+    required
+  /&gt;
+  &lt;Hint
+    &gt;Two forms. Before 2016: nine digits and a letter, V or X (742192757V): the two-digit year of
+    birth, the day of the year (with 500 added for women), a serial and a check digit. Since 2016:
+    twelve digits (197419202757): the four-digit year of birth, the same day of the year, a
+    four-digit serial and the check digit. The check-digit algorithm is not published.&lt;/Hint
+  &gt;
+  &lt;ErrorMessage&gt;Please enter a valid National Identity Card (NIC) number&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

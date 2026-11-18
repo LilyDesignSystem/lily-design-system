@@ -1,0 +1,23 @@
+---
+layout: layouts/component-demo.njk
+title: AlImaratRaqmAlHuwiyahView
+description: a read-only display of the United Arab Emirates' Emirates ID number
+---
+
+{% from "components/al-imarat-raqm-al-huwiyah-view/macro.njk" import alImaratRaqmAlHuwiyahView %}
+
+<h2>Default</h2>
+<p>{{ alImaratRaqmAlHuwiyahView({ text: "AlImaratRaqmAlHuwiyahView example", label: "AlImaratRaqmAlHuwiyahView example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;SummaryList&gt;
+  &lt;SummaryListItem term="Emirates ID number"&gt;
+    &lt;AlImaratRaqmAlHuwiyahView
+      label="Emirates ID number"
+      value="{value}"
+    /&gt;
+  &lt;/SummaryListItem&gt;
+&lt;/SummaryList&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

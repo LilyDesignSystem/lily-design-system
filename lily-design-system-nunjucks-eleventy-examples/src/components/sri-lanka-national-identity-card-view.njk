@@ -1,0 +1,23 @@
+---
+layout: layouts/component-demo.njk
+title: SriLankaNationalIdentityCardView
+description: a read-only display of Sri Lanka's National Identity Card (NIC) number
+---
+
+{% from "components/sri-lanka-national-identity-card-view/macro.njk" import sriLankaNationalIdentityCardView %}
+
+<h2>Default</h2>
+<p>{{ sriLankaNationalIdentityCardView({ text: "SriLankaNationalIdentityCardView example", label: "SriLankaNationalIdentityCardView example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;SummaryList&gt;
+  &lt;SummaryListItem term="National Identity Card (NIC) number"&gt;
+    &lt;SriLankaNationalIdentityCardView
+      label="National Identity Card (NIC) number"
+      value="{value}"
+    /&gt;
+  &lt;/SummaryListItem&gt;
+&lt;/SummaryList&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

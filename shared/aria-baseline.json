@@ -3251,5 +3251,125 @@
   "zhongguo-jumin-shenfenzheng-haoma-view": {
     "role": null,
     "aria": []
+  },
+  "peru-documento-nacional-de-identidad-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "peru-documento-nacional-de-identidad-view": {
+    "role": null,
+    "aria": []
+  },
+  "republica-dominicana-cedula-de-identidad-y-electoral-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "republica-dominicana-cedula-de-identidad-y-electoral-view": {
+    "role": null,
+    "aria": []
+  },
+  "costa-rica-cedula-de-identidad-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "costa-rica-cedula-de-identidad-view": {
+    "role": null,
+    "aria": []
+  },
+  "guatemala-codigo-unico-de-identificacion-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "guatemala-codigo-unico-de-identificacion-view": {
+    "role": null,
+    "aria": []
+  },
+  "mauritius-national-identity-card-number-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "mauritius-national-identity-card-number-view": {
+    "role": null,
+    "aria": []
+  },
+  "ghana-card-personal-identification-number-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "ghana-card-personal-identification-number-view": {
+    "role": null,
+    "aria": []
+  },
+  "ityopya-fayda-identification-number-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "ityopya-fayda-identification-number-view": {
+    "role": null,
+    "aria": []
+  },
+  "sri-lanka-national-identity-card-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "sri-lanka-national-identity-card-view": {
+    "role": null,
+    "aria": []
+  },
+  "bangladesh-national-identity-card-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "bangladesh-national-identity-card-view": {
+    "role": null,
+    "aria": []
+  },
+  "qazaqstan-zheke-saikestendiru-nomiri-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "qazaqstan-zheke-saikestendiru-nomiri-view": {
+    "role": null,
+    "aria": []
+  },
+  "ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-view": {
+    "role": null,
+    "aria": []
+  },
+  "al-imarat-raqm-al-huwiyah-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "al-imarat-raqm-al-huwiyah-view": {
+    "role": null,
+    "aria": []
   }
 }

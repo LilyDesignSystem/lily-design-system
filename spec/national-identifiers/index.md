@@ -2,7 +2,7 @@
 
 > Lily Design System™ specification — topic doc. All topics: [spec index](../index.md).
 
-**Summary.** Lily™ ships 164 national personal identifier components — 82 identifier types each paired as `-input` and `-view` — spanning 50+ countries and covering healthcare, national-ID, tax, and passport identifiers, rendered through one headless input/view pattern and grounded in canonical reference TSVs. In every generated listing (root `index.md`, each example app's `/components` category filter, the Web Components catalog's Storybook grouping) these ship under a single "Special-Purpose Identifiers" heading, apart from the general-purpose catalog — this topic's own name (and its `national` category id) stays the internal/engineering term.
+**Summary.** Lily™ ships 188 national personal identifier components — 94 identifier types each paired as `-input` and `-view` — spanning 77 countries and covering healthcare, national-ID, tax, and passport identifiers, rendered through one headless input/view pattern and grounded in canonical reference TSVs. In every generated listing (root `index.md`, each example app's `/components` category filter, the Web Components catalog's Storybook grouping) these ship under a single "Special-Purpose Identifiers" heading, apart from the general-purpose catalog — this topic's own name (and its `national` category id) stays the internal/engineering term.
 
 ## Scope
 
@@ -12,7 +12,7 @@ It does **not** cover: the general suffix-to-element mapping and naming patterns
 
 ## Principles and rules
 
-- Each identifier type ships exactly two components: a `{slug}-input` for data entry and a `{slug}-view` for read-only display. 70 types × 2 = 140 components, part of the 539-component canonical catalog.
+- Each identifier type ships exactly two components: a `{slug}-input` for data entry and a `{slug}-view` for read-only display. 94 types × 2 = 188 components, part of the 661-component canonical catalog, shipped in each catalog's `-headless-identifiers` package since 2026-11-18.
 - The `-input` variant renders `<input type="text" autocomplete="off">`. Identifiers are sensitive and format-specific, so autofill is suppressed and the type stays `text` (not a numeric or specialized type) to preserve leading zeros, spaces, and check characters.
 - The `-view` variant renders `<span aria-label="…">` so assistive technology announces the identifier's meaning, not just its digits.
 - Components are headless: they carry no locale default, no embedded validation UI, and no hardcoded user-facing strings. The consumer supplies labels and decides whether to run the documented validation.
@@ -83,17 +83,21 @@ These files are committed at the repo root and propagated to all subprojects by 
 
 ## Coverage by region
 
-Measured by `bin/check-worldwide` (2026-10-31, 82 types in 65 countries). Europe was 70 percent of 70 types before the third round; the round added only non-European types.
+Measured by `bin/check-worldwide` (2026-11-18, 94 types in 77 countries). Europe was 70 percent of 70 types before the
+third round (2026-10-31) and 60 percent of 82 before the fourth (2026-11-18); both rounds added only non-European types.
 
 | Region   | Types | Share | Countries |
 | -------- | ----- | ----- | --------- |
-| Europe   | 49    | 60%   | 33        |
-| Asia     | 18    | 22%   | 18        |
-| Americas | 9     | 11%   | 9         |
-| Oceania  | 3     | 4%    | 2         |
-| Africa   | 3     | 4%    | 3         |
+| Europe   | 49    | 52%   | 33        |
+| Asia     | 23    | 24%   | 23        |
+| Americas | 13    | 14%   | 13        |
+| Africa   | 6     | 6%    | 6         |
+| Oceania  | 3     | 3%    | 2         |
 
-Largest remaining gaps: sub-Saharan Africa (Nigeria is the only identifier there beside South Africa), the Indian subcontinent beyond India and Pakistan (Bangladesh, Sri Lanka, Nepal), Central Asia, and Latin America beyond Argentina, Brazil, Chile, Colombia, Ecuador, Mexico and Uruguay (Peru, Venezuela). Some of these have no published check-digit algorithm; the docs say so rather than invent one.
+Largest remaining gaps: sub-Saharan Africa is still six types (Kenya is left out until its number's length is settled:
+sources disagree on the Maisha Namba), Nepal, the Gulf states beyond Saudi Arabia and the Emirates, Central America
+beyond Costa Rica and Guatemala, Venezuela, and Oceania beyond Australia and New Zealand. Many of these publish no
+check-digit algorithm; the docs say so rather than invent one.
 
 ## Acceptance criteria
 
@@ -106,6 +110,19 @@ Largest remaining gaps: sub-Saharan Africa (Nigeria is the only identifier there
 - [x] **2026-09-22 growth (tasks.md P8-T13): 12 new types / 24 new components, Phase 1 and Phase 2 both done.** All 24 exist in `components.tsv`, have a `components/{slug}/` directory with real `AGENTS.md`/`index.md` content — country, identifier name, format, validation algorithm, where to find it — each now stamped `beta` (matching every pre-existing identifier's own status once ported to all seven frameworks). Real `-input`/`-view` implementations, replacing `bin/new-component`'s generic `<div>` placeholder, landed the same day in all seven headless catalogs: Svelte (canonical, first), then React, Vue, Angular, Blazor, HTML, and Nunjucks — plus, as a deliberate deviation from this identifier category's earlier documented Web Components exclusion (found to be stale: the catalog already carried the original 92 identifiers as real `lily-*` custom elements, `bin/new-component` simply never learned to scaffold that 8th catalog), Web Components too, built from scratch rather than corrected from a placeholder. Independently re-verified by the coordinating session, not just trusted from each port's own report: Svelte 359/359, React 2811/2811, Vue 2800/2800, Angular 1161/1161, Blazor 1658/1658, Nunjucks 2976/2976, Web Components 2779/2779, HTML 515/516 (the one failure is `listbox-controller.test.js`, confirmed pre-existing and untouched by this work). `bin/check-coverage` confirms 0/515 drift across all 7 catalogs. Root present-tense catalog-count references (`index.md`, this file's own summary/scope, `spec/index.md`'s "Current count") are updated; the wider sweep across every skill repo and doc that states a component count is not — same category of follow-up P1-T1 needed for a 1-component delta, now larger. Web Components' own internal narrative docs (its `index.md`/`AGENTS.md`/`INSTALL.md`/`spec/index.md`/`NEWS.md`) still describe a stale "456 of 491, no open backlog" framing, now inaccurate against a 515-component canonical denominator — flagged, not fixed here.
 - [x] **2026-10-31 growth, third round (tasks.md P17-T7): 12 non-European types / 24 components, all eight catalogs.** Europe's share fell from 70 to 60 percent (`bin/check-worldwide`). Each type's `AGENTS/national-person-identifiers.tsv` row names its format and check algorithm where one is published (Taiwan, Hong Kong, Iran, Saudi Arabia, Uruguay, Ecuador and Australia have one; Malaysia, Vietnam, Pakistan, Colombia and Nigeria do not).
 - [x] **2026-09-22 growth, second round (tasks.md P8-T15): 12 more new types / 24 more new components, Phase 1 and Phase 2 both done, same day.** Closes three EU/EEA gaps the first 58 types had left (`osterreich-sozialversicherungsnummer`, `magyarorszag-taj-szam`, `luxembourg-matricule`) and adds the catalog's first Chinese-, Cyrillic-, Thai-, and Arabic-script identifiers (`zhongguo-jumin-shenfenzheng-haoma`, `rossiya-snils`, `turkiye-tc-kimlik-numarasi`, `argentina-codigo-unico-de-identificacion-laboral`, `ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv`, `indonesia-nomor-induk-kependudukan`, `prathet-thai-lek-prajam-tua-prachachon`, `chile-rol-unico-nacional`, `misr-al-raqm-al-qawmi`). All 24 exist in `components.tsv`, have a `components/{slug}/` directory with real `AGENTS.md`/`index.md` content, each now stamped `beta`. Real `-input`/`-view` implementations landed in all seven headless catalogs plus Web Components (built from scratch again, same as round one). Independently re-verified by the coordinating session, not just trusted from each port's own report: Svelte 5233/5233, React 2943/2943, Vue 2932/2932, Angular 1209/1209, Blazor 1790/1790, Nunjucks 3108/3108, Web Components 2887/2887, HTML 539/540 (the one failure is the same pre-existing `listbox-controller.test.js`, confirmed untouched by this work, both rounds). `bin/check-coverage` confirms 0/539 drift across all 7 core catalogs; `bin/check-links` and `bin/check-theme` both clean; full `bin/test` sweep exits 0. One porting-agent report (Nunjucks) described the round-one-added 12 types as "untracked placeholder" components in passing — independently verified false by directly reading a generated macro file (`aotearoa-national-health-index-input/macro.njk`): real implementation, not a placeholder; the agent had conflated "untracked in `git status`" with "placeholder." Root present-tense catalog-count references (`index.md`, this file's own summary/scope, `spec/index.md`'s "Current count") are updated to 539/70/140; the wider cross-repo sweep remains the same documented, intentionally out-of-scope follow-up as round one.
+- [x] **2026-11-18 fourth round: 12 new types / 24 components, catalog 637 to 661.** For the gaps the coverage table
+      named: `peru-documento-nacional-de-identidad`, `republica-dominicana-cedula-de-identidad-y-electoral`,
+      `costa-rica-cedula-de-identidad`, `guatemala-codigo-unico-de-identificacion`,
+      `mauritius-national-identity-card-number`, `ghana-card-personal-identification-number`,
+      `ityopya-fayda-identification-number`, `sri-lanka-national-identity-card`, `bangladesh-national-identity-card`,
+      `qazaqstan-zheke-saikestendiru-nomiri`, `ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami` and
+      `al-imarat-raqm-al-huwiyah`, each an `-input` and a `-view` in all ten `-headless-identifiers` packages (0.2.0),
+      with docs, demos, theme hooks and site pages. Sources: python-stdnum's modules for Peru, the Dominican Republic,
+      Costa Rica and Mauritius (algorithms read from its code), RENAP, the OECD TIN sheets, the issuers' pages and
+      Wikipedia; every reference URL was checked. Ghana, Ethiopia, Sri Lanka, Bangladesh and Uzbekistan publish no
+      check-digit algorithm, and Guatemala's and the Emirates' are documented by third parties only; the docs say so.
+      Each package's tests pass (Svelte 1,020, React 1,027, Solid 1,024, Vue 1,027, Angular 469, HTML 188 specs, Web
+      Components 760, Nunjucks 1,049, Alpine 376, Blazor 804).
 
 ## Related topics
 

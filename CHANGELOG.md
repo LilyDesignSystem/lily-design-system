@@ -9,6 +9,21 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Twelve more national identifier types (2026-11-18, catalog 661)
+
+- 24 components, an `-input` and a `-view` for each of twelve types chosen for the gaps the coverage table named:
+  Peru (Documento Nacional de Identidad), the Dominican Republic (Cédula de Identidad y Electoral), Costa Rica (Cédula
+  de Identidad), Guatemala (Código Único de Identificación), Mauritius (National Identity Card number), Ghana (Ghana
+  Card PIN), Ethiopia (Fayda Identification Number), Sri Lanka and Bangladesh (National Identity Card numbers),
+  Kazakhstan (Individual Identification Number), Uzbekistan (JShShIR) and the United Arab Emirates (Emirates ID).
+  Catalog 661: 473 core and 188 identifiers, 94 types in 77 countries; Europe is now 52 percent of the types.
+- In all ten `-headless-identifiers` packages, each now 0.2.0 (unpublished), with docs, demos, theme hooks, site pages
+  and tests. Where a country publishes no check-digit algorithm the docs say so; Guatemala's and the Emirates' are
+  documented by third parties only, and the docs say that too. Kenya is left out: sources disagree on its number's
+  length.
+- `bin/generate-examples` reads an identifier's per-framework doc from its `-headless-identifiers` package; since the
+  move it had fallen back to the catalog doc. `bin/check-worldwide` places the six new countries in their regions.
+
 ## National identifiers in their own packages (2026-11-18, P37, breaking)
 
 - The 164 national personal identifier components leave the ten headless libraries for one add-on package per

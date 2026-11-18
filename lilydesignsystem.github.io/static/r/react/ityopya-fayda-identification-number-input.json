@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "ityopya-fayda-identification-number-input",
+  "type": "registry:component",
+  "title": "ItyopyaFaydaIdentificationNumberInput",
+  "description": "An input for entering Ethiopia's Fayda Identification Number (FIN).",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "registryDependencies": [
+    "@lily/dev-warning-utils"
+  ],
+  "files": [
+    {
+      "path": "lily-design-system-react-headless-identifiers/components/ItyopyaFaydaIdentificationNumberInput.tsx",
+      "content": "import React from \"react\";\nimport { warnMissingName } from \"./dev-warning\";\n\n// ItyopyaFaydaIdentificationNumberInput component\n//\n// A headless input for entering Ethiopia's Fayda Identification Number (FIN).\n// Format: Twelve digits issued by the National ID Program (NIDP). The number encodes no personal attributes and no check-digit algorithm is published, so only the length and digits can be checked. Do not confuse it with the six-digit Fayda alternative number used to link bank accounts.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". Bindable input value; supports value + onChange.\n//   required — boolean, default false. Whether the input is required for form submission.\n//   disabled — boolean, default false. Whether the input is disabled.\n//   ...restProps — additional HTML attributes spread onto the <input>.\n//\n// Syntax:\n//   <ItyopyaFaydaIdentificationNumberInput label=\"Fayda Identification Number (FIN)\" value={value} onChange={setValue} />\n//\n// Accessibility:\n//   - aria-label provides the accessible name for screen readers\n//   - autoComplete=\"off\" protects sensitive identifiers\n//   - required and disabled states are conveyed to assistive technology\n//\n// References:\n//   - https://en.wikipedia.org/wiki/Fayda_ID\n\nexport interface ItyopyaFaydaIdentificationNumberInputProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The current value of the input, bindable */\n    value?: string;\n    /** Whether the input is required for form submission */\n    required?: boolean;\n    /** Whether the input is disabled */\n    disabled?: boolean;\n    /** Callback when value changes. */\n    onChange?: (value: string) => void;\n    [key: string]: unknown;\n}\n\nexport default function ItyopyaFaydaIdentificationNumberInput({\n    className = \"\",\n    label,\n    value = \"\",\n    required = false,\n    disabled = false,\n    onChange,\n    ...restProps\n}: ItyopyaFaydaIdentificationNumberInputProps) {\n    warnMissingName(\n        \"ItyopyaFaydaIdentificationNumberInput\",\n        label,\n        restProps[\"aria-label\"],\n        restProps[\"aria-labelledby\"],\n    );\n    return (\n        <input\n            className={`ityopya-fayda-identification-number-input ${className}`}\n            type=\"text\"\n            aria-label={label}\n            autoComplete=\"off\"\n            spellCheck={false}\n            value={value}\n            onChange={(e) => onChange?.(e.target.value)}\n            required={required}\n            disabled={disabled}\n            {...restProps}\n        />\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ItyopyaFaydaIdentificationNumberInput.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/ityopya-fayda-identification-number-input/"
+}

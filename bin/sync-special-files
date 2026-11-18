@@ -210,8 +210,8 @@ def describe(name):
                     "catalog components as annotated snippets plus an Alpine plugin, unstyled and accessible")
         return f"the {label} headless component library: all 608 catalog components, unstyled and accessible"
     if kind == "identifiers":
-        return (f"the {label} headless national identifier components: the 164 national personal identifier "
-                "components (an input and a view for each of 82 identifier types), the add-on to the headless library")
+        return (f"the {label} headless national identifier components: the 188 national personal identifier "
+                "components (an input and a view for each of 94 identifier types), the add-on to the headless library")
     if kind == "helpers":
         return f"the {label} helpers catalog: six opinionated packages that each own one complete interaction"
     if kind == "examples":
@@ -372,7 +372,7 @@ so your own CSS always wins the cascade — see
 [AGENTS/theme.md]({CANONICAL}/blob/main/AGENTS/theme.md).
 """
     elif kind in ("headless", "identifiers"):
-        what = ("the 164 national identifier components" if kind == "identifiers"
+        what = ("the 188 national identifier components" if kind == "identifiers"
                 else "the 571 catalog components")
         if name in PUBLISHED_NPM:
             body = f"""

@@ -65,7 +65,7 @@ several frameworks: [reference/composition-patterns.md](reference/composition-pa
 ## The catalog at a glance
 
 636 components across content (166), national personal identifiers (164,
-82 identifier types × input/view across 50+ countries), forms (78),
+94 identifier types × input/view across 50+ countries), forms (78),
 navigation (60), lists (53), tables (39), data visualisation (19), overlays (17),
 links (17), pickers (3), media (8), and buttons (8) — the categories in
 `components-categories.tsv`. Full

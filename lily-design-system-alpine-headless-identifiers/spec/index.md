@@ -2,7 +2,7 @@
 
 ## Summary
 
-The 164 national personal identifier components for Alpine.js, moved out of `@lilydesignsystem/alpine-headless` (0.3.0
+The 188 national personal identifier components for Alpine.js, moved out of `@lilydesignsystem/alpine-headless` (0.3.0
 removes them) into their own package, as [spec/headless-identifiers](../../spec/headless-identifiers/index.md) decides
 for all ten catalogs (tasks.md P37-T2, 2026-11-18).
 

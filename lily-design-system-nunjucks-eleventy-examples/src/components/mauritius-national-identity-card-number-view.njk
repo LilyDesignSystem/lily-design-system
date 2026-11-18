@@ -1,0 +1,23 @@
+---
+layout: layouts/component-demo.njk
+title: MauritiusNationalIdentityCardNumberView
+description: a read-only display of Mauritius's National Identity Card number
+---
+
+{% from "components/mauritius-national-identity-card-number-view/macro.njk" import mauritiusNationalIdentityCardNumberView %}
+
+<h2>Default</h2>
+<p>{{ mauritiusNationalIdentityCardNumberView({ text: "MauritiusNationalIdentityCardNumberView example", label: "MauritiusNationalIdentityCardNumberView example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;SummaryList&gt;
+  &lt;SummaryListItem term="National Identity Card number"&gt;
+    &lt;MauritiusNationalIdentityCardNumberView
+      label="National Identity Card number"
+      value="{value}"
+    /&gt;
+  &lt;/SummaryListItem&gt;
+&lt;/SummaryList&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

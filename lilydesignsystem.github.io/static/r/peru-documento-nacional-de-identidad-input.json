@@ -1,0 +1,42 @@
+{
+  "slug": "peru-documento-nacional-de-identidad-input",
+  "name": "PeruDocumentoNacionalDeIdentidadInput",
+  "description": "an input for entering Peru's Documento Nacional de Identidad (DNI)",
+  "htmlTag": "input",
+  "category": "national",
+  "baseClass": ".peru-documento-nacional-de-identidad-input",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow",
+  "aria": [
+    "`aria-label` provides accessible name from label prop",
+    "`required` and `disabled` states conveyed to assistive technology"
+  ],
+  "keyboard": [
+    "Standard text input keyboard behavior"
+  ],
+  "props": [
+    "`label`: string (required) — accessible label via aria-label",
+    "`value`: string (default: \"\") — bindable input value",
+    "`required`: boolean (default: false) — form validation",
+    "`disabled`: boolean (default: false) — disabled state",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "peru-documento-nacional-de-identidad-view",
+    "text-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless-identifiers/components/peru-documento-nacional-de-identidad-input.html",
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/PeruDocumentoNacionalDeIdentidadInput/PeruDocumentoNacionalDeIdentidadInput.svelte",
+    "react": "lily-design-system-react-headless-identifiers/components/PeruDocumentoNacionalDeIdentidadInput.tsx",
+    "vue": "lily-design-system-vue-headless-identifiers/components/PeruDocumentoNacionalDeIdentidadInput.vue",
+    "angular": "lily-design-system-angular-headless-identifiers/components/PeruDocumentoNacionalDeIdentidadInput.ts",
+    "web-components": "lily-design-system-web-components-headless-identifiers/components/peru-documento-nacional-de-identidad-input.ts",
+    "alpine": "lily-design-system-alpine-headless-identifiers/components/peru-documento-nacional-de-identidad-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/peru-documento-nacional-de-identidad-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/PeruDocumentoNacionalDeIdentidadInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/peru-documento-nacional-de-identidad-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/peru-documento-nacional-de-identidad-input/AGENTS.md"
+}

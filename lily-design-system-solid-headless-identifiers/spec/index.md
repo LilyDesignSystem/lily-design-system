@@ -2,7 +2,7 @@
 
 ## Summary
 
-The 164 national personal identifier components for Solid 2.0, moved out of `@lilydesignsystem/solid-headless` (0.2.0
+The 188 national personal identifier components for Solid 2.0, moved out of `@lilydesignsystem/solid-headless` (0.2.0
 removes them) into their own package, as [spec/headless-identifiers](../../spec/headless-identifiers/index.md) decides
 for all ten catalogs (tasks.md P37-T2, 2026-11-18).
 

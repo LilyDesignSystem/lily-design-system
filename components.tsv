@@ -565,6 +565,30 @@ australia-tax-file-number-input	AustraliaTaxFileNumberInput	an input for enterin
 australia-tax-file-number-view	AustraliaTaxFileNumberView	a read-only display of Australia's Tax File Number (TFN)
 nigeria-national-identification-number-input	NigeriaNationalIdentificationNumberInput	an input for entering Nigeria's National Identification Number (NIN)
 nigeria-national-identification-number-view	NigeriaNationalIdentificationNumberView	a read-only display of Nigeria's National Identification Number (NIN)
+peru-documento-nacional-de-identidad-input	PeruDocumentoNacionalDeIdentidadInput	an input for entering Peru's Documento Nacional de Identidad (DNI)
+peru-documento-nacional-de-identidad-view	PeruDocumentoNacionalDeIdentidadView	a read-only display of Peru's Documento Nacional de Identidad (DNI)
+republica-dominicana-cedula-de-identidad-y-electoral-input	RepublicaDominicanaCedulaDeIdentidadYElectoralInput	an input for entering the Dominican Republic's Cédula de Identidad y Electoral
+republica-dominicana-cedula-de-identidad-y-electoral-view	RepublicaDominicanaCedulaDeIdentidadYElectoralView	a read-only display of the Dominican Republic's Cédula de Identidad y Electoral
+costa-rica-cedula-de-identidad-input	CostaRicaCedulaDeIdentidadInput	an input for entering Costa Rica's Cédula de Identidad
+costa-rica-cedula-de-identidad-view	CostaRicaCedulaDeIdentidadView	a read-only display of Costa Rica's Cédula de Identidad
+guatemala-codigo-unico-de-identificacion-input	GuatemalaCodigoUnicoDeIdentificacionInput	an input for entering Guatemala's Código Único de Identificación (CUI)
+guatemala-codigo-unico-de-identificacion-view	GuatemalaCodigoUnicoDeIdentificacionView	a read-only display of Guatemala's Código Único de Identificación (CUI)
+mauritius-national-identity-card-number-input	MauritiusNationalIdentityCardNumberInput	an input for entering Mauritius's National Identity Card number
+mauritius-national-identity-card-number-view	MauritiusNationalIdentityCardNumberView	a read-only display of Mauritius's National Identity Card number
+ghana-card-personal-identification-number-input	GhanaCardPersonalIdentificationNumberInput	an input for entering Ghana's Ghana Card PIN
+ghana-card-personal-identification-number-view	GhanaCardPersonalIdentificationNumberView	a read-only display of Ghana's Ghana Card PIN
+ityopya-fayda-identification-number-input	ItyopyaFaydaIdentificationNumberInput	an input for entering Ethiopia's Fayda Identification Number (FIN)
+ityopya-fayda-identification-number-view	ItyopyaFaydaIdentificationNumberView	a read-only display of Ethiopia's Fayda Identification Number (FIN)
+sri-lanka-national-identity-card-input	SriLankaNationalIdentityCardInput	an input for entering Sri Lanka's National Identity Card (NIC) number
+sri-lanka-national-identity-card-view	SriLankaNationalIdentityCardView	a read-only display of Sri Lanka's National Identity Card (NIC) number
+bangladesh-national-identity-card-input	BangladeshNationalIdentityCardInput	an input for entering Bangladesh's National ID (NID) number
+bangladesh-national-identity-card-view	BangladeshNationalIdentityCardView	a read-only display of Bangladesh's National ID (NID) number
+qazaqstan-zheke-saikestendiru-nomiri-input	QazaqstanZhekeSaikestendiruNomiriInput	an input for entering Kazakhstan's Individual Identification Number (IIN)
+qazaqstan-zheke-saikestendiru-nomiri-view	QazaqstanZhekeSaikestendiruNomiriView	a read-only display of Kazakhstan's Individual Identification Number (IIN)
+ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-input	OzbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiInput	an input for entering Uzbekistan's Personal identification number (JShShIR / PINFL)
+ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-view	OzbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiView	a read-only display of Uzbekistan's Personal identification number (JShShIR / PINFL)
+al-imarat-raqm-al-huwiyah-input	AlImaratRaqmAlHuwiyahInput	an input for entering the United Arab Emirates' Emirates ID number
+al-imarat-raqm-al-huwiyah-view	AlImaratRaqmAlHuwiyahView	a read-only display of the United Arab Emirates' Emirates ID number
 one-time-password-input	OneTimePasswordInput	a single one-time-password input with a numeric keypad, SMS autofill, and a fixed length
 multi-select	MultiSelect	a native select that allows choosing several options at once
 multi-select-with-extras	MultiSelectWithExtras	a multiple-choice select with additional features like search, groups, or selected-value chips

@@ -1,7 +1,7 @@
 # Lily Design System™ Blazor headless identifiers
 
-`LilyDesignSystem.Blazor.Headless.Identifiers`: the 164 national personal identifier components of the Lily Design System catalog for Blazor, an `-input` and
-a `-view` for each of 82 identifier types across more than 50 countries (health numbers, national identity numbers, tax
+`LilyDesignSystem.Blazor.Headless.Identifiers`: the 188 national personal identifier components of the Lily Design System catalog for Blazor, an `-input` and
+a `-view` for each of 94 identifier types across more than 50 countries (health numbers, national identity numbers, tax
 numbers, passports). It is the add-on to [`LilyDesignSystem.Blazor.Headless`](../lily-design-system-blazor-headless/), which
 has the other 473 components.
 

@@ -1,0 +1,35 @@
+{#
+  QazaqstanZhekeSaikestendiruNomiriInput macro -- an input for entering Individual Identification Number (IIN).
+
+  HTML tag: <input type="text">
+  CSS class: qazaqstan-zheke-saikestendiru-nomiri-input
+  Format: Twelve digits: the date of birth as YYMMDD, a digit for century and sex, a four-digit serial and a check digit. The check digit is the sum of the first eleven digits times the weights 1 to 11, modulo 11; if that is 10, repeat with the weights 3, 4, 5, 6, 7, 8, 9, 10, 11, 1, 2, and if it is 10 again the number is not issued.
+  Accessibility: autocomplete="off", spellcheck suppressed.
+
+  Params:
+    id, name, value, label, describedBy, errormessage, invalid,
+    required, disabled, readonly, classes, attributes.
+
+  Usage:
+    {% from "components/qazaqstan-zheke-saikestendiru-nomiri-input/macro.njk" import qazaqstanZhekeSaikestendiruNomiriInput %}
+    {{ qazaqstanZhekeSaikestendiruNomiriInput({ id: "field-id", label: "Individual Identification Number (IIN)" }) }}
+#}
+{%- macro qazaqstanZhekeSaikestendiruNomiriInput(params) -%}
+<input
+  class="qazaqstan-zheke-saikestendiru-nomiri-input{% if params.classes %} {{ params.classes }}{% endif %}"
+  type="text"
+  id="{{ params.id }}"
+  name="{{ params.name | default(params.id) }}"
+  value="{{ params.value | default('') }}"
+  autocomplete="off"
+  spellcheck="false"
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.describedBy %} aria-describedby="{{ params.describedBy }}"{% endif %}
+  {%- if params.errormessage %} aria-errormessage="{{ params.errormessage }}"{% endif %}
+  {%- if params.invalid %} aria-invalid="true"{% endif %}
+  {%- if params.required %} required{% endif %}
+  {%- if params.disabled %} disabled{% endif %}
+  {%- if params.readonly %} readonly{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+{%- endmacro -%}

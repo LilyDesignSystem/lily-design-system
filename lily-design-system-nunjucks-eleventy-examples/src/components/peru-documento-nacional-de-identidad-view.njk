@@ -1,0 +1,23 @@
+---
+layout: layouts/component-demo.njk
+title: PeruDocumentoNacionalDeIdentidadView
+description: a read-only display of Peru's Documento Nacional de Identidad (DNI)
+---
+
+{% from "components/peru-documento-nacional-de-identidad-view/macro.njk" import peruDocumentoNacionalDeIdentidadView %}
+
+<h2>Default</h2>
+<p>{{ peruDocumentoNacionalDeIdentidadView({ text: "PeruDocumentoNacionalDeIdentidadView example", label: "PeruDocumentoNacionalDeIdentidadView example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;SummaryList&gt;
+  &lt;SummaryListItem term="Documento Nacional de Identidad (DNI)"&gt;
+    &lt;PeruDocumentoNacionalDeIdentidadView
+      label="Documento Nacional de Identidad (DNI)"
+      value="{value}"
+    /&gt;
+  &lt;/SummaryListItem&gt;
+&lt;/SummaryList&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

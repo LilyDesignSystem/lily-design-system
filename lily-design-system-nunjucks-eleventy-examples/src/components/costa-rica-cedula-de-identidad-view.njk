@@ -1,0 +1,23 @@
+---
+layout: layouts/component-demo.njk
+title: CostaRicaCedulaDeIdentidadView
+description: a read-only display of Costa Rica's Cédula de Identidad
+---
+
+{% from "components/costa-rica-cedula-de-identidad-view/macro.njk" import costaRicaCedulaDeIdentidadView %}
+
+<h2>Default</h2>
+<p>{{ costaRicaCedulaDeIdentidadView({ text: "CostaRicaCedulaDeIdentidadView example", label: "CostaRicaCedulaDeIdentidadView example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;SummaryList&gt;
+  &lt;SummaryListItem term="Cédula de Identidad"&gt;
+    &lt;CostaRicaCedulaDeIdentidadView
+      label="Cédula de Identidad"
+      value="{value}"
+    /&gt;
+  &lt;/SummaryListItem&gt;
+&lt;/SummaryList&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

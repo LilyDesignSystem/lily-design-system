@@ -1,0 +1,32 @@
+---
+layout: layouts/component-demo.njk
+title: PeruDocumentoNacionalDeIdentidadInput
+description: an input for entering Peru's Documento Nacional de Identidad (DNI)
+---
+
+{% from "components/peru-documento-nacional-de-identidad-input/macro.njk" import peruDocumentoNacionalDeIdentidadInput %}
+
+<h2>Default</h2>
+<p>{{ peruDocumentoNacionalDeIdentidadInput({ text: "PeruDocumentoNacionalDeIdentidadInput example", label: "PeruDocumentoNacionalDeIdentidadInput example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field
+  label="Documento Nacional de Identidad (DNI)"
+  required
+&gt;
+  &lt;PeruDocumentoNacionalDeIdentidadInput
+    label="Documento Nacional de Identidad (DNI)"
+    value="{value}"
+    required
+  /&gt;
+  &lt;Hint
+    &gt;Eight digits, the Código Único de Identificación (CUI), often followed by a hyphen and a check
+    character (10117410-2). The check character is a digit or a letter: multiply the eight digits by
+    the weights 3, 2, 7, 6, 5, 4, 3, 2, sum them and take the remainder modulo 11, r; the digit is
+    "65432110987"[r] and the letter "KJIHGFEDCBA"[r], and either is accepted.&lt;/Hint
+  &gt;
+  &lt;ErrorMessage&gt;Please enter a valid Documento Nacional de Identidad (DNI)&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}
