@@ -112,6 +112,7 @@ export default function TagInputDiv(props: TagInputDivProps) {
                 type="text"
                 aria-label={p.label}
                 value={p.value}
+                defaultValue={p.value}
                 onInput={(e) => p.onChange?.(e.currentTarget.value)}
                 onKeyDown={handleKeyDown}
                 disabled={p.disabled}

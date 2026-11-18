@@ -1,0 +1,140 @@
+#!/usr/bin/env python3
+"""bin/check-solid-form-reset — every bound field in the Solid catalogs survives a form reset.
+
+Solid writes a bound `value` or `checked` as the DOM property, never the attribute. A form reset puts each field back
+to its attribute default, so without one the reset empties a field the consumer still holds a value for, and a field
+whose value did not change is never written again (React keeps the attribute in step, so its ports never had this).
+Every visible <input> and <textarea> that binds `value` must also bind `defaultValue` to the same expression, and
+every checkbox and radio that binds `checked` must bind `defaultChecked`. A <select> whose options come from the
+consumer puts its value back in a form-reset handler instead (Select, SelectWithExtras, ThemeSelect), which this
+check does not see. Rule: AGENTS/conventions.md "Forms" in each Solid helper.
+
+  bin/check-solid-form-reset            report gaps in every lily-design-system-solid-* package; exit 1 on one
+  bin/check-solid-form-reset --write    add the missing bindings (used by convert-react-to-solid.py)
+"""
+import glob
+import os
+import re
+import sys
+
+TOP = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+TEXTY = {
+    "text",
+    "date",
+    "range",
+    "time",
+    "dyn",
+    "number",
+    "color",
+    "email",
+    "month",
+    "password",
+    "search",
+    "tel",
+    "url",
+    "week",
+    "datetime-local",
+}
+
+
+def tags(text, names):
+    """Each opening tag of one of `names`: (name, start of its attributes, index of its closing `>`)."""
+    for match in re.finditer(r"<(%s)\b" % "|".join(names), text):
+        i = match.end()
+        depth = 0
+        quote = None
+        while i < len(text):
+            c = text[i]
+            if quote:
+                if c == "\\":
+                    i += 2
+                    continue
+                if c == quote:
+                    quote = None
+            elif c in "\"'`":
+                quote = c
+            elif c == "{":
+                depth += 1
+            elif c == "}":
+                depth -= 1
+            elif c == ">" and depth == 0:
+                break
+            i += 1
+        yield match.group(1), match.end(), i
+
+
+def attr_expr(attrs, name):
+    """The JSX expression bound to `name` on its own line: (indent, end of the binding, expression), or None."""
+    match = re.search(r"(\n\s*)%s=\{" % name, attrs)
+    if not match:
+        return None
+    j = match.end()
+    depth = 1
+    start = j
+    while depth:
+        c = attrs[j]
+        depth += (c == "{") - (c == "}")
+        j += 1
+    return match.group(1), j, attrs[start : j - 1]
+
+
+def fix(text):
+    """The text with every missing default added, and a description of each one added."""
+    out = []
+    last = 0
+    missing = []
+    for tag, start, end in tags(text, ["input", "textarea"]):
+        attrs = text[start:end]
+        kind = re.search(r'type="([\w-]+)"', attrs)
+        kind = kind.group(1) if kind else ("dyn" if "type={" in attrs else "text")
+        wants = []
+        if (tag == "textarea" or kind in TEXTY) and "defaultValue" not in attrs:
+            wants.append(("value", "defaultValue"))
+        if tag == "input" and kind in ("checkbox", "radio") and "defaultChecked" not in attrs:
+            wants.append(("checked", "defaultChecked"))
+        for source, default in wants:
+            found = attr_expr(attrs, source)
+            if found:
+                indent, stop, expr = found
+                attrs = attrs[:stop] + f"{indent}{default}={{{expr}}}" + attrs[stop:]
+                missing.append(f"{default} for {source}={{{expr}}}")
+        out.append(text[last:start] + attrs)
+        last = end
+    out.append(text[last:])
+    return "".join(out), missing
+
+def sources():
+    for path in sorted(glob.glob(os.path.join(TOP, "lily-design-system-solid-*", "**", "*.tsx"), recursive=True)):
+        rel = os.path.relpath(path, TOP)
+        if "/node_modules/" in rel or "/dist/" in rel or rel.endswith((".test.tsx", ".stories.tsx")):
+            continue
+        yield path, rel
+
+
+def main(argv):
+    write = "--write" in argv
+    files = [a for a in argv if not a.startswith("--")]
+    targets = [(f, f) for f in files] if files else list(sources())
+    gaps = 0
+    for path, rel in targets:
+        text = open(path, encoding="utf-8").read()
+        fixed, missing = fix(text)
+        if not missing:
+            continue
+        gaps += 1
+        if write:
+            open(path, "w", encoding="utf-8").write(fixed)
+            print(f"fixed {rel}")
+        else:
+            for m in missing:
+                print(f"{rel}: needs {' '.join(m.split())}")
+    if gaps and not write:
+        print(f"{gaps} file(s) with a bound field that a form reset would clear; run bin/check-solid-form-reset --write")
+        return 1
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

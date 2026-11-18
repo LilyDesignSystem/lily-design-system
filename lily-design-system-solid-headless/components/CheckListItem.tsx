@@ -66,6 +66,7 @@ export default function CheckListItem(props: CheckListItemProps) {
                 <input
                     type="checkbox"
                     checked={p.checked}
+                    defaultChecked={p.checked}
                     disabled={p.disabled}
                     readonly
                 />

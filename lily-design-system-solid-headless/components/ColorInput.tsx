@@ -62,6 +62,7 @@ export default function ColorInput(props: ColorInputProps) {
             class={`color-input ${p.class}`}
             type="color"
             value={p.value}
+            defaultValue={p.value}
             onInput={(e) => p.onChange?.(e.currentTarget.value)}
             aria-label={p.label}
             disabled={p.disabled}

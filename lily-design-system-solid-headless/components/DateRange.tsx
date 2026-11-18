@@ -98,6 +98,7 @@ export default function DateRange(props: DateRangeProps) {
                 type="date"
                 aria-label={p.startLabel}
                 value={p.start}
+                defaultValue={p.start}
                 onInput={(e) => p.onStartChange?.(e.currentTarget.value)}
             />
             <input
@@ -105,6 +106,7 @@ export default function DateRange(props: DateRangeProps) {
                 type="date"
                 aria-label={p.endLabel}
                 value={p.end}
+                defaultValue={p.end}
                 onInput={(e) => p.onEndChange?.(e.currentTarget.value)}
             />
         </fieldset>

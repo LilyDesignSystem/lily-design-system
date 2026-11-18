@@ -109,6 +109,7 @@ export default function TextInputWithSearch(props: TextInputWithSearchProps) {
                 type="text"
                 aria-label={p.inputLabel}
                 value={p.value}
+                defaultValue={p.value}
                 placeholder={p.placeholder}
                 onInput={(e) => p.onChange?.(e.currentTarget.value)}
                 onKeyDown={handleKeydown}

@@ -126,6 +126,7 @@ export default function DateTimeNowInput(props: DateTimeNowInputProps) {
                 type="date"
                 aria-label={p.dateLabel}
                 value={p.dateValue}
+                defaultValue={p.dateValue}
                 onInput={(e) => p.onDateChange?.(e.currentTarget.value)}
                 required={p.required}
                 disabled={p.disabled}
@@ -134,6 +135,7 @@ export default function DateTimeNowInput(props: DateTimeNowInputProps) {
                 type="time"
                 aria-label={p.timeLabel}
                 value={p.timeValue}
+                defaultValue={p.timeValue}
                 onInput={(e) => p.onTimeChange?.(e.currentTarget.value)}
                 required={p.required}
                 disabled={p.disabled}

@@ -291,6 +291,7 @@ export function OrgEditor(props: Props): JSX.Element {
                 required={props.required ?? false}
                 aria-label={props.label}
                 value={text()}
+                defaultValue={text()}
                 onInput={(e) => commit(e.currentTarget.value)}
                 onKeyDown={onTextKeyDown}
                 ref={(el) => (textarea = el)}

@@ -155,6 +155,7 @@ export default function Editable(props: EditableProps) {
                     type="text"
                     aria-label={p.label}
                     value={draft()}
+                    defaultValue={draft()}
                     onInput={(e) => setDraft(e.currentTarget.value)}
                     onKeyDown={handleKeyDown}
                 />

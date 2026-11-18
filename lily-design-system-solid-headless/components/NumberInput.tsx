@@ -84,6 +84,7 @@ export default function NumberInput(props: NumberInputProps) {
             type="number"
             aria-label={p.label}
             value={p.value}
+            defaultValue={p.value}
             onInput={(e) => p.onChange?.(Number(e.currentTarget.value))}
             min={p.min}
             max={p.max}

@@ -3,6 +3,14 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the package follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+- Fix: a form reset no longer empties bound fields. Solid writes a bound `value` or `checked` as the DOM property, so the
+  browser's reset (which restores each field's attribute default) cleared them, and a field whose value had not changed
+  was never written again. Every bound text-like `<input>`, `<textarea>`, checkbox and radio now binds `defaultValue` or
+  `defaultChecked` to the same value; `Select`, `SelectWithExtras` and `ThemeSelect` put the bound value back after a
+  reset; `QuantityInputDiv` marks its unit option `defaultSelected`.
+
 ## 0.1.0 — 2026-11-17
 
 - First release: all 637 catalog components for Solid 2.0 (`solid-js` and `@solidjs/web` ^2.0.0 as peers), with the

@@ -7,6 +7,7 @@ Writes OUT_DIR/{Name}.tsx and OUT_DIR/{Name}.test.tsx and prints, per file, "ok"
 The output is a starting point that is then maintained by hand; this script is a porting aid, not a generator.
 """
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -572,6 +573,9 @@ def convert_test(src, comp_ok):
     return out, why
 
 
+FORM_RESET = Path(__file__).resolve().parents[2] / "bin" / "check-solid-form-reset"
+
+
 def main():
     allow = "--hooks" in sys.argv
     argv = [a for a in sys.argv if a != "--hooks"]
@@ -588,6 +592,8 @@ def main():
             print(f"{n}: skip: {why}")
             continue
         (out_dir / f"{n}.tsx").write_text(out)
+        # React keeps a bound field's value attribute in step and Solid does not, so add the defaults a form reset needs.
+        subprocess.run([str(FORM_RESET), "--write", str(out_dir / f"{n}.tsx")], check=False, stdout=subprocess.DEVNULL)
         for t in sorted(set(src_dir.glob(f"{n}.*test.tsx"))):
             if re.fullmatch(re.escape(n) + r"(\.[\w-]+)?\.test\.tsx", t.name):
                 tout, twhy = convert_test(t.read_text(), True)

@@ -87,6 +87,7 @@ export default function TextAreaInput(props: TextAreaInputProps) {
             class={`text-area-input ${p.class}`}
             aria-label={p.label}
             value={p.value}
+            defaultValue={p.value}
             onInput={(e) => p.onChange?.(e.currentTarget.value)}
             rows={p.rows}
             required={p.required}

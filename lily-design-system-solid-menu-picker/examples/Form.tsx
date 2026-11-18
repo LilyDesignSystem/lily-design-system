@@ -18,6 +18,7 @@ export default function Form() {
                         type="search"
                         aria-label="Search"
                         value={query()}
+                        defaultValue={query()}
                         onInput={(e) => setQuery(e.currentTarget.value)}
                     />
                     <button

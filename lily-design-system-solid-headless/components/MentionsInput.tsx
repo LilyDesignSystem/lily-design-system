@@ -136,6 +136,7 @@ export default function MentionsInput(props: MentionsInputProps) {
                 aria-expanded={attr(p.expanded)}
                 aria-autocomplete="list"
                 value={p.value}
+                defaultValue={p.value}
                 placeholder={p.placeholder}
                 disabled={p.disabled}
                 onInput={p.onInput}

@@ -128,6 +128,7 @@ export default function SignaturePad(props: SignaturePadProps) {
                         autocomplete="name"
                         name={p.name}
                         value={value()}
+                        defaultValue={value()}
                         onInput={(event) => {
                             setOwnName(event.target.value);
                             p.onTypedNameChange?.(event.target.value);

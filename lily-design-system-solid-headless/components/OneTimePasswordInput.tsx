@@ -87,6 +87,7 @@ export default function OneTimePasswordInput(props: OneTimePasswordInputProps) {
             data-length={attr(p.length)}
             name={p.name}
             value={p.value}
+            defaultValue={p.value}
             onInput={(e) => p.onChange?.(e.currentTarget.value)}
             required={p.required}
             disabled={p.disabled}

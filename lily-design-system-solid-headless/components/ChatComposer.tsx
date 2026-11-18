@@ -87,6 +87,7 @@ export default function ChatComposer(props: ChatComposerProps) {
                 class="chat-composer-input"
                 aria-label={p.label}
                 value={p.value}
+                defaultValue={p.value}
                 onInput={(e) => p.onChange?.(e.currentTarget.value)}
                 rows={rows()}
                 placeholder={p.placeholder}

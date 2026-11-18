@@ -88,6 +88,7 @@ export default function Command(props: CommandProps) {
                 type="search"
                 aria-controls={listId}
                 value={p.value}
+                defaultValue={p.value}
                 onInput={(e) => p.onChange?.(e.currentTarget.value)}
                 aria-label={p.label}
                 placeholder={p.placeholder}

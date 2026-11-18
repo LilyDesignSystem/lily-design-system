@@ -128,6 +128,7 @@ export default function AngleSliderRangeInput(props: AngleSliderRangeInputProps)
             class={`angle-slider-range-input ${p.class}`}
             type="range"
             value={p.value}
+            defaultValue={p.value}
             onInput={(e) => p.onChange?.(Number(e.currentTarget.value))}
             min={p.min}
             max={p.max}

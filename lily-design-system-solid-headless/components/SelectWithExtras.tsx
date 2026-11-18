@@ -65,6 +65,7 @@ import type { JSX } from "@solidjs/web";
 import { omit } from "solid-js";
 import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
+import { useFormReset } from "./form-reset";
 
 export interface SelectWithExtrasProps {
     class?: string;
@@ -105,6 +106,15 @@ export default function SelectWithExtras(props: SelectWithExtrasProps) {
         "children",
     );
     warnMissingName("SelectWithExtras", p.label, p["aria-label"], p["aria-labelledby"]);
+    // A form reset puts a select back to its options' selected attributes, which Solid never writes (it sets the
+    // value property), so the reset would show another option than the one bound. Put the bound value back.
+    let selectEl: HTMLSelectElement | undefined;
+    useFormReset(
+        () => selectEl,
+        () => {
+            if (selectEl) selectEl.value = String(p.value ?? "");
+        },
+    );
     return (
         <div
             class={`select-with-extras ${p.class}`}
@@ -112,6 +122,7 @@ export default function SelectWithExtras(props: SelectWithExtrasProps) {
         >
             {p.before && p.before}
             <select
+                ref={(el) => (selectEl = el)}
                 aria-label={p.label}
                 value={p.value}
                 onChange={(e) => p.onChange?.(e.currentTarget.value)}

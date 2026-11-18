@@ -112,6 +112,7 @@ export default function CheckboxInput(props: CheckboxInputProps) {
             class={`checkbox-input ${p.class}`}
             type="checkbox"
             checked={internalChecked()}
+            defaultChecked={internalChecked()}
             onChange={handleChange}
             aria-label={p.label}
             disabled={p.disabled}

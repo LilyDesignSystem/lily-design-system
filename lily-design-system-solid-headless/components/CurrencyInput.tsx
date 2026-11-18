@@ -92,6 +92,7 @@ export default function CurrencyInput(props: CurrencyInputProps) {
             aria-label={p.label}
             data-currency-code={attr(p.currencyCode)}
             value={p.value === undefined ? "" : String(p.value)}
+            defaultValue={p.value === undefined ? "" : String(p.value)}
             onInput={handleChange}
             min={p.min}
             max={p.max}

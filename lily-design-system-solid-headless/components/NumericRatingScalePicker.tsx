@@ -78,6 +78,7 @@ export default function NumericRatingScalePicker(props: NumericRatingScalePicker
                             name={p.name}
                             value={String(step)}
                             checked={current() === String(step)}
+                            defaultChecked={current() === String(step)}
                             required={p.required && i === 0}
                             aria-describedby={
                                 i === 0 && p.minLabel

@@ -84,6 +84,7 @@ export default function EspanaTarjetaSanitariaIndividualInput(
             autocomplete="off"
             spellcheck="false"
             value={p.value}
+            defaultValue={p.value}
             onInput={(e) => p.onChange?.(e.currentTarget.value)}
             required={p.required}
             disabled={p.disabled}

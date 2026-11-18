@@ -199,6 +199,7 @@ export default function PinInputDiv(props: PinInputDivProps) {
                     maxlength={1}
                     aria-label={p.digitLabel ? p.digitLabel(index + 1, p.length) : p.label}
                     value={digits()[index]}
+                    defaultValue={digits()[index]}
                     disabled={p.disabled}
                     onInput={(e) => handleInput(index, e)}
                     onKeyDown={(e) => handleKeyDown(index, e)}

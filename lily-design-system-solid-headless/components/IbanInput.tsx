@@ -55,6 +55,7 @@ export default function IbanInput(props: IbanInputProps) {
             aria-label={p.label}
             autocomplete="off"
             value={p.value}
+            defaultValue={p.value}
             onInput={(e) => p.onChange?.(e.currentTarget.value)}
             required={p.required}
             disabled={p.disabled}

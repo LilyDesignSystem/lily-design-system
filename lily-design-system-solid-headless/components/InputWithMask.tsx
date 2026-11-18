@@ -90,6 +90,7 @@ export default function InputWithMask(props: InputWithMaskProps) {
                 type="text"
                 aria-label={p.label}
                 value={p.value}
+                defaultValue={p.value}
                 placeholder={p.placeholder}
                 disabled={p.disabled}
                 onInput={p.onInput}

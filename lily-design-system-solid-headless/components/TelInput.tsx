@@ -69,6 +69,7 @@ export default function TelInput(props: TelInputProps) {
             type="tel"
             aria-label={p.label}
             value={p.value}
+            defaultValue={p.value}
             onInput={(e) => p.onChange?.(e.currentTarget.value)}
             autocomplete="tel"
             required={p.required}

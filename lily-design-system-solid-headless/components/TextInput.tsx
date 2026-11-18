@@ -70,6 +70,7 @@ export default function TextInput(props: TextInputProps) {
             type="text"
             aria-label={p.label}
             value={p.value}
+            defaultValue={p.value}
             onInput={(e) => p.onChange?.(e.currentTarget.value)}
             required={p.required}
             disabled={p.disabled}

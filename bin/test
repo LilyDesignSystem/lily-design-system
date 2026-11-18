@@ -442,6 +442,8 @@ test -s "$top/AGENTS/visual-identity.md" && test -s "$top/spec/visual-identity/i
     || err "a headless component builds English around a value, or a listed finding is gone; run bin/check-built-english"
 "$top/bin/check-identifier-inputs" >/dev/null 2>&1 \
     || err "a national identifier input lacks autocomplete=off or spellcheck=false; run bin/check-identifier-inputs"
+"$top/bin/check-solid-form-reset" >/dev/null 2>&1 \
+    || err "a Solid field binds value or checked with no default, so a form reset would clear it; run bin/check-solid-form-reset"
 "$top/bin/generate-core" --check >/dev/null 2>&1 \
     || err "a Lily Core member lost evidence, or core.json / docs/core.md / the ACR / the /quality page is stale; run bin/generate-core --check"
 "$top/bin/generate-theme-contrast" --check >/dev/null 2>&1 \

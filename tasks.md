@@ -3885,6 +3885,15 @@ library comes first; its plan, decisions and the list of components still to por
       `@lilydesignsystem/solid-headless` 0.1.0 published from 07b6885d1, after a clean `bin/ci --full`; the helpers wait on
       P36-T3.)_
       Verify: `bin/verify-published` finds each version.
+- [x] **P36-T7 Form reset keeps bound fields** (2026-11-18). Solid writes a bound `value` or `checked` as the DOM
+      property, never the attribute, so a form reset emptied every bound field and never rewrote one whose value had not
+      changed; React keeps the attribute in step, so the React ports never showed it. 131 `solid-headless` components and
+      the Solid helpers now bind `defaultValue` / `defaultChecked` beside each value; `Select`, `SelectWithExtras` and
+      `ThemeSelect`, whose options are the consumer's, put the value back in a form-reset handler; `QuantityInputDiv` and
+      `date-time-picker` set `defaultSelected` on their own options; `filter` rebuilds its controls. `convert-react-to-solid.py`
+      adds the bindings. `solid-headless` 0.1.0 has the defect: the fix is unreleased until P36-T6 is approved.
+      Verify: `bin/check-solid-form-reset` (in `bin/test`); `components/form-reset-bindings.test.tsx`; the no-edit reset
+      tests in `solid-color-picker`, `solid-date-time-picker` and `solid-filter`.
 
 ## Phase 37 — Headless identifiers packages (2026-11-17)
 

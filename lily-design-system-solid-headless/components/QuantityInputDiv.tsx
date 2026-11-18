@@ -132,6 +132,7 @@ export default function QuantityInputDiv(props: QuantityInputDivProps) {
                 max={chosen()?.max}
                 step={chosen()?.step}
                 value={magnitude()}
+                defaultValue={magnitude()}
                 onInput={(event) => {
                     setMagnitude(event.target.value);
                     p.onMagnitudeChange?.(event.target.value);
@@ -156,7 +157,12 @@ export default function QuantityInputDiv(props: QuantityInputDivProps) {
                         disabled={p.disabled}
                     >
                         {p.units.map((option) => (
-                            <option value={option.value}>{option.label}</option>
+                            <option
+                                value={option.value}
+                                defaultSelected={option.value === unit()}
+                            >
+                                {option.label}
+                            </option>
                         ))}
                     </select>
                 </>

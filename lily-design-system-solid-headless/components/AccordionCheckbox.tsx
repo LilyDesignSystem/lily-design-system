@@ -118,6 +118,7 @@ export default function AccordionCheckbox(props: AccordionCheckboxProps) {
                 aria-controls={panelId()}
                 aria-expanded={attr(checked())}
                 checked={checked()}
+                defaultChecked={checked()}
                 onChange={handleChange}
             />
             <label

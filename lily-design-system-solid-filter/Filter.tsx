@@ -285,6 +285,7 @@ export function Filter(props: FilterProps): JSX.Element {
                                         }
                                         readonly={readonly()}
                                         value={textOf(rule().value)}
+                                        defaultValue={textOf(rule().value)}
                                         onInput={(e) =>
                                             setRule(rule().id, (r) => ({
                                                 ...r,
@@ -300,6 +301,7 @@ export function Filter(props: FilterProps): JSX.Element {
                                             aria-label={props.labels.valueTo}
                                             readonly={readonly()}
                                             value={textOf(rule().value2)}
+                                            defaultValue={textOf(rule().value2)}
                                             onInput={(e) =>
                                                 setRule(rule().id, (r) => ({
                                                     ...r,
@@ -325,6 +327,12 @@ export function Filter(props: FilterProps): JSX.Element {
                                                     type="checkbox"
                                                     disabled={readonly()}
                                                     checked={
+                                                        Array.isArray(rule().value) &&
+                                                        (rule().value as string[]).includes(
+                                                            option.id,
+                                                        )
+                                                    }
+                                                    defaultChecked={
                                                         Array.isArray(rule().value) &&
                                                         (rule().value as string[]).includes(
                                                             option.id,
@@ -386,6 +394,7 @@ export function Filter(props: FilterProps): JSX.Element {
                             type="checkbox"
                             disabled={readonly()}
                             checked={!!group().not}
+                            defaultChecked={!!group().not}
                             onChange={(e) =>
                                 setGroup(group().id, (g) => ({
                                     ...g,

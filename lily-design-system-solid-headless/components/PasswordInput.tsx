@@ -96,6 +96,7 @@ export default function PasswordInput(props: PasswordInputProps) {
             type="password"
             aria-label={p.label}
             value={p.value}
+            defaultValue={p.value}
             onInput={(e) => p.onChange?.(e.currentTarget.value)}
             autocomplete={p.autocomplete}
             required={p.required}

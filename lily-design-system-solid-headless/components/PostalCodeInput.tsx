@@ -80,6 +80,7 @@ export default function PostalCodeInput(props: PostalCodeInputProps) {
             aria-label={p.label}
             autocomplete="postal-code"
             value={p.value}
+            defaultValue={p.value}
             onInput={(e) => p.onChange?.(e.currentTarget.value)}
             required={p.required}
             disabled={p.disabled}

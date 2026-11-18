@@ -382,6 +382,7 @@ export function SearchPicker(props: Props): JSX.Element {
                         placeholder={props.placeholder}
                         enterkeyhint="search"
                         value={query()}
+                        defaultValue={query()}
                         onInput={onInput}
                     />
                     <button

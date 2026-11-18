@@ -209,6 +209,7 @@ export default function Autosuggest(props: AutosuggestProps) {
                 placeholder={p.placeholder}
                 name={p.name}
                 value={value()}
+                defaultValue={value()}
                 onInput={handleChange}
                 onKeyDown={handleKeyDown}
                 onBlur={handleBlur}

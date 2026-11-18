@@ -50,6 +50,7 @@
 import type { JSX } from "@solidjs/web";
 import { omit } from "solid-js";
 import { withDefaults } from "./defaults";
+import { useFormReset } from "./form-reset";
 export interface ThemeSelectProps {
     class?: string;
     /** Accessible label. */
@@ -66,8 +67,18 @@ export interface ThemeSelectProps {
 export default function ThemeSelect(props: ThemeSelectProps) {
     const p = withDefaults({ class: "" as const, value: "" as const }, props);
     const restProps = omit(p, "class", "label", "value", "onChange", "children");
+    // A form reset puts a select back to its options' selected attributes, which Solid never writes (it sets the
+    // value property), so the reset would show another option than the one bound. Put the bound value back.
+    let selectEl: HTMLSelectElement | undefined;
+    useFormReset(
+        () => selectEl,
+        () => {
+            if (selectEl) selectEl.value = String(p.value ?? "");
+        },
+    );
     return (
         <select
+            ref={(el) => (selectEl = el)}
             class={`theme-select ${p.class}`}
             aria-label={p.label}
             value={p.value}

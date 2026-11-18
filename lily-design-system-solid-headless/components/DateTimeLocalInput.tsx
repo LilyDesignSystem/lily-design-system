@@ -90,6 +90,7 @@ export default function DateTimeLocalInput(props: DateTimeLocalInputProps) {
             type="datetime-local"
             aria-label={p.label}
             value={p.value}
+            defaultValue={p.value}
             onInput={(e) => p.onChange?.(e.currentTarget.value)}
             min={p.min}
             max={p.max}

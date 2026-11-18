@@ -93,6 +93,7 @@ export default function BodyMap(props: BodyMapProps) {
                                 name={p.name}
                                 value={region.id}
                                 checked={current().includes(region.id)}
+                                defaultChecked={current().includes(region.id)}
                                 onChange={() => toggle(region.id)}
                             />{" "}
                             {region.label}

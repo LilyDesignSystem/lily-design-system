@@ -131,6 +131,7 @@ export default function TextAreaInputWithCharacterCounter(
                 aria-label={p.label}
                 aria-describedby={counterId}
                 value={p.value}
+                defaultValue={p.value}
                 onInput={(e) => p.onChange?.(e.currentTarget.value)}
                 maxlength={p.maxLength}
                 rows={p.rows}

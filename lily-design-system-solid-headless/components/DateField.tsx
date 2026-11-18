@@ -197,6 +197,7 @@ export default function DateField(props: DateFieldProps) {
                             autocomplete={p.autocomplete === "bday" ? `bday-${part}` : undefined}
                             maxlength={part === "year" ? 4 : 2}
                             value={parts()[part]}
+                            defaultValue={parts()[part]}
                             onInput={(event) => update(part, event.target.value)}
                             required={p.required}
                             aria-invalid={attr(p.error ? true : undefined)}

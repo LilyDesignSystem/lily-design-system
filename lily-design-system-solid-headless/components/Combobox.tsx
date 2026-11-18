@@ -182,6 +182,7 @@ export default function Combobox(props: ComboboxProps) {
                 aria-controls={listboxId}
                 aria-autocomplete="list"
                 value={p.value}
+                defaultValue={p.value}
                 onInput={(e) => p.onChange?.(e.currentTarget.value)}
             />
             <div

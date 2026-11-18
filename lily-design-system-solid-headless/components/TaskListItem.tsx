@@ -104,6 +104,7 @@ export default function TaskListItem(props: TaskListItemProps) {
                 <input
                     type="checkbox"
                     checked={checked()}
+                    defaultChecked={checked()}
                     onChange={handleChange}
                     disabled={p.disabled}
                 />

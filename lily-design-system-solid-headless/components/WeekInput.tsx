@@ -73,6 +73,7 @@ export default function WeekInput(props: WeekInputProps) {
             type="week"
             aria-label={p.label}
             value={p.value}
+            defaultValue={p.value}
             onInput={(e) => p.onChange?.(e.currentTarget.value)}
             required={p.required}
             disabled={p.disabled}
