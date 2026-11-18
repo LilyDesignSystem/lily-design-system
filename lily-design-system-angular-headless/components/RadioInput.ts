@@ -11,6 +11,7 @@ import { ChangeDetectionStrategy, Component, input, model } from "@angular/core"
     selector: "lily-radio-input",
     standalone: true,
     template: `<input
+      [attr.id]="id() ?? null"
       class="radio-input {{ className() }}"
       type="radio"
       [attr.aria-label]="label() || null"
@@ -22,11 +23,14 @@ import { ChangeDetectionStrategy, Component, input, model } from "@angular/core"
       [disabled]="disabled()"
       [required]="required()"
     />`,
+    host: { "[attr.id]": "null" },
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RadioInput {
     /** Accessible label, applied to aria-label. */
     readonly label = input<string>("");
+    /** The id of the inner control, so a <label for> or lily-field inputId reaches it (the host gets none). */
+    readonly id = input<string | undefined>(undefined);
     /** Extra CSS classes appended to the base class. */
     readonly className = input<string>("");
     /** Form field name, shared by the group. */

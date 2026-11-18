@@ -30,6 +30,7 @@ import { restoreOnFormReset } from "./form-reset";
     selector: "lily-one-time-password-input",
     standalone: true,
     template: `<input
+      [attr.id]="id() ?? null"
     class="one-time-password-input {{ className() }}"
     type="text"
     [attr.inputmode]="inputMode()"
@@ -46,6 +47,7 @@ import { restoreOnFormReset } from "./form-reset";
     [required]="required()"
     [disabled]="disabled()"
   />`,
+    host: { "[attr.id]": "null" },
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OneTimePasswordInput implements OnInit {
@@ -53,6 +55,8 @@ export class OneTimePasswordInput implements OnInit {
 
     /** Accessible label, applied to aria-label. */
     readonly label = input.required<string>();
+    /** The id of the inner control, so a <label for> or lily-field inputId reaches it (the host gets none). */
+    readonly id = input<string | undefined>(undefined);
     /** Number of characters in the code (maxlength). No default. */
     readonly length = input.required<number>();
     /** Extra CSS classes appended to the base class. */

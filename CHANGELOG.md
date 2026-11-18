@@ -9,6 +9,16 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## `field` labels the input inside a Web Components or Angular input (2026-11-18, P38-T3)
+
+- Web Components: an `id` on an input component moves to its inner labelable control instead of being copied, so there is
+  one element with the id; `lily-field` gives its id to that control. Angular: every input component gains an `id` input
+  bound to the inner `<input>`, the host carrying none, so `lily-field`'s `inputId` reaches it. Before, in both, the
+  visible label pointed at the custom element, which cannot be labelled.
+- `@lilydesignsystem/web-components-headless` 0.13.0 and `-identifiers` 0.3.0, `@lilydesignsystem/angular-headless` 0.13.0
+  and `-identifiers` 0.3.0 (not yet published). Found by checking the getting-started guide against the published
+  packages.
+
 ## Blazor on .NET 11 (2026-11-18, breaking for NuGet consumers)
 
 - Every Blazor project, the headless library, its identifiers add-on, the 21 helper packages, their tests and the

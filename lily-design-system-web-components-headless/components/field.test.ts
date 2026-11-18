@@ -1,9 +1,25 @@
 import { afterEach, describe, expect, test } from "vitest";
 
+import { EmailInput } from "./email-input.js";
 import { Field } from "./field.js";
+import { Select } from "./select.js";
+import { TextInput } from "./text-input.js";
 
 if (!customElements.get("lily-field")) {
     customElements.define("lily-field", Field);
+}
+for (const [tag, element] of [
+    ["lily-email-input", EmailInput],
+    ["lily-text-input", TextInput],
+    ["lily-select", Select],
+] as const) {
+    if (!customElements.get(tag)) customElements.define(tag, element);
+}
+
+/** No two elements in the document share an id. */
+function idsAreUnique(): boolean {
+    const ids = [...document.querySelectorAll("[id]")].map((el) => el.id);
+    return new Set(ids).size === ids.length;
 }
 
 afterEach(() => {
@@ -39,6 +55,49 @@ describe("Field", () => {
         );
 
         expect(host.querySelector("label")!.htmlFor).toBe("my-input");
+    });
+
+    // P38-T3: around a Lily input component, the visible label labels the <input> inside it, and no id is duplicated.
+    for (const [tag, control] of [
+        ["lily-email-input", "input"],
+        ["lily-text-input", "input"],
+        ["lily-select", "select"],
+    ] as const) {
+        test(`labels the ${control} inside <${tag}>`, () => {
+            render(
+                `<lily-field label="Email address"><${tag} label="Email address"></${tag}></lily-field>`,
+            );
+            const el = document.querySelector(`.field ${control}`) as
+                HTMLInputElement | HTMLSelectElement;
+            expect(el.labels).toHaveLength(1);
+            expect(el.labels![0]!.textContent).toBe("Email address");
+            expect(idsAreUnique()).toBe(true);
+        });
+
+        test(`labels the ${control} inside <${tag}> given its own id`, () => {
+            render(
+                `<lily-field label="Email address"><${tag} id="email" label="Email address"></${tag}></lily-field>`,
+            );
+            const el = document.querySelector(`.field ${control}`) as
+                HTMLInputElement | HTMLSelectElement;
+            expect(el.id).toBe("email");
+            expect(el.labels).toHaveLength(1);
+            expect(document.querySelector(tag)!.hasAttribute("id")).toBe(false);
+            expect(idsAreUnique()).toBe(true);
+        });
+    }
+
+    test("labels the control of an input component that rendered before the field", () => {
+        const input = document.createElement("lily-email-input");
+        input.setAttribute("label", "Email address");
+        document.body.appendChild(input); // renders its <input> now
+        const field = document.createElement("lily-field");
+        field.setAttribute("label", "Email address");
+        field.appendChild(input);
+        document.body.appendChild(field);
+        const el = document.querySelector(".field input") as HTMLInputElement;
+        expect(el.labels).toHaveLength(1);
+        expect(idsAreUnique()).toBe(true);
     });
 
     test("renders a description paragraph before the content", () => {

@@ -12,6 +12,7 @@ import { restoreOnFormReset } from "./form-reset";
     selector: "lily-input",
     standalone: true,
     template: `<input
+      [attr.id]="id() ?? null"
       class="input {{ className() }}"
       [attr.type]="type()"
       [attr.aria-label]="label() || null"
@@ -21,11 +22,14 @@ import { restoreOnFormReset } from "./form-reset";
       [disabled]="disabled()"
       [required]="required()"
     />`,
+    host: { "[attr.id]": "null" },
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Input {
     /** Accessible label, applied to aria-label. */
     readonly label = input<string>("");
+    /** The id of the inner control, so a <label for> or lily-field inputId reaches it (the host gets none). */
+    readonly id = input<string | undefined>(undefined);
     /** Extra CSS classes appended to the base class. */
     readonly className = input<string>("");
     /** The input type. */

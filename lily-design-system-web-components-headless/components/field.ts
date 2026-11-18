@@ -23,7 +23,7 @@
 //   - WAI Forms Tutorial: https://www.w3.org/WAI/tutorials/forms/
 //   - WAI-ARIA Error Handling: https://www.w3.org/WAI/WCAG22/Techniques/aria/ARIA21
 
-import { applySelfClassName, nextId } from "../lib/dom-utils.js";
+import { applySelfClassName, labelableControl, nextId } from "../lib/dom-utils.js";
 
 export class Field extends HTMLElement {
     static get observedAttributes(): string[] {
@@ -53,7 +53,12 @@ export class Field extends HTMLElement {
 
         if (!explicitId) {
             const firstElement = this.firstElementChild;
-            if (firstElement && !firstElement.id) firstElement.id = this.#fieldId;
+            // A Lily input component that has already rendered holds its <input> inside: the id goes on that control,
+            // which is the one a <label for> can label. One that has not rendered yet moves the host's id onto its
+            // control when it does (passThroughAttributes).
+            const control = firstElement ? (labelableControl(firstElement) ?? firstElement) : null;
+            if (control && !control.id && !firstElement?.id) control.id = this.#fieldId;
+            else if (control?.id) this.#fieldId = control.id;
         }
 
         applySelfClassName(this, "field");

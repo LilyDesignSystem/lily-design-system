@@ -12,6 +12,7 @@ import { restoreOnFormReset } from "./form-reset";
     selector: "lily-submit-input",
     standalone: true,
     template: `<input
+      [attr.id]="id() ?? null"
       class="submit-input {{ className() }}"
       type="submit"
       [attr.aria-label]="label() || null"
@@ -21,11 +22,14 @@ import { restoreOnFormReset } from "./form-reset";
       [disabled]="disabled()"
       [required]="required()"
     />`,
+    host: { "[attr.id]": "null" },
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SubmitInput {
     /** Accessible label, applied to aria-label. */
     readonly label = input<string>("");
+    /** The id of the inner control, so a <label for> or lily-field inputId reaches it (the host gets none). */
+    readonly id = input<string | undefined>(undefined);
     /** Extra CSS classes appended to the base class. */
     readonly className = input<string>("");
     /** Bindable input value. */

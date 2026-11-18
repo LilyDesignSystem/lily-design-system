@@ -68,6 +68,29 @@ export function passThroughAttributes(
         if (attr.name === "class" || handled.has(attr.name)) continue;
         target.setAttribute(attr.name, attr.value);
     }
+    // An id names one element. On a labelable control it must be the control's, so that <label for> and
+    // aria-labelledby reach it: move it off the host rather than leave two elements with the same id (P38-T3).
+    if (!handled.has("id") && host.hasAttribute("id") && LABELABLE.has(target.localName))
+        host.removeAttribute("id");
+}
+
+/** The elements a <label> can label (HTML's labelable elements, less the form-associated custom elements). */
+export const LABELABLE: ReadonlySet<string> = new Set([
+    "button",
+    "input",
+    "meter",
+    "output",
+    "progress",
+    "select",
+    "textarea",
+]);
+
+/** The control a <label for> should point at: `el` itself if labelable, else its first labelable descendant. */
+export function labelableControl(el: Element): Element | null {
+    if (LABELABLE.has(el.localName)) return el;
+    return el.querySelector(
+        "button, input:not([type=hidden]), meter, output, progress, select, textarea",
+    );
 }
 
 /** Parse a boolean-ish attribute the way HTML itself does: presence, not value. */

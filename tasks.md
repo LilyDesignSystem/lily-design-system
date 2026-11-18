@@ -3953,12 +3953,17 @@ Maintainer-directed, in this order.
       `bin/smoke-packages` now checks) and P38-T3. English only: the home and tutorials pages are translated, so a link
       there waits for translations. Live on lilydesignsystem.com since the 2026-11-18 site publish, with the Solid icon on
       the home page; `alpine-headless` 0.3.1 published and 0.3.0 deprecated.)_
-- [ ] **P38-T3 `field` cannot label a custom-element input.** In Web Components, `lily-field` gives its generated id to
+- [x] **P38-T3 `field` cannot label a custom-element input.** In Web Components, `lily-field` gives its generated id to
       its first child, the custom element, not the `<input>` inside it, and `lily-email-input` copies an `id` to its
       inner input while keeping it, so an explicit id is duplicated; either way the visible label labels nothing.
       Angular's `EmailInput` takes no id at all, so `lily-field`'s `inputId` cannot reach its input. Until fixed, the
       guide wraps the input in a `<label>`. Verify: in both catalogs, `<field>` around an input component gives
-      `input.labels` one entry and no duplicate ids, with a test for each input component.
+      `input.labels` one entry and no duplicate ids, with a test for each input component. _(2026-11-18: Web Components'
+      `passThroughAttributes` moves an `id` onto a labelable inner control instead of copying it, and `lily-field` puts its
+      id on the inner control; Angular's 132 input components gain an `id` input bound to the inner `<input>`, the host
+      carrying none. Tests: 7 in WC `field.test.ts` and one in Angular `Field.spec.ts`, each failing on the old code. WC
+      headless 0.13.0 and identifiers 0.3.0, Angular headless 0.13.0 and identifiers 0.3.0, unpublished; the guide keeps
+      the wrapping label, which works in every version, and names the release that adds `field`.)_
 - [ ] **P38-T4 Comparison tables**, **P38-T5 fast-check property tests**, **P38-T6 visual regression in Firefox and
       WebKit**, **P38-T7 accessibility automation**, **P38-T8 render benchmarks**, **P38-T9 coverage reporting and
       badges**, **P38-T10 security audit automation**: the rest of the queue, in this order.

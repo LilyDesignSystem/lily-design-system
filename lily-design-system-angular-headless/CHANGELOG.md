@@ -5,6 +5,13 @@ and the package follows [Semantic Versioning](https://semver.org/).
 The canonical monorepo history is in the root
 [CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md).
 
+## 0.13.0 — 2026-11-18
+
+- **Added:** an `id` input on every input component (`lily-text-input`, `lily-email-input`, the identifier inputs and the
+  rest), bound to the inner `<input>`; the host carries no id. `<lily-field inputId="email">` around
+  `<lily-email-input id="email">` now labels the input (P38-T3). Before, an id stayed on the host, which cannot be
+  labelled.
+
 ## 0.12.0 — 2026-11-18 (breaking)
 
 - **Breaking:** the 164 national personal identifier components (an `-input` and a `-view` for each of 82 identifier

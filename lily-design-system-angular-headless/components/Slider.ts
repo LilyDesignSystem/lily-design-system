@@ -20,13 +20,19 @@ import { restoreOnFormReset } from "./form-reset";
 @Component({
     selector: "lily-slider",
     standalone: true,
-    template: `<input class="slider {{ className() }}" type="range" [attr.aria-label]="label() || null" [value]="value()" [min]="min()" [max]="max()" [step]="step()" [disabled]="disabled()" (input)="onInput($event)" />`,
+    template: `<input
+      [attr.id]="id() ?? null" class="slider {{ className() }}" type="range" [attr.aria-label]="label() || null" [value]="value()" [min]="min()" [max]="max()" [step]="step()" [disabled]="disabled()" (input)="onInput($event)" />`,
+    host: { "[attr.id]": "null" },
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Slider implements OnInit {
     private readonly lilyHost = inject(ElementRef);
 
     readonly label = input<string>("");
+
+    /** The id of the inner control, so a <label for> or lily-field inputId reaches it (the host gets none). */
+
+    readonly id = input<string | undefined>(undefined);
     readonly className = input<string>("");
     /** Current value (two-way: [(value)]). */
     readonly value = model<number>(0);

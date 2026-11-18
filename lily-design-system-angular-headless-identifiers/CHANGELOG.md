@@ -3,6 +3,11 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the package follows [Semantic Versioning](https://semver.org/).
 
+## 0.3.0 — 2026-11-18
+
+- **Added:** an `id` input on every input component (every identifier input), bound to the inner `<input>`; the host carries no id. `<lily-field inputId>` around an identifier input with the same `id` now labels the input (P38-T3). Before, an id stayed on the host, which cannot be
+  labelled.
+
 ## 0.2.0 — 2026-11-18
 
 - Twelve more national identifier types, 24 components (188 in all, 94 types): Peru's Documento Nacional de

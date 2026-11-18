@@ -12,6 +12,7 @@ import { restoreOnFormReset } from "./form-reset";
     selector: "lily-file-input",
     standalone: true,
     template: `<input
+      [attr.id]="id() ?? null"
       class="file-input {{ className() }}"
       type="file"
       [attr.aria-label]="label() || null"
@@ -23,11 +24,14 @@ import { restoreOnFormReset } from "./form-reset";
       [attr.accept]="accept() || null"
       [multiple]="multiple()"
     />`,
+    host: { "[attr.id]": "null" },
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FileInput {
     /** Accessible label, applied to aria-label. */
     readonly label = input<string>("");
+    /** The id of the inner control, so a <label for> or lily-field inputId reaches it (the host gets none). */
+    readonly id = input<string | undefined>(undefined);
     /** Extra CSS classes appended to the base class. */
     readonly className = input<string>("");
     /** Bindable input value. */

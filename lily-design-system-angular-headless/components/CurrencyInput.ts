@@ -28,6 +28,7 @@ import { restoreOnFormReset } from "./form-reset";
     selector: "lily-currency-input",
     standalone: true,
     template: `<input
+      [attr.id]="id() ?? null"
       class="currency-input {{ className() }}"
       type="text"
       inputmode="decimal"
@@ -41,11 +42,14 @@ import { restoreOnFormReset } from "./form-reset";
       [disabled]="disabled()"
       [required]="required()"
     />`,
+    host: { "[attr.id]": "null" },
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CurrencyInput {
     /** Accessible label, applied to aria-label. */
     readonly label = input<string>("");
+    /** The id of the inner control, so a <label for> or lily-field inputId reaches it (the host gets none). */
+    readonly id = input<string | undefined>(undefined);
     /** ISO 4217 currency code. Required; never defaulted. */
     readonly currencyCode = input.required<string>();
     /** Extra CSS classes appended to the base class. */

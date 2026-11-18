@@ -13,6 +13,16 @@ Release highlights and project news: [NEWS.md](NEWS.md).
 
 Lily™ and Lily Design System™ are trademarks.
 
+## 0.13.0 — 2026-11-18
+
+- **Changed:** an `id` given to an input component (`lily-text-input`, `lily-email-input`, `lily-select` and the other
+  components that render one labelable control) moves to that control instead of being copied, so there is one element
+  with the id and a `<label for>` or `aria-labelledby` reaches the control. Code that looked the custom element up by
+  that id now finds the control (P38-T3).
+- **Fixed:** `lily-field` labels the control inside an input component: its generated id, or the component's own, goes
+  on the inner `<input>` or `<select>`, so `input.labels` has one entry. Before, the label pointed at the custom element,
+  which cannot be labelled, and labelled nothing.
+
 ## 0.12.0 — 2026-11-18 (breaking)
 
 - **Breaking:** the 164 national personal identifier components (an `-input` and a `-view` for each of 82 identifier
