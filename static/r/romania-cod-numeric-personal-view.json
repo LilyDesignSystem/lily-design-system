@@ -27,7 +27,7 @@
     "html": "lily-design-system-html-headless/components/romania-cod-numeric-personal-view.html",
     "svelte": "lily-design-system-svelte-headless/components/RomaniaCodNumericPersonalView/RomaniaCodNumericPersonalView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/RomaniaCodNumericPersonalView.tsx",
-    "vue": "lily-design-system-vue-headless/components/RomaniaCodNumericPersonalView.vue",
+    "vue": "lily-design-system-vue-headless-identifiers/components/RomaniaCodNumericPersonalView.vue",
     "angular": "lily-design-system-angular-headless/components/RomaniaCodNumericPersonalView.ts",
     "web-components": "lily-design-system-web-components-headless/components/romania-cod-numeric-personal-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/romania-cod-numeric-personal-view.html",

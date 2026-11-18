@@ -31,7 +31,7 @@
     "html": "lily-design-system-html-headless/components/sverige-personnummer-input.html",
     "svelte": "lily-design-system-svelte-headless/components/SverigePersonnummerInput/SverigePersonnummerInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/SverigePersonnummerInput.tsx",
-    "vue": "lily-design-system-vue-headless/components/SverigePersonnummerInput.vue",
+    "vue": "lily-design-system-vue-headless-identifiers/components/SverigePersonnummerInput.vue",
     "angular": "lily-design-system-angular-headless/components/SverigePersonnummerInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/sverige-personnummer-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/sverige-personnummer-input.html",
