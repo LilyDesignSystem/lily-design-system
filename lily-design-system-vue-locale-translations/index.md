@@ -15,7 +15,7 @@ import cy from "@lilydesignsystem/vue-locale-translations/cy-001";
 
 ## Which package
 
-All eight catalogs have their own package so you install the one that matches your framework: `@lilydesignsystem/{svelte,react,vue,angular,html,web-components,nunjucks}-locale-translations` (npm) and `LilyDesignSystem.Blazor.LocaleTranslations` (NuGet). The packs are identical in every one; the generic `@lilydesignsystem/locale-translations` carries the same files and both loaders for tooling that serves no one framework.
+All nine catalogs have their own package so you install the one that matches your framework: `@lilydesignsystem/{svelte,react,solid,vue,angular,html,web-components,nunjucks}-locale-translations` (npm) and `LilyDesignSystem.Blazor.LocaleTranslations` (NuGet). The packs are identical in every one; the generic `@lilydesignsystem/locale-translations` carries the same files and both loaders for tooling that serves no one framework.
 
 ## What a pack holds
 

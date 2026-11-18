@@ -911,6 +911,7 @@ updates:
       - "/lily-design-system-nunjucks-locale-translations"
       - "/lily-design-system-pattern-testers"
       - "/lily-design-system-react-locale-translations"
+      - "/lily-design-system-solid-locale-translations"
       - "/lily-design-system-svelte-locale-translations"
       - "/lily-design-system-themes"
       - "/lily-design-system-vue-locale-translations"
