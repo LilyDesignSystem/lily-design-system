@@ -476,6 +476,12 @@ def dom_attrs(text):
     text = re.sub(r"(?<![\w.])className=", "class=", text)
     # React's onDoubleClick is the DOM's dblclick; and a camelCase key in a spread object is not an attribute name.
     text = re.sub(r"(?<![\w.])onDoubleClick=", "onDblClick=", text)
+    # SVG presentation attributes: React takes camelCase, the DOM (and Solid) the hyphenated names.
+    for camel, hyphen in [("strokeWidth", "stroke-width"), ("strokeLinecap", "stroke-linecap"),
+                          ("strokeLinejoin", "stroke-linejoin"), ("strokeDasharray", "stroke-dasharray"),
+                          ("strokeOpacity", "stroke-opacity"), ("fillOpacity", "fill-opacity"),
+                          ("markerEnd", "marker-end"), ("markerStart", "marker-start")]:
+        text = re.sub(r"(?<![\w.])%s=" % camel, hyphen + "=", text)
     text = re.sub(r"\{ tabIndex:", "{ tabindex:", text)
     text = re.sub(r"\{ colSpan:", "{ colspan:", text)
     # spellcheck / draggable take the enumerated strings in Solid's types

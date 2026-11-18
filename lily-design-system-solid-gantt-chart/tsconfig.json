@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "jsx": "preserve",
+    "jsxImportSource": "@solidjs/web",
+    "strict": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "isolatedModules": true,
+    "types": ["vitest/globals", "node"],
+    "paths": {
+      "@lilydesignsystem/solid-date-time-picker": [
+        "../lily-design-system-solid-date-time-picker/index.ts"
+      ],
+      "@lilydesignsystem/solid-headless": ["../lily-design-system-solid-headless/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "dist", "examples", "docs"]
+}
