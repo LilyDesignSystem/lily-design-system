@@ -269,3 +269,26 @@ describe("ColorPicker", () => {
         expect((screen.getByLabelText("Hex") as HTMLInputElement).value).toBe("#00ff00");
     });
 });
+
+describe("ColorPicker — reset without edits", () => {
+    test("a reset with no edits keeps the fields and the chosen swatch (the browser restores their defaults)", async () => {
+        const { container } = rtlRender(() => (
+            <form>
+                <ColorPicker
+                    labels={labels}
+                    name="c"
+                    defaultValue="#000000"
+                />
+            </form>
+        ));
+        const form = container.querySelector("form")!;
+        form.reset();
+        await act(() => new Promise((r) => setTimeout(r, 0)));
+        expect((container.querySelector(".color-picker-hex") as HTMLInputElement).value).toBe(
+            "#000000",
+        );
+        expect(
+            container.querySelectorAll<HTMLInputElement>("input[type=radio]:checked").length,
+        ).toBeGreaterThan(0);
+    });
+});

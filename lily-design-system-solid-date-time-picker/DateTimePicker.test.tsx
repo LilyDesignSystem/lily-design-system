@@ -1411,3 +1411,20 @@ describe("DateTimePicker — worldwide equity (P17-T1 to T3)", () => {
         host.remove();
     });
 });
+
+describe("DateTimePicker — reset without edits", () => {
+    test("a reset with no edits keeps the text field and the value (the browser restores the field's default)", async () => {
+        const { container } = render(() => (
+            <form>
+                <DateTimePicker {...base({ name: "when", value: "2026-10-01" })} />
+            </form>
+        ));
+        const form = container.querySelector("form")!;
+        const field = container.querySelector(".date-time-picker-input") as HTMLInputElement;
+        const before = field.value;
+        form.reset();
+        await act(() => vi.advanceTimersByTimeAsync(1));
+        expect(field.value).toBe(before);
+        expect(new FormData(form).get("when")).toBe("2026-10-01");
+    });
+});

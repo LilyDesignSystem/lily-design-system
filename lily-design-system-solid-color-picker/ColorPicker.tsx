@@ -339,6 +339,7 @@ export function ColorPicker(props: Props): JSX.Element {
             name={`${id}-${group}`}
             value={color}
             checked={color === current()}
+            defaultChecked={color === current()}
             aria-label={labelOf(color)}
             data-color={color}
             style={{ "--color-picker-swatch": color }}
@@ -444,6 +445,7 @@ export function ColorPicker(props: Props): JSX.Element {
                         spellcheck="false"
                         disabled={props.disabled ?? false}
                         value={draftValue("hex")}
+                        defaultValue={draftValue("hex")}
                         onInput={onDraftInput("hex")}
                         data-field="hex"
                         aria-invalid={hexInvalid() ? "true" : undefined}
@@ -477,6 +479,7 @@ export function ColorPicker(props: Props): JSX.Element {
                         spellcheck="false"
                         disabled={props.disabled ?? false}
                         value={draftValue("name")}
+                        defaultValue={draftValue("name")}
                         onInput={onDraftInput("name")}
                         data-field="name"
                         aria-invalid={nameInvalid() ? "true" : undefined}
@@ -522,6 +525,7 @@ export function ColorPicker(props: Props): JSX.Element {
                                             step="1"
                                             disabled={props.disabled ?? false}
                                             value={draftValue(`${model.id}-${key}`)}
+                                            defaultValue={draftValue(`${model.id}-${key}`)}
                                             onInput={onDraftInput(`${model.id}-${key}`)}
                                             data-field={model.id}
                                             data-key={key}

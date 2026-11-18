@@ -61,6 +61,15 @@ export default MyPicker;
 - Writing a signal inside an effect's `apply` is legitimate but rare; prefer a plain variable for one-shot state such
   as "focus the first option after opening".
 
+## Forms
+
+Solid writes a bound `value` or `checked` as the DOM property, never the attribute, so a form reset (which puts
+every field back to its attribute default) empties the field, and a field whose value did not change is never written
+again. Give every visible bound field a default that follows it: `defaultValue={…}` on an input or textarea,
+`defaultChecked={…}` on a checkbox or radio, `defaultSelected={…}` (or `selected`) on each option. Where that is
+awkward (a recursive builder such as `filter`), rebuild the controls after the reset. Test a reset with no edits as
+well as one after an edit: the first is the case that breaks.
+
 ## Dependencies
 
 A helper depends on `@lilydesignsystem/solid-headless` (and, for `picker-bar`, the sibling pickers) as regular npm

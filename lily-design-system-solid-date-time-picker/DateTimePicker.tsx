@@ -1781,6 +1781,9 @@ export function DateTimePicker(props: Props): JSX.Element {
                     type="text"
                     autocomplete="off"
                     value={display()}
+                    // A form reset puts a field back to its default; keeping it equal to the shown text lets the reset
+                    // handler below decide what the field holds.
+                    defaultValue={display()}
                     placeholder={p.placeholder}
                     disabled={p.disabled}
                     readonly={p.readonly}
@@ -1972,7 +1975,12 @@ export function DateTimePicker(props: Props): JSX.Element {
                         >
                             <option value=""></option>
                             {zoneOptions().map((zone) => (
-                                <option value={zone}>{p.timeZoneLabels[zone] ?? zone}</option>
+                                <option
+                                    value={zone}
+                                    defaultSelected={zone === currentZone()}
+                                >
+                                    {p.timeZoneLabels[zone] ?? zone}
+                                </option>
                             ))}
                         </select>
                     </div>
@@ -2103,7 +2111,12 @@ export function DateTimePicker(props: Props): JSX.Element {
                             onChange={(event) => setHour(Number(event.target.value))}
                         >
                             {hourOptions().map((option) => (
-                                <option value={option.value}>{option.label}</option>
+                                <option
+                                    value={option.value}
+                                    defaultSelected={option.value === pendingHour()}
+                                >
+                                    {option.label}
+                                </option>
                             ))}
                         </select>
 
@@ -2120,7 +2133,12 @@ export function DateTimePicker(props: Props): JSX.Element {
                             onChange={(event) => setMinute(Number(event.target.value))}
                         >
                             {minuteOptions().map((minute) => (
-                                <option value={minute}>{pad(minute)}</option>
+                                <option
+                                    value={minute}
+                                    defaultSelected={minute === pendingMinute()}
+                                >
+                                    {pad(minute)}
+                                </option>
                             ))}
                         </select>
 
@@ -2138,11 +2156,21 @@ export function DateTimePicker(props: Props): JSX.Element {
                                     value={pendingHour() >= 12 ? "pm" : "am"}
                                     onChange={(event) => setMeridiem(event.target.value === "pm")}
                                 >
-                                    {/* Stable values, localised p.labels: the
-                                        visible text is the p.locale's own
-                                        day-period p.name. */}
-                                    <option value="am">{dayPeriodName(false)}</option>
-                                    <option value="pm">{dayPeriodName(true)}</option>
+                                    {/* Stable values, localised labels: the
+                                        visible text is the locale's own
+                                        day-period name. */}
+                                    <option
+                                        value="am"
+                                        defaultSelected={pendingHour() < 12}
+                                    >
+                                        {dayPeriodName(false)}
+                                    </option>
+                                    <option
+                                        value="pm"
+                                        defaultSelected={pendingHour() >= 12}
+                                    >
+                                        {dayPeriodName(true)}
+                                    </option>
                                 </select>
                             </>
                         )}

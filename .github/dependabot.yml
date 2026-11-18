@@ -339,6 +339,7 @@ updates:
     directories:
       - "/lily-design-system-solid-color-picker"
       - "/lily-design-system-solid-date-time-picker"
+      - "/lily-design-system-solid-filter"
       - "/lily-design-system-solid-link-picker"
       - "/lily-design-system-solid-locale-picker"
       - "/lily-design-system-solid-markdown-editor"
