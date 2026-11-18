@@ -17,7 +17,7 @@ highlights.
   Card PIN), Ethiopia (Fayda Identification Number), Sri Lanka and Bangladesh (National Identity Card numbers),
   Kazakhstan (Individual Identification Number), Uzbekistan (JShShIR) and the United Arab Emirates (Emirates ID).
   Catalog 661: 473 core and 188 identifiers, 94 types in 77 countries; Europe is now 52 percent of the types.
-- In all ten `-headless-identifiers` packages, each now 0.2.0 (unpublished), with docs, demos, theme hooks, site pages
+- In all ten `-headless-identifiers` packages, each now 0.2.0 (published 2026-11-18: nine on npm, one on NuGet), with docs, demos, theme hooks, site pages
   and tests. Where a country publishes no check-digit algorithm the docs say so; Guatemala's and the Emirates' are
   documented by third parties only, and the docs say that too. Kenya is left out: sources disagree on its number's
   length.

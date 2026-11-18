@@ -3926,7 +3926,7 @@ release; the canonical catalog keeps all 637. Plan: [spec/headless-identifiers](
       section, `bin/publish-headless` publishes all ten.)_
 - [x] **P37-T6 More national identifiers** (the queued "research more national identifiers and add them"). Verify:
       each `-headless-identifiers` package's tests pass, every drift check passes, `bin/check-worldwide` counts the new
-      types by region. _(2026-11-18: 12 types, 24 components, catalog 661; packages 0.2.0, not yet published;
+      types by region. _(2026-11-18: 12 types, 24 components, catalog 661; packages 0.2.0, published the same day (npm `bin/publish-headless --npm-only`, NuGet run 44359743274; all ten verified on the registries);
       [spec/national-identifiers](spec/national-identifiers/index.md) has the round and the sources.)_
 - [ ] **P37-T5 Stale catalog counts in the skills and package descriptions.** Some headless skills and package
       descriptions still give an old catalog size (609, 608, 571, 491). Restate each as the package's own share (473, or
