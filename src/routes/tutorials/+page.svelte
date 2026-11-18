@@ -31,7 +31,7 @@
     </li>
     <li>
       <strong>For Blazor</strong> — git and the
-      <a href="https://dotnet.microsoft.com/">.NET SDK</a> 8 or later.
+      <a href="https://dotnet.microsoft.com/">.NET SDK</a> 11 or later.
     </li>
   </ul>
   <p>

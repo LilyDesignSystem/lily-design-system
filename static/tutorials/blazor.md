@@ -14,7 +14,7 @@ A small contact form — labelled input, submit button, `@bind-Value` binding, r
 
 ## Before you start
 
-You need git and the .NET SDK 8 or later. Any Blazor project works — Blazor Web App, Server, or WebAssembly.
+You need git and the .NET SDK 11 or later. Any Blazor project works — Blazor Web App, Server, or WebAssembly.
 
 ## Step 1 — Get the code
 

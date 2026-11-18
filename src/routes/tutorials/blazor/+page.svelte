@@ -21,7 +21,7 @@
 
   <h2>Before you start</h2>
   <p>
-    You need git and the .NET SDK 8 or later. Any Blazor project works —
+    You need git and the .NET SDK 11 or later. Any Blazor project works —
     Blazor Web App, Server, or WebAssembly.
   </p>
 

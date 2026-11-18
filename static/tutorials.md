@@ -14,7 +14,7 @@ You need surprisingly little:
 
 - **For the HTML tutorial** — just a browser and a text editor. That's the entire toolkit.
 - **For Svelte, React, Vue, Angular, or Nunjucks** — [git](https://git-scm.com/), Node 26, and pnpm 10 or later.
-- **For Blazor** — git and the [.NET SDK](https://dotnet.microsoft.com/) 8 or later.
+- **For Blazor** — git and the [.NET SDK](https://dotnet.microsoft.com/) 11 or later.
 
 New to headless components? You're in the right place — each tutorial explains what's happening as you go, and every step shows the exact code to copy.
 
