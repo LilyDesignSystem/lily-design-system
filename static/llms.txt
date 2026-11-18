@@ -87,7 +87,7 @@ actually live.
 - [components.tsv](https://github.com/LilyDesignSystem/lily-design-system/blob/main/components.tsv):
   the canonical 609-component catalog (slug, PascalCase name, description).
 - [Canonical monorepo](https://github.com/LilyDesignSystem/lily-design-system):
-  all 245 subprojects (215 implementation subprojects — 10 headless, 9 example, 196 helper packages — plus 30 Claude Skills),
+  all 255 subprojects (225 implementation subprojects — 10 headless, their 10 national identifier add-ons, 9 example, 196 helper packages — plus 30 Claude Skills),
   the `bin/` tooling, and full change history.
 
 ## Optional
