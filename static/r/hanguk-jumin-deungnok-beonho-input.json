@@ -27,7 +27,7 @@
     "text-input"
   ],
   "files": {
-    "html": "lily-design-system-html-headless/components/hanguk-jumin-deungnok-beonho-input.html",
+    "html": "lily-design-system-html-headless-identifiers/components/hanguk-jumin-deungnok-beonho-input.html",
     "svelte": "lily-design-system-svelte-headless-identifiers/components/HangukJuminDeungnokBeonhoInput/HangukJuminDeungnokBeonhoInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/HangukJuminDeungnokBeonhoInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/HangukJuminDeungnokBeonhoInput.vue",

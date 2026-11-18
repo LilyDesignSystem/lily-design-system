@@ -27,7 +27,7 @@
     "text-input"
   ],
   "files": {
-    "html": "lily-design-system-html-headless/components/nihon-kojin-bango-input.html",
+    "html": "lily-design-system-html-headless-identifiers/components/nihon-kojin-bango-input.html",
     "svelte": "lily-design-system-svelte-headless-identifiers/components/NihonKojinBangoInput/NihonKojinBangoInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/NihonKojinBangoInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/NihonKojinBangoInput.vue",

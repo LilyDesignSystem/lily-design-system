@@ -24,7 +24,7 @@
     "summary-list-item"
   ],
   "files": {
-    "html": "lily-design-system-html-headless/components/suomi-henkilotunnus-view.html",
+    "html": "lily-design-system-html-headless-identifiers/components/suomi-henkilotunnus-view.html",
     "svelte": "lily-design-system-svelte-headless-identifiers/components/SuomiHenkilotunnusView/SuomiHenkilotunnusView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/SuomiHenkilotunnusView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/SuomiHenkilotunnusView.vue",

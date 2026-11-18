@@ -28,7 +28,7 @@
     "text-input"
   ],
   "files": {
-    "html": "lily-design-system-html-headless/components/malta-national-identification-number-input.html",
+    "html": "lily-design-system-html-headless-identifiers/components/malta-national-identification-number-input.html",
     "svelte": "lily-design-system-svelte-headless-identifiers/components/MaltaNationalIdentificationNumberInput/MaltaNationalIdentificationNumberInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/MaltaNationalIdentificationNumberInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/MaltaNationalIdentificationNumberInput.vue",

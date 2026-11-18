@@ -24,7 +24,7 @@
     "summary-list-item"
   ],
   "files": {
-    "html": "lily-design-system-html-headless/components/malta-passport-number-view.html",
+    "html": "lily-design-system-html-headless-identifiers/components/malta-passport-number-view.html",
     "svelte": "lily-design-system-svelte-headless-identifiers/components/MaltaPassportNumberView/MaltaPassportNumberView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/MaltaPassportNumberView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/MaltaPassportNumberView.vue",

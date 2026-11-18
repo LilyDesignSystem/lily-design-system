@@ -27,7 +27,7 @@
     "text-input"
   ],
   "files": {
-    "html": "lily-design-system-html-headless/components/iran-kod-e-melli-input.html",
+    "html": "lily-design-system-html-headless-identifiers/components/iran-kod-e-melli-input.html",
     "svelte": "lily-design-system-svelte-headless-identifiers/components/IranKodEMelliInput/IranKodEMelliInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/IranKodEMelliInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/IranKodEMelliInput.vue",

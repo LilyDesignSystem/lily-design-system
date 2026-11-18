@@ -28,7 +28,7 @@
     "text-input"
   ],
   "files": {
-    "html": "lily-design-system-html-headless/components/slovensko-pas-input.html",
+    "html": "lily-design-system-html-headless-identifiers/components/slovensko-pas-input.html",
     "svelte": "lily-design-system-svelte-headless-identifiers/components/SlovenskoPasInput/SlovenskoPasInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/SlovenskoPasInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/SlovenskoPasInput.vue",

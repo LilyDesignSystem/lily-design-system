@@ -28,7 +28,7 @@
     "eire-individual-health-identifier-input"
   ],
   "files": {
-    "html": "lily-design-system-html-headless/components/united-kingdom-national-health-service-number-view.html",
+    "html": "lily-design-system-html-headless-identifiers/components/united-kingdom-national-health-service-number-view.html",
     "svelte": "lily-design-system-svelte-headless-identifiers/components/UnitedKingdomNationalHealthServiceNumberView/UnitedKingdomNationalHealthServiceNumberView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/UnitedKingdomNationalHealthServiceNumberView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/UnitedKingdomNationalHealthServiceNumberView.vue",

@@ -27,7 +27,7 @@
     "text-input"
   ],
   "files": {
-    "html": "lily-design-system-html-headless/components/colombia-cedula-de-ciudadania-input.html",
+    "html": "lily-design-system-html-headless-identifiers/components/colombia-cedula-de-ciudadania-input.html",
     "svelte": "lily-design-system-svelte-headless-identifiers/components/ColombiaCedulaDeCiudadaniaInput/ColombiaCedulaDeCiudadaniaInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/ColombiaCedulaDeCiudadaniaInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/ColombiaCedulaDeCiudadaniaInput.vue",

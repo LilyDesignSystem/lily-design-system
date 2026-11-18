@@ -28,7 +28,7 @@
     "text-input"
   ],
   "files": {
-    "html": "lily-design-system-html-headless/components/belgique-numero-de-registre-national-input.html",
+    "html": "lily-design-system-html-headless-identifiers/components/belgique-numero-de-registre-national-input.html",
     "svelte": "lily-design-system-svelte-headless-identifiers/components/BelgiqueNumeroDeRegistreNationalInput/BelgiqueNumeroDeRegistreNationalInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/BelgiqueNumeroDeRegistreNationalInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/BelgiqueNumeroDeRegistreNationalInput.vue",

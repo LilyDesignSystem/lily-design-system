@@ -28,7 +28,7 @@
     "text-input"
   ],
   "files": {
-    "html": "lily-design-system-html-headless/components/sverige-personnummer-input.html",
+    "html": "lily-design-system-html-headless-identifiers/components/sverige-personnummer-input.html",
     "svelte": "lily-design-system-svelte-headless-identifiers/components/SverigePersonnummerInput/SverigePersonnummerInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/SverigePersonnummerInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/SverigePersonnummerInput.vue",

@@ -24,7 +24,7 @@
     "summary-list-item"
   ],
   "files": {
-    "html": "lily-design-system-html-headless/components/cesko-cestovni-pas-view.html",
+    "html": "lily-design-system-html-headless-identifiers/components/cesko-cestovni-pas-view.html",
     "svelte": "lily-design-system-svelte-headless-identifiers/components/CeskoCestovniPasView/CeskoCestovniPasView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/CeskoCestovniPasView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/CeskoCestovniPasView.vue",

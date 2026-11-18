@@ -28,7 +28,7 @@
     "text-input"
   ],
   "files": {
-    "html": "lily-design-system-html-headless/components/island-kennitala-input.html",
+    "html": "lily-design-system-html-headless-identifiers/components/island-kennitala-input.html",
     "svelte": "lily-design-system-svelte-headless-identifiers/components/IslandKennitalaInput/IslandKennitalaInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/IslandKennitalaInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/IslandKennitalaInput.vue",

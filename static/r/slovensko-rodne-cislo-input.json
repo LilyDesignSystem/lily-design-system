@@ -28,7 +28,7 @@
     "text-input"
   ],
   "files": {
-    "html": "lily-design-system-html-headless/components/slovensko-rodne-cislo-input.html",
+    "html": "lily-design-system-html-headless-identifiers/components/slovensko-rodne-cislo-input.html",
     "svelte": "lily-design-system-svelte-headless-identifiers/components/SlovenskoRodneCisloInput/SlovenskoRodneCisloInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/SlovenskoRodneCisloInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/SlovenskoRodneCisloInput.vue",
