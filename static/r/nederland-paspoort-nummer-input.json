@@ -29,7 +29,7 @@
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/nederland-paspoort-nummer-input.html",
-    "svelte": "lily-design-system-svelte-headless/components/NederlandPaspoortNummerInput/NederlandPaspoortNummerInput.svelte",
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/NederlandPaspoortNummerInput/NederlandPaspoortNummerInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/NederlandPaspoortNummerInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/NederlandPaspoortNummerInput.vue",
     "angular": "lily-design-system-angular-headless/components/NederlandPaspoortNummerInput.ts",

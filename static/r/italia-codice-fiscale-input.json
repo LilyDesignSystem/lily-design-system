@@ -29,7 +29,7 @@
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/italia-codice-fiscale-input.html",
-    "svelte": "lily-design-system-svelte-headless/components/ItaliaCodiceFiscaleInput/ItaliaCodiceFiscaleInput.svelte",
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/ItaliaCodiceFiscaleInput/ItaliaCodiceFiscaleInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/ItaliaCodiceFiscaleInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/ItaliaCodiceFiscaleInput.vue",
     "angular": "lily-design-system-angular-headless/components/ItaliaCodiceFiscaleInput.ts",

@@ -25,7 +25,7 @@
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/pakistan-computerized-national-identity-card-view.html",
-    "svelte": "lily-design-system-svelte-headless/components/PakistanComputerizedNationalIdentityCardView/PakistanComputerizedNationalIdentityCardView.svelte",
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/PakistanComputerizedNationalIdentityCardView/PakistanComputerizedNationalIdentityCardView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/PakistanComputerizedNationalIdentityCardView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/PakistanComputerizedNationalIdentityCardView.vue",
     "angular": "lily-design-system-angular-headless/components/PakistanComputerizedNationalIdentityCardView.ts",

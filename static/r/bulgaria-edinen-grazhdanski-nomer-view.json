@@ -25,7 +25,7 @@
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/bulgaria-edinen-grazhdanski-nomer-view.html",
-    "svelte": "lily-design-system-svelte-headless/components/BulgariaEdinenGrazhdanskiNomerView/BulgariaEdinenGrazhdanskiNomerView.svelte",
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/BulgariaEdinenGrazhdanskiNomerView/BulgariaEdinenGrazhdanskiNomerView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/BulgariaEdinenGrazhdanskiNomerView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/BulgariaEdinenGrazhdanskiNomerView.vue",
     "angular": "lily-design-system-angular-headless/components/BulgariaEdinenGrazhdanskiNomerView.ts",

@@ -25,7 +25,7 @@
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/hanguk-jumin-deungnok-beonho-view.html",
-    "svelte": "lily-design-system-svelte-headless/components/HangukJuminDeungnokBeonhoView/HangukJuminDeungnokBeonhoView.svelte",
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/HangukJuminDeungnokBeonhoView/HangukJuminDeungnokBeonhoView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/HangukJuminDeungnokBeonhoView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/HangukJuminDeungnokBeonhoView.vue",
     "angular": "lily-design-system-angular-headless/components/HangukJuminDeungnokBeonhoView.ts",

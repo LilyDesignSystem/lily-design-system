@@ -29,7 +29,7 @@
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/kypros-national-passport-number-input.html",
-    "svelte": "lily-design-system-svelte-headless/components/KyprosNationalPassportNumberInput/KyprosNationalPassportNumberInput.svelte",
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/KyprosNationalPassportNumberInput/KyprosNationalPassportNumberInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/KyprosNationalPassportNumberInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/KyprosNationalPassportNumberInput.vue",
     "angular": "lily-design-system-angular-headless/components/KyprosNationalPassportNumberInput.ts",

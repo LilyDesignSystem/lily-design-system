@@ -27,7 +27,7 @@
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/tuaisceart-eireann-health-and-care-number-view.html",
-    "svelte": "lily-design-system-svelte-headless/components/TuaisceartEireannHealthAndCareNumberView/TuaisceartEireannHealthAndCareNumberView.svelte",
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/TuaisceartEireannHealthAndCareNumberView/TuaisceartEireannHealthAndCareNumberView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/TuaisceartEireannHealthAndCareNumberView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/TuaisceartEireannHealthAndCareNumberView.vue",
     "angular": "lily-design-system-angular-headless/components/TuaisceartEireannHealthAndCareNumberView.ts",

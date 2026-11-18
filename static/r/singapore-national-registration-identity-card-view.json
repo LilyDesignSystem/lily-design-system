@@ -25,7 +25,7 @@
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/singapore-national-registration-identity-card-view.html",
-    "svelte": "lily-design-system-svelte-headless/components/SingaporeNationalRegistrationIdentityCardView/SingaporeNationalRegistrationIdentityCardView.svelte",
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/SingaporeNationalRegistrationIdentityCardView/SingaporeNationalRegistrationIdentityCardView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/SingaporeNationalRegistrationIdentityCardView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/SingaporeNationalRegistrationIdentityCardView.vue",
     "angular": "lily-design-system-angular-headless/components/SingaporeNationalRegistrationIdentityCardView.ts",

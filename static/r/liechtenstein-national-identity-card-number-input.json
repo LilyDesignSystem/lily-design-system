@@ -29,7 +29,7 @@
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/liechtenstein-national-identity-card-number-input.html",
-    "svelte": "lily-design-system-svelte-headless/components/LiechtensteinNationalIdentityCardNumberInput/LiechtensteinNationalIdentityCardNumberInput.svelte",
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/LiechtensteinNationalIdentityCardNumberInput/LiechtensteinNationalIdentityCardNumberInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/LiechtensteinNationalIdentityCardNumberInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/LiechtensteinNationalIdentityCardNumberInput.vue",
     "angular": "lily-design-system-angular-headless/components/LiechtensteinNationalIdentityCardNumberInput.ts",

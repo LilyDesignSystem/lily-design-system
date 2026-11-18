@@ -29,7 +29,7 @@
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/cymru-rhif-y-gwasanaeth-iechyd-gwladol-input.html",
-    "svelte": "lily-design-system-svelte-headless/components/CymruRhifYGwasanaethIechydGwladolInput/CymruRhifYGwasanaethIechydGwladolInput.svelte",
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/CymruRhifYGwasanaethIechydGwladolInput/CymruRhifYGwasanaethIechydGwladolInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/CymruRhifYGwasanaethIechydGwladolInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/CymruRhifYGwasanaethIechydGwladolInput.vue",
     "angular": "lily-design-system-angular-headless/components/CymruRhifYGwasanaethIechydGwladolInput.ts",

@@ -28,7 +28,7 @@
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/bharat-aadhaar-input.html",
-    "svelte": "lily-design-system-svelte-headless/components/BharatAadhaarInput/BharatAadhaarInput.svelte",
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/BharatAadhaarInput/BharatAadhaarInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/BharatAadhaarInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/BharatAadhaarInput.vue",
     "angular": "lily-design-system-angular-headless/components/BharatAadhaarInput.ts",

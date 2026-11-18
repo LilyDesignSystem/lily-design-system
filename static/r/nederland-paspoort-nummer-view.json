@@ -25,7 +25,7 @@
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/nederland-paspoort-nummer-view.html",
-    "svelte": "lily-design-system-svelte-headless/components/NederlandPaspoortNummerView/NederlandPaspoortNummerView.svelte",
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/NederlandPaspoortNummerView/NederlandPaspoortNummerView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/NederlandPaspoortNummerView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/NederlandPaspoortNummerView.vue",
     "angular": "lily-design-system-angular-headless/components/NederlandPaspoortNummerView.ts",

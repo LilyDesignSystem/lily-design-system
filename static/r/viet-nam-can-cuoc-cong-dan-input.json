@@ -28,7 +28,7 @@
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/viet-nam-can-cuoc-cong-dan-input.html",
-    "svelte": "lily-design-system-svelte-headless/components/VietNamCanCuocCongDanInput/VietNamCanCuocCongDanInput.svelte",
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/VietNamCanCuocCongDanInput/VietNamCanCuocCongDanInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/VietNamCanCuocCongDanInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/VietNamCanCuocCongDanInput.vue",
     "angular": "lily-design-system-angular-headless/components/VietNamCanCuocCongDanInput.ts",

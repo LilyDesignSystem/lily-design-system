@@ -25,7 +25,7 @@
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/schweiz-ahv-nummer-view.html",
-    "svelte": "lily-design-system-svelte-headless/components/SchweizAhvNummerView/SchweizAhvNummerView.svelte",
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/SchweizAhvNummerView/SchweizAhvNummerView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/SchweizAhvNummerView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/SchweizAhvNummerView.vue",
     "angular": "lily-design-system-angular-headless/components/SchweizAhvNummerView.ts",

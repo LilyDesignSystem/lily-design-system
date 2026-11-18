@@ -28,7 +28,7 @@
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/magyarorszag-taj-szam-input.html",
-    "svelte": "lily-design-system-svelte-headless/components/MagyarorszagTajSzamInput/MagyarorszagTajSzamInput.svelte",
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/MagyarorszagTajSzamInput/MagyarorszagTajSzamInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/MagyarorszagTajSzamInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/MagyarorszagTajSzamInput.vue",
     "angular": "lily-design-system-angular-headless/components/MagyarorszagTajSzamInput.ts",

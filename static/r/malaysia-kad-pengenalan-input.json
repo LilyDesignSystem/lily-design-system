@@ -28,7 +28,7 @@
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/malaysia-kad-pengenalan-input.html",
-    "svelte": "lily-design-system-svelte-headless/components/MalaysiaKadPengenalanInput/MalaysiaKadPengenalanInput.svelte",
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/MalaysiaKadPengenalanInput/MalaysiaKadPengenalanInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/MalaysiaKadPengenalanInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/MalaysiaKadPengenalanInput.vue",
     "angular": "lily-design-system-angular-headless/components/MalaysiaKadPengenalanInput.ts",

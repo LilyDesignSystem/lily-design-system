@@ -25,7 +25,7 @@
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/misr-al-raqm-al-qawmi-view.html",
-    "svelte": "lily-design-system-svelte-headless/components/MisrAlRaqmAlQawmiView/MisrAlRaqmAlQawmiView.svelte",
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/MisrAlRaqmAlQawmiView/MisrAlRaqmAlQawmiView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/MisrAlRaqmAlQawmiView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/MisrAlRaqmAlQawmiView.vue",
     "angular": "lily-design-system-angular-headless/components/MisrAlRaqmAlQawmiView.ts",
