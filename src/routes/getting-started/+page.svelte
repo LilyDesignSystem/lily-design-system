@@ -178,8 +178,10 @@ export class Signup {}`}</code
         ></pre>
     <p>
         The visible label wraps the component, which labels the <code>&lt;input&gt;</code> inside
-        it. Angular's
-        <code>lily-field</code> cannot point at that inner input yet, so use the wrapping label for now.
+        it, in every version. From <code>@lilydesignsystem/angular-headless</code> 0.13.0 you can
+        use
+        <code>&lt;lily-field inputId="email"&gt;</code> around
+        <code>&lt;lily-email-input id="email"&gt;</code> instead.
     </p>
 
     <h2 id="web-components">Web Components</h2>
@@ -204,8 +206,10 @@ export class Signup {}`}</code
 </form>`}</code
         ></pre>
     <p>
-        The bare import needs a bundler or an import map. As in Angular, the wrapping label is the
-        one that reaches the inner <code>&lt;input&gt;</code>; <code>lily-field</code> does not yet.
+        The bare import needs a bundler or an import map. The wrapping label reaches the inner
+        <code>&lt;input&gt;</code> in every version; from 0.13.0,
+        <code>&lt;lily-field label="Email address"&gt;</code>
+        around the input does too.
     </p>
 
     <h2 id="html">HTML</h2>
