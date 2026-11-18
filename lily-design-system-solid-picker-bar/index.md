@@ -1,0 +1,140 @@
+# Lily Design System™ — Solid PickerBar
+
+> **Link picker (0.3.0).** Pass `links` (and `labels.link`) to add a `link-picker` — a home icon opening the page links your app defines — as the leftmost icon. It renders only when both are given.
+
+> **Time zone picker (0.5.0).** Pass `labels.timeZone` and `timeZoneProps={{ locale: "fr" }}` (plus any `TimeZonePicker` prop, e.g. `names={zoneNamesFrom(pack)}`) to add a `time-zone-picker` — time zones by UTC offset with their full names — right after the locale picker. It renders only when both the label and the locale are given. To name the text sizes in the reader's language pass `sizeLabels` through the text-size props (`textSizeLabels(pack)` / `LocaleTranslations.TextSizeLabels(locale)` from the locale-translations package).
+
+A single page-header row that composes five of the Lily
+[`*-picker` helpers](../index.md) — search, theme, locale, text size,
+and share, in that order — with two catalog-wide defaults pre-wired, so
+you can drop one component into a header instead of assembling and
+configuring five.
+
+`motion-picker` and `date-time-picker` are not part of the bar: motion
+has no natural spot next to the other three header preferences, and
+`date-time-picker` is a form control, not a header control.
+
+## Install
+
+```bash
+pnpm add @lilydesignsystem/solid-picker-bar
+```
+
+`solid-js` and `@solidjs/web` 2.0 are peer dependencies. A Solid app resolves the package's `solid` export condition and compiles the source itself; other bundlers get `dist/index.js`.
+
+## Usage
+
+```tsx
+import PickerBar from "@lilydesignsystem/solid-picker-bar";
+
+function Header() {
+  return (
+    <PickerBar
+      labels={{
+        search: "Search this site",
+        searchInput: "Search terms",
+        searchSubmit: "Search",
+        theme: "Theme",
+        locale: "Language",
+        textSize: "Text size",
+        share: "Share",
+      }}
+      themesUrl="/assets/themes/"
+      locales={["en", "cy", "gd", "ga"]}
+      shareTargets={[
+        {
+          id: "email",
+          label: "Email",
+          href: (url, title) => `mailto:?subject=${title}&body=${url}`,
+        },
+      ]}
+    />
+  );
+}
+```
+
+That's a complete, working header row: site search (a search for
+`foo` goes to `/?foo`), 63 themes, four locales, the
+seven-step text-size scale, and one share destination plus copy-to-URL
+if you add `shareProps={{ copyLabel: "Copy link" }}`.
+
+## Defaults
+
+- **`themes`** defaults to `DEFAULT_THEMES` — all 63 Lily reference
+  theme slugs, alphabetical, with the 8 United Kingdom / United States
+  government themes moved to their own alphabetical group at the
+  bottom. Pass your own `themes` array to override.
+- **`sizes`** defaults to `DEFAULT_SIZES` — the seven-step scale
+  `largest`, `larger`, `large`, `normal`, `small`, `smaller`,
+  `smallest` — and the text-size picker starts on `normal`. Pass your
+  own `sizes` array (and `textSizeProps={{ defaultValue: "…" }}` if
+  you want a different starting point) to override.
+
+Both are exported as named constants:
+
+```ts
+import { DEFAULT_THEMES, DEFAULT_SIZES } from "@lilydesignsystem/solid-picker-bar";
+```
+
+## Passing extra props to one picker
+
+Each wrapped picker takes a `*Props` bag for anything beyond what
+`PickerBar` lifts to the top level — persistence, initial value,
+detection, a `*Labels` override map, a custom glyph render prop:
+
+```tsx
+<PickerBar
+  labels={{
+    search: "Search this site",
+    searchInput: "Search terms",
+    searchSubmit: "Search",
+    theme: "Theme",
+    locale: "Language",
+    textSize: "Text size",
+    share: "Share",
+  }}
+  searchProps={{ action: "/search", placeholder: "Search…" }}
+  themesUrl="/assets/themes/"
+  locales={["en", "cy"]}
+  themeProps={{ storageKey: "lily-theme", detectFromSystem: true }}
+  localeProps={{ storageKey: "lily-locale", detectFromNavigator: true }}
+  textSizeProps={{ storageKey: "lily-text-size" }}
+  shareProps={{ copyLabel: "Copy link", copiedLabel: "Copied" }}
+/>
+```
+
+Anything in a `*Props` bag wins over `PickerBar`'s own default for
+that picker — including overriding `themes`, `locales`, or `sizes`
+per-picker if you ever needed to (you'd normally just use the
+top-level prop instead).
+
+## Styling
+
+`PickerBar` renders no CSS of its own class beyond the `picker-bar`
+root wrapper — style each child through its own package's class hooks
+(`search-picker`, `theme-picker`, `locale-picker`, `text-size-picker`,
+`share-picker`;
+see each package's own `index.md`). A typical header layout:
+
+```css
+.picker-bar {
+  display: flex;
+  gap: var(--theme-space-sm, 0.5rem);
+  align-items: center;
+}
+```
+
+## Accessibility
+
+Every accessible name comes from `labels` — there is no English
+default, because a set of names this catalog invented is exactly the
+case the rest of Lily's i18n rule exists for. Each wrapped picker keeps
+its own WAI-ARIA APG contract unchanged; see that picker's own `index.md`.
+
+## Full contract
+
+See [`spec/index.md`](./spec/index.md).
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

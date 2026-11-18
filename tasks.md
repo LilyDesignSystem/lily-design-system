@@ -3875,8 +3875,11 @@ library comes first; its plan, decisions and the list of components still to por
       matrix. Verify: `bin/test` and CI cover `lily-design-system-solid-headless`. _(2026-11-17: all seven, plus
       `check-coverage` (no stories: Storybook has no Solid 2 framework), `sync-shared-modules` and `publish-headless`;
       `bin/smoke-packages` does not yet render the Solid tarball.)_
-- [ ] **P36-T3 Solid helper packages.** The 21 helper packages, `lily-design-system-solid-*`, ported from React.
-      Verify: `bin/list-helper-packages solid` lists them and each has passing tests.
+- [x] **P36-T3 Solid helper packages.** The 21 helper packages, `lily-design-system-solid-*`, ported from React.
+      Verify: `bin/list-helper-packages solid` lists them and each has passing tests. _(2026-11-18: all 21, 2,062
+      tests, every React test ported. The rules the larger ports needed are in each helper's `AGENTS/conventions.md`
+      ("Lists and focus", "Forms"). `solid-calendar`, `solid-gantt-chart` and `solid-picker-bar` install their unpublished
+      Solid siblings through pnpm link overrides until P36-T6.)_
 - [ ] **P36-T4 Solid example app** with the three required routes (`/`, `/components`, `/components/{slug}`), on Solid 2's
       Vite plugin (SolidStart is retired). Verify: its e2e and axe sweeps pass.
 - [ ] **P36-T5 Solid skills:** `lily-design-system-solid-headless-skill`, `-helpers-skill` and `-skill`.
