@@ -44,7 +44,7 @@ Omit any required prop and TypeScript errors at the call site.
 | `target`       | `HTMLElement \| null`                            | `document.documentElement`                                     |
 | `themeLabels`  | `Record<string, string>`                         | `{}`                                                           |
 | `onChange`     | `(slug: string) => void`                         | `undefined`                                                    |
-| `children`     | `(args: ChildArgs) => Solid.ReactNode`           | the half-circle SVG icon inside the button                     |
+| `children`     | `(args: ChildArgs) => JSX.Element`               | the half-circle SVG icon inside the button                     |
 | `className`    | `string`                                         | `""`                                                           |
 | `...restProps` | `HTMLAttributes<HTMLDivElement>` minus the above | spread onto the root `<div>`                                   |
 
@@ -195,8 +195,8 @@ After mount and on every theme change:
 - `Props` extends `HTMLAttributes<HTMLDivElement>` minus the
   `onChange`, `children`, and `defaultValue` keys, which the component
   reserves.
-- `children` is `(args: ChildArgs) => Solid.ReactNode`, not
-  `Solid.ReactNode`. Passing a raw element is a TypeScript error, by
+- `children` is `(args: ChildArgs) => JSX.Element`, not
+  `JSX.Element`. Passing a raw element is a TypeScript error, by
   design.
 - `ChildArgs.labelFor` is re-created on each render; it is a pure
   function of `themeLabels`, so do not rely on referential equality.

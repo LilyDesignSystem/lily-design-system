@@ -243,8 +243,8 @@ This is rarely needed; glyph content is cheap to re-render.
 
 ### Children type
 
-`children` is typed as `(args: ChildArgs) => Solid.JSX.Element`, not
-`Solid.JSX.Element`. Passing a raw element (not a function) is a
+`children` is typed as `(args: ChildArgs) => JSX.Element`, not
+`JSX.Element`. Passing a raw element (not a function) is a
 TypeScript error, by design.
 
 ### Fragments

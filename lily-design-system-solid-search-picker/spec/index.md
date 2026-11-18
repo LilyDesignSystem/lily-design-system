@@ -81,27 +81,27 @@ Give a Solid 2.0 application a drop-in, headless site-search control that:
 
 ### 4.1 Props
 
-| Prop           | Type                                     | Required | Default                    | Purpose                                                          |
-| -------------- | ---------------------------------------- | -------- | -------------------------- | ---------------------------------------------------------------- |
-| `label`        | `string`                                 | yes      | —                          | Accessible name for the icon button and the search landmark.     |
-| `inputLabel`   | `string`                                 | yes      | —                          | Accessible name for the search field.                            |
-| `submitLabel`  | `string`                                 | yes      | —                          | Accessible name for the `⏎` submit button.                       |
-| `placeholder`  | `string`                                 | no       | `undefined`                | Placeholder for the field. No default (it would be English).     |
-| `value`        | `string`                                 | no       | `undefined` (uncontrolled) | The search text. When supplied, the component is controlled.     |
-| `defaultValue` | `string`                                 | no       | `""`                       | Initial search text when uncontrolled.                           |
-| `onChange`     | `(value: string) => void`                | no       | —                          | Fires with the field's new text on every edit.                   |
-| `action`       | `string`                                 | no       | `"/"`                      | Path the query is appended to: `${action}?${query}`.             |
-| `navigate`     | `(href: string) => void`                 | no       | `location.assign`          | Performs the navigation.                                         |
-| `onSearch`     | `(query: string, href: string) => void`  | no       | —                          | Fires with the trimmed query and destination, before navigating. |
-| `children`     | `(args: ChildArgs) => Solid.JSX.Element` | no       | the default SVG icon       | Replaces the button icon.                                        |
-| `class`        | `string`                                 | no       | `""`                       | Extra class on the root.                                         |
-| `...restProps` | any HTML attributes                      | no       | —                          | Spread onto the root `<div>`.                                    |
+| Prop           | Type                                    | Required | Default                    | Purpose                                                          |
+| -------------- | --------------------------------------- | -------- | -------------------------- | ---------------------------------------------------------------- |
+| `label`        | `string`                                | yes      | —                          | Accessible name for the icon button and the search landmark.     |
+| `inputLabel`   | `string`                                | yes      | —                          | Accessible name for the search field.                            |
+| `submitLabel`  | `string`                                | yes      | —                          | Accessible name for the `⏎` submit button.                       |
+| `placeholder`  | `string`                                | no       | `undefined`                | Placeholder for the field. No default (it would be English).     |
+| `value`        | `string`                                | no       | `undefined` (uncontrolled) | The search text. When supplied, the component is controlled.     |
+| `defaultValue` | `string`                                | no       | `""`                       | Initial search text when uncontrolled.                           |
+| `onChange`     | `(value: string) => void`               | no       | —                          | Fires with the field's new text on every edit.                   |
+| `action`       | `string`                                | no       | `"/"`                      | Path the query is appended to: `${action}?${query}`.             |
+| `navigate`     | `(href: string) => void`                | no       | `location.assign`          | Performs the navigation.                                         |
+| `onSearch`     | `(query: string, href: string) => void` | no       | —                          | Fires with the trimmed query and destination, before navigating. |
+| `children`     | `(args: ChildArgs) => JSX.Element`      | no       | the default SVG icon       | Replaces the button icon.                                        |
+| `class`        | `string`                                | no       | `""`                       | Extra class on the root.                                         |
+| `...restProps` | any HTML attributes                     | no       | —                          | Spread onto the root `<div>`.                                    |
 
 ```ts
 type ChildArgs = { open: boolean; query: string };
 ```
 
-`Props` extends `Omit<Solid.HTMLAttributes<HTMLDivElement>, "children" |
+`Props` extends `Omit<JSX.HTMLAttributes<HTMLDivElement>, "children" |
 "onChange" | "defaultValue">`: `children` is a render prop rather than a
 node, and `onChange` / `defaultValue` describe the search text rather
 than the root `<div>`.

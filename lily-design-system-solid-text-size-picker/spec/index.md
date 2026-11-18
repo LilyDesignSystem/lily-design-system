@@ -60,20 +60,20 @@ read, so first-visit resolution falls straight through to
 
 ### 4.1 Props
 
-| Prop           | Type                                     | Required | Default                                           | Purpose                                                                                             |
-| -------------- | ---------------------------------------- | -------- | ------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| `label`        | `string`                                 | yes      | —                                                 | Accessible name for the button and the listbox.                                                     |
-| `sizes`        | `string[]`                               | yes      | —                                                 | Available size slugs (e.g. `["small","medium","large","x-large"]`).                                 |
-| `value`        | `string`                                 | no       | `undefined` (uncontrolled)                        | Currently selected size slug. When supplied, the component is controlled.                           |
-| `defaultValue` | `string`                                 | no       | `"medium"` if present in `sizes`, else first item | Initial size when nothing else is supplied.                                                         |
-| `storageKey`   | `string`                                 | no       | `undefined`                                       | If set, persist the selection to `localStorage` under this key.                                     |
-| `name`         | `string`                                 | no       | `"text-size"`                                     | `name` of the hidden input that carries the value in a form.                                        |
-| `target`       | `HTMLElement \| null`                    | no       | `document.documentElement`                        | Element that receives `data-text-size`.                                                             |
-| `sizeLabels`   | `Record<string, string>`                 | no       | `{}`                                              | Optional pretty labels per slug.                                                                    |
-| `children`     | `(args: ChildArgs) => Solid.JSX.Element` | no       | the default "A" icon                              | Replaces the icon **inside the button**. It does not render the options — the component owns those. |
-| `onChange`     | `(size: string) => void`                 | no       | `undefined`                                       | Fires after the control applies a new size.                                                         |
-| `class`        | `string`                                 | no       | `""`                                              | Extra CSS class on the root `<div>`.                                                                |
-| `...restProps` | any HTML `<div>` attributes              | no       | —                                                 | Spread onto the root `<div>`.                                                                       |
+| Prop           | Type                               | Required | Default                                           | Purpose                                                                                             |
+| -------------- | ---------------------------------- | -------- | ------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| `label`        | `string`                           | yes      | —                                                 | Accessible name for the button and the listbox.                                                     |
+| `sizes`        | `string[]`                         | yes      | —                                                 | Available size slugs (e.g. `["small","medium","large","x-large"]`).                                 |
+| `value`        | `string`                           | no       | `undefined` (uncontrolled)                        | Currently selected size slug. When supplied, the component is controlled.                           |
+| `defaultValue` | `string`                           | no       | `"medium"` if present in `sizes`, else first item | Initial size when nothing else is supplied.                                                         |
+| `storageKey`   | `string`                           | no       | `undefined`                                       | If set, persist the selection to `localStorage` under this key.                                     |
+| `name`         | `string`                           | no       | `"text-size"`                                     | `name` of the hidden input that carries the value in a form.                                        |
+| `target`       | `HTMLElement \| null`              | no       | `document.documentElement`                        | Element that receives `data-text-size`.                                                             |
+| `sizeLabels`   | `Record<string, string>`           | no       | `{}`                                              | Optional pretty labels per slug.                                                                    |
+| `children`     | `(args: ChildArgs) => JSX.Element` | no       | the default "A" icon                              | Replaces the icon **inside the button**. It does not render the options — the component owns those. |
+| `onChange`     | `(size: string) => void`           | no       | `undefined`                                       | Fires after the control applies a new size.                                                         |
+| `class`        | `string`                           | no       | `""`                                              | Extra CSS class on the root `<div>`.                                                                |
+| `...restProps` | any HTML `<div>` attributes        | no       | —                                                 | Spread onto the root `<div>`.                                                                       |
 
 ### 4.2 ChildArgs
 

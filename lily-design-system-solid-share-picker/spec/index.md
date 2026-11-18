@@ -79,23 +79,23 @@ Give a Solid 2.0 application a drop-in, headless share control that:
 
 ### 4.1 Props
 
-| Prop              | Type                                     | Required | Default                | Purpose                                                        |
-| ----------------- | ---------------------------------------- | -------- | ---------------------- | -------------------------------------------------------------- |
-| `label`           | `string`                                 | yes      | —                      | Accessible name for the button and the list.                   |
-| `targets`         | `ShareTarget[]`                          | no       | `[]`                   | Destinations to offer. Empty is valid when `copyLabel` is set. |
-| `url`             | `string`                                 | no       | current page URL       | URL to share. Resolved lazily, so the default is SSR-safe.     |
-| `title`           | `string`                                 | no       | `""`                   | Passed to `href(...)` and the native sheet.                    |
-| `text`            | `string`                                 | no       | `""`                   | Passed to `href(...)` and the native sheet.                    |
-| `copyLabel`       | `string`                                 | no       | `undefined`            | Label for the copy item. Omit it and no copy item renders.     |
-| `copiedLabel`     | `string`                                 | no       | `undefined`            | Announced in the status region after a successful copy.        |
-| `copyFailedLabel` | `string`                                 | no       | `undefined`            | Announced when the clipboard write fails.                      |
-| `strategy`        | `"auto" \| "native" \| "list"`           | no       | `"auto"`               | Whether to prefer the native sheet.                            |
-| `children`        | `(args: ChildArgs) => Solid.JSX.Element` | no       | the default arrow icon | Replaces the button icon.                                      |
-| `onShare`         | `(id, url) => void`                      | no       | —                      | Fires when a destination is chosen.                            |
-| `onCopy`          | `(url) => void`                          | no       | —                      | Fires after a successful copy.                                 |
-| `onNativeShare`   | `(url) => void`                          | no       | —                      | Fires when the native sheet was used instead of the list.      |
-| `class`           | `string`                                 | no       | `""`                   | Extra class on the root.                                       |
-| `...restProps`    | any HTML attributes                      | no       | —                      | Spread onto the root `<div>`.                                  |
+| Prop              | Type                               | Required | Default                | Purpose                                                        |
+| ----------------- | ---------------------------------- | -------- | ---------------------- | -------------------------------------------------------------- |
+| `label`           | `string`                           | yes      | —                      | Accessible name for the button and the list.                   |
+| `targets`         | `ShareTarget[]`                    | no       | `[]`                   | Destinations to offer. Empty is valid when `copyLabel` is set. |
+| `url`             | `string`                           | no       | current page URL       | URL to share. Resolved lazily, so the default is SSR-safe.     |
+| `title`           | `string`                           | no       | `""`                   | Passed to `href(...)` and the native sheet.                    |
+| `text`            | `string`                           | no       | `""`                   | Passed to `href(...)` and the native sheet.                    |
+| `copyLabel`       | `string`                           | no       | `undefined`            | Label for the copy item. Omit it and no copy item renders.     |
+| `copiedLabel`     | `string`                           | no       | `undefined`            | Announced in the status region after a successful copy.        |
+| `copyFailedLabel` | `string`                           | no       | `undefined`            | Announced when the clipboard write fails.                      |
+| `strategy`        | `"auto" \| "native" \| "list"`     | no       | `"auto"`               | Whether to prefer the native sheet.                            |
+| `children`        | `(args: ChildArgs) => JSX.Element` | no       | the default arrow icon | Replaces the button icon.                                      |
+| `onShare`         | `(id, url) => void`                | no       | —                      | Fires when a destination is chosen.                            |
+| `onCopy`          | `(url) => void`                    | no       | —                      | Fires after a successful copy.                                 |
+| `onNativeShare`   | `(url) => void`                    | no       | —                      | Fires when the native sheet was used instead of the list.      |
+| `class`           | `string`                           | no       | `""`                   | Extra class on the root.                                       |
+| `...restProps`    | any HTML attributes                | no       | —                      | Spread onto the root `<div>`.                                  |
 
 ```ts
 type ShareTarget = {
@@ -108,7 +108,7 @@ type ShareTarget = {
 type ChildArgs = { open: boolean; url: string };
 ```
 
-`Props` extends `Omit<Solid.HTMLAttributes<HTMLDivElement>, "children" |
+`Props` extends `Omit<JSX.HTMLAttributes<HTMLDivElement>, "children" |
 "title" | "onCopy">`. All three are omitted because the helper redefines
 them: `children` is a render prop rather than a node, `title` is share
 metadata rather than a tooltip, and `onCopy` reports a completed

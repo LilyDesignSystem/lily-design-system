@@ -341,6 +341,7 @@ updates:
       - "/lily-design-system-solid-data-grid"
       - "/lily-design-system-solid-date-time-picker"
       - "/lily-design-system-solid-filter"
+      - "/lily-design-system-solid-kanban-board"
       - "/lily-design-system-solid-link-picker"
       - "/lily-design-system-solid-locale-picker"
       - "/lily-design-system-solid-markdown-editor"

@@ -62,7 +62,7 @@ with an `aria-hidden` SVG icon → `<div class="search-picker-panel" hidden>`
 - Svelte's bindable `value` becomes the catalog's controlled/uncontrolled
   idiom: `value` + `onChange` (controlled) or `defaultValue`
   (uncontrolled). `Props` omits `children`, `onChange`, and
-  `defaultValue` from `Solid.HTMLAttributes<HTMLDivElement>` because all
+  `defaultValue` from `JSX.HTMLAttributes<HTMLDivElement>` because all
   three are redefined.
 - The panel id comes from `createUniqueId()`, so it survives hydration.
   `nextSearchPickerId()` is exported for parity with Svelte but is

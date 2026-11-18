@@ -22,7 +22,7 @@ document `<head>`. Every theme's CSS is fetched and parsed once; the
 
 ```tsx
 // app/layout.tsx — server component
-export default function RootLayout({ children }: { children: Solid.JSX.Element }) {
+export default function RootLayout({ children }: { children: JSX.Element }) {
   return (
     <html lang="en">
       <head>

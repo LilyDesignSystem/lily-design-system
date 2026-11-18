@@ -90,23 +90,23 @@ role="listbox">`. The component therefore owns the keyboard contract
 
 ### 4.1 Props
 
-| Prop               | Type                                     | Required | Default                                           | Purpose                                                                                             |
-| ------------------ | ---------------------------------------- | -------- | ------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| `label`            | `string`                                 | yes      | —                                                 | Accessible name for the button and the listbox.                                                     |
-| `themesUrl`        | `string`                                 | yes      | —                                                 | Base URL of the themes directory. Trailing `/` is auto-normalised.                                  |
-| `themes`           | `string[]`                               | yes      | —                                                 | Available theme slugs (e.g. `["light", "dark", "abyss"]`).                                          |
-| `value`            | `string`                                 | no       | `undefined` (uncontrolled)                        | Currently selected theme slug. When supplied, the component is controlled.                          |
-| `defaultValue`     | `string`                                 | no       | `"light"` if present in `themes`, else first item | Initial theme when nothing else is supplied.                                                        |
-| `storageKey`       | `string`                                 | no       | `undefined`                                       | If set, persist the selection to `localStorage` under this key.                                     |
-| `detectFromSystem` | `boolean`                                | no       | `false`                                           | If true and no value/storage entry exists, resolve `prefers-color-scheme` to a supported theme.     |
-| `name`             | `string`                                 | no       | `"theme"`                                         | Discriminates the managed `<link>`; also the hidden input's `name`.                                 |
-| `extension`        | `string`                                 | no       | `".css"`                                          | File extension appended to each slug when constructing the URL.                                     |
-| `target`           | `HTMLElement \| null`                    | no       | `document.documentElement`                        | Element that receives `data-theme`.                                                                 |
-| `themeLabels`      | `Record<string, string>`                 | no       | `{}`                                              | Optional pretty labels per slug.                                                                    |
-| `children`         | `(args: ChildArgs) => Solid.JSX.Element` | no       | the default icon                                  | Replaces the icon **inside the button**. It does not render the options — the component owns those. |
-| `onChange`         | `(theme: string) => void`                | no       | `undefined`                                       | Fires after the select applies a new theme.                                                         |
-| `class`            | `string`                                 | no       | `""`                                              | Extra CSS class on the root `<div>`.                                                                |
-| `...restProps`     | any HTML `<div>` attributes              | no       | —                                                 | Spread onto the root `<div>`.                                                                       |
+| Prop               | Type                               | Required | Default                                           | Purpose                                                                                             |
+| ------------------ | ---------------------------------- | -------- | ------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| `label`            | `string`                           | yes      | —                                                 | Accessible name for the button and the listbox.                                                     |
+| `themesUrl`        | `string`                           | yes      | —                                                 | Base URL of the themes directory. Trailing `/` is auto-normalised.                                  |
+| `themes`           | `string[]`                         | yes      | —                                                 | Available theme slugs (e.g. `["light", "dark", "abyss"]`).                                          |
+| `value`            | `string`                           | no       | `undefined` (uncontrolled)                        | Currently selected theme slug. When supplied, the component is controlled.                          |
+| `defaultValue`     | `string`                           | no       | `"light"` if present in `themes`, else first item | Initial theme when nothing else is supplied.                                                        |
+| `storageKey`       | `string`                           | no       | `undefined`                                       | If set, persist the selection to `localStorage` under this key.                                     |
+| `detectFromSystem` | `boolean`                          | no       | `false`                                           | If true and no value/storage entry exists, resolve `prefers-color-scheme` to a supported theme.     |
+| `name`             | `string`                           | no       | `"theme"`                                         | Discriminates the managed `<link>`; also the hidden input's `name`.                                 |
+| `extension`        | `string`                           | no       | `".css"`                                          | File extension appended to each slug when constructing the URL.                                     |
+| `target`           | `HTMLElement \| null`              | no       | `document.documentElement`                        | Element that receives `data-theme`.                                                                 |
+| `themeLabels`      | `Record<string, string>`           | no       | `{}`                                              | Optional pretty labels per slug.                                                                    |
+| `children`         | `(args: ChildArgs) => JSX.Element` | no       | the default icon                                  | Replaces the icon **inside the button**. It does not render the options — the component owns those. |
+| `onChange`         | `(theme: string) => void`          | no       | `undefined`                                       | Fires after the select applies a new theme.                                                         |
+| `class`            | `string`                           | no       | `""`                                              | Extra CSS class on the root `<div>`.                                                                |
+| `...restProps`     | any HTML `<div>` attributes        | no       | —                                                 | Spread onto the root `<div>`.                                                                       |
 
 `ChildArgs` shape:
 

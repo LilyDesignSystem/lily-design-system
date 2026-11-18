@@ -44,7 +44,7 @@ The default export is `LocalePicker` for consumers who prefer
 | `applyDir`            | `boolean`                                        | `true`                                |
 | `localeLabels`        | `Record<string, string>`                         | `{}`                                  |
 | `onChange`            | `(code: string) => void`                         | `undefined`                           |
-| `children`            | `(args: ChildArgs) => Solid.ReactNode`           | default globe SVG icon                |
+| `children`            | `(args: ChildArgs) => JSX.Element`               | default globe SVG icon                |
 | `className`           | `string`                                         | `""`                                  |
 | `...restProps`        | `HTMLAttributes<HTMLDivElement>` minus the above | spread onto the root `<div>`          |
 
@@ -235,7 +235,7 @@ Side effects, after mount and on every locale change:
   with locale-specific semantics).
 - `ChildArgs.value` is the resolved value in consumer form, never the
   BCP 47-normalised tag.
-- `children` returns `Solid.ReactNode` rendered inside the button; it
+- `children` returns `JSX.Element` rendered inside the button; it
   cannot change the root, the button, or the listbox.
 
 ## Versioning

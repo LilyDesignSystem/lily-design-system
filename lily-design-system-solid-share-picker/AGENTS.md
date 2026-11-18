@@ -76,7 +76,7 @@ trigger class is `share-picker-button`, following the same
 - Focus-out uses Solid's `onFocusOut` on the root, which is the delegated
   equivalent of native `focusout` (it bubbles; DOM `blur` does not).
 - `Props` omits `children`, `title`, and `onCopy` from
-  `Solid.HTMLAttributes<HTMLDivElement>` because all three are
+  `JSX.HTMLAttributes<HTMLDivElement>` because all three are
   redefined with share-specific meanings.
 - Unlike the `*-picker` siblings there is no `aria-activedescendant`:
   the items are real focusable elements, so focus moves for real.

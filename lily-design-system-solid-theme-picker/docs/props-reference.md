@@ -175,7 +175,7 @@ analytics, server sync, or notifying sibling components.
 />
 ```
 
-## `children` — optional, (args: ChildArgs) => Solid.JSX.Element
+## `children` — optional, (args: ChildArgs) => JSX.Element
 
 Replaces the glyph **inside the trigger button**. It does not render
 the options — the component owns those. The render prop receives:
@@ -223,7 +223,7 @@ handlers, and ARIA overrides.
 ```
 
 The TypeScript surface accepts any
-`Solid.HTMLAttributes<HTMLDivElement>` except `onChange`, `children`,
+`JSX.HTMLAttributes<HTMLDivElement>` except `onChange`, `children`,
 and `defaultValue`, which are reserved for the component's own
 contract.
 

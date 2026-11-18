@@ -206,7 +206,7 @@ Use it to switch from English exonyms ("German") to endonyms
 ("Deutsch"), which is the accessible default for a language picker: a
 user who only reads German cannot find "German" in a list.
 
-## `children` — optional, `(args: ChildArgs) => Solid.JSX.Element`
+## `children` — optional, `(args: ChildArgs) => JSX.Element`
 
 A render prop that **replaces the glyph inside the button**. It does
 not render the options — the component owns those, along with the whole

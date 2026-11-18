@@ -61,6 +61,25 @@ export default MyPicker;
 - Writing a signal inside an effect's `apply` is legitimate but rare; prefer a plain variable for one-shot state such
   as "focus the first option after opening".
 
+## Lists and focus
+
+A React render function runs again on every change; a Solid component body runs once, and only the expressions in
+its JSX re-run. A port goes wrong where React relied on that re-run:
+
+- A value computed in the body from state (`const label = …`, a `let` with a `try`, a loop filling an array) is
+  computed once. Make it an accessor, or a `createMemo` when it is costly or read in many places.
+- An effect without a dependency list ran after every render. Make it an effect on the signal it waits for: a
+  focus request is a signal, so focus moves once the DOM holds its target.
+- In `{items().map((item) => …)}`, any signal read in the callback outside its JSX re-runs the whole list and
+  replaces its DOM, taking focus with it. Use `<For>` keyed by a stable id (`keyed={(item) => item.id}`), with each
+  item's state as accessors read inside its JSX. A callback that reads nothing outside its JSX is safe as `.map`.
+- A ref runs before the element is in the document, where `focus()` does nothing; focus it in an effect.
+- React's `onFocus`, `onBlur` and `onDoubleClick` are `onFocusIn`, `onFocusOut` (when they listen on a container)
+  and `onDblClick`. A text field reports edits as `input`, a select or checkbox as `change`.
+- A controlled checkbox: React puts it back when the parent does not take the change; Solid does not, so the click
+  handler sets `checked` to the state after `flush()`.
+- A spread object is read once: give it getters for anything that changes.
+
 ## Forms
 
 Solid writes a bound `value` or `checked` as the DOM property, never the attribute, so a form reset (which puts
