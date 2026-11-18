@@ -33,7 +33,7 @@
     "vue": "lily-design-system-vue-headless-identifiers/components/PakistanComputerizedNationalIdentityCardInput.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/PakistanComputerizedNationalIdentityCardInput.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/pakistan-computerized-national-identity-card-input.ts",
-    "alpine": "lily-design-system-alpine-headless/components/pakistan-computerized-national-identity-card-input.html",
+    "alpine": "lily-design-system-alpine-headless-identifiers/components/pakistan-computerized-national-identity-card-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/pakistan-computerized-national-identity-card-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/PakistanComputerizedNationalIdentityCardInput.razor"
   },

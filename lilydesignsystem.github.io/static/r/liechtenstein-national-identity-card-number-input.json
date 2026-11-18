@@ -34,7 +34,7 @@
     "vue": "lily-design-system-vue-headless-identifiers/components/LiechtensteinNationalIdentityCardNumberInput.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/LiechtensteinNationalIdentityCardNumberInput.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/liechtenstein-national-identity-card-number-input.ts",
-    "alpine": "lily-design-system-alpine-headless/components/liechtenstein-national-identity-card-number-input.html",
+    "alpine": "lily-design-system-alpine-headless-identifiers/components/liechtenstein-national-identity-card-number-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/liechtenstein-national-identity-card-number-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/LiechtensteinNationalIdentityCardNumberInput.razor"
   },

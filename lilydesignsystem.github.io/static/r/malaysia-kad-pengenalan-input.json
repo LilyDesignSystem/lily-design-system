@@ -33,7 +33,7 @@
     "vue": "lily-design-system-vue-headless-identifiers/components/MalaysiaKadPengenalanInput.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/MalaysiaKadPengenalanInput.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/malaysia-kad-pengenalan-input.ts",
-    "alpine": "lily-design-system-alpine-headless/components/malaysia-kad-pengenalan-input.html",
+    "alpine": "lily-design-system-alpine-headless-identifiers/components/malaysia-kad-pengenalan-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/malaysia-kad-pengenalan-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MalaysiaKadPengenalanInput.razor"
   },

@@ -30,7 +30,7 @@
     "vue": "lily-design-system-vue-headless-identifiers/components/HangukJuminDeungnokBeonhoView.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/HangukJuminDeungnokBeonhoView.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/hanguk-jumin-deungnok-beonho-view.ts",
-    "alpine": "lily-design-system-alpine-headless/components/hanguk-jumin-deungnok-beonho-view.html",
+    "alpine": "lily-design-system-alpine-headless-identifiers/components/hanguk-jumin-deungnok-beonho-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/hanguk-jumin-deungnok-beonho-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/HangukJuminDeungnokBeonhoView.razor"
   },

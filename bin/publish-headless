@@ -134,6 +134,7 @@ if [ -z "$NUGET_ONLY" ]; then
            "$ROOT"/lily-design-system-web-components-headless \
            "$ROOT"/lily-design-system-web-components-headless-identifiers \
            "$ROOT"/lily-design-system-alpine-headless \
+           "$ROOT"/lily-design-system-alpine-headless-identifiers \
            "$ROOT"/lily-design-system-solid-headless \
            "$ROOT"/lily-design-system-solid-headless-identifiers; do
     [ -f "$d/package.json" ] || continue

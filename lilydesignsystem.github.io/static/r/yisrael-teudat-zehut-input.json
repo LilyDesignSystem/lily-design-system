@@ -33,7 +33,7 @@
     "vue": "lily-design-system-vue-headless-identifiers/components/YisraelTeudatZehutInput.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/YisraelTeudatZehutInput.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/yisrael-teudat-zehut-input.ts",
-    "alpine": "lily-design-system-alpine-headless/components/yisrael-teudat-zehut-input.html",
+    "alpine": "lily-design-system-alpine-headless-identifiers/components/yisrael-teudat-zehut-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/yisrael-teudat-zehut-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/YisraelTeudatZehutInput.razor"
   },

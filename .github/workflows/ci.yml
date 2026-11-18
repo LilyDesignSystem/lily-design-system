@@ -146,6 +146,7 @@ jobs:
           - lily-design-system-web-components-headless
           - lily-design-system-web-components-headless-identifiers
           - lily-design-system-alpine-headless
+          - lily-design-system-alpine-headless-identifiers
           - lily-design-system-solid-headless
           - lily-design-system-solid-headless-identifiers
     steps:

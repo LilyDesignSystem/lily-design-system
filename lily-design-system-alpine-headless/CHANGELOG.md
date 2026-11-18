@@ -12,3 +12,11 @@ Release highlights and project news: [NEWS.md](NEWS.md).
 ---
 
 Lily™ and Lily Design System™ are trademarks.
+
+## 0.3.0 — 2026-11-18 (breaking)
+
+- **Breaking:** the 164 national personal identifier components (an `-input` and a `-view` for each of 82 identifier
+  types) move to their own package, `@lilydesignsystem/alpine-headless-identifiers`. They are removed, not re-exported; this package now has the 473 other
+  catalog components.
+- **Migration:** install `@lilydesignsystem/alpine-headless-identifiers` and import the identifier components from it; their props, class hooks and behaviour
+  are unchanged.

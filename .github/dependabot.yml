@@ -186,6 +186,18 @@ updates:
           - "*"
 
   - package-ecosystem: "npm"
+    directory: "/lily-design-system-alpine-headless-identifiers"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      lily:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "npm"
     # The Alpine.js helpers (one top-level subproject each) and the Alpine.js example app.
     directories:
       - "/lily-design-system-alpine-calendar"

@@ -1,5 +1,5 @@
 // Pure helpers shared by build.mjs and the tests (no esbuild here: it cannot load inside a jsdom test environment).
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { JSDOM } from "jsdom";
@@ -33,12 +33,17 @@ export function markupOf(source) {
     return s.trim();
 }
 
+/** The package that has a component's snippet: the national identifiers live in alpine-headless-identifiers. */
+export function snippetPackage(slug) {
+    const identifiers = "lily-design-system-alpine-headless-identifiers";
+    return existsSync(join(top, identifiers, "components", `${slug}.html`))
+        ? identifiers
+        : "lily-design-system-alpine-headless";
+}
+
 export function snippet(slug) {
     return markupOf(
-        readFileSync(
-            join(top, "lily-design-system-alpine-headless", "components", `${slug}.html`),
-            "utf8",
-        ),
+        readFileSync(join(top, snippetPackage(slug), "components", `${slug}.html`), "utf8"),
     );
 }
 

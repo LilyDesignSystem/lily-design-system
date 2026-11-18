@@ -30,7 +30,7 @@
     "vue": "lily-design-system-vue-headless-identifiers/components/LuxembourgMatriculeView.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/LuxembourgMatriculeView.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/luxembourg-matricule-view.ts",
-    "alpine": "lily-design-system-alpine-headless/components/luxembourg-matricule-view.html",
+    "alpine": "lily-design-system-alpine-headless-identifiers/components/luxembourg-matricule-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/luxembourg-matricule-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/LuxembourgMatriculeView.razor"
   },

@@ -33,7 +33,7 @@
     "vue": "lily-design-system-vue-headless-identifiers/components/PrathetThaiLekPrajamTuaPrachachonInput.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/PrathetThaiLekPrajamTuaPrachachonInput.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/prathet-thai-lek-prajam-tua-prachachon-input.ts",
-    "alpine": "lily-design-system-alpine-headless/components/prathet-thai-lek-prajam-tua-prachachon-input.html",
+    "alpine": "lily-design-system-alpine-headless-identifiers/components/prathet-thai-lek-prajam-tua-prachachon-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/prathet-thai-lek-prajam-tua-prachachon-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/PrathetThaiLekPrajamTuaPrachachonInput.razor"
   },

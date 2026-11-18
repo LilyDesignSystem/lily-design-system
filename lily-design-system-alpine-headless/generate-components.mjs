@@ -589,7 +589,21 @@ ${body}
 // with what is on disk (tasks.md P12-T5b): a hand edit to a generated file is drift, and so is a generator change
 // that was never run.
 const outputs = new Map();
-const out = (slug, ext, text) => outputs.set(join(root, "components", `${slug}.${ext}`), text);
+// The national identifiers' snippets go to the -headless-identifiers package (spec/headless-identifiers).
+const NATIONAL = new Set(
+    readFileSync(join(root, "..", "components-categories.tsv"), "utf8")
+        .trim()
+        .split("\n")
+        .map((row) => row.split("\t"))
+        .filter((cells) => cells[2] === "national")
+        .map((cells) => cells[0]),
+);
+const identifiersRoot = join(root, "..", "lily-design-system-alpine-headless-identifiers");
+const out = (slug, ext, text) =>
+    outputs.set(
+        join(NATIONAL.has(slug) ? identifiersRoot : root, "components", `${slug}.${ext}`),
+        text,
+    );
 
 for (const slug of STATIC) {
     const src = readFileSync(htmlSource(slug), "utf8");

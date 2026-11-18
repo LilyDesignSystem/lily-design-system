@@ -32,7 +32,7 @@
     "vue": "lily-design-system-vue-headless-identifiers/components/EireIndividualHealthIdentifierView.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/EireIndividualHealthIdentifierView.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/eire-individual-health-identifier-view.ts",
-    "alpine": "lily-design-system-alpine-headless/components/eire-individual-health-identifier-view.html",
+    "alpine": "lily-design-system-alpine-headless-identifiers/components/eire-individual-health-identifier-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/eire-individual-health-identifier-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/EireIndividualHealthIdentifierView.razor"
   },

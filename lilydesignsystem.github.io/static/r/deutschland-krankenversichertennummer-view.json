@@ -30,7 +30,7 @@
     "vue": "lily-design-system-vue-headless-identifiers/components/DeutschlandKrankenversichertennummerView.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/DeutschlandKrankenversichertennummerView.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/deutschland-krankenversichertennummer-view.ts",
-    "alpine": "lily-design-system-alpine-headless/components/deutschland-krankenversichertennummer-view.html",
+    "alpine": "lily-design-system-alpine-headless-identifiers/components/deutschland-krankenversichertennummer-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/deutschland-krankenversichertennummer-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/DeutschlandKrankenversichertennummerView.razor"
   },

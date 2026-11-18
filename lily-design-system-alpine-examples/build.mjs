@@ -14,7 +14,17 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { build } from "esbuild";
 import { HELPERS } from "./src/helper-demos.mjs";
-import { REPO, catalog, demoOf, esc, here, markupOf, snippet, top } from "./lib.mjs";
+import {
+    REPO,
+    catalog,
+    demoOf,
+    esc,
+    here,
+    markupOf,
+    snippet,
+    snippetPackage,
+    top,
+} from "./lib.mjs";
 
 export { catalog, demoOf, markupOf, snippet };
 
@@ -127,7 +137,7 @@ ${demo}
 <h2>More</h2>
 <ul>
   <li><a href="${REPO}/components/${c.slug}">Specification and guidance for ${esc(c.name)}</a></li>
-  <li><a href="${REPO}/lily-design-system-alpine-headless/components/${c.slug}.html">The snippet</a></li>
+  <li><a href="${REPO}/${snippetPackage(c.slug)}/components/${c.slug}.html">The snippet</a></li>
   <li><a href="/components/">All components</a></li>
 </ul>`,
     });
@@ -206,11 +216,7 @@ export async function buildSite(out = join(here, "dist")) {
     put("index.html", homePage(components));
     put("components/index.html", componentsIndex(components));
     for (const c of components) {
-        if (
-            !existsSync(
-                join(top, "lily-design-system-alpine-headless", "components", `${c.slug}.html`),
-            )
-        )
+        if (!existsSync(join(top, snippetPackage(c.slug), "components", `${c.slug}.html`)))
             throw new Error(`no Alpine snippet for ${c.slug}`);
         put(`components/${c.slug}/index.html`, componentPage(c));
     }

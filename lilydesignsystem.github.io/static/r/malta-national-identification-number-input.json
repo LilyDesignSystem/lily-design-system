@@ -34,7 +34,7 @@
     "vue": "lily-design-system-vue-headless-identifiers/components/MaltaNationalIdentificationNumberInput.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/MaltaNationalIdentificationNumberInput.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/malta-national-identification-number-input.ts",
-    "alpine": "lily-design-system-alpine-headless/components/malta-national-identification-number-input.html",
+    "alpine": "lily-design-system-alpine-headless-identifiers/components/malta-national-identification-number-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/malta-national-identification-number-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MaltaNationalIdentificationNumberInput.razor"
   },

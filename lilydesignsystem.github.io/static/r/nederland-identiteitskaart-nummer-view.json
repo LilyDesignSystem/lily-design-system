@@ -30,7 +30,7 @@
     "vue": "lily-design-system-vue-headless-identifiers/components/NederlandIdentiteitskaartNummerView.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/NederlandIdentiteitskaartNummerView.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/nederland-identiteitskaart-nummer-view.ts",
-    "alpine": "lily-design-system-alpine-headless/components/nederland-identiteitskaart-nummer-view.html",
+    "alpine": "lily-design-system-alpine-headless-identifiers/components/nederland-identiteitskaart-nummer-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/nederland-identiteitskaart-nummer-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/NederlandIdentiteitskaartNummerView.razor"
   },

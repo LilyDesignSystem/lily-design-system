@@ -33,7 +33,7 @@
     "vue": "lily-design-system-vue-headless-identifiers/components/MisrAlRaqmAlQawmiInput.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/MisrAlRaqmAlQawmiInput.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/misr-al-raqm-al-qawmi-input.ts",
-    "alpine": "lily-design-system-alpine-headless/components/misr-al-raqm-al-qawmi-input.html",
+    "alpine": "lily-design-system-alpine-headless-identifiers/components/misr-al-raqm-al-qawmi-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/misr-al-raqm-al-qawmi-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MisrAlRaqmAlQawmiInput.razor"
   },
