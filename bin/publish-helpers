@@ -1,7 +1,7 @@
 #!/bin/sh
 # Publish the Lily Design System helper packages.
 #
-#   - npm packages: the svelte / react / vue / angular / html / nunjucks
+#   - npm packages: the svelte / react / solid / vue / angular / html / nunjucks
 #     the `*-picker` helpers in each catalog. The globs are
 #     deliberately broad — every loop guards on package.json / dist / *.csproj
 #     existing — so a new helper is picked up without editing this script.
@@ -134,7 +134,7 @@ if [ -z "$NUGET_ONLY" ]; then
   # install and publish it in place (its `prepublishOnly` runs its own
   # build). --only names the package directory itself.
   # lily-design-system-locale-translations belongs to no framework (the label packs, one npm package for every catalog).
-  for d in $(for fw in svelte react vue html web-components nunjucks; do "$ROOT/bin/list-helper-packages" "$fw"; done) lily-design-system-pattern-testers lily-design-system-locale-translations lily-design-system-angular-locale-translations; do
+  for d in $(for fw in svelte react solid vue html web-components nunjucks; do "$ROOT/bin/list-helper-packages" "$fw"; done) lily-design-system-pattern-testers lily-design-system-locale-translations lily-design-system-angular-locale-translations; do
     d="$ROOT/$d"
     [ -f "$d/package.json" ] || continue
     only_matches "$d" || continue

@@ -9,6 +9,17 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Lily for Solid 2.0: helpers and solid-headless 0.1.1 (2026-11-18, P36-T3, P36-T7)
+
+- The 21 Solid helper packages, `lily-design-system-solid-*` (`@lilydesignsystem/solid-*` 0.1.0): the eleven pickers,
+  `picker-bar`, `color-picker`, the Markdown and Org editors, `filter`, `data-grid`, `kanban-board`, `calendar`,
+  `gantt-chart` and `locale-translations`, with every React test ported (2,062). The rules the ports needed are in each
+  helper's `AGENTS/conventions.md`.
+- `@lilydesignsystem/solid-headless` 0.1.1: a form reset no longer empties bound fields (Solid writes a bound value as the
+  DOM property, never the attribute). `bin/check-solid-form-reset` (in `bin/test`) keeps every Solid field bound to a
+  default; `convert-react-to-solid.py` adds them.
+- `bin/publish-helpers` and `bin/verify-published` include Solid; the docs site's home page has a Solid icon.
+
 ## Unreleased: tutorials, training and an example (P35-T5)
 
 - Docs site: tutorials for Alpine.js and Web Components, an accessible forms tutorial (an error summary that takes focus) and

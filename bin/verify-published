@@ -7,7 +7,7 @@ Run this after bin/publish-helpers, and before announcing a release, to see whic
 
   bin/verify-published                       check every helper package once
   bin/verify-published --wait 900            keep polling for up to 900 seconds (default interval 30)
-  bin/verify-published --framework svelte    only one framework (svelte react vue angular html web-components nunjucks blazor)
+  bin/verify-published --framework svelte    only one framework (svelte react solid vue angular html web-components nunjucks blazor)
   bin/verify-published --only svelte-filter  only packages whose directory name contains this
 
 Exit status: 0 when every checked version is published, 1 otherwise. It never publishes anything and writes nothing.
@@ -23,7 +23,7 @@ import urllib.error
 import urllib.request
 
 TOP = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-FRAMEWORKS = ["svelte", "react", "vue", "angular", "html", "web-components", "nunjucks", "blazor"]
+FRAMEWORKS = ["svelte", "react", "solid", "vue", "angular", "html", "web-components", "nunjucks", "blazor"]
 
 
 def arg(name: str, default=None):

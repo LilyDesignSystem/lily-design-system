@@ -3,7 +3,7 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the package follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.1.1 — 2026-11-18
 
 - Fix: a form reset no longer empties bound fields. Solid writes a bound `value` or `checked` as the DOM property, so the
   browser's reset (which restores each field's attribute default) cleared them, and a field whose value had not changed
