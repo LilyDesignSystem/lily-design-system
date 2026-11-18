@@ -1,0 +1,48 @@
+// P10-T9: a form reset puts the textarea back to the text it started with.
+// The textarea's value is bound, so the browser's own reset is undone.
+import { fireEvent, render } from "./test-utils";
+import { act } from "./test-act";
+import { describe, expect, it, vi } from "vitest";
+import OrgEditor from "./OrgEditor";
+
+const afterReset = () => act(() => new Promise((resolve) => setTimeout(resolve, 0)));
+
+function inForm(props: Record<string, unknown> = {}) {
+    const { container } = render(() => (
+        <form>
+            <OrgEditor
+                label="Message"
+                toolbarLabel="Formatting"
+                labels={{}}
+                name="body"
+                defaultValue="hello"
+                {...props}
+            />
+        </form>
+    ));
+    const form = container.querySelector("form")!;
+    return { form, textarea: form.querySelector("textarea")! };
+}
+
+describe("OrgEditor form reset", () => {
+    it("restores the initial text and tells the consumer", async () => {
+        const onChange = vi.fn();
+        const { form, textarea } = inForm({ onChange });
+        fireEvent.input(textarea, { target: { value: "typed" } });
+        expect(textarea.value).toBe("typed");
+        form.reset();
+        await afterReset();
+        expect(textarea.value).toBe("hello");
+        expect(new FormData(form).get("body")).toBe("hello");
+        expect(onChange).toHaveBeenLastCalledWith("hello");
+    });
+
+    it("a cancelled reset changes nothing", async () => {
+        const { form, textarea } = inForm();
+        fireEvent.input(textarea, { target: { value: "typed" } });
+        form.addEventListener("reset", (event) => event.preventDefault());
+        form.reset();
+        await afterReset();
+        expect(textarea.value).toBe("typed");
+    });
+});
