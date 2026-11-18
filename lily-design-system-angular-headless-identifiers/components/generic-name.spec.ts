@@ -6,6 +6,14 @@ import allowList from "./generic-name.allow.json";
 import { baselinePath, compareWithBaseline, rootAria, type Seen } from "../../shared/aria-baseline";
 import path from "node:path";
 
+// Vite's, which vite/client would declare; vite is not a direct dependency here. (In the headless package
+// FormReset.spec.ts declares it for the whole compilation; this package has no FormReset.)
+declare global {
+    interface ImportMeta {
+        glob(patterns: string[], options: { eager: true }): Record<string, unknown>;
+    }
+}
+
 const mods = import.meta.glob(["./*.ts", "!./*.spec.ts", "!./*.stories.ts", "!./index.ts"], {
     eager: true,
 }) as Record<string, any>;

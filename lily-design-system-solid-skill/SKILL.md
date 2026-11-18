@@ -9,10 +9,10 @@ license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 Three Solid 2.0 layers exist in this monorepo. This skill maps them and covers the example app; two sibling skills go
 deep on the first two.
 
-| Subproject                                                                   | What it is                                                                                                   | Reach for it when                                                                  |
-| ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
-| [`@lilydesignsystem/solid-headless`](../lily-design-system-solid-headless/)  | An npm package: the 637-component headless catalog as Solid 2.0 components. No CSS.                          | You are building your own app and want the library you install and depend on.      |
-| [the Solid helper packages](../spec/helpers/index.md)                        | 21 npm packages, `@lilydesignsystem/solid-*`: the pickers, `picker-bar`, editors, filter, grid-like helpers. | You need a ready-made control that owns a whole interaction.                       |
+| Subproject                                                                   | What it is                                                                                                   | Reach for it when                                                                 |
+| ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------- |
+| [`@lilydesignsystem/solid-headless`](../lily-design-system-solid-headless/)  | An npm package: the 637-component headless catalog as Solid 2.0 components. No CSS.                          | You are building your own app and want the library you install and depend on.     |
+| [the Solid helper packages](../spec/helpers/index.md)                        | 21 npm packages, `@lilydesignsystem/solid-*`: the pickers, `picker-bar`, editors, filter, grid-like helpers. | You need a ready-made control that owns a whole interaction.                      |
 | [`lily-design-system-solid-examples`](../lily-design-system-solid-examples/) | A Vite single-page app on Solid Router 2.0: every component with a live demo, styled. Not a package.         | You want to see a component working, copy its CSS, or start from a working setup. |
 
 ## Deep-dive skills

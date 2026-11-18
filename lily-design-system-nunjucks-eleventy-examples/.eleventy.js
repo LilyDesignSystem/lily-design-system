@@ -5,6 +5,13 @@ import nunjucks from "nunjucks";
 
 const projectRoot = path.dirname(fileURLToPath(import.meta.url));
 const headlessRoot = path.resolve(projectRoot, "..", "lily-design-system-nunjucks-headless");
+// The national identifier macros live in their own add-on package since 2026-11-18 (spec/headless-identifiers), in the
+// same components/{slug}/macro.njk layout, so it is a second search path after the headless one.
+const identifiersRoot = path.resolve(
+    projectRoot,
+    "..",
+    "lily-design-system-nunjucks-headless-identifiers",
+);
 // The helper packages are top-level subprojects (one per package, since
 // 2026-10-10), so their templates resolve from the repository root, e.g.
 // "lily-design-system-nunjucks-theme-picker/dist/theme-picker.njk".
@@ -16,6 +23,7 @@ export default function (eleventyConfig) {
             path.join(projectRoot, "src"),
             path.join(projectRoot, "src", "_includes"),
             headlessRoot,
+            identifiersRoot,
             helpersRoot,
         ]),
         {

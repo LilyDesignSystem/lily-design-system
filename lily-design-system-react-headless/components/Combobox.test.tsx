@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { describe, expect, test, vi } from "vitest";
 
 import Subject from "./Combobox";
@@ -93,9 +93,9 @@ describe("Combobox", () => {
                 <div role="option">Aspirin</div>
             </Subject>,
         );
-        await new Promise((resolve) => setTimeout(resolve, 10));
+        // waitFor, not a fixed sleep: under a loaded CI machine a 10 ms sleep could finish before the status timer.
         const status = screen.getByRole("status");
-        expect(status.textContent).toBe("4 matches");
+        await waitFor(() => expect(status.textContent).toBe("4 matches"));
         rerender(
             <Subject
                 {...props}
@@ -104,7 +104,6 @@ describe("Combobox", () => {
                 {null}
             </Subject>,
         );
-        await new Promise((resolve) => setTimeout(resolve, 10));
-        expect(status.textContent).toBe("No matches");
+        await waitFor(() => expect(status.textContent).toBe("No matches"));
     });
 });

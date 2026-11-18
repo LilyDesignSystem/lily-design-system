@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/vue";
+import { fireEvent, render, screen, waitFor } from "@testing-library/vue";
 import { describe, expect, test } from "vitest";
 
 import Subject from "./Combobox.vue";
@@ -72,11 +72,10 @@ describe("Combobox", () => {
                 statusDelay: 0,
             },
         });
-        await new Promise((resolve) => setTimeout(resolve, 10));
+        // waitFor, not a fixed sleep: under a loaded CI machine a 10 ms sleep could finish before the status timer.
         const status = screen.getByRole("status");
-        expect(status.textContent?.trim()).toBe("4 matches");
+        await waitFor(() => expect(status.textContent?.trim()).toBe("4 matches"));
         await rerender({ resultCount: 0 });
-        await new Promise((resolve) => setTimeout(resolve, 10));
-        expect(status.textContent?.trim()).toBe("No matches");
+        await waitFor(() => expect(status.textContent?.trim()).toBe("No matches"));
     });
 });
