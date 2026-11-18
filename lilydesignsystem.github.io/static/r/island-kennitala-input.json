@@ -32,7 +32,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/IslandKennitalaInput/IslandKennitalaInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/IslandKennitalaInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/IslandKennitalaInput.vue",
-    "angular": "lily-design-system-angular-headless/components/IslandKennitalaInput.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/IslandKennitalaInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/island-kennitala-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/island-kennitala-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/island-kennitala-input/macro.njk",

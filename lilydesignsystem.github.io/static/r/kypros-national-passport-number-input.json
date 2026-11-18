@@ -32,7 +32,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/KyprosNationalPassportNumberInput/KyprosNationalPassportNumberInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/KyprosNationalPassportNumberInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/KyprosNationalPassportNumberInput.vue",
-    "angular": "lily-design-system-angular-headless/components/KyprosNationalPassportNumberInput.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/KyprosNationalPassportNumberInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/kypros-national-passport-number-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/kypros-national-passport-number-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/kypros-national-passport-number-input/macro.njk",

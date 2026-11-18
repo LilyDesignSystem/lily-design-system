@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/spec",
+    "rootDir": "..",
+    "module": "esnext",
+    "types": ["node", "vitest/globals"]
+  },
+  "include": ["components/**/*.spec.ts", "prerender/**/*.spec.ts", "vitest-setup.ts"],
+  "exclude": ["node_modules", "dist"]
+}

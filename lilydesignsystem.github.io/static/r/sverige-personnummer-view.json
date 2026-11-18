@@ -28,7 +28,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/SverigePersonnummerView/SverigePersonnummerView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/SverigePersonnummerView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/SverigePersonnummerView.vue",
-    "angular": "lily-design-system-angular-headless/components/SverigePersonnummerView.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/SverigePersonnummerView.ts",
     "web-components": "lily-design-system-web-components-headless/components/sverige-personnummer-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/sverige-personnummer-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/sverige-personnummer-view/macro.njk",

@@ -1,0 +1,72 @@
+{
+  "name": "@lilydesignsystem/angular-headless-identifiers",
+  "version": "0.1.0",
+  "engines": {
+    "node": ">=26"
+  },
+  "description": "Headless, accessible, unstyled Angular components for national personal identifiers (164: an input and a view for each of 82 identifier types across 50+ countries), the add-on to @lilydesignsystem/angular-headless.",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "test:prerender": "vitest run --project prerender",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "build": "node generate-index.mjs && ng-packagr -p ng-package.json",
+    "storybook": "ng run @lilydesignsystem/angular-headless-identifiers:storybook",
+    "build-storybook": "ng run @lilydesignsystem/angular-headless-identifiers:build-storybook",
+    "check": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.spec.json"
+  },
+  "peerDependencies": {
+    "@angular/common": ">=20.0.0 <23.0.0",
+    "@angular/core": ">=20.0.0 <23.0.0",
+    "rxjs": ">=7.0.0"
+  },
+  "devDependencies": {
+    "@analogjs/vite-plugin-angular": "^2.9.7",
+    "@analogjs/vitest-angular": "^2.9.7",
+    "@angular-devkit/build-angular": "^22.2.7",
+    "@angular/build": "^22.2.7",
+    "@angular/cli": "^22.2.7",
+    "@angular/common": "^22.2.6",
+    "@angular/compiler": "^22.2.6",
+    "@angular/compiler-cli": "^22.2.6",
+    "@angular/core": "^22.2.6",
+    "@angular/platform-browser": "^22.2.6",
+    "@angular/platform-browser-dynamic": "^22.2.6",
+    "@angular/platform-server": "^22.2.6",
+    "@storybook/angular": "^10.6.7",
+    "@testing-library/dom": "^10.4.2",
+    "@testing-library/user-event": "^14.6.11",
+    "@types/node": "^26.6.6",
+    "jsdom": "^31.0.1",
+    "ng-packagr": "^22.2.6",
+    "rxjs": "^7.8.2",
+    "storybook": "^10.6.7",
+    "tslib": "^2.9.1",
+    "typescript": "~6.0.3",
+    "vitest": "^5.1.0",
+    "zone.js": "^0.16.3"
+  },
+  "keywords": [
+    "lily",
+    "design-system",
+    "angular",
+    "headless",
+    "wcag",
+    "aria",
+    "national-identifier",
+    "healthcare"
+  ],
+  "license": "MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause",
+  "author": "Joel Parker Henderson <joel@joelparkerhenderson.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LilyDesignSystem/lily-design-system.git",
+    "directory": "lily-design-system-angular-headless-identifiers"
+  },
+  "homepage": "https://lilydesignsystem.com/",
+  "bugs": {
+    "url": "https://github.com/LilyDesignSystem/lily-design-system/issues"
+  },
+  "sideEffects": false
+}

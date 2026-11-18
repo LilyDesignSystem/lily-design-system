@@ -28,7 +28,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/NederlandBurgerserviceNummerView/NederlandBurgerserviceNummerView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/NederlandBurgerserviceNummerView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/NederlandBurgerserviceNummerView.vue",
-    "angular": "lily-design-system-angular-headless/components/NederlandBurgerserviceNummerView.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/NederlandBurgerserviceNummerView.ts",
     "web-components": "lily-design-system-web-components-headless/components/nederland-burgerservice-nummer-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/nederland-burgerservice-nummer-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/nederland-burgerservice-nummer-view/macro.njk",

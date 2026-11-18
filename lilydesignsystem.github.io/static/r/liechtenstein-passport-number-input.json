@@ -32,7 +32,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/LiechtensteinPassportNumberInput/LiechtensteinPassportNumberInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/LiechtensteinPassportNumberInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/LiechtensteinPassportNumberInput.vue",
-    "angular": "lily-design-system-angular-headless/components/LiechtensteinPassportNumberInput.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/LiechtensteinPassportNumberInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/liechtenstein-passport-number-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/liechtenstein-passport-number-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/liechtenstein-passport-number-input/macro.njk",

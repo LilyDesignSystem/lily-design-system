@@ -32,7 +32,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/SuomiHenkilotunnusInput/SuomiHenkilotunnusInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/SuomiHenkilotunnusInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/SuomiHenkilotunnusInput.vue",
-    "angular": "lily-design-system-angular-headless/components/SuomiHenkilotunnusInput.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/SuomiHenkilotunnusInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/suomi-henkilotunnus-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/suomi-henkilotunnus-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/suomi-henkilotunnus-input/macro.njk",

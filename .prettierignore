@@ -79,6 +79,7 @@ docs/accessibility-conformance-report.md
 docs/theme-contrast.md
 # Rewritten by each package build.mjs
 lily-design-system-angular-headless/index.ts
+lily-design-system-angular-headless-identifiers/index.ts
 lily-design-system-react-headless/index.ts
 lily-design-system-react-headless-identifiers/index.ts
 lily-design-system-svelte-headless/index.ts

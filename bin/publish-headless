@@ -144,6 +144,11 @@ if [ -z "$NUGET_ONLY" ]; then
   ( cd "$ROOT/lily-design-system-angular-headless" && npm run build )
   echo "--> lily-design-system-angular-headless (from dist/)"
   publish_npm_package "$ROOT/lily-design-system-angular-headless/dist"
+  # Its national identifiers add-on (spec/headless-identifiers) builds and publishes the same way.
+  ensure_installed "$ROOT/lily-design-system-angular-headless-identifiers"
+  ( cd "$ROOT/lily-design-system-angular-headless-identifiers" && npm run build )
+  echo "--> lily-design-system-angular-headless-identifiers (from dist/)"
+  publish_npm_package "$ROOT/lily-design-system-angular-headless-identifiers/dist"
 fi
 
 if [ -n "$NPM_ONLY" ]; then

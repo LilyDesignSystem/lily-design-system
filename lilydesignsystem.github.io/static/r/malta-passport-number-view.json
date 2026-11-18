@@ -28,7 +28,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/MaltaPassportNumberView/MaltaPassportNumberView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/MaltaPassportNumberView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/MaltaPassportNumberView.vue",
-    "angular": "lily-design-system-angular-headless/components/MaltaPassportNumberView.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/MaltaPassportNumberView.ts",
     "web-components": "lily-design-system-web-components-headless/components/malta-passport-number-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/malta-passport-number-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/malta-passport-number-view/macro.njk",

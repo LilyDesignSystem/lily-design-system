@@ -32,7 +32,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/LietuvaPasasInput/LietuvaPasasInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/LietuvaPasasInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/LietuvaPasasInput.vue",
-    "angular": "lily-design-system-angular-headless/components/LietuvaPasasInput.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/LietuvaPasasInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/lietuva-pasas-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/lietuva-pasas-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/lietuva-pasas-input/macro.njk",

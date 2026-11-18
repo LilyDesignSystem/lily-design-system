@@ -28,7 +28,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/UruguayCedulaDeIdentidadView/UruguayCedulaDeIdentidadView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/UruguayCedulaDeIdentidadView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/UruguayCedulaDeIdentidadView.vue",
-    "angular": "lily-design-system-angular-headless/components/UruguayCedulaDeIdentidadView.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/UruguayCedulaDeIdentidadView.ts",
     "web-components": "lily-design-system-web-components-headless/components/uruguay-cedula-de-identidad-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/uruguay-cedula-de-identidad-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/uruguay-cedula-de-identidad-view/macro.njk",

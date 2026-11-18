@@ -28,7 +28,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/RomaniaPasaportView/RomaniaPasaportView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/RomaniaPasaportView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/RomaniaPasaportView.vue",
-    "angular": "lily-design-system-angular-headless/components/RomaniaPasaportView.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/RomaniaPasaportView.ts",
     "web-components": "lily-design-system-web-components-headless/components/romania-pasaport-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/romania-pasaport-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/romania-pasaport-view/macro.njk",

@@ -28,7 +28,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/AlbaCommunityHealthIndexView/AlbaCommunityHealthIndexView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/AlbaCommunityHealthIndexView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/AlbaCommunityHealthIndexView.vue",
-    "angular": "lily-design-system-angular-headless/components/AlbaCommunityHealthIndexView.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/AlbaCommunityHealthIndexView.ts",
     "web-components": "lily-design-system-web-components-headless/components/alba-community-health-index-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/alba-community-health-index-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/alba-community-health-index-view/macro.njk",

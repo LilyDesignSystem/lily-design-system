@@ -31,7 +31,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/IranKodEMelliInput/IranKodEMelliInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/IranKodEMelliInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/IranKodEMelliInput.vue",
-    "angular": "lily-design-system-angular-headless/components/IranKodEMelliInput.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/IranKodEMelliInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/iran-kod-e-melli-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/iran-kod-e-melli-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/iran-kod-e-melli-input/macro.njk",

@@ -28,7 +28,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/MaltaNationalIdentificationNumberView/MaltaNationalIdentificationNumberView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/MaltaNationalIdentificationNumberView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/MaltaNationalIdentificationNumberView.vue",
-    "angular": "lily-design-system-angular-headless/components/MaltaNationalIdentificationNumberView.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/MaltaNationalIdentificationNumberView.ts",
     "web-components": "lily-design-system-web-components-headless/components/malta-national-identification-number-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/malta-national-identification-number-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/malta-national-identification-number-view/macro.njk",

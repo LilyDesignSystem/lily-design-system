@@ -31,7 +31,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/IndonesiaNomorIndukKependudukanInput/IndonesiaNomorIndukKependudukanInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/IndonesiaNomorIndukKependudukanInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/IndonesiaNomorIndukKependudukanInput.vue",
-    "angular": "lily-design-system-angular-headless/components/IndonesiaNomorIndukKependudukanInput.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/IndonesiaNomorIndukKependudukanInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/indonesia-nomor-induk-kependudukan-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/indonesia-nomor-induk-kependudukan-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/indonesia-nomor-induk-kependudukan-input/macro.njk",

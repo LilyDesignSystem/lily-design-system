@@ -32,7 +32,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/SlovenijaEmsoInput/SlovenijaEmsoInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/SlovenijaEmsoInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/SlovenijaEmsoInput.vue",
-    "angular": "lily-design-system-angular-headless/components/SlovenijaEmsoInput.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/SlovenijaEmsoInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/slovenija-emso-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/slovenija-emso-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/slovenija-emso-input/macro.njk",

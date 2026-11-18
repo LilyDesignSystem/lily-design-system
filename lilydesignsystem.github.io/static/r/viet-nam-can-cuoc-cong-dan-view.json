@@ -28,7 +28,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/VietNamCanCuocCongDanView/VietNamCanCuocCongDanView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/VietNamCanCuocCongDanView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/VietNamCanCuocCongDanView.vue",
-    "angular": "lily-design-system-angular-headless/components/VietNamCanCuocCongDanView.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/VietNamCanCuocCongDanView.ts",
     "web-components": "lily-design-system-web-components-headless/components/viet-nam-can-cuoc-cong-dan-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/viet-nam-can-cuoc-cong-dan-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/viet-nam-can-cuoc-cong-dan-view/macro.njk",

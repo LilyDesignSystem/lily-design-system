@@ -28,7 +28,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/LietuvaPasasView/LietuvaPasasView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/LietuvaPasasView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/LietuvaPasasView.vue",
-    "angular": "lily-design-system-angular-headless/components/LietuvaPasasView.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/LietuvaPasasView.ts",
     "web-components": "lily-design-system-web-components-headless/components/lietuva-pasas-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/lietuva-pasas-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/lietuva-pasas-view/macro.njk",

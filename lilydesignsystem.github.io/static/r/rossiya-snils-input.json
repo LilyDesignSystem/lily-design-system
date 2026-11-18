@@ -31,7 +31,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/RossiyaSnilsInput/RossiyaSnilsInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/RossiyaSnilsInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/RossiyaSnilsInput.vue",
-    "angular": "lily-design-system-angular-headless/components/RossiyaSnilsInput.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/RossiyaSnilsInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/rossiya-snils-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/rossiya-snils-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/rossiya-snils-input/macro.njk",

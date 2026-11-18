@@ -31,7 +31,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/ChileRolUnicoNacionalInput/ChileRolUnicoNacionalInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/ChileRolUnicoNacionalInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/ChileRolUnicoNacionalInput.vue",
-    "angular": "lily-design-system-angular-headless/components/ChileRolUnicoNacionalInput.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/ChileRolUnicoNacionalInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/chile-rol-unico-nacional-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/chile-rol-unico-nacional-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/chile-rol-unico-nacional-input/macro.njk",

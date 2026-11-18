@@ -32,7 +32,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/UnitedKingdomNationalHealthServiceNumberView/UnitedKingdomNationalHealthServiceNumberView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/UnitedKingdomNationalHealthServiceNumberView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/UnitedKingdomNationalHealthServiceNumberView.vue",
-    "angular": "lily-design-system-angular-headless/components/UnitedKingdomNationalHealthServiceNumberView.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/UnitedKingdomNationalHealthServiceNumberView.ts",
     "web-components": "lily-design-system-web-components-headless/components/united-kingdom-national-health-service-number-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/united-kingdom-national-health-service-number-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/united-kingdom-national-health-service-number-view/macro.njk",

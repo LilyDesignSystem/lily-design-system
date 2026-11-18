@@ -28,7 +28,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/SlovenskoPasView/SlovenskoPasView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/SlovenskoPasView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/SlovenskoPasView.vue",
-    "angular": "lily-design-system-angular-headless/components/SlovenskoPasView.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/SlovenskoPasView.ts",
     "web-components": "lily-design-system-web-components-headless/components/slovensko-pas-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/slovensko-pas-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/slovensko-pas-view/macro.njk",

@@ -31,7 +31,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/EireIndividualHealthIdentifierInput/EireIndividualHealthIdentifierInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/EireIndividualHealthIdentifierInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/EireIndividualHealthIdentifierInput.vue",
-    "angular": "lily-design-system-angular-headless/components/EireIndividualHealthIdentifierInput.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/EireIndividualHealthIdentifierInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/eire-individual-health-identifier-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/eire-individual-health-identifier-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/eire-individual-health-identifier-input/macro.njk",

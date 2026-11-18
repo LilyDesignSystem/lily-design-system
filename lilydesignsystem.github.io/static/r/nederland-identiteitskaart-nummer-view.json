@@ -28,7 +28,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/NederlandIdentiteitskaartNummerView/NederlandIdentiteitskaartNummerView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/NederlandIdentiteitskaartNummerView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/NederlandIdentiteitskaartNummerView.vue",
-    "angular": "lily-design-system-angular-headless/components/NederlandIdentiteitskaartNummerView.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/NederlandIdentiteitskaartNummerView.ts",
     "web-components": "lily-design-system-web-components-headless/components/nederland-identiteitskaart-nummer-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/nederland-identiteitskaart-nummer-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/nederland-identiteitskaart-nummer-view/macro.njk",

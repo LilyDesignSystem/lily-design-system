@@ -32,7 +32,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/NederlandPaspoortNummerInput/NederlandPaspoortNummerInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/NederlandPaspoortNummerInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/NederlandPaspoortNummerInput.vue",
-    "angular": "lily-design-system-angular-headless/components/NederlandPaspoortNummerInput.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/NederlandPaspoortNummerInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/nederland-paspoort-nummer-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/nederland-paspoort-nummer-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/nederland-paspoort-nummer-input/macro.njk",

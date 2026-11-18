@@ -292,6 +292,7 @@ EXTRA_TARGETS = {
         "lily-design-system-vue-headless-identifiers/components/dev-warning.ts",
         "lily-design-system-vue-nuxt-examples/components/dev-warning.ts",
         "lily-design-system-angular-headless/components/dev-warning.ts",
+        "lily-design-system-angular-headless-identifiers/components/dev-warning.ts",
         "lily-design-system-angular-examples/src/app/components/dev-warning.ts",
     ],
     # The combobox behaviour (spec/testing): a TypeScript module for the catalogs with a build, a plain one for the rest.

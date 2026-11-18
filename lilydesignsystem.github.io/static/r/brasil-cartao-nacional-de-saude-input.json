@@ -31,7 +31,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/BrasilCartaoNacionalDeSaudeInput/BrasilCartaoNacionalDeSaudeInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/BrasilCartaoNacionalDeSaudeInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/BrasilCartaoNacionalDeSaudeInput.vue",
-    "angular": "lily-design-system-angular-headless/components/BrasilCartaoNacionalDeSaudeInput.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/BrasilCartaoNacionalDeSaudeInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/brasil-cartao-nacional-de-saude-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/brasil-cartao-nacional-de-saude-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/brasil-cartao-nacional-de-saude-input/macro.njk",

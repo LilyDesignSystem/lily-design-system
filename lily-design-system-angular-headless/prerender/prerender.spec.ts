@@ -179,9 +179,15 @@ describe("prerendering", () => {
 
     it("finds every component", () => {
         // The catalog's own count, so a new component cannot make this test stale.
-        const catalog = readFileSync(new URL("../../components.tsv", import.meta.url), "utf8")
+        // This package's share of the catalog: the national identifiers live in the -headless-identifiers package
+        // (spec/headless-identifiers), so each package renders its own rows of components-categories.tsv.
+        const catalog = readFileSync(
+            new URL("../../components-categories.tsv", import.meta.url),
+            "utf8",
+        )
             .trim()
-            .split("\n").length;
+            .split("\n")
+            .filter((row) => row.split("\t")[2] !== "national").length;
         expect(components.length).toBe(catalog);
     });
 

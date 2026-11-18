@@ -28,7 +28,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/CeskoCestovniPasView/CeskoCestovniPasView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/CeskoCestovniPasView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/CeskoCestovniPasView.vue",
-    "angular": "lily-design-system-angular-headless/components/CeskoCestovniPasView.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/CeskoCestovniPasView.ts",
     "web-components": "lily-design-system-web-components-headless/components/cesko-cestovni-pas-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/cesko-cestovni-pas-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/cesko-cestovni-pas-view/macro.njk",

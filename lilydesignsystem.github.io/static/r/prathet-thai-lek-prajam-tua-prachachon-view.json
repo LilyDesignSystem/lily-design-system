@@ -28,7 +28,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/PrathetThaiLekPrajamTuaPrachachonView/PrathetThaiLekPrajamTuaPrachachonView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/PrathetThaiLekPrajamTuaPrachachonView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/PrathetThaiLekPrajamTuaPrachachonView.vue",
-    "angular": "lily-design-system-angular-headless/components/PrathetThaiLekPrajamTuaPrachachonView.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/PrathetThaiLekPrajamTuaPrachachonView.ts",
     "web-components": "lily-design-system-web-components-headless/components/prathet-thai-lek-prajam-tua-prachachon-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/prathet-thai-lek-prajam-tua-prachachon-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/prathet-thai-lek-prajam-tua-prachachon-view/macro.njk",

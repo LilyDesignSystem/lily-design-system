@@ -28,7 +28,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/SuomiHenkilotunnusView/SuomiHenkilotunnusView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/SuomiHenkilotunnusView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/SuomiHenkilotunnusView.vue",
-    "angular": "lily-design-system-angular-headless/components/SuomiHenkilotunnusView.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/SuomiHenkilotunnusView.ts",
     "web-components": "lily-design-system-web-components-headless/components/suomi-henkilotunnus-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/suomi-henkilotunnus-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/suomi-henkilotunnus-view/macro.njk",

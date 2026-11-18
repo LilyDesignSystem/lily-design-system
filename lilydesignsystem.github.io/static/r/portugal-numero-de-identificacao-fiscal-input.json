@@ -32,7 +32,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/PortugalNumeroDeIdentificacaoFiscalInput/PortugalNumeroDeIdentificacaoFiscalInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/PortugalNumeroDeIdentificacaoFiscalInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/PortugalNumeroDeIdentificacaoFiscalInput.vue",
-    "angular": "lily-design-system-angular-headless/components/PortugalNumeroDeIdentificacaoFiscalInput.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/PortugalNumeroDeIdentificacaoFiscalInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/portugal-numero-de-identificacao-fiscal-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/portugal-numero-de-identificacao-fiscal-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/portugal-numero-de-identificacao-fiscal-input/macro.njk",
