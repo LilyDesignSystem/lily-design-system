@@ -6,15 +6,14 @@ settings:
 
 overrides:
   esbuild: 0.28.2
-  '@lilydesignsystem/solid-date-time-picker': link:../lily-design-system-solid-date-time-picker
 
 importers:
 
   .:
     dependencies:
       '@lilydesignsystem/solid-date-time-picker':
-        specifier: link:../lily-design-system-solid-date-time-picker
-        version: link:../lily-design-system-solid-date-time-picker
+        specifier: ^0.1.0
+        version: 0.1.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)
       '@lilydesignsystem/solid-headless':
         specifier: ^0.1.0
         version: 0.1.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)
@@ -195,6 +194,13 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
+
+  '@lilydesignsystem/solid-date-time-picker@0.1.0':
+    resolution: {integrity: sha512-uKVCCPdbod54ugA8HSM0NlMRDcUnbeFcBNDIYFQUlTCGvpMp1Jf+AVmue35DsZOAToxLUH32Azs+MMwDdD/6pQ==}
+    engines: {node: '>=26'}
+    peerDependencies:
+      '@solidjs/web': ^2.0.0
+      solid-js: ^2.0.0
 
   '@lilydesignsystem/solid-headless@0.1.0':
     resolution: {integrity: sha512-jH5jQxRWubV2ikpk4lKCy2LNQqqJowENRaGNSOgmWpWW5t0rV9lnL4i6d6LO328MBfGssEunUMnyuRYGnpZtRw==}
@@ -1123,6 +1129,12 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.3
       '@jridgewell/sourcemap-codec': 1.6.0
+
+  '@lilydesignsystem/solid-date-time-picker@0.1.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)':
+    dependencies:
+      '@lilydesignsystem/solid-headless': 0.1.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)
+      '@solidjs/web': 2.0.0(solid-js@2.0.0)
+      solid-js: 2.0.0
 
   '@lilydesignsystem/solid-headless@0.1.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)':
     dependencies:

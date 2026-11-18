@@ -23,14 +23,13 @@ minimumReleaseAgeExclude:
   - "@solidjs/vite-plugin@3.0.0"
   - "@solidjs/web@2.0.0"
   - solid-js@2.0.0
+  - "@lilydesignsystem/solid-headless@0.1.0"
+  - "@lilydesignsystem/solid-link-picker@0.1.0"
+  - "@lilydesignsystem/solid-locale-picker@0.1.0"
+  - "@lilydesignsystem/solid-search-picker@0.1.0"
+  - "@lilydesignsystem/solid-share-picker@0.1.0"
+  - "@lilydesignsystem/solid-text-size-picker@0.1.0"
+  - "@lilydesignsystem/solid-theme-picker@0.1.0"
+  - "@lilydesignsystem/solid-time-zone-picker@0.1.0"
 overrides:
   esbuild: "0.28.2"
-  # Until the sibling Solid pickers are on npm (tasks.md P36-T6), install them from this monorepo. package.json keeps
-  # the ^0.1.0 ranges the published package needs; drop these lines once they are published.
-  "@lilydesignsystem/solid-link-picker": "link:../lily-design-system-solid-link-picker"
-  "@lilydesignsystem/solid-locale-picker": "link:../lily-design-system-solid-locale-picker"
-  "@lilydesignsystem/solid-search-picker": "link:../lily-design-system-solid-search-picker"
-  "@lilydesignsystem/solid-share-picker": "link:../lily-design-system-solid-share-picker"
-  "@lilydesignsystem/solid-text-size-picker": "link:../lily-design-system-solid-text-size-picker"
-  "@lilydesignsystem/solid-theme-picker": "link:../lily-design-system-solid-theme-picker"
-  "@lilydesignsystem/solid-time-zone-picker": "link:../lily-design-system-solid-time-zone-picker"

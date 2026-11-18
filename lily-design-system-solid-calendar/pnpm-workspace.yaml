@@ -18,6 +18,7 @@ minimumReleaseAgeExclude:
   - "@solidjs/vite-plugin@3.0.0"
   - "@solidjs/web@2.0.0"
   - solid-js@2.0.0
+  - "@lilydesignsystem/solid-date-time-picker@0.1.0"
 # vite's optional esbuild peer resolves to 0.27.7 (below the
 # 0.28.1 GHSA fix) alongside a separately-patched 0.28.2 pulled in
 # elsewhere in the tree -- two copies. vite's own peer range
@@ -25,6 +26,3 @@ minimumReleaseAgeExclude:
 # to one patched version is safe.
 overrides:
   esbuild: "0.28.2"
-  # Until @lilydesignsystem/solid-date-time-picker is on npm (tasks.md P36-T6), install the sibling package from this
-  # monorepo. package.json keeps the ^0.1.0 range the published package needs; drop this line once it is published.
-  "@lilydesignsystem/solid-date-time-picker": "link:../lily-design-system-solid-date-time-picker"

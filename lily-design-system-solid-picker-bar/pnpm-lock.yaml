@@ -6,39 +6,32 @@ settings:
 
 overrides:
   esbuild: 0.28.2
-  '@lilydesignsystem/solid-link-picker': link:../lily-design-system-solid-link-picker
-  '@lilydesignsystem/solid-locale-picker': link:../lily-design-system-solid-locale-picker
-  '@lilydesignsystem/solid-search-picker': link:../lily-design-system-solid-search-picker
-  '@lilydesignsystem/solid-share-picker': link:../lily-design-system-solid-share-picker
-  '@lilydesignsystem/solid-text-size-picker': link:../lily-design-system-solid-text-size-picker
-  '@lilydesignsystem/solid-theme-picker': link:../lily-design-system-solid-theme-picker
-  '@lilydesignsystem/solid-time-zone-picker': link:../lily-design-system-solid-time-zone-picker
 
 importers:
 
   .:
     dependencies:
       '@lilydesignsystem/solid-link-picker':
-        specifier: link:../lily-design-system-solid-link-picker
-        version: link:../lily-design-system-solid-link-picker
+        specifier: ^0.1.0
+        version: 0.1.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)
       '@lilydesignsystem/solid-locale-picker':
-        specifier: link:../lily-design-system-solid-locale-picker
-        version: link:../lily-design-system-solid-locale-picker
+        specifier: ^0.1.0
+        version: 0.1.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)
       '@lilydesignsystem/solid-search-picker':
-        specifier: link:../lily-design-system-solid-search-picker
-        version: link:../lily-design-system-solid-search-picker
+        specifier: ^0.1.0
+        version: 0.1.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)
       '@lilydesignsystem/solid-share-picker':
-        specifier: link:../lily-design-system-solid-share-picker
-        version: link:../lily-design-system-solid-share-picker
+        specifier: ^0.1.0
+        version: 0.1.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)
       '@lilydesignsystem/solid-text-size-picker':
-        specifier: link:../lily-design-system-solid-text-size-picker
-        version: link:../lily-design-system-solid-text-size-picker
+        specifier: ^0.1.0
+        version: 0.1.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)
       '@lilydesignsystem/solid-theme-picker':
-        specifier: link:../lily-design-system-solid-theme-picker
-        version: link:../lily-design-system-solid-theme-picker
+        specifier: ^0.1.0
+        version: 0.1.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)
       '@lilydesignsystem/solid-time-zone-picker':
-        specifier: link:../lily-design-system-solid-time-zone-picker
-        version: link:../lily-design-system-solid-time-zone-picker
+        specifier: ^0.1.0
+        version: 0.1.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)
     devDependencies:
       '@babel/core':
         specifier: ^8.1.2
@@ -216,6 +209,62 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
+
+  '@lilydesignsystem/solid-headless@0.1.0':
+    resolution: {integrity: sha512-jH5jQxRWubV2ikpk4lKCy2LNQqqJowENRaGNSOgmWpWW5t0rV9lnL4i6d6LO328MBfGssEunUMnyuRYGnpZtRw==}
+    engines: {node: '>=26'}
+    peerDependencies:
+      '@solidjs/web': ^2.0.0
+      solid-js: ^2.0.0
+
+  '@lilydesignsystem/solid-link-picker@0.1.0':
+    resolution: {integrity: sha512-YGyBvOvbLlLN5oIO0ft5DiqepxScrUDhtdSKT5bV+gn7y3hXBQ3KZW5wb6BcXLJXpkbW2asGsqHEfTYIDBzxFg==}
+    engines: {node: '>=26'}
+    peerDependencies:
+      '@solidjs/web': ^2.0.0
+      solid-js: ^2.0.0
+
+  '@lilydesignsystem/solid-locale-picker@0.1.0':
+    resolution: {integrity: sha512-pXlgbdbxLFUlWBWskNfiP6wJfsHP//urOqHtibMhjpkQUjJ07dauogKDlnPNj0/PS5HNoQ61K9jFEF5JZ8sf5Q==}
+    engines: {node: '>=26'}
+    peerDependencies:
+      '@solidjs/web': ^2.0.0
+      solid-js: ^2.0.0
+
+  '@lilydesignsystem/solid-search-picker@0.1.0':
+    resolution: {integrity: sha512-UndNvPLQAIt0oE31iHO10mGUV8LJltxt054M6Jnor9rzU4Pq1rhRrjbSWG/HLz1kpS+IPlD9M0DPrSnxt6BcUA==}
+    engines: {node: '>=26'}
+    peerDependencies:
+      '@solidjs/web': ^2.0.0
+      solid-js: ^2.0.0
+
+  '@lilydesignsystem/solid-share-picker@0.1.0':
+    resolution: {integrity: sha512-p6neLcFi5YslChgsEXu0of1exNiqzQSfWpXfwmo1msZBtlNYPkmlP8VI7m6XIYnEJAs9iU3lDyYHkRvv/GLtpQ==}
+    engines: {node: '>=26'}
+    peerDependencies:
+      '@solidjs/web': ^2.0.0
+      solid-js: ^2.0.0
+
+  '@lilydesignsystem/solid-text-size-picker@0.1.0':
+    resolution: {integrity: sha512-rWDdKTwojRiC3lmB9EBi+z5fAIKeafZnDxVURfaNsKuwqeIM7F6gjQE3ceqhM/0487yZkIHbHSFAeAWs0uZslQ==}
+    engines: {node: '>=26'}
+    peerDependencies:
+      '@solidjs/web': ^2.0.0
+      solid-js: ^2.0.0
+
+  '@lilydesignsystem/solid-theme-picker@0.1.0':
+    resolution: {integrity: sha512-+HB0axjYePezwlIAfWWDaMZ/1QG9Kq9WOYQt0KxKvg8JfczoAgMh0S4TN2aYWYp8RHlRt6LGn7a24bLDQX9MWA==}
+    engines: {node: '>=26'}
+    peerDependencies:
+      '@solidjs/web': ^2.0.0
+      solid-js: ^2.0.0
+
+  '@lilydesignsystem/solid-time-zone-picker@0.1.0':
+    resolution: {integrity: sha512-uAOZm3DbwPFl1QhIENCAp+/5Go2569eDlTMN7BjCuXj0az5P0GwAE0XTOPhGrFCdyTRyYXvcKirAMyxeq+bnyw==}
+    engines: {node: '>=26'}
+    peerDependencies:
+      '@solidjs/web': ^2.0.0
+      solid-js: ^2.0.0
 
   '@napi-rs/wasm-runtime@1.2.6':
     resolution: {integrity: sha512-mRyDmEw9/fCDXCGfL1sbgIw/GUK0PVxRW4YwgPN61F3LQ+fSyoBFarJVzgGyhF6kRzEQZ0FejDqm4WLXSeqQmw==}
@@ -1137,6 +1186,53 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.3
       '@jridgewell/sourcemap-codec': 1.6.0
+
+  '@lilydesignsystem/solid-headless@0.1.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)':
+    dependencies:
+      '@solidjs/web': 2.0.0(solid-js@2.0.0)
+      solid-js: 2.0.0
+
+  '@lilydesignsystem/solid-link-picker@0.1.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)':
+    dependencies:
+      '@lilydesignsystem/solid-headless': 0.1.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)
+      '@solidjs/web': 2.0.0(solid-js@2.0.0)
+      solid-js: 2.0.0
+
+  '@lilydesignsystem/solid-locale-picker@0.1.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)':
+    dependencies:
+      '@lilydesignsystem/solid-headless': 0.1.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)
+      '@solidjs/web': 2.0.0(solid-js@2.0.0)
+      solid-js: 2.0.0
+
+  '@lilydesignsystem/solid-search-picker@0.1.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)':
+    dependencies:
+      '@lilydesignsystem/solid-headless': 0.1.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)
+      '@solidjs/web': 2.0.0(solid-js@2.0.0)
+      solid-js: 2.0.0
+
+  '@lilydesignsystem/solid-share-picker@0.1.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)':
+    dependencies:
+      '@lilydesignsystem/solid-headless': 0.1.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)
+      '@solidjs/web': 2.0.0(solid-js@2.0.0)
+      solid-js: 2.0.0
+
+  '@lilydesignsystem/solid-text-size-picker@0.1.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)':
+    dependencies:
+      '@lilydesignsystem/solid-headless': 0.1.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)
+      '@solidjs/web': 2.0.0(solid-js@2.0.0)
+      solid-js: 2.0.0
+
+  '@lilydesignsystem/solid-theme-picker@0.1.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)':
+    dependencies:
+      '@lilydesignsystem/solid-headless': 0.1.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)
+      '@solidjs/web': 2.0.0(solid-js@2.0.0)
+      solid-js: 2.0.0
+
+  '@lilydesignsystem/solid-time-zone-picker@0.1.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)':
+    dependencies:
+      '@lilydesignsystem/solid-headless': 0.1.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)
+      '@solidjs/web': 2.0.0(solid-js@2.0.0)
+      solid-js: 2.0.0
 
   '@napi-rs/wasm-runtime@1.2.6(@emnapi/core@2.0.0-beta.2)(@emnapi/runtime@2.0.0-beta.2)':
     dependencies:
