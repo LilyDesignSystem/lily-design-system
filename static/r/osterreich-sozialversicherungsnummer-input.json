@@ -31,7 +31,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/OsterreichSozialversicherungsnummerInput/OsterreichSozialversicherungsnummerInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/OsterreichSozialversicherungsnummerInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/OsterreichSozialversicherungsnummerInput.vue",
-    "angular": "lily-design-system-angular-headless/components/OsterreichSozialversicherungsnummerInput.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/OsterreichSozialversicherungsnummerInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/osterreich-sozialversicherungsnummer-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/osterreich-sozialversicherungsnummer-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/osterreich-sozialversicherungsnummer-input/macro.njk",

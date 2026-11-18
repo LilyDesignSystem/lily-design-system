@@ -28,7 +28,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/TaiwanGuominShenfenzhengTongyiBianhaoView/TaiwanGuominShenfenzhengTongyiBianhaoView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/TaiwanGuominShenfenzhengTongyiBianhaoView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/TaiwanGuominShenfenzhengTongyiBianhaoView.vue",
-    "angular": "lily-design-system-angular-headless/components/TaiwanGuominShenfenzhengTongyiBianhaoView.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/TaiwanGuominShenfenzhengTongyiBianhaoView.ts",
     "web-components": "lily-design-system-web-components-headless/components/taiwan-guomin-shenfenzheng-tongyi-bianhao-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/taiwan-guomin-shenfenzheng-tongyi-bianhao-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/taiwan-guomin-shenfenzheng-tongyi-bianhao-view/macro.njk",

@@ -28,7 +28,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/CeskoRodneCisloView/CeskoRodneCisloView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/CeskoRodneCisloView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/CeskoRodneCisloView.vue",
-    "angular": "lily-design-system-angular-headless/components/CeskoRodneCisloView.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/CeskoRodneCisloView.ts",
     "web-components": "lily-design-system-web-components-headless/components/cesko-rodne-cislo-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/cesko-rodne-cislo-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/cesko-rodne-cislo-view/macro.njk",

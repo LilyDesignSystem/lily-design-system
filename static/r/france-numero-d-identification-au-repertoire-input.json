@@ -33,7 +33,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/FranceNumeroDIdentificationAuRepertoireInput/FranceNumeroDIdentificationAuRepertoireInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/FranceNumeroDIdentificationAuRepertoireInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/FranceNumeroDIdentificationAuRepertoireInput.vue",
-    "angular": "lily-design-system-angular-headless/components/FranceNumeroDIdentificationAuRepertoireInput.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/FranceNumeroDIdentificationAuRepertoireInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/france-numero-d-identification-au-repertoire-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/france-numero-d-identification-au-repertoire-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/france-numero-d-identification-au-repertoire-input/macro.njk",

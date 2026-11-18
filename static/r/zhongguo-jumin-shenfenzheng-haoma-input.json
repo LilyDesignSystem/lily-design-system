@@ -31,7 +31,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/ZhongguoJuminShenfenzhengHaomaInput/ZhongguoJuminShenfenzhengHaomaInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/ZhongguoJuminShenfenzhengHaomaInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/ZhongguoJuminShenfenzhengHaomaInput.vue",
-    "angular": "lily-design-system-angular-headless/components/ZhongguoJuminShenfenzhengHaomaInput.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/ZhongguoJuminShenfenzhengHaomaInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/zhongguo-jumin-shenfenzheng-haoma-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/zhongguo-jumin-shenfenzheng-haoma-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/zhongguo-jumin-shenfenzheng-haoma-input/macro.njk",

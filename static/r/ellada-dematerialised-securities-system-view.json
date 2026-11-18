@@ -28,7 +28,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/ElladaDematerialisedSecuritiesSystemView/ElladaDematerialisedSecuritiesSystemView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/ElladaDematerialisedSecuritiesSystemView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/ElladaDematerialisedSecuritiesSystemView.vue",
-    "angular": "lily-design-system-angular-headless/components/ElladaDematerialisedSecuritiesSystemView.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/ElladaDematerialisedSecuritiesSystemView.ts",
     "web-components": "lily-design-system-web-components-headless/components/ellada-dematerialised-securities-system-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/ellada-dematerialised-securities-system-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/ellada-dematerialised-securities-system-view/macro.njk",

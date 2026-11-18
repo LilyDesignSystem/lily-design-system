@@ -28,7 +28,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/BulgariaEdinenGrazhdanskiNomerView/BulgariaEdinenGrazhdanskiNomerView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/BulgariaEdinenGrazhdanskiNomerView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/BulgariaEdinenGrazhdanskiNomerView.vue",
-    "angular": "lily-design-system-angular-headless/components/BulgariaEdinenGrazhdanskiNomerView.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/BulgariaEdinenGrazhdanskiNomerView.ts",
     "web-components": "lily-design-system-web-components-headless/components/bulgaria-edinen-grazhdanski-nomer-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/bulgaria-edinen-grazhdanski-nomer-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/bulgaria-edinen-grazhdanski-nomer-view/macro.njk",

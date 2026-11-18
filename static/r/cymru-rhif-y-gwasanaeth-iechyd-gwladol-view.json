@@ -28,7 +28,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/CymruRhifYGwasanaethIechydGwladolView/CymruRhifYGwasanaethIechydGwladolView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/CymruRhifYGwasanaethIechydGwladolView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/CymruRhifYGwasanaethIechydGwladolView.vue",
-    "angular": "lily-design-system-angular-headless/components/CymruRhifYGwasanaethIechydGwladolView.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/CymruRhifYGwasanaethIechydGwladolView.ts",
     "web-components": "lily-design-system-web-components-headless/components/cymru-rhif-y-gwasanaeth-iechyd-gwladol-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/cymru-rhif-y-gwasanaeth-iechyd-gwladol-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/cymru-rhif-y-gwasanaeth-iechyd-gwladol-view/macro.njk",

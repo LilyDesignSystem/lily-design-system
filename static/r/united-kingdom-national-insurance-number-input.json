@@ -32,7 +32,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/UnitedKingdomNationalInsuranceNumberInput/UnitedKingdomNationalInsuranceNumberInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/UnitedKingdomNationalInsuranceNumberInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/UnitedKingdomNationalInsuranceNumberInput.vue",
-    "angular": "lily-design-system-angular-headless/components/UnitedKingdomNationalInsuranceNumberInput.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/UnitedKingdomNationalInsuranceNumberInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/united-kingdom-national-insurance-number-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/united-kingdom-national-insurance-number-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/united-kingdom-national-insurance-number-input/macro.njk",

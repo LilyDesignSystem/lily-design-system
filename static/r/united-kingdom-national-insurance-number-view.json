@@ -28,7 +28,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/UnitedKingdomNationalInsuranceNumberView/UnitedKingdomNationalInsuranceNumberView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/UnitedKingdomNationalInsuranceNumberView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/UnitedKingdomNationalInsuranceNumberView.vue",
-    "angular": "lily-design-system-angular-headless/components/UnitedKingdomNationalInsuranceNumberView.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/UnitedKingdomNationalInsuranceNumberView.ts",
     "web-components": "lily-design-system-web-components-headless/components/united-kingdom-national-insurance-number-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/united-kingdom-national-insurance-number-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/united-kingdom-national-insurance-number-view/macro.njk",

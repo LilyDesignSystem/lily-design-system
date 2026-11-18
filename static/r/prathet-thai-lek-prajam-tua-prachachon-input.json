@@ -31,7 +31,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/PrathetThaiLekPrajamTuaPrachachonInput/PrathetThaiLekPrajamTuaPrachachonInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/PrathetThaiLekPrajamTuaPrachachonInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/PrathetThaiLekPrajamTuaPrachachonInput.vue",
-    "angular": "lily-design-system-angular-headless/components/PrathetThaiLekPrajamTuaPrachachonInput.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/PrathetThaiLekPrajamTuaPrachachonInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/prathet-thai-lek-prajam-tua-prachachon-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/prathet-thai-lek-prajam-tua-prachachon-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/prathet-thai-lek-prajam-tua-prachachon-input/macro.njk",

@@ -28,7 +28,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/HangukJuminDeungnokBeonhoView/HangukJuminDeungnokBeonhoView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/HangukJuminDeungnokBeonhoView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/HangukJuminDeungnokBeonhoView.vue",
-    "angular": "lily-design-system-angular-headless/components/HangukJuminDeungnokBeonhoView.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/HangukJuminDeungnokBeonhoView.ts",
     "web-components": "lily-design-system-web-components-headless/components/hanguk-jumin-deungnok-beonho-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/hanguk-jumin-deungnok-beonho-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/hanguk-jumin-deungnok-beonho-view/macro.njk",

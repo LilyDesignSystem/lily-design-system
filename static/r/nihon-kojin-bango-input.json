@@ -31,7 +31,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/NihonKojinBangoInput/NihonKojinBangoInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/NihonKojinBangoInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/NihonKojinBangoInput.vue",
-    "angular": "lily-design-system-angular-headless/components/NihonKojinBangoInput.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/NihonKojinBangoInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/nihon-kojin-bango-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/nihon-kojin-bango-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/nihon-kojin-bango-input/macro.njk",

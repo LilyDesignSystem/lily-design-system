@@ -28,7 +28,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/MisrAlRaqmAlQawmiView/MisrAlRaqmAlQawmiView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/MisrAlRaqmAlQawmiView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/MisrAlRaqmAlQawmiView.vue",
-    "angular": "lily-design-system-angular-headless/components/MisrAlRaqmAlQawmiView.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/MisrAlRaqmAlQawmiView.ts",
     "web-components": "lily-design-system-web-components-headless/components/misr-al-raqm-al-qawmi-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/misr-al-raqm-al-qawmi-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/misr-al-raqm-al-qawmi-view/macro.njk",

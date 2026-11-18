@@ -30,7 +30,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/TuaisceartEireannHealthAndCareNumberView/TuaisceartEireannHealthAndCareNumberView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/TuaisceartEireannHealthAndCareNumberView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/TuaisceartEireannHealthAndCareNumberView.vue",
-    "angular": "lily-design-system-angular-headless/components/TuaisceartEireannHealthAndCareNumberView.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/TuaisceartEireannHealthAndCareNumberView.ts",
     "web-components": "lily-design-system-web-components-headless/components/tuaisceart-eireann-health-and-care-number-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/tuaisceart-eireann-health-and-care-number-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/tuaisceart-eireann-health-and-care-number-view/macro.njk",

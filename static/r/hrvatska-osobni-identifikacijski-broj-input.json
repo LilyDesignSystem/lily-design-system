@@ -32,7 +32,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/HrvatskaOsobniIdentifikacijskiBrojInput/HrvatskaOsobniIdentifikacijskiBrojInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/HrvatskaOsobniIdentifikacijskiBrojInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/HrvatskaOsobniIdentifikacijskiBrojInput.vue",
-    "angular": "lily-design-system-angular-headless/components/HrvatskaOsobniIdentifikacijskiBrojInput.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/HrvatskaOsobniIdentifikacijskiBrojInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/hrvatska-osobni-identifikacijski-broj-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/hrvatska-osobni-identifikacijski-broj-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/hrvatska-osobni-identifikacijski-broj-input/macro.njk",

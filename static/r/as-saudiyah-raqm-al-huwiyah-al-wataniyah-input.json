@@ -31,7 +31,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/AsSaudiyahRaqmAlHuwiyahAlWataniyahInput/AsSaudiyahRaqmAlHuwiyahAlWataniyahInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/AsSaudiyahRaqmAlHuwiyahAlWataniyahInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/AsSaudiyahRaqmAlHuwiyahAlWataniyahInput.vue",
-    "angular": "lily-design-system-angular-headless/components/AsSaudiyahRaqmAlHuwiyahAlWataniyahInput.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/AsSaudiyahRaqmAlHuwiyahAlWataniyahInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/as-saudiyah-raqm-al-huwiyah-al-wataniyah-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/as-saudiyah-raqm-al-huwiyah-al-wataniyah-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/as-saudiyah-raqm-al-huwiyah-al-wataniyah-input/macro.njk",

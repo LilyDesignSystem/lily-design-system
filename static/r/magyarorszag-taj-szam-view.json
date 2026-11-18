@@ -28,7 +28,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/MagyarorszagTajSzamView/MagyarorszagTajSzamView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/MagyarorszagTajSzamView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/MagyarorszagTajSzamView.vue",
-    "angular": "lily-design-system-angular-headless/components/MagyarorszagTajSzamView.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/MagyarorszagTajSzamView.ts",
     "web-components": "lily-design-system-web-components-headless/components/magyarorszag-taj-szam-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/magyarorszag-taj-szam-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/magyarorszag-taj-szam-view/macro.njk",

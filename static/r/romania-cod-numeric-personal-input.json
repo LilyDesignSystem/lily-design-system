@@ -32,7 +32,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/RomaniaCodNumericPersonalInput/RomaniaCodNumericPersonalInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/RomaniaCodNumericPersonalInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/RomaniaCodNumericPersonalInput.vue",
-    "angular": "lily-design-system-angular-headless/components/RomaniaCodNumericPersonalInput.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/RomaniaCodNumericPersonalInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/romania-cod-numeric-personal-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/romania-cod-numeric-personal-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/romania-cod-numeric-personal-input/macro.njk",

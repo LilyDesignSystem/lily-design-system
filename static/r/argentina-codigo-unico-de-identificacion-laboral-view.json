@@ -28,7 +28,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/ArgentinaCodigoUnicoDeIdentificacionLaboralView/ArgentinaCodigoUnicoDeIdentificacionLaboralView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/ArgentinaCodigoUnicoDeIdentificacionLaboralView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/ArgentinaCodigoUnicoDeIdentificacionLaboralView.vue",
-    "angular": "lily-design-system-angular-headless/components/ArgentinaCodigoUnicoDeIdentificacionLaboralView.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/ArgentinaCodigoUnicoDeIdentificacionLaboralView.ts",
     "web-components": "lily-design-system-web-components-headless/components/argentina-codigo-unico-de-identificacion-laboral-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/argentina-codigo-unico-de-identificacion-laboral-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/argentina-codigo-unico-de-identificacion-laboral-view/macro.njk",

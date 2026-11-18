@@ -28,7 +28,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/YisraelTeudatZehutView/YisraelTeudatZehutView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/YisraelTeudatZehutView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/YisraelTeudatZehutView.vue",
-    "angular": "lily-design-system-angular-headless/components/YisraelTeudatZehutView.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/YisraelTeudatZehutView.ts",
     "web-components": "lily-design-system-web-components-headless/components/yisrael-teudat-zehut-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/yisrael-teudat-zehut-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/yisrael-teudat-zehut-view/macro.njk",

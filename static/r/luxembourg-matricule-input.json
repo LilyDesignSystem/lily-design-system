@@ -31,7 +31,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/LuxembourgMatriculeInput/LuxembourgMatriculeInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/LuxembourgMatriculeInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/LuxembourgMatriculeInput.vue",
-    "angular": "lily-design-system-angular-headless/components/LuxembourgMatriculeInput.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/LuxembourgMatriculeInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/luxembourg-matricule-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/luxembourg-matricule-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/luxembourg-matricule-input/macro.njk",

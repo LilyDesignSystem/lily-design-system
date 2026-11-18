@@ -32,7 +32,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/LietuvaAsmensKodasInput/LietuvaAsmensKodasInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/LietuvaAsmensKodasInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/LietuvaAsmensKodasInput.vue",
-    "angular": "lily-design-system-angular-headless/components/LietuvaAsmensKodasInput.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/LietuvaAsmensKodasInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/lietuva-asmens-kodas-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/lietuva-asmens-kodas-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/lietuva-asmens-kodas-input/macro.njk",

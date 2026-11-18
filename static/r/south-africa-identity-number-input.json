@@ -31,7 +31,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/SouthAfricaIdentityNumberInput/SouthAfricaIdentityNumberInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/SouthAfricaIdentityNumberInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/SouthAfricaIdentityNumberInput.vue",
-    "angular": "lily-design-system-angular-headless/components/SouthAfricaIdentityNumberInput.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/SouthAfricaIdentityNumberInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/south-africa-identity-number-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/south-africa-identity-number-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/south-africa-identity-number-input/macro.njk",

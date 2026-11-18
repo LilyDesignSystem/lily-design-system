@@ -31,7 +31,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/PilipinasPhilhealthIdentificationNumberInput/PilipinasPhilhealthIdentificationNumberInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/PilipinasPhilhealthIdentificationNumberInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/PilipinasPhilhealthIdentificationNumberInput.vue",
-    "angular": "lily-design-system-angular-headless/components/PilipinasPhilhealthIdentificationNumberInput.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/PilipinasPhilhealthIdentificationNumberInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/pilipinas-philhealth-identification-number-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/pilipinas-philhealth-identification-number-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/pilipinas-philhealth-identification-number-input/macro.njk",

@@ -31,7 +31,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/BharatAadhaarInput/BharatAadhaarInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/BharatAadhaarInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/BharatAadhaarInput.vue",
-    "angular": "lily-design-system-angular-headless/components/BharatAadhaarInput.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/BharatAadhaarInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/bharat-aadhaar-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/bharat-aadhaar-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/bharat-aadhaar-input/macro.njk",

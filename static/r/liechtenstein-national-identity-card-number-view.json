@@ -28,7 +28,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/LiechtensteinNationalIdentityCardNumberView/LiechtensteinNationalIdentityCardNumberView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/LiechtensteinNationalIdentityCardNumberView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/LiechtensteinNationalIdentityCardNumberView.vue",
-    "angular": "lily-design-system-angular-headless/components/LiechtensteinNationalIdentityCardNumberView.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/LiechtensteinNationalIdentityCardNumberView.ts",
     "web-components": "lily-design-system-web-components-headless/components/liechtenstein-national-identity-card-number-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/liechtenstein-national-identity-card-number-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/liechtenstein-national-identity-card-number-view/macro.njk",

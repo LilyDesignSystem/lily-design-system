@@ -32,7 +32,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/EestiIsikukoodInput/EestiIsikukoodInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/EestiIsikukoodInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/EestiIsikukoodInput.vue",
-    "angular": "lily-design-system-angular-headless/components/EestiIsikukoodInput.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/EestiIsikukoodInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/eesti-isikukood-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/eesti-isikukood-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/eesti-isikukood-input/macro.njk",

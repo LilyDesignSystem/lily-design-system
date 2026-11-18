@@ -32,7 +32,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/CeskoRodneCisloInput/CeskoRodneCisloInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/CeskoRodneCisloInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/CeskoRodneCisloInput.vue",
-    "angular": "lily-design-system-angular-headless/components/CeskoRodneCisloInput.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/CeskoRodneCisloInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/cesko-rodne-cislo-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/cesko-rodne-cislo-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/cesko-rodne-cislo-input/macro.njk",

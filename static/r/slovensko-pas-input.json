@@ -32,7 +32,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/SlovenskoPasInput/SlovenskoPasInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/SlovenskoPasInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/SlovenskoPasInput.vue",
-    "angular": "lily-design-system-angular-headless/components/SlovenskoPasInput.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/SlovenskoPasInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/slovensko-pas-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/slovensko-pas-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/slovensko-pas-input/macro.njk",

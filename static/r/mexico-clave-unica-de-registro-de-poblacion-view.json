@@ -28,7 +28,7 @@
     "svelte": "lily-design-system-svelte-headless-identifiers/components/MexicoClaveUnicaDeRegistroDePoblacionView/MexicoClaveUnicaDeRegistroDePoblacionView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/MexicoClaveUnicaDeRegistroDePoblacionView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/MexicoClaveUnicaDeRegistroDePoblacionView.vue",
-    "angular": "lily-design-system-angular-headless/components/MexicoClaveUnicaDeRegistroDePoblacionView.ts",
+    "angular": "lily-design-system-angular-headless-identifiers/components/MexicoClaveUnicaDeRegistroDePoblacionView.ts",
     "web-components": "lily-design-system-web-components-headless/components/mexico-clave-unica-de-registro-de-poblacion-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/mexico-clave-unica-de-registro-de-poblacion-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/mexico-clave-unica-de-registro-de-poblacion-view/macro.njk",
