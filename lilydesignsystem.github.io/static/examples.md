@@ -54,7 +54,7 @@ Angular 22 + Analog.js app. File-based routing, signals, zoneless change detecti
 
 ### Blazor Web
 
-Blazor Web app with Razor components. Server- and WebAssembly-friendly, with .NET 10 baseline.
+Blazor Web app with Razor components. Server- and WebAssembly-friendly, with .NET 11 baseline.
 
 → View on GitHub
 

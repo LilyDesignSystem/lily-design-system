@@ -92,7 +92,7 @@ renders inline near the focused card.
 
 ## Conventions this package follows
 
-- Blazor 10 / .NET 10, `partial class` split between `KanbanBoard.razor`
+- Blazor 10 / .NET 11, `partial class` split between `KanbanBoard.razor`
   and `KanbanBoard.razor.cs`. Namespace `LilyDesignSystem.Blazor.Helpers`.
 - `[Parameter, EditorRequired]` for required parameters;
   `[Parameter(CaptureUnmatchedValues = true)]` for the root's own

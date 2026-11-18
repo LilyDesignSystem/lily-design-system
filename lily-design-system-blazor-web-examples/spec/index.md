@@ -51,7 +51,7 @@ The app ships:
 
 | Concern       | Choice                                     |
 | ------------- | ------------------------------------------ |
-| App framework | Blazor Web App (.NET 10.0)                 |
+| App framework | Blazor Web App (.NET 11.0)                 |
 | Render mode   | Interactive Server                         |
 | Language      | C# 13                                      |
 | Build         | `dotnet build`                             |
@@ -255,7 +255,7 @@ pnpm exec playwright test                              # e2e tests
 
 - Package: `lily-design-system-blazor-web-examples`
 - Version: 0.2.0
-- App framework: Blazor Web App (.NET 10.0) Interactive Server
+- App framework: Blazor Web App (.NET 11.0) Interactive Server
 - Test runners: bUnit + Playwright
 - Build: `dotnet build`
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause

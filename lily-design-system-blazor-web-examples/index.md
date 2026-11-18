@@ -145,7 +145,7 @@ Components are headless (unstyled) by default. Each component renders a semantic
 
 ## Tech Stack
 
-- **.NET 10.0** with C#
+- **.NET 11.0** with C#
 - **Blazor Web App** with Interactive Server rendering
 - **SignalR** for real-time UI updates
 

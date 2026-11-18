@@ -7,7 +7,7 @@ Blazor Server, Blazor WebAssembly).
 
 Every example assumes:
 
-- Blazor 10 / .NET 10 with the helper installed (or its source
+- Blazor 10 / .NET 11 with the helper installed (or its source
   files copied) under
   `LilyDesignSystem.Blazor.Helpers` namespace.
 - A `_Imports.razor` that declares

@@ -7,7 +7,7 @@ A comprehensive headless Blazor component library with accessible, unstyled Razo
 ## Features
 
 - Headless Blazor Razor components
-- .NET 10 with C#
+- .NET 11 with C#
 - WCAG 2.2 AAA accessibility compliance
 - Native keyboard operation from semantic elements. Custom key handling (arrows, Home/End, Escape, type-ahead) in 15 components, measured 2026-10-30: in Razor `ChatComposer`, `Combobox`, `Dialog`, `Drawer`, `FileDialog`, `Listbox`, `Sheet`, `SlideOutDrawer`, `WheelPicker`; through a JS module `NavigationMenu`, `FileTree`, and the popover menus `DropdownMenu`, `SplitButton`, `ActionGroup`, `ContextMenu` (`Popover.razor.js`). Escape on `AlertDialog` and `TimeoutDialog` comes from the browser's `showModal()`. Each component's `AGENTS.md` names its keys.
 - ARIA attributes and roles

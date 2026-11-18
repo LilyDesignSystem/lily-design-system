@@ -116,7 +116,7 @@ app in practice.
 
 ## Conventions spanning all three layers
 
-- **.NET 10 / C#**, Blazor Razor components throughout — no class
+- **.NET 11 / C#**, Blazor Razor components throughout — no class
   components.
 - **Namespace split by layer**: `LilyBlazorHeadless.Components` for the
   headless library, `LilyDesignSystem.Blazor.Helpers` for every helper

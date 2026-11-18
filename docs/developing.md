@@ -20,7 +20,7 @@ bin/check-links   # every relative markdown link resolves
 
 Node 26+ with pnpm for the JavaScript subprojects (`pnpm install`
 per subproject — each is standalone; see
-[spec/node-current-version](../spec/node-current-version/index.md)); .NET 10 for the Blazor pair.
+[spec/node-current-version](../spec/node-current-version/index.md)); .NET 11 for the Blazor pair.
 There is no root-level install of the subprojects: the monorepo is a
 federation of standalone subprojects, not a workspace (the root
 `package.json` carries only the lint and format tooling).

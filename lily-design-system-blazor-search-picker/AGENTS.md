@@ -81,7 +81,7 @@ re-opened it — the toggle never closed (spec §7.24).
 
 ## Conventions this package follows
 
-- Blazor partial class (`.razor` + `.razor.cs`), Blazor 10 / .NET 10.
+- Blazor partial class (`.razor` + `.razor.cs`), Blazor 10 / .NET 11.
 - `[Parameter, EditorRequired]` for the three labels;
   `[Parameter(CaptureUnmatchedValues = true)]` for spread.
 - The trigger composes `LilyDesignSystem.Blazor.Headless`'s `IconButton`.

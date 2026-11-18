@@ -2,7 +2,7 @@
 
   <!-- The tests live next to the code, in ../LocaleTranslationsTests.cs, and are excluded from the published package. -->
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFramework>net11.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>LilyDesignSystem.Blazor.LocaleTranslations.Tests</RootNamespace>

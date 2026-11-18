@@ -21,7 +21,7 @@ A headless Blazor component library with accessible, unstyled Razor components. 
 
 ## IMPORTANT Architecture
 
-- .NET 10.0 with C#
+- .NET 11.0 with C#
 - Blazor Razor components (no class components)
 - Each component: `.razor` + test `.cs` + `.md`
 - All component files in `Components/` directory (flat structure)

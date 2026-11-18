@@ -22,7 +22,7 @@ Blazor Web App examples of the Lily Design System Blazor headless component libr
 
 ## Tech Stack
 
-- .NET 10.0 with C#
+- .NET 11.0 with C#
 - Blazor Web App with Interactive Server rendering
 - ProjectReference to `../lily-design-system-blazor-headless/`
 - NHS UK CSS custom properties for styling

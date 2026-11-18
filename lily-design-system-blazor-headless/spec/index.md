@@ -1,6 +1,6 @@
 # Lily Design System — Blazor Headless — Specification
 
-Living specification for the Blazor .NET 10 headless implementation of the
+Living specification for the Blazor .NET 11 headless implementation of the
 Lily Design System. Single source of truth for spec-driven development of
 this subproject. For project-wide rules, read the root [spec/index.md](../../spec/index.md)
 first.
@@ -12,7 +12,7 @@ the **583 canonical components** in this framework.
 
 ## 1. Role in the ecosystem
 
-This subproject ships the Blazor .NET 10 Razor-component implementation of
+This subproject ships the Blazor .NET 11 Razor-component implementation of
 every component in the Lily catalog. Every component is **headless**: zero
 CSS, semantic HTML, ARIA, focus and keyboard behaviour only. Consumers bring
 their own styles. The sibling subproject
@@ -30,7 +30,7 @@ WebAssembly, and Blazor Hybrid hosts.
   all 608 components.
 - bUnit + xUnit tests per component asserting ARIA, keyboard, and structural
   contract.
-- C# 13 / .NET 10.0 source.
+- C# 13 / .NET 11.0 source.
 
 ### Explicitly out of scope
 
@@ -46,7 +46,7 @@ WebAssembly, and Blazor Hybrid hosts.
 
 | Concern      | Choice                                  |
 | ------------ | --------------------------------------- |
-| Runtime      | .NET 10.0                               |
+| Runtime      | .NET 11.0                               |
 | Language     | C# 13                                   |
 | UI framework | Blazor (Razor components)               |
 | Build        | `dotnet build`                          |
@@ -274,7 +274,7 @@ through their model (`EditForm` with a fresh model object, or the bound values s
 
 - Package: `lily-design-system-blazor-headless`
 - Version: 0.4.0
-- Framework: Blazor .NET 10 + C# 13
+- Framework: Blazor .NET 11 + C# 13
 - Test runner: bUnit + xUnit
 - Build: `dotnet build`
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause

@@ -69,7 +69,7 @@
       <h3 class="card-heading">Blazor Web</h3>
       <p class="card-description">
         Blazor Web app with Razor components. Server- and WebAssembly-friendly,
-        with .NET 10 baseline.
+        with .NET 11 baseline.
       </p>
       <p class="card-meta">→ View on GitHub</p>
     </a>

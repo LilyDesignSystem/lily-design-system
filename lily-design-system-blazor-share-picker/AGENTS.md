@@ -123,7 +123,7 @@ Both mechanisms are documented in
 
 ## Conventions this package follows
 
-- Blazor partial class (`.razor` + `.razor.cs`), Blazor 10 / .NET 10.
+- Blazor partial class (`.razor` + `.razor.cs`), Blazor 10 / .NET 11.
 - `[Parameter, EditorRequired]` for `Label`;
   `[Parameter(CaptureUnmatchedValues = true)]` for spread.
 - `EventCallback<T>` for events; `RenderFragment<SharePickerContext>`

@@ -285,7 +285,7 @@ Alpine.start();`}</code
 
     <h2 id="blazor">Blazor</h2>
     <p>
-        .NET 10, a Blazor Web App. Link the theme from <code>wwwroot</code> or a CDN in
+        .NET 11, a Blazor Web App. Link the theme from <code>wwwroot</code> or a CDN in
         <code>App.razor</code>.
     </p>
     <!-- svelte-ignore a11y_no_noninteractive_tabindex -->

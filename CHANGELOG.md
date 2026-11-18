@@ -9,6 +9,16 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Blazor on .NET 11 (2026-11-18, breaking for NuGet consumers)
+
+- Every Blazor project, the headless library, its identifiers add-on, the 21 helper packages, their tests and the
+  example app, targets `net11.0` (was `net10.0`), with `Microsoft.AspNetCore.Components.Web` 11.0.0; CI and the
+  publish workflow install .NET 11. Maintainer-directed, after the machine moved to the .NET 11.0.100 SDK.
+- **Breaking** for an app still on .NET 10: a `net11.0` package cannot be referenced from it. The next NuGet release of
+  each Blazor package needs a version bump; until then the published packages stay on `net10.0`.
+- Tests pass on .NET 11: Blazor headless 2,291, identifiers 804, every helper package; the example app builds. The
+  docs and tutorials say .NET 11 (the tutorials had said .NET SDK 8).
+
 ## Twelve more national identifier types (2026-11-18, catalog 661)
 
 - 24 components, an `-input` and a `-view` for each of twelve types chosen for the gaps the coverage table named:

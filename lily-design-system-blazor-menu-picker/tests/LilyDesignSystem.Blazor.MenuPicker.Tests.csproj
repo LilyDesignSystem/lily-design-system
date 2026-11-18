@@ -5,7 +5,7 @@
        The tests live next to the component, in ../MenuPickerTests.cs, and are
        excluded from the published package; they are compiled here instead. -->
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFramework>net11.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>LilyDesignSystem.Blazor.Helpers.Tests</RootNamespace>

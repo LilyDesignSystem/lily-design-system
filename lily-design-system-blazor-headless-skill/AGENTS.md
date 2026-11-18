@@ -24,7 +24,7 @@
 
 A Claude Skill explaining how to install and use
 [`lily-design-system-blazor-headless`](../lily-design-system-blazor-headless/),
-the Blazor .NET 10 / C# implementation of Lily's headless component catalog.
+the Blazor .NET 11 / C# implementation of Lily's headless component catalog.
 The skill itself is [`SKILL.md`](SKILL.md); the `@AGENTS/*.md` files loaded
 above are the same binding design-principle rules every other subproject in
 this repository loads, so an agent explaining Blazor consumption is grounded

@@ -6,7 +6,7 @@ license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 
 # Lily Design System™ — Blazor headless usage
 
-`lily-design-system-blazor-headless` is the Blazor .NET 10 / C# implementation
+`lily-design-system-blazor-headless` is the Blazor .NET 11 / C# implementation
 of Lily's canonical, headless component catalog: unstyled Razor components
 shipping semantic HTML, ARIA, focus management, and keyboard behaviour — no
 CSS, no bundled fonts or icons, no hardcoded strings. It targets the same

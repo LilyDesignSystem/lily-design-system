@@ -87,7 +87,7 @@ of structural labels this catalog invented gets none).
 
 ## Conventions this package follows
 
-- Blazor 10 / .NET 10, `partial class` split between `PickerBar.razor`
+- Blazor 10 / .NET 11, `partial class` split between `PickerBar.razor`
   and `PickerBar.razor.cs`. Namespace `LilyDesignSystem.Blazor.Helpers`.
 - `[Parameter, EditorRequired]` for required parameters;
   `[Parameter(CaptureUnmatchedValues = true)]` for the root's own
