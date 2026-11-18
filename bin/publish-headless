@@ -125,6 +125,7 @@ if [ -z "$NUGET_ONLY" ]; then
            "$ROOT"/lily-design-system-react-headless \
            "$ROOT"/lily-design-system-react-headless-identifiers \
            "$ROOT"/lily-design-system-vue-headless \
+           "$ROOT"/lily-design-system-vue-headless-identifiers \
            "$ROOT"/lily-design-system-html-headless \
            "$ROOT"/lily-design-system-nunjucks-headless \
            "$ROOT"/lily-design-system-web-components-headless \

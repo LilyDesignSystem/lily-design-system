@@ -31,7 +31,7 @@
     "html": "lily-design-system-html-headless/components/polska-pesel-input.html",
     "svelte": "lily-design-system-svelte-headless/components/PolskaPeselInput/PolskaPeselInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/PolskaPeselInput.tsx",
-    "vue": "lily-design-system-vue-headless/components/PolskaPeselInput.vue",
+    "vue": "lily-design-system-vue-headless-identifiers/components/PolskaPeselInput.vue",
     "angular": "lily-design-system-angular-headless/components/PolskaPeselInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/polska-pesel-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/polska-pesel-input.html",

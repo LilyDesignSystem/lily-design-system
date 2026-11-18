@@ -1,0 +1,77 @@
+{
+  "name": "@lilydesignsystem/vue-headless-identifiers",
+  "version": "0.1.0",
+  "engines": {
+    "node": ">=26"
+  },
+  "description": "Headless, accessible, unstyled Vue 3 components for national personal identifiers (164: an input and a view for each of 82 identifier types across 50+ countries), the add-on to @lilydesignsystem/vue-headless.",
+  "main": "./dist/index.mjs",
+  "scripts": {
+    "build": "node build.mjs",
+    "prepublishOnly": "node build.mjs",
+    "test": "vitest run",
+    "test:ui": "vitest --ui",
+    "test:watch": "vitest",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "check": "vue-tsc --noEmit -p tsconfig.lib.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LilyDesignSystem/lily-design-system.git",
+    "directory": "lily-design-system-vue-headless-identifiers"
+  },
+  "keywords": [
+    "public",
+    "good",
+    "design",
+    "system",
+    "vue",
+    "headless",
+    "national-identifier",
+    "healthcare"
+  ],
+  "author": "Joel Parker Henderson <joel@joelparkerhenderson.com>",
+  "license": "MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/LilyDesignSystem/lily-design-system/issues"
+  },
+  "homepage": "https://lilydesignsystem.com/",
+  "devDependencies": {
+    "@storybook/vue3-vite": "^10.6.7",
+    "@testing-library/user-event": "^14.6.11",
+    "@testing-library/vue": "^8.1.0",
+    "@vitejs/plugin-vue": "^6.0.11",
+    "@vitest/ui": "^5.1.0",
+    "jsdom": "^31.0.1",
+    "storybook": "^10.6.7",
+    "typescript": "^5.9.3",
+    "vite": "^8.3.8",
+    "vitest": "^5.1.0",
+    "vue": "^3.5.45",
+    "vue-tsc": "^3.3.14"
+  },
+  "dependencies": {
+    "aria-query": "^5.3.2"
+  },
+  "type": "module",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "default": "./dist/index.mjs"
+    }
+  },
+  "files": [
+    "dist",
+    "index.md",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "sideEffects": false,
+  "peerDependencies": {
+    "vue": "^3.4.0"
+  }
+}

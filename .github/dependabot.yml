@@ -585,6 +585,29 @@ updates:
         update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "npm"
+    directory: "/lily-design-system-vue-headless-identifiers"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      lily:
+        patterns:
+          - "*"
+    ignore:
+      # TypeScript 7 is too new for parts of this ecosystem's build
+      # tooling right now -- confirmed breakage in the Angular
+      # directories (@analogjs/vite-plugin-angular's
+      # ts.createPrinter usage) and vue-helpers (vue-tsc's internal
+      # typescript/lib/tsc import), both from the same major bump.
+      # Ignoring here too rather than accepting an unverified major
+      # bump; revisit once this catalog's own TS 7 compatibility is
+      # confirmed.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
+
+  - package-ecosystem: "npm"
     # One top-level subproject per Vue helper package (2026-10-10).
     directories:
       - "/lily-design-system-vue-data-grid"

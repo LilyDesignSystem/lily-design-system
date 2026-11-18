@@ -288,6 +288,7 @@ EXTRA_TARGETS = {
         "lily-design-system-solid-headless-identifiers/components/dev-warning.ts",
         "lily-design-system-react-next-examples/components/dev-warning.ts",
         "lily-design-system-vue-headless/components/dev-warning.ts",
+        "lily-design-system-vue-headless-identifiers/components/dev-warning.ts",
         "lily-design-system-vue-nuxt-examples/components/dev-warning.ts",
         "lily-design-system-angular-headless/components/dev-warning.ts",
         "lily-design-system-angular-examples/src/app/components/dev-warning.ts",

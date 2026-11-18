@@ -2,13 +2,11 @@ import { render } from "@testing-library/vue";
 import { afterEach, beforeEach, expect, test, vi } from "vitest";
 
 import Combobox from "./Combobox.vue";
-import DanmarkPersonnummerInput from "./DanmarkPersonnummerInput.vue";
 import Dialog from "./Dialog.vue";
 import { resetDevWarnings } from "./dev-warning";
 
 const cases = [
     ["Combobox", Combobox],
-    ["DanmarkPersonnummerInput", DanmarkPersonnummerInput],
     ["Dialog", Dialog],
 ] as const;
 

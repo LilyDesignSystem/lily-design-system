@@ -137,6 +137,7 @@ jobs:
           - lily-design-system-react-headless
           - lily-design-system-react-headless-identifiers
           - lily-design-system-vue-headless
+          - lily-design-system-vue-headless-identifiers
           - lily-design-system-angular-headless
           - lily-design-system-nunjucks-headless
           - lily-design-system-web-components-headless

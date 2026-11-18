@@ -1,0 +1,8 @@
+allowBuilds:
+  esbuild: true
+  "@parcel/watcher": true
+  sharp: true
+  unrs-resolver: true
+  better-sqlite3: true
+overrides:
+  "minimatch@10": "^11.0.1"

@@ -3,6 +3,14 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the package follows [Semantic Versioning](https://semver.org/).
 
+## 0.11.0 — 2026-11-18 (breaking)
+
+- **Breaking:** the 164 national personal identifier components (an `-input` and a `-view` for each of 82 identifier
+  types) move to their own package, `@lilydesignsystem/vue-headless-identifiers`. They are removed, not re-exported; this package now has the 473 other
+  catalog components.
+- **Migration:** install `@lilydesignsystem/vue-headless-identifiers` and import the identifier components from it; their props, class hooks and behaviour
+  are unchanged.
+
 ## 0.10.0 — 2026-11-16 (breaking)
 
 - Removed (breaking): the thirteen pickers and picker buttons the radio groups supersede — `color-picker` and
