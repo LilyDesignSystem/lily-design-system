@@ -474,6 +474,10 @@ def dom_attrs(text):
     text = re.sub(r"<[a-z][\w-]*\b(?:[^<>{}]|\{(?:[^{}]|\{(?:[^{}]|\{[^{}]*\})*\})*\})*>", native, text)
     # className -> class is the catalog's own rename, on components too.
     text = re.sub(r"(?<![\w.])className=", "class=", text)
+    # React's onDoubleClick is the DOM's dblclick; and a camelCase key in a spread object is not an attribute name.
+    text = re.sub(r"(?<![\w.])onDoubleClick=", "onDblClick=", text)
+    text = re.sub(r"\{ tabIndex:", "{ tabindex:", text)
+    text = re.sub(r"\{ colSpan:", "{ colspan:", text)
     # spellcheck / draggable take the enumerated strings in Solid's types
     text = re.sub(r"\bspellcheck=\{false\}", 'spellcheck="false"', text)
     text = re.sub(r"\bspellcheck=\{true\}", 'spellcheck="true"', text)

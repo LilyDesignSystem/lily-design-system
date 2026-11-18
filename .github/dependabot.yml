@@ -338,6 +338,7 @@ updates:
     # One top-level subproject per Solid helper package (2026-11-17).
     directories:
       - "/lily-design-system-solid-color-picker"
+      - "/lily-design-system-solid-data-grid"
       - "/lily-design-system-solid-date-time-picker"
       - "/lily-design-system-solid-filter"
       - "/lily-design-system-solid-link-picker"
