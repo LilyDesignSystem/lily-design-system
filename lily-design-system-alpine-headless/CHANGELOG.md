@@ -13,6 +13,12 @@ Release highlights and project news: [NEWS.md](NEWS.md).
 
 Lily™ and Lily Design System™ are trademarks.
 
+## 0.3.1 — 2026-11-18
+
+- **Fixed:** the plugin could not be imported. `lily-alpine.js` imports `menu-keys.js` and `widget-keys.js`, which the
+  package's `files` list left out, so `import lily from "@lilydesignsystem/alpine-headless/plugin"` failed with "Cannot
+  find module" in 0.3.0. Both are now shipped, and `bin/smoke-packages` imports the plugin from the packed tarball.
+
 ## 0.3.0 — 2026-11-18 (breaking)
 
 - **Breaking:** the 164 national personal identifier components (an `-input` and a `-view` for each of 82 identifier

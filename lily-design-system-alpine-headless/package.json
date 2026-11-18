@@ -1,6 +1,6 @@
 {
   "name": "@lilydesignsystem/alpine-headless",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "type": "module",
   "engines": {
     "node": ">=26"
@@ -48,6 +48,8 @@
   "files": [
     "index.js",
     "lily-alpine.js",
+    "menu-keys.js",
+    "widget-keys.js",
     "page-check.js",
     "middle-truncation.js",
     "overflow-navigation.js",

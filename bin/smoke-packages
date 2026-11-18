@@ -36,7 +36,9 @@ S="${1:-$(mktemp -d)}"
 mkdir -p "$S/consumer"
 # The catalog size comes from components.tsv, never a literal: a hard-coded count went stale at
 # 571 while the catalog grew to 582.
-LILY_COUNT="$(grep -c . "$ROOT/components.tsv")"
+# Each headless package holds the core components; the national identifiers (category `national`) are in its
+# -headless-identifiers add-on since 2026-11-18 (spec/headless-identifiers).
+LILY_COUNT="$(awk -F'\t' 'NF && $3 != "national"' "$ROOT/components-categories.tsv" | wc -l | tr -d ' ')"
 export LILY_COUNT
 echo "scratch: $S"
 
@@ -46,7 +48,7 @@ if [ -d "$ROOT/lily-design-system-svelte-headless/dist" ]; then
 else
   echo "svelte: dist/ missing — run its build first (cd lily-design-system-svelte-headless && node build.mjs)" >&2; exit 1
 fi
-for d in react vue html nunjucks; do
+for d in react vue html nunjucks alpine; do
   ( cd "$ROOT/lily-design-system-$d-headless" && npm pack --pack-destination "$S" ) > /dev/null
 done
 if [ -d "$ROOT/lily-design-system-angular-headless/dist" ]; then
@@ -391,5 +393,19 @@ console.log("svelte OK");
 EOF
 npx vite build > /dev/null 2>&1
 node out/entry.js
+
+echo "== alpine =="
+# Import the plugin from the installed tarball: 0.3.0 shipped lily-alpine.js without the menu-keys.js and
+# widget-keys.js it imports, so the plugin could not load, and nothing here imported it.
+node --input-type=module -e '
+import { readFileSync } from "node:fs";
+import { createRequire } from "node:module";
+const lily = (await import("@lilydesignsystem/alpine-headless/plugin")).default;
+if (typeof lily !== "function") throw new Error("alpine plugin: default export is " + typeof lily);
+const require = createRequire(import.meta.url);
+const snippet = readFileSync(require.resolve("@lilydesignsystem/alpine-headless/components/button.html"), "utf8");
+if (!snippet.includes(String.raw`class="button`)) throw new Error("alpine button snippet: " + snippet.slice(0, 200));
+console.log("alpine OK");
+'
 
 echo "all packages OK"
