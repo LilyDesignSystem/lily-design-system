@@ -9,20 +9,13 @@ Full documentation and the searchable component catalog: <https://lilydesignsyst
 
 ## Install
 
-**This package is not yet published to NuGet.** Until it is, use either:
-
-**Copy the markup.** Lily is headless — a component is its semantic HTML, its
-ARIA, and its class hook. Take it from the catalog at <https://lilydesignsystem.com/> and paste it
-anywhere. No dependency, no build step.
-
-**Or clone and copy the component files:**
-
 ```sh
-git clone https://github.com/LilyDesignSystem/lily-design-system.git
-cd lily-design-system/lily-design-system-blazor-headless-identifiers
+dotnet add package LilyDesignSystem.Blazor.Headless.Identifiers
 ```
 
-The components ship no CSS. Style them through the kebab-case class hook on each
+Use any of the 164 national identifier components as Razor components. The
+components ship semantic HTML, ARIA, focus management, and keyboard
+behaviour — and **no CSS**. Style them through the kebab-case class hook on each
 root element. See the canonical
 [css-style-sheet-template.css](https://github.com/LilyDesignSystem/lily-design-system/blob/main/css-style-sheet-template.css)
 for a hook per component, and the 45 ready-made stylesheets in

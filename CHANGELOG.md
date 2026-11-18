@@ -9,7 +9,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
-## Unreleased: national identifiers in their own packages (P37-T2, breaking)
+## National identifiers in their own packages (2026-11-18, P37, breaking)
 
 - The 164 national personal identifier components leave the ten headless libraries for one add-on package per
   catalog, `lily-design-system-{framework}-headless-identifiers` (`@lilydesignsystem/{framework}-headless-identifiers`
@@ -23,7 +23,7 @@ highlights.
 - Root tools follow a moved identifier: the checks, `bin/test`, `bin/sync-example-components`,
   `bin/generate-registries`, `bin/generate-api-docs`, `bin/generate-core` (which had briefly lost React's test evidence),
   the Alpine snippet generator and example. `bin/list-helper-packages` and `bin/sync-special-files` know the new kind.
-  Not yet published (P37-T4).
+  Published 2026-11-18 (P37-T4): all twenty versions are on npm and NuGet.
 
 ## Lily for Solid 2.0: helpers and solid-headless 0.1.1 (2026-11-18, P36-T3, P36-T7)
 

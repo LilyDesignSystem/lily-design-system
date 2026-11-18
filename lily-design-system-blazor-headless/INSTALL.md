@@ -13,7 +13,7 @@ Full documentation and the searchable component catalog: <https://lilydesignsyst
 dotnet add package LilyDesignSystem.Blazor.Headless
 ```
 
-Import any of the 571 catalog components as Razor components. The
+Use any of the 571 catalog components as Razor components. The
 components ship semantic HTML, ARIA, focus management, and keyboard
 behaviour — and **no CSS**. Style them through the kebab-case class hook on each
 root element. See the canonical

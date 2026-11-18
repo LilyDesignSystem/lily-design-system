@@ -48,17 +48,17 @@ lily-design-system/                              ← canonical catalog + tools
 
 ## The 225 implementation subprojects
 
-| Framework | Headless library                                  | Example app                                     |
-| --------- | ------------------------------------------------- | ----------------------------------------------- |
-| HTML      | `@lilydesignsystem/html-headless`                 | `lily-design-system-html-css-js-examples`       |
-| Svelte    | `@lilydesignsystem/svelte-headless`               | `lily-design-system-svelte-sveltekit-examples`  |
-| React     | `@lilydesignsystem/react-headless`                | `lily-design-system-react-next-examples`        |
-| Solid     | `@lilydesignsystem/solid-headless`                | `lily-design-system-solid-examples`             |
-| Vue       | `@lilydesignsystem/vue-headless`                  | `lily-design-system-vue-nuxt-examples`          |
-| Angular   | `@lilydesignsystem/angular-headless`              | `lily-design-system-angular-examples`           |
-| Blazor    | `LilyDesignSystem.Blazor.Headless` (NuGet)        | `lily-design-system-blazor-web-examples`        |
-| Nunjucks  | `@lilydesignsystem/nunjucks-headless`             | `lily-design-system-nunjucks-eleventy-examples` |
-| Alpine.js | `@lilydesignsystem/alpine-headless` (unpublished) | `lily-design-system-alpine-examples`            |
+| Framework | Headless library                           | Example app                                     |
+| --------- | ------------------------------------------ | ----------------------------------------------- |
+| HTML      | `@lilydesignsystem/html-headless`          | `lily-design-system-html-css-js-examples`       |
+| Svelte    | `@lilydesignsystem/svelte-headless`        | `lily-design-system-svelte-sveltekit-examples`  |
+| React     | `@lilydesignsystem/react-headless`         | `lily-design-system-react-next-examples`        |
+| Solid     | `@lilydesignsystem/solid-headless`         | `lily-design-system-solid-examples`             |
+| Vue       | `@lilydesignsystem/vue-headless`           | `lily-design-system-vue-nuxt-examples`          |
+| Angular   | `@lilydesignsystem/angular-headless`       | `lily-design-system-angular-examples`           |
+| Blazor    | `LilyDesignSystem.Blazor.Headless` (NuGet) | `lily-design-system-blazor-web-examples`        |
+| Nunjucks  | `@lilydesignsystem/nunjucks-headless`      | `lily-design-system-nunjucks-eleventy-examples` |
+| Alpine.js | `@lilydesignsystem/alpine-headless`        | `lily-design-system-alpine-examples`            |
 
 Each headless library has a national identifiers add-on beside it, `lily-design-system-{framework}-headless-identifiers`
 (npm `@lilydesignsystem/{framework}-headless-identifiers`, NuGet `LilyDesignSystem.Blazor.Headless.Identifiers`), holding

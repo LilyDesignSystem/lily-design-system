@@ -3928,8 +3928,11 @@ release; the canonical catalog keeps all 637. Plan: [spec/headless-identifiers](
       descriptions still give an old catalog size (609, 608, 571, 491). Restate each as the package's own share (473, or
       the Web Components and Alpine scopes) or point at `components.tsv`. Verify: no stale count left in a `SKILL.md`, a
       `package.json` description or a `.csproj` Description.
-- [ ] **P37-T4 Publish** the ten identifiers packages and the breaking headless releases (maintainer approval).
-      Verify: `bin/verify-published`.
+- [x] **P37-T4 Publish** the ten identifiers packages and the breaking headless releases (maintainer approval).
+      Verify: `bin/verify-published`. _(2026-11-18, approved: after a clean `bin/ci --full` receipt for 43f04e461,
+      `bin/publish-headless --npm-only` published the 18 npm versions and the publish workflow (run 44323979667) the
+      two NuGet ones; `npm view` and the NuGet flat-container index show all twenty. `bin/verify-published` covers
+      helper packages only, so the check was by hand.)_
 
 ---
 

@@ -242,9 +242,16 @@ PUBLISHED_NPM = {
     "lily-design-system-web-components-headless",
     "lily-design-system-alpine-headless",
     "lily-design-system-solid-headless",
+    # The national identifier add-ons (spec/headless-identifiers), first published 0.1.0 on 2026-11-18.
+    "lily-design-system-svelte-headless-identifiers", "lily-design-system-react-headless-identifiers",
+    "lily-design-system-vue-headless-identifiers", "lily-design-system-html-headless-identifiers",
+    "lily-design-system-angular-headless-identifiers", "lily-design-system-nunjucks-headless-identifiers",
+    "lily-design-system-web-components-headless-identifiers",
+    "lily-design-system-alpine-headless-identifiers",
+    "lily-design-system-solid-headless-identifiers",
 }
 
-PUBLISHED_NUGET = {"lily-design-system-blazor-headless"}
+PUBLISHED_NUGET = {"lily-design-system-blazor-headless", "lily-design-system-blazor-headless-identifiers"}
 
 
 def npm_name(name):
@@ -386,14 +393,16 @@ for a hook per component, and the 45 ready-made stylesheets in
 [themes/]({CANONICAL}/tree/main/themes).
 """
         elif name in PUBLISHED_NUGET:
+            nuget = ("LilyDesignSystem.Blazor.Headless.Identifiers" if kind == "identifiers"
+                     else "LilyDesignSystem.Blazor.Headless")
             body = f"""
 ## Install
 
 ```sh
-dotnet add package LilyDesignSystem.Blazor.Headless
+dotnet add package {nuget}
 ```
 
-Import any of the 571 catalog components as Razor components. The
+Use any of {what} as Razor components. The
 components ship semantic HTML, ARIA, focus management, and keyboard
 behaviour — and **no CSS**. Style them through the kebab-case class hook on each
 root element. See the canonical
