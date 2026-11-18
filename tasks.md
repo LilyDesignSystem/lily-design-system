@@ -3951,7 +3951,8 @@ Maintainer-directed, in this order.
       consumer; Solid's exports were imported and Angular's inputs and selectors read from source. It found two defects:
       `@lilydesignsystem/alpine-headless` 0.3.0 shipped a plugin that cannot be imported (fixed in 0.3.1, which
       `bin/smoke-packages` now checks) and P38-T3. English only: the home and tutorials pages are translated, so a link
-      there waits for translations.)_
+      there waits for translations. Live on lilydesignsystem.com since the 2026-11-18 site publish, with the Solid icon on
+      the home page; `alpine-headless` 0.3.1 published and 0.3.0 deprecated.)_
 - [ ] **P38-T3 `field` cannot label a custom-element input.** In Web Components, `lily-field` gives its generated id to
       its first child, the custom element, not the `<input>` inside it, and `lily-email-input` copies an `id` to its
       inner input while keeping it, so an explicit id is duplicated; either way the visible label labels nothing.

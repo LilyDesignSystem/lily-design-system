@@ -18,6 +18,7 @@ Lily™ and Lily Design System™ are trademarks.
 - **Fixed:** the plugin could not be imported. `lily-alpine.js` imports `menu-keys.js` and `widget-keys.js`, which the
   package's `files` list left out, so `import lily from "@lilydesignsystem/alpine-headless/plugin"` failed with "Cannot
   find module" in 0.3.0. Both are now shipped, and `bin/smoke-packages` imports the plugin from the packed tarball.
+  Published 2026-11-18; 0.3.0 is deprecated on npm with a pointer to 0.3.1.
 
 ## 0.3.0 — 2026-11-18 (breaking)
 
