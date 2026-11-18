@@ -2,7 +2,7 @@
   <title>Lily + Claude Code — Lily Design System</title>
   <meta
     name="description"
-    content="27 Claude Skills give Claude Code a curated, loadable entry point into Lily Design System — general concepts, per-framework umbrellas, and per-subproject deep dives for the headless library and the *-picker helpers."
+    content="30 Claude Skills give Claude Code a curated, loadable entry point into Lily Design System — general concepts, per-framework umbrellas, and per-subproject deep dives for the headless library and the *-picker helpers."
   />
 </svelte:head>
 
@@ -98,6 +98,12 @@
         <td><a aria-label="React helpers skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-helpers-skill">skill</a></td>
       </tr>
       <tr>
+        <td>Solid</td>
+        <td><a aria-label="Solid umbrella skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-solid-skill">skill</a></td>
+        <td><a aria-label="Solid headless skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-solid-headless-skill">skill</a></td>
+        <td><a aria-label="Solid helpers skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-solid-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
         <td>Svelte</td>
         <td><a aria-label="Svelte umbrella skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-skill">skill</a></td>
         <td><a aria-label="Svelte headless skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-headless-skill">skill</a></td>
@@ -147,7 +153,7 @@ cd lily-design-system/lily-design-system-svelte-skill`}</code></pre>
   <p>
     Working across several frameworks, or on the monorepo itself? Clone the
     <a href="https://github.com/LilyDesignSystem/lily-design-system">canonical monorepo</a>
-    instead — every one of the 27 skills already lives at its root, alongside
+    instead — every one of the 30 skills already lives at its root, alongside
     the headless libraries, the helpers catalogs, and the example apps they
     describe.
   </p>

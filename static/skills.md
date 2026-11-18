@@ -2,7 +2,7 @@
 
 Title: Lily + Claude Code — Lily Design System
 
-Description: 27 Claude Skills give Claude Code a curated, loadable entry point into Lily Design System — general concepts, per-framework umbrellas, and per-subproject deep dives for the headless library and the *-picker helpers.
+Description: 30 Claude Skills give Claude Code a curated, loadable entry point into Lily Design System — general concepts, per-framework umbrellas, and per-subproject deep dives for the headless library and the *-picker helpers.
 
 # Skills on AI agents make Lily even easier
 
@@ -27,6 +27,7 @@ Every framework gets the same three-deep stack. The umbrella skill maps all of t
 | HTML | [skill](https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-skill) | [skill](https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-headless-skill) | [skill](https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-helpers-skill) |
 | Nunjucks | [skill](https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-skill) | [skill](https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-headless-skill) | [skill](https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-helpers-skill) |
 | React | [skill](https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-skill) | [skill](https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-headless-skill) | [skill](https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-helpers-skill) |
+| Solid | [skill](https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-solid-skill) | [skill](https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-solid-headless-skill) | [skill](https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-solid-helpers-skill) |
 | Svelte | [skill](https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-skill) | [skill](https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-headless-skill) | [skill](https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-helpers-skill) |
 | Vue | [skill](https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-skill) | [skill](https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-headless-skill) | [skill](https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-helpers-skill) |
 | Web Components | [skill](https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-skill) | [skill](https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-headless-skill) (573/608) | [skill](https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-helpers-skill) |
@@ -42,4 +43,4 @@ git clone https://github.com/LilyDesignSystem/lily-design-system
 cd lily-design-system/lily-design-system-svelte-skill
 ```
 
-Working across several frameworks, or on the monorepo itself? Clone the [canonical monorepo](https://github.com/LilyDesignSystem/lily-design-system) instead — every one of the 27 skills already lives at its root, alongside the headless libraries, the helpers catalogs, and the example apps they describe.
+Working across several frameworks, or on the monorepo itself? Clone the [canonical monorepo](https://github.com/LilyDesignSystem/lily-design-system) instead — every one of the 30 skills already lives at its root, alongside the headless libraries, the helpers catalogs, and the example apps they describe.
