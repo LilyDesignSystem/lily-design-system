@@ -119,8 +119,7 @@ a row.
 
 ## Tests
 
-`npx vitest run lily-design-system-solid-search-picker` from the
-catalog root — 25 cases covering every §7 clause (§7.19 has two: the
+`npx vitest run` in this directory — 38 cases covering every §7 clause (§7.19 has two: the
 uncontrolled and the controlled form).
 
 ---

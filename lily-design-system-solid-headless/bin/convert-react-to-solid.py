@@ -172,6 +172,10 @@ def convert_component(src, allow_hooks=False):
     if HOOKS.search(s) and not allow_hooks:
         return None, "hooks"
     form_reset = 'from "./form-reset"' in s
+    s = re.sub(r'import \* as React from "react";\n', "", s) if allow_hooks else s
+    s = re.sub(r"\n[ \t]*// eslint-disable-next-line react-hooks/[\w-]+", "", s)
+    s = re.sub(r"React\.RefObject<([^>]+)>", r"{ current: \1 }", s) if allow_hooks else s
+    s = re.sub(r"\): React\.ReactElement \{", "): JSX.Element {", s) if allow_hooks else s
     s = re.sub(r'import React(, \{[^}]*\})? from "react";\n', "", s) if allow_hooks else s
     s = re.sub(r'import \{ [^}]*\} from "react";\n', "", s) if allow_hooks else s
     if re.search(r'from "react";', s.replace('import React from "react";', "")):
@@ -185,7 +189,7 @@ def convert_component(src, allow_hooks=False):
     o = m.end() - 1  # the "{"
     c = find_close(s, o, "{", "}")
     sig = s[o + 1:c]
-    after = re.match(r"\}:\s*(\w+(?:<[^>]*>)?)\s*,?\s*\)\s*\{\n", s[c:])
+    after = re.match(r"\}:\s*(\w+(?:<[^>]*>)?)\s*,?\s*\)(?:\s*:\s*(?:JSX\.Element|React\.ReactElement))?\s*\{\n", s[c:])
     if not after:
         return None, "props type"
     ptype = after.group(1)
@@ -360,6 +364,21 @@ def mask_strings(text, fn):
     seg = ""
     while i < len(text):
         c = text[i]
+        # A comment is kept as written: identifiers in prose are not props.
+        if text.startswith("//", i) and (i == 0 or text[i - 1] != ":"):
+            j = text.find("\n", i)
+            j = len(text) if j < 0 else j
+            out += fn(seg) + text[i:j]
+            seg = ""
+            i = j
+            continue
+        if text.startswith("/*", i):
+            j = text.find("*/", i + 2)
+            j = len(text) if j < 0 else j + 2
+            out += fn(seg) + text[i:j]
+            seg = ""
+            i = j
+            continue
         if c in "\"'":
             # only treat as string when in JS context: crude — inside JSX attribute values "..." are strings too
             j = i + 1

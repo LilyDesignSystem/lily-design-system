@@ -1,0 +1,1413 @@
+import { createSignal, omit, untrack } from "solid-js";
+import { act } from "./test-act";
+import { render, screen, fireEvent } from "./test-utils";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
+
+import DateTimePicker, {
+    addDays,
+    addMonths,
+    daysInMonth,
+    firstDayOfWeekFor,
+    formatIsoDate,
+    fromEpochDay,
+    isoWeek,
+    joinValue,
+    monthMatrix,
+    parseDateInput,
+    parseIsoDate,
+    parseTimeInput,
+    splitValue,
+    toEpochDay,
+    weekdayOf,
+} from "./DateTimePicker";
+
+/**
+ * The six required strings. Deliberately not English-looking placeholders:
+ * every assertion that reads a label reads it from here, so a future
+ * default sneaking back into the component would fail rather than blend in.
+ */
+const LABELS = {
+    previousYear: "PrevYear",
+    previousMonth: "PrevMonth",
+    previousWeek: "PrevWeek",
+    previousDay: "PrevDay",
+    nextDay: "NextDay",
+    nextWeek: "NextWeek",
+    nextMonth: "NextMonth",
+    nextYear: "NextYear",
+    confirm: "Commit",
+    cancel: "Dismiss",
+};
+
+const TIME_LABELS = { ...LABELS, hour: "Hr", minute: "Min", meridiem: "Half" };
+
+/** A fixed "today" so grid contents are deterministic. 2026-03-15, a Sunday. */
+const TODAY = new Date(2026, 2, 15, 10, 30);
+
+function base(overrides: Record<string, unknown> = {}) {
+    return { label: "Pick a date", labels: LABELS, locale: "en-GB", ...overrides };
+}
+
+/**
+ * A minimal controlled wrapper, for the handful of tests that need to
+ * observe a committed value flowing back into the rendered DOM.
+ *
+ * `DateTimePicker` follows this catalog's controlled-or-uncontrolled
+ * convention: supplying `value` makes it controlled, and the DOM will not
+ * change on interaction unless the consumer's `onChange` feeds the new
+ * value back in as `value` — exactly like a native `<input>`. Most tests
+ * below exercise the uncontrolled path (omit `value`, let the component
+ * manage its own copy) or a controlled-but-static path (pass `value` and
+ * assert it does *not* change). The few that need to see a real commit
+ * take that round trip explicitly, here, rather than the component
+ * quietly self-updating a "controlled" prop out from under its owner.
+ */
+function ControlledDateTimePicker(
+    all: {
+        initialValue?: string;
+        onChange?: (value: string) => void;
+    } & Omit<Parameters<typeof DateTimePicker>[0], "value" | "onChange">,
+) {
+    const props = omit(all, "initialValue", "onChange");
+    const onChange = (next: string) => all.onChange?.(next);
+    const [value, setValue] = createSignal(untrack(() => all.initialValue ?? ""));
+    return (
+        <DateTimePicker
+            {...props}
+            value={value()}
+            onChange={(next) => {
+                setValue(next);
+                onChange?.(next);
+            }}
+        />
+    );
+}
+
+const root = () => document.querySelector(".date-time-picker") as HTMLElement;
+const trigger = () => document.querySelector(".date-time-picker-button") as HTMLButtonElement;
+const dialog = () => document.querySelector(".date-time-picker-dialog") as HTMLElement;
+const grid = () => document.querySelector(".date-time-picker-calendar") as HTMLElement;
+const field = () => document.querySelector(".date-time-picker-input") as HTMLInputElement;
+const hidden = () => document.querySelector('input[type="hidden"]') as HTMLInputElement;
+const days = () =>
+    Array.from(document.querySelectorAll<HTMLButtonElement>(".date-time-picker-day"));
+const day = (iso: string) => document.querySelector(`[data-date="${iso}"]`) as HTMLButtonElement;
+const cursorDate = () => days().find((d) => d.getAttribute("tabindex") === "0")?.dataset.date ?? "";
+const periodText = () =>
+    (document.querySelector(".date-time-picker-period") as HTMLElement).textContent?.trim() ?? "";
+
+function open(): void {
+    fireEvent.click(trigger());
+}
+
+beforeEach(() => {
+    vi.useFakeTimers();
+    vi.setSystemTime(TODAY);
+});
+
+afterEach(() => {
+    vi.useRealTimers();
+});
+
+// =====================================================================
+// §7.1–§7.9 — pure arithmetic
+// =====================================================================
+
+describe("DateTimePicker — civil-date arithmetic", () => {
+    test("§7.1 parseIsoDate rejects impossible dates and accepts real ones", () => {
+        expect(parseIsoDate("2026-02-31")).toBeNull();
+        expect(parseIsoDate("2026-13-01")).toBeNull();
+        expect(parseIsoDate("2026-00-10")).toBeNull();
+        expect(parseIsoDate("nonsense")).toBeNull();
+        expect(parseIsoDate("2026-02-28")).toEqual({
+            year: 2026,
+            month: 2,
+            day: 28,
+        });
+    });
+
+    test("§7.1 daysInMonth handles leap years", () => {
+        expect(daysInMonth(2024, 2)).toBe(29);
+        expect(daysInMonth(2026, 2)).toBe(28);
+        // 2100 is divisible by 100 but not 400, so it is not a leap year.
+        expect(daysInMonth(2100, 2)).toBe(28);
+        expect(daysInMonth(2000, 2)).toBe(29);
+    });
+
+    test("§7.2 addDays crosses month and year boundaries both ways", () => {
+        expect(addDays("2026-01-31", 1)).toBe("2026-02-01");
+        expect(addDays("2026-03-01", -1)).toBe("2026-02-28");
+        expect(addDays("2026-12-31", 1)).toBe("2027-01-01");
+        expect(addDays("2026-01-01", -1)).toBe("2025-12-31");
+        expect(addDays("2024-02-28", 1)).toBe("2024-02-29");
+    });
+
+    test("§7.2 addMonths clamps the day rather than rolling over", () => {
+        expect(addMonths("2026-01-31", 1)).toBe("2026-02-28");
+        expect(addMonths("2024-01-31", 1)).toBe("2024-02-29");
+        expect(addMonths("2026-03-31", -1)).toBe("2026-02-28");
+        expect(addMonths("2026-01-15", 1)).toBe("2026-02-15");
+    });
+
+    test("§7.2 addMonths with a negative delta crosses the year boundary", () => {
+        expect(addMonths("2026-01-15", -1)).toBe("2025-12-15");
+        expect(addMonths("2026-01-15", -13)).toBe("2024-12-15");
+        expect(addMonths("2026-06-15", 12)).toBe("2027-06-15");
+    });
+
+    test("§7.3 weekdayOf returns 0 for Sunday", () => {
+        expect(weekdayOf("2026-03-15")).toBe(0); // Sunday
+        expect(weekdayOf("2026-03-16")).toBe(1); // Monday
+        expect(weekdayOf("2026-03-21")).toBe(6); // Saturday
+    });
+
+    test("§7.3 isoWeek matches ISO-8601 on the hard cases", () => {
+        // 2026-01-01 is a Thursday, so it is in week 1.
+        expect(isoWeek("2026-01-01")).toBe(1);
+        // 2021-01-03 is a Sunday belonging to week 53 of 2020.
+        expect(isoWeek("2021-01-03")).toBe(53);
+        // 2024-12-30 is a Monday belonging to week 1 of 2025.
+        expect(isoWeek("2024-12-30")).toBe(1);
+    });
+
+    test("§7.4 toEpochDay and fromEpochDay round-trip", () => {
+        const date = { year: 2026, month: 3, day: 15 };
+        expect(fromEpochDay(toEpochDay(date))).toEqual(date);
+        expect(toEpochDay({ year: 1970, month: 1, day: 1 })).toBe(0);
+    });
+
+    test("§7.5 splitValue and joinValue round-trip per mode", () => {
+        expect(splitValue("2026-03-15", "date")).toEqual({
+            date: "2026-03-15",
+            time: "",
+        });
+        expect(splitValue("09:30", "time")).toEqual({ date: "", time: "09:30" });
+        expect(splitValue("2026-03-15T09:30", "datetime")).toEqual({
+            date: "2026-03-15",
+            time: "09:30",
+        });
+        expect(joinValue("2026-03-15", "09:30", "datetime")).toBe("2026-03-15T09:30");
+    });
+
+    test("§7.5 joinValue refuses a half datetime", () => {
+        expect(joinValue("2026-03-15", "", "datetime")).toBe("");
+        expect(joinValue("", "09:30", "datetime")).toBe("");
+    });
+
+    test("§7.6 monthMatrix is always 6 x 7 and starts on firstDayOfWeek", () => {
+        const mondayFirst = monthMatrix(2026, 3, 1);
+        expect(mondayFirst).toHaveLength(6);
+        expect(mondayFirst.every((week) => week.length === 7)).toBe(true);
+        expect(weekdayOf(mondayFirst[0][0])).toBe(1);
+
+        const sundayFirst = monthMatrix(2026, 3, 0);
+        expect(weekdayOf(sundayFirst[0][0])).toBe(0);
+        // February 2026 starts on a Sunday and has 28 days — the month that
+        // most tempts a variable-height grid into 4 rows.
+        expect(monthMatrix(2026, 2, 0)).toHaveLength(6);
+    });
+
+    test("§7.7 firstDayOfWeekFor follows the locale, defaulting to Monday", () => {
+        expect(firstDayOfWeekFor("en-GB")).toBe(1);
+        expect(firstDayOfWeekFor("en-US")).toBe(0);
+        expect(firstDayOfWeekFor("cy-GB")).toBe(1);
+        // An unknown region falls through the table to the Monday default.
+        expect(firstDayOfWeekFor("xx-ZZ")).toBe(1);
+        expect(firstDayOfWeekFor(undefined)).toBe(1);
+    });
+
+    test("§7.8 parseDateInput reads ISO, locale numerics, and written months", () => {
+        expect(parseDateInput("2026-03-15", "en-GB")).toBe("2026-03-15");
+        // The same digits mean different days in the two locales, and that
+        // is the entire point of deriving the order from Intl.
+        expect(parseDateInput("03/04/2026", "en-GB")).toBe("2026-04-03");
+        expect(parseDateInput("03/04/2026", "en-US")).toBe("2026-03-04");
+        // DHCW's own output format has to round-trip.
+        expect(parseDateInput("27-Jun-2025", "en-GB")).toBe("2025-06-27");
+        expect(parseDateInput("27 June 2025", "en-GB")).toBe("2025-06-27");
+        expect(parseDateInput("Sept 5 2025", "en-US")).toBe("2025-09-05");
+    });
+
+    test("§7.8 parseDateInput returns null for junk and impossible dates", () => {
+        expect(parseDateInput("", "en-GB")).toBeNull();
+        expect(parseDateInput("not a date", "en-GB")).toBeNull();
+        expect(parseDateInput("31/02/2026", "en-GB")).toBeNull();
+        expect(parseDateInput("15/13/2026", "en-GB")).toBeNull();
+        expect(parseDateInput("2026", "en-GB")).toBeNull();
+    });
+
+    test("§7.9 parseTimeInput reads the common forms and rejects bad ones", () => {
+        expect(parseTimeInput("9:30")).toBe("09:30");
+        expect(parseTimeInput("09:30")).toBe("09:30");
+        expect(parseTimeInput("0930")).toBe("09:30");
+        expect(parseTimeInput("9.30")).toBe("09:30");
+        expect(parseTimeInput("1:30pm")).toBe("13:30");
+        expect(parseTimeInput("12:15am")).toBe("00:15");
+        expect(parseTimeInput("25:00")).toBeNull();
+        expect(parseTimeInput("09:75")).toBeNull();
+        expect(parseTimeInput("half nine")).toBeNull();
+    });
+});
+
+// =====================================================================
+// §7.10–§7.17 — markup contract
+// =====================================================================
+
+describe("DateTimePicker — markup", () => {
+    test("§7.10 trigger wires aria-haspopup, aria-expanded and aria-controls", () => {
+        render(() => <DateTimePicker {...base()} />);
+        const button = trigger();
+        expect(button.getAttribute("aria-haspopup")).toBe("dialog");
+        expect(button.getAttribute("aria-expanded")).toBe("false");
+        const controlled = document.getElementById(button.getAttribute("aria-controls") ?? "");
+        expect(controlled?.getAttribute("role")).toBe("dialog");
+        expect(controlled?.getAttribute("aria-modal")).toBe("true");
+    });
+
+    test("§7.10 the glyph is rendered and hidden from assistive technology", () => {
+        render(() => <DateTimePicker {...base()} />);
+        const icon = document.querySelector(".date-time-picker-icon");
+        expect(icon).not.toBeNull();
+        expect(icon?.getAttribute("aria-hidden")).toBe("true");
+        // U+1F4C5 CALENDAR, with the text-presentation selector.
+        expect(icon?.textContent).toBe("\u{1F4C5}︎");
+    });
+
+    test("§7.11 aria-label names both the trigger and the dialog", () => {
+        render(() => <DateTimePicker {...base({ label: "Appointment date" })} />);
+        expect(trigger().getAttribute("aria-label")).toBe("Appointment date");
+        expect(dialog().getAttribute("aria-label")).toBe("Appointment date");
+    });
+
+    test("§7.12 the hidden input carries the ISO value, the field the display", () => {
+        render(() => <DateTimePicker {...base({ name: "appointment", value: "2026-03-15" })} />);
+        expect(hidden().getAttribute("name")).toBe("appointment");
+        expect(hidden().value).toBe("2026-03-15");
+        // The visible field is localised and, critically, has no `name`:
+        // posting a display string next to the ISO value is how a backend
+        // ends up guessing.
+        expect(field().value).toContain("2026");
+        expect(field().hasAttribute("name")).toBe(false);
+    });
+
+    test("§7.13 the dialog is hidden until the trigger is activated", () => {
+        render(() => <DateTimePicker {...base()} />);
+        expect(dialog().hasAttribute("hidden")).toBe(true);
+        open();
+        expect(dialog().hasAttribute("hidden")).toBe(false);
+        expect(trigger().getAttribute("aria-expanded")).toBe("true");
+    });
+
+    test("§7.14 the grid is 6 x 7 with data-outside on adjacent-month days", () => {
+        render(() => <DateTimePicker {...base({ value: "2026-03-15" })} />);
+        open();
+        expect(grid().querySelectorAll("tbody tr")).toHaveLength(6);
+        expect(days()).toHaveLength(42);
+        // March 2026 starts on a Sunday; with a Monday-first grid the six
+        // preceding days come from February.
+        expect(day("2026-02-23")?.hasAttribute("data-outside")).toBe(true);
+        expect(day("2026-03-15")?.hasAttribute("data-outside")).toBe(false);
+    });
+
+    test("§7.15 exactly one day is tabbable (roving tabindex)", () => {
+        render(() => <DateTimePicker {...base({ value: "2026-03-15" })} />);
+        open();
+        const tabbable = days().filter((d) => d.getAttribute("tabindex") === "0");
+        expect(tabbable).toHaveLength(1);
+        expect(tabbable[0].dataset.date).toBe("2026-03-15");
+    });
+
+    test("§7.16 rest props spread onto the root and data-mode reflects mode", () => {
+        render(() => (
+            <DateTimePicker
+                {...base({ "data-testid": "dtp", mode: "datetime", labels: TIME_LABELS })}
+            />
+        ));
+        expect(root().getAttribute("data-testid")).toBe("dtp");
+        expect(root().getAttribute("data-mode")).toBe("datetime");
+    });
+
+    test("§7.17 today carries data-today and aria-current", () => {
+        render(() => <DateTimePicker {...base()} />);
+        open();
+        const todayCell = day("2026-03-15");
+        expect(todayCell.hasAttribute("data-today")).toBe(true);
+        expect(todayCell.getAttribute("aria-current")).toBe("date");
+    });
+});
+
+// =====================================================================
+// §7.18–§7.23 — selection and commit
+// =====================================================================
+
+describe("DateTimePicker — commit and discard", () => {
+    test("§7.18 clicking a day in date mode commits, notifies and closes", () => {
+        const onChange = vi.fn();
+        render(() => (
+            <ControlledDateTimePicker
+                {...base({})}
+                initialValue="2026-03-15"
+                onChange={onChange}
+            />
+        ));
+        open();
+        fireEvent.click(day("2026-03-20"));
+        expect(onChange).toHaveBeenCalledWith("2026-03-20");
+        expect(hidden().value).toBe("2026-03-20");
+        expect(dialog().hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.19 with confirmOnSelect false, only Confirm commits", () => {
+        const onChange = vi.fn();
+        render(() => (
+            <ControlledDateTimePicker
+                {...base({ confirmOnSelect: false })}
+                initialValue="2026-03-15"
+                onChange={onChange}
+            />
+        ));
+        open();
+        fireEvent.click(day("2026-03-20"));
+        expect(onChange).not.toHaveBeenCalled();
+        expect(hidden().value).toBe("2026-03-15");
+
+        fireEvent.click(screen.getByText(LABELS.confirm));
+        expect(onChange).toHaveBeenCalledWith("2026-03-20");
+        expect(hidden().value).toBe("2026-03-20");
+    });
+
+    test("§7.20 Cancel closes without changing the value", () => {
+        const onChange = vi.fn();
+        render(() => (
+            <DateTimePicker {...base({ value: "2026-03-15", confirmOnSelect: false, onChange })} />
+        ));
+        open();
+        fireEvent.click(day("2026-03-20"));
+        fireEvent.click(screen.getByText(LABELS.cancel));
+        expect(onChange).not.toHaveBeenCalled();
+        expect(hidden().value).toBe("2026-03-15");
+        expect(dialog().hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.21 Escape closes without changing the value", () => {
+        const onChange = vi.fn();
+        render(() => (
+            <DateTimePicker {...base({ value: "2026-03-15", confirmOnSelect: false, onChange })} />
+        ));
+        open();
+        fireEvent.click(day("2026-03-20"));
+        fireEvent.keyDown(dialog(), { key: "Escape" });
+        expect(onChange).not.toHaveBeenCalled();
+        expect(hidden().value).toBe("2026-03-15");
+        expect(dialog().hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.22 the clear button renders only when labelled, and commits empty", () => {
+        const onChange = vi.fn();
+        const { unmount } = render(() => (
+            <ControlledDateTimePicker
+                {...base({})}
+                initialValue="2026-03-15"
+                onChange={onChange}
+            />
+        ));
+        open();
+        expect(document.querySelector(".date-time-picker-clear")).toBeNull();
+        unmount();
+
+        render(() => (
+            <ControlledDateTimePicker
+                {...base({ labels: { ...LABELS, clear: "Wipe" } })}
+                initialValue="2026-03-15"
+                onChange={onChange}
+            />
+        ));
+        open();
+        fireEvent.click(screen.getByText("Wipe"));
+        expect(onChange).toHaveBeenCalledWith("");
+        expect(hidden().value).toBe("");
+    });
+
+    test("§7.23 onChange does not fire when the value is unchanged", () => {
+        const onChange = vi.fn();
+        render(() => <DateTimePicker {...base({ value: "2026-03-15", onChange })} />);
+        open();
+        fireEvent.click(day("2026-03-15"));
+        expect(onChange).not.toHaveBeenCalled();
+    });
+});
+
+// =====================================================================
+// §7.24–§7.28 — keyboard
+// =====================================================================
+
+describe("DateTimePicker — keyboard", () => {
+    function openAt(iso = "2026-03-15", extra: Record<string, unknown> = {}) {
+        render(() => <DateTimePicker {...base({ value: iso, ...extra })} />);
+        open();
+    }
+
+    test("§7.24 arrows move the cursor by a day and by a week", () => {
+        openAt();
+        fireEvent.keyDown(grid(), { key: "ArrowRight" });
+        expect(cursorDate()).toBe("2026-03-16");
+        fireEvent.keyDown(grid(), { key: "ArrowLeft" });
+        expect(cursorDate()).toBe("2026-03-15");
+        fireEvent.keyDown(grid(), { key: "ArrowDown" });
+        expect(cursorDate()).toBe("2026-03-22");
+        fireEvent.keyDown(grid(), { key: "ArrowUp" });
+        expect(cursorDate()).toBe("2026-03-15");
+    });
+
+    test("§7.25 Home and End reach the ends of the week, per firstDayOfWeek", () => {
+        // 2026-03-18 is a Wednesday. Monday-first: Home → 16th, End → 22nd.
+        openAt("2026-03-18");
+        fireEvent.keyDown(grid(), { key: "Home" });
+        expect(cursorDate()).toBe("2026-03-16");
+        fireEvent.keyDown(grid(), { key: "End" });
+        expect(cursorDate()).toBe("2026-03-22");
+    });
+
+    test("§7.25 Home respects a Sunday-first week", () => {
+        openAt("2026-03-18", { locale: "en-US" });
+        fireEvent.keyDown(grid(), { key: "Home" });
+        expect(cursorDate()).toBe("2026-03-15");
+    });
+
+    test("§7.26 PageUp and PageDown page the month; Shift pages the year", () => {
+        openAt();
+        fireEvent.keyDown(grid(), { key: "PageDown" });
+        expect(cursorDate()).toBe("2026-04-15");
+        fireEvent.keyDown(grid(), { key: "PageUp" });
+        expect(cursorDate()).toBe("2026-03-15");
+        fireEvent.keyDown(grid(), { key: "PageDown", shiftKey: true });
+        expect(cursorDate()).toBe("2027-03-15");
+        fireEvent.keyDown(grid(), { key: "PageUp", shiftKey: true });
+        expect(cursorDate()).toBe("2026-03-15");
+    });
+
+    test("§7.26 paging into a shorter month clamps the cursor day", () => {
+        openAt("2026-01-31");
+        fireEvent.keyDown(grid(), { key: "PageDown" });
+        expect(cursorDate()).toBe("2026-02-28");
+    });
+
+    test("§7.27 Enter on the grid selects the cursor's day", () => {
+        const onChange = vi.fn();
+        render(() => <DateTimePicker {...base({ value: "2026-03-15", onChange })} />);
+        open();
+        fireEvent.keyDown(grid(), { key: "ArrowRight" });
+        fireEvent.keyDown(grid(), { key: "Enter" });
+        expect(onChange).toHaveBeenCalledWith("2026-03-16");
+    });
+
+    test("§7.28 Alt+ArrowDown on the field opens the dialog", () => {
+        render(() => <DateTimePicker {...base()} />);
+        expect(dialog().hasAttribute("hidden")).toBe(true);
+        fireEvent.keyDown(field(), { key: "ArrowDown", altKey: true });
+        expect(dialog().hasAttribute("hidden")).toBe(false);
+    });
+});
+
+// =====================================================================
+// §7.29–§7.33 — range, vetoes, shortcuts
+// =====================================================================
+
+describe("DateTimePicker — constraints and shortcuts", () => {
+    test("§7.29 days outside min/max are aria-disabled, not disabled", () => {
+        render(() => (
+            <DateTimePicker
+                {...base({ value: "2026-03-15", min: "2026-03-10", max: "2026-03-20" })}
+            />
+        ));
+        open();
+        expect(day("2026-03-09").getAttribute("aria-disabled")).toBe("true");
+        expect(day("2026-03-10").hasAttribute("aria-disabled")).toBe(false);
+        expect(day("2026-03-20").hasAttribute("aria-disabled")).toBe(false);
+        expect(day("2026-03-21").getAttribute("aria-disabled")).toBe("true");
+        // aria-disabled, not the `disabled` attribute: a vetoed day must
+        // stay focusable so the roving cursor can land on it and a screen
+        // reader can announce it as unavailable.
+        expect(day("2026-03-09").hasAttribute("disabled")).toBe(false);
+        // And the consumer's CSS hook rides along.
+        expect(day("2026-03-09").hasAttribute("data-disabled")).toBe(true);
+        expect(day("2026-03-10").hasAttribute("data-disabled")).toBe(false);
+    });
+
+    test("§7.30 isDateDisabled vetoes individual days", () => {
+        // A weekends-closed clinic.
+        const isDateDisabled = (iso: string) => weekdayOf(iso) === 0 || weekdayOf(iso) === 6;
+        render(() => <DateTimePicker {...base({ value: "2026-03-16", isDateDisabled })} />);
+        open();
+        expect(day("2026-03-21").getAttribute("aria-disabled")).toBe("true"); // Saturday
+        expect(day("2026-03-22").getAttribute("aria-disabled")).toBe("true"); // Sunday
+        expect(day("2026-03-23").hasAttribute("aria-disabled")).toBe(false); // Monday
+    });
+
+    test("§7.31 clicking a disabled day does not commit", () => {
+        const onChange = vi.fn();
+        render(() => (
+            <DateTimePicker {...base({ value: "2026-03-15", max: "2026-03-16", onChange })} />
+        ));
+        open();
+        fireEvent.click(day("2026-03-25"));
+        expect(onChange).not.toHaveBeenCalled();
+    });
+
+    test("§7.32 a shortcut moves the selection and reports its id", () => {
+        const onChange = vi.fn();
+        const onShortcut = vi.fn();
+        render(() => (
+            <DateTimePicker
+                {...base({
+                    value: "2026-03-15",
+                    shortcuts: [
+                        { id: "today", label: "Heddiw", days: 0 },
+                        { id: "two-weeks", label: "+2", days: 14 },
+                        { id: "next-month", label: "+1m", months: 1 },
+                    ],
+                    onChange,
+                    onShortcut,
+                })}
+            />
+        ));
+        open();
+        fireEvent.click(screen.getByText("+2"));
+        expect(onShortcut).toHaveBeenCalledWith("two-weeks", "2026-03-29");
+        expect(onChange).toHaveBeenCalledWith("2026-03-29");
+    });
+
+    test("§7.32 a month shortcut uses calendar months, not 30 days", () => {
+        const onChange = vi.fn();
+        render(() => (
+            <DateTimePicker
+                {...base({
+                    value: "2026-03-15",
+                    shortcuts: [{ id: "m", label: "+1m", months: 1 }],
+                    onChange,
+                })}
+            />
+        ));
+        open();
+        fireEvent.click(screen.getByText("+1m"));
+        expect(onChange).toHaveBeenCalledWith("2026-04-15");
+    });
+
+    test("§7.33 a shortcut resolving to a blocked date does nothing", () => {
+        const onChange = vi.fn();
+        const onShortcut = vi.fn();
+        render(() => (
+            <DateTimePicker
+                {...base({
+                    value: "2026-03-15",
+                    max: "2026-03-20",
+                    shortcuts: [{ id: "far", label: "+4w", days: 28 }],
+                    onChange,
+                    onShortcut,
+                })}
+            />
+        ));
+        open();
+        fireEvent.click(screen.getByText("+4w"));
+        expect(onShortcut).not.toHaveBeenCalled();
+        expect(onChange).not.toHaveBeenCalled();
+    });
+});
+
+// =====================================================================
+// §7.34–§7.39 — typed input
+// =====================================================================
+
+describe("DateTimePicker — typed input", () => {
+    test("§7.34 typing an ISO date and blurring commits it", () => {
+        const onChange = vi.fn();
+        render(() => <DateTimePicker {...base({ onChange })} />);
+        fireEvent.input(field(), { target: { value: "2026-03-15" } });
+        fireEvent.blur(field());
+        expect(onChange).toHaveBeenCalledWith("2026-03-15");
+        expect(hidden().value).toBe("2026-03-15");
+    });
+
+    test("§7.35 typing a locale-ordered numeric date commits the right day", () => {
+        const onChange = vi.fn();
+        render(() => <DateTimePicker {...base({ locale: "en-GB", onChange })} />);
+        fireEvent.input(field(), { target: { value: "03/04/2026" } });
+        fireEvent.keyDown(field(), { key: "Enter" });
+        expect(onChange).toHaveBeenCalledWith("2026-04-03");
+    });
+
+    test("§7.36 unparseable text marks the field invalid and does not commit", () => {
+        const onChange = vi.fn();
+        const onInvalidInput = vi.fn();
+        render(() => (
+            <DateTimePicker {...base({ value: "2026-03-15", onChange, onInvalidInput })} />
+        ));
+        fireEvent.input(field(), { target: { value: "sometime soon" } });
+        fireEvent.blur(field());
+        expect(onInvalidInput).toHaveBeenCalledWith("sometime soon");
+        expect(onChange).not.toHaveBeenCalled();
+        expect(field().getAttribute("aria-invalid")).toBe("true");
+        // The text the user typed stays put: silently reverting it is how
+        // someone submits a form still believing they changed the date.
+        expect(field().value).toBe("sometime soon");
+        expect(hidden().value).toBe("2026-03-15");
+    });
+
+    test("§7.37 text parsing to an out-of-range date is rejected the same way", () => {
+        const onChange = vi.fn();
+        const onInvalidInput = vi.fn();
+        render(() => (
+            <DateTimePicker
+                {...base({
+                    value: "2026-03-15",
+                    max: "2026-03-20",
+                    onChange,
+                    onInvalidInput,
+                })}
+            />
+        ));
+        fireEvent.input(field(), { target: { value: "2026-12-25" } });
+        fireEvent.blur(field());
+        expect(onInvalidInput).toHaveBeenCalledWith("2026-12-25");
+        expect(onChange).not.toHaveBeenCalled();
+        expect(field().getAttribute("aria-invalid")).toBe("true");
+    });
+
+    test("§7.38 clearing the field commits an empty value", () => {
+        const onChange = vi.fn();
+        render(() => (
+            <ControlledDateTimePicker
+                {...base({})}
+                initialValue="2026-03-15"
+                onChange={onChange}
+            />
+        ));
+        fireEvent.input(field(), { target: { value: "" } });
+        fireEvent.blur(field());
+        expect(onChange).toHaveBeenCalledWith("");
+        expect(hidden().value).toBe("");
+    });
+
+    test("§7.39 a parseInput prop overrides the built-in parser", () => {
+        const onChange = vi.fn();
+        const parseInput = (text: string) => (text === "xmas" ? "2026-12-25" : null);
+        render(() => <DateTimePicker {...base({ parseInput, onChange })} />);
+        fireEvent.input(field(), { target: { value: "xmas" } });
+        fireEvent.blur(field());
+        expect(onChange).toHaveBeenCalledWith("2026-12-25");
+    });
+});
+
+// =====================================================================
+// §7.40–§7.44 — time and datetime
+// =====================================================================
+
+describe("DateTimePicker — time and datetime", () => {
+    test("§7.40 time mode renders hour and minute selects and no grid", () => {
+        render(() => (
+            <DateTimePicker {...base({ mode: "time", labels: TIME_LABELS, value: "09:30" })} />
+        ));
+        open();
+        expect(document.querySelector(".date-time-picker-calendar")).toBeNull();
+        const hour = document.querySelector(".date-time-picker-hour") as HTMLSelectElement;
+        const minute = document.querySelector(".date-time-picker-minute") as HTMLSelectElement;
+        expect(hour.value).toBe("9");
+        expect(minute.value).toBe("30");
+    });
+
+    test("§7.41 minuteStep controls the minute options", () => {
+        render(() => (
+            <DateTimePicker
+                {...base({
+                    mode: "time",
+                    labels: TIME_LABELS,
+                    value: "09:30",
+                    minuteStep: 15,
+                })}
+            />
+        ));
+        open();
+        const options = Array.from(
+            document.querySelectorAll(".date-time-picker-minute option"),
+        ).map((o) => o.textContent);
+        expect(options).toEqual(["00", "15", "30", "45"]);
+    });
+
+    test("§7.42 datetime mode renders both the grid and the time selects", () => {
+        render(() => (
+            <DateTimePicker
+                {...base({
+                    mode: "datetime",
+                    labels: TIME_LABELS,
+                    value: "2026-03-15T09:30",
+                })}
+            />
+        ));
+        open();
+        expect(document.querySelector(".date-time-picker-calendar")).not.toBeNull();
+        expect(document.querySelector(".date-time-picker-hour")).not.toBeNull();
+    });
+
+    test("§7.43 datetime commits date and time together", () => {
+        const onChange = vi.fn();
+        render(() => (
+            <DateTimePicker
+                {...base({
+                    mode: "datetime",
+                    labels: TIME_LABELS,
+                    value: "2026-03-15T09:30",
+                    onChange,
+                })}
+            />
+        ));
+        open();
+        // In datetime mode a day click is pending only — the user still has
+        // a time to set.
+        fireEvent.click(day("2026-03-20"));
+        expect(onChange).not.toHaveBeenCalled();
+        fireEvent.click(screen.getByText(TIME_LABELS.confirm));
+        expect(onChange).toHaveBeenCalledWith("2026-03-20T09:30");
+    });
+
+    test("§7.44 hour12 renders a meridiem select labelled by the locale", () => {
+        render(() => (
+            <DateTimePicker
+                {...base({
+                    mode: "time",
+                    labels: TIME_LABELS,
+                    value: "13:30",
+                    hour12: true,
+                    locale: "en-US",
+                })}
+            />
+        ));
+        open();
+        const meridiem = document.querySelector(".date-time-picker-meridiem") as HTMLSelectElement;
+        expect(meridiem).not.toBeNull();
+        expect(meridiem.value).toBe("pm");
+        const labels = Array.from(meridiem.options).map((o) => o.textContent);
+        // Whatever en-US calls them — the point is that neither string is
+        // hardcoded in the component.
+        expect(labels).toHaveLength(2);
+        expect(labels[0]).not.toBe(labels[1]);
+        // A 12-hour clock shows 1-12, not 13.
+        const hourLabels = Array.from(
+            document.querySelectorAll(".date-time-picker-hour option"),
+        ).map((o) => o.textContent);
+        expect(hourLabels).toContain("1");
+        expect(hourLabels).not.toContain("13");
+    });
+});
+
+// =====================================================================
+// §7.45–§7.48 — locale
+// =====================================================================
+
+describe("DateTimePicker — locale", () => {
+    test("§7.45 weekday headings start on Monday for en-GB, Sunday for en-US", () => {
+        const { unmount } = render(() => (
+            <DateTimePicker {...base({ locale: "en-GB", value: "2026-03-15" })} />
+        ));
+        open();
+        const gb = Array.from(document.querySelectorAll(".date-time-picker-weekday")).map((th) =>
+            th.getAttribute("abbr"),
+        );
+        expect(gb[0]).toBe("Monday");
+        unmount();
+
+        render(() => <DateTimePicker {...base({ locale: "en-US", value: "2026-03-15" })} />);
+        open();
+        const us = Array.from(document.querySelectorAll(".date-time-picker-weekday")).map((th) =>
+            th.getAttribute("abbr"),
+        );
+        expect(us[0]).toBe("Sunday");
+    });
+
+    test("§7.46 firstDayOfWeek overrides the locale", () => {
+        render(() => (
+            <DateTimePicker
+                {...base({ locale: "en-GB", firstDayOfWeek: 0, value: "2026-03-15" })}
+            />
+        ));
+        open();
+        const first = document.querySelector(".date-time-picker-weekday")?.getAttribute("abbr");
+        expect(first).toBe("Sunday");
+    });
+
+    test("§7.47 month names and day labels follow the locale", () => {
+        render(() => <DateTimePicker {...base({ locale: "cy-GB", value: "2026-03-15" })} />);
+        open();
+        const period = document.querySelector(".date-time-picker-period") as HTMLElement;
+        // Welsh for March is "Mawrth"; the assertion is that the heading is
+        // NOT the English month name, so the test does not depend on one
+        // ICU version's exact spelling.
+        expect(period.textContent?.trim()).not.toContain("March");
+        expect(period.textContent?.trim()).toContain("2026");
+        expect(day("2026-03-15").getAttribute("aria-label")).not.toContain("March");
+    });
+
+    test("§7.48 showWeekNumbers renders ISO week numbers", () => {
+        render(() => (
+            <DateTimePicker
+                {...base({
+                    value: "2026-03-15",
+                    showWeekNumbers: true,
+                    labels: { ...LABELS, week: "Wk" },
+                })}
+            />
+        ));
+        open();
+        expect(document.querySelector(".date-time-picker-week-heading")?.textContent?.trim()).toBe(
+            "Wk",
+        );
+        const weeks = Array.from(document.querySelectorAll(".date-time-picker-week")).map((th) =>
+            th.textContent?.trim(),
+        );
+        expect(weeks).toHaveLength(6);
+        // The grid's first row starts 2026-02-23, which is ISO week 9.
+        expect(weeks[0]).toBe("9");
+    });
+});
+
+// =====================================================================
+// §7.49–§7.55 — assistive technology
+// =====================================================================
+
+describe("DateTimePicker — assistive technology", () => {
+    // No settle helper here, unlike the canonical Svelte suite: that
+    // component queues its focus moves through `queueMicrotask`, so its
+    // tests flush timers before asserting on document.activeElement.
+    // This port moves focus in a `useEffect`, which React flushes
+    // synchronously inside `fireEvent`'s act() — by the time an
+    // assertion runs, focus has already landed.
+
+    test("§7.49 the cursor can land on a vetoed day, which stays focusable and announces", () => {
+        const onChange = vi.fn();
+        const isDateDisabled = (iso: string) => iso === "2026-03-16";
+        render(() => (
+            <DateTimePicker {...base({ value: "2026-03-15", isDateDisabled, onChange })} />
+        ));
+        open();
+        fireEvent.keyDown(grid(), { key: "ArrowRight" });
+        // The roving tabindex is on the blocked day, and — because it is
+        // aria-disabled rather than `disabled` — real focus is too, so a
+        // screen reader announces the day instead of going silent.
+        expect(cursorDate()).toBe("2026-03-16");
+        expect(document.activeElement).toBe(day("2026-03-16"));
+        // Enter refuses to select it.
+        fireEvent.keyDown(grid(), { key: "Enter" });
+        expect(onChange).not.toHaveBeenCalled();
+        // And the cursor can keep going, out the other side.
+        fireEvent.keyDown(grid(), { key: "ArrowRight" });
+        expect(cursorDate()).toBe("2026-03-17");
+    });
+
+    test("§7.50 Escape in the field discards the pending edit without committing", () => {
+        const onChange = vi.fn();
+        render(() => <DateTimePicker {...base({ value: "2026-03-15", onChange })} />);
+        // Mark the field invalid first, so the revert has state to clean up.
+        fireEvent.input(field(), { target: { value: "sometime soon" } });
+        fireEvent.keyDown(field(), { key: "Enter" });
+        expect(field().getAttribute("aria-invalid")).toBe("true");
+
+        fireEvent.keyDown(field(), { key: "Escape" });
+        // The committed value is back on display, the invalid state is
+        // gone, and nothing was committed.
+        expect(field().value).toContain("2026");
+        expect(field().hasAttribute("aria-invalid")).toBe(false);
+        expect(onChange).not.toHaveBeenCalled();
+        expect(hidden().value).toBe("2026-03-15");
+    });
+
+    test("§7.51 labels.invalid renders a status live region wired to the field", () => {
+        const { unmount } = render(() => <DateTimePicker {...base()} />);
+        // Without the label, no region renders — the component would
+        // rather stay silent than announce in a language it invented.
+        expect(document.querySelector(".date-time-picker-status")).toBeNull();
+        unmount();
+
+        render(() => (
+            <DateTimePicker
+                {...base({
+                    describedBy: "hint",
+                    labels: { ...LABELS, invalid: "DimDyddiad" },
+                })}
+            />
+        ));
+        const status = document.querySelector(".date-time-picker-status") as HTMLElement;
+        // The region exists before it has content — a live region born
+        // with its message is routinely not announced at all — and is
+        // empty while the field is valid.
+        expect(status.getAttribute("role")).toBe("status");
+        expect(status.textContent?.trim()).toBe("");
+        expect(field().getAttribute("aria-describedby")).toBe("hint");
+
+        fireEvent.input(field(), { target: { value: "junk" } });
+        fireEvent.blur(field());
+        expect(status.textContent?.trim()).toBe("DimDyddiad");
+        expect(field().getAttribute("aria-errormessage")).toBe(status.id);
+        // Chained after the consumer's hint, for the assistive
+        // technologies that read aria-describedby but not
+        // aria-errormessage.
+        expect(field().getAttribute("aria-describedby")).toBe(`hint ${status.id}`);
+    });
+
+    test("§7.52 focus returns to whichever element opened the dialog", () => {
+        const { unmount } = render(() => <DateTimePicker {...base({ value: "2026-03-15" })} />);
+        // Opened from the field with Alt+ArrowDown: Escape must return
+        // focus to the field, not strand the user on the button.
+        field().focus();
+        fireEvent.keyDown(field(), { key: "ArrowDown", altKey: true });
+        fireEvent.keyDown(dialog(), { key: "Escape" });
+        expect(document.activeElement).toBe(field());
+        unmount();
+
+        render(() => <DateTimePicker {...base({ value: "2026-03-15" })} />);
+        // Opened from the button: focus returns to the button.
+        trigger().focus();
+        fireEvent.click(trigger());
+        fireEvent.keyDown(dialog(), { key: "Escape" });
+        expect(document.activeElement).toBe(trigger());
+    });
+
+    test("§7.53 header paging keeps focus on the header button; grid paging follows the cursor", () => {
+        render(() => <DateTimePicker {...base({ value: "2026-03-15" })} />);
+        open();
+
+        // Header route: the user activating "next month" stays on "next
+        // month", so they can page again — the cursor carries silently.
+        const nextMonth = document.querySelector(
+            ".date-time-picker-next-month",
+        ) as HTMLButtonElement;
+        nextMonth.focus();
+        fireEvent.click(nextMonth);
+        expect(document.activeElement).toBe(nextMonth);
+        expect(cursorDate()).toBe("2026-04-15");
+
+        // Grid route: focus is in the grid, and paging must carry it —
+        // the cell it sat on no longer exists.
+        day("2026-04-15").focus();
+        fireEvent.keyDown(grid(), { key: "PageDown" });
+        expect(cursorDate()).toBe("2026-05-15");
+        expect(document.activeElement).toBe(day("2026-05-15"));
+    });
+
+    test("§7.54 labels.instructions renders keyboard help described by the dialog", () => {
+        const { unmount } = render(() => <DateTimePicker {...base()} />);
+        expect(document.querySelector(".date-time-picker-instructions")).toBeNull();
+        expect(dialog().hasAttribute("aria-describedby")).toBe(false);
+        unmount();
+
+        render(() => (
+            <DateTimePicker {...base({ labels: { ...LABELS, instructions: "SaethauSymud" } })} />
+        ));
+        const help = document.querySelector(".date-time-picker-instructions") as HTMLElement;
+        expect(help.textContent?.trim()).toBe("SaethauSymud");
+        expect(dialog().getAttribute("aria-describedby")).toBe(help.id);
+    });
+
+    test("§7.55 clicking the text field while the dialog is open closes it", () => {
+        render(() => <DateTimePicker {...base({ value: "2026-03-15" })} />);
+        open();
+        expect(dialog().hasAttribute("hidden")).toBe(false);
+        // The dialog is aria-modal: interacting with anything behind it —
+        // including the component's own field — dismisses it.
+        fireEvent.click(field());
+        expect(dialog().hasAttribute("hidden")).toBe(true);
+        expect(hidden().value).toBe("2026-03-15");
+    });
+
+    // --- P8-T12 (2026-09-04): week/day step buttons and the time-zone select.
+
+    test("§7.56 the header renders eight step buttons, coarse to fine, each named only by its label", () => {
+        render(() => <DateTimePicker {...base({ value: "2026-03-15" })} />);
+        open();
+        const header = document.querySelector(".date-time-picker-header") as HTMLElement;
+        const buttons = Array.from(header.querySelectorAll("button"));
+        expect(buttons.map((b) => b.className)).toEqual([
+            "date-time-picker-previous-year",
+            "date-time-picker-previous-month",
+            "date-time-picker-previous-week",
+            "date-time-picker-previous-day",
+            "date-time-picker-next-day",
+            "date-time-picker-next-week",
+            "date-time-picker-next-month",
+            "date-time-picker-next-year",
+        ]);
+        expect(buttons.map((b) => b.getAttribute("aria-label"))).toEqual([
+            "PrevYear",
+            "PrevMonth",
+            "PrevWeek",
+            "PrevDay",
+            "NextDay",
+            "NextWeek",
+            "NextMonth",
+            "NextYear",
+        ]);
+        const period = header.querySelector(".date-time-picker-period") as HTMLElement;
+        expect(
+            Array.from(header.children).indexOf(buttons[3]) <
+                Array.from(header.children).indexOf(period),
+        ).toBe(true);
+    });
+
+    test("§7.57 day steps move the pending day by ±1 civil day, keep the grid on the shown month, and keep focus on the button", () => {
+        const onChange = vi.fn();
+        render(() => (
+            <ControlledDateTimePicker
+                {...base({})}
+                initialValue="2026-03-15"
+                onChange={onChange}
+            />
+        ));
+        open();
+        const nextDay = document.querySelector(".date-time-picker-next-day") as HTMLButtonElement;
+        nextDay.focus();
+        fireEvent.click(nextDay);
+        fireEvent.click(nextDay);
+        expect(cursorDate()).toBe("2026-03-17");
+        expect(day("2026-03-17").dataset.selected).toBeDefined();
+        expect(document.activeElement).toBe(nextDay);
+        expect(periodText()).toBe("March 2026");
+        expect(hidden().value).toBe("2026-03-15");
+        expect(onChange).not.toHaveBeenCalled();
+        fireEvent.click(
+            document.querySelector(".date-time-picker-previous-day") as HTMLButtonElement,
+        );
+        fireEvent.click(screen.getByText("Commit"));
+        expect(hidden().value).toBe("2026-03-16");
+        expect(onChange).toHaveBeenCalledWith("2026-03-16");
+    });
+
+    test("§7.58 week steps move the pending day by ±7 civil days and page the grid only when leaving the shown month", () => {
+        render(() => <DateTimePicker {...base({ value: "2026-03-25" })} />);
+        open();
+        const nextWeek = document.querySelector(".date-time-picker-next-week") as HTMLButtonElement;
+        fireEvent.click(nextWeek);
+        expect(cursorDate()).toBe("2026-04-01");
+        expect(periodText()).toBe("April 2026");
+        fireEvent.click(
+            document.querySelector(".date-time-picker-previous-week") as HTMLButtonElement,
+        );
+        expect(cursorDate()).toBe("2026-03-25");
+        expect(periodText()).toBe("March 2026");
+        fireEvent.click(
+            document.querySelector(".date-time-picker-previous-week") as HTMLButtonElement,
+        );
+        expect(cursorDate()).toBe("2026-03-18");
+        expect(periodText()).toBe("March 2026");
+    });
+
+    test("§7.59 a step past min/max is refused; a step onto a vetoed day moves the cursor but not the pending selection", () => {
+        render(() => (
+            <DateTimePicker
+                {...base({
+                    value: "2026-03-15",
+                    max: "2026-03-16",
+                    isDateDisabled: (iso: string) => iso === "2026-03-16",
+                })}
+            />
+        ));
+        open();
+        const nextDay = document.querySelector(".date-time-picker-next-day") as HTMLButtonElement;
+        fireEvent.click(nextDay);
+        expect(cursorDate()).toBe("2026-03-16");
+        expect(day("2026-03-16").getAttribute("aria-disabled")).toBe("true");
+        expect(day("2026-03-15").dataset.selected).toBeDefined();
+        expect(day("2026-03-16").dataset.selected).toBeUndefined();
+        fireEvent.click(nextDay);
+        expect(cursorDate()).toBe("2026-03-16");
+        fireEvent.click(document.querySelector(".date-time-picker-next-week") as HTMLButtonElement);
+        expect(cursorDate()).toBe("2026-03-16");
+    });
+
+    test("§7.60 the time-zone select renders only with labels.timeZone, lists the runtime's zones by default, and honours timeZones/timeZoneLabels", () => {
+        const { unmount } = render(() => <DateTimePicker {...base()} />);
+        open();
+        expect(document.querySelector(".date-time-picker-time-zone")).toBeNull();
+        expect(document.querySelector('input[name="date-time-time-zone"]')).toBeNull();
+        unmount();
+
+        render(() => <DateTimePicker {...base({ labels: { ...LABELS, timeZone: "Zone" } })} />);
+        open();
+        const select = document.querySelector(
+            ".date-time-picker-time-zone-select",
+        ) as HTMLSelectElement;
+        const label = document.querySelector(
+            ".date-time-picker-time-zone-label",
+        ) as HTMLLabelElement;
+        expect(label.textContent?.trim()).toBe("Zone");
+        expect(label.htmlFor).toBe(select.id);
+        expect(screen.getByLabelText("Zone")).toBe(select);
+        const all = Intl.supportedValuesOf("timeZone");
+        expect(all.length).toBeGreaterThan(300);
+        const offered = Array.from(select.options).map((o) => o.value);
+        expect(offered[0]).toBe("");
+        expect(offered.slice(1)).toEqual(all);
+        expect(select.value).toBe("");
+        expect(root().dataset.timeZone).toBeUndefined();
+        expect(
+            dialog().compareDocumentPosition(grid()) & Node.DOCUMENT_POSITION_FOLLOWING,
+        ).toBeTruthy();
+        expect(
+            select.compareDocumentPosition(grid()) & Node.DOCUMENT_POSITION_FOLLOWING,
+        ).toBeTruthy();
+    });
+
+    test("§7.61 choosing a zone rides {name}-time-zone, data-time-zone, and the callback — and leaves the value alone", () => {
+        const onTimeZoneChange = vi.fn();
+        const onChange = vi.fn();
+        render(() => (
+            <DateTimePicker
+                {...base({
+                    value: "2026-03-15",
+                    name: "when",
+                    labels: { ...LABELS, timeZone: "Zone" },
+                    timeZones: ["Europe/London", "Asia/Tokyo"],
+                    timeZoneLabels: { "Asia/Tokyo": "Tokyo" },
+                    timeZone: "Europe/London",
+                    onTimeZoneChange,
+                    onChange,
+                })}
+            />
+        ));
+        open();
+        const select = document.querySelector(
+            ".date-time-picker-time-zone-select",
+        ) as HTMLSelectElement;
+        const texts = Array.from(select.options).map((o) => [o.value, o.textContent]);
+        expect(texts).toEqual([
+            ["", ""],
+            ["Europe/London", "Europe/London"],
+            ["Asia/Tokyo", "Tokyo"],
+        ]);
+        const zoneInput = document.querySelector(
+            'input[name="when-time-zone"]',
+        ) as HTMLInputElement;
+        expect(select.value).toBe("Europe/London");
+        expect(zoneInput.value).toBe("Europe/London");
+        expect(root().dataset.timeZone).toBe("Europe/London");
+
+        fireEvent.change(select, { target: { value: "Asia/Tokyo" } });
+        expect(onTimeZoneChange).toHaveBeenCalledTimes(1);
+        expect(onTimeZoneChange).toHaveBeenCalledWith("Asia/Tokyo");
+        expect((document.querySelector('input[name="when"]') as HTMLInputElement).value).toBe(
+            "2026-03-15",
+        );
+        expect(onChange).not.toHaveBeenCalled();
+    });
+});
+
+describe("DateTimePicker — tooltip (§7.62–§7.69)", () => {
+    function setupTooltip() {
+        render(() => <DateTimePicker {...base()} />);
+        const button = document.querySelector(".date-time-picker-button") as HTMLButtonElement;
+        const tip = document.querySelector(".date-time-picker-tooltip") as HTMLElement;
+        return { button, tip };
+    }
+
+    test("§7.62 renders a role=tooltip element holding the label, hidden at rest, not aria-describedby-linked", () => {
+        const { button, tip } = setupTooltip();
+        expect(tip.getAttribute("role")).toBe("tooltip");
+        expect(tip.textContent).toBe("Pick a date");
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        expect(tip.id).toBeTruthy();
+        expect(button.hasAttribute("aria-describedby")).toBe(false);
+        expect(button.nextElementSibling).toBe(tip);
+    });
+
+    test("§7.63 pointer over the button shows it; leaving hides it", () => {
+        const { button, tip } = setupTooltip();
+        fireEvent.mouseEnter(button);
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        fireEvent.mouseLeave(button);
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.64 it stays visible while the pointer is over the tooltip itself", () => {
+        const { button, tip } = setupTooltip();
+        fireEvent.mouseEnter(button);
+        fireEvent.mouseLeave(button);
+        fireEvent.mouseEnter(tip);
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        fireEvent.mouseLeave(tip);
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.65 keyboard focus shows it; blur hides it; mouse-induced focus does not show it", () => {
+        const { button, tip } = setupTooltip();
+        // jsdom has no input-modality tracking; stand in for the keyboard.
+        const matches = vi
+            .spyOn(button, "matches")
+            .mockImplementation((q) => q === ":focus-visible");
+        fireEvent.focus(button);
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        fireEvent.blur(button);
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        matches.mockReturnValue(false);
+        fireEvent.focus(button);
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.66 Escape dismisses it without moving focus; re-entering shows it again", () => {
+        const { button, tip } = setupTooltip();
+        button.focus();
+        fireEvent.mouseEnter(button);
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        fireEvent.keyDown(button, { key: "Escape" });
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        expect(document.activeElement).toBe(button);
+        fireEvent.mouseLeave(button);
+        fireEvent.mouseEnter(button);
+        expect(tip.hasAttribute("hidden")).toBe(false);
+    });
+
+    test("§7.67 it is never shown while the popup is open", async () => {
+        const { button, tip } = setupTooltip();
+        fireEvent.mouseEnter(button);
+        fireEvent.click(button);
+        expect(button.getAttribute("aria-expanded")).toBe("true");
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        fireEvent.mouseEnter(button);
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.68 pointer hover shows it with focus elsewhere; Escape on document.body or another element dismisses it, without moving focus", () => {
+        const { button, tip } = setupTooltip();
+        const other = document.createElement("input");
+        document.body.appendChild(other);
+        other.focus();
+        fireEvent.mouseEnter(button);
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        fireEvent.keyDown(document.body, { key: "Escape" });
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        expect(document.activeElement).toBe(other);
+        fireEvent.mouseLeave(button);
+        fireEvent.mouseEnter(button);
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        fireEvent.keyDown(other, { key: "Escape" });
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        other.remove();
+    });
+
+    test("§7.69 the document keydown listener exists only while the tooltip is visible: added once, removed on hide and on unmount", () => {
+        const add = vi.spyOn(document, "addEventListener");
+        const remove = vi.spyOn(document, "removeEventListener");
+        const count = (spy: typeof add) => spy.mock.calls.filter((c) => c[0] === "keydown").length;
+        const view = render(() => <DateTimePicker {...base()} />);
+        const button = document.querySelector(".date-time-picker-button") as HTMLButtonElement;
+        const addBase = count(add);
+        const baseRemove = count(remove);
+        fireEvent.mouseEnter(button);
+        expect(count(add) - addBase).toBe(1);
+        fireEvent.keyDown(document.body, { key: "a" });
+        expect(count(add) - addBase).toBe(1);
+        fireEvent.mouseLeave(button);
+        expect(count(remove) - baseRemove).toBe(1);
+        fireEvent.mouseEnter(button);
+        expect(count(add) - addBase).toBe(2);
+        view.unmount();
+        expect(count(remove) - baseRemove).toBe(2);
+        add.mockRestore();
+        remove.mockRestore();
+    });
+});
+
+describe("DateTimePicker — form reset", () => {
+    function Host({ onChange }: { onChange?: (value: string) => void }) {
+        const [value, setValue] = createSignal("2026-10-01");
+        return (
+            <form>
+                <DateTimePicker
+                    {...base({ name: "when" })}
+                    value={value()}
+                    onChange={(next: string) => {
+                        setValue(next);
+                        onChange?.(next);
+                    }}
+                />
+            </form>
+        );
+    }
+
+    // The suite runs on fake timers; the reset waits one tick.
+    const afterReset = () => act(() => vi.advanceTimersByTimeAsync(1));
+
+    test("a form reset restores the initial date, through onChange, in the field and the form", async () => {
+        const onChange = vi.fn();
+        const { container } = render(() => <Host onChange={onChange} />);
+        const form = container.querySelector("form")!;
+        const field = form.querySelector<HTMLInputElement>(".date-time-picker-input")!;
+        fireEvent.input(field, { target: { value: "09/10/2026" } });
+        fireEvent.blur(field);
+        expect(new FormData(form).get("when")).toBe("2026-10-09");
+
+        form.reset();
+        await afterReset();
+        expect(onChange).toHaveBeenLastCalledWith("2026-10-01");
+        expect(new FormData(form).get("when")).toBe("2026-10-01");
+        expect(field.value).toBe("01 Oct 2026");
+    });
+
+    test("a cancelled reset changes nothing", async () => {
+        const { container } = render(() => <Host />);
+        const form = container.querySelector("form")!;
+        const field = form.querySelector<HTMLInputElement>(".date-time-picker-input")!;
+        fireEvent.input(field, { target: { value: "09/10/2026" } });
+        fireEvent.blur(field);
+        form.addEventListener("reset", (event) => event.preventDefault());
+        form.reset();
+        await afterReset();
+        expect(new FormData(form).get("when")).toBe("2026-10-09");
+    });
+});
+
+describe("DateTimePicker — worldwide equity (P17-T1 to T3)", () => {
+    test("§7.90 the heading names the Gregorian month the grid shows, in any locale's own calendar", () => {
+        for (const locale of ["fa-IR", "th-TH", "ja-JP-u-ca-japanese", "ar-SA"]) {
+            const { unmount } = render(() => (
+                <DateTimePicker {...base({ locale, value: "2026-03-15" })} />
+            ));
+            open();
+            const period = periodText();
+            // 2026 in ASCII or in the locale's numbering system, never 2569 (Buddhist), 1404 (Solar Hijri), 1447 (Hijri) or 令和8.
+            const digits = new Intl.NumberFormat(locale, { useGrouping: false }).format(2026);
+            expect(period, locale).toContain(digits);
+            unmount();
+        }
+    });
+
+    test("§7.91 typed dates accept native digits", () => {
+        expect(parseDateInput("٢٠٢٦-٠٣-١٥")).toBe("2026-03-15"); // Arabic-Indic
+        expect(parseDateInput("۲۰۲۶-۰۳-۱۵")).toBe("2026-03-15"); // Persian
+        expect(parseDateInput("२०२६-०३-१५")).toBe("2026-03-15"); // Devanagari
+        expect(parseDateInput("২০২৬-০৩-১৫")).toBe("2026-03-15"); // Bengali
+    });
+
+    test("§7.92 typed times accept native digits and the locale's own day-period words", () => {
+        expect(parseTimeInput("٠٩:٣٠")).toBe("09:30");
+        expect(parseTimeInput("३:४५ pm")).toBe("15:45");
+        const pm = new Intl.DateTimeFormat("ar-EG", {
+            hour: "numeric",
+            hourCycle: "h12",
+            timeZone: "UTC",
+        })
+            .formatToParts(new Date(Date.UTC(2021, 4, 6, 15)))
+            .find((p) => p.type === "dayPeriod")!.value;
+        expect(parseTimeInput(`٣:٣٠ ${pm}`, "ar-EG")).toBe("15:30");
+        expect(parseTimeInput("3:30 pm", "ar-EG")).toBe("15:30"); // am/pm stays accepted everywhere
+    });
+
+    test("§7.93 in a right-to-left layout ArrowLeft moves to the next day", () => {
+        const host = document.createElement("div");
+        host.setAttribute("dir", "rtl");
+        document.body.appendChild(host);
+        render(() => <DateTimePicker {...base({ value: "2026-03-15" })} />, { container: host });
+        open();
+        fireEvent.keyDown(grid(), { key: "ArrowLeft" });
+        expect(cursorDate()).toBe("2026-03-16");
+        fireEvent.keyDown(grid(), { key: "ArrowRight" });
+        expect(cursorDate()).toBe("2026-03-15");
+        host.remove();
+    });
+});

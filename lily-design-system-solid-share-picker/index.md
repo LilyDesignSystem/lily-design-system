@@ -1,6 +1,6 @@
 # SharePicker (Solid helper)
 
-A headless Solid 2.0 share control: a single-glyph button (➤) that opens
+A headless Solid 2.0 share control: a single-icon button (a bundled arrow SVG) that opens
 the **native share sheet** where the browser has one, and otherwise shows
 a list of destinations you supply, plus **copy the page URL**.
 
@@ -18,7 +18,7 @@ pnpm add @lilydesignsystem/solid-share-picker
 ## Quick start
 
 ```tsx
-import SharePicker, { type ShareTarget } from "./lily-design-system-solid-share-picker/SharePicker";
+import SharePicker, { type ShareTarget } from "@lilydesignsystem/solid-share-picker";
 
 const targets: ShareTarget[] = [
   {
@@ -102,9 +102,9 @@ menuitem role strips middle-click, open-in-new-tab, and copy-link-address
 suggests a disclosure when the items are links. Copy is a real action, so
 it is a `<button>`.
 
-## Custom glyph
+## Custom icon
 
-`children` is a render prop, not a node. It replaces the glyph inside the
+`children` is a render prop, not a node. It replaces the icon inside the
 button and receives `{ open, url }`:
 
 ```tsx
@@ -128,7 +128,7 @@ which is guarded, and every DOM write happens in an effect. Guide: [AGENTS/ssr.m
 
 ## Accessibility
 
-- The glyph is `aria-hidden`; the name comes from `aria-label`. The
+- The icon is `aria-hidden`; the name comes from `aria-label`. The
   list carries the same `aria-label`, so a screen reader entering it
   hears what it is for.
 - `Escape` closes and returns focus to the button; arrows move between
@@ -145,14 +145,11 @@ Class hooks: `.share-picker` (root), `.share-picker-button`,
 `.share-picker-icon`, `.share-picker-list`, `.share-picker-list-item`,
 `.share-picker-target`, `.share-picker-copy`, `.share-picker-status`.
 
-The package ships no CSS. The root `themes/` stylesheets style the button
-and popup, including the optical glyph sizing that keeps ➤ visually the
-same size as the other helpers' glyphs.
+The package ships no CSS beyond the icon markup. The root `themes/` stylesheets style the button and popup.
 
 ## Tests
 
-`npx vitest run @lilydesignsystem/solid-share-picker` from the catalog
-root — 34 cases, one or more per §7 clause.
+`npx vitest run` in this directory — 50 cases, one or more per §7 clause.
 
 ---
 

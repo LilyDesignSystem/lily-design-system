@@ -1,0 +1,2197 @@
+import type { JSX } from "@solidjs/web";
+import { createEffect, createSignal, createUniqueId, omit, onSettled, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
+import { attr } from "./attr";
+import { IconButton } from "@lilydesignsystem/solid-headless";
+import {
+    calendarAddMonths,
+    calendarDay,
+    calendarLocale,
+    calendarMonthLength,
+    calendarMonthMatrix,
+    calendarMonthStart,
+} from "./calendar-system";
+import { isRtl, logicalKey } from "./direction";
+// Only the trigger button composes a headless primitive here. headless
+// `Dialog` renders `{open && <dialog ...>}` — the element is unmounted
+// on close, which would invalidate `dialogRef` and every ref this
+// component keeps across opens, and it changes the documented markup
+// contract (`hidden={!open}`, element always present) to "absent when
+// closed". It also brings no real modal guarantee: `Dialog` sets no
+// `.showModal()` call, so composing it would not actually trap focus
+// or reach the top layer — the two things this component's own
+// hand-rolled focus trap exists to provide (`aria-modal="true"` is a
+// promise the browser does not keep on its own). The calendar grid is
+// bespoke civil-date business logic with no generic headless
+// equivalent to compose.
+
+/**
+ * Default button glyph: U+1F4C5 CALENDAR, followed by U+FE0E VARIATION
+ * SELECTOR-15 to request text (monochrome) presentation.
+ *
+ * Same construction as locale-picker's globe. The variation selector is a
+ * hint, not a guarantee — several platforms ignore it and render the emoji
+ * anyway — but where it is honoured the glyph inherits the page's text
+ * colour and stops looking like a sticker among the siblings' ◑, "A" and
+ * ➤. Written as an escape, never as a bare character: a variation selector
+ * has no visual form at all, so a bare one is invisible in an editor and
+ * trivially lost to a careless edit.
+ */
+export const CALENDAR = "📅︎";
+
+/** What the control collects. */
+export type DateTimeMode = "date" | "time" | "datetime";
+
+/**
+ * A civil date: no time zone, no instant.
+ *
+ * The whole component works in these rather than in `Date`, because a
+ * `Date` is an instant and a calendar day is not. `new Date(2026, 2, 1)` is
+ * midnight *local*, and in a zone whose DST transition falls at midnight
+ * that instant can land on the previous day — so a picker built on
+ * local-midnight `Date` values shows the wrong day to some users a couple
+ * of times a year. Arithmetic here goes through UTC epoch days, which has
+ * no such edge.
+ */
+export type CivilDate = { year: number; month: number; day: number };
+
+/** A wall-clock time, 24-hour, no seconds. */
+export type CivilTime = { hour: number; minute: number };
+
+/** One quick-pick button in the dialog. */
+export type DateTimeShortcut = {
+    /** Stable identifier, passed back to `onShortcut`. */
+    id: string;
+    /** Visible button text. Consumer-supplied, so it localises. */
+    label: string;
+    /** Days from today. Mutually exclusive with `months` and `date`. */
+    days?: number;
+    /** Calendar months from today. */
+    months?: number;
+    /** An absolute ISO date, for shortcuts that are not relative. */
+    date?: string;
+};
+
+/**
+ * Every user-facing string the dialog needs.
+ *
+ * Grouped into one object rather than spread across a dozen flat `*Label`
+ * props. The sibling helpers use flat props because they need two or
+ * three strings; this one needs ten, and ten flat props is a call site
+ * nobody can read. One object also maps cleanly onto a translation
+ * bundle, which is how these strings actually arrive.
+ *
+ * The four navigation labels and the two footer labels are required: they
+ * name buttons that always render, and a button whose accessible name we
+ * invented in English is precisely the defect this package exists to
+ * avoid. The rest gate optional UI.
+ */
+export type DateTimePickerLabels = {
+    /** Accessible name for the previous-year button. */
+    previousYear: string;
+    /** Accessible name for the previous-month button. */
+    previousMonth: string;
+    /** Accessible name for the previous-week button. */
+    previousWeek: string;
+    /** Accessible name for the previous-day button. */
+    previousDay: string;
+    /** Accessible name for the next-day button. */
+    nextDay: string;
+    /** Accessible name for the next-week button. */
+    nextWeek: string;
+    /** Accessible name for the next-month button. */
+    nextMonth: string;
+    /** Accessible name for the next-year button. */
+    nextYear: string;
+    /** Visible text of the commit button. */
+    confirm: string;
+    /** Visible text of the dismiss button. */
+    cancel: string;
+    /** Label for the hour select. Required when `mode` includes a time. */
+    hour?: string;
+    /** Label for the minute select. Required when `mode` includes a time. */
+    minute?: string;
+    /** Label for the AM/PM select, when `hour12` resolves true. */
+    meridiem?: string;
+    /** Column heading for week numbers. Required when `showWeekNumbers`. */
+    week?: string;
+    /** Visible text of the clear button. The button renders only when set. */
+    clear?: string;
+    /**
+     * Label for the time-zone select. The select renders only when set,
+     * for the same reason `clear` gates its button: a zone list is an
+     * opt-in part of the form, and we will not name it in English.
+     */
+    timeZone?: string;
+    /**
+     * Message announced when typed text will not parse or is out of
+     * range. When set, a `role="status"` live region renders after the
+     * field and is wired to it via `aria-errormessage` — without it,
+     * `aria-invalid` flips silently and a screen-reader user who has
+     * already left the field never hears that their date was refused.
+     */
+    invalid?: string;
+    /**
+     * Keyboard help for the dialog, e.g. "Use the arrow keys to choose
+     * a date". When set, it renders inside the dialog and becomes the
+     * dialog's `aria-describedby`, so a screen reader speaks it once on
+     * open — the APG date-picker dialog ships exactly this affordance.
+     */
+    instructions?: string;
+};
+
+/** Arguments passed to a custom `children` render prop (the button glyph). */
+export type ChildArgs = {
+    /** The committed value, in ISO form. */
+    value: string;
+    /** Is the dialog open? */
+    open: boolean;
+    /** The value as the user sees it in the field. */
+    display: string;
+};
+
+/** Public props for DateTimePicker. See `spec/index.md` §4. */
+export type Props = Omit<JSX.HTMLAttributes<HTMLDivElement>, "children" | "onChange"> & {
+    /** Accessible name for the trigger button and the dialog. */
+    label: string;
+    /** Every other user-facing string. */
+    labels: DateTimePickerLabels;
+    /** What to collect: a date, a time, or both. */
+    mode?: DateTimeMode;
+    /** ISO value: `YYYY-MM-DD`, `HH:MM`, or `YYYY-MM-DDTHH:MM`. When supplied, the component is controlled. */
+    value?: string;
+    /** BCP 47 tag driving month names, weekday names and first weekday. */
+    locale?: string;
+    /** CLDR calendar for the day grid, such as `persian`. Default `gregory`. The value stays ISO. */
+    calendar?: string;
+    /** Earliest selectable date, ISO. */
+    min?: string;
+    /** Latest selectable date, ISO. */
+    max?: string;
+    /** Veto individual dates — true means "cannot be picked". */
+    isDateDisabled?: (isoDate: string) => boolean;
+    /** 0 = Sunday … 6 = Saturday. Defaults to the locale's convention. */
+    firstDayOfWeek?: number;
+    /** Granularity of the minute select. */
+    minuteStep?: number;
+    /** 12-hour clock. Defaults to the locale's convention. */
+    hour12?: boolean;
+    /** Render an ISO-8601 week-number column. */
+    showWeekNumbers?: boolean;
+    /** Quick-pick buttons. */
+    shortcuts?: DateTimeShortcut[];
+    /** Commit and close as soon as a day is chosen. Defaults to date-only. */
+    confirmOnSelect?: boolean;
+    /** `name` of the hidden input that carries the value in a form post. */
+    name?: string;
+    /**
+     * Selected IANA time zone (e.g. `Europe/London`), or `""` for none.
+     * When supplied, the zone is controlled — the same idiom as `value`.
+     * Rides its own hidden input `{name}-time-zone` and is reflected as
+     * `data-time-zone` on the root. It is metadata about WHERE the civil
+     * value applies, not part of the value — converting to an instant
+     * stays the consumer's job. Never guessed from the runtime: the
+     * picker no more picks a zone than `locale-picker` picks a locale.
+     */
+    timeZone?: string;
+    /**
+     * Zones offered by the select. Defaults to every zone the runtime
+     * knows via `Intl.supportedValuesOf("timeZone")` — never a bundled
+     * table, the rule month and weekday names already follow.
+     */
+    timeZones?: string[];
+    /** Display text per zone id; a zone without an entry shows its id. */
+    timeZoneLabels?: Record<string, string>;
+    /** Fires once per applied time-zone change. */
+    onTimeZoneChange?: (timeZone: string) => void;
+    /** `id` of the text field, so a consumer `<label for>` can name it. */
+    inputId?: string;
+    /** Forwarded to the text field as `aria-describedby`. */
+    describedBy?: string;
+    /** Placeholder for the text field. */
+    placeholder?: string;
+    /** Disable the whole control. */
+    disabled?: boolean;
+    /** Show the value but refuse edits. */
+    readonly?: boolean;
+    /** Mark the field required. */
+    required?: boolean;
+    /** Override how a committed value is rendered into the text field. */
+    formatValue?: (value: string) => string;
+    /** Override how typed text is turned back into an ISO value. */
+    parseInput?: (text: string) => string | null;
+    /** Replaces the default calendar glyph inside the trigger button. */
+    children?: (args: ChildArgs) => JSX.Element;
+    /** Fires after a new value is committed. */
+    onChange?: (value: string) => void;
+    /** Fires when a shortcut is used, before the value settles. */
+    onShortcut?: (id: string, isoDate: string) => void;
+    /** Fires when typed text cannot be parsed. */
+    onInvalidInput?: (text: string) => void;
+    /** Extra CSS class on the root. */
+    class?: string;
+};
+
+// -----------------------------------------------------------------------
+// Civil-date arithmetic
+//
+// Pure and total: no local-time `Date` values, no throwing, null for "not
+// a date". Exported so the acceptance tests can exercise the arithmetic
+// directly rather than only through the rendered grid.
+// -----------------------------------------------------------------------
+
+/** Zero-pad to `width`. */
+/**
+ * Tooltip state for the icon button. Shown while the pointer is over the
+ * button or over the tooltip itself (hoverable, WCAG 1.4.13) or while the
+ * button has keyboard focus; Escape dismisses it without moving focus;
+ * never shown while the popup is open, since the popup then explains the
+ * control. Purely visual: the text is the button's own aria-label, so it
+ * is deliberately not linked with aria-describedby.
+ */
+function createPickerTooltip(button: () => HTMLButtonElement | undefined, open: () => boolean) {
+    const [hoverButton, setHoverButton] = createSignal(false);
+    const [hoverTooltip, setHoverTooltip] = createSignal(false);
+    const [focusButton, setFocusButton] = createSignal(false);
+    const [dismissed, setDismissed] = createSignal(false);
+    const visible = () =>
+        !open() && !dismissed() && (hoverButton() || hoverTooltip() || focusButton());
+    // WCAG 1.4.13 "dismissable": Escape must work wherever focus is while
+    // the tooltip is visible (pointer hover alone leaves focus elsewhere).
+    // The document listener exists only while visible; never prevents
+    // default, stops propagation, or moves focus.
+    createEffect(visible, (isVisible) => {
+        if (!isVisible) return;
+        const onKeyDown = (event: KeyboardEvent) => {
+            if (event.key === "Escape") setDismissed(true);
+        };
+        document.addEventListener("keydown", onKeyDown);
+        return () => document.removeEventListener("keydown", onKeyDown);
+    });
+    return {
+        visible,
+        buttonProps: {
+            onMouseEnter: () => {
+                setHoverButton(true);
+                setDismissed(false);
+            },
+            onMouseLeave: () => setHoverButton(false),
+            onFocus: () => {
+                // Keyboard focus only: a mouse click also focuses the
+                // button in Chromium, and the tooltip should not stick.
+                try {
+                    setFocusButton(button()?.matches(":focus-visible") ?? false);
+                } catch {
+                    setFocusButton(true); // no :focus-visible — err towards showing
+                }
+            },
+            onBlur: () => {
+                setFocusButton(false);
+                setDismissed(false);
+            },
+        },
+        /** Call from the button's click handler. */
+        onButtonClick: () => setHoverButton(false),
+        /** Call first in the button's keydown handler; never prevents default. */
+        onButtonKeyDown: (event: KeyboardEvent) => {
+            if (event.key === "Escape" && untrack(visible)) setDismissed(true);
+        },
+        tooltipProps: {
+            onMouseEnter: () => setHoverTooltip(true),
+            onMouseLeave: () => setHoverTooltip(false),
+        },
+    };
+}
+
+export function pad(n: number, width = 2): string {
+    return String(Math.abs(n)).padStart(width, "0");
+}
+
+/** Days in a month. `month` is 1-12. */
+export function daysInMonth(year: number, month: number): number {
+    // Day 0 of the next month is the last day of this one.
+    return new Date(Date.UTC(year, month, 0)).getUTCDate();
+}
+
+/** `{2026, 3, 1}` → `"2026-03-01"`. */
+export function formatIsoDate(date: CivilDate): string {
+    return `${pad(date.year, 4)}-${pad(date.month)}-${pad(date.day)}`;
+}
+
+/**
+ * `"2026-03-01"` → `{2026, 3, 1}`, or null.
+ *
+ * Rejects impossible components rather than rolling them over, so
+ * `"2026-02-31"` is null and not the 3rd of March. A field that silently
+ * reinterprets an impossible date is worse than one that refuses it.
+ */
+export function parseIsoDate(text: string): CivilDate | null {
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(text.trim());
+    if (!m) return null;
+    const year = Number(m[1]);
+    const month = Number(m[2]);
+    const day = Number(m[3]);
+    if (month < 1 || month > 12) return null;
+    if (day < 1 || day > daysInMonth(year, month)) return null;
+    return { year, month, day };
+}
+
+/** Days since the Unix epoch. The unit all date arithmetic goes through. */
+export function toEpochDay(date: CivilDate): number {
+    return Date.UTC(date.year, date.month - 1, date.day) / 86400000;
+}
+
+/** Inverse of `toEpochDay`. */
+export function fromEpochDay(epochDay: number): CivilDate {
+    const d = new Date(epochDay * 86400000);
+    return {
+        year: d.getUTCFullYear(),
+        month: d.getUTCMonth() + 1,
+        day: d.getUTCDate(),
+    };
+}
+
+/** Shift an ISO date by whole days. */
+export function addDays(isoDate: string, days: number): string {
+    const date = parseIsoDate(isoDate);
+    if (!date) return isoDate;
+    return formatIsoDate(fromEpochDay(toEpochDay(date) + days));
+}
+
+/**
+ * Shift an ISO date by whole months, clamping the day.
+ *
+ * 31 January + 1 month is 28 February (29 in a leap year), not 3 March.
+ * Rolling over is what `Date.prototype.setMonth` does and it is almost
+ * never what someone paging a calendar means.
+ */
+export function addMonths(isoDate: string, months: number): string {
+    const date = parseIsoDate(isoDate);
+    if (!date) return isoDate;
+    const total = date.year * 12 + (date.month - 1) + months;
+    const year = Math.floor(total / 12);
+    const month = (((total % 12) + 12) % 12) + 1;
+    return formatIsoDate({
+        year,
+        month,
+        day: Math.min(date.day, daysInMonth(year, month)),
+    });
+}
+
+/** Day of week: 0 = Sunday … 6 = Saturday. */
+export function weekdayOf(isoDate: string): number {
+    const date = parseIsoDate(isoDate);
+    if (!date) return 0;
+    return new Date(Date.UTC(date.year, date.month - 1, date.day)).getUTCDay();
+}
+
+/**
+ * ISO-8601 week number.
+ *
+ * Weeks start Monday and week 1 is the one containing the first Thursday,
+ * which is why this pivots on Thursday rather than counting from 1
+ * January. Public-sector and clinical rotas quote ISO week numbers, so
+ * the column is worth getting exactly right.
+ */
+export function isoWeek(isoDate: string): number {
+    if (!parseIsoDate(isoDate)) return 0;
+    const mondayIndex = (weekdayOf(isoDate) + 6) % 7;
+    const thursday = addDays(isoDate, 3 - mondayIndex);
+    const parsed = parseIsoDate(thursday);
+    if (!parsed) return 0;
+    const jan1 = parseIsoDate(formatIsoDate({ year: parsed.year, month: 1, day: 1 }));
+    if (!jan1) return 0;
+    return Math.floor((toEpochDay(parsed) - toEpochDay(jan1)) / 7) + 1;
+}
+
+/** `"09:30"` → `{9, 30}`, or null. */
+export function parseIsoTime(text: string): CivilTime | null {
+    const m = /^(\d{2}):(\d{2})$/.exec(text.trim());
+    if (!m) return null;
+    const hour = Number(m[1]);
+    const minute = Number(m[2]);
+    if (hour > 23 || minute > 59) return null;
+    return { hour, minute };
+}
+
+/** `{9, 30}` → `"09:30"`. */
+export function formatIsoTime(time: CivilTime): string {
+    return `${pad(time.hour)}:${pad(time.minute)}`;
+}
+
+/** Pull the date and time halves out of a mode-appropriate ISO value. */
+export function splitValue(value: string, mode: DateTimeMode): { date: string; time: string } {
+    if (!value) return { date: "", time: "" };
+    if (mode === "time") {
+        return { date: "", time: parseIsoTime(value) ? value : "" };
+    }
+    const [datePart = "", timePart = ""] = value.split("T");
+    return {
+        date: parseIsoDate(datePart) ? datePart : "",
+        time: mode === "datetime" && parseIsoTime(timePart) ? timePart : "",
+    };
+}
+
+/** Recombine the halves. Returns "" when the value is incomplete. */
+export function joinValue(date: string, time: string, mode: DateTimeMode): string {
+    if (mode === "date") return date;
+    if (mode === "time") return time;
+    return date && time ? `${date}T${time}` : "";
+}
+
+/** Is `isoDate` inside the inclusive [min, max] window? Empty bounds pass. */
+export function withinRange(isoDate: string, min?: string, max?: string): boolean {
+    if (min && isoDate < min) return false;
+    if (max && isoDate > max) return false;
+    return true;
+}
+
+/** Uppercase region subtag of a BCP 47 tag, or "". */
+function regionOf(locale?: string): string {
+    if (!locale) return "";
+    for (const part of locale.split(/[-_]/).slice(1)) {
+        if (/^[A-Za-z]{2}$/.test(part)) return part.toUpperCase();
+    }
+    return "";
+}
+
+const SUNDAY_FIRST_REGIONS = new Set([
+    "AR",
+    "BR",
+    "CA",
+    "CL",
+    "CO",
+    "DO",
+    "GT",
+    "HK",
+    "IL",
+    "IN",
+    "JP",
+    "KR",
+    "MO",
+    "MX",
+    "PE",
+    "PH",
+    "PK",
+    "TH",
+    "TW",
+    "US",
+    "VE",
+    "ZA",
+]);
+
+const SATURDAY_FIRST_REGIONS = new Set([
+    "AE",
+    "AF",
+    "BH",
+    "DJ",
+    "DZ",
+    "EG",
+    "IQ",
+    "IR",
+    "JO",
+    "KW",
+    "LY",
+    "OM",
+    "QA",
+    "SA",
+    "SD",
+    "SY",
+    "YE",
+]);
+
+/**
+ * First day of the week for a locale: 0 = Sunday … 6 = Saturday.
+ *
+ * `Intl.Locale.prototype.getWeekInfo` is the right answer, but it is
+ * recent enough that a fallback still earns its place — and it is
+ * missing from some SSR runtimes entirely. The fallback is a short
+ * region table plus a Monday default, Monday being both the ISO-8601
+ * rule and the majority convention worldwide.
+ */
+export function firstDayOfWeekFor(locale?: string): number {
+    if (locale) {
+        try {
+            const loc = new Intl.Locale(locale) as Intl.Locale & {
+                getWeekInfo?: () => { firstDay: number };
+                weekInfo?: { firstDay: number };
+            };
+            const info = loc.getWeekInfo?.() ?? loc.weekInfo;
+            // getWeekInfo reports 1 = Monday … 7 = Sunday, so Sunday (7)
+            // has to fold to 0.
+            if (info && typeof info.firstDay === "number") {
+                return info.firstDay % 7;
+            }
+        } catch {
+            // Malformed tag — fall through to the table.
+        }
+    }
+    const region = regionOf(locale);
+    if (SUNDAY_FIRST_REGIONS.has(region)) return 0;
+    if (SATURDAY_FIRST_REGIONS.has(region)) return 6;
+    return 1;
+}
+
+/**
+ * The dates of one month's grid, always six rows of seven.
+ *
+ * Fixed height on purpose. A grid sized to its month runs four to six
+ * rows, so the footer — and the confirm button in it — moves vertically
+ * as you page months. That is a Fitts's-law tax on every subsequent click
+ * and it makes the dialog jump under the pointer. A constant six rows
+ * costs at most one extra trailing week.
+ */
+export function monthMatrix(year: number, month: number, firstDayOfWeek: number): string[][] {
+    const first = formatIsoDate({ year, month, day: 1 });
+    const lead = (weekdayOf(first) - firstDayOfWeek + 7) % 7;
+    const start = addDays(first, -lead);
+    const weeks: string[][] = [];
+    for (let row = 0; row < 6; row++) {
+        const week: string[] = [];
+        for (let col = 0; col < 7; col++) {
+            week.push(addDays(start, row * 7 + col));
+        }
+        weeks.push(week);
+    }
+    return weeks;
+}
+
+/** Long and short month names for a locale, index 0 = January. */
+export function monthNames(locale?: string): { long: string[]; short: string[] } {
+    const build = (month: "long" | "short") => {
+        try {
+            const fmt = new Intl.DateTimeFormat(gregorian(locale), { month, timeZone: "UTC" });
+            return Array.from({ length: 12 }, (_, i) =>
+                fmt.format(new Date(Date.UTC(2021, i, 15))),
+            );
+        } catch {
+            return [];
+        }
+    };
+    return { long: build("long"), short: build("short") };
+}
+
+/** Match a token against a locale's month names. Returns 1-12, or 0. */
+function matchMonthName(token: string, names: { long: string[]; short: string[] }): number {
+    const norm = (s: string) => s.toLocaleLowerCase().replace(/\.$/, "").normalize("NFKD");
+    const t = norm(token);
+    if (!t || /^\d+$/.test(t)) return 0;
+    for (let i = 0; i < 12; i++) {
+        if (norm(names.long[i] ?? "") === t) return i + 1;
+        if (norm(names.short[i] ?? "") === t) return i + 1;
+    }
+    // Prefix match, so "Sept" finds September. Three characters minimum:
+    // "Ma" cannot choose between March and May, and guessing there would
+    // be worse than refusing.
+    if (t.length >= 3) {
+        for (let i = 0; i < 12; i++) {
+            const long = norm(names.long[i] ?? "");
+            if (long && long.startsWith(t)) return i + 1;
+        }
+    }
+    return 0;
+}
+
+/**
+ * The order a locale writes a numeric date in — `["day","month","year"]`
+ * for en-GB, `["month","day","year"]` for en-US.
+ */
+export function numericFieldOrder(locale?: string): ("day" | "month" | "year")[] {
+    try {
+        const parts = new Intl.DateTimeFormat(gregorian(locale), {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            timeZone: "UTC",
+        }).formatToParts(new Date(Date.UTC(2021, 4, 6)));
+        const order = parts
+            .map((p) => p.type)
+            .filter(
+                (t): t is "day" | "month" | "year" => t === "day" || t === "month" || t === "year",
+            );
+        if (order.length === 3) return order;
+    } catch {
+        // Fall through.
+    }
+    return ["day", "month", "year"];
+}
+
+/**
+ * Parse typed text into an ISO date.
+ *
+ * Accepts, in order: ISO `YYYY-MM-DD`; a numeric form whose field order
+ * follows the locale, so `03/04/2026` is 3 April in en-GB and 4 March in
+ * en-US — which is what each user means; and a form with a written month
+ * matched against the locale's own long and short month names, which is
+ * what lets DHCW's `27-Jun-2025` round-trip.
+ *
+ * Anything else is null. Guessing harder than this is how date fields
+ * silently record the wrong day.
+ */
+export function parseDateInput(text: string, locale?: string): string | null {
+    const trimmed = normalizeDigits(text).trim();
+    if (!trimmed) return null;
+
+    const iso = parseIsoDate(trimmed);
+    if (iso) return formatIsoDate(iso);
+
+    const parts = trimmed.split(/[\s./-]+/).filter(Boolean);
+    if (parts.length !== 3) return null;
+
+    // Look for a written month first. Whichever field it is, the other
+    // two are the day and the year, and their order is then decidable
+    // without knowing the locale: the larger number is the year.
+    const names = monthNames(locale);
+    let month = 0;
+    let monthIndex = -1;
+    for (let i = 0; i < parts.length; i++) {
+        const found = matchMonthName(parts[i], names);
+        if (found) {
+            month = found;
+            monthIndex = i;
+            break;
+        }
+    }
+
+    let day = 0;
+    let year = 0;
+
+    if (monthIndex >= 0) {
+        const rest = parts.filter((_, i) => i !== monthIndex).map((p) => Number(p));
+        if (rest.some((n) => Number.isNaN(n))) return null;
+        [day, year] = rest[0] > rest[1] ? [rest[1], rest[0]] : rest;
+    } else {
+        const nums = parts.map((p) => Number(p));
+        if (nums.some((n) => Number.isNaN(n))) return null;
+        const order = numericFieldOrder(locale);
+        year = nums[order.indexOf("year")];
+        day = nums[order.indexOf("day")];
+        month = nums[order.indexOf("month")];
+    }
+
+    // Two-digit years: the usual 70 pivot. Documented rather than clever,
+    // because any choice here is wrong for someone.
+    if (year < 100) year += year < 70 ? 2000 : 1900;
+    if (month < 1 || month > 12) return null;
+    if (day < 1 || day > daysInMonth(year, month)) return null;
+    return formatIsoDate({ year, month, day });
+}
+
+/**
+ * The locale with the Gregorian calendar forced. The day grid is always Gregorian, so a heading, day label or month name
+ * in the locale's own calendar (Solar Hijri for fa-IR, Buddhist years for th-TH, Japanese eras for ja-JP-u-ca-japanese)
+ * would name a different date than the cell the user is on. A `calendar` prop is planned (P17-T1).
+ */
+export function gregorian(locale?: string): string | undefined {
+    if (!locale) return locale;
+    try {
+        return new Intl.Locale(locale, { calendar: "gregory" }).toString();
+    } catch {
+        return locale;
+    }
+}
+
+const NATIVE_DIGITS = new Map<string, string>();
+/** Every Unicode decimal digit that `Intl` knows a numbering system for, mapped to its ASCII digit. */
+function nativeDigits(): Map<string, string> {
+    if (NATIVE_DIGITS.size > 0) return NATIVE_DIGITS;
+    for (const system of [
+        "adlm",
+        "ahom",
+        "arab",
+        "arabext",
+        "bali",
+        "beng",
+        "bhks",
+        "brah",
+        "cakm",
+        "cham",
+        "deva",
+        "fullwide",
+        "gong",
+        "gonm",
+        "gujr",
+        "guru",
+        "hanidec",
+        "hmng",
+        "hmnp",
+        "java",
+        "kali",
+        "kawi",
+        "khmr",
+        "knda",
+        "lana",
+        "lanatham",
+        "laoo",
+        "lepc",
+        "limb",
+        "mathbold",
+        "mathdbl",
+        "mathmono",
+        "mathsanb",
+        "mathsans",
+        "mlym",
+        "modi",
+        "mong",
+        "mroo",
+        "mtei",
+        "mymr",
+        "mymrshan",
+        "mymrtlng",
+        "nagm",
+        "newa",
+        "nkoo",
+        "olck",
+        "orya",
+        "osma",
+        "rohg",
+        "saur",
+        "segment",
+        "shrd",
+        "sind",
+        "sinh",
+        "sora",
+        "sund",
+        "takr",
+        "talu",
+        "tamldec",
+        "telu",
+        "thai",
+        "tibt",
+        "tirh",
+        "tnsa",
+        "vaii",
+        "wara",
+        "wcho",
+    ]) {
+        try {
+            const format = new Intl.NumberFormat(`en-u-nu-${system}`, { useGrouping: false });
+            for (let digit = 0; digit < 10; digit++)
+                NATIVE_DIGITS.set(format.format(digit), String(digit));
+        } catch {
+            // A numbering system this runtime lacks.
+        }
+    }
+    return NATIVE_DIGITS;
+}
+
+/** Typed text with native digits (Arabic-Indic, Persian, Devanagari, Bengali, Thai, ...) turned into ASCII digits. */
+export function normalizeDigits(text: string): string {
+    const map = nativeDigits();
+    return text.replace(/\p{Nd}/gu, (d) => map.get(d) ?? d);
+}
+
+/** The locale's own words for the morning and afternoon, lower-cased, without dots or spaces: `{ am: "ص", pm: "م" }`. */
+function dayPeriodWords(locale?: string): { am: string; pm: string } | null {
+    try {
+        const word = (hour: number): string =>
+            new Intl.DateTimeFormat(locale, {
+                hour: "numeric",
+                hourCycle: "h12",
+                timeZone: "UTC",
+            })
+                .formatToParts(new Date(Date.UTC(2021, 4, 6, hour)))
+                .find((p) => p.type === "dayPeriod")
+                ?.value.toLowerCase()
+                .replace(/[.\s\u00a0\u202f]/g, "") ?? "";
+        const am = word(9);
+        const pm = word(15);
+        return am && pm && am !== pm ? { am, pm } : null;
+    } catch {
+        return null;
+    }
+}
+
+/** Accepts `9:30`, `09:30`, `0930`, `9.30`, and a trailing am/pm. */
+export function parseTimeInput(text: string, locale?: string): string | null {
+    let typed = normalizeDigits(text).trim().toLowerCase();
+    // The locale's own day-period words ("ص", "م", "pm", "午後") stand in for a/p, which stays accepted in every locale.
+    const words = dayPeriodWords(locale);
+    if (words) {
+        const compact = typed.replace(/[.\s\u00a0\u202f]/g, "");
+        if (compact.endsWith(words.pm)) typed = `${compact.slice(0, -words.pm.length)} pm`;
+        else if (compact.endsWith(words.am)) typed = `${compact.slice(0, -words.am.length)} am`;
+        else if (compact.startsWith(words.pm)) typed = `${compact.slice(words.pm.length)} pm`;
+        else if (compact.startsWith(words.am)) typed = `${compact.slice(words.am.length)} am`;
+    }
+    const m = /^(\d{1,2})[:.]?(\d{2})\s*([ap])\.?m\.?$|^(\d{1,2})[:.]?(\d{2})$/.exec(typed);
+    if (!m) return null;
+    let hour = Number(m[1] ?? m[4]);
+    const minute = Number(m[2] ?? m[5]);
+    const meridiem = m[3];
+    if (meridiem === "p" && hour < 12) hour += 12;
+    if (meridiem === "a" && hour === 12) hour = 0;
+    if (hour > 23 || minute > 59) return null;
+    return formatIsoTime({ hour, minute });
+}
+
+let uid = 0;
+/**
+ * Stable id prefix; SSR-safe (no Math.random / Date.now).
+ *
+ * The component itself mints ids with React's `useId`, which is
+ * hydration-safe in a way a module counter cannot be. This function is
+ * exported for parity with the canonical Svelte helper and for consumers
+ * who need to label a control from outside the component tree.
+ */
+export function nextDateTimePickerId(): string {
+    uid += 1;
+    return `date-time-picker-${uid}`;
+}
+
+// -----------------------------------------------------------------------
+// The component
+// -----------------------------------------------------------------------
+
+export function DateTimePicker(props: Props): JSX.Element {
+    const p = withDefaults(
+        {
+            class: "" as const,
+            mode: "date" as const,
+            calendar: "gregory" as const,
+            minuteStep: 1,
+            showWeekNumbers: false,
+            shortcuts: [] as DateTimeShortcut[],
+            name: "date-time" as const,
+            timeZoneLabels: {} as Record<string, string>,
+            disabled: false,
+            readonly: false,
+            required: false,
+        },
+        props,
+    );
+    const restProps = omit(
+        p,
+        "class",
+        "label",
+        "labels",
+        "mode",
+        "value",
+        "locale",
+        "calendar",
+        "min",
+        "max",
+        "isDateDisabled",
+        "firstDayOfWeek",
+        "minuteStep",
+        "hour12",
+        "showWeekNumbers",
+        "shortcuts",
+        "confirmOnSelect",
+        "name",
+        "timeZone",
+        "timeZones",
+        "timeZoneLabels",
+        "onTimeZoneChange",
+        "inputId",
+        "describedBy",
+        "placeholder",
+        "disabled",
+        "readonly",
+        "required",
+        "formatValue",
+        "parseInput",
+        "children",
+        "onChange",
+        "onShortcut",
+        "onInvalidInput",
+    );
+    const isControlled = () => p.value !== undefined;
+
+    // Internal state for uncontrolled mode. Unused when controlled — see
+    // `currentValue` below, which is the single read path either way.
+    const [internalValue, setInternalValue] = createSignal<string>(
+        untrack(() => (isControlled() ? (p.value as string) : "")),
+    );
+    const currentValue = () => (isControlled() ? (p.value as string) : internalValue());
+
+    // The zone follows the same controlled/uncontrolled split as `value`.
+    const zoneControlled = () => p.timeZone !== undefined;
+    const [internalZone, setInternalZone] = createSignal<string>(
+        untrack(() => (zoneControlled() ? (p.timeZone as string) : "")),
+    );
+    const currentZone = () => (zoneControlled() ? (p.timeZone as string) : internalZone());
+    // Guarded: `Intl.supportedValuesOf` is ES2022 and absent from a few
+    // older embedded runtimes; an empty select beats a throw at mount.
+    const zoneOptions = () =>
+        p.timeZones ??
+        (typeof Intl.supportedValuesOf === "function" ? Intl.supportedValuesOf("timeZone") : []);
+
+    // `useId` is stable across server and client render, so every id
+    // below survives hydration. No Math.random / Date.now.
+    const baseId = `date-time-picker-${createUniqueId()}`;
+    const dialogId = () => `${baseId}-dialog`;
+    const tooltipId = () => `${baseId}-tooltip`;
+    const periodId = () => `${baseId}-period`;
+    const hourId = () => `${baseId}-hour`;
+    const minuteId = () => `${baseId}-minute`;
+    const meridiemId = () => `${baseId}-meridiem`;
+    const statusId = () => `${baseId}-status`;
+    const timeZoneId = () => `${baseId}-time-zone`;
+    const instructionsId = () => `${baseId}-instructions`;
+    const fieldId = () => p.inputId ?? `${baseId}-input`;
+
+    const [open, setOpen] = createSignal(false);
+    const [invalid, setInvalid] = createSignal(false);
+
+    /**
+     * Text the user has typed but not yet resolved.
+     *
+     * `null` means "no pending edit, show the formatted value". An empty
+     * string is a real state (the user cleared the field) and must not
+     * collapse into `null`.
+     */
+    const [typed, setTyped] = createSignal<string | null>(null);
+
+    /**
+     * The pending selection, live only while the dialog is open.
+     *
+     * Kept separate from `value` so Cancel and Escape can genuinely
+     * revert. A picker that writes through on every arrow key has no
+     * cancel — only an undo the user has to perform by hand, from memory.
+     */
+    const [pendingDate, setPendingDate] = createSignal("");
+    const [pendingTime, setPendingTime] = createSignal("");
+
+    /**
+     * The month on screen, seeded synchronously from `value` (the lazy
+     * `useState` initialisers below), so server-rendered markup shows the
+     * month of the supplied value rather than January 1970 — the flicker
+     * a consumer avoids precisely by resolving `value` on the server.
+     * Today is NOT read here: `new Date()` during render would differ
+     * between a server and a client sitting on opposite sides of
+     * midnight, which is a hydration mismatch. That one waits for the
+     * mount effect below.
+     */
+    const [viewStart, setViewStart] = createSignal<string>(
+        untrack(() => {
+            const anchor = parseIsoDate(splitValue(currentValue(), p.mode).date);
+            return anchor ? calendarMonthStart(formatIsoDate(anchor), p.calendar) : "1970-01-01";
+        }),
+    );
+
+    /** The day the grid's roving tabindex sits on. */
+    const [cursor, setCursor] = createSignal<string>(
+        untrack(() => {
+            const anchor = parseIsoDate(splitValue(currentValue(), p.mode).date);
+            return anchor ? formatIsoDate(anchor) : "";
+        }),
+    );
+
+    /**
+     * Today, sampled at mount and refreshed whenever the dialog opens.
+     * Not re-read per cell: the grid asks "is this today?" 42 times a
+     * render, and a clock read per cell buys nothing over a clock read
+     * per open.
+     */
+    const [today, setToday] = createSignal("");
+
+    const rootRef: { current: HTMLDivElement | null | null } = { current: null };
+    const buttonRef: { current: HTMLButtonElement | null | null } = { current: null };
+    const dialogRef: { current: HTMLDivElement | null | null } = { current: null };
+    const gridRef: { current: HTMLTableElement | null | null } = { current: null };
+
+    /**
+     * The element that opened the dialog, so close can return focus to it.
+     *
+     * The APG rule is "focus returns to the element that invoked the
+     * dialog" — which is the trigger button on a click, but the *text
+     * field* when the user pressed Alt+ArrowDown. Always refocusing the
+     * button strands a keyboard user one Tab stop past where they were.
+     */
+    const openerRef: { current: HTMLElement | null | null } = { current: null };
+
+    /**
+     * What to focus after the next commit lands, or `null`. Set inside a
+     * handler, read and cleared in the unconditional effect below. Focus
+     * cannot move inline in the handler because the target cell or
+     * control may not exist in the DOM yet — it appears only once the
+     * state change this handler queued has actually re-rendered.
+     */
+    // A focus request is a signal, so the effect below runs once the DOM has updated (a grid cell after paging, the
+    // trigger after a close). Each request is a new object, so asking twice for the same target still runs.
+    const [focusRequest, setFocusRequest] = createSignal<{
+        want: "opener" | "cursor" | "first";
+    } | null>(null);
+    const focusRequestRef = {
+        set current(want: "opener" | "cursor" | "first" | null) {
+            setFocusRequest(want ? { want } : null);
+        },
+        get current(): "opener" | "cursor" | "first" | null {
+            return untrack(focusRequest)?.want ?? null;
+        },
+    };
+
+    const committed = () => splitValue(currentValue(), p.mode);
+    const weekStart = () => p.firstDayOfWeek ?? firstDayOfWeekFor(p.locale);
+    const commitOnDay = () => p.confirmOnSelect ?? p.mode === "date";
+    const usesDate = () => p.mode !== "time";
+    const usesTime = () => p.mode !== "date";
+
+    /**
+     * The host's current calendar day.
+     *
+     * Read through the *local* getters, because "today" is a wall-clock
+     * question: someone in Auckland at 09:00 on the 5th is not having
+     * the 4th, whatever UTC says.
+     */
+    function todayIso(): string {
+        const now = new Date();
+        return formatIsoDate({
+            year: now.getFullYear(),
+            month: now.getMonth() + 1,
+            day: now.getDate(),
+        });
+    }
+
+    // -------------------------------------------------------------
+    // Formatting — every visible string comes from Intl or from a prop
+    // -------------------------------------------------------------
+
+    /** Does this locale write times on a 12-hour clock? */
+    function localeUsesHour12(loc?: string): boolean {
+        try {
+            const parts = new Intl.DateTimeFormat(loc, {
+                hour: "numeric",
+                timeZone: "UTC",
+            }).formatToParts(new Date(Date.UTC(2021, 0, 1, 13)));
+            return parts.some((p) => p.type === "dayPeriod");
+        } catch {
+            return false;
+        }
+    }
+
+    const clock12 = () => p.hour12 ?? localeUsesHour12(p.locale);
+
+    /** The locale's own AM / PM strings, so neither is hardcoded. */
+    function dayPeriodName(pm: boolean): string {
+        try {
+            const parts = new Intl.DateTimeFormat(gregorian(p.locale), {
+                hour: "numeric",
+                hour12: true,
+                timeZone: "UTC",
+            }).formatToParts(new Date(Date.UTC(2021, 0, 1, pm ? 13 : 1)));
+            const found = parts.find((p) => p.type === "dayPeriod")?.value;
+            if (found) return found;
+        } catch {
+            // Fall through.
+        }
+        return pm ? "PM" : "AM";
+    }
+
+    function formatTimeForDisplay(isoTime: string): string {
+        const parsed = parseIsoTime(isoTime);
+        if (!parsed) return isoTime;
+        try {
+            return new Intl.DateTimeFormat(gregorian(p.locale), {
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: clock12(),
+                timeZone: "UTC",
+            }).format(new Date(Date.UTC(2021, 0, 1, parsed.hour, parsed.minute)));
+        } catch {
+            return isoTime;
+        }
+    }
+
+    /** Render an ISO value the way this locale writes it. */
+    function defaultFormat(isoValue: string): string {
+        if (!isoValue) return "";
+        const { date, time } = splitValue(isoValue, p.mode);
+        const chunks: string[] = [];
+        const parsed = date ? parseIsoDate(date) : null;
+        if (parsed) {
+            try {
+                chunks.push(
+                    new Intl.DateTimeFormat(gregorian(p.locale), {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                        timeZone: "UTC",
+                    }).format(new Date(Date.UTC(parsed.year, parsed.month - 1, parsed.day))),
+                );
+            } catch {
+                chunks.push(date);
+            }
+        }
+        if (time) chunks.push(formatTimeForDisplay(time));
+        return chunks.join(" ");
+    }
+
+    /** The text shown in the field. A pending edit wins until resolved. */
+    const display = (): string => typed() ?? (p.formatValue ?? defaultFormat)(currentValue());
+
+    /**
+     * `aria-describedby` for the field: the consumer's hint, plus —
+     * while invalid(), with `labels.invalid` supplied — the status region,
+     * for the assistive technologies that read `aria-describedby` but
+     * not the newer `aria-errormessage`.
+     */
+    const fieldDescribedBy = () =>
+        [p.describedBy, invalid() && p.labels.invalid ? statusId() : undefined]
+            .filter(Boolean)
+            .join(" ") || undefined;
+
+    /** Accessible name for one day cell, e.g. "Sunday 1 March 2026". */
+    function dayLabel(isoDate: string): string {
+        const parsed = parseIsoDate(isoDate);
+        if (!parsed) return isoDate;
+        try {
+            return new Intl.DateTimeFormat(calendarLocale(p.locale, p.calendar), {
+                weekday: "long",
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+                timeZone: "UTC",
+            }).format(new Date(Date.UTC(parsed.year, parsed.month - 1, parsed.day)));
+        } catch {
+            return isoDate;
+        }
+    }
+
+    /** The "March 2026" heading. */
+    const periodText = (): string => {
+        try {
+            return new Intl.DateTimeFormat(calendarLocale(p.locale, p.calendar), {
+                month: "long",
+                year: "numeric",
+                timeZone: "UTC",
+            }).format(new Date(`${viewStart()}T00:00:00Z`));
+        } catch {
+            return viewStart().slice(0, 7);
+        }
+    };
+
+    /** Column headings, in this locale, starting on `weekStart`. */
+    const weekdays = (): { short: string; long: string }[] => {
+        const list: { short: string; long: string }[] = [];
+        for (let i = 0; i < 7; i++) {
+            // 2021-08-01 was a Sunday, so this walks the week from whichever
+            // day the locale starts on.
+            const d = new Date(Date.UTC(2021, 7, 1 + ((weekStart() + i) % 7)));
+            try {
+                list.push({
+                    short: new Intl.DateTimeFormat(gregorian(p.locale), {
+                        weekday: "short",
+                        timeZone: "UTC",
+                    }).format(d),
+                    long: new Intl.DateTimeFormat(gregorian(p.locale), {
+                        weekday: "long",
+                        timeZone: "UTC",
+                    }).format(d),
+                });
+            } catch {
+                list.push({ short: "", long: "" });
+            }
+        }
+        return list;
+    };
+
+    const weeks = () => calendarMonthMatrix(viewStart(), weekStart(), p.calendar);
+
+    // -------------------------------------------------------------
+    // Selectability
+    // -------------------------------------------------------------
+
+    function dayDisabled(isoDate: string): boolean {
+        if (!withinRange(isoDate, p.min, p.max)) return true;
+        return p.isDateDisabled?.(isoDate) === true;
+    }
+
+    /** The nearest selectable day to `isoDate`, searching outwards. */
+    function nearestSelectable(isoDate: string): string {
+        if (!dayDisabled(isoDate)) return isoDate;
+        // Bounded: a year either way is far beyond any real min/max
+        // window, and an unbounded search would hang on a predicate that
+        // disables everything.
+        for (let delta = 1; delta <= 366; delta++) {
+            const after = addDays(isoDate, delta);
+            if (!dayDisabled(after)) return after;
+            const before = addDays(isoDate, -delta);
+            if (!dayDisabled(before)) return before;
+        }
+        return isoDate;
+    }
+
+    // -------------------------------------------------------------
+    // Commit plumbing
+    // -------------------------------------------------------------
+
+    /** Write a new committed value and notify, but only when it changed. */
+    function commitValue(next: string): void {
+        if (next !== currentValue()) {
+            if (!isControlled()) setInternalValue(next);
+            p.onChange?.(next);
+        }
+    }
+
+    // -------------------------------------------------------------
+    // Open / close / commit
+    // -------------------------------------------------------------
+
+    /** Where an unset time starts: now, snapped down to the step. */
+    function defaultTime(): string {
+        if (!usesTime()) return "";
+        const now = new Date();
+        const step = Math.max(1, p.minuteStep);
+        return formatIsoTime({
+            hour: now.getHours(),
+            minute: Math.floor(now.getMinutes() / step) * step,
+        });
+    }
+
+    function openDialog(): void {
+        if (p.disabled || p.readonly) return;
+        const active = document.activeElement;
+        openerRef.current =
+            active instanceof HTMLElement && rootRef.current?.contains(active)
+                ? active
+                : buttonRef.current;
+        const t = todayIso();
+        setToday(t);
+        const nextPendingDate = committed().date || nearestSelectable(t);
+        const nextPendingTime = committed().time || defaultTime();
+        setPendingDate(nextPendingDate);
+        setPendingTime(nextPendingTime);
+        setCursor(nextPendingDate);
+        const anchor = parseIsoDate(nextPendingDate) ?? parseIsoDate(t);
+        if (anchor) {
+            setViewStart(calendarMonthStart(formatIsoDate(anchor), p.calendar));
+        }
+        setOpen(true);
+        focusRequestRef.current = usesDate() ? "cursor" : "first";
+    }
+
+    function closeDialog(refocus = true): void {
+        if (!open()) return;
+        setOpen(false);
+        if (refocus) focusRequestRef.current = "opener";
+    }
+
+    // Form reset: restore the initial value and time zone, as a native control
+    // would — one tick later, after the browser has reset the DOM, and not when
+    // the reset was cancelled. The value is controlled, so the change goes
+    // through `onChange` (and `onTimeZoneChange`) for the consumer to apply.
+    const initialValueRef = { current: currentValue() };
+    const initialZoneRef = { current: currentZone() };
+    const resetRef: { current: () => void } = { current: () => {} };
+    resetRef.current = () => {
+        setOpen(false);
+        setTyped(null);
+        setInvalid(false);
+        commitValue(initialValueRef.current);
+        if (currentZone() !== initialZoneRef.current) {
+            if (!zoneControlled()) setInternalZone(initialZoneRef.current);
+            p.onTimeZoneChange?.(initialZoneRef.current);
+        }
+    };
+    onSettled(() =>
+        untrack(() => {
+            const form = rootRef.current?.closest("form");
+            if (!form) return;
+            let timer: ReturnType<typeof setTimeout> | undefined;
+            const onReset = (event: Event) => {
+                clearTimeout(timer);
+                timer = setTimeout(() => {
+                    if (!event.defaultPrevented) resetRef.current();
+                }, 0);
+            };
+            form.addEventListener("reset", onReset);
+            return () => {
+                clearTimeout(timer);
+                form.removeEventListener("reset", onReset);
+            };
+        }),
+    );
+
+    /**
+     * Commit the pending selection to `value` and notify.
+     *
+     * Accepts optional overrides for the date/time about to be committed.
+     * `setPendingDate` / `setPendingTime` do not take effect until the
+     * next render, so a caller that just queued one of them (a day click,
+     * a shortcut) must pass the fresh value here rather than rely on
+     * `pendingDate` / `pendingTime`, which still hold the *previous*
+     * render's state at the point this function runs.
+     */
+    function commit(dateOverride?: string, timeOverride?: string): void {
+        const d = dateOverride ?? pendingDate();
+        const t = timeOverride ?? pendingTime();
+        const next = joinValue(d, t, p.mode);
+        // An incomplete datetime is not committed. Half a timestamp is
+        // not a smaller truth; it is a different one.
+        if (!next) return;
+        setTyped(null);
+        setInvalid(false);
+        commitValue(next);
+        closeDialog();
+    }
+
+    function clear(): void {
+        setTyped(null);
+        setInvalid(false);
+        commitValue("");
+        closeDialog();
+    }
+
+    // -------------------------------------------------------------
+    // Grid navigation
+    // -------------------------------------------------------------
+
+    /**
+     * Move the cursor, paging the view when the target is off-screen.
+     *
+     * Vetoed days are still reachable — the cursor lands on them and the
+     * button is `aria-disabled` rather than `disabled`, so arrowing
+     * across a blocked range works with real focus and a screen-reader
+     * announcement. What is refused is leaving the min/max window
+     * entirely, because there is nothing out there to navigate to.
+     */
+    function moveCursor(nextIso: string): void {
+        if (!withinRange(nextIso, p.min, p.max)) return;
+        setCursor(nextIso);
+        const parsed = parseIsoDate(nextIso);
+        if (parsed) {
+            setViewStart(calendarMonthStart(formatIsoDate(parsed), p.calendar));
+        }
+        focusRequestRef.current = "cursor";
+    }
+
+    function focusCursor(): void {
+        const dialogEl = dialogRef.current;
+        if (!dialogEl || !cursor()) return;
+        // An attribute selector, not `#id`: the id is not on this
+        // element, and a value we generated as `YYYY-MM-DD` needs no
+        // escaping.
+        const el = dialogEl.querySelector<HTMLElement>(`[data-date="${cursor()}"]`);
+        // Guard the METHODS, not only the element. jsdom implements no
+        // `scrollIntoView`, and an unguarded call throws from inside a
+        // keydown handler — where it stays invisible to a green suite.
+        // This is the third time this shape has bitten these helpers.
+        el?.focus?.();
+        el?.scrollIntoView?.({ block: "nearest" });
+    }
+
+    function selectDay(isoDate: string): void {
+        if (dayDisabled(isoDate)) return;
+        setPendingDate(isoDate);
+        setCursor(isoDate);
+        if (commitOnDay()) commit(isoDate);
+    }
+
+    function shiftMonth(delta: number): void {
+        const next = calendarAddMonths(viewStart(), delta, p.calendar);
+        // Refocus the cursor only when focus is already in the grid: grid
+        // paging (PageUp/PageDown, or a browser that focused nothing on
+        // click) must carry focus, or it dies with the unrendered cell —
+        // but a header button must keep focus, or its user is yanked into
+        // the grid after one activation and cannot page twice. Read
+        // before the setState calls: the check is about where focus is
+        // *now*, in the render the user acted in.
+        const hadGridFocus = gridRef.current?.contains(document.activeElement) === true;
+        setViewStart(next);
+        // Carry the cursor into the new month rather than leaving the
+        // roving tabindex on a cell that is no longer rendered — which
+        // would drop focus to <body> and lose the keyboard user's place
+        // entirely.
+        const c = parseIsoDate(cursor());
+        if (c) {
+            setCursor(
+                addDays(
+                    next,
+                    Math.min(
+                        calendarDay(formatIsoDate(c), p.calendar),
+                        calendarMonthLength(next, p.calendar),
+                    ) - 1,
+                ),
+            );
+            if (hadGridFocus) focusRequestRef.current = "cursor";
+        }
+    }
+
+    function shiftYear(delta: number): void {
+        shiftMonth(delta * 12);
+    }
+
+    /**
+     * Week/day steps are the fine end of the header: unlike month/year,
+     * which move the GRID and merely carry the cursor, these move the
+     * pending day itself by ±7 / ±1 civil days and page the grid only
+     * when the new day leaves the shown month. A step off the min/max
+     * window is refused outright (nothing out there to land on); a step
+     * onto a vetoed day moves the cursor — vetoed days are reachable, as
+     * with the arrow keys — but leaves the pending selection where it
+     * was. No commit even under `confirmOnSelect`: a step is navigation,
+     * and a dialog that closed on every "next day" could not be stepped
+     * twice.
+     */
+    function shiftDays(delta: number): void {
+        const from = parseIsoDate(cursor()) ? cursor() : pendingDate();
+        if (!from) return;
+        const next = addDays(from, delta);
+        if (!withinRange(next, p.min, p.max)) return;
+        const hadGridFocus = gridRef.current?.contains(document.activeElement) === true;
+        const parsed = parseIsoDate(next);
+        if (parsed) {
+            setViewStart(calendarMonthStart(formatIsoDate(parsed), p.calendar));
+        }
+        setCursor(next);
+        if (!dayDisabled(next)) setPendingDate(next);
+        if (hadGridFocus) focusRequestRef.current = "cursor";
+    }
+
+    function onTimeZoneSelect(event: Event & { currentTarget: HTMLSelectElement }): void {
+        const next = event.currentTarget.value;
+        if (next === currentZone()) return;
+        if (!zoneControlled()) setInternalZone(next);
+        p.onTimeZoneChange?.(next);
+    }
+
+    function onGridKeydown(event: KeyboardEvent & { currentTarget: HTMLTableElement }): void {
+        // ArrowLeft and ArrowRight are visual: in a right-to-left layout the next day is on the left.
+        switch (logicalKey(event.key, isRtl(gridRef.current))) {
+            case "ArrowLeft":
+                event.preventDefault();
+                moveCursor(addDays(cursor(), -1));
+                break;
+            case "ArrowRight":
+                event.preventDefault();
+                moveCursor(addDays(cursor(), 1));
+                break;
+            case "ArrowUp":
+                event.preventDefault();
+                moveCursor(addDays(cursor(), -7));
+                break;
+            case "ArrowDown":
+                event.preventDefault();
+                moveCursor(addDays(cursor(), 7));
+                break;
+            case "Home": {
+                event.preventDefault();
+                const offset = (weekdayOf(cursor()) - weekStart() + 7) % 7;
+                moveCursor(addDays(cursor(), -offset));
+                break;
+            }
+            case "End": {
+                event.preventDefault();
+                const offset = (weekdayOf(cursor()) - weekStart() + 7) % 7;
+                moveCursor(addDays(cursor(), 6 - offset));
+                break;
+            }
+            case "PageUp":
+                event.preventDefault();
+                if (event.shiftKey) shiftYear(-1);
+                else shiftMonth(-1);
+                break;
+            case "PageDown":
+                event.preventDefault();
+                if (event.shiftKey) shiftYear(1);
+                else shiftMonth(1);
+                break;
+            case "Enter":
+            case " ":
+                event.preventDefault();
+                selectDay(cursor());
+                break;
+            default:
+                break;
+        }
+    }
+
+    // -------------------------------------------------------------
+    // Dialog keys and the focus trap
+    // -------------------------------------------------------------
+
+    /** Everything tabbable inside the dialog, in DOM order. */
+    function focusables(): HTMLElement[] {
+        const dialogEl = dialogRef.current;
+        if (!dialogEl) return [];
+        return Array.from(
+            dialogEl.querySelectorAll<HTMLElement>(
+                'button:not([disabled]):not([tabindex="-1"]), select:not([disabled])',
+            ),
+        );
+    }
+
+    function onDialogKeydown(event: KeyboardEvent & { currentTarget: HTMLDivElement }): void {
+        if (event.key === "Escape") {
+            event.preventDefault();
+            // Escape discards: `value` is untouched, so the field still
+            // shows whatever was committed before the dialog opened.
+            closeDialog();
+            return;
+        }
+        if (event.key !== "Tab") return;
+
+        // The trap. `aria-modal="true"` is a promise that focus cannot
+        // reach the page behind the dialog, and it is a promise the
+        // browser does not keep for us: an untrapped aria-modal dialog
+        // tells a screen reader the rest of the page is inert while Tab
+        // quietly walks into it. DHCW's picker declares aria-modal and
+        // traps nothing, which is the bug this block exists to not have.
+        const all = focusables();
+        if (all.length === 0) return;
+        const first = all[0];
+        const last = all[all.length - 1];
+        const active = document.activeElement as HTMLElement | null;
+        if (event.shiftKey && (active === first || !dialogRef.current?.contains(active))) {
+            event.preventDefault();
+            last.focus?.();
+        } else if (!event.shiftKey && active === last) {
+            event.preventDefault();
+            first.focus?.();
+        }
+    }
+
+    // -------------------------------------------------------------
+    // Text field
+    // -------------------------------------------------------------
+
+    function onFieldChange(event: Event & { currentTarget: HTMLInputElement }): void {
+        setTyped(event.currentTarget.value);
+    }
+
+    /** Default text parsing, per mode. */
+    function parseTypedForMode(text: string): string | null {
+        if (p.mode === "time") return parseTimeInput(text, p.locale);
+        if (p.mode === "date") return parseDateInput(text, p.locale);
+        // datetime: split on the last whitespace run or a literal T, and
+        // require both halves — see `commit` on why half is refused.
+        const m = /^(.*?)[T\s]+([^\sT]+)$/.exec(text.trim());
+        if (!m) return null;
+        const date = parseDateInput(m[1], p.locale);
+        const time = parseTimeInput(m[2], p.locale);
+        return date && time ? `${date}T${time}` : null;
+    }
+
+    /** Resolve typed text on blur or Enter. */
+    function resolveTyped(): void {
+        const text = typed();
+        if (text === null) return;
+
+        if (!text.trim()) {
+            setTyped(null);
+            setInvalid(false);
+            commitValue("");
+            return;
+        }
+
+        const parsed = p.parseInput ? p.parseInput(text) : parseTypedForMode(text);
+        if (!parsed) {
+            setInvalid(true);
+            p.onInvalidInput?.(text);
+            return;
+        }
+
+        const { date } = splitValue(parsed, p.mode);
+        if (usesDate() && date && dayDisabled(date)) {
+            // Parseable but out of bounds. Same outcome as unparseable:
+            // the text stays put and the field is marked invalid, rather
+            // than being silently snapped to some nearby legal date the
+            // user never typed.
+            setInvalid(true);
+            p.onInvalidInput?.(text);
+            return;
+        }
+
+        setTyped(null);
+        setInvalid(false);
+        commitValue(parsed);
+    }
+
+    function onFieldKeydown(event: KeyboardEvent & { currentTarget: HTMLInputElement }): void {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            resolveTyped();
+        } else if (event.key === "ArrowDown" && event.altKey) {
+            // The platform convention for "open the picker" from a
+            // field, matching <input type="date"> in every major
+            // browser.
+            event.preventDefault();
+            openDialog();
+        } else if (event.key === "Escape" && typed() !== null) {
+            // Discard the pending edit and show the committed value
+            // again — the same contract Escape has inside the dialog.
+            // Stops propagating so a surrounding dialog does not also
+            // close on what was, to the user, a text-editing keystroke.
+            // When no edit is pending the key is left alone.
+            event.preventDefault();
+            event.stopPropagation();
+            setTyped(null);
+            setInvalid(false);
+        }
+    }
+
+    // -------------------------------------------------------------
+    // Time selects
+    // -------------------------------------------------------------
+
+    const pendingHour = () => parseIsoTime(pendingTime())?.hour ?? 0;
+    const pendingMinute = () => parseIsoTime(pendingTime())?.minute ?? 0;
+
+    /**
+     * The hours offered.
+     *
+     * On a 12-hour clock this lists only the half of the day the
+     * meridiem select is currently on, so the two controls together name
+     * exactly one hour. Listing 1-12 once and letting the meridiem
+     * reinterpret it is the same thing, but it makes "12 AM" ambiguous
+     * at precisely the point where users already get it wrong.
+     */
+    const hourOptions = (): { value: number; label: string }[] => {
+        const options: { value: number; label: string }[] = [];
+        for (let h = 0; h < 24; h++) {
+            if (clock12() && h < 12 !== pendingHour() < 12) continue;
+            options.push({ value: h, label: clock12() ? String(((h + 11) % 12) + 1) : pad(h) });
+        }
+        return options;
+    };
+
+    const minuteOptions = (): number[] => {
+        const options: number[] = [];
+        for (let m = 0; m < 60; m += Math.max(1, p.minuteStep)) options.push(m);
+        return options;
+    };
+
+    function setHour(hour: number): void {
+        setPendingTime(formatIsoTime({ hour, minute: pendingMinute() }));
+    }
+
+    function setMinute(minute: number): void {
+        setPendingTime(formatIsoTime({ hour: pendingHour(), minute }));
+    }
+
+    /** Cross between AM and PM without changing the minute of the hour. */
+    function setMeridiem(pm: boolean): void {
+        setHour((pendingHour() % 12) + (pm ? 12 : 0));
+    }
+
+    // -------------------------------------------------------------
+    // Shortcuts
+    // -------------------------------------------------------------
+
+    function applyShortcut(shortcut: DateTimeShortcut): void {
+        const base = todayIso();
+        let target = shortcut.date ?? base;
+        if (shortcut.days !== undefined) target = addDays(base, shortcut.days);
+        else if (shortcut.months !== undefined) target = addMonths(base, shortcut.months);
+        // A shortcut to a blocked date does nothing rather than landing
+        // somewhere near it: "+4 weeks" that quietly means "+27 days" is
+        // a booking error waiting to happen.
+        if (dayDisabled(target)) return;
+
+        setPendingDate(target);
+        setCursor(target);
+        const parsed = parseIsoDate(target);
+        if (parsed) {
+            setViewStart(calendarMonthStart(formatIsoDate(parsed), p.calendar));
+        }
+        p.onShortcut?.(shortcut.id, target);
+        if (commitOnDay()) commit(target);
+        else focusRequestRef.current = "cursor";
+    }
+
+    // -------------------------------------------------------------
+    // Effects
+    // -------------------------------------------------------------
+
+    // Runs once, on mount. Refreshes `today` and, if no value was
+    // supplied, seeds the view/cursor from today rather than the 1970
+    // placeholder the lazy initialisers above fall back to. `new Date()`
+    // cannot run during render (server and client can straddle
+    // midnight), so this waits for the client-only mount effect.
+    onSettled(() =>
+        untrack(() => {
+            const t = todayIso();
+            setToday(t);
+            const anchor = parseIsoDate(committed().date) ?? parseIsoDate(t);
+            if (anchor) {
+                setViewStart(calendarMonthStart(formatIsoDate(anchor), p.calendar));
+                setCursor(formatIsoDate(anchor));
+            }
+            // Deliberately mount-only: this seeds the initial view, it does
+            // not track later prop changes. `openDialog` reseeds on every
+            // open from whatever `value` holds at that moment.
+        }),
+    );
+
+    // Moves focus after a commit that a handler requested. Focus cannot
+    // move inline in the handler that requests it: the target element
+    // (a grid cell after paging, the trigger after a close) may not
+    // exist in the DOM until this render has committed.
+    createEffect(focusRequest, (request) => {
+        if (!request) return;
+        untrack(() => {
+            if (request.want === "opener") (openerRef.current ?? buttonRef.current)?.focus?.();
+            else if (request.want === "cursor") focusCursor();
+            else if (request.want === "first") focusables()[0]?.focus?.();
+        });
+    });
+
+    // Clicking outside the dialog closes it without committing.
+    createEffect(open, (isOpen) => {
+        if (!isOpen) return;
+        function onDocumentClick(event: MouseEvent): void {
+            const target = event.target as Node | null;
+            if (!target) return;
+            // Anything outside the dialog closes it — including the
+            // component's own text field. The dialog says
+            // aria-modal="true", and a modal that stays open while the
+            // user edits the field behind it is telling assistive
+            // technology one thing and doing another. The trigger button
+            // is exempt because its own handler already toggles. Close
+            // without moving focus: the user has already put it
+            // somewhere.
+            if (dialogRef.current?.contains(target) || buttonRef.current?.contains(target)) {
+                return;
+            }
+            closeDialog(false);
+        }
+        document.addEventListener("click", onDocumentClick);
+        return () => document.removeEventListener("click", onDocumentClick);
+    });
+
+    const tip = createPickerTooltip(() => buttonRef.current ?? undefined, open);
+
+    return (
+        <div
+            ref={(el) => (rootRef.current = el)}
+            class={`date-time-picker ${p.class}`.trim()}
+            data-mode={attr(p.mode)}
+            data-time-zone={attr(currentZone() || undefined)}
+            {...restProps}
+        >
+            <input
+                type="hidden"
+                name={p.name}
+                value={currentValue()}
+            />
+            {p.labels.timeZone !== undefined && (
+                <input
+                    type="hidden"
+                    name={`${p.name}-time-zone`}
+                    value={currentZone()}
+                />
+            )}
+
+            <div class="date-time-picker-field">
+                <input
+                    class="date-time-picker-input"
+                    id={fieldId()}
+                    type="text"
+                    autocomplete="off"
+                    value={display()}
+                    placeholder={p.placeholder}
+                    disabled={p.disabled}
+                    readonly={p.readonly}
+                    required={p.required}
+                    aria-describedby={fieldDescribedBy()}
+                    aria-invalid={attr(invalid() ? "true" : undefined)}
+                    aria-errormessage={invalid() && p.labels.invalid ? statusId() : undefined}
+                    onInput={onFieldChange}
+                    onBlur={resolveTyped}
+                    onKeyDown={onFieldKeydown}
+                />
+
+                <IconButton
+                    ref={(el) => (buttonRef.current = el)}
+                    {...tip.buttonProps}
+                    baseClass="date-time-picker-button"
+                    label={p.label}
+                    aria-haspopup="dialog"
+                    aria-expanded={attr(open())}
+                    aria-controls={dialogId()}
+                    disabled={p.disabled || p.readonly}
+                    onKeyDown={tip.onButtonKeyDown}
+                    onClick={() => {
+                        tip.onButtonClick();
+                        if (open()) closeDialog();
+                        else openDialog();
+                    }}
+                >
+                    {p.children ? (
+                        p.children({ value: currentValue(), open: open(), display: display() })
+                    ) : (
+                        <span
+                            class="date-time-picker-icon"
+                            aria-hidden="true"
+                        >
+                            {CALENDAR}
+                        </span>
+                    )}
+                </IconButton>
+                {/* Purely visual: the same text is already the button's aria-label,
+                    so it is not wired with aria-describedby. */}
+                <div
+                    class="date-time-picker-tooltip"
+                    role="tooltip"
+                    id={tooltipId()}
+                    hidden={!tip.visible()}
+                    {...tip.tooltipProps}
+                >
+                    {p.label}
+                </div>
+            </div>
+
+            {p.labels.invalid && (
+                // Present in the DOM before it has content: a live region
+                // that appears at the same moment as its message is
+                // routinely not announced at all. Empty while the field
+                // is valid.
+                <span
+                    class="date-time-picker-status"
+                    id={statusId()}
+                    role="status"
+                >
+                    {invalid() ? p.labels.invalid : ""}
+                </span>
+            )}
+
+            <div
+                ref={(el) => (dialogRef.current = el)}
+                class="date-time-picker-dialog"
+                id={dialogId()}
+                role="dialog"
+                aria-modal="true"
+                aria-label={p.label}
+                aria-describedby={p.labels.instructions ? instructionsId() : undefined}
+                tabindex={-1}
+                hidden={!open()}
+                onKeyDown={onDialogKeydown}
+            >
+                {p.labels.instructions && (
+                    // Spoken once when the dialog takes focus, via the
+                    // dialog's aria-describedby. Visible by default; a
+                    // consumer who wants it screen-reader-only hides it
+                    // with their own CSS.
+                    <p
+                        class="date-time-picker-instructions"
+                        id={instructionsId()}
+                    >
+                        {p.labels.instructions}
+                    </p>
+                )}
+                {usesDate() && (
+                    <div class="date-time-picker-header">
+                        <button
+                            type="button"
+                            class="date-time-picker-previous-year"
+                            aria-label={p.labels.previousYear}
+                            onClick={() => shiftYear(-1)}
+                        >
+                            <span aria-hidden="true">{"«"}</span>
+                        </button>
+                        <button
+                            type="button"
+                            class="date-time-picker-previous-month"
+                            aria-label={p.labels.previousMonth}
+                            onClick={() => shiftMonth(-1)}
+                        >
+                            <span aria-hidden="true">{"‹"}</span>
+                        </button>
+                        <button
+                            type="button"
+                            class="date-time-picker-previous-week"
+                            aria-label={p.labels.previousWeek}
+                            onClick={() => shiftDays(-7)}
+                        >
+                            <span aria-hidden="true">{"‹‹"}</span>
+                        </button>
+                        <button
+                            type="button"
+                            class="date-time-picker-previous-day"
+                            aria-label={p.labels.previousDay}
+                            onClick={() => shiftDays(-1)}
+                        >
+                            <span aria-hidden="true">{"‹"}</span>
+                        </button>
+
+                        {/* Polite, not assertive: paging months is the visible
+                            result of the user's own keypress, so it should
+                            reach a screen reader without interrupting
+                            anything. */}
+                        <span
+                            class="date-time-picker-period"
+                            id={periodId()}
+                            aria-live="polite"
+                        >
+                            {periodText()}
+                        </span>
+
+                        <button
+                            type="button"
+                            class="date-time-picker-next-day"
+                            aria-label={p.labels.nextDay}
+                            onClick={() => shiftDays(1)}
+                        >
+                            <span aria-hidden="true">{"›"}</span>
+                        </button>
+                        <button
+                            type="button"
+                            class="date-time-picker-next-week"
+                            aria-label={p.labels.nextWeek}
+                            onClick={() => shiftDays(7)}
+                        >
+                            <span aria-hidden="true">{"››"}</span>
+                        </button>
+                        <button
+                            type="button"
+                            class="date-time-picker-next-month"
+                            aria-label={p.labels.nextMonth}
+                            onClick={() => shiftMonth(1)}
+                        >
+                            <span aria-hidden="true">{"›"}</span>
+                        </button>
+                        <button
+                            type="button"
+                            class="date-time-picker-next-year"
+                            aria-label={p.labels.nextYear}
+                            onClick={() => shiftYear(1)}
+                        >
+                            <span aria-hidden="true">{"»"}</span>
+                        </button>
+                    </div>
+                )}
+
+                {/* Before the grid, so the zone is chosen before the instant.
+                    The empty first option is the "no zone" state: the picker
+                    never guesses one from the runtime. */}
+                {p.labels.timeZone !== undefined && (
+                    <div class="date-time-picker-time-zone">
+                        <label
+                            class="date-time-picker-time-zone-label"
+                            for={timeZoneId()}
+                        >
+                            {p.labels.timeZone}
+                        </label>
+                        <select
+                            class="date-time-picker-time-zone-select"
+                            id={timeZoneId()}
+                            value={currentZone()}
+                            onChange={onTimeZoneSelect}
+                        >
+                            <option value=""></option>
+                            {zoneOptions().map((zone) => (
+                                <option value={zone}>{p.timeZoneLabels[zone] ?? zone}</option>
+                            ))}
+                        </select>
+                    </div>
+                )}
+
+                {usesDate() && (
+                    // The grid owns its own keyboard contract, which is why
+                    // the handler sits on the table rather than on each of
+                    // 42 cells.
+                    <table
+                        ref={(el) => (gridRef.current = el)}
+                        class="date-time-picker-calendar"
+                        role="grid"
+                        aria-labelledby={periodId()}
+                        onKeyDown={onGridKeydown}
+                    >
+                        <thead>
+                            <tr>
+                                {p.showWeekNumbers && (
+                                    <th
+                                        class="date-time-picker-week-heading"
+                                        scope="col"
+                                        abbr={p.labels.week}
+                                    >
+                                        {p.labels.week}
+                                    </th>
+                                )}
+                                {weekdays().map((weekday, i) => (
+                                    // `abbr` carries the full weekday name, so a
+                                    // screen reader announcing the column says
+                                    // "Monday" where the eye reads "Mo".
+                                    <th
+                                        class="date-time-picker-weekday"
+                                        scope="col"
+                                        abbr={weekday.long}
+                                    >
+                                        {weekday.short}
+                                    </th>
+                                ))}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {weeks().map((week) => (
+                                <tr>
+                                    {p.showWeekNumbers && (
+                                        <th
+                                            class="date-time-picker-week"
+                                            scope="row"
+                                        >
+                                            {isoWeek(week[0])}
+                                        </th>
+                                    )}
+                                    {week.map((isoDate) => {
+                                        const parsed = parseIsoDate(isoDate);
+                                        const isToday = isoDate === today();
+                                        const isSelected = isoDate === pendingDate();
+                                        const isDisabled = dayDisabled(isoDate);
+                                        return (
+                                            <td
+                                                role="gridcell"
+                                                aria-selected={attr(isSelected)}
+                                            >
+                                                {/* aria-disabled, not `disabled`: a
+                                                    vetoed day must stay focusable so
+                                                    the roving cursor() can land on it
+                                                    and a screen reader can announce
+                                                    it as unavailable. A `disabled`
+                                                    button refuses focus, and arrowing
+                                                    across a blocked week goes silent
+                                                    while the visible focus stays
+                                                    behind. Activation is refused in
+                                                    `selectDay` instead. */}
+                                                <button
+                                                    type="button"
+                                                    class="date-time-picker-day"
+                                                    data-date={attr(isoDate)}
+                                                    data-outside={attr(
+                                                        isoDate < viewStart() ||
+                                                            isoDate >=
+                                                                calendarAddMonths(
+                                                                    viewStart(),
+                                                                    1,
+                                                                    p.calendar,
+                                                                )
+                                                            ? ""
+                                                            : undefined,
+                                                    )}
+                                                    data-today={attr(isToday ? "" : undefined)}
+                                                    data-selected={attr(
+                                                        isSelected ? "" : undefined,
+                                                    )}
+                                                    data-disabled={attr(
+                                                        isDisabled ? "" : undefined,
+                                                    )}
+                                                    tabindex={isoDate === cursor() ? 0 : -1}
+                                                    aria-label={dayLabel(isoDate)}
+                                                    aria-current={attr(
+                                                        isToday ? "date" : undefined,
+                                                    )}
+                                                    aria-disabled={attr(
+                                                        isDisabled ? "true" : undefined,
+                                                    )}
+                                                    onClick={() => selectDay(isoDate)}
+                                                >
+                                                    {parsed ? calendarDay(isoDate, p.calendar) : ""}
+                                                </button>
+                                            </td>
+                                        );
+                                    })}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                )}
+
+                {usesTime() && (
+                    <div class="date-time-picker-time">
+                        <label
+                            class="date-time-picker-time-label"
+                            for={hourId()}
+                        >
+                            {p.labels.hour}
+                        </label>
+                        <select
+                            class="date-time-picker-hour"
+                            id={hourId()}
+                            value={pendingHour()}
+                            onChange={(event) => setHour(Number(event.target.value))}
+                        >
+                            {hourOptions().map((option) => (
+                                <option value={option.value}>{option.label}</option>
+                            ))}
+                        </select>
+
+                        <label
+                            class="date-time-picker-time-label"
+                            for={minuteId()}
+                        >
+                            {p.labels.minute}
+                        </label>
+                        <select
+                            class="date-time-picker-minute"
+                            id={minuteId()}
+                            value={pendingMinute()}
+                            onChange={(event) => setMinute(Number(event.target.value))}
+                        >
+                            {minuteOptions().map((minute) => (
+                                <option value={minute}>{pad(minute)}</option>
+                            ))}
+                        </select>
+
+                        {clock12() && (
+                            <>
+                                <label
+                                    class="date-time-picker-time-label"
+                                    for={meridiemId()}
+                                >
+                                    {p.labels.meridiem}
+                                </label>
+                                <select
+                                    class="date-time-picker-meridiem"
+                                    id={meridiemId()}
+                                    value={pendingHour() >= 12 ? "pm" : "am"}
+                                    onChange={(event) => setMeridiem(event.target.value === "pm")}
+                                >
+                                    {/* Stable values, localised p.labels: the
+                                        visible text is the p.locale's own
+                                        day-period p.name. */}
+                                    <option value="am">{dayPeriodName(false)}</option>
+                                    <option value="pm">{dayPeriodName(true)}</option>
+                                </select>
+                            </>
+                        )}
+                    </div>
+                )}
+
+                {p.shortcuts.length > 0 && (
+                    <div class="date-time-picker-shortcuts">
+                        {p.shortcuts.map((shortcut) => (
+                            <button
+                                type="button"
+                                class="date-time-picker-shortcut"
+                                data-shortcut-id={attr(shortcut.id)}
+                                onClick={() => applyShortcut(shortcut)}
+                            >
+                                {shortcut.label}
+                            </button>
+                        ))}
+                    </div>
+                )}
+
+                <div class="date-time-picker-footer">
+                    {p.labels.clear && (
+                        <button
+                            type="button"
+                            class="date-time-picker-clear"
+                            onClick={clear}
+                        >
+                            {p.labels.clear}
+                        </button>
+                    )}
+                    <button
+                        type="button"
+                        class="date-time-picker-cancel"
+                        onClick={() => closeDialog()}
+                    >
+                        {p.labels.cancel}
+                    </button>
+                    <button
+                        type="button"
+                        class="date-time-picker-confirm"
+                        onClick={() => commit()}
+                    >
+                        {p.labels.confirm}
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+export default DateTimePicker;
