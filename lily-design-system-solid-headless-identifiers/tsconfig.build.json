@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "declaration": true,
+    "outDir": "dist/source",
+    "rootDir": ".",
+    "types": ["node"]
+  },
+  "include": ["index.ts", "components/**/*.ts", "components/**/*.tsx"],
+  "exclude": [
+    "components/**/*.test.ts",
+    "components/**/*.test.tsx",
+    "components/test-utils.ts",
+    "components/test-act.ts"
+  ]
+}

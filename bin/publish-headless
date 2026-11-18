@@ -119,7 +119,8 @@ if [ -z "$NUGET_ONLY" ]; then
   # (573/608; the other 35 are excluded by design, see its spec/index.md). Its prepublishOnly runs build.mjs, so it publishes
   # from the package root like svelte/react/vue.
   # alpine-headless (added 2026-11-14) ships files as they are, the plugin and the snippets, with no build, like html.
-  # solid-headless (added 2026-11-17) builds dist/ in its prepublishOnly, like svelte/react/vue.
+  # solid-headless (added 2026-11-17) builds dist/ in its prepublishOnly, like svelte/react/vue; so does its
+  # -headless-identifiers add-on (spec/headless-identifiers, 2026-11-18).
   for d in "$ROOT"/lily-design-system-svelte-headless \
            "$ROOT"/lily-design-system-react-headless \
            "$ROOT"/lily-design-system-vue-headless \
@@ -127,7 +128,8 @@ if [ -z "$NUGET_ONLY" ]; then
            "$ROOT"/lily-design-system-nunjucks-headless \
            "$ROOT"/lily-design-system-web-components-headless \
            "$ROOT"/lily-design-system-alpine-headless \
-           "$ROOT"/lily-design-system-solid-headless; do
+           "$ROOT"/lily-design-system-solid-headless \
+           "$ROOT"/lily-design-system-solid-headless-identifiers; do
     [ -f "$d/package.json" ] || continue
     ensure_installed "$d"
     echo "--> $(basename "$d")"

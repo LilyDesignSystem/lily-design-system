@@ -21,7 +21,7 @@ if len(sys.argv) != 2:
 fw = sys.argv[1]
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 prefix = f"lily-design-system-{fw}-"
-skip = ("-headless", "-helpers", "-skill", "-examples")
+skip = ("-headless", "-headless-identifiers", "-helpers", "-skill", "-examples")
 
 pkgs = {}
 for d in sorted(os.listdir(root)):

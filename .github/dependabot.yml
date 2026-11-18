@@ -335,6 +335,18 @@ updates:
           - "*"
 
   - package-ecosystem: "npm"
+    directory: "/lily-design-system-solid-headless-identifiers"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      lily:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "npm"
     # One top-level subproject per Solid helper package (2026-11-17), and the Solid example app (2026-11-18).
     directories:
       - "/lily-design-system-solid-calendar"

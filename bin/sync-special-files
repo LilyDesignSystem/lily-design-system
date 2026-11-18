@@ -185,6 +185,8 @@ def parts(name):
             tail = name[len(f"lily-design-system-{fw}-"):]
             kind = ("helpers" if tail == "helpers"
                     else "headless" if tail == "headless"
+                    # The national identifier components' own add-on package (spec/headless-identifiers).
+                    else "identifiers" if tail == "headless-identifiers"
                     else "examples")
             return fw, kind
     return None, "other"
@@ -207,6 +209,9 @@ def describe(name):
             return (f"the {label} headless component library: 583 of the 608 "
                     "catalog components as annotated snippets plus an Alpine plugin, unstyled and accessible")
         return f"the {label} headless component library: all 608 catalog components, unstyled and accessible"
+    if kind == "identifiers":
+        return (f"the {label} headless national identifier components: the 164 national personal identifier "
+                "components (an input and a view for each of 82 identifier types), the add-on to the headless library")
     if kind == "helpers":
         return f"the {label} helpers catalog: six opinionated packages that each own one complete interaction"
     if kind == "examples":
@@ -359,7 +364,9 @@ selector is `:where(...)` or `@layer lily {{ ... }}` (zero specificity),
 so your own CSS always wins the cascade — see
 [AGENTS/theme.md]({CANONICAL}/blob/main/AGENTS/theme.md).
 """
-    elif kind == "headless":
+    elif kind in ("headless", "identifiers"):
+        what = ("the 164 national identifier components" if kind == "identifiers"
+                else "the 571 catalog components")
         if name in PUBLISHED_NPM:
             body = f"""
 ## Install
@@ -368,7 +375,7 @@ so your own CSS always wins the cascade — see
 npm install {npm_name(name)}
 ```
 
-Import any of the 571 catalog components from the package root; the barrel is
+Import any of {what} from the package root; the barrel is
 tree-shakeable (`sideEffects: false`), so your bundler drops what you do not use.
 
 The components ship semantic HTML, ARIA, focus management, and keyboard

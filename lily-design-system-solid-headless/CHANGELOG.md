@@ -3,6 +3,25 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the package follows [Semantic Versioning](https://semver.org/).
 
+## 0.2.0 — 2026-11-18 (breaking)
+
+- **Breaking:** the 164 national personal identifier components (an `-input` and a `-view` for each of 82 identifier
+  types) move to their own package, `@lilydesignsystem/solid-headless-identifiers`. They are removed, not re-exported;
+  this package now has the 473 other catalog components.
+- **Migration:** install the identifiers package and change the import; the components, their props, class hooks and
+  behaviour are unchanged.
+
+  ```sh
+  pnpm add @lilydesignsystem/solid-headless-identifiers
+  ```
+
+  ```tsx
+  // before
+  import { UnitedKingdomNationalHealthServiceNumberInput } from "@lilydesignsystem/solid-headless";
+  // after
+  import { UnitedKingdomNationalHealthServiceNumberInput } from "@lilydesignsystem/solid-headless-identifiers";
+  ```
+
 ## 0.1.1 — 2026-11-18
 
 - Fix: a form reset no longer empties bound fields. Solid writes a bound `value` or `checked` as the DOM property, so the
