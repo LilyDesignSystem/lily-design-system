@@ -32,7 +32,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/slovenija-emso-view.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/slovenija-emso-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/slovenija-emso-view/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SlovenijaEmsoView.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/SlovenijaEmsoView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/slovenija-emso-view/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/slovenija-emso-view/AGENTS.md"

@@ -32,7 +32,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/england-national-health-service-number-view.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/england-national-health-service-number-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/england-national-health-service-number-view/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/EnglandNationalHealthServiceNumberView.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/EnglandNationalHealthServiceNumberView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/england-national-health-service-number-view/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/england-national-health-service-number-view/AGENTS.md"

@@ -35,7 +35,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/as-saudiyah-raqm-al-huwiyah-al-wataniyah-input.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/as-saudiyah-raqm-al-huwiyah-al-wataniyah-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/as-saudiyah-raqm-al-huwiyah-al-wataniyah-input/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AsSaudiyahRaqmAlHuwiyahAlWataniyahInput.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/AsSaudiyahRaqmAlHuwiyahAlWataniyahInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/as-saudiyah-raqm-al-huwiyah-al-wataniyah-input/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/as-saudiyah-raqm-al-huwiyah-al-wataniyah-input/AGENTS.md"

@@ -35,7 +35,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/luxembourg-matricule-input.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/luxembourg-matricule-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/luxembourg-matricule-input/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/LuxembourgMatriculeInput.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/LuxembourgMatriculeInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/luxembourg-matricule-input/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/luxembourg-matricule-input/AGENTS.md"

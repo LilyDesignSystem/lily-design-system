@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <!-- The components keep their namespace, LilyBlazorHeadless.Components, so an app's @using is unchanged. -->
+    <RootNamespace>LilyBlazorHeadless</RootNamespace>
+    <AssemblyName>LilyBlazorHeadless.Identifiers</AssemblyName>
+    <PackageId>LilyDesignSystem.Blazor.Headless.Identifiers</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>Joel Parker Henderson</Authors>
+    <Description>Lily Design System Blazor headless national identifier components: the 164 national personal identifier components (an input and a view for each of 82 identifier types across 50+ countries) as Razor components, the add-on to LilyDesignSystem.Blazor.Headless. Unstyled, accessible, zero CSS.</Description>
+    <PackageProjectUrl>https://lilydesignsystem.com/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/LilyDesignSystem/lily-design-system</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>lily;design-system;blazor;headless;accessibility;wcag;aria;a11y;national-identifier;healthcare</PackageTags>
+    <PackageLicenseExpression>MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause</PackageLicenseExpression>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <NoWarn>CS1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.15" />
+  </ItemGroup>
+
+  <!-- Every identifier input inherits ValueInputBase from the headless library. A copy here would be a second public
+       LilyBlazorHeadless.Components.ValueInputBase, which no app could use beside the headless package, so this one
+       depends on it; packing turns the reference into a NuGet dependency (spec/headless-identifiers, decision 3). -->
+  <ItemGroup>
+    <ProjectReference Include="../../../lily-design-system-blazor-headless/src/LilyBlazorHeadless/LilyBlazorHeadless.csproj" />
+  </ItemGroup>
+
+</Project>

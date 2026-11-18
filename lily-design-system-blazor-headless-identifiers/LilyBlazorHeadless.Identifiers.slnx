@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/LilyBlazorHeadless/LilyBlazorHeadless.Identifiers.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/LilyBlazorHeadless.Tests/LilyBlazorHeadless.Identifiers.Tests.csproj" />
+  </Folder>
+</Solution>

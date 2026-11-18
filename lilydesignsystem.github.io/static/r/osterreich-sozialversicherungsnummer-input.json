@@ -35,7 +35,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/osterreich-sozialversicherungsnummer-input.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/osterreich-sozialversicherungsnummer-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/osterreich-sozialversicherungsnummer-input/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/OsterreichSozialversicherungsnummerInput.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/OsterreichSozialversicherungsnummerInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/osterreich-sozialversicherungsnummer-input/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/osterreich-sozialversicherungsnummer-input/AGENTS.md"

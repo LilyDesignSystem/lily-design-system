@@ -35,7 +35,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/chile-rol-unico-nacional-input.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/chile-rol-unico-nacional-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/chile-rol-unico-nacional-input/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ChileRolUnicoNacionalInput.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/ChileRolUnicoNacionalInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/chile-rol-unico-nacional-input/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/chile-rol-unico-nacional-input/AGENTS.md"

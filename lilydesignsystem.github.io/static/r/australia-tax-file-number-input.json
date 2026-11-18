@@ -35,7 +35,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/australia-tax-file-number-input.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/australia-tax-file-number-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/australia-tax-file-number-input/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AustraliaTaxFileNumberInput.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/AustraliaTaxFileNumberInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/australia-tax-file-number-input/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/australia-tax-file-number-input/AGENTS.md"

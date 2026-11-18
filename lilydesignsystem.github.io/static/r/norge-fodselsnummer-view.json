@@ -32,7 +32,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/norge-fodselsnummer-view.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/norge-fodselsnummer-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/norge-fodselsnummer-view/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/NorgeFodselsnummerView.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/NorgeFodselsnummerView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/norge-fodselsnummer-view/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/norge-fodselsnummer-view/AGENTS.md"

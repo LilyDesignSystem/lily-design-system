@@ -32,7 +32,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/malta-passport-number-view.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/malta-passport-number-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/malta-passport-number-view/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MaltaPassportNumberView.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/MaltaPassportNumberView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/malta-passport-number-view/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/malta-passport-number-view/AGENTS.md"

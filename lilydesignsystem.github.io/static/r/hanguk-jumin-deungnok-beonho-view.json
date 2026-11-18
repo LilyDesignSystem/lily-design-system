@@ -32,7 +32,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/hanguk-jumin-deungnok-beonho-view.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/hanguk-jumin-deungnok-beonho-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/hanguk-jumin-deungnok-beonho-view/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/HangukJuminDeungnokBeonhoView.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/HangukJuminDeungnokBeonhoView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/hanguk-jumin-deungnok-beonho-view/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/hanguk-jumin-deungnok-beonho-view/AGENTS.md"

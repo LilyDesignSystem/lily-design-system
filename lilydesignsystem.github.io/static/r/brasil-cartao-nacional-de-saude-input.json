@@ -35,7 +35,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/brasil-cartao-nacional-de-saude-input.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/brasil-cartao-nacional-de-saude-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/brasil-cartao-nacional-de-saude-input/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/BrasilCartaoNacionalDeSaudeInput.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/BrasilCartaoNacionalDeSaudeInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/brasil-cartao-nacional-de-saude-input/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/brasil-cartao-nacional-de-saude-input/AGENTS.md"

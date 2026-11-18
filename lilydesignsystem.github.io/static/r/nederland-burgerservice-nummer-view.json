@@ -32,7 +32,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/nederland-burgerservice-nummer-view.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/nederland-burgerservice-nummer-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/nederland-burgerservice-nummer-view/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/NederlandBurgerserviceNummerView.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/NederlandBurgerserviceNummerView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/nederland-burgerservice-nummer-view/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/nederland-burgerservice-nummer-view/AGENTS.md"

@@ -9,6 +9,22 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Unreleased: national identifiers in their own packages (P37-T2, breaking)
+
+- The 164 national personal identifier components leave the ten headless libraries for one add-on package per
+  catalog, `lily-design-system-{framework}-headless-identifiers` (`@lilydesignsystem/{framework}-headless-identifiers`
+  0.1.0; Blazor `LilyDesignSystem.Blazor.Headless.Identifiers` 0.1.0). They are removed from the headless packages, not
+  re-exported: svelte, react and vue-headless 0.11.0, angular and web-components-headless 0.12.0, html-headless 0.13.0,
+  nunjucks-headless 0.11.0, alpine-headless 0.3.0, solid-headless 0.2.0 and Blazor 0.11.0, each with a migration note.
+  **Migration:** install the identifiers package and change the import; the components are unchanged. The catalog keeps
+  all 637 rows (473 core and 164 identifiers). See [spec/headless-identifiers](spec/headless-identifiers/index.md).
+- The Blazor identifiers package depends on the headless one, for the `ValueInputBase` its inputs extend; the others
+  depend on nothing.
+- Root tools follow a moved identifier: the checks, `bin/test`, `bin/sync-example-components`,
+  `bin/generate-registries`, `bin/generate-api-docs`, `bin/generate-core` (which had briefly lost React's test evidence),
+  the Alpine snippet generator and example. `bin/list-helper-packages` and `bin/sync-special-files` know the new kind.
+  Not yet published (P37-T4).
+
 ## Lily for Solid 2.0: helpers and solid-headless 0.1.1 (2026-11-18, P36-T3, P36-T7)
 
 - The 21 Solid helper packages, `lily-design-system-solid-*` (`@lilydesignsystem/solid-*` 0.1.0): the eleven pickers,

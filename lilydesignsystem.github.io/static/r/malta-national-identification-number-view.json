@@ -32,7 +32,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/malta-national-identification-number-view.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/malta-national-identification-number-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/malta-national-identification-number-view/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MaltaNationalIdentificationNumberView.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/MaltaNationalIdentificationNumberView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/malta-national-identification-number-view/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/malta-national-identification-number-view/AGENTS.md"

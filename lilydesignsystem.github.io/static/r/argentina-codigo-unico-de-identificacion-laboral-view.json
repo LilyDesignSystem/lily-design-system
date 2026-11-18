@@ -32,7 +32,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/argentina-codigo-unico-de-identificacion-laboral-view.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/argentina-codigo-unico-de-identificacion-laboral-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/argentina-codigo-unico-de-identificacion-laboral-view/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ArgentinaCodigoUnicoDeIdentificacionLaboralView.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/ArgentinaCodigoUnicoDeIdentificacionLaboralView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/argentina-codigo-unico-de-identificacion-laboral-view/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/argentina-codigo-unico-de-identificacion-laboral-view/AGENTS.md"

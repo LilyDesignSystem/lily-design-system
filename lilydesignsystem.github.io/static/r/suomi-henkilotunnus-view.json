@@ -32,7 +32,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/suomi-henkilotunnus-view.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/suomi-henkilotunnus-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/suomi-henkilotunnus-view/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SuomiHenkilotunnusView.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/SuomiHenkilotunnusView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/suomi-henkilotunnus-view/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/suomi-henkilotunnus-view/AGENTS.md"

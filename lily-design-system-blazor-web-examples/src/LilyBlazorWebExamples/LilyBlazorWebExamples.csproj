@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../../../lily-design-system-blazor-headless/src/LilyBlazorHeadless/LilyBlazorHeadless.csproj" />
+    <ProjectReference Include="../../../lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/LilyBlazorHeadless.Identifiers.csproj" />
   </ItemGroup>
 
   <!-- Theme-picker helper: local subtree reference until the NuGet

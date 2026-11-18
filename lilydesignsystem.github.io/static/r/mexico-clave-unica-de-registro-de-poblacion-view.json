@@ -32,7 +32,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/mexico-clave-unica-de-registro-de-poblacion-view.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/mexico-clave-unica-de-registro-de-poblacion-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/mexico-clave-unica-de-registro-de-poblacion-view/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MexicoClaveUnicaDeRegistroDePoblacionView.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/MexicoClaveUnicaDeRegistroDePoblacionView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/mexico-clave-unica-de-registro-de-poblacion-view/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/mexico-clave-unica-de-registro-de-poblacion-view/AGENTS.md"

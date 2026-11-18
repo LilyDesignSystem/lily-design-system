@@ -32,7 +32,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivView.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view/AGENTS.md"

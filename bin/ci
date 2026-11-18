@@ -156,6 +156,8 @@ html_headless() {
 job_html_headless() { step "html-headless: WebDriverIO" html_headless; }
 
 dotnet_one() {
+    # Its national identifiers add-on first (spec/headless-identifiers): the same SDK, its own bUnit project.
+    dotnet test lily-design-system-blazor-headless-identifiers/tests/LilyBlazorHeadless.Tests/LilyBlazorHeadless.Identifiers.Tests.csproj
     cd lily-design-system-blazor-headless
     dotnet test tests/LilyBlazorHeadless.Tests/LilyBlazorHeadless.Tests.csproj
     # The JavaScript modules behind the components whose keys bUnit cannot run: node:test + jsdom.

@@ -32,7 +32,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/singapore-national-registration-identity-card-view.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/singapore-national-registration-identity-card-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/singapore-national-registration-identity-card-view/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SingaporeNationalRegistrationIdentityCardView.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/SingaporeNationalRegistrationIdentityCardView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/singapore-national-registration-identity-card-view/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/singapore-national-registration-identity-card-view/AGENTS.md"

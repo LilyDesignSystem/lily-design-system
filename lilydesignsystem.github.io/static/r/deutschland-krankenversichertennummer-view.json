@@ -32,7 +32,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/deutschland-krankenversichertennummer-view.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/deutschland-krankenversichertennummer-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/deutschland-krankenversichertennummer-view/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/DeutschlandKrankenversichertennummerView.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/DeutschlandKrankenversichertennummerView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/deutschland-krankenversichertennummer-view/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/deutschland-krankenversichertennummer-view/AGENTS.md"

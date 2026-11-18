@@ -163,11 +163,15 @@ fi
 echo "== Blazor NuGet package =="
 NUPKG_OUT="$ROOT/dist-nuget"
 mkdir -p "$NUPKG_OUT"
-proj="$ROOT/lily-design-system-blazor-headless/src/LilyBlazorHeadless/LilyBlazorHeadless.csproj"
-echo "--> pack $(basename "$proj")"
 # A build server left over from an earlier build can produce bogus Razor errors (seen 2026-10-16); start clean.
 dotnet build-server shutdown >/dev/null 2>&1 || true
-dotnet pack "$proj" -c Release -o "$NUPKG_OUT"
+# The headless library, then its national identifiers add-on, which depends on it (spec/headless-identifiers). The
+# push glob below matches both; Headless.0.x sorts before Headless.Identifiers, so the dependency is pushed first.
+for proj in "$ROOT/lily-design-system-blazor-headless/src/LilyBlazorHeadless/LilyBlazorHeadless.csproj" \
+            "$ROOT/lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/LilyBlazorHeadless.Identifiers.csproj"; do
+  echo "--> pack $(basename "$proj")"
+  dotnet pack "$proj" -c Release -o "$NUPKG_OUT"
+done
 if [ -z "$DRY" ]; then
   : "${NUGET_API_KEY:?set NUGET_API_KEY to push to nuget.org}"
   for pkg in "$NUPKG_OUT"/LilyDesignSystem.Blazor.Headless.*.nupkg; do

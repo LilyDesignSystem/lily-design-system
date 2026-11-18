@@ -34,7 +34,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/france-numero-d-identification-au-repertoire-view.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/france-numero-d-identification-au-repertoire-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/france-numero-d-identification-au-repertoire-view/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/FranceNumeroDIdentificationAuRepertoireView.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/FranceNumeroDIdentificationAuRepertoireView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/france-numero-d-identification-au-repertoire-view/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/france-numero-d-identification-au-repertoire-view/AGENTS.md"

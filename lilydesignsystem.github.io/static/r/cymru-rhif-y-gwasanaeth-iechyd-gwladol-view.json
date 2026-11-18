@@ -32,7 +32,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/cymru-rhif-y-gwasanaeth-iechyd-gwladol-view.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/cymru-rhif-y-gwasanaeth-iechyd-gwladol-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/cymru-rhif-y-gwasanaeth-iechyd-gwladol-view/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/CymruRhifYGwasanaethIechydGwladolView.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/CymruRhifYGwasanaethIechydGwladolView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/cymru-rhif-y-gwasanaeth-iechyd-gwladol-view/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/cymru-rhif-y-gwasanaeth-iechyd-gwladol-view/AGENTS.md"

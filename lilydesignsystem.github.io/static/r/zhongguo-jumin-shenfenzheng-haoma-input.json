@@ -35,7 +35,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/zhongguo-jumin-shenfenzheng-haoma-input.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/zhongguo-jumin-shenfenzheng-haoma-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/zhongguo-jumin-shenfenzheng-haoma-input/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ZhongguoJuminShenfenzhengHaomaInput.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/ZhongguoJuminShenfenzhengHaomaInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/zhongguo-jumin-shenfenzheng-haoma-input/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/zhongguo-jumin-shenfenzheng-haoma-input/AGENTS.md"

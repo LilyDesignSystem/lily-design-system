@@ -36,7 +36,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/cesko-rodne-cislo-input.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/cesko-rodne-cislo-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/cesko-rodne-cislo-input/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/CeskoRodneCisloInput.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/CeskoRodneCisloInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/cesko-rodne-cislo-input/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/cesko-rodne-cislo-input/AGENTS.md"

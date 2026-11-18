@@ -27,7 +27,11 @@ Decided by the maintainer on 2026-11-17; tracked in [tasks.md](../../tasks.md) a
    finds an identifier by the same path with `-headless/` replaced by `-headless-identifiers/`.
 3. **Shared modules are copied, not imported across packages.** The identifier components need only `dev-warning`
    (and Solid's `attr` and `defaults`); each identifiers package carries a copy, kept in step by
-   `bin/sync-shared-modules`. Neither package depends on the other.
+   `bin/sync-shared-modules`. Neither package depends on the other, **except in Blazor**: every Blazor identifier input
+   extends the headless library's `ValueInputBase`, and a copy would be a second public
+   `LilyBlazorHeadless.Components.ValueInputBase` that no app could reference beside the headless package. So
+   `LilyDesignSystem.Blazor.Headless.Identifiers` depends on `LilyDesignSystem.Blazor.Headless` (a project reference
+   that packs as a NuGet dependency), and its components keep their namespace (decided 2026-11-18).
 4. **Names.** npm `@lilydesignsystem/{framework}-headless-identifiers`; NuGet `LilyDesignSystem.Blazor.Headless.Identifiers`.
 5. **Example apps keep every page.** They depend on both packages (or sync from both), so `/components/{slug}` still
    renders every identifier.
