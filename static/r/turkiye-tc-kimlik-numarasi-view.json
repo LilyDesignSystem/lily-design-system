@@ -32,7 +32,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/turkiye-tc-kimlik-numarasi-view.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/turkiye-tc-kimlik-numarasi-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/turkiye-tc-kimlik-numarasi-view/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TurkiyeTcKimlikNumarasiView.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/TurkiyeTcKimlikNumarasiView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/turkiye-tc-kimlik-numarasi-view/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/turkiye-tc-kimlik-numarasi-view/AGENTS.md"

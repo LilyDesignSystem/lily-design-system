@@ -32,7 +32,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/italia-codice-fiscale-view.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/italia-codice-fiscale-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/italia-codice-fiscale-view/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ItaliaCodiceFiscaleView.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/ItaliaCodiceFiscaleView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/italia-codice-fiscale-view/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/italia-codice-fiscale-view/AGENTS.md"

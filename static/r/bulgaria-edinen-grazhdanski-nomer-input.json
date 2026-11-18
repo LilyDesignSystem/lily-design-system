@@ -36,7 +36,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/bulgaria-edinen-grazhdanski-nomer-input.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/bulgaria-edinen-grazhdanski-nomer-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/bulgaria-edinen-grazhdanski-nomer-input/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/BulgariaEdinenGrazhdanskiNomerInput.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/BulgariaEdinenGrazhdanskiNomerInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/bulgaria-edinen-grazhdanski-nomer-input/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/bulgaria-edinen-grazhdanski-nomer-input/AGENTS.md"

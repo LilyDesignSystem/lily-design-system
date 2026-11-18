@@ -35,7 +35,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/ecuador-cedula-de-identidad-input.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/ecuador-cedula-de-identidad-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/ecuador-cedula-de-identidad-input/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/EcuadorCedulaDeIdentidadInput.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/EcuadorCedulaDeIdentidadInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/ecuador-cedula-de-identidad-input/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/ecuador-cedula-de-identidad-input/AGENTS.md"

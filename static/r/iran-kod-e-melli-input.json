@@ -35,7 +35,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/iran-kod-e-melli-input.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/iran-kod-e-melli-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/iran-kod-e-melli-input/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/IranKodEMelliInput.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/IranKodEMelliInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/iran-kod-e-melli-input/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/iran-kod-e-melli-input/AGENTS.md"

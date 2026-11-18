@@ -32,7 +32,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/portugal-numero-de-identificacao-fiscal-view.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/portugal-numero-de-identificacao-fiscal-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/portugal-numero-de-identificacao-fiscal-view/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/PortugalNumeroDeIdentificacaoFiscalView.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/PortugalNumeroDeIdentificacaoFiscalView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/portugal-numero-de-identificacao-fiscal-view/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/portugal-numero-de-identificacao-fiscal-view/AGENTS.md"

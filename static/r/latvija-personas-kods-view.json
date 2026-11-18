@@ -32,7 +32,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/latvija-personas-kods-view.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/latvija-personas-kods-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/latvija-personas-kods-view/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/LatvijaPersonasKodsView.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/LatvijaPersonasKodsView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/latvija-personas-kods-view/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/latvija-personas-kods-view/AGENTS.md"

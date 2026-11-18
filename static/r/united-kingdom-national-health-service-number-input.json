@@ -37,7 +37,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/united-kingdom-national-health-service-number-input.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/united-kingdom-national-health-service-number-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/united-kingdom-national-health-service-number-input/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/UnitedKingdomNationalHealthServiceNumberInput.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/UnitedKingdomNationalHealthServiceNumberInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/united-kingdom-national-health-service-number-input/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/united-kingdom-national-health-service-number-input/AGENTS.md"

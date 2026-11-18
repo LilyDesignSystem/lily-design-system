@@ -32,7 +32,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/misr-al-raqm-al-qawmi-view.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/misr-al-raqm-al-qawmi-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/misr-al-raqm-al-qawmi-view/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MisrAlRaqmAlQawmiView.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/MisrAlRaqmAlQawmiView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/misr-al-raqm-al-qawmi-view/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/misr-al-raqm-al-qawmi-view/AGENTS.md"

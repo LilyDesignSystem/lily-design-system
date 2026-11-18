@@ -36,7 +36,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/kypros-national-passport-number-input.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/kypros-national-passport-number-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/kypros-national-passport-number-input/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/KyprosNationalPassportNumberInput.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/KyprosNationalPassportNumberInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/kypros-national-passport-number-input/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/kypros-national-passport-number-input/AGENTS.md"

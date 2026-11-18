@@ -35,7 +35,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/yisrael-teudat-zehut-input.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/yisrael-teudat-zehut-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/yisrael-teudat-zehut-input/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/YisraelTeudatZehutInput.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/YisraelTeudatZehutInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/yisrael-teudat-zehut-input/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/yisrael-teudat-zehut-input/AGENTS.md"

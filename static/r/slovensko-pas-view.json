@@ -32,7 +32,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/slovensko-pas-view.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/slovensko-pas-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/slovensko-pas-view/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SlovenskoPasView.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/SlovenskoPasView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/slovensko-pas-view/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/slovensko-pas-view/AGENTS.md"

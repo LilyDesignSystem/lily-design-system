@@ -36,7 +36,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/cesko-cestovni-pas-input.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/cesko-cestovni-pas-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/cesko-cestovni-pas-input/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/CeskoCestovniPasInput.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/CeskoCestovniPasInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/cesko-cestovni-pas-input/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/cesko-cestovni-pas-input/AGENTS.md"

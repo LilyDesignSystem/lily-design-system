@@ -36,7 +36,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/lietuva-asmens-kodas-input.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/lietuva-asmens-kodas-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/lietuva-asmens-kodas-input/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/LietuvaAsmensKodasInput.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/LietuvaAsmensKodasInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/lietuva-asmens-kodas-input/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/lietuva-asmens-kodas-input/AGENTS.md"

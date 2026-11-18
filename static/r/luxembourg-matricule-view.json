@@ -32,7 +32,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/luxembourg-matricule-view.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/luxembourg-matricule-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/luxembourg-matricule-view/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/LuxembourgMatriculeView.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/LuxembourgMatriculeView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/luxembourg-matricule-view/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/luxembourg-matricule-view/AGENTS.md"

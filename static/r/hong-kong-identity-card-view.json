@@ -32,7 +32,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/hong-kong-identity-card-view.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/hong-kong-identity-card-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/hong-kong-identity-card-view/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/HongKongIdentityCardView.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/HongKongIdentityCardView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/hong-kong-identity-card-view/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/hong-kong-identity-card-view/AGENTS.md"

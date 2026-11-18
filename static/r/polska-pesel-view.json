@@ -32,7 +32,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/polska-pesel-view.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/polska-pesel-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/polska-pesel-view/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/PolskaPeselView.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/PolskaPeselView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/polska-pesel-view/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/polska-pesel-view/AGENTS.md"

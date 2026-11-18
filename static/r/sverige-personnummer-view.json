@@ -32,7 +32,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/sverige-personnummer-view.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/sverige-personnummer-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/sverige-personnummer-view/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SverigePersonnummerView.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/SverigePersonnummerView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/sverige-personnummer-view/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/sverige-personnummer-view/AGENTS.md"

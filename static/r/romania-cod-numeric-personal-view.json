@@ -32,7 +32,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/romania-cod-numeric-personal-view.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/romania-cod-numeric-personal-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/romania-cod-numeric-personal-view/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/RomaniaCodNumericPersonalView.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/RomaniaCodNumericPersonalView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/romania-cod-numeric-personal-view/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/romania-cod-numeric-personal-view/AGENTS.md"

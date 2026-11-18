@@ -32,7 +32,7 @@
     "web-components": "lily-design-system-web-components-headless-identifiers/components/espana-codigo-de-identificacion-fiscal-view.ts",
     "alpine": "lily-design-system-alpine-headless-identifiers/components/espana-codigo-de-identificacion-fiscal-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/espana-codigo-de-identificacion-fiscal-view/macro.njk",
-    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/EspanaCodigoDeIdentificacionFiscalView.razor"
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/EspanaCodigoDeIdentificacionFiscalView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/espana-codigo-de-identificacion-fiscal-view/",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/espana-codigo-de-identificacion-fiscal-view/AGENTS.md"
