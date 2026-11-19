@@ -270,6 +270,14 @@ the colour round trips drift by up to 4.5 steps, not one: that is the whole-unit
 a defect, so the bounds are derived from it. `bin/ci --job shared-tests` runs them with the example tests (881 in all);
 before it, no CI job ran the shared modules' tests.
 
+## Test coverage (2026-11-19, tasks.md P38-T9)
+
+`bin/coverage-report` runs three suites with coverage on, `shared/` and Svelte headless with `@vitest/coverage-v8`, Blazor
+headless with coverlet, and writes [docs/coverage.md](../../docs/coverage.md) and the badge `docs/coverage-badge.svg`
+that `index.md` shows. The first run: lines 75.0 percent in `shared/`, 96.2 in Svelte headless, 96.4 in Blazor
+headless, 91.5 over all three. No coverage service sees the code; the report and badge are committed files. It takes a
+few minutes, so it is run by hand after test changes, not in `bin/test` or CI.
+
 ## Mutation testing
 
 (2026-11-17, tasks.md P35-T3.) A mutant is a small change to the code, such as `<` made `<=`, a branch removed or a string

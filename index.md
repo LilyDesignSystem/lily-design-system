@@ -1,5 +1,7 @@
 # Lily Design System™
 
+[![Test coverage](docs/coverage-badge.svg)](docs/coverage.md)
+
 Lily Design System is a free open source design system that anyone can use and improve.
 
 This is brand new work and we welcome collaboration, guidance, and feedback.

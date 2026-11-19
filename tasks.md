@@ -3993,8 +3993,14 @@ Maintainer-directed, in this order.
       in jsdom, mounting 1,000 rows and 10,000 virtualized, a sort cycle and replacing every row. Two runs within 10
       percent of the baseline. It showed the cost of not virtualizing: about 890 ms for 1,000 rows drawn in full against
       18 ms for 10,000 virtualized. BENCHMARKS.md, which still said Lily had no runtime benchmarks, is corrected.)_
-- [ ] **P38-T9 coverage reporting and
-      badges**, **P38-T10 security audit automation**: the rest of the queue, in this order.
+- [x] **P38-T9 Coverage reporting and badges.** Verify: a coverage report and badge exist and are written by a script.
+      _(2026-11-19: no coverage was measured anywhere; coverlet was referenced by 24 .NET test projects and never run.
+      `bin/coverage-report` measures `shared/`, Svelte headless and Blazor headless (91.5 percent of lines over the
+      three) and writes `docs/coverage.md` and `docs/coverage-badge.svg`, shown in `index.md`. No external service.)_
+- [ ] **P38-T12 Unit tests for `shared/cell-types.ts`.** Found by P38-T9: 20 percent of its lines run in `shared/`, and
+      no test file imports it; the data grid's tests reach it only through the grid. Verify: a `cell-types.test.ts`
+      beside it, and its coverage in `docs/coverage.md` above 90 percent.
+- [ ] **P38-T10 security audit automation**: the rest of the queue, in this order.
 
 ## Phase 39 — Worldwide keyboard navigation
 
