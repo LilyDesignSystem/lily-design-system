@@ -1,0 +1,166 @@
+<svelte:head>
+    <title>Solid tutorial — Lily Design System</title>
+    <meta
+        name="description"
+        content="Build an accessible, styled form with Lily's Solid 2.0 headless components: signals in, value + onChange out, no virtual DOM."
+    />
+</svelte:head>
+
+<section class="page-intro">
+    <h1>Solid tutorial</h1>
+    <p class="page-intro-tagline">
+        Lily's catalog as Solid 2.0 components: pass a signal's value in, get the new value back
+        from
+        <code>onChange</code>, and Solid updates only what changed.
+    </p>
+</section>
+
+<section
+    class="section prose"
+    style="margin: 0 auto;"
+>
+    <h2>What you'll build</h2>
+    <p>
+        A small contact form — a labelled input, a submit button, state in a signal, real keyboard
+        and screen-reader behaviour — first bare, then styled, in about 10 minutes.
+    </p>
+
+    <h2>Before you start</h2>
+    <p>
+        You need Node 22 or later and a Solid 2.0 project built with Vite and <code
+            >vite-plugin-solid</code
+        >. The package's peer dependencies are <code>solid-js</code> and <code>@solidjs/web</code>,
+        both 2.0.
+    </p>
+
+    <h2>Step 1 — Install</h2>
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre tabindex="0"><code
+            >{`npm install @lilydesignsystem/solid-headless @lilydesignsystem/themes`}</code
+        ></pre>
+    <p>
+        One package holds the 473 core components, each a named export. The national identifiers
+        (health, tax and identity numbers) are an add-on, <code
+            >@lilydesignsystem/solid-headless-identifiers</code
+        >.
+    </p>
+
+    <h2>Step 2 — Your first component</h2>
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre tabindex="0"><code
+            >{`import { Button } from "@lilydesignsystem/solid-headless";
+
+export function SaveBar() {
+  return <Button onClick={save}>Save</Button>;
+}`}</code
+        ></pre>
+    <p>
+        Renders <code>&lt;button class="button" type="button"&gt;</code>. Props: <code>type</code>,
+        <code>disabled</code>, <code>pressed</code> (renders <code>aria-pressed</code>),
+        <code>label</code>
+        (an
+        <code>aria-label</code> override), <code>class</code>, and any extra attribute spreads onto
+        the root element. Solid writes <code>class</code>, not React's <code>className</code>.
+    </p>
+
+    <h2>Step 3 — Compose a small form</h2>
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre tabindex="0"><code
+            >{`import { createSignal } from "solid-js";
+import { Form, Field, TextInput, Button } from "@lilydesignsystem/solid-headless";
+
+export function ContactForm() {
+  const [name, setName] = createSignal("");
+  return (
+    <Form label="Contact form" onSubmit={() => save(name())}>
+      <Field label="Full name" inputId="name" required>
+        <TextInput id="name" label="Full name" value={name()} onChange={setName} required />
+      </Field>
+      <Button type="submit">Save</Button>
+    </Form>
+  );
+}`}</code
+        ></pre>
+    <p>
+        <code>Field</code> renders the visible label and points it at the input through
+        <code>inputId</code>;
+        <code>TextInput</code>'s own <code>label</code> is its accessible name. <code>Form</code>
+        prevents the browser's default submit before it calls <code>onSubmit</code>.
+    </p>
+    <div class="callout">
+        <p style="margin: 0;">
+            <strong>Verified 2026-11-19:</strong> this form was rendered with the package's own test setup:
+            the label labels the input, typing updates the signal, and submitting calls the handler with
+            the typed value.
+        </p>
+    </div>
+
+    <h2>Step 4 — The Solid idioms</h2>
+    <ul>
+        <li>
+            <strong>Pass the value, not the signal.</strong> Write
+            <code>value={"{"}name(){"}"}</code>. Solid's compiler wraps it, so the input follows the
+            signal.
+        </li>
+        <li>
+            <strong><code>onChange</code> gets the value.</strong> A text input gives the new
+            string, a checkbox (<code>CheckboxInput</code>) the new boolean, so a setter fits
+            directly: <code>onChange={"{"}setName{"}"}</code>.
+        </li>
+        <li>
+            <strong>Don't destructure props</strong> in your own wrappers around Lily components: in
+            Solid, destructuring reads a prop once and stops following it. Read
+            <code>props.name</code>
+            where you use it, and take the rest with
+            <code>omit</code> from <code>solid-js</code> (Solid 2.0's replacement for
+            <code>splitProps</code>), as the components themselves do.
+        </li>
+        <li>
+            <strong>Form reset works.</strong> Every bound input also sets its default value, so a
+            <code>&lt;button type="reset"&gt;</code> puts it back.
+        </li>
+    </ul>
+
+    <h2>Step 5 — Style it</h2>
+    <p>
+        Everything above renders as pure structure, ready for your styles. Style the hooks — <code
+            >.button</code
+        >,
+        <code>.text-input</code>, <code>.field</code>, <code>.form</code> — in your stylesheet, or import
+        a ready-made theme once, in your entry file:
+    </p>
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre tabindex="0"><code>{`import "@lilydesignsystem/themes/light.css";`}</code></pre>
+
+    <h2>Step 6 — See it all working</h2>
+    <p>The Solid example app is the full catalog styled and demoed, on Solid Router 2.0:</p>
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre tabindex="0"><code
+            >{`git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-solid-examples
+pnpm install && pnpm run dev`}</code
+        ></pre>
+
+    <h2>Next steps</h2>
+    <ul>
+        <li>
+            <a href="/tutorials/theming/">Theming</a> — runtime switching with the theme-picker helper.
+        </li>
+        <li>
+            <a href="/tutorials/helpers/">Preference helpers</a> — language and text size; the Solid
+            ones are <code>@lilydesignsystem/solid-*-picker</code>.
+        </li>
+        <li>
+            <a href="/components/">Component catalog</a> — props, ARIA, and keyboard per component.
+        </li>
+        <li>
+            <a href="/getting-started/">Getting started in five minutes</a> — the same start in the other
+            nine frameworks.
+        </li>
+    </ul>
+    <p>
+        Questions along the way? The <a href="/help/#troubleshooting">help page</a> is full of
+        answers — and if a step could be clearer,
+        <a href="https://github.com/LilyDesignSystem">tell us</a> and we'll gladly improve the tutorial.
+    </p>
+</section>
