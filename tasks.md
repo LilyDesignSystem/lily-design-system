@@ -3962,7 +3962,7 @@ Maintainer-directed, in this order.
       `passThroughAttributes` moves an `id` onto a labelable inner control instead of copying it, and `lily-field` puts its
       id on the inner control; Angular's 132 input components gain an `id` input bound to the inner `<input>`, the host
       carrying none. Tests: 7 in WC `field.test.ts` and one in Angular `Field.spec.ts`, each failing on the old code. WC
-      headless 0.13.0 and identifiers 0.3.0, Angular headless 0.13.0 and identifiers 0.3.0, unpublished; the guide keeps
+      headless 0.13.0 and identifiers 0.3.0, Angular headless 0.13.0 and identifiers 0.3.0, published 2026-11-19; the guide keeps
       the wrapping label, which works in every version, and names the release that adds `field`.)_
 - [ ] **P38-T4 Comparison tables**, **P38-T5 fast-check property tests**, **P38-T6 visual regression in Firefox and
       WebKit**, **P38-T7 accessibility automation**, **P38-T8 render benchmarks**, **P38-T9 coverage reporting and
