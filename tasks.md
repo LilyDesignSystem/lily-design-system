@@ -4000,7 +4000,11 @@ Maintainer-directed, in this order.
 - [ ] **P38-T12 Unit tests for `shared/cell-types.ts`.** Found by P38-T9: 20 percent of its lines run in `shared/`, and
       no test file imports it; the data grid's tests reach it only through the grid. Verify: a `cell-types.test.ts`
       beside it, and its coverage in `docs/coverage.md` above 90 percent.
-- [ ] **P38-T10 security audit automation**: the rest of the queue, in this order.
+- [x] **P38-T10 Security audit automation.** Verify: a scheduled job audits every package's dependencies and fails only on
+      advisories users can reach. _(2026-11-19: Dependabot, secret scanning and push protection existed; no step checked
+      the locked dependencies against advisories. `bin/security-audit` covers 207 lockfiles and 23 published .NET
+      projects in about five minutes; `security-audit.yml` runs it weekly. First run: nothing users install is affected;
+      39 findings in development dependencies and apps, documented in spec/dependabot.)_
 
 ## Phase 39 — Worldwide keyboard navigation
 

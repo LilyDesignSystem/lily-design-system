@@ -1,0 +1,168 @@
+#!/usr/bin/env node
+// bin/security-audit -- known-vulnerability audit of every package's dependencies (tasks.md P38-T10).
+//
+// Dependabot opens update pull requests and the installs refuse packages younger than the minimum release age, but
+// nothing checked the 200-odd lockfiles against the advisory databases. This does:
+//
+//   npm   every directory with a pnpm-lock.yaml: `pnpm audit --json` (all dependencies), and for a published package
+//         (package.json without "private": true) also `pnpm audit --prod --json`, the dependencies a user installs.
+//   NuGet every published .csproj (one with a PackageId): `dotnet list package --vulnerable --include-transitive`.
+//
+// Only the advisories users can reach fail it: a high or critical advisory in a published package's production
+// dependencies, or any vulnerable NuGet package in a published project. A development dependency (a test runner, a
+// Storybook plugin) is reported, not failed: it never ships. Results are printed, and also written to
+// $GITHUB_STEP_SUMMARY in GitHub Actions; nothing is committed, since advisories change from week to week.
+//
+// Usage:
+//   bin/security-audit                    audit everything (about ten minutes)
+//   bin/security-audit --fail-on moderate fail at a lower severity (default: high)
+//   bin/security-audit <dir>...           audit only these directories
+//
+// The advisories come from the npm registry and nuget.org, the same services every install already uses.
+
+import { execFileSync, spawnSync } from "node:child_process";
+import { appendFileSync, existsSync, readdirSync, readFileSync } from "node:fs";
+import { dirname, join, relative } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const top = join(dirname(fileURLToPath(import.meta.url)), "..");
+const SEVERITIES = ["info", "low", "moderate", "high", "critical"];
+
+const args = process.argv.slice(2);
+const f = args.indexOf("--fail-on");
+const failOn = f >= 0 ? args[f + 1] : "high";
+if (!SEVERITIES.includes(failOn)) throw new Error(`--fail-on must be one of ${SEVERITIES.join(", ")}`);
+const only = args.filter((a, i) => !a.startsWith("--") && args[i - 1] !== "--fail-on");
+const failsAt = (severity) => SEVERITIES.indexOf(severity) >= SEVERITIES.indexOf(failOn);
+
+const SKIP = new Set(["node_modules", ".git", "dist", "build", ".svelte-kit", ".next", ".nuxt", ".output", "obj", "bin"]);
+function findDirs(predicate, dir = top, depth = 0, out = []) {
+    if (depth > 2) return out;
+    for (const entry of readdirSync(dir, { withFileTypes: true })) {
+        if (!entry.isDirectory() || SKIP.has(entry.name) || entry.name.startsWith(".")) continue;
+        const p = join(dir, entry.name);
+        if (predicate(p)) out.push(p);
+        findDirs(predicate, p, depth + 1, out);
+    }
+    return out;
+}
+
+const npmDirs = only.length
+    ? only.map((d) => join(top, d)).filter((d) => existsSync(join(d, "pnpm-lock.yaml")))
+    : [top, ...findDirs((d) => existsSync(join(d, "pnpm-lock.yaml")))].filter((d) => existsSync(join(d, "pnpm-lock.yaml")));
+
+function pnpmAudit(dir, prod) {
+    const r = spawnSync("pnpm", ["audit", "--json", ...(prod ? ["--prod"] : [])], { cwd: dir, encoding: "utf-8" });
+    try {
+        const json = JSON.parse(r.stdout);
+        return Object.values(json.advisories ?? {}).map((a) => ({
+            module: a.module_name,
+            severity: a.severity,
+            title: a.title,
+            patched: a.patched_versions,
+            url: a.url,
+        }));
+    } catch {
+        return [{ module: "(audit)", severity: "info", title: `pnpm audit gave no JSON: ${(r.stderr || "").trim().slice(0, 160)}` }];
+    }
+}
+
+const rows = []; // { where, kind, scope, module, severity, title, patched, fails }
+for (const dir of npmDirs) {
+    const where = relative(top, dir) || ".";
+    let pkg = {};
+    try {
+        pkg = JSON.parse(readFileSync(join(dir, "package.json"), "utf-8"));
+    } catch {}
+    const published = !pkg.private && !!pkg.name;
+    const prodModules = new Set();
+    if (published) {
+        for (const a of pnpmAudit(dir, true)) {
+            prodModules.add(`${a.module} ${a.title}`);
+            rows.push({ where, kind: "npm", scope: "production", ...a, fails: failsAt(a.severity) });
+        }
+    }
+    for (const a of pnpmAudit(dir, false)) {
+        if (prodModules.has(`${a.module} ${a.title}`)) continue;
+        rows.push({ where, kind: "npm", scope: published ? "development" : "app or tooling", ...a, fails: false });
+    }
+    process.stderr.write(".");
+}
+process.stderr.write("\n");
+
+// The published .NET projects: tracked .csproj files with a PackageId.
+const csprojs = only.length
+    ? []
+    : execFileSync("git", ["ls-files", "*.csproj"], { cwd: top, encoding: "utf-8" })
+          .split("\n")
+          .filter(Boolean)
+          .filter((p) => /<PackageId>/.test(readFileSync(join(top, p), "utf-8")));
+for (const proj of csprojs) {
+    const r = spawnSync("dotnet", ["list", proj, "package", "--vulnerable", "--include-transitive"], {
+        cwd: top,
+        encoding: "utf-8",
+    });
+    const out = r.stdout || "";
+    // Lines such as "   > Some.Package      1.0.0    High    https://github.com/advisories/GHSA-..."
+    for (const line of out.split("\n")) {
+        const m = line.match(/^\s*>\s+(\S+)\s+(\S+)\s+(?:\S+\s+)?(Low|Moderate|High|Critical)\s+(\S+)/);
+        if (m) {
+            rows.push({
+                where: dirname(proj),
+                kind: "nuget",
+                scope: "production",
+                module: `${m[1]} ${m[2]}`,
+                severity: m[3].toLowerCase(),
+                title: "",
+                url: m[4],
+                fails: true,
+            });
+        }
+    }
+    if (r.status !== 0) {
+        rows.push({ where: dirname(proj), kind: "nuget", scope: "production", module: "(audit)", severity: "info", title: "dotnet list package failed", fails: false });
+    }
+}
+
+const failing = rows.filter((r) => r.fails);
+const byScope = {};
+for (const r of rows) {
+    byScope[r.scope] ??= {};
+    byScope[r.scope][r.severity] = (byScope[r.scope][r.severity] ?? 0) + 1;
+}
+
+const lines = [
+    `## Security audit`,
+    ``,
+    `${npmDirs.length} npm lockfiles and ${csprojs.length} NuGet projects audited; fails on ${failOn} or worse in what users install.`,
+    ``,
+    `| Scope | ${SEVERITIES.join(" | ")} |`,
+    `| --- | ${SEVERITIES.map(() => "---").join(" | ")} |`,
+    ...Object.entries(byScope).map(([scope, counts]) => `| ${scope} | ${SEVERITIES.map((s) => counts[s] ?? 0).join(" | ")} |`),
+    ``,
+];
+if (failing.length) {
+    lines.push(`### Failing (${failing.length})`, ``, `| Package | Dependency | Severity | Advisory | Fixed in |`, `| --- | --- | --- | --- | --- |`);
+    for (const r of failing) lines.push(`| ${r.where} | ${r.module} | ${r.severity} | ${r.url ? `[${r.title || "advisory"}](${r.url})` : r.title} | ${r.patched ?? ""} |`);
+    lines.push("");
+}
+const others = rows.filter((r) => !r.fails && r.module !== "(audit)");
+if (others.length) {
+    const seen = new Map();
+    for (const r of others) {
+        const key = `${r.module}|${r.severity}|${r.title}`;
+        seen.set(key, { ...r, count: (seen.get(key)?.count ?? 0) + 1 });
+    }
+    lines.push(`### Reported, not failing (${others.length} findings, ${seen.size} distinct)`, ``, `| Dependency | Severity | Advisory | Fixed in | Packages |`, `| --- | --- | --- | --- | --- |`);
+    for (const r of [...seen.values()].sort((a, b) => SEVERITIES.indexOf(b.severity) - SEVERITIES.indexOf(a.severity))) {
+        lines.push(`| ${r.module} | ${r.severity} | ${r.title} | ${r.patched ?? ""} | ${r.count} |`);
+    }
+}
+const report = lines.join("\n") + "\n";
+console.log(report);
+if (process.env.GITHUB_STEP_SUMMARY) appendFileSync(process.env.GITHUB_STEP_SUMMARY, report);
+if (failing.length) {
+    console.error(`bin/security-audit: FAILED -- ${failing.length} ${failOn}-or-worse advisories in what users install`);
+    process.exit(1);
+}
+console.log("bin/security-audit: OK");

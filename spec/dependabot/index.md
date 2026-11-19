@@ -48,6 +48,19 @@ directories with no entry: the Web Components library and its helpers, the nine 
 (25 `npm`, 15 `nuget` in all); every manifest directory is now covered. When adding a package, add its
 directory to the entry for its catalog.
 
+## Vulnerability audit (2026-11-19, tasks.md P38-T10)
+
+Dependabot proposes updates; nothing checked what is already locked. `bin/security-audit` runs `pnpm audit` in every
+directory with a `pnpm-lock.yaml` (207) and `dotnet list package --vulnerable --include-transitive` for every published
+`.csproj` (23). A published npm package's production dependencies (`pnpm audit --prod`) and every published NuGet
+project are what users install, so a high or critical advisory there fails it; development dependencies, apps and
+tooling are reported and never fail. The weekly workflow `.github/workflows/security-audit.yml` runs it
+(`bin/ci --job security-audit`) and writes the findings to the run's summary; nothing is committed.
+
+The first run (2026-11-19): nothing that users install is affected. 39 findings, 9 distinct, all in development
+dependencies or apps: `glob` (moderate, through Storybook, 28 packages), `basic-ftp` (one high, two moderate, 2
+packages), `qs` (four moderate, 1 package) and `minimatch` (moderate, 1 package).
+
 ## Acceptance criteria
 
 - [x] Repo-level security updates enabled: `vulnerability-alerts` returns 204 and `automated-security-fixes` returns

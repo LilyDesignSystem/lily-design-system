@@ -22,7 +22,7 @@ top="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$top" || exit 1
 
 JOBS=(verify lint helper-packages headless html-headless dotnet-tests dotnet-helper-packages example-smoke eleventy-example
-    alpine-examples consumer-smoke shadcn-registry spell-check shared-tests example-a11y)
+    alpine-examples consumer-smoke shadcn-registry spell-check shared-tests example-a11y security-audit)
 # The example apps whose accessibility spec only example-a11y runs (SvelteKit, Eleventy and Alpine run theirs in their own jobs).
 A11Y_APPS=(react-next vue-nuxt angular html-css-js blazor-web solid)
 HELPER_FRAMEWORKS=(svelte react vue angular html web-components nunjucks alpine solid)
@@ -357,6 +357,13 @@ shared_tests() {
 }
 
 job_shared_tests() { step "shared-tests" shared_tests; }
+
+# Known-vulnerability audit of every lockfile and published .NET project (tasks.md P38-T10). Fails only on a high or
+# critical advisory in what users install; everything else is reported. Run weekly by security-audit.yml, since
+# advisories change while the code does not; not in --fast, since it asks the registries about 230 projects.
+security_audit() { bin/security-audit; }
+
+job_security_audit() { step "security-audit" security_audit; }
 
 # --- the command line ---
 
