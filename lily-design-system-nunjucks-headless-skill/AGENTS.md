@@ -25,7 +25,7 @@
 
 A Claude Skill explaining how to consume
 [`@lilydesignsystem/nunjucks-headless`](../lily-design-system-nunjucks-headless/),
-Lily's Nunjucks-macro implementation of the 609-component catalog: the
+Lily's Nunjucks-macro implementation of the 661-component catalog: the
 macro-call idiom (a single `params` object per macro, the `classes` /
 `attributes` / `text` / `html` shared keys), the camelCase-macro versus
 kebab-case-file/class naming split that Nunjucks' own identifier syntax

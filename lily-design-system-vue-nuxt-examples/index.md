@@ -1,6 +1,6 @@
 # Lily Design System™ - Vue Nuxt.js Examples
 
-Vue 3 + Nuxt 4 example application demonstrating all 608 components from the [Lily Design System](https://github.com/LilyDesignSystem/lily-design-system) headless component library, styled with [NHS UK design system](https://service-manual.nhs.uk/design-system) colors, typography, spacing, and focus states.
+Vue 3 + Nuxt 4 example application demonstrating all 661 components from the [Lily Design System](https://github.com/LilyDesignSystem/lily-design-system) headless component library, styled with [NHS UK design system](https://service-manual.nhs.uk/design-system) colors, typography, spacing, and focus states.
 
 ## Features
 
@@ -86,7 +86,7 @@ lily-design-system-vue-nuxt-examples/
 | Route                   | Description                                             |
 | ----------------------- | ------------------------------------------------------- |
 | `/`                     | Home page with links to all examples                    |
-| `/components`           | Lists all 608 components with links to individual demos |
+| `/components`           | Lists all 661 components with links to individual demos |
 | `/components/{slug}`    | Demonstrates one component with a live interactive demo |
 | `/contact-form`         | Contact form example page                               |
 | `/dashboard`            | Dashboard example page                                  |

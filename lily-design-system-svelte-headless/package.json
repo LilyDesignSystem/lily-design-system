@@ -4,7 +4,7 @@
   "engines": {
     "node": ">=26"
   },
-  "description": "A comprehensive headless Svelte 5 component library with 491 accessible, unstyled components for building design systems. Targets WCAG 2.2 AAA.",
+  "description": "A comprehensive headless Svelte 5 component library with 473 accessible, unstyled components for building design systems. Targets WCAG 2.2 AAA.",
   "scripts": {
     "build": "node build.mjs",
     "prepublishOnly": "node build.mjs",

@@ -4,7 +4,7 @@
   "engines": {
     "node": ">=26"
   },
-  "description": "Lily Design System Angular headless component library: all 491 catalog components as standalone, signal-based, OnPush components. Unstyled, accessible, zero CSS. Targets WCAG 2.2 AAA.",
+  "description": "Lily Design System Angular headless component library: the 473 core catalog components as standalone, signal-based, OnPush components. Unstyled, accessible, zero CSS. Targets WCAG 2.2 AAA.",
   "type": "module",
   "scripts": {
     "test": "vitest run",

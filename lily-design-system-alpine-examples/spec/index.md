@@ -20,7 +20,7 @@ Living specification. Project-wide rules: [root spec](../../spec/index.md); the 
 
 ## 2. Acceptance criteria
 
-- [x] `/`, `/components`, `/components/{slug}` exist and are generated for all 608 components.
+- [x] `/`, `/components`, `/components/{slug}` exist and are generated for all 661 components.
 - [x] Every demo mounts under Alpine in jsdom with no error, keeps its base class and has no empty `aria-label`.
 - [x] Skip link first, header / nav / main / footer landmarks, `lang`, on every page.
 - [x] Chromium + axe (WCAG 2.2 AA): all 578 pages clean, except one named reference-theme finding.

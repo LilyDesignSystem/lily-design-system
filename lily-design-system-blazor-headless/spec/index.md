@@ -27,7 +27,7 @@ WebAssembly, and Blazor Hybrid hosts.
 ### In scope
 
 - Blazor Razor components (`*.razor` + optional `*.razor.cs` code-behind) for
-  all 608 components.
+  all 661 components (the 473 core ones here, the 188 national identifiers in its `-identifiers` add-on).
 - bUnit + xUnit tests per component asserting ARIA, keyboard, and structural
   contract.
 - C# 13 / .NET 11.0 source.

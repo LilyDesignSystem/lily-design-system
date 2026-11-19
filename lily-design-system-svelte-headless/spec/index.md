@@ -27,7 +27,7 @@ work in any Svelte 5 host (SvelteKit, plain Vite + Svelte, Astro, Storybook).
 
 ### In scope
 
-- Svelte 5 implementation of all 608 components from `components.tsv`.
+- Svelte 5 implementation of all 661 components (the 473 core ones here, the 188 national identifiers in its `-identifiers` add-on) from `components.tsv`.
 - TypeScript types for every component's props.
 - A vitest test file per component asserting ARIA, keyboard, and structural
   contract.

@@ -24,7 +24,7 @@ host (Next.js, Vite + React, Remix, Storybook, plain SPA).
 
 ### In scope
 
-- React 19 functional components for all 608 components from `components.tsv`.
+- React 19 functional components for all 661 components (the 473 core ones here, the 188 national identifiers in its `-identifiers` add-on) from `components.tsv`.
 - TypeScript interfaces for every component's props.
 - A vitest test file per component asserting ARIA, keyboard, and structural
   contract.

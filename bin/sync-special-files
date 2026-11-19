@@ -34,6 +34,20 @@ ORG = "https://github.com/LilyDesignSystem"
 SITE = "lilydesignsystem.github.io"
 
 
+def _catalog_counts():
+    """The catalog's size from components-categories.tsv, so no description here can go stale (tasks.md P37-T5)."""
+    path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "components-categories.tsv")
+    rows = [line.split("\t") for line in open(path, encoding="utf-8").read().splitlines() if line.strip()]
+    national = sum(1 for r in rows if len(r) > 2 and r[2] == "national")
+    return len(rows), len(rows) - national, national
+
+
+CATALOG_TOTAL, CATALOG_CORE, CATALOG_NATIONAL = _catalog_counts()
+# The core components Web Components cannot express (table parts and interactive list items: an autonomous custom
+# element cannot stand in for a <tr> or an <li>); permanent, see its spec/index.md.
+WEB_COMPONENTS_EXCLUDED = 35
+
+
 def source_url(name):
     """Where a subproject's source lives: the docs site keeps its own
     repository; every other subproject is a directory of the monorepo."""
@@ -202,16 +216,16 @@ def describe(name):
     if kind == "headless":
         if name == "lily-design-system-web-components-headless":
             return (f"the {label} headless component library: its full "
-                    "achievable scope (573 of the 608 components as of "
-                    "2026-10-25; the other 35 are permanently excluded by a "
+                    f"achievable scope ({CATALOG_CORE - WEB_COMPONENTS_EXCLUDED} of the {CATALOG_CORE} core components; the "
+                    f"other {WEB_COMPONENTS_EXCLUDED} are permanently excluded by a "
                     "real architectural limitation), unstyled and accessible")
         if name == "lily-design-system-alpine-headless":
-            return (f"the {label} headless component library: 583 of the 608 "
+            return (f"the {label} headless component library: the {CATALOG_CORE} core "
                     "catalog components as annotated snippets plus an Alpine plugin, unstyled and accessible")
-        return f"the {label} headless component library: all 608 catalog components, unstyled and accessible"
+        return f"the {label} headless component library: the {CATALOG_CORE} core catalog components, unstyled and accessible"
     if kind == "identifiers":
-        return (f"the {label} headless national identifier components: the 188 national personal identifier "
-                "components (an input and a view for each of 94 identifier types), the add-on to the headless library")
+        return (f"the {label} headless national identifier components: the {CATALOG_NATIONAL} national personal identifier "
+                f"components (an input and a view for each of {CATALOG_NATIONAL // 2} identifier types), the add-on to the headless library")
     if kind == "helpers":
         return f"the {label} helpers catalog: six opinionated packages that each own one complete interaction"
     if kind == "examples":
@@ -303,8 +317,8 @@ url: '{DOCS}'
 abstract: >-
   This is {describe(name)}.
   It is one subproject of Lily Design System, a free open-source headless
-  design system whose canonical catalog of 571 components is implemented
-  across eight frameworks. Its source is the {name} directory
+  design system whose canonical catalog of {CATALOG_TOTAL} components is implemented
+  across ten frameworks. Its source is the {name} directory
   of the canonical monorepo at {CANONICAL}.
 keywords:
   - design system
@@ -372,8 +386,8 @@ so your own CSS always wins the cascade — see
 [AGENTS/theme.md]({CANONICAL}/blob/main/AGENTS/theme.md).
 """
     elif kind in ("headless", "identifiers"):
-        what = ("the 188 national identifier components" if kind == "identifiers"
-                else "the 571 catalog components")
+        what = (f"the {CATALOG_NATIONAL} national identifier components" if kind == "identifiers"
+                else f"the {CATALOG_CORE} core catalog components")
         if name in PUBLISHED_NPM:
             body = f"""
 ## Install

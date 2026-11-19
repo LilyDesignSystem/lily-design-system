@@ -6,9 +6,9 @@ license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 
 # Lily Design System™ — Alpine.js headless usage
 
-`@lilydesignsystem/alpine-headless` (0.1.0, added 2026-10-21, **not yet
-published to npm**) is Lily's ninth headless catalog. It covers **all 608
-components**. Alpine has no component model, so a Lily component here is
+`@lilydesignsystem/alpine-headless` (added 2026-10-21, published on npm since 0.1.0 on 2026-11-14) is Lily's ninth
+headless catalog. It covers **all 661 components**: the 473 core ones here, the 188 national identifiers in
+`@lilydesignsystem/alpine-headless-identifiers`. Alpine has no component model, so a Lily component here is
 two things:
 
 - a **snippet**, `components/{slug}.html`: the semantic element, the

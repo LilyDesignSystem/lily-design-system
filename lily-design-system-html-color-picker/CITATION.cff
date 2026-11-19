@@ -22,8 +22,8 @@ url: 'https://lilydesignsystem.com/'
 abstract: >-
   This is the HTML color-picker helper: recent colours, a palette of swatches with Transparent, and colour entry by hex, CSS name, HSL, HSB, RGB or CMYK.
   It is one subproject of Lily Design System, a free open-source headless
-  design system whose canonical catalog of 571 components is implemented
-  across eight frameworks. Its source is the lily-design-system-html-color-picker directory
+  design system whose canonical catalog of 661 components is implemented
+  across ten frameworks. Its source is the lily-design-system-html-color-picker directory
   of the canonical monorepo at https://github.com/LilyDesignSystem/lily-design-system.
 keywords:
   - design system

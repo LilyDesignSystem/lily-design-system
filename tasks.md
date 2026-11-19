@@ -3928,10 +3928,14 @@ release; the canonical catalog keeps all 637. Plan: [spec/headless-identifiers](
       each `-headless-identifiers` package's tests pass, every drift check passes, `bin/check-worldwide` counts the new
       types by region. _(2026-11-18: 12 types, 24 components, catalog 661; packages 0.2.0, published the same day (npm `bin/publish-headless --npm-only`, NuGet run 44359743274; all ten verified on the registries);
       [spec/national-identifiers](spec/national-identifiers/index.md) has the round and the sources.)_
-- [ ] **P37-T5 Stale catalog counts in the skills and package descriptions.** Some headless skills and package
+- [x] **P37-T5 Stale catalog counts in the skills and package descriptions.** Some headless skills and package
       descriptions still give an old catalog size (609, 608, 571, 491). Restate each as the package's own share (473, or
       the Web Components and Alpine scopes) or point at `components.tsv`. Verify: no stale count left in a `SKILL.md`, a
-      `package.json` description or a `.csproj` Description.
+      `package.json` description or a `.csproj` Description. _(2026-11-19: 87 files. The catalog as a whole is
+      661, a headless package holds its 473 core components with the 188 identifiers in its add-on, Web Components 626 of
+      661, and dated statements keep their numbers. `bin/sync-special-files` now counts from `components-categories.tsv`
+      instead of carrying "608" and "571", so the INSTALL and CITATION files cannot go stale again. Also corrected: the Web
+      Components npm description ("30 of 491") and the Alpine skill ("not yet published").)_
 - [x] **P37-T4 Publish** the ten identifiers packages and the breaking headless releases (maintainer approval).
       Verify: `bin/verify-published`. _(2026-11-18, approved: after a clean `bin/ci --full` receipt for 43f04e461,
       `bin/publish-headless --npm-only` published the 18 npm versions and the publish workflow (run 44323979667) the

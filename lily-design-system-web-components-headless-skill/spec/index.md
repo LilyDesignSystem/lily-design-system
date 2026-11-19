@@ -12,9 +12,9 @@ two-skill plan (`lily-design-system-skill` and
 A Claude Skill that explains how to consume
 [`@lilydesignsystem/web-components-headless`](../../lily-design-system-web-components-headless/):
 an 8th headless catalog, added 2026-09-03, alongside the seven canonical,
-full-catalog (608/608) headless libraries (HTML, Svelte, React, Vue,
+full-catalog (661/661 with its identifiers add-on) headless libraries (HTML, Svelte, React, Vue,
 Angular, Blazor, Nunjucks). **This catalog, and therefore this skill, is
-its full achievable scope: 573 of the 608 canonical components as of 2026-10-25, spanning every
+its full achievable scope: 626 of the 661 canonical components as of 2026-10-25, spanning every
 major category, proving that native custom elements can deliver a real
 Lily component (headless, semantic, ARIA-correct, keyboard-operable) with
 no framework runtime — not a claim of parity with the seven full-catalog
@@ -101,7 +101,7 @@ HTMLButtonElement`, `<button is="lily-button">`) would avoid an extra DOM
 
 - [x] `SKILL.md` exists with a `name` + `description` frontmatter pair that
       names concrete trigger phrases, per Claude Skill authoring practice.
-- [x] `SKILL.md` states the 573/608 scope plainly and lists which 35
+- [x] `SKILL.md` states the 626/661 scope plainly and lists which 35
       components this catalog permanently excludes and why, without
       implying it will ever reach 608/608.
 - [x] `SKILL.md` cites both architecture decisions (autonomous custom

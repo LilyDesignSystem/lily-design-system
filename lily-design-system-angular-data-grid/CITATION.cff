@@ -22,8 +22,8 @@ url: 'https://lilydesignsystem.com/'
 abstract: >-
   This is the Angular 22 headless data grid: sort, filter, row selection, column resize and visibility, pagination and APG grid keyboard navigation over the headless DataTable family.
   It is one subproject of Lily Design System, a free open-source headless
-  design system whose canonical catalog of 571 components is implemented
-  across eight frameworks. Its source is the lily-design-system-angular-data-grid directory
+  design system whose canonical catalog of 661 components is implemented
+  across ten frameworks. Its source is the lily-design-system-angular-data-grid directory
   of the canonical monorepo at https://github.com/LilyDesignSystem/lily-design-system.
 keywords:
   - design system

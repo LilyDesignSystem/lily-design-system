@@ -58,7 +58,7 @@ browser's `popover="auto"`. Other components rely on native element behaviour.
 
 ## Status
 
-Complete and published: all 608 catalog components as standalone, signal-based, OnPush Angular components (peer range Angular `>=20 <23`), each with a vitest spec and a Storybook story. Version 0.5.0.
+Complete and published: all 661 catalog components (the 473 core ones here, the 188 national identifiers in its `-identifiers` add-on) as standalone, signal-based, OnPush Angular components (peer range Angular `>=20 <23`), each with a vitest spec and a Storybook story. Version 0.5.0.
 
 ---
 

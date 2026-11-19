@@ -1,6 +1,6 @@
 ---
 name: lily-design-system-web-components-skill
-description: Explains what's available as native Web Components in Lily Design System and which of the two layers (headless catalog, helper packages) to reach for — the (573/608, full achievable scope as of 2026-10-25) headless custom-element catalog, or the `<lily-*>` helper packages. Use when someone asks what Lily offers as native Web Components, which Web Components subproject they need, how the Web Components headless catalog relates to the Web Components helpers catalog, or asks whether there's a Web Components example application (there isn't one yet).
+description: Explains what's available as native Web Components in Lily Design System and which of the two layers (headless catalog, helper packages) to reach for — the (626/661, full achievable scope as of 2026-10-25) headless custom-element catalog, or the `<lily-*>` helper packages. Use when someone asks what Lily offers as native Web Components, which Web Components subproject they need, how the Web Components headless catalog relates to the Web Components helpers catalog, or asks whether there's a Web Components example application (there isn't one yet).
 license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 ---
 
@@ -19,11 +19,11 @@ to the native-custom-element idiom): [`lily-design-system-skill`](../lily-design
 ## The two layers
 
 - **[`@lilydesignsystem/web-components-headless`](../lily-design-system-web-components-headless/)**
-  — a headless catalog at its **full achievable scope**: 548 of the canonical 583 (as of 2026-10-29; 456 of 491 at 2026-09-06)
+  — a headless catalog at its **full achievable scope**: 626 of the canonical 661 (as of 2026-11-19; 548 of 583 on 2026-10-29, 456 of 491 on 2026-09-06)
   components as native custom elements (`class X extends HTMLElement`,
   `customElements.define("lily-{slug}", X)`), no framework runtime, no
   build step to consume. It spans every major category rather than
-  clustering in one; it is **not** a 608/608 peer of the seven
+  clustering in one; it is **not** a 661/661 peer of the seven
   full-catalog headless libraries (HTML, Svelte, React, Vue, Angular,
   Blazor, Nunjucks) and never will be — the remaining 35 are permanently
   excluded by a real architectural limitation, not backlog. Deep dive, the exact
@@ -69,9 +69,9 @@ Both plain HTML and Web Components ship helpers as custom elements — the
 Web Components helper packages are in fact copied from the HTML helper
 packages. But the two headless catalogs are not the same thing:
 `@lilydesignsystem/html-headless` is one of the seven full-catalog
-(608/608) headless libraries, targeting plain HTML with no custom-element
+(661/661 with its identifiers add-on) headless libraries, targeting plain HTML with no custom-element
 registration; `@lilydesignsystem/web-components-headless` is a separate,
-later project at its full achievable scope (573/608) built on the native
+later project at its full achievable scope (626/661) built on the native
 `customElements` platform API, with its own light-DOM-only and
 autonomous-custom-element architecture decisions. Don't conflate the two
 when answering a scope question — see

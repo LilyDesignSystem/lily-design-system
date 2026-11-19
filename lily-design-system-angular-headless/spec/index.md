@@ -2,7 +2,7 @@
 
 ## Status
 
-Initial scaffold landed 2026-05-28; the library has since been fully verified and published. As of 2026-10-30 it ships all 608 catalog components (583 `.ts` + `.spec.ts` + `.stories.ts` triplets plus docs, `bin/check-coverage`); the latest npm release is 0.7.1 (2026-10-25) as `@lilydesignsystem/angular-headless`, with a peer range of Angular `>=20 <23` (the example app runs Angular 22). Unreleased since 0.7.1: the dialog family on `showModal()` (P14-T4), the menu group on `popover="auto"` with real `SplitButton` and `ActionGroup` (P18-T11), and `Listbox` on `shared/listbox-machine.ts` (P18-T10). (The 2026-10-06 status read 581 components and 0.5.0.) The "Plan" and "Tasks" checklists below are the original scaffold-era ones, now updated to current state.
+Initial scaffold landed 2026-05-28; the library has since been fully verified and published. As of 2026-10-30 it shipped all 608 catalog components (583 `.ts` + `.spec.ts` + `.stories.ts` triplets plus docs, `bin/check-coverage`); the latest npm release is 0.7.1 (2026-10-25) as `@lilydesignsystem/angular-headless`, with a peer range of Angular `>=20 <23` (the example app runs Angular 22). Unreleased since 0.7.1: the dialog family on `showModal()` (P14-T4), the menu group on `popover="auto"` with real `SplitButton` and `ActionGroup` (P18-T11), and `Listbox` on `shared/listbox-machine.ts` (P18-T10). (The 2026-10-06 status read 581 components and 0.5.0.) The "Plan" and "Tasks" checklists below are the original scaffold-era ones, now updated to current state.
 
 ## 2026-09-01 — wrapper-host attribute-selector migration (0.3.0, breaking)
 
@@ -56,7 +56,7 @@ Based on the Angular 2026 research summary:
 - **`@analogjs/vite-plugin-angular`** + Vitest for tests (parity with the other Lily headless libraries).
 - **`ng-packagr`** for library publishing (Angular Package Format).
 
-- **Nothing touches the browser while prerendering.** A plain `effect()` runs on the server, and `document` is undefined there. Use `afterRenderEffect`, which does not run on the server, or guard with `isPlatformBrowser(inject(PLATFORM_ID))`. Never change server markup that the browser needs: hydration keeps the element it finds, so a `popover` stripped on the server stays stripped. `prerender/prerender.spec.ts` renders all 608 components, closed, open and populated, in plain Node; jsdom defines `document`, so a unit test cannot see this.
+- **Nothing touches the browser while prerendering.** A plain `effect()` runs on the server, and `document` is undefined there. Use `afterRenderEffect`, which does not run on the server, or guard with `isPlatformBrowser(inject(PLATFORM_ID))`. Never change server markup that the browser needs: hydration keeps the element it finds, so a `popover` stripped on the server stays stripped. `prerender/prerender.spec.ts` renders every component in the package, the 473 core ones (the `-identifiers` add-on prerenders its 188 itself), closed, open and populated, in plain Node; jsdom defines `document`, so a unit test cannot see this.
 
 ## File layout
 

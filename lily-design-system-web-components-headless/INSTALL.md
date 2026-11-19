@@ -1,6 +1,6 @@
 # Install
 
-This is the Web Components headless component library: its full achievable scope (573 of the 608 components as of 2026-10-25; the other 35 are permanently excluded by a real architectural limitation), unstyled and accessible.
+This is the Web Components headless component library: its full achievable scope (438 of the 473 core components; the other 35 are permanently excluded by a real architectural limitation), unstyled and accessible.
 
 Its source is the `lily-design-system-web-components-headless/` directory of the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.
@@ -13,7 +13,7 @@ Full documentation and the searchable component catalog: <https://lilydesignsyst
 npm install @lilydesignsystem/web-components-headless
 ```
 
-Import any of the 571 catalog components from the package root; the barrel is
+Import any of the 473 core catalog components from the package root; the barrel is
 tree-shakeable (`sideEffects: false`), so your bundler drops what you do not use.
 
 The components ship semantic HTML, ARIA, focus management, and keyboard

@@ -25,7 +25,7 @@
 A Claude Skill explaining how to consume
 [`@lilydesignsystem/web-components-headless`](../lily-design-system-web-components-headless/),
 the native-custom-element implementation of Lily's canonical component
-catalog at its **full achievable scope**: 573 of the 608 components as of
+catalog at its **full achievable scope**: 626 of the 661 components as of
 2026-09-06 (added 2026-09-03, completed 2026-09-06), spanning every
 category — not a full-parity 608/608 peer of the seven full-catalog
 headless libraries, and never will be, since the remaining 35 are

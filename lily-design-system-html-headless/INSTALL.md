@@ -1,6 +1,6 @@
 # Install
 
-This is the HTML headless component library: all 608 catalog components, unstyled and accessible.
+This is the HTML headless component library: the 473 core catalog components, unstyled and accessible.
 
 Its source is the `lily-design-system-html-headless/` directory of the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.
@@ -13,7 +13,7 @@ Full documentation and the searchable component catalog: <https://lilydesignsyst
 npm install @lilydesignsystem/html-headless
 ```
 
-Import any of the 571 catalog components from the package root; the barrel is
+Import any of the 473 core catalog components from the package root; the barrel is
 tree-shakeable (`sideEffects: false`), so your bundler drops what you do not use.
 
 The components ship semantic HTML, ARIA, focus management, and keyboard
