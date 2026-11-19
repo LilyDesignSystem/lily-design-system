@@ -3979,8 +3979,12 @@ Maintainer-directed, in this order.
       component, a form, the Solid idioms, theming and the example app; the home page's Solid icon links to it. Verify: the
       form snippet renders in the package's test setup, labelled, bound and submitting. _(2026-11-19: done; English only,
       as `/getting-started/` is, until the tutorials index's translations are updated.)_
-- [ ] **P38-T6 visual regression in Firefox and
-      WebKit**, **P38-T7 accessibility automation**, **P38-T8 render benchmarks**, **P38-T9 coverage reporting and
+- [x] **P38-T6 Visual regression in Firefox and WebKit.** Verify: the visual spec passes twice in a row in all three
+      engines. _(2026-11-19: `visual-regression` joins the SvelteKit app's cross-engine specs; 420 new baselines (210
+      each for Firefox and WebKit), sampled against Chromium before committing: theme colours, focus rings, right to
+      left, 320px and composed pages render alike, with engine-specific form controls. 630 passed on two consecutive
+      runs. Recorded in a clean worktree, so no uncommitted work elsewhere in the tree reached a baseline.)_
+- [ ] **P38-T7 accessibility automation**, **P38-T8 render benchmarks**, **P38-T9 coverage reporting and
       badges**, **P38-T10 security audit automation**: the rest of the queue, in this order.
 
 ## Phase 39 — Worldwide keyboard navigation

@@ -228,8 +228,8 @@ with `-app` and its own profile name. CI on Linux does not need it.
 ## Visual regression
 
 `e2e/visual-regression.spec.ts` in the SvelteKit examples app screenshots the demo region (`main .card`) of
-`/components/{slug}`, never the whole page, so a change to the header or footer is not a diff. 210 screenshots
-(P7-T5, widened by P35-T1 on 2026-11-17):
+`/components/{slug}`, never the whole page, so a change to the header or footer is not a diff. 210 screenshots per engine
+(P7-T5, widened by P35-T1 on 2026-11-17), in Chromium, Firefox and WebKit since 2026-11-19 (P38-T6): 630 in all:
 
 | Set            | What                                                                  | Themes                      | Shots |
 | -------------- | --------------------------------------------------------------------- | --------------------------- | ----- |
@@ -239,9 +239,11 @@ with `-app` and its own profile name. CI on Linux does not need it.
 | Right to left  | six demos with `dir="rtl"` on the demo region                         | NHS England                 | 6     |
 | Composed pages | the `main` of six pages, such as `/patient-banner` and `/ward-board`  | NHS England                 | 6     |
 
-Baselines are per platform (font rendering), with `process.platform` in the name, and only the macOS ones are committed.
-CI does not run the spec. Run it with `pnpm exec playwright test e2e/visual-regression.spec.ts --project chromium`; after an
-intended change, look at each diff in `test-results/` before `--update-snapshots=changed`.
+Baselines are per platform (font rendering) and per engine (form controls, text antialiasing): Playwright names each
+file with the project and the platform, and only the macOS ones are committed. The engines differ where they should, for
+example WebKit's darker native input background in the `dark` theme; each is compared only with itself. CI does not run
+the spec. Run it with `pnpm exec playwright test e2e/visual-regression.spec.ts` (all three engines, or `--project firefox`
+for one); after an intended change, look at each diff in `test-results/` before `--update-snapshots=changed`.
 
 ## Property tests (2026-11-19, tasks.md P38-T5)
 
