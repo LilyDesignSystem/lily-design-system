@@ -3975,9 +3975,33 @@ Maintainer-directed, in this order.
       _(2026-11-19: fast-check 4.10.2 in `shared/`, 19 properties over `colors`, `edit-history`, `export-data` and
       `grid-navigation`; each mutation tried is caught. CI never ran the shared tests: `bin/ci --job shared-tests` and its
       `ci.yml` job now do. See spec/testing, Property tests.)_
+- [x] **P38-T11 A Solid tutorial** (maintainer-directed, 2026-11-19): `/tutorials/solid/`, with install, a first
+      component, a form, the Solid idioms, theming and the example app; the home page's Solid icon links to it. Verify: the
+      form snippet renders in the package's test setup, labelled, bound and submitting. _(2026-11-19: done; English only,
+      as `/getting-started/` is, until the tutorials index's translations are updated.)_
 - [ ] **P38-T6 visual regression in Firefox and
       WebKit**, **P38-T7 accessibility automation**, **P38-T8 render benchmarks**, **P38-T9 coverage reporting and
       badges**, **P38-T10 security audit automation**: the rest of the queue, in this order.
+
+## Phase 39 — Worldwide keyboard navigation
+
+- [x] **P39-T1 Unicode initials in shared listbox and grid type-ahead.** The matcher accepts supplementary letters and
+      handles repeated Hangul syllables and canonically equivalent accents. Verify with `cd lily-design-system-svelte-headless && pnpm exec vitest run components/Listbox`,
+      `bin/mutation-test typeahead` and `bin/sync-shared-modules --check`. The mounted property test failed on the old
+      code with two matching `가` labels and passes when the active option advances, skips a nonmatch and wraps.
+      The React registry also includes the two transitive helpers needed to install this control. Verify the install
+      with `bin/ci --job shadcn-registry`.
+- [ ] **P39-T2 Apply the Unicode initial contract to the independent handlers.** Inspect `shared/menu-keys.ts`,
+      `shared/widget-keys.ts` and `shared/wheel-picker.ts`, each of which checks the key's UTF-16 length. Verify by
+      dispatching `𠮷` twice against two matching enabled items in each control. Assert the focused or active item after
+      each key, including wraparound and the wheel's disabled-option skip.
+- [ ] **P39-T3 Observe composition through a browser and input method.** Use a Japanese or Korean IME in a searchable
+      picker. Record the browser, OS, input method, active option and submitted value while composing and after commit.
+      Verify that confirming a candidate leaves the picker open for selection and that selecting an option fires one change.
+      Add a browser regression for the observed event sequence and link the human observation from the testing spec.
+- [ ] **P39-T4 Review which marks search may ignore.** `shared/search-text.ts` currently folds both `की` and `कु`
+      to `क`. Agree a matching policy with Hindi readers for these vowel signs. Verify the agreed behavior in filtering,
+      highlighting and type-ahead, alongside the existing `cafe` / `Café` contract.
 
 ---
 
