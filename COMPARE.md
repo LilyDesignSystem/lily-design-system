@@ -7,6 +7,12 @@ The per-component matrix lives in [compare/index.md](compare/index.md),
 generated from [compare/compare.tsv](compare/compare.tsv): 429
 component rows across 23 systems (`bin/generate-comparisons` writes the matrix and prints the counts below).
 
+Comparing Lily's own frameworks with each other (package, versions, coverage, helpers): see
+[docs/framework-comparison.md](docs/framework-comparison.md).
+
+Comparing Lily's own frameworks with each other (package, versions, coverage, helpers): see
+[docs/framework-comparison.md](docs/framework-comparison.md).
+
 ## Read the matrix carefully
 
 The matrix answers one question per cell: _does this system ship a component that

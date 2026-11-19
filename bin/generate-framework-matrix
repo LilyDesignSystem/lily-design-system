@@ -1,0 +1,233 @@
+#!/usr/bin/env node
+// bin/generate-framework-matrix — the framework comparison in docs/framework-comparison.md (tasks.md P38-T4).
+//
+// One row per headless catalog, every cell read from the repository, never typed: the package and its version
+// (package.json, or the Blazor .csproj), the framework versions it supports (peerDependencies, or TargetFramework),
+// how many catalog components it implements, in the headless package and its -headless-identifiers add-on, how many
+// have a unit test and a Storybook story (the same file layouts bin/check-coverage uses), its helper packages
+// (bin/list-helper-packages), and whether it has an example app, a skill and a tutorial on the docs site.
+//
+// Usage:
+//   bin/generate-framework-matrix           write docs/framework-comparison.md
+//   bin/generate-framework-matrix --check   exit 1 if the file is out of date (bin/test runs this)
+"use strict";
+
+const fs = require("node:fs");
+const path = require("node:path");
+const { execFileSync } = require("node:child_process");
+
+const top = path.resolve(__dirname, "..");
+const OUT = "docs/framework-comparison.md";
+const exists = (p) => fs.existsSync(path.join(top, p));
+const read = (p) => fs.readFileSync(path.join(top, p), "utf-8");
+
+const components = read("components-categories.tsv")
+    .split("\n")
+    .filter(Boolean)
+    .map((line) => {
+        const [slug, , category] = line.split("\t");
+        const name = slug
+            .split("-")
+            .map((w) => w[0].toUpperCase() + w.slice(1))
+            .join("");
+        return { slug, name, national: category === "national" };
+    });
+
+// impl/test/story are paths inside the headless package; a national identifier is looked for in the
+// -headless-identifiers package at the same relative path (spec/headless-identifiers).
+const CATALOGS = [
+    {
+        id: "svelte", label: "Svelte", tutorial: "svelte",
+        impl: (c) => `components/${c.name}/${c.name}.svelte`,
+        test: (c) => `components/${c.name}/${c.name}.test.ts`,
+        story: (c) => `components/${c.name}/${c.name}.stories.svelte`,
+    },
+    {
+        id: "react", label: "React", tutorial: "react",
+        impl: (c) => `components/${c.name}.tsx`,
+        test: (c) => `components/${c.name}.test.tsx`,
+        story: (c) => `components/${c.name}.stories.tsx`,
+    },
+    {
+        id: "solid", label: "Solid", tutorial: null,
+        impl: (c) => `components/${c.name}.tsx`,
+        test: (c) => `components/${c.name}.test.tsx`,
+        story: null,
+    },
+    {
+        id: "vue", label: "Vue", tutorial: "vue",
+        impl: (c) => `components/${c.name}.vue`,
+        test: (c) => `components/${c.name}.test.ts`,
+        story: (c) => `components/${c.name}.stories.ts`,
+    },
+    {
+        id: "angular", label: "Angular", tutorial: "angular",
+        impl: (c) => `components/${c.name}.ts`,
+        test: (c) => `components/${c.name}.spec.ts`,
+        story: (c) => `components/${c.name}.stories.ts`,
+    },
+    {
+        id: "web-components", label: "Web Components", tutorial: "web-components",
+        impl: (c) => `components/${c.slug}.ts`,
+        test: (c) => `components/${c.slug}.test.ts`,
+        story: (c) => `components/${c.slug}.stories.ts`,
+    },
+    {
+        id: "html", label: "HTML", tutorial: "html",
+        impl: (c) => `components/${c.slug}.html`,
+        test: (c) => `components/${c.slug}.test.js`,
+        story: (c) => `components/${c.slug}.stories.ts`,
+    },
+    {
+        id: "nunjucks", label: "Nunjucks", tutorial: "nunjucks",
+        impl: (c) => `components/${c.slug}/macro.njk`,
+        test: (c) => `components/${c.slug}/macro.test.js`,
+        story: (c) => `components/${c.slug}/macro.stories.ts`,
+    },
+    {
+        id: "alpine", label: "Alpine.js", tutorial: "alpine",
+        impl: (c) => `components/${c.slug}.html`,
+        test: (c) => `components/${c.slug}.test.js`,
+        story: (c) => `components/${c.slug}.stories.ts`,
+    },
+    {
+        id: "blazor", label: "Blazor", tutorial: "blazor",
+        impl: (c) => `src/LilyBlazorHeadless/Components/${c.name}.razor`,
+        test: (c) => `tests/LilyBlazorHeadless.Tests/Components/${c.name}Tests.cs`,
+        story: null,
+    },
+];
+
+const EXAMPLES = {
+    svelte: "lily-design-system-svelte-sveltekit-examples",
+    react: "lily-design-system-react-next-examples",
+    solid: "lily-design-system-solid-examples",
+    vue: "lily-design-system-vue-nuxt-examples",
+    angular: "lily-design-system-angular-examples",
+    html: "lily-design-system-html-css-js-examples",
+    nunjucks: "lily-design-system-nunjucks-eleventy-examples",
+    alpine: "lily-design-system-alpine-examples",
+    blazor: "lily-design-system-blazor-web-examples",
+};
+
+function packageInfo(id) {
+    const dir = `lily-design-system-${id}-headless`;
+    if (id === "blazor") {
+        const csproj = read(`${dir}/src/LilyBlazorHeadless/LilyBlazorHeadless.csproj`);
+        const tag = (t) => (csproj.match(new RegExp(`<${t}>([^<]+)</${t}>`)) || [])[1] || "";
+        return { name: tag("PackageId"), version: tag("Version"), supports: `.NET ${tag("TargetFramework").replace(/^net/, "")}` };
+    }
+    const pkg = JSON.parse(read(`${dir}/package.json`));
+    const peers = Object.entries(pkg.peerDependencies || {})
+        .filter(([n]) => !/^(rxjs|react-dom|@solidjs\/web|@angular\/common)$/.test(n))
+        .map(([n, r]) => `${n} ${r}`)
+        .join(", ");
+    return { name: pkg.name, version: pkg.version, supports: peers || "none (no framework)" };
+}
+
+function count(cat, which, subset) {
+    if (!cat[which]) return null;
+    let n = 0;
+    for (const c of subset) {
+        const rel = cat[which](c);
+        if (exists(`lily-design-system-${cat.id}-headless/${rel}`) || exists(`lily-design-system-${cat.id}-headless-identifiers/${rel}`)) n++;
+    }
+    return n;
+}
+
+function helperCount(id) {
+    try {
+        const out = execFileSync(path.join(top, "bin/list-helper-packages"), [id], { cwd: top, encoding: "utf-8" });
+        return out.split("\n").filter(Boolean).length;
+    } catch {
+        return 0;
+    }
+}
+
+const core = components.filter((c) => !c.national);
+const national = components.filter((c) => c.national);
+const yes = (b) => (b ? "yes" : "no");
+
+const rows = CATALOGS.map((cat) => {
+    const p = packageInfo(cat.id);
+    const coreN = count(cat, "impl", core);
+    const natN = count(cat, "impl", national);
+    const tests = count(cat, "test", components);
+    const stories = count(cat, "story", components);
+    const impl = coreN + natN;
+    return [
+        cat.label,
+        `\`${p.name}\` ${p.version}`,
+        p.supports,
+        `${coreN} of ${core.length}`,
+        `${natN} of ${national.length}`,
+        `${tests} of ${impl}`,
+        stories === null ? "none" : `${stories} of ${impl}`,
+        String(helperCount(cat.id)),
+        yes(EXAMPLES[cat.id] && exists(EXAMPLES[cat.id])),
+        yes(exists(`lily-design-system-${cat.id}-headless-skill/SKILL.md`)),
+        yes(cat.tutorial && exists(`lilydesignsystem.github.io/src/routes/tutorials/${cat.tutorial}/+page.svelte`)),
+    ];
+});
+
+const head = [
+    "Framework", "Headless package", "Supports", "Core components", "National identifiers", "Unit tested",
+    "Storybook stories", "Helper packages", "Example app", "Skill", "Tutorial",
+];
+const table = [
+    `| ${head.join(" | ")} |`,
+    `| ${head.map(() => "---").join(" | ")} |`,
+    // A "|" inside a cell (react ^18.0.0 || ^19.0.0) would end the cell.
+    ...rows.map((r) => `| ${r.map((cell) => cell.replace(/\|/g, "\\|")).join(" | ")} |`),
+].join("\n");
+
+const doc = `# Framework comparison
+
+<!-- Generated by bin/generate-framework-matrix from the packages themselves; do not edit by hand. -->
+
+Lily has one catalog of ${components.length} components (${core.length} core and ${national.length} national identifiers) and
+a headless library for each of ten frameworks. Every library follows the same contract: the same component names, the
+same kebab-case class hook on each root element, the same ARIA and keyboard behaviour, and no CSS. What differs is the
+framework's own idiom (props and events, slots, bindings) and how much of the catalog a framework can express.
+
+${table}
+
+- **Headless package** is the package to install; the national identifiers are its add-on, the same name with
+  \`-identifiers\` (\`LilyDesignSystem.Blazor.Headless.Identifiers\` for Blazor). Versions are the repository's, which
+  are the published ones once released.
+- **Supports** is the package's \`peerDependencies\` (Blazor: its target framework).
+- **Core components** and **National identifiers** count the components with an implementation file. Web Components
+  leaves out the table parts and interactive list items, which an autonomous custom element cannot stand in for.
+- **Unit tested** and **Storybook stories** count the components with a test or a story file. Solid and Blazor have
+  no Storybook (no Storybook framework supports Solid 2; Blazor uses bUnit).
+- **Helper packages** are the opinionated packages beside each library (pickers, data grid, calendar and the rest),
+  from \`bin/list-helper-packages\`.
+
+Choosing: use the library for the framework your app is already written in; they are equivalent by design. With no
+framework, use HTML (copy the markup) or Web Components (import once, use the tags). To start:
+[Getting started in five minutes](https://lilydesignsystem.com/getting-started/). For how Lily compares with other
+design systems, see [COMPARE.md](../COMPARE.md).
+
+---
+
+Lily™ and Lily Design System™ are trademarks.
+`;
+
+// Through the repo's own Prettier, so the file passes format:check and the --check compares like with like.
+const formatted = execFileSync(path.join(top, "node_modules/.bin/prettier"), ["--stdin-filepath", OUT], {
+    cwd: top,
+    input: doc,
+    encoding: "utf-8",
+});
+
+if (process.argv.includes("--check")) {
+    const current = exists(OUT) ? read(OUT) : "";
+    if (current !== formatted) {
+        console.error(`generate-framework-matrix: ${OUT} is out of date; run bin/generate-framework-matrix`);
+        process.exit(1);
+    }
+    console.log(`generate-framework-matrix: ${OUT} is current`);
+} else {
+    fs.writeFileSync(path.join(top, OUT), formatted);
+    console.log(`wrote ${OUT}`);
+}

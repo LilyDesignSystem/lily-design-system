@@ -3964,7 +3964,14 @@ Maintainer-directed, in this order.
       carrying none. Tests: 7 in WC `field.test.ts` and one in Angular `Field.spec.ts`, each failing on the old code. WC
       headless 0.13.0 and identifiers 0.3.0, Angular headless 0.13.0 and identifiers 0.3.0, published 2026-11-19; the guide keeps
       the wrapping label, which works in every version, and names the release that adds `field`.)_
-- [ ] **P38-T4 Comparison tables**, **P38-T5 fast-check property tests**, **P38-T6 visual regression in Firefox and
+- [x] **P38-T4 Comparison tables.** Verify: a framework comparison is generated from the packages and checked by
+      `bin/test`. _(2026-11-19: Lily against other design systems was already covered, `COMPARE.md`, `compare/` and seven
+      site pages; what was missing was Lily's own frameworks side by side, the audit's "framework comparison matrix".
+      `bin/generate-framework-matrix` writes `docs/framework-comparison.md`: each catalog's package and version, the
+      framework versions it supports, core and identifier components, tests, stories, helper packages, example app,
+      skill and tutorial, every cell read from the repository; `--check` in `bin/test`. Linked from `COMPARE.md` and
+      `/getting-started/`.)_
+- [ ] **P38-T5 fast-check property tests**, **P38-T6 visual regression in Firefox and
       WebKit**, **P38-T7 accessibility automation**, **P38-T8 render benchmarks**, **P38-T9 coverage reporting and
       badges**, **P38-T10 security audit automation**: the rest of the queue, in this order.
 

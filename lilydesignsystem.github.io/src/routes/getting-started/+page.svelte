@@ -324,6 +324,12 @@ Alpine.start();`}</code
             writing your own.
         </li>
         <li>
+            <a
+                href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/framework-comparison.md"
+                >Framework comparison</a
+            >: what each of the ten libraries covers, side by side.
+        </li>
+        <li>
             <a href="/components">Components</a>: all 661, each with a live demo, its markup and its
             keyboard contract.
         </li>
