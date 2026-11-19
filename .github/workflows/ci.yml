@@ -271,6 +271,38 @@ jobs:
       # Accessibility, responsive, /components search, rtl-demo and book-an-appointment.
       - run: bin/ci --job example-smoke
 
+  example-a11y:
+    # The accessibility spec of each example app no other job runs (tasks.md P38-T7).
+    name: example-app accessibility (${{ matrix.app }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
+    strategy:
+      fail-fast: false
+      matrix:
+        app: [react-next, vue-nuxt, angular, html-css-js, blazor-web, solid]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 11
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 26
+      - uses: actions/setup-dotnet@v6
+        if: matrix.app == 'blazor-web'
+        with:
+          dotnet-version: "11.0.x"
+      - name: Install
+        working-directory: lily-design-system-${{ matrix.app }}-examples
+        run: pnpm install --frozen-lockfile
+      - name: Install Playwright Chromium
+        working-directory: lily-design-system-${{ matrix.app }}-examples
+        timeout-minutes: 10
+        run: pnpm exec playwright install --with-deps chromium
+      - run: bin/ci --job example-a11y ${{ matrix.app }}
+
   eleventy-example:
     # Nothing built this app in CI, and it went unbuildable for weeks
     # (2026-09-16 to 2026-10-10) without anyone noticing. Its build fails

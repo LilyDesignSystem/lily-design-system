@@ -22,7 +22,9 @@ top="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$top" || exit 1
 
 JOBS=(verify lint helper-packages headless html-headless dotnet-tests dotnet-helper-packages example-smoke eleventy-example
-    alpine-examples consumer-smoke shadcn-registry spell-check shared-tests)
+    alpine-examples consumer-smoke shadcn-registry spell-check shared-tests example-a11y)
+# The example apps whose accessibility spec only example-a11y runs (SvelteKit, Eleventy and Alpine run theirs in their own jobs).
+A11Y_APPS=(react-next vue-nuxt angular html-css-js blazor-web solid)
 HELPER_FRAMEWORKS=(svelte react vue angular html web-components nunjucks alpine solid)
 HEADLESS_CATALOGS=(lily-design-system-svelte-headless lily-design-system-svelte-headless-identifiers lily-design-system-react-headless lily-design-system-react-headless-identifiers lily-design-system-vue-headless lily-design-system-vue-headless-identifiers
     lily-design-system-angular-headless lily-design-system-angular-headless-identifiers lily-design-system-nunjucks-headless lily-design-system-nunjucks-headless-identifiers lily-design-system-web-components-headless lily-design-system-web-components-headless-identifiers
@@ -192,6 +194,23 @@ example_smoke() {
 }
 
 job_example_smoke() { step "example-smoke: svelte-sveltekit-examples" example_smoke; }
+
+# Each other example app's axe accessibility spec (tasks.md P38-T7): its home, the components index and a sample of
+# component pages, every WCAG 2.2 A and AA rule. Before this job only a developer's own run ever executed them.
+# Chromium only, as example-smoke's axe catalog: axe reads the DOM, the same in each engine.
+example_a11y_one() {
+    cd "lily-design-system-$1-examples"
+    pnpm install --frozen-lockfile
+    pnpm exec playwright test e2e/accessibility.spec.ts --project chromium
+}
+
+job_example_a11y() {
+    local failed=0 app
+    for app in "${@:-${A11Y_APPS[@]}}"; do
+        step "example-a11y: $app" example_a11y_one "$app" || failed=1
+    done
+    return "$failed"
+}
 
 eleventy_example() {
     # The site serves the locale picker's and the date-time picker's dist/index.js.

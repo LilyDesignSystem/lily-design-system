@@ -109,6 +109,12 @@ axe-core / Playwright integration runs across all seven example apps. Rule set: 
 | html-css-js-examples       | 29/29 | full pass                                                                                                                                                                                                                                                                                 |
 | nunjucks-eleventy-examples | 31/31 | full pass                                                                                                                                                                                                                                                                                 |
 | angular-examples           | 31/31 | full pass                                                                                                                                                                                                                                                                                 |
+| solid-examples             | —     | full pass (17 tests, 2026-11-19)                                                                                                                                                                                                                                                          |
+
+In CI (2026-11-19, tasks.md P38-T7): `example-smoke` runs SvelteKit's, `eleventy-example` and `alpine-examples` run the
+Nunjucks and Alpine apps' whole suites, and `example-a11y` runs `e2e/accessibility.spec.ts` for the other six, React,
+Vue, Angular, HTML, Blazor and Solid, one CI job per app, in Chromium. Before it, those six ran only on a developer's
+machine; on 2026-11-19 all six passed (31 tests each, Solid 17).
 
 ## Responsive viewport sweep
 

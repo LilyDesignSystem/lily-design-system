@@ -3984,7 +3984,11 @@ Maintainer-directed, in this order.
       each for Firefox and WebKit), sampled against Chromium before committing: theme colours, focus rings, right to
       left, 320px and composed pages render alike, with engine-specific form controls. 630 passed on two consecutive
       runs. Recorded in a clean worktree, so no uncommitted work elsewhere in the tree reached a baseline.)_
-- [ ] **P38-T7 accessibility automation**, **P38-T8 render benchmarks**, **P38-T9 coverage reporting and
+- [x] **P38-T7 Accessibility automation.** Verify: every example app's axe accessibility spec runs in CI. _(2026-11-19:
+      the axe specs, the screen-reader matrix, the self-assessed ACR and `generate-core` already existed; the gap was that
+      CI ran accessibility checks for three of the nine example apps. `bin/ci --job example-a11y` and a `ci.yml` matrix job
+      now run the other six (React, Vue, Angular, HTML, Blazor, Solid) in Chromium; all six passed locally first.)_
+- [ ] **P38-T8 render benchmarks**, **P38-T9 coverage reporting and
       badges**, **P38-T10 security audit automation**: the rest of the queue, in this order.
 
 ## Phase 39 — Worldwide keyboard navigation
