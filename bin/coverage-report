@@ -121,9 +121,8 @@ calendars), Svelte is the canonical catalog the others port, and Blazor is the o
 other catalogs run the same tests in their own framework (each catalog's suite counts are in
 [spec/testing](../spec/testing/index.md)); coverage for them is not measured yet.
 
-Most of what \`shared/\` leaves uncovered is two files. \`pattern-tester.ts\` (13 percent here) is the harness the
-packages' own tests run, 172 test files of them, so \`shared/\` itself barely calls it. \`cell-types.ts\` (20 percent) has
-no test of its own: the data grid's tests reach it only through the grid. That one is a gap (tasks.md P38-T12).
+Most of what \`shared/\` leaves uncovered is \`pattern-tester.ts\`, the harness the packages' own tests run (172 test
+files of them), so \`shared/\` itself barely calls it. \`cell-types.ts\` had no test of its own until P38-T12 added one.
 
 Coverage says which lines a test ran, not that the test checked them: the mutation tests (\`bin/mutation-test\`) and
 the property tests (\`shared/*.property.test.ts\`) are the measure of how well \`shared/\` is checked.

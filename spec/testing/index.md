@@ -275,7 +275,8 @@ before it, no CI job ran the shared modules' tests.
 `bin/coverage-report` runs three suites with coverage on, `shared/` and Svelte headless with `@vitest/coverage-v8`, Blazor
 headless with coverlet, and writes [docs/coverage.md](../../docs/coverage.md) and the badge `docs/coverage-badge.svg`
 that `index.md` shows. The first run: lines 75.0 percent in `shared/`, 96.2 in Svelte headless, 96.4 in Blazor
-headless, 91.5 over all three. No coverage service sees the code; the report and badge are committed files. It takes a
+headless, 91.5 over all three. After P38-T12's tests for `cell-types.ts` (20 to 99 percent): `shared/` 81.2, all
+three 92.9. No coverage service sees the code; the report and badge are committed files. It takes a
 few minutes, so it is run by hand after test changes, not in `bin/test` or CI.
 
 ## Mutation testing

@@ -8,19 +8,18 @@ coverlet for the Blazor catalog. The badge in `index.md` is the lines figure ove
 
 | Package                | Lines                        | Branches               | Functions              | Statements             |
 | ---------------------- | ---------------------------- | ---------------------- | ---------------------- | ---------------------- |
-| shared/ (pure modules) | 75.0% (2,396 of 3,196)       | 64.5% (2,106 of 3,267) | 75.8% (545 of 719)     | 73.5% (2,828 of 3,847) |
+| shared/ (pure modules) | 81.2% (2,594 of 3,196)       | 73.6% (2,404 of 3,267) | 86.1% (619 of 719)     | 79.7% (3,065 of 3,847) |
 | Svelte headless        | 96.2% (5,426 of 5,642)       | 84.6% (2,304 of 2,722) | 97.0% (1,968 of 2,029) | 94.9% (7,346 of 7,737) |
 | Blazor headless        | 96.4% (5,250 of 5,445)       | 83.1% (1,689 of 2,033) | —                      | —                      |
-| **All three**          | **91.5%** (13,072 of 14,283) |                        |                        |                        |
+| **All three**          | **92.9%** (13,270 of 14,283) |                        |                        |                        |
 
 Why these three: `shared/` holds the logic every package copies (search, filter, export, keyboard machines,
 calendars), Svelte is the canonical catalog the others port, and Blazor is the one catalog in another language. The
 other catalogs run the same tests in their own framework (each catalog's suite counts are in
 [spec/testing](../spec/testing/index.md)); coverage for them is not measured yet.
 
-Most of what `shared/` leaves uncovered is two files. `pattern-tester.ts` (13 percent here) is the harness the
-packages' own tests run, 172 test files of them, so `shared/` itself barely calls it. `cell-types.ts` (20 percent) has
-no test of its own: the data grid's tests reach it only through the grid. That one is a gap (tasks.md P38-T12).
+Most of what `shared/` leaves uncovered is `pattern-tester.ts`, the harness the packages' own tests run (172 test
+files of them), so `shared/` itself barely calls it. `cell-types.ts` had no test of its own until P38-T12 added one.
 
 Coverage says which lines a test ran, not that the test checked them: the mutation tests (`bin/mutation-test`) and
 the property tests (`shared/*.property.test.ts`) are the measure of how well `shared/` is checked.

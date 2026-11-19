@@ -3997,9 +3997,12 @@ Maintainer-directed, in this order.
       _(2026-11-19: no coverage was measured anywhere; coverlet was referenced by 24 .NET test projects and never run.
       `bin/coverage-report` measures `shared/`, Svelte headless and Blazor headless (91.5 percent of lines over the
       three) and writes `docs/coverage.md` and `docs/coverage-badge.svg`, shown in `index.md`. No external service.)_
-- [ ] **P38-T12 Unit tests for `shared/cell-types.ts`.** Found by P38-T9: 20 percent of its lines run in `shared/`, and
+- [x] **P38-T12 Unit tests for `shared/cell-types.ts`.** Found by P38-T9: 20 percent of its lines run in `shared/`, and
       no test file imports it; the data grid's tests reach it only through the grid. Verify: a `cell-types.test.ts`
-      beside it, and its coverage in `docs/coverage.md` above 90 percent.
+      beside it, and its coverage in `docs/coverage.md` above 90 percent. _(2026-11-19: `shared/cell-types.test.ts`, 45 tests: link
+      safety, civil dates and times, zones and daylight saving, people, files, every aggregate, type validation, and each
+      column type's defaults, rollups and formulas. Lines 20 to 99.2 percent; three deliberate defects (a `javascript:`
+      link allowed, an empty sum of 0, a swallowed formula error) each fail it.)_
 - [x] **P38-T10 Security audit automation.** Verify: a scheduled job audits every package's dependencies and fails only on
       advisories users can reach. _(2026-11-19: Dependabot, secret scanning and push protection existed; no step checked
       the locked dependencies against advisories. `bin/security-audit` covers 207 lockfiles and 23 published .NET
