@@ -1,22 +1,31 @@
 # Benchmarks
 
-**There are no runtime performance benchmarks for Lily Design System™ yet.**
+Lily Design System™ benchmarks the code that does real work, the helper packages (the data grid, the Gantt chart, the
+listbox), and not the headless components, for the reason below. `bin/benchmark` runs both suites and compares each
+mean time with a baseline recorded on the same machine.
 
-This file says so plainly rather than leaving the question open, records the
-measurements that _do_ exist, and defines the methodology a future benchmark suite
-should follow so its numbers mean something.
+## Why the headless components are not benchmarked
 
-## Why there are no runtime benchmarks
-
-Not an oversight — a consequence of what Lily is. A headless component renders
+Not an oversight — a consequence of what they are. A headless component renders
 semantic HTML with ARIA attributes and attaches keyboard handlers. There is no
 virtual DOM diffing strategy of Lily's own, no layout engine, no animation loop,
-no data layer, and no CSS. What a Lily component costs at runtime is almost
+no data layer, and no CSS. What such a component costs at runtime is almost
 entirely what the host framework costs to render an element, which is a benchmark
 of Svelte, React, or Vue rather than of Lily.
 
-Benchmarking that would produce numbers that look meaningful and are not. The
-measurements below are the ones that actually reflect decisions Lily makes.
+## Runtime benchmarks
+
+| Suite    | What it times                                                                                                                                                    | Where                                                                                                               |
+| -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `shared` | the pure modules the helpers share, at helper sizes: search, filter and export over 10,000 rows, the critical path of 1,000 tasks, type-ahead over 5,000 options | `shared/benchmarks.bench.ts`, baseline `shared/benchmark-baseline.json`                                             |
+| `render` | the Svelte data grid component: mounting 1,000 rows drawn in full and 10,000 virtualized, a sort cycle and replacing every row, in jsdom                         | `lily-design-system-svelte-data-grid/DataGrid.render.bench.ts`, baseline `render-benchmark-baseline.json` beside it |
+
+`bin/benchmark` fails when a case takes more than twice its baseline (`--tolerance`), `--suite` runs one, and
+`--update-baseline` records this machine. Timings depend on the machine and its load, so neither suite runs in CI.
+
+What the render suite shows (2026-11-19, Apple M4 Max): mounting 10,000 virtualized rows takes about 18 ms, mounting
+1,000 rows drawn in full about 890 ms. jsdom exaggerates the cost of DOM nodes, but the ratio is the advice: pass
+`virtualize` to the data grid for anything beyond a few hundred rows.
 
 ## What is measured
 

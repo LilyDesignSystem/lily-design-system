@@ -315,6 +315,11 @@ once and runs each case with [tinybench](https://github.com/tinylibs/tinybench) 
 - **Noise.** Timings depend on the machine and its load: a baseline taken while `bin/test` ran was two to four times slower.
   Re-run before believing a failure, and compare only on the machine that wrote the baseline. Hence not in `bin/test` or CI.
 - **About 15 seconds.** Run it after changing a shared module's algorithm.
+- **Render suite** (2026-11-19, tasks.md P38-T8). `bin/benchmark --suite render` times the Svelte data grid component
+  itself in jsdom, with its own Vitest config (`vitest.bench.config.ts`) and baseline (`render-benchmark-baseline.json`):
+  mounting 1,000 rows drawn in full (about 890 ms) and 10,000 virtualized (about 18 ms), a sort cycle over 10,000 rows
+  (ascending, descending, none, about 145 ms) and replacing every row (about 13 ms). A single sort click was not stable,
+  since each state costs differently, so a case is a full cycle. About 35 seconds; `bin/benchmark` runs both suites.
 
 Baseline, mean milliseconds (Apple M4 Max, darwin arm64, Node 26.8.1):
 

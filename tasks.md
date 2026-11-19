@@ -3988,7 +3988,12 @@ Maintainer-directed, in this order.
       the axe specs, the screen-reader matrix, the self-assessed ACR and `generate-core` already existed; the gap was that
       CI ran accessibility checks for three of the nine example apps. `bin/ci --job example-a11y` and a `ci.yml` matrix job
       now run the other six (React, Vue, Angular, HTML, Blazor, Solid) in Chromium; all six passed locally first.)_
-- [ ] **P38-T8 render benchmarks**, **P38-T9 coverage reporting and
+- [x] **P38-T8 Render benchmarks.** Verify: `bin/benchmark --suite render` passes twice against its baseline. _(2026-11-19:
+      the existing suite timed only the shared pure functions; the render suite times the Svelte data grid component
+      in jsdom, mounting 1,000 rows and 10,000 virtualized, a sort cycle and replacing every row. Two runs within 10
+      percent of the baseline. It showed the cost of not virtualizing: about 890 ms for 1,000 rows drawn in full against
+      18 ms for 10,000 virtualized. BENCHMARKS.md, which still said Lily had no runtime benchmarks, is corrected.)_
+- [ ] **P38-T9 coverage reporting and
       badges**, **P38-T10 security audit automation**: the rest of the queue, in this order.
 
 ## Phase 39 — Worldwide keyboard navigation
