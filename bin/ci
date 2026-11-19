@@ -22,7 +22,7 @@ top="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$top" || exit 1
 
 JOBS=(verify lint helper-packages headless html-headless dotnet-tests dotnet-helper-packages example-smoke eleventy-example
-    alpine-examples consumer-smoke shadcn-registry spell-check)
+    alpine-examples consumer-smoke shadcn-registry spell-check shared-tests)
 HELPER_FRAMEWORKS=(svelte react vue angular html web-components nunjucks alpine solid)
 HEADLESS_CATALOGS=(lily-design-system-svelte-headless lily-design-system-svelte-headless-identifiers lily-design-system-react-headless lily-design-system-react-headless-identifiers lily-design-system-vue-headless lily-design-system-vue-headless-identifiers
     lily-design-system-angular-headless lily-design-system-angular-headless-identifiers lily-design-system-nunjucks-headless lily-design-system-nunjucks-headless-identifiers lily-design-system-web-components-headless lily-design-system-web-components-headless-identifiers
@@ -330,6 +330,14 @@ spell_check() {
 }
 
 job_spell_check() { step "spell-check" spell_check; }
+
+# The shared pure modules' own tests, example-based and fast-check properties (tasks.md P38-T5), in shared/ where
+# bin/sync-shared-modules copies them from. Before this job nothing in CI ran them; only bin/mutation-test did.
+shared_tests() {
+    cd shared && pnpm install --frozen-lockfile && pnpm test
+}
+
+job_shared_tests() { step "shared-tests" shared_tests; }
 
 # --- the command line ---
 

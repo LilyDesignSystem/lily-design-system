@@ -419,6 +419,20 @@ jobs:
           node-version: 26
       - run: bin/ci --job shadcn-registry
 
+  shared-tests:
+    name: shared modules (unit and property tests)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 11
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 26
+      - run: bin/ci --job shared-tests
+
   spell-check:
     name: spell check (root docs + hand-authored site content)
     runs-on: ubuntu-latest

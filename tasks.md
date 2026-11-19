@@ -3971,7 +3971,11 @@ Maintainer-directed, in this order.
       framework versions it supports, core and identifier components, tests, stories, helper packages, example app,
       skill and tutorial, every cell read from the repository; `--check` in `bin/test`. Linked from `COMPARE.md` and
       `/getting-started/`.)_
-- [ ] **P38-T5 fast-check property tests**, **P38-T6 visual regression in Firefox and
+- [x] **P38-T5 fast-check property tests.** Verify: property tests run in CI and each catches a deliberate defect.
+      _(2026-11-19: fast-check 4.10.2 in `shared/`, 19 properties over `colors`, `edit-history`, `export-data` and
+      `grid-navigation`; each mutation tried is caught. CI never ran the shared tests: `bin/ci --job shared-tests` and its
+      `ci.yml` job now do. See spec/testing, Property tests.)_
+- [ ] **P38-T6 visual regression in Firefox and
       WebKit**, **P38-T7 accessibility automation**, **P38-T8 render benchmarks**, **P38-T9 coverage reporting and
       badges**, **P38-T10 security audit automation**: the rest of the queue, in this order.
 

@@ -243,6 +243,25 @@ Baselines are per platform (font rendering), with `process.platform` in the name
 CI does not run the spec. Run it with `pnpm exec playwright test e2e/visual-regression.spec.ts --project chromium`; after an
 intended change, look at each diff in `test-results/` before `--update-snapshots=changed`.
 
+## Property tests (2026-11-19, tasks.md P38-T5)
+
+Example-based tests pin known values; a property test states what must hold for every input and lets
+[fast-check](https://fast-check.dev/) look for a counterexample, shrinking it to the smallest one it can find. Four of
+the shared pure modules have them, in `shared/*.property.test.ts` beside their example tests:
+
+| Module               | Properties                                                                                                                                                                                                                                 |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `colors.ts`          | hex to RGB to hex is the identity; `normalizeHex` is idempotent and expands three digits; HSL, HSB and CMYK round trips drift by rounding only (at most 5, 5 and 3 steps per channel, derived in the test); every component stays in range |
+| `edit-history.ts`    | the undo stack keeps the last edits within its limit; undo then redo is the identity; undoing then redoing everything restores the stack                                                                                                   |
+| `export-data.ts`     | any table, with quotes, delimiters, line breaks and lone carriage returns, reads back from CSV or TSV as the cells that went in; a safe export never starts a cell with a formula character; every row has one field per header            |
+| `grid-navigation.ts` | any movement key from any cell lands inside the grid; any other key is not a movement; right-to-left only swaps ArrowLeft and ArrowRight                                                                                                   |
+
+Each property was checked against a deliberate defect in its module (a limit off by one, a missing quote, an unclamped
+move, a formula character no longer defused, no three-digit expansion), and each catches it. The first run found that
+the colour round trips drift by up to 4.5 steps, not one: that is the whole-unit rounding the colour picker shows, not
+a defect, so the bounds are derived from it. `bin/ci --job shared-tests` runs them with the example tests (881 in all);
+before it, no CI job ran the shared modules' tests.
+
 ## Mutation testing
 
 (2026-11-17, tasks.md P35-T3.) A mutant is a small change to the code, such as `<` made `<=`, a branch removed or a string
