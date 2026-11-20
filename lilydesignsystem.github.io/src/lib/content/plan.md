@@ -554,7 +554,8 @@ truncated icon-column headers, details shown only on hover, and unexplained scor
 risk-adjustment scoring and any product look-alike theme. Findings: [spec/lessons/ehr-products](spec/lessons/ehr-products/index.md).
 Tasks: [tasks.md](tasks.md#phase-40--lessons-from-commercial-health-record-products-2026-11-20).
 
-Status (2026-11-20): researched; nothing built. T3 first.
+Status (2026-11-20): T1 to T3 and T5 to T9 done (T8 mapped, T9 decided and deferred); T4, `listbox` option groups, and T10, the filter
+summary with the next label-pack round, remain.
 
 ---
 

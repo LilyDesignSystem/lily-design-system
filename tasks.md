@@ -4181,13 +4181,19 @@ guide (T5, T6) and the examples (T7); T8 and T9 are investigations. New props go
       Verify: both in the SvelteKit app with e2e and axe tests in three browsers. _(2026-11-20: done. The inbox's select-all shows its mixed state, the bulk buttons say
       what they did once in a status line and keep focus, and every flag, priority and review state is words. The trend table
       is on `/patient-dashboard`, its sparkline label repeating the readings.)_
-- [ ] **P40-T8 Investigate resource columns in the day calendar.** P30-T6 found categories and free slots covered; it did not
+- [x] **P40-T8 Investigate resource columns in the day calendar.** P30-T6 found categories and free slots covered; it did not
       look at several clinicians or rooms side by side. One column per resource, its header naming it, and each appointment's
       type as text.
-      Verify: the findings and a decision are recorded in the topic.
-- [ ] **P40-T9 Investigate a summary line in the `filter` helper.** "2 filters" and "Clear all" in consumer words; saving a
+      Verify: the findings and a decision are recorded in the topic. _(2026-11-20: mapped, no new props. `calendar-day-table` is a structural grid over the
+      consumer's head and body, so a column per resource is markup; the `calendar` helper keeps time-of-day slots and resource
+      views as non-goals. The pattern is in the healthcare guide.)_
+- [x] **P40-T9 Investigate a summary line in the `filter` helper.** "2 filters" and "Clear all" in consumer words; saving a
       view stays the application's.
-      Verify: the findings and a decision are recorded in the topic.
+      Verify: the findings and a decision are recorded in the topic. _(2026-11-20: adopt, deferred. No summary or clear-all exists; the labels must go into all
+      64 label packs, so they wait for the next label-pack round. The interim pattern is in the topic.)_
+- [ ] **P40-T10 A summary line and clear-all in the `filter` helper.** `labels.summary` (a template with `{count}`, never built
+      English) and `labels.clearAll`, in the next label-pack round so all 64 packs gain them together.
+      Verify: in all eight catalogs with tests; `bin/check-label-packs` and `bin/check-built-english` pass.
 
 ---
 

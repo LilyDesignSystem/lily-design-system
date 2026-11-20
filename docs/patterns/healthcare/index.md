@@ -137,6 +137,9 @@ at `/patient-banner` in the SvelteKit example app:
   not answer. An empty list from a source that did not answer is not proof that nothing exists.
 - A reminder list is a `record-list` whose items carry a due date (`review-date`) and a due state in words, with `data-due`; the
   rule that produced it is yours.
+- A day schedule with a column per clinician or room is `calendar-day-table` over your own markup: a `<th scope="col">` naming
+  each resource, a `<th scope="row">` for each time, and each appointment's type as text in its cell, with any colour beside
+  it and a legend. The grid keys move across it; the `calendar` helper is date-grained and has no resource view.
 - A column whose cells are icons has a header in full words, a legend, and the value as text in every cell. A short visible
   header ("Cosign") is fine only if its accessible name is the whole phrase ("Cosign required"); a header cut off after a few
   letters names nothing. A row like `<td><span aria-hidden="true">!!</span> New critical result</td>` keeps the icon for the
