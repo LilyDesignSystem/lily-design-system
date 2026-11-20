@@ -68,19 +68,21 @@ Bootstrap markup commonly combines component and visual utility classes:
 </div>
 ```
 
-The Lily HTML contract keeps semantic structure and moves visual choices into product CSS:
+In Lily the card stays a `div.card`, the field and its button sit in a `form` named by the heading, and the visual utilities become product CSS:
 
 ```
-<article class="card sign-in-card" aria-labelledby="sign-in-title">
+<div class="card sign-in-card">
   <h1 id="sign-in-title">Sign in</h1>
-  <div class="field">
-    <label class="label" for="email">Email</label>
-    <p class="hint" id="email-hint">Use the address your account was registered with.</p>
-    <input class="text-input" id="email" name="email" type="email"
-      autocomplete="email" aria-describedby="email-hint" required />
-  </div>
-  <button class="button sign-in-card__submit" type="submit">Continue</button>
-</article>
+  <form class="form" aria-labelledby="sign-in-title" method="post">
+    <div class="field">
+      <label class="label" for="email">Email</label>
+      <p class="hint" id="email-hint">Use the address your account was registered with.</p>
+      <input class="text-input" id="email" name="email" type="email"
+        autocomplete="email" aria-describedby="email-hint" required />
+    </div>
+    <button class="button sign-in-card-submit" type="submit">Continue</button>
+  </form>
+</div>
 ```
 
 The product stylesheet owns spacing and width. A Lily theme can provide the baseline appearance without becoming a headless-library dependency.

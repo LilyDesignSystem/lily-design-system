@@ -341,20 +341,23 @@
 </div>`}</code
         ></pre>
     <p>
-        The Lily HTML contract keeps semantic structure and moves visual choices into product CSS:
+        In Lily the card stays a <code>div.card</code>, the field and its button sit in a
+        <code>form</code> named by the heading, and the visual utilities become product CSS:
     </p>
     <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
     <pre tabindex="0"><code
-            >{`<article class="card sign-in-card" aria-labelledby="sign-in-title">
+            >{`<div class="card sign-in-card">
   <h1 id="sign-in-title">Sign in</h1>
-  <div class="field">
-    <label class="label" for="email">Email</label>
-    <p class="hint" id="email-hint">Use the address your account was registered with.</p>
-    <input class="text-input" id="email" name="email" type="email"
-      autocomplete="email" aria-describedby="email-hint" required />
-  </div>
-  <button class="button sign-in-card__submit" type="submit">Continue</button>
-</article>`}</code
+  <form class="form" aria-labelledby="sign-in-title" method="post">
+    <div class="field">
+      <label class="label" for="email">Email</label>
+      <p class="hint" id="email-hint">Use the address your account was registered with.</p>
+      <input class="text-input" id="email" name="email" type="email"
+        autocomplete="email" aria-describedby="email-hint" required />
+    </div>
+    <button class="button sign-in-card-submit" type="submit">Continue</button>
+  </form>
+</div>`}</code
         ></pre>
     <p>
         The product stylesheet owns spacing and width. A Lily theme can provide the baseline
