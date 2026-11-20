@@ -4113,8 +4113,8 @@ Maintainer-directed, in this order.
       ignored right-to-left, did not skip a disabled control, had no single tab stop and ignored `aria-orientation`; and
       the toolbar contract never ran on it. Verify: the toolbar contract and a right-to-left and disabled test run on
       `tool-bar` in each catalog. _(2026-11-20: Svelte done, four tests failing on the old code; the contract in
-      `components/tool-bar/AGENTS.md` updated. React, Vue, Solid, Angular, HTML, Web Components, Nunjucks, Alpine and
-      Blazor to follow.)_
+      `components/tool-bar/AGENTS.md` updated. Then React, Vue and Solid, the same four tests failing on each old
+      `ToolBar`. Angular, HTML, Web Components, Nunjucks, Alpine and Blazor to follow.)_
 - [ ] **P39-T3 Observe composition through a browser and input method.** Use a Japanese or Korean IME in a searchable
       picker. Record the browser, OS, input method, active option and submitted value while composing and after commit.
       Verify that confirming a candidate leaves the picker open for selection and that selecting an option fires one change.
