@@ -1,5 +1,5 @@
 slug	band	core_candidate	key_contract	custom_keys	aria_contract	libraries_with_key_test	libraries_with_aria_test	three_browser_e2e	axe_wcag
-accordion-checkbox	key evidence incomplete	no	yes	no	yes	4	7	no	-
+accordion-checkbox	key evidence incomplete	no	yes	no	yes	4	8	no	-
 accordion-link	key evidence incomplete	no	yes	no	yes	1	6	no	-
 accordion-list	automated evidence complete	no	no	no	no	8	6	no	-
 accordion-list-item	key evidence incomplete	no	yes	no	no	1	1	no	-

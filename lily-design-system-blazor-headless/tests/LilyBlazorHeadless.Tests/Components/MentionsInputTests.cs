@@ -54,4 +54,36 @@ public class MentionsInputTests : TestContext
         cut.SetParametersAndRender(p => p.Add(x => x.Expanded, true));
         JSInterop.VerifyInvoke("set", 1);
     }
+
+    [Fact]
+    public void Typing_reports_the_text()
+    {
+        string? reported = null;
+        var cut = RenderComponent<MentionsInput>(p => p
+            .Add(x => x.Label, "Message")
+            .Add(x => x.ValueChanged, v => reported = v));
+        cut.Find("input").Input("hi @an");
+        Assert.Equal("hi @an", reported);
+        Assert.Equal("hi @an", cut.Instance.Value);
+    }
+
+    [Fact]
+    public async Task The_keys_opening_and_choosing_report_through_their_callbacks()
+    {
+        bool? expanded = null;
+        string? chosen = null;
+        var cut = RenderComponent<MentionsInput>(p => p
+            .Add(x => x.Label, "Message")
+            .Add(x => x.ExpandedChanged, v => expanded = v)
+            .Add(x => x.OnSelect, v => chosen = v));
+        // The module calls these through the [JSInvokable] entry points on KeyedComponentBase.
+        await cut.InvokeAsync(() => cut.Instance.OnKeyedOpen(true));
+        Assert.True(expanded);
+        Assert.Equal("true", cut.Find("input").GetAttribute("aria-expanded"));
+        await cut.InvokeAsync(() => cut.Instance.OnKeyedSelect("ann", ["ann"], ["ann"]));
+        Assert.Equal("ann", chosen);
+        await cut.InvokeAsync(() => cut.Instance.OnKeyedOpen(false));
+        Assert.False(expanded);
+        Assert.Equal("false", cut.Find("input").GetAttribute("aria-expanded"));
+    }
 }

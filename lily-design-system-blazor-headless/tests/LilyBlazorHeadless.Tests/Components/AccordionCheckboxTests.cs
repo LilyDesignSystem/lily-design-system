@@ -40,4 +40,37 @@ public class AccordionCheckboxTests : TestContext
         var root = cut.Find(".accordion-checkbox");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Checking_reveals_the_panel_and_reports_once()
+    {
+        var reports = new List<bool>();
+        var cut = RenderComponent<AccordionCheckbox>(p => p
+            .Add(x => x.Label, "More options")
+            .Add(x => x.CheckedChanged, v => reports.Add(v))
+            .AddChildContent("panel"));
+        var box = cut.Find("input");
+        Assert.True(cut.Find(".accordion-checkbox-panel").HasAttribute("hidden"));
+        box.Change(true);
+        Assert.False(cut.Find(".accordion-checkbox-panel").HasAttribute("hidden"));
+        Assert.Equal("true", cut.Find("input").GetAttribute("aria-expanded"));
+        cut.Find("input").Change(true); // no change, no report
+        cut.Find("input").Change(false);
+        Assert.Equal([true, false], reports);
+        Assert.True(cut.Find(".accordion-checkbox-panel").HasAttribute("hidden"));
+    }
+
+    [Fact]
+    public void Id_names_the_checkbox_and_the_panel_it_controls()
+    {
+        var cut = RenderComponent<AccordionCheckbox>(p => p
+            .Add(x => x.Label, "More options")
+            .Add(x => x.Id, "extras")
+            .AddChildContent("panel"));
+        var box = cut.Find("input");
+        Assert.Equal("extras-checkbox", box.Id);
+        Assert.Equal("extras-panel", box.GetAttribute("aria-controls"));
+        Assert.Equal("extras-checkbox", cut.Find("label").GetAttribute("for"));
+        Assert.Equal("extras-checkbox", cut.Find(".accordion-checkbox-panel").GetAttribute("aria-labelledby"));
+    }
 }
