@@ -18,6 +18,9 @@
 - Optional prefix slot rendered inside <span class="statistic-prefix">
 - Optional suffix slot rendered inside <span class="statistic-suffix">
 - aria-label defaults to "{title}: {value}", overridable via the label prop
+- Optional `change` renders `<div class="statistic-change">` with `data-trend` from `trend` (`up`, `down`, `flat`); the words
+  name the comparison ("0.5 more than October 2024") and no arrow is rendered, since an arrow or colour alone is not meaning
+- Optional `asOfLabel` renders `<time class="statistic-as-of" datetime="{asOf}">`; without the words there is no as-of line
 
 ## ARIA
 
@@ -35,6 +38,10 @@
 - `prefix`: slot (optional)
 - `suffix`: slot (optional)
 - `label`: string (optional)
+- `change`: string (optional) — the change in words that name its comparison
+- `trend`: "up" | "down" | "flat" (optional) — `data-trend` on the change, for the theme
+- `asOf`: string (optional) — ISO 8601 date or date-time for the as-of `<time>`
+- `asOfLabel`: string (optional) — when the value was measured, in words
 - `...restProps`: any additional HTML attributes
 
 ## Acceptance Criteria
