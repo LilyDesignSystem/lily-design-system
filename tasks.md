@@ -4162,9 +4162,10 @@ guide (T5, T6) and the examples (T7); T8 and T9 are investigations. New props go
       across groups and type-ahead searches every option.
       Verify: key tests in all nine catalogs with two groups, including the move from the last option of one group to the
       first of the next.
-- [ ] **P40-T5 Banner rules: the name to use and pronouns.** Optional, consumer-supplied and labelled; never inferred, and the
+- [x] **P40-T5 Banner rules: the name to use and pronouns.** Optional, consumer-supplied and labelled; never inferred, and the
       legal name stays for identification.
-      Verify: the rules are in `components/medical-banner/index.md` and the healthcare guide; `/patient-banner` shows both.
+      Verify: the rules are in `components/medical-banner/index.md` and the healthcare guide; `/patient-banner` shows both. _(2026-11-20: done; `/patient-banner` shows "Known as" and "Pronouns" beside the legal
+      name, and its 320px test checks both are visible and unclipped, in three browsers.)_
 - [ ] **P40-T6 Guide rules: icon-only columns, data freshness, derived scores.** Full-word headers and a legend for icon columns;
       a fetched-at `<time>` and a Refresh button that never reorders rows under focus; every derived score says what it is
       based on and when.

@@ -11,7 +11,7 @@ test.describe("patient banner at 320px", () => {
         const banner = page.getByRole("region", { name: /MONTGOMERY-FITZWILLIAM/ });
         await expect(banner).toBeVisible();
         const fields = banner.locator("dd");
-        expect(await fields.count()).toBe(5);
+        expect(await fields.count()).toBe(7);
         for (const field of await fields.all()) {
             await expect(field).toBeVisible();
             const box = await field.boundingBox();
@@ -28,6 +28,11 @@ test.describe("patient banner at 320px", () => {
             "MONTGOMERY-FITZWILLIAM, Alexandra Bartholomew-Josephine (Dr)",
         );
         await expect(banner).toContainText("Chlorhexidine gluconate skin preparations");
+        // The name to use and pronouns sit beside the legal name, each under its own label, never replacing it.
+        await expect(banner.getByText("Known as", { exact: true })).toBeVisible();
+        await expect(banner.getByText("Sandy", { exact: true })).toBeVisible();
+        await expect(banner.getByText("Pronouns", { exact: true })).toBeVisible();
+        await expect(banner.getByText("she/her", { exact: true })).toBeVisible();
         const pageOverflows = await page.evaluate(
             () => document.documentElement.scrollWidth > window.innerWidth,
         );

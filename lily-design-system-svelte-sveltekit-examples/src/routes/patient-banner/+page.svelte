@@ -60,6 +60,14 @@
                 <dd>MONTGOMERY-FITZWILLIAM, Alexandra Bartholomew-Josephine (Dr)</dd>
             </div>
             <div>
+                <dt>Known as</dt>
+                <dd>Sandy</dd>
+            </div>
+            <div>
+                <dt>Pronouns</dt>
+                <dd>she/her</dd>
+            </div>
+            <div>
                 <dt>Born</dt>
                 <dd>
                     <time datetime="1949-02-03">3 Feb 1949</time>

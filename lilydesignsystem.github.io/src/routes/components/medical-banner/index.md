@@ -173,6 +173,9 @@ Rules (P27-T8, [spec/healthcare-ui](https://github.com/LilyDesignSystem/lily-des
   "not recorded" and "unavailable".
 - **Age beside the date of birth.** Use `age-view` with `ageParts()`, so an infant's age reads in weeks and days.
 - **A missing value is words.** Show the consumer's text ("Not known"), never `?`, `-` or an empty cell.
+- **The name to use and pronouns, when the consumer has them.** Show the name the patient wants used (FHIR `HumanName.use`
+  `usual`) and their pronouns as their own labelled fields, beside the legal name, never instead of it: identification still
+  uses the legal name. Both are the consumer's recorded text, never inferred from sex or gender, and absent when not recorded.
 - **A deceased patient is said in words.** Put `data-deceased="true"` on the section for the theme, and a visible line of text
   ("Deceased"); never colour or pattern alone. Show the date of death and the age at death.
 - It is not named `patient-header` because Lily's suffix table maps `-header` to `<header>`, which would be wrong for a labelled

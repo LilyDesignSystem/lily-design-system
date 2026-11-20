@@ -77,6 +77,8 @@ at `/patient-banner` in the SvelteKit example app:
 - no field truncated, clipped or hidden at any width; it wraps.
 - patient flags ("Needs an interpreter", "Infection risk") are a labelled `tag-group` of words, never icons or colour alone, and
   stay visible when the banner wraps.
+- the name the patient wants used and their pronouns, when recorded, as their own labelled fields beside the legal name, never
+  replacing it and never inferred.
 
 ## Results
 
