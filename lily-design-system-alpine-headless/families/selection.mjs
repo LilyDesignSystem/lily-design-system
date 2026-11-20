@@ -58,6 +58,29 @@ ${Array.from({ length: 3 }, (_, i) => `  <div class="listbox-option" x-bind="opt
     el().addEventListener("lily:select", (e) => seen(e.detail));
     opts()[0].click(); await tick();
     expect(seen).toHaveBeenCalledWith({ selected: ["one"] });
+  });
+
+  // Option groups (tasks.md P40-T4): options inside role="group" elements are found in document order, so the arrows
+  // cross from one group to the next; a group's heading is not an option.
+  it("option groups: the arrows cross from one group to the next, and headings are not options", async () => {
+    await mount(
+      "listbox",
+      \`<div class="listbox" aria-label="Codes" x-data="lilyListbox(false)" x-bind="listbox">
+        <div role="group" aria-labelledby="g-common"><div role="presentation" id="g-common">Common</div>
+          <div class="listbox-option" x-bind="option('apple')">Apple</div>
+          <div class="listbox-option" x-bind="option('avocado')">Avocado</div></div>
+        <div role="group" aria-labelledby="g-lab"><div role="presentation" id="g-lab">Lab</div>
+          <div class="listbox-option" x-bind="option('banana')">Banana</div>
+          <div class="listbox-option" x-bind="option('cherry')">Cherry</div></div>
+      </div>\`,
+    );
+    const options = opts();
+    expect(options.map((o) => o.textContent)).toEqual(["Apple", "Avocado", "Banana", "Cherry"]);
+    options[1].focus();
+    await press(options[1], "ArrowDown");
+    expect(document.activeElement).toBe(options[2]);
+    await press(options[2], "ArrowUp");
+    expect(document.activeElement).toBe(options[1]);
   });`,
     },
 

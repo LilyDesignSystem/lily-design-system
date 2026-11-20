@@ -49,6 +49,72 @@
 - `ref`: HTMLElement (bindable) -- the rendered root element.
 - `...restProps`: unknown -- additional attributes spread onto the root element.
 
+## Option groups
+
+Long lists group their options under headings, as the WAI-ARIA APG grouped listbox does (tasks.md P40-T4). Groups are the
+consumer's markup; no prop is needed:
+
+- Wrap each group's options in an element with `role="group"`, labelled by its heading through `aria-labelledby`.
+- The heading has `role="presentation"` and an `id`; it is not an option and is never focused or selected.
+- The listbox finds options in document order through the groups, so ArrowDown on a group's last option moves to the next
+  group's first, Home and End reach the first and last option of the whole list, and type-ahead searches every group.
+- In a `<ul>` listbox (Nunjucks), each group is `<li role="presentation"><ul role="group" aria-labelledby="…">`, with the
+  heading as its first `<li role="presentation">`.
+- In Blazor, `OptionCount`, `OptionId` and `OptionLabel` count options across all groups by index.
+- Keep group headings short and in the consumer's words; a list of a few options needs no groups.
+
+```html
+<div
+  class="listbox"
+  role="listbox"
+  aria-label="Diagnosis codes"
+>
+  <div
+    role="group"
+    aria-labelledby="codes-common"
+  >
+    <div
+      role="presentation"
+      id="codes-common"
+    >
+      Common
+    </div>
+    <div
+      role="option"
+      tabindex="0"
+      aria-selected="false"
+    >
+      Asthma
+    </div>
+    <div
+      role="option"
+      tabindex="-1"
+      aria-selected="false"
+    >
+      Hypertension
+    </div>
+  </div>
+  <div
+    role="group"
+    aria-labelledby="codes-recent"
+  >
+    <div
+      role="presentation"
+      id="codes-recent"
+    >
+      Recently used
+    </div>
+    <div
+      role="option"
+      tabindex="-1"
+      aria-selected="false"
+    >
+      Migraine
+    </div>
+  </div>
+</div>
+```
+
 ## Native platform
 
 - Decision: hand-rolled because the APG listbox needs aria-activedescendant mode, typeahead and rich option content, and the helpers compose it inside a popup; <select size> renders only text options
@@ -63,6 +129,7 @@
 - [ ] Has aria-label attribute
 - [ ] Has role="listbox"
 - [ ] Keyboard navigation works correctly
+- [x] Option groups: the keys cross groups and type-ahead searches every group, in every catalog
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
 

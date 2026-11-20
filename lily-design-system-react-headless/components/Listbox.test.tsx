@@ -4,6 +4,10 @@ import { describe, expect, test, vi } from "vitest";
 
 import Subject from "./Listbox";
 
+// Option groups (tasks.md P40-T4): the APG grouped listbox, two labelled groups of options.
+const GROUPED_HTML =
+    '<div role="group" aria-labelledby="g-common"><div role="presentation" id="g-common">Common</div><div role="option" tabindex="-1" id="code-apple">Apple</div><div role="option" tabindex="-1" id="code-avocado">Avocado</div></div><div role="group" aria-labelledby="g-lab"><div role="presentation" id="g-lab">Lab</div><div role="option" tabindex="-1" id="code-banana">Banana</div><div role="option" tabindex="-1" id="code-cherry">Cherry</div></div>';
+
 const options = (
     <>
         <div
@@ -302,5 +306,40 @@ describe("Listbox — active-descendant mode (opt-in, additive)", () => {
             </Subject>,
         );
         expect(ref.current).toBe(screen.getByRole("listbox"));
+    });
+
+    test("option groups: the arrows cross from one group to the next, and headings are not options", () => {
+        render(
+            <Subject label="Codes">
+                <div dangerouslySetInnerHTML={{ __html: GROUPED_HTML }} />
+            </Subject>,
+        );
+        const options = screen.getAllByRole("option");
+        expect(options.map((o) => o.textContent)).toEqual(["Apple", "Avocado", "Banana", "Cherry"]);
+        expect(screen.getByRole("group", { name: "Lab" })).toBeTruthy();
+        options[1].focus();
+        options[1].dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true }));
+        expect(document.activeElement).toBe(options[2]);
+        options[2].dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowUp", bubbles: true }));
+        expect(document.activeElement).toBe(options[1]);
+    });
+
+    test("option groups: type-ahead searches every group", async () => {
+        const user = userEvent.setup();
+        const onActiveIndexChange = vi.fn();
+        render(
+            <Subject
+                label="Codes"
+                navigation="active-descendant"
+                typeahead
+                activeIndex={0}
+                onActiveIndexChange={onActiveIndexChange}
+            >
+                <div dangerouslySetInnerHTML={{ __html: GROUPED_HTML }} />
+            </Subject>,
+        );
+        screen.getByRole("listbox").focus();
+        await user.keyboard("c");
+        expect(onActiveIndexChange).toHaveBeenCalledWith(3);
     });
 });

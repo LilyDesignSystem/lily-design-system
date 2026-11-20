@@ -4,6 +4,10 @@ import { nextTick } from "vue";
 
 import Subject from "../../components/Listbox.vue";
 
+// Option groups (tasks.md P40-T4): the APG grouped listbox, two labelled groups of options.
+const GROUPED_HTML =
+    '<div role="group" aria-labelledby="g-common"><div role="presentation" id="g-common">Common</div><div role="option" tabindex="-1" id="code-apple">Apple</div><div role="option" tabindex="-1" id="code-avocado">Avocado</div></div><div role="group" aria-labelledby="g-lab"><div role="presentation" id="g-lab">Lab</div><div role="option" tabindex="-1" id="code-banana">Banana</div><div role="option" tabindex="-1" id="code-cherry">Cherry</div></div>';
+
 describe("Listbox", () => {
     test("renders a listbox", () => {
         render(Subject, {
@@ -254,5 +258,31 @@ describe("Listbox — active-descendant mode (opt-in, additive)", () => {
         const listbox = screen.getByRole("listbox");
         expect(listbox.tagName).toBe("UL");
         expect(listbox.className).toBe("motion-picker-list");
+    });
+
+    test("option groups: the arrows cross from one group to the next, and headings are not options", () => {
+        render(Subject, { props: { label: "Codes" }, slots: { default: GROUPED_HTML } });
+        const options = screen.getAllByRole("option");
+        expect(options.map((o) => o.textContent)).toEqual(["Apple", "Avocado", "Banana", "Cherry"]);
+        expect(screen.getByRole("group", { name: "Lab" })).toBeTruthy();
+        options[1].focus();
+        options[1].dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true }));
+        expect(document.activeElement).toBe(options[2]);
+        options[2].dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowUp", bubbles: true }));
+        expect(document.activeElement).toBe(options[1]);
+    });
+
+    test("option groups: type-ahead searches every group", async () => {
+        const { emitted } = render(Subject, {
+            props: {
+                label: "Codes",
+                navigation: "active-descendant",
+                typeahead: true,
+                activeIndex: 0,
+            },
+            slots: { default: GROUPED_HTML },
+        });
+        await fireEvent.keyDown(screen.getByRole("listbox"), { key: "c" });
+        expect(emitted()["update:activeIndex"]).toEqual([[3]]);
     });
 });

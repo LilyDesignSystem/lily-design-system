@@ -223,3 +223,42 @@ describe("Listbox — roving-focus mode (the default)", () => {
         expect(el.getAttribute("aria-label")).toBe("Sizes");
     });
 });
+
+// Option groups (tasks.md P40-T4): the APG grouped listbox, two labelled groups of options.
+const GROUPED_HTML =
+    '<div role="group" aria-labelledby="g-common"><div role="presentation" id="g-common">Common</div><div role="option" tabindex="-1" id="code-apple">Apple</div><div role="option" tabindex="-1" id="code-avocado">Avocado</div></div><div role="group" aria-labelledby="g-lab"><div role="presentation" id="g-lab">Lab</div><div role="option" tabindex="-1" id="code-banana">Banana</div><div role="option" tabindex="-1" id="code-cherry">Cherry</div></div>';
+
+describe("Listbox — option groups", () => {
+    function grouped(inputs: Record<string, unknown> = {}) {
+        const fixture = TestBed.createComponent(Listbox);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("div.listbox") as HTMLElement;
+        el.innerHTML = GROUPED_HTML;
+        for (const [key, value] of Object.entries(inputs))
+            fixture.componentRef.setInput(key, value);
+        fixture.detectChanges();
+        return { fixture, el };
+    }
+
+    test("the arrows cross from one group to the next, and headings are not options", () => {
+        const { el } = grouped();
+        const options = Array.from(el.querySelectorAll<HTMLElement>("[role='option']"));
+        expect(options.map((o) => o.textContent)).toEqual(["Apple", "Avocado", "Banana", "Cherry"]);
+        options[1].focus();
+        options[1].dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true }));
+        expect(document.activeElement).toBe(options[2]);
+    });
+
+    test("type-ahead searches every group", () => {
+        const { fixture, el } = grouped({
+            navigation: "active-descendant",
+            typeahead: true,
+            activeIndex: 0,
+        });
+        el.dispatchEvent(
+            new KeyboardEvent("keydown", { key: "c", bubbles: true, cancelable: true }),
+        );
+        fixture.detectChanges();
+        expect(el.getAttribute("aria-activedescendant")).toBe("code-cherry");
+    });
+});

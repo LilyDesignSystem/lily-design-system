@@ -251,4 +251,47 @@ public class ListboxTests : TestContext
         cut.Find(".listbox").KeyDown(new KeyboardEventArgs { Key = "z" });
         Assert.Equal(0, changes);
     }
+
+    // Option groups (tasks.md P40-T4): the groups are the consumer's markup; the listbox counts options by index across
+    // them, so the arrows cross from one group to the next and type-ahead searches every group.
+    private const string GroupedMarkup =
+        "<div role=\"group\" aria-labelledby=\"g-common\"><div role=\"presentation\" id=\"g-common\">Common</div>" +
+        "<div role=\"option\" id=\"o-0\">Apple</div><div role=\"option\" id=\"o-1\">Avocado</div></div>" +
+        "<div role=\"group\" aria-labelledby=\"g-lab\"><div role=\"presentation\" id=\"g-lab\">Lab</div>" +
+        "<div role=\"option\" id=\"o-2\">Banana</div><div role=\"option\" id=\"o-3\">Cherry</div></div>";
+    private static readonly string[] GroupedLabels = { "Apple", "Avocado", "Banana", "Cherry" };
+
+    [Fact]
+    public void Option_groups_ArrowDown_crosses_into_the_next_group()
+    {
+        var newIndex = -2;
+        var cut = RenderComponent<Listbox>(p => p
+            .AddChildContent(GroupedMarkup)
+            .Add(x => x.Navigation, Listbox.ActiveDescendant)
+            .Add(x => x.OptionCount, 4)
+            .Add(x => x.OptionId, (int i) => $"o-{i}")
+            .Add(x => x.ActiveIndex, 1)
+            .Add(x => x.ActiveIndexChanged, EventCallback.Factory.Create<int>(this, i => newIndex = i)));
+        Assert.Equal(2, cut.FindAll("[role='group']").Count);
+        Assert.Equal(4, cut.FindAll("[role='option']").Count);
+        Assert.Equal("o-1", cut.Find(".listbox").GetAttribute("aria-activedescendant"));
+        cut.Find(".listbox").KeyDown(new KeyboardEventArgs { Key = "ArrowDown" });
+        Assert.Equal(2, newIndex);
+    }
+
+    [Fact]
+    public void Option_groups_typeahead_searches_every_group()
+    {
+        var newIndex = -2;
+        var cut = RenderComponent<Listbox>(p => p
+            .AddChildContent(GroupedMarkup)
+            .Add(x => x.Navigation, Listbox.ActiveDescendant)
+            .Add(x => x.Typeahead, true)
+            .Add(x => x.OptionCount, 4)
+            .Add(x => x.OptionLabel, (int i) => GroupedLabels[i])
+            .Add(x => x.ActiveIndex, 0)
+            .Add(x => x.ActiveIndexChanged, EventCallback.Factory.Create<int>(this, i => newIndex = i)));
+        cut.Find(".listbox").KeyDown(new KeyboardEventArgs { Key = "c" });
+        Assert.Equal(3, newIndex);
+    }
 }

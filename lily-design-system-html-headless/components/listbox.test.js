@@ -105,3 +105,41 @@ describe("Listbox keyboard", function () {
         expect(await focused()).toBe("Damson");
     });
 });
+
+// Option groups (tasks.md P40-T4): options inside role="group" elements are reached in document order.
+describe("Listbox option groups", function () {
+    it("the arrows cross from one group to the next, and headings are not options", async function () {
+        await browser.url("file://" + path.resolve(__dirname, "listbox.html"));
+        await browser.execute(() => {
+            const list = document.querySelector(".listbox");
+            list.setAttribute("aria-label", "Codes");
+            list.replaceChildren();
+            for (const [id, name, options] of [
+                ["g-common", "Common", ["Apple", "Avocado"]],
+                ["g-lab", "Lab", ["Banana", "Cherry"]],
+            ]) {
+                const group = document.createElement("div");
+                group.setAttribute("role", "group");
+                group.setAttribute("aria-labelledby", id);
+                const heading = document.createElement("div");
+                heading.setAttribute("role", "presentation");
+                heading.id = id;
+                heading.textContent = name;
+                group.append(heading);
+                for (const text of options) {
+                    const option = document.createElement("div");
+                    option.setAttribute("role", "option");
+                    option.setAttribute("tabindex", text === "Apple" ? "0" : "-1");
+                    option.textContent = text;
+                    group.append(option);
+                }
+                list.append(group);
+            }
+            list.querySelectorAll('[role="option"]')[1].focus();
+        });
+        await browser.keys("ArrowDown");
+        expect(await browser.execute(() => document.activeElement.textContent)).toBe("Banana");
+        await browser.keys("ArrowUp");
+        expect(await browser.execute(() => document.activeElement.textContent)).toBe("Avocado");
+    });
+});

@@ -9,6 +9,13 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Option groups in `listbox` (2026-11-20, P40-T4)
+
+- `listbox` documents the APG grouped listbox: each group is a `role="group"` labelled by a presentational heading. No prop is
+  needed; every catalog already finds options through the groups in document order, so the arrows cross from one group to the
+  next and type-ahead searches every group. Key tests with two groups in all ten catalogs prove it.
+- The `listbox` Testing section's malformed bullets are rewritten.
+
 ## A meter in `observation-view` (2026-11-20, P40-T2, unreleased)
 
 - In all nine catalogs `observation-view` takes `meterValue`, `meterMin` and `meterMax` (with optional `meterLow`, `meterHigh`

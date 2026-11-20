@@ -42,3 +42,25 @@ describe("listbox keys", () => {
         expect(document.activeElement).toBe(a);
     });
 });
+
+// Option groups (tasks.md P40-T4): in a <ul> listbox each group is a presentational <li> holding a <ul role="group">
+// labelled by its heading; the options are found in document order through the groups.
+describe("listbox option groups", () => {
+    it("the arrows cross from one group to the next, and headings are not options", () => {
+        const { document } = render(
+            "listbox",
+            { label: "Codes" },
+            '<li role="presentation"><ul role="group" aria-labelledby="g-common"><li role="presentation" id="g-common">Common</li><li role="option" aria-selected="true">Apple</li><li role="option">Avocado</li></ul></li>' +
+                '<li role="presentation"><ul role="group" aria-labelledby="g-lab"><li role="presentation" id="g-lab">Lab</li><li role="option">Banana</li><li role="option">Cherry</li></ul></li>',
+        );
+        autoInit(document);
+        const options = [...document.querySelectorAll("[role='option']")];
+        expect(options.map((o) => o.textContent)).toEqual(["Apple", "Avocado", "Banana", "Cherry"]);
+        expect(options.map((o) => o.tabIndex)).toEqual([0, -1, -1, -1]);
+        options[1].focus();
+        on(options[1]).press("ArrowDown");
+        expect(document.activeElement).toBe(options[2]);
+        on(options[2]).press("ArrowUp");
+        expect(document.activeElement).toBe(options[1]);
+    });
+});

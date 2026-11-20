@@ -264,4 +264,62 @@ describe("Listbox — active-descendant mode (opt-in, additive)", () => {
         });
         expect(ref).toBe(screen.getByRole("listbox"));
     });
+
+    // Option groups (tasks.md P40-T4): the APG grouped listbox. Options are found in document order through their groups,
+    // so the keys cross from one group to the next and type-ahead searches every option; a group's heading is never one.
+    function groupedSnippet() {
+        return (($anchor: Comment) => {
+            const groups = [
+                { id: "g-common", name: "Common", options: ["Apple", "Avocado"] },
+                { id: "g-lab", name: "Lab", options: ["Banana", "Cherry"] },
+            ];
+            for (const g of groups) {
+                const group = document.createElement("div");
+                group.setAttribute("role", "group");
+                group.setAttribute("aria-labelledby", g.id);
+                const heading = document.createElement("div");
+                heading.setAttribute("role", "presentation");
+                heading.id = g.id;
+                heading.textContent = g.name;
+                group.append(heading);
+                for (const text of g.options) {
+                    const option = document.createElement("div");
+                    option.setAttribute("role", "option");
+                    option.setAttribute("tabindex", "-1");
+                    option.id = `code-${text.toLowerCase()}`;
+                    option.textContent = text;
+                    group.append(option);
+                }
+                $anchor.before(group);
+            }
+        }) as any;
+    }
+
+    test("option groups: the arrows cross from one group to the next, and headings are not options", () => {
+        render(Subject, { props: { label: "Codes", children: groupedSnippet() } });
+        const options = screen.getAllByRole("option");
+        expect(options.map((o) => o.textContent)).toEqual(["Apple", "Avocado", "Banana", "Cherry"]);
+        expect(screen.getByRole("group", { name: "Lab" })).toBeTruthy();
+        options[1].focus();
+        options[1].dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true }));
+        expect(document.activeElement).toBe(options[2]);
+        options[2].dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowUp", bubbles: true }));
+        expect(document.activeElement).toBe(options[1]);
+    });
+
+    test("option groups: type-ahead searches every group", async () => {
+        render(Subject, {
+            props: {
+                label: "Codes",
+                navigation: "active-descendant",
+                typeahead: true,
+                activeIndex: 0,
+                children: groupedSnippet(),
+            },
+        });
+        await fireEvent.keyDown(screen.getByRole("listbox"), { key: "c" });
+        expect(screen.getByRole("listbox").getAttribute("aria-activedescendant")).toBe(
+            "code-cherry",
+        );
+    });
 });

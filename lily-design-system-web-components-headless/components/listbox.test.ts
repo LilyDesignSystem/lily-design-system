@@ -2,6 +2,10 @@ import { afterEach, describe, expect, test } from "vitest";
 
 import { Listbox } from "./listbox.js";
 
+// Option groups (tasks.md P40-T4): the APG grouped listbox, two labelled groups of options.
+const GROUPED_HTML =
+    '<div role="group" aria-labelledby="g-common"><div role="presentation" id="g-common">Common</div><div role="option" tabindex="-1" id="code-apple">Apple</div><div role="option" tabindex="-1" id="code-avocado">Avocado</div></div><div role="group" aria-labelledby="g-lab"><div role="presentation" id="g-lab">Lab</div><div role="option" tabindex="-1" id="code-banana">Banana</div><div role="option" tabindex="-1" id="code-cherry">Cherry</div></div>';
+
 if (!customElements.get("lily-listbox")) {
     customElements.define("lily-listbox", Listbox);
 }
@@ -110,5 +114,14 @@ describe("Listbox", () => {
         );
 
         expect(host.className).toBe("listbox settings-list");
+    });
+
+    test("option groups: the arrows cross from one group to the next, and headings are not options", () => {
+        const host = render(`<lily-listbox label="Codes">${GROUPED_HTML}</lily-listbox>`);
+        const options = Array.from(host.querySelectorAll<HTMLElement>("[role='option']"));
+        expect(options.map((o) => o.textContent)).toEqual(["Apple", "Avocado", "Banana", "Cherry"]);
+        options[1].focus();
+        options[1].dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true }));
+        expect(document.activeElement).toBe(options[2]);
     });
 });
