@@ -111,6 +111,72 @@ Theme selection with visible options:
 </Listbox>
 ```
 
+## Option groups
+
+Long lists group their options under headings, as the WAI-ARIA APG grouped listbox does (tasks.md P40-T4). Groups are the
+consumer's markup; no prop is needed:
+
+- Wrap each group's options in an element with `role="group"`, labelled by its heading through `aria-labelledby`.
+- The heading has `role="presentation"` and an `id`; it is not an option and is never focused or selected.
+- The listbox finds options in document order through the groups, so ArrowDown on a group's last option moves to the next
+  group's first, Home and End reach the first and last option of the whole list, and type-ahead searches every group.
+- In a `<ul>` listbox (Nunjucks), each group is `<li role="presentation"><ul role="group" aria-labelledby="…">`, with the
+  heading as its first `<li role="presentation">`.
+- In Blazor, `OptionCount`, `OptionId` and `OptionLabel` count options across all groups by index.
+- Keep group headings short and in the consumer's words; a list of a few options needs no groups.
+
+```html
+<div
+  class="listbox"
+  role="listbox"
+  aria-label="Diagnosis codes"
+>
+  <div
+    role="group"
+    aria-labelledby="codes-common"
+  >
+    <div
+      role="presentation"
+      id="codes-common"
+    >
+      Common
+    </div>
+    <div
+      role="option"
+      tabindex="0"
+      aria-selected="false"
+    >
+      Asthma
+    </div>
+    <div
+      role="option"
+      tabindex="-1"
+      aria-selected="false"
+    >
+      Hypertension
+    </div>
+  </div>
+  <div
+    role="group"
+    aria-labelledby="codes-recent"
+  >
+    <div
+      role="presentation"
+      id="codes-recent"
+    >
+      Recently used
+    </div>
+    <div
+      role="option"
+      tabindex="-1"
+      aria-selected="false"
+    >
+      Migraine
+    </div>
+  </div>
+</div>
+```
+
 ## Keyboard Interactions
 
 - ArrowDown: Moves focus to the next option, wrapping to the first option from the last.
@@ -148,9 +214,9 @@ The consumer provides all CSS styling. The component renders with a `.listbox` c
 ## Testing
 
 - Verify the component renders a `<div>` element with class `listbox`
-- Verify role="listbox"` -- identifies the container as a listbox widget for selecting from a list of options.
-- Verify aria-label` -- provides an accessible name describing the purpose of the listbox.
-- Verify Child elements should use `role="option"` and optionally `aria-selected` to indicate selection state.
+- Verify the root has `role="listbox"` and its `aria-label`
+- Verify child options keep `role="option"` and their `aria-selected` state
+- Verify that with option groups the arrows cross from one group to the next and type-ahead searches every group
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied
 
