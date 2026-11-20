@@ -13,7 +13,8 @@ highlights.
 
 - `shared/menu-keys.ts` has its own test, covering all its lines. A new suite gives every pattern-tester runner broken
   markup and sabotaged widgets and checks it rejects each one, so a passing contract is known to fail a broken widget.
-- `menu-keys.ts`, `command-keys.ts`, `widget-keys.ts` and `export-data.ts` now cover every line. `shared/` covers 98.5
+- `menu-keys.ts`, `command-keys.ts`, `widget-keys.ts` and `export-data.ts` now cover every line. A table test runs every filter
+  comparison operator through the predicate, MongoDB, OData and inline SQL. `shared/` covers 98.5
   percent of lines and 99.1 percent of functions, and `pnpm coverage` now enforces 98 percent.
 
 ## One per-component Markdown URL (2026-11-20, P13-T3, unreleased)
