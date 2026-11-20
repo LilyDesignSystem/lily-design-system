@@ -2731,7 +2731,20 @@ const UI: Record<string, UiStrings> = {
   'wuu-001': wuu,
   'yue-001': yue,
   'zh-001': zh,
-  'zh-cn': zh
+  'zh-cn': zh,
+  'zh-th': zh,
+  'hi-np': hi,
+  'cy-ar': cy,
+  'ar-eg': ar,
+  'ar-dz': ar,
+  'es-mx': es,
+  'fr-ca': fr,
+  'ru-ru': ru,
+  'ru-by': ru,
+  'bn-bd': bn,
+  'bn-in': bn,
+  'id-my': id,
+  'pt-br': pt
 };
 
 /** Resolve a locale's UI chrome strings, falling back to the default locale. */
