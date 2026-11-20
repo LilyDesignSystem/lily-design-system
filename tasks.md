@@ -4107,7 +4107,10 @@ Maintainer-directed, in this order.
       `filter-model.ts` from 94.7 to 99.3 percent of lines, and two deliberate writer defects each fail it. Then
       `invalid-input.test.ts`: refused input in cell types, colours, the critical path and the system zone. `shared/` at
       99.0 percent of lines and 99.3 of functions; what is left is mostly defensive branches that validated input
-      cannot reach, and the pattern tester's own harness.)_
+      cannot reach, and the pattern tester's own harness. Then the catalogs: Svelte tests for untested behaviour
+      (observers, `TileMap` rows, `ContentsNav` edges, reset, dismiss) and a Blazor theory that every component with a
+      JavaScript module disposes its handle (39 components; four named exceptions attach differently). The three measured
+      packages are at 98.0 percent of lines, from 96.1.)_
 - [x] **P39-T7 `tool-bar` takes the shared toolbar keys in every catalog.** Found 2026-11-20 by coverage: every
       catalog's `ToolBar` hand-rolls its arrows, while `action-bar` and `task-bar` use `attachToolbar`, so `tool-bar`
       ignored right-to-left, did not skip a disabled control, had no single tab stop and ignored `aria-orientation`; and

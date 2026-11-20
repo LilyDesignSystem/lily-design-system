@@ -9,9 +9,9 @@ coverlet for the Blazor catalog. The badge in `index.md` is the lines figure ove
 | Package                | Lines                        | Branches               | Functions              | Statements             |
 | ---------------------- | ---------------------------- | ---------------------- | ---------------------- | ---------------------- |
 | shared/ (pure modules) | 99.0% (3,319 of 3,352)       | 92.2% (3,159 of 3,427) | 99.3% (753 of 758)     | 98.0% (3,965 of 4,046) |
-| Svelte headless        | 96.3% (5,420 of 5,626)       | 84.9% (2,298 of 2,706) | 97.0% (1,969 of 2,029) | 95.1% (7,343 of 7,721) |
-| Blazor headless        | 96.5% (5,249 of 5,438)       | 83.3% (1,689 of 2,027) | —                      | —                      |
-| **All three**          | **97.0%** (13,988 of 14,416) |                        |                        |                        |
+| Svelte headless        | 98.2% (5,522 of 5,626)       | 87.3% (2,359 of 2,702) | 98.4% (1,996 of 2,029) | 97.0% (7,491 of 7,721) |
+| Blazor headless        | 97.2% (5,285 of 5,438)       | 84.2% (1,706 of 2,027) | —                      | —                      |
+| **All three**          | **98.0%** (14,126 of 14,416) |                        |                        |                        |
 
 Why these three: `shared/` holds the logic every package copies (search, filter, export, keyboard machines,
 calendars), Svelte is the canonical catalog the others port, and Blazor is the one catalog in another language. The
