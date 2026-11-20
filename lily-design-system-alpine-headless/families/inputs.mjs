@@ -702,6 +702,19 @@ const move = async (input, value) => {
     form.reset();
     expect(lower().value).toBe("20");
     expect(upper().value).toBe("80");
+  });
+  it("after a form reset the thumbs stay back, and the next move clamps against them", async () => {
+    await mount("range-fieldset");
+    const fieldset = el();
+    const form = document.createElement("form");
+    fieldset.replaceWith(form);
+    form.append(fieldset);
+    await move(lower(), "50");
+    form.reset();
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(lower().value).toBe("20");
+    await move(upper(), "30");
+    expect(upper().value).toBe("30");
   });`,
     },
 };

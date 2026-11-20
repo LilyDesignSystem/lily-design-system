@@ -74,6 +74,17 @@ describe("RangeFieldset", () => {
         expect(upper.value).toBe("75");
     });
 
+    test("after a form reset the thumbs stay back, and the next move clamps against them", async () => {
+        const { lower, upper } = render('minimum="20" maximum="80"');
+        const form = document.querySelector("form") as HTMLFormElement;
+        move(lower, "50");
+        form.reset();
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(lower.value).toBe("20");
+        move(upper, "30");
+        expect(upper.value).toBe("30");
+    });
+
     test("the minimum and maximum properties move the thumbs, never past each other", () => {
         const { host, lower, upper } = render('minimum="20" maximum="60"');
         host.minimum = 70;

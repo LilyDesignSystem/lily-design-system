@@ -1,9 +1,18 @@
+import { Component } from "@angular/core";
 import { describe, expect, test } from "vitest";
 import { TestBed } from "@angular/core/testing";
 
 import { RangeFieldset } from "./RangeFieldset";
 
 const base = { legend: "Price", minimumLabel: "Lowest price", maximumLabel: "Highest price" };
+
+/** The component inside a real form from its first render, as an application has it. */
+@Component({
+    standalone: true,
+    imports: [RangeFieldset],
+    template: `<form><lily-range-fieldset legend="Price" minimumLabel="Lowest price" maximumLabel="Highest price" [minimum]="20" [maximum]="80" /></form>`,
+})
+class InForm {}
 
 function render(inputs: Record<string, unknown> = {}) {
     const fixture = TestBed.createComponent(RangeFieldset);
@@ -82,6 +91,26 @@ describe("RangeFieldset", () => {
         form.reset();
         expect(lower.value).toBe("25");
         expect(upper.value).toBe("75");
+    });
+
+    test("after a form reset the thumbs stay back, and the next move clamps against them", async () => {
+        const fixture = TestBed.createComponent(InForm);
+        fixture.detectChanges();
+        await fixture.whenStable();
+        const root: HTMLElement = fixture.nativeElement;
+        const form = root.querySelector("form")!;
+        const lower = root.querySelector(".range-fieldset-minimum") as HTMLInputElement;
+        const upper = root.querySelector(".range-fieldset-maximum") as HTMLInputElement;
+        move(lower, "50");
+        fixture.detectChanges();
+        await fixture.whenStable();
+        form.reset();
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        fixture.detectChanges();
+        await fixture.whenStable();
+        expect(lower.value).toBe("20");
+        move(upper, "30");
+        expect(upper.value).toBe("30");
     });
 
     test("disabled disables both thumbs", () => {
