@@ -96,6 +96,10 @@
       <li><code>prefix</code>: slot (optional)</li>
       <li><code>suffix</code>: slot (optional)</li>
       <li><code>label</code>: string (optional)</li>
+      <li><code>change</code>: string (optional) — the change in words that name its comparison</li>
+      <li><code>trend</code>: "up" | "down" | "flat" (optional) — <code>data-trend</code> on the change, for the theme</li>
+      <li><code>asOf</code>: string (optional) — ISO 8601 date or date-time for the as-of <code>&lt;time&gt;</code></li>
+      <li><code>asOfLabel</code>: string (optional) — when the value was measured, in words</li>
       <li><code>...restProps</code>: any additional HTML attributes</li>
     </ul>
 </section>

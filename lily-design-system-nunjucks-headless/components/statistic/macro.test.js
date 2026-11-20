@@ -116,4 +116,42 @@ describe("statistic", () => {
         const { html } = render("statistic", { title: "X", value: "1" });
         expect(html).not.toContain("<style");
     });
+
+    it("a change is text that names its comparison, with the direction as data-trend", () => {
+        const { document } = render("statistic", {
+            title: "Index",
+            value: "30.5",
+            change: "0.5 more than October 2024",
+            trend: "up",
+        });
+        const change = document.querySelector(".statistic-change");
+        expect(change.textContent).toBe("0.5 more than October 2024");
+        expect(change.getAttribute("data-trend")).toBe("up");
+        expect(document.body.textContent).not.toMatch(/[↑↓→]/);
+    });
+
+    it("the as-of line is a time element, shown only with its words", () => {
+        expect(
+            render("statistic", {
+                title: "Index",
+                value: "30.5",
+                asOf: "2024-12-01",
+            }).document.querySelector(".statistic-as-of"),
+        ).toBeNull();
+        const { document } = render("statistic", {
+            title: "Index",
+            value: "30.5",
+            asOf: "2024-12-01",
+            asOfLabel: "Data as of 1 December 2024",
+        });
+        const time = document.querySelector("time.statistic-as-of");
+        expect(time.getAttribute("datetime")).toBe("2024-12-01");
+        expect(time.textContent).toBe("Data as of 1 December 2024");
+    });
+
+    it("without a change there is no change part and no data-trend", () => {
+        const { document } = render("statistic", { title: "Index", value: "30.5", trend: "down" });
+        expect(document.querySelector(".statistic-change")).toBeNull();
+        expect(document.querySelector("[data-trend]")).toBeNull();
+    });
 });

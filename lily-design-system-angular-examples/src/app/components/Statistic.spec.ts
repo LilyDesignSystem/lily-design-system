@@ -49,3 +49,37 @@ describe("Statistic", () => {
         expect(el.getAttribute("aria-label")).toBe("Twelve users");
     });
 });
+
+describe("Statistic — change and as of", () => {
+    function create(inputs: Record<string, unknown>) {
+        const fixture = TestBed.createComponent(Statistic);
+        for (const [k, v] of Object.entries({ title: "Index", value: "30.5", ...inputs }))
+            fixture.componentRef.setInput(k, v);
+        fixture.detectChanges();
+        return fixture.nativeElement as HTMLElement;
+    }
+
+    test("a change is text that names its comparison, with the direction as data-trend", () => {
+        const root = create({ change: "0.5 more than October 2024", trend: "up" });
+        const change = root.querySelector(".statistic-change") as HTMLElement;
+        expect(change.textContent).toBe("0.5 more than October 2024");
+        expect(change.getAttribute("data-trend")).toBe("up");
+        expect(root.textContent).not.toMatch(/[↑↓→]/);
+    });
+
+    test("the as-of line is a time element, shown only with its words", () => {
+        expect(create({ asOf: "2024-12-01" }).querySelector(".statistic-as-of")).toBeNull();
+        const time = create({
+            asOf: "2024-12-01",
+            asOfLabel: "Data as of 1 December 2024",
+        }).querySelector("time.statistic-as-of") as HTMLElement;
+        expect(time.getAttribute("datetime")).toBe("2024-12-01");
+        expect(time.textContent).toBe("Data as of 1 December 2024");
+    });
+
+    test("without a change there is no change part and no data-trend", () => {
+        const root = create({ trend: "down" });
+        expect(root.querySelector(".statistic-change")).toBeNull();
+        expect(root.querySelector("[data-trend]")).toBeNull();
+    });
+});

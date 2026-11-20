@@ -6,6 +6,8 @@
   "category": "content",
   "baseClass": ".statistic",
   "subClasses": [
+    "statistic-as-of",
+    "statistic-change",
     "statistic-prefix",
     "statistic-suffix",
     "statistic-title",
@@ -26,6 +28,10 @@
     "`prefix`: slot (optional)",
     "`suffix`: slot (optional)",
     "`label`: string (optional)",
+    "`change`: string (optional) — the change in words that name its comparison",
+    "`trend`: \"up\" | \"down\" | \"flat\" (optional) — `data-trend` on the change, for the theme",
+    "`asOf`: string (optional) — ISO 8601 date or date-time for the as-of `<time>`",
+    "`asOfLabel`: string (optional) — when the value was measured, in words",
     "`...restProps`: any additional HTML attributes"
   ],
   "related": [

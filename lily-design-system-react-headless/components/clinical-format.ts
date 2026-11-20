@@ -100,7 +100,11 @@ export function formatRange(low: number, high: number, unit: string, locale: str
     if (!locale) throw new RangeError("formatRange: a locale is required");
     if (low > high) throw new RangeError(`formatRange: low ${low} is above high ${high}`);
     const format = new Intl.NumberFormat(locale, { maximumFractionDigits: 20, useGrouping: true });
-    const written = low === high ? format.format(low) : format.formatRange(low, high);
+    // formatRange is ES2023; some packages' TypeScript lib settings predate it, though every supported runtime has it.
+    const ranged = format as Intl.NumberFormat & {
+        formatRange(start: number, end: number): string;
+    };
+    const written = low === high ? format.format(low) : ranged.formatRange(low, high);
     return unit ? `${written}${NO_BREAK_SPACE}${unit}` : written;
 }
 

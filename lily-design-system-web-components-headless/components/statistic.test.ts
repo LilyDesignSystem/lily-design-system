@@ -70,4 +70,36 @@ describe("Statistic", () => {
         expect(withNeither.querySelector(".statistic-prefix")).toBeNull();
         expect(withNeither.querySelector(".statistic-suffix")).toBeNull();
     });
+
+    test("a change is text that names its comparison, with the direction as data-trend", () => {
+        const host = render(
+            '<lily-statistic title="Index" value="30.5" change="0.5 more than October 2024" trend="up"></lily-statistic>',
+        );
+        const change = host.querySelector(".statistic-change") as HTMLElement;
+        expect(change.textContent).toBe("0.5 more than October 2024");
+        expect(change.getAttribute("data-trend")).toBe("up");
+        expect(host.textContent).not.toMatch(/[↑↓→]/);
+    });
+
+    test("the as-of line is a time element, shown only with its words", () => {
+        expect(
+            render(
+                '<lily-statistic title="Index" value="30.5" as-of="2024-12-01"></lily-statistic>',
+            ).querySelector(".statistic-as-of"),
+        ).toBeNull();
+        const host = render(
+            '<lily-statistic title="Index" value="30.5" as-of="2024-12-01" as-of-label="Data as of 1 December 2024"></lily-statistic>',
+        );
+        const time = host.querySelector("time.statistic-as-of") as HTMLElement;
+        expect(time.getAttribute("datetime")).toBe("2024-12-01");
+        expect(time.textContent).toBe("Data as of 1 December 2024");
+    });
+
+    test("without a change there is no change part and no data-trend", () => {
+        const host = render(
+            '<lily-statistic title="Index" value="30.5" trend="down"></lily-statistic>',
+        );
+        expect(host.querySelector(".statistic-change")).toBeNull();
+        expect(host.querySelector("[data-trend]")).toBeNull();
+    });
 });

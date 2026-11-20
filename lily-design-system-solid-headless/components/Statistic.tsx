@@ -46,12 +46,32 @@ export interface StatisticProps {
     suffix?: JSX.Element;
     /** aria-label override (defaults to "{title}: {value}") */
     label?: string;
+    /** The change, in words that name what it is compared with ("0.5 more than October 2024") */
+    change?: string;
+    /** The direction of the change, as data-trend for the theme; the words in `change` carry it for everyone */
+    trend?: "up" | "down" | "flat";
+    /** When the value was measured, as an ISO 8601 date or date-time for the <time> element */
+    asOf?: string;
+    /** When the value was measured, in words; the as-of line renders only with it */
+    asOfLabel?: string;
     [key: string]: unknown;
 }
 
 export default function Statistic(props: StatisticProps) {
     const p = withDefaults({ class: "" as const }, props);
-    const restProps = omit(p, "class", "title", "value", "prefix", "suffix", "label");
+    const restProps = omit(
+        p,
+        "class",
+        "title",
+        "value",
+        "prefix",
+        "suffix",
+        "label",
+        "change",
+        "trend",
+        "asOf",
+        "asOfLabel",
+    );
     const ariaLabel = (): string => p.label ?? `${p.title}: ${p.value}`;
     return (
         <div
@@ -70,6 +90,22 @@ export default function Statistic(props: StatisticProps) {
                     <span class="statistic-suffix">{p.suffix}</span>
                 ) : null}
             </div>
+            {p.change ? (
+                <div
+                    class="statistic-change"
+                    data-trend={p.trend}
+                >
+                    {p.change}
+                </div>
+            ) : null}
+            {p.asOfLabel ? (
+                <time
+                    class="statistic-as-of"
+                    datetime={p.asOf}
+                >
+                    {p.asOfLabel}
+                </time>
+            ) : null}
         </div>
     );
 }

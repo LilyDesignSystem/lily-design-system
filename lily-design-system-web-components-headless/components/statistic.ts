@@ -62,5 +62,27 @@ export class Statistic extends HTMLElement {
         }
 
         this.appendChild(valueEl);
+
+        // The change, in words that name its comparison; its direction is data-trend for the theme, never an arrow here.
+        const change = this.getAttribute("change");
+        if (change) {
+            const changeEl = document.createElement("div");
+            changeEl.className = "statistic-change";
+            const trend = this.getAttribute("trend");
+            if (trend) changeEl.setAttribute("data-trend", trend);
+            changeEl.textContent = change;
+            this.appendChild(changeEl);
+        }
+
+        // When the value was measured: a <time>, shown only with its words.
+        const asOfLabel = this.getAttribute("as-of-label");
+        if (asOfLabel) {
+            const time = document.createElement("time");
+            time.className = "statistic-as-of";
+            const asOf = this.getAttribute("as-of");
+            if (asOf) time.setAttribute("datetime", asOf);
+            time.textContent = asOfLabel;
+            this.appendChild(time);
+        }
     }
 }

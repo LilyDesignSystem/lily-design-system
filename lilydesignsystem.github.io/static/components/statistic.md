@@ -26,6 +26,10 @@ prominent number must be paired with a short label.
 - `prefix`: slot (optional) -- element before the value (e.g., currency symbol)
 - `suffix`: slot (optional) -- element after the value (e.g., unit or %)
 - `label`: string (optional) -- aria-label override
+- `change`: string (optional) -- the change, in words that name its comparison ("0.5 more than October 2024")
+- `trend`: "up" | "down" | "flat" (optional) -- `data-trend` on the change, for the theme; no arrow is rendered
+- `asOf`: string (optional) -- ISO 8601 date or date-time for the as-of `<time>`
+- `asOfLabel`: string (optional) -- when the value was measured, in words; the as-of line renders only with it
 - `...restProps`: any additional HTML attributes
 
 ## Usage

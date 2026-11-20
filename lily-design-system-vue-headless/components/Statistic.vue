@@ -42,9 +42,21 @@ const props = withDefaults(
         value: string;
         /** aria-label override. */
         label?: string;
+        /** The change, in words that name what it is compared with ("0.5 more than October 2024"). */
+        change?: string;
+        /** The direction of the change, as data-trend for the theme; the words in `change` carry it for everyone. */
+        trend?: "up" | "down" | "flat";
+        /** When the value was measured, as an ISO 8601 date or date-time for the <time> element. */
+        asOf?: string;
+        /** When the value was measured, in words; the as-of line renders only with it. */
+        asOfLabel?: string;
     }>(),
     {
         label: undefined,
+        change: undefined,
+        trend: undefined,
+        asOf: undefined,
+        asOfLabel: undefined,
     },
 );
 
@@ -76,5 +88,18 @@ const ariaLabel = computed<string>(() => props.label ?? `${props.title}: ${props
                 <slot name="suffix" />
             </span>
         </div>
+        <div
+            v-if="change"
+            class="statistic-change"
+            :data-trend="trend"
+        >
+            {{ change }}
+        </div>
+        <time
+            v-if="asOfLabel"
+            class="statistic-as-of"
+            :datetime="asOf"
+            >{{ asOfLabel }}</time
+        >
     </div>
 </template>

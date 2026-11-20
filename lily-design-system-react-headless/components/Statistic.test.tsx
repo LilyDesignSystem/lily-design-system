@@ -125,4 +125,53 @@ describe("Statistic", () => {
         const group: HTMLElement = screen.getByRole("group");
         expect(group.getAttribute("id")).toBe("stat-1");
     });
+
+    test("a change is text that names its comparison, with the direction as data-trend", () => {
+        const { container } = render(
+            <Subject
+                title="Engagement index"
+                value="30.5"
+                change="0.5 more than October 2024"
+                trend="up"
+            />,
+        );
+        const change = container.querySelector(".statistic-change") as HTMLElement;
+        expect(change.textContent).toBe("0.5 more than October 2024");
+        expect(change.getAttribute("data-trend")).toBe("up");
+        expect(container.textContent).not.toMatch(/[↑↓→]/);
+    });
+
+    test("the as-of line is a time element, shown only with its words", () => {
+        const { container, rerender } = render(
+            <Subject
+                title="Index"
+                value="30.5"
+                asOf="2024-12-01"
+            />,
+        );
+        expect(container.querySelector(".statistic-as-of")).toBeNull();
+        rerender(
+            <Subject
+                title="Index"
+                value="30.5"
+                asOf="2024-12-01"
+                asOfLabel="Data as of 1 December 2024"
+            />,
+        );
+        const time = container.querySelector("time.statistic-as-of") as HTMLElement;
+        expect(time.getAttribute("datetime")).toBe("2024-12-01");
+        expect(time.textContent).toBe("Data as of 1 December 2024");
+    });
+
+    test("without a change there is no change part and no data-trend", () => {
+        const { container } = render(
+            <Subject
+                title="Index"
+                value="30.5"
+                trend="down"
+            />,
+        );
+        expect(container.querySelector(".statistic-change")).toBeNull();
+        expect(container.querySelector("[data-trend]")).toBeNull();
+    });
 });

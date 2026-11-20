@@ -45,6 +45,14 @@ export interface StatisticProps {
     suffix?: React.ReactNode;
     /** aria-label override (defaults to "{title}: {value}") */
     label?: string;
+    /** The change, in words that name what it is compared with ("0.5 more than October 2024") */
+    change?: string;
+    /** The direction of the change, as data-trend for the theme; the words in `change` carry it for everyone */
+    trend?: "up" | "down" | "flat";
+    /** When the value was measured, as an ISO 8601 date or date-time for the <time> element */
+    asOf?: string;
+    /** When the value was measured, in words; the as-of line renders only with it */
+    asOfLabel?: string;
     [key: string]: unknown;
 }
 
@@ -55,6 +63,10 @@ export default function Statistic({
     prefix = undefined,
     suffix = undefined,
     label = undefined,
+    change = undefined,
+    trend = undefined,
+    asOf = undefined,
+    asOfLabel = undefined,
     ...restProps
 }: StatisticProps) {
     const ariaLabel: string = label ?? `${title}: ${value}`;
@@ -75,6 +87,22 @@ export default function Statistic({
                     <span className="statistic-suffix">{suffix}</span>
                 ) : null}
             </div>
+            {change ? (
+                <div
+                    className="statistic-change"
+                    data-trend={trend}
+                >
+                    {change}
+                </div>
+            ) : null}
+            {asOfLabel ? (
+                <time
+                    className="statistic-as-of"
+                    dateTime={asOf}
+                >
+                    {asOfLabel}
+                </time>
+            ) : null}
         </div>
     );
 }

@@ -24,6 +24,14 @@
                           via `| safe`). Takes precedence over suffix.
     label        string   Optional aria-label override (defaults to
                           "{title}: {value}").
+    change       string   The change, in words that name its comparison
+                          ("0.5 more than October 2024").
+    trend        string   "up" | "down" | "flat": data-trend on the
+                          change, for the theme; no arrow is rendered.
+    asOf         string   ISO 8601 date or date-time for the as-of
+                          <time>.
+    asOfLabel    string   When the value was measured, in words; the
+                          as-of line renders only with it.
     classes      string   Consumer-provided extra CSS classes.
     attributes   object   Extra HTML attributes on the root element.
 
@@ -58,5 +66,11 @@
       <span class="statistic-suffix">{{ p.suffix }}</span>
     {%- endif -%}
   </div>
+  {%- if p.change %}
+  <div class="statistic-change"{% if p.trend %} data-trend="{{ p.trend }}"{% endif %}>{{ p.change }}</div>
+  {%- endif %}
+  {%- if p.asOfLabel %}
+  <time class="statistic-as-of"{% if p.asOf %} datetime="{{ p.asOf }}"{% endif %}>{{ p.asOfLabel }}</time>
+  {%- endif %}
 </div>
 {%- endmacro -%}

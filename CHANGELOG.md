@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## A change and an "as of" on `statistic` (2026-11-20, P40-T1, unreleased)
+
+- In all nine catalogs `statistic` takes `change` (words that name the comparison), `trend` (`data-trend` on the change, for
+  the theme; no arrow is rendered) and `asOf` with `asOfLabel` (a `<time>`, shown only with its words).
+- `formatRange` no longer fails the type check in packages whose TypeScript lib settings predate ES2023.
+
 ## `formatRange` for clinical ranges (2026-11-20, P40-T3, unreleased)
 
 - `formatRange(low, high, unit, locale)` in `shared/clinical-format.ts`, copied into every package that has
