@@ -5,6 +5,7 @@
 - Component: container
 - PascalCase: Container
 - Description: a generic block-level content container
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .container
 - Interactive: no
@@ -34,6 +35,10 @@
 - [ ] Renders `<div>` element with class="container"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

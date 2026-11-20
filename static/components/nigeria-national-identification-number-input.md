@@ -87,6 +87,10 @@ A national identifier is personal data, and often a key to other records.
 - `nigeria-national-identification-number-view` — a read-only display of Nigeria's National Identification Number (NIN)
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [National Identity Management Commission](https://en.wikipedia.org/wiki/National_Identity_Management_Commission)

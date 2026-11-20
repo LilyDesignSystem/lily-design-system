@@ -5,6 +5,7 @@
 - Component: dialog
 - PascalCase: Dialog
 - Description: a modal or non-modal dialog window
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <dialog>
 - CSS class: .dialog
 - Interactive: yes
@@ -13,7 +14,7 @@
 
 - Renders a native `<dialog>` element conditionally via conditional rendering
 - Supports two-way binding on the `open` prop with the parent
-- The `open` HTML attribute is set directly on the dialog element (not using `.showModal()`)
+- A modal dialog (`modal`, the default) is opened with `.showModal()`, so the browser makes the page behind it inert, traps focus inside, and gives focus back to the opener when it closes; a non-modal one (`modal={false}`) is shown with the `open` attribute. Where `showModal` does not exist (jsdom) it falls back to the `open` attribute. The native `cancel` and `close` events (Escape, `<form method="dialog">`) set `open` to false
 - `tabindex="-1"` is set on the dialog to ensure it can receive focus and keyboard events
 - Escape key handler sets `open` to false and prevents default browser behavior
 - The `modal` prop controls whether `aria-modal` is set (defaults to true)
@@ -30,7 +31,7 @@
 
 ## Keyboard
 
-- Escape: closes the dialog by setting `open` to false
+- Escape: closes the dialog by setting `open` to false, unless something inside already handled it (`defaultPrevented`)
 
 ## Props
 
@@ -38,6 +39,26 @@
 - `label`: string (required) -- accessible name for the dialog
 - `modal`: boolean (default: true) -- whether the dialog behaves as a modal
 - `children`: slot (required) -- dialog body content
+
+## Native platform
+
+- Decision: native
+- Uses: <dialog> showModal() (modal) or open attribute (non-modal) via modal.ts
+- Could use: command="show-modal"/"close" on consumer buttons
+- Notes: Same as alert-dialog. The open prop stays the source of truth, so a commandfor trigger would need the dialog always mounted. P14-T4 (2026-10-30): all nine libraries now open it with showModal(); Angular keeps the <dialog> always mounted and shows it while open (a ModalDialog directive), Blazor through Drawer.razor.js (ModalDialogBase).
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
+## Styles
+
+The headless component ships no CSS. A Lily reference theme exposes these variables on the base `.dialog`; related
+dialog variants retain their own frame rules.
+
+| Variable                      | Default                 |
+| ----------------------------- | ----------------------- |
+| `--lily-dialog-background`    | `var(--lily-surface)`   |
+| `--lily-dialog-color`         | `var(--lily-text)`      |
+| `--lily-dialog-border-color`  | `var(--lily-border)`    |
+| `--lily-dialog-border-radius` | `var(--lily-radius-lg)` |
 
 ## Acceptance Criteria
 
@@ -47,6 +68,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

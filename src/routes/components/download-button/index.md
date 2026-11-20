@@ -5,6 +5,8 @@ downloadable file. It uses an `<a>` element (not `<button>`) so that users
 can right-click and "Save link as…", and so that the native `download`
 attribute can suggest a filename.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it for prominent download calls-to-action such as installer downloads,
 PDF reports, datasets, exported files, and signed asset bundles.
 
@@ -109,6 +111,14 @@ and `data-file-format` attributes to render badges or pseudo-element labels.
 - `button` — a generic clickable button element
 - `document-list-item` — one document entry in a document list
 - `file-input` — an input for selecting files from the file system <input type="file">
+
+## Known limitations
+
+### Disabled links and link look-alikes
+
+A link has no disabled state: the `disabled` attribute has no effect. Prefer not rendering an unavailable link. When the unavailable item must remain visible, set `aria-disabled="true"`, omit `href` (or guard every pointer and keyboard activation if the URL must remain), and use `tabindex="-1"` so it is not a misleading tab stop. Add `role="link"` when an anchor without `href` must retain link semantics.
+
+Use a native `<button>` for an action. Styling an anchor as a button does not give it button keyboard or disabled behavior.
 
 ## References
 

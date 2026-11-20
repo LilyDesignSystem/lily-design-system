@@ -5,6 +5,7 @@
 - Component: accordion-nav
 - PascalCase: AccordionNav
 - Description: an accordion navigation area for collapsible accordion information
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <nav>
 - CSS class: .accordion-nav
 - Interactive: no
@@ -23,8 +24,8 @@
 
 ## ARIA
 
-- `role="region"` -- identifies the accordion as a landmark region
-- `aria-label` -- provides an accessible name for the region, allowing screen readers to announce it
+- Native `<nav>` -- identifies the accordion as a navigation landmark; a `role` here would replace that
+- `aria-label` -- provides an accessible name for the landmark, allowing screen readers to announce it
 
 ## Keyboard
 
@@ -42,9 +43,13 @@
 
 - [ ] Renders <nav> element with class="accordion-nav"
 - [ ] Has aria-label attribute
-- [ ] Has role="region"
+- [ ] Is a native <nav> landmark, with no role override
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

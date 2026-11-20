@@ -46,5 +46,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Slider.razor"
   },
   "docs": "https://lilydesignsystem.com/components/slider/",
+  "markdown": "https://lilydesignsystem.com/components/slider.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/slider/AGENTS.md"
 }

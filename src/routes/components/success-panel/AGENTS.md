@@ -5,6 +5,7 @@
 - Component: success-panel
 - PascalCase: SuccessPanel
 - Description: a panel confirming a task has been completed
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .success-panel
 - Interactive: no
@@ -19,8 +20,7 @@
 
 ## ARIA
 
-- `role="alert"` exposes the panel as an alert region
-- `aria-live="polite"` ensures the heading and body are announced when the panel renders
+- `role="status"` exposes the panel as a polite live region, so the heading and body are announced when it renders
 - Heading level is configurable via the `headingLevel` prop (default `<h1>` — confirmation pages typically use the panel as the page's main heading)
 
 ## Keyboard
@@ -42,6 +42,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

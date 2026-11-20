@@ -41,5 +41,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Toast.razor"
   },
   "docs": "https://lilydesignsystem.com/components/toast/",
+  "markdown": "https://lilydesignsystem.com/components/toast.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/toast/AGENTS.md"
 }

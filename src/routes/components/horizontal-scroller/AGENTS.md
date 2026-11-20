@@ -5,6 +5,7 @@
 - Component: horizontal-scroller
 - PascalCase: HorizontalScroller
 - Description: a horizontally scrollable content container
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .horizontal-scroller
 - Interactive: yes
@@ -42,6 +43,10 @@
 - [ ] Left/Right arrow keys scroll horizontally
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS -- fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

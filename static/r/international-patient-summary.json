@@ -55,5 +55,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/InternationalPatientSummary.razor"
   },
   "docs": "https://lilydesignsystem.com/components/international-patient-summary/",
+  "markdown": "https://lilydesignsystem.com/components/international-patient-summary.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/international-patient-summary/AGENTS.md"
 }

@@ -5,6 +5,7 @@
 - Component: barcode-image
 - PascalCase: BarcodeImage
 - Description: a visual machine-readable symbolic code image, such as for a scanner
+- Status: experimental — recent catalog addition with the least accumulated depth; contract may still move
 - HTML tag: <img>
 - CSS class: .barcode-image
 - Interactive: no
@@ -39,6 +40,10 @@
 - [ ] Has alt attribute from the prop
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS -- fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

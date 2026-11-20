@@ -38,5 +38,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/CollectionList.razor"
   },
   "docs": "https://lilydesignsystem.com/components/collection-list/",
+  "markdown": "https://lilydesignsystem.com/components/collection-list.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/collection-list/AGENTS.md"
 }

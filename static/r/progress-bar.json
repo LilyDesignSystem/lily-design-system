@@ -42,5 +42,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ProgressBar.razor"
   },
   "docs": "https://lilydesignsystem.com/components/progress-bar/",
+  "markdown": "https://lilydesignsystem.com/components/progress-bar.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/progress-bar/AGENTS.md"
 }

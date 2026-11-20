@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/QrCodeImage.razor"
   },
   "docs": "https://lilydesignsystem.com/components/qr-code-image/",
+  "markdown": "https://lilydesignsystem.com/components/qr-code-image.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/qr-code-image/AGENTS.md"
 }

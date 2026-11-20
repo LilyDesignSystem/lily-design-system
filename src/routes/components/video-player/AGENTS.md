@@ -5,13 +5,14 @@
 - Component: video-player
 - PascalCase: VideoPlayer
 - Description: a video player with play-in-view behavior, custom controls, and IntersectionObserver support
-- HTML tag: <div> containing <video>
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
+- HTML tag: <figure> containing <video>
 - CSS class: .video-player
 - Interactive: yes
 
 ## Key Behaviors
 
-- Uses `<div>` container wrapping a `<video>` element
+- Uses a `<figure>` wrapping a `<video>` element, with the caption as its `<figcaption>`
 - Optional play-in-view: auto-plays when scrolled into viewport, pauses when scrolled out
 - Uses IntersectionObserver for visibility detection
 - Supports custom control overlays via children slot
@@ -20,7 +21,7 @@
 
 ## ARIA
 
-- `aria-label` on container -- describes the video content for screen readers
+- `aria-label` on the `<figure>` -- describes the video content for screen readers
 - Native `<video>` element provides built-in accessibility controls
 
 ## Keyboard
@@ -43,14 +44,18 @@
 
 ## Acceptance Criteria
 
-- [ ] Renders <div> element with class="video-player"
-- [ ] Has aria-label attribute on container
+- [ ] Renders <figure> element with class="video-player"
+- [ ] Has aria-label attribute on the `<figure>`
 - [ ] <video> renders with correct src attribute
 - [ ] Poster attribute applied when provided
 - [ ] Native controls shown by default
 - [ ] Play-in-view behavior works with IntersectionObserver when autoplay is true
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS -- fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

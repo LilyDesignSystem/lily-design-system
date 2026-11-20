@@ -94,6 +94,10 @@ The consumer provides all CSS styling. The component renders with a `.label` cla
 - `hint` — hint text providing guidance for a form field
 - `error-message` — an error message associated with a form field
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI Forms Tutorial - Labels: https://www.w3.org/WAI/tutorials/forms/labels/

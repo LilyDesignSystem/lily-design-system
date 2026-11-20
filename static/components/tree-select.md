@@ -123,6 +123,10 @@ and a clear distinction between the collapsed and expanded states.
 - `tree-nav` — a hierarchical navigation with expandable branches
 - `select` — a dropdown select element for choosing one option
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/

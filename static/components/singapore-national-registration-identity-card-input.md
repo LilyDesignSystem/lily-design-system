@@ -93,6 +93,10 @@ A national identifier is personal data, and often a key to other records.
 - `singapore-national-registration-identity-card-view` — a read-only display of Singapore's National Registration Identity Card Number / Foreign Identification Number (NRIC/FIN)
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [National Registration Identity Card](https://en.wikipedia.org/wiki/National_Registration_Identity_Card)

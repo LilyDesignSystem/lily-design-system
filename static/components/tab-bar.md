@@ -102,6 +102,10 @@ TabBar uses the Bar/BarButton composition pattern. Place TabBarButton components
 
 - `tab-bar-button` — one tab button in a tab group
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Tabs Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/tabs/

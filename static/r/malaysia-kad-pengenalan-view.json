@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/MalaysiaKadPengenalanView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/malaysia-kad-pengenalan-view/",
+  "markdown": "https://lilydesignsystem.com/components/malaysia-kad-pengenalan-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/malaysia-kad-pengenalan-view/AGENTS.md"
 }

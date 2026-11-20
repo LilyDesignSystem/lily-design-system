@@ -210,6 +210,10 @@ TourListItem is a child of TourGuideList, following the Guide/GuideList/GuideLis
 
 - `tour-list` — an ordered list of tour guide steps
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Group Role: https://www.w3.org/TR/wai-aria-1.2/#group

@@ -44,5 +44,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/CallToAction.razor"
   },
   "docs": "https://lilydesignsystem.com/components/call-to-action/",
+  "markdown": "https://lilydesignsystem.com/components/call-to-action.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/call-to-action/AGENTS.md"
 }

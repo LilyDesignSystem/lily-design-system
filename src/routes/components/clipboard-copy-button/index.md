@@ -2,6 +2,8 @@
 
 A clipboard component provides a button that copies specified text to the system clipboard when activated. It uses the ClipboardCopyButton API (`navigator.clipboard.writeText`) and exposes success and error callbacks for consumer-defined feedback.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The component tracks a `copied` state that automatically resets after 2 seconds. This state is exposed via a `data-copied` attribute on the button, allowing consumers to show visual feedback (e.g., a "Copied!" indicator) through CSS selectors like `[data-copied="true"]`.
 
 ## Implementation Notes
@@ -72,6 +74,62 @@ Copy button alongside an API key:
 </Field>
 ```
 
+Package-manager tabs (a recipe, not a component): one command shown as pnpm, npm, yarn and bun tabs, each panel with its
+own copy button. The command strings are content, so the page supplies them; nothing detects the user's package manager.
+`TabBar` marks the tabs, `TabPanel` shows one command at a time, `Code` holds the text, and the copy button copies exactly
+the visible command. Each panel has its own button so the accessible name can say which command it copies.
+
+```html
+<TabBar label="Install with">
+  <TabBarButton
+    id="pm-pnpm"
+    selected
+    controls="pm-pnpm-panel"
+    >pnpm</TabBarButton
+  >
+  <TabBarButton
+    id="pm-npm"
+    controls="pm-npm-panel"
+    >npm</TabBarButton
+  >
+  <TabBarButton
+    id="pm-yarn"
+    controls="pm-yarn-panel"
+    >yarn</TabBarButton
+  >
+  <TabBarButton
+    id="pm-bun"
+    controls="pm-bun-panel"
+    >bun</TabBarButton
+  >
+</TabBar>
+<TabPanel
+  id="pm-pnpm-panel"
+  labelledBy="pm-pnpm"
+  selected
+>
+  <code>pnpm add @lilydesignsystem/svelte-headless</code>
+  <ClipboardCopyButton
+    text="pnpm add @lilydesignsystem/svelte-headless"
+    label="Copy the pnpm command"
+  />
+</TabPanel>
+<TabPanel
+  id="pm-npm-panel"
+  labelledBy="pm-npm"
+  selected="{false}"
+>
+  <code>npm install @lilydesignsystem/svelte-headless</code>
+  <ClipboardCopyButton
+    text="npm install @lilydesignsystem/svelte-headless"
+    label="Copy the npm command"
+  />
+</TabPanel>
+```
+
+Repeat the panel for yarn (`yarn add …`) and bun (`bun add …`). Keep the selected tab and the panels' `selected` in step in
+your own state; a selection may be remembered in `localStorage` so every install block on a site follows the reader's choice.
+
 ## Keyboard Interactions
 
 - Enter/Space: Activate the copy button (native button behavior)
@@ -120,6 +178,10 @@ The consumer provides all CSS styling. The component renders with a `.clipboard-
 - `button` — a generic clickable button element
 - `icon-button` — a button containing only an icon with a required accessible label
 - `share-page` — a component for sharing the page on social media
+
+## Known limitations
+
+None known.
 
 ## References
 

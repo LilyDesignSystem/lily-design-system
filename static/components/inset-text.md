@@ -90,6 +90,10 @@ The consumer provides all CSS styling. The component renders with a `.inset-text
 - `information-callout` — a callout box highlighting informational content
 - `blockquote` — a block-level quotation with optional source citation
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Note Role: https://www.w3.org/TR/wai-aria-1.2/#note

@@ -2,19 +2,21 @@
 
 A read-only five-face rating display that shows a text label corresponding to a rating value from 1 to 5. This is the display-only companion to FiveFaceRatingInput, used for showing previously submitted ratings in summaries, review lists, or dashboard displays.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 ## Implementation Notes
 
 - Renders a `<span>` with `role="img"` to indicate it represents a visual rating
 - Uses derived value to look up the face label from the `labels` array based on the `value`
 - Exposes `data-value` attribute for consumer CSS or testing
-- Default labels are "Very bad", "Bad", "Okay", "Good", "Very good" -- customizable via the `labels` prop
+- Default labels are the numbers "1" to "5" -- pass words in the page's language via the `labels` prop (no English default)
 - Spreads `restProps` for consumer customization
 
 ## Props
 
 - `value`: number (required) -- rating value (1-5) to display
 - `label`: string (required) -- accessible description via `aria-label`
-- `labels`: string[] (default: `["Very bad", "Bad", "Okay", "Good", "Very good"]`) -- text labels for each face
+- `labels`: string[] (default: `["1", "2", "3", "4", "5"]`; no English default) -- text labels for each face
 - `...restProps`: unknown -- additional attributes spread onto the `<span>`
 
 ## Usage
@@ -85,6 +87,10 @@ The consumer provides all CSS styling. The component renders with a `.five-face-
 ## Related components
 
 - `five-face-rating-radio-group` — a picker for selecting a 1-5 satisfaction rating using face labels
+
+## Known limitations
+
+None known.
 
 ## References
 

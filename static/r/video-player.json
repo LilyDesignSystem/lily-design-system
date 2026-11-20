@@ -46,5 +46,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/VideoPlayer.razor"
   },
   "docs": "https://lilydesignsystem.com/components/video-player/",
+  "markdown": "https://lilydesignsystem.com/components/video-player.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/video-player/AGENTS.md"
 }

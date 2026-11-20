@@ -49,5 +49,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Button.razor"
   },
   "docs": "https://lilydesignsystem.com/components/button/",
+  "markdown": "https://lilydesignsystem.com/components/button.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/button/AGENTS.md"
 }

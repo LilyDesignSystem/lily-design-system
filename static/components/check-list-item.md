@@ -98,6 +98,10 @@ CheckListItem is used within a CheckList component.
 
 - `check-list` — an ordered list of check list item components
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN li element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li)

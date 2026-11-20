@@ -5,6 +5,10 @@
 - Component: carousel
 - PascalCase: Carousel
 - Description: a slideshow for cycling through content items
+- Status: discouraged — kept for existing users; prefer showing the content directly
+- Alternative: `card` in a `grid`, so every item is visible
+- Reason: slides past the first are often missed, and the pattern is hard to make accessible; Queensland's public design system declines to offer one
+- Evidence: https://designsystem.qld.gov.au/about/exploring-our-decisions/carousels
 - HTML tag: <div>
 - CSS class: .carousel
 - Interactive: no
@@ -26,6 +30,7 @@
 ## Keyboard
 
 - No keyboard interactions — this is a passive element
+- The consumer's controls follow the APG carousel pattern (index.md, "Controls the consumer builds"): a Pause / Play button first, rotation off until pressed and under reduced motion, `tablist` with roving tabindex and ArrowLeft / ArrowRight / Home / End, `aria-live` off while rotating, hidden and cloned slides `inert`
 
 ## Props
 
@@ -40,6 +45,10 @@
 - [ ] Has role="region"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

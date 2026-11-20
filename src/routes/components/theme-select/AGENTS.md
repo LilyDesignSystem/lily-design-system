@@ -5,6 +5,7 @@
 - Component: theme-select
 - PascalCase: ThemeSelect
 - Description: a select dropdown for choosing a theme
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <select>
 - CSS class: .theme-select
 - Interactive: yes
@@ -42,6 +43,14 @@
 | `children`     | `slot`          | (required) | `<option>` elements representing available themes         |
 | `...restProps` | HTML attributes |            | Additional attributes spread onto the `<select>` element  |
 
+## Native platform
+
+- Decision: native
+- Uses: native <select>
+- Could use: appearance: base-select in theme CSS under @supports
+- Notes: As select.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
 ## Acceptance Criteria
 
 - [ ] Renders <select> element with class="theme-select"
@@ -49,6 +58,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

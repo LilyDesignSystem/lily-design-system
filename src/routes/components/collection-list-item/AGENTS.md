@@ -5,6 +5,7 @@
 - Component: collection-list-item
 - PascalCase: CollectionListItem
 - Description: one item in a collection list with optional image, heading, meta, and description
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <li>
 - CSS class: .collection-list-item
 - Interactive: no (heading link is interactive when href is provided)
@@ -57,6 +58,10 @@
 - [ ] Additional HTML attributes pass through to the root element
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

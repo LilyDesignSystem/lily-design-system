@@ -116,6 +116,10 @@ ScrollArea can contain a ScrollBar child for custom scrollbar rendering. Use `<S
 - `scroll-bar` — a custom scrollbar element
 - `container` — a generic block-level content container
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Region Role: https://www.w3.org/TR/wai-aria-1.2/#region

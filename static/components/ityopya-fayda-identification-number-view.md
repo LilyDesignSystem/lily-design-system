@@ -75,6 +75,10 @@ A national identifier is personal data, and often a key to other records.
 - `ityopya-fayda-identification-number-input` — an input for entering Ethiopia's Fayda Identification Number (FIN)
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [Fayda ID](https://en.wikipedia.org/wiki/Fayda_ID)

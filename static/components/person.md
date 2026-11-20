@@ -93,6 +93,10 @@ The consumer provides all CSS styling. The component renders with a `.person` cl
 - `place` — a place component that contains other place-related information
 - `avatar` — an avatar indicator that shows an avatar image or avatar text
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN article element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article)

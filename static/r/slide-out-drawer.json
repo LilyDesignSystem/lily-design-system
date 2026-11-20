@@ -40,6 +40,7 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SlideOutDrawer.razor"
   },
   "docs": "https://lilydesignsystem.com/components/slide-out-drawer/",
+  "markdown": "https://lilydesignsystem.com/components/slide-out-drawer.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/slide-out-drawer/AGENTS.md",
   "nativePlatform": {
     "decision": "native",

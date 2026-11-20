@@ -2,6 +2,8 @@
 
 InformationCallout is a headless component that highlights important information in a semantically distinct container. It renders an `<aside>` element with `role="note"` and an accessible label, making the callout content identifiable to assistive technologies as supplementary information.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This component is useful for displaying notices, tips, warnings, beta feature announcements, or any content that should stand out from the main flow. Consumers provide the callout content as children and bring their own styling to achieve the desired visual treatment.
 
 ## Implementation Notes
@@ -72,7 +74,7 @@ The consumer provides all CSS styling. The component renders with a `.informatio
 
 ## Testing
 
-- Verify the component renders a `<div>` element with class `information-callout`
+- Verify the component renders an `<aside>` element with class `information-callout`
 - Verify role="note"` -- identifies the content as a note or supplementary information
 - Verify aria-label={label}` -- provides an accessible name describing the type of callout (e.g., "Note", "Warning", "Tip")
 - Verify pass-through attributes are applied
@@ -87,6 +89,10 @@ The consumer provides all CSS styling. The component renders with a `.informatio
 - `warning-callout` — a callout box highlighting a warning message
 - `alert` — a status message for important information or feedback
 - `inset-text` — indented text to distinguish it from surrounding content
+
+## Known limitations
+
+None known.
 
 ## References
 

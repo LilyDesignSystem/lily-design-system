@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/DateTimeView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/date-time-view/",
+  "markdown": "https://lilydesignsystem.com/components/date-time-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/date-time-view/AGENTS.md"
 }

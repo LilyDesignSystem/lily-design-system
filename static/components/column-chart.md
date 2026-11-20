@@ -74,6 +74,10 @@ The graphic is wrapped in `<div class="column-chart-graphic" role="img" aria-lab
 - `line-chart` / `area-chart` — continuous-data alternatives
 - `graphic-block` — chart wrapper with title/notes
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN figure element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figure)

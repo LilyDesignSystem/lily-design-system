@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/MagyarorszagTajSzamView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/magyarorszag-taj-szam-view/",
+  "markdown": "https://lilydesignsystem.com/components/magyarorszag-taj-szam-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/magyarorszag-taj-szam-view/AGENTS.md"
 }

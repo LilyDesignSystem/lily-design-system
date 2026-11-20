@@ -10,6 +10,8 @@ between views without reloading or navigating away from the page. They enhance
 usability by providing an intuitive, quick way to explore different content or
 options within the same context.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This component renders an individual tab button with proper ARIA attributes
 including role="tab", aria-selected for the active state, and aria-controls to
 associate the tab with its corresponding tabpanel. It follows the roving
@@ -99,6 +101,10 @@ TabBarButton is designed to be used as a child of TabBar. The TabBar provides th
 ## Related components
 
 - `tab-bar` — a group of tabs for switching between content panels
+
+## Known limitations
+
+None known.
 
 ## References
 

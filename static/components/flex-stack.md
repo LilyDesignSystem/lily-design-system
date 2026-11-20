@@ -114,6 +114,10 @@ for direction-specific styles.
 - `grid` — a CSS grid layout container with configurable columns and gap
 - `container` — a generic block-level content container
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN flexbox: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout

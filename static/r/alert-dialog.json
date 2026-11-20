@@ -42,6 +42,7 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AlertDialog.razor"
   },
   "docs": "https://lilydesignsystem.com/components/alert-dialog/",
+  "markdown": "https://lilydesignsystem.com/components/alert-dialog.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/alert-dialog/AGENTS.md",
   "nativePlatform": {
     "decision": "native",

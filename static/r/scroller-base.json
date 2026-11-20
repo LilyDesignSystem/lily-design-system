@@ -40,5 +40,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ScrollerBase.razor"
   },
   "docs": "https://lilydesignsystem.com/components/scroller-base/",
+  "markdown": "https://lilydesignsystem.com/components/scroller-base.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/scroller-base/AGENTS.md"
 }

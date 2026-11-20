@@ -5,6 +5,7 @@
 - Component: grail-layout-left-aside
 - PascalCase: GrailLayoutLeftAside
 - Description: grail layout left aside sidebar with <aside> tag
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <aside>
 - CSS class: .grail-layout-left-aside
 - Interactive: no
@@ -51,6 +52,10 @@
 - [ ] Renders <aside> element with class="grail-layout-left-aside"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

@@ -26,6 +26,7 @@
     "@lilydesignsystem/svelte-share-picker": "^0.3.2"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
     "@playwright/test": "^1.65.1",
     "@sveltejs/adapter-static": "^4.0.1",
     "@sveltejs/kit": "^3.2.0",

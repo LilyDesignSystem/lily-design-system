@@ -5,6 +5,7 @@
 - Component: medical-banner-box-for-advice
 - PascalCase: MedicalBannerBoxForAdvice
 - Description: a medical record banner box for advice information e.g. contacts, contexts, plans, etc.
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .medical-banner-box-for-advice
 - Interactive: no
@@ -39,6 +40,10 @@
 - [ ] Has data-type="advice"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS -- fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

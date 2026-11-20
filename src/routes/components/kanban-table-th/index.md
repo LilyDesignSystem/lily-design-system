@@ -2,6 +2,8 @@
 
 KanbanTableTD is a headless component that renders a `<th scope="col">` element — a column header cell — intended to live inside a KanbanTableRow within KanbanTableHead, where it labels a workflow stage column (e.g. "To do", "In progress", "Done").
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders a `<th>` element with `scope="col"` by default
@@ -87,6 +89,10 @@ KanbanTableTD is part of the KanbanTable composition pattern: KanbanTable > Kanb
 - `kanban-table-row` — a kanban board table interactive grid row for organizing items by status <tr>
 - `kanban-table-td` — kanban board table interactive grid data cell for organizing items by status <td>
 - `table` — a table with rows and columns <table>
+
+## Known limitations
+
+None known.
 
 ## References
 

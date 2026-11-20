@@ -108,6 +108,10 @@ The consumer provides all CSS styling. The component renders with a `.submit-inp
 - `button` — a generic clickable button element
 - `form` — a form element for collecting and submitting user data
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN input type="submit": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/submit

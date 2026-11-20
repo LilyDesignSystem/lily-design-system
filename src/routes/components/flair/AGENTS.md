@@ -5,6 +5,7 @@
 - Component: flair
 - PascalCase: Flair
 - Description: a decorative highlight or emphasis element
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <span>
 - CSS class: .flair
 - Interactive: no
@@ -18,6 +19,7 @@
 
 ## ARIA
 
+- `role="img"` with `aria-label` when `label` is given, because a `<span>` cannot be named
 - `aria-hidden="true"` -- applied when no `label` is provided, marking the flair as decorative
 - `aria-label` -- applied when `label` is provided, giving the flair an accessible name for screen readers
 
@@ -36,6 +38,10 @@
 - [ ] Has aria-label attribute
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

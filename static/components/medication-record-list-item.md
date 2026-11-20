@@ -75,6 +75,10 @@ This headless component ships zero CSS and decides nothing visual. The consumer 
 
 - `medication-record-list` — a list of a patient's medicines, whose status is never blank
 
+## Known limitations
+
+None known.
+
 ## References
 
 - FHIR MedicationStatement: https://hl7.org/fhir/R4/medicationstatement.html

@@ -101,6 +101,10 @@ DoList composes with DoListItem using the List/ListItem pattern. DoList renders 
 
 - `do-list-item` — an encouraged-practice item in a do-list guideline list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN ul element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul

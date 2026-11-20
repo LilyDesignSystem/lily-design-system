@@ -15,7 +15,7 @@ Implement the StepListItem component: one step in a step list with status of wai
 
 1. Use semantic <li> element with class="step-list-item"
 2. Apply data-status from the status prop (default "waiting")
-3. Apply aria-current="step" when current is true; omit otherwise
+3. Apply data-current when current is true; omit otherwise
 4. Apply aria-label when the optional label prop is provided
 5. Render children inside the list item
 6. Implement in HTML headless (plain HTML)
@@ -29,7 +29,7 @@ Implement the StepListItem component: one step in a step list with status of wai
 
 - [ ] Renders <li> with class="step-list-item"
 - [ ] data-status reflects status prop
-- [ ] aria-current="step" present only when current is true
+- [ ] data-current present only when current is true
 - [ ] aria-label applied when label prop is provided
 - [ ] Children render correctly
 - [ ] WCAG 2.2 AAA compliant

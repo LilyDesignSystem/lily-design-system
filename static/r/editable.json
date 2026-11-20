@@ -44,5 +44,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Editable.razor"
   },
   "docs": "https://lilydesignsystem.com/components/editable/",
+  "markdown": "https://lilydesignsystem.com/components/editable.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/editable/AGENTS.md"
 }

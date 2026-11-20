@@ -118,6 +118,10 @@ The consumer provides all CSS styling via the `.file-tree` class, and hides clos
 - `tree-list` — a simpler hierarchical list
 - `listbox` — a flat selectable list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Tree View Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/treeview/

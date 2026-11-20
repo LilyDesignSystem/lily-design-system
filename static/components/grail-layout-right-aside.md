@@ -79,6 +79,10 @@ GrailLayoutRightAside is used as a child of GrailLayout. Place semantic `<aside>
 - `grail-layout-left-aside` — grail layout left aside sidebar with <aside> tag
 - `grail-layout-top-header` — grail layout top header full width with <header> tag
 
+## Known limitations
+
+None known.
+
 ## References
 
 - CSS Grid Layout: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout

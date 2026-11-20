@@ -38,5 +38,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/GuatemalaCodigoUnicoDeIdentificacionInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/guatemala-codigo-unico-de-identificacion-input/",
+  "markdown": "https://lilydesignsystem.com/components/guatemala-codigo-unico-de-identificacion-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/guatemala-codigo-unico-de-identificacion-input/AGENTS.md"
 }

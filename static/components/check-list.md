@@ -91,6 +91,10 @@ CheckList follows the List/ListItem composition pattern. Use CheckList as the co
 
 - `check-list-item` — one check list item component with a checkbox
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/listbox/

@@ -94,6 +94,10 @@ A national identifier is personal data, and often a key to other records.
 - `eire-individual-health-identifier-view` — a read-only display of Eire Individual Health Identifier (IHI) unique national healthcare identifier
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - HSE: https://www.hse.ie/

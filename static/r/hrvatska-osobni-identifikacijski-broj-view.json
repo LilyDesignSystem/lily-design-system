@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/HrvatskaOsobniIdentifikacijskiBrojView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/hrvatska-osobni-identifikacijski-broj-view/",
+  "markdown": "https://lilydesignsystem.com/components/hrvatska-osobni-identifikacijski-broj-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/hrvatska-osobni-identifikacijski-broj-view/AGENTS.md"
 }

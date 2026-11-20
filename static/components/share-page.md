@@ -69,6 +69,10 @@ The component renders with `.share-page` as the root class. No default styles ar
 - `clipboard-copy-button` — single copy-to-clipboard action
 - `button-group` — grouped action buttons
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN Clipboard API](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API)

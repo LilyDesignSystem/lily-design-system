@@ -40,5 +40,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AvatarGroup.razor"
   },
   "docs": "https://lilydesignsystem.com/components/avatar-group/",
+  "markdown": "https://lilydesignsystem.com/components/avatar-group.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/avatar-group/AGENTS.md"
 }

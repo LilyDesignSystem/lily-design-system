@@ -109,6 +109,10 @@ ToggleGroup contains ToggleButton children (or plain buttons with `aria-pressed`
 - `segment-group` — a group of mutually exclusive segment options
 - `button-group` — a wrapper that groups related buttons together
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA group role: https://www.w3.org/TR/wai-aria-1.2/#group

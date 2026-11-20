@@ -38,5 +38,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/IranKodEMelliInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/iran-kod-e-melli-input/",
+  "markdown": "https://lilydesignsystem.com/components/iran-kod-e-melli-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/iran-kod-e-melli-input/AGENTS.md"
 }

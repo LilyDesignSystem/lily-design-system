@@ -5,6 +5,7 @@
 - Component: grid
 - PascalCase: Grid
 - Description: a CSS grid layout container with configurable columns and gap
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .grid
 - Interactive: no
@@ -14,6 +15,7 @@
 - Inline style sets `display: grid` and `gap: {gap}`
 - Numeric `columns` becomes `repeat({columns}, minmax(0, 1fr))`
 - String `columns` is used as-is for grid-template-columns
+- `minColumnWidth` (CSS length), when set, becomes `repeat(auto-fit, minmax(min({W}, 100%), 1fr))` and wins over `columns` (`columns` defaults to 12, so unset cannot be detected); `data-min-column-width` mirrors it
 - `data-columns` attribute mirrors the prop for consumer CSS hooks
 - No padding, item placement, or visual treatment is applied
 
@@ -28,6 +30,7 @@
 ## Props
 
 - `columns`: number | string (default: 12) -- column count or grid-template-columns value
+- `minColumnWidth`: string (optional CSS length) -- fluid mode; replaces `columns` when set
 - `gap`: string (default: "1rem") -- gap CSS value
 - `children`: slot -- laid-out content
 - `...restProps`: any additional HTML attributes
@@ -39,9 +42,14 @@
 - [ ] Inline style sets gap to gap prop
 - [ ] Numeric columns produces repeat(N, minmax(0, 1fr))
 - [ ] String columns is used verbatim for grid-template-columns
+- [ ] minColumnWidth produces repeat(auto-fit, minmax(min(W, 100%), 1fr)) and wins over columns
 - [ ] data-columns attribute matches columns prop
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

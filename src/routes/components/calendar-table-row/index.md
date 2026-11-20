@@ -2,6 +2,8 @@
 
 A calendar table row represents a single row within a calendar grid, typically corresponding to one week. It wraps day cells or header cells in a horizontal sequence. It is designed to be used inside a CalendarTableHead, CalendarTableBody, or CalendarTableFoot section.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 The component renders a `<tr>` element and passes through its children, which are expected to be `<td>`, `<th>`, or CalendarTableCell elements.
 
 ## Implementation Notes
@@ -111,6 +113,10 @@ CalendarTableRow is part of the CalendarTable composition pattern:
 - `calendar-table-td` — a calendar table interactive grid data cell for managing dates, days, etc. <td>
 - `calendar-table-th` — a calendar table interactive grid header cell for managing dates, days, etc. <th>
 - `table` — a table with rows and columns <table>
+
+## Known limitations
+
+None known.
 
 ## References
 

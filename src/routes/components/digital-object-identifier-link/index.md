@@ -2,6 +2,8 @@
 
 A digital object identifier link is a permanent hyperlink for a Digital Object Identifier (DOI) to an electronic source. DOIs provide persistent, actionable identification for content objects in digital environments and are widely used in academic publishing, scientific journals, and digital libraries.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses the native HTML `<a>` element for inherent link semantics. It constructs a DOI resolver URL (e.g., `https://doi.org/10.1234/example`) from the provided DOI string.
 
 ## Implementation Notes
@@ -98,6 +100,14 @@ A Digital Object Identifier (DOI) is a persistent identifier used to uniquely id
 
 - `citation` — a citation acknowledges the relevance of a work of another to the topic of discussion
 - `footnote` — a footnote reference and content element
+
+## Known limitations
+
+### Disabled links and link look-alikes
+
+A link has no disabled state: the `disabled` attribute has no effect. Prefer not rendering an unavailable link. When the unavailable item must remain visible, set `aria-disabled="true"`, omit `href` (or guard every pointer and keyboard activation if the URL must remain), and use `tabindex="-1"` so it is not a misleading tab stop. Add `role="link"` when an anchor without `href` must retain link semantics.
+
+Use a native `<button>` for an action. Styling an anchor as a button does not give it button keyboard or disabled behavior.
 
 ## References
 

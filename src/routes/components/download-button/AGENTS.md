@@ -5,6 +5,7 @@
 - Component: download-button
 - PascalCase: DownloadButton
 - Description: a download link styled as a button, with optional file size and format metadata
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <a>
 - CSS class: .download-button
 - Interactive: yes
@@ -54,6 +55,14 @@
 - [ ] All user-facing strings come through props (i18n-ready)
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+### Disabled links and link look-alikes
+
+A link has no disabled state: the `disabled` attribute has no effect. Prefer not rendering an unavailable link. When the unavailable item must remain visible, set `aria-disabled="true"`, omit `href` (or guard every pointer and keyboard activation if the URL must remain), and use `tabindex="-1"` so it is not a misleading tab stop. Add `role="link"` when an anchor without `href` must retain link semantics.
+
+Use a native `<button>` for an action. Styling an anchor as a button does not give it button keyboard or disabled behavior.
 
 ## References
 

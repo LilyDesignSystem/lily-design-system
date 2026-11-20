@@ -2,6 +2,8 @@
 
 A timeline list is a UI/UX component used to visually organize and display events, steps, or data points in chronological order, helping users understand progression over time. Commonly used in project tracking, activity feeds, historical overviews, or user journeys.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This component renders as a semantic ordered list (`<ol>`) with an accessible label, conveying the chronological nature of the content to both sighted users and screen reader users. The consumer provides individual timeline entries as `<li>` children through the children slot.
 
 ## Implementation Notes
@@ -63,11 +65,12 @@ Order tracking with semantic `<time>` elements:
 
 ## Props
 
-| Prop           | Type            | Default    | Description                                  |
-| -------------- | --------------- | ---------- | -------------------------------------------- |
-| `label`        | `string`        | (required) | Accessible label via `aria-label`            |
-| `children`     | `slot`          | (required) | Timeline items (should be `<li>` elements)   |
-| `...restProps` | HTML attributes |            | Additional attributes spread onto the `<ol>` |
+| Prop            | Type            | Default    | Description                                                                                                                                                                                       |
+| --------------- | --------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `label`         | `string`        | (required) | Accessible label via `aria-label`                                                                                                                                                                 |
+| `coverageLabel` | `string`        |            | What the timeline is a view of, in the consumer's words: its window and order, what it leaves out and why, which sources did not answer. Rendered first, as `<li class="timeline-list-coverage">` |
+| `children`      | `slot`          | (required) | Timeline items (should be `<li>` elements)                                                                                                                                                        |
+| `...restProps`  | HTML attributes |            | Additional attributes spread onto the `<ol>`                                                                                                                                                      |
 
 ## Examples
 
@@ -137,6 +140,10 @@ TimelineList contains TimelineListItem children following the List/ListItem patt
 ## Related components
 
 - `timeline-list-item` — one event in a timeline list
+
+## Known limitations
+
+None known.
 
 ## References
 

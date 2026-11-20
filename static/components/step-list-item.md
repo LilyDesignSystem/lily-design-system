@@ -96,6 +96,10 @@ distinguish waiting/in-progress/finished/error visual states.
 
 - `step-list` — an ordered list of step items showing progress through a multi-step process
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA aria-current: https://www.w3.org/TR/wai-aria-1.2/#aria-current

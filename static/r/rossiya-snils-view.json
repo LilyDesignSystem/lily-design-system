@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/RossiyaSnilsView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/rossiya-snils-view/",
+  "markdown": "https://lilydesignsystem.com/components/rossiya-snils-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/rossiya-snils-view/AGENTS.md"
 }

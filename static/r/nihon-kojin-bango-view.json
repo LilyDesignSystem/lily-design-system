@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/NihonKojinBangoView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/nihon-kojin-bango-view/",
+  "markdown": "https://lilydesignsystem.com/components/nihon-kojin-bango-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/nihon-kojin-bango-view/AGENTS.md"
 }

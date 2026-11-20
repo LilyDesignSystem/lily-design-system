@@ -5,6 +5,7 @@
 - Component: reset-input
 - PascalCase: ResetInput
 - Description: a button input that resets a form to default values <input type="reset">
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <input>
 - CSS class: .reset-input
 - Interactive: yes
@@ -39,6 +40,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

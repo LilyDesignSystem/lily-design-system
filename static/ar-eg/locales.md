@@ -2,7 +2,7 @@
 
 Title: Lily Design System&trade; — اللغات
 
-Description: 
+Description:
 
 # اختر لغة
 

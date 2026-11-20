@@ -5,6 +5,7 @@
 - Component: file-upload
 - PascalCase: FileUpload
 - Description: a drag-and-drop area for uploading files
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .file-upload
 - Interactive: no
@@ -35,6 +36,8 @@
 - `multiple`: boolean (default: `false`) -- whether to allow selecting multiple files
 - `disabled`: boolean (default: `false`) -- whether the button is disabled
 - `onchange`: function (default: `undefined`) -- callback receiving `FileList | null` when files are selected
+- `selectedLabel`: `(count: number) => string` (default: `undefined`) -- the live region's status for a count of files, in the consumer's words; plural forms are theirs. Without it the region stays empty: no English default
+- `dropZone`: boolean (default false) -- the root also accepts dropped files, into the same callback and count, with `data-drop-zone` and, while a file is held over it, `data-drag-over`; dragging is never the only way, since the button still chooses files and the drop zone adds no tab stop (WCAG 2.5.7). Without `multiple` only the first dropped file is kept. Not in Blazor, which reads files only through `InputFile`
 - `...restProps`: unknown -- additional attributes spread onto the outer `<div>`
 
 ## Acceptance Criteria
@@ -43,6 +46,10 @@
 - [ ] Has aria-label attribute
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

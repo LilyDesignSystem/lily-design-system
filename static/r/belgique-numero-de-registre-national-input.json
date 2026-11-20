@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/BelgiqueNumeroDeRegistreNationalInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/belgique-numero-de-registre-national-input/",
+  "markdown": "https://lilydesignsystem.com/components/belgique-numero-de-registre-national-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/belgique-numero-de-registre-national-input/AGENTS.md"
 }

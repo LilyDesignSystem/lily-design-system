@@ -36,5 +36,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Affix.razor"
   },
   "docs": "https://lilydesignsystem.com/components/affix/",
+  "markdown": "https://lilydesignsystem.com/components/affix.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/affix/AGENTS.md"
 }

@@ -2,6 +2,8 @@
 
 A theme select option is a single `<option>` element intended for use within a ThemeSelect dropdown. It represents one available theme choice (e.g. light, dark, high-contrast) and renders as a native `<option>` element for full browser and assistive technology compatibility.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 ## Implementation Notes
 
 - Renders a `<option>` element with class `theme-select-option`
@@ -138,6 +140,10 @@ ThemeSelectOption is a child of ThemeSelect, following the Select/SelectOption p
 ## Related components
 
 - `theme-select` — a select dropdown for choosing a theme
+
+## Known limitations
+
+None known.
 
 ## References
 

@@ -1,8 +1,101 @@
 # Slovenija Emso Input
 
-an input for entering Slovenia's Enotna Matična Številka Občana (EMŠO)
+SlovenijaEmsoInput is a headless input for entering Slovenia's Enotna Matična Številka Občana (EMŠO), Slovenia's national-id identifier. It renders as `<input type="text">` with pattern validation, numeric/letter keyboard hints, and `autocomplete="off"` to protect sensitive identifiers. It is the editable companion to SlovenijaEmsoView.
 
-See the canonical documentation at `components/slovenija-emso-input/index.md` in the Lily Design System™ repo.
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
+## Implementation Notes
+
+- Renders as `<input type="text">` with pattern validation
+- Format: 13 digits: the first 7 are the date of birth (DDMMYYY), digits 8-9 the register, 10-12 a sex-and-serial component (000-499 male, 500-999 female), 13 a check digit
+- `autocomplete="off"` to protect sensitive identifiers
+- Supports two-way binding on the `value` prop
+- Companion to SlovenijaEmsoView
+
+## Props
+
+- `label`: string (required) — accessible label via `aria-label`
+- `value`: string (default: "") — bindable input value
+- `required`: boolean (default: false) — form validation
+- `disabled`: boolean (default: false) — disabled state
+- `...restProps`: any — additional HTML attributes spread onto the `<input>`
+
+## Usage
+
+```html
+<Field
+  label="Unique Master Citizen Number"
+  required
+>
+  <SlovenijaEmsoInput
+    label="Unique Master Citizen Number"
+    value="{value}"
+    required
+  />
+  <Hint
+    >13 digits: the first 7 are the date of birth (DDMMYYY), digits 8-9 the register, 10-12 a
+    sex-and-serial component (000-499 male, 500-999 female), 13 a check digit</Hint
+  >
+  <ErrorMessage>Please enter a valid Unique Master Citizen Number</ErrorMessage>
+</Field>
+```
+
+## ARIA
+
+- `aria-label={label}` — provides accessible name
+
+## When to Use
+
+- Use in forms collecting Slovenia's Enotna Matična Številka Občana (EMŠO).
+- Use with pattern validation matching the documented format.
+- Use in administrative or national-id workflows where the identifier is required.
+
+## When Not to Use
+
+- Do not use for displaying read-only identifiers — use `slovenija-emso-view` instead.
+- Do not use for general text input — use `text-input` instead.
+- Do not use for other countries' identifiers — use the corresponding country-specific input.
+
+## Headless
+
+This headless component ships zero CSS. The consumer provides all styling targeting the `.slovenija-emso-input` class hook.
+
+## Testing
+
+- Verify renders an `<input>` with the correct class and `type="text"`
+- Verify `aria-label` is set from the `label` prop
+- Verify pattern attribute matches the documented format
+- Verify `autocomplete="off"`
+- Verify value binding works
+
+## Domain Knowledge
+
+Thirteen digits in the form DDMMYYY-RR-GGGC: seven-digit date of birth (last three digits of the year), a two-digit registry/republic code (50/59 for Slovenia after 18 February 1999, with 10–19 Bosnia and Herzegovina, 20–29 Montenegro, 30–39 Croatia, 40–49 Macedonia, 70–79 Serbia, 80–89 Autonomous Province of Vojvodina, 90–99 Kosovo for pre-1999 issuance), three digits combining sex and serial number (000–499 male, 500–999 female), and a weighted Modulus-11 check digit defined in Article 4 of the Regulation on the way of assigning the personal identification number.
+
+**Where to find it:** Slovenian Personal Identity Card (Osebna izkaznica), passport, birth certificate, and tax records.
+
+## Security and privacy
+
+A national identifier is personal data, and often a key to other records.
+
+- The input renders `autocomplete="off"`, so the browser neither saves nor offers the value, and `spellcheck="false"`, so an enhanced spellchecker does not send it to a cloud service. `bin/check-identifier-inputs` keeps both in all nine catalogs.
+- Do not log the value, put it in a URL or query string, or send it to analytics or an error tracker; mask it there if it must appear.
+- The component stores nothing. Do not keep the value in `localStorage`, `sessionStorage` or a cookie; submit it in the body of a POST over HTTPS.
+- A format or checksum check proves the number is well formed, not that it belongs to the person entering it.
+- The page decides who may see it: the input does not mask what is typed. Use the matching `-view` to show it back, masked as the service requires.
+
+## Related components
+
+- `slovenija-emso-view` — a read-only display of Slovenia's Enotna Matična Številka Občana (EMŠO)
+- `text-input` — a single-line text input field <input type="text">
+
+## Known limitations
+
+None known.
+
+## References
+
+- Wikipedia: https://en.wikipedia.org/wiki/Unique_Master_Citizen_Number
 
 ---
 

@@ -139,6 +139,10 @@ The consumer provides all CSS styling. The component renders with a `.popover` c
 - `tooltip` — a small popup showing descriptive text on hover or focus
 - `popconfirm-dialog` — a popover dialog with confirm and cancel buttons
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog/

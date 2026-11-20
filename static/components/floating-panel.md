@@ -102,6 +102,10 @@ The consumer provides all CSS styling. The component renders with a `.floating-p
 - `popover` — a floating content box anchored to a trigger element
 - `drawer` — a panel that slides in from the edge of the screen
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Practices - Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/

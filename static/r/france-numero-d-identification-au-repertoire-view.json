@@ -37,5 +37,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/FranceNumeroDIdentificationAuRepertoireView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/france-numero-d-identification-au-repertoire-view/",
+  "markdown": "https://lilydesignsystem.com/components/france-numero-d-identification-au-repertoire-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/france-numero-d-identification-au-repertoire-view/AGENTS.md"
 }

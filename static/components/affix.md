@@ -91,6 +91,10 @@ state if a visual cue is desired.
 - `sticky-promo-banner` — a fixed-position promotional banner with a dismiss button
 - `float-button` — a floating action button anchored to a viewport corner
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN position: sticky: https://developer.mozilla.org/docs/Web/CSS/position#sticky

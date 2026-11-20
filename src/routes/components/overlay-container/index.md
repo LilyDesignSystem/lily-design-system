@@ -6,6 +6,8 @@ backdrop-click handler, and toggles `aria-hidden` and the native `hidden`
 attribute so that assistive technology and keyboard focus behave correctly
 when the overlay is dismissed.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it as the structural backdrop layer underneath any modal surface
 (Dialog, AlertDialog, Drawer, Sheet) where clicking the backdrop should
 close the overlay or where a darkened scrim is required.
@@ -104,6 +106,10 @@ removed from layout via the native `hidden` attribute.
 - `dialog` — a modal or non-modal dialog window
 - `drawer` — a panel that slides in from the edge of the screen
 - `sheet` — a panel that slides in from a screen edge as an overlay
+
+## Known limitations
+
+None known.
 
 ## References
 

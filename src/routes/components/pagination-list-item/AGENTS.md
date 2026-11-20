@@ -5,6 +5,7 @@
 - Component: pagination-list-item
 - PascalCase: PaginationListItem
 - Description: one pagination list item in the trail
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <li>
 - CSS class: .pagination-list-item
 - Interactive: no
@@ -39,6 +40,10 @@
 - [ ] Renders <li> element with class="pagination-list-item"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

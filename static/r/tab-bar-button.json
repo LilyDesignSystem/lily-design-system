@@ -40,5 +40,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TabBarButton.razor"
   },
   "docs": "https://lilydesignsystem.com/components/tab-bar-button/",
+  "markdown": "https://lilydesignsystem.com/components/tab-bar-button.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tab-bar-button/AGENTS.md"
 }

@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/DanmarkPersonnummerView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/danmark-personnummer-view/",
+  "markdown": "https://lilydesignsystem.com/components/danmark-personnummer-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/danmark-personnummer-view/AGENTS.md"
 }

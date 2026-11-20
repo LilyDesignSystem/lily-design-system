@@ -5,6 +5,7 @@
 - Component: table
 - PascalCase: Table
 - Description: a table with rows and columns <table>
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <table>
 - CSS class: .table
 - Interactive: no
@@ -39,6 +40,17 @@
 - `children`: slot (required) -- table content including thead, tbody, tfoot, etc.
 - `...restProps`: any -- additional HTML attributes spread onto the `<table>` element
 
+## Styles
+
+The headless component ships no CSS. A Lily reference theme exposes these variables on `.table`; the header variable is
+inherited by the table's `.table-head` child.
+
+| Variable                         | Default                   |
+| -------------------------------- | ------------------------- |
+| `--lily-table-background`        | `var(--lily-surface)`     |
+| `--lily-table-color`             | `var(--lily-text)`        |
+| `--lily-table-header-background` | `var(--lily-surface-alt)` |
+
 ## Acceptance Criteria
 
 - [ ] Renders <table> element with class="table"
@@ -46,6 +58,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

@@ -103,6 +103,10 @@ The consumer provides all CSS styling. The component renders with a `.date-range
 - `calendar-range-picker` — a picker for selecting a date range on a calendar
 - `date-field` — a structured field for entering date components
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN input type="date": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date

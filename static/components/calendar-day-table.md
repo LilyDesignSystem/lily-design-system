@@ -96,6 +96,10 @@ Target `.calendar-day-table` or `[data-view="day"]` for view-specific layout. No
 - `CalendarWeekTable` when several days must be compared
 - `calendar-range-picker` / `date-input` — typing a single date
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [WAI-ARIA APG: Grid pattern](https://www.w3.org/WAI/ARIA/apg/patterns/grid/)

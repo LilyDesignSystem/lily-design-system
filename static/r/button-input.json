@@ -41,5 +41,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ButtonInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/button-input/",
+  "markdown": "https://lilydesignsystem.com/components/button-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/button-input/AGENTS.md"
 }

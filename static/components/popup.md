@@ -137,6 +137,10 @@ The consumer provides all CSS styling. The component renders with a `.popup` cla
 - `tooltip` — a small popup showing descriptive text on hover or focus
 - `drawer` — a panel that slides in from the edge of the screen
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog/

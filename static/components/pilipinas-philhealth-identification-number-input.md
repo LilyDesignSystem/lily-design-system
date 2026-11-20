@@ -88,6 +88,10 @@ A national identifier is personal data, and often a key to other records.
 - `pilipinas-philhealth-identification-number-view` — a read-only display of the Philippines's PhilHealth Identification Number (PIN)
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [PhilHealth](https://en.wikipedia.org/wiki/PhilHealth)

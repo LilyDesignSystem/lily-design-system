@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view/",
+  "markdown": "https://lilydesignsystem.com/components/ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view/AGENTS.md"
 }

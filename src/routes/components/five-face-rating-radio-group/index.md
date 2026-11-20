@@ -110,6 +110,10 @@ The consumer provides all CSS styling. The component renders with a `.five-face-
 - `five-face-rating-view` — the read-only display
 - `radio-group` — the general radio group
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radio/

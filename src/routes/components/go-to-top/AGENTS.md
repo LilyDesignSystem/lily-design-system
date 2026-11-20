@@ -5,6 +5,7 @@
 - Component: go-to-top
 - PascalCase: GoToTop
 - Description: a link that returns users to the top of a long page
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <a>
 - CSS class: .go-to-top
 - Interactive: yes
@@ -18,8 +19,7 @@
 
 ## ARIA
 
-- Native anchor accessibility — the visible text plus the destination provide the accessible name
-- Consumers can override the accessible name with `aria-label` when the visible text is decorative (e.g. just an arrow icon)
+- `aria-label={label}` on the native anchor names the link; it must contain the visible text
 
 ## Keyboard
 
@@ -29,7 +29,7 @@
 ## Props
 
 - `href`: string (default: "#top") -- anchor target on the current page
-- `label`: string (required) -- visible link text
+- `label`: string (required) -- accessible name on `aria-label`; it replaces the link text as the name, so it must contain that text (WCAG 2.5.3)
 - `...restProps`: HTML attributes spread onto the root `<a>`
 
 ## Acceptance Criteria
@@ -38,6 +38,14 @@
 - [ ] Activating the link scrolls focus to the target
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+### Disabled links and link look-alikes
+
+A link has no disabled state: the `disabled` attribute has no effect. Prefer not rendering an unavailable link. When the unavailable item must remain visible, set `aria-disabled="true"`, omit `href` (or guard every pointer and keyboard activation if the URL must remain), and use `tabindex="-1"` so it is not a misleading tab stop. Add `role="link"` when an anchor without `href` must retain link semantics.
+
+Use a native `<button>` for an action. Styling an anchor as a button does not give it button keyboard or disabled behavior.
 
 ## References
 

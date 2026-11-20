@@ -5,6 +5,7 @@
 - Component: progress
 - PascalCase: Progress
 - Description: a horizontal progress bar showing completion
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <progress>
 - CSS class: .progress
 - Interactive: no
@@ -40,6 +41,10 @@
 - [ ] Has role="Progress"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

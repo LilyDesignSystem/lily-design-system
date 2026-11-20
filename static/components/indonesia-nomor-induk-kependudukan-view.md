@@ -75,6 +75,10 @@ A national identifier is personal data, and often a key to other records.
 - `indonesia-nomor-induk-kependudukan-input` — an input for entering Indonesia's Nomor Induk Kependudukan (NIK)
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [National identification number § Indonesia](https://en.wikipedia.org/wiki/National_identification_number#Indonesia)

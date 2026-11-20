@@ -3,6 +3,8 @@
 A split view is a two-panel resizable layout container with a draggable
 divider between the panels.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it for layouts that benefit from user-controlled allocation of space —
 file browsers next to a file editor, list/detail views, or master/detail
 panels — where users may want to adjust the relative size of the two
@@ -49,6 +51,7 @@ panels.
 
 ## ARIA
 
+- With a `label`, the root is `role="group"`, because a plain `<div>` cannot be named. Without one it has no role
 - Container: `aria-label` (required), `data-orientation`, `data-split-percent`
 - Default divider: `role="separator"`, `aria-orientation`, `aria-valuenow={splitPercent}`, `aria-valuemin="0"`, `aria-valuemax="100"`, `tabindex="0"`
 
@@ -98,6 +101,10 @@ proportions and divider direction.
 - `splitter` — a draggable divider for resizing adjacent panels
 - `drawer` — a panel that slides in from the edge of the screen
 - `sidebar` — a side panel for navigation or supplementary content
+
+## Known limitations
+
+None known.
 
 ## References
 

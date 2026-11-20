@@ -124,6 +124,10 @@ AccordionList follows the Nav / List / ListItem composition pattern:
 - `accordion-list-item` — an accordion list item component
 - `accordion-link` — an accordion link
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Accordion Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/accordion/

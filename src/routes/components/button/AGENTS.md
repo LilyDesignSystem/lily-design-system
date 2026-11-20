@@ -5,6 +5,7 @@
 - Component: button
 - PascalCase: Button
 - Description: a generic clickable button element
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <button>
 - CSS class: .button
 - Interactive: yes
@@ -16,6 +17,7 @@
 - `aria-pressed` only rendered when `pressed` prop is provided (toggle button pattern)
 - `aria-label` provides screen reader override when button text alone is insufficient
 - Native disabled attribute prevents click events automatically
+- Do not use `disabled` for a pending (async) action: it drops focus. Keep the button enabled with `aria-busy="true"` and `aria-disabled="true"` (rest props), guard repeat activation in the handler, and announce the outcome in a separate live region (index.md, "Pending (async) actions")
 
 ## ARIA
 
@@ -41,6 +43,17 @@
 - `children`: slot -- button content
 - `...restProps`: Any additional HTML attributes
 
+## Styles
+
+The headless component ships no CSS. When a Lily reference theme is loaded, `.button` exposes these component-scoped
+variables; set one on a button or a containing scope without replacing the component rule:
+
+| Variable                      | Default                 |
+| ----------------------------- | ----------------------- |
+| `--lily-button-background`    | `var(--lily-brand)`     |
+| `--lily-button-color`         | `var(--lily-on-brand)`  |
+| `--lily-button-border-radius` | `var(--lily-radius-md)` |
+
 ## Acceptance Criteria
 
 - [ ] Renders <button> element with class="button"
@@ -48,6 +61,14 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+### Disabled and look-alike controls
+
+Use native `disabled` only on a native `<button>` that is genuinely unavailable. It removes the control from the tab order; do not use it for a pending action that should keep focus. `aria-disabled="true"` announces an unavailable state but does not suppress clicks, so the activation handler must still guard the action.
+
+Do not style a non-button element to look and act like a button when a native button fits. A non-button needs `role="button"`, keyboard activation for Enter and Space, and a focusable tab stop; reproducing that contract is usually unnecessary risk. Links have no disabled state and should follow the link-component guidance instead.
 
 ## References
 

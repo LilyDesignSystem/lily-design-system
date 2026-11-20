@@ -33,7 +33,7 @@
   <p>
     Lily lives in one Git monorepo, with a directory for each framework's headless library, helper packages and example app. The fastest way to try it is to clone the monorepo and open the headless library for your stack:
   </p>
-  
+
   <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
 cd lily-design-system/lily-design-system-react-headless
 pnpm install</code></pre>
@@ -64,14 +64,13 @@ pnpm install</code></pre>
   </p>
 
   <h3>HTML</h3>
-  
+
   <pre tabindex="0"><code>&lt;button class="button" type="button" aria-label="Save"&gt;
   Save
 &lt;/button&gt;</code></pre>
 
   <h3>Svelte</h3>
-  
-  
+
   <pre tabindex="0"><code>&lt;script&gt;
   import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
 &lt;/script&gt;
@@ -79,14 +78,13 @@ pnpm install</code></pre>
 &lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
 
   <h3>React</h3>
-  
+
   <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
 
 &lt;Button onClick={save}&gt;Save&lt;/Button&gt;</code></pre>
 
   <h3>Vue</h3>
-  
-  
+
   <pre tabindex="0"><code>&lt;script setup&gt;
   import Button from "lily-design-system-vue-headless/components/Button.vue";
 &lt;/script&gt;
@@ -94,7 +92,7 @@ pnpm install</code></pre>
 &lt;Button @click="save"&gt;Save&lt;/Button&gt;</code></pre>
 
   <h3>Angular</h3>
-  
+
   <pre tabindex="0"><code>import { Button } from "@lilydesignsystem/angular-headless";
 
 @Component({
@@ -103,11 +101,11 @@ pnpm install</code></pre>
 })</code></pre>
 
   <h3>Blazor</h3>
-  
+
   <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
 
   <h3>Nunjucks</h3>
-  
+
   <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
 
 {{ button({ text: "Save", type: "button" }) }}</code></pre>
@@ -120,7 +118,7 @@ pnpm install</code></pre>
     to experiment is to start the SvelteKit, Next, Nuxt, Analog, or Eleventy
     example app and view the demo at <code>/components</code>.
   </p>
-  
+
   <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
 cd lily-design-system/lily-design-system-svelte-sveltekit-examples
 pnpm install
@@ -137,7 +135,7 @@ pnpm run dev</code></pre>
     For example, <code>&lt;Button&gt;</code> renders <code>&lt;button class="button"&gt;</code>.
     Style it however you like:
   </p>
-  
+
   <pre tabindex="0"><code>.button {
   background: var(--my-primary);
   color: #fff;
@@ -169,7 +167,7 @@ pnpm run dev</code></pre>
     directory. Each is one stylesheet targeting the Lily class hooks — link it
     and you're styled:
   </p>
-  
+
   <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
   <p>The set covers:</p>
   <ul>
@@ -245,7 +243,7 @@ pnpm run dev</code></pre>
       <code>&lt;input type="date"&gt;</code>.
     </li>
   </ul>
-  
+
   <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
 cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
   <p>

@@ -101,6 +101,10 @@ The consumer provides all CSS styling. The component renders with a `.red-orange
 
 - `red-orange-yellow-green-blue-radio-group` — a picker for selecting a five-level color status
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA status role: https://www.w3.org/TR/wai-aria-1.2/#status

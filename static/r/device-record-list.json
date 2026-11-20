@@ -43,5 +43,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/DeviceRecordList.razor"
   },
   "docs": "https://lilydesignsystem.com/components/device-record-list/",
+  "markdown": "https://lilydesignsystem.com/components/device-record-list.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/device-record-list/AGENTS.md"
 }

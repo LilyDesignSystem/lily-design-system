@@ -40,5 +40,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SegmentGroupItem.razor"
   },
   "docs": "https://lilydesignsystem.com/components/segment-group-item/",
+  "markdown": "https://lilydesignsystem.com/components/segment-group-item.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/segment-group-item/AGENTS.md"
 }

@@ -2,6 +2,8 @@
 
 ToggleGroup is a headless container for a collection of related toggle buttons. It uses the ARIA `group` role with an accessible label to semantically associate toggle buttons, making their relationship understandable to assistive technologies.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This component is useful for text formatting toolbars (bold, italic, underline), view mode selectors, or any interface where multiple options can be independently toggled on or off. Each child button should use `aria-pressed` to indicate its toggle state. Consumers provide the individual toggle buttons as children and bring their own styling.
 
 ## Implementation Notes
@@ -106,6 +108,10 @@ ToggleGroup contains ToggleButton children (or plain buttons with `aria-pressed`
 - `checkbox-group` — a group component that manages a collection of checkboxes with shared state
 - `segment-group` — a group of mutually exclusive segment options
 - `button-group` — a wrapper that groups related buttons together
+
+## Known limitations
+
+None known.
 
 ## References
 

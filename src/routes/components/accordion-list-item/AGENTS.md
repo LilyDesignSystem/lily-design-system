@@ -5,6 +5,7 @@
 - Component: accordion-list-item
 - PascalCase: AccordionListItem
 - Description: an accordion list item component
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <li>
 - CSS class: .accordion-list-item
 - Interactive: yes
@@ -16,9 +17,9 @@
 
 ## Key Behaviors
 
-- Renders an `<li>` element inside an `AccordionList`
-- The collapsible section itself (header button + panel) lives in the `children` slot — typically a `<details>` element or a button + region pair
-- Stateless — the consumer (or a child `<details>`) owns the open/closed state
+- Renders an `<li>` element inside an `AccordionList`, holding a native `<details>`
+- The consumer's `children` go inside the `<details>`: a `<summary>` (the header) and the content
+- `open` is two-way bound to the `<details>` open state
 - Spreads `restProps` onto the `<li>`
 
 ## ARIA
@@ -38,7 +39,15 @@
 | `summary`      | `string`        | (required) | Text for the summary/header line                                   |
 | `open`         | `boolean`       | `false`    | Whether the item is expanded; bindable with two-way `open` binding |
 | `children`     | `slot`          | (required) | Detail content rendered when expanded                              |
-| `...restProps` | HTML attributes |            | Additional attributes passed to the `<details>` element            |
+| `...restProps` | HTML attributes |            | Additional attributes passed to the `<li>` element                 |
+
+## Native platform
+
+- Decision: native
+- Uses: <li> holding a <details>
+- Could use: name attribute
+- Notes: The <details> inside the <li> is the disclosure.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
 
 ## Acceptance Criteria
 
@@ -46,6 +55,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

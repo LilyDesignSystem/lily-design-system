@@ -104,6 +104,10 @@ The consumer provides all CSS styling. The component renders with a `.button-inp
 
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN input type="button": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/button

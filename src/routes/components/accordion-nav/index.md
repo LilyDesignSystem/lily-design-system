@@ -2,6 +2,8 @@
 
 An accordion nav is a navigation container that organizes and displays content in a space-efficient, collapsible format. It consists of vertically stacked sections, each with a clickable header that expands or collapses its associated content. This design helps reduce visual clutter, allowing users to focus on one section at a time while keeping other content hidden until needed. Commonly used in FAQs, filters, or mobile menus, accordions enhance usability by streamlining content access and improving navigation on both desktop and mobile interfaces.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The AccordionNav component serves as the outer wrapper. Place an AccordionList inside it, containing AccordionListItem children for the individual collapsible sections.
 
 ## Implementation Notes
@@ -73,8 +75,8 @@ None -- this component is a passive container. Keyboard interactions are handled
 
 ## ARIA
 
-- `role="region"` -- identifies the accordion as a landmark region
-- `aria-label` -- provides an accessible name for the region, allowing screen readers to announce it
+- Native `<nav>` -- identifies the accordion as a navigation landmark; a `role` here would replace that
+- `aria-label` -- provides an accessible name for the landmark, allowing screen readers to announce it
 
 ## When to Use
 
@@ -93,7 +95,7 @@ None -- this component is a passive container. Keyboard interactions are handled
 
 ## Headless
 
-This component provides a `<nav>` landmark with `role="region"` and `aria-label` for accessibility, with zero visual styling. The consumer is responsible for all CSS including container borders, background colors, spacing, and overall layout. Use the `data-*` attributes or element selectors as styling hooks.
+This component provides a `<nav>` landmark with `aria-label` for accessibility, with zero visual styling. The consumer is responsible for all CSS including container borders, background colors, spacing, and overall layout. Use the `data-*` attributes or element selectors as styling hooks.
 
 ## Styles
 
@@ -102,8 +104,8 @@ The consumer provides all CSS styling. The component renders with a `.accordion-
 ## Testing
 
 - Verify the component renders a `<nav>` element with class `accordion-nav`
-- Verify role="region"` -- identifies the accordion as a landmark region
-- Verify aria-label` -- provides an accessible name for the region, allowing screen readers to announce it
+- Verify the root is a `<nav>` with no `role` override
+- Verify aria-label` -- provides an accessible name for the landmark, allowing screen readers to announce it
 - Verify pass-through attributes are applied
 
 ## Advice
@@ -133,6 +135,10 @@ AccordionNav follows the Nav / List / ListItem composition pattern:
 - `accordion-list` — an accordion ordered list of list item components
 - `accordion-list-item` — an accordion list item component
 - `accordion-link` — an accordion link
+
+## Known limitations
+
+None known.
 
 ## References
 

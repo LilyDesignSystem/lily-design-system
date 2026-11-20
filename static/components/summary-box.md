@@ -108,6 +108,10 @@ control.
 - `card` — a grouped content container with header, body, and footer areas
 - `info-state` — a composition of illustration, title, description, and action for empty, error, or info states
 
+## Known limitations
+
+None known.
+
 ## References
 
 - US Web Design System Summary Box: https://designsystem.digital.gov/components/summary-box/

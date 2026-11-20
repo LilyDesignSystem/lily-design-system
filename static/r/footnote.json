@@ -33,5 +33,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Footnote.razor"
   },
   "docs": "https://lilydesignsystem.com/components/footnote/",
+  "markdown": "https://lilydesignsystem.com/components/footnote.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/footnote/AGENTS.md"
 }

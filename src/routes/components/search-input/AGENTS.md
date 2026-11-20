@@ -5,6 +5,7 @@
 - Component: search-input
 - PascalCase: SearchInput
 - Description: an input for entering a search query <input type="search">
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <input>
 - CSS class: .search-input
 - Interactive: yes
@@ -41,6 +42,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

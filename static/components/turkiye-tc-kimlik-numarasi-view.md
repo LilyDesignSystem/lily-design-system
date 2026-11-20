@@ -75,6 +75,10 @@ A national identifier is personal data, and often a key to other records.
 - `turkiye-tc-kimlik-numarasi-input` — an input for entering Turkey's T.C. Kimlik Numarası
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [Turkish Identification Number](https://en.wikipedia.org/wiki/Turkish_Identification_Number)

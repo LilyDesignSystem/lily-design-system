@@ -5,6 +5,7 @@
 - Component: form
 - PascalCase: Form
 - Description: a form element for collecting and submitting user data
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <form>
 - CSS class: .form
 - Interactive: no
@@ -39,6 +40,10 @@
 - [ ] Has aria-label attribute
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

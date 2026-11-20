@@ -1,3 +1,15 @@
-# PortugalPassaporteInput doc page spec
+# PortugalPassaporteInput plan
 
-This page documents the portugal-passaporte-input component. See `components/portugal-passaporte-input/` for the canonical spec.
+- Implement the input component for Portugal's Passaporte following the existing national-personal-identifier pattern (see `france-numero-d-identification-au-repertoire-input` for reference).
+- Mirror the implementation across all 6 headless subprojects (Svelte, React, Vue, HTML, Blazor, Nunjucks) and all 6 example subprojects.
+- Pattern validation and `inputmode` (for the input variant) follow the documented format: 1 letter [A-Z] and 6 digits [0-9].
+- Companion component: `portugal-passaporte-view`.
+
+# PortugalPassaporteInput tasks
+
+- [ ] Add component to all 6 headless subprojects (Svelte, React, Vue, HTML, Blazor, Nunjucks)
+- [ ] Add demo registry entries in all 6 example subprojects (HTML+CSS+JS, SvelteKit, Next.js, Nuxt.js, Blazor Web, Nunjucks Eleventy)
+- [ ] Add per-framework unit tests
+- [ ] Add Storybook stories where applicable
+- [ ] Verify WCAG 2.2 AAA compliance
+- [ ] Document any country-specific validation rules

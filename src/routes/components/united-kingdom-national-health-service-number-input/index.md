@@ -6,6 +6,8 @@ assigned to every patient registered with the National Health Service in
 England, Wales, and the Isle of Man, and is used to uniquely identify
 individuals across the health system.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 The standard display format is "XXX XXX XXXX" (three groups of digits separated
 by spaces). This input component enforces that pattern, uses a numeric keyboard
 hint for mobile devices, and disables autocomplete to protect sensitive health
@@ -94,10 +96,30 @@ The consumer provides all CSS styling. The component renders with a `.united-kin
 
 UnitedKingdomNationalHealthServiceNumberInput is the editable input counterpart to UnitedKingdomNationalHealthServiceNumberView, following the Input/View pattern. Use the Input for data entry and the View for read-only display.
 
+## Domain Knowledge
+
+Shared NHS numbering scheme across England, Wales, and the Isle of Man: ten digits in 3-3-4 format with a Modulus-11 check digit. Scotland and Tuaisceart Eireann operate parallel schemes (CHI and H&C Number) using the same ten-digit shape.
+
+**Where to find it:** NHS medical card, GP correspondence, prescriptions, hospital letters, and the NHS App.
+
+## Security and privacy
+
+A national identifier is personal data, and often a key to other records.
+
+- The input renders `autocomplete="off"`, so the browser neither saves nor offers the value, and `spellcheck="false"`, so an enhanced spellchecker does not send it to a cloud service. `bin/check-identifier-inputs` keeps both in all nine catalogs.
+- Do not log the value, put it in a URL or query string, or send it to analytics or an error tracker; mask it there if it must appear.
+- The component stores nothing. Do not keep the value in `localStorage`, `sessionStorage` or a cookie; submit it in the body of a POST over HTTPS.
+- A format or checksum check proves the number is well formed, not that it belongs to the person entering it.
+- The page decides who may see it: the input does not mask what is typed. Use the matching `-view` to show it back, masked as the service requires.
+
 ## Related components
 
 - `united-kingdom-national-health-service-number-view` — a read-only display of a UK NHS number
 - `text-input` — a single-line text input field <input type="text">
+
+## Known limitations
+
+None known.
 
 ## References
 

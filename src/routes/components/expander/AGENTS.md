@@ -5,6 +5,7 @@
 - Component: expander
 - PascalCase: Expander
 - Description: a control that expands to reveal more content
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .expander
 - Interactive: yes
@@ -39,6 +40,14 @@
 - `children`: slot (required) -- expandable content rendered when expanded is true
 - `...restProps`: unknown -- additional attributes spread onto the outer `<div>` wrapper
 
+## Native platform
+
+- Decision: hand-rolled because the panel is a labelled region removed from the DOM while closed and the trigger is a plain <button>; use details for the native version
+- Uses: native <button aria-expanded aria-controls>; panel unmounted when closed
+- Could use: <details>/<summary>
+- Notes: Documented sibling of details.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
 ## Acceptance Criteria
 
 - [ ] Renders <div> element with class="expander"
@@ -47,6 +56,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

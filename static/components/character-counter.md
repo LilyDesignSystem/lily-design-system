@@ -104,6 +104,10 @@ The consumer provides all CSS styling. The component renders with a `.character-
 - `text-area-input-with-character-counter` — a multi-line text area input with a caption below that is a character counter "[number] of [maximum] characters"
 - `character` — a single character display element
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN span element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span)

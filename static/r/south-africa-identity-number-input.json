@@ -38,5 +38,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/SouthAfricaIdentityNumberInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/south-africa-identity-number-input/",
+  "markdown": "https://lilydesignsystem.com/components/south-africa-identity-number-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/south-africa-identity-number-input/AGENTS.md"
 }

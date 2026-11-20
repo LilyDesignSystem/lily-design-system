@@ -53,6 +53,7 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TreeSelect.razor"
   },
   "docs": "https://lilydesignsystem.com/components/tree-select/",
+  "markdown": "https://lilydesignsystem.com/components/tree-select.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tree-select/AGENTS.md",
   "nativePlatform": {
     "decision": "native",

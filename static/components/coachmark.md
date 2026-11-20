@@ -98,6 +98,10 @@ for selective styling. Provide a clear focus indicator on the dismiss button.
 - `tooltip` — a small popup showing descriptive text on hover or focus
 - `tour` — a tour guide, such as for sightseeing, or pathways, or demonstrations, etc.
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Dialog: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/

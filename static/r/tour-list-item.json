@@ -34,5 +34,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TourListItem.razor"
   },
   "docs": "https://lilydesignsystem.com/components/tour-list-item/",
+  "markdown": "https://lilydesignsystem.com/components/tour-list-item.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tour-list-item/AGENTS.md"
 }

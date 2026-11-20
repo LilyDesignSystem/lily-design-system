@@ -75,6 +75,10 @@ A national identifier is personal data, and often a key to other records.
 - `australia-tax-file-number-input` — an input for entering Australia's Tax File Number (TFN)
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [Tax file number](https://en.wikipedia.org/wiki/Tax_file_number)

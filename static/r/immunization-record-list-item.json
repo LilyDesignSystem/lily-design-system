@@ -48,5 +48,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ImmunizationRecordListItem.razor"
   },
   "docs": "https://lilydesignsystem.com/components/immunization-record-list-item/",
+  "markdown": "https://lilydesignsystem.com/components/immunization-record-list-item.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/immunization-record-list-item/AGENTS.md"
 }

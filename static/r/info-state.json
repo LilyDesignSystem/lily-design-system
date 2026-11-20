@@ -50,5 +50,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/InfoState.razor"
   },
   "docs": "https://lilydesignsystem.com/components/info-state/",
+  "markdown": "https://lilydesignsystem.com/components/info-state.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/info-state/AGENTS.md"
 }

@@ -5,6 +5,7 @@
 - Component: dial-group
 - PascalCase: DialGroup
 - Description: a group of dial components
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .dial-group
 - Interactive: no
@@ -37,6 +38,10 @@
 - [ ] Has aria-label attribute
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS -- fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

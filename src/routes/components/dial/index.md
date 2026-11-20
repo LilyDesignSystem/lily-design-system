@@ -2,6 +2,8 @@
 
 A circular dial or knob control that allows users to adjust a numeric value within a defined range. Dials provide an intuitive interaction model inspired by physical knobs found on devices like volume controls, thermostats, and audio equipment. This component is useful in control panels, audio applications, configuration interfaces, and anywhere a value needs fine-grained adjustment.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 The component renders as a `div` with `role="slider"` and full keyboard navigation support. It exposes a bindable `value` prop for two-way data flow with configurable `min`, `max`, and `step` constraints. The Shift key modifier enables coarse adjustment at 10x the normal step size.
 
 ## Implementation Notes
@@ -110,6 +112,10 @@ The consumer provides all CSS styling. The component renders with a `.dial` clas
 - `dial-group` — a group of dial components
 - `slider` — a draggable control for selecting a value along a track
 - `angle-slider-range-input` — a range input for selecting an angle in degrees
+
+## Known limitations
+
+None known.
 
 ## References
 

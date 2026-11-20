@@ -102,6 +102,10 @@ The consumer provides all CSS styling. The component renders with a `.content-bl
 - `container` — a generic block-level content container
 - `container-with-fluid-width` — a full-width content wrapper with horizontal padding
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Reuters Graphics Block component

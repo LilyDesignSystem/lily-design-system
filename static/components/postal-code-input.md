@@ -167,6 +167,10 @@ PostalCodeInput is the editable counterpart of PostalCodeView. Use PostalCodeInp
 - `postal-code-view` — a read-only display of a postal or ZIP code
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - HTML autocomplete attribute: https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete

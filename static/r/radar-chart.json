@@ -44,5 +44,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/RadarChart.razor"
   },
   "docs": "https://lilydesignsystem.com/components/radar-chart/",
+  "markdown": "https://lilydesignsystem.com/components/radar-chart.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/radar-chart/AGENTS.md"
 }

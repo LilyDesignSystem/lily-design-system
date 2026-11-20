@@ -40,5 +40,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MockupTabletLandscape.razor"
   },
   "docs": "https://lilydesignsystem.com/components/mockup-tablet-landscape/",
+  "markdown": "https://lilydesignsystem.com/components/mockup-tablet-landscape.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/mockup-tablet-landscape/AGENTS.md"
 }

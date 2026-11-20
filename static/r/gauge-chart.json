@@ -44,5 +44,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/GaugeChart.razor"
   },
   "docs": "https://lilydesignsystem.com/components/gauge-chart/",
+  "markdown": "https://lilydesignsystem.com/components/gauge-chart.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/gauge-chart/AGENTS.md"
 }

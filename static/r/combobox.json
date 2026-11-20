@@ -57,6 +57,7 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Combobox.razor"
   },
   "docs": "https://lilydesignsystem.com/components/combobox/",
+  "markdown": "https://lilydesignsystem.com/components/combobox.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/combobox/AGENTS.md",
   "nativePlatform": {
     "decision": "native",

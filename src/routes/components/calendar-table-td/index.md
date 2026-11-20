@@ -2,6 +2,8 @@
 
 A calendar board item represents a single day cell within a calendar grid, supporting `aria-selected` for the chosen date and `aria-current="date"` for today. It is designed to be used inside a CalendarTable `<table>` / `<tr>` structure.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 The component uses a roving tabindex pattern where the selected cell has `tabindex="0"` and all other cells have `tabindex="-1"`, enabling keyboard focus management within the calendar grid. Content is typically the day number, provided through the children slot.
 
 ## Implementation Notes
@@ -111,6 +113,10 @@ CalendarTableTD is part of the CalendarTable composition pattern:
 - `calendar-table-row` — a calendar table interactive grid row for managing dates, days, etc. <tr>
 - `calendar-table-th` — a calendar table interactive grid header cell for managing dates, days, etc. <th>
 - `table` — a table with rows and columns <table>
+
+## Known limitations
+
+None known.
 
 ## References
 

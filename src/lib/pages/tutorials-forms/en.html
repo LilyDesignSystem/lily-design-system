@@ -23,7 +23,7 @@
   </p>
 
   <h2>Step 1 — Label every control, and say what you expect</h2>
-  
+
   <pre tabindex="0"><code>&lt;form class="form" novalidate&gt;
   &lt;div class="field"&gt;
     &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
@@ -58,7 +58,7 @@
   <p>Never disable the submit button until the form is valid: a disabled button cannot say why.</p>
 
   <h2>Step 3 — Put each error next to its field</h2>
-  
+
   <pre tabindex="0"><code>&lt;div class="field"&gt;
   &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
   &lt;p class="hint" id="email-hint"&gt;We only use this to send your appointment.&lt;/p&gt;
@@ -74,7 +74,7 @@
   </ul>
 
   <h2>Step 4 — Summarise the errors where focus lands</h2>
-  
+
   <pre tabindex="0"><code>&lt;div class="error-summary" role="alert" tabindex="-1" aria-labelledby="error-summary-title"&gt;
   &lt;h2 id="error-summary-title"&gt;There is a problem&lt;/h2&gt;
   &lt;ul&gt;
@@ -89,7 +89,7 @@
   </p>
 
   <h2>Step 5 — The script that ties it together</h2>
-  
+
   <pre tabindex="0"><code>const messages = {
   name: { valueMissing: "Enter your full name" },
   email: {

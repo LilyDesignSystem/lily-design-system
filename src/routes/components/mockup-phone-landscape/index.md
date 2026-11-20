@@ -2,6 +2,8 @@
 
 A box area that looks like a mobile phone in landscape orientation.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders a `<div>` element with class `mockup-phone-landscape`
@@ -62,6 +64,10 @@ The component renders with `.mockup-phone-landscape` as the root class. No defau
 - `mockup-shell` — a box area that looks like a terminal shell
 - `mockup-tablet-landscape` — a box area that looks like a tablet computer in landscape mode
 - `mockup-tablet-portrait` — a box area that looks like a tablet computer in portrait mode
+
+## Known limitations
+
+None known.
 
 ## References
 

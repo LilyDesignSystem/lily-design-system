@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/ZhongguoJuminShenfenzhengHaomaView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/zhongguo-jumin-shenfenzheng-haoma-view/",
+  "markdown": "https://lilydesignsystem.com/components/zhongguo-jumin-shenfenzheng-haoma-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/zhongguo-jumin-shenfenzheng-haoma-view/AGENTS.md"
 }

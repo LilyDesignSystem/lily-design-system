@@ -37,5 +37,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/GoToNextSection.razor"
   },
   "docs": "https://lilydesignsystem.com/components/go-to-next-section/",
+  "markdown": "https://lilydesignsystem.com/components/go-to-next-section.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/go-to-next-section/AGENTS.md"
 }

@@ -69,6 +69,10 @@ Keep the word and `status` in step. The component supplies no strings, so the wo
 - `tool-call-name`
 - `status-tag`
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN details element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details)

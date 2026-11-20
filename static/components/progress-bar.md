@@ -68,6 +68,10 @@ The component renders with `.progress-bar` as the root class. No default styles 
 - `meter` — a gauge displaying a scalar value within a known range
 - `loading` — a loading indicator, such as text, or image, or animation
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Documentation: index.md

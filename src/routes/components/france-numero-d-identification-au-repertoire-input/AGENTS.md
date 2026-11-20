@@ -5,6 +5,7 @@
 - Component: france-numero-d-identification-au-repertoire-input
 - PascalCase: FranceNumeroDIdentificationAuRepertoireInput
 - Description: an input for entering a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .france-numero-d-identification-au-repertoire-input
 - Interactive: yes
@@ -43,6 +44,10 @@
 - [ ] Has pattern validation for NIR format
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS -- fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

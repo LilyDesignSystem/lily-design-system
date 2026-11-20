@@ -1,3 +1,7 @@
+<script lang="ts">
+    import PackageManagerTabs from "../../lib/PackageManagerTabs.svelte";
+</script>
+
 <svelte:head>
     <title>Getting started — Lily Design System</title>
     <meta
@@ -45,10 +49,11 @@
 
     <h2 id="react">React</h2>
     <p>React 18 or 19, in Vite, Next.js or any React app.</p>
-    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-    <pre tabindex="0"><code
-            >{`npm install @lilydesignsystem/react-headless @lilydesignsystem/themes`}</code
-        ></pre>
+    <PackageManagerTabs
+        idPrefix="install-react"
+        packages="@lilydesignsystem/react-headless @lilydesignsystem/themes"
+        label="Install React packages"
+    />
     <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
     <pre tabindex="0"><code
             >{`import { useState } from "react";
@@ -71,10 +76,11 @@ export default function Signup() {
 
     <h2 id="vue">Vue</h2>
     <p>Vue 3.4 or later, in Vite or Nuxt.</p>
-    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-    <pre tabindex="0"><code
-            >{`npm install @lilydesignsystem/vue-headless @lilydesignsystem/themes`}</code
-        ></pre>
+    <PackageManagerTabs
+        idPrefix="install-vue"
+        packages="@lilydesignsystem/vue-headless @lilydesignsystem/themes"
+        label="Install Vue packages"
+    />
     <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
     <pre tabindex="0"><code
             >{`<script setup>
@@ -83,7 +89,8 @@ import { Field, EmailInput, Button } from "@lilydesignsystem/vue-headless";
 import "@lilydesignsystem/themes/light.css";
 
 const email = ref("");
-</script>
+</` +
+                `script>
 
 <template>
   <form @submit.prevent>
@@ -100,10 +107,11 @@ const email = ref("");
         Svelte 5, in SvelteKit or Vite. The package ships <code>.svelte</code> files for your bundler
         to compile.
     </p>
-    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-    <pre tabindex="0"><code
-            >{`npm install @lilydesignsystem/svelte-headless @lilydesignsystem/themes`}</code
-        ></pre>
+    <PackageManagerTabs
+        idPrefix="install-svelte"
+        packages="@lilydesignsystem/svelte-headless @lilydesignsystem/themes"
+        label="Install Svelte packages"
+    />
     <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
     <pre tabindex="0"><code
             >{`<script>
@@ -111,7 +119,8 @@ const email = ref("");
   import "@lilydesignsystem/themes/light.css";
 
   let email = $state("");
-</script>
+</` +
+                `script>
 
 <form onsubmit={(event) => event.preventDefault()}>
   <Field label="Email address" inputId="email">
@@ -123,10 +132,11 @@ const email = ref("");
 
     <h2 id="solid">Solid</h2>
     <p>Solid 2.0, in Vite.</p>
-    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-    <pre tabindex="0"><code
-            >{`npm install @lilydesignsystem/solid-headless @lilydesignsystem/themes`}</code
-        ></pre>
+    <PackageManagerTabs
+        idPrefix="install-solid"
+        packages="@lilydesignsystem/solid-headless @lilydesignsystem/themes"
+        label="Install Solid packages"
+    />
     <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
     <pre tabindex="0"><code
             >{`import { createSignal } from "solid-js";
@@ -151,10 +161,11 @@ export default function Signup() {
         Angular 20 to 22, standalone components. Add the theme to <code>styles</code> in
         <code>angular.json</code>.
     </p>
-    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-    <pre tabindex="0"><code
-            >{`npm install @lilydesignsystem/angular-headless @lilydesignsystem/themes`}</code
-        ></pre>
+    <PackageManagerTabs
+        idPrefix="install-angular"
+        packages="@lilydesignsystem/angular-headless @lilydesignsystem/themes"
+        label="Install Angular packages"
+    />
     <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
     <pre tabindex="0"><code
             >{`// angular.json: "styles": ["node_modules/@lilydesignsystem/themes/dist/light.css"]
@@ -186,16 +197,18 @@ export class Signup {}`}</code
 
     <h2 id="web-components">Web Components</h2>
     <p>Any page or framework. Importing the package registers every <code>lily-*</code> element.</p>
-    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-    <pre tabindex="0"><code
-            >{`npm install @lilydesignsystem/web-components-headless @lilydesignsystem/themes`}</code
-        ></pre>
+    <PackageManagerTabs
+        idPrefix="install-web-components"
+        packages="@lilydesignsystem/web-components-headless @lilydesignsystem/themes"
+        label="Install Web Components packages"
+    />
     <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
     <pre tabindex="0"><code
             >{`<link rel="stylesheet" href="node_modules/@lilydesignsystem/themes/dist/light.css" />
 <script type="module">
   import "@lilydesignsystem/web-components-headless";
-</script>
+</` +
+                `script>
 
 <form>
   <label>
@@ -237,10 +250,11 @@ export class Signup {}`}</code
 
     <h2 id="nunjucks">Nunjucks</h2>
     <p>Nunjucks 3, in Eleventy or Express. Add the package's templates to your loader.</p>
-    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-    <pre tabindex="0"><code
-            >{`npm install @lilydesignsystem/nunjucks-headless nunjucks @lilydesignsystem/themes`}</code
-        ></pre>
+    <PackageManagerTabs
+        idPrefix="install-nunjucks"
+        packages="@lilydesignsystem/nunjucks-headless nunjucks @lilydesignsystem/themes"
+        label="Install Nunjucks packages"
+    />
     <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
     <pre tabindex="0"><code
             >{`// setup
@@ -268,10 +282,11 @@ const env = new nunjucks.Environment(new nunjucks.FileSystemLoader([templatesDir
         Alpine 3.14 or later. The markup is the same as HTML's; the plugin adds state and keyboard
         behaviour to the interactive components (menus, tabs, listboxes), so register it once.
     </p>
-    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-    <pre tabindex="0"><code
-            >{`npm install @lilydesignsystem/alpine-headless alpinejs @lilydesignsystem/themes`}</code
-        ></pre>
+    <PackageManagerTabs
+        idPrefix="install-alpine"
+        packages="@lilydesignsystem/alpine-headless alpinejs @lilydesignsystem/themes"
+        label="Install Alpine packages"
+    />
     <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
     <pre tabindex="0"><code
             >{`import Alpine from "alpinejs";
@@ -322,6 +337,10 @@ Alpine.start();`}</code
         <li>
             <a href="/tutorials/theming">Theming</a>: the 63 themes, switching them at runtime, and
             writing your own.
+        </li>
+        <li>
+            <a href="/optimize/">Optimize</a>: import only what you use, load one theme, and measure
+            the production bundle.
         </li>
         <li>
             <a

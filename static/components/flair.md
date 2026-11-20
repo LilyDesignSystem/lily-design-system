@@ -87,6 +87,10 @@ The consumer provides all CSS styling. The component renders with a `.flair` cla
 - `badge` — a small label for counts, statuses, or categories
 - `tag` — a keyword label for categorizing content
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN span element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span)

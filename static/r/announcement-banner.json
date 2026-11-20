@@ -45,5 +45,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AnnouncementBanner.razor"
   },
   "docs": "https://lilydesignsystem.com/components/announcement-banner/",
+  "markdown": "https://lilydesignsystem.com/components/announcement-banner.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/announcement-banner/AGENTS.md"
 }

@@ -5,6 +5,7 @@
 - Component: tree-list-item
 - PascalCase: TreeListItem
 - Description: one item in a tree navigation list
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <li>
 - CSS class: .tree-list-item
 - Interactive: yes
@@ -33,17 +34,23 @@
 
 - ArrowDown: Moves focus to the next visible tree item (managed by parent TreeList)
 - ArrowUp: Moves focus to the previous visible tree item (managed by parent TreeList)
-- ArrowRight: Expands a collapsed item, or moves to first child (when applicable)
-- ArrowLeft: Collapses an expanded item, or moves to parent (when applicable)
-- Home: Moves focus to the first tree item (managed by parent TreeList)
+- ArrowRight: On a collapsed item (`expanded` is `false`), expands it; on an expanded item, moves focus to its first child; on a leaf, does nothing
+- ArrowLeft: On an expanded item, collapses it; otherwise moves focus to the parent item, if there is one
+- Home: Moves focus to the first visible tree item (managed by parent TreeList)
 - End: Moves focus to the last visible tree item (managed by parent TreeList)
+
+ArrowRight and ArrowLeft act only when the item itself has focus, never on a key that bubbled up from a nested item, and are swapped in right-to-left layouts (`direction: rtl`). "Visible" means not inside an item whose `aria-expanded` is `false`.
+
+- A typed letter: moves to the next visible item whose name starts with it; repeating it cycles
+- Enter, Space: activate the item with a click; which item is selected is the consumer's, from that click
 
 ## Props
 
-| Prop           | Type            | Default    | Description                                                                                          |
-| -------------- | --------------- | ---------- | ---------------------------------------------------------------------------------------------------- |
-| `children`     | `slot`          | (required) | Content for the tree item                                                                            |
-| `...restProps` | HTML attributes |            | Additional attributes spread onto the `<li>` element (including `role`, `tabindex`, `aria-expanded`) |
+| Prop           | Type            | Default     | Description                                                                                                                                                                                                                                  |
+| -------------- | --------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `expanded`     | `boolean`       | `undefined` | Expanded state: `true` / `false` sets `aria-expanded`; leave undefined for a leaf (no attribute). Svelte `bind:expanded`, Vue `v-model:expanded`, Angular `[(expanded)]`; React is controlled — pass `expanded` and `onExpandedChange(next)` |
+| `children`     | `slot`          | (required)  | Content for the tree item                                                                                                                                                                                                                    |
+| `...restProps` | HTML attributes |             | Additional attributes spread onto the `<li>` element (including `role`, `tabindex`, `aria-expanded`)                                                                                                                                         |
 
 ## Acceptance Criteria
 
@@ -52,6 +59,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

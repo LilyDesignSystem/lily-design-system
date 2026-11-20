@@ -2,40 +2,40 @@
 
 One document entry in a document list.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
-- Renders an `<li>` containing the document title (as a link), file type, file size, and optional last-modified date
-- Title is rendered as an `<a download>` so browsers offer a download dialog
-- Metadata (type, size, modified) is rendered in `<span>` elements
+- Renders an `<li>` around the consumer's content: typically the document link, its file type and size, and an optional last-modified date
+- The component builds no link or metadata; the consumer writes the `<a>` (with `download` when the browser should offer to save it) and any `<span>` details
+- No `label`: an `aria-label` on the `<li>` would replace the link text a screen reader announces
 - Spreads `restProps` onto the root `<li>`
 
 ## Props
 
-| Prop           | Type              | Default | Description                             |
-| -------------- | ----------------- | ------- | --------------------------------------- |
-| `title`        | string (required) | —       | Document title (link text)              |
-| `href`         | string (required) | —       | Document URL                            |
-| `type`         | string            | —       | File type label, e.g. `"PDF"`, `"DOCX"` |
-| `size`         | string            | —       | File size, e.g. `"1.2 MB"`              |
-| `modified`     | string            | —       | Last-modified date string               |
-| `...restProps` | HTML attributes   | —       | Spread onto the root `<li>`             |
+| Prop           | Type            | Default | Description                       |
+| -------------- | --------------- | ------- | --------------------------------- |
+| `children`     | slot (required) | —       | The document link and its details |
+| `...restProps` | HTML attributes | —       | Spread onto the root `<li>`       |
 
 ## Usage
 
 ```html
-<DocumentListItem
-  title="Annual report"
-  href="/annual.pdf"
-  type="PDF"
-  size="1.2 MB"
-  modified="14 January 2026"
-/>
+<DocumentListItem>
+  <a
+    href="/annual.pdf"
+    download
+    >Annual report</a
+  >
+  <span>PDF</span>
+  <span>1.2 MB</span>
+</DocumentListItem>
 ```
 
 ## Keyboard Interactions
 
 - Tab moves focus onto the document link
-- Enter activates the link to download the document (native browser behaviour)
+- Enter activates the link (native browser behaviour)
 
 ## ARIA
 
@@ -62,6 +62,10 @@ The component renders with `.document-list-item` as the root class. No default s
 
 - `document-list` — parent list
 - `download-button` — single download link styled as a button
+
+## Known limitations
+
+None known.
 
 ## References
 

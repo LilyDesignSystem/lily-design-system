@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TimelineListItem.razor"
   },
   "docs": "https://lilydesignsystem.com/components/timeline-list-item/",
+  "markdown": "https://lilydesignsystem.com/components/timeline-list-item.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/timeline-list-item/AGENTS.md"
 }

@@ -42,5 +42,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/FiveFaceRatingRadioInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/five-face-rating-radio-input/",
+  "markdown": "https://lilydesignsystem.com/components/five-face-rating-radio-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/five-face-rating-radio-input/AGENTS.md"
 }

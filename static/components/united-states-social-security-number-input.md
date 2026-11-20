@@ -117,6 +117,10 @@ A national identifier is personal data, and often a key to other records.
 - `united-states-social-security-number-view` — a read-only display of a US Social Security number
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Social Security Number format: https://www.ssa.gov/employer/randomization.html

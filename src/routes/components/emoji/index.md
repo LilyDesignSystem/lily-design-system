@@ -2,6 +2,8 @@
 
 An emoji component wraps an emoji character with proper accessibility semantics so that screen readers announce a meaningful description instead of attempting to read the raw Unicode character. This ensures emoji usage in interfaces is accessible to all users.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The component renders a `<span>` with `role="img"` and a required `aria-label`, treating the emoji as an image with an accessible name. This approach is recommended for any emoji that conveys meaning, as opposed to purely decorative emoji which should be hidden from assistive technology.
 
 ## Implementation Notes
@@ -96,6 +98,10 @@ The consumer provides all CSS styling. The component renders with a `.emoji` cla
 - `emoji-character-radio-group` — a picker for browsing and selecting emoji characters
 - `character` — a single character display element
 - `icon` — a container for displaying an icon
+
+## Known limitations
+
+None known.
 
 ## References
 

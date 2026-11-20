@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ClipboardCopyButton.razor"
   },
   "docs": "https://lilydesignsystem.com/components/clipboard-copy-button/",
+  "markdown": "https://lilydesignsystem.com/components/clipboard-copy-button.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/clipboard-copy-button/AGENTS.md"
 }

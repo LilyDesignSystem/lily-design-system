@@ -174,6 +174,10 @@ The consumer provides all CSS styling. The component renders with a `.carousel` 
 - `horizontal-scroller` — see components.tsv
 - `image` — an image element with alt text
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Carousel Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/carousel/

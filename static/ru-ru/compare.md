@@ -2,7 +2,7 @@
 
 Title: Сравнения — Lily Design System
 
-Description: 
+Description:
 
 # Сравнения
 

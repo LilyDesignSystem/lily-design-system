@@ -5,6 +5,7 @@
 - Component: image-file-input
 - PascalCase: ImageFileInput
 - Description: an input for selecting image files with preview
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <input>
 - CSS class: .image-file-input
 - Interactive: no
@@ -39,6 +40,10 @@
 - [ ] Has aria-label attribute
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

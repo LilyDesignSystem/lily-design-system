@@ -2,6 +2,8 @@
 
 A postal code input provides a text field specifically designed for entering postal or ZIP codes. It includes `autocomplete="postal-code"` to enable browsers to auto-fill the value from stored address data, streamlining address form completion.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This component is useful in address forms, checkout flows, shipping calculators, and any interface that requires postal code entry. It pairs with PostalCodeView for displaying the entered value in read-only contexts. The bindable value prop supports two-way data binding with the parent component.
 
 ## Implementation Notes
@@ -53,6 +55,26 @@ UK postcode input with placeholder format hint:
   placeholder="SW1A 1AA"
 />
 ```
+
+Brazilian CEP and Japanese postal code, each labelled in its own language:
+
+```html
+<PostalCodeInput
+  label="CEP"
+  value="{cep}"
+  placeholder="01310-100"
+/>
+<PostalCodeInput
+  label="郵便番号"
+  value="{postalCode}"
+  placeholder="100-0001"
+/>
+```
+
+Formats are national, so take the label and placeholder from the country the address is in: Brazil's CEP
+(`01310-100`), Japan's postal code (`100-0001`), India's PIN code (`110001`) and Canada's postal code (`K1A 0B1`)
+differ in length, digits and letters. Some places use no postal code at all (Hong Kong, much of the Gulf, many
+African countries), so do not make the field required for every country.
 
 Postal code input within an address form:
 
@@ -133,7 +155,7 @@ The consumer provides all CSS styling. The component renders with a `.postal-cod
 
 ## Advice
 
-- **Designers**: Size the input field to match the expected postal code format for your target locale, and include a placeholder showing the expected format (e.g., "SW1A 1AA" or "90210").
+- **Designers**: Size the input field to match the expected postal code format for your target locale, and include a placeholder showing the expected format (e.g., "SW1A 1AA", "90210", "01310-100" or "100-0001").
 - **Developers**: Use the `pattern` attribute via `restProps` to validate locale-specific postal code formats, and pair with PostalCodeView for read-only display contexts.
 
 ## Composition
@@ -144,6 +166,10 @@ PostalCodeInput is the editable counterpart of PostalCodeView. Use PostalCodeInp
 
 - `postal-code-view` — a read-only display of a postal or ZIP code
 - `text-input` — a single-line text input field <input type="text">
+
+## Known limitations
+
+None known.
 
 ## References
 

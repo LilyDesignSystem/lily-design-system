@@ -2,6 +2,8 @@
 
 Resizable is a headless container that allows users to resize its contents in one or both directions. It provides a focusable region with an accessible label, enabling keyboard users to interact with the resizable area.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use Resizable when you need a panel, pane, or content area that users can resize, such as a code editor panel, a sidebar, or an adjustable preview area. The component exposes a `data-resize` attribute indicating the resize direction, which consumers can use to apply CSS `resize` property styling. The component itself is headless and applies no visual styling.
 
 ## Implementation Notes
@@ -106,6 +108,10 @@ The consumer provides all CSS styling. The component renders with a `.resizable`
 
 - `splitter` — a draggable divider for resizing adjacent panels
 - `split-view` — a two-panel resizable layout container with a draggable divider between them
+
+## Known limitations
+
+None known.
 
 ## References
 

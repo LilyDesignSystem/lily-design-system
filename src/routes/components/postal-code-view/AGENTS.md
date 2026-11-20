@@ -5,7 +5,8 @@
 - Component: postal-code-view
 - PascalCase: PostalCodeView
 - Description: a read-only display of a postal or ZIP code
-- HTML tag: <div>
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
+- HTML tag: <span>
 - CSS class: .postal-code-view
 - Interactive: no
 
@@ -34,13 +35,17 @@
 
 - Renders a `<span>` that displays the postal/ZIP code as text content
 - No specific ARIA needed — the visible text provides the accessible name
-- Consumers may add `aria-label` for additional context (e.g. "Postal code: SW1A 1AA")
+- For more context, put it in visible text or a `screen-reader-span` beside the value, because a `<span>` cannot take `aria-label`
 
 ## Acceptance Criteria
 
 - [ ] Renders <div> element with class="postal-code-view"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

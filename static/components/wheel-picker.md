@@ -135,6 +135,10 @@ A wheel is easy to use with a pointer and keyboard but is a poor fit for screen-
 - `date-time-picker`
 - `slider`
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [WAI-ARIA APG: Listbox](https://www.w3.org/WAI/ARIA/apg/patterns/listbox/)

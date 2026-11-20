@@ -5,6 +5,7 @@
 - Component: menu-item
 - PascalCase: MenuItem
 - Description: one item in a menu
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .menu-item
 - Interactive: yes
@@ -41,6 +42,14 @@
 - `children`: slot -- menu item content
 - `...restProps`: Any additional HTML attributes spread onto the `<div>`
 
+## Native platform
+
+- Decision: hand-rolled because role="menuitem" has no native element
+- Uses: none (div role="menuitem" tabindex="-1")
+- Could use: none
+- Notes: Child of menu; a submenu would use popover="auto" like dropdown-menu.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
 ## Acceptance Criteria
 
 - [ ] Renders <div> element with class="menu-item"
@@ -48,6 +57,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

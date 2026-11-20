@@ -40,5 +40,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/KanbanTableBody.razor"
   },
   "docs": "https://lilydesignsystem.com/components/kanban-table-body/",
+  "markdown": "https://lilydesignsystem.com/components/kanban-table-body.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/kanban-table-body/AGENTS.md"
 }

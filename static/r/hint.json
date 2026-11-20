@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Hint.razor"
   },
   "docs": "https://lilydesignsystem.com/components/hint/",
+  "markdown": "https://lilydesignsystem.com/components/hint.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/hint/AGENTS.md"
 }

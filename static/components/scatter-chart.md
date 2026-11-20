@@ -75,6 +75,10 @@ The graphic is wrapped in `<div class="scatter-chart-graphic" role="img" aria-la
 - `bar-chart` / `column-chart` — categorical alternatives
 - `graphic-block` — chart wrapper with title/notes
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN figure element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figure)

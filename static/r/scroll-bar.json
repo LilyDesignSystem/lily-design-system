@@ -53,5 +53,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ScrollBar.razor"
   },
   "docs": "https://lilydesignsystem.com/components/scroll-bar/",
+  "markdown": "https://lilydesignsystem.com/components/scroll-bar.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/scroll-bar/AGENTS.md"
 }

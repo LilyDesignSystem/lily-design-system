@@ -40,5 +40,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ColorRadioGroup.razor"
   },
   "docs": "https://lilydesignsystem.com/components/color-radio-group/",
+  "markdown": "https://lilydesignsystem.com/components/color-radio-group.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/color-radio-group/AGENTS.md"
 }

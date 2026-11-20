@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/IndonesiaNomorIndukKependudukanView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/indonesia-nomor-induk-kependudukan-view/",
+  "markdown": "https://lilydesignsystem.com/components/indonesia-nomor-induk-kependudukan-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/indonesia-nomor-induk-kependudukan-view/AGENTS.md"
 }

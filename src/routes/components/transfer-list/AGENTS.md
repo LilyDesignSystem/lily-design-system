@@ -5,6 +5,7 @@
 - Component: transfer-list
 - PascalCase: TransferList
 - Description: a dual list box for moving items between two lists
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .transfer-list
 - Interactive: yes
@@ -38,6 +39,14 @@
 - `actions`: slot (optional)
 - `...restProps`: any additional HTML attributes
 
+## Native platform
+
+- Decision: hand-rolled because each side holds rich, consumer-rendered options and <select multiple> needs Ctrl/Shift-click that many users do not know
+- Uses: native <button>s; two consumer listboxes
+- Could use: <select multiple> per side
+- Notes: Not an overlay.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
 ## Acceptance Criteria
 
 - [ ] Renders <div> with class="transfer-list" and role="group"
@@ -47,6 +56,10 @@
 - [ ] Actions slot renders inside <div class="transfer-list-actions"> only when provided
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

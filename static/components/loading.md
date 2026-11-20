@@ -108,6 +108,10 @@ The consumer provides all CSS styling. The component renders with a `.loading` c
 - `progress` — a horizontal progress bar showing completion
 - `beach-ball` — a decorative animated beach ball element
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN div element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div)

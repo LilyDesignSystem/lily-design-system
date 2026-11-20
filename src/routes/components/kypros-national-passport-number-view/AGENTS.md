@@ -1,3 +1,49 @@
-# KyprosNationalPassportNumberView — Lily Design System docs page
+# KyprosNationalPassportNumberView
 
-See `components/kypros-national-passport-number-view/AGENTS.md` for canonical metadata.
+## Metadata
+
+- Component: kypros-national-passport-number-view
+- PascalCase: KyprosNationalPassportNumberView
+- Description: a read-only display of Kypros's National Passport Number
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
+- HTML tag: <span>
+- CSS class: .kypros-national-passport-number-view
+- Interactive: no
+
+## Key Behaviors
+
+- Renders as `<span>` with class `kypros-national-passport-number-view`, and no role
+- Format: passports before 13/12/2010 begin with 'E' followed by 6 digits (e.g. E123456); biometric passports issued after 13/12/2010 begin with 'K' followed by 8 digits (e.g. K12345678)
+- Read-only; not editable
+
+## ARIA
+
+- No ARIA. A plain `<span>` cannot be named: `aria-label` is prohibited on it, and most screen readers drop it. A visible caption names the value, or the optional `label` renders as hidden text
+
+## Keyboard
+
+- Not interactive
+
+## Props
+
+- `value`: string (required) — the identifier to display
+- `label`: string (optional) — hidden text naming the value, in a `.screen-reader-span`. Leave it out when a visible caption names the value
+- `...restProps`: any additional HTML attributes spread onto the root
+
+## Acceptance Criteria
+
+- [ ] Renders <span> element with class="kypros-national-passport-number-view"
+- [ ] Renders `value` as text content
+- [ ] WCAG 2.2 AAA compliant
+- [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
+
+## References
+
+- Documentation: index.md
+- CSS class: .kypros-national-passport-number-view in css-style-sheet-template.css
+- Companion: KyprosNationalPassportNumberInput
+- Wikipedia: https://en.wikipedia.org/wiki/Cypriot_passport

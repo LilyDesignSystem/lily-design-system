@@ -97,6 +97,10 @@ In clinical systems, advice-level information includes care team contacts, care 
 - `medical-banner` — a prominent message bar across the top of a page, with medical information
 - `medical-banner-box` — a medical banner box that is inside a medical-banner component, using flexbox horizontal, with medical information
 
+## Known limitations
+
+None known.
+
 ## References
 
 - NHS UK Design System: https://service-manual.nhs.uk/design-system

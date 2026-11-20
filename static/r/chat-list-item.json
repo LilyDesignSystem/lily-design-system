@@ -37,5 +37,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ChatListItem.razor"
   },
   "docs": "https://lilydesignsystem.com/components/chat-list-item/",
+  "markdown": "https://lilydesignsystem.com/components/chat-list-item.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/chat-list-item/AGENTS.md"
 }

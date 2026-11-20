@@ -43,5 +43,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Tile.razor"
   },
   "docs": "https://lilydesignsystem.com/components/tile/",
+  "markdown": "https://lilydesignsystem.com/components/tile.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tile/AGENTS.md"
 }

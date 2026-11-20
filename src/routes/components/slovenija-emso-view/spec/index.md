@@ -1,3 +1,15 @@
-# SlovenijaEmsoView doc page spec
+# SlovenijaEmsoView plan
 
-This page documents the slovenija-emso-view component. See `components/slovenija-emso-view/` for the canonical spec.
+- Implement the view component for Slovenia's Enotna Matična Številka Občana following the existing national-personal-identifier pattern (see `france-numero-d-identification-au-repertoire-view` for reference).
+- Mirror the implementation across all 6 headless subprojects (Svelte, React, Vue, HTML, Blazor, Nunjucks) and all 6 example subprojects.
+- Pattern validation and `inputmode` (for the input variant) follow the documented format: 13 digits: the first 7 are the date of birth (DDMMYYY), digits 8-9 the register, 10-12 a sex-and-serial component (000-499 male, 500-999 female), 13 a check digit.
+- Companion component: `slovenija-emso-input`.
+
+# SlovenijaEmsoView tasks
+
+- [ ] Add component to all 6 headless subprojects (Svelte, React, Vue, HTML, Blazor, Nunjucks)
+- [ ] Add demo registry entries in all 6 example subprojects (HTML+CSS+JS, SvelteKit, Next.js, Nuxt.js, Blazor Web, Nunjucks Eleventy)
+- [ ] Add per-framework unit tests
+- [ ] Add Storybook stories where applicable
+- [ ] Verify WCAG 2.2 AAA compliance
+- [ ] Document any country-specific validation rules

@@ -40,6 +40,7 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Tour.razor"
   },
   "docs": "https://lilydesignsystem.com/components/tour/",
+  "markdown": "https://lilydesignsystem.com/components/tour.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tour/AGENTS.md",
   "nativePlatform": {
     "decision": "hand-rolled because a tour points at the live page and often asks the user to try it, so it must stay non-modal; a <div role=\"dialog\"> without aria-modal says that",

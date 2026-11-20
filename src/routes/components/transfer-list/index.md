@@ -4,6 +4,8 @@ A transfer list is a dual list box for moving items between two lists.
 It groups a source list, optional action buttons, and a target list
 into a single labeled region.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it for permission assignment, attendee selection, tag picking, or
 any workflow where users move items from a candidate list to a chosen
 list.
@@ -114,6 +116,10 @@ flex layout with the actions column between the two lists.
 - `listbox` — a list of selectable options with keyboard navigation
 - `select` — a dropdown select element for choosing one option
 - `checkbox-group` — a group component that manages a collection of checkboxes with shared state
+
+## Known limitations
+
+None known.
 
 ## References
 

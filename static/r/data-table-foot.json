@@ -37,5 +37,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/DataTableFoot.razor"
   },
   "docs": "https://lilydesignsystem.com/components/data-table-foot/",
+  "markdown": "https://lilydesignsystem.com/components/data-table-foot.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/data-table-foot/AGENTS.md"
 }

@@ -5,6 +5,8 @@ for entering a 9-digit SSN issued by the Social Security Administration. The SSN
 is used as a national identifier for taxation, credit reporting, and various
 government and private-sector purposes.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 The standard display format is "XXX-XX-XXXX" (three groups of digits separated
 by hyphens: a 3-digit area number, a 2-digit group number, and a 4-digit serial
 number). This input component enforces that pattern, uses a numeric keyboard
@@ -94,10 +96,30 @@ The consumer provides all CSS styling. The component renders with a `.united-sta
 
 UnitedStatesSocialSecurityNumberInput is the editable input counterpart to UnitedStatesSocialSecurityNumberView, following the Input/View pattern. Use the Input for data entry and the View for read-only display.
 
+## Domain Knowledge
+
+Nine-digit number in XXX-XX-XXXX format issued by the Social Security Administration since 1936 to track workers' earnings; randomised since 2011. Now a de facto national identifier in the United States. No check-digit or checksum algorithm is published for this identifier; correctness is confirmed by the issuing authority's own records, not by the format alone.
+
+**Where to find it:** Social Security card, W-2 forms, tax returns (IRS Form 1040), payslips, and the SSA "my Social Security" portal.
+
+## Security and privacy
+
+A national identifier is personal data, and often a key to other records.
+
+- The input renders `autocomplete="off"`, so the browser neither saves nor offers the value, and `spellcheck="false"`, so an enhanced spellchecker does not send it to a cloud service. `bin/check-identifier-inputs` keeps both in all nine catalogs.
+- Do not log the value, put it in a URL or query string, or send it to analytics or an error tracker; mask it there if it must appear.
+- The component stores nothing. Do not keep the value in `localStorage`, `sessionStorage` or a cookie; submit it in the body of a POST over HTTPS.
+- A format or checksum check proves the number is well formed, not that it belongs to the person entering it.
+- The page decides who may see it: the input does not mask what is typed. Use the matching `-view` to show it back, masked as the service requires.
+
 ## Related components
 
 - `united-states-social-security-number-view` — a read-only display of a US Social Security number
 - `text-input` — a single-line text input field <input type="text">
+
+## Known limitations
+
+None known.
 
 ## References
 

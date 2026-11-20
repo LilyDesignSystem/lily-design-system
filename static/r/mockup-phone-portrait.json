@@ -41,5 +41,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MockupPhonePortrait.razor"
   },
   "docs": "https://lilydesignsystem.com/components/mockup-phone-portrait/",
+  "markdown": "https://lilydesignsystem.com/components/mockup-phone-portrait.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/mockup-phone-portrait/AGENTS.md"
 }

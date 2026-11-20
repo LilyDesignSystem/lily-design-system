@@ -68,6 +68,10 @@ This headless component ships zero CSS and decides nothing visual. The consumer 
 - `date-time-view` — a read-only display of a date and time
 - `medical-banner` — a prominent message bar with medical information
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Intl.DurationFormat: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Intl/DurationFormat

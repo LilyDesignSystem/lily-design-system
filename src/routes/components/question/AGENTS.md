@@ -5,6 +5,7 @@
 - Component: question
 - PascalCase: Question
 - Description: a question is anything that asks for information, invites a response, tests knowledge, etc.
+- Status: experimental — recent catalog addition with the least accumulated depth; contract may still move
 - HTML tag: <div>
 - CSS class: .question
 - Interactive: no
@@ -17,6 +18,7 @@
 
 ## ARIA
 
+- With a `label`, the root is `role="group"`, because a plain `<div>` cannot be named. Without one it has no role
 - `aria-label` -- describes the question for screen readers when no visible heading is present
 
 ## Keyboard
@@ -35,6 +37,10 @@
 - [ ] Has aria-label attribute when provided
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS -- fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

@@ -2,7 +2,7 @@
 
 Title: 对比 — Lily Design System
 
-Description: 
+Description:
 
 # 对比
 

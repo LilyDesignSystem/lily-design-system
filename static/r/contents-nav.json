@@ -43,5 +43,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ContentsNav.razor"
   },
   "docs": "https://lilydesignsystem.com/components/contents-nav/",
+  "markdown": "https://lilydesignsystem.com/components/contents-nav.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/contents-nav/AGENTS.md"
 }

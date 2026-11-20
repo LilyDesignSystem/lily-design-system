@@ -106,6 +106,10 @@ The consumer provides the visually-hidden CSS. The component renders with a `.sc
 - `label` — a label associated with a form input
 - `hint` — hint text providing guidance for a form field
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WebAIM: CSS in Action - Invisible Content Just for Screen Readers: https://webaim.org/techniques/css/invisiblecontent/

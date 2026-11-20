@@ -42,5 +42,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TreeNav.razor"
   },
   "docs": "https://lilydesignsystem.com/components/tree-nav/",
+  "markdown": "https://lilydesignsystem.com/components/tree-nav.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tree-nav/AGENTS.md"
 }

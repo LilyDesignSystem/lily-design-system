@@ -62,6 +62,10 @@ The component renders with `.section-list` as the root class. No default styles 
 - `section-list-item` — child list item
 - `section-link` — link rendered inside each list item
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN ol element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol)

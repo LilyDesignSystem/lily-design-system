@@ -2,6 +2,8 @@
 
 GrailLayoutBottomFooter is a headless container for the bottom footer section of a GrailLayout. It spans the full width of the layout and typically contains copyright, links, or site-wide footer content.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders a `<footer>` element for the bottom footer section
@@ -72,6 +74,10 @@ GrailLayoutBottomFooter is used as a child of GrailLayout. Place a semantic `<fo
 - `grail-layout-left-aside` — grail layout left aside sidebar with <aside> tag
 - `grail-layout-right-aside` — grail layout right aside sidebar with <aside> tag
 - `grail-layout-top-header` — grail layout top header full width with <header> tag
+
+## Known limitations
+
+None known.
 
 ## References
 

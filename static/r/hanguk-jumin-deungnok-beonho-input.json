@@ -38,5 +38,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/HangukJuminDeungnokBeonhoInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/hanguk-jumin-deungnok-beonho-input/",
+  "markdown": "https://lilydesignsystem.com/components/hanguk-jumin-deungnok-beonho-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/hanguk-jumin-deungnok-beonho-input/AGENTS.md"
 }

@@ -43,6 +43,7 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Menu.razor"
   },
   "docs": "https://lilydesignsystem.com/components/menu/",
+  "markdown": "https://lilydesignsystem.com/components/menu.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/menu/AGENTS.md",
   "nativePlatform": {
     "decision": "hand-rolled because no native element has APG menu semantics (<menu> is only a list) and arrow-key focus over menuitems must be scripted",

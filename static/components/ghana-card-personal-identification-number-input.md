@@ -89,6 +89,10 @@ A national identifier is personal data, and often a key to other records.
 - `ghana-card-personal-identification-number-view` — a read-only display of Ghana's Ghana Card PIN
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [Ghana Card](https://en.wikipedia.org/wiki/Ghana_Card)

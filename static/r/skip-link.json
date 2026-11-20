@@ -38,5 +38,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SkipLink.razor"
   },
   "docs": "https://lilydesignsystem.com/components/skip-link/",
+  "markdown": "https://lilydesignsystem.com/components/skip-link.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/skip-link/AGENTS.md"
 }

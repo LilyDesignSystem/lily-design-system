@@ -36,5 +36,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/DialGroup.razor"
   },
   "docs": "https://lilydesignsystem.com/components/dial-group/",
+  "markdown": "https://lilydesignsystem.com/components/dial-group.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/dial-group/AGENTS.md"
 }

@@ -1,3 +1,15 @@
-# AlbaCommunityHealthIndexView doc page spec
+# AlbaCommunityHealthIndexView plan
 
-This page documents the alba-community-health-index-view component. See `components/alba-community-health-index-view/` for the canonical spec.
+- Implement the view component for Scotland's Community Health Index following the existing national-personal-identifier pattern (see `france-numero-d-identification-au-repertoire-view` for reference).
+- Mirror the implementation across all 6 headless subprojects (Svelte, React, Vue, HTML, Blazor, Nunjucks) and all 6 example subprojects.
+- Pattern validation and `inputmode` (for the input variant) follow the documented format: 10 digits encoding date of birth (DDMMYY) + two random digits + a sex digit (odd male, even female) + a Modulus-11 check digit.
+- Companion component: `alba-community-health-index-input`.
+
+# AlbaCommunityHealthIndexView tasks
+
+- [ ] Add component to all 6 headless subprojects (Svelte, React, Vue, HTML, Blazor, Nunjucks)
+- [ ] Add demo registry entries in all 6 example subprojects (HTML+CSS+JS, SvelteKit, Next.js, Nuxt.js, Blazor Web, Nunjucks Eleventy)
+- [ ] Add per-framework unit tests
+- [ ] Add Storybook stories where applicable
+- [ ] Verify WCAG 2.2 AAA compliance
+- [ ] Document any country-specific validation rules

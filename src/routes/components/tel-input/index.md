@@ -2,6 +2,8 @@
 
 A telephone input component that provides a telephone number input field using the native HTML `<input type="tel">` element. It includes accessible labeling via `aria-label` and browser autofill support via `autocomplete="tel"`, making it suitable for contact forms, registration flows, and profile editors.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The component supports two-way data binding through a bindable `value` prop, allowing parent components to read and write the telephone number. It also supports `required` and `disabled` states for form validation and conditional interactivity.
 
 ## Implementation Notes
@@ -93,7 +95,7 @@ The consumer provides all CSS styling. The component renders with a `.tel-input`
 
 ## Advice
 
-- **Designers**: Show an example format as placeholder text (e.g., "+1-555-0100") to guide user input. Place the phone input near related contact fields.
+- **Designers**: Show an example format as placeholder text (e.g., "+1-555-0100", "+44 20 7946 0958" or "+61 491 570 156", the format of the country you expect) to guide user input. Place the phone input near related contact fields.
 - **Developers**: Use the `pattern` attribute via `restProps` for client-side validation of phone number formats. Pair TelInput with TelLink to create an input/display pair for phone numbers.
 
 ## Composition
@@ -105,6 +107,10 @@ TelInput and TelLink follow the Input/Link pattern. TelInput provides the editab
 - `tel-link` — a tel hyperlink for a telephone number
 - `text-input` — a single-line text input field <input type="text">
 - `email-input` — an input for entering an email address <input type="email">
+
+## Known limitations
+
+None known.
 
 ## References
 

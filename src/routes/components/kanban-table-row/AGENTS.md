@@ -5,6 +5,7 @@
 - Component: kanban-table-row
 - PascalCase: KanbanTableRow
 - Description: a kanban board table interactive grid row for organizing items by status <tr>
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <tr>
 - CSS class: .kanban-table-row
 - Interactive: no
@@ -40,6 +41,10 @@ Standard table row keyboard interactions.
 - [ ] Renders <tr> element with class="kanban-table-row"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

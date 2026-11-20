@@ -40,5 +40,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/StreamingText.razor"
   },
   "docs": "https://lilydesignsystem.com/components/streaming-text/",
+  "markdown": "https://lilydesignsystem.com/components/streaming-text.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/streaming-text/AGENTS.md"
 }

@@ -119,6 +119,10 @@ The consumer provides all CSS styling. The component renders with a `.timer` cla
 - `loading` — a loading indicator, such as text, or image, or animation
 - `date-time-view` — see components.tsv
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA timer role: https://www.w3.org/TR/wai-aria-1.2/#timer

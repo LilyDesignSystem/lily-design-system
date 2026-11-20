@@ -14,7 +14,7 @@ ChileRolUnicoNacionalView is a headless read-only display of Chile's Rol Único 
 ## Props
 
 - `value`: string (default: "") — the identifier to display
-- `label`: string (required) — accessible label via `aria-label`
+- `label`: string (optional) — hidden text naming the value, in a `.screen-reader-span`. Leave it out when a visible caption names the value
 - `...restProps`: any — additional HTML attributes spread onto the `<span>`
 
 ## Usage
@@ -32,7 +32,7 @@ ChileRolUnicoNacionalView is a headless read-only display of Chile's Rol Único 
 
 ## ARIA
 
-- `aria-label={label}` — provides the accessible name
+- No ARIA on the root: a plain `<span>` cannot be named. A visible caption names the value, or `label` renders as hidden text in a `.screen-reader-span`
 
 ## When to Use
 
@@ -54,7 +54,7 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 - Verify renders a `<span>` with the correct class
 - Verify the `value` prop is rendered as text content
-- Verify `aria-label` is set from the `label` prop
+- Verify `label` renders as hidden text, and that the root has no `aria-label`
 
 ## Domain Knowledge
 
@@ -62,10 +62,22 @@ Seven or eight digits plus a trailing check character. The check character is co
 
 **Where to find it:** Printed on the Cédula de Identidad national ID card and required to register with FONASA (Fondo Nacional de Salud), Chile's public health-insurance fund, or a private Isapre.
 
+## Security and privacy
+
+A national identifier is personal data, and often a key to other records.
+
+- The view shows exactly the text it is given; it does not mask. Pass the masked form (for example the last four characters) wherever the full number is not needed, and render the full number only to someone entitled to it.
+- Do not log the value, put it in a URL or query string, or send it to analytics or an error tracker.
+- Text on screen can be read over a shoulder and is kept by screenshots and screen recordings; treat a page that shows it as sensitive.
+
 ## Related components
 
 - `chile-rol-unico-nacional-input` — an input for entering Chile's Rol Único Nacional (RUN)
 - `summary-list-item` — one key-value pair in a summary list
+
+## Known limitations
+
+None known.
 
 ## References
 

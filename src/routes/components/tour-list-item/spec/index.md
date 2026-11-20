@@ -28,10 +28,9 @@ Implement the Tour List Item component: one step in a tour guide list.
 ## Acceptance Criteria
 
 - [ ] Renders <li> with class="tour-list-item"
-- [ ] `role="group"` -- groups the step content semantically
-- [ ] `aria-roledescription="step"` -- identifies the element as a tour step
-- [ ] `aria-label` -- provides an accessible name, optionally including "Step N of M"
-- [ ] `aria-current="step"` -- indicates the currently active step
+- [ ] The `<li>` keeps its listitem role: no `role="group"` or `aria-roledescription`
+- [ ] `aria-label` -- the accessible name: `label`, or the consumer's `stepTemplate` filled in; no English default
+- [ ] `data-current` -- indicates the currently active step
 - [ ] `aria-hidden="true"` -- hides inactive steps from assistive technology
 - [ ] Keyboard: None directly -- keyboard interactions are managed by the parent TourGuideList and by interactive elements within step content
 - [ ] WCAG 2.2 AAA compliant

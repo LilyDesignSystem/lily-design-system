@@ -2,6 +2,8 @@
 
 A dropdown menu triggered by a button that reveals a list of actions or options. This component combines a toggle button with a menu panel, providing a compact way to present multiple actions or choices without taking up permanent screen space. Common use cases include action menus, settings menus, context-sensitive options, and navigation.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The component manages its own focus lifecycle: when the menu opens, focus moves automatically to the first menu item. Arrow key navigation cycles through items with wrapping, and Escape closes the menu. The trigger button communicates its state to assistive technology via `aria-haspopup` and `aria-expanded`.
 
 ## Implementation Notes
@@ -20,6 +22,7 @@ The component manages its own focus lifecycle: when the menu opens, focus moves 
 ## Props
 
 - `label`: string (required) -- accessible name for the menu button, also displayed as button text
+- `subjectLabel`: string (optional) -- whose record or what the menu acts on, in the consumer's words ("Ada Lovelace, blood pressure 3 Nov"). Rendered as a non-interactive first part, `<div class="dropdown-menu-subject" role="none">`, which names the menu through `aria-labelledby` in place of `label` (spec/lessons/zoblocks; the consequence tiers are in docs/patterns/healthcare)
 - `open`: boolean (default: false) -- whether the menu is visible; bindable
 - `children`: slot (required) -- menu items, each should have `role="menuitem"` and `tabindex="-1"`
 
@@ -126,6 +129,10 @@ The consumer provides all CSS styling. The component renders with a `.dropdown-m
 ## Related components
 
 - `menu-item` — one item in a menu
+
+## Known limitations
+
+None known.
 
 ## References
 

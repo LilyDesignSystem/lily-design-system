@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/CymruRhifYGwasanaethIechydGwladolInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/cymru-rhif-y-gwasanaeth-iechyd-gwladol-input/",
+  "markdown": "https://lilydesignsystem.com/components/cymru-rhif-y-gwasanaeth-iechyd-gwladol-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/cymru-rhif-y-gwasanaeth-iechyd-gwladol-input/AGENTS.md"
 }

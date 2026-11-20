@@ -40,5 +40,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MedicalBannerBox.razor"
   },
   "docs": "https://lilydesignsystem.com/components/medical-banner-box/",
+  "markdown": "https://lilydesignsystem.com/components/medical-banner-box.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/medical-banner-box/AGENTS.md"
 }

@@ -118,6 +118,10 @@ GanttTable uses the Table composition pattern: GanttTable contains GanttTableHea
 - `gantt-table-th` — a Gantt chart table interactive grid header cell for planning schedule visualization <th>
 - `table` — a table with rows and columns <table>
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/

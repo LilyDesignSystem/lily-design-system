@@ -132,6 +132,10 @@ variants.
 - `skeleton` — a placeholder loading animation for content
 - `alert` — a status message for important information or feedback
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA status role: https://www.w3.org/TR/wai-aria-1.2/#status

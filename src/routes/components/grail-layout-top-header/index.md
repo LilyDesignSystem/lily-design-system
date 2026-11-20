@@ -2,6 +2,8 @@
 
 GrailLayoutTopHeader is a headless container for the top header section of a GrailLayout. It spans the full width of the layout and typically contains site branding, navigation, or a top bar.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders a `<header>` element for the top header section
@@ -72,6 +74,10 @@ GrailLayoutTopHeader is used as a child of GrailLayout. Place semantic `<header>
 - `grail-layout-center-main` — grail layout center main content with <main> tag
 - `grail-layout-left-aside` — grail layout left aside sidebar with <aside> tag
 - `grail-layout-right-aside` — grail layout right aside sidebar with <aside> tag
+
+## Known limitations
+
+None known.
 
 ## References
 

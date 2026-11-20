@@ -113,6 +113,10 @@ The measure uses the root's own font, so do not put a different font on the inne
 - `clipboard-copy-button` — copy the full value
 - `code`
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN: Intl.Segmenter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Segmenter)

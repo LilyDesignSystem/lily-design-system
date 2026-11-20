@@ -2,6 +2,8 @@
 
 TableHead is a headless component that renders a `<thead>` element within a table. It groups header rows that define column labels.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use this component within a Table to define the header section containing column headings.
 
 ## Implementation Notes
@@ -74,6 +76,10 @@ TableHead is a child of Table, following the Table pattern: Table > TableHead/Ta
 - `table-row` — a table interactive grid row <tr>
 - `table-td` — a table interactive grid data cell <td>
 - `table-th` — a table interactive grid column <th>
+
+## Known limitations
+
+None known.
 
 ## References
 

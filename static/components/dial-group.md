@@ -116,6 +116,10 @@ DialGroup is a container for Dial components.
 - `dial` — a rotary dial control for selecting a value
 - `slider` — a draggable control for selecting a value along a track
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN div element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div)

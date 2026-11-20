@@ -1,3 +1,49 @@
-# LietuvaAsmensKodasView — Lily Design System docs page
+# LietuvaAsmensKodasView
 
-See `components/lietuva-asmens-kodas-view/AGENTS.md` for canonical metadata.
+## Metadata
+
+- Component: lietuva-asmens-kodas-view
+- PascalCase: LietuvaAsmensKodasView
+- Description: a read-only display of Lithuania's Asmens kodas
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
+- HTML tag: <span>
+- CSS class: .lietuva-asmens-kodas-view
+- Interactive: no
+
+## Key Behaviors
+
+- Renders as `<span>` with class `lietuva-asmens-kodas-view`, and no role
+- Format: 11 digits in the format GYYMMDDNNNC: G encodes sex and century (4 or 6 women, 3 or 5 men), YYMMDD is the date of birth, NNN is a serial, C is the check digit
+- Read-only; not editable
+
+## ARIA
+
+- No ARIA. A plain `<span>` cannot be named: `aria-label` is prohibited on it, and most screen readers drop it. A visible caption names the value, or the optional `label` renders as hidden text
+
+## Keyboard
+
+- Not interactive
+
+## Props
+
+- `value`: string (required) — the identifier to display
+- `label`: string (optional) — hidden text naming the value, in a `.screen-reader-span`. Leave it out when a visible caption names the value
+- `...restProps`: any additional HTML attributes spread onto the root
+
+## Acceptance Criteria
+
+- [ ] Renders <span> element with class="lietuva-asmens-kodas-view"
+- [ ] Renders `value` as text content
+- [ ] WCAG 2.2 AAA compliant
+- [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
+
+## References
+
+- Documentation: index.md
+- CSS class: .lietuva-asmens-kodas-view in css-style-sheet-template.css
+- Companion: LietuvaAsmensKodasInput
+- Wikipedia: https://en.wikipedia.org/wiki/National_identification_number#Lithuania

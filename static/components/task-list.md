@@ -112,6 +112,10 @@ TaskList uses the List/ListItem composition pattern. Place TaskListItem componen
 
 - `task-list-item` — one task item with a checkbox and label
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA list role: https://www.w3.org/TR/wai-aria-1.2/#list

@@ -38,5 +38,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/BeachBall.razor"
   },
   "docs": "https://lilydesignsystem.com/components/beach-ball/",
+  "markdown": "https://lilydesignsystem.com/components/beach-ball.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/beach-ball/AGENTS.md"
 }

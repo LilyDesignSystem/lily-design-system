@@ -41,6 +41,7 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/OverlayContainer.razor"
   },
   "docs": "https://lilydesignsystem.com/components/overlay-container/",
+  "markdown": "https://lilydesignsystem.com/components/overlay-container.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/overlay-container/AGENTS.md",
   "nativePlatform": {
     "decision": "hand-rolled because it is a generic backdrop wrapper for consumer content that is not itself a <dialog>",

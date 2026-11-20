@@ -2,6 +2,8 @@
 
 A data table body is the main content section of a data table, wrapping the rows that contain the data cells. It groups the data rows where each row represents a record and each cell represents a field value. It is designed to be used inside a DataTable `<table>` structure.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The component renders a `<tbody>` element and passes through its children, which are expected to be DataTableRow or `<tr>` elements containing data cells.
 
 ## Implementation Notes
@@ -87,6 +89,10 @@ DataTableBody is part of the DataTable composition pattern. It sits inside a Dat
 - `data-table-td` — a data table interactive grid data cell for displaying and sorting tabular data <td>
 - `data-table-th` — a data table interactive grid header cell for displaying and sorting tabular data <th>
 - `table` — a table with rows and columns <table>
+
+## Known limitations
+
+None known.
 
 ## References
 

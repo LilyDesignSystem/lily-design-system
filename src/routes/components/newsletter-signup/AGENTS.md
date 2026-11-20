@@ -5,6 +5,7 @@
 - Component: newsletter-signup
 - PascalCase: NewsletterSignup
 - Description: an email subscription form composition with idle, submitting, success, and error states
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <form>
 - CSS class: .newsletter-signup
 - Interactive: yes
@@ -62,6 +63,10 @@
 - [ ] All user-facing strings come through props (i18n-ready)
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

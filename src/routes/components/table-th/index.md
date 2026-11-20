@@ -2,6 +2,8 @@
 
 TableTH is a headless component that renders a `<th scope="col">` element — a column header cell — intended to live inside a TableRow within TableHead.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use this component to label the columns of a table.
 
 ## Implementation Notes
@@ -87,6 +89,10 @@ TableTH is a child of TableRow within TableHead, following the Table pattern: Ta
 - `table-head` — a table interactive grid thead <thead>
 - `table-row` — a table interactive grid row <tr>
 - `table-td` — a table interactive grid data cell <td>
+
+## Known limitations
+
+None known.
 
 ## References
 

@@ -39,6 +39,7 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Details.razor"
   },
   "docs": "https://lilydesignsystem.com/components/details/",
+  "markdown": "https://lilydesignsystem.com/components/details.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/details/AGENTS.md",
   "nativePlatform": {
     "decision": "native",

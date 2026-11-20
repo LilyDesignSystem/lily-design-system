@@ -109,6 +109,10 @@ PostalCodeView is the read-only counterpart of PostalCodeInput. Use PostalCodeIn
 
 - `postal-code-input` — an input for entering a postal or ZIP code
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN span element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span

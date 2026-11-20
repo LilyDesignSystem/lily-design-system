@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/AustraliaTaxFileNumberView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/australia-tax-file-number-view/",
+  "markdown": "https://lilydesignsystem.com/components/australia-tax-file-number-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/australia-tax-file-number-view/AGENTS.md"
 }

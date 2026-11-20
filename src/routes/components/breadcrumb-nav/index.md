@@ -2,6 +2,8 @@
 
 A breadcrumb nav is a navigational component that displays a trail of links representing the user's current location within a site's hierarchy. Breadcrumbs help users understand where they are in the site structure and allow quick navigation back to any ancestor page. They are especially useful in sites with deep hierarchies such as e-commerce catalogs, documentation sites, and content management systems.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 BreadcrumbNav is typically a compound component. It provides the parent container structure (a `<nav>`), while individual breadcrumb entries are rendered using the BreadcrumbListItem component. The parent provides the navigation landmark semantics, and each BreadcrumbListItem renders as an `<li>` with optional `aria-current="page"` for the current page.
 
 ## Implementation Notes
@@ -106,6 +108,10 @@ BreadcrumbNav follows the Nav / List / ListItem composition pattern:
 - `breadcrumb-list` — an ordered list of breadcrumb list items
 - `breadcrumb-list-item` — one breadcrumb list item in the trail
 - `breadcrumb-link` — one breadcrumb link in the trail
+
+## Known limitations
+
+None known.
 
 ## References
 

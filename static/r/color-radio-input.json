@@ -43,5 +43,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ColorRadioInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/color-radio-input/",
+  "markdown": "https://lilydesignsystem.com/components/color-radio-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/color-radio-input/AGENTS.md"
 }

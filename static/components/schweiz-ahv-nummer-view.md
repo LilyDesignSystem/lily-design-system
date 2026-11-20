@@ -75,6 +75,10 @@ A national identifier is personal data, and often a key to other records.
 - `schweiz-ahv-nummer-input` — an input for entering Switzerland's AHV-Nummer / Numéro AVS
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [Data codes for Switzerland](https://en.wikipedia.org/wiki/Data_codes_for_Switzerland)

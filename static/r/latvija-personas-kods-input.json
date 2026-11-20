@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/LatvijaPersonasKodsInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/latvija-personas-kods-input/",
+  "markdown": "https://lilydesignsystem.com/components/latvija-personas-kods-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/latvija-personas-kods-input/AGENTS.md"
 }

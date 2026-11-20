@@ -38,5 +38,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MockupPhoneLandscape.razor"
   },
   "docs": "https://lilydesignsystem.com/components/mockup-phone-landscape/",
+  "markdown": "https://lilydesignsystem.com/components/mockup-phone-landscape.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/mockup-phone-landscape/AGENTS.md"
 }

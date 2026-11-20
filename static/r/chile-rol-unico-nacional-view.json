@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/ChileRolUnicoNacionalView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/chile-rol-unico-nacional-view/",
+  "markdown": "https://lilydesignsystem.com/components/chile-rol-unico-nacional-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/chile-rol-unico-nacional-view/AGENTS.md"
 }

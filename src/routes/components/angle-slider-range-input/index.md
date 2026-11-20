@@ -6,6 +6,8 @@ range input, it provides semantic ARIA slider attributes including value text
 that conveys
 the angle with a degree symbol to screen readers.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Common uses include rotation controls, compass direction selectors, gradient
 angle pickers, and any interface where a circular or angular value needs to be
 selected by the user. The step property allows snapping to common increments
@@ -140,6 +142,10 @@ The consumer provides all CSS styling. The component renders with a `.angle-slid
 ## Related components
 
 - `text-input` — a single-line text input field <input type="text">
+
+## Known limitations
+
+None known.
 
 ## References
 

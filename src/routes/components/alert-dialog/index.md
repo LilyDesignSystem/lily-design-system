@@ -6,6 +6,8 @@ alert dialogs demand immediate attention -- they are used for important warnings
 confirmations of destructive actions, or error conditions that must be
 acknowledged before the user can continue.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 Alert dialogs are distinguished from standard dialogs by the `alertdialog` ARIA
 role, which signals to assistive technologies that the content requires the
 user's immediate attention. Common uses include confirming irreversible actions
@@ -14,6 +16,7 @@ critical error messages that require acknowledgment.
 
 ## Implementation Notes
 
+- Opened with `.showModal()` (always modal): the page behind is inert, focus is trapped and returns to the opener on close; the native `cancel` and `close` events set `open` to false
 - Uses native HTML `<dialog>` element with the `open` attribute for visibility
 - `role="alertdialog"` distinguishes from regular dialogs -- indicates critical content requiring acknowledgment
 - two-way binding on the `open` prop for dialog visibility
@@ -84,8 +87,8 @@ Simple acknowledgment without description:
 
 ## Keyboard Interactions
 
-- Escape: Closes the dialog (consumer must implement via onkeydown)
-- Tab: Focus should be trapped within the dialog (consumer responsibility)
+- Escape: closes the dialog. It opens with `showModal()`, so the browser fires `cancel` and the component sets `open` to false.
+- Tab: stays inside the dialog; the browser keeps it there while the dialog is modal.
 
 ## ARIA
 
@@ -126,13 +129,17 @@ The consumer provides all CSS styling. The component renders with a `.alert-dial
 ## Advice
 
 - **Designers**: Ensure the dialog has a clear title, a concise description of the action, and distinguishable confirm/cancel buttons with appropriate visual weight (e.g., a destructive action button should appear more prominent and cautionary).
-- **Developers**: The consumer must implement focus trapping and Escape key handling. Set initial focus on the least destructive action button (e.g., "Cancel") to prevent accidental confirmations.
+- **Developers**: The dialog opens with `showModal()`, so the browser traps focus and handles Escape; to keep the warning up until an action is chosen, prevent the `cancel` event. Set initial focus on the least destructive action button (e.g., "Cancel") to prevent accidental confirmations.
 
 ## Related components
 
 - `dialog` — a modal or non-modal dialog window
 - `popconfirm-dialog` — a popover dialog with confirm and cancel buttons
 - `alert` — a status message for important information or feedback
+
+## Known limitations
+
+None known.
 
 ## References
 

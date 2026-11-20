@@ -42,5 +42,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MedicationRecordListItem.razor"
   },
   "docs": "https://lilydesignsystem.com/components/medication-record-list-item/",
+  "markdown": "https://lilydesignsystem.com/components/medication-record-list-item.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/medication-record-list-item/AGENTS.md"
 }

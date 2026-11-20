@@ -102,6 +102,10 @@ The consumer provides all CSS styling. The component renders with a `.text-input
 - `number-input` — an input for entering a numeric value with validation <input type="number">
 - `text-area-input` — a multi-line text input area
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN input type="text": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text

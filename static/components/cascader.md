@@ -104,6 +104,10 @@ expanded states.
 - `tree-select` — a select dropdown showing a tree of hierarchical options
 - `select-with-extras` — a select dropdown with additional features like search or groups
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/

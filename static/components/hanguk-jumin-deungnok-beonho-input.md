@@ -89,6 +89,10 @@ A national identifier is personal data, and often a key to other records.
 - `hanguk-jumin-deungnok-beonho-view` — a read-only display of South Korea's Resident Registration Number (주민등록번호)
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [Resident registration number](https://en.wikipedia.org/wiki/Resident_registration_number)

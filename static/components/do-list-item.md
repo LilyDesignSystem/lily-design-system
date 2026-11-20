@@ -74,6 +74,10 @@ The consumer provides all CSS styling. The component renders with a `.do-list-it
 
 - `do-list` — a guideline list of encouraged do-list-item components
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN li element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li

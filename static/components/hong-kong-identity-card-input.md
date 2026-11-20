@@ -90,6 +90,10 @@ A national identifier is personal data, and often a key to other records.
 - `hong-kong-identity-card-view` — a read-only display of Hong Kong's Identity Card Number
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [Hong Kong identity card](https://en.wikipedia.org/wiki/Hong_Kong_identity_card)

@@ -47,5 +47,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/CalendarYearTable.razor"
   },
   "docs": "https://lilydesignsystem.com/components/calendar-year-table/",
+  "markdown": "https://lilydesignsystem.com/components/calendar-year-table.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/calendar-year-table/AGENTS.md"
 }

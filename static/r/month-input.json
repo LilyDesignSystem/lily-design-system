@@ -37,5 +37,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MonthInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/month-input/",
+  "markdown": "https://lilydesignsystem.com/components/month-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/month-input/AGENTS.md"
 }

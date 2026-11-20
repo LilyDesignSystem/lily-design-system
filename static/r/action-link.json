@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ActionLink.razor"
   },
   "docs": "https://lilydesignsystem.com/components/action-link/",
+  "markdown": "https://lilydesignsystem.com/components/action-link.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/action-link/AGENTS.md"
 }

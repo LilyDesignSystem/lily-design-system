@@ -2,6 +2,8 @@
 
 CheckboxGroup is a headless fieldset container that groups related checkboxes under the ARIA `group` role. It manages a collection of checkboxes with shared state, supporting a "Select all" checkbox with automatic indeterminate state, group-level disabled state, and two-way binding of selected values.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use CheckboxGroup when you need multiple checkboxes that share a logical relationship, such as selecting features, choosing categories, or picking multiple items from a list. The component wraps native checkbox inputs in a `<fieldset>` element, ensuring proper semantic grouping and accessibility without imposing any visual styling.
 
 ## Implementation Notes
@@ -113,6 +115,10 @@ CheckboxGroup is the container for CheckboxInput children. Use `<CheckboxGroup>`
 - `checkbox-input` — a checkbox input for toggling a boolean value <input type="checkbox">
 - `radio-group` — a group of radio buttons for selecting one option
 - `toggle-group` — a group of toggle buttons for selecting options
+
+## Known limitations
+
+None known.
 
 ## References
 

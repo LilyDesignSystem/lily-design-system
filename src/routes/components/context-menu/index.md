@@ -2,6 +2,8 @@
 
 A context menu provides a list of actions relevant to the current context, typically triggered by a right-click or long-press. The menu appears near the pointer and offers contextual options such as cut, copy, paste, or custom actions.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This component manages menu visibility, keyboard navigation, and focus. When opened, focus moves to the first menu item automatically. Arrow keys navigate between items with wrapping, and Escape closes the menu. Consumers trigger opening externally (e.g., via a `contextmenu` event handler) and provide `role="menuitem"` children.
 
 ## Implementation Notes
@@ -16,6 +18,7 @@ This component manages menu visibility, keyboard navigation, and focus. When ope
 ## Props
 
 - `label`: string (required) -- accessible name for the context menu via `aria-label`
+- `subjectLabel`: string (optional) -- whose record or what the menu acts on, in the consumer's words ("Ada Lovelace, blood pressure 3 Nov"). Rendered as a non-interactive first part, `<div class="context-menu-subject" role="none">`, which names the menu through `aria-labelledby` in place of `label` (spec/lessons/zoblocks; the consequence tiers are in docs/patterns/healthcare)
 - `open`: boolean (default: false) -- whether the menu is visible; bindable for two-way control
 - `children`: slot (required) -- menu item content (should include `role="menuitem"` elements)
 
@@ -131,6 +134,10 @@ ContextMenu follows the Menu/MenuItem composition pattern. Use ContextMenu as th
 ## Related components
 
 - `context-menu-item` — one item in a context menu
+
+## Known limitations
+
+None known.
 
 ## References
 

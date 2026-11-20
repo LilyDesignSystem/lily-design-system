@@ -36,5 +36,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/PhotoPack.razor"
   },
   "docs": "https://lilydesignsystem.com/components/photo-pack/",
+  "markdown": "https://lilydesignsystem.com/components/photo-pack.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/photo-pack/AGENTS.md"
 }

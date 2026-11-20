@@ -122,6 +122,10 @@ The consumer provides all CSS styling. The component renders with a `.checkbox-i
 - `switch-button` — a toggle switch for turning a setting on or off
 - `toggle-button` — a button that toggles between pressed and unpressed states
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN checkbox input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox

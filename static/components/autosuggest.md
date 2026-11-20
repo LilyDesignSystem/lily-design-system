@@ -134,6 +134,10 @@ The component renders with `.autosuggest` as the root class, and `.autosuggest-i
 - `select` — native select dropdown
 - `mentions-input` — at-mention autocomplete inside a textarea
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [WAI-ARIA Combobox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/)

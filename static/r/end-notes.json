@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/EndNotes.razor"
   },
   "docs": "https://lilydesignsystem.com/components/end-notes/",
+  "markdown": "https://lilydesignsystem.com/components/end-notes.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/end-notes/AGENTS.md"
 }

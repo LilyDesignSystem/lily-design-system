@@ -109,6 +109,10 @@ The consumer provides all CSS styling. The component renders with a `.resizable`
 - `splitter` — a draggable divider for resizing adjacent panels
 - `split-view` — a two-panel resizable layout container with a draggable divider between them
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Region Role: https://www.w3.org/TR/wai-aria-1.2/#region

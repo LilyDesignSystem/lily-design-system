@@ -34,5 +34,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ScreenReaderSpan.razor"
   },
   "docs": "https://lilydesignsystem.com/components/screen-reader-span/",
+  "markdown": "https://lilydesignsystem.com/components/screen-reader-span.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/screen-reader-span/AGENTS.md"
 }

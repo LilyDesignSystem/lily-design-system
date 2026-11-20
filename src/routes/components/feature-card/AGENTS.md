@@ -5,6 +5,7 @@
 - Component: feature-card
 - PascalCase: FeatureCard
 - Description: a large content card with a prominent image positioned alongside or above the text
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <article>
 - CSS class: .feature-card
 - Interactive: no (passive container; interactive children manage their own behavior)
@@ -52,6 +53,10 @@
 - [ ] All user-facing strings come through props (i18n-ready)
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

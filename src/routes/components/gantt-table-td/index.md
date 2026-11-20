@@ -2,6 +2,8 @@
 
 A Gantt table data cell represents a single time period cell within a task row of a Gantt chart. It renders as a `<td>` element and is designed to be placed inside a GanttTableTr within a GanttTableBody. Each cell corresponds to one time period (e.g., a day, week, or sprint) for a particular task, and the consumer provides the cell content, such as a bar segment, milestone marker, or empty space.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders as a `<td>` element for use inside a GanttTableTr within a GanttTable grid
@@ -98,6 +100,10 @@ The consumer provides all CSS styling. The component renders with a `.gantt-tabl
 - `gantt-table-tr` — a Gantt chart table interactive grid row for planning schedule visualization <tr>
 - `gantt-table-th` — a Gantt chart table interactive grid header cell for planning schedule visualization <th>
 - `table` — a table with rows and columns <table>
+
+## Known limitations
+
+None known.
 
 ## References
 

@@ -118,6 +118,10 @@ Consumer CSS targets `.product-card`, `.product-card-image`, `.product-card-head
 - `card` — a grouped content container with header, body, and footer areas
 - `feature-card` — a large content card with a prominent image positioned alongside or above the text
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN article element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article

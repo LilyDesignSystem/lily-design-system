@@ -43,5 +43,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SliderButton.razor"
   },
   "docs": "https://lilydesignsystem.com/components/slider-button/",
+  "markdown": "https://lilydesignsystem.com/components/slider-button.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/slider-button/AGENTS.md"
 }

@@ -2,6 +2,8 @@
 
 An email link displays an email as a clickable mailto link. When clicked, it opens the user's default email client with the address pre-filled. This is the read-only companion to EmailAddressInput, used for displaying email addresses in profiles, contact lists, or user cards.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders an `<a>` element with `href="mailto:{email}"` for native email client integration
@@ -75,6 +77,14 @@ The consumer provides all CSS styling. The component renders with a `.email-link
 
 - `email-input` — an input for entering an email address <input type="email">
 - `tel-link` — a tel hyperlink for a telephone number
+
+## Known limitations
+
+### Disabled links and link look-alikes
+
+A link has no disabled state: the `disabled` attribute has no effect. Prefer not rendering an unavailable link. When the unavailable item must remain visible, set `aria-disabled="true"`, omit `href` (or guard every pointer and keyboard activation if the URL must remain), and use `tabindex="-1"` so it is not a misleading tab stop. Add `role="link"` when an anchor without `href` must retain link semantics.
+
+Use a native `<button>` for an action. Styling an anchor as a button does not give it button keyboard or disabled behavior.
 
 ## References
 

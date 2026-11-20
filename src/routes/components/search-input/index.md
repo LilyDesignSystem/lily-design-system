@@ -2,6 +2,8 @@
 
 A search input is a UI/UX component that provides a text field specifically for search queries. It uses the native HTML `<input type="search">` element, which provides semantic meaning and may trigger search-specific browser behaviors such as a clear button or search icon. The component includes aria-label for accessibility and supports bindable value for two-way data binding, making it easy to integrate with search functionality in any application.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 Search inputs are commonly used for site-wide search bars, filtering lists, and any scenario where users need to enter a search query. Mobile browsers may display a search-optimized keyboard layout when this input type is focused.
 
 ## Implementation Notes
@@ -101,6 +103,10 @@ The consumer provides all CSS styling. The component renders with a `.search-inp
 - `text-input` — a single-line text input field <input type="text">
 - `text-input-with-search` — a single-line text input field <input type="text"> with search capability
 - `combobox` — a text input combined with a dropdown list for filtering options
+
+## Known limitations
+
+None known.
 
 ## References
 

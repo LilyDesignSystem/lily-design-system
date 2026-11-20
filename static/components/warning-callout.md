@@ -91,6 +91,10 @@ The consumer provides all CSS styling. The component renders with a `.warning-ca
 - `information-callout` — a callout box highlighting informational content
 - `banner` — a prominent message bar across the top of a page
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Alert Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/alert/

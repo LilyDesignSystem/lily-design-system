@@ -155,6 +155,10 @@ ThemeSelect contains ThemeSelectOption children (or plain `<option>` elements) f
 
 - `theme-select-option` — one option in a theme select dropdown
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN select element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select

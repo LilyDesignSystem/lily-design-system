@@ -130,6 +130,10 @@ The consumer provides all CSS styling. The component renders with a `.text-area-
 - `character-counter` — a counter showing remaining or used characters in a text field
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN text-area-input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/text-area-input

@@ -2,13 +2,15 @@
 
 A modal or non-modal dialog that overlays the main interface to communicate information or prompt users for input. Dialogs are used for confirmations, alerts, forms, settings, and any interaction that requires focused user attention. Modal dialogs block interaction with the underlying page until dismissed, while non-modal dialogs allow background interaction.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This component uses the native `<dialog>` HTML element with conditional rendering. When `open` is false, the dialog is removed from the DOM entirely. The dialog supports keyboard dismissal via the Escape key and exposes a bindable `open` prop for programmatic control of visibility.
 
 ## Implementation Notes
 
 - Renders a native `<dialog>` element conditionally via conditional rendering
 - Supports two-way binding on the `open` prop with the parent
-- The `open` HTML attribute is set directly on the dialog element (not using `.showModal()`)
+- A modal dialog (`modal`, the default) is opened with `.showModal()`, so the browser makes the page behind it inert, traps focus inside, and gives focus back to the opener when it closes; a non-modal one (`modal={false}`) is shown with the `open` attribute. Where `showModal` does not exist (jsdom) it falls back to the `open` attribute. The native `cancel` and `close` events (Escape, `<form method="dialog">`) set `open` to false
 - `tabindex="-1"` is set on the dialog to ensure it can receive focus and keyboard events
 - Escape key handler sets `open` to false and prevents default browser behavior
 - The `modal` prop controls whether `aria-modal` is set (defaults to true)
@@ -111,7 +113,9 @@ This headless component provides a native `<dialog>` element with conditional re
 
 ## Styles
 
-The consumer provides all CSS styling. The component renders with a `.dialog` class for targeting. No default styles are included — this is a fully headless component.
+The headless component includes no CSS and renders `.dialog` for targeting. A Lily reference theme exposes
+`--lily-dialog-background`, `--lily-dialog-color`, `--lily-dialog-border-color`, and
+`--lily-dialog-border-radius`, defaulting to the surface, text, border, and large-radius tokens.
 
 ## Testing
 
@@ -133,6 +137,10 @@ The consumer provides all CSS styling. The component renders with a `.dialog` cl
 - `file-dialog` — a dialog for browsing and selecting files
 - `drawer` — a panel that slides in from the edge of the screen
 - `sheet` — a panel that slides in from a screen edge as an overlay
+
+## Known limitations
+
+None known.
 
 ## References
 

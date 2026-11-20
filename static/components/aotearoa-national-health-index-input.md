@@ -88,6 +88,10 @@ A national identifier is personal data, and often a key to other records.
 - `aotearoa-national-health-index-view` — a read-only display of New Zealand's National Health Index (NHI) Number
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [NHI Number](https://en.wikipedia.org/wiki/NHI_Number)

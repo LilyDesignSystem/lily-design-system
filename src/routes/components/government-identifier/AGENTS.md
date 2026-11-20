@@ -5,6 +5,7 @@
 - Component: government-identifier
 - PascalCase: GovernmentIdentifier
 - Description: an identifier section with a parent agency logo, agency name, and required government links
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <section>
 - CSS class: .government-identifier
 - Interactive: no (children may be interactive)
@@ -54,6 +55,10 @@
 - [ ] Additional HTML attributes pass through to the root element
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

@@ -2,6 +2,8 @@
 
 A single item within a DontList. Renders a semantic `<li>` element representing one discouraged action or practice to avoid. This component is designed to be placed inside a DontList `<ul>`, providing proper list item semantics for do/don't guidance patterns.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The consumer provides the content through the children slot. The component is intentionally minimal, serving as a semantic wrapper that can be styled by the consumer.
 
 ## Implementation Notes
@@ -68,6 +70,10 @@ The consumer provides all CSS styling. The component renders with a `.dont-list-
 ## Related components
 
 - `dont-list` — a guideline list of discouraged dont-list-item components
+
+## Known limitations
+
+None known.
 
 ## References
 

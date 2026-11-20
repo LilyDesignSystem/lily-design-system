@@ -3,6 +3,8 @@
 An action group is a row of related action buttons that can collapse to an
 overflow menu when horizontal space is constrained.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it to surface a closely related set of bulk or context actions —
 formatting controls, view toggles, or shortcut commands — where the
 collection should be perceived as one logical unit. When space is tight,
@@ -114,6 +116,10 @@ interactive descendant.
 
 - `button-group` — a wrapper that groups related buttons together
 - `tool-bar` — a horizontal bar of tool actions
+
+## Known limitations
+
+None known.
 
 ## References
 

@@ -37,6 +37,7 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ContextMenuItem.razor"
   },
   "docs": "https://lilydesignsystem.com/components/context-menu-item/",
+  "markdown": "https://lilydesignsystem.com/components/context-menu-item.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/context-menu-item/AGENTS.md",
   "nativePlatform": {
     "decision": "hand-rolled because role=\"menuitem\" has no native element",

@@ -2,6 +2,8 @@
 
 A single step within a TourGuideList guided tour. Each step represents one screen or instruction in the tour sequence. The step conditionally shows or hides based on the `current` prop, using the `hidden` attribute and `aria-hidden` for proper accessibility. Step progress information is communicated to screen readers through the accessible label.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This component is designed to be placed inside a TourGuideList container. The consumer controls which step is current via the `current` prop, enabling flexible navigation patterns (next/previous buttons, step indicators, etc.).
 
 ## Implementation Notes
@@ -76,14 +78,15 @@ Use TourListItem for each individual step in a TourGuideList walkthrough. Common
 
 ## Props
 
-| Prop           | Type            | Default    | Description                                             |
-| -------------- | --------------- | ---------- | ------------------------------------------------------- |
-| `label`        | `string`        | (required) | Accessible name for this step via `aria-label`          |
-| `current`      | `boolean`       | `false`    | Whether this step is the currently visible step         |
-| `stepNumber`   | `number`        | (optional) | 1-based step number (e.g. 1, 2, 3)                      |
-| `totalSteps`   | `number`        | (optional) | Total number of steps in the tour                       |
-| `children`     | `slot`          | (required) | Step content                                            |
-| `...restProps` | HTML attributes |            | Additional attributes spread onto the container `<div>` |
+| Prop           | Type            | Default    | Description                                                                                                   |
+| -------------- | --------------- | ---------- | ------------------------------------------------------------------------------------------------------------- |
+| `label`        | `string`        | (required) | Accessible name for this step via `aria-label`                                                                |
+| `current`      | `boolean`       | `false`    | Whether this step is the currently visible step                                                               |
+| `stepNumber`   | `number`        | (optional) | 1-based step number (e.g. 1, 2, 3)                                                                            |
+| `totalSteps`   | `number`        | (optional) | Total number of steps in the tour                                                                             |
+| `stepTemplate` | `string`        | (optional) | With both numbers, the step's whole name: `{label}`, `{step}` and `{total}` are filled in. No English default |
+| `children`     | `slot`          | (required) | Step content                                                                                                  |
+| `...restProps` | HTML attributes |            | Additional attributes spread onto the container `<div>`                                                       |
 
 ## Examples
 
@@ -160,10 +163,9 @@ Multi-step tour:
 
 ## ARIA
 
-- `role="group"` -- groups the step content semantically
-- `aria-roledescription="step"` -- identifies the element as a tour step
-- `aria-label` -- provides an accessible name, optionally including "Step N of M"
-- `aria-current="step"` -- indicates the currently active step
+- The `<li>` keeps its listitem role, so the tour list counts its steps
+- `aria-label` -- the accessible name: `label`, or the consumer's `stepTemplate` filled in (e.g. "{label} (Step {step} of {total})")
+- `data-current` -- indicates the currently active step
 - `aria-hidden="true"` -- hides inactive steps from assistive technology
 - `hidden` -- hides inactive steps from visual rendering
 
@@ -180,7 +182,7 @@ Multi-step tour:
 
 ## Headless
 
-This headless component provides a `<div>` with `role="group"`, `aria-roledescription="step"`, `aria-label` (with optional step progress), `aria-current`, and `hidden`/`aria-hidden` for conditional visibility. The consumer provides all step content, navigation buttons, and all visual styling.
+This headless component provides an `<li>` that stays a list item of its tour list, with `aria-label` (with optional step progress), `data-current`, and `hidden`/`aria-hidden` for conditional visibility. It takes no group role, which would take the step out of its list. The consumer provides all step content, navigation buttons, and all visual styling.
 
 ## Styles
 
@@ -189,13 +191,14 @@ The consumer provides all CSS styling. The component renders with a `.tour-list-
 ## Testing
 
 - Verify the component renders a `<li>` element with class `tour-list-item`
-- Verify role="group"` -- groups the step content semantically
+- Verify the `<li>` has no `role` and no `aria-roledescription`, so it stays in its list
 - Verify aria-label` -- provides an accessible name, optionally including "Step N of M"
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied
 
 ## Advice
 
+- **Developers**: `current` sets `data-current` on the `<li>` and nothing else; the item sets no `aria-current`. Put `aria-current="step"` on the current tour step's content (the link, or the text when it is not a link), or pass it as a rest prop on the item, so assistive technology announces it.
 - **Designers**: Make the current step visually prominent and clearly indicate progress (e.g., step dots, "Step N of M" text) so users know where they are in the tour.
 - **Developers**: Provide `stepNumber` and `totalSteps` props for accessible step progress labels. Use the `current` prop to control which step is visible.
 
@@ -207,10 +210,13 @@ TourListItem is a child of TourGuideList, following the Guide/GuideList/GuideLis
 
 - `tour-list` — an ordered list of tour guide steps
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Group Role: https://www.w3.org/TR/wai-aria-1.2/#group
-- WAI-ARIA aria-roledescription: https://www.w3.org/TR/wai-aria-1.2/#aria-roledescription
 - WAI-ARIA aria-current: https://www.w3.org/TR/wai-aria-1.2/#aria-current
 
 ---

@@ -2,6 +2,8 @@
 
 One section navigation item.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders a `<li>` containing a `SectionLink`
@@ -10,10 +12,11 @@ One section navigation item.
 
 ## Props
 
-| Prop           | Type            | Default | Description                      |
-| -------------- | --------------- | ------- | -------------------------------- |
-| `children`     | slot (required) | —       | Typically a single `SectionLink` |
-| `...restProps` | HTML attributes | —       | Spread onto the root `<li>`      |
+| Prop           | Type            | Default | Description                                                           |
+| -------------- | --------------- | ------- | --------------------------------------------------------------------- |
+| `current`      | boolean         | `false` | Sets an empty `data-current` on the `<li>` for CSS; no `aria-current` |
+| `children`     | slot (required) | —       | Typically a single `SectionLink`                                      |
+| `...restProps` | HTML attributes | —       | Spread onto the root `<li>`                                           |
 
 ## Usage
 
@@ -45,10 +48,19 @@ This headless component renders semantic HTML with appropriate ARIA wiring. The 
 
 The component renders with `.section-list-item` as the root class. No default styles are included.
 
+## Advice
+
+- **Developers**: `current` sets `data-current` on the `<li>` and nothing else: the item sets no `aria-current`. Put `aria-current="page"` on the link inside (or pass it as a rest prop on the item) so assistive technology announces the current section.
+- **Designers**: Style the current section with more than colour (weight, a marker, or an underline), selecting it with `[data-current]` or `[aria-current="page"]`.
+
 ## Related components
 
 - `section-list` — parent list
 - `section-link` — link inside the item
+
+## Known limitations
+
+None known.
 
 ## References
 

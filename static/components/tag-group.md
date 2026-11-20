@@ -80,6 +80,10 @@ TagGroup uses the Group/Item composition pattern. Place Tag components as childr
 - `tag` — a keyword label for categorizing content
 - `tag-input-div` — an input for adding and removing tags
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA group role: https://www.w3.org/TR/wai-aria-1.2/#group

@@ -5,6 +5,8 @@ corner. It uses inline `position: fixed` as the documented headless
 behavior and a required `aria-label` so screen readers announce its
 purpose.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it for primary single-action shortcuts (compose, scroll-to-top,
 new chat, contact support) that should remain reachable regardless of
 scroll position.
@@ -110,6 +112,10 @@ indicator, and elevation that matches the surrounding theme.
 - `button` — a generic clickable button element
 - `icon-button` — a button containing only an icon with a required accessible label
 - `affix` — a wrapper that pins its content to a viewport position while the page scrolls
+
+## Known limitations
+
+None known.
 
 ## References
 

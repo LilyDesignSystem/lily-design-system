@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/EspanaCodigoDeIdentificacionFiscalInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/espana-codigo-de-identificacion-fiscal-input/",
+  "markdown": "https://lilydesignsystem.com/components/espana-codigo-de-identificacion-fiscal-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/espana-codigo-de-identificacion-fiscal-input/AGENTS.md"
 }

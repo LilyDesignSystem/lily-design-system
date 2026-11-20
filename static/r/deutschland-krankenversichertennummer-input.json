@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/DeutschlandKrankenversichertennummerInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/deutschland-krankenversichertennummer-input/",
+  "markdown": "https://lilydesignsystem.com/components/deutschland-krankenversichertennummer-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/deutschland-krankenversichertennummer-input/AGENTS.md"
 }

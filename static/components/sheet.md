@@ -117,6 +117,10 @@ The consumer provides all CSS styling. The component renders with a `.sheet` cla
 - `dialog` — a modal or non-modal dialog window
 - `slide-out-drawer` — a drawer that slides out from the side of the page
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Dialog (Modal) Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/

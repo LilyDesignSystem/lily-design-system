@@ -90,6 +90,10 @@ This headless component ships zero CSS and decides nothing visual. The consumer 
 - `measurement-unit-input` — a unit on its own
 - `observation-view` — a measured value shown with its unit and range
 
+## Known limitations
+
+None known.
+
 ## References
 
 - openEHR DV_QUANTITY: https://specifications.openehr.org/releases/RM/latest/data_types.html

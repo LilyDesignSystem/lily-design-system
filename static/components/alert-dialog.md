@@ -137,6 +137,10 @@ The consumer provides all CSS styling. The component renders with a `.alert-dial
 - `popconfirm-dialog` — a popover dialog with confirm and cancel buttons
 - `alert` — a status message for important information or feedback
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA alertdialog role: https://www.w3.org/TR/wai-aria-1.2/#alertdialog

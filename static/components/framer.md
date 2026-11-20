@@ -96,6 +96,10 @@ The consumer provides all CSS styling. The component renders with a `.framer` cl
 - `panel` — a generic content panel with optional heading
 - `aspect-ratio-container` — a container that maintains a fixed aspect ratio
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [Reuters Graphics Framer component](https://github.com/reuters-graphics/graphics-components)

@@ -50,6 +50,7 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Coachmark.razor"
   },
   "docs": "https://lilydesignsystem.com/components/coachmark/",
+  "markdown": "https://lilydesignsystem.com/components/coachmark.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/coachmark/AGENTS.md",
   "nativePlatform": {
     "decision": "native",

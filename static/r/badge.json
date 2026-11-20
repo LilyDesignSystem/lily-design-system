@@ -38,5 +38,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Badge.razor"
   },
   "docs": "https://lilydesignsystem.com/components/badge/",
+  "markdown": "https://lilydesignsystem.com/components/badge.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/badge/AGENTS.md"
 }

@@ -106,6 +106,10 @@ The consumer provides all CSS styling. The component renders with a `.expander` 
 - `collapsible` — a container that can be expanded or collapsed
 - `accordion-list-item` — an accordion list item component
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/

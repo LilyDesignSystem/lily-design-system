@@ -72,6 +72,10 @@ A national identifier is personal data, and often a key to other records.
 - `lietuva-pasas-input` — an input for entering Lithuania's Pasas
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/Lithuanian_passport

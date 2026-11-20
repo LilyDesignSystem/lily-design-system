@@ -5,6 +5,7 @@
 - Component: comment
 - PascalCase: Comment
 - Description: a comment is anything that expresses an opinion, observation, explanation, etc.
+- Status: experimental — recent catalog addition with the least accumulated depth; contract may still move
 - HTML tag: <div>
 - CSS class: .comment
 - Interactive: no
@@ -18,6 +19,7 @@
 
 ## ARIA
 
+- With a `label`, the root is `role="group"`, because a plain `<div>` cannot be named. Without one it has no role
 - `aria-label` -- describes the comment for screen readers
 
 ## Keyboard
@@ -36,6 +38,10 @@
 - [ ] Has aria-label attribute when provided
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS -- fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

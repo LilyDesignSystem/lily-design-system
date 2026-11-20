@@ -111,6 +111,10 @@ The consumer provides all CSS styling. The component renders with a `.aspect-rat
 - `container` — a generic block-level content container
 - `image` — an image element with alt text
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN div element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div)

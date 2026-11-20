@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ContainerWithFluidWidth.razor"
   },
   "docs": "https://lilydesignsystem.com/components/container-with-fluid-width/",
+  "markdown": "https://lilydesignsystem.com/components/container-with-fluid-width.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/container-with-fluid-width/AGENTS.md"
 }

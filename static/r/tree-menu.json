@@ -43,5 +43,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TreeMenu.razor"
   },
   "docs": "https://lilydesignsystem.com/components/tree-menu/",
+  "markdown": "https://lilydesignsystem.com/components/tree-menu.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tree-menu/AGENTS.md"
 }

@@ -65,6 +65,10 @@ The component renders with `.mockup-phone-landscape` as the root class. No defau
 - `mockup-tablet-landscape` — a box area that looks like a tablet computer in landscape mode
 - `mockup-tablet-portrait` — a box area that looks like a tablet computer in portrait mode
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Documentation: index.md

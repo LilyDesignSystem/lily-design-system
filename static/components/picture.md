@@ -98,6 +98,10 @@ Target `.picture`. A `<picture>` is `display: inline` by default and is only a w
 - `image-file-input`
 - `avatar`
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN picture element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture)

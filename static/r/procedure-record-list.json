@@ -43,5 +43,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ProcedureRecordList.razor"
   },
   "docs": "https://lilydesignsystem.com/components/procedure-record-list/",
+  "markdown": "https://lilydesignsystem.com/components/procedure-record-list.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/procedure-record-list/AGENTS.md"
 }

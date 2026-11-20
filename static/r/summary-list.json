@@ -34,5 +34,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SummaryList.razor"
   },
   "docs": "https://lilydesignsystem.com/components/summary-list/",
+  "markdown": "https://lilydesignsystem.com/components/summary-list.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/summary-list/AGENTS.md"
 }

@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/BreadcrumbLink.razor"
   },
   "docs": "https://lilydesignsystem.com/components/breadcrumb-link/",
+  "markdown": "https://lilydesignsystem.com/components/breadcrumb-link.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/breadcrumb-link/AGENTS.md"
 }

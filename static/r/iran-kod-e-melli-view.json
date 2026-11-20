@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/IranKodEMelliView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/iran-kod-e-melli-view/",
+  "markdown": "https://lilydesignsystem.com/components/iran-kod-e-melli-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/iran-kod-e-melli-view/AGENTS.md"
 }

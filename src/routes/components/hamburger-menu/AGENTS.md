@@ -5,18 +5,19 @@
 - Component: hamburger-menu
 - PascalCase: HamburgerMenu
 - Description: a toggle button that opens a mobile navigation menu
-- HTML tag: <button>
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
+- HTML tag: <div>
 - CSS class: .hamburger-menu
 - Interactive: yes
 
 ## Key Behaviors
 
-- Renders a `<div>` wrapper containing a `<button>` toggle and a conditional navigation region
+- Renders a `<div>` wrapper containing a `<button>` toggle and a conditional navigation region; a `<button>` cannot hold the navigation it opens
 - The button uses `aria-expanded` and `aria-controls` to communicate state to assistive technologies
 - The navigation region uses `role="navigation"` with `aria-label` for landmark identification
 - A unique `menuId` is generated using `Math.random()` for the `aria-controls`/`id` link
 - Supports two-way binding on the `open` prop
-- Navigation content is conditionally rendered with conditional rendering, removing it from the DOM when closed
+- Navigation content is conditionally rendered, removing it from the DOM when closed; the HTML, Nunjucks, Web Components and Alpine ports, which cannot move consumer markup in and out, keep it in the DOM and set `hidden` instead
 - Uses slot for the `children` prop
 
 ## ARIA
@@ -35,19 +36,31 @@
 
 ## Props
 
-- `label`: string (default: "Menu") -- accessible name for the toggle button and the navigation region
+- `label`: string (required) -- accessible name for the toggle button and the navigation region
 - `open`: boolean (default: false) -- bindable boolean controlling whether the navigation panel is visible
 - `children`: slot (required) -- navigation content rendered when the menu is open
 - `...restProps`: unknown -- additional attributes spread onto the outer `<div>` wrapper
 
+## Native platform
+
+- Decision: hand-rolled because a <summary> must sit inside its <details> directly before the panel, so the toggle cannot live in a header row apart from the nav
+- Uses: native <button aria-expanded> + <nav>
+- Could use: <details>/<summary>
+- Notes: APG disclosure navigation; no overlay or top layer wanted.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
 ## Acceptance Criteria
 
-- [ ] Renders <button> element with class="hamburger-menu"
+- [ ] Renders <div> element with class="hamburger-menu", holding the <button> and the navigation region
 - [ ] Has aria-label attribute
 - [ ] Has role="navigation"
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

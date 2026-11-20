@@ -48,5 +48,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/HeatmapChartWithYearOfDays.razor"
   },
   "docs": "https://lilydesignsystem.com/components/heatmap-chart-with-year-of-days/",
+  "markdown": "https://lilydesignsystem.com/components/heatmap-chart-with-year-of-days.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/heatmap-chart-with-year-of-days/AGENTS.md"
 }

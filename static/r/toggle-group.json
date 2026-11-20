@@ -38,5 +38,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ToggleGroup.razor"
   },
   "docs": "https://lilydesignsystem.com/components/toggle-group/",
+  "markdown": "https://lilydesignsystem.com/components/toggle-group.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/toggle-group/AGENTS.md"
 }

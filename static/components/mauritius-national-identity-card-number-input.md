@@ -89,6 +89,10 @@ A national identifier is personal data, and often a key to other records.
 - `mauritius-national-identity-card-number-view` — a read-only display of Mauritius's National Identity Card number
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [python-stdnum: stdnum.mu.nid](https://arthurdejong.org/python-stdnum/doc/2.2/stdnum.mu.nid)

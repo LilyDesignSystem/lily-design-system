@@ -101,6 +101,10 @@ The consumer provides all CSS styling. The component renders with a `.mockup-pho
 - `mockup-tablet-landscape` — a box area that looks like a tablet computer in landscape mode
 - `mockup-tablet-portrait` — a box area that looks like a tablet computer in portrait mode
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA img Role: https://www.w3.org/TR/wai-aria-1.2/#img

@@ -2,6 +2,8 @@
 
 A listbox presents a list of selectable options using the ARIA listbox role, with full keyboard navigation support. It is used when users need to select one or more items from a visible list, as opposed to a dropdown select. Common use cases include settings panels, filter selections, multi-select interfaces, and any scenario where all options should be visible simultaneously.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The component manages focus movement between options via arrow keys, with Home and End keys to jump to the first and last items. The consumer provides option elements as children and handles selection state externally.
 
 ## Implementation Notes
@@ -17,7 +19,18 @@ The component manages focus movement between options via arrow keys, with Home a
 
 - `label`: string (required) -- accessible name applied via `aria-label`.
 - `children`: slot (required) -- option elements to render inside the listbox (should have `role="option"` and `tabindex="-1"`).
-- `...restProps`: unknown -- additional attributes spread onto the container `<div>`.
+- `as`: string (default: `"div"`) -- the root element. The pickers set `"ul"` for their `<ul class="{helper}-list">`; Blazor and Nunjucks always render `<ul>`.
+- `baseClass`: string (default: `"listbox"`) -- the base class token, replaced outright (not appended), for a helper whose contract needs its own class.
+- `navigation`: `"roving-focus"` | `"active-descendant"` (default: `"roving-focus"`) -- options take focus in turn, or focus stays on the listbox and `aria-activedescendant` names the active option.
+- `activeIndex`: number (default: `-1`; bindable) -- the active option in active-descendant mode; -1 is none.
+- `clamp`: boolean (default: `false`) -- arrow keys stop at the first and last option instead of wrapping (active-descendant mode).
+- `typeahead`: boolean (default: `false`) -- printable characters move to the next option whose label starts with them (active-descendant mode).
+- `pageSize`: number (default: `10`) -- how far PageUp and PageDown move (active-descendant mode).
+- `onActivate`: (index: number) => void -- Enter or Space on the active option (active-descendant mode).
+- `onEscape`: () => void -- Escape pressed (active-descendant mode).
+- `onTabOut`: (event: KeyboardEvent) => void -- Tab pressed, before focus moves; Tab is never prevented (active-descendant mode).
+- `ref`: HTMLElement (bindable) -- the rendered root element.
+- `...restProps`: unknown -- additional attributes spread onto the root element.
 
 ## Usage
 
@@ -151,6 +164,10 @@ The consumer provides all CSS styling. The component renders with a `.listbox` c
 - `select` — a dropdown select element for choosing one option
 - `combobox` — a text input combined with a dropdown list for filtering options
 - `option` — an option element within a select dropdown
+
+## Known limitations
+
+None known.
 
 ## References
 

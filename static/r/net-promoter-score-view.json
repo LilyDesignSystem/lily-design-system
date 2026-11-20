@@ -32,5 +32,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/NetPromoterScoreView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/net-promoter-score-view/",
+  "markdown": "https://lilydesignsystem.com/components/net-promoter-score-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/net-promoter-score-view/AGENTS.md"
 }

@@ -2,6 +2,8 @@
 
 GrailLayoutRightAside is a headless container for the right aside section of a GrailLayout. It typically contains supplementary content, ads, related links, or contextual information.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders a `<aside>` element for the right aside section
@@ -76,6 +78,10 @@ GrailLayoutRightAside is used as a child of GrailLayout. Place semantic `<aside>
 - `grail-layout-center-main` — grail layout center main content with <main> tag
 - `grail-layout-left-aside` — grail layout left aside sidebar with <aside> tag
 - `grail-layout-top-header` — grail layout top header full width with <header> tag
+
+## Known limitations
+
+None known.
 
 ## References
 

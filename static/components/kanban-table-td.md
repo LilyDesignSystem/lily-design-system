@@ -102,6 +102,10 @@ KanbanTable → KanbanTableBody → column (role="list") → KanbanTableTD (role
 - `kanban-table-th` — a kanban board table interactive grid header cell for organizing items by status <th>
 - `table` — a table with rows and columns <table>
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Listitem Role: https://www.w3.org/TR/wai-aria-1.2/#listitem

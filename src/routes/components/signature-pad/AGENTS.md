@@ -5,42 +5,58 @@
 - Component: signature-pad
 - PascalCase: SignaturePad
 - Description: a drawing area for capturing a handwritten signature
-- HTML tag: <canvas>
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
+- HTML tag: <div>
 - CSS class: .signature-pad
-- Interactive: no
+- Interactive: yes (the typed-name field)
 
 ## Key Behaviors
 
-- Renders a `<div>` with `role="application"` to indicate complex widget behavior requiring pointer interaction
-- Requires an `aria-label` describing the signing purpose for accessibility
-- Consumers provide the actual drawing surface (canvas, SVG, etc.) as children
+- Renders a `<div role="group">` named by `aria-label`; not `role="application"` (changed 2026-11-17, tasks.md P31-T5)
+- `attestation` is shown first and is the group's `aria-describedby`
+- Consumers provide the drawing surface (canvas, SVG, etc.) as children
+- `typedNameLabel` adds a labelled `<input type="text" autocomplete="name">`, so drawing is never the only way to sign (WCAG 2.1.1)
+- `outcome` (signed, declined, unable, verbal, on-paper, pending, revoked) is `data-outcome`; `outcomeLabel` is its words, required with it
 - Spreads `restProps` onto the container for consumer customization
 
 ## ARIA
 
-- `role="application"` -- indicates a complex widget with custom pointer interactions, informing assistive technologies to pass keyboard events through to the application
-- `aria-label` -- provides an accessible description of the signature pad purpose
+- `role="group"` with `aria-label` -- names the whole signature
+- `aria-describedby` -- the attestation
+- The typed-name field is a native `<input>` with a `<label for>`
 
 ## Keyboard
 
-- No keyboard interactions — this is a passive element
+- Tab moves to the typed-name field; the consumer's drawing surface handles its own keys
 
 ## Props
 
-- `label`: string (required) -- accessible description of the signature field via `aria-label`
-- `children`: slot (required) -- drawing surface (canvas, SVG, or other input mechanism)
+- `label`: string (required) -- the group's accessible name via `aria-label`
+- `attestation`: string (optional) -- what the signer confirms; shown first and the group's description
+- `typedNameLabel`: string (optional) -- adds the typed-name field with this label
+- `typedName`: string (optional, bindable) -- the typed name
+- `name`: string (optional) -- the typed-name field's form name
+- `outcome`: "signed" | "declined" | "unable" | "verbal" | "on-paper" | "pending" | "revoked" (optional) -- `data-outcome`
+- `outcomeLabel`: string -- the outcome in the consumer's words; required with `outcome`
+- `children`: slot (optional) -- drawing surface (canvas, SVG, or other input mechanism)
 
 ## Acceptance Criteria
 
-- [ ] Renders <canvas> element with class="signature-pad"
-- [ ] Has aria-label attribute
-- [ ] Has role="application"
+- [x] Renders `<div class="signature-pad" role="group">` with `aria-label`
+- [x] The attestation is the group's description
+- [x] A signature can be completed by keyboard alone (typed name)
+- [x] An outcome other than signed is shown in words, with `data-outcome`
 - [ ] WCAG 2.2 AAA compliant
-- [ ] Zero CSS — fully headless
+- [x] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 
 - Documentation: index.md
 - CSS class: .signature-pad in css-style-sheet-template.css
 - HTML headless: lily-design-system-html-headless/components/signature-pad.html
-- WAI-ARIA application Role: https://www.w3.org/TR/wai-aria-1.2/#application
+- WAI-ARIA group role: https://www.w3.org/TR/wai-aria-1.2/#group
+- WCAG 2.1.1 Keyboard: https://www.w3.org/WAI/WCAG22/Understanding/keyboard.html

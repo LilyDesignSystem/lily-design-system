@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/RomaniaCodNumericPersonalInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/romania-cod-numeric-personal-input/",
+  "markdown": "https://lilydesignsystem.com/components/romania-cod-numeric-personal-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/romania-cod-numeric-personal-input/AGENTS.md"
 }

@@ -37,5 +37,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Resizable.razor"
   },
   "docs": "https://lilydesignsystem.com/components/resizable/",
+  "markdown": "https://lilydesignsystem.com/components/resizable.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/resizable/AGENTS.md"
 }

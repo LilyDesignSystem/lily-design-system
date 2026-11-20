@@ -44,5 +44,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/EarlyWarningScoreView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/early-warning-score-view/",
+  "markdown": "https://lilydesignsystem.com/components/early-warning-score-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/early-warning-score-view/AGENTS.md"
 }

@@ -41,5 +41,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Meter.razor"
   },
   "docs": "https://lilydesignsystem.com/components/meter/",
+  "markdown": "https://lilydesignsystem.com/components/meter.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/meter/AGENTS.md"
 }

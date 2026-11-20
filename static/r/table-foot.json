@@ -37,5 +37,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TableFoot.razor"
   },
   "docs": "https://lilydesignsystem.com/components/table-foot/",
+  "markdown": "https://lilydesignsystem.com/components/table-foot.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/table-foot/AGENTS.md"
 }

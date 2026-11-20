@@ -72,6 +72,10 @@ A national identifier is personal data, and often a key to other records.
 - `australia-individual-healthcare-identifier-input` — an input for entering Australia's Individual Healthcare Identifier (IHI)
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/My_Health_Record

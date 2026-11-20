@@ -113,6 +113,10 @@ classes as needed.
 - `feature-photo` — see components.tsv
 - `card` — a grouped content container with header, body, and footer areas
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN `<figure>`: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figure

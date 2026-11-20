@@ -5,7 +5,8 @@
 - Component: red-amber-green-view
 - PascalCase: RedAmberGreenView
 - Description: a read-only display of a red/amber/green status
-- HTML tag: <div>
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
+- HTML tag: <span>
 - CSS class: .red-amber-green-view
 - Interactive: no
 
@@ -15,16 +16,15 @@
 
 ## Key Behaviors
 
-- Renders as `<span aria-label={label}>` displaying the RAG status value as text content
+- No ARIA on the root: a plain `<span>` cannot be named. A visible caption names the value, or `label` renders as hidden text in a `.screen-reader-span`
 - Read-only display component, not interactive
 - Value defaults to an empty string when not provided
+- Renders the value as `data-value` too (none when empty), so a theme can colour it: the themes key on `.red-amber-green-view[data-value="red"]` and the rest
 - Uses props rune for prop destructuring
 - Spreads `...restProps` on the `<span>` element for consumer extensibility
 - No hardcoded user-facing strings; label and value are fully configurable
 
 ## ARIA
-
-- `aria-label={label}` -- provides the accessible name for the status display, allowing screen readers to announce the context of the value
 
 ## Keyboard
 
@@ -32,16 +32,20 @@
 
 ## Props
 
-- `label`: string (required) -- accessible label for screen readers via `aria-label`
+- `label`: string (optional) — hidden text naming the value, in a `.screen-reader-span`. Leave it out when a visible caption names the value
 - `value`: string (default: `""`) -- the RAG status to display (e.g., "red", "amber", "green")
 - `...restProps`: any additional HTML attributes spread onto the `<span>` element
 
 ## Acceptance Criteria
 
 - [ ] Renders <div> element with class="red-amber-green-view"
-- [ ] Has aria-label attribute
+- [ ] Has no `aria-label` on the root
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

@@ -156,6 +156,10 @@ The consumer provides all CSS styling. The component renders with a `.tree-menu`
 - `menu` — a list of actions or options triggered by a button
 - `navigation-menu` — a site-wide navigation menu with links
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Tree View Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/treeview/

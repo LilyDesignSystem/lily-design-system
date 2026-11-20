@@ -88,6 +88,10 @@ Target `.warning-text`, `.warning-text-icon` and `.warning-text-text`. The `<str
 - `notification`
 - `error-message`
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [GOV.UK Design System: Warning text](https://design-system.service.gov.uk/components/warning-text/)

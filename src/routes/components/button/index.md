@@ -6,6 +6,8 @@ page, or opening a menu. Buttons are essential for guiding users through tasks,
 providing clear feedback on actions, and enhancing the overall user experience
 by offering intuitive, actionable controls.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This headless component uses the native HTML `<button>` element for inherent
 accessibility and keyboard support. It supports toggle button semantics via the
 `pressed` prop, accessible label overrides, and all standard button types.
@@ -36,12 +38,12 @@ Submit button for saving progress:
 <button type="submit">Save and continue</button>
 ```
 
-Action button with disabled state:
+Action button that stays unavailable until a form is valid (use `disabled` for this, not for work in progress; see "Pending (async) actions"):
 
 ```html
 <button
   onclick="{handleSave}"
-  disabled="{isSaving}"
+  disabled="{!formIsValid}"
 >
   Save your progress
 </button>
@@ -69,6 +71,45 @@ With accessible label override:
   ✕
 </button>
 ```
+
+## Pending (async) actions
+
+A button that starts work (save, send, pay) is _pending_ until the work ends. Do **not** mark it `disabled` while pending: a disabled button leaves the tab order, so keyboard focus is lost when the press happens and when the action finishes, and a screen reader says nothing about what happened. Keep it focusable and say it is busy:
+
+- `aria-busy="true"` while pending, and `aria-disabled="true"` so assistive technology reports it as unavailable. Both reach the `<button>` through the rest props. The button stays enabled and focused.
+- Ignore repeat activation in the handler (`if (pending) return;`). `aria-disabled` does not stop the click event; the guard does.
+- Show progress in text, not motion alone: change the label (`Saving…`, in the reader's language) or add a `Loading` indicator, and keep the button's width (render the longest label invisibly, or fix the width in CSS) so nothing jumps.
+- Announce the outcome once, in a deliberate live region: `role="status"` for success, `role="alert"` for a failure that needs action. Do not put the live region inside the button, whose content changes would be re-read as a new name.
+- Clear `aria-busy` and `aria-disabled` in a `finally`, so a failure never leaves the button stuck.
+
+```svelte
+<script>
+  let pending = $state(false);
+  async function save() {
+    if (pending) return;
+    pending = true;
+    try {
+      await saveProgress();
+    } finally {
+      pending = false;
+    }
+  }
+</script>
+
+<Button
+  onclick={save}
+  aria-busy={pending}
+  aria-disabled={pending}
+>
+  {pending ? savingLabel : saveLabel}
+</Button>
+```
+
+The component holds no promise, no timer and no network state; the pending flag is the consumer's. A built-in
+`status-button` was considered and declined (tasks P13-T9, 2026-11-19): the action must remain a button, progress may
+use `Loading`, success belongs in a separate `role="status"`, and an actionable failure belongs in a separate
+`role="alert"`. Promise state and repeat guards would still be consumer logic, while reserved width is CSS, so a new
+component would blur semantic regions without owning the work that coordinates them.
 
 ## Keyboard Interactions
 
@@ -105,7 +146,10 @@ This component provides a native `<button>` element with optional `aria-pressed`
 
 ## Styles
 
-The consumer provides all CSS styling. The component renders with a `.button` class for targeting. No default styles are included — this is a fully headless component.
+The headless component includes no CSS and renders `.button` for targeting. When a Lily reference theme is loaded, set
+`--lily-button-background`, `--lily-button-color`, or `--lily-button-border-radius` on one button or a containing scope
+to customise it without replacing the theme rule. Their defaults are `--lily-brand`, `--lily-on-brand`, and
+`--lily-radius-md` respectively.
 
 ## Testing
 
@@ -118,6 +162,7 @@ The consumer provides all CSS styling. The component renders with a `.button` cl
 
 - **Designers**: Maintain a minimum 44x44px touch target. Use visual hierarchy (primary, secondary, ghost) to distinguish button importance. Ensure disabled buttons have sufficient contrast.
 - **Developers**: The default type is `"button"` (not `"submit"`) to prevent accidental form submissions. Only provide the `pressed` prop when implementing a toggle button pattern.
+- **Developers**: Prevent duplicate submission on the server (an idempotency key or a unique constraint) and show an in-flight action with the [Pending (async) actions](#pending-async-actions) contract: the button stays focusable and announces that it is pending. Do not add an "ignore the second click" attribute. A user who clicks twice on purpose, to retry, gets no feedback from a silently ignored click, and the guard only works with JavaScript, so it protects nothing when scripts fail.
 
 ## Related components
 
@@ -127,6 +172,14 @@ The consumer provides all CSS styling. The component renders with a `.button` cl
 - `split-button` — a button with a primary action and a dropdown for related actions
 - `toggle-button` — a button that toggles between pressed and unpressed states
 - `float-button` — a floating action button anchored to a viewport corner
+
+## Known limitations
+
+### Disabled and look-alike controls
+
+Use native `disabled` only on a native `<button>` that is genuinely unavailable. It removes the control from the tab order; do not use it for a pending action that should keep focus. `aria-disabled="true"` announces an unavailable state but does not suppress clicks, so the activation handler must still guard the action.
+
+Do not style a non-button element to look and act like a button when a native button fits. A non-button needs `role="button"`, keyboard activation for Enter and Space, and a focusable tab stop; reproducing that contract is usually unnecessary risk. Links have no disabled state and should follow the link-component guidance instead.
 
 ## References
 

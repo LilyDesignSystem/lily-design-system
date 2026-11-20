@@ -99,6 +99,10 @@ A national identifier is personal data, and often a key to other records.
 - `france-numero-d-identification-au-repertoire-view` — a read-only display of a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Ameli.fr: https://www.ameli.fr/assure/droits-demarches/principes/numero-securite-sociale

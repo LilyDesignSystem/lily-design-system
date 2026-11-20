@@ -1,8 +1,101 @@
 # Cymru Rhif Y Gwasanaeth Iechyd Gwladol Input
 
-an input for entering Wales's Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG)
+CymruRhifYGwasanaethIechydGwladolInput is a headless input for entering Wales's Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG), Wales's healthcare identifier. It renders as `<input type="text">` with pattern validation, numeric/letter keyboard hints, and `autocomplete="off"` to protect sensitive identifiers. It is the editable companion to CymruRhifYGwasanaethIechydGwladolView.
 
-See the canonical documentation at `components/cymru-rhif-y-gwasanaeth-iechyd-gwladol-input/index.md` in the Lily Design System™ repo.
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
+## Implementation Notes
+
+- Renders as `<input type="text">` with pattern validation
+- Format: 10 digits in 3-3-4 format with a Modulus-11 check digit (shared with England and the Isle of Man)
+- `autocomplete="off"` to protect sensitive identifiers
+- Supports two-way binding on the `value` prop
+- Companion to CymruRhifYGwasanaethIechydGwladolView
+
+## Props
+
+- `label`: string (required) — accessible label via `aria-label`
+- `value`: string (default: "") — bindable input value
+- `required`: boolean (default: false) — form validation
+- `disabled`: boolean (default: false) — disabled state
+- `...restProps`: any — additional HTML attributes spread onto the `<input>`
+
+## Usage
+
+```html
+<Field
+  label="National Health Service Number"
+  required
+>
+  <CymruRhifYGwasanaethIechydGwladolInput
+    label="National Health Service Number"
+    value="{value}"
+    required
+  />
+  <Hint
+    >10 digits in 3-3-4 format with a Modulus-11 check digit (shared with England and the Isle of
+    Man)</Hint
+  >
+  <ErrorMessage>Please enter a valid National Health Service Number</ErrorMessage>
+</Field>
+```
+
+## ARIA
+
+- `aria-label={label}` — provides accessible name
+
+## When to Use
+
+- Use in forms collecting Wales's Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG).
+- Use with pattern validation matching the documented format.
+- Use in administrative or healthcare workflows where the identifier is required.
+
+## When Not to Use
+
+- Do not use for displaying read-only identifiers — use `cymru-rhif-y-gwasanaeth-iechyd-gwladol-view` instead.
+- Do not use for general text input — use `text-input` instead.
+- Do not use for other countries' identifiers — use the corresponding country-specific input.
+
+## Headless
+
+This headless component ships zero CSS. The consumer provides all styling targeting the `.cymru-rhif-y-gwasanaeth-iechyd-gwladol-input` class hook.
+
+## Testing
+
+- Verify renders an `<input>` with the correct class and `type="text"`
+- Verify `aria-label` is set from the `label` prop
+- Verify pattern attribute matches the documented format
+- Verify `autocomplete="off"`
+- Verify value binding works
+
+## Domain Knowledge
+
+Ten-digit identifier in 3-3-4 format with a Modulus-11 check digit, shared with England and the Isle of Man and issued at birth or on first registration with a GP.
+
+**Where to find it:** NHS Wales medical card, GP correspondence, prescriptions, hospital appointment letters, and the NHS Wales App.
+
+## Security and privacy
+
+A national identifier is personal data, and often a key to other records.
+
+- The input renders `autocomplete="off"`, so the browser neither saves nor offers the value, and `spellcheck="false"`, so an enhanced spellchecker does not send it to a cloud service. `bin/check-identifier-inputs` keeps both in all nine catalogs.
+- Do not log the value, put it in a URL or query string, or send it to analytics or an error tracker; mask it there if it must appear.
+- The component stores nothing. Do not keep the value in `localStorage`, `sessionStorage` or a cookie; submit it in the body of a POST over HTTPS.
+- A format or checksum check proves the number is well formed, not that it belongs to the person entering it.
+- The page decides who may see it: the input does not mask what is typed. Use the matching `-view` to show it back, masked as the service requires.
+
+## Related components
+
+- `cymru-rhif-y-gwasanaeth-iechyd-gwladol-view` — a read-only display of Wales's Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG)
+- `text-input` — a single-line text input field <input type="text">
+
+## Known limitations
+
+None known.
+
+## References
+
+- Wikipedia: https://en.wikipedia.org/wiki/NHS_number
 
 ---
 

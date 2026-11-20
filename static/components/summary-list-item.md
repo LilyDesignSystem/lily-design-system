@@ -78,6 +78,10 @@ SummaryListItem is designed to be used as a child of SummaryList. The SummaryLis
 
 - `summary-list` — a description list of key-value summary pairs
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN dl element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dl

@@ -2,6 +2,8 @@
 
 A pagination nav is a navigation container for page navigation links, allowing users to move between pages of content such as search results, product listings, or data tables. It renders as a `<nav>` element with an `aria-label`, providing a navigation landmark that can be identified by assistive technologies. The component contains a PaginationList with PaginationListItem children for individual page links.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 ## Implementation Notes
 
 - Renders as a `<nav>` element to create a navigation landmark for pagination controls
@@ -131,6 +133,10 @@ PaginationNav (nav) → PaginationList (nav + ul) → PaginationListItem (li)
 - `pagination-list` — an ordered list of pagination list items
 - `pagination-list-item` — one pagination list item in the trail
 - `pagination-link` — one pagination link in the trail
+
+## Known limitations
+
+None known.
 
 ## References
 

@@ -44,5 +44,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Statistic.razor"
   },
   "docs": "https://lilydesignsystem.com/components/statistic/",
+  "markdown": "https://lilydesignsystem.com/components/statistic.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/statistic/AGENTS.md"
 }

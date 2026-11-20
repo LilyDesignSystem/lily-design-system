@@ -37,5 +37,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TimePickerInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/time-picker-input/",
+  "markdown": "https://lilydesignsystem.com/components/time-picker-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/time-picker-input/AGENTS.md"
 }

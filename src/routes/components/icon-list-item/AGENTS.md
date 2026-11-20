@@ -5,6 +5,7 @@
 - Component: icon-list-item
 - PascalCase: IconListItem
 - Description: one item in an icon list with a leading icon slot
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <li>
 - CSS class: .icon-list-item
 - Interactive: no
@@ -44,6 +45,10 @@
 - [ ] Additional HTML attributes pass through to the root element
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

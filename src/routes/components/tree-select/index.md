@@ -4,6 +4,8 @@ A tree select is a select dropdown showing a tree of hierarchical
 options. It exposes a trigger button and a panel that holds tree-shaped
 options.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it for hierarchical selection where the options form a tree (e.g.,
 organizational unit, category, file system path) and the user selects
 one or many leaves or branches.
@@ -11,7 +13,7 @@ one or many leaves or branches.
 ## Implementation Notes
 
 - Renders a `<div>` with `role="combobox"`, `aria-haspopup="tree"`, `aria-expanded`, `aria-label`
-- Sets `aria-multiselectable` on the container when `multiple` is true
+- Sets `data-multiple="true"` on the container when `multiple` is true (`aria-multiselectable` is invalid on a combobox; set it on your own `role="tree"`)
 - The trigger is a native `<button class="tree-select-trigger" type="button">`
 - The panel is a `<div class="tree-select-panel">` with `hidden` toggled by `expanded`
 - `label` is **required** and sets `aria-label` on the combobox
@@ -22,7 +24,7 @@ one or many leaves or branches.
 - `label`: string (**required**) -- aria-label on the combobox
 - `expanded`: boolean (default: false) -- whether the tree panel is open
 - `disabled`: boolean (default: false) -- disable the trigger button
-- `multiple`: boolean (default: false) -- allow multiple selection (sets aria-multiselectable)
+- `multiple`: boolean (default: false) -- allow multiple selection (sets data-multiple)
 - `placeholder`: string (optional) -- placeholder text on the trigger
 - `value`: string (optional) -- formatted display value
 - `onclick` / `onClick`: callback (optional) -- trigger click handler
@@ -75,7 +77,7 @@ one or many leaves or branches.
 - `aria-haspopup="tree"` indicates the panel contains tree-shaped options
 - `aria-expanded` reflects the `expanded` prop
 - `aria-label` is the entire accessible name (required)
-- `aria-multiselectable="true"` is set on the container only when `multiple` is true
+- `data-multiple="true"` is set on the container only when `multiple` is true
 
 ## When to Use
 
@@ -105,7 +107,7 @@ and a clear distinction between the collapsed and expanded states.
 - Verify `role="combobox"` and `aria-haspopup="tree"` are set
 - Verify `aria-expanded` reflects the `expanded` prop
 - Verify `aria-label` equals the `label` prop
-- Verify `aria-multiselectable="true"` is set only when `multiple` is true
+- Verify `data-multiple="true"` is set only when `multiple` is true
 - Verify the trigger button is disabled when `disabled` is true
 - Verify the panel is `hidden` when `expanded` is false
 - Verify children render inside the panel
@@ -120,6 +122,10 @@ and a clear distinction between the collapsed and expanded states.
 - `combobox` — a text input combined with a dropdown list for filtering options
 - `tree-nav` — a hierarchical navigation with expandable branches
 - `select` — a dropdown select element for choosing one option
+
+## Known limitations
+
+None known.
 
 ## References
 

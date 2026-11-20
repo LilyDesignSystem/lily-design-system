@@ -5,6 +5,7 @@
 - Component: feature-photo
 - PascalCase: FeaturePhoto
 - Description: a responsive photo with lazy loading and alt text validation
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <figure>
 - CSS class: .feature-photo
 - Interactive: no
@@ -47,6 +48,10 @@
 - [ ] Caption and credit render inside <figcaption> when provided
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS -- fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

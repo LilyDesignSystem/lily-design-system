@@ -111,6 +111,10 @@ The consumer provides all CSS styling. The component renders with a `.medical-ba
 - `medical-banner` — a prominent message bar across the top of a page, with medical information
 - `medical-banner-box-for-advice` — a medical record banner box for advice information e.g. contacts, contexts, plans, etc.
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Parent component: MedicalBanner

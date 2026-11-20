@@ -2,6 +2,8 @@
 
 A label is a UI component that provides a descriptive name or instruction for an associated form element, such as an input field, checkbox, or radio button. The Label component renders a semantic `<label>` HTML element that can be linked to a form control via the `for` attribute, enabling click-to-focus behavior and improving accessibility for screen reader users.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 Properly associated labels are essential for form usability. When a user clicks the label text, the browser focuses or activates the linked form control. Screen readers announce the label when the associated control receives focus, ensuring users understand the purpose of each form field.
 
 ## Implementation Notes
@@ -91,6 +93,10 @@ The consumer provides all CSS styling. The component renders with a `.label` cla
 - `field` — a form field wrapper with label, input, and error message
 - `hint` — hint text providing guidance for a form field
 - `error-message` — an error message associated with a form field
+
+## Known limitations
+
+None known.
 
 ## References
 

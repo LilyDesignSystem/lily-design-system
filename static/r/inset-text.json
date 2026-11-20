@@ -34,5 +34,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/InsetText.razor"
   },
   "docs": "https://lilydesignsystem.com/components/inset-text/",
+  "markdown": "https://lilydesignsystem.com/components/inset-text.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/inset-text/AGENTS.md"
 }

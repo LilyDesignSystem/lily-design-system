@@ -88,6 +88,10 @@ section spacing, or responsive padding overrides.
 - `container` — a generic block-level content container
 - `container-with-fixed-width` — a centered content wrapper with a fixed max-width breakpoint
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN padding-inline: https://developer.mozilla.org/en-US/docs/Web/CSS/padding-inline

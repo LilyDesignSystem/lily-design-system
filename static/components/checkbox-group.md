@@ -116,6 +116,10 @@ CheckboxGroup is the container for CheckboxInput children. Use `<CheckboxGroup>`
 - `radio-group` — a group of radio buttons for selecting one option
 - `toggle-group` — a group of toggle buttons for selecting options
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Checkbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/

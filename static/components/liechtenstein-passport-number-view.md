@@ -72,6 +72,10 @@ A national identifier is personal data, and often a key to other records.
 - `liechtenstein-passport-number-input` — an input for entering Liechtenstein's Liechtenstein Passport Number
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/Liechtenstein_passport

@@ -42,5 +42,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/RedAmberGreenRadioInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/red-amber-green-radio-input/",
+  "markdown": "https://lilydesignsystem.com/components/red-amber-green-radio-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/red-amber-green-radio-input/AGENTS.md"
 }

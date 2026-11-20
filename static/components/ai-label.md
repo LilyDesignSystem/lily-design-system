@@ -98,6 +98,10 @@ The consumer provides all CSS styling. The component renders with an `.ai-label`
 - `tag` — a keyword label for categorizing content
 - `flair` — a decorative highlight or emphasis element
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Carbon Design System AI Label: https://carbondesignsystem.com/components/ai-label/usage/

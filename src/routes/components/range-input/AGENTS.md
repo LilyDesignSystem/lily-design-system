@@ -5,6 +5,7 @@
 - Component: range-input
 - PascalCase: RangeInput
 - Description: a slider input for selecting a value within a range <input type="range">
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <input>
 - CSS class: .range-input
 - Interactive: yes
@@ -47,6 +48,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

@@ -2,7 +2,7 @@
 
 Title: তুলনা — Lily Design System
 
-Description: 
+Description:
 
 # তুলনা
 

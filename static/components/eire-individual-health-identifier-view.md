@@ -88,6 +88,10 @@ A national identifier is personal data, and often a key to other records.
 - `france-numero-d-identification-au-repertoire-view` — a read-only display of a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
 - `tuaisceart-eireann-health-and-care-number-input` — an input for entering aTuaisceart Eireann Health and Care (H&C) Number unique national healthcare identifier
 
+## Known limitations
+
+None known.
+
 ## References
 
 - HSE: https://www.hse.ie/

@@ -5,6 +5,8 @@ page. The headless component exposes the props as data attributes and
 the right structural ARIA; the consumer implements the actual repeating
 pattern in CSS.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it for branding, draft markers, confidential overlays, or visual
 identifiers that span a page or region.
 
@@ -101,6 +103,10 @@ properties.
 
 - `banner` — a prominent message bar across the top of a page
 - `image` — an image element with alt text
+
+## Known limitations
+
+None known.
 
 ## References
 

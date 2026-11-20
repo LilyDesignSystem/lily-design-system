@@ -135,6 +135,10 @@ ContextMenu follows the Menu/MenuItem composition pattern. Use ContextMenu as th
 
 - `context-menu-item` — one item in a context menu
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menu/

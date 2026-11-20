@@ -42,5 +42,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Card.razor"
   },
   "docs": "https://lilydesignsystem.com/components/card/",
+  "markdown": "https://lilydesignsystem.com/components/card.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/card/AGENTS.md"
 }

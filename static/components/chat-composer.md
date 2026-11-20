@@ -113,6 +113,10 @@ Library differences, each documented in the library's own doc: **Blazor** has no
 - `chat-message`
 - `form`
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN textarea element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea)

@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/BangladeshNationalIdentityCardView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/bangladesh-national-identity-card-view/",
+  "markdown": "https://lilydesignsystem.com/components/bangladesh-national-identity-card-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/bangladesh-national-identity-card-view/AGENTS.md"
 }

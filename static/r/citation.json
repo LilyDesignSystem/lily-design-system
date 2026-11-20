@@ -37,5 +37,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Citation.razor"
   },
   "docs": "https://lilydesignsystem.com/components/citation/",
+  "markdown": "https://lilydesignsystem.com/components/citation.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/citation/AGENTS.md"
 }

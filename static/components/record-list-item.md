@@ -77,6 +77,10 @@ This headless component ships zero CSS and decides nothing visual. The consumer 
 
 - `record-list` — a list of records from one section of a patient's record, whose status is never blank
 
+## Known limitations
+
+None known.
+
 ## References
 
 - IPS Composition section: https://hl7.org/fhir/uv/ips/StructureDefinition-Composition-uv-ips.html

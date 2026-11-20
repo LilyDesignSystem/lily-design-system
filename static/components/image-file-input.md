@@ -98,6 +98,10 @@ The consumer provides all CSS styling. The component renders with a `.image-file
 - `file-upload` — a drag-and-drop area for uploading files
 - `image` — an image element with alt text
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN Input type="file": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file

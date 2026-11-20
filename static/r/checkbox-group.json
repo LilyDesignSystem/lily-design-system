@@ -40,5 +40,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/CheckboxGroup.razor"
   },
   "docs": "https://lilydesignsystem.com/components/checkbox-group/",
+  "markdown": "https://lilydesignsystem.com/components/checkbox-group.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/checkbox-group/AGENTS.md"
 }

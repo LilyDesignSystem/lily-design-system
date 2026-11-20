@@ -42,5 +42,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/RedOrangeYellowGreenBlueRadioInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/red-orange-yellow-green-blue-radio-input/",
+  "markdown": "https://lilydesignsystem.com/components/red-orange-yellow-green-blue-radio-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/red-orange-yellow-green-blue-radio-input/AGENTS.md"
 }

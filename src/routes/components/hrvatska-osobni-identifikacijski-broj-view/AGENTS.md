@@ -1,3 +1,49 @@
-# HrvatskaOsobniIdentifikacijskiBrojView — Lily Design System docs page
+# HrvatskaOsobniIdentifikacijskiBrojView
 
-See `components/hrvatska-osobni-identifikacijski-broj-view/AGENTS.md` for canonical metadata.
+## Metadata
+
+- Component: hrvatska-osobni-identifikacijski-broj-view
+- PascalCase: HrvatskaOsobniIdentifikacijskiBrojView
+- Description: a read-only display of Croatia's Osobni identifikacijski broj (OIB)
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
+- HTML tag: <span>
+- CSS class: .hrvatska-osobni-identifikacijski-broj-view
+- Interactive: no
+
+## Key Behaviors
+
+- Renders as `<span>` with class `hrvatska-osobni-identifikacijski-broj-view`, and no role
+- Format: 11 digits — 10 random digits plus a check digit; permanent, unique, and assigned to every Croatian citizen and legal person
+- Read-only; not editable
+
+## ARIA
+
+- No ARIA. A plain `<span>` cannot be named: `aria-label` is prohibited on it, and most screen readers drop it. A visible caption names the value, or the optional `label` renders as hidden text
+
+## Keyboard
+
+- Not interactive
+
+## Props
+
+- `value`: string (required) — the identifier to display
+- `label`: string (optional) — hidden text naming the value, in a `.screen-reader-span`. Leave it out when a visible caption names the value
+- `...restProps`: any additional HTML attributes spread onto the root
+
+## Acceptance Criteria
+
+- [ ] Renders <span> element with class="hrvatska-osobni-identifikacijski-broj-view"
+- [ ] Renders `value` as text content
+- [ ] WCAG 2.2 AAA compliant
+- [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
+
+## References
+
+- Documentation: index.md
+- CSS class: .hrvatska-osobni-identifikacijski-broj-view in css-style-sheet-template.css
+- Companion: HrvatskaOsobniIdentifikacijskiBrojInput
+- Wikipedia: https://en.wikipedia.org/wiki/Personal_identification_number_(Croatia)

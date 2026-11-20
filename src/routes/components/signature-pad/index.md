@@ -2,19 +2,30 @@
 
 A signature pad provides a headless container for capturing handwritten signatures, typically using mouse, touch, or stylus input. Commonly used in contract signing workflows, consent forms, delivery confirmations, and legal document processing, the signature pad brings the familiar pen-on-paper signing experience to digital interfaces.
 
-The component serves as a semantic container that consumers populate with their preferred drawing implementation, whether HTML canvas, SVG paths, or a third-party signature library. It uses `role="application"` to support complex pointer interactions, along with an accessible label describing the signing purpose.
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
+The component is a named group that consumers populate with their preferred drawing implementation, whether HTML canvas, SVG paths, or a third-party signature library. It carries the consumer's attestation (what the signer confirms), an optional typed-name field so that drawing is never the only way to sign (WCAG 2.1.1), and the signature's outcome in the consumer's words (signed, declined, unable, verbal, on paper, pending, revoked). Changed 2026-11-17 (tasks.md P31-T5, spec/lessons/zoblocks item 6): it was `role="application"`, which took a screen reader's own keys away.
 
 ## Implementation Notes
 
-- Renders a `<div>` with `role="application"` to indicate complex widget behavior requiring pointer interaction
-- Requires an `aria-label` describing the signing purpose for accessibility
-- Consumers provide the actual drawing surface (canvas, SVG, etc.) as children
+- Renders a `<div role="group">` named by `label` (`aria-label`); not `role="application"`, so a screen reader keeps its own keys
+- `attestation` is shown first, as `<p class="signature-pad-attestation">`, and is the group's description (`aria-describedby`)
+- Consumers provide the drawing surface (canvas, SVG, etc.) as children; the Web Components and Nunjucks versions include a `<canvas class="signature-pad-canvas">`
+- `typedNameLabel` adds `<p class="signature-pad-typed">` with a labelled `<input type="text" autocomplete="name">`, so a signature can be given by keyboard alone
+- `outcome` is rendered as `data-outcome`; with `outcomeLabel` it adds `<p class="signature-pad-outcome">`, a notice in the consumer's words, never an empty line. A development warning names a missing `outcomeLabel`
+- No hashing, timestamps or storage: those are the consumer's
 - Spreads `restProps` onto the container for consumer customization
 
 ## Props
 
-- `label`: string (required) -- accessible description of the signature field via `aria-label`
-- `children`: slot (required) -- drawing surface (canvas, SVG, or other input mechanism)
+- `label`: string (required) -- the group's accessible name, via `aria-label`
+- `attestation`: string (optional) -- what the signer confirms, in the consumer's words; shown first and the group's description
+- `typedNameLabel`: string (optional) -- adds a typed-name field with this label; drawing is then never the only way to sign
+- `typedName`: string (optional, bindable) -- the typed name (React: controlled with `onTypedNameChange`; Vue `v-model:typedName`; Angular `[(typedName)]`; Blazor `@bind-TypedName`)
+- `name`: string (optional) -- the typed-name field's form name (Nunjucks: `typedName`)
+- `outcome`: `"signed"` | `"declined"` | `"unable"` | `"verbal"` | `"on-paper"` | `"pending"` | `"revoked"` (optional) -- rendered as `data-outcome`
+- `outcomeLabel`: string -- the outcome in the consumer's words ("Declined to sign"); required with `outcome`
+- `children`: slot (optional) -- drawing surface (canvas, SVG, or other input mechanism)
 
 ## Usage
 
@@ -83,12 +94,18 @@ Signature pad for a delivery confirmation:
 
 ## Keyboard Interactions
 
-None -- this component is a passive container. Pointer-based interactions are handled by the consumer-provided drawing surface.
+| Key | Action                                                                                    |
+| --- | ----------------------------------------------------------------------------------------- |
+| Tab | Moves to the typed-name field, and to any control the consumer's drawing surface provides |
+
+The drawing surface handles its own keys. Because the group is not `role="application"`, a screen reader's reading keys still work inside it.
 
 ## ARIA
 
-- `role="application"` -- indicates a complex widget with custom pointer interactions, informing assistive technologies to pass keyboard events through to the application
-- `aria-label` -- provides an accessible description of the signature pad purpose
+- `role="group"` with `aria-label` -- names the signature, its attestation, drawing surface and typed-name field as one group
+- `aria-describedby` -- the attestation, so the group is announced with what the signer confirms
+- The typed-name field is a native `<input>` with a `<label for>`
+- The outcome is plain text, not a live region: announce a change yourself when the user's own action caused it
 
 ## When to Use
 
@@ -105,7 +122,7 @@ None -- this component is a passive container. Pointer-based interactions are ha
 
 ## Headless
 
-This headless component provides a semantic container with `role="application"` and `aria-label` for complex pointer interactions. The consumer provides the actual drawing surface (HTML canvas, SVG, or third-party library) as children, along with all visual styling, stroke handling, and signature data capture.
+This headless component provides a named group (`role="group"`, `aria-label`) with the attestation, an optional typed-name field and the outcome in words. The consumer provides the actual drawing surface (HTML canvas, SVG, or third-party library) as children, along with all visual styling, stroke handling, and signature data capture.
 
 ## Styles
 
@@ -113,15 +130,16 @@ The consumer provides all CSS styling. The component renders with a `.signature-
 
 ## Testing
 
-- Verify the component renders a `<canvas>` element with class `signature-pad`
-- Verify role="application"` -- indicates a complex widget with custom pointer interactions, informing assistive technologies to pass keyboard events through to the application
-- Verify aria-label` -- provides an accessible description of the signature pad purpose
+- Verify the root is a `<div class="signature-pad" role="group">` with `aria-label`, and that no element has `role="application"`
+- Verify the attestation is the first child and the group's `aria-describedby`
+- Verify a signature can be completed by keyboard alone: Tab to the typed-name field and type a name
+- Verify `outcome` sets `data-outcome` and `outcomeLabel` is shown as text
 - Verify pass-through attributes are applied
 
 ## Advice
 
 - **Designers**: Provide a clear border and placeholder text (e.g., "Sign here") so users understand where to draw. Include a visible clear/reset button alongside the pad.
-- **Developers**: Offer a clear button to reset the signature and export the result as an image or data URL. Provide a keyboard-accessible alternative or fallback for users who cannot use pointer input.
+- **Developers**: Offer a clear button to reset the signature and export the result as an image or data URL. Always set `typedNameLabel`, so a person who cannot draw can still sign. Record an outcome other than signed (declined, unable, verbal, on paper) in words, with a witness where your rules require one; never leave an empty signature line.
 
 ## Related components
 
@@ -129,9 +147,15 @@ The consumer provides all CSS styling. The component renders with a `.signature-
 - `field` — a form field wrapper with label, input, and error message
 - `form` — a form element for collecting and submitting user data
 
+## Known limitations
+
+None known.
+
 ## References
 
-- WAI-ARIA application Role: https://www.w3.org/TR/wai-aria-1.2/#application
+- WAI-ARIA group role: https://www.w3.org/TR/wai-aria-1.2/#group
+- WCAG 2.1.1 Keyboard: https://www.w3.org/WAI/WCAG22/Understanding/keyboard.html
+- ZoBlocks Signature (the outcomes and the typed alternative): https://zoblocks.design/components/signature
 
 ---
 

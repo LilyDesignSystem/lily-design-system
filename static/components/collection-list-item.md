@@ -119,6 +119,10 @@ classes for fine-grained control.
 
 - `collection-list` — a compact list of multiple related items such as articles or events
 
+## Known limitations
+
+None known.
+
 ## References
 
 - US Web Design System Collection: https://designsystem.digital.gov/components/collection/

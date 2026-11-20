@@ -97,6 +97,10 @@ This headless component ships zero CSS and decides nothing visual. The consumer 
 
 - `allergy-record-list` — a list of a patient's allergies and intolerances, whose status is never blank
 
+## Known limitations
+
+None known.
+
 ## References
 
 - FHIR AllergyIntolerance: https://hl7.org/fhir/allergyintolerance.html

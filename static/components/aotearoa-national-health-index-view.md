@@ -75,6 +75,10 @@ A national identifier is personal data, and often a key to other records.
 - `aotearoa-national-health-index-input` — an input for entering New Zealand's National Health Index (NHI) Number
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [NHI Number](https://en.wikipedia.org/wiki/NHI_Number)

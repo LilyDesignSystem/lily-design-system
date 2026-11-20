@@ -2,11 +2,13 @@
 
 A display component for showing a United States Social Security Number (SSN) in a read-only format. The SSN is a 9-digit identifier issued by the Social Security Administration, used for taxation, credit reporting, and various government and private-sector purposes.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This component renders the SSN as an inline `<span>` element with an accessible label, making it suitable for use in personal records, confirmation screens, account summaries, or any context where an SSN needs to be displayed but not edited. The accessible label ensures screen readers can announce the purpose of the displayed number.
 
 ## Implementation Notes
 
-- Renders as a `<span>` element with `aria-label` for accessible naming
+- No ARIA on the root: a plain `<span>` cannot be named. A visible caption names the value, or `label` renders as hidden text in a `.screen-reader-span`
 - Displays the SSN value as inline text content
 - Read-only display component (not an input); pairs with an Input component for editing
 - Uses props for prop destructuring with rest props spread
@@ -15,7 +17,7 @@ This component renders the SSN as an inline `<span>` element with an accessible 
 
 ## Props
 
-- `label`: string (required) -- accessible label for screen readers via `aria-label`
+- `label`: string (optional) — hidden text naming the value, in a `.screen-reader-span`. Leave it out when a visible caption names the value
 - `value`: string (default: `""`) -- the SSN string to display (e.g., "123-45-6789")
 - `...restProps`: any -- additional HTML attributes spread onto the `<span>` element
 
@@ -41,7 +43,6 @@ This component renders the SSN as an inline `<span>` element with an accessible 
 
 ## ARIA
 
-- `aria-label` -- provides the accessible name from the `label` prop so screen readers can announce the purpose of the displayed number
 - Screen readers announce the label followed by the text content (the number value)
 
 ## When to Use
@@ -67,7 +68,7 @@ The consumer provides all CSS styling. The component renders with a `.united-sta
 ## Testing
 
 - Verify the component renders a `<div>` element with class `united-states-social-security-number-view`
-- Verify aria-label`-- provides the accessible name from the`label` prop so screen readers can announce the purpose of the displayed number
+- Verify `label` renders as hidden text, and that the root has no `aria-label`
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied
 
@@ -80,6 +81,20 @@ The consumer provides all CSS styling. The component renders with a `.united-sta
 
 UnitedStatesSocialSecurityNumberView is the read-only display counterpart to UnitedStatesSocialSecurityNumberInput, following the Input/View pattern. Use the View for display and the Input for data entry.
 
+## Domain Knowledge
+
+Nine-digit number in XXX-XX-XXXX format issued by the Social Security Administration since 1936 to track workers' earnings; randomised since 2011. Now a de facto national identifier in the United States. No check-digit or checksum algorithm is published for this identifier; correctness is confirmed by the issuing authority's own records, not by the format alone.
+
+**Where to find it:** Social Security card, W-2 forms, tax returns (IRS Form 1040), payslips, and the SSA "my Social Security" portal.
+
+## Security and privacy
+
+A national identifier is personal data, and often a key to other records.
+
+- The view shows exactly the text it is given; it does not mask. Pass the masked form (for example the last four characters) wherever the full number is not needed, and render the full number only to someone entitled to it.
+- Do not log the value, put it in a URL or query string, or send it to analytics or an error tracker.
+- Text on screen can be read over a shoulder and is kept by screenshots and screen recordings; treat a page that shows it as sensitive.
+
 ## Related components
 
 - `united-states-social-security-number-input` — an input for entering a US Social Security number
@@ -88,6 +103,10 @@ UnitedStatesSocialSecurityNumberView is the read-only display counterpart to Uni
 - `france-numero-d-identification-au-repertoire-input` — an input for entering a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
 - `france-numero-d-identification-au-repertoire-view` — a read-only display of a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
 - `eire-individual-health-identifier-input` — an input for entering Eire Individual Health Identifier (IHI) unique national healthcare identifier
+
+## Known limitations
+
+None known.
 
 ## References
 

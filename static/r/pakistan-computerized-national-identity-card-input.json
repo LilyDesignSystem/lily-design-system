@@ -38,5 +38,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/PakistanComputerizedNationalIdentityCardInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/pakistan-computerized-national-identity-card-input/",
+  "markdown": "https://lilydesignsystem.com/components/pakistan-computerized-national-identity-card-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/pakistan-computerized-national-identity-card-input/AGENTS.md"
 }

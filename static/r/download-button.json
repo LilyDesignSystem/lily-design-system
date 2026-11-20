@@ -44,5 +44,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/DownloadButton.razor"
   },
   "docs": "https://lilydesignsystem.com/components/download-button/",
+  "markdown": "https://lilydesignsystem.com/components/download-button.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/download-button/AGENTS.md"
 }

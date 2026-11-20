@@ -2,6 +2,8 @@
 
 A character component displays a single character (glyph, symbol, emoji, or letter) with proper accessibility semantics. When the character conveys meaning (like a checkmark for success or a warning symbol), it uses `role="img"` with an `aria-label` so screen readers announce its purpose. When the character is purely decorative, the `decorative` prop hides it from assistive technologies.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This component is useful for initials, status indicators, rating symbols, decorative flourishes, and any place where a single glyph needs clear accessible context.
 
 ## Implementation Notes
@@ -104,6 +106,10 @@ The consumer provides all CSS styling. The component renders with a `.character`
 - `character-counter` — a counter showing remaining or used characters in a text field
 - `kbd` — show keyboard shortcuts and key combinations in a styled inline element
 - `emoji` — a single emoji character with accessible name
+
+## Known limitations
+
+None known.
 
 ## References
 

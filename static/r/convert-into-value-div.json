@@ -36,5 +36,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ConvertIntoValueDiv.razor"
   },
   "docs": "https://lilydesignsystem.com/components/convert-into-value-div/",
+  "markdown": "https://lilydesignsystem.com/components/convert-into-value-div.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/convert-into-value-div/AGENTS.md"
 }

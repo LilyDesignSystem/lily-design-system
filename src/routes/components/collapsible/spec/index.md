@@ -8,12 +8,12 @@ Implement the Collapsible component: a container that can be expanded or collaps
 
 ## HTML Tag and CSS Class
 
-- HTML tag: <div>
+- HTML tag: <details>
 - CSS class: .collapsible
 
 ## Approach
 
-1. Use semantic <div> element with class="collapsible"
+1. Use semantic <details> element with class="collapsible"
 2. Add ARIA attributes for accessibility
 3. Implement keyboard navigation
 4. Add vanilla JavaScript for interactive behavior
@@ -24,7 +24,7 @@ Implement the Collapsible component: a container that can be expanded or collaps
 
 ## Acceptance Criteria
 
-- [ ] Renders <div> with class="collapsible"
+- [ ] Renders <details> with class="collapsible"
 - [ ] Keyboard: Enter/Space: Toggle the disclosure open/closed (handled natively by `<summary>`)
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless

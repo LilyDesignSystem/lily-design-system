@@ -134,6 +134,10 @@ PaginationNav (nav) → PaginationList (nav + ul) → PaginationListItem (li)
 - `pagination-list-item` — one pagination list item in the trail
 - `pagination-link` — one pagination link in the trail
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Navigation Role: https://www.w3.org/TR/wai-aria-1.2/#navigation

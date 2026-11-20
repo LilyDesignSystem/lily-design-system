@@ -94,6 +94,10 @@ MeasurementUnitView is part of the measurement component family. It is the read-
 
 - `measurement-unit-input` — an input for selecting a measurement unit
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN div element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div)

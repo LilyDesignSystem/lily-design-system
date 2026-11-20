@@ -97,6 +97,10 @@ This headless component ships zero CSS and decides nothing visual. The consumer 
 - `field` — one labelled field with its hint and error
 - `tag-input-div` — a list of single values a person adds to
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Ministry of Justice design patterns, add another: https://design-patterns.service.justice.gov.uk/components/add-another/

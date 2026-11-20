@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/MauritiusNationalIdentityCardNumberView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/mauritius-national-identity-card-number-view/",
+  "markdown": "https://lilydesignsystem.com/components/mauritius-national-identity-card-number-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/mauritius-national-identity-card-number-view/AGENTS.md"
 }

@@ -109,6 +109,10 @@ The consumer provides all CSS styling. The component renders with a `.timer-butt
 - `button` — a generic clickable button element
 - `timer` — a countdown or elapsed time display
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN button element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button)

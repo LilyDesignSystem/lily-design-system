@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/SlovenskoRodneCisloInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/slovensko-rodne-cislo-input/",
+  "markdown": "https://lilydesignsystem.com/components/slovensko-rodne-cislo-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/slovensko-rodne-cislo-input/AGENTS.md"
 }

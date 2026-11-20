@@ -90,6 +90,10 @@ The consumer provides all CSS styling via the `.multi-select-with-extras` class 
 - `select-with-extras` — single-choice equivalent
 - `checkbox-group` — visible checkboxes
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN select element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select

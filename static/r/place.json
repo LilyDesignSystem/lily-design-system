@@ -37,5 +37,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Place.razor"
   },
   "docs": "https://lilydesignsystem.com/components/place/",
+  "markdown": "https://lilydesignsystem.com/components/place.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/place/AGENTS.md"
 }

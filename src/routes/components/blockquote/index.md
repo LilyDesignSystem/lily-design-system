@@ -4,6 +4,8 @@ A blockquote is a block-level quotation rendered as a native `<blockquote>`
 element. It optionally carries a source citation URL via the `cite` attribute
 and visible attribution text rendered inside a `<footer>`.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it to set off extended quotations from surrounding prose, such as quoted
 passages from articles, interviews, books, speeches, or testimonials.
 
@@ -97,6 +99,10 @@ attribution.
 
 - `citation` — a citation acknowledges the relevance of a work of another to the topic of discussion
 - `inset-text` — indented text to distinguish it from surrounding content
+
+## Known limitations
+
+None known.
 
 ## References
 

@@ -2,6 +2,8 @@
 
 CalendarTableTD is a headless component that renders a `<th scope="col">` element — a column header cell — intended to live inside a CalendarTableRow within CalendarTableHead. Use it to label day-of-week or other column headers in a calendar grid.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders a `<th>` element with `scope="col"` by default
@@ -89,6 +91,10 @@ CalendarTableTD is part of the CalendarTable composition pattern: CalendarTable 
 - `calendar-table-row` — a calendar table interactive grid row for managing dates, days, etc. <tr>
 - `calendar-table-td` — a calendar table interactive grid data cell for managing dates, days, etc. <td>
 - `table` — a table with rows and columns <table>
+
+## Known limitations
+
+None known.
 
 ## References
 

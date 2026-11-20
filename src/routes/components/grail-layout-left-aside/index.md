@@ -2,6 +2,8 @@
 
 GrailLayoutLeftAside is a headless container for the left aside section of a GrailLayout. It typically contains navigation menus, filters, or supplementary content.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders a `<aside>` element for the left aside section
@@ -77,6 +79,10 @@ GrailLayoutLeftAside is used as a child of GrailLayout. Place semantic `<nav>` o
 - `grail-layout-center-main` — grail layout center main content with <main> tag
 - `grail-layout-right-aside` — grail layout right aside sidebar with <aside> tag
 - `grail-layout-top-header` — grail layout top header full width with <header> tag
+
+## Known limitations
+
+None known.
 
 ## References
 

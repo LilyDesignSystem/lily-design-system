@@ -2,6 +2,8 @@
 
 A checklist is a semantic list container for checklist items, allowing users to track and manage tasks, options, or steps by marking items as completed or pending. Typically displayed as a list of actionable items, each with a checkbox that users can tick off as they progress, checklists are commonly used in to-do lists, forms, or onboarding processes.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The component renders a `<ul>` with `role="list"` and delegates item rendering to consumers, who provide `<li>` elements with checkboxes or other interactive controls. This headless approach lets consumers define all visual feedback such as checkmarks, color changes, or progress indicators through their own CSS.
 
 ## Implementation Notes
@@ -88,6 +90,10 @@ CheckList follows the List/ListItem composition pattern. Use CheckList as the co
 ## Related components
 
 - `check-list-item` — one check list item component with a checkbox
+
+## Known limitations
+
+None known.
 
 ## References
 

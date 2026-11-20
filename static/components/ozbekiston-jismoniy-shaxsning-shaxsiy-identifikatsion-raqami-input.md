@@ -89,6 +89,10 @@ A national identifier is personal data, and often a key to other records.
 - `ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-view` — a read-only display of Uzbekistan's Personal identification number (JShShIR / PINFL)
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [Kun.uz: Where to find your PINFL](https://kun.uz/en/news/2026/01/26/how-to-find-your-pinfl)

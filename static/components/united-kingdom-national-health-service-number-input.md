@@ -117,6 +117,10 @@ A national identifier is personal data, and often a key to other records.
 - `united-kingdom-national-health-service-number-view` — a read-only display of a UK NHS number
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - NHS Number format: https://www.nhs.uk/nhs-services/online-services/find-nhs-number/

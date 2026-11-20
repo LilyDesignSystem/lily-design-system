@@ -45,5 +45,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/RangeInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/range-input/",
+  "markdown": "https://lilydesignsystem.com/components/range-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/range-input/AGENTS.md"
 }

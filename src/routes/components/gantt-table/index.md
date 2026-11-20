@@ -2,6 +2,8 @@
 
 A Gantt table (a.k.a. Gannt chart) is a component that displays project tasks and their timelines as horizontal bars along a time axis, providing a visual overview of project schedules, dependencies, and progress. Commonly used in project management tools, resource planning applications, and team collaboration platforms, the Gantt chart helps users understand task durations, overlaps, milestones, and sequencing at a glance.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component renders a `<table>` element with `role="grid"` and an accessible label. The consumer provides the table structure with rows for tasks and columns for time periods, along with any visual bar representations.
 
 ## Implementation Notes
@@ -51,7 +53,16 @@ This headless component renders a `<table>` element with `role="grid"` and an ac
 
 ## Keyboard Interactions
 
-None built-in -- the consumer should implement grid keyboard navigation on cells as needed (arrow keys for cell-to-cell movement).
+- Tab: moves to the table, on its one tab stop, and out of it
+- ArrowRight / ArrowLeft: next or previous cell in the row, swapped in right-to-left; stops at the edge
+- ArrowDown / ArrowUp: next or previous row; stops at the edge
+- Home / End: first or last cell in the row
+- Ctrl+Home / Ctrl+End (Cmd on macOS): first or last cell in the table
+- PageDown / PageUp: ten rows, stopping at the edge
+- Enter or F2: go to the first control in the cell, which keeps its own keys
+- Escape: from a control, back to its cell
+
+Selecting, sorting and editing are the consumer's. A consumer running its own grid keys, as the `gantt-chart` helper does, sets `data-consumer-keys` on the root.
 
 ## ARIA
 
@@ -91,7 +102,7 @@ The consumer provides all CSS styling. The component renders with a `.gantt-tabl
 ## Advice
 
 - **Designers**: Use horizontal bars with distinct colors to represent task durations. Include clear column headers for time periods and a fixed task-name column for readability.
-- **Developers**: Implement grid keyboard navigation (arrow keys for cell-to-cell movement) in your consumer code for full accessibility.
+- **Developers**: the table owns the basic grid keys; the `gantt-chart` helper adds the rest (expanding rows, editing, dependencies) and runs its own, with `data-consumer-keys` set.
 
 ## Composition
 
@@ -106,6 +117,10 @@ GanttTable uses the Table composition pattern: GanttTable contains GanttTableHea
 - `gantt-table-td` — a Gantt chart table interactive grid data cell for planning schedule visualization <td>
 - `gantt-table-th` — a Gantt chart table interactive grid header cell for planning schedule visualization <th>
 - `table` — a table with rows and columns <table>
+
+## Known limitations
+
+None known.
 
 ## References
 

@@ -57,8 +57,7 @@
     Arabic, Hebrew, and other right-to-left scripts. It focuses purely on
     signalling — your i18n library handles the translation.
   </p>
-  
-  
+
   <pre tabindex="0"><code>&lt;script&gt;
   import LocalePicker from "@lilydesignsystem/svelte-locale-picker";
 
@@ -87,7 +86,7 @@
     <code>data-text-size="&#123;slug&#125;"</code> on the document root and your
     CSS maps each value to sizing.
   </p>
-  
+
   <pre tabindex="0"><code>&lt;script&gt;
   import TextSizePicker from "@lilydesignsystem/svelte-text-size-picker";
 &lt;/script&gt;
@@ -97,7 +96,7 @@
   sizes={["small", "medium", "large", "x-large"]}
   storageKey="my-app-text-size"
 /&gt;</code></pre>
-  
+
   <pre tabindex="0"><code>:root[data-text-size="small"]   { font-size: 87.5%; }
 :root[data-text-size="medium"]  { font-size: 100%; }
 :root[data-text-size="large"]   { font-size: 112.5%; }
@@ -124,7 +123,7 @@
     which networks belong in your product is your call, not the design
     system's.
   </p>
-  
+
   <pre tabindex="0"><code>&lt;script&gt;
   import SharePicker from "@lilydesignsystem/svelte-share-picker";
 
@@ -161,7 +160,7 @@
     <code>mode="time"</code>, <code>"2026-03-15T09:30"</code> for
     <code>mode="datetime"</code>.
   </p>
-  
+
   <pre tabindex="0"><code>&lt;script&gt;
   import DateTimePicker from "@lilydesignsystem/svelte-date-time-picker";
 
@@ -197,7 +196,7 @@
     because motion is a real accessibility need (WCAG 2.3.3). Your CSS and
     scripts decide what gets suppressed.
   </p>
-  
+
   <pre tabindex="0"><code>&lt;script&gt;
   import MotionPicker from "@lilydesignsystem/svelte-motion-picker";
 &lt;/script&gt;
@@ -207,7 +206,7 @@
   motions={["no-preference", "reduce"]}
   storageKey="my-app-motion"
 /&gt;</code></pre>
-  
+
   <pre tabindex="0"><code>:root[data-motion="reduce"] *,
 :root[data-motion="reduce"] *::before,
 :root[data-motion="reduce"] *::after {
@@ -224,7 +223,7 @@
     query goes nowhere). Its three accessible names are required, because the
     helper ships no English.
   </p>
-  
+
   <pre tabindex="0"><code>&lt;script&gt;
   import SearchPicker from "@lilydesignsystem/svelte-search-picker";
   import { goto } from "$app/navigation";
@@ -252,7 +251,7 @@
     scale pre-wired. Every accessible name arrives in one required
     <code>labels</code> object.
   </p>
-  
+
   <pre tabindex="0"><code>&lt;script&gt;
   import PickerBar from "@lilydesignsystem/svelte-picker-bar";
 &lt;/script&gt;
@@ -284,7 +283,7 @@
 
   <h2>A settings panel in one place</h2>
   <p>The four preference helpers compose naturally:</p>
-  
+
   <pre tabindex="0"><code>&lt;fieldset class="fieldset"&gt;
   &lt;legend&gt;Preferences&lt;/legend&gt;
   &lt;ThemePicker    label="Theme"     themesUrl="/themes/" themes={themes} storageKey="pref-theme" /&gt;
@@ -305,7 +304,7 @@
   </div>
 
   <h2>Where to get them</h2>
-  
+
   <pre tabindex="0"><code># one directory per package in the monorepo, e.g.
 git clone https://github.com/LilyDesignSystem/lily-design-system
 cd lily-design-system/lily-design-system-svelte-theme-picker

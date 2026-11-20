@@ -89,6 +89,10 @@ A national identifier is personal data, and often a key to other records.
 - `uruguay-cedula-de-identidad-view` — a read-only display of Uruguay's Cedula de Identidad Number
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [Cédula de identidad](https://en.wikipedia.org/wiki/C%C3%A9dula_de_identidad)

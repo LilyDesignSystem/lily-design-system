@@ -5,6 +5,7 @@
 - Component: table-foot
 - PascalCase: TableFoot
 - Description: a table interactive grid tfoot <tfoot>
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <tfoot>
 - CSS class: .table-foot
 - Interactive: no
@@ -40,6 +41,10 @@ Standard table keyboard interactions.
 - [ ] Renders <tfoot> element with class="table-foot"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

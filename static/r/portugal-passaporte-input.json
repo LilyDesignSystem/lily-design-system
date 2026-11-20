@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/PortugalPassaporteInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/portugal-passaporte-input/",
+  "markdown": "https://lilydesignsystem.com/components/portugal-passaporte-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/portugal-passaporte-input/AGENTS.md"
 }

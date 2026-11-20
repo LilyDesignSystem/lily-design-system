@@ -100,6 +100,10 @@ inner `section-heading-eyebrow`, `section-heading-heading`, and
 - `hero-headline` — see components.tsv
 - `byline` — see components.tsv
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN `<header>`: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/header

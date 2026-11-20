@@ -48,5 +48,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/FeatureCard.razor"
   },
   "docs": "https://lilydesignsystem.com/components/feature-card/",
+  "markdown": "https://lilydesignsystem.com/components/feature-card.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/feature-card/AGENTS.md"
 }

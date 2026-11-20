@@ -75,6 +75,10 @@ A national identifier is personal data, and often a key to other records.
 - `misr-al-raqm-al-qawmi-input` — an input for entering Egypt's الرقم القومي (Al-Raqm Al-Qawmi)
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [Egyptian National Identity Card](https://en.wikipedia.org/wiki/Egyptian_National_Identity_Card)

@@ -84,7 +84,9 @@ This headless Card component provides a `<div>` (a named group when labelled), c
 
 ## Styles
 
-The consumer provides all CSS styling. The component renders with a `.card` class for targeting. No default styles are included — this is a fully headless component.
+The headless component includes no CSS and renders `.card` for targeting. A Lily reference theme exposes
+`--lily-card-background`, `--lily-card-color`, `--lily-card-border-color`, and `--lily-card-border-radius`, defaulting to
+the theme's surface, text, border, and large-radius tokens.
 
 ## Testing
 
@@ -108,6 +110,10 @@ Card supports header, body, and footer content areas through its children slot. 
 - `product-card` — a specialized card for displaying a product with image, title, price, and actions
 - `panel` — a generic content panel with optional heading
 - `tile` — a grouping container that presents related content in a structured format, often as a single clickable area
+
+## Known limitations
+
+None known.
 
 ## References
 

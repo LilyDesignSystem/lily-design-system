@@ -139,6 +139,10 @@ The consumer provides all CSS styling. The component renders with a `.file-dialo
 - `file-manager` — a file browser for navigating and managing files
 - `dialog` — a modal or non-modal dialog window
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/

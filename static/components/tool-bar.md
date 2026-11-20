@@ -99,6 +99,10 @@ ToolBar contains ToolBarButton children following the Bar/BarButton pattern. Too
 
 - `tool-bar-button` — one action button in a tool bar
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Toolbar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/

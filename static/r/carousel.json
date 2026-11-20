@@ -40,5 +40,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Carousel.razor"
   },
   "docs": "https://lilydesignsystem.com/components/carousel/",
+  "markdown": "https://lilydesignsystem.com/components/carousel.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/carousel/AGENTS.md"
 }

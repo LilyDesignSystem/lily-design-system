@@ -38,5 +38,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/BrasilCartaoNacionalDeSaudeInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/brasil-cartao-nacional-de-saude-input/",
+  "markdown": "https://lilydesignsystem.com/components/brasil-cartao-nacional-de-saude-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/brasil-cartao-nacional-de-saude-input/AGENTS.md"
 }

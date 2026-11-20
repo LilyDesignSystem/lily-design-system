@@ -2,6 +2,8 @@
 
 A link that returns users to the top of a long page. Typically rendered as a fixed or sticky element near the bottom-right of the viewport on long-scrolling pages.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders an `<a>` linking to an in-page anchor (default `#top`)
@@ -60,6 +62,14 @@ The component renders with `.go-to-top` as the root class. No default styles are
 - `back-link` — navigate to a parent or previous page
 - `go-to-previous-section` / `go-to-next-section` — adjacent-section navigation within a page
 - `skip-link` — keyboard-only "skip to main content" link
+
+## Known limitations
+
+### Disabled links and link look-alikes
+
+A link has no disabled state: the `disabled` attribute has no effect. Prefer not rendering an unavailable link. When the unavailable item must remain visible, set `aria-disabled="true"`, omit `href` (or guard every pointer and keyboard activation if the URL must remain), and use `tabindex="-1"` so it is not a misleading tab stop. Add `role="link"` when an anchor without `href` must retain link semantics.
+
+Use a native `<button>` for an action. Styling an anchor as a button does not give it button keyboard or disabled behavior.
 
 ## References
 

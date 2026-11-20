@@ -106,6 +106,10 @@ The consumer provides all CSS styling. The component renders with a `.image-inpu
 - `image` — an image element with alt text
 - `button-input` — an input element of type button for form actions <input type="button">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN input type="image": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/image

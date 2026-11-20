@@ -2,6 +2,8 @@
 
 A summary list is a component that presents a concise overview of key information as key-value pairs, typically in a structured, easy-to-scan format. It is often used to summarize important details such as transaction history, order details, product features, account settings, or form review data in a description list layout.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This component renders as a semantic `<dl>` (description list) element with an accessible label. Each item in the summary list consists of a `<dt>` (term) and `<dd>` (description) pair, helping users quickly grasp essential information. A well-designed summary list focuses on clarity, using clear labels, concise text, and consistent formatting to enhance readability.
 
 ## Implementation Notes
@@ -63,7 +65,7 @@ The consumer provides all CSS styling. The component renders with a `.summary-li
 
 ## Testing
 
-- Verify the component renders a `<ol>` element with class `summary-list`
+- Verify the component renders a `<dl>` element with class `summary-list`
 - Verify aria-label={label}` -- provides the accessible name for the description list, allowing screen readers to announce the context of the key-value pairs
 - Verify pass-through attributes are applied
 
@@ -71,6 +73,12 @@ The consumer provides all CSS styling. The component renders with a `.summary-li
 
 - **Designers**: Align terms and descriptions consistently, using either a side-by-side or stacked layout. Use subtle row separators or alternating backgrounds to improve scannability.
 - **Developers**: Use SummaryListItem child components for structured `<dt>`/`<dd>` pairs, or provide raw `<dt>`/`<dd>` elements directly. Ensure the `label` prop accurately describes the summary context.
+- **Summary card**: To group a summary list under a title with header actions, compose `Card` and `SummaryList` (see the Summary card pattern in `AGENTS/components.md`). Rules:
+  - Each action's accessible name says what it changes ("Change name"): the context is visually hidden text the consumer supplies, never a string from Lily.
+  - Action targets are at least 24 by 24 CSS pixels, or spaced so they do not crowd (WCAG 2.5.8).
+  - A missing value links to the question that answers it ("Enter your date of birth"), not to a "Change" link.
+  - When the user returns through a change link, their earlier answers are pre-filled (WCAG 3.3.7, redundant entry).
+  - Card titles are short and unique; header actions are about two words each, two or three at most.
 
 ## Composition
 
@@ -79,6 +87,10 @@ SummaryList uses the List/ListItem composition pattern. Place SummaryListItem co
 ## Related components
 
 - `summary-list-item` — one key-value pair in a summary list
+
+## Known limitations
+
+None known.
 
 ## References
 

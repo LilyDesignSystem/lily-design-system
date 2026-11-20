@@ -2,11 +2,13 @@
 
 A ROYGB (Red/Orange/Yellow/Green/Blue) view is a component that displays a five-level color-coded status value as read-only text. It is used to present previously captured ROYGB status data in dashboards, reports, or detail views. Red indicates a critical problem, orange signals a hazard, yellow means caution, green indicates normal status, and blue represents a paused or informational state.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The component renders as a `<span>` element with an accessible label, making the status readable by screen readers and other assistive technologies. This headless component provides the semantic structure and accessibility features while allowing consumers to apply their own visual styling. The five-level scale offers more granularity than the traditional three-level RAG (Red/Amber/Green) status pattern.
 
 ## Implementation Notes
 
-- Renders as `<span aria-label={label}>` displaying a ROYGB status value as text content
+- No ARIA on the root: a plain `<span>` cannot be named. A visible caption names the value, or `label` renders as hidden text in a `.screen-reader-span`
 - Five-level status scale: red, orange, yellow, green, blue
 - Read-only display component, not interactive
 - Value defaults to an empty string when not provided
@@ -16,7 +18,7 @@ The component renders as a `<span>` element with an accessible label, making the
 
 ## Props
 
-- `label`: string (required) -- accessible label for screen readers via `aria-label`
+- `label`: string (optional) — hidden text naming the value, in a `.screen-reader-span`. Leave it out when a visible caption names the value
 - `value`: string (default: `""`) -- the ROYGB status to display (e.g., "red", "orange", "yellow", "green", "blue")
 - `...restProps`: any additional HTML attributes spread onto the `<span>` element
 
@@ -63,8 +65,6 @@ None -- this is a passive informational display, not an interactive element.
 
 ## ARIA
 
-- `aria-label={label}` -- provides the accessible name for the status display, allowing screen readers to announce the context of the value
-
 ## When to Use
 
 - Use to display a five-level colour status in read-only format in dashboards and reports.
@@ -89,7 +89,7 @@ The consumer provides all CSS styling. The component renders with a `.red-orange
 ## Testing
 
 - Verify the component renders a `<div>` element with class `red-orange-yellow-green-blue-view`
-- Verify aria-label={label}` -- provides the accessible name for the status display, allowing screen readers to announce the context of the value
+- Verify `label` renders as hidden text, and that the root has no `aria-label`
 - Verify pass-through attributes are applied
 
 ## Advice
@@ -100,6 +100,10 @@ The consumer provides all CSS styling. The component renders with a `.red-orange
 ## Related components
 
 - `red-orange-yellow-green-blue-radio-group` — a picker for selecting a five-level color status
+
+## Known limitations
+
+None known.
 
 ## References
 

@@ -99,6 +99,10 @@ indicator on the trigger and ensure the panel is reachable by keyboard.
 - `popover` — a floating content box anchored to a trigger element
 - `details` — a disclosure widget that shows and hides content
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Dialog: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/

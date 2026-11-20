@@ -46,6 +46,7 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/IconButton.razor"
   },
   "docs": "https://lilydesignsystem.com/components/icon-button/",
+  "markdown": "https://lilydesignsystem.com/components/icon-button.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/icon-button/AGENTS.md",
   "nativePlatform": {
     "decision": "native",

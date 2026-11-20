@@ -43,5 +43,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/BodyMap.razor"
   },
   "docs": "https://lilydesignsystem.com/components/body-map/",
+  "markdown": "https://lilydesignsystem.com/components/body-map.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/body-map/AGENTS.md"
 }

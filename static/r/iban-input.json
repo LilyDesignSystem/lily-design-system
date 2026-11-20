@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/IbanInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/iban-input/",
+  "markdown": "https://lilydesignsystem.com/components/iban-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/iban-input/AGENTS.md"
 }

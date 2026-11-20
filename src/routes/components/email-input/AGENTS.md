@@ -5,6 +5,7 @@
 - Component: email-input
 - PascalCase: EmailInput
 - Description: an input for entering an email address <input type="email">
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <input>
 - CSS class: .email-input
 - Interactive: no
@@ -44,6 +45,10 @@
 - [ ] Has aria-label attribute
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

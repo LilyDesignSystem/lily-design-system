@@ -104,6 +104,10 @@ The consumer provides all CSS styling. The component renders with a `.header` cl
 - `grail-layout-top-header` — grail layout top header full width with <header> tag
 - `navigation-menu` — a site-wide navigation menu with links
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN header element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/header

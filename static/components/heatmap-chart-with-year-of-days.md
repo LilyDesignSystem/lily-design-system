@@ -114,6 +114,10 @@ The graphic is wrapped in `<div class="heatmap-chart-with-year-of-days-graphic" 
 - `line-chart`
 - `graphic-block` — chart wrapper with title and notes
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN figure element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figure)

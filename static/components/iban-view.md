@@ -68,6 +68,10 @@ The International Bank Account Number is defined by ISO 13616, with SWIFT as its
 - `iban-input` — an input for entering an International Bank Account Number (IBAN)
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/International_Bank_Account_Number

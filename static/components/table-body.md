@@ -77,6 +77,10 @@ TableBody is a child of Table, following the Table pattern: Table > TableHead/Ta
 - `table-td` — a table interactive grid data cell <td>
 - `table-th` — a table interactive grid column <th>
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN tbody element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tbody

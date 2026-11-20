@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/EcuadorCedulaDeIdentidadView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/ecuador-cedula-de-identidad-view/",
+  "markdown": "https://lilydesignsystem.com/components/ecuador-cedula-de-identidad-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/ecuador-cedula-de-identidad-view/AGENTS.md"
 }

@@ -198,6 +198,10 @@ Medical banners in clinical systems display patient-specific information, clinic
 - `medical-banner-box` — a medical banner box that is inside a medical-banner component, using flexbox horizontal, with medical information
 - `medical-banner-box-for-advice` — a medical record banner box for advice information e.g. contacts, contexts, plans, etc.
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Parent pattern: Banner

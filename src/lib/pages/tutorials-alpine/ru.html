@@ -22,7 +22,8 @@
   
   <pre tabindex="0"><code>npm install alpinejs @lilydesignsystem/alpine-headless</code></pre>
   
-  <pre tabindex="0"><code>&lt;script type="module"&gt;
+  <pre tabindex="0"><code
+            >&lt;script type="module"&gt;
   import Alpine from "alpinejs";
   import lily from "@lilydesignsystem/alpine-headless/plugin";
   Alpine.plugin(lily);
@@ -40,7 +41,8 @@
   <pre tabindex="0"><code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code></pre>
   <p>Интерактивный компонент добавляет поведение через <code>x-data</code> и связывает его через <code>x-bind</code>:</p>
   
-  <pre tabindex="0"><code>&lt;button
+  <pre tabindex="0"><code
+            >&lt;button
   class="switch-button"
   x-data="lilySwitchButton(false)"
   x-bind="button"
@@ -55,7 +57,8 @@
 
   <h2>Шаг 3 — Соберите небольшую форму</h2>
   
-  <pre tabindex="0"><code>&lt;form class="form" aria-label="Settings"&gt;
+  <pre tabindex="0"><code
+            >&lt;form class="form" aria-label="Settings"&gt;
   &lt;div class="field"&gt;
     &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
     &lt;input class="text-input" type="text" id="name" name="name" autocomplete="name" required /&gt;
@@ -88,7 +91,8 @@
   <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/light.css" /&gt;</code></pre>
   <p>Или напишите свой CSS для классов и состояния, которое задаёт поведение:</p>
   
-  <pre tabindex="0"><code>.switch-button[aria-checked="true"] { background: var(--color-primary); }
+  <pre tabindex="0"><code
+            >.switch-button[aria-checked="true"] { background: var(--color-primary); }
 .switch-button:focus-visible { outline: 2px solid var(--lily-focus-ring); outline-offset: 2px; }</code></pre>
   <p>
     Оформляйте состояние ARIA, а не собственный класс: тогда вид никогда не разойдётся с тем, что слышит программа экранного доступа.

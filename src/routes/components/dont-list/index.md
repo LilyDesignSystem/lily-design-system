@@ -2,19 +2,21 @@
 
 A don't list presents discouraged actions or practices to avoid as a list of items. It is used in design system documentation, guidelines, and instructional content to clearly communicate what users or developers should not do. The list is paired with the DoList component to create do/don't guidance patterns.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This component renders a semantically labeled unordered list with `role="list"` to ensure assistive technology announces it as a list even when CSS may remove default list semantics. The default label is "Don't", making it immediately usable without configuration.
 
 ## Implementation Notes
 
 - Renders a `<ul>` element with explicit `role="list"` to preserve list semantics
-- Uses `aria-label` to provide an accessible name (defaults to "Don't")
+- Uses `aria-label` to provide an accessible name
 - Children slot is rendered inside the list; each child should be an `<li>` element
 - Label prop has a sensible default but can be overridden for internationalization
 - Spreads `restProps` on the `<ul>` element
 
 ## Props
 
-- `label`: string (default: `"Don't"`) -- accessible name for the list
+- `label`: string (required) -- accessible name for the list
 - `children`: slot (required) -- list items, each should be an `<li>` element
 - `...restProps`: any additional HTML attributes spread onto the `<ul>` element
 
@@ -50,7 +52,7 @@ None -- this component is a passive container for list items.
 ## ARIA
 
 - `role="list"` -- explicitly declares list semantics on the `<ul>`, ensuring assistive technology announces it as a list
-- `aria-label={label}` -- provides an accessible name for the list (defaults to "Don't")
+- `aria-label={label}` -- provides an accessible name for the list
 
 ## When to Use
 
@@ -79,13 +81,13 @@ The consumer provides all CSS styling. The component renders with a `.dont-list`
 
 - Verify the component renders a `<ol>` element with class `dont-list`
 - Verify role="list"`-- explicitly declares list semantics on the`<ul>`, ensuring assistive technology announces it as a list
-- Verify aria-label={label}` -- provides an accessible name for the list (defaults to "Don't")
+- Verify aria-label={label}` -- provides an accessible name for the list
 - Verify pass-through attributes are applied
 
 ## Advice
 
 - **Designers**: Use a distinct visual treatment (such as a red cross or warning color) to differentiate dont-list items from do-list items. Keep items concise and specific.
-- **Developers**: Place DontListItem components as children. Override the `label` prop for internationalization when the default "Don't" label is not appropriate.
+- **Developers**: Place DontListItem components as children. Give the `label` prop your own words for internationalization when the default "Don't" label is not appropriate.
 
 ## Composition
 
@@ -94,6 +96,10 @@ DontList composes with DontListItem using the List/ListItem pattern. DontList re
 ## Related components
 
 - `dont-list-item` — a discouraged-practice item in a dont-list guideline list
+
+## Known limitations
+
+None known.
 
 ## References
 

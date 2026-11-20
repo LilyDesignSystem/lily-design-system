@@ -5,6 +5,8 @@ the semantic `<time>` element so that browsers and assistive technology can
 understand the underlying ISO 8601 value while users see a localized
 human-friendly rendering supplied by the consumer.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it whenever you display a timestamp (publish date, last update, event
 start) and want both machine-readable semantics and a presentation string
 that the consumer has formatted in the user's locale.
@@ -14,6 +16,7 @@ that the consumer has formatted in the user's locale.
 - Renders a `<time>` element so the value is machine-readable
 - Sets `datetime={value}` from the ISO 8601 string
 - Display text falls back: `children` → `format` → `value`
+- A partial date is a valid `datetime`: `2019` or `2019-03` renders `<time datetime="2019-03">`, so a record known only to the month or year is never given an invented day. Format the text with `formatPartialDate()` from `clinical-format`
 - Does not perform any localization — the consumer formats the displayed text
 - Sets `class="date-time-view"`
 
@@ -98,6 +101,10 @@ component to apply font-variant-numeric or letter-spacing for tabular dates.
 - `date-time-local-input` — an input for entering a date and time without time zone <input type="datetime-local">
 - `date-range` — paired start and end date inputs
 - `review-date` — a display of a content review date
+
+## Known limitations
+
+None known.
 
 ## References
 

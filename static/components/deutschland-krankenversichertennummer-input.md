@@ -86,6 +86,10 @@ A national identifier is personal data, and often a key to other records.
 - `deutschland-krankenversichertennummer-view` — a read-only display of Germany's Krankenversichertennummer (KVNR)
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: https://de.wikipedia.org/wiki/Krankenversichertennummer

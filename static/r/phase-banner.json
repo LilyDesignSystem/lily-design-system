@@ -38,5 +38,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/PhaseBanner.razor"
   },
   "docs": "https://lilydesignsystem.com/components/phase-banner/",
+  "markdown": "https://lilydesignsystem.com/components/phase-banner.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/phase-banner/AGENTS.md"
 }

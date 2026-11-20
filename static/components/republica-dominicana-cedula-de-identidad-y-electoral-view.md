@@ -75,6 +75,10 @@ A national identifier is personal data, and often a key to other records.
 - `republica-dominicana-cedula-de-identidad-y-electoral-input` — an input for entering the Dominican Republic's Cédula de Identidad y Electoral
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [Junta Central Electoral (República Dominicana)](<https://es.wikipedia.org/wiki/Junta_Central_Electoral_(Rep%C3%BAblica_Dominicana)>)

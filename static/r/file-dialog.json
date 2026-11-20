@@ -38,6 +38,7 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/FileDialog.razor"
   },
   "docs": "https://lilydesignsystem.com/components/file-dialog/",
+  "markdown": "https://lilydesignsystem.com/components/file-dialog.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/file-dialog/AGENTS.md",
   "nativePlatform": {
     "decision": "native",

@@ -40,5 +40,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MockupLaptop.razor"
   },
   "docs": "https://lilydesignsystem.com/components/mockup-laptop/",
+  "markdown": "https://lilydesignsystem.com/components/mockup-laptop.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/mockup-laptop/AGENTS.md"
 }

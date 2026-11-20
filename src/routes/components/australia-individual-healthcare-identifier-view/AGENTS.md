@@ -1,3 +1,49 @@
-# AustraliaIndividualHealthcareIdentifierView — Lily Design System docs page
+# AustraliaIndividualHealthcareIdentifierView
 
-See `components/australia-individual-healthcare-identifier-view/AGENTS.md` for canonical metadata.
+## Metadata
+
+- Component: australia-individual-healthcare-identifier-view
+- PascalCase: AustraliaIndividualHealthcareIdentifierView
+- Description: a read-only display of Australia's Individual Healthcare Identifier (IHI)
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
+- HTML tag: <span>
+- CSS class: .australia-individual-healthcare-identifier-view
+- Interactive: no
+
+## Key Behaviors
+
+- Renders as `<span>` with class `australia-individual-healthcare-identifier-view`, and no role
+- Format: 16 digits assigned by the Healthcare Identifiers Service
+- Read-only; not editable
+
+## ARIA
+
+- No ARIA. A plain `<span>` cannot be named: `aria-label` is prohibited on it, and most screen readers drop it. A visible caption names the value, or the optional `label` renders as hidden text
+
+## Keyboard
+
+- Not interactive
+
+## Props
+
+- `value`: string (required) — the identifier to display
+- `label`: string (optional) — hidden text naming the value, in a `.screen-reader-span`. Leave it out when a visible caption names the value
+- `...restProps`: any additional HTML attributes spread onto the root
+
+## Acceptance Criteria
+
+- [ ] Renders <span> element with class="australia-individual-healthcare-identifier-view"
+- [ ] Renders `value` as text content
+- [ ] WCAG 2.2 AAA compliant
+- [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
+
+## References
+
+- Documentation: index.md
+- CSS class: .australia-individual-healthcare-identifier-view in css-style-sheet-template.css
+- Companion: AustraliaIndividualHealthcareIdentifierInput
+- Wikipedia: https://en.wikipedia.org/wiki/My_Health_Record

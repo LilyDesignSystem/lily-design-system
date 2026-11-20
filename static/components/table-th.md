@@ -90,6 +90,10 @@ TableTH is a child of TableRow within TableHead, following the Table pattern: Ta
 - `table-row` — a table interactive grid row <tr>
 - `table-td` — a table interactive grid data cell <td>
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN th element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th

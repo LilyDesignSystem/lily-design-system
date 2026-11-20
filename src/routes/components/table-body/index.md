@@ -2,6 +2,8 @@
 
 TableBody is a headless component that renders a `<tbody>` element within a table. It groups the main data rows of the table.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use this component within a Table to define the body section containing data rows.
 
 ## Implementation Notes
@@ -74,6 +76,10 @@ TableBody is a child of Table, following the Table pattern: Table > TableHead/Ta
 - `table-row` — a table interactive grid row <tr>
 - `table-td` — a table interactive grid data cell <td>
 - `table-th` — a table interactive grid column <th>
+
+## Known limitations
+
+None known.
 
 ## References
 

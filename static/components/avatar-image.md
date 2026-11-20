@@ -140,6 +140,10 @@ AvatarImage is a child component within the Avatar composition pattern:
 - `avatar-text` — an avatar indicator inner text such as a user name
 - `avatar-group` — a group of avatar components
 
+## Known limitations
+
+None known.
+
 ## References
 
 - HTML img element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img

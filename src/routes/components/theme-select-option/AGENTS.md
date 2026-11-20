@@ -5,6 +5,7 @@
 - Component: theme-select-option
 - PascalCase: ThemeSelectOption
 - Description: one option in a theme select dropdown
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <option>
 - CSS class: .theme-select-option
 - Interactive: yes
@@ -46,6 +47,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

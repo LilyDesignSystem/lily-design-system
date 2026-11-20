@@ -107,6 +107,10 @@ The consumer provides all CSS styling. The component renders with a `.character`
 - `kbd` — show keyboard shortcuts and key combinations in a styled inline element
 - `emoji` — a single emoji character with accessible name
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN span element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span)

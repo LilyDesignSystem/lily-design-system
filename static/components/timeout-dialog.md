@@ -75,6 +75,10 @@ The component renders with `.timeout-dialog` as the root class. No default style
 - `dialog` — generic modal dialog
 - `alert-dialog` — modal dialog for urgent confirmations
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN dialog element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog)

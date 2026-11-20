@@ -35,6 +35,7 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AccordionList.razor"
   },
   "docs": "https://lilydesignsystem.com/components/accordion-list/",
+  "markdown": "https://lilydesignsystem.com/components/accordion-list.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/accordion-list/AGENTS.md",
   "nativePlatform": {
     "decision": "native",

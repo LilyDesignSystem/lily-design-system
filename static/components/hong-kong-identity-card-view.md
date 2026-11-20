@@ -75,6 +75,10 @@ A national identifier is personal data, and often a key to other records.
 - `hong-kong-identity-card-input` — an input for entering Hong Kong's Identity Card Number
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [Hong Kong identity card](https://en.wikipedia.org/wiki/Hong_Kong_identity_card)

@@ -112,6 +112,10 @@ The consumer provides all CSS styling. The component renders with a `.hamburger-
 - `drawer` — a panel that slides in from the edge of the screen
 - `menu` — a list of actions or options triggered by a button
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/

@@ -2,6 +2,8 @@
 
 A toast is a UI/UX component that provides a brief, transient notification message to the user. It uses `role="status"` with `aria-live="polite"` by default, or `role="alert"` with `aria-live="assertive"` for urgent messages. Toasts are typically displayed temporarily to confirm actions, report errors, or provide status updates without requiring user interaction.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Toasts are similar to notifications but are generally more ephemeral and less intrusive. They are commonly used for success confirmations ("Item saved"), error messages ("Connection lost"), and informational updates ("New message received").
 
 ## Implementation Notes
@@ -69,6 +71,7 @@ None -- this component is a passive notification container. Toasts are announced
 
 ## When Not to Use
 
+- Do not add a timer. This component has none on purpose: a message that disappears after a few seconds fails WCAG 2.2.1 unless the user can extend it, and [Adrian Roselli](https://adrianroselli.com/2020/01/defining-toast-messages.html) advises against the timed kind. Keep the message until the user dismisses it
 - Do not use for persistent messages -- use Banner instead.
 - Do not use for form validation errors -- use ErrorSummary instead.
 - Do not use for critical alerts requiring user acknowledgment -- use AlertDialog instead.
@@ -100,6 +103,10 @@ The consumer provides all CSS styling. The component renders with a `.toast` cla
 - `sonner` — a toast notification manager
 - `notification` — a brief message about an event or update
 - `alert` — a status message for important information or feedback
+
+## Known limitations
+
+None known.
 
 ## References
 

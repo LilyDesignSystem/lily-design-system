@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/LiechtensteinPassportNumberInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/liechtenstein-passport-number-input/",
+  "markdown": "https://lilydesignsystem.com/components/liechtenstein-passport-number-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/liechtenstein-passport-number-input/AGENTS.md"
 }

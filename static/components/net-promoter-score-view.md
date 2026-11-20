@@ -85,6 +85,10 @@ The consumer provides all CSS styling. The component renders with a `.net-promot
 
 - `net-promoter-score-radio-group` — a picker for selecting a 0-10 Net Promoter Score
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Net Promoter Score: https://en.wikipedia.org/wiki/Net_promoter_score

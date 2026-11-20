@@ -32,5 +32,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/RedAmberGreenView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/red-amber-green-view/",
+  "markdown": "https://lilydesignsystem.com/components/red-amber-green-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/red-amber-green-view/AGENTS.md"
 }

@@ -5,6 +5,7 @@
 - Component: citation
 - PascalCase: Citation
 - Description: a citation acknowledges the relevance of a work of another to the topic of discussion
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <cite>
 - CSS class: .citation
 - Interactive: no
@@ -19,7 +20,7 @@
 ## ARIA
 
 - Implicit semantics from the `<cite>` element
-- No additional ARIA attributes required for standard usage
+- No additional ARIA attributes required for standard usage. `label` is hidden text, because a name on `<cite>` is not reliably read
 
 ## Keyboard
 
@@ -27,6 +28,7 @@
 
 ## Props
 
+- `label`: string (optional) -- hidden text read before the citation, in a `screen-reader-span`
 - `children`: slot (required) -- citation text, typically the title of the referenced work
 - `...restProps`: unknown -- additional attributes spread onto the `<cite>` element
 
@@ -36,6 +38,10 @@
 - [ ] Implicit citation semantics from <cite> element
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS -- fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

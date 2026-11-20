@@ -105,6 +105,10 @@ with a callout arrow if appropriate.
 - `alert-dialog` — a modal dialog for urgent messages requiring user acknowledgment
 - `popover` — a floating content box anchored to a trigger element
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Alert Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/alertdialog/

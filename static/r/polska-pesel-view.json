@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/PolskaPeselView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/polska-pesel-view/",
+  "markdown": "https://lilydesignsystem.com/components/polska-pesel-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/polska-pesel-view/AGENTS.md"
 }

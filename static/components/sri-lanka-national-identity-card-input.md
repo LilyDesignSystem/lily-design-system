@@ -89,6 +89,10 @@ A national identifier is personal data, and often a key to other records.
 - `sri-lanka-national-identity-card-view` — a read-only display of Sri Lanka's National Identity Card (NIC) number
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [National identity card (Sri Lanka)](<https://en.wikipedia.org/wiki/National_identity_card_(Sri_Lanka)>)

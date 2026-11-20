@@ -77,6 +77,10 @@ This headless component ships zero CSS and decides nothing visual. The consumer 
 - `date-time-view` — a read-only display of a date and time
 - `timer` — a time that changes as the reader watches
 
+## Known limitations
+
+None known.
+
 ## References
 
 - HTML valid duration string: https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#durations

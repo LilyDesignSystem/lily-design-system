@@ -111,6 +111,10 @@ MenuBar (role="menubar") → MenuBarButton (role="menuitem")
 
 - `menu-bar` — a horizontal bar of menu triggers
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Menu Bar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menubar/

@@ -5,6 +5,7 @@
 - Component: hero-headline
 - PascalCase: HeroHeadline
 - Description: a full-bleed hero section with headline overlaid on media
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .hero-headline
 - Interactive: no
@@ -18,7 +19,7 @@
 
 ## ARIA
 
-- `aria-label` on container
+- `role="group"` with `aria-label` on container, because a plain `<div>` cannot be named
 - Media should have appropriate alt text
 
 ## Keyboard
@@ -35,11 +36,15 @@
 ## Acceptance Criteria
 
 - [ ] Renders <div> element with class="hero-headline"
-- [ ] Has aria-label attribute
+- [ ] Has role="group" and aria-label
 - [ ] Renders media slot for background content
 - [ ] Renders children slot overlaid on media
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS -- fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

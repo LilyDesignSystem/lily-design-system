@@ -89,6 +89,10 @@ A national identifier is personal data, and often a key to other records.
 - `brasil-cartao-nacional-de-saude-view` — a read-only display of Brazil's Cartão Nacional de Saúde (CNS)
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [CPF number (Cartão Nacional de Saúde)](https://en.wikipedia.org/wiki/CPF_number)

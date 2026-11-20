@@ -5,6 +5,7 @@
 - Component: accordion-checkbox
 - PascalCase: AccordionCheckbox
 - Description: a checkbox option that reveals an accordion panel when checked
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .accordion-checkbox
 - Interactive: yes
@@ -37,6 +38,14 @@
 - `id`: string (optional) — base id for the checkbox/panel link; auto-generated if not provided
 - `children`: slot (required) — content shown when the checkbox is checked
 
+## Native platform
+
+- Decision: native
+- Uses: <input type="checkbox"> + panel hidden
+- Could use: <details>
+- Notes: The checkbox is a form value, so a <details> toggle would lose form participation.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
 ## Acceptance Criteria
 
 - [ ] Renders a `<div>` element with class="accordion-checkbox"
@@ -51,6 +60,10 @@
 - [ ] Two-way binding on `checked` works
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

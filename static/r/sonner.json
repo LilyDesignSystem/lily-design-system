@@ -36,5 +36,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Sonner.razor"
   },
   "docs": "https://lilydesignsystem.com/components/sonner/",
+  "markdown": "https://lilydesignsystem.com/components/sonner.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/sonner/AGENTS.md"
 }

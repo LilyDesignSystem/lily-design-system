@@ -108,6 +108,10 @@ Fieldset groups multiple Field components together. Each Field wraps a label and
 - `checkbox-group` — a group component that manages a collection of checkboxes with shared state
 - `radio-group` — a group of radio buttons for selecting one option
 
+## Known limitations
+
+None known.
+
 ## References
 
 - HTML Specification fieldset: https://html.spec.whatwg.org/multipage/form-elements.html#the-fieldset-element

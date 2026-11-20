@@ -1,3 +1,7 @@
+<script lang="ts">
+    import PackageManagerTabs from "../../../lib/PackageManagerTabs.svelte";
+</script>
+
 <svelte:head>
     <title>Solid tutorial — Lily Design System</title>
     <meta
@@ -34,10 +38,11 @@
     </p>
 
     <h2>Step 1 — Install</h2>
-    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-    <pre tabindex="0"><code
-            >{`npm install @lilydesignsystem/solid-headless @lilydesignsystem/themes`}</code
-        ></pre>
+    <PackageManagerTabs
+        idPrefix="solid-tutorial-install"
+        packages="@lilydesignsystem/solid-headless @lilydesignsystem/themes"
+        label="Install Solid packages"
+    />
     <p>
         One package holds the 473 core components, each a named export. The national identifiers
         (health, tax and identity numbers) are an add-on, <code

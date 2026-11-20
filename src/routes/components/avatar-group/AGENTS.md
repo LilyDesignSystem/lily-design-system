@@ -5,6 +5,7 @@
 - Component: avatar-group
 - PascalCase: AvatarGroup
 - Description: a group of avatar components
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .avatar-group
 - Interactive: no
@@ -28,6 +29,7 @@
 ## Props
 
 - `label`: string (required) -- accessible label for the avatar group
+- `overflowLabel`: string (optional) -- the consumer's words for the avatars not shown ("and 12 more"), rendered last as `<span class="avatar-group-overflow">`, so a truncated group says how many it hides
 - `children`: slot -- avatar components
 - `...restProps`: Any additional HTML attributes
 
@@ -55,6 +57,10 @@ Pattern: AvatarGroup → Avatar → AvatarImage, AvatarText
 - [ ] Has aria-label attribute
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS -- fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

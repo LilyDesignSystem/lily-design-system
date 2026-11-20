@@ -125,6 +125,10 @@ The consumer provides all CSS styling. The component renders with a `.photo-pack
 - `image` — an image element with alt text
 - `carousel` — a slideshow for cycling through content items
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Reuters Graphics PhotoPack component

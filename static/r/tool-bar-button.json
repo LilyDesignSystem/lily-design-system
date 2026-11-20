@@ -34,5 +34,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ToolBarButton.razor"
   },
   "docs": "https://lilydesignsystem.com/components/tool-bar-button/",
+  "markdown": "https://lilydesignsystem.com/components/tool-bar-button.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tool-bar-button/AGENTS.md"
 }

@@ -2,6 +2,8 @@
 
 A tree list item is a single item within a TreeList hierarchy, rendered as an `<li>` element with `role="treeitem"`. It supports keyboard focus management via `tabindex` and can represent expandable or leaf nodes in the tree structure.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders a `<li>` element with class `tree-list-item`
@@ -135,6 +137,10 @@ TreeListItem is a child of TreeList, following the Nav/List/ListItem pattern. Ex
 - `tree-nav` — a hierarchical navigation with expandable branches
 - `tree-list` — a hierarchical list with nested expandable items
 - `tree-link` — one link in the tree
+
+## Known limitations
+
+None known.
 
 ## References
 

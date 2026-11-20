@@ -37,5 +37,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/HiddenInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/hidden-input/",
+  "markdown": "https://lilydesignsystem.com/components/hidden-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/hidden-input/AGENTS.md"
 }

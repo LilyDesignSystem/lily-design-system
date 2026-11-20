@@ -5,6 +5,7 @@
 - Component: phase-banner
 - PascalCase: PhaseBanner
 - Description: a banner showing service development phase and inviting feedback
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .phase-banner
 - Interactive: no
@@ -19,6 +20,7 @@
 
 ## ARIA
 
+- With a `label`, the root is `role="group"`, because a plain `<div>` cannot be named
 - Native semantics — no special ARIA needed
 - Consumers may add `role="region"` + `aria-label` if they treat this banner as a landmark
 
@@ -38,6 +40,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

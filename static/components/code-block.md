@@ -98,6 +98,10 @@ The consumer provides all CSS styling. The component renders with a `.code-block
 - `code` — an inline code span for displaying short code snippets within surrounding text
 - `kbd` — show keyboard shortcuts and key combinations in a styled inline element
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN `<pre>` element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/pre

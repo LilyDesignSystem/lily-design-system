@@ -2,6 +2,8 @@
 
 A phone number view displays a phone number as a clickable `tel:` link, allowing users on mobile devices to initiate a phone call directly by tapping or clicking the number. This is part of the Input/View pattern where TelLink is the read-only display counterpart.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 The component is useful for contact pages, business listings, user profiles, customer support sections, and any context where a phone number should be displayed as an actionable link rather than plain text.
 
 ## Implementation Notes
@@ -43,6 +45,20 @@ Simple phone link in a user profile:
 ```html
 <TelLink phone="+1-555-0199" />
 ```
+
+French and Australian numbers:
+
+```html
+<TelLink
+  phone="+33-1-99-00-12-34"
+  label="Appeler le service client"
+/>
+<TelLink phone="+61-491-570-156" />
+```
+
+Store and link the number in international form (E.164: `+` and the country code), and display it the way the
+country writes it. The examples use numbers each country reserves for fiction: `555-01xx` in North America,
+`020 7946 0xxx` in the UK, `01 99 00 xx xx` in France and `0491 570 xxx` in Australia.
 
 ## Keyboard Interactions
 
@@ -91,6 +107,14 @@ TelLink and TelInput follow the Input/Link pattern. TelLink provides the read-on
 
 - `tel-input` — an input for entering a telephone number <input type="tel">
 - `email-link` — a mailto hyperlink for an email address
+
+## Known limitations
+
+### Disabled links and link look-alikes
+
+A link has no disabled state: the `disabled` attribute has no effect. Prefer not rendering an unavailable link. When the unavailable item must remain visible, set `aria-disabled="true"`, omit `href` (or guard every pointer and keyboard activation if the URL must remain), and use `tabindex="-1"` so it is not a misleading tab stop. Add `role="link"` when an anchor without `href` must retain link semantics.
+
+Use a native `<button>` for an action. Styling an anchor as a button does not give it button keyboard or disabled behavior.
 
 ## References
 

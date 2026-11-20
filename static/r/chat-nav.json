@@ -41,5 +41,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ChatNav.razor"
   },
   "docs": "https://lilydesignsystem.com/components/chat-nav/",
+  "markdown": "https://lilydesignsystem.com/components/chat-nav.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/chat-nav/AGENTS.md"
 }

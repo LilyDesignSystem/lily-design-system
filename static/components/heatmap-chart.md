@@ -90,6 +90,10 @@ The graphic is wrapped in `<div class="heatmap-chart-graphic" role="img" aria-la
 - `line-chart`
 - `graphic-block` — chart wrapper with title and notes
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN figure element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figure)

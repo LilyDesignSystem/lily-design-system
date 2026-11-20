@@ -130,6 +130,10 @@ Menu (role="menu") → MenuItem (role="menuitem")
 
 - `menu` — a list of actions or options triggered by a button
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menu/

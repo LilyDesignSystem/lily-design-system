@@ -5,6 +5,7 @@
 - Component: ai-label
 - PascalCase: AiLabel
 - Description: an indicator of AI instances that is a pathway to AI explainability
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .ai-label
 - Interactive: no
@@ -12,13 +13,14 @@
 ## Key Behaviors
 
 - Renders a `<span>` element for inline placement
-- Uses `aria-label` for accessible naming, defaulting to "AI" if not provided
-- The `text` prop provides visible label text, defaulting to "AI"
+- Uses `aria-label` for accessible naming
+- The `text` prop provides visible label text
 - Spreads `restProps` onto the span for consumer customization
 - Designed as the first layer of AI explainability; consumers can wrap in a button or attach a popover for deeper explainability content
 
 ## ARIA
 
+- `role="img"`, because a `<span>` cannot be named; the label replaces the visible text for screen readers
 - `aria-label={label}` -- provides an accessible name for the AI indicator so screen readers announce its purpose
 
 ## Keyboard
@@ -27,8 +29,8 @@
 
 ## Props
 
-- `label`: string (default: "AI") -- accessible name for the indicator via `aria-label`
-- `text`: string (default: "AI") -- visible text displayed inside the indicator
+- `label`: string (required) -- accessible name for the indicator via `aria-label`
+- `text`: string (required) -- visible text displayed inside the indicator
 - `...restProps`: unknown -- additional attributes spread onto the `<span>` element
 
 ## Acceptance Criteria
@@ -37,6 +39,10 @@
 - [ ] Has aria-label attribute
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

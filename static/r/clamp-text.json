@@ -36,5 +36,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ClampText.razor"
   },
   "docs": "https://lilydesignsystem.com/components/clamp-text/",
+  "markdown": "https://lilydesignsystem.com/components/clamp-text.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/clamp-text/AGENTS.md"
 }

@@ -37,5 +37,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/InformationCallout.razor"
   },
   "docs": "https://lilydesignsystem.com/components/information-callout/",
+  "markdown": "https://lilydesignsystem.com/components/information-callout.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/information-callout/AGENTS.md"
 }

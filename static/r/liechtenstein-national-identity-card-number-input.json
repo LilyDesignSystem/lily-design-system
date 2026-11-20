@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/LiechtensteinNationalIdentityCardNumberInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/liechtenstein-national-identity-card-number-input/",
+  "markdown": "https://lilydesignsystem.com/components/liechtenstein-national-identity-card-number-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/liechtenstein-national-identity-card-number-input/AGENTS.md"
 }

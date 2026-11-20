@@ -51,5 +51,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/StickyPromoBanner.razor"
   },
   "docs": "https://lilydesignsystem.com/components/sticky-promo-banner/",
+  "markdown": "https://lilydesignsystem.com/components/sticky-promo-banner.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/sticky-promo-banner/AGENTS.md"
 }

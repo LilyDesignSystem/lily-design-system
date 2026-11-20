@@ -112,6 +112,10 @@ The consumer provides all CSS styling. The component renders with a `.slider-but
 - `slider` — a draggable control for selecting a value along a track
 - `submit-input` — a button input that submits a form <input type="submit">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN button element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button)

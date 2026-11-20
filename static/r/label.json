@@ -37,5 +37,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Label.razor"
   },
   "docs": "https://lilydesignsystem.com/components/label/",
+  "markdown": "https://lilydesignsystem.com/components/label.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/label/AGENTS.md"
 }

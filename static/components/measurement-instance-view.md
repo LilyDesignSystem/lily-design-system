@@ -92,6 +92,10 @@ MeasurementInstanceView is part of the measurement component family. It is the r
 
 - `measurement-instance-input` — an input for entering a measurement value and unit
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN div element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div)

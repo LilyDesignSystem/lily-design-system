@@ -5,7 +5,8 @@
 - Component: five-star-rating-view
 - PascalCase: FiveStarRatingView
 - Description: a read-only display of a five-star rating
-- HTML tag: <div>
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
+- HTML tag: <span>
 - CSS class: .five-star-rating-view
 - Interactive: no
 
@@ -44,6 +45,10 @@
 - [ ] Has role="img"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

@@ -2,19 +2,21 @@
 
 ThemeView is a headless component that displays the current theme name as inline text. It renders the theme value in a `<span>` element with an accessible label, making the current theme selection readable by screen readers.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This component is commonly paired with ThemeSelect in an Input/View pattern. While ThemeSelect allows the user to select a theme, ThemeView displays the currently active theme. It is useful in settings panels, status bars, or anywhere the current theme needs to be communicated visually and programmatically.
 
 ## Implementation Notes
 
 - Renders a `<span>` element containing the theme value as text content
-- Uses `aria-label` to provide an accessible name for the displayed value
+- No ARIA on the root: a plain `<span>` cannot be named. A visible caption names the value, or `label` renders as hidden text in a `.screen-reader-span`
 - Both `label` and `value` are required props
 - Spreads `restProps` onto the span for consumer customization
 - pattern: standard props destructuring with typed props
 
 ## Props
 
-- `label`: string (required) -- accessible name for the display element via `aria-label`
+- `label`: string (optional) — hidden text naming the value, in a `.screen-reader-span`. Leave it out when a visible caption names the value
 - `value`: string (required) -- the current theme name to display as text content
 - `...restProps`: unknown -- additional attributes spread onto the `<span>` element
 
@@ -67,8 +69,6 @@ None -- this component is a passive display element with no interactive behavior
 
 ## ARIA
 
-- `aria-label={label}` -- provides an accessible name describing what the displayed value represents
-
 ## When to Use
 
 - Use to display the current theme in read-only format in settings summaries and status bars.
@@ -92,7 +92,7 @@ The consumer provides all CSS styling. The component renders with a `.theme-view
 ## Testing
 
 - Verify the component renders a `<div>` element with class `theme-view`
-- Verify aria-label={label}` -- provides an accessible name describing what the displayed value represents
+- Verify `label` renders as hidden text, and that the root has no `aria-label`
 - Verify pass-through attributes are applied
 
 ## Advice
@@ -107,6 +107,10 @@ ThemeView is the read-only display counterpart to ThemeSelect. Use ThemeView to 
 ## Related components
 
 - `theme-select` — a select dropdown for choosing a theme
+
+## Known limitations
+
+None known.
 
 ## References
 

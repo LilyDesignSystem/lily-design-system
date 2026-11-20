@@ -95,6 +95,10 @@ The consumer provides all CSS styling. The component renders with a `.theme-prov
 - `theme-select` — a select dropdown for choosing a theme
 - `theme-view` — a read-only display of the current theme
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [Reuters Graphics Theme component](https://github.com/reuters-graphics/graphics-components)

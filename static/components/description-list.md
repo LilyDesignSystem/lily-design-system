@@ -64,6 +64,10 @@ The component renders with `.description-list` as the root class. No default sty
 - `description-list-item` — child term/description pair
 - `summary-list` — change-link summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN dl element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dl)

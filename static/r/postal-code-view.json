@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/PostalCodeView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/postal-code-view/",
+  "markdown": "https://lilydesignsystem.com/components/postal-code-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/postal-code-view/AGENTS.md"
 }

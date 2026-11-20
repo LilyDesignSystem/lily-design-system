@@ -124,6 +124,10 @@ EditableForm composes with Editable and form input components. EditableForm prov
 - `editable` — an inline-editable text element that toggles between view and edit modes
 - `form` — a form element for collecting and submitting user data
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Form Role: https://www.w3.org/WAI/ARIA/apd/roles/form/

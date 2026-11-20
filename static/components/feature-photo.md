@@ -111,6 +111,10 @@ The consumer provides all CSS styling. The component renders with a `.feature-ph
 - `feature-card` — a large content card with a prominent image positioned alongside or above the text
 - `hero` — a large box or image with a title and description
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Reuters Graphics FeaturePhoto component

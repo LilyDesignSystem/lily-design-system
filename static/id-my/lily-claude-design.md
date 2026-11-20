@@ -2,7 +2,7 @@
 
 Title: Lily + Claude Design — Lily Design System
 
-Description: 
+Description:
 
 # Lily + Claude Design
 

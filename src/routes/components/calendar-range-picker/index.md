@@ -2,6 +2,8 @@
 
 A calendar range picker is a component that allows users to select a contiguous range of dates by interacting with a visual calendar grid. Commonly used in booking systems, travel planners, analytics dashboards, and reporting tools, the calendar range picker lets users define a start date and an end date by clicking or tapping on calendar cells.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component renders a `<div>` with `role="group"` and an accessible label, providing a container for rich calendar-based date range selection. The consumer provides the calendar grid content, selection logic, and visual feedback as children.
 
 ## Implementation Notes
@@ -100,6 +102,10 @@ The consumer provides all CSS styling. The component renders with a `.calendar-r
 - `date-range` — paired start and end date inputs
 - `date-field` — a structured field for entering date components
 - `calendar-table` — a calendar table interactive grid for managing dates, days, etc. <table>
+
+## Known limitations
+
+None known.
 
 ## References
 

@@ -90,6 +90,10 @@ The graphic is wrapped in `<div class="choropleth-chart-graphic" role="img" aria
 - `heatmap-chart`
 - `graphic-block`
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN figure element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figure)

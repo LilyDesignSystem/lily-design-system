@@ -2,6 +2,8 @@
 
 A caption component provides supplementary text or explanations alongside images, videos, charts, or other media within an interface. It uses the semantic `<figcaption>` HTML element, which provides an implicit association with a parent `<figure>` element. Captions are commonly used in galleries, product pages, data visualizations, and educational content to clarify or add context to visual elements.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This headless component lets consumers control all visual presentation while ensuring correct semantic structure and accessibility for captioned media.
 
 ## Implementation Notes
@@ -105,6 +107,10 @@ The consumer provides all CSS styling. The component renders with a `.caption` c
 ## Related components
 
 - `figure` — a self-contained figure with optional caption
+
+## Known limitations
+
+None known.
 
 ## References
 

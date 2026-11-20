@@ -2,6 +2,8 @@
 
 A submit input is a UI/UX component that provides a form submission button using the native HTML `<input type="submit">` element. When clicked within a form, it triggers the form's submit event. The component supports custom button text through the value prop and can be disabled to prevent premature submission.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 Submit inputs provide a simple, semantic way to add form submission capability that works with the browser's built-in form handling. They are the standard mechanism for triggering form validation and submission in HTML forms.
 
 ## Implementation Notes
@@ -105,6 +107,10 @@ The consumer provides all CSS styling. The component renders with a `.submit-inp
 - `button-input` — an input element of type button for form actions <input type="button">
 - `button` — a generic clickable button element
 - `form` — a form element for collecting and submitting user data
+
+## Known limitations
+
+None known.
 
 ## References
 

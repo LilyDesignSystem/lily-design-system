@@ -41,5 +41,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/GanttTableTD.razor"
   },
   "docs": "https://lilydesignsystem.com/components/gantt-table-td/",
+  "markdown": "https://lilydesignsystem.com/components/gantt-table-td.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/gantt-table-td/AGENTS.md"
 }

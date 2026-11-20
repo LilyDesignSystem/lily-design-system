@@ -89,6 +89,10 @@ A national identifier is personal data, and often a key to other records.
 - `nederland-paspoort-nummer-view` — a read-only display of Netherlands's Paspoort Nummer
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/Dutch_passport

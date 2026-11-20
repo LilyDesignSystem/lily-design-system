@@ -43,5 +43,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ScatterChart.razor"
   },
   "docs": "https://lilydesignsystem.com/components/scatter-chart/",
+  "markdown": "https://lilydesignsystem.com/components/scatter-chart.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/scatter-chart/AGENTS.md"
 }

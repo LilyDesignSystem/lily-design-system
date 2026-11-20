@@ -2,6 +2,8 @@
 
 FranceNumeroDIdentificationAuRepertoireInput is a headless input for entering a France numéro d'identification au répertoire (NIR), the unique national healthcare identifier. It renders as `<input type="text">` with pattern validation, numeric keyboard hint, and autocomplete disabled to protect sensitive health data. It is the editable companion to FranceNumeroDIdentificationAuRepertoireView.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 The NIR is a 15-digit number printed on the Carte Vitale. The display format is `X XX XX XX XXX XXX XX` (sex, year, month, department, commune, order, control key).
 
 ## Implementation Notes
@@ -78,12 +80,28 @@ The consumer provides all CSS styling. The component renders with a `.france-num
 
 ## Domain Knowledge
 
-The French NIR (Numéro d'Inscription au Répertoire) is structured as 15 digits: position 1 is sex (1=male, 2=female), positions 2-3 are birth year, 4-5 birth month, 6-7 department code, 8-10 commune INSEE code, 11-13 order number, 14-15 control key (checksum 01-97). For people born abroad, the department code is 99 and the commune code is replaced by a 3-digit country code. Temporary numbers begin with 7 (male) or 8 (female). The number is printed on the Carte Vitale and used for all medical reimbursements.
+Thirteen-digit "meaningful" code plus a two-digit check key, managed by INSEE in the Répertoire National d'Identification des Personnes Physiques (RNIPP). It encodes sex (1 male, 2 female), year and month of birth, INSEE département and commune of birth, and a serial number; commonly called the French social security number. The two-digit check key is computed as 97 minus the 13-digit number modulo 97 (Corsican département codes 2A/2B are substituted with 19/18 first) — a Modulo-97 scheme chosen because 97 is the largest prime below 100, which most reliably catches single-digit and transposition errors.
+
+**Where to find it:** Carte Vitale health insurance card, payslips, tax forms, the Ameli health portal, France Connect, and pension correspondence.
+
+## Security and privacy
+
+A national identifier is personal data, and often a key to other records.
+
+- The input renders `autocomplete="off"`, so the browser neither saves nor offers the value, and `spellcheck="false"`, so an enhanced spellchecker does not send it to a cloud service. `bin/check-identifier-inputs` keeps both in all nine catalogs.
+- Do not log the value, put it in a URL or query string, or send it to analytics or an error tracker; mask it there if it must appear.
+- The component stores nothing. Do not keep the value in `localStorage`, `sessionStorage` or a cookie; submit it in the body of a POST over HTTPS.
+- A format or checksum check proves the number is well formed, not that it belongs to the person entering it.
+- The page decides who may see it: the input does not mask what is typed. Use the matching `-view` to show it back, masked as the service requires.
 
 ## Related components
 
 - `france-numero-d-identification-au-repertoire-view` — a read-only display of a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
 - `text-input` — a single-line text input field <input type="text">
+
+## Known limitations
+
+None known.
 
 ## References
 

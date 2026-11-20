@@ -39,6 +39,9 @@ importers:
         specifier: ^0.3.2
         version: 0.3.2(@lilydesignsystem/svelte-headless@0.9.0(svelte@5.57.3))(svelte@5.57.3)
     devDependencies:
+      '@axe-core/playwright':
+        specifier: ^4.14.0
+        version: 4.14.0(playwright-core@1.65.1)
       '@playwright/test':
         specifier: ^1.65.1
         version: 1.65.1
@@ -68,6 +71,12 @@ importers:
         version: 8.3.8
 
 packages:
+
+  '@axe-core/playwright@4.14.0':
+    resolution: {integrity: sha512-SGUhG5PIHd2eMdpgBF2PyQLOhX+qyDR2PT4cmoS4Qk2ak+jX/rrSvst9l0PGv5WTHolKpUMvVmoHpr4cZgf1RQ==}
+    engines: {node: '>=22.12.0'}
+    peerDependencies:
+      playwright-core: '>= 1.0.0'
 
   '@emnapi/core@2.0.0-beta.2':
     resolution: {integrity: sha512-MzCVoWtcg4Pm2B3je5mMvYMvj3MmBKw+fU7vbsJc9/iT8ip6/eYIHo/Dsm/mr+wsHB6SEyJDuxB09Yy6r/8+4A==}
@@ -388,6 +397,10 @@ packages:
     resolution: {integrity: sha512-COROpnaoap1E2F000S62r6A60uHZnmlvomhfyT2DlTcrY1OrBKn2UhH7qn5wTC9zMvD0AY7csdPSNwKP+7WiQw==}
     engines: {node: '>= 0.4'}
 
+  axe-core@4.14.1:
+    resolution: {integrity: sha512-FHfa+lmNjQZfJz1q8wKqIDwC6DExcHt/pkjNQb09a3NPjCKg2rhu5qb2S4r76ASyFNNtuFooJpZe37OgudVGtQ==}
+    engines: {node: '>=4'}
+
   axobject-query@4.1.0:
     resolution: {integrity: sha512-qIj0G9wZbMGNLjLmg1PT6v2mE9AH2zlnADJD/2tC6E00hgmhUOfEB6greHPAfLRSufHqROIUTkw6E+M3lH0PTQ==}
     engines: {node: '>= 0.4'}
@@ -674,6 +687,11 @@ packages:
 
 snapshots:
 
+  '@axe-core/playwright@4.14.0(playwright-core@1.65.1)':
+    dependencies:
+      axe-core: 4.14.1
+      playwright-core: 1.65.1
+
   '@emnapi/core@2.0.0-beta.2':
     dependencies:
       '@emnapi/wasi-threads': 2.2.0
@@ -917,6 +935,8 @@ snapshots:
   aria-query@5.3.1: {}
 
   aria-query@5.3.2: {}
+
+  axe-core@4.14.1: {}
 
   axobject-query@4.1.0: {}
 

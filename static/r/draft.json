@@ -40,5 +40,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Draft.razor"
   },
   "docs": "https://lilydesignsystem.com/components/draft/",
+  "markdown": "https://lilydesignsystem.com/components/draft.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/draft/AGENTS.md"
 }

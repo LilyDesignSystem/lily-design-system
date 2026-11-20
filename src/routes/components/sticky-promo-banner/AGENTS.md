@@ -5,6 +5,7 @@
 - Component: sticky-promo-banner
 - PascalCase: StickyPromoBanner
 - Description: a fixed-position promotional banner with a dismiss button
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <aside>
 - CSS class: .sticky-promo-banner
 - Interactive: yes
@@ -17,6 +18,7 @@
 - open defaults to true; when false, root renders with hidden attribute
 - position exposed as data-position ("top" | "bottom", default "bottom")
 - Inline style="position: fixed; left: 0; right: 0; top: 0;" (top) or bottom equivalent — the only allowed inline style for this component
+- Being fixed, it can obscure a focused control (WCAG 2.2 SC 2.4.11): the consumer sets `--lily-fixed-bar-block-start` / `--lily-fixed-bar-block-end` on the root to its height; the shared theme section turns them into `scroll-padding-block`
 - Dismiss <button type="button"> renders only when onDismiss / ondismiss is provided
 - All visible text comes from children for i18n
 
@@ -56,6 +58,10 @@
 - [ ] All user-facing strings come through props (i18n-ready)
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — only documented inline positioning styles, no <style> blocks
+
+## Known limitations
+
+None known.
 
 ## References
 

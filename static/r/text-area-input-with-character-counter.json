@@ -46,5 +46,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TextAreaInputWithCharacterCounter.razor"
   },
   "docs": "https://lilydesignsystem.com/components/text-area-input-with-character-counter/",
+  "markdown": "https://lilydesignsystem.com/components/text-area-input-with-character-counter.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/text-area-input-with-character-counter/AGENTS.md"
 }

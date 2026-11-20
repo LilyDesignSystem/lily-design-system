@@ -103,6 +103,10 @@ The consumer provides all CSS styling. The component renders with a `.footnote` 
 
 - `citation` — a citation acknowledges the relevance of a work of another to the topic of discussion
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA note role: https://www.w3.org/TR/wai-aria-1.2/#note

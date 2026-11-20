@@ -5,6 +5,7 @@
 - Component: button-group
 - PascalCase: ButtonGroup
 - Description: a wrapper that groups related buttons together
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .button-group
 - Interactive: no
@@ -41,6 +42,10 @@
 - [ ] Additional HTML attributes pass through to the root element
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

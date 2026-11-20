@@ -89,6 +89,10 @@ A national identifier is personal data, and often a key to other records.
 - `england-national-health-service-number-view` — a read-only display of England's National Health Service Number (NHS)
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/NHS_number

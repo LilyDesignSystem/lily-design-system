@@ -5,6 +5,7 @@
 - Component: menu
 - PascalCase: Menu
 - Description: a list of actions or options triggered by a button
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .menu
 - Interactive: yes
@@ -36,12 +37,28 @@
 - ArrowUp: Moves focus to the previous menu item, wrapping to the last item from the first.
 - Home: Moves focus to the first menu item.
 - End: Moves focus to the last menu item.
+- A typed letter: moves to the next item whose name starts with it; repeating it cycles
+- Enter, Space: activate the item, by clicking one that is not natively a button or link
+- On an item with a submenu: Enter, Space or ArrowRight opens it on its first item
+- In a submenu: ArrowLeft or Escape closes it and returns to its parent item
+
+### Submenus
+
+A submenu is the consumer's markup, read from the DOM: an item with `aria-haspopup="menu"`, `aria-expanded="false"` and `aria-controls` naming a `role="menu"` element with an accessible name, which starts `hidden`. Clicking the parent toggles it; clicking a leaf or moving focus out of the menu closes every submenu. The menu is one tab stop. All from `shared/menu-keys.ts`, held to the `menu-submenu` contract.
 
 ## Props
 
 - `label`: string (required) -- accessible name applied via `aria-label`.
 - `children`: slot (required) -- menu item elements to render inside the menu (should have `role="menuitem"` and `tabindex="-1"`).
 - `...restProps`: unknown -- additional attributes spread onto the container `<div>`.
+
+## Native platform
+
+- Decision: hand-rolled because no native element has APG menu semantics (<menu> is only a list) and arrow-key focus over menuitems must be scripted
+- Uses: none (div role="menu")
+- Could use: none
+- Notes: In-page, not an overlay; it is the content a popover would hold.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
 
 ## Acceptance Criteria
 
@@ -51,6 +68,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

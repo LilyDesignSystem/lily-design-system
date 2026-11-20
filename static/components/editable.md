@@ -114,6 +114,10 @@ The consumer provides all CSS styling. The component renders with a `.editable` 
 - `editable-form` — a form wrapper for inline editing of content
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/

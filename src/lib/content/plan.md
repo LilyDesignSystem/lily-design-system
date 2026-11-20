@@ -527,6 +527,22 @@ the user typed. Findings: [spec/lessons/retool](spec/lessons/retool/index.md). T
 
 Status (2026-11-17): researched; nothing built. T2 first.
 
+## Phase 39 — Worldwide keyboard navigation
+
+The 2026-11-19 review found a shared keyboard defect across listboxes and grids. A list of names starting with
+`𠮷` or `가` could be navigated with arrows, but typing the initial failed to advance. The shared fix uses Unicode
+characters for cycling. A Svelte component test presses the keys and checks which option the listbox exposes through
+`aria-activedescendant`. Menus, tree popups and wheel pickers now have the same Unicode initial coverage. The next
+exercise is to observe how a browser handles a Japanese or Korean input method.
+[Tasks and acceptance criteria](tasks.md#phase-39--worldwide-keyboard-navigation).
+
+Two existing evidence gaps have higher priority for a production rollout. The worldwide check reports 64 label packs,
+with 63 awaiting native-speaker review. Start with the languages and workflows of the intended deployment, including
+spoken labels for keyboard actions. All 40 Core candidates meet the project's automated keyboard and browser criteria;
+zero meet its screen-reader criterion. Record a representative workflow using the existing session script and matrix
+before making a conformance claim for it. [Label review](spec/label-packs/index.md) · [Core evidence](docs/core.md) ·
+[Screen-reader session](docs/screen-reader-session.md).
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.

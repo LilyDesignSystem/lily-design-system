@@ -5,6 +5,7 @@
 - Component: tree-list
 - PascalCase: TreeList
 - Description: a hierarchical list with nested expandable items
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <ol>
 - CSS class: .tree-list
 - Interactive: yes
@@ -30,10 +31,13 @@
 
 ## Keyboard
 
-- ArrowDown: Moves focus to the next tree item; wraps to the first item after the last
-- ArrowUp: Moves focus to the previous tree item; wraps to the last item before the first
+- ArrowDown: Moves focus to the next visible tree item (items inside a collapsed `aria-expanded="false"` item are skipped); wraps to the first item after the last
+- ArrowUp: Moves focus to the previous visible tree item; wraps to the last item before the first
 - Home: Moves focus to the first tree item
-- End: Moves focus to the last tree item
+- End: Moves focus to the last visible tree item
+- ArrowRight / ArrowLeft: handled by each [TreeListItem](../tree-list-item/) (expand, collapse, move to child or parent)
+- A typed letter: moves to the next visible item whose name starts with it; repeating it cycles
+- Enter, Space: activate the item with a click; which item is selected is the consumer's, from that click
 
 ## Props
 
@@ -51,6 +55,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

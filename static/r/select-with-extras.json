@@ -44,5 +44,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SelectWithExtras.razor"
   },
   "docs": "https://lilydesignsystem.com/components/select-with-extras/",
+  "markdown": "https://lilydesignsystem.com/components/select-with-extras.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/select-with-extras/AGENTS.md"
 }

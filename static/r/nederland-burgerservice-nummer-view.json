@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/NederlandBurgerserviceNummerView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/nederland-burgerservice-nummer-view/",
+  "markdown": "https://lilydesignsystem.com/components/nederland-burgerservice-nummer-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/nederland-burgerservice-nummer-view/AGENTS.md"
 }

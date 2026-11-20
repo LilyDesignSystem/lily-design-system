@@ -99,6 +99,10 @@ The consumer provides all CSS styling. The component renders with a `.emoji` cla
 - `character` — a single character display element
 - `icon` — a container for displaying an icon
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN span element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span)

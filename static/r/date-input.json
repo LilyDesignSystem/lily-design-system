@@ -44,5 +44,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/DateInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/date-input/",
+  "markdown": "https://lilydesignsystem.com/components/date-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/date-input/AGENTS.md"
 }

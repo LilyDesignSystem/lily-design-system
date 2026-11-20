@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/AsSaudiyahRaqmAlHuwiyahAlWataniyahView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/as-saudiyah-raqm-al-huwiyah-al-wataniyah-view/",
+  "markdown": "https://lilydesignsystem.com/components/as-saudiyah-raqm-al-huwiyah-al-wataniyah-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/as-saudiyah-raqm-al-huwiyah-al-wataniyah-view/AGENTS.md"
 }

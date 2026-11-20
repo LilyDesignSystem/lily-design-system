@@ -5,6 +5,7 @@
 - Component: action-bar
 - PascalCase: ActionBar
 - Description: a contextual action bar that appears when items are selected, showing the selection count and bulk action buttons
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div> with role="toolbar"
 - CSS class: .action-bar
 - Interactive: yes
@@ -27,9 +28,10 @@
 ## Keyboard
 
 - Tab: Move focus into and out of the toolbar
-- Arrow keys: (Consumer-provided) recommended roving tabindex among buttons
+- Arrow keys: Move between the controls and wrap, swapped in right-to-left; one tab stop that follows focus
+- Home, End: Jump to the first or last control
 - Enter / Space: Activate focused action button
-- Escape: (Consumer-provided) dismiss or clear selection
+- Escape: Presses the clear button, when there is one
 
 ## Props
 
@@ -51,6 +53,10 @@
 - [ ] onClearSelection fires when the clear button is activated
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

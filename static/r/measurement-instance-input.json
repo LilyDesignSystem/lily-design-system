@@ -37,5 +37,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MeasurementInstanceInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/measurement-instance-input/",
+  "markdown": "https://lilydesignsystem.com/components/measurement-instance-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/measurement-instance-input/AGENTS.md"
 }

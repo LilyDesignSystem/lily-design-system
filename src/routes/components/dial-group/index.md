@@ -2,6 +2,8 @@
 
 A dial group is a container for multiple dial components, providing semantic grouping for related rotary controls. Dial groups are used when several dials need to be presented and operated together, such as audio mixing controls or multi-parameter adjustments.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses a `<div>` element with `role="group"` and an `aria-label` to provide accessible grouping semantics for the contained dial components.
 
 ## Implementation Notes
@@ -113,6 +115,10 @@ DialGroup is a container for Dial components.
 
 - `dial` — a rotary dial control for selecting a value
 - `slider` — a draggable control for selecting a value along a track
+
+## Known limitations
+
+None known.
 
 ## References
 

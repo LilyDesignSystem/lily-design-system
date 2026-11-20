@@ -5,6 +5,7 @@
 - Component: input-group
 - PascalCase: InputGroup
 - Description: a group wrapping an input with prefix and suffix addons
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .input-group
 - Interactive: no (focusable controls inside slots manage their own behavior)
@@ -46,6 +47,10 @@
 - [ ] Focus order is prefix → input → suffix
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

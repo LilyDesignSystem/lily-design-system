@@ -37,5 +37,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/EireIndividualHealthIdentifierView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/eire-individual-health-identifier-view/",
+  "markdown": "https://lilydesignsystem.com/components/eire-individual-health-identifier-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/eire-individual-health-identifier-view/AGENTS.md"
 }

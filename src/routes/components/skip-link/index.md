@@ -2,6 +2,8 @@
 
 SkipLink is a headless navigation link that allows keyboard users to bypass repetitive content (such as navigation menus and headers) and jump directly to the main content area. It is one of the most important accessibility features for keyboard-only users and screen reader users.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 Use SkipLink as the very first focusable element on a page. When a keyboard user tabs into the page, the skip link receives focus first and provides a quick shortcut to the main content. Consumers typically style the link to be visually hidden until focused, then position it prominently on screen when activated. The component renders a simple `<a>` element with configurable href target and label text.
 
 ## Implementation Notes
@@ -17,7 +19,7 @@ Use SkipLink as the very first focusable element on a page. When a keyboard user
 ## Props
 
 - `href`: string (default: `"#content"`) -- the anchor target that the link navigates to
-- `label`: string (default: `"Skip to content"`) -- the visible link text
+- `label`: string (required) -- the visible link text
 - `...restProps`: unknown -- additional attributes spread onto the `<a>` element
 
 ## Usage
@@ -98,6 +100,14 @@ The consumer provides all CSS styling. The component renders with a `.skip-link`
 - `back-link` — a navigation link to return to a previous page
 - `go-to-top` — a link that returns users to the top of a long page
 - `navigation-menu` — a site-wide navigation menu with links
+
+## Known limitations
+
+### Disabled links and link look-alikes
+
+A link has no disabled state: the `disabled` attribute has no effect. Prefer not rendering an unavailable link. When the unavailable item must remain visible, set `aria-disabled="true"`, omit `href` (or guard every pointer and keyboard activation if the URL must remain), and use `tabindex="-1"` so it is not a misleading tab stop. Add `role="link"` when an anchor without `href` must retain link semantics.
+
+Use a native `<button>` for an action. Styling an anchor as a button does not give it button keyboard or disabled behavior.
 
 ## References
 

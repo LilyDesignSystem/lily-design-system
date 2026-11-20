@@ -134,6 +134,10 @@ The consumer provides all CSS styling. The component renders with a `.drawer` cl
 - `slide-out-drawer` — a drawer that slides out from the side of the page
 - `sidebar` — a side panel for navigation or supplementary content
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/

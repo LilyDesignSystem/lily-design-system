@@ -2,11 +2,13 @@
 
 An avatar circle is a component that displays a user's profile image or fallback initials within a circular frame, commonly used to represent a user identity in apps, websites, and social platforms. This visual element provides a quick, recognizable way for users to identify themselves or others, often appearing in headers, comments, chat interfaces, and account menus.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The component handles image loading gracefully: if an image source is provided, it renders an AvatarImage; if the image fails to load or no source is provided, it falls back to displaying the user's initials via AvatarText.
 
 ## Implementation Notes
 
-- Renders a `<div>` element with class `avatar`
+- Renders a `<span>` element with class `avatar`
 - Spreads `restProps` onto the root element for consumer customization
 
 ## Help
@@ -128,7 +130,7 @@ The consumer provides all CSS styling. The component renders with a `.avatar` cl
 
 ## Testing
 
-- Verify the component renders a `<div>` element with class `avatar`
+- Verify the component renders a `<span>` element with class `avatar`
 - Verify role="img"` -- on the outer container, conveying that the entire avatar is an image representation
 - Verify aria-label`-- set from the`alt` prop, providing the accessible name for the avatar
 - Verify aria-hidden="true"`-- on the inner initials`<span>`, preventing duplicate announcements since the outer element already has `aria-label
@@ -161,6 +163,10 @@ Avatar follows a parent/child composition pattern:
 - `avatar-image` — an avatar indicator inside image such as a user photo
 - `avatar-text` — an avatar indicator inner text such as a user name
 - `avatar-group` — a group of avatar components
+
+## Known limitations
+
+None known.
 
 ## References
 

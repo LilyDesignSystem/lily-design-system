@@ -2,6 +2,8 @@
 
 A slider is a UI/UX component that allows users to select a numeric value by dragging a handle along a track, typically used for adjusting settings like volume, brightness, price ranges, or timelines. It provides an intuitive and interactive way to input data within a defined minimum and maximum range.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This headless component wraps a native `<input type="range">` element with configurable min, max, and step values, providing two-way binding for reactive state management and an accessible label for screen readers.
 
 ## Implementation Notes
@@ -72,6 +74,8 @@ Price range filter:
 ## ARIA
 
 - `aria-label={label}` -- provides an accessible name for the slider
+- `aria-valuetext` (optional, via rest props) -- a human-readable value such as "50 percent" or "£20" when the bare number is not meaningful. The consumer formats it (with `Intl.NumberFormat`) and keeps it in step with the value; the component holds no locale.
+- `role="slider"`, `aria-valuemin`, `aria-valuemax` and `aria-valuenow` come from the native `<input type="range">`
 
 ## When to Use
 
@@ -90,13 +94,20 @@ Price range filter:
 
 This headless component wraps a native `<input type="range">` element with `aria-label`, configurable min/max/step values, and two-way binding. It provides full native slider keyboard navigation and accessibility. The consumer provides all visual styling for the track, thumb, and any value labels.
 
+## Reduced motion
+
+Reduced motion changes how content appears, never whether it does. Apply it in consumer CSS under `@media (prefers-reduced-motion: reduce)` and under the `motion-picker`'s `[data-motion="reduce"]` on the document root (the 63 reference themes already honour both for the preference hooks they style). For a slider:
+
+- **Suppress:** thumb and fill transitions, and any rubber-band or spring effect past the ends. The value updates at once.
+- **Keep:** everything native to `<input type="range">`: the keys, the announced value, and `aria-valuetext`. The effect is decoration; the control works without it.
+
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.slider` class for targeting. No default styles are included — this is a fully headless component.
 
 ## Testing
 
-- Verify the component renders a `<div>` element with class `slider`
+- Verify the component renders an `<input type="range">` element with class `slider`
 - Verify aria-label={label}` -- provides an accessible name for the slider
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied
@@ -112,6 +123,10 @@ The consumer provides all CSS styling. The component renders with a `.slider` cl
 - `slider-button` — a button with a slider that the user needs to slide to confirm
 - `dial` — a rotary dial control for selecting a value
 - `angle-slider-range-input` — a range input for selecting an angle in degrees
+
+## Known limitations
+
+None known.
 
 ## References
 

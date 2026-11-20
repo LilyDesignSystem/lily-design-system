@@ -142,6 +142,10 @@ The consumer provides all CSS styling. The component renders with a `.slide-out-
 - `drawer` — a panel that slides in from the edge of the screen
 - `sheet` — a panel that slides in from a screen edge as an overlay
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/

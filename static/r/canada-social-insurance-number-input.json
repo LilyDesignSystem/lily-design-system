@@ -38,5 +38,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/CanadaSocialInsuranceNumberInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/canada-social-insurance-number-input/",
+  "markdown": "https://lilydesignsystem.com/components/canada-social-insurance-number-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/canada-social-insurance-number-input/AGENTS.md"
 }

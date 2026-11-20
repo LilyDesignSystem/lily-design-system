@@ -130,6 +130,10 @@ The consumer provides all CSS styling. The component renders with a `.dropdown-m
 
 - `menu-item` — one item in a menu
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Menu Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menubutton/

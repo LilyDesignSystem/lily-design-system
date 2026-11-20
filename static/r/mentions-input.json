@@ -50,6 +50,7 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MentionsInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/mentions-input/",
+  "markdown": "https://lilydesignsystem.com/components/mentions-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/mentions-input/AGENTS.md",
   "nativePlatform": {
     "decision": "native",

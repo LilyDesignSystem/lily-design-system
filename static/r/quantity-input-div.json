@@ -47,5 +47,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/QuantityInputDiv.razor"
   },
   "docs": "https://lilydesignsystem.com/components/quantity-input-div/",
+  "markdown": "https://lilydesignsystem.com/components/quantity-input-div.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/quantity-input-div/AGENTS.md"
 }

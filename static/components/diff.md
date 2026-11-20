@@ -103,6 +103,10 @@ The consumer provides all CSS styling. The component renders with a `.diff` clas
 - `code-block` — a block of formatted code with optional line numbers and line highlighting
 - `table` — a table with rows and columns <table>
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Group Role: https://www.w3.org/TR/wai-aria-1.2/#group

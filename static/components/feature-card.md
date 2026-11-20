@@ -116,6 +116,10 @@ and `feature-card-description` classes as needed.
 - `hero` — a large box or image with a title and description
 - `call-to-action` — a prominent prompt encouraging user action
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN `<article>`: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article

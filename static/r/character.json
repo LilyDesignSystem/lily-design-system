@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Character.razor"
   },
   "docs": "https://lilydesignsystem.com/components/character/",
+  "markdown": "https://lilydesignsystem.com/components/character.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/character/AGENTS.md"
 }

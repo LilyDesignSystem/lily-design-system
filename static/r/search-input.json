@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SearchInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/search-input/",
+  "markdown": "https://lilydesignsystem.com/components/search-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/search-input/AGENTS.md"
 }

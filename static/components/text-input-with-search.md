@@ -122,6 +122,10 @@ The consumer provides all CSS styling. The component renders with a `.text-input
 - `combobox` — a text input combined with a dropdown list for filtering options
 - `autosuggest` — a text input that proposes matching options as users type
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN text input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text

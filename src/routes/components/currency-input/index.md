@@ -2,6 +2,8 @@
 
 CurrencyInput is a headless locale-aware text input for entering currency values with automatic formatting, currency symbols, thousand separators, and correct decimal places. It supports 40+ world currencies including USD, EUR, GBP, and JPY.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use CurrencyInput for payment forms, price fields, budget inputs, and any form field that accepts monetary values. The component uses `inputmode="decimal"` for appropriate mobile keyboards and formats the display value while maintaining a clean numeric value for form submission.
 
 ## Implementation Notes
@@ -12,7 +14,7 @@ Use CurrencyInput for payment forms, price fields, budget inputs, and any form f
 - Supports `min` and `max` value constraints
 - Supports `required` and `disabled` boolean states
 - Spreads `restProps` onto the input for consumer customization (e.g., `id`, `name`, `placeholder`)
-- The `currencyCode` prop accepts ISO 4217 currency codes (e.g., "USD", "EUR", "GBP", "JPY")
+- The `currencyCode` prop is **required** and has no default: the component does not pick a currency (see AGENTS/internationalization.md). It accepts ISO 4217 codes (e.g., "USD", "EUR", "GBP", "JPY")
 - Formatting is handled by the consumer or by using the Intl.NumberFormat API
 - pattern: `two-way binding` for the value prop
 
@@ -20,7 +22,7 @@ Use CurrencyInput for payment forms, price fields, budget inputs, and any form f
 
 - `label`: string (required) -- accessible name for the input via `aria-label`
 - `value`: number | undefined (default: `undefined`) -- current numeric value; bindable with two-way binding
-- `currencyCode`: string (default: `"USD"`) -- ISO 4217 currency code for formatting
+- `currencyCode`: string (required, no default) -- ISO 4217 currency code for formatting; the component never assumes a currency, so a missing code is a defect in the caller
 - `min`: number (optional) -- minimum allowed value
 - `max`: number (optional) -- maximum allowed value
 - `required`: boolean (default: `false`) -- whether the input is required
@@ -29,7 +31,7 @@ Use CurrencyInput for payment forms, price fields, budget inputs, and any form f
 
 ## Usage
 
-Basic USD price input:
+Price input (the consumer states the currency):
 
 ```html
 <CurrencyInput
@@ -130,6 +132,7 @@ The consumer provides all CSS styling. The component renders with a `.currency-i
 - Verify `inputmode="decimal"` is present for mobile keyboard support
 - Verify `disabled` and `required` attributes propagate correctly
 - Verify pass-through attributes are applied to the input
+- Verify `currencyCode` is required, reaches `data-currency-code`, and is never defaulted (omitting it renders no code, never `USD`)
 
 ## Advice
 
@@ -139,6 +142,10 @@ The consumer provides all CSS styling. The component renders with a `.currency-i
 ## Related components
 
 - `text-input` — a single-line text input field <input type="text">
+
+## Known limitations
+
+None known.
 
 ## References
 

@@ -112,6 +112,10 @@ The consumer provides all CSS styling. The component renders with a `.color-radi
 - `color-input` — a native colour field
 - `radio-group` — the general radio group
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radio/

@@ -2,6 +2,8 @@
 
 A badge is a small inline component for displaying dynamic status information, counts, or short labels in a compact, prominent format. Badges are commonly used to show unread message counts, notification indicators, or activity statuses attached to icons, buttons, or list items.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The component renders as a `<span>` with `role="status"`, creating an ARIA live region that announces content changes to screen readers. The `data-type` attribute exposes the semantic variant for consumer CSS styling, and an optional `aria-label` provides expanded context when the visible badge text alone is insufficient (e.g., "3" displayed visually but "3 unread messages" announced to screen readers).
 
 ## Implementation Notes
@@ -96,6 +98,10 @@ The consumer provides all CSS styling. The component renders with a `.badge` cla
 - `status-tag` — a tag showing the current status of a task
 - `tag` — a keyword label for categorizing content
 - `flair` — a decorative highlight or emphasis element
+
+## Known limitations
+
+None known.
 
 ## References
 

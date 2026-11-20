@@ -72,6 +72,10 @@ The component renders with `.section-nav` as the root class. No default styles a
 - `contents-nav` — in-page anchor navigation
 - `breadcrumb-nav` — hierarchical breadcrumb
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN nav element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav)

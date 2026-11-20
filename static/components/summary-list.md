@@ -88,6 +88,10 @@ SummaryList uses the List/ListItem composition pattern. Place SummaryListItem co
 
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN dl element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dl

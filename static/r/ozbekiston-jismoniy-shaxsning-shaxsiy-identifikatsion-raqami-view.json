@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/OzbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-view/",
+  "markdown": "https://lilydesignsystem.com/components/ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-view/AGENTS.md"
 }

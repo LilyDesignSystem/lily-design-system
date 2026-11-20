@@ -2,6 +2,8 @@
 
 TextInputWithSearch is a headless component that wraps a native `<input type="text">` and a `<button type="button">` inside a `<div role="search">`. The search button triggers a callback with the current input value, and pressing Enter in the input also triggers the search.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This component is useful for search bars, filter inputs, lookup fields, and any interface where users type a query and explicitly trigger a search action.
 
 ## Implementation Notes
@@ -17,8 +19,8 @@ This component is useful for search bars, filter inputs, lookup fields, and any 
 ## Props
 
 - `label`: string (required) -- accessible name for the search region via `aria-label`
-- `inputLabel`: string (default: "Search") -- accessible name for the text input via `aria-label`
-- `searchLabel`: string (default: "Search") -- accessible label and text for the search button
+- `inputLabel`: string (required) -- accessible name for the text input via `aria-label`
+- `searchLabel`: string (required) -- accessible label and text for the search button
 - `value`: string (default: "") -- bindable text input value
 - `placeholder`: string (optional) -- placeholder text for the input
 - `onsearch`: `(value: string) => void` (optional) -- callback when search is triggered
@@ -119,6 +121,10 @@ The consumer provides all CSS styling. The component renders with a `.text-input
 - `search-input` — an input for entering a search query <input type="search">
 - `combobox` — a text input combined with a dropdown list for filtering options
 - `autosuggest` — a text input that proposes matching options as users type
+
+## Known limitations
+
+None known.
 
 ## References
 

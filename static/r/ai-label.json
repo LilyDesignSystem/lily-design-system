@@ -37,5 +37,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AiLabel.razor"
   },
   "docs": "https://lilydesignsystem.com/components/ai-label/",
+  "markdown": "https://lilydesignsystem.com/components/ai-label.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/ai-label/AGENTS.md"
 }

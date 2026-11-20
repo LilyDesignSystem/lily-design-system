@@ -92,6 +92,10 @@ ContentsNav follows the Nav/List/ListItem composition pattern. Use ContentsNav a
 - `contents-list-item` — one contents list item
 - `contents-link` — one table of contents link
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Navigation Landmark: https://www.w3.org/WAI/ARIA/apd/practices/landmark-regions/

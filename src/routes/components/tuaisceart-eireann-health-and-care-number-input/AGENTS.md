@@ -5,6 +5,7 @@
 - Component: tuaisceart-eireann-health-and-care-number-input
 - PascalCase: TuaisceartEireannHealthAndCareNumberInput
 - Description: an input for entering aTuaisceart Eireann Health and Care (H&C) Number unique national healthcare identifier
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .tuaisceart-eireann-health-and-care-number-input
 - Interactive: yes
@@ -41,6 +42,10 @@
 - [ ] Has aria-label, pattern, inputmode="numeric", autocomplete="off"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS -- fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/CeskoRodneCisloInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/cesko-rodne-cislo-input/",
+  "markdown": "https://lilydesignsystem.com/components/cesko-rodne-cislo-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/cesko-rodne-cislo-input/AGENTS.md"
 }

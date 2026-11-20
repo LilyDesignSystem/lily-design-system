@@ -2,7 +2,9 @@
 
 A video-driven scrollytelling component with frame-by-frame scrubbing. The video playback position maps to scroll position, allowing the user to scrub through a video by scrolling while foreground step content overlays the video.
 
-This headless component uses a `<div>` element with an `aria-label` and a muted video element whose playback is driven entirely by scroll position.
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
+This headless component uses a `<div>` element with `role="group"` and an `aria-label` and a muted video element whose playback is driven entirely by scroll position.
 
 ## Implementation Notes
 
@@ -60,7 +62,7 @@ This headless component uses a `<div>` element with an `aria-label` and a muted 
 
 ## ARIA
 
-- `aria-label` on container describing the video story
+- `role="group"` with `aria-label` on container describing the video story
 - `role="img"` with `aria-roledescription="scrollable video"` on video area
 - `alt` text provides a text alternative for non-visual access
 
@@ -80,6 +82,13 @@ This headless component uses a `<div>` element with an `aria-label` and a muted 
 
 This component provides a `<div>` element with scroll-driven video playback and foreground step composition, with zero visual styling. The consumer is responsible for all CSS including video sizing, foreground overlay positioning, step spacing, and responsive layout.
 
+## Reduced motion
+
+Reduced motion changes how content appears, never whether it does. Apply it in consumer CSS under `@media (prefers-reduced-motion: reduce)` and under the `motion-picker`'s `[data-motion="reduce"]` on the document root (the 63 reference themes already honour both for the preference hooks they style). For a scroll-linked video:
+
+- **Suppress:** scrubbing and autoplay. Show the poster or a still frame for each step, and start no video until the reader asks.
+- **Keep:** the step text and the video's controls (play, pause), and a text description of what the video shows. A video that plays at all must be pausable (WCAG 2.2.2).
+
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.scroller-video` class for targeting. No default styles are included -- this is a fully headless component.
@@ -87,7 +96,7 @@ The consumer provides all CSS styling. The component renders with a `.scroller-v
 ## Testing
 
 - Verify the component renders a `<div>` element with class `scroller-video`
-- Verify `aria-label` is applied
+- Verify `role="group"` and `aria-label` are applied
 - Verify `alt` text is provided for non-visual access
 - Verify video is muted
 - Verify video playback position maps to scroll position
@@ -106,6 +115,10 @@ The consumer provides all CSS styling. The component renders with a `.scroller-v
 - `scroller` — see components.tsv
 - `scroller-base` — see components.tsv
 - `video-player` — see components.tsv
+
+## Known limitations
+
+None known.
 
 ## References
 

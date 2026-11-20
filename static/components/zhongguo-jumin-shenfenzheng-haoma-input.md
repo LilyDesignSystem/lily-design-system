@@ -90,6 +90,10 @@ A national identifier is personal data, and often a key to other records.
 - `zhongguo-jumin-shenfenzheng-haoma-view` — a read-only display of China's 居民身份证号码 (Jūmín Shēnfènzhèng Hàomǎ)
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [Resident Identity Card](https://en.wikipedia.org/wiki/Resident_Identity_Card)

@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/LietuvaPasasInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/lietuva-pasas-input/",
+  "markdown": "https://lilydesignsystem.com/components/lietuva-pasas-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/lietuva-pasas-input/AGENTS.md"
 }

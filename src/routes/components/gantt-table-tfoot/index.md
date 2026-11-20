@@ -2,6 +2,8 @@
 
 A Gantt table foot is the footer section of a Gantt chart grid, wrapping one or more rows that provide summary information such as milestone markers, totals, or project-level notes. It is designed to be used inside a GanttTable `<table>` structure.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 The component renders a `<tfoot>` element and passes through its children, which are expected to be GanttTableRow or `<tr>` elements.
 
 ## Implementation Notes
@@ -80,6 +82,10 @@ The consumer provides all CSS styling. The component renders with a `.gantt-tabl
 - `gantt-table-tr` — see components.tsv
 - `gantt-table-th` — a Gantt chart table interactive grid header cell for planning schedule visualization <th>
 - `gantt-table-td` — a Gantt chart table interactive grid data cell for planning schedule visualization <td>
+
+## Known limitations
+
+None known.
 
 ## References
 

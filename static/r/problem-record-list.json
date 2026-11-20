@@ -46,5 +46,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ProblemRecordList.razor"
   },
   "docs": "https://lilydesignsystem.com/components/problem-record-list/",
+  "markdown": "https://lilydesignsystem.com/components/problem-record-list.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/problem-record-list/AGENTS.md"
 }

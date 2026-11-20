@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/CeskoCestovniPasInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/cesko-cestovni-pas-input/",
+  "markdown": "https://lilydesignsystem.com/components/cesko-cestovni-pas-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/cesko-cestovni-pas-input/AGENTS.md"
 }

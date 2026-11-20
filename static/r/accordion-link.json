@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AccordionLink.razor"
   },
   "docs": "https://lilydesignsystem.com/components/accordion-link/",
+  "markdown": "https://lilydesignsystem.com/components/accordion-link.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/accordion-link/AGENTS.md"
 }

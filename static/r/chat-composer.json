@@ -44,5 +44,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ChatComposer.razor"
   },
   "docs": "https://lilydesignsystem.com/components/chat-composer/",
+  "markdown": "https://lilydesignsystem.com/components/chat-composer.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/chat-composer/AGENTS.md"
 }

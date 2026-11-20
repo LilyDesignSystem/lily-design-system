@@ -2,6 +2,8 @@
 
 SelectWithExtras is a headless enhanced select component that wraps a native `<select>` element with optional content areas before and after it. This allows consumers to place supplementary elements such as icons, flags, status indicators, or helper text alongside the select without breaking its accessibility.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use SelectWithExtras when you need a native select dropdown with additional visual context. For example, displaying a country flag before a country selector, showing a unit label after a measurement selector, or adding an icon before a category picker. The component preserves full native select behavior including keyboard navigation, form submission, and screen reader support.
 
 ## Implementation Notes
@@ -116,6 +118,10 @@ The consumer provides all CSS styling. The component renders with a `.select-wit
 - `select` — a dropdown select element for choosing one option
 - `combobox` — a text input combined with a dropdown list for filtering options
 - `cascader` — a multi-level dropdown for selecting a value from a hierarchy
+
+## Known limitations
+
+None known.
 
 ## References
 

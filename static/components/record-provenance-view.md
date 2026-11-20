@@ -86,6 +86,10 @@ This headless component ships zero CSS and decides nothing visual. The consumer 
 - `timeline-list` — a sequence of events, such as a record's versions
 - `record-list-item` — one record in a record list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - openEHR AUDIT_DETAILS, ATTESTATION, FEEDER_AUDIT: https://specifications.openehr.org/releases/RM/latest/common.html

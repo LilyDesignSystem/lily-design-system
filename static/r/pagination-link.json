@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/PaginationLink.razor"
   },
   "docs": "https://lilydesignsystem.com/components/pagination-link/",
+  "markdown": "https://lilydesignsystem.com/components/pagination-link.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/pagination-link/AGENTS.md"
 }

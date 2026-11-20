@@ -110,6 +110,10 @@ The consumer provides all CSS styling. The component renders with a `.progress` 
 - `progress-spinner` — an indeterminate spinning progress indicator
 - `meter` — a gauge displaying a scalar value within a known range
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN progress element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/progress

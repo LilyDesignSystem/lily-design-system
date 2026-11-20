@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TelLink.razor"
   },
   "docs": "https://lilydesignsystem.com/components/tel-link/",
+  "markdown": "https://lilydesignsystem.com/components/tel-link.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tel-link/AGENTS.md"
 }

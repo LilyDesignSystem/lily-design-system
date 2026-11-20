@@ -5,7 +5,8 @@
 - Component: checkbox-group
 - PascalCase: CheckboxGroup
 - Description: a group component that manages a collection of checkboxes with shared state
-- HTML tag: <div>
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
+- HTML tag: <fieldset>
 - CSS class: .checkbox-group
 - Interactive: yes
 
@@ -49,6 +50,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

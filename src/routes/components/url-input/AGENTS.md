@@ -5,6 +5,7 @@
 - Component: url-input
 - PascalCase: UrlInput
 - Description: an input for entering a URL <input type="url">
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .url-input
 - Interactive: no
@@ -39,6 +40,10 @@
 - [ ] Has aria-label attribute
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

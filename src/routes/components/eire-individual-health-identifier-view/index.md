@@ -2,16 +2,18 @@
 
 EireIndividualHealthIdentifierView is a read-only display of an Eire Individual Health Identifier (IHI), the unique national healthcare identifier used by the Health Service Executive (HSE) to match patients with their medical records. It renders the value as inline text inside a `<span>` with `aria-label` for accessibility. It is the display-only companion to EireIndividualHealthIdentifierInput.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
-- Renders a `<span>` with `aria-label`
+- No ARIA on the root: a plain `<span>` cannot be named. A visible caption names the value, or `label` renders as hidden text in a `.screen-reader-span`
 - Displays the value as text content
 - No formatting or validation; consumer provides the value pre-formatted
 - Companion to EireIndividualHealthIdentifierInput for the Input/View pattern
 
 ## Props
 
-- `label`: string (required) -- accessible label via `aria-label`
+- `label`: string (optional) — hidden text naming the value, in a `.screen-reader-span`. Leave it out when a visible caption names the value
 - `value`: string (default: "") -- the IHI string to display
 - `...restProps`: any -- additional HTML attributes spread onto the `<span>`
 
@@ -37,8 +39,6 @@ EireIndividualHealthIdentifierView is a read-only display of an Eire Individual 
 
 ## ARIA
 
-- `aria-label={label}` -- provides accessible name for the displayed identifier
-
 ## When to Use
 
 - Use to display an Eire Individual Health Identifier (IHI) in a formatted, read-only view.
@@ -62,12 +62,22 @@ The consumer provides all CSS styling. The component renders with a `.eire-indiv
 ## Testing
 
 - Verify renders a `<span>` with the correct class
-- Verify `aria-label` is set from the label prop
+- Verify `label` renders as hidden text, and that the root has no `aria-label`
 - Verify value is displayed as text content
 
 ## Domain Knowledge
 
-The Eire Individual Health Identifier (IHI) is a 10-digit clinical identifier used by healthcare providers to safely match patients with their medical records across different hospitals and GPs. Unlike the Eire Personal Public Service Number (PPSN), the IHI contains no personal information (like birth date) and is not used for social welfare or taxes. Most patients do not need to know their IHI to access care; it is primarily used behind the scenes by the Health Service Executive (HSE).
+Ten-digit lifelong identifier created under the 2014 Health Identifiers Act and operated by the Health Service Executive (HSE) to uniquely identify every person using a health or social care service in Eire. No check-digit or checksum algorithm is published for this identifier; correctness is confirmed by the issuing authority's own records, not by the format alone.
+
+**Where to find it:** HSE correspondence, hospital and GP appointment letters, the National Shared Care Record, and patient-facing portals.
+
+## Security and privacy
+
+A national identifier is personal data, and often a key to other records.
+
+- The view shows exactly the text it is given; it does not mask. Pass the masked form (for example the last four characters) wherever the full number is not needed, and render the full number only to someone entitled to it.
+- Do not log the value, put it in a URL or query string, or send it to analytics or an error tracker.
+- Text on screen can be read over a shoulder and is kept by screenshots and screen recordings; treat a page that shows it as sensitive.
 
 ## Related components
 
@@ -77,6 +87,10 @@ The Eire Individual Health Identifier (IHI) is a 10-digit clinical identifier us
 - `france-numero-d-identification-au-repertoire-input` — an input for entering a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
 - `france-numero-d-identification-au-repertoire-view` — a read-only display of a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
 - `tuaisceart-eireann-health-and-care-number-input` — an input for entering aTuaisceart Eireann Health and Care (H&C) Number unique national healthcare identifier
+
+## Known limitations
+
+None known.
 
 ## References
 

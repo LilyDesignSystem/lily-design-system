@@ -5,6 +5,7 @@
 - Component: body-text
 - PascalCase: BodyText
 - Description: a rendered text block within a content width container
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .body-text
 - Interactive: no
@@ -35,6 +36,10 @@
 - [ ] Renders children slot for text content
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS -- fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

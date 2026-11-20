@@ -98,6 +98,10 @@ This headless component ships zero CSS and decides nothing visual. The consumer 
 - `care-card` — a medical care instruction card with urgency levels
 - `medication-view` — a medicine with its strength, form, route and frequency
 
+## Known limitations
+
+None known.
+
 ## References
 
 - CDS Hooks 2.0, Card: https://cds-hooks.hl7.org/2.0/

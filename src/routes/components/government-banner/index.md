@@ -4,6 +4,8 @@ A government banner is an `<aside>` placed at the very top of a page that
 identifies the website as belonging to a government, with an expandable
 details panel typically explaining the `.gov` domain and HTTPS lock icon.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it on government and public-sector sites that need to clearly signal
 official status to visitors and provide trust context on demand.
 
@@ -113,6 +115,10 @@ Consumer CSS targets the `government-banner` class plus the inner
 - `medical-banner` — a prominent message bar across the top of a page, with medical information
 - `medical-banner-box` — a medical banner box that is inside a medical-banner component, using flexbox horizontal, with medical information
 - `medical-banner-box-for-advice` — a medical record banner box for advice information e.g. contacts, contexts, plans, etc.
+
+## Known limitations
+
+None known.
 
 ## References
 

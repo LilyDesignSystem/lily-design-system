@@ -5,15 +5,16 @@
 - Component: timer
 - PascalCase: Timer
 - Description: a countdown or elapsed time display
-- HTML tag: <span>
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
+- HTML tag: <time>
 - CSS class: .timer
 - Interactive: no
 
 ## Key Behaviors
 
-- Renders as `<time role="timer" aria-label={label} aria-live="polite">`
+- Renders as `<time role="timer" aria-label={label}>`
 - Children slot provides the formatted timer display text
-- `aria-live="polite"` ensures screen readers announce updates without interrupting
+- Not a live region (`role="timer"` is `aria-live="off"`): announce milestones ("one minute left") in a separate `role="status"` region, never every tick
 - Consumer manages timer logic (intervals, countdowns); this component only provides structure and accessibility
 - Optional `datetime` attribute can be passed via restProps for machine-readable duration (e.g. `datetime="PT5M30S"`)
 
@@ -21,7 +22,7 @@
 
 - `role="timer"` indicates countdown or elapsed time
 - `aria-label` from the label prop provides accessible name
-- `aria-live="polite"` for non-intrusive screen reader announcements of updates
+- No `aria-live`: the timer is read on demand, and milestones go to a separate status region
 
 ## Keyboard
 
@@ -35,12 +36,16 @@
 
 ## Acceptance Criteria
 
-- [ ] Renders <span> element with class="timer"
+- [ ] Renders <time> element with class="timer"
 - [ ] Has aria-label attribute
 - [ ] Has role="timer"
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

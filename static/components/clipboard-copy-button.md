@@ -179,6 +179,10 @@ The consumer provides all CSS styling. The component renders with a `.clipboard-
 - `icon-button` — a button containing only an icon with a required accessible label
 - `share-page` — a component for sharing the page on social media
 
+## Known limitations
+
+None known.
+
 ## References
 
 - ClipboardCopyButton API: https://developer.mozilla.org/en-US/docs/Web/API/ClipboardCopyButton/writeText

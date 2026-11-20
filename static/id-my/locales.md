@@ -2,7 +2,7 @@
 
 Title: Lily Design System&trade; — Bahasa
 
-Description: 
+Description:
 
 # Pilih bahasa
 

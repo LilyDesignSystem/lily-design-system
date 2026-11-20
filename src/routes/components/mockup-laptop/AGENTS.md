@@ -5,6 +5,7 @@
 - Component: mockup-laptop
 - PascalCase: MockupLaptop
 - Description: a box area that looks like a laptop computer
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .mockup-laptop
 - Interactive: no
@@ -37,6 +38,10 @@
 - [ ] Has aria-label attribute
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS -- fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

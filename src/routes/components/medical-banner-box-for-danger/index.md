@@ -2,6 +2,8 @@
 
 MedicalBannerBoxForDanger is a headless component for displaying critical medical record danger information such as reactions, warnings, alarms, and other danger-level clinical alerts. It renders a `<div>` with `role="region"`, `aria-label`, and `data-type="danger"` for consumer styling.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This component is useful in clinical interfaces, electronic health records, and patient summary screens where danger-level information must be prominently displayed and accessible.
 
 ## Implementation Notes
@@ -93,6 +95,10 @@ In clinical systems, danger-level information includes drug allergies, adverse r
 - `government-banner` — a banner identifying a website as belonging to a government, with an expandable details panel
 - `medical-banner` — a prominent message bar across the top of a page, with medical information
 - `medical-banner-box` — a medical banner box that is inside a medical-banner component, using flexbox horizontal, with medical information
+
+## Known limitations
+
+None known.
 
 ## References
 
