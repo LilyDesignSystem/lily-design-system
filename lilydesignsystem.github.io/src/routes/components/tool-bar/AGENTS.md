@@ -32,11 +32,13 @@
 
 ## Keyboard
 
-- ArrowRight: Move focus to next item (wraps to first)
-- ArrowLeft: Move focus to previous item (wraps to last)
+- ArrowRight: Move focus to the next enabled item (wraps to first); ArrowLeft in right-to-left
+- ArrowLeft: Move focus to the previous enabled item (wraps to last); ArrowRight in right-to-left
+- ArrowDown / ArrowUp: the same, instead of the left and right arrows, with `aria-orientation="vertical"`
 - Home: Move focus to first item
 - End: Move focus to last item
-- Tab: Enter/exit the toolbar
+- Tab: Enter/exit the toolbar; one item at a time is the tab stop, and it follows focus
+- A text field, select or textarea inside the toolbar keeps its own arrows, Home and End
 
 ## Props
 
