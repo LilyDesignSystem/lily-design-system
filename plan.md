@@ -543,6 +543,19 @@ zero meet its screen-reader criterion. Record a representative workflow using th
 before making a conformance claim for it. [Label review](spec/label-packs/index.md) · [Core evidence](docs/core.md) ·
 [Screen-reader session](docs/screen-reader-session.md).
 
+## Phase 40 — Lessons from commercial health record products (2026-11-20)
+
+A review of 24 screenshots of Epic, athenaOne, eClinicalWorks, AdvancedMD, McKesson Practice Choice and the Welltory consumer app.
+Most of what they show Lily already has or has planned from the earlier healthcare reviews. The new work is small: a change and an
+"as of" time on `statistic`, a native `<meter>` for a result's place in its range, a `formatRange` that cannot print a range
+backwards, option groups in `listbox`, the name a patient wants used and their pronouns in the banner, guide rules for icon-only
+columns, data freshness and derived scores, and a results inbox page. The screens also show what to avoid: colour-only flags,
+truncated icon-column headers, details shown only on hover, and unexplained scores. Declined: voice assistants, telehealth, maps,
+risk-adjustment scoring and any product look-alike theme. Findings: [spec/lessons/ehr-products](spec/lessons/ehr-products/index.md).
+Tasks: [tasks.md](tasks.md#phase-40--lessons-from-commercial-health-record-products-2026-11-20).
+
+Status (2026-11-20): researched; nothing built. T3 first.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.

@@ -4139,6 +4139,46 @@ Maintainer-directed, in this order.
       to `क`. Agree a matching policy with Hindi readers for these vowel signs. Verify the agreed behavior in filtering,
       highlighting and type-ahead, alongside the existing `cafe` / `Café` contract.
 
+## Phase 40 — Lessons from commercial health record products (2026-11-20)
+
+From [spec/lessons/ehr-products](spec/lessons/ehr-products/index.md): 24 screenshots of Epic, athenaOne, eClinicalWorks,
+AdvancedMD, McKesson Practice Choice and Welltory. Order: T3 (a shared function, no catalog work), then T1, T2 and T4, then the
+guide (T5, T6) and the examples (T7); T8 and T9 are investigations. New props go into all nine catalogs, Svelte first.
+
+- [ ] **P40-T1 A change and an "as of" on `statistic`.** Optional `change` (consumer text), `trend` (`up`, `down`, `flat`, as
+      `data-trend`) and `asOf` (a `<time datetime>` with consumer text); any arrow is `aria-hidden`.
+      Verify: tests in all nine catalogs that the comparison is text, `data-trend` follows `trend`, and no arrow is announced;
+      `bin/check-built-english` passes.
+- [ ] **P40-T2 A `<meter>` in `observation-view`.** Optional `low`, `high`, `min`, `max` and `optimum` render a native `<meter>`
+      part beside the text range; the flag stays in words.
+      Verify: tests in all nine catalogs that the meter's attributes follow the props and that no meter renders without them.
+- [ ] **P40-T3 `formatRange` in `shared/clinical-format.ts`.** `formatRange(low, high, unit, locale)` through
+      `Intl.NumberFormat.formatRange`; a low above the high throws a `RangeError`.
+      Verify: tests for order, two locales and the refusal; `bin/sync-shared-modules --check` and
+      `bin/mutation-test clinical-format` pass.
+- [ ] **P40-T4 Option groups in `listbox`.** Labelled `role="group"` groups of options, the APG grouped listbox; the arrows move
+      across groups and type-ahead searches every option.
+      Verify: key tests in all nine catalogs with two groups, including the move from the last option of one group to the
+      first of the next.
+- [ ] **P40-T5 Banner rules: the name to use and pronouns.** Optional, consumer-supplied and labelled; never inferred, and the
+      legal name stays for identification.
+      Verify: the rules are in `components/medical-banner/index.md` and the healthcare guide; `/patient-banner` shows both.
+- [ ] **P40-T6 Guide rules: icon-only columns, data freshness, derived scores.** Full-word headers and a legend for icon columns;
+      a fetched-at `<time>` and a Refresh button that never reorders rows under focus; every derived score says what it is
+      based on and when.
+      Verify: the rules are in the healthcare guide with an example each; `bin/check-links` passes.
+- [ ] **P40-T7 `/results-inbox` and a vital-signs trend table.** The inbox: select-all, bulk actions named for what they do, a
+      review state per row in words, priority as text. The trend table: added to the existing `/patient-dashboard` (P30-T5), last,
+      lowest and highest per sign with a `sparkline` whose summary gives the same numbers.
+      Verify: both in the SvelteKit app with e2e and axe tests in three browsers.
+- [ ] **P40-T8 Investigate resource columns in the day calendar.** P30-T6 found categories and free slots covered; it did not
+      look at several clinicians or rooms side by side. One column per resource, its header naming it, and each appointment's
+      type as text.
+      Verify: the findings and a decision are recorded in the topic.
+- [ ] **P40-T9 Investigate a summary line in the `filter` helper.** "2 filters" and "Clear all" in consumer words; saving a
+      view stays the application's.
+      Verify: the findings and a decision are recorded in the topic.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.

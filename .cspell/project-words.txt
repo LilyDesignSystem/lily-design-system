@@ -3,6 +3,7 @@
 # then re-categorise by hand -- do not bulk-append unreviewed output.
 # Coined or technical English (not in general dictionaries)
 centiles
+telehealth
 nonmatch
 baselined
 bootcamp
@@ -89,6 +90,7 @@ DSFR
 ELFA
 SGDS
 # Tools, platforms, and brand names
+Welltory
 govbr
 govtechsg
 cdssnc

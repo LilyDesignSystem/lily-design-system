@@ -185,6 +185,7 @@ wrong-patient safeguards, the patient banner, results, medicines, dates and time
 ## Related topics
 
 - [dhcw-design-system-lessons](../lessons/dhcw-design-system/index.md) — the patient banner composition (item 3).
+- [lessons/ehr-products](../lessons/ehr-products/index.md) — commercial health record screens: statistic changes, range meters, icon columns, freshness.
 - [national-identifiers](../national-identifiers/index.md) — the identifier `-view` components the banner uses.
 - [accessibility](../accessibility/index.md) — live regions, colour, the screen-reader matrix.
 - [internationalization](../internationalization/index.md) — locale, clock and label rules.
