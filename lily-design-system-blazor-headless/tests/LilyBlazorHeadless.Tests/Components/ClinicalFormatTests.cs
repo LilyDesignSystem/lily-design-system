@@ -127,4 +127,27 @@ public class ClinicalFormatTests
         Assert.Null(ClinicalFormat.HtmlDuration("PT"));
         Assert.Null(ClinicalFormat.HtmlDuration("nonsense"));
     }
+
+    [Fact]
+    public void FormatRange_writes_low_to_high_with_the_unit_after_the_high_end()
+    {
+        Assert.Equal("3.5\u20135.5\u00A0mmol/L", ClinicalFormat.FormatRange(3.5m, 5.5m, "mmol/L", En));
+        Assert.Equal("3,5\u20135,5\u00A0mmol/L", ClinicalFormat.FormatRange(3.5m, 5.5m, "mmol/L", De));
+        Assert.Equal("1,000\u20132,500\u00A0units", ClinicalFormat.FormatRange(1000m, 2500m, "units", En));
+        Assert.Equal("1\u20132", ClinicalFormat.FormatRange(1m, 2m, "", En));
+    }
+
+    [Fact]
+    public void FormatRange_writes_equal_ends_as_one_number_and_spaces_the_dash_for_a_negative_end()
+    {
+        Assert.Equal("5\u00A0mg", ClinicalFormat.FormatRange(5m, 5m, "mg", En));
+        Assert.Equal("-2 \u2013 3\u00A0\u00B0C", ClinicalFormat.FormatRange(-2m, 3m, "\u00B0C", En));
+    }
+
+    [Fact]
+    public void FormatRange_refuses_a_range_given_backwards()
+    {
+        var error = Assert.Throws<ArgumentOutOfRangeException>(() => ClinicalFormat.FormatRange(2.12m, 1.82m, "", En));
+        Assert.Contains("above high", error.Message);
+    }
 }

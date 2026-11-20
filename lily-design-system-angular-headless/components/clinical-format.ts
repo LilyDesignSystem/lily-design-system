@@ -9,6 +9,7 @@
  *   formatQuantity(5000, "units", "en") "5,000 units" (grouping, so 5000 and 500 are not confused)
  *   formatQuantity(5, "mmol/L", "en-GB", "<") "<5 mmol/L" (FHIR Quantity.comparator: <, <=, >=, >; never dropped)
  *   formatQuantity(3, "kg", "en-GB", "~")      "≈3 kg"     (openEHR magnitude_status "~": approximate, never read as exact)
+ *   formatRange(3.5, 5.5, "mmol/L", "en-GB")   "3.5–5.5 mmol/L" (low to high, always; a range given backwards is refused)
  *
  * The number and unit are joined by a no-break space (U+00A0), so a line break can never separate a dose from its unit.
  * The rules are those of ISMP's guidelines for electronic communication of medication information, which the Australian and
@@ -85,6 +86,21 @@ export function formatQuantity(
         useGrouping: true,
     }).format(value);
     const written = comparator ? `${COMPARATOR_SIGN[comparator]}${number}` : number;
+    return unit ? `${written}${NO_BREAK_SPACE}${unit}` : written;
+}
+
+/**
+ * A range of a quantity, low to high, with its unit after the high end: "3.5–5.5 mmol/L". The locale writes the dash and its
+ * spacing (Intl.NumberFormat.formatRange). A low above the high is refused rather than written, so a range can never read
+ * backwards ("2.12–1.82"). Equal ends are one number: Intl would write "~5", which reads as approximate.
+ */
+export function formatRange(low: number, high: number, unit: string, locale: string): string {
+    if (!Number.isFinite(low) || !Number.isFinite(high))
+        throw new RangeError("formatRange: low and high must be finite numbers");
+    if (!locale) throw new RangeError("formatRange: a locale is required");
+    if (low > high) throw new RangeError(`formatRange: low ${low} is above high ${high}`);
+    const format = new Intl.NumberFormat(locale, { maximumFractionDigits: 20, useGrouping: true });
+    const written = low === high ? format.format(low) : format.formatRange(low, high);
     return unit ? `${written}${NO_BREAK_SPACE}${unit}` : written;
 }
 

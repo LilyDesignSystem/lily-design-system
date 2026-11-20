@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## `formatRange` for clinical ranges (2026-11-20, P40-T3, unreleased)
+
+- `formatRange(low, high, unit, locale)` in `shared/clinical-format.ts`, copied into every package that has
+  `formatQuantity`, and `ClinicalFormat.FormatRange` in Blazor: low to high with the unit after ("3.5–5.5 mmol/L"), a range
+  given backwards refused rather than written, and equal ends as one number.
+
 ## Svelte `range-fieldset` resets with its form (2026-11-20, P39-T8, unreleased)
 
 - After a form reset the Svelte `range-fieldset` went back to the moved values on the next task, so the thumbs and the

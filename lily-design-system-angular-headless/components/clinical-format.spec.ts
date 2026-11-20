@@ -5,6 +5,7 @@ import {
     formatPartialDate,
     formatProportion,
     formatQuantity,
+    formatRange,
     htmlDuration,
     partialDatePrecision,
     toIsoDuration,
@@ -67,6 +68,42 @@ describe("formatQuantity", () => {
         expect(() => formatQuantity(5, "mg", "")).toThrow(RangeError);
         expect(() => formatQuantity(Number.NaN, "mg", "en-GB")).toThrow(RangeError);
         expect(() => formatQuantity(Number.POSITIVE_INFINITY, "mg", "en-GB")).toThrow(RangeError);
+    });
+});
+
+describe("formatRange", () => {
+    test("writes low to high with the unit after the high end", () => {
+        expect(formatRange(3.5, 5.5, "mmol/L", "en-GB")).toBe(`3.5–5.5${NBSP}mmol/L`);
+    });
+    test("follows the locale's marks, and groups thousands", () => {
+        expect(formatRange(3.5, 5.5, "mmol/L", "de-DE")).toBe(`3,5–5,5${NBSP}mmol/L`);
+        expect(formatRange(1000, 2500, "units", "en")).toBe(`1,000–2,500${NBSP}units`);
+    });
+    test("writes equal ends as one number, never as approximate", () => {
+        expect(formatRange(5, 5, "mg", "en-GB")).toBe(`5${NBSP}mg`);
+    });
+    test("keeps the dash's spacing when an end is negative", () => {
+        expect(formatRange(-2, 3, "°C", "en-GB")).toBe(`-2 – 3${NBSP}°C`);
+    });
+    test("writes the range alone without a unit", () => {
+        expect(formatRange(1, 2, "", "en-GB")).toBe("1–2");
+    });
+    test("refuses a range given backwards, so it can never read high to low", () => {
+        expect(() => formatRange(2.12, 1.82, "", "en-GB")).toThrow(
+            "formatRange: low 2.12 is above high 1.82",
+        );
+    });
+    test("keeps every digit the caller gave", () => {
+        expect(formatRange(0.12345, 0.98765, "", "en-GB")).toBe("0.12345–0.98765");
+    });
+    test("refuses a missing locale or a non-finite end, saying which", () => {
+        expect(() => formatRange(1, 2, "mg", "")).toThrow(/formatRange: a locale is required/);
+        expect(() => formatRange(Number.NaN, 2, "mg", "en")).toThrow(
+            /formatRange: low and high must be finite/,
+        );
+        expect(() => formatRange(1, Number.POSITIVE_INFINITY, "mg", "en")).toThrow(
+            /must be finite/,
+        );
     });
 });
 

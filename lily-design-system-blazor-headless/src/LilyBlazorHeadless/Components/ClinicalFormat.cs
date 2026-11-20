@@ -46,6 +46,22 @@ public static class ClinicalFormat
         return string.IsNullOrEmpty(unit) ? written : $"{written}{NoBreakSpace}{unit}";
     }
 
+    /// <summary>
+    /// A range of a quantity, low to high, with its unit after the high end: "3.5–5.5 mmol/L". A low above the high is refused, so a
+    /// range can never read backwards. Equal ends are one number. .NET has no CLDR range patterns, so this writes the common one
+    /// that Intl.NumberFormat.formatRange gives: an en dash, spaced when an end is negative ("-2 – 3").
+    /// </summary>
+    public static string FormatRange(decimal low, decimal high, string unit, CultureInfo culture)
+    {
+        ArgumentNullException.ThrowIfNull(culture);
+        if (low > high) throw new ArgumentOutOfRangeException(nameof(low), low, $"low {low} is above high {high}");
+        var lowText = FormatQuantity(low, "", culture);
+        var written = low == high
+            ? lowText
+            : lowText + (low < 0 || high < 0 ? " \u2013 " : "\u2013") + FormatQuantity(high, "", culture);
+        return string.IsNullOrEmpty(unit) ? written : $"{written}{NoBreakSpace}{unit}";
+    }
+
     /// <summary>The age at <paramref name="at"/> of someone born at <paramref name="birth"/>, in the CUI unit bands.</summary>
     public static IReadOnlyList<AgePart> AgeParts(DateTimeOffset birth, DateTimeOffset at)
     {

@@ -4152,10 +4152,12 @@ guide (T5, T6) and the examples (T7); T8 and T9 are investigations. New props go
 - [ ] **P40-T2 A `<meter>` in `observation-view`.** Optional `low`, `high`, `min`, `max` and `optimum` render a native `<meter>`
       part beside the text range; the flag stays in words.
       Verify: tests in all nine catalogs that the meter's attributes follow the props and that no meter renders without them.
-- [ ] **P40-T3 `formatRange` in `shared/clinical-format.ts`.** `formatRange(low, high, unit, locale)` through
+- [x] **P40-T3 `formatRange` in `shared/clinical-format.ts`.** `formatRange(low, high, unit, locale)` through
       `Intl.NumberFormat.formatRange`; a low above the high throws a `RangeError`.
       Verify: tests for order, two locales and the refusal; `bin/sync-shared-modules --check` and
-      `bin/mutation-test clinical-format` pass.
+      `bin/mutation-test clinical-format` pass. _(2026-11-20: done, with the C# twin `ClinicalFormat.FormatRange` in Blazor. Equal ends
+      are one number, since Intl writes "~5", which reads as approximate. .NET has no CLDR range patterns, so the C# version
+      writes the common one: an en dash, spaced when an end is negative. Mutation score 83.8 to 84.6, baseline raised.)_
 - [ ] **P40-T4 Option groups in `listbox`.** Labelled `role="group"` groups of options, the APG grouped listbox; the arrows move
       across groups and type-ahead searches every option.
       Verify: key tests in all nine catalogs with two groups, including the move from the last option of one group to the
