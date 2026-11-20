@@ -165,8 +165,9 @@ other catalogs run the same tests in their own framework (each catalog's suite c
 [spec/testing](../spec/testing/index.md)); coverage for them is not measured yet.
 
 The shared suite exercises \`pattern-tester.ts\` directly through the same framework-neutral handlers that catalogs
-ship. It also tests \`cell-types.ts\` directly, including links, civil dates and times, zones, aggregates and formulas.
-Its Vitest configuration enforces at least 95 percent line and function coverage whenever coverage is measured.
+ship, and hands each of its runners broken and sabotaged widgets to check it rejects them. It also tests
+\`cell-types.ts\` directly, including links, civil dates and times, zones, aggregates and formulas.
+Its Vitest configuration enforces at least 97 percent line and function coverage whenever coverage is measured.
 
 Coverage says which lines a test ran, not that the test checked them: the mutation tests (\`bin/mutation-test\`) and
 the property tests (\`shared/*.property.test.ts\`) are the measure of how well \`shared/\` is checked.

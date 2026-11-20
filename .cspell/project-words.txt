@@ -3,6 +3,7 @@
 # then re-categorise by hand -- do not bulk-append unreviewed output.
 # Coined or technical English (not in general dictionaries)
 centiles
+nonmatch
 baselined
 bootcamp
 bootstrapper
@@ -155,6 +156,8 @@ srgb
 vuejs
 recentchange
 valuechange
+interestfor
+offcanvas
 # Lily-specific naming
 # Reference theme names (themes/*.css)
 cmyk

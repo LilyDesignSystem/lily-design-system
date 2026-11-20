@@ -4074,6 +4074,13 @@ Maintainer-directed, in this order.
       the pattern tester through production menu, tree, command, grid and widget handlers, picker fixtures, native
       dialog behavior and wheel scrolling. `pnpm coverage` enforces at least 95 percent of lines and functions.
       Verify: 949 shared tests pass; line coverage is 95.43 percent and function coverage is 95.25 percent.
+- [x] **P39-T6 Shared test coverage at 97 percent** (2026-11-20). `menu-keys.ts` gains its own test (keys, menubar
+      and menu submenus, right-to-left, popover submenus, clicks, focus leaving, tree keys): 100 percent of its lines,
+      from 82.6. `pattern-tester-failures.test.ts` hands every runner broken markup and sabotaged widgets (a key
+      swallowed, an attribute stripped, focus lost) and checks each rejects with a message naming why, so a green
+      contract is shown to mean something. The gate rises to 97 percent of lines and functions. Verify: `cd shared &&
+    pnpm coverage` passes 1,044 tests at 97.6 percent of lines and 97.5 percent of functions; restoring an RTL-blind or
+      non-moving menubar in `menu-keys.ts` fails two tests.
 - [ ] **P39-T3 Observe composition through a browser and input method.** Use a Japanese or Korean IME in a searchable
       picker. Record the browser, OS, input method, active option and submitted value while composing and after commit.
       Verify that confirming a candidate leaves the picker open for selection and that selecting an option fires one change.
