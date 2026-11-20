@@ -87,11 +87,13 @@
     </ul>
     <h3>Keyboard</h3>
     <ul>
-      <li>ArrowRight: Move focus to next item (wraps to first)</li>
-      <li>ArrowLeft: Move focus to previous item (wraps to last)</li>
+      <li>ArrowRight: Move focus to the next enabled item (wraps to first); ArrowLeft in right-to-left</li>
+      <li>ArrowLeft: Move focus to the previous enabled item (wraps to last); ArrowRight in right-to-left</li>
+      <li>ArrowDown / ArrowUp: the same, instead of the left and right arrows, with <code>aria-orientation="vertical"</code></li>
       <li>Home: Move focus to first item</li>
       <li>End: Move focus to last item</li>
-      <li>Tab: Enter/exit the toolbar</li>
+      <li>Tab: Enter/exit the toolbar; one item at a time is the tab stop, and it follows focus</li>
+      <li>A text field, select or textarea inside the toolbar keeps its own arrows, Home and End</li>
     </ul>
     <h3>Props</h3>
     <ul>
