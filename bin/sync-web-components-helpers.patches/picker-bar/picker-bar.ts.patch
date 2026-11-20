@@ -1,6 +1,6 @@
---- /var/folders/zp/p2vtmfrj35b27yh4ns6h_6h40000gn/T/tmp.PoyRabah4h	2026-11-20 06:18:46.521398545 +0000
-+++ lily-design-system-web-components-picker-bar/picker-bar.ts	2026-11-20 06:18:38.596082092 +0000
-@@ -5,43 +5,65 @@
+--- generated/picker-bar.ts
++++ lily-design-system-web-components-picker-bar/picker-bar.ts
+@@ -5,37 +5,58 @@
   * the custom-element class but does NOT register it. The `index.ts`
   * barrel registers it on import.
   *
@@ -72,18 +72,9 @@
 -export type { ShareTarget, LinkItem };
 -
  /**
-  * All 63 Lily reference theme slugs (see `themes/` at the repo root),
-  * sorted alphabetically except the United Kingdom and United States
-  * government/public-sector themes, which sort last as one alphabetical
-- * group of their own. Mirrors `lily-theme-picker`'s own title-casing of each
-- * slug, so no `theme-labels` override is needed for these to read well.
-+ * group of their own. Mirrors `<lily-theme-picker>`'s own title-casing
-+ * of each slug, so no `theme-labels` override is needed for these to
-+ * read well.
-  */
- export const DEFAULT_THEMES: string[] = [
-     "abyss",
-@@ -111,9 +133,8 @@
+  * All 63 Lily reference theme slugs (see `themes/` at the repo root): the 36
+  * generic themes alphabetically, then the 27 themes that follow a company's
+@@ -137,9 +158,8 @@
 
  /**
   * The seven-step text-size scale. Each slug title-cases to exactly the
@@ -95,7 +86,7 @@
   */
  export const DEFAULT_SIZES: string[] = [
      "largest",
-@@ -125,7 +146,7 @@
+@@ -151,7 +171,7 @@
      "smallest",
  ];
 
@@ -104,7 +95,7 @@
  export type PickerBarLabels = {
      /**
       * Accessible name for the link picker's button and list. Needed only when `links` is
-@@ -157,6 +178,11 @@
+@@ -183,6 +203,11 @@
      share: string;
  };
 
@@ -116,7 +107,7 @@
  const DEFAULT_LABELS: PickerBarLabels = {
      search: "",
      searchInput: "",
-@@ -167,90 +193,74 @@
+@@ -193,90 +218,74 @@
      share: "",
  };
 
@@ -248,7 +239,7 @@
      get themesUrl(): string {
          return this.getAttribute("themes-url") ?? "";
      }
-@@ -262,13 +272,13 @@
+@@ -288,13 +297,13 @@
          return [...this.#themes];
      }
      set themes(v: string[]) {
@@ -265,7 +256,7 @@
      }
 
      get locales(): string[] {
-@@ -281,127 +291,168 @@
+@@ -307,127 +316,168 @@
              this.setAttribute("locales", csv);
              return;
          }
@@ -497,7 +488,7 @@
          const themesAttr = this.getAttribute("themes");
          if (themesAttr !== null) this.#themes = parseCsv(themesAttr);
          const localesAttr = this.getAttribute("locales");
-@@ -409,54 +460,57 @@
+@@ -435,54 +485,57 @@
          const sizesAttr = this.getAttribute("sizes");
          if (sizesAttr !== null) this.#sizes = parseCsv(sizesAttr);
 
@@ -578,7 +569,7 @@
          // Only when the app names it: a client-side app can leave search out (tasks.md P28-T7).
          let searchEl: SearchPicker | null = null;
          if (this.#labels.search) {
-@@ -481,24 +535,12 @@
+@@ -508,24 +561,12 @@
          Object.assign(localeEl, this.#localeProps);
          root.appendChild(localeEl);
 
@@ -606,7 +597,7 @@
          textSizeEl.defaultValue = "normal";
          Object.assign(textSizeEl, this.#textSizeProps);
          root.appendChild(textSizeEl);
-@@ -509,20 +551,15 @@
+@@ -536,20 +577,15 @@
          Object.assign(shareEl, this.#shareProps);
          root.appendChild(shareEl);
 

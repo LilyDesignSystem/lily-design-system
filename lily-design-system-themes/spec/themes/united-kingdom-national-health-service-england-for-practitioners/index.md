@@ -10,7 +10,7 @@ NHS England for clinicians: the same NHS Blue palette and yellow focus ring as t
 | Stylesheet | [`themes/united-kingdom-national-health-service-england-for-practitioners.css`](../../../../themes/united-kingdom-national-health-service-england-for-practitioners.css) |
 | Token source | [`themes/tokens/united-kingdom-national-health-service-england-for-practitioners.json`](../../../../themes/tokens/united-kingdom-national-health-service-england-for-practitioners.json) |
 | Colour scheme | `light` |
-| Group | UK and US government (listed last in `picker-bar`) |
+| Group | UK and US government (with the company and public-sector themes in `picker-bar`, by label) |
 | Primary | `#0054ae` (blue) |
 | Page surface | `#ffffff` |
 | Body text on page surface | `#212a2f`, 14.6:1 |

@@ -62,9 +62,12 @@ if you add `ShareAttributes["CopyLabel"] = "Copy link"`.
 ## Defaults
 
 - **`Themes`** defaults to `PickerBar.DefaultThemes` — all 63 Lily
-  reference theme slugs, alphabetical, with the 8 United Kingdom /
-  United States government themes moved to their own alphabetical
-  group at the bottom. Pass your own `Themes` list to override.
+  reference theme slugs: the 36 generic themes alphabetically, then the
+  27 company and public-sector themes alphabetically by label.
+  `PickerBar.DefaultThemeLabels` gives the names title-casing gets wrong
+  ("IBM Carbon", "GitHub Primer", "NHS England (patients)"); your own
+  `ThemeLabels` in `ThemeAttributes` win. Pass your own `Themes` list to
+  override.
 - **`Sizes`** defaults to `PickerBar.DefaultSizes` — the seven-step
   scale `largest`, `larger`, `large`, `normal`, `small`, `smaller`,
   `smallest` — and the text-size picker starts on `normal`. Pass your

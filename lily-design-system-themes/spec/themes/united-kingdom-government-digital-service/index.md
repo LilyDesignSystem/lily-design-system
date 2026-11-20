@@ -10,7 +10,7 @@ GOV.UK Design System as a Lily theme: the GDS blue (`#1d70b8`) primary, dark-blu
 | Stylesheet | [`themes/united-kingdom-government-digital-service.css`](../../../../themes/united-kingdom-government-digital-service.css) |
 | Token source | [`themes/tokens/united-kingdom-government-digital-service.json`](../../../../themes/tokens/united-kingdom-government-digital-service.json) |
 | Colour scheme | `light` |
-| Group | UK and US government (listed last in `picker-bar`) |
+| Group | UK and US government (with the company and public-sector themes in `picker-bar`, by label) |
 | Primary | `#1d70b8` (blue) |
 | Page surface | `#ffffff` |
 | Body text on page surface | `#0b0c0c`, 19.6:1 |

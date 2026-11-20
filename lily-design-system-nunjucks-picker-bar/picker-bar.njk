@@ -33,39 +33,64 @@
 {% from "lily-design-system-nunjucks-time-zone-picker/dist/time-zone-picker.njk" import timeZonePicker %}
 {% from "lily-design-system-nunjucks-share-picker/dist/share-picker.njk" import sharePicker %}
 {#
-  All 63 Lily reference theme slugs (see `themes/` at the repo root),
-  sorted alphabetically except the United Kingdom and United States
-  government/public-sector themes, which sort last as one alphabetical
-  group of their own. Mirrors `theme-picker`'s own title-casing of each
-  slug, so no `themeLabels` override is needed for these to read well.
-  Kept in agreement with `DEFAULT_THEMES` in picker-bar.client.js by a
-  test — a Nunjucks macro cannot import a JS constant, so, as with
-  `themeName`/`sizeName` elsewhere in this catalog, the two copies are
-  held in sync by assertion rather than by delegation.
+  All 63 Lily reference theme slugs (see `themes/` at the repo root): the 36
+  generic themes alphabetically, then the 27 themes that follow a company's
+  or a public body's design system, alphabetically by their label
+  (`DEFAULT_THEME_LABELS`, else the title-cased slug), so "NHS England
+  (patients)" sorts under N. Kept in agreement with `DEFAULT_THEMES` in
+  picker-bar.client.js by a test — a Nunjucks macro cannot import a JS
+  constant, so, as with `themeName`/`sizeName` elsewhere in this catalog,
+  the two copies are held in sync by assertion rather than by delegation.
 #}
 {%- set DEFAULT_THEMES = [
-  "abyss", "acid", "adobe-spectrum", "ant-design", "aqua", "atlassian",
-  "australia-agriculture-design-system", "autumn", "black",
-  "brazil-padrao-digital-de-governo", "bumblebee", "business",
-  "canada-government-of-canada-design-system", "cappuccino",
-  "caramellatte", "cmyk", "coffee", "corporate", "cupcake",
-  "cyberpunk", "dark", "dim", "dracula", "emerald",
-  "european-union-europa-component-library", "excel", "fantasy",
-  "fluent", "forest", "garden", "github-primer", "halloween",
-  "ibm-carbon", "japan-digital-agency-design-system", "lemonade",
-  "light", "linear", "lofi", "luxury", "mozilla-protocol", "night",
-  "nord", "notion", "pastel", "retro", "salesforce", "sap-fiori",
-  "silk", "singapore-government-design-system", "sunset", "synthwave",
-  "valentine", "vercel", "winter", "wireframe",
-  "united-kingdom-government-digital-service",
+  "abyss", "acid", "aqua", "autumn", "black", "bumblebee", "business",
+  "cappuccino", "caramellatte", "cmyk", "coffee", "corporate",
+  "cupcake", "cyberpunk", "dark", "dim", "dracula", "emerald",
+  "fantasy", "forest", "garden", "halloween", "lemonade", "light",
+  "lofi", "luxury", "night", "nord", "pastel", "retro", "silk",
+  "sunset", "synthwave", "valentine", "winter", "wireframe",
+  "adobe-spectrum", "ant-design", "atlassian",
+  "australia-agriculture-design-system",
+  "brazil-padrao-digital-de-governo",
+  "canada-government-of-canada-design-system",
+  "european-union-europa-component-library", "excel", "fluent",
+  "github-primer", "united-kingdom-government-digital-service",
+  "ibm-carbon", "japan-digital-agency-design-system", "linear",
+  "mozilla-protocol",
   "united-kingdom-national-health-service-england-for-patients",
   "united-kingdom-national-health-service-england-for-practitioners",
   "united-kingdom-national-health-service-scotland-for-patients",
   "united-kingdom-national-health-service-scotland-for-practitioners",
   "united-kingdom-national-health-service-wales-for-patients",
   "united-kingdom-national-health-service-wales-for-practitioners",
-  "united-states-web-design-system"
+  "notion", "salesforce", "sap-fiori",
+  "singapore-government-design-system",
+  "united-states-web-design-system", "vercel"
 ] -%}
+{#
+  Labels for the default themes whose title-cased slug reads wrongly: an
+  abbreviation ("IBM Carbon", not "Ibm Carbon"), an accent or a small word,
+  or a public body's own short name ("NHS England (patients)"). They are
+  proper names, not prose to translate. Passed to the theme picker as its
+  `fallbackLabels`, so a consumer's `themeProps.themeLabels` wins over each
+  one. Kept in agreement with `DEFAULT_THEME_LABELS` in picker-bar.client.js.
+#}
+{%- set DEFAULT_THEME_LABELS = {
+  "cmyk": "CMYK",
+  "brazil-padrao-digital-de-governo": "Brazil Padrão Digital de Governo",
+  "canada-government-of-canada-design-system": "Canada Government of Canada Design System",
+  "github-primer": "GitHub Primer",
+  "ibm-carbon": "IBM Carbon",
+  "sap-fiori": "SAP Fiori",
+  "united-kingdom-government-digital-service": "GOV.UK Design System",
+  "united-kingdom-national-health-service-england-for-patients": "NHS England (patients)",
+  "united-kingdom-national-health-service-england-for-practitioners": "NHS England (practitioners)",
+  "united-kingdom-national-health-service-scotland-for-patients": "NHS Scotland (patients)",
+  "united-kingdom-national-health-service-scotland-for-practitioners": "NHS Scotland (practitioners)",
+  "united-kingdom-national-health-service-wales-for-patients": "NHS Wales (patients)",
+  "united-kingdom-national-health-service-wales-for-practitioners": "NHS Wales (practitioners)",
+  "united-states-web-design-system": "U.S. Web Design System"
+} -%}
 {#
   The seven-step text-size scale. Each slug title-cases to exactly the
   requested label via text-size-picker's own default label rule, so no
@@ -200,6 +225,7 @@
   name: themeProps.name,
   extension: themeProps.extension,
   themeLabels: themeProps.themeLabels,
+  fallbackLabels: DEFAULT_THEME_LABELS,
   id: themeProps.id,
   classes: themeProps.classes,
   attributes: themeProps.attributes

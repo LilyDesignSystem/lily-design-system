@@ -10,7 +10,7 @@ NHS Scotland for clinicians: the NHS Scotland navy palette and focus ring of the
 | Stylesheet | [`themes/united-kingdom-national-health-service-scotland-for-practitioners.css`](../../../../themes/united-kingdom-national-health-service-scotland-for-practitioners.css) |
 | Token source | [`themes/tokens/united-kingdom-national-health-service-scotland-for-practitioners.json`](../../../../themes/tokens/united-kingdom-national-health-service-scotland-for-practitioners.json) |
 | Colour scheme | `light` |
-| Group | UK and US government (listed last in `picker-bar`) |
+| Group | UK and US government (with the company and public-sector themes in `picker-bar`, by label) |
 | Primary | `#011e8c` (blue) |
 | Page surface | `#ffffff` |
 | Body text on page surface | `#1d252a`, 15.6:1 |

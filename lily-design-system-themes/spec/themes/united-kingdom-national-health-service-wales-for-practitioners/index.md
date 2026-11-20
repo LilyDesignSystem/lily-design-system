@@ -10,7 +10,7 @@ NHS Wales / GIG Cymru for clinicians: the DHCW navy palette, yellow focus treatm
 | Stylesheet | [`themes/united-kingdom-national-health-service-wales-for-practitioners.css`](../../../../themes/united-kingdom-national-health-service-wales-for-practitioners.css) |
 | Token source | [`themes/tokens/united-kingdom-national-health-service-wales-for-practitioners.json`](../../../../themes/tokens/united-kingdom-national-health-service-wales-for-practitioners.json) |
 | Colour scheme | `light` |
-| Group | UK and US government (listed last in `picker-bar`) |
+| Group | UK and US government (with the company and public-sector themes in `picker-bar`, by label) |
 | Primary | `#1a355c` (blue) |
 | Page surface | `#ffffff` |
 | Body text on page surface | `#202a31`, 14.6:1 |

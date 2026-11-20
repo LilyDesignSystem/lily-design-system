@@ -2,7 +2,7 @@ import { mount, type VueWrapper } from "@vue/test-utils";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { nextTick } from "vue";
 
-import PickerBar, { DEFAULT_THEMES, DEFAULT_SIZES } from "./PickerBar.vue";
+import PickerBar, { DEFAULT_THEMES, DEFAULT_THEME_LABELS, DEFAULT_SIZES } from "./PickerBar.vue";
 
 /** Let Vue's scheduler and the wrapped pickers' onMounted effects settle. */
 async function flush(): Promise<void> {
@@ -76,17 +76,35 @@ describe("PickerBar — DEFAULT_THEMES (§3, §5.1)", () => {
         expect(DEFAULT_THEMES).toHaveLength(63);
     });
 
-    test("is alphabetical, with the UK & US themes moved to the bottom as one alphabetical group", () => {
-        const nonUkUs = DEFAULT_THEMES.filter((t) => !t.startsWith("united-"));
-        const ukUs = DEFAULT_THEMES.filter((t) => t.startsWith("united-"));
-        expect(nonUkUs).toEqual([...nonUkUs].sort());
-        expect(ukUs).toEqual([...ukUs].sort());
-        expect(DEFAULT_THEMES).toEqual([...nonUkUs, ...ukUs]);
+    const labelOf = (slug: string) =>
+        DEFAULT_THEME_LABELS[slug] ??
+        slug
+            .split("-")
+            .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+            .join(" ");
+
+    test("lists the 36 generic themes first, alphabetically, then the official ones by label", () => {
+        const generic = DEFAULT_THEMES.slice(0, 36);
+        const official = DEFAULT_THEMES.slice(36);
+        expect(generic).toEqual([...generic].sort());
+        expect(official.map(labelOf)).toEqual(
+            [...official.map(labelOf)].sort((a, b) =>
+                a.localeCompare(b, "en", { sensitivity: "base" }),
+            ),
+        );
+        expect(DEFAULT_THEMES[35]).toBe("wireframe");
+        expect(DEFAULT_THEMES[36]).toBe("adobe-spectrum");
+        expect(DEFAULT_THEMES.at(-1)).toBe("vercel");
     });
 
-    test("first entry is 'abyss', last is 'united-states-web-design-system'", () => {
-        expect(DEFAULT_THEMES[0]).toBe("abyss");
-        expect(DEFAULT_THEMES[DEFAULT_THEMES.length - 1]).toBe("united-states-web-design-system");
+    test("abbreviations and public bodies keep their own spelling", () => {
+        expect(labelOf("ibm-carbon")).toBe("IBM Carbon");
+        expect(labelOf("github-primer")).toBe("GitHub Primer");
+        expect(labelOf("united-kingdom-national-health-service-england-for-patients")).toBe(
+            "NHS England (patients)",
+        );
+        for (const slug of Object.keys(DEFAULT_THEME_LABELS))
+            expect(DEFAULT_THEMES).toContain(slug);
     });
 });
 
@@ -147,7 +165,8 @@ describe("PickerBar — theme-picker wiring (§5.1, §7.3, §7.6)", () => {
         const options = wrapper.findAll(".theme-picker-option");
         expect(options).toHaveLength(63);
         expect(options[0].text()).toBe("Abyss");
-        expect(options[55].text()).toBe("United Kingdom Government Digital Service");
+        expect(options[36].text()).toBe("Adobe Spectrum");
+        expect(options[47].text()).toBe("IBM Carbon");
     });
 
     test("§7.6 an explicit `themes` prop overrides the default", async () => {
@@ -162,6 +181,15 @@ describe("PickerBar — theme-picker wiring (§5.1, §7.3, §7.6)", () => {
         const options = wrapper.findAll(".theme-picker-option");
         await options[0].trigger("click");
         expect(localStorage.getItem("lily-theme")).toBe("abyss");
+    });
+
+    test("a consumer's own theme label wins over the default", async () => {
+        const wrapper = build({ themeProps: { themeLabels: { "sap-fiori": "Fiori" } } });
+        await buttons(wrapper).theme.trigger("click");
+        const text = wrapper.findAll(".theme-picker-option").map((o) => o.text());
+        expect(text).toContain("Fiori");
+        expect(text).toContain("IBM Carbon");
+        expect(text).not.toContain("SAP Fiori");
     });
 
     test("§7.11 re-emits ThemePicker's change as `theme-change`", async () => {

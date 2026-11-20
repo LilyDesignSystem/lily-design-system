@@ -62,8 +62,10 @@ when the app passes `links` and `labels.link`), `search-picker`
 `text-size-picker`, and `share-picker` — each depended on as a real
 npm package, not vendored — in that order, with
 two defaults pre-wired: `themes` defaults to all 63 root `themes/`
-slugs (alphabetical, UK & US government themes moved to their own
-alphabetical group at the bottom), and `sizes` defaults to the
+slugs (the 36 generic themes alphabetically, then the 27 company and
+public-sector themes by label, with `DEFAULT_THEME_LABELS` for the names
+title-casing gets wrong, such as "IBM Carbon" and "NHS England
+(patients)", under the consumer's own labels), and `sizes` defaults to the
 seven-step scale `largest`, `larger`, `large`, `normal`, `small`,
 `smaller`, `smallest`, starting on `normal`. It excludes `motion-picker`
 (no natural spot in this row) and `date-time-picker` (a form control,

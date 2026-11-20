@@ -130,9 +130,10 @@ uses for one-off cases.
 
 Identical array, same ordering rationale, as
 [the Svelte spec §5.1](../../lily-design-system-svelte-picker-bar/spec/index.md#51-default_themes):
-all 63 Lily reference theme slugs, alphabetical, with the 8 UK/US
-government/public-sector themes moved to their own alphabetical group
-at the bottom.
+all 63 Lily reference theme slugs, the 36 generic themes alphabetically
+and then the 27 company and public-sector themes by label, with the same
+`DEFAULT_THEME_LABELS`. The bar passes them to `lily-theme-picker` under
+its own `themeLabels` input, which wins.
 
 ### 5.2 `DEFAULT_SIZES`
 
@@ -206,4 +207,10 @@ as ordinary npm `dependencies` (`allowedNonPeerDependencies` in
 
 ## Default theme list: 63 themes (2026-10-16)
 
-`DEFAULT_THEMES` has 63 slugs in the same order as the Svelte canonical: the 49 general and design-system themes alphabetically, then the 8 UK and US government themes alphabetically. The first government theme is at index 49.
+`DEFAULT_THEMES` has 63 slugs in the same order as the Svelte canonical: the 49 general and design-system themes alphabetically, then the 8 UK and US government themes alphabetically. The first government theme is at index 49. (Superseded 2026-11-20; see below.)
+
+## Default theme order and labels (2026-11-20)
+
+The 36 generic themes come first, then the 27 company and public-sector themes by label (§5.1); `DEFAULT_THEME_LABELS`
+supplies the labels title-casing gets wrong, under the consumer's own. Tests: the order of both groups, the spelling of the
+abbreviations and the NHS themes, and a consumer's label winning over a default.

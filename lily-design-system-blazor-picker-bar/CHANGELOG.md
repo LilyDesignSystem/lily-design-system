@@ -4,6 +4,16 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+- **Order change:** the default themes list the 36 generic themes first, alphabetically, then the 27 company and
+  public-sector themes alphabetically by label, so "NHS England (patients)" sorts under N. It replaces the order that put
+  only the UK and US government themes last.
+- `PickerBar.DefaultThemeLabels` gives the default themes whose title-cased slug reads wrongly their own names: "IBM
+  Carbon", "SAP Fiori", "CMYK", "GitHub Primer", "Brazil Padrão Digital de Governo", "Canada Government of Canada Design
+  System", "GOV.UK Design System", the six "NHS …" themes and "U.S. Web Design System". A `ThemeLabels` entry in
+  `ThemeAttributes` still wins.
+
 ## 0.6.0 — 2026-11-14
 
 - Search is optional: without `labels.search` the bar renders no search picker (tasks.md P28-T7). A client-side app

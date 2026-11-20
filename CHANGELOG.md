@@ -9,6 +9,16 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Theme order and names in `picker-bar` (2026-11-20, unreleased)
+
+- In all nine catalogs the picker bar's default themes list the 36 generic themes first, then the 27 company and
+  public-sector themes alphabetically by label. `DEFAULT_THEME_LABELS` fixes the names title-casing got wrong ("Ibm
+  Carbon" is now "IBM Carbon"; also "SAP Fiori", "CMYK", "GitHub Primer", "GOV.UK Design System", the six "NHS …" themes
+  and others); a consumer's own labels win. The Nunjucks theme picker gains `fallbackLabels` to make that possible in a
+  template. The docs site lists the themes in the same order with the same labels.
+- The theme-picker examples' "all 63 themes" lists were wrong in places: six listed valentine, winter and wireframe twice,
+  and the Nunjucks one left out the six NHS themes. Each is now the 63 in the new order.
+
 ## Option groups in `listbox` (2026-11-20, P40-T4)
 
 - `listbox` documents the APG grouped listbox: each group is a `role="group"` labelled by a presentational heading. No prop is

@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/svelte";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
-import PickerBar, { DEFAULT_THEMES, DEFAULT_SIZES } from "./PickerBar.svelte";
+import PickerBar, { DEFAULT_THEMES, DEFAULT_THEME_LABELS, DEFAULT_SIZES } from "./PickerBar.svelte";
 
 const LABELS = {
     search: "Search this site",
@@ -51,17 +51,51 @@ describe("PickerBar — DEFAULT_THEMES (§3, §5.1)", () => {
         expect(DEFAULT_THEMES).toHaveLength(63);
     });
 
-    test("is alphabetical, with the UK & US themes moved to the bottom as one alphabetical group", () => {
-        const nonUkUs = DEFAULT_THEMES.filter((t) => !t.startsWith("united-"));
-        const ukUs = DEFAULT_THEMES.filter((t) => t.startsWith("united-"));
-        expect(nonUkUs).toEqual([...nonUkUs].sort());
-        expect(ukUs).toEqual([...ukUs].sort());
-        expect(DEFAULT_THEMES).toEqual([...nonUkUs, ...ukUs]);
+    const labelOf = (slug: string) =>
+        DEFAULT_THEME_LABELS[slug] ??
+        slug
+            .split("-")
+            .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+            .join(" ");
+
+    test("lists the 36 generic themes first, alphabetically, then the official ones by label", () => {
+        const generic = DEFAULT_THEMES.slice(0, 36);
+        const official = DEFAULT_THEMES.slice(36);
+        expect(generic).toEqual([...generic].sort());
+        expect(generic).toContain("light");
+        expect(official).toContain("ibm-carbon");
+        expect(official.map(labelOf)).toEqual(
+            [...official.map(labelOf)].sort((a, b) =>
+                a.localeCompare(b, "en", { sensitivity: "base" }),
+            ),
+        );
+        expect(DEFAULT_THEMES[0]).toBe("abyss");
+        expect(DEFAULT_THEMES[35]).toBe("wireframe");
+        expect(DEFAULT_THEMES[36]).toBe("adobe-spectrum");
+        expect(DEFAULT_THEMES.at(-1)).toBe("vercel");
     });
 
-    test("first entry is 'abyss', last is 'united-states-web-design-system'", () => {
-        expect(DEFAULT_THEMES[0]).toBe("abyss");
-        expect(DEFAULT_THEMES[DEFAULT_THEMES.length - 1]).toBe("united-states-web-design-system");
+    test("abbreviations and public bodies keep their own spelling", () => {
+        expect(labelOf("ibm-carbon")).toBe("IBM Carbon");
+        expect(labelOf("github-primer")).toBe("GitHub Primer");
+        expect(labelOf("sap-fiori")).toBe("SAP Fiori");
+        expect(labelOf("united-kingdom-national-health-service-england-for-patients")).toBe(
+            "NHS England (patients)",
+        );
+        for (const slug of Object.keys(DEFAULT_THEME_LABELS))
+            expect(DEFAULT_THEMES).toContain(slug);
+    });
+
+    test("the theme picker shows the default labels, and a consumer's own label wins", async () => {
+        renderBar({ themeProps: { themeLabels: { "sap-fiori": "Fiori" } } });
+        const list = document.querySelector(".theme-picker-list")!;
+        const text = [...list.querySelectorAll("[role='option']")].map((o) =>
+            o.textContent?.trim(),
+        );
+        expect(text).toContain("IBM Carbon");
+        expect(text).toContain("Fiori");
+        expect(text).not.toContain("Ibm Carbon");
+        expect(text.indexOf("Wireframe")).toBeLessThan(text.indexOf("Adobe Spectrum"));
     });
 });
 
@@ -123,7 +157,10 @@ describe("PickerBar — theme-picker wiring (§5.1, §7.3, §7.6)", () => {
         const options = document.querySelectorAll(".theme-picker-option");
         expect(options).toHaveLength(63);
         expect(options[0].textContent).toBe("Abyss");
-        expect(options[55].textContent).toBe("United Kingdom Government Digital Service");
+        expect(options[35].textContent).toBe("Wireframe");
+        expect(options[36].textContent).toBe("Adobe Spectrum");
+        expect(options[47].textContent).toBe("IBM Carbon");
+        expect(options[62].textContent).toBe("Vercel");
     });
 
     test("§7.6 an explicit `themes` prop overrides the default", async () => {

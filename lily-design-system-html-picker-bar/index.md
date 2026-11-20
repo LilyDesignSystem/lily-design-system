@@ -89,10 +89,12 @@ same pattern elsewhere in this catalog.
 ## Defaults
 
 - **`themes`** defaults to `DEFAULT_THEMES` — all 63 Lily reference
-  theme slugs, alphabetical, with the 8 United Kingdom / United States
-  government themes moved to their own alphabetical group at the
-  bottom. Set your own `themes` attribute (comma-separated) or
-  `.themes` property (array) to override.
+  theme slugs: the 36 generic themes alphabetically, then the 27 company
+  and public-sector themes alphabetically by label.
+  `DEFAULT_THEME_LABELS` gives the names title-casing gets wrong ("IBM
+  Carbon", "GitHub Primer", "NHS England (patients)"); your own
+  `themeProps.themeLabels` win. Set your own `themes` attribute
+  (comma-separated) or `.themes` property (array) to override.
 - **`sizes`** defaults to `DEFAULT_SIZES` — the seven-step scale
   `largest`, `larger`, `large`, `normal`, `small`, `smaller`,
   `smallest` — and the text-size picker starts on `normal`. Set your

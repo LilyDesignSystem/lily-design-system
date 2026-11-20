@@ -42,27 +42,22 @@ import {
 } from "@lilydesignsystem/nunjucks-share-picker";
 
 /**
- * All 63 Lily reference theme slugs, in the same order as
- * `DEFAULT_THEMES` in picker-bar.njk. A Nunjucks macro cannot import a
- * JS constant, so the two copies are held in agreement by a test
- * rather than by delegation — the same pattern this catalog already
- * uses for `themeName`/`sizeName` (macro template syntax vs. client.js
- * function).
+ * All 63 Lily reference theme slugs (see `themes/` at the repo root): the 36
+ * generic themes alphabetically, then the 27 themes that follow a company's
+ * or a public body's design system, alphabetically by their label
+ * (`DEFAULT_THEME_LABELS`, else the title-cased slug), so "NHS England
+ * (patients)" sorts under N.
+ * Kept in the same order as `DEFAULT_THEMES` in picker-bar.njk by a test,
+ * since a Nunjucks macro cannot import a JS constant.
  */
 export const DEFAULT_THEMES = [
     "abyss",
     "acid",
-    "adobe-spectrum",
-    "ant-design",
     "aqua",
-    "atlassian",
-    "australia-agriculture-design-system",
     "autumn",
     "black",
-    "brazil-padrao-digital-de-governo",
     "bumblebee",
     "business",
-    "canada-government-of-canada-design-system",
     "cappuccino",
     "caramellatte",
     "cmyk",
@@ -74,46 +69,78 @@ export const DEFAULT_THEMES = [
     "dim",
     "dracula",
     "emerald",
-    "european-union-europa-component-library",
-    "excel",
     "fantasy",
-    "fluent",
     "forest",
     "garden",
-    "github-primer",
     "halloween",
-    "ibm-carbon",
-    "japan-digital-agency-design-system",
     "lemonade",
     "light",
-    "linear",
     "lofi",
     "luxury",
-    "mozilla-protocol",
     "night",
     "nord",
-    "notion",
     "pastel",
     "retro",
-    "salesforce",
-    "sap-fiori",
     "silk",
-    "singapore-government-design-system",
     "sunset",
     "synthwave",
     "valentine",
-    "vercel",
     "winter",
     "wireframe",
+    "adobe-spectrum",
+    "ant-design",
+    "atlassian",
+    "australia-agriculture-design-system",
+    "brazil-padrao-digital-de-governo",
+    "canada-government-of-canada-design-system",
+    "european-union-europa-component-library",
+    "excel",
+    "fluent",
+    "github-primer",
     "united-kingdom-government-digital-service",
+    "ibm-carbon",
+    "japan-digital-agency-design-system",
+    "linear",
+    "mozilla-protocol",
     "united-kingdom-national-health-service-england-for-patients",
     "united-kingdom-national-health-service-england-for-practitioners",
     "united-kingdom-national-health-service-scotland-for-patients",
     "united-kingdom-national-health-service-scotland-for-practitioners",
     "united-kingdom-national-health-service-wales-for-patients",
     "united-kingdom-national-health-service-wales-for-practitioners",
+    "notion",
+    "salesforce",
+    "sap-fiori",
+    "singapore-government-design-system",
     "united-states-web-design-system",
+    "vercel",
 ];
+
+/**
+ * Labels for the default themes whose title-cased slug reads wrongly: an
+ * abbreviation ("IBM Carbon", not "Ibm Carbon"), an accent or a small word,
+ * or a public body's own short name ("NHS England (patients)"). They are
+ * proper names, not prose to translate. A consumer's own theme labels win
+ * over each one.
+ */
+export const DEFAULT_THEME_LABELS = {
+    cmyk: "CMYK",
+    "brazil-padrao-digital-de-governo": "Brazil Padrão Digital de Governo",
+    "canada-government-of-canada-design-system": "Canada Government of Canada Design System",
+    "github-primer": "GitHub Primer",
+    "ibm-carbon": "IBM Carbon",
+    "sap-fiori": "SAP Fiori",
+    "united-kingdom-government-digital-service": "GOV.UK Design System",
+    "united-kingdom-national-health-service-england-for-patients": "NHS England (patients)",
+    "united-kingdom-national-health-service-england-for-practitioners":
+        "NHS England (practitioners)",
+    "united-kingdom-national-health-service-scotland-for-patients": "NHS Scotland (patients)",
+    "united-kingdom-national-health-service-scotland-for-practitioners":
+        "NHS Scotland (practitioners)",
+    "united-kingdom-national-health-service-wales-for-patients": "NHS Wales (patients)",
+    "united-kingdom-national-health-service-wales-for-practitioners": "NHS Wales (practitioners)",
+    "united-states-web-design-system": "U.S. Web Design System",
+};
 
 /** The seven-step text-size scale, largest first. */
 export const DEFAULT_SIZES = [

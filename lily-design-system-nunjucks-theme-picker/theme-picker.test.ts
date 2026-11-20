@@ -263,6 +263,22 @@ describe("ThemePicker — macro markup contract (§7.1–§7.6)", () => {
         expect(text).toMatch(/Bright/);
         expect(text).toMatch(/Midnight/);
     });
+
+    test("fallbackLabels name a slug that themeLabels leaves out, and themeLabels still win", () => {
+        const root = mountIntoBody(
+            renderMacro({
+                label: "Theme",
+                themesUrl: URL_TRAILING,
+                themes: ["ibm-carbon", "sap-fiori", "light"],
+                themeLabels: { "sap-fiori": "Fiori" },
+                fallbackLabels: { "ibm-carbon": "IBM Carbon", "sap-fiori": "SAP Fiori" },
+            }),
+        );
+        const text = [...root.querySelectorAll(".theme-picker-option")].map((o) =>
+            o.textContent?.trim(),
+        );
+        expect(text).toEqual(["IBM Carbon", "Fiori", "Light"]);
+    });
 });
 
 describe("ThemePicker — server-rendered listbox state (§7.14–§7.16)", () => {

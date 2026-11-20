@@ -52,6 +52,10 @@
                     (default "theme").
     extension     — string. Appended to slug for URL (default ".css").
     themeLabels   — object<string,string>. Pretty label per slug.
+    fallbackLabels — object<string,string>. A label per slug used when
+                    `themeLabels` has none, before title-casing the slug.
+                    `picker-bar` passes its default labels here ("IBM
+                    Carbon"), since a template cannot merge two objects.
     id            — string. Id prefix for the listbox and its options.
                     Defaults to "theme-picker-{name}". Supply an explicit
                     id when rendering two instances that share a `name`.
@@ -104,6 +108,7 @@
 {%- set themeColor = opts.themeColor | default(false) -%}
 {%- set viewTransition = opts.viewTransition | default(false) -%}
 {%- set themeLabels = opts.themeLabels | default({}) -%}
+{%- set fallbackLabels = opts.fallbackLabels | default({}) -%}
 {%- set systemLabel = opts.systemLabel | default("") -%}
 {%- set systemThemes = opts.systemThemes | default({light: "light", dark: "dark"}) -%}
 {%- set cookieName = opts.cookieName | default("lily-" + name) -%}
@@ -145,6 +150,8 @@
       {{ systemLabel }}
     {%- elif themeLabels[slug] -%}
       {{ themeLabels[slug] }}
+    {%- elif fallbackLabels[slug] -%}
+      {{ fallbackLabels[slug] }}
     {%- else -%}
       {{ slug | replace(r/-/g, " ") | title }}
     {%- endif -%}
@@ -184,6 +191,8 @@
       {{ systemLabel }}
     {%- elif themeLabels[slug] -%}
       {{ themeLabels[slug] }}
+    {%- elif fallbackLabels[slug] -%}
+      {{ fallbackLabels[slug] }}
     {%- else -%}
       {{ slug | replace(r/-/g, " ") | title }}
     {%- endif -%}

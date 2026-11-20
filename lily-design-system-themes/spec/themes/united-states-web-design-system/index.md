@@ -10,7 +10,7 @@ U.S. Web Design System as a Lily theme: the USWDS blue (`#005ea2`) primary, a co
 | Stylesheet | [`themes/united-states-web-design-system.css`](../../../../themes/united-states-web-design-system.css) |
 | Token source | [`themes/tokens/united-states-web-design-system.json`](../../../../themes/tokens/united-states-web-design-system.json) |
 | Colour scheme | `light` |
-| Group | UK and US government (listed last in `picker-bar`) |
+| Group | UK and US government (with the company and public-sector themes in `picker-bar`, by label) |
 | Primary | `#005ea2` (blue) |
 | Page surface | `#ffffff` |
 | Body text on page surface | `#1b1b1b`, 17.2:1 |

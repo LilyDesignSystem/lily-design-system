@@ -10,7 +10,7 @@ NHS Scotland for the public: the formal NHS Scotland navy as primary (the header
 | Stylesheet | [`themes/united-kingdom-national-health-service-scotland-for-patients.css`](../../../../themes/united-kingdom-national-health-service-scotland-for-patients.css) |
 | Token source | [`themes/tokens/united-kingdom-national-health-service-scotland-for-patients.json`](../../../../themes/tokens/united-kingdom-national-health-service-scotland-for-patients.json) |
 | Colour scheme | `light` |
-| Group | UK and US government (listed last in `picker-bar`) |
+| Group | UK and US government (with the company and public-sector themes in `picker-bar`, by label) |
 | Primary | `#011e8c` (blue) |
 | Page surface | `#ffffff` |
 | Body text on page surface | `#1d252a`, 15.6:1 |

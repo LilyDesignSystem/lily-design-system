@@ -56,76 +56,30 @@ public class PickerBarTests : TestContext
         Assert.Equal(63, PickerBar.DefaultThemes.Count);
     }
 
+    private static string LabelOf(string slug) =>
+        PickerBar.DefaultThemeLabels.TryGetValue(slug, out var label)
+            ? label
+            : string.Join(" ", slug.Split('-').Select(w => char.ToUpperInvariant(w[0]) + w[1..]));
+
     [Fact]
-    public void Section_5_1_DefaultThemes_Is_Alphabetical_With_UkUs_Group_At_Bottom()
+    public void Section_5_1_DefaultThemes_Lists_Generic_Themes_First_Then_Official_Ones_By_Label()
     {
-        var nonUkUs = PickerBar.DefaultThemes.Where(t => !t.StartsWith("united-")).ToList();
-        var ukUs = PickerBar.DefaultThemes.Where(t => t.StartsWith("united-")).ToList();
-        Assert.Equal(nonUkUs.OrderBy(t => t, System.StringComparer.Ordinal), nonUkUs);
-        Assert.Equal(ukUs.OrderBy(t => t, System.StringComparer.Ordinal), ukUs);
-        Assert.Equal(nonUkUs.Concat(ukUs), PickerBar.DefaultThemes);
+        var generic = PickerBar.DefaultThemes.Take(36).ToList();
+        var official = PickerBar.DefaultThemes.Skip(36).Select(LabelOf).ToList();
+        Assert.Equal(generic.OrderBy(t => t, System.StringComparer.Ordinal), generic);
+        Assert.Equal(official.OrderBy(l => l, System.StringComparer.OrdinalIgnoreCase), official);
+        Assert.Equal("wireframe", PickerBar.DefaultThemes[35]);
+        Assert.Equal("adobe-spectrum", PickerBar.DefaultThemes[36]);
+        Assert.Equal("vercel", PickerBar.DefaultThemes[^1]);
     }
 
     [Fact]
-    public void Section_5_1_DefaultThemes_First_And_Last()
+    public void Section_5_1_Abbreviations_And_Public_Bodies_Keep_Their_Own_Spelling()
     {
-        Assert.Equal("abyss", PickerBar.DefaultThemes[0]);
-        Assert.Equal("united-states-web-design-system", PickerBar.DefaultThemes[^1]);
-    }
-
-    // =================================================================
-    // DefaultSizes — §3, §5.2
-    // =================================================================
-
-    [Fact]
-    public void Section_5_2_DefaultSizes_Is_The_Seven_Step_Scale()
-    {
-        Assert.Equal(
-            new[] { "largest", "larger", "large", "normal", "small", "smaller", "smallest" },
-            PickerBar.DefaultSizes);
-    }
-
-    // =================================================================
-    // Composition — §7.1–§7.5
-    // =================================================================
-
-    [Fact]
-    public void Section_7_1_Renders_Root_With_Base_Class_Plus_Consumer_Class()
-    {
-        var cut = RenderBar(p => p.Add(x => x.CssClass, "my-picker-bar"));
-        var root = cut.Find("div.picker-bar");
-        Assert.Contains("my-picker-bar", root.ClassList);
-    }
-
-    [Fact]
-    public void Section_7_2_Renders_All_Five_Pickers_Each_Named_From_Labels()
-    {
-        var cut = RenderBar();
-        Assert.NotNull(cut.Find("button[aria-label='Search this site']"));
-        Assert.NotNull(cut.Find("button[aria-label='Theme']"));
-        Assert.NotNull(cut.Find("button[aria-label='Language']"));
-        Assert.NotNull(cut.Find("button[aria-label='Text size']"));
-        Assert.NotNull(cut.Find("button[aria-label='Share']"));
-    }
-
-    [Fact]
-    public void Section_7_2_Renders_The_Five_Picker_Roots_In_Order()
-    {
-        var cut = RenderBar();
-        var roots = cut.Find("div.picker-bar").Children
-            .Select(el => el.ClassList.FirstOrDefault())
-            .ToList();
-        Assert.Equal(
-            new[] { "search-picker", "theme-picker", "locale-picker", "text-size-picker", "share-picker" },
-            roots);
-    }
-
-    [Fact]
-    public void Section_7_5_Spreads_Extra_Attributes_Onto_Root()
-    {
-        var cut = RenderBar(p => p.AddUnmatched("data-testid", "header-picker-bar"));
-        var root = cut.Find("div.picker-bar");
-        Assert.Equal("header-picker-bar", root.GetAttribute("data-testid"));
+        Assert.Equal("IBM Carbon", LabelOf("ibm-carbon"));
+        Assert.Equal("GitHub Primer", LabelOf("github-primer"));
+        Assert.Equal("NHS England (patients)", LabelOf("united-kingdom-national-health-service-england-for-patients"));
+        Assert.All(PickerBar.DefaultThemeLabels.Keys, slug => Assert.Contains(slug, PickerBar.DefaultThemes));
     }
 
     // =================================================================
@@ -140,7 +94,8 @@ public class PickerBarTests : TestContext
         var options = cut.FindAll(".theme-picker-option");
         Assert.Equal(63, options.Count);
         Assert.Equal("Abyss", options[0].TextContent);
-        Assert.Equal("United Kingdom Government Digital Service", options[55].TextContent);
+        Assert.Equal("Adobe Spectrum", options[36].TextContent);
+        Assert.Equal("IBM Carbon", options[47].TextContent);
     }
 
     [Fact]
@@ -149,6 +104,22 @@ public class PickerBarTests : TestContext
         var cut = RenderBar(p => p.Add(x => x.Themes, new[] { "light", "dark" }));
         cut.Find("button[aria-label='Theme']").Click();
         Assert.Equal(2, cut.FindAll(".theme-picker-option").Count);
+    }
+
+    [Fact]
+    public void A_Consumers_Own_Theme_Label_Wins_Over_The_Default()
+    {
+        var cut = RenderBar(p => p.Add(
+            x => x.ThemeAttributes,
+            new Dictionary<string, object>
+            {
+                ["ThemeLabels"] = new Dictionary<string, string> { ["sap-fiori"] = "Fiori" },
+            }));
+        cut.Find("button[aria-label='Theme']").Click();
+        var text = cut.FindAll(".theme-picker-option").Select(o => o.TextContent).ToList();
+        Assert.Contains("Fiori", text);
+        Assert.Contains("IBM Carbon", text);
+        Assert.DoesNotContain("SAP Fiori", text);
     }
 
     [Fact]

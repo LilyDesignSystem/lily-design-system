@@ -4,7 +4,13 @@ import nunjucks from "nunjucks";
 import * as path from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { autoInit, initPickerBar, DEFAULT_THEMES, DEFAULT_SIZES } from "./picker-bar.client.js";
+import {
+    autoInit,
+    initPickerBar,
+    DEFAULT_THEMES,
+    DEFAULT_THEME_LABELS,
+    DEFAULT_SIZES,
+} from "./picker-bar.client.js";
 import { timeZoneOptions } from "@lilydesignsystem/nunjucks-time-zone-picker";
 
 // ---------------------------------------------------------------------
@@ -95,12 +101,42 @@ describe("PickerBar — DEFAULT_THEMES / DEFAULT_SIZES agree with the macro (§3
         expect(values).toEqual(DEFAULT_THEMES);
     });
 
-    test("is alphabetical, with the UK & US themes moved to the bottom as one alphabetical group", () => {
-        const nonUkUs = DEFAULT_THEMES.filter((t) => !t.startsWith("united-"));
-        const ukUs = DEFAULT_THEMES.filter((t) => t.startsWith("united-"));
-        expect(nonUkUs).toEqual([...nonUkUs].sort());
-        expect(ukUs).toEqual([...ukUs].sort());
-        expect(DEFAULT_THEMES).toEqual([...nonUkUs, ...ukUs]);
+    const labelOf = (slug: string) =>
+        (DEFAULT_THEME_LABELS as Record<string, string>)[slug] ??
+        slug
+            .split("-")
+            .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+            .join(" ");
+
+    test("lists the 36 generic themes first, alphabetically, then the official ones by label", () => {
+        const generic = DEFAULT_THEMES.slice(0, 36);
+        const official = DEFAULT_THEMES.slice(36);
+        expect(generic).toEqual([...generic].sort());
+        expect(official.map(labelOf)).toEqual(
+            [...official.map(labelOf)].sort((a, b) =>
+                a.localeCompare(b, "en", { sensitivity: "base" }),
+            ),
+        );
+        expect(DEFAULT_THEMES[36]).toBe("adobe-spectrum");
+        expect(DEFAULT_THEMES.at(-1)).toBe("vercel");
+    });
+
+    test("the macro renders the client's default labels, and a consumer's own label wins", () => {
+        document.body.innerHTML = renderMacro({
+            labels: LABELS,
+            themesUrl: THEMES_URL,
+            locales: LOCALES,
+            themeProps: { themeLabels: { "sap-fiori": "Fiori" } },
+        });
+        const byValue = new Map(
+            Array.from(document.querySelectorAll(".theme-picker-option")).map((el) => [
+                el.getAttribute("data-value"),
+                el.textContent?.trim(),
+            ]),
+        );
+        for (const [slug, label] of Object.entries(DEFAULT_THEME_LABELS))
+            if (slug !== "sap-fiori") expect(byValue.get(slug)).toBe(label);
+        expect(byValue.get("sap-fiori")).toBe("Fiori");
     });
 
     test("client.js DEFAULT_SIZES matches the macro's rendered option order, largest first", () => {

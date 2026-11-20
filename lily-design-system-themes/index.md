@@ -51,8 +51,9 @@ cp node_modules/@lilydesignsystem/themes/*.css public/themes/
 
 ## The 63 themes
 
-Alphabetical, with the UK/US government themes grouped at the end
-(matching `picker-bar`'s default ordering). Each theme has its own page
+Alphabetical, with the UK/US government themes grouped at the end.
+(`picker-bar` lists the generic themes first, then the company and
+public-sector ones by label.) Each theme has its own page
 under [`spec/themes/`](spec/themes/): palette, contrast, shape, upstream
 and notes.
 

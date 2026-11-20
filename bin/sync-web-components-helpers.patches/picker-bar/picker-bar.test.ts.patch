@@ -1,7 +1,7 @@
---- /var/folders/zp/p2vtmfrj35b27yh4ns6h_6h40000gn/T/tmp.3MG2TICg4I	2026-11-20 06:18:46.747350356 +0000
-+++ lily-design-system-web-components-picker-bar/picker-bar.test.ts	2026-11-14 21:27:20.257240691 +0000
+--- generated/picker-bar.test.ts
++++ lily-design-system-web-components-picker-bar/picker-bar.test.ts
 @@ -3,11 +3,8 @@
- import { PickerBar, DEFAULT_THEMES, DEFAULT_SIZES } from "./picker-bar.js";
+ import { PickerBar, DEFAULT_THEMES, DEFAULT_THEME_LABELS, DEFAULT_SIZES } from "./picker-bar.js";
  import type { PickerBarLabels } from "./picker-bar.js";
 
 -// Ensure every custom element involved is registered exactly once for
@@ -102,7 +102,7 @@
  });
 
  describe("PickerBar — DEFAULT_THEMES (§3, §5.1)", () => {
-@@ -110,115 +130,133 @@
+@@ -128,122 +148,143 @@
 
      test("§7.2 renders all five pickers, each named from `labels`", () => {
          const el = mount();
@@ -156,7 +156,8 @@
 +        const options = el.querySelectorAll(".theme-picker-option");
 +        expect(options).toHaveLength(63);
 +        expect(options[0].textContent).toBe("Abyss");
-+        expect(options[55].textContent).toBe("United Kingdom Government Digital Service");
++        expect(options[36].textContent).toBe("Adobe Spectrum");
++        expect(options[47].textContent).toBe("IBM Carbon");
      });
 
      test("§7.6 an explicit `themes` prop overrides the default", () => {
@@ -182,6 +183,19 @@
 +        const options = el.querySelectorAll(".theme-picker-option");
 +        click(options[0]);
 +        expect(localStorage.getItem("lily-theme")).toBe("abyss");
+     });
+
+-    test("the default theme labels reach ThemePicker, and a consumer's own label wins", () => {
++    test("a consumer's own theme label wins over the default", () => {
+         const el = mount({ themeProps: { themeLabels: { "sap-fiori": "Fiori" } } });
+-        expect(el.themePicker?.themeLabels["ibm-carbon"]).toBe("IBM Carbon");
+-        expect(el.themePicker?.themeLabels["sap-fiori"]).toBe("Fiori");
+-        expect(el.themePicker?.themes[36]).toBe("adobe-spectrum");
++        click(el.querySelector(".theme-picker-button")!);
++        const text = [...el.querySelectorAll(".theme-picker-option")].map((o) => o.textContent);
++        expect(text).toContain("Fiori");
++        expect(text).toContain("IBM Carbon");
++        expect(text).not.toContain("SAP Fiori");
      });
  });
 
@@ -288,7 +302,7 @@
          const input = el.querySelector<HTMLInputElement>(".search-picker-input")!;
          input.value = "foo";
          input.dispatchEvent(new Event("input", { bubbles: true }));
-@@ -236,19 +274,19 @@
+@@ -261,19 +302,19 @@
      { label: "Privacy Policy", href: "/privacy/" },
  ];
 
@@ -315,7 +329,7 @@
          ]);
          expect(el.linkPicker).toBeTruthy();
          expect(
-@@ -257,23 +295,28 @@
+@@ -282,23 +323,28 @@
          expect(el.querySelector(".link-picker-button")!.getAttribute("aria-label")).toBe("Pages");
      });
 
@@ -350,7 +364,7 @@
          const onNavigate = vi.fn();
          const el = mount({
              links: LINKS,
-@@ -302,31 +345,33 @@
+@@ -327,31 +373,33 @@
      };
      const WITH = { ...LABELS, timeZone: "Time zone" };
 
@@ -394,7 +408,7 @@
          expect(el.querySelectorAll(".time-zone-picker-option")).toHaveLength(2);
      });
 
-@@ -339,12 +384,17 @@
+@@ -364,12 +412,17 @@
  describe("PickerBar — search is optional (tasks.md P28-T7)", () => {
      test("without labels.search there is no search picker, and theme comes first", () => {
          const el = mount({
