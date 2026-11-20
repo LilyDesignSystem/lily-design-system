@@ -4,10 +4,20 @@
     (spec/healthcare-ui item 1). Shows what the consumer decided; computes no flag and no range.
     Props and rules: ObservationView.md.
 *@
-<span class="@($"observation-view {CssClass}".Trim())" data-interpretation="@(string.IsNullOrEmpty(Interpretation) ? null : Interpretation)" data-status="@Status" @attributes="AdditionalAttributes">@if (!string.IsNullOrEmpty(Label)) {<span class="screen-reader-span">@($"{Label} ")</span>}@if (Status is "cancelled" or "masked" or "not-recorded" or "unavailable" or "not-applicable") {<span class="observation-view-status">@StatusLabel</span>} else {<span class="observation-view-value">@Value</span>@if (!string.IsNullOrEmpty(Unit)) {@(" ")<span class="observation-view-unit">@Unit</span>}@if (!string.IsNullOrEmpty(FlagLabel)) {@(" ")<span class="observation-view-flag">@FlagLabel</span>}@if (!string.IsNullOrEmpty(Range)) {@(" ")<span class="observation-view-range">@Range</span>}@foreach (var named in Ranges ?? []) {@(" ")<span class="observation-view-range"><span class="observation-view-range-label">@named.Label</span>@(" ")@named.Text</span>}@if (!string.IsNullOrEmpty(PreviousValue)) {@(" ")<del class="observation-view-previous-value">@PreviousValue</del>@if (!string.IsNullOrEmpty(PreviousLabel)) {@(" ")<span class="observation-view-previous-label">@PreviousLabel</span>}}@if (Status != "final" && !string.IsNullOrEmpty(StatusLabel)) {@(" ")<span class="observation-view-status">@StatusLabel</span>}}</span>
+<span class="@($"observation-view {CssClass}".Trim())" data-interpretation="@(string.IsNullOrEmpty(Interpretation) ? null : Interpretation)" data-status="@Status" @attributes="AdditionalAttributes">@if (!string.IsNullOrEmpty(Label)) {<span class="screen-reader-span">@($"{Label} ")</span>}@if (Status is "cancelled" or "masked" or "not-recorded" or "unavailable" or "not-applicable") {<span class="observation-view-status">@StatusLabel</span>} else {<span class="observation-view-value">@Value</span>@if (!string.IsNullOrEmpty(Unit)) {@(" ")<span class="observation-view-unit">@Unit</span>}@if (!string.IsNullOrEmpty(FlagLabel)) {@(" ")<span class="observation-view-flag">@FlagLabel</span>}@if (!string.IsNullOrEmpty(Range)) {@(" ")<span class="observation-view-range">@Range</span>}@foreach (var named in Ranges ?? []) {@(" ")<span class="observation-view-range"><span class="observation-view-range-label">@named.Label</span>@(" ")@named.Text</span>}@if (MeterValue is not null && MeterMin is not null && MeterMax is not null) {@(" ")<meter class="observation-view-meter" aria-hidden="true" value="@Number(MeterValue)" min="@Number(MeterMin)" max="@Number(MeterMax)" low="@Number(MeterLow)" high="@Number(MeterHigh)" optimum="@Number(MeterOptimum)"></meter>}@if (!string.IsNullOrEmpty(PreviousValue)) {@(" ")<del class="observation-view-previous-value">@PreviousValue</del>@if (!string.IsNullOrEmpty(PreviousLabel)) {@(" ")<span class="observation-view-previous-label">@PreviousLabel</span>}}@if (Status != "final" && !string.IsNullOrEmpty(StatusLabel)) {@(" ")<span class="observation-view-status">@StatusLabel</span>}}</span>
 @code {
     /// <summary>Further named ranges, each its own -range part with a -range-label.</summary>
     [Parameter] public IReadOnlyList<ObservationRange>? Ranges { get; set; }
+    /// <summary>With MeterValue, MeterMin and MeterMax, a meter shows where the value sits; aria-hidden, as the words say it.</summary>
+    [Parameter] public double? MeterValue { get; set; }
+    [Parameter] public double? MeterMin { get; set; }
+    [Parameter] public double? MeterMax { get; set; }
+    /// <summary>The reference range and best value on the meter, for the theme.</summary>
+    [Parameter] public double? MeterLow { get; set; }
+    [Parameter] public double? MeterHigh { get; set; }
+    [Parameter] public double? MeterOptimum { get; set; }
+    // An attribute number is written in the invariant culture: "5.9", never "5,9", whatever the page's culture.
+    private static string? Number(double? value) => value?.ToString(System.Globalization.CultureInfo.InvariantCulture);
     /// <summary>A superseded value, shown in a del.</summary>
     [Parameter] public string? PreviousValue { get; set; }
     /// <summary>The consumer's words for it; give it with PreviousValue.</summary>

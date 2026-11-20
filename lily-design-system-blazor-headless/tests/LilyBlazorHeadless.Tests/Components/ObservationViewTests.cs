@@ -86,4 +86,45 @@ public class ObservationViewTests : TestContext
         Assert.Equal("5.1", cut.Find("del.observation-view-previous-value").TextContent);
         Assert.Equal("was 5.1 until 3 Nov", cut.Find(".observation-view-previous-label").TextContent);
     }
+
+    [Fact]
+    public void A_meter_shows_where_the_value_sits_hidden_from_assistive_technology()
+    {
+        var previous = System.Globalization.CultureInfo.CurrentCulture;
+        System.Globalization.CultureInfo.CurrentCulture = new System.Globalization.CultureInfo("de-DE");
+        try
+        {
+            var cut = RenderComponent<ObservationView>(p => p
+                .Add(x => x.Value, "5,9")
+                .Add(x => x.MeterValue, 5.9)
+                .Add(x => x.MeterMin, 2)
+                .Add(x => x.MeterMax, 8)
+                .Add(x => x.MeterLow, 3.5)
+                .Add(x => x.MeterHigh, 5.3)
+                .Add(x => x.MeterOptimum, 4.4));
+            var meter = cut.Find("meter.observation-view-meter");
+            Assert.Equal("true", meter.GetAttribute("aria-hidden"));
+            // Invariant numbers, even under a German culture.
+            Assert.Equal(["5.9", "2", "8", "3.5", "5.3", "4.4"],
+                new[] { "value", "min", "max", "low", "high", "optimum" }.Select(a => meter.GetAttribute(a)));
+        }
+        finally
+        {
+            System.Globalization.CultureInfo.CurrentCulture = previous;
+        }
+    }
+
+    [Fact]
+    public void No_meter_without_a_value_min_and_max_or_for_a_missing_result()
+    {
+        var partial = RenderComponent<ObservationView>(p => p.Add(x => x.Value, "5.9").Add(x => x.MeterValue, 5.9).Add(x => x.MeterMin, 2));
+        Assert.Empty(partial.FindAll("meter"));
+        var missing = RenderComponent<ObservationView>(p => p
+            .Add(x => x.Status, "unavailable")
+            .Add(x => x.StatusLabel, "Unavailable")
+            .Add(x => x.MeterValue, 5.9)
+            .Add(x => x.MeterMin, 2)
+            .Add(x => x.MeterMax, 8));
+        Assert.Empty(missing.FindAll("meter"));
+    }
 }

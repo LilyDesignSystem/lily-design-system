@@ -102,4 +102,42 @@ describe("observation-view", () => {
             "was 5.1 until 3 Nov",
         );
     });
+
+    it("a meter shows where the value sits, hidden from assistive technology because the words say it", () => {
+        const { document } = render("observation-view", {
+            value: "5.9",
+            interpretation: "H",
+            flagLabel: "High",
+            meterValue: 5.9,
+            meterMin: 2,
+            meterMax: 8,
+            meterLow: 3.5,
+            meterHigh: 5.3,
+            meterOptimum: 4.4,
+        });
+        const meter = document.querySelector("meter.observation-view-meter");
+        expect(meter.getAttribute("aria-hidden")).toBe("true");
+        expect(
+            ["value", "min", "max", "low", "high", "optimum"].map((a) => meter.getAttribute(a)),
+        ).toEqual(["5.9", "2", "8", "3.5", "5.3", "4.4"]);
+    });
+
+    it("no meter without a value, min and max, or for a missing result", () => {
+        expect(
+            render("observation-view", {
+                value: "5.9",
+                meterValue: 5.9,
+                meterMin: 2,
+            }).document.querySelector("meter"),
+        ).toBeNull();
+        expect(
+            render("observation-view", {
+                status: "unavailable",
+                statusLabel: "Unavailable",
+                meterValue: 5.9,
+                meterMin: 2,
+                meterMax: 8,
+            }).document.querySelector("meter"),
+        ).toBeNull();
+    });
 });

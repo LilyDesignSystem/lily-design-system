@@ -161,4 +161,45 @@ describe("ObservationView", () => {
             expect.stringContaining("ObservationView has no previousLabel"),
         );
     });
+
+    test("a meter shows where the value sits, hidden from assistive technology because the words say it", () => {
+        const { container } = render(Subject, {
+            props: {
+                value: "5.9",
+                unit: "mmol/L",
+                interpretation: "H",
+                flagLabel: "High",
+                range: "3.5–5.3",
+                meterValue: 5.9,
+                meterMin: 2,
+                meterMax: 8,
+                meterLow: 3.5,
+                meterHigh: 5.3,
+                meterOptimum: 4.4,
+            },
+        });
+        const meter = container.querySelector("meter.observation-view-meter") as HTMLMeterElement;
+        expect(meter.getAttribute("aria-hidden")).toBe("true");
+        expect([meter.value, meter.min, meter.max, meter.low, meter.high, meter.optimum]).toEqual([
+            5.9, 2, 8, 3.5, 5.3, 4.4,
+        ]);
+        // The flag and range stay in words.
+        expect(container.querySelector(".observation-view-flag")?.textContent).toBe("High");
+        expect(container.querySelector(".observation-view-range")?.textContent).toBe("3.5–5.3");
+    });
+
+    test("no meter without a value, min and max, or for a missing result", () => {
+        const partial = render(Subject, { props: { value: "5.9", meterValue: 5.9, meterMin: 2 } });
+        expect(partial.container.querySelector("meter")).toBeNull();
+        const missing = render(Subject, {
+            props: {
+                status: "unavailable",
+                statusLabel: "Unavailable",
+                meterValue: 5.9,
+                meterMin: 2,
+                meterMax: 8,
+            },
+        });
+        expect(missing.container.querySelector("meter")).toBeNull();
+    });
 });

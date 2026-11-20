@@ -30,6 +30,14 @@ export interface ObservationViewProps {
     range?: string;
     /** Further named ranges, each its own -range part with a -range-label. */
     ranges?: { label: string; text: string }[];
+    /** With meterValue, meterMin and meterMax, a native <meter> part shows where the value sits; aria-hidden, as the words say it. */
+    meterValue?: number;
+    meterMin?: number;
+    meterMax?: number;
+    /** The reference range and best value on the meter, for the theme. */
+    meterLow?: number;
+    meterHigh?: number;
+    meterOptimum?: number;
     /** A superseded value, shown in a <del>. */
     previousValue?: string;
     /** The consumer's words for it; required with previousValue. */
@@ -70,6 +78,12 @@ export default function ObservationView(props: ObservationViewProps) {
         "flagLabel",
         "range",
         "ranges",
+        "meterValue",
+        "meterMin",
+        "meterMax",
+        "meterLow",
+        "meterHigh",
+        "meterOptimum",
         "previousValue",
         "previousLabel",
         "status",
@@ -130,6 +144,23 @@ export default function ObservationView(props: ObservationViewProps) {
                             </span>
                         </>
                     ))}
+                    {typeof p.meterValue === "number" &&
+                    typeof p.meterMin === "number" &&
+                    typeof p.meterMax === "number" ? (
+                        <>
+                            {" "}
+                            <meter
+                                class="observation-view-meter"
+                                aria-hidden="true"
+                                value={p.meterValue}
+                                min={p.meterMin}
+                                max={p.meterMax}
+                                low={p.meterLow}
+                                high={p.meterHigh}
+                                optimum={p.meterOptimum}
+                            />
+                        </>
+                    ) : null}
                     {p.previousValue ? (
                         <>
                             {" "}

@@ -88,4 +88,28 @@ describe("ObservationView", () => {
             "was 5.1 until 3 Nov",
         );
     });
+
+    test("a meter shows where the value sits, hidden from assistive technology because the words say it", () => {
+        const host = render(
+            '<lily-observation-view value="5.9" interpretation="H" flag-label="High" meter-value="5.9" meter-min="2" meter-max="8" meter-low="3.5" meter-high="5.3" meter-optimum="4.4"></lily-observation-view>',
+        );
+        const meter = host.querySelector("meter.observation-view-meter") as HTMLMeterElement;
+        expect(meter.getAttribute("aria-hidden")).toBe("true");
+        expect([meter.value, meter.min, meter.max, meter.low, meter.high, meter.optimum]).toEqual([
+            5.9, 2, 8, 3.5, 5.3, 4.4,
+        ]);
+    });
+
+    test("no meter without a value, min and max, or for a missing result", () => {
+        expect(
+            render(
+                '<lily-observation-view value="5.9" meter-value="5.9" meter-min="2"></lily-observation-view>',
+            ).querySelector("meter"),
+        ).toBeNull();
+        expect(
+            render(
+                '<lily-observation-view status="unavailable" status-label="Unavailable" meter-value="5.9" meter-min="2" meter-max="8"></lily-observation-view>',
+            ).querySelector("meter"),
+        ).toBeNull();
+    });
 });

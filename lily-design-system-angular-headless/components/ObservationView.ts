@@ -17,7 +17,7 @@ const MISSING: readonly string[] = [
 @Component({
     selector: "lily-observation-view",
     standalone: true,
-    template: `<span class="observation-view {{ className() }}" [attr.data-interpretation]="interpretation() || null" [attr.data-status]="status()">@if (label()) {<span class="screen-reader-span">{{ label() + " " }}</span>}@if (missing()) {<span class="observation-view-status">{{ statusLabel() }}</span>} @else {<span class="observation-view-value">{{ value() }}</span>@if (unit()) {{{ " " }}<span class="observation-view-unit">{{ unit() }}</span>}@if (flagLabel()) {{{ " " }}<span class="observation-view-flag">{{ flagLabel() }}</span>}@if (range()) {{{ " " }}<span class="observation-view-range">{{ range() }}</span>}@for (named of ranges(); track named.label) {{{ " " }}<span class="observation-view-range"><span class="observation-view-range-label">{{ named.label }}</span>{{ " " }}{{ named.text }}</span>}@if (previousValue()) {{{ " " }}<del class="observation-view-previous-value">{{ previousValue() }}</del>@if (previousLabel()) {{{ " " }}<span class="observation-view-previous-label">{{ previousLabel() }}</span>}}@if (status() !== "final" && statusLabel()) {{{ " " }}<span class="observation-view-status">{{ statusLabel() }}</span>}}</span>`,
+    template: `<span class="observation-view {{ className() }}" [attr.data-interpretation]="interpretation() || null" [attr.data-status]="status()">@if (label()) {<span class="screen-reader-span">{{ label() + " " }}</span>}@if (missing()) {<span class="observation-view-status">{{ statusLabel() }}</span>} @else {<span class="observation-view-value">{{ value() }}</span>@if (unit()) {{{ " " }}<span class="observation-view-unit">{{ unit() }}</span>}@if (flagLabel()) {{{ " " }}<span class="observation-view-flag">{{ flagLabel() }}</span>}@if (range()) {{{ " " }}<span class="observation-view-range">{{ range() }}</span>}@for (named of ranges(); track named.label) {{{ " " }}<span class="observation-view-range"><span class="observation-view-range-label">{{ named.label }}</span>{{ " " }}{{ named.text }}</span>}@if (showMeter()) {{{ " " }}<meter class="observation-view-meter" aria-hidden="true" [value]="meterValue()" [min]="meterMin()" [max]="meterMax()" [attr.low]="meterLow() ?? null" [attr.high]="meterHigh() ?? null" [attr.optimum]="meterOptimum() ?? null"></meter>}@if (previousValue()) {{{ " " }}<del class="observation-view-previous-value">{{ previousValue() }}</del>@if (previousLabel()) {{{ " " }}<span class="observation-view-previous-label">{{ previousLabel() }}</span>}}@if (status() !== "final" && statusLabel()) {{{ " " }}<span class="observation-view-status">{{ statusLabel() }}</span>}}</span>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ObservationView implements OnInit {
@@ -35,6 +35,20 @@ export class ObservationView implements OnInit {
     readonly range = input<string>("");
     /** Further named ranges, each its own -range part with a -range-label. */
     readonly ranges = input<{ label: string; text: string }[]>([]);
+    /** With meterValue, meterMin and meterMax, a native <meter> shows where the value sits; aria-hidden, as the words say it. */
+    readonly meterValue = input<number | undefined>(undefined);
+    readonly meterMin = input<number | undefined>(undefined);
+    readonly meterMax = input<number | undefined>(undefined);
+    /** The reference range and best value on the meter, for the theme. */
+    readonly meterLow = input<number | undefined>(undefined);
+    readonly meterHigh = input<number | undefined>(undefined);
+    readonly meterOptimum = input<number | undefined>(undefined);
+    protected readonly showMeter = computed(
+        () =>
+            typeof this.meterValue() === "number" &&
+            typeof this.meterMin() === "number" &&
+            typeof this.meterMax() === "number",
+    );
     /** A superseded value, shown in a <del>. */
     readonly previousValue = input<string>("");
     /** The consumer's words for it; required with previousValue. */

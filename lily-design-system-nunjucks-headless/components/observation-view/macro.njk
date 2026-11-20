@@ -3,13 +3,17 @@
   (spec/healthcare-ui item 1). Shows what the consumer decided; computes no flag and no range.
 
   HTML tag: <span>
-  CSS class: observation-view (parts: -value, -unit, -flag, -range, -range-label, -previous-value, -previous-label, -status)
+  CSS class: observation-view (parts: -value, -unit, -flag, -range, -range-label, -meter, -previous-value, -previous-label, -status)
 
   Params:
     value, unit, range         strings, formatted by the consumer
     interpretation             a FHIR v3 ObservationInterpretation code, rendered as data-interpretation
     flagLabel                  the consumer's words for the flag; required when it is not normal
     ranges                     [{ label, text }]: further named ranges, each a -range part with a -range-label
+    meterValue, meterMin,      numbers; with all three, an aria-hidden <meter> shows where the value sits
+      meterMax
+    meterLow, meterHigh,       numbers, optional: the reference range and best value on the meter, for the theme
+      meterOptimum
     previousValue              a superseded value, in a <del>
     previousLabel              the consumer's words for it ("was 5.1 until 3 Nov"); give it with previousValue
     status                     "final" (default) | "preliminary" | "amended" | "corrected" | "entered-in-error" | "cancelled" | "masked" | "not-recorded" | "unavailable" | "not-applicable"
@@ -35,6 +39,7 @@
 {%- if p.flagLabel %} <span class="observation-view-flag">{{ p.flagLabel }}</span>{% endif -%}
 {%- if p.range %} <span class="observation-view-range">{{ p.range }}</span>{% endif -%}
 {%- for named in p.ranges or [] %} <span class="observation-view-range"><span class="observation-view-range-label">{{ named.label }}</span> {{ named.text }}</span>{% endfor -%}
+{%- if (p.meterValue is number) and (p.meterMin is number) and (p.meterMax is number) %} <meter class="observation-view-meter" aria-hidden="true" value="{{ p.meterValue }}" min="{{ p.meterMin }}" max="{{ p.meterMax }}"{% if p.meterLow is number %} low="{{ p.meterLow }}"{% endif %}{% if p.meterHigh is number %} high="{{ p.meterHigh }}"{% endif %}{% if p.meterOptimum is number %} optimum="{{ p.meterOptimum }}"{% endif %}></meter>{% endif -%}
 {%- if p.previousValue %} <del class="observation-view-previous-value">{{ p.previousValue }}</del>{% if p.previousLabel %} <span class="observation-view-previous-label">{{ p.previousLabel }}</span>{% endif %}{% endif -%}
 {%- if status != "final" and p.statusLabel %} <span class="observation-view-status">{{ p.statusLabel }}</span>{% endif -%}
 {%- endif -%}</span>

@@ -4151,9 +4151,12 @@ guide (T5, T6) and the examples (T7); T8 and T9 are investigations. New props go
       `bin/check-built-english` passes. _(2026-11-20: done in all nine catalogs. No arrow is rendered at all: a headless component
       ships no glyph, so `trend` is `data-trend` on the change part and a theme may draw one. Blazor's `Statistic` is still a
       container without title and value parameters, a gap from before; it gains the four new ones.)_
-- [ ] **P40-T2 A `<meter>` in `observation-view`.** Optional `low`, `high`, `min`, `max` and `optimum` render a native `<meter>`
+- [x] **P40-T2 A `<meter>` in `observation-view`.** Optional `low`, `high`, `min`, `max` and `optimum` render a native `<meter>`
       part beside the text range; the flag stays in words.
-      Verify: tests in all nine catalogs that the meter's attributes follow the props and that no meter renders without them.
+      Verify: tests in all nine catalogs that the meter's attributes follow the props and that no meter renders without them. _(2026-11-20: done in all nine catalogs as `meterValue`, `meterMin`, `meterMax`,
+      `meterLow`, `meterHigh` and `meterOptimum`, prefixed so they cannot clash with attributes spread onto the root. The meter
+      is `aria-hidden`, since the words already carry the value, range and flag. Blazor writes its numbers in the invariant
+      culture, tested under de-DE.)_
 - [x] **P40-T3 `formatRange` in `shared/clinical-format.ts`.** `formatRange(low, high, unit, locale)` through
       `Intl.NumberFormat.formatRange`; a low above the high throws a `RangeError`.
       Verify: tests for order, two locales and the refusal; `bin/sync-shared-modules --check` and

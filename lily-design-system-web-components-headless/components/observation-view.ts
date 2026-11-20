@@ -3,6 +3,7 @@
 // computes no flag and no range.
 // Attributes: label, value, unit, interpretation (FHIR v3 code -> data-interpretation), flag-label, range,
 //   ranges (a JSON array of { label, text }), previous-value (in a <del>) and previous-label,
+//   meter-value, meter-min, meter-max (all three draw an aria-hidden <meter>), meter-low, meter-high, meter-optimum,
 //   status (final | preliminary | amended | corrected | entered-in-error | cancelled | masked | not-recorded | unavailable | not-applicable
 //   -> data-status), status-label.
 import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
@@ -24,6 +25,12 @@ const HANDLED = new Set([
     "flag-label",
     "range",
     "ranges",
+    "meter-value",
+    "meter-min",
+    "meter-max",
+    "meter-low",
+    "meter-high",
+    "meter-optimum",
     "previous-value",
     "previous-label",
     "status",
@@ -71,6 +78,30 @@ export class ObservationView extends HTMLElement {
                 const range = part("range", "");
                 range.append(part("range-label", named.label), " ", named.text);
                 span.append(" ", range);
+            }
+            // A meter where the value sits, aria-hidden: the value, range and flag are already words.
+            const number = (name: string): number | undefined => {
+                const raw = this.getAttribute(name);
+                const n = raw === null || raw === "" ? Number.NaN : Number(raw);
+                return Number.isFinite(n) ? n : undefined;
+            };
+            const meterValue = number("meter-value");
+            const meterMin = number("meter-min");
+            const meterMax = number("meter-max");
+            if (meterValue !== undefined && meterMin !== undefined && meterMax !== undefined) {
+                const meter = document.createElement("meter");
+                meter.className = "observation-view-meter";
+                meter.setAttribute("aria-hidden", "true");
+                meter.min = meterMin;
+                meter.max = meterMax;
+                meter.value = meterValue;
+                const low = number("meter-low");
+                const high = number("meter-high");
+                const optimum = number("meter-optimum");
+                if (low !== undefined) meter.low = low;
+                if (high !== undefined) meter.high = high;
+                if (optimum !== undefined) meter.optimum = optimum;
+                span.append(" ", meter);
             }
             if (attr("previous-value")) {
                 const del = document.createElement("del");

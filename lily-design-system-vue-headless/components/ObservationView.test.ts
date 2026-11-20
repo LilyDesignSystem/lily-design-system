@@ -132,4 +132,43 @@ describe("ObservationView", () => {
             "was 5.1 until 3 Nov",
         );
     });
+
+    test("a meter shows where the value sits, hidden from assistive technology because the words say it", () => {
+        const { container } = render(Subject, {
+            props: {
+                value: "5.9",
+                interpretation: "H",
+                flagLabel: "High",
+                meterValue: 5.9,
+                meterMin: 2,
+                meterMax: 8,
+                meterLow: 3.5,
+                meterHigh: 5.3,
+                meterOptimum: 4.4,
+            },
+        });
+        const meter = container.querySelector("meter.observation-view-meter") as HTMLMeterElement;
+        expect(meter.getAttribute("aria-hidden")).toBe("true");
+        expect([meter.value, meter.min, meter.max, meter.low, meter.high, meter.optimum]).toEqual([
+            5.9, 2, 8, 3.5, 5.3, 4.4,
+        ]);
+    });
+
+    test("no meter without a value, min and max, or for a missing result", () => {
+        expect(
+            render(Subject, {
+                props: { value: "5.9", meterValue: 5.9, meterMin: 2 },
+            }).container.querySelector("meter"),
+        ).toBeNull();
+        const missing = render(Subject, {
+            props: {
+                status: "unavailable",
+                statusLabel: "Unavailable",
+                meterValue: 5.9,
+                meterMin: 2,
+                meterMax: 8,
+            },
+        });
+        expect(missing.container.querySelector("meter")).toBeNull();
+    });
 });

@@ -26,6 +26,14 @@ const props = withDefaults(
         range?: string;
         /** Further named ranges, each its own -range part with a -range-label. */
         ranges?: { label: string; text: string }[];
+        /** With meterValue, meterMin and meterMax, a native <meter> shows where the value sits; aria-hidden, as the words say it. */
+        meterValue?: number;
+        meterMin?: number;
+        meterMax?: number;
+        /** The reference range and best value on the meter, for the theme. */
+        meterLow?: number;
+        meterHigh?: number;
+        meterOptimum?: number;
         /** A superseded value, shown in a <del>. */
         previousValue?: string;
         /** The consumer's words for it; required with previousValue. */
@@ -101,6 +109,23 @@ const missing = computed(() => MISSING.includes(props.status ?? "final"));
                     ><span class="observation-view-range-label">{{ named.label }}</span
                     >{{ " " }}{{ named.text }}</span
                 ></template
+            ><template
+                v-if="
+                    typeof meterValue === 'number' &&
+                    typeof meterMin === 'number' &&
+                    typeof meterMax === 'number'
+                "
+                >{{ " "
+                }}<meter
+                    class="observation-view-meter"
+                    aria-hidden="true"
+                    :value="meterValue"
+                    :min="meterMin"
+                    :max="meterMax"
+                    :low="meterLow"
+                    :high="meterHigh"
+                    :optimum="meterOptimum"
+                ></meter></template
             ><template v-if="previousValue"
                 >{{ " " }}<del class="observation-view-previous-value">{{ previousValue }}</del
                 ><template v-if="previousLabel"

@@ -16,6 +16,9 @@
     //   range — string, optional. The reference range as text ("3.5–5.3").
     //   ranges — { label, text }[], optional. Further named ranges ("Critical", "below 2.5"), each its own -range part with a
     //     -range-label, after range (openEHR other_reference_ranges).
+    //   meterValue, meterMin, meterMax — numbers, optional. With all three, a native <meter> part shows where the value sits;
+    //     meterLow, meterHigh and meterOptimum (optional) mark the reference range for the theme. It is aria-hidden: the value,
+    //     range and flag are already words, so the meter is their picture, never the only signal.
     //   previousValue — string, optional. A superseded value, shown in a <del> so a reader who saw it knows it changed.
     //   previousLabel — string, optional. The consumer's words for it ("was 5.1 until 3 Nov"); required with previousValue.
     //   It never infers an interpretation: with no interpretation there is no flag and no data-interpretation, even when
@@ -60,6 +63,12 @@
         flagLabel,
         range,
         ranges = [],
+        meterValue,
+        meterMin,
+        meterMax,
+        meterLow,
+        meterHigh,
+        meterOptimum,
         previousValue,
         previousLabel,
         status = "final",
@@ -73,6 +82,12 @@
         flagLabel?: string;
         range?: string;
         ranges?: { label: string; text: string }[];
+        meterValue?: number;
+        meterMin?: number;
+        meterMax?: number;
+        meterLow?: number;
+        meterHigh?: number;
+        meterOptimum?: number;
         previousValue?: string;
         previousLabel?: string;
         status?:
@@ -91,6 +106,11 @@
     } = $props();
 
     const missing = $derived(MISSING.includes(status));
+    const showMeter = $derived(
+        typeof meterValue === "number" &&
+            typeof meterMin === "number" &&
+            typeof meterMax === "number",
+    );
 
     $effect(() => {
         if (status !== "final")
@@ -132,7 +152,16 @@
             >{/if}{#each ranges as named (named.label)}{" "}<span class="observation-view-range"
                 ><span class="observation-view-range-label">{named.label}</span
                 >{" "}{named.text}</span
-            >{/each}{#if previousValue}{" "}<del class="observation-view-previous-value"
+            >{/each}{#if showMeter}{" "}<meter
+                class="observation-view-meter"
+                aria-hidden="true"
+                value={meterValue}
+                min={meterMin}
+                max={meterMax}
+                low={meterLow}
+                high={meterHigh}
+                optimum={meterOptimum}
+            ></meter>{/if}{#if previousValue}{" "}<del class="observation-view-previous-value"
                 >{previousValue}</del
             >{#if previousLabel}{" "}<span class="observation-view-previous-label"
                     >{previousLabel}</span

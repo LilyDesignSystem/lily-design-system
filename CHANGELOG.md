@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## A meter in `observation-view` (2026-11-20, P40-T2, unreleased)
+
+- In all nine catalogs `observation-view` takes `meterValue`, `meterMin` and `meterMax` (with optional `meterLow`, `meterHigh`
+  and `meterOptimum`) and draws an `aria-hidden` native `<meter>` of where the value sits. The value, range and flag stay
+  words; the meter is their picture, for a theme to style.
+
 ## A change and an "as of" on `statistic` (2026-11-20, P40-T1, unreleased)
 
 - In all nine catalogs `statistic` takes `change` (words that name the comparison), `trend` (`data-trend` on the change, for
