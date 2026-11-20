@@ -99,6 +99,10 @@ The consumer provides all CSS styling. The component renders with a `.end-notes`
 - `footnote` — a footnote reference and content element
 - `citation` — a citation acknowledges the relevance of a work of another to the topic of discussion
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN HTML elements reference](https://developer.mozilla.org/en-US/docs/Web/HTML/Element)

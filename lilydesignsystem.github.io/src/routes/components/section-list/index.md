@@ -2,18 +2,20 @@
 
 A list of section navigation items.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
-- Renders an `<ol>` containing `SectionListItem` children
+- Renders an `<ul>` containing `SectionListItem` children
 - Used inside `SectionNav` to enumerate the section's pages
-- Spreads `restProps` onto the root `<ol>`
+- Spreads `restProps` onto the root `<ul>`
 
 ## Props
 
 | Prop           | Type            | Default | Description                 |
 | -------------- | --------------- | ------- | --------------------------- |
 | `children`     | slot (required) | —       | `SectionListItem` elements  |
-| `...restProps` | HTML attributes | —       | Spread onto the root `<ol>` |
+| `...restProps` | HTML attributes | —       | Spread onto the root `<ul>` |
 
 ## Usage
 
@@ -36,7 +38,7 @@ A list of section navigation items.
 
 ## ARIA
 
-- Native ordered list semantics announce the count of items
+- Native list semantics announce the count of items
 
 ## When to Use
 
@@ -59,6 +61,10 @@ The component renders with `.section-list` as the root class. No default styles 
 - `section-nav` — parent landmark
 - `section-list-item` — child list item
 - `section-link` — link rendered inside each list item
+
+## Known limitations
+
+None known.
 
 ## References
 

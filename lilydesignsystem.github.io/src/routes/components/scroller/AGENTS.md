@@ -5,6 +5,7 @@
 - Component: scroller
 - PascalCase: Scroller
 - Description: a scrollytelling container with step-based foreground and background composition
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .scroller
 - Interactive: yes
@@ -20,7 +21,7 @@
 
 ## ARIA
 
-- `aria-label` on container
+- `role="group"` with `aria-label` on container, because a plain `<div>` cannot be named
 - `aria-live="polite"` on background for screen reader updates
 
 ## Keyboard
@@ -45,12 +46,16 @@
 ## Acceptance Criteria
 
 - [ ] Renders <div> element with class="scroller"
-- [ ] Has aria-label attribute when label prop is provided
+- [ ] Has role="group" and aria-label when label prop is provided
 - [ ] Background content sticks while foreground scrolls
 - [ ] Exposes bindable index and progress values
 - [ ] Uses ScrollerBase internally
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS -- fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

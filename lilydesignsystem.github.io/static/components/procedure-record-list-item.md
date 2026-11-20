@@ -76,6 +76,10 @@ This headless component ships zero CSS and decides nothing visual. The consumer 
 
 - `procedure-record-list` — a list of a patient's procedures, whose status is never blank
 
+## Known limitations
+
+None known.
+
 ## References
 
 - FHIR Procedure: https://hl7.org/fhir/R4/procedure.html

@@ -5,6 +5,7 @@
 - Component: kanban-table-body
 - PascalCase: KanbanTableBody
 - Description: a kanban board table interactive grid tbody for organizing items by status <tbody>
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <tbody>
 - CSS class: .kanban-table-body
 - Interactive: no
@@ -44,6 +45,10 @@
 - [ ] Has role="list"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

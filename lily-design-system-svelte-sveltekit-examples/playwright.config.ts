@@ -5,7 +5,7 @@ const port = e2ePort();
 
 // Specs that also run in Firefox and WebKit (P18-T1).
 const crossEngineSpecs =
-    /(responsive|focus-obscured|accessibility|axe-catalog|overflow-navigation|wheel-picker-theme|time-wheels|patient-banner|healthcare-pages|clinic-pages|patient-dashboard|motion-recipes)\.spec\.ts$/;
+    /(responsive|focus-obscured|accessibility|axe-catalog|overflow-navigation|wheel-picker-theme|time-wheels|patient-banner|healthcare-pages|clinic-pages|patient-dashboard|motion-recipes|visual-regression)\.spec\.ts$/;
 
 export default defineConfig({
     testDir: "./e2e",
@@ -20,7 +20,8 @@ export default defineConfig({
     // Chromium runs every spec. Firefox and WebKit run the cross-engine
     // subset (P18-T1): the responsive sweep, Focus Not Obscured (2.4.11), the
     // axe baseline, the full axe catalog, the overflow-navigation case and the
-    // wheel-picker theme layout (P26-T2), since scroll padding is per engine.
+    // wheel-picker theme layout (P26-T2), since scroll padding is per engine,
+    // and the visual-regression baseline (P38-T6).
     // Run one engine with `npx playwright test --project=firefox`.
     projects: [
         { name: "chromium", use: { ...devices["Desktop Chrome"] } },

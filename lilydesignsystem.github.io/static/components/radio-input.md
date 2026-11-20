@@ -114,6 +114,10 @@ The consumer provides all CSS styling. The component renders with a `.radio-inpu
 - `checkbox-input` — a checkbox input for toggling a boolean value <input type="checkbox">
 - `segment-group-item` — one selectable segment in a segment group
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radiobutton/

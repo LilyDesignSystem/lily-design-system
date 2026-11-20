@@ -140,6 +140,10 @@ The consumer provides all CSS styling. The component renders with a `.number-inp
 - `range-input` — a slider input for selecting a value within a range <input type="range">
 - `meter` — a gauge displaying a scalar value within a known range
 
+## Known limitations
+
+None known.
+
 ## References
 
 - HTML number input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/number

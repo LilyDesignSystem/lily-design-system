@@ -97,6 +97,10 @@ optional dividers between items.
 
 - `collection-list-item` — one item in a collection list with optional image, heading, meta, and description
 
+## Known limitations
+
+None known.
+
 ## References
 
 - US Web Design System Collection: https://designsystem.digital.gov/components/collection/

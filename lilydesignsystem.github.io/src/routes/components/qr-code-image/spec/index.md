@@ -1,10 +1,10 @@
-# QR Code Image — Specification
+# QR Code — Specification
 
-Single source of truth for spec-driven development of the QR Code Image component. Consolidates the prior `plan.md` and `tasks.md`.
+Single source of truth for spec-driven development of the QR Code component. Consolidates the prior `plan.md` and `tasks.md`.
 
 ## Goal
 
-Implement the QR Code Image component: a QR code image generated from text or URL data.
+Implement the QR Code component: a QR code image generated from text or URL data.
 
 ## HTML Tag and CSS Class
 

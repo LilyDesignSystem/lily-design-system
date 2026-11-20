@@ -71,8 +71,8 @@ describe("lily-menu-picker", () => {
                 return s;
             }
         }
-        customElements.define("custom-lily-menu-picker", Custom);
-        const el = document.createElement("custom-lily-menu-picker") as MenuPicker;
+        customElements.define("custom-menu-picker", Custom);
+        const el = document.createElement("custom-menu-picker") as MenuPicker;
         el.setAttribute("label", "Menu");
         document.body.appendChild(el);
         expect(el.querySelector(".mine")).toBeTruthy();
@@ -99,9 +99,9 @@ describe("lily-menu-picker", () => {
         expect(panel(el).querySelector(".menu-picker")).toBeNull();
         expect(panel(el).querySelector("a")?.textContent).toBe("Alpha");
         // Defined AFTER the markup exists: the upgrade renders from attributeChangedCallback first.
-        document.body.innerHTML = `<late-lily-menu-picker label="Late"><a href="/b/">Beta</a></late-lily-menu-picker>`;
-        customElements.define("late-lily-menu-picker", class extends MenuPicker {});
-        const late = document.querySelector("late-lily-menu-picker") as MenuPicker;
+        document.body.innerHTML = `<late-menu-picker label="Late"><a href="/b/">Beta</a></late-menu-picker>`;
+        customElements.define("late-menu-picker", class extends MenuPicker {});
+        const late = document.querySelector("late-menu-picker") as MenuPicker;
         expect(late.querySelectorAll(".menu-picker")).toHaveLength(1);
         expect(panel(late).querySelector("a")?.textContent).toBe("Beta");
     });

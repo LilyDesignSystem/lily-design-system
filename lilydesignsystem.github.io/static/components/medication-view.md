@@ -79,6 +79,10 @@ This headless component ships zero CSS and decides nothing visual. The consumer 
 - `observation-view` — a clinical observation or result
 - `decision-support-card` — a clinical decision support card
 
+## Known limitations
+
+None known.
+
 ## References
 
 - ISMP guidelines for electronic communication of medication information: https://online.ecri.org/hubfs/ISMP/Resources/ISMP_Electronic_Guidelines.pdf

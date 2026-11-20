@@ -5,6 +5,7 @@
 - Component: breadcrumb-list-item
 - PascalCase: BreadcrumbListItem
 - Description: one breadcrumb list item in the trail
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <li>
 - CSS class: .breadcrumb-list-item
 - Interactive: no
@@ -17,7 +18,7 @@
 ## Key Behaviors
 
 - Renders as a semantic `<li>` element for use inside a breadcrumb `<nav>` / `<ol>` structure
-- Supports `aria-current="page"` via the `current` prop to indicate the active page in the breadcrumb trail
+- Supports `data-current` via the `current` prop to indicate the active page in the breadcrumb trail
 - Content is provided through the children slot, typically an `<a>` link or plain text
 - Passes through all additional HTML attributes via `...restProps`
 - Uses `slot` for children content
@@ -25,7 +26,7 @@
 ## ARIA
 
 - Implicit `listitem` role from the semantic `<li>` element
-- `aria-current="page"` -- set when `current` is true, indicating the user's current location in the breadcrumb trail
+- `data-current` -- set when `current` is true, indicating the user's current location in the breadcrumb trail
 
 ## Keyboard
 
@@ -41,6 +42,10 @@
 - [ ] Renders <li> element with class="breadcrumb-list-item"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

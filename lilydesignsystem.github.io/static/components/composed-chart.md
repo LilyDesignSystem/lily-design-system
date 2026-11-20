@@ -91,6 +91,10 @@ The graphic is wrapped in `<div class="composed-chart-graphic" role="img" aria-l
 - `area-chart`
 - `graphic-block`
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN figure element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figure)

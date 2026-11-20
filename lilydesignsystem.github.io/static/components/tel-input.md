@@ -108,6 +108,10 @@ TelInput and TelLink follow the Input/Link pattern. TelInput provides the editab
 - `text-input` — a single-line text input field <input type="text">
 - `email-input` — an input for entering an email address <input type="email">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - HTML tel input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/tel

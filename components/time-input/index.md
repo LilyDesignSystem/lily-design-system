@@ -107,6 +107,10 @@ The consumer provides all CSS styling. The component renders with a `.time-input
 - `time-picker-input` — an input with a dropdown for picking a time
 - `date-input` — an input for entering a date value <input type="date">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN input type="time": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time

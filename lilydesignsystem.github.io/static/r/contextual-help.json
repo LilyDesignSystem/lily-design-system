@@ -45,6 +45,7 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ContextualHelp.razor"
   },
   "docs": "https://lilydesignsystem.com/components/contextual-help/",
+  "markdown": "https://lilydesignsystem.com/components/contextual-help.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/contextual-help/AGENTS.md",
   "nativePlatform": {
     "decision": "native",

@@ -49,6 +49,7 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ActionGroup.razor"
   },
   "docs": "https://lilydesignsystem.com/components/action-group/",
+  "markdown": "https://lilydesignsystem.com/components/action-group.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/action-group/AGENTS.md",
   "nativePlatform": {
     "decision": "native",

@@ -131,6 +131,10 @@ MenuBar (role="menubar") → MenuBarItem (role="menuitem")
 
 - `menu-bar-button` — one item in a menu bar
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Menu Bar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menubar/

@@ -1,3 +1,49 @@
-# EnglandNationalHealthServiceNumberView — Lily Design System docs page
+# EnglandNationalHealthServiceNumberView
 
-See `components/england-national-health-service-number-view/AGENTS.md` for canonical metadata.
+## Metadata
+
+- Component: england-national-health-service-number-view
+- PascalCase: EnglandNationalHealthServiceNumberView
+- Description: a read-only display of England's National Health Service Number (NHS)
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
+- HTML tag: <span>
+- CSS class: .england-national-health-service-number-view
+- Interactive: no
+
+## Key Behaviors
+
+- Renders as `<span>` with class `england-national-health-service-number-view`, and no role
+- Format: 10 digits in 3-3-4 format with a Modulus-11 check digit, allocated through the Personal Demographics Service
+- Read-only; not editable
+
+## ARIA
+
+- No ARIA. A plain `<span>` cannot be named: `aria-label` is prohibited on it, and most screen readers drop it. A visible caption names the value, or the optional `label` renders as hidden text
+
+## Keyboard
+
+- Not interactive
+
+## Props
+
+- `value`: string (required) — the identifier to display
+- `label`: string (optional) — hidden text naming the value, in a `.screen-reader-span`. Leave it out when a visible caption names the value
+- `...restProps`: any additional HTML attributes spread onto the root
+
+## Acceptance Criteria
+
+- [ ] Renders <span> element with class="england-national-health-service-number-view"
+- [ ] Renders `value` as text content
+- [ ] WCAG 2.2 AAA compliant
+- [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
+
+## References
+
+- Documentation: index.md
+- CSS class: .england-national-health-service-number-view in css-style-sheet-template.css
+- Companion: EnglandNationalHealthServiceNumberInput
+- Wikipedia: https://en.wikipedia.org/wiki/NHS_number

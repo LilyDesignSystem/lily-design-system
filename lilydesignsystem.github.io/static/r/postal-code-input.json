@@ -37,5 +37,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/PostalCodeInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/postal-code-input/",
+  "markdown": "https://lilydesignsystem.com/components/postal-code-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/postal-code-input/AGENTS.md"
 }

@@ -41,5 +41,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Notification.razor"
   },
   "docs": "https://lilydesignsystem.com/components/notification/",
+  "markdown": "https://lilydesignsystem.com/components/notification.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/notification/AGENTS.md"
 }

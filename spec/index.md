@@ -665,6 +665,8 @@ The dated, per-event narrative moved to [history](history/index.md) on 2026-10-0
 grown to more than half of this file). [CHANGELOG.md](../CHANGELOG.md) remains the
 canonical release record. Most recent events, newest first:
 
+- **Unicode type-ahead (2026-11-19)** — listboxes and grids using the shared matcher can cycle through names starting
+  with supplementary CJK characters and Hangul syllables. See [keyboard type-ahead](internationalization/index.md#keyboard-type-ahead).
 - **Contrast gate and dependency refresh (2026-11-02)** — `bin/check-theme --contrast --gate` in `bin/test` (no AA failure in 63 themes);
   `:user-invalid` in every theme; ESLint 10; patch and minor updates in 164 packages; Vitest 5 everywhere. See [CHANGELOG.md](../CHANGELOG.md).
 - **Modal dialogs, menus on the Popover API, form reset (2026-10-30)** — `dialog`, `alert-dialog`, `file-dialog` and

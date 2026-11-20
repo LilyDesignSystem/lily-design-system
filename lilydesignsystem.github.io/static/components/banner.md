@@ -108,6 +108,10 @@ The consumer provides all CSS styling. The component renders with a `.banner` cl
 - `medical-banner-box` — a medical banner box that is inside a medical-banner component, using flexbox horizontal, with medical information
 - `medical-banner-box-for-advice` — a medical record banner box for advice information e.g. contacts, contexts, plans, etc.
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA banner role: https://www.w3.org/TR/wai-aria-1.2/#banner

@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TextAreaInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/text-area-input/",
+  "markdown": "https://lilydesignsystem.com/components/text-area-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/text-area-input/AGENTS.md"
 }

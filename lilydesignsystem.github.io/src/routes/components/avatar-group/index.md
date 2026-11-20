@@ -2,6 +2,8 @@
 
 An avatar group displays a collection of avatar components in a stacked or clustered layout, commonly used to show multiple users, participants, or contributors in a compact space. Avatar groups typically overlap or truncate to indicate the total count.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses a `<div>` element with `role="group"` and an `aria-label` to provide accessible grouping semantics for the contained avatar components.
 
 ## Implementation Notes
@@ -14,6 +16,7 @@ This headless component uses a `<div>` element with `role="group"` and an `aria-
 ## Props
 
 - `label`: string (required) -- accessible label for the avatar group
+- `overflowLabel`: string (optional) -- the consumer's words for the avatars not shown ("and 12 more"), rendered last as `<span class="avatar-group-overflow">`, so a truncated group says how many it hides
 - `children`: slot -- avatar components
 - `...restProps`: Any additional HTML attributes
 
@@ -113,6 +116,10 @@ AvatarGroup is a container for Avatar, AvatarImage, and AvatarText components.
 - `avatar` — an avatar indicator that shows an avatar image or avatar text
 - `avatar-image` — an avatar indicator inside image such as a user photo
 - `avatar-text` — an avatar indicator inner text such as a user name
+
+## Known limitations
+
+None known.
 
 ## References
 

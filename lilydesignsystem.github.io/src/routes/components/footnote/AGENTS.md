@@ -5,21 +5,21 @@
 - Component: footnote
 - PascalCase: Footnote
 - Description: a footnote reference and content element
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <span>
 - CSS class: .footnote
 - Interactive: no
 
 ## Key Behaviors
 
-- Renders as `<aside>` with `role="note"` for semantic supplementary content
-- The `id` prop serves double duty: it identifies the element for in-page linking and provides the `aria-label` value
+- Renders a `<span role="note">`, not an `<aside>`, so each footnote is not its own landmark
+- The `id` prop identifies the element for in-page linking (the reference links to `#id`); it is not used as a name, since an identifier such as `fn-1` is not one
 - Accepts a `children` slot for flexible footnote content (text, links, citations)
-- Spreads `restProps` onto the `<aside>` element for consumer customization
+- Spreads `restProps` onto the `<span>` element for consumer customization
 
 ## ARIA
 
 - `role="note"` -- indicates supplementary content that is related to the main content
-- `aria-label="{id}"` -- provides an accessible name derived from the footnote identifier
 
 ## Keyboard
 
@@ -27,8 +27,8 @@
 
 ## Props
 
-- `id`: string (required) -- unique footnote identifier, used for the element id and aria-label
-- `children`: slot (required) -- footnote content to render inside the aside
+- `id`: string (required) -- unique footnote identifier, used for the element id
+- `children`: slot (required) -- footnote content to render inside the span
 
 ## Acceptance Criteria
 
@@ -37,6 +37,10 @@
 - [ ] Has role="note"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

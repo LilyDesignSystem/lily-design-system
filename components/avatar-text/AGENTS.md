@@ -51,6 +51,10 @@ Pattern: AvatarGroup → Avatar → AvatarImage, AvatarText
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Documentation: index.md

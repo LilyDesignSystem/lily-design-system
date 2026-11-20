@@ -36,5 +36,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/FileManager.razor"
   },
   "docs": "https://lilydesignsystem.com/components/file-manager/",
+  "markdown": "https://lilydesignsystem.com/components/file-manager.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/file-manager/AGENTS.md"
 }

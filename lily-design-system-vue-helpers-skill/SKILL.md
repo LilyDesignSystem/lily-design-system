@@ -127,7 +127,7 @@ with lag in calendar or working days) ships in this catalog's own Gantt package 
 ## When NOT this skill
 
 - For the headless component catalog itself in Vue (`Button`, `TextInput`,
-  `BreadcrumbNav`, and the rest of the 608), use
+  `BreadcrumbNav`, and the rest of the 473-component core package), use
   `lily-design-system-vue-headless-skill` instead.
 - For framework-agnostic Lily concepts — what a helper is as opposed to a
   plain catalog component, the shared contract every catalog's helpers

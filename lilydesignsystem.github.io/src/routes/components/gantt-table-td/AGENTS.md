@@ -5,6 +5,7 @@
 - Component: gantt-table-td
 - PascalCase: GanttTableTD
 - Description: a Gantt chart table interactive grid data cell for planning schedule visualization <td>
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <td>
 - CSS class: .gantt-table-td
 - Interactive: no
@@ -25,6 +26,7 @@
 
 - Implicit `gridcell` role from the `<td>` element when inside a `role="grid"` table
 - Consumer may add `aria-label` or `aria-describedby` for cells with visual-only content (e.g., bar segments)
+- `active` (Svelte, React and Vue) makes this cell the grid's single roving tab stop — `tabindex="0"`, every other cell `-1` — and **never sets `aria-selected`**: focus is not selection, and announcing every focused cell as "selected" misleads screen-reader users. A grid with real selection sets `aria-selected` itself, on the row or explicitly on the cell (rest props pass it through). Corrected 2026-10-10; before that `active` set `aria-selected="true"` too.
 
 ## Keyboard
 
@@ -32,6 +34,7 @@
 
 ## Props
 
+- `active`: boolean (optional, default false) -- the roving tab stop; sets `tabindex` only, never `aria-selected`
 - `children`: slot (required) -- cell content such as bar segments, milestone markers, or text
 - `...restProps`: any -- additional HTML attributes spread onto the `<td>` element
 
@@ -42,6 +45,10 @@
 - [ ] Has role="grid"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

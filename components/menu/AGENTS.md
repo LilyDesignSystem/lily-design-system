@@ -69,6 +69,10 @@ A submenu is the consumer's markup, read from the DOM: an item with `aria-haspop
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Documentation: index.md

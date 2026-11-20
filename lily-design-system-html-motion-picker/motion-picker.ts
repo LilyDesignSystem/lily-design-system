@@ -393,7 +393,8 @@ export class MotionPicker extends HTMLElement {
 
         if (!initial && this.storageKey) {
             try {
-                initial = localStorage.getItem(this.storageKey) ?? "";
+                const stored = localStorage.getItem(this.storageKey) ?? "";
+                if (this.#motions.includes(stored)) initial = stored;
             } catch {
                 /* ignore */
             }

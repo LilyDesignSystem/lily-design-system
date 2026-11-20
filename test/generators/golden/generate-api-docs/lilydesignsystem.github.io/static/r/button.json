@@ -22,5 +22,6 @@
     "html": "lily-design-system-html-headless/components/button.html"
   },
   "docs": "https://lilydesignsystem.com/components/button/",
+  "markdown": "https://lilydesignsystem.com/components/button.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/button/AGENTS.md"
 }

@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/NederlandPaspoortNummerView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/nederland-paspoort-nummer-view/",
+  "markdown": "https://lilydesignsystem.com/components/nederland-paspoort-nummer-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/nederland-paspoort-nummer-view/AGENTS.md"
 }

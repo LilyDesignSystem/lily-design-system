@@ -479,7 +479,8 @@ onMounted(() => {
     }
     if (!initial && storageKey.value) {
         try {
-            initial = localStorage.getItem(storageKey.value) ?? "";
+            const stored = localStorage.getItem(storageKey.value) ?? "";
+            if (options.value.includes(stored)) initial = stored;
         } catch {
             // ignore privacy errors
         }

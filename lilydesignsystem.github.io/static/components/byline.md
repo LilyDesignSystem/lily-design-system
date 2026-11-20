@@ -121,6 +121,10 @@ The consumer provides all CSS styling. The component renders with a `.byline` cl
 - `review-date` — a display of a content review date
 - `comment` — a comment displays user discussions and user feedback
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN HTML elements reference](https://developer.mozilla.org/en-US/docs/Web/HTML/Element)

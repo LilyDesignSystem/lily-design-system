@@ -73,6 +73,10 @@ Do not rely on the highlight alone to convey meaning (WCAG 1.4.1): the highlight
 - `inset-text`
 - `diff`
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN mark element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/mark)

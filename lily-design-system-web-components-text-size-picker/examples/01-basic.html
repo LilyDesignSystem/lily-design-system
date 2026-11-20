@@ -21,7 +21,7 @@
     permanently visible.
 
     THE STATUS LINE IS PART OF THE PATTERN — copy it along with the
-    control. The closed button shows only the "A" icon, never the
+    control. The closed button shows only the "A" glyph, never the
     active size name, so without this line there is nowhere the current
     selection is announced or displayed. See docs/accessibility.md.
 
@@ -46,116 +46,126 @@
        this example sets no storage-key or default-value.
 -->
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>text-size-picker — basic</title>
-    <script type="module" src="/dist/text-size-picker.js"></script>
+  <head>
+    <meta charset="utf-8" />
+    <title>lily-text-size-picker — basic</title>
+    <script
+      type="module"
+      src="/dist/text-size-picker.js"
+    ></script>
     <style>
-        /* The CSS that actually resizes the page. Relative units on
+      /* The CSS that actually resizes the page. Relative units on
            :root so every descendant inherits — a px font-size anywhere
            in the cascade opts that text out of the mechanism entirely
            (WCAG 1.4.4). */
-        :root[data-text-size="small"] {
-            font-size: 87.5%;
-        }
-        :root[data-text-size="medium"] {
-            font-size: 100%;
-        }
-        :root[data-text-size="large"] {
-            font-size: 112.5%;
-        }
-        :root[data-text-size="x-large"] {
-            font-size: 125%;
-        }
+      :root[data-text-size="small"] {
+        font-size: 87.5%;
+      }
+      :root[data-text-size="medium"] {
+        font-size: 100%;
+      }
+      :root[data-text-size="large"] {
+        font-size: 112.5%;
+      }
+      :root[data-text-size="x-large"] {
+        font-size: 125%;
+      }
 
-        /* The root is the positioning context for the dropdown. */
-        .text-size-picker {
-            position: relative;
-            display: inline-block;
-        }
+      /* The root is the positioning context for the dropdown. */
+      .text-size-picker {
+        position: relative;
+        display: inline-block;
+      }
 
-        .text-size-picker-button {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.35rem 0.5rem;
-            border: 1px solid currentColor;
-            border-radius: 0.25rem;
-            background: transparent;
-            color: inherit;
-            cursor: pointer;
-            line-height: 1;
-        }
+      .text-size-picker-button {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.35rem 0.5rem;
+        border: 1px solid currentColor;
+        border-radius: 0.25rem;
+        background: transparent;
+        color: inherit;
+        cursor: pointer;
+        line-height: 1;
+      }
 
-        .text-size-picker-button:focus-visible,
-        .text-size-picker-list:focus-visible {
-            outline: 2px solid currentColor;
-            outline-offset: 2px;
-        }
+      .text-size-picker-button:focus-visible,
+      .text-size-picker-list:focus-visible {
+        outline: 2px solid currentColor;
+        outline-offset: 2px;
+      }
 
-        .text-size-picker-list {
-            position: absolute;
-            inset-block-start: calc(100% + 0.25rem);
-            inset-inline-start: 0;
-            z-index: 10;
-            min-inline-size: 8rem;
-            margin: 0;
-            padding: 0.25rem 0;
-            list-style: none;
-            border: 1px solid currentColor;
-            border-radius: 0.25rem;
-            background: Canvas;
-        }
+      .text-size-picker-list {
+        position: absolute;
+        inset-block-start: calc(100% + 0.25rem);
+        inset-inline-start: 0;
+        z-index: 10;
+        min-inline-size: 8rem;
+        margin: 0;
+        padding: 0.25rem 0;
+        list-style: none;
+        border: 1px solid currentColor;
+        border-radius: 0.25rem;
+        background: Canvas;
+      }
 
-        /* Any `display` rule above would beat the UA stylesheet's
+      /* Any `display` rule above would beat the UA stylesheet's
            `[hidden] { display: none }`, so re-assert it here. */
-        .text-size-picker-list[hidden] {
-            display: none;
-        }
+      .text-size-picker-list[hidden] {
+        display: none;
+      }
 
-        .text-size-picker-option {
-            padding: 0.35rem 0.75rem;
-            cursor: pointer;
-        }
+      .text-size-picker-option {
+        padding: 0.35rem 0.75rem;
+        cursor: pointer;
+      }
 
-        /* The keyboard-highlighted option: where Enter would land.
+      /* The keyboard-highlighted option: where Enter would land.
            Focus stays on the <ul>, so :focus never matches an <li>. */
-        .text-size-picker-option[data-active] {
-            background: Highlight;
-            color: HighlightText;
-        }
+      .text-size-picker-option[data-active] {
+        background: Highlight;
+        color: HighlightText;
+      }
 
-        /* The chosen option: a deliberately different signal, since
+      /* The chosen option: a deliberately different signal, since
            the two frequently disagree while the list is open. */
-        .text-size-picker-option[aria-selected="true"]::after {
-            content: " ✓";
-        }
+      .text-size-picker-option[aria-selected="true"]::after {
+        content: " ✓";
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Text size picker — basic</h1>
 
     <lily-text-size-picker
-        label="Text size"
-        sizes="small,medium,large,x-large"
+      label="Text size"
+      sizes="small,medium,large,x-large"
     ></lily-text-size-picker>
 
-    <p class="text-size-picker-status" aria-live="polite">Text size: Medium</p>
+    <p
+      class="text-size-picker-status"
+      aria-live="polite"
+    >
+      Text size: Medium
+    </p>
 
-    <p>Some body copy so the effect of switching sizes is visible.
-       Resize with the control above and watch this paragraph scale.</p>
+    <p>
+      Some body copy so the effect of switching sizes is visible. Resize with the control above and
+      watch this paragraph scale.
+    </p>
 
     <script type="module">
-        await customElements.whenDefined("text-size-picker");
+      await customElements.whenDefined("lily-text-size-picker");
 
-        const picker = document.querySelector("text-size-picker");
-        const status = document.querySelector(".text-size-picker-status");
+      const picker = document.querySelector("lily-text-size-picker");
+      const status = document.querySelector(".text-size-picker-status");
 
-        // labelFor() is a public method on the element, so any
-        // size-labels overrides are picked up for free and the status
-        // line never shows a raw slug.
-        picker.addEventListener("textsizechange", (e) => {
-            status.textContent = `Text size: ${picker.labelFor(e.detail.size)}`;
-        });
+      // labelFor() is a public method on the element, so any
+      // size-labels overrides are picked up for free and the status
+      // line never shows a raw slug.
+      picker.addEventListener("textsizechange", (e) => {
+        status.textContent = `Text size: ${picker.labelFor(e.detail.size)}`;
+      });
     </script>
-</body>
+  </body>
 </html>

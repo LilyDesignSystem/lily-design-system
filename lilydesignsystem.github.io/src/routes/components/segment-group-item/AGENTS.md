@@ -5,9 +5,10 @@
 - Component: segment-group-item
 - PascalCase: SegmentGroupItem
 - Description: one selectable segment in a segment group
-- HTML tag: <div>
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
+- HTML tag: <button>
 - CSS class: .segment-group-item
-- Interactive: no
+- Interactive: yes
 
 ## Composition
 
@@ -32,7 +33,7 @@
 ## Keyboard
 
 - Tab: Focus moves to the checked segment (or first segment if none checked)
-- Arrow Left / Arrow Right: Consumer should implement arrow key navigation on the parent SegmentGroup
+- Arrow keys: Handled by the parent SegmentGroup, which moves and checks
 - Space / Enter: Activates the focused segment (native button behavior)
 
 ## Props
@@ -50,6 +51,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

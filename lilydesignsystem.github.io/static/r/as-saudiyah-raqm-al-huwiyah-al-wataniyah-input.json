@@ -38,5 +38,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/AsSaudiyahRaqmAlHuwiyahAlWataniyahInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/as-saudiyah-raqm-al-huwiyah-al-wataniyah-input/",
+  "markdown": "https://lilydesignsystem.com/components/as-saudiyah-raqm-al-huwiyah-al-wataniyah-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/as-saudiyah-raqm-al-huwiyah-al-wataniyah-input/AGENTS.md"
 }

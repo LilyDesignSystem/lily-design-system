@@ -94,6 +94,10 @@ A national identifier is personal data, and often a key to other records.
 - `tuaisceart-eireann-health-and-care-number-view` — a read-only display of Tuaisceart Eireann Health and Care (H&C) Number unique national healthcare identifier
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - HSC NI: https://online.hscni.net/

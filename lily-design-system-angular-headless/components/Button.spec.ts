@@ -40,4 +40,29 @@ describe("Button", () => {
         expect(el.disabled).toBe(true);
         expect(el.getAttribute("aria-pressed")).toBe("false");
     });
+
+    test("a pending button keeps focus and a consumer guard ignores a second click", () => {
+        const fixture = TestBed.createComponent(Button);
+        fixture.componentRef.setInput("ariaBusy", true);
+        fixture.componentRef.setInput("ariaDisabled", true);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("button") as HTMLButtonElement;
+        let pending = false;
+        let starts = 0;
+        el.addEventListener("click", () => {
+            if (pending) return;
+            pending = true;
+            starts += 1;
+        });
+
+        el.focus();
+        el.click();
+        el.click();
+
+        expect(el.disabled).toBe(false);
+        expect(el.getAttribute("aria-busy")).toBe("true");
+        expect(el.getAttribute("aria-disabled")).toBe("true");
+        expect(document.activeElement).toBe(el);
+        expect(starts).toBe(1);
+    });
 });

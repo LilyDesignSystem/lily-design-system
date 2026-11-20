@@ -117,6 +117,10 @@ The consumer provides all CSS styling. The component renders with a `.skeleton` 
 - `loading` — a loading indicator, such as text, or image, or animation
 - `progress-spinner` — an indeterminate spinning progress indicator
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA `aria-busy`: https://www.w3.org/WAI/ARIA/apd/states/aria-busy/

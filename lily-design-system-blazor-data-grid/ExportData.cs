@@ -77,13 +77,13 @@ public static class ExportData
             case DateOnly dateOnly:
                 return dateOnly.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
             case DateTime dateTime:
-            {
-                // A date at exactly UTC midnight is a civil date: write it without a time of day.
-                var utc = dateTime.Kind == DateTimeKind.Local ? dateTime.ToUniversalTime() : dateTime;
-                return utc.TimeOfDay == TimeSpan.Zero
-                    ? utc.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)
-                    : utc.ToString("yyyy-MM-dd'T'HH:mm:ss.fff'Z'", CultureInfo.InvariantCulture);
-            }
+                {
+                    // A date at exactly UTC midnight is a civil date: write it without a time of day.
+                    var utc = dateTime.Kind == DateTimeKind.Local ? dateTime.ToUniversalTime() : dateTime;
+                    return utc.TimeOfDay == TimeSpan.Zero
+                        ? utc.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)
+                        : utc.ToString("yyyy-MM-dd'T'HH:mm:ss.fff'Z'", CultureInfo.InvariantCulture);
+                }
             case bool flag:
                 return flag ? "TRUE" : "FALSE";
             case double d:

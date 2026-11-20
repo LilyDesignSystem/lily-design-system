@@ -58,8 +58,15 @@ public static class WheelPickerKeys
     }
 
     /// <summary>Whether a key is a type-ahead character: one printable character other than space, no Ctrl, Alt or Meta.</summary>
-    public static bool IsTypeaheadKey(string key, bool ctrl, bool alt, bool meta) =>
-        key.Length == 1 && key != " " && !ctrl && !alt && !meta;
+    public static bool IsTypeaheadKey(string key, bool ctrl, bool alt, bool meta)
+    {
+        if (key.Length == 0 || ctrl || alt || meta) return false;
+        var normalized = key.Normalize(NormalizationForm.FormC);
+        return Rune.TryGetRuneAt(normalized, 0, out var initial)
+            && initial.Utf16SequenceLength == normalized.Length
+            && initial.Value != ' '
+            && Rune.GetUnicodeCategory(initial) is not (UnicodeCategory.Control or UnicodeCategory.Format);
+    }
 
     /// <summary>The prefix after <paramref name="key"/> at <paramref name="nowMs"/>: it grows within the reset time, else starts over.</summary>
     public static (string Prefix, long At) NextPrefix((string Prefix, long At) previous, string key, long nowMs) =>
@@ -68,11 +75,12 @@ public static class WheelPickerKeys
     /// <summary>The enabled option to move to for <paramref name="prefix"/>, or -1. A prefix of one repeated letter counts as that letter.</summary>
     public static int TypeaheadIndex(IReadOnlyList<WheelPickerOption> options, int current, string prefix)
     {
-        var folded = Fold(prefix);
-        if (folded == "" || options.Count == 0) return -1;
-        var repeated = folded.Length > 1 && folded.All(c => c == folded[0]);
-        var needle = repeated ? folded[0].ToString() : folded;
-        var startOffset = needle.Length > 1 ? 0 : 1;
+        var initials = prefix.Normalize(NormalizationForm.FormC).EnumerateRunes()
+            .Select(initial => Fold(initial.ToString())).Where(initial => initial.Length > 0).ToArray();
+        if (initials.Length == 0 || options.Count == 0) return -1;
+        var cycle = initials.All(initial => initial == initials[0]);
+        var needle = cycle ? initials[0] : Fold(prefix);
+        var startOffset = cycle ? 1 : 0;
         var from = current < 0 ? -startOffset : current;
         for (var step = 0; step < options.Count; step++)
         {

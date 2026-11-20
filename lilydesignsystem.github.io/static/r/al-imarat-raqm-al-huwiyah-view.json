@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/AlImaratRaqmAlHuwiyahView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/al-imarat-raqm-al-huwiyah-view/",
+  "markdown": "https://lilydesignsystem.com/components/al-imarat-raqm-al-huwiyah-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/al-imarat-raqm-al-huwiyah-view/AGENTS.md"
 }

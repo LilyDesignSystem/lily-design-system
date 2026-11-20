@@ -88,6 +88,10 @@ A national identifier is personal data, and often a key to other records.
 - `eire-individual-health-identifier-view` — a read-only display of Eire Individual Health Identifier (IHI) unique national healthcare identifier
 - `tuaisceart-eireann-health-and-care-number-input` — an input for entering aTuaisceart Eireann Health and Care (H&C) Number unique national healthcare identifier
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Ministerio de Sanidad: https://www.sanidad.gob.es/

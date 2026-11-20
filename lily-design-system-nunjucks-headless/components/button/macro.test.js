@@ -83,6 +83,31 @@ describe("button", () => {
         expect(el.getAttribute("data-index")).toBe("1");
     });
 
+    it("keeps a pending button focused while a consumer guard ignores a second click", () => {
+        const { document } = render("button", {
+            text: "Saving",
+            attributes: { "aria-busy": "true", "aria-disabled": "true" },
+        });
+        const el = document.querySelector("button");
+        let pending = false;
+        let starts = 0;
+        el.addEventListener("click", () => {
+            if (pending) return;
+            pending = true;
+            starts += 1;
+        });
+
+        el.focus();
+        el.click();
+        el.click();
+
+        expect(el.disabled).toBe(false);
+        expect(el.getAttribute("aria-busy")).toBe("true");
+        expect(el.getAttribute("aria-disabled")).toBe("true");
+        expect(document.activeElement).toBe(el);
+        expect(starts).toBe(1);
+    });
+
     it("renders caller block content when neither text nor html is set", () => {
         const { document } = render("button", {}, "<em>Call</em>");
         const el = document.querySelector("button");

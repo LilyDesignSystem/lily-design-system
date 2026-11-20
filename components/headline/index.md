@@ -99,6 +99,10 @@ The consumer provides all CSS styling. The component renders with a `.headline` 
 - `hero` — a large box or image with a title and description
 - `section-heading` — a styled heading introducing a major content section, with optional eyebrow and subtitle
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN HTML elements reference](https://developer.mozilla.org/en-US/docs/Web/HTML/Element)

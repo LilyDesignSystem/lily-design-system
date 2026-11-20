@@ -2,6 +2,8 @@
 
 A diff is a side-by-side comparison of two items, allowing users to visually identify differences between two versions of content. It is commonly used in code review tools, document comparison interfaces, version control systems, and before/after image comparisons.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses a `<div>` element as the container for the two comparison panels. The consumer provides the two items to compare as children.
 
 ## Implementation Notes
@@ -100,6 +102,10 @@ The consumer provides all CSS styling. The component renders with a `.diff` clas
 
 - `code-block` — a block of formatted code with optional line numbers and line highlighting
 - `table` — a table with rows and columns <table>
+
+## Known limitations
+
+None known.
 
 ## References
 

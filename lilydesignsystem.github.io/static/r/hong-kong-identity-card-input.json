@@ -38,5 +38,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/HongKongIdentityCardInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/hong-kong-identity-card-input/",
+  "markdown": "https://lilydesignsystem.com/components/hong-kong-identity-card-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/hong-kong-identity-card-input/AGENTS.md"
 }

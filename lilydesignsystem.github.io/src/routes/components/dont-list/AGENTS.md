@@ -5,7 +5,8 @@
 - Component: dont-list
 - PascalCase: DontList
 - Description: a guideline list of discouraged dont-list-item components
-- HTML tag: <ol>
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
+- HTML tag: <ul>
 - CSS class: .dont-list
 - Interactive: no
 
@@ -17,7 +18,7 @@
 ## Key Behaviors
 
 - Renders a `<ul>` element with explicit `role="list"` to preserve list semantics
-- Uses `aria-label` to provide an accessible name (defaults to "Don't")
+- Uses `aria-label` to provide an accessible name
 - Children slot is rendered inside the list; each child should be an `<li>` element
 - Label prop has a sensible default but can be overridden for internationalization
 - Spreads `restProps` on the `<ul>` element
@@ -25,7 +26,7 @@
 ## ARIA
 
 - `role="list"` -- explicitly declares list semantics on the `<ul>`, ensuring assistive technology announces it as a list
-- `aria-label={label}` -- provides an accessible name for the list (defaults to "Don't")
+- `aria-label={label}` -- provides an accessible name for the list
 
 ## Keyboard
 
@@ -33,7 +34,7 @@
 
 ## Props
 
-- `label`: string (default: `"Don't"`) -- accessible name for the list
+- `label`: string (required) -- accessible name for the list
 - `children`: slot (required) -- list items, each should be an `<li>` element
 - `...restProps`: any additional HTML attributes spread onto the `<ul>` element
 
@@ -44,6 +45,10 @@
 - [ ] Has role="list"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

@@ -5,6 +5,7 @@
 - Component: table-td
 - PascalCase: TableTD
 - Description: a table interactive grid data cell <td>
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <td>
 - CSS class: .table-td
 - Interactive: no
@@ -40,6 +41,10 @@ Standard table cell keyboard interactions.
 - [ ] Renders <td> element with class="table-td"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

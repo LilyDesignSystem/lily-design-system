@@ -388,10 +388,9 @@ export class LocalePicker {
                 const sk = this.storageKey();
                 if (!initial && sk) {
                     try {
-                        initial =
-                            (typeof localStorage !== "undefined"
-                                ? localStorage.getItem(sk)
-                                : null) ?? "";
+                        const stored =
+                            typeof localStorage !== "undefined" ? localStorage.getItem(sk) : null;
+                        if (stored && this.locales().includes(stored)) initial = stored;
                     } catch {
                         // ignore privacy errors
                     }

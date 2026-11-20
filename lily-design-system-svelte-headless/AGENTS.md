@@ -144,19 +144,18 @@ pnpm install --save-dev jsdom
 
 ```svelte
 <script lang="ts">
-    // {ComponentPascalTitle} component
-    //
-    // {comprehensive description}
-    //
-    // Props:
-    //   className — string, optional. CSS class name.
-    //     …
-    //
-    // Usage:
-    //     …
+  // {ComponentPascalTitle} component
+  //
+  // {comprehensive description}
+  //
+  // Props:
+  //   className — string, optional. CSS class name.
+  //     …
+  //
+  // Usage:
+  //     …
 
-    …
-
+  // …
 </script>
 
 <!-- ComponentPascalTitle.svelte -->
@@ -166,7 +165,7 @@ pnpm install --save-dev jsdom
   aria-label={label}
   {...restProps}
 >
-  …
+  <!-- … -->
 </div>
 ```
 

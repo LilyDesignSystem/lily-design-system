@@ -14,50 +14,93 @@
     set the JS property — the select re-renders automatically.
 -->
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>theme-picker — Lily themes</title>
-    <script type="module" src="/dist/theme-picker.js"></script>
-</head>
-<body>
+  <head>
+    <meta charset="utf-8" />
+    <title>lily-theme-picker — Lily themes</title>
+    <script
+      type="module"
+      src="/dist/theme-picker.js"
+    ></script>
+  </head>
+  <body>
     <h1>Theme picker — Lily themes</h1>
 
     <lily-theme-picker
-        id="theme-picker"
-        label="Lily theme"
-        themes-url="/assets/themes/"
-        themes="light"
-        storage-key="lily:theme"
+      id="theme-picker"
+      label="Lily theme"
+      themes-url="/assets/themes/"
+      themes="light"
+      storage-key="lily:theme"
     ></lily-theme-picker>
 
     <script type="module">
-        await customElements.whenDefined("theme-picker");
+      await customElements.whenDefined("lily-theme-picker");
 
-        document.querySelector("#theme-picker").themes = [
-            "abyss", "acid", "adobe-spectrum", "ant-design", "aqua",
-            "atlassian", "autumn", "black", "bumblebee", "business",
-            "cappuccino", "caramellatte", "cmyk", "coffee", "corporate",
-            "cupcake", "cyberpunk", "dark", "dim", "dracula", "emerald",
-            "excel", "fantasy", "fluent", "forest", "garden", "github-primer",
-            "halloween", "ibm-carbon", "lemonade", "light", "linear", "lofi",
-            "luxury", "mozilla-protocol", "night", "nord", "notion", "pastel",
-            "retro", "salesforce", "sap-fiori", "silk", "sunset", "synthwave",
-            "valentine", "vercel", "winter", "wireframe",
-            "australia-agriculture-design-system",
-            "brazil-padrao-digital-de-governo",
-            "canada-government-of-canada-design-system",
-            "european-union-europa-component-library",
-            "japan-digital-agency-design-system",
-            "singapore-government-design-system",
-            "united-kingdom-government-digital-service",
-            "united-kingdom-national-health-service-england-for-patients",
-            "united-kingdom-national-health-service-england-for-practitioners",
-            "united-kingdom-national-health-service-scotland-for-patients",
-            "united-kingdom-national-health-service-scotland-for-practitioners",
-            "united-kingdom-national-health-service-wales-for-patients",
-            "united-kingdom-national-health-service-wales-for-practitioners",
-            "united-states-web-design-system",
-        ];
+      document.querySelector("#theme-picker").themes = [
+        "abyss",
+        "acid",
+        "adobe-spectrum",
+        "ant-design",
+        "aqua",
+        "atlassian",
+        "autumn",
+        "black",
+        "bumblebee",
+        "business",
+        "cappuccino",
+        "caramellatte",
+        "cmyk",
+        "coffee",
+        "corporate",
+        "cupcake",
+        "cyberpunk",
+        "dark",
+        "dim",
+        "dracula",
+        "emerald",
+        "excel",
+        "fantasy",
+        "fluent",
+        "forest",
+        "garden",
+        "github-primer",
+        "halloween",
+        "ibm-carbon",
+        "lemonade",
+        "light",
+        "linear",
+        "lofi",
+        "luxury",
+        "mozilla-protocol",
+        "night",
+        "nord",
+        "notion",
+        "pastel",
+        "retro",
+        "salesforce",
+        "sap-fiori",
+        "silk",
+        "sunset",
+        "synthwave",
+        "valentine",
+        "vercel",
+        "winter",
+        "wireframe",
+        "australia-agriculture-design-system",
+        "brazil-padrao-digital-de-governo",
+        "canada-government-of-canada-design-system",
+        "european-union-europa-component-library",
+        "japan-digital-agency-design-system",
+        "singapore-government-design-system",
+        "united-kingdom-government-digital-service",
+        "united-kingdom-national-health-service-england-for-patients",
+        "united-kingdom-national-health-service-england-for-practitioners",
+        "united-kingdom-national-health-service-scotland-for-patients",
+        "united-kingdom-national-health-service-scotland-for-practitioners",
+        "united-kingdom-national-health-service-wales-for-patients",
+        "united-kingdom-national-health-service-wales-for-practitioners",
+        "united-states-web-design-system",
+      ];
     </script>
-</body>
+  </body>
 </html>

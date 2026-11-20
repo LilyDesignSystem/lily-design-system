@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/UnitedKingdomNationalInsuranceNumberView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/united-kingdom-national-insurance-number-view/",
+  "markdown": "https://lilydesignsystem.com/components/united-kingdom-national-insurance-number-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/united-kingdom-national-insurance-number-view/AGENTS.md"
 }

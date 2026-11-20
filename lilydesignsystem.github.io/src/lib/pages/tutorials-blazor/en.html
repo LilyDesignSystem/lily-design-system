@@ -23,7 +23,7 @@
   </p>
 
   <h2>Step 1 — Get the code</h2>
-  
+
   <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
 cd lily-design-system/lily-design-system-blazor-headless
 dotnet build
@@ -37,7 +37,7 @@ dotnet test      # bUnit — 1,400+ cases across the catalog</code></pre>
   </p>
 
   <h2>Step 2 — Your first component</h2>
-  
+
   <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
   <p>
     Renders <code>&lt;button class="button"&gt;</code>. The shared parameter
@@ -49,7 +49,7 @@ dotnet test      # bUnit — 1,400+ cases across the catalog</code></pre>
   </p>
 
   <h2>Step 3 — Compose a small form</h2>
-  
+
   <pre tabindex="0"><code>&lt;Form OnSubmit="HandleSubmit"&gt;
   &lt;Field Label="Full name" Required="true"&gt;
     &lt;TextInput Id="name" Label="Full name" @bind-Value="name" Required="true" /&gt;
@@ -97,7 +97,7 @@ dotnet test      # bUnit — 1,400+ cases across the catalog</code></pre>
     link a ready-made theme in <code>App.razor</code> /
     <code>index.html</code>:
   </p>
-  
+
   <pre tabindex="0"><code>&lt;link rel="stylesheet" href="themes/wireframe.css" /&gt;</code></pre>
 
   <h2>Step 5 — See it all working</h2>
@@ -105,7 +105,7 @@ dotnet test      # bUnit — 1,400+ cases across the catalog</code></pre>
     The <a href="/examples/">Blazor Web example app</a> shows the full
     catalog styled and demoed, with Playwright e2e tests:
   </p>
-  
+
   <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
 cd lily-design-system/lily-design-system-blazor-web-examples
 dotnet run --project src/LilyBlazorWebExamples</code></pre>

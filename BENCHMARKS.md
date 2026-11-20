@@ -1,12 +1,11 @@
 # Benchmarks
 
-**There are no runtime performance benchmarks for Lily Design System™ yet.**
+Lily has reproducible pure-logic and Svelte render benchmarks, each compared with a recorded baseline.
 
-This file says so plainly rather than leaving the question open, records the
-measurements that _do_ exist, and defines the methodology a future benchmark suite
-should follow so its numbers mean something.
+The render measurements compare Lily with equivalent hand-written markup so they
+separate Lily's overhead from the framework's own work.
 
-## Why there are no runtime benchmarks
+## Why render benchmarks need a control
 
 Not an oversight — a consequence of what Lily is. A headless component renders
 semantic HTML with ARIA attributes and attaches keyboard handlers. There is no
@@ -15,10 +14,24 @@ no data layer, and no CSS. What a Lily component costs at runtime is almost
 entirely what the host framework costs to render an element, which is a benchmark
 of Svelte, React, or Vue rather than of Lily.
 
-Benchmarking that would produce numbers that look meaningful and are not. The
-measurements below are the ones that actually reflect decisions Lily makes.
+Benchmarking Lily without an equivalent control would produce numbers that look
+meaningful and are not. Every render case therefore measures both forms in the
+same Svelte process and jsdom environment.
 
 ## What is measured
+
+### Render and unmount cost
+
+`bin/render-benchmark` measures a button, labelled text input, 100-option listbox
+and 100-row data table. Each Lily component is paired with equivalent hand-written
+Svelte markup. Tinybench records a distribution and the runner reports mean and
+p95 latency, the Lily/native mean ratio and a comparison with
+`lily-design-system-svelte-headless/render-benchmark-baseline.json`.
+
+The 2026-11-19 baseline on an Apple M4 Max with Node 26.13.1 records means of
+0.05 ms for the Lily button and input, 1.04 ms for the listbox and 1.33 ms for the
+table. Their overhead over the controls was 1.29×, 1.30×, 1.28× and 1.04×. These
+are regression measurements for that machine, not consumer performance promises.
 
 ### Package size
 
@@ -102,7 +115,7 @@ Four viewports (375×667, 768×1024, 1280×800, 2560×1440) × ~10 routes per ap
 asserting skip-link presence, visible `<main>` and H1, and no horizontal page
 overflow.
 
-## Methodology for future benchmarks
+## Methodology
 
 If runtime benchmarks are added, they should answer questions a consumer actually
 has, and each must state its baseline — a number without one is not a benchmark.

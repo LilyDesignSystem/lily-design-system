@@ -2,11 +2,15 @@
 
 Tour is a headless component that serves as a container for a guided tour experience. It wraps TourList and TourListItem components to provide a step-by-step walkthrough of features, sightseeing pathways, or product demonstrations.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 Use this component as the outer wrapper for guided tours, onboarding flows, feature walkthroughs, or any sequential step-by-step experience.
 
 ## Implementation Notes
 
-- Renders a `<div>` element as the tour container
+- Renders a `<div role="dialog">` as the tour container while `active` is true
+- Is non-modal: no `aria-modal`, no focus trap, the page stays usable (a tour points at the live page)
+- Escape ends the tour by setting `active` to `false`
 - Uses `aria-label` for an accessible name describing the tour
 - Accepts `className` for CSS class targeting
 - Spreads `restProps` onto the `<div>` element for consumer customization
@@ -126,7 +130,7 @@ Standard keyboard interactions provided by child components. The Tour container 
 
 ## Headless
 
-This headless component renders a `<div>` with `aria-label`. The consumer provides all visual styling including layout, progress indicators, step highlights, and navigation controls.
+This headless component renders a non-modal `<div role="dialog">` with `aria-label` and no `aria-modal`. The consumer provides all visual styling including layout, progress indicators, step highlights, and navigation controls.
 
 ## Styles
 
@@ -134,7 +138,7 @@ The consumer provides all CSS styling. The component renders with a `.tour` clas
 
 ## Testing
 
-- Verify the component renders a `<div>` element
+- Verify the component renders a `<div>` element with `role="dialog"` and no `aria-modal`
 - Verify `aria-label` is set from the `label` prop
 - Verify children content is rendered
 - Verify pass-through attributes are applied
@@ -153,6 +157,10 @@ Tour is the parent container in the Tour pattern: Tour > TourList > TourListItem
 - `tour-list` — an ordered list of tour guide steps
 - `tour-list-item` — one step in a tour guide list
 - `coachmark` — an anchored popover that spotlights and explains a single feature
+
+## Known limitations
+
+None known.
 
 ## References
 

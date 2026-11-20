@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/GhanaCardPersonalIdentificationNumberView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/ghana-card-personal-identification-number-view/",
+  "markdown": "https://lilydesignsystem.com/components/ghana-card-personal-identification-number-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/ghana-card-personal-identification-number-view/AGENTS.md"
 }

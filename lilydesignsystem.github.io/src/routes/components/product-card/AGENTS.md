@@ -5,6 +5,7 @@
 - Component: product-card
 - PascalCase: ProductCard
 - Description: a specialized card for displaying a product with image, title, price, and actions
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <article>
 - CSS class: .product-card
 - Interactive: no (focusable children manage their own behavior)
@@ -48,6 +49,10 @@
 - [ ] Children render after header
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

@@ -2,6 +2,8 @@
 
 A data table head is the header section of a data table, wrapping one or more rows that label the columns of the table. Typically contains a single row with `<th>` elements that identify each column. It is designed to be used inside a DataTable `<table>` structure.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The component renders a `<thead>` element and passes through its children, which are expected to be DataTableRow or `<tr>` elements containing `<th>` header cells with appropriate `scope` attributes.
 
 ## Implementation Notes
@@ -82,6 +84,10 @@ DataTableHead is part of the DataTable composition pattern. It sits inside a Dat
 - `data-table-td` — a data table interactive grid data cell for displaying and sorting tabular data <td>
 - `data-table-th` — a data table interactive grid header cell for displaying and sorting tabular data <th>
 - `table` — a table with rows and columns <table>
+
+## Known limitations
+
+None known.
 
 ## References
 

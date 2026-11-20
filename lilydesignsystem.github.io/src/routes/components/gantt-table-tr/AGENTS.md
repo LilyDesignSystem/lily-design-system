@@ -5,6 +5,7 @@
 - Component: gantt-table-tr
 - PascalCase: GanttTableTr
 - Description: a Gantt chart table interactive grid row for planning schedule visualization <tr>
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <tr>
 - CSS class: .gantt-table-tr
 - Interactive: no
@@ -40,6 +41,10 @@
 - [ ] Renders <tr> element with class="gantt-table-tr"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

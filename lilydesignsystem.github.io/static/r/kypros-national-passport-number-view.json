@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/KyprosNationalPassportNumberView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/kypros-national-passport-number-view/",
+  "markdown": "https://lilydesignsystem.com/components/kypros-national-passport-number-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/kypros-national-passport-number-view/AGENTS.md"
 }

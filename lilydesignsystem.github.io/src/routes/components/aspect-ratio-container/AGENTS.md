@@ -5,6 +5,7 @@
 - Component: aspect-ratio-container
 - PascalCase: AspectRatioContainer
 - Description: a container that maintains a fixed aspect ratio
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .aspect-ratio-container
 - Interactive: no
@@ -37,6 +38,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

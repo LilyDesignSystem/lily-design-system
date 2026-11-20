@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/PortugalNumeroDeIdentificacaoFiscalInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/portugal-numero-de-identificacao-fiscal-input/",
+  "markdown": "https://lilydesignsystem.com/components/portugal-numero-de-identificacao-fiscal-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/portugal-numero-de-identificacao-fiscal-input/AGENTS.md"
 }

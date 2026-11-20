@@ -123,6 +123,10 @@ The consumer provides all CSS styling. The component renders with a `.mockup-tab
 - `mockup-shell` — a box area that looks like a terminal shell
 - `mockup-tablet-portrait` — a box area that looks like a tablet computer in portrait mode
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN div element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div)

@@ -58,6 +58,10 @@ Not a component: a `<section aria-label={consumer string}>` holding a `<dl>` of 
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS -- fully headless
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Documentation: index.md

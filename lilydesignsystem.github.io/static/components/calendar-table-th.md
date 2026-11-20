@@ -92,6 +92,10 @@ CalendarTableTD is part of the CalendarTable composition pattern: CalendarTable 
 - `calendar-table-td` — a calendar table interactive grid data cell for managing dates, days, etc. <td>
 - `table` — a table with rows and columns <table>
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN th element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th

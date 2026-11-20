@@ -774,7 +774,7 @@ describe("pointer open survives the button content swap (regression)", () => {
     });
 });
 
-describe("<lily-locale-picker> — tooltip (§7.37–§7.42)", () => {
+describe("<lily-locale-picker> — tooltip (§7.37–§7.43)", () => {
     function setup() {
         const el = mount({ label: "Language", locales: LOCALES.join(",") }) as HTMLElement;
         const host = el.querySelector("lily-icon-button") as HTMLElement;

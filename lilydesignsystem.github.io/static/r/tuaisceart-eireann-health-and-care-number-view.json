@@ -37,5 +37,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/TuaisceartEireannHealthAndCareNumberView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/tuaisceart-eireann-health-and-care-number-view/",
+  "markdown": "https://lilydesignsystem.com/components/tuaisceart-eireann-health-and-care-number-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tuaisceart-eireann-health-and-care-number-view/AGENTS.md"
 }

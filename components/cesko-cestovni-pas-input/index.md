@@ -86,6 +86,10 @@ A national identifier is personal data, and often a key to other records.
 - `cesko-cestovni-pas-view` — a read-only display of Czech Republic's Cestovní pas
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/Czech_passport

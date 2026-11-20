@@ -142,6 +142,10 @@ The consumer provides all CSS styling. The component renders with a `.segment-gr
 
 - `segment-group` — a group of mutually exclusive segment options
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radio/

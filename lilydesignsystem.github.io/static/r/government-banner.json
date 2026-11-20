@@ -53,5 +53,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/GovernmentBanner.razor"
   },
   "docs": "https://lilydesignsystem.com/components/government-banner/",
+  "markdown": "https://lilydesignsystem.com/components/government-banner.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/government-banner/AGENTS.md"
 }

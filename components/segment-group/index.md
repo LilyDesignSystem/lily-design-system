@@ -149,6 +149,10 @@ SegmentGroup is the container for SegmentGroupItem children. Use `<SegmentGroup>
 
 - `segment-group-item` — one selectable segment in a segment group
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radio/

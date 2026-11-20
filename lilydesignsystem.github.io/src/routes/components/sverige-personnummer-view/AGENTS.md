@@ -1,3 +1,49 @@
-# SverigePersonnummerView — Lily Design System docs page
+# SverigePersonnummerView
 
-See `components/sverige-personnummer-view/AGENTS.md` for canonical metadata.
+## Metadata
+
+- Component: sverige-personnummer-view
+- PascalCase: SverigePersonnummerView
+- Description: a read-only display of Sweden's Personnummer
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
+- HTML tag: <span>
+- CSS class: .sverige-personnummer-view
+- Interactive: no
+
+## Key Behaviors
+
+- Renders as `<span>` with class `sverige-personnummer-view`, and no role
+- Format: 12 digits in the format CCYYMMDDZZZQ: CCYYMMDD is the date of birth, ZZZ a serial (odd male, even female), and Q a Luhn check digit
+- Read-only; not editable
+
+## ARIA
+
+- No ARIA. A plain `<span>` cannot be named: `aria-label` is prohibited on it, and most screen readers drop it. A visible caption names the value, or the optional `label` renders as hidden text
+
+## Keyboard
+
+- Not interactive
+
+## Props
+
+- `value`: string (required) — the identifier to display
+- `label`: string (optional) — hidden text naming the value, in a `.screen-reader-span`. Leave it out when a visible caption names the value
+- `...restProps`: any additional HTML attributes spread onto the root
+
+## Acceptance Criteria
+
+- [ ] Renders <span> element with class="sverige-personnummer-view"
+- [ ] Renders `value` as text content
+- [ ] WCAG 2.2 AAA compliant
+- [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
+
+## References
+
+- Documentation: index.md
+- CSS class: .sverige-personnummer-view in css-style-sheet-template.css
+- Companion: SverigePersonnummerInput
+- Wikipedia: https://en.wikipedia.org/wiki/Personal_identity_number_(Sweden)

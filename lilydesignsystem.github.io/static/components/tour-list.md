@@ -220,6 +220,10 @@ TourList contains TourListItem children following the Guide/GuideList/GuideListI
 
 - `tour-list-item` — one step in a tour guide list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/

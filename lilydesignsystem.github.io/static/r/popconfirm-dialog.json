@@ -51,6 +51,7 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/PopconfirmDialog.razor"
   },
   "docs": "https://lilydesignsystem.com/components/popconfirm-dialog/",
+  "markdown": "https://lilydesignsystem.com/components/popconfirm-dialog.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/popconfirm-dialog/AGENTS.md",
   "nativePlatform": {
     "decision": "native",

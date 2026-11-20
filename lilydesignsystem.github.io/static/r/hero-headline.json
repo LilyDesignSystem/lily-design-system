@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/HeroHeadline.razor"
   },
   "docs": "https://lilydesignsystem.com/components/hero-headline/",
+  "markdown": "https://lilydesignsystem.com/components/hero-headline.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/hero-headline/AGENTS.md"
 }

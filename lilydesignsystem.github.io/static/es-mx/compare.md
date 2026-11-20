@@ -2,7 +2,7 @@
 
 Title: Comparaciones — Lily Design System
 
-Description: 
+Description:
 
 # Comparaciones
 

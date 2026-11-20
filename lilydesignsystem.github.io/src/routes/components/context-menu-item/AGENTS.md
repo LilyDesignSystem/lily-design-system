@@ -5,6 +5,7 @@
 - Component: context-menu-item
 - PascalCase: ContextMenuItem
 - Description: one item in a context menu
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .context-menu-item
 - Interactive: yes
@@ -39,6 +40,14 @@
 - `children`: slot (required) -- menu item content (text, icon, shortcut hint, etc.)
 - `...restProps`: any -- additional HTML attributes spread onto the div
 
+## Native platform
+
+- Decision: hand-rolled because role="menuitem" has no native element
+- Uses: none (div role="menuitem")
+- Could use: none
+- Notes: Child of context-menu.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
 ## Acceptance Criteria
 
 - [ ] Renders <div> element with class="context-menu-item"
@@ -46,6 +55,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

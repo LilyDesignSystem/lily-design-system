@@ -240,7 +240,7 @@ function resolveInitialTheme(
     if (storageKey) {
         try {
             const stored = localStorage.getItem(storageKey);
-            if (stored) return stored;
+            if (stored && themeChoices(themes, systemLabel).includes(stored)) return stored;
         } catch {
             // ignore privacy errors
         }

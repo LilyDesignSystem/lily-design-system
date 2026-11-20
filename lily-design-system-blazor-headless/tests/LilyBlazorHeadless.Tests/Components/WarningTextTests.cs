@@ -13,17 +13,20 @@ public class WarningTextTests : TestContext
 
     [Fact] public void Renders_div_with_base_class() => Assert.NotNull(Render().Find("div.warning-text"));
 
-    [Fact] public void Consumer_class_follows_base_class() =>
+    [Fact]
+    public void Consumer_class_follows_base_class() =>
         Assert.Equal("warning-text mine", Render(p => p.Add(x => x.CssClass, "mine")).Find(".warning-text").GetAttribute("class"));
 
-    [Fact] public void Renders_children_with_hidden_prefix_inside_strong()
+    [Fact]
+    public void Renders_children_with_hidden_prefix_inside_strong()
     {
         var strong = Render().Find(".warning-text > strong.warning-text-text");
         Assert.Equal("Warning", strong.QuerySelector(".screen-reader-span")!.TextContent);
         Assert.Contains("You can be fined", strong.TextContent);
     }
 
-    [Fact] public void Renders_supplied_icon_first_inside_aria_hidden_wrapper()
+    [Fact]
+    public void Renders_supplied_icon_first_inside_aria_hidden_wrapper()
     {
         var cut = Render(p => p.Add(x => x.Icon, "!"));
         var wrap = cut.Find(".warning-text > .warning-text-icon");
@@ -34,7 +37,8 @@ public class WarningTextTests : TestContext
 
     [Fact] public void Renders_no_icon_wrapper_without_icon() => Assert.Empty(Render().FindAll(".warning-text-icon"));
 
-    [Fact] public void Adds_no_role_and_no_text_of_its_own()
+    [Fact]
+    public void Adds_no_role_and_no_text_of_its_own()
     {
         var root = RenderComponent<WarningText>().Find(".warning-text");
         Assert.Null(root.GetAttribute("role"));

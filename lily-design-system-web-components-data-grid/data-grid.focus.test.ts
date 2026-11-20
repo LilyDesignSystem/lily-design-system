@@ -1,8 +1,8 @@
 // Focus follows the record, and an unknown total (spec/index.md §8.150–§8.151).
 import { afterEach, describe, expect, test } from "vitest";
 
-import { DataGrid } from "./data-grid.js";
-import type { DataGridColumn, DataGridRow } from "./data-grid.js";
+import { DataGrid } from "./data-grid";
+import type { DataGridColumn, DataGridRow } from "./data-grid";
 
 if (!customElements.get("lily-data-grid")) customElements.define("lily-data-grid", DataGrid);
 

@@ -25,7 +25,7 @@ Implement the Card component: a grouped content container with header, body, and
 ## Acceptance Criteria
 
 - [ ] Renders <div> with class="card"
-- [ ] Optional `aria-label` -- identifies the card as a named landmark for screen readers
+- [ ] A labelled card has `role="group"` and its `aria-label`; an unlabelled one has no role
 - [ ] Keyboard: Tab: Focus the heading link when `href` is provided
 - [ ] Keyboard: Enter: Activate the heading link (browser default)
 - [ ] WCAG 2.2 AAA compliant

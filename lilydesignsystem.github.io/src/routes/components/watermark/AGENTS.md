@@ -5,6 +5,7 @@
 - Component: watermark
 - PascalCase: Watermark
 - Description: a decorative repeating overlay text or image marking a page
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .watermark
 - Interactive: no
@@ -47,6 +48,10 @@
 - [ ] Children render after the overlay element
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

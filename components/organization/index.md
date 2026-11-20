@@ -90,6 +90,10 @@ The consumer provides all CSS styling. The component renders with an `.organizat
 - `place` — a place component that contains other place-related information
 - `government-identifier` — an identifier section with a parent agency logo, agency name, and required government links
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN article element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article)

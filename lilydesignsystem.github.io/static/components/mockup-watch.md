@@ -113,6 +113,10 @@ The consumer provides all CSS styling. The component renders with a `.mockup-wat
 - `mockup-shell` — a box area that looks like a terminal shell
 - `mockup-tablet-landscape` — a box area that looks like a tablet computer in landscape mode
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN div element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div)

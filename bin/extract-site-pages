@@ -41,13 +41,35 @@ function extract(slug, route = slug, introOnly = false) {
     if (!intro) throw new Error(slug + ": no page-intro section");
     body = intro[0];
   }
-  // Code samples: <pre …><code>{EXPR}</code></pre>
-  body = body.replace(/<pre([^>]*)><code>\{([\s\S]*?)\}<\/code><\/pre>/g, (_, attrs, expr) => {
+  // PackageManagerTabs is hydrated on the English Svelte routes. Translated pages are trusted static
+  // HTML rendered through {@html}, so retain their pre-existing npm command fallback instead of
+  // extracting an inert custom-looking element. Keep the historical source formatting byte-for-byte:
+  // check-site-page-translations requires code samples to agree across every language.
+  body = body.replace(/^(\s*)<PackageManagerTabs\s+([\s\S]*?)\s*\/>/gm, (_, indent, attrs) => {
+    const packages = attrs.match(/\bpackages="([^"]+)"/)?.[1];
+    if (!packages) throw new Error(slug + ": PackageManagerTabs has no packages prop");
+    const command = `npm install ${packages}`;
+    if (route === "getting-started" || route === "tutorials/solid") {
+      return `${indent}<!-- svelte-ignore a11y_no_noninteractive_tabindex -->\n${indent}<pre tabindex="0"><code\n${indent}        >{\`${command}\`}</code\n${indent}    ></pre>`;
+    }
+    return `${indent}<!-- svelte-ignore a11y_no_noninteractive_tabindex -->\n${indent}<pre tabindex="0"><code>{\`${command}\`}</code></pre>`;
+  });
+  // Code samples: <pre …><code>{EXPR}</code></pre>. Prettier may split either code tag around
+  // the expression; accept that layout on the routes which contain the shared Svelte component.
+  const formattedCode = new Set(["getting-started", "tutorials/alpine", "tutorials/web-components"]).has(route);
+  const codeSample = formattedCode
+    ? /<pre([^>]*)>\s*<code([^>]*)>\s*\{([\s\S]*?)\}\s*<\/code\s*>\s*<\/pre\s*>/g
+    : /<pre([^>]*)><code()>\{([\s\S]*?)\}<\/code><\/pre>/g;
+  body = body.replace(codeSample, (_, attrs, codeAttrs, expr) => {
     const value = new Function("return (" + expr + ");")();
-    return `<pre${attrs}><code>${esc(String(value))}</code></pre>`;
+    return `<pre${attrs}><code${codeAttrs}>${esc(String(value))}</code></pre>`;
   });
   const literal = /\{(`(?:[^`\\]|\\.)*`)\}/g;
   body = body.replace(/<!--[\s\S]*?-->/g, "");
+  // Extracted HTML is generated source. Never preserve indentation on an
+  // otherwise blank line: it creates noisy diffs and fails the staged
+  // whitespace check without changing rendered output.
+  body = body.replace(/[ \t]+$/gm, "");
   // Anything Svelte-ish left once literals and code samples are set aside is a page this script
   // does not understand: fail loudly rather than emit broken HTML.
   if (/\{[#@:/]|\{\s*[A-Za-z_$]/.test(body.replace(/<pre[\s\S]*?<\/pre>/g, "").replace(literal, ""))) throw new Error(slug + ": unexpected Svelte syntax left in the body");

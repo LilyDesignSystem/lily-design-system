@@ -1,0 +1,54 @@
+--- /var/folders/zp/p2vtmfrj35b27yh4ns6h_6h40000gn/T/tmp.KKIOw371XQ	2026-11-20 06:21:07.060244009 +0000
++++ lily-design-system-web-components-gantt-chart/index.ts	2026-11-09 12:21:37.155149194 +0000
+@@ -2,18 +2,20 @@
+  * Barrel re-export for `<lily-gantt-chart>`.
+  *
+  * Importing this module registers the custom element under the tag
+- * name `"lily-gantt-chart"`. Registration is idempotent — re-imports do
+- * not throw. Consumers who want a different tag name can import the
+- * class directly from `./gantt-chart` and call
+- * `customElements.define(...)` themselves.
++ * name `"lily-gantt-chart"`. Registration is idempotent — re-imports
++ * do not throw.
+  *
+- * Also registers `<lily-date-time-picker>` (a side effect of importing
+- * `./gantt-chart.js`, which composes it twice per edit session).
++ * Depends on `@lilydesignsystem/web-components-headless` for
++ * `<lily-gantt-table>` and, twice per edit session, the sibling helper
++ * `@lilydesignsystem/web-components-date-time-picker`. Importing both
++ * here (for their side effects) registers them before `#render()` ever
++ * runs.
+  */
+
++import "@lilydesignsystem/web-components-headless";
++import "@lilydesignsystem/web-components-date-time-picker";
+ import {
+     GanttChart,
+-    addDays,
+     compareISO,
+     effectiveRange,
+     effectiveRanges,
+@@ -24,7 +26,6 @@
+ } from "./gantt-chart.js";
+ export {
+     GanttChart,
+-    addDays,
+     compareISO,
+     effectiveRange,
+     effectiveRanges,
+@@ -35,7 +36,6 @@
+ };
+ export type {
+     GanttChartProps,
+-    GanttChartTaskChangeDetail,
+     GanttColumn,
+     GanttFlatRow,
+     GanttDependency,
+@@ -75,6 +75,7 @@
+     resolveFields,
+ } from "./typed-fields.js";
+ export type { Draft, EditOutcome, FieldDef, FieldValues, ResolvedField } from "./typed-fields.js";
++
+ export { foldText, highlightSegments, matchesSearch, searchTerms } from "./search-text.js";
+ export type { SearchSegment } from "./search-text.js";
+ export { copyToClipboard, toClipboardText } from "./export-data.js";

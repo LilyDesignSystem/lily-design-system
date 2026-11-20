@@ -5,6 +5,7 @@
 - Component: clipboard-copy-button
 - PascalCase: ClipboardCopyButton
 - Description: a button that copies text to the clipboard
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <button>
 - CSS class: .clipboard-copy-button
 - Interactive: yes
@@ -42,6 +43,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

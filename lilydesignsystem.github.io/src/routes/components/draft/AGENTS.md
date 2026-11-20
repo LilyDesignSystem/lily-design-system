@@ -5,6 +5,7 @@
 - Component: draft
 - PascalCase: Draft
 - Description: an early preliminary version of content such as an article, email, report, etc.
+- Status: experimental — recent catalog addition with the least accumulated depth; contract may still move
 - HTML tag: <div>
 - CSS class: .draft
 - Interactive: no
@@ -17,6 +18,7 @@
 
 ## ARIA
 
+- With a `label`, the root is `role="group"`, because a plain `<div>` cannot be named. Without one it has no role
 - `aria-label` -- describes the draft for screen readers when no visible heading is present
 
 ## Keyboard
@@ -37,6 +39,10 @@
 - [ ] Has data-status attribute when status prop is provided
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS -- fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

@@ -34,5 +34,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/DoListItem.razor"
   },
   "docs": "https://lilydesignsystem.com/components/do-list-item/",
+  "markdown": "https://lilydesignsystem.com/components/do-list-item.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/do-list-item/AGENTS.md"
 }

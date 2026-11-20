@@ -2,6 +2,8 @@
 
 A calendar board is a component that presents dates in a structured grid layout, typically organized by weeks and days, allowing users to view and interact with calendar data at a glance. Commonly used in scheduling applications, event planners, and dashboard interfaces, the calendar board renders dates as cells within a table grid, making it easy to scan across days, weeks, or months.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component renders a `<table>` element with `role="grid"` and an accessible label. The consumer provides the table rows and cells as children, along with any header rows for day-of-week labels.
 
 ## Implementation Notes
@@ -66,7 +68,16 @@ This headless component renders a `<table>` element with `role="grid"` and an ac
 
 ## Keyboard Interactions
 
-None built-in -- the consumer should implement grid keyboard navigation on cells as needed (arrow keys for cell-to-cell movement, Enter/Space for selection).
+- Tab: moves to the calendar, on its one tab stop, and out of it
+- ArrowRight / ArrowLeft: next or previous cell in the row, swapped in right-to-left; stops at the edge
+- ArrowDown / ArrowUp: next or previous row; stops at the edge
+- Home / End: first or last cell in the row
+- Ctrl+Home / Ctrl+End (Cmd on macOS): first or last cell in the calendar
+- PageDown / PageUp: ten rows, stopping at the edge
+- Enter or F2: go to the first control in the cell, which keeps its own keys
+- Escape: from a control, back to its cell
+
+Selecting, sorting and editing are the consumer's. A consumer running its own grid keys, as the `calendar` helper does, sets `data-consumer-keys` on the root.
 
 ## ARIA
 
@@ -149,6 +160,10 @@ CalendarTable follows the Table composition pattern:
 - `calendar-table-td` — a calendar table interactive grid data cell for managing dates, days, etc. <td>
 - `calendar-table-th` — a calendar table interactive grid header cell for managing dates, days, etc. <th>
 - `table` — a table with rows and columns <table>
+
+## Known limitations
+
+None known.
 
 ## References
 

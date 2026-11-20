@@ -5,6 +5,7 @@
 - Component: measurement-unit-input
 - PascalCase: MeasurementUnitInput
 - Description: an input for selecting a measurement unit
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .measurement-unit-input
 - Interactive: no
@@ -45,6 +46,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

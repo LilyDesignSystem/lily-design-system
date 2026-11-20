@@ -31,5 +31,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MeasurementSystemView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/measurement-system-view/",
+  "markdown": "https://lilydesignsystem.com/components/measurement-system-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/measurement-system-view/AGENTS.md"
 }

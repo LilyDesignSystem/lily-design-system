@@ -112,6 +112,10 @@ The consumer provides all CSS styling. The component renders with a `.hero-headl
 
 - `hero` — a large box or image with a title and description
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN HTML elements reference](https://developer.mozilla.org/en-US/docs/Web/HTML/Element)

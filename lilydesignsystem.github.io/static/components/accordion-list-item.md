@@ -142,6 +142,10 @@ AccordionListItem follows the Nav / List / ListItem composition pattern:
 - `accordion-list` — an accordion ordered list of list item components
 - `accordion-link` — an accordion link
 
+## Known limitations
+
+None known.
+
 ## References
 
 - HTML details element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details

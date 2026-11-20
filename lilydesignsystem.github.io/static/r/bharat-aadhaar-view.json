@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/BharatAadhaarView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/bharat-aadhaar-view/",
+  "markdown": "https://lilydesignsystem.com/components/bharat-aadhaar-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/bharat-aadhaar-view/AGENTS.md"
 }

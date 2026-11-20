@@ -50,5 +50,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/RepeatableFieldset.razor"
   },
   "docs": "https://lilydesignsystem.com/components/repeatable-fieldset/",
+  "markdown": "https://lilydesignsystem.com/components/repeatable-fieldset.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/repeatable-fieldset/AGENTS.md"
 }

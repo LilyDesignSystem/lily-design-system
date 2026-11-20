@@ -5,6 +5,7 @@
 - Component: flex-stack
 - PascalCase: FlexStack
 - Description: a flex layout container for vertical or horizontal stacking with consistent gap
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .flex-stack
 - Interactive: no
@@ -44,6 +45,10 @@
 - [ ] data-direction attribute matches direction prop
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

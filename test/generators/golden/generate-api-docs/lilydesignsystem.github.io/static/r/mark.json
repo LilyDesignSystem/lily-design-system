@@ -22,5 +22,6 @@
     "html": "lily-design-system-html-headless/components/mark.html"
   },
   "docs": "https://lilydesignsystem.com/components/mark/",
+  "markdown": "https://lilydesignsystem.com/components/mark.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/mark/AGENTS.md"
 }

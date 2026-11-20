@@ -117,6 +117,10 @@ interactive descendant.
 - `button-group` — a wrapper that groups related buttons together
 - `tool-bar` — a horizontal bar of tool actions
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Group: https://www.w3.org/TR/wai-aria-1.2/#group

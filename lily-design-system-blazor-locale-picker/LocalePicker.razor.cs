@@ -72,7 +72,8 @@ public partial class LocalePicker : ComponentBase
     [Parameter] public bool ApplyDir { get; set; } = true;
 
     /// <summary>Optional pretty labels per locale code.</summary>
-    [Parameter] public IReadOnlyDictionary<string, string> LocaleLabels { get; set; }
+    [Parameter]
+    public IReadOnlyDictionary<string, string> LocaleLabels { get; set; }
         = new Dictionary<string, string>();
 
     /// <summary>Replaces the default globe icon inside the button.</summary>
@@ -254,7 +255,7 @@ public partial class LocalePicker : ComponentBase
                 var stored = await JS.InvokeAsync<string?>(
                     "eval",
                     $"(function(){{try{{return localStorage.getItem({JsonString(StorageKey!)});}}catch(e){{return null;}}}})()");
-                if (!string.IsNullOrEmpty(stored)) return stored!;
+                if (!string.IsNullOrEmpty(stored) && Locales.Contains(stored)) return stored!;
             }
             catch { /* prerender / interop unavailable */ }
         }

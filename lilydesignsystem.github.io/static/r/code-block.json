@@ -38,5 +38,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/CodeBlock.razor"
   },
   "docs": "https://lilydesignsystem.com/components/code-block/",
+  "markdown": "https://lilydesignsystem.com/components/code-block.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/code-block/AGENTS.md"
 }

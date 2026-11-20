@@ -47,5 +47,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ScrollerVideo.razor"
   },
   "docs": "https://lilydesignsystem.com/components/scroller-video/",
+  "markdown": "https://lilydesignsystem.com/components/scroller-video.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/scroller-video/AGENTS.md"
 }

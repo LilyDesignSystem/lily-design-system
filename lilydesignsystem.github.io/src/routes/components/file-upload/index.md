@@ -2,6 +2,8 @@
 
 A file upload component provides a button-triggered file picker for uploading files. It combines a hidden file input with a visible button and a live status region that announces how many files have been selected. This pattern is useful for document uploads, image uploads, or any form that accepts file attachments.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 ## Implementation Notes
 
 - Renders a `<div>` container with a `<button>`, hidden `<input type="file">`, and a status `<span>`
@@ -19,6 +21,8 @@ A file upload component provides a button-triggered file picker for uploading fi
 - `multiple`: boolean (default: `false`) -- whether to allow selecting multiple files
 - `disabled`: boolean (default: `false`) -- whether the button is disabled
 - `onchange`: function (default: `undefined`) -- callback receiving `FileList | null` when files are selected
+- `selectedLabel`: `(count: number) => string` (default: `undefined`) -- the live region's status for a count of files, in the consumer's words; plural forms are theirs. Without it the region stays empty: no English default
+- `dropZone`: boolean (default false) -- the root also accepts dropped files, into the same callback and count, with `data-drop-zone` and, while a file is held over it, `data-drag-over`; dragging is never the only way, since the button still chooses files and the drop zone adds no tab stop (WCAG 2.5.7). Without `multiple` only the first dropped file is kept. Not in Blazor, which reads files only through `InputFile`
 - `...restProps`: unknown -- additional attributes spread onto the outer `<div>`
 
 ## Usage
@@ -96,6 +100,10 @@ The consumer provides all CSS styling. The component renders with a `.file-uploa
 - `file-input` — an input for selecting files from the file system <input type="file">
 - `file-manager` — a file browser for navigating and managing files
 - `download-button` — a download link styled as a button, with optional file size and format metadata
+
+## Known limitations
+
+None known.
 
 ## References
 

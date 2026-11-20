@@ -75,6 +75,10 @@ A national identifier is personal data, and often a key to other records.
 - `nihon-kojin-bango-input` — an input for entering Japan's Individual Number / My Number (マイナンバー)
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [Individual Number](https://en.wikipedia.org/wiki/Individual_Number)

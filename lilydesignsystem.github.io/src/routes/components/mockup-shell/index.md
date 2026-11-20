@@ -2,6 +2,8 @@
 
 A mockup shell is a decorative container that visually resembles a terminal shell or command-line interface, used to frame terminal output, commands, or CLI examples in documentation and tutorials.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses a `<div>` element with `role="img"` and `aria-label` to present the mockup as a decorative image to assistive technologies.
 
 ## Implementation Notes
@@ -101,6 +103,10 @@ The consumer provides all CSS styling. The component renders with a `.mockup-she
 - `mockup-phone-portrait` — a box area that looks like a mobile phone
 - `mockup-tablet-landscape` — a box area that looks like a tablet computer in landscape mode
 - `mockup-tablet-portrait` — a box area that looks like a tablet computer in portrait mode
+
+## Known limitations
+
+None known.
 
 ## References
 

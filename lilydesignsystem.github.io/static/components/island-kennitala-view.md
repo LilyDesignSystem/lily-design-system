@@ -72,6 +72,10 @@ A national identifier is personal data, and often a key to other records.
 - `island-kennitala-input` — an input for entering Iceland's Kennitala
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/Kennitala

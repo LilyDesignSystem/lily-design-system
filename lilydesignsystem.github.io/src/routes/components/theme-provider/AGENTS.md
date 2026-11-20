@@ -5,6 +5,7 @@
 - Component: theme-provider
 - PascalCase: ThemeProvider
 - Description: a container that applies CSS custom properties from a theme object to its children
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .theme-provider
 - Interactive: no
@@ -40,6 +41,10 @@
 - [ ] Nested ThemeProvider components override parent theme values
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS -- fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

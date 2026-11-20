@@ -91,6 +91,10 @@ consistent vertical spacing.
 
 - `icon-list-item` — one item in an icon list with a leading icon slot
 
+## Known limitations
+
+None known.
+
 ## References
 
 - US Web Design System Icon List: https://designsystem.digital.gov/components/icon-list/

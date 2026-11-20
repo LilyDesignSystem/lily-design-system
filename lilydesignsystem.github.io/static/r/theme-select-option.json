@@ -32,5 +32,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ThemeSelectOption.razor"
   },
   "docs": "https://lilydesignsystem.com/components/theme-select-option/",
+  "markdown": "https://lilydesignsystem.com/components/theme-select-option.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/theme-select-option/AGENTS.md"
 }

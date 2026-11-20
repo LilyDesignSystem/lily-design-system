@@ -40,5 +40,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/CurrencyInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/currency-input/",
+  "markdown": "https://lilydesignsystem.com/components/currency-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/currency-input/AGENTS.md"
 }

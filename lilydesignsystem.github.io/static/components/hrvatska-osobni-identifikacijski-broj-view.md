@@ -72,6 +72,10 @@ A national identifier is personal data, and often a key to other records.
 - `hrvatska-osobni-identifikacijski-broj-input` — an input for entering Croatia's Osobni identifikacijski broj (OIB)
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/Personal_identification_number_(Croatia)

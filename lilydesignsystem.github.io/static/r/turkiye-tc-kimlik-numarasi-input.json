@@ -38,5 +38,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/TurkiyeTcKimlikNumarasiInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/turkiye-tc-kimlik-numarasi-input/",
+  "markdown": "https://lilydesignsystem.com/components/turkiye-tc-kimlik-numarasi-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/turkiye-tc-kimlik-numarasi-input/AGENTS.md"
 }

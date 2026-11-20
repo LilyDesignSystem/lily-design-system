@@ -13,17 +13,20 @@ public class PictureTests : TestContext
 
     [Fact] public void Renders_picture_with_base_class() => Assert.NotNull(Render().Find("picture.picture"));
 
-    [Fact] public void Consumer_class_follows_base_class() =>
+    [Fact]
+    public void Consumer_class_follows_base_class() =>
         Assert.Equal("picture mine", Render(p => p.Add(x => x.CssClass, "mine")).Find(".picture").GetAttribute("class"));
 
-    [Fact] public void Renders_source_and_img_keeping_the_consumers_alt()
+    [Fact]
+    public void Renders_source_and_img_keeping_the_consumers_alt()
     {
         var cut = Render();
         Assert.Equal("(min-width: 800px)", cut.Find("picture source").GetAttribute("media"));
         Assert.Equal("A lily", cut.Find("picture img").GetAttribute("alt"));
     }
 
-    [Fact] public void Adds_no_text_of_its_own() =>
+    [Fact]
+    public void Adds_no_text_of_its_own() =>
         Assert.Equal("", RenderComponent<Picture>().Find(".picture").TextContent);
 
     [Fact] public void Spreads_rest_props() => Assert.Equal("x1", Render(p => p.AddUnmatched("id", "x1")).Find(".picture").Id);

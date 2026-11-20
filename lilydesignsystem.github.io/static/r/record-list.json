@@ -44,5 +44,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/RecordList.razor"
   },
   "docs": "https://lilydesignsystem.com/components/record-list/",
+  "markdown": "https://lilydesignsystem.com/components/record-list.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/record-list/AGENTS.md"
 }

@@ -5,6 +5,7 @@
 - Component: pictogram
 - PascalCase: Pictogram
 - Description: an icon-based component pairing an icon with a title and description in a centered or side layout
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <figure>
 - CSS class: .pictogram
 - Interactive: no
@@ -52,6 +53,10 @@
 - [ ] All user-facing strings come through props (i18n-ready)
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

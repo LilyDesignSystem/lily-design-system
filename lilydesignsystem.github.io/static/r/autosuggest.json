@@ -55,6 +55,7 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Autosuggest.razor"
   },
   "docs": "https://lilydesignsystem.com/components/autosuggest/",
+  "markdown": "https://lilydesignsystem.com/components/autosuggest.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/autosuggest/AGENTS.md",
   "nativePlatform": {
     "decision": "hand-rolled because <datalist> cannot be styled or hold rich options, and the suggestions come from the consumer as they type",

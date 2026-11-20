@@ -54,6 +54,10 @@ MedicalBannerBox is designed to be used inside a MedicalBanner:
 </MedicalBanner>
 ```
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Documentation: index.md

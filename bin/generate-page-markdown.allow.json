@@ -1,0 +1,22 @@
+[
+  {
+    "pattern": "^/$",
+    "reason": "The home route is an interactive catalog summary; its public machine-readable entry point is /llms.txt."
+  },
+  {
+    "pattern": "^/[a-z]{2,3}-(?:[a-z]{2}|[0-9]{3})(?:-[a-z0-9]+)?/$",
+    "reason": "Localized home routes render the same interactive summary; translated text-page twins begin below them."
+  },
+  {
+    "pattern": "^/components/$",
+    "reason": "The searchable catalog is dynamic; every component detail has its own /components/{slug}.md twin."
+  },
+  {
+    "pattern": "^/demo/svelte/$",
+    "reason": "This is an interactive application demo, not a prose document."
+  },
+  {
+    "pattern": "^/markdown-editor/$",
+    "reason": "This is an interactive editor demo; its component and helper documentation have Markdown sources."
+  }
+]

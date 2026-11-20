@@ -95,6 +95,10 @@ in addition to color.
 - `status-tag` — a tag showing the current status of a task
 - `badge` — a small label for counts, statuses, or categories
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA `status` role: https://www.w3.org/TR/wai-aria-1.2/#status

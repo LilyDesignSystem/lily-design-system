@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "test": "vitest run",
+    "coverage": "vitest run --coverage",
     "mutation": "stryker run",
     "bench": "vitest run --config vitest.bench.config.ts"
   },
@@ -14,6 +15,7 @@
   "devDependencies": {
     "@stryker-mutator/core": "10.1.1",
     "@stryker-mutator/vitest-runner": "10.1.1",
+    "@vitest/coverage-v8": "5.1.0",
     "fast-check": "4.10.2",
     "jsdom": "^31.0.1",
     "tinybench": "6.2.3",

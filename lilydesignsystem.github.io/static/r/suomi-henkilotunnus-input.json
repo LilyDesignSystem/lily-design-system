@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/SuomiHenkilotunnusInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/suomi-henkilotunnus-input/",
+  "markdown": "https://lilydesignsystem.com/components/suomi-henkilotunnus-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/suomi-henkilotunnus-input/AGENTS.md"
 }

@@ -5,6 +5,7 @@
 - Component: toast
 - PascalCase: Toast
 - Description: a brief auto-dismissing notification message
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .toast
 - Interactive: no
@@ -45,6 +46,10 @@
 - [ ] Has role="status"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

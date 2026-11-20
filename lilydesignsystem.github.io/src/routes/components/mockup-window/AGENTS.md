@@ -5,6 +5,7 @@
 - Component: mockup-window
 - PascalCase: MockupWindow
 - Description: a box area that looks like a desktop window
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .mockup-window
 - Interactive: no
@@ -36,6 +37,10 @@
 - [ ] Has aria-label attribute
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS -- fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

@@ -34,5 +34,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Avatar.razor"
   },
   "docs": "https://lilydesignsystem.com/components/avatar/",
+  "markdown": "https://lilydesignsystem.com/components/avatar.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/avatar/AGENTS.md"
 }

@@ -113,6 +113,10 @@ ContextMenuItem is the child component in the ContextMenu/ContextMenuItem compos
 
 - `context-menu` — a menu that appears on right-click or long-press
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menu/

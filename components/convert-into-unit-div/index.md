@@ -106,6 +106,10 @@ Conversion belongs to the consumer: keep the rates, rounding and `Intl.NumberFor
 - `convert-from-unit-div`
 - `select`
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [WAI-ARIA group role](https://www.w3.org/TR/wai-aria-1.2/#group)

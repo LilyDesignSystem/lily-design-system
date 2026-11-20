@@ -71,6 +71,10 @@ The consumer provides all CSS styling. The component renders with a `.dont-list-
 
 - `dont-list` — a guideline list of discouraged dont-list-item components
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN li element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li

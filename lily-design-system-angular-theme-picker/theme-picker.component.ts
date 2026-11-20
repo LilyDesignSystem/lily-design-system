@@ -436,10 +436,9 @@ export class ThemePicker {
                 const sk = this.storageKeyOrDefault();
                 if (!initial && sk) {
                     try {
-                        initial =
-                            (typeof localStorage !== "undefined"
-                                ? localStorage.getItem(sk)
-                                : null) ?? "";
+                        const stored =
+                            typeof localStorage !== "undefined" ? localStorage.getItem(sk) : null;
+                        if (stored && this.options().includes(stored)) initial = stored;
                     } catch {
                         // ignore privacy errors
                     }

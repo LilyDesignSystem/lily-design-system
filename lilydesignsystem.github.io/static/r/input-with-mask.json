@@ -45,5 +45,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/InputWithMask.razor"
   },
   "docs": "https://lilydesignsystem.com/components/input-with-mask/",
+  "markdown": "https://lilydesignsystem.com/components/input-with-mask.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/input-with-mask/AGENTS.md"
 }

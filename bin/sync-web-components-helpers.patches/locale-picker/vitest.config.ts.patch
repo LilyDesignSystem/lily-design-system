@@ -1,0 +1,15 @@
+--- /var/folders/zp/p2vtmfrj35b27yh4ns6h_6h40000gn/T/tmp.m88lym24fJ	2026-11-20 06:19:51.785893102 +0000
++++ lily-design-system-web-components-locale-picker/vitest.config.ts	2026-11-20 05:50:57.606340602 +0000
+@@ -11,12 +11,6 @@
+             // sibling top-level subproject instead: a helper package's built
+             // dist/ (build those first; bin/list-helper-packages web-components prints the
+             // order), or the headless library's built dist/.
+-            "@lilydesignsystem/web-components-headless/components/listbox-controller.js": fileURLToPath(
+-                new URL(
+-                    "../lily-design-system-web-components-headless/components/listbox-controller.js",
+-                    import.meta.url,
+-                ),
+-            ),
+             "@lilydesignsystem/web-components-headless": fileURLToPath(
+                 new URL(
+                     "../lily-design-system-web-components-headless/dist/index.js",

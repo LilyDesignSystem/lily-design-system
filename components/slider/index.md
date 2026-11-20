@@ -124,6 +124,10 @@ The consumer provides all CSS styling. The component renders with a `.slider` cl
 - `dial` — a rotary dial control for selecting a value
 - `angle-slider-range-input` — a range input for selecting an angle in degrees
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Slider Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/slider/

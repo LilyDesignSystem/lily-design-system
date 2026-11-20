@@ -5,6 +5,7 @@
 - Component: contents-list
 - PascalCase: ContentsList
 - Description: an contents ordered list of contents list item components
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <ol>
 - CSS class: .contents-list
 - Interactive: no
@@ -44,6 +45,10 @@
 - [ ] Has aria-label attribute
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

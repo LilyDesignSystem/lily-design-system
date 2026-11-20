@@ -86,6 +86,10 @@ A national identifier is personal data, and often a key to other records.
 - `kypros-national-passport-number-view` — a read-only display of Kypros's National Passport Number
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/Cypriot_passport

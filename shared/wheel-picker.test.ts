@@ -1,4 +1,4 @@
-import { describe, expect, test } from "vitest";
+import { describe, expect, test, vi } from "vitest";
 import {
     isWheelRtl,
     isWheelTypeaheadKey,
@@ -7,6 +7,7 @@ import {
     wheelIndexNearest,
     wheelMoveKey,
     wheelTypeaheadIndex,
+    watchWheelScroll,
     type WheelOption,
 } from "./wheel-picker";
 
@@ -164,5 +165,59 @@ describe("wheelIndexNearest", () => {
     test("is -1 when nothing is enabled", () => {
         expect(wheelIndexNearest(opts(["A"], [0]), [10], 10)).toBe(-1);
         expect(wheelIndexNearest([], [], 10)).toBe(-1);
+    });
+});
+
+describe("watchWheelScroll", () => {
+    test("chooses the enabled option at the centre, recentres the selected one, and cleans up", () => {
+        const list = document.createElement("div");
+        list.innerHTML = '<div role="option">A</div><div role="option">B</div>';
+        list.getBoundingClientRect = () => ({ top: 0, height: 200 }) as DOMRect;
+        const rows = [...list.querySelectorAll<HTMLElement>('[role="option"]')];
+        rows[0].getBoundingClientRect = () => ({ top: 20, height: 20 }) as DOMRect;
+        rows[1].getBoundingClientRect = () => ({ top: 90, height: 20 }) as DOMRect;
+        const choose = vi.fn();
+        const recentre = vi.fn();
+        let selected = 0;
+        const cleanup = watchWheelScroll(list, {
+            options: () => opts(["A", "B"]),
+            selected: () => selected,
+            orientation: () => "vertical",
+            disabled: () => false,
+            choose,
+            recentre,
+        });
+
+        list.dispatchEvent(new Event("wheel"));
+        list.dispatchEvent(new Event("scrollend"));
+        expect(choose).toHaveBeenCalledWith(1);
+
+        selected = 1;
+        rows[1].getBoundingClientRect = () => ({ top: 100, height: 20 }) as DOMRect;
+        list.dispatchEvent(new Event("touchstart"));
+        list.dispatchEvent(new Event("scrollend"));
+        expect(recentre).toHaveBeenCalledOnce();
+
+        cleanup();
+        list.dispatchEvent(new Event("wheel"));
+        list.dispatchEvent(new Event("scrollend"));
+        expect(choose).toHaveBeenCalledOnce();
+    });
+
+    test("ignores programmatic scrolling and a disabled wheel", () => {
+        const list = document.createElement("div");
+        const choose = vi.fn();
+        watchWheelScroll(list, {
+            options: () => opts(["A"]),
+            selected: () => 0,
+            orientation: () => "horizontal",
+            disabled: () => true,
+            choose,
+            recentre: vi.fn(),
+        });
+        list.dispatchEvent(new Event("scrollend"));
+        list.dispatchEvent(new Event("pointerdown"));
+        list.dispatchEvent(new Event("scrollend"));
+        expect(choose).not.toHaveBeenCalled();
     });
 });

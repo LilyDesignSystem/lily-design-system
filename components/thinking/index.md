@@ -84,6 +84,10 @@ The consumer provides all CSS styling via `.thinking`, `.thinking-summary`, `.th
 - `expander` — a button-driven disclosure
 - `loading` — a busy indicator
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN details element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details

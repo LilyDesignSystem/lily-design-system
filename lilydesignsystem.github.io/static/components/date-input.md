@@ -106,6 +106,10 @@ The consumer provides all CSS styling. The component renders with a `.date-input
 - `date-time-now-input` — an input for entering a date and time and "now" button <input type="date"><input type="time"><button type="button">
 - `calendar-range-picker` — a picker for selecting a date range on a calendar
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN date input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date

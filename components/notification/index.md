@@ -102,6 +102,10 @@ The consumer provides all CSS styling. The component renders with a `.notificati
 - `alert` — a status message for important information or feedback
 - `banner` — a prominent message bar across the top of a page
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA alert role: https://www.w3.org/TR/wai-aria-1.2/#alert

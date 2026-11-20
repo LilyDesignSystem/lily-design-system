@@ -43,5 +43,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Field.razor"
   },
   "docs": "https://lilydesignsystem.com/components/field/",
+  "markdown": "https://lilydesignsystem.com/components/field.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/field/AGENTS.md"
 }

@@ -143,6 +143,10 @@ The consumer provides all CSS styling. The component renders with a `.pin-input-
 - `password-input` — an input for entering a password with obscured text <input type="password">
 - `input-with-mask` — an input displaying a format mask placeholder for the user to fill in
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Group Role: https://www.w3.org/TR/wai-aria-1.2/#group

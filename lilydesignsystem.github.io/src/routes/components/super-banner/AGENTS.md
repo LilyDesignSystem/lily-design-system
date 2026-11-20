@@ -5,6 +5,7 @@
 - Component: super-banner
 - PascalCase: SuperBanner
 - Description: a super-banner communicates a high-priority state that affects an entire app, experience, process, or system
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .super-banner
 - Interactive: yes
@@ -42,6 +43,10 @@
 - [ ] Dismiss functionality works when dismissable
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS -- fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

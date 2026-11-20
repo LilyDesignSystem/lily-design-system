@@ -36,5 +36,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/WarningCallout.razor"
   },
   "docs": "https://lilydesignsystem.com/components/warning-callout/",
+  "markdown": "https://lilydesignsystem.com/components/warning-callout.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/warning-callout/AGENTS.md"
 }

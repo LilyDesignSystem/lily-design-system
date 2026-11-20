@@ -948,28 +948,28 @@ public partial class DataGrid : ComponentBase
         switch (args.Key)
         {
             case "F2":
-            {
-                var (entry, column) = CurrentCell();
-                if (entry is not null && column is not null && IsEditable(column)) StartEdit(entry, column);
-                break;
-            }
+                {
+                    var (entry, column) = CurrentCell();
+                    if (entry is not null && column is not null && IsEditable(column)) StartEdit(entry, column);
+                    break;
+                }
             case "Enter":
             case " ":
-            {
-                var (entry, column) = CurrentCell();
-                if (args.Key == "Enter" && entry is not null && column is not null && IsEditable(column))
                 {
-                    StartEdit(entry, column);
+                    var (entry, column) = CurrentCell();
+                    if (args.Key == "Enter" && entry is not null && column is not null && IsEditable(column))
+                    {
+                        StartEdit(entry, column);
+                        break;
+                    }
+                    if (args.Key == "Enter" && entry is not null && ActiveRow >= 0 && OnRowActivate.HasDelegate)
+                    {
+                        await OnRowActivate.InvokeAsync((entry.Row, entry.Id));
+                        break;
+                    }
+                    await ActivateFocusedCellAsync();
                     break;
                 }
-                if (args.Key == "Enter" && entry is not null && ActiveRow >= 0 && OnRowActivate.HasDelegate)
-                {
-                    await OnRowActivate.InvokeAsync((entry.Row, entry.Id));
-                    break;
-                }
-                await ActivateFocusedCellAsync();
-                break;
-            }
         }
     }
 

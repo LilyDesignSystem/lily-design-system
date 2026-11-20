@@ -2,14 +2,16 @@
 
 A card groups related content and actions into a self-contained semantic container, making it easy to browse and compare items. Cards are commonly used for product listings, user profiles, article previews, media galleries, and dashboard widgets. They present a digestible summary of information that can include headings, text, and interactive elements.
 
-The component renders as an `<article>` element for standalone content grouping. It supports a configurable heading level (h2-h6) for proper document outline, and the heading can optionally be wrapped in a link when an `href` is provided. An optional `aria-label` enables the article to be identified as a named landmark.
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
+The component renders a `<div>`, which becomes `role="group"` when a `label` names it. It supports a configurable heading level (h2-h6) for proper document outline, and the heading can optionally be wrapped in a link when an `href` is provided.
 
 ## Implementation Notes
 
-- Uses `<article>` for semantic standalone content grouping
+- Renders a `<div>`: a card is not always a stand-alone item, and an `<article>` on every card in a list is noise for screen-reader users. Pass `role="article"` for a card that is one
 - Heading level is configurable (2-6) for proper document outline structure
 - When `href` is provided, the heading text wraps in an `<a>` element for navigation
-- Optional `aria-label` for named landmark identification
+- Optional `label` names the card, which then has `role="group"`; with no label the `<div>` is generic and unnamed
 - Content is provided through child elements
 - Passes through all additional HTML attributes via `...restProps`
 
@@ -18,9 +20,9 @@ The component renders as an `<article>` element for standalone content grouping.
 - `heading`: string (optional) -- heading text for the card
 - `headingLevel`: 2 | 3 | 4 | 5 | 6 (default: 3) -- HTML heading level
 - `href`: string (optional) -- makes the heading a link
-- `label`: string (optional) -- `aria-label` for the article
+- `label`: string (optional) -- names the card (`aria-label`, with `role="group"`)
 - `children`: slot (required) -- card body content
-- `...restProps`: Any additional HTML attributes passed to the `<article>` element
+- `...restProps`: Any additional HTML attributes passed to the root `<div>`
 
 ## Usage
 
@@ -59,8 +61,8 @@ Card with action link for a profile:
 
 ## ARIA
 
-- Implicit `article` role from the `<article>` element
-- Optional `aria-label` -- identifies the card as a named landmark for screen readers
+- No role when unlabelled: a `<div>`
+- `role="group"` and `aria-label` when `label` is given -- names the card as a group, not a landmark
 
 ## When to Use
 
@@ -78,16 +80,18 @@ Card with action link for a profile:
 
 ## Headless
 
-This headless Card component provides the semantic `<article>` element, configurable heading level for document outline, optional heading link via `href`, and `aria-label` for landmark identification. The consumer provides all visual styling including card borders, shadows, spacing, background colors, and layout of header, body, and footer areas.
+This headless Card component provides a `<div>` (a named group when labelled), configurable heading level for document outline, and an optional heading link via `href`. The consumer provides all visual styling including card borders, shadows, spacing, background colors, and layout of header, body, and footer areas.
 
 ## Styles
 
-The consumer provides all CSS styling. The component renders with a `.card` class for targeting. No default styles are included — this is a fully headless component.
+The headless component includes no CSS and renders `.card` for targeting. A Lily reference theme exposes
+`--lily-card-background`, `--lily-card-color`, `--lily-card-border-color`, and `--lily-card-border-radius`, defaulting to
+the theme's surface, text, border, and large-radius tokens.
 
 ## Testing
 
 - Verify the component renders a `<div>` element with class `card`
-- Verify Optional `aria-label` -- identifies the card as a named landmark for screen readers
+- Verify a labelled card has `role="group"` and its `aria-label`, and an unlabelled one has no role
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied
 
@@ -106,6 +110,10 @@ Card supports header, body, and footer content areas through its children slot. 
 - `product-card` — a specialized card for displaying a product with image, title, price, and actions
 - `panel` — a generic content panel with optional heading
 - `tile` — a grouping container that presents related content in a structured format, often as a single clickable area
+
+## Known limitations
+
+None known.
 
 ## References
 

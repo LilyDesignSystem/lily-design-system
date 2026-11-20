@@ -38,6 +38,7 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/FloatingPanel.razor"
   },
   "docs": "https://lilydesignsystem.com/components/floating-panel/",
+  "markdown": "https://lilydesignsystem.com/components/floating-panel.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/floating-panel/AGENTS.md",
   "nativePlatform": {
     "decision": "native",

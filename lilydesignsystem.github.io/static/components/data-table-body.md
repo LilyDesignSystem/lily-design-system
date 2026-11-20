@@ -90,6 +90,10 @@ DataTableBody is part of the DataTable composition pattern. It sits inside a Dat
 - `data-table-th` — a data table interactive grid header cell for displaying and sorting tabular data <th>
 - `table` — a table with rows and columns <table>
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Table Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/table/

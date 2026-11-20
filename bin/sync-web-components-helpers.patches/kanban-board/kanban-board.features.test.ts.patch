@@ -1,0 +1,21 @@
+--- /var/folders/zp/p2vtmfrj35b27yh4ns6h_6h40000gn/T/tmp.1Bk7JbKupM	2026-11-20 06:21:08.135636280 +0000
++++ lily-design-system-web-components-kanban-board/kanban-board.features.test.ts	2026-11-20 05:50:57.582028082 +0000
+@@ -3,7 +3,8 @@
+ import { KanbanBoard } from "./kanban-board.js";
+ import type { KanbanCard, KanbanColumn, KanbanLabels } from "./kanban-board.js";
+
+-if (!customElements.get("lily-kanban-board")) customElements.define("lily-kanban-board", KanbanBoard);
++if (!customElements.get("lily-kanban-board"))
++    customElements.define("lily-kanban-board", KanbanBoard);
+
+ const COLUMNS: KanbanColumn[] = [
+     { id: "todo", title: "To Do" },
+@@ -58,7 +59,7 @@
+ const status = () => board.querySelector(".kanban-board-status, [aria-live='polite']")?.textContent;
+ const active = () => board.querySelector<HTMLElement>("[data-row][data-col][tabindex='0']")!;
+ const cell = (r: number, c: number) =>
+-    board.querySelector<HTMLElement>(`.kanban-table-body [data-row="${r}"][data-col="${c}"]`)!;
++    board.querySelector<HTMLElement>(`.kanban-board-td[data-row="${r}"][data-col="${c}"]`)!;
+ const flush = () => new Promise((r) => setTimeout(r, 0));
+
+ afterEach(() => {

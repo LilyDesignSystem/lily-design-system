@@ -5,7 +5,8 @@
 - Component: call-to-action
 - PascalCase: CallToAction
 - Description: a prominent prompt encouraging user action
-- HTML tag: <div>
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
+- HTML tag: <a> when `href` is given, else <button type="button">
 - CSS class: .call-to-action
 - Interactive: yes
 
@@ -41,11 +42,19 @@
 
 ## Acceptance Criteria
 
-- [ ] Renders <div> element with class="call-to-action"
+- [ ] Renders <a> (with href) or <button> element with class="call-to-action"
 - [ ] Has aria-label attribute
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+### Disabled links and link look-alikes
+
+A link has no disabled state: the `disabled` attribute has no effect. Prefer not rendering an unavailable link. When the unavailable item must remain visible, set `aria-disabled="true"`, omit `href` (or guard every pointer and keyboard activation if the URL must remain), and use `tabindex="-1"` so it is not a misleading tab stop. Add `role="link"` when an anchor without `href` must retain link semantics.
+
+Use a native `<button>` for an action. Styling an anchor as a button does not give it button keyboard or disabled behavior.
 
 ## References
 

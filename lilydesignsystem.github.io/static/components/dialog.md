@@ -113,7 +113,9 @@ This headless component provides a native `<dialog>` element with conditional re
 
 ## Styles
 
-The consumer provides all CSS styling. The component renders with a `.dialog` class for targeting. No default styles are included — this is a fully headless component.
+The headless component includes no CSS and renders `.dialog` for targeting. A Lily reference theme exposes
+`--lily-dialog-background`, `--lily-dialog-color`, `--lily-dialog-border-color`, and
+`--lily-dialog-border-radius`, defaulting to the surface, text, border, and large-radius tokens.
 
 ## Testing
 
@@ -135,6 +137,10 @@ The consumer provides all CSS styling. The component renders with a `.dialog` cl
 - `file-dialog` — a dialog for browsing and selecting files
 - `drawer` — a panel that slides in from the edge of the screen
 - `sheet` — a panel that slides in from a screen edge as an overlay
+
+## Known limitations
+
+None known.
 
 ## References
 

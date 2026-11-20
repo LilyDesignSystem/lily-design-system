@@ -144,13 +144,14 @@ RFC 3 asks for: native mobile and screen-reader behaviour, without losing visual
 - Answers: production-proven behaviour. Behaviour delegated to the browser inherits the browser's testing.
 - Check: every audited component records "native" or "hand-rolled because …". The RFC 3 prototype runs in the
   example apps with the `@supports` fallback.
-- Status (2026-10-30): the audit is recorded for 52 components in `native-primitives.tsv`, each `AGENTS.md` and
+- Status (updated 2026-11-19): the audit is recorded for 53 components in `native-primitives.tsv`, each `AGENTS.md` and
   `/r/{slug}.json`, and checked by `bin/check-native-primitives`. Now native: the dialog family and drawer, sheet and
   slide-out-drawer (`showModal()`, P14-T4, P18-T6); popover, popup and contextual-help (P18-T8) and dropdown-menu,
   split-button, action-group and context-menu (P18-T11) on `popover="auto"` with `command`/`commandfor`. The 9
   remaining candidates are cascader, coachmark, combobox, floating-panel, hover-card, mentions-input, popconfirm-dialog,
   tooltip and tree-select. The `variant="select"` prototype is in all eight theme-pickers (P18-T12) and its e2e runs
   in the HTML example only, in Chromium and WebKit; Firefox, the engine without `base-select`, was not run.
+  Each row also records the fallback or exception for a newly available primitive; the checker rejects an omitted one.
 
 ### 5. A shadcn-compatible registry instead of a bespoke CLI
 

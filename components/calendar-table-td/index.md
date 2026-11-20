@@ -114,6 +114,10 @@ CalendarTableTD is part of the CalendarTable composition pattern:
 - `calendar-table-th` — a calendar table interactive grid header cell for managing dates, days, etc. <th>
 - `table` — a table with rows and columns <table>
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/

@@ -2,6 +2,8 @@
 
 A call to action (CTA) is a component designed to prompt users to take a specific action, such as navigating to a page or triggering an operation. CTAs are typically the most prominent interactive element on a page, driving user engagement toward key goals like "Sign Up", "Learn More", or "Buy Now".
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This component renders as an `<a>` element when an `href` is provided (for navigation CTAs) or as a `<button>` when no href is given (for action CTAs). This dual-mode approach ensures correct semantic HTML is used for each use case, benefiting both accessibility and SEO.
 
 ## Implementation Notes
@@ -93,7 +95,7 @@ The consumer provides all CSS styling. The component renders with a `.call-to-ac
 
 ## Testing
 
-- Verify the component renders a `<div>` element with class `call-to-action`
+- Verify the component renders an `<a>` with class `call-to-action` when given `href`, and a `<button type="button">` otherwise
 - Verify Optional `aria-label` -- provides screen reader text when visible text alone is insufficient
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied
@@ -109,6 +111,14 @@ The consumer provides all CSS styling. The component renders with a `.call-to-ac
 - `action-link` — a hyperlink styled as an action trigger
 - `hero` — a large box or image with a title and description
 - `feature-card` — a large content card with a prominent image positioned alongside or above the text
+
+## Known limitations
+
+### Disabled links and link look-alikes
+
+A link has no disabled state: the `disabled` attribute has no effect. Prefer not rendering an unavailable link. When the unavailable item must remain visible, set `aria-disabled="true"`, omit `href` (or guard every pointer and keyboard activation if the URL must remain), and use `tabindex="-1"` so it is not a misleading tab stop. Add `role="link"` when an anchor without `href` must retain link semantics.
+
+Use a native `<button>` for an action. Styling an anchor as a button does not give it button keyboard or disabled behavior.
 
 ## References
 

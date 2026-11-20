@@ -5,6 +5,7 @@
 - Component: do-list-item
 - PascalCase: DoListItem
 - Description: an encouraged-practice item in a do-list guideline list
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <li>
 - CSS class: .do-list-item
 - Interactive: no
@@ -41,6 +42,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

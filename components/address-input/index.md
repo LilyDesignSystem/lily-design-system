@@ -84,6 +84,10 @@ The component renders with `.address-input` as the root class. No default styles
 - `autosuggest` — text input with proposed matching options
 - `postal-code-input` — postal/ZIP code input with format validation
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [WAI-ARIA group role](https://www.w3.org/TR/wai-aria-1.2/#group)

@@ -98,6 +98,10 @@ This headless component ships zero CSS and decides nothing visual. The consumer 
 - `sparkline` — a small inline chart showing a data trend
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - FHIR Observation: https://hl7.org/fhir/observation.html

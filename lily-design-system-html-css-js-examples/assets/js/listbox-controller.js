@@ -108,11 +108,12 @@ function highlightSegments(text, query) {
 
 const TYPEAHEAD_RESET_MS = 700;
 
-/** Whether a key press is a type-ahead character: one printable character, no Ctrl, Alt or Meta. */
+/** A printable initial outside IME composition or a Ctrl, Alt or Meta shortcut. */
 function isTypeaheadKey(event) {
     return (
-        event.key.length === 1 &&
-        event.key !== " " &&
+        /^[^\p{Cc}\p{Cf}\p{Cs} ]$/u.test(event.key.normalize("NFC")) &&
+        !event.isComposing &&
+        !event.nativeEvent?.isComposing &&
         !event.ctrlKey &&
         !event.altKey &&
         !event.metaKey
@@ -121,7 +122,7 @@ function isTypeaheadKey(event) {
 
 /** The prefix after `key` is pressed at time `now`: it grows while presses are within `resetMs` of each other, else starts over. */
 function nextTypeaheadState(previous, key, now, resetMs = TYPEAHEAD_RESET_MS) {
-    const continuing = previous.prefix !== "" && now - previous.at <= resetMs;
+    const continuing = now - previous.at <= resetMs;
     return { prefix: (continuing ? previous.prefix : "") + key, at: now };
 }
 
@@ -130,12 +131,13 @@ function nextTypeaheadState(previous, key, now, resetMs = TYPEAHEAD_RESET_MS) {
  * treated as that single letter, so pressing it again steps through the rows starting with it.
  */
 function findTypeaheadMatch(labels, from, prefix) {
-    const folded = foldText(prefix);
-    if (folded === "" || labels.length === 0) return -1;
-    const repeated = folded.length > 1 && [...folded].every((c) => c === folded[0]);
-    const needle = repeated ? folded[0] : folded;
+    // Fold each initial separately: a Hangul syllable folds to several Jamo and a CJK ideograph can occupy two UTF-16 units.
+    const initials = Array.from(prefix.normalize("NFC"), foldText).filter(Boolean);
+    if (initials.length === 0) return -1;
+    const cycle = initials.every((initial) => initial === initials[0]);
+    const needle = cycle ? initials[0] : foldText(prefix);
     // A growing prefix ("de") may keep the current row; a single letter, or a repeated one, must move on.
-    const startOffset = needle.length > 1 ? 0 : 1;
+    const startOffset = cycle ? 1 : 0;
     for (let step = 0; step < labels.length; step++) {
         const index = (from + startOffset + step + labels.length) % labels.length;
         if (foldText(labels[index]).startsWith(needle)) return index;

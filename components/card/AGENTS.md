@@ -38,6 +38,18 @@
 - `children`: slot (required) -- card body content
 - `...restProps`: Any additional HTML attributes passed to the root `<div>`
 
+## Styles
+
+The headless component ships no CSS. A Lily reference theme exposes these variables on the base `.card`; specialised
+card components keep their own theme rules.
+
+| Variable                    | Default                 |
+| --------------------------- | ----------------------- |
+| `--lily-card-background`    | `var(--lily-surface)`   |
+| `--lily-card-color`         | `var(--lily-text)`      |
+| `--lily-card-border-color`  | `var(--lily-border)`    |
+| `--lily-card-border-radius` | `var(--lily-radius-lg)` |
+
 ## Acceptance Criteria
 
 - [ ] Renders <div> element with class="card"
@@ -45,6 +57,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

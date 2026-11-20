@@ -1271,7 +1271,7 @@ describe("GanttChart — typed fields, editing, export, virtualization (§14.25�
         },
         { id: "points", header: "Points", type: "number" as const },
     ];
-    const FT: GanttTask[] = [
+    const FT: Record<string, unknown>[] = [
         {
             id: "t1",
             label: "Design",
@@ -1292,7 +1292,7 @@ describe("GanttChart — typed fields, editing, export, virtualization (§14.25�
         { id: "p", label: "Phase", parentId: undefined },
         { id: "k", label: "Kid", start: "2026-10-08", end: "2026-10-09", parentId: "p" },
     ];
-    const EXPORT_LABELS: GanttLabels = {
+    const EXPORT_LABELS: Record<string, unknown> = {
         export: "Export",
         exportCsv: "CSV",
         exportTsv: "TSV",
@@ -1549,7 +1549,7 @@ describe("GanttChart — typed fields, editing, export, virtualization (§14.25�
         }
     });
 
-    const MANY: GanttTask[] = Array.from({ length: 200 }, (_, i) => ({
+    const MANY: Record<string, unknown>[] = Array.from({ length: 200 }, (_, i) => ({
         id: `r${i}`,
         label: `Task ${i}`,
         start: "2026-10-01",

@@ -2,6 +2,8 @@
 
 KanbanTableRow is a headless component that renders a `<tr>` element within a kanban board table. It represents a single row containing kanban items across status columns.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use this component within KanbanTableHead, KanbanTableBody, or KanbanTableFoot to define rows of kanban board items.
 
 ## Implementation Notes
@@ -81,6 +83,10 @@ KanbanTableRow is a child of KanbanTableHead/KanbanTableBody/KanbanTableFoot, fo
 - `kanban-table-td` — kanban board table interactive grid data cell for organizing items by status <td>
 - `kanban-table-th` — a kanban board table interactive grid header cell for organizing items by status <th>
 - `table` — a table with rows and columns <table>
+
+## Known limitations
+
+None known.
 
 ## References
 

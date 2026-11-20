@@ -5,6 +5,7 @@
 - Component: menu-bar
 - PascalCase: MenuBar
 - Description: a horizontal bar of menu triggers
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .menu-bar
 - Interactive: yes
@@ -38,11 +39,25 @@
 - Home: Moves focus to the first menu bar item.
 - End: Moves focus to the last menu bar item.
 
+- A typed letter: moves to the next item whose name starts with it; repeating it cycles
+- On an item with a submenu: ArrowDown, Enter or Space opens it on its first item, ArrowUp on its last
+- In a submenu: ArrowDown and ArrowUp move; Escape closes it and returns to its parent; ArrowRight and ArrowLeft close it and move along the bar
+
+The arrows swap in right-to-left. A submenu's markup is as in [Menu](../menu/). The bar is one tab stop. Held to the `menubar-submenu` contract.
+
 ## Props
 
 - `label`: string (required) -- accessible name applied via `aria-label`.
 - `children`: slot (required) -- menu bar item elements to render (should have `role="menuitem"` and `tabindex="-1"`).
 - `...restProps`: unknown -- additional attributes spread onto the container `<div>`.
+
+## Native platform
+
+- Decision: hand-rolled because role="menubar" has no native element
+- Uses: none (div role="menubar")
+- Could use: none
+- Notes: Submenus would use popover="auto" like dropdown-menu.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
 
 ## Acceptance Criteria
 
@@ -52,6 +67,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

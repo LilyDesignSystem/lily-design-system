@@ -2,6 +2,8 @@
 
 A flair is a small inline element used to add visual emphasis, categorization, or status labeling to elements within an interface. Commonly used as tags, badges, or labels in forums, social platforms, or dashboards, flair can indicate user roles, content types, statuses, or categories (e.g., "Moderator", "Urgent", "New").
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 By default the flair is treated as decorative (`aria-hidden="true"`), meaning screen readers skip it. When a `label` prop is provided, the flair becomes meaningful and is announced to assistive technology via `aria-label`, making it suitable for conveying important status information.
 
 ## Implementation Notes
@@ -44,6 +46,7 @@ None -- this component is a passive inline display element.
 
 ## ARIA
 
+- `role="img"` with `aria-label` when `label` is given, because a `<span>` cannot be named
 - `aria-hidden="true"` -- applied when no `label` is provided, marking the flair as decorative
 - `aria-label` -- applied when `label` is provided, giving the flair an accessible name for screen readers
 
@@ -83,6 +86,10 @@ The consumer provides all CSS styling. The component renders with a `.flair` cla
 
 - `badge` — a small label for counts, statuses, or categories
 - `tag` — a keyword label for categorizing content
+
+## Known limitations
+
+None known.
 
 ## References
 

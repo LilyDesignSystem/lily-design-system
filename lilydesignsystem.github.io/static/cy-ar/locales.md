@@ -2,7 +2,7 @@
 
 Title: Lily Design System&trade; — Ieithoedd
 
-Description: 
+Description:
 
 # Dewiswch iaith
 

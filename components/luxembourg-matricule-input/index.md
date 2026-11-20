@@ -89,6 +89,10 @@ A national identifier is personal data, and often a key to other records.
 - `luxembourg-matricule-view` — a read-only display of Luxembourg's Numéro d'Identification Nationale (Matricule)
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [Numéro d'identification national](https://ccss.public.lu/fr/glossaire/numero-identification-national/matricule-national.html)

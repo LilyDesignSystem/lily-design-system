@@ -2,6 +2,8 @@
 
 A definition list displaying information in key-value format <dl>.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders a native `<dl>` element with `DescriptionListItem` children
@@ -61,6 +63,10 @@ The component renders with `.description-list` as the root class. No default sty
 
 - `description-list-item` — child term/description pair
 - `summary-list` — change-link summary list
+
+## Known limitations
+
+None known.
 
 ## References
 

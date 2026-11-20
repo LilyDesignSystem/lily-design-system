@@ -11,13 +11,15 @@ public class ToolCallStatusTests : TestContext
 
     [Fact] public void Renders_span_with_base_class() => Assert.NotNull(Render().Find("span.tool-call-status"));
 
-    [Fact] public void Status_sets_data_status_and_is_absent_without_one()
+    [Fact]
+    public void Status_sets_data_status_and_is_absent_without_one()
     {
         Assert.Equal("running", Render(p => p.Add(x => x.Status, "running")).Find(".tool-call-status").GetAttribute("data-status"));
         Assert.Null(Render().Find(".tool-call-status").GetAttribute("data-status"));
     }
 
-    [Fact] public void Consumer_class_follows_base_class() =>
+    [Fact]
+    public void Consumer_class_follows_base_class() =>
         Assert.Equal("tool-call-status mine", Render(p => p.Add(x => x.CssClass, "mine")).Find(".tool-call-status").GetAttribute("class"));
     [Fact] public void Renders_children() => Assert.Equal("Hello", Render().Find("[data-testid=txt]").TextContent);
     [Fact] public void Spreads_rest_props() => Assert.Equal("x1", Render(p => p.AddUnmatched("id", "x1")).Find(".tool-call-status").Id);

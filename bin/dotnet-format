@@ -1,0 +1,36 @@
+#!/bin/sh
+set -euf
+
+# Format every Blazor library, test project and example app. Projects are kept
+# separate in this monorepo, so run a small parallel pool rather than requiring
+# a synthetic root solution.
+
+top="$(git rev-parse --show-toplevel)"
+mode="${1:-}"
+case "$mode" in
+    "") verify="" ;;
+    --check) verify="--verify-no-changes" ;;
+    *) echo "usage: bin/dotnet-format [--check]" >&2; exit 2 ;;
+esac
+
+projects() {
+    printf '%s\n' \
+        "$top/lily-design-system-blazor-headless/LilyBlazorHeadless.slnx" \
+        "$top/lily-design-system-blazor-headless-identifiers/LilyBlazorHeadless.Identifiers.slnx" \
+        "$top/lily-design-system-blazor-web-examples/LilyBlazorWebExamples.slnx"
+    "$top/bin/list-helper-packages" blazor |
+    while IFS= read -r package; do
+        find "$top/$package" -maxdepth 3 -name '*.csproj' -print
+    done
+}
+
+projects | xargs -n 1 -P 4 sh -c '
+    verify=$1
+    project=$2
+    project_dir=$(dirname "$project")
+    no_restore=
+    if test -f "$project_dir/obj/project.assets.json"; then
+        no_restore=--no-restore
+    fi
+    dotnet format whitespace "$project" $verify $no_restore --verbosity quiet
+' sh "$verify"

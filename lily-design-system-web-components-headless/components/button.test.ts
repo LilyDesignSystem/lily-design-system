@@ -92,6 +92,30 @@ describe("Button", () => {
         expect(clicked).toBe(true);
     });
 
+    test("keeps a pending button focused while a consumer guard ignores a second click", () => {
+        const host = render(
+            '<lily-button aria-busy="true" aria-disabled="true">Saving</lily-button>',
+        );
+        const button = host.querySelector("button") as HTMLButtonElement;
+        let pending = false;
+        let starts = 0;
+        button.addEventListener("click", () => {
+            if (pending) return;
+            pending = true;
+            starts += 1;
+        });
+
+        button.focus();
+        button.click();
+        button.click();
+
+        expect(button.disabled).toBe(false);
+        expect(button.getAttribute("aria-busy")).toBe("true");
+        expect(button.getAttribute("aria-disabled")).toBe("true");
+        expect(document.activeElement).toBe(button);
+        expect(starts).toBe(1);
+    });
+
     test("is idempotent if connectedCallback runs more than once", () => {
         const host = render("<lily-button>Click</lily-button>");
         const instance = host as unknown as Button;

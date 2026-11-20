@@ -75,6 +75,10 @@ A national identifier is personal data, and often a key to other records.
 - `qazaqstan-zheke-saikestendiru-nomiri-input` — an input for entering Kazakhstan's Individual Identification Number (IIN)
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [OECD: Kazakhstan TIN](https://www.oecd.org/tax/automatic-exchange/crs-implementation-and-assistance/tax-identification-numbers/Kazakhstan-TIN.pdf)

@@ -8,7 +8,7 @@ Implement the Summary List Item component: one key-value pair in a summary list.
 
 ## HTML Tag and CSS Class
 
-- HTML tag: <li>
+- HTML tag: <div>
 - CSS class: .summary-list-item
 
 ## Dependencies

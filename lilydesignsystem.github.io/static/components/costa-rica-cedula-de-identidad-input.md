@@ -89,6 +89,10 @@ A national identifier is personal data, and often a key to other records.
 - `costa-rica-cedula-de-identidad-view` — a read-only display of Costa Rica's Cédula de Identidad
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [Cédula de identidad (Costa Rica)](<https://es.wikipedia.org/wiki/C%C3%A9dula_de_identidad_(Costa_Rica)>)

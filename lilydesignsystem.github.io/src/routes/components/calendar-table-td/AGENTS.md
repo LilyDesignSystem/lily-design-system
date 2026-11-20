@@ -5,6 +5,7 @@
 - Component: calendar-table-td
 - PascalCase: CalendarTableTD
 - Description: a calendar table interactive grid data cell for managing dates, days, etc. <td>
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <td>
 - CSS class: .calendar-table-td
 - Interactive: yes
@@ -48,6 +49,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

@@ -66,6 +66,10 @@ As the window narrows, regions give up width in a fixed priority. The reference 
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Documentation: index.md

@@ -107,8 +107,8 @@ describe("calendar-view — pure period helpers", () => {
     });
     test("eventsByDay places a multi-day event on every date in its inclusive range", () => {
         const map = eventsByDay(EVENTS);
-        expect(map.get("2026-01-06")?.map((e) => e.id)).toEqual(["e1"]);
-        expect(map.get("2026-01-10")?.map((e) => e.id)).toEqual(["e2"]);
+        expect(map.get("2026-01-06")?.map((e: { id: string }) => e.id)).toEqual(["e1"]);
+        expect(map.get("2026-01-10")?.map((e: { id: string }) => e.id)).toEqual(["e2"]);
         expect(map.get("2026-01-12")).toBeUndefined();
     });
 });
@@ -827,9 +827,9 @@ describe("CalendarView — typed event fields, editing, export (§8.69–§8.82)
         exportTsv: "TSV",
         exportExcel: "Excel",
         exportHeaders: { title: "Title", start: "From", end: "To" },
-        exportAnnouncement: (f, n, name) => `${n} events as ${f}: ${name}`,
-        editAnnouncement: (t, h, text) => `${t} ${h} is ${text}`,
-        editInvalid: (t, h) => `${t}: bad ${h}`,
+        exportAnnouncement: (f: string, n: number, name: string) => `${n} events as ${f}: ${name}`,
+        editAnnouncement: (t: string, h: string, text: string) => `${t} ${h} is ${text}`,
+        editInvalid: (t: string, h: string) => `${t}: bad ${h}`,
     };
     const base = {
         label: "Cal",

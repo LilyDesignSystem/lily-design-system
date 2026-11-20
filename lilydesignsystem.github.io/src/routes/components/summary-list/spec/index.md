@@ -8,7 +8,7 @@ Implement the Summary List component: a description list of key-value summary pa
 
 ## HTML Tag and CSS Class
 
-- HTML tag: <ol>
+- HTML tag: <dl>
 - CSS class: .summary-list
 
 ## Dependencies

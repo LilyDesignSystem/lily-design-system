@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ChatMessage.razor"
   },
   "docs": "https://lilydesignsystem.com/components/chat-message/",
+  "markdown": "https://lilydesignsystem.com/components/chat-message.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/chat-message/AGENTS.md"
 }

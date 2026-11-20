@@ -124,6 +124,10 @@ No default styles are included — this is a fully headless component.
 - `switch-button` — a toggle switch for turning a setting on or off
 - `checkbox-input` — a checkbox input for toggling a boolean value <input type="checkbox">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/

@@ -127,6 +127,10 @@ Field composes with Label, input components (TextInput, Select, etc.), ErrorMess
 - `input` — a generic HTML input element
 - `label` — a label associated with a form input
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI Forms Tutorial: https://www.w3.org/WAI/tutorials/forms/

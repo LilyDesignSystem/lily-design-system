@@ -2,6 +2,8 @@
 
 TagInputDiv is a headless group holding the consumer's tags and a text field that adds to them. When the user types a value and presses Enter, the component calls the `onadd` callback with the trimmed text and automatically clears the input, providing a streamlined tag entry experience.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This component is commonly used alongside TagGroup to build tag management interfaces, such as adding skills to a profile, keywords to an article, or labels to an issue tracker. The input value is bindable, allowing the consumer to read or control the current text.
 
 ## Implementation Notes
@@ -114,6 +116,10 @@ The consumer provides all CSS styling. The component renders with a `.tag-input-
 ## Related components
 
 - `text-input` — a single-line text input field <input type="text">
+
+## Known limitations
+
+None known.
 
 ## References
 

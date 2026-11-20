@@ -103,6 +103,10 @@ A typical consumer adds `break-inside: avoid` to direct children:
 - `grid` — a CSS grid layout container with configurable columns and gap
 - `flex-stack` — a flex layout container for vertical or horizontal stacking with consistent gap
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN column-count: https://developer.mozilla.org/en-US/docs/Web/CSS/column-count

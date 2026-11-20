@@ -971,7 +971,10 @@ public class DataGridTests : TestContext
 
     private static readonly DataGridLabels ExportLabels = new()
     {
-        Export = "Export", ExportCsv = "CSV", ExportTsv = "TSV", ExportExcel = "Excel",
+        Export = "Export",
+        ExportCsv = "CSV",
+        ExportTsv = "TSV",
+        ExportExcel = "Excel",
         ExportAnnouncement = (format, count, filename) => $"{count} rows as {format}: {filename}",
     };
 

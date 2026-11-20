@@ -378,7 +378,8 @@ export class TextSizePicker extends HTMLElement {
 
         if (!initial && this.storageKey) {
             try {
-                initial = localStorage.getItem(this.storageKey) ?? "";
+                const stored = localStorage.getItem(this.storageKey) ?? "";
+                if (this.#sizes.includes(stored)) initial = stored;
             } catch {
                 /* ignore */
             }

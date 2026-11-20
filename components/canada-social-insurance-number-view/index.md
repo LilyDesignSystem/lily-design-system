@@ -75,6 +75,10 @@ A national identifier is personal data, and often a key to other records.
 - `canada-social-insurance-number-input` — an input for entering Canada's Social Insurance Number (SIN)
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [Social Insurance Number](https://en.wikipedia.org/wiki/Social_Insurance_Number)

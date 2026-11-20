@@ -319,7 +319,8 @@ onMounted(() => {
     let initial = current.value;
     if (!initial && props.storageKey) {
         try {
-            initial = localStorage.getItem(props.storageKey) ?? "";
+            const stored = localStorage.getItem(props.storageKey) ?? "";
+            if (props.sizes.includes(stored)) initial = stored;
         } catch {
             // ignore privacy errors
         }

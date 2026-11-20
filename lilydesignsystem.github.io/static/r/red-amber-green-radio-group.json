@@ -40,5 +40,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/RedAmberGreenRadioGroup.razor"
   },
   "docs": "https://lilydesignsystem.com/components/red-amber-green-radio-group/",
+  "markdown": "https://lilydesignsystem.com/components/red-amber-green-radio-group.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/red-amber-green-radio-group/AGENTS.md"
 }

@@ -45,5 +45,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/PieChart.razor"
   },
   "docs": "https://lilydesignsystem.com/components/pie-chart/",
+  "markdown": "https://lilydesignsystem.com/components/pie-chart.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/pie-chart/AGENTS.md"
 }

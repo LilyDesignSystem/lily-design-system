@@ -75,6 +75,10 @@ A national identifier is personal data, and often a key to other records.
 - `uruguay-cedula-de-identidad-input` — an input for entering Uruguay's Cedula de Identidad Number
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [Cédula de identidad](https://en.wikipedia.org/wiki/C%C3%A9dula_de_identidad)

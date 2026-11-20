@@ -5,6 +5,7 @@
 - Component: kbd
 - PascalCase: Kbd
 - Description: show keyboard shortcuts and key combinations in a styled inline element
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <kbd>
 - CSS class: .kbd
 - Interactive: no
@@ -23,6 +24,7 @@
 ## Props
 
 - `className`: string (default: `""`) -- CSS class name for the element
+- `label`: string (optional) -- spoken form, for a glyph such as ⌘: hidden text, with the visible key `aria-hidden`
 - `children`: slot (required) -- the key label text content
 - `...restProps`: unknown -- additional attributes spread onto the `<kbd>` element
 
@@ -30,13 +32,17 @@
 
 - Native `<kbd>` element conveys keyboard input semantically
 - Screen readers may announce the content as a keyboard shortcut depending on the user agent
-- Consumers may add `aria-label` if the visible text alone is ambiguous (e.g. a single key glyph)
+- `label` gives the spoken form when the visible text is ambiguous (e.g. a single key glyph): hidden text in a `screen-reader-span`, with the visible key `aria-hidden` in a `.kbd-text`
 
 ## Acceptance Criteria
 
 - [ ] Renders <kbd> element with class="kbd"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

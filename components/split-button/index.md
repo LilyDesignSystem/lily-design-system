@@ -133,6 +133,10 @@ positioning.
 - `dropdown-menu` — a menu that opens below a trigger button
 - `menu-bar-button` — one item in a menu bar
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Disclosure pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/

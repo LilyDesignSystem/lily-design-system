@@ -38,5 +38,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/GrailLayoutTopHeader.razor"
   },
   "docs": "https://lilydesignsystem.com/components/grail-layout-top-header/",
+  "markdown": "https://lilydesignsystem.com/components/grail-layout-top-header.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/grail-layout-top-header/AGENTS.md"
 }

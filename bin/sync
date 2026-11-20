@@ -52,6 +52,10 @@ mkdir -p "$top/lilydesignsystem.github.io/src/lib/content"
 cp "$top/NEWS.md" "$top/lilydesignsystem.github.io/src/lib/content/NEWS.md"
 cp "$top/plan.md" "$top/lilydesignsystem.github.io/src/lib/content/plan.md"
 
+# Preserve the docs site's standalone component documentation without allowing
+# its per-route hand-off copies to drift from the canonical component docs.
+"$top/bin/sync-site-component-docs"
+
 # The html example app vendors the picker custom elements (built dist)
 # the same way it vendors everything else: as copied files.
 #

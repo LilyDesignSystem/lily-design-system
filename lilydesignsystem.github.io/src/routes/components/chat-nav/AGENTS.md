@@ -5,6 +5,7 @@
 - Component: chat-nav
 - PascalCase: ChatNav
 - Description: a navigation container for chat information
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <nav>
 - CSS class: .chat-nav
 - Interactive: yes
@@ -33,8 +34,7 @@
 
 - Tab: Focus moves between interactive elements in the chat list
 - Enter: Activates the focused chat list item or link
-- Arrow Down: Move focus to the next chat list item
-- Arrow Up: Move focus to the previous chat list item
+- Tab only: a nav landmark of links is not a composite widget, so focus does not move by direction key (decided 2026-10-31, P12-T5a)
 
 ## Props
 
@@ -49,6 +49,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS -- fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

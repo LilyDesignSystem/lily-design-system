@@ -21,6 +21,22 @@ It explicitly does **not** cover: visual styling of text (see [theme](../theme/i
 - **Plural, gender, and conditional copy belong to the consumer.** Components do not embed `count !== 1 ? "items" : "item"` logic; they accept the already-rendered string.
 - **RTL / bidi is inherited.** Right-to-left and bidirectional text are inherited from the consumer's `dir` attribute and CSS; components do not assume LTR layout in their structural HTML.
 
+## Keyboard type-ahead
+
+In listboxes and grids that use `shared/typeahead.ts`, an unmodified printable initial representable as one Unicode
+scalar after NFC normalization can move the cursor. For example, pressing `𠮷` moves to the next label starting with
+`𠮷`. Pressing it again advances to the following match and wraps at the end. The same rule applies to a Hangul
+syllable such as `가`, even though search folding decomposes it into two Jamo. Typing a different letter extends the
+prefix and can keep the current match. Precomposed `é` and decomposed `e\u0301` match the same labels. The matcher
+ignores printable key events during IME composition. Space retains the control's activation behavior.
+
+Menus, tree widgets and wheel pickers also accept a single printable Unicode initial after NFC normalization. Menus
+and trees match each initial on its own. Wheel pickers accept a growing prefix and skip disabled options when cycling.
+A browser exercise for input method editor (IME) composition is tracked in
+[Phase 39](../../tasks.md#phase-39--worldwide-keyboard-navigation).
+Search folding also removes combining marks across scripts. For example, searching for `कु` currently matches `की`.
+P39-T4 tracks this distinction because the two vowel signs carry different information.
+
 ## Stable text-prop names
 
 These names are reused across every framework. Prefer them over synonyms.

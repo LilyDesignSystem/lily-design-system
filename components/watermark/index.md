@@ -104,6 +104,10 @@ properties.
 - `banner` — a prominent message bar across the top of a page
 - `image` — an image element with alt text
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA aria-hidden: https://www.w3.org/TR/wai-aria-1.2/#aria-hidden

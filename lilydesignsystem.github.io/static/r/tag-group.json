@@ -36,5 +36,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TagGroup.razor"
   },
   "docs": "https://lilydesignsystem.com/components/tag-group/",
+  "markdown": "https://lilydesignsystem.com/components/tag-group.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tag-group/AGENTS.md"
 }

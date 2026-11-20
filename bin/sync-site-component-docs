@@ -1,0 +1,46 @@
+#!/bin/sh
+set -euf
+
+# Keep the docs site's per-component hand-off files equal to their canonical
+# component documents. The Svelte route is generated separately; these copies
+# exist so the site subtree remains useful when checked out on its own.
+
+top="$(git rev-parse --show-toplevel)"
+mode="${1:-}"
+
+case "$mode" in
+    ""|--check) ;;
+    *) echo "usage: bin/sync-site-component-docs [--check]" >&2; exit 2 ;;
+esac
+
+drift=0
+"$top/bin/list-components-as-kebab-case" |
+while IFS= read -r slug; do
+    for relative in index.md AGENTS.md spec/index.md; do
+        source_file="$top/components/$slug/$relative"
+        site_file="$top/lilydesignsystem.github.io/src/routes/components/$slug/$relative"
+        if cmp -s "$source_file" "$site_file"; then
+            continue
+        fi
+        if test "$mode" = "--check"; then
+            echo "drift: lilydesignsystem.github.io/src/routes/components/$slug/$relative" >&2
+            drift=1
+        else
+            mkdir -p "$(dirname "$site_file")"
+            cp "$source_file" "$site_file"
+        fi
+    done
+done
+
+# The loop runs in a subshell on POSIX shells, so perform the aggregate check
+# directly when requested.
+if test "$mode" = "--check"; then
+    "$top/bin/list-components-as-kebab-case" |
+    while IFS= read -r slug; do
+        for relative in index.md AGENTS.md spec/index.md; do
+            cmp -s \
+                "$top/components/$slug/$relative" \
+                "$top/lilydesignsystem.github.io/src/routes/components/$slug/$relative" || exit 1
+        done
+    done
+fi

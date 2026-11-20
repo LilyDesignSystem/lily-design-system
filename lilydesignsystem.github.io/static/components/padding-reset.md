@@ -91,6 +91,10 @@ The consumer provides all CSS styling. The component renders with a `.padding-re
 
 - `container` — a generic block-level content container
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Reuters Graphics PaddingReset component

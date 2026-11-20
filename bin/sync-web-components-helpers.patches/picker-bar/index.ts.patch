@@ -1,0 +1,35 @@
+--- /var/folders/zp/p2vtmfrj35b27yh4ns6h_6h40000gn/T/tmp.PbHqrhBbJ5	2026-11-20 06:18:46.972883790 +0000
++++ lily-design-system-web-components-picker-bar/index.ts	2026-11-09 12:21:37.161524129 +0000
+@@ -2,26 +2,16 @@
+  * Barrel re-export for `<lily-picker-bar>`.
+  *
+  * Importing this module registers the custom element under the tag
+- * name `"lily-picker-bar"` — and, as a side effect, registers the five
+- * wrapped elements (`lily-search-picker`, `lily-theme-picker`, `lily-locale-picker`,
+- * `lily-text-size-picker`, `lily-share-picker`) too, since it imports each of their own packages.
+- * Registration is idempotent — re-imports do not throw.
++ * name `"lily-picker-bar"`, and — because it statically imports the
++ * five wrapped pickers' own barrels — registers `lily-search-picker`,
++ * `lily-theme-picker`, `lily-locale-picker`, `lily-text-size-picker`, and
++ * `lily-share-picker` too, if they are not already registered. Registration is idempotent
++ * — re-imports do not throw.
+  */
+
+ import { PickerBar, DEFAULT_THEMES, DEFAULT_SIZES } from "./picker-bar.js";
+-
+ export { PickerBar, DEFAULT_THEMES, DEFAULT_SIZES };
+-export type {
+-    PickerBarProps,
+-    PickerBarLabels,
+-    SearchPickerExtra,
+-    ThemePickerExtra,
+-    LocalePickerExtra,
+-    TimeZonePickerExtra,
+-    TextSizePickerExtra,
+-    SharePickerExtra,
+-    ShareTarget,
+-} from "./picker-bar.js";
++export type { PickerBarProps, PickerBarLabels } from "./picker-bar.js";
+
+ if (typeof customElements !== "undefined" && !customElements.get("lily-picker-bar")) {
+     customElements.define("lily-picker-bar", PickerBar);

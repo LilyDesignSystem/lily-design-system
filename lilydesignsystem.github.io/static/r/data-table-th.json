@@ -42,5 +42,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/DataTableTH.razor"
   },
   "docs": "https://lilydesignsystem.com/components/data-table-th/",
+  "markdown": "https://lilydesignsystem.com/components/data-table-th.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/data-table-th/AGENTS.md"
 }

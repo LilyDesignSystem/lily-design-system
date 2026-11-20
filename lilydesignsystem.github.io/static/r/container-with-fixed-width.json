@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ContainerWithFixedWidth.razor"
   },
   "docs": "https://lilydesignsystem.com/components/container-with-fixed-width/",
+  "markdown": "https://lilydesignsystem.com/components/container-with-fixed-width.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/container-with-fixed-width/AGENTS.md"
 }

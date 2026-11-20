@@ -38,5 +38,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Timer.razor"
   },
   "docs": "https://lilydesignsystem.com/components/timer/",
+  "markdown": "https://lilydesignsystem.com/components/timer.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/timer/AGENTS.md"
 }

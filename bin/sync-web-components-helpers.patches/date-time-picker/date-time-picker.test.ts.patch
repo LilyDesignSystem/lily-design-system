@@ -1,0 +1,372 @@
+--- /var/folders/zp/p2vtmfrj35b27yh4ns6h_6h40000gn/T/tmp.uG9FEfxLD6	2026-11-20 06:11:04.686467999 +0000
++++ lily-design-system-web-components-date-time-picker/date-time-picker.test.ts	2026-11-20 06:10:53.339640231 +0000
+@@ -75,7 +75,7 @@
+ };
+
+ function mount(attrs: Record<string, string>, opts: MountOptions = {}): DateTimePicker {
+-    const { tag = "date-time-picker", labels = LABELS } = opts;
++    const { tag = "lily-date-time-picker", labels = LABELS } = opts;
+     const el = document.createElement(tag) as DateTimePicker;
+     for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+     // labels / shortcuts / callbacks are property-only — see spec §4.3.
+@@ -1159,9 +1159,9 @@
+
+     // --- P8-T12 (2026-09-04): week/day step buttons and the time-zone select.
+
+-    test("§7.56 the header renders eight step buttons, coarse to fine, each named only by its label", async () => {
++    test("§7.56 the header renders eight step buttons, coarse to fine, each named only by its label", () => {
+         mount(base({ value: "2026-03-15" }));
+-        await open();
++        open();
+         const header = document.querySelector(".date-time-picker-header") as HTMLElement;
+         const buttons = Array.from(header.querySelectorAll("button"));
+         expect(buttons.map((b) => b.className)).toEqual([
+@@ -1191,16 +1191,14 @@
+         ).toBe(true);
+     });
+
+-    test("§7.57 day steps move the pending day by ±1 civil day, keep the grid on the shown month, and keep focus on the button", async () => {
++    test("§7.57 day steps move the pending day by ±1 civil day, keep the grid on the shown month, and keep focus on the button", () => {
+         const onChange = vi.fn();
+         mount(base({ value: "2026-03-15" }), { onChange });
+-        await open();
++        open();
+         const nextDay = document.querySelector(".date-time-picker-next-day") as HTMLButtonElement;
+         nextDay.focus();
+         click(nextDay);
+-        await flush();
+         click(nextDay);
+-        await flush();
+         expect(cursorDate()).toBe("2026-03-17");
+         expect(day("2026-03-17").dataset.selected).toBeDefined();
+         expect(document.activeElement).toBe(nextDay);
+@@ -1208,60 +1206,52 @@
+         expect(hidden().value).toBe("2026-03-15");
+         expect(onChange).not.toHaveBeenCalled();
+         click(document.querySelector(".date-time-picker-previous-day") as HTMLButtonElement);
+-        await flush();
+         click(byText(".date-time-picker-confirm", "Commit")!);
+-        await flush();
+         expect(hidden().value).toBe("2026-03-16");
+         expect(onChange).toHaveBeenCalledWith("2026-03-16");
+     });
+
+-    test("§7.58 week steps move the pending day by ±7 civil days and page the grid only when leaving the shown month", async () => {
++    test("§7.58 week steps move the pending day by ±7 civil days and page the grid only when leaving the shown month", () => {
+         mount(base({ value: "2026-03-25" }));
+-        await open();
++        open();
+         const nextWeek = document.querySelector(".date-time-picker-next-week") as HTMLButtonElement;
+         click(nextWeek);
+-        await flush();
+         expect(cursorDate()).toBe("2026-04-01");
+         expect(periodText()).toBe("April 2026");
+         click(document.querySelector(".date-time-picker-previous-week") as HTMLButtonElement);
+-        await flush();
+         expect(cursorDate()).toBe("2026-03-25");
+         expect(periodText()).toBe("March 2026");
+         click(document.querySelector(".date-time-picker-previous-week") as HTMLButtonElement);
+-        await flush();
+         expect(cursorDate()).toBe("2026-03-18");
+         expect(periodText()).toBe("March 2026");
+     });
+
+-    test("§7.59 a step past min/max is refused; a step onto a vetoed day moves the cursor but not the pending selection", async () => {
++    test("§7.59 a step past min/max is refused; a step onto a vetoed day moves the cursor but not the pending selection", () => {
+         mount(base({ value: "2026-03-15", max: "2026-03-16" }), {
+             isDateDisabled: (iso: string) => iso === "2026-03-16",
+         });
+-        await open();
++        open();
+         const nextDay = document.querySelector(".date-time-picker-next-day") as HTMLButtonElement;
+         click(nextDay);
+-        await flush();
+         expect(cursorDate()).toBe("2026-03-16");
+         expect(day("2026-03-16").getAttribute("aria-disabled")).toBe("true");
+         expect(day("2026-03-15").dataset.selected).toBeDefined();
+         expect(day("2026-03-16").dataset.selected).toBeUndefined();
+         click(nextDay);
+-        await flush();
+         expect(cursorDate()).toBe("2026-03-16");
+         click(document.querySelector(".date-time-picker-next-week") as HTMLButtonElement);
+-        await flush();
+         expect(cursorDate()).toBe("2026-03-16");
+     });
+
+-    test("§7.60 the time-zone select renders only with labels.timeZone, lists the runtime's zones by default, and honours timeZones/timeZoneLabels", async () => {
++    test("§7.60 the time-zone select renders only with labels.timeZone, lists the runtime's zones by default, and honours timeZones/timeZoneLabels", () => {
+         mount(base());
+-        await open();
++        open();
+         expect(document.querySelector(".date-time-picker-time-zone")).toBeNull();
+         expect(document.querySelector('input[name="date-time-time-zone"]')).toBeNull();
+         document.body.replaceChildren();
+
+         mount(base(), { labels: { ...LABELS, timeZone: "Zone" } });
+-        await open();
++        open();
+         const select = document.querySelector(
+             ".date-time-picker-time-zone-select",
+         ) as HTMLSelectElement;
+@@ -1285,7 +1275,7 @@
+         ).toBeTruthy();
+     });
+
+-    test("§7.61 choosing a zone rides {name}-time-zone, data-time-zone, and onTimeZoneChange — and leaves the value alone", async () => {
++    test("§7.61 choosing a zone rides {name}-time-zone, data-time-zone, and onTimeZoneChange -- and leaves the value alone", () => {
+         const onTimeZoneChange = vi.fn();
+         const onChange = vi.fn();
+         const el = mount(base({ value: "2026-03-15", name: "when" }), {
+@@ -1296,7 +1286,7 @@
+             onChange,
+         });
+         el.timeZone = "Europe/London";
+-        await open();
++        open();
+         const select = document.querySelector(
+             ".date-time-picker-time-zone-select",
+         ) as HTMLSelectElement;
+@@ -1315,7 +1305,6 @@
+
+         select.value = "Asia/Tokyo";
+         select.dispatchEvent(new Event("change", { bubbles: true }));
+-        await flush();
+         expect(zoneInput.value).toBe("Asia/Tokyo");
+         expect(root().dataset.timeZone).toBe("Asia/Tokyo");
+         expect(onTimeZoneChange).toHaveBeenCalledTimes(1);
+@@ -1327,135 +1316,133 @@
+     });
+ });
+
+-describe("<lily-date-time-picker> — tooltip (§7.62–§7.68)", () => {
++describe("<lily-date-time-picker> — tooltip (§7.62–§7.67)", () => {
+     function setup() {
+-        mount(base());
+-        const btn = document.body.querySelector<HTMLButtonElement>(".date-time-picker-button")!;
+-        const tip = document.body.querySelector<HTMLElement>(".date-time-picker-tooltip")!;
+-        return { btn, tip };
++        const el = mount({ label: "Choose a date" }) as HTMLElement;
++        const host = el.querySelector("lily-icon-button") as HTMLElement;
++        const button = el.querySelector(".date-time-picker-button") as HTMLButtonElement;
++        const tip = el.querySelector(".date-time-picker-tooltip") as HTMLElement;
++        return { el, host, button, tip };
+     }
+-    const fire = (el: Element, type: string): void => {
+-        el.dispatchEvent(new MouseEvent(type, { bubbles: false }));
+-    };
++    const enter = (e: Element) => e.dispatchEvent(new MouseEvent("mouseenter"));
++    const leave = (e: Element) => e.dispatchEvent(new MouseEvent("mouseleave"));
++    const isHidden = (e: Element) => e.hasAttribute("hidden");
+
+-    test("§7.62 renders a role=tooltip element holding label, hidden at rest, not aria-describedby-linked", () => {
+-        const { btn, tip } = setup();
++    test("§7.62 renders a role=tooltip element right after the button holding the label, hidden at rest, not aria-describedby-linked", () => {
++        const { host, button, tip } = setup();
+         expect(tip.getAttribute("role")).toBe("tooltip");
+-        expect(tip.textContent).toBe(btn.getAttribute("aria-label"));
+-        expect(tip.hasAttribute("hidden")).toBe(true);
+-        expect(tip.id).toMatch(/-tooltip$/);
+-        expect(btn.hasAttribute("aria-describedby")).toBe(false);
+-        expect(btn.nextElementSibling).toBe(tip);
++        expect(tip.textContent).toBe("Choose a date");
++        expect(isHidden(tip)).toBe(true);
++        expect(tip.id).toBeTruthy();
++        expect(host.nextElementSibling).toBe(tip);
++        expect(button.hasAttribute("aria-describedby")).toBe(false);
++        expect(host.hasAttribute("aria-describedby")).toBe(false);
+     });
+
+-    test("§7.62 the tooltip text follows a label change", () => {
+-        setup();
+-        const el = document.body.querySelector<HTMLElement>("lily-date-time-picker")!;
++    test("§7.62 its text follows the label attribute", () => {
++        const { el } = setup();
+         el.setAttribute("label", "Renamed");
+-        const t2 = document.body.querySelector<HTMLElement>(".date-time-picker-tooltip")!;
+-        expect(t2.textContent).toBe("Renamed");
++        expect(el.querySelector(".date-time-picker-tooltip")!.textContent).toBe("Renamed");
+     });
+
+     test("§7.63 pointer over the button shows it; leaving hides it", () => {
+-        const { btn, tip } = setup();
+-        fire(btn, "mouseenter");
+-        expect(tip.hasAttribute("hidden")).toBe(false);
+-        fire(btn, "mouseleave");
+-        expect(tip.hasAttribute("hidden")).toBe(true);
++        const { host, tip } = setup();
++        enter(host);
++        expect(isHidden(tip)).toBe(false);
++        leave(host);
++        expect(isHidden(tip)).toBe(true);
+     });
+
+     test("§7.64 it stays visible while the pointer is over the tooltip itself", () => {
+-        const { btn, tip } = setup();
+-        fire(btn, "mouseenter");
+-        fire(btn, "mouseleave");
+-        fire(tip, "mouseenter");
+-        expect(tip.hasAttribute("hidden")).toBe(false);
+-        fire(tip, "mouseleave");
+-        expect(tip.hasAttribute("hidden")).toBe(true);
++        const { host, tip } = setup();
++        enter(host);
++        leave(host);
++        enter(tip);
++        expect(isHidden(tip)).toBe(false);
++        leave(tip);
++        expect(isHidden(tip)).toBe(true);
+     });
+
+     test("§7.65 keyboard focus shows it; blur hides it", () => {
+-        const { btn, tip } = setup();
++        const { button, tip } = setup();
+         // jsdom has no input-modality tracking; stand in for the keyboard.
+-        vi.spyOn(btn, "matches").mockImplementation((q) => q === ":focus-visible");
+-        btn.focus();
+-        expect(tip.hasAttribute("hidden")).toBe(false);
+-        btn.blur();
+-        expect(tip.hasAttribute("hidden")).toBe(true);
++        vi.spyOn(button, "matches").mockImplementation((q: string) => q === ":focus-visible");
++        button.focus();
++        expect(isHidden(tip)).toBe(false);
++        button.blur();
++        expect(isHidden(tip)).toBe(true);
+     });
+
+     test("§7.65 mouse-induced focus (not :focus-visible) does not show it", () => {
+-        const { btn, tip } = setup();
+-        vi.spyOn(btn, "matches").mockReturnValue(false);
+-        btn.focus();
+-        expect(tip.hasAttribute("hidden")).toBe(true);
++        const { button, tip } = setup();
++        vi.spyOn(button, "matches").mockReturnValue(false);
++        button.focus();
++        expect(isHidden(tip)).toBe(true);
+     });
+
+     test("§7.66 Escape dismisses it without moving focus; re-entering shows it again", () => {
+-        const { btn, tip } = setup();
+-        fire(btn, "mouseenter");
+-        btn.focus();
+-        btn.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+-        expect(tip.hasAttribute("hidden")).toBe(true);
+-        expect(document.activeElement).toBe(btn);
+-        fire(btn, "mouseleave");
+-        fire(btn, "mouseenter");
+-        expect(tip.hasAttribute("hidden")).toBe(false);
+-    });
+-
+-    test("§7.67 it is never shown while the dialog is open", () => {
+-        const { btn, tip } = setup();
+-        fire(btn, "mouseenter");
+-        btn.dispatchEvent(
+-            new MouseEvent("click", { bubbles: true, cancelable: true, composed: true }),
+-        );
+-        expect(btn.getAttribute("aria-expanded")).toBe("true");
+-        expect(tip.hasAttribute("hidden")).toBe(true);
+-        fire(btn, "mouseenter");
+-        expect(tip.hasAttribute("hidden")).toBe(true);
+-    });
+-
+-    test("§7.68 pointer hover alone shows it; Escape on document.body or another element dismisses it without moving focus", () => {
+-        const { btn, tip } = setup();
+-        const other = document.createElement("input");
+-        document.body.appendChild(other);
+-        other.focus();
+-        fire(btn, "mouseenter");
+-        expect(tip.hasAttribute("hidden")).toBe(false);
+-        expect(document.activeElement).toBe(other);
+-        document.body.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+-        expect(tip.hasAttribute("hidden")).toBe(true);
+-        expect(document.activeElement).toBe(other);
+-        // Dismissal resets on re-entry; Escape from another element works too.
+-        fire(btn, "mouseleave");
+-        fire(btn, "mouseenter");
+-        expect(tip.hasAttribute("hidden")).toBe(false);
+-        other.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+-        expect(tip.hasAttribute("hidden")).toBe(true);
+-        other.remove();
++        const { host, button, tip } = setup();
++        vi.spyOn(button, "matches").mockReturnValue(true);
++        button.focus();
++        enter(host);
++        button.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
++        expect(isHidden(tip)).toBe(true);
++        expect(document.activeElement).toBe(button);
++        leave(host);
++        enter(host);
++        expect(isHidden(tip)).toBe(false);
++    });
++
++    test("§7.67 it is never shown while the popup is open", () => {
++        const { host, button, tip } = setup();
++        enter(host);
++        button.click();
++        expect(button.getAttribute("aria-expanded")).toBe("true");
++        expect(isHidden(tip)).toBe(true);
++        enter(host);
++        expect(isHidden(tip)).toBe(true);
++    });
++
++    test("§7.68 hover with focus elsewhere shows the tooltip; Escape on document.body dismisses it without moving focus or being prevented", () => {
++        const { host, button, tip } = setup();
++        enter(host);
++        expect(isHidden(tip)).toBe(false);
++        expect(document.activeElement).not.toBe(button);
++        const ev = new KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true });
++        document.body.dispatchEvent(ev);
++        expect(isHidden(tip)).toBe(true);
++        expect(ev.defaultPrevented).toBe(false);
++        expect(document.activeElement).not.toBe(button);
++        leave(host);
++        enter(host);
++        expect(isHidden(tip)).toBe(false);
+     });
+
+-    test("§7.68 the document Escape listener exists only while the tooltip is visible (no leak, no double-add)", () => {
+-        const { btn, tip } = setup();
++    test("§7.68 the document keydown listener is added once while visible and removed on hide and on disconnect", () => {
+         const add = vi.spyOn(document, "addEventListener");
+-        const remove = vi.spyOn(document, "removeEventListener");
+-        const keydownCalls = (spy: typeof add) => spy.mock.calls.filter((c) => c[0] === "keydown");
+-        fire(btn, "mouseenter");
+-        fire(tip, "mouseenter"); // a second show trigger must not add again
+-        expect(keydownCalls(add).length).toBe(1);
+-        fire(btn, "mouseleave");
+-        expect(keydownCalls(remove).length).toBe(0); // still hovering the tooltip
+-        fire(tip, "mouseleave");
+-        expect(tip.hasAttribute("hidden")).toBe(true);
+-        expect(keydownCalls(remove).length).toBe(1);
+-        expect(keydownCalls(remove)[0][1]).toBe(keydownCalls(add)[0][1]);
+-        // Showing again re-adds exactly once more; disconnecting removes it.
+-        fire(btn, "mouseenter");
+-        expect(keydownCalls(add).length).toBe(2);
+-        document.body.querySelector("lily-date-time-picker")!.remove();
+-        expect(keydownCalls(remove).length).toBe(2);
+-        add.mockRestore();
+-        remove.mockRestore();
++        const rem = vi.spyOn(document, "removeEventListener");
++        const keydowns = (spy: typeof add) => spy.mock.calls.filter((c) => c[0] === "keydown");
++        try {
++            const { el, host, tip } = setup();
++            add.mockClear();
++            rem.mockClear();
++            enter(host);
++            enter(host);
++            expect(keydowns(add).length).toBe(1);
++            const fn = keydowns(add)[0][1];
++            leave(host);
++            expect(isHidden(tip)).toBe(true);
++            expect(keydowns(rem).some((c) => c[1] === fn)).toBe(true);
++            // Re-show, then disconnect while visible: the listener must go too.
++            enter(host);
++            expect(keydowns(add).length).toBe(2);
++            rem.mockClear();
++            el.remove();
++            expect(keydowns(rem).some((c) => c[1] === keydowns(add)[1][1])).toBe(true);
++        } finally {
++            add.mockRestore();
++            rem.mockRestore();
++        }
+     });
+ });

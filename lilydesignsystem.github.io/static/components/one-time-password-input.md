@@ -105,6 +105,10 @@ The consumer provides all CSS styling via the `.one-time-password-input` class. 
 - `text-input` — a general single-line text input
 - `password-input` — a masked password field
 
+## Known limitations
+
+None known.
+
 ## References
 
 - HTML autocomplete one-time-code: https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete#one-time-code

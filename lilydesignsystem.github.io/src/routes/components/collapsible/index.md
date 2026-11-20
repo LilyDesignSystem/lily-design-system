@@ -2,6 +2,8 @@
 
 A collapsible (disclosure) component allows users to expand or collapse a section of content. Built on the native HTML `<details>` and `<summary>` elements, it provides built-in keyboard support and screen reader announcements without any JavaScript.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The summary text is always visible and acts as the toggle trigger. The content below is hidden when collapsed and revealed when expanded. The `open` prop is bindable, enabling parent components to programmatically control or observe the expanded/collapsed state.
 
 ## Implementation Notes
@@ -102,7 +104,7 @@ The consumer provides all CSS styling. The component renders with a `.collapsibl
 
 ## Testing
 
-- Verify the component renders a `<div>` element with class `collapsible`
+- Verify the component renders a `<details>` element with class `collapsible`
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied
 
@@ -116,6 +118,10 @@ The consumer provides all CSS styling. The component renders with a `.collapsibl
 - `details` — a disclosure widget that shows and hides content
 - `expander` — a control that expands to reveal more content
 - `accordion-list-item` — an accordion list item component
+
+## Known limitations
+
+None known.
 
 ## References
 

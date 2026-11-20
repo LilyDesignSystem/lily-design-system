@@ -34,5 +34,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ErrorMessage.razor"
   },
   "docs": "https://lilydesignsystem.com/components/error-message/",
+  "markdown": "https://lilydesignsystem.com/components/error-message.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/error-message/AGENTS.md"
 }

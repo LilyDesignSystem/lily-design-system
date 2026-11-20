@@ -89,6 +89,10 @@ DataTableTD is part of the DataTable composition pattern: DataTable > DataTableH
 - `data-table-td` — a data table interactive grid data cell for displaying and sorting tabular data <td>
 - `table` — a table with rows and columns <table>
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Table Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/table/

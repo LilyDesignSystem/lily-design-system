@@ -101,6 +101,10 @@ attribute selectors.
 
 - `validation-list-item` — one validation rule in a validation list with a status of pending, passed, or failed
 
+## Known limitations
+
+None known.
+
 ## References
 
 - US Web Design System Validation: https://designsystem.digital.gov/components/validation/

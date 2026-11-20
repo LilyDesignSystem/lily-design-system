@@ -46,6 +46,7 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Thinking.razor"
   },
   "docs": "https://lilydesignsystem.com/components/thinking/",
+  "markdown": "https://lilydesignsystem.com/components/thinking.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/thinking/AGENTS.md",
   "nativePlatform": {
     "decision": "native",

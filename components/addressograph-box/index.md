@@ -82,6 +82,10 @@ The term "addressograph-box" comes from the AddressographBox Company's mid-20th-
 - `person` — a person component that contains other person-related information
 - `government-identifier` — an identifier section with a parent agency logo, agency name, and required government links
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN div element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div)

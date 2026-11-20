@@ -96,6 +96,10 @@ RadioGroup is the container for RadioInput children. Use `<RadioGroup>` to wrap 
 - `checkbox-group` — a group component that manages a collection of checkboxes with shared state
 - `segment-group` — a group of mutually exclusive segment options
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radiobutton/

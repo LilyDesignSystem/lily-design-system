@@ -88,6 +88,10 @@ The consumer provides all CSS styling. The component renders with a `.five-face-
 
 - `five-face-rating-radio-group` — a picker for selecting a 1-5 satisfaction rating using face labels
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA `img` role: https://www.w3.org/WAI/ARIA/apd/roles/img/

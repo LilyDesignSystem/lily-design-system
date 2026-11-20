@@ -1,0 +1,82 @@
+#!/usr/bin/env node
+// Browser-like jsdom render benchmarks for representative Svelte headless components (tasks.md P38-T8).
+// Each Lily case is paired with equivalent hand-written Svelte markup. Results are machine-dependent, so this uses the
+// same loose per-machine regression rule as bin/benchmark and stays outside bin/test and CI.
+
+import { execFileSync } from "node:child_process";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { arch, cpus, platform } from "node:os";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const top = join(dirname(fileURLToPath(import.meta.url)), "..");
+const project = join(top, "lily-design-system-svelte-headless");
+const baselinePath = join(project, "render-benchmark-baseline.json");
+const args = process.argv.slice(2);
+const update = args.includes("--update-baseline");
+const toleranceIndex = args.indexOf("--tolerance");
+const tolerance = toleranceIndex >= 0 ? Number(args[toleranceIndex + 1]) : 2;
+if (!(tolerance >= 1)) throw new Error("--tolerance must be a number of at least 1");
+
+if (!existsSync(join(project, "node_modules", "tinybench"))) {
+    execFileSync("pnpm", ["install", "--frozen-lockfile"], { cwd: project, stdio: "inherit" });
+}
+execFileSync("pnpm", ["exec", "vitest", "run", "--config", "vitest.render-bench.config.ts"], {
+    cwd: project,
+    stdio: ["ignore", "ignore", "inherit"],
+});
+
+const results = JSON.parse(readFileSync(join(project, "reports/render-benchmark.json"), "utf8"));
+const machine = `${cpus()[0]?.model ?? "unknown CPU"}, ${platform()} ${arch()}, Node ${process.versions.node}`;
+const baseline = existsSync(baselinePath)
+    ? JSON.parse(readFileSync(baselinePath, "utf8"))
+    : { cases: {} };
+const ms = (value) =>
+    value === undefined ? "-" : value < 0.01 ? value.toFixed(4) : value.toFixed(2);
+let failed = false;
+
+console.log(
+    "case".padEnd(24),
+    "mean ms".padStart(10),
+    "p95 ms".padStart(10),
+    "baseline".padStart(10),
+    "ratio".padStart(7),
+);
+for (const [name, result] of Object.entries(results)) {
+    const was = baseline.cases[name];
+    const ratio = was ? result.mean / was : undefined;
+    const slow = ratio !== undefined && ratio > tolerance;
+    if (slow) failed = true;
+    console.log(
+        name.padEnd(24),
+        ms(result.mean).padStart(10),
+        ms(result.p95).padStart(10),
+        ms(was).padStart(10),
+        (ratio === undefined ? "-" : ratio.toFixed(2)).padStart(7),
+        slow ? "  SLOWER" : "",
+    );
+}
+
+for (const kind of ["button", "input", "listbox", "table"]) {
+    const nativeMean = results[`native-${kind}`]?.mean;
+    const lilyMean = results[`lily-${kind}`]?.mean;
+    if (nativeMean && lilyMean) {
+        console.log(`${kind}: Lily/native mean ratio ${(lilyMean / nativeMean).toFixed(2)}`);
+    }
+}
+if (baseline.machine && baseline.machine !== machine) {
+    console.log(`note: baseline machine was ${baseline.machine}; current machine is ${machine}`);
+}
+
+if (update) {
+    const cases = Object.fromEntries(
+        Object.entries(results).map(([name, result]) => [name, Number(result.mean.toPrecision(4))]),
+    );
+    writeFileSync(baselinePath, `${JSON.stringify({ machine, cases }, null, 2)}\n`);
+    console.log(`bin/render-benchmark: baseline written (${Object.keys(cases).length} cases)`);
+} else if (failed) {
+    console.error(`bin/render-benchmark: FAILED -- a case exceeds ${tolerance} times its baseline`);
+    process.exit(1);
+} else {
+    console.log("bin/render-benchmark: OK");
+}

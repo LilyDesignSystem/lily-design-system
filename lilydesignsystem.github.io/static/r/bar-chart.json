@@ -43,5 +43,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/BarChart.razor"
   },
   "docs": "https://lilydesignsystem.com/components/bar-chart/",
+  "markdown": "https://lilydesignsystem.com/components/bar-chart.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/bar-chart/AGENTS.md"
 }

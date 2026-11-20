@@ -1263,14 +1263,14 @@ public partial class GanttChart : ComponentBase
                 break;
             case "Enter":
             case " ":
-            {
-                if (_focusedRow >= 0 && _focusedRow < rows.Count)
                 {
-                    var row = rows[_focusedRow];
-                    if (!row.HasChildren) OpenEdit(row.Task);
+                    if (_focusedRow >= 0 && _focusedRow < rows.Count)
+                    {
+                        var row = rows[_focusedRow];
+                        if (!row.HasChildren) OpenEdit(row.Task);
+                    }
+                    break;
                 }
-                break;
-            }
         }
     }
 

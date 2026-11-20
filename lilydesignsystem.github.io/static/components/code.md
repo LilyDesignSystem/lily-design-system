@@ -69,6 +69,10 @@ The consumer provides all CSS styling. The component renders with a `.code` clas
 - `code-block` — a block of formatted code with optional line numbers and line highlighting
 - `kbd` — show keyboard shortcuts and key combinations in a styled inline element
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN `<code>` element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/code

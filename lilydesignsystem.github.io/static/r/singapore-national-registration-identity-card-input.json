@@ -38,5 +38,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/SingaporeNationalRegistrationIdentityCardInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/singapore-national-registration-identity-card-input/",
+  "markdown": "https://lilydesignsystem.com/components/singapore-national-registration-identity-card-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/singapore-national-registration-identity-card-input/AGENTS.md"
 }

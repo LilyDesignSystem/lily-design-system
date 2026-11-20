@@ -76,6 +76,10 @@ GrailLayoutCenterMain is used as a child of GrailLayout. Place a semantic `<main
 - `grail-layout-right-aside` — grail layout right aside sidebar with <aside> tag
 - `grail-layout-top-header` — grail layout top header full width with <header> tag
 
+## Known limitations
+
+None known.
+
 ## References
 
 - CSS Grid Layout: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout

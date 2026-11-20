@@ -85,6 +85,10 @@ The consumer provides all CSS styling. The component renders with a `.five-star-
 
 - `five-star-rating-radio-group` — a picker for selecting a 1-5 star rating using radio buttons
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA `img` role: https://www.w3.org/WAI/ARIA/apd/roles/img/

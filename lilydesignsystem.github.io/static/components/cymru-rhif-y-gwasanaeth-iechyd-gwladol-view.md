@@ -72,6 +72,10 @@ A national identifier is personal data, and often a key to other records.
 - `cymru-rhif-y-gwasanaeth-iechyd-gwladol-input` — an input for entering Wales's Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG)
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/NHS_number

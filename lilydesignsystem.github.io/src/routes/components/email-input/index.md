@@ -2,6 +2,8 @@
 
 An email input wraps a native `<input type="email">` with accessible labeling. A simpler variant of EmailAddressInput for basic email collection, it omits placeholder and autocomplete support in favor of a minimal API. Use EmailInput when you need a straightforward email field with required and disabled state support.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 ## Implementation Notes
 
 - Renders a native `<input type="email">` element for browser-native email validation
@@ -88,6 +90,10 @@ The consumer provides all CSS styling. The component renders with a `.email-inpu
 - `email-link` — a mailto hyperlink for an email address
 - `tel-input` — an input for entering a telephone number <input type="tel">
 - `url-input` — an input for entering a URL <input type="url">
+
+## Known limitations
+
+None known.
 
 ## References
 

@@ -101,6 +101,10 @@ The consumer provides all CSS styling. The component renders with a `.file-uploa
 - `file-manager` — a file browser for navigating and managing files
 - `download-button` — a download link styled as a button, with optional file size and format metadata
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN `<input type="file">`: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file

@@ -76,6 +76,10 @@ This headless component ships zero CSS and decides nothing visual. The consumer 
 
 - `device-record-list` — a list of a patient's medical devices, whose status is never blank
 
+## Known limitations
+
+None known.
+
 ## References
 
 - FHIR DeviceUseStatement: https://hl7.org/fhir/R4/deviceusestatement.html

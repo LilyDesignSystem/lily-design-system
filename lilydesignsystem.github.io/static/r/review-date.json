@@ -38,5 +38,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ReviewDate.razor"
   },
   "docs": "https://lilydesignsystem.com/components/review-date/",
+  "markdown": "https://lilydesignsystem.com/components/review-date.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/review-date/AGENTS.md"
 }

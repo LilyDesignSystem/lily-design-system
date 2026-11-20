@@ -2,6 +2,8 @@
 
 A sparkline is a compact, minimalist component used to represent trends or variations in data within a small, simple graph, typically embedded within text or tables. Unlike full-scale charts, sparklines display data as tiny, unadorned line, bar, or win/loss charts, offering a quick at-a-glance view of patterns such as fluctuations in sales, stock prices, or performance over time.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This headless component provides a semantic container with `role="img"` and an accessible label. The consumer is responsible for providing the actual SVG, canvas, or other visualization content as children.
 
 ## Implementation Notes
@@ -15,6 +17,10 @@ This headless component provides a semantic container with `role="img"` and an a
 
 - `label`: string (required) -- accessible name describing the sparkline data, applied via `aria-label`
 - `children`: slot (required) -- the visualization content to render inside the container
+- `pointCount`: number (optional) -- how many readings the consumer's graphic shows
+- `minimumPoints`: number (optional) -- fewer readings than this are not a trend: the graphic is not shown, the root drops `role="img"` and `aria-label`, gains `data-insufficient`, and shows only `insufficientLabel` as text in `.sparkline-insufficient` (spec/lessons/zoblocks)
+- `insufficientLabel`: string -- why there is no line, in the consumer's words ("Not enough readings for a trend"); required with `minimumPoints` (a development warning says so)
+- Breaks: where readings are not comparable (a new method, assay or unit), the consumer draws one `<path>` per comparable run so the line never joins across the break; the component draws nothing, so it has no `breaks` prop. The Nunjucks macro, which draws the line from `values`, takes `breaks` (indexes where a new run starts) and splits it there
 
 ## Usage
 
@@ -72,6 +78,10 @@ The consumer provides all CSS styling. The component renders with a `.sparkline`
 - `statistic` — a numeric value display with title, prefix, and suffix
 - `line-chart` — a line chart visualization connecting data points to display data
 - `meter` — a gauge displaying a scalar value within a known range
+
+## Known limitations
+
+None known.
 
 ## References
 

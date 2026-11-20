@@ -5,6 +5,7 @@
 - Component: addressograph-box
 - PascalCase: AddressographBox
 - Description: a box that shows a person's identification details, such as name, tracking information, and salient notations
+- Status: experimental — recent catalog addition with the least accumulated depth; contract may still move
 - HTML tag: <div>
 - CSS class: .addressograph-box
 - Interactive: no
@@ -17,6 +18,7 @@
 
 ## ARIA
 
+- With a `label`, the root is `role="group"`, because a plain `<div>` cannot be named. Without one it has no role
 - `aria-label` -- describes the box for screen readers
 
 ## Keyboard
@@ -35,6 +37,10 @@
 - [ ] Has aria-label attribute when provided
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS -- fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

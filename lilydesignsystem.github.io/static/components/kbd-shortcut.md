@@ -74,6 +74,10 @@ The consumer provides all CSS styling via `.kbd-shortcut`, `.kbd-shortcut-key` a
 - `code` — inline code
 - `menu` — menus that often show shortcuts
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN kbd element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/kbd

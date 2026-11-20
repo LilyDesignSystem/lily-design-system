@@ -11,7 +11,8 @@ public class ToolCallInputTests : TestContext
 
     [Fact] public void Renders_div_with_base_class() => Assert.NotNull(Render().Find("div.tool-call-input"));
 
-    [Fact] public void Label_makes_a_named_group_and_is_absent_without_one()
+    [Fact]
+    public void Label_makes_a_named_group_and_is_absent_without_one()
     {
         var a = Render(p => p.Add(x => x.Label, "Input")).Find(".tool-call-input");
         Assert.Equal("group", a.GetAttribute("role"));
@@ -21,7 +22,8 @@ public class ToolCallInputTests : TestContext
         Assert.Null(b.GetAttribute("aria-label"));
     }
 
-    [Fact] public void Consumer_class_follows_base_class() =>
+    [Fact]
+    public void Consumer_class_follows_base_class() =>
         Assert.Equal("tool-call-input mine", Render(p => p.Add(x => x.CssClass, "mine")).Find(".tool-call-input").GetAttribute("class"));
     [Fact] public void Renders_children() => Assert.Equal("Hello", Render().Find("[data-testid=txt]").TextContent);
     [Fact] public void Spreads_rest_props() => Assert.Equal("x1", Render(p => p.AddUnmatched("id", "x1")).Find(".tool-call-input").Id);

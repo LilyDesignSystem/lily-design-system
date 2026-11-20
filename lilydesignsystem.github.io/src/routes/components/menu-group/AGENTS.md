@@ -5,6 +5,7 @@
 - Component: menu-group
 - PascalCase: MenuGroup
 - Description: a labeled section of menu items within a menu
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div> with role="group"
 - CSS class: .menu-group
 - Interactive: no (static container; menu interactions are on items)
@@ -32,6 +33,14 @@
 - `children`: slot -- menu-item children
 - `...restProps`: any additional HTML attributes
 
+## Native platform
+
+- Decision: hand-rolled because ARIA menu grouping has no native element
+- Uses: none (div role="group")
+- Could use: none
+- Notes: Child of menu.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
 ## Acceptance Criteria
 
 - [ ] Renders <div> element with role="group" and class="menu-group"
@@ -41,6 +50,10 @@
 - [ ] Children are rendered after the heading
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

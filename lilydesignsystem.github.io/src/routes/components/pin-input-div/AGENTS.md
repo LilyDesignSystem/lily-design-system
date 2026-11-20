@@ -5,6 +5,7 @@
 - Component: pin-input-div
 - PascalCase: PinInputDiv
 - Description: a series of single-digit inputs for entering a PIN or OTP code
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .pin-input-div
 - Interactive: yes
@@ -23,7 +24,7 @@
 ## ARIA
 
 - `role="group"` with `aria-label` on the container
-- Each input has `aria-label="Digit X of Y"` for positional context
+- Each input's `aria-label` comes from the optional `digitLabel(position, length)` (e.g. "Digit 1 of 4"); without it each input is named by `label` — no English default
 - `inputmode="numeric"` for numeric keyboard on mobile
 
 ## Keyboard
@@ -38,6 +39,7 @@
 
 - `label`: string (required) -- accessible label for the group via aria-label
 - `length`: number (default: 4) -- number of digit inputs
+- `digitLabel`: (position: number, length: number) => string (optional) -- each input's accessible name; defaults to `label`
 - `value`: string (default: "") -- bindable combined string of all digits
 - `disabled`: boolean (default: false) -- disables all inputs
 - `...restProps`: Any additional HTML attributes on the group div
@@ -50,6 +52,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

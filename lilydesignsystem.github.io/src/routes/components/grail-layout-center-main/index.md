@@ -2,6 +2,8 @@
 
 GrailLayoutCenterMain is a headless container for the center main content section of a GrailLayout. It holds the primary page content and is flanked by the left and right aside sections.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders a `<main>` element for the center main content section
@@ -73,6 +75,10 @@ GrailLayoutCenterMain is used as a child of GrailLayout. Place a semantic `<main
 - `grail-layout-left-aside` — grail layout left aside sidebar with <aside> tag
 - `grail-layout-right-aside` — grail layout right aside sidebar with <aside> tag
 - `grail-layout-top-header` — grail layout top header full width with <header> tag
+
+## Known limitations
+
+None known.
 
 ## References
 

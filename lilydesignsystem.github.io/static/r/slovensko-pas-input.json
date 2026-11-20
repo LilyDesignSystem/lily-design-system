@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/SlovenskoPasInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/slovensko-pas-input/",
+  "markdown": "https://lilydesignsystem.com/components/slovensko-pas-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/slovensko-pas-input/AGENTS.md"
 }

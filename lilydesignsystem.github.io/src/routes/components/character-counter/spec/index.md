@@ -23,8 +23,8 @@ Implement the Character Counter component: a counter showing remaining or used c
 ## Acceptance Criteria
 
 - [ ] Renders <span> with class="character-counter"
-- [ ] `role="status"` -- identifies the element as a live region that presents advisory information
-- [ ] `aria-live="polite"` -- screen readers announce updates at the next convenient pause, without interrupting the user
+- [x] `role="status"` on `.character-counter-status`, updated only after a pause in typing (P26-T9, 2026-11-10)
+- [x] `aria-hidden="true"` on the visible count
 - [ ] `aria-label` -- set from the `label` prop to provide context for what the counter represents
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless

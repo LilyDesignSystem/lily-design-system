@@ -36,6 +36,10 @@ always exits 0.
 
 ### Generators (edit the source, never the output; see the Generated files table in `AGENTS/lily.md`)
 
+The React shadcn registry includes dependencies imported by helper modules. Installing `@lily/listbox` brings in
+`listbox-machine`, which imports `typeahead`, which imports `search-text`. Generation and `--check` fail if an item
+names a Lily dependency missing from the registry.
+
 | Script                           | Purpose                                                                                                                                                        | In `bin/test`             |
 | -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
 | `generate-registries`            | Example-app registries, `component-demos.ts` copies, the site's component list, the listing in the root `index.md`, and the shadcn registry `static/r/react/`. | Gate (`--check`)          |

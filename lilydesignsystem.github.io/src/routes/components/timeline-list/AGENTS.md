@@ -5,6 +5,7 @@
 - Component: timeline-list
 - PascalCase: TimelineList
 - Description: an ordered list of chronological events or milestones
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <ol>
 - CSS class: .timeline-list
 - Interactive: no
@@ -34,11 +35,12 @@
 
 ## Props
 
-| Prop           | Type            | Default    | Description                                  |
-| -------------- | --------------- | ---------- | -------------------------------------------- |
-| `label`        | `string`        | (required) | Accessible label via `aria-label`            |
-| `children`     | `slot`          | (required) | Timeline items (should be `<li>` elements)   |
-| `...restProps` | HTML attributes |            | Additional attributes spread onto the `<ol>` |
+| Prop            | Type            | Default    | Description                                                                                                                                                                                       |
+| --------------- | --------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `label`         | `string`        | (required) | Accessible label via `aria-label`                                                                                                                                                                 |
+| `coverageLabel` | `string`        |            | What the timeline is a view of, in the consumer's words: its window and order, what it leaves out and why, which sources did not answer. Rendered first, as `<li class="timeline-list-coverage">` |
+| `children`      | `slot`          | (required) | Timeline items (should be `<li>` elements)                                                                                                                                                        |
+| `...restProps`  | HTML attributes |            | Additional attributes spread onto the `<ol>`                                                                                                                                                      |
 
 ## Acceptance Criteria
 
@@ -47,6 +49,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

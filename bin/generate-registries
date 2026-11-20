@@ -503,14 +503,22 @@ const htmlEntry = (c, indent) => {
       const desc = c.description ? c.description[0].toUpperCase() + c.description.slice(1) + "." : c.name;
       build(c.slug, c.name, desc, file, "registry:component", [c.category], dir);
     }
-    for (const mod of [...helpers].sort()) {
+    // Building a helper discovers its own imports. Set iteration visits those additions once, even in a cycle.
+    for (const mod of helpers) {
       if (helperName(mod) in items) throw new Error(`registry item name clash: ${helperName(mod)}`);
       build(helperName(mod), `${mod}.ts`, `Shared helper module ${mod}.ts, used by Lily React headless components.`, `${mod}.ts`, "registry:lib", null);
     }
 
     const names = Object.keys(items).sort();
     const wanted = {};
-    for (const n of names) wanted[`${n}.json`] = JSON.stringify(items[n], null, 2) + "\n";
+    for (const n of names) {
+      for (const dependency of items[n].registryDependencies ?? []) {
+        if (!Object.hasOwn(items, dependency.slice(NS.length + 1))) {
+          throw new Error(`${n}: missing registry item ${dependency}`);
+        }
+      }
+      wanted[`${n}.json`] = JSON.stringify(items[n], null, 2) + "\n";
+    }
     wanted["registry.json"] =
       JSON.stringify(
         {

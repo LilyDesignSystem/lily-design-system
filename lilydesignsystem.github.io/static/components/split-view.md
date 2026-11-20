@@ -102,6 +102,10 @@ proportions and divider direction.
 - `drawer` — a panel that slides in from the edge of the screen
 - `sidebar` — a side panel for navigation or supplementary content
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Separator: https://www.w3.org/TR/wai-aria-1.2/#separator

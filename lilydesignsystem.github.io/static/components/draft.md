@@ -90,6 +90,10 @@ The consumer provides all CSS styling. The component renders with a `.draft` cla
 - `editable` — an inline-editable text element that toggles between view and edit modes
 - `editable-form` — a form wrapper for inline editing of content
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN div element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div)

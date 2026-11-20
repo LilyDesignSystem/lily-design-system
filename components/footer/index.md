@@ -80,6 +80,10 @@ The consumer provides all CSS styling. The component renders with a `.footer` cl
 - `header` — a page or section header area
 - `grail-layout-bottom-footer` — grail layout bottom footer full width with <footer> tag
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN footer element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer)

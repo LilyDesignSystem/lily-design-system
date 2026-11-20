@@ -2,6 +2,8 @@
 
 A navigation container for section navigation links.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders a `<nav>` landmark with `aria-label` to identify it (e.g. "In this section")
@@ -69,6 +71,10 @@ The component renders with `.section-nav` as the root class. No default styles a
 - `section-link` — individual link
 - `contents-nav` — in-page anchor navigation
 - `breadcrumb-nav` — hierarchical breadcrumb
+
+## Known limitations
+
+None known.
 
 ## References
 

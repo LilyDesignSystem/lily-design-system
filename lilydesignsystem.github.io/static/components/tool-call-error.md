@@ -68,6 +68,10 @@ An alert inside a closed `<details>` is not announced. Open the `ToolCall` when 
 - `tool-call-output`
 - `error-message`
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN details element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details)

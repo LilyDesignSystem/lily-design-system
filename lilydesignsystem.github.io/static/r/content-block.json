@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ContentBlock.razor"
   },
   "docs": "https://lilydesignsystem.com/components/content-block/",
+  "markdown": "https://lilydesignsystem.com/components/content-block.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/content-block/AGENTS.md"
 }

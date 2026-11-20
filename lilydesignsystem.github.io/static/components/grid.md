@@ -144,6 +144,10 @@ Consumers may target `.grid` for responsive column overrides:
 - `container` — a generic block-level content container
 - `masonry` — a masonry layout container for variable-height items
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN grid-template-columns: https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-columns

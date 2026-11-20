@@ -4,7 +4,7 @@
   "engines": {
     "node": ">=26"
   },
-  "description": "A comprehensive headless Vue 3 component library with 491 accessible, unstyled components for building design systems. Targets WCAG 2.2 AAA.",
+  "description": "A comprehensive headless Vue 3 component library with 473 accessible, unstyled core components for building design systems. Targets WCAG 2.2 AAA.",
   "main": "./dist/index.mjs",
   "scripts": {
     "build": "node build.mjs",

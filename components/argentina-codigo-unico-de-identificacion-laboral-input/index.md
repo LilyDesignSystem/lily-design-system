@@ -89,6 +89,10 @@ A national identifier is personal data, and often a key to other records.
 - `argentina-codigo-unico-de-identificacion-laboral-view` — a read-only display of Argentina's Código Único de Identificación Laboral (CUIL)
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [Código Único de Identificación Laboral](https://en.wikipedia.org/wiki/C%C3%B3digo_%C3%9Anico_de_Identificaci%C3%B3n_Laboral)

@@ -32,5 +32,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ThemeView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/theme-view/",
+  "markdown": "https://lilydesignsystem.com/components/theme-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/theme-view/AGENTS.md"
 }

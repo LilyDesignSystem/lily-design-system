@@ -2,6 +2,8 @@
 
 A draft is an early preliminary version of content such as an article, email, report, blog post, or document. The component wraps in-progress content so that authoring tools, reviewers, and downstream renderers can recognise it as not-yet-final and treat it accordingly (e.g., hide from public listings, render with a "Draft" badge, exclude from search, allow inline editing).
 
+**Status:** experimental — recent catalog addition with the least accumulated depth; contract may still move.
+
 This headless component renders a `<div>` with class `draft`. The consumer supplies the draft content as children. The component does not own save state, autosave, or revision history — those belong to the consumer.
 
 ## Implementation Notes
@@ -43,6 +45,7 @@ With editorial state:
 
 ## ARIA
 
+- With a `label`, the root is `role="group"`, because a plain `<div>` cannot be named. Without one it has no role
 - `aria-label` -- describes the draft for screen readers when no visible heading is present
 
 ## When to Use
@@ -86,6 +89,10 @@ The consumer provides all CSS styling. The component renders with a `.draft` cla
 - `comment` — a comment is anything that expresses an opinion, observation, explanation, etc.
 - `editable` — an inline-editable text element that toggles between view and edit modes
 - `editable-form` — a form wrapper for inline editing of content
+
+## Known limitations
+
+None known.
 
 ## References
 

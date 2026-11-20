@@ -1,6 +1,6 @@
 ---
 name: lily-design-system-skill
-description: Explains Lily Design System™ concepts, terminology, and usage patterns for people building with it — the headless-vs-example layers, the 609-component catalog, naming conventions, composition patterns, theming, and the supported frameworks (seven framework pairs plus Web Components and Alpine.js). Use when someone asks what Lily Design System is, what a Lily term means (headless, class hook, slug, helper, theme), how to compose a Lily pattern (a form, a nav, a table, a page shell), or wants a working example in a given framework.
+description: Explains Lily Design System™ concepts, terminology, and usage patterns — the headless-versus-example layers, 473-component core packages plus identifier add-ons, naming, composition, theming, and supported frameworks. Use when someone asks what Lily is, what a Lily term means, how to compose a pattern, or wants a working example in a framework.
 license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 ---
 
@@ -75,7 +75,7 @@ listing: `components.tsv` in the canonical repo, or browse it at
 ## Picking a framework
 
 Seven frameworks ship a matched headless + example pair, each implementing
-the full 609-component catalog: HTML, Svelte 5, React 19, Vue 3, Angular
+the 473-component core catalog, with identifiers in separate add-ons: HTML, Svelte 5, React 19, Vue 3, Angular
 (20–22), Blazor (.NET 10), Nunjucks. Two more catalogs: Web Components
 (native custom elements, 601 of 636 — table sub-elements and interactive
 list items cannot be autonomous custom elements; no example app) and

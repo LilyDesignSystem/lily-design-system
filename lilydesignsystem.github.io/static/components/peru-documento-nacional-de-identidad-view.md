@@ -75,6 +75,10 @@ A national identifier is personal data, and often a key to other records.
 - `peru-documento-nacional-de-identidad-input` — an input for entering Peru's Documento Nacional de Identidad (DNI)
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [Documento Nacional de Identidad (Perú)](<https://es.wikipedia.org/wiki/Documento_Nacional_de_Identidad_(Per%C3%BA)>)

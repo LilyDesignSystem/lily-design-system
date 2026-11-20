@@ -91,6 +91,10 @@ The consumer provides all CSS styling. The component renders with a `.text-area-
 
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN text-area-input element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/text-area-input

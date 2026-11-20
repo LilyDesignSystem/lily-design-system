@@ -5,6 +5,7 @@
 - Component: share-page
 - PascalCase: SharePage
 - Description: a component for sharing the page on social media
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .share-page
 - Interactive: yes
@@ -42,6 +43,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

@@ -113,6 +113,10 @@ The consumer provides all CSS styling. The component renders with a `.visible` c
 - `scroller` — see components.tsv
 - `video-player` — see components.tsv
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [Reuters Graphics Visible component](https://github.com/reuters-graphics/graphics-components)

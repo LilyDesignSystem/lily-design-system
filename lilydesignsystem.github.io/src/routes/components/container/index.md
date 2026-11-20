@@ -2,6 +2,8 @@
 
 A generic block-level content container.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders a `<div>` element with class `container`
@@ -54,6 +56,10 @@ The component renders with `.container` as the root class. No default styles are
 
 - `container-with-fixed-width` — a centered content wrapper with a fixed max-width breakpoint
 - `container-with-fluid-width` — a full-width content wrapper with horizontal padding
+
+## Known limitations
+
+None known.
 
 ## References
 

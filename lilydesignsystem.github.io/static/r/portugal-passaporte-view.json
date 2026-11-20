@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/PortugalPassaporteView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/portugal-passaporte-view/",
+  "markdown": "https://lilydesignsystem.com/components/portugal-passaporte-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/portugal-passaporte-view/AGENTS.md"
 }

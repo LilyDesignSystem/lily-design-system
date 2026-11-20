@@ -2,6 +2,8 @@
 
 A range input is a UI/UX component that provides a slider control for selecting a numeric value within a defined range. It uses the native HTML `<input type="range">` element, which renders as a draggable track and handle. The component supports configurable minimum, maximum, and step values, and provides a bindable value prop for two-way data binding. An aria-label ensures the control is accessible to screen readers and assistive technologies.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 Range inputs are commonly used for volume controls, brightness settings, price filters, and any scenario where users need to select a value from a continuous numeric spectrum.
 
 ## Implementation Notes
@@ -112,6 +114,10 @@ The consumer provides all CSS styling. The component renders with a `.range-inpu
 - `slider` — a draggable control for selecting a value along a track
 - `number-input` — an input for entering a numeric value with validation <input type="number">
 - `angle-slider-range-input` — a range input for selecting an angle in degrees
+
+## Known limitations
+
+None known.
 
 ## References
 

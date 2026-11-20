@@ -89,6 +89,10 @@ The consumer provides all CSS styling. The component renders with an `.article-l
 - `container` — a generic block-level content container
 - `grail-layout` — a responsive web design structure with header, left aside, center main, right aside, footer
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Reuters Graphics Article component

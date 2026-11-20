@@ -1,0 +1,13 @@
+{
+  "machine": "Apple M4 Max, darwin arm64, Node 26.13.1",
+  "cases": {
+    "native-button": 0.03739,
+    "lily-button": 0.04825,
+    "native-input": 0.03738,
+    "lily-input": 0.04862,
+    "native-listbox": 0.8098,
+    "lily-listbox": 1.035,
+    "native-table": 1.278,
+    "lily-table": 1.334
+  }
+}

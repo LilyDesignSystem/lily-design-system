@@ -3,6 +3,8 @@
 A coachmark is an anchored popover that spotlights and explains a single
 feature, typically used in onboarding, feature discovery, or guided tours.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it sparingly and at most one at a time, paired with a visual anchor on
 the feature being highlighted. A coachmark teaches; it should not block the
 user from continuing their task.
@@ -95,6 +97,10 @@ for selective styling. Provide a clear focus indicator on the dismiss button.
 - `popover` — a floating content box anchored to a trigger element
 - `tooltip` — a small popup showing descriptive text on hover or focus
 - `tour` — a tour guide, such as for sightseeing, or pathways, or demonstrations, etc.
+
+## Known limitations
+
+None known.
 
 ## References
 

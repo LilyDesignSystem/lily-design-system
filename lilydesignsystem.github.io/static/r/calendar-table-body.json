@@ -38,5 +38,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/CalendarTableBody.razor"
   },
   "docs": "https://lilydesignsystem.com/components/calendar-table-body/",
+  "markdown": "https://lilydesignsystem.com/components/calendar-table-body.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/calendar-table-body/AGENTS.md"
 }

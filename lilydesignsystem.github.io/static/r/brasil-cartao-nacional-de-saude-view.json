@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/BrasilCartaoNacionalDeSaudeView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/brasil-cartao-nacional-de-saude-view/",
+  "markdown": "https://lilydesignsystem.com/components/brasil-cartao-nacional-de-saude-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/brasil-cartao-nacional-de-saude-view/AGENTS.md"
 }

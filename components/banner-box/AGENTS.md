@@ -53,6 +53,10 @@ BannerBox is designed to be used inside a Banner:
 </Banner>
 ```
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Documentation: index.md

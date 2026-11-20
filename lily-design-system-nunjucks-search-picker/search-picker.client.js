@@ -192,10 +192,13 @@ function wireTooltip(root, button, selector, popup) {
  *   navigate?: (href: string) => void,
  *   onSearch?: (query: string, href: string) => void
  * }=} opts
- * @returns {{open: () => void, close: () => void, search: (query?: string) => void, destroy: () => void}}
+ * @returns {{isOpen: () => boolean, setOpen: (open: boolean) => void, setDisabled: (disabled: boolean) => void, open: () => void, close: () => void, search: (query?: string) => void, destroy: () => void}}
  */
 export function initSearchPicker(root, opts = {}) {
     const noop = {
+        isOpen: () => false,
+        setOpen: () => {},
+        setDisabled: () => {},
         open: () => {},
         close: () => {},
         search: () => {},

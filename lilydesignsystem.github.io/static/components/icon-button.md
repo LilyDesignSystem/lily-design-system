@@ -123,6 +123,10 @@ touch target, a clear focus indicator, and hover/active visual feedback.
 - `float-button` — a floating action button anchored to a viewport corner
 - `tool-bar-button` — one action button in a tool bar
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/

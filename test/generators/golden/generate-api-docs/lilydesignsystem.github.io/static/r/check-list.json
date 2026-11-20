@@ -22,5 +22,6 @@
     "html": "lily-design-system-html-headless/components/check-list.html"
   },
   "docs": "https://lilydesignsystem.com/components/check-list/",
+  "markdown": "https://lilydesignsystem.com/components/check-list.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/check-list/AGENTS.md"
 }

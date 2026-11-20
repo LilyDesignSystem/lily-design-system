@@ -138,6 +138,10 @@ The consumer provides all CSS styling. The component renders with a `.scroller` 
 - `horizontal-scroller` — see components.tsv
 - `carousel` — a slideshow for cycling through content items
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Reuters Graphics Scroller

@@ -91,6 +91,10 @@ A national identifier is personal data, and often a key to other records.
 - `mexico-clave-unica-de-registro-de-poblacion-view` — a read-only display of Mexico's Clave Única de Registro de Población (CURP)
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [Unique Population Registry Code](https://en.wikipedia.org/wiki/Unique_Population_Registry_Code)

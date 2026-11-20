@@ -46,5 +46,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/FeaturePhoto.razor"
   },
   "docs": "https://lilydesignsystem.com/components/feature-photo/",
+  "markdown": "https://lilydesignsystem.com/components/feature-photo.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/feature-photo/AGENTS.md"
 }

@@ -47,5 +47,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/CalendarDayTable.razor"
   },
   "docs": "https://lilydesignsystem.com/components/calendar-day-table/",
+  "markdown": "https://lilydesignsystem.com/components/calendar-day-table.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/calendar-day-table/AGENTS.md"
 }

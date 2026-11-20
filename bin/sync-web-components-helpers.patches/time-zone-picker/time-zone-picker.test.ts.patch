@@ -1,0 +1,11 @@
+--- /var/folders/zp/p2vtmfrj35b27yh4ns6h_6h40000gn/T/tmp.myfRK7KLXV	2026-11-20 06:18:09.196606336 +0000
++++ lily-design-system-web-components-time-zone-picker/time-zone-picker.test.ts	2026-11-20 06:18:02.054852365 +0000
+@@ -401,7 +401,7 @@
+     test("the tooltip shows on hover and Escape dismisses it", () => {
+         mount();
+         expect(tip().hasAttribute("hidden")).toBe(true);
+-        button().dispatchEvent(new MouseEvent("mouseenter"));
++        button().closest("lily-icon-button")!.dispatchEvent(new MouseEvent("mouseenter"));
+         expect(tip().hasAttribute("hidden")).toBe(false);
+         document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
+         expect(tip().hasAttribute("hidden")).toBe(true);

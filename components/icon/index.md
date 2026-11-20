@@ -88,6 +88,10 @@ The consumer provides all CSS styling. The component renders with a `.icon` clas
 - `emoji` — a single emoji character with accessible name
 - `qr-code` — a QR code image generated from text or URL data
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA img role: https://www.w3.org/TR/wai-aria-1.2/#img

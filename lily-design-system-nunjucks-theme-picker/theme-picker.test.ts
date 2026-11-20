@@ -772,6 +772,12 @@ describe("ThemePicker — client.js lifecycle (§7.7–§7.11, §7.13)", () => {
         expect(document.documentElement.dataset.theme).toBe("dark");
     });
 
+    test("ignores a stored value that is not one of its themes", () => {
+        localStorage.setItem("lily-theme", "not-a-theme");
+        setup({ storageKey: "lily-theme" });
+        expect(document.documentElement.dataset.theme).toBe("light");
+    });
+
     test("§7.11 themesUrl without trailing slash still yields one slash", () => {
         setup({ themesUrl: URL_NO_TRAILING });
         expect(getManagedLink()!.getAttribute("href")).toBe("/assets/themes/light.css");

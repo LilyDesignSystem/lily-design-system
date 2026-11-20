@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/ColombiaCedulaDeCiudadaniaView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/colombia-cedula-de-ciudadania-view/",
+  "markdown": "https://lilydesignsystem.com/components/colombia-cedula-de-ciudadania-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/colombia-cedula-de-ciudadania-view/AGENTS.md"
 }

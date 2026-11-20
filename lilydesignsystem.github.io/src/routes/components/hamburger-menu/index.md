@@ -2,6 +2,8 @@
 
 A hamburger menu is a headless toggle button that reveals or hides a navigation panel. It is commonly used on mobile layouts and compact interfaces to conserve screen space by hiding the primary navigation behind a toggle control.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 When activated, the button toggles the visibility of a navigation region containing links, menus, or other navigational content provided by the consumer. The component manages ARIA attributes for accessibility, linking the toggle button to the navigation panel via `aria-controls` and communicating the open/closed state via `aria-expanded`.
 
 ## Implementation Notes
@@ -16,7 +18,7 @@ When activated, the button toggles the visibility of a navigation region contain
 
 ## Props
 
-- `label`: string (default: "Menu") -- accessible name for the toggle button and the navigation region
+- `label`: string (required) -- accessible name for the toggle button and the navigation region
 - `open`: boolean (default: false) -- bindable boolean controlling whether the navigation panel is visible
 - `children`: slot (required) -- navigation content rendered when the menu is open
 - `...restProps`: unknown -- additional attributes spread onto the outer `<div>` wrapper
@@ -91,7 +93,7 @@ The consumer provides all CSS styling. The component renders with a `.hamburger-
 
 ## Testing
 
-- Verify the component renders a `<button>` element with class `hamburger-menu`
+- Verify the component renders a `<div>` element with class `hamburger-menu`, holding a `<button>`
 - Verify aria-label={label}` -- on the button, provides an accessible name for the toggle control
 - Verify role="navigation"` -- on the content container, identifies it as a navigation landmark
 - Verify aria-label={label}` -- on the navigation container, provides an accessible name for the landmark
@@ -109,6 +111,10 @@ The consumer provides all CSS styling. The component renders with a `.hamburger-
 - `navigation-menu` — a site-wide navigation menu with links
 - `drawer` — a panel that slides in from the edge of the screen
 - `menu` — a list of actions or options triggered by a button
+
+## Known limitations
+
+None known.
 
 ## References
 

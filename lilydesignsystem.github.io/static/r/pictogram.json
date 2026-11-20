@@ -48,5 +48,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Pictogram.razor"
   },
   "docs": "https://lilydesignsystem.com/components/pictogram/",
+  "markdown": "https://lilydesignsystem.com/components/pictogram.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/pictogram/AGENTS.md"
 }

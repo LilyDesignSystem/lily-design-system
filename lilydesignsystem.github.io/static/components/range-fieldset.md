@@ -115,6 +115,10 @@ This headless component ships zero CSS and decides nothing visual. The consumer 
 - `date-range` — a start and an end date
 - `fieldset` — a group of related fields with a legend
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA APG, Multi-Thumb Slider: https://www.w3.org/WAI/ARIA/apg/patterns/slider-multithumb/

@@ -117,6 +117,10 @@ The consumer provides all CSS styling. The component renders with a `.video-play
 
 - `image` — an image element with alt text
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Reuters Graphics Video component

@@ -2,6 +2,8 @@
 
 A code component displays an inline code span for showing short code snippets, variable names, file paths, or commands within surrounding text. It visually distinguishes code from prose to improve readability.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses the native HTML `<code>` element for semantic correctness, ensuring assistive technologies can identify inline code content.
 
 ## Implementation Notes
@@ -66,6 +68,10 @@ The consumer provides all CSS styling. The component renders with a `.code` clas
 
 - `code-block` — a block of formatted code with optional line numbers and line highlighting
 - `kbd` — show keyboard shortcuts and key combinations in a styled inline element
+
+## Known limitations
+
+None known.
 
 ## References
 

@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Loading.razor"
   },
   "docs": "https://lilydesignsystem.com/components/loading/",
+  "markdown": "https://lilydesignsystem.com/components/loading.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/loading/AGENTS.md"
 }

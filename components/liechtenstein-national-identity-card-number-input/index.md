@@ -86,6 +86,10 @@ A national identifier is personal data, and often a key to other records.
 - `liechtenstein-national-identity-card-number-view` — a read-only display of Liechtenstein's Liechtenstein National Identity Card Number
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/National_identity_card

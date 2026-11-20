@@ -90,6 +90,10 @@ The graphic is wrapped in `<div class="sankey-chart-graphic" role="img" aria-lab
 - `line-chart`
 - `graphic-block` — chart wrapper with title and notes
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN figure element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figure)

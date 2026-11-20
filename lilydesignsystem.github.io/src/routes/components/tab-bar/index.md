@@ -2,6 +2,8 @@
 
 TabBar is a headless tab list container that provides the ARIA `tablist` role and built-in keyboard navigation for tab interfaces. It manages arrow key navigation between tab elements, allowing users to cycle through tabs with Left/Right arrow keys, and jump to the first or last tab with Home/End keys.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 Use TabBar when building a tabbed interface where users switch between different views or content panels. The component wraps tab buttons in a `<div>` with `role="tablist"` and handles keyboard interactions automatically. Consumer provides tab buttons as children (each with `role="tab"` and `aria-selected`) and is responsible for managing selection state and associating tab panels.
 
 ## Implementation Notes
@@ -90,6 +92,7 @@ The consumer provides all CSS styling. The component renders with a `.tab-bar` c
 
 - **Designers**: Clearly indicate the active tab with a visual treatment such as an underline, background color, or border. Keep tab labels short and descriptive.
 - **Developers**: Pair each TabBarButton with a corresponding `role="tabpanel"` element linked via `aria-controls` and `aria-labelledby`. Manage the `aria-selected` state on child tab buttons from the consumer.
+- **Mobile bottom navigation**: a bar of app sections fixed to the bottom of a narrow viewport is navigation, so build it with `navigation-menu` and real links (`aria-current="page"` on the current one), not a `TabBar`; use a `TabBar` there only when its buttons switch panels on the same page. Either way: at most five items, visible text labels (not icon-only), and the CSS that fixes the bar sets `--lily-fixed-bar-block-end` on the root to the bar's height so the themes' "Focus not obscured" section applies (WCAG 2.4.11). See the pattern in [AGENTS/components.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/components.md#mobile-bottom-navigation-pattern-navigationmenu-fixed-to-the-bottom).
 
 ## Composition
 
@@ -98,6 +101,10 @@ TabBar uses the Bar/BarButton composition pattern. Place TabBarButton components
 ## Related components
 
 - `tab-bar-button` — one tab button in a tab group
+
+## Known limitations
+
+None known.
 
 ## References
 

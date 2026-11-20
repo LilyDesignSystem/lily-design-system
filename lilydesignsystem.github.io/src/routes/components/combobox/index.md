@@ -2,6 +2,8 @@
 
 A combobox combines a text input with a dropdown listbox of suggestions, providing an autocomplete or type-ahead search experience. Users type into the input to filter suggestions, then select from matching options in the dropdown. This pattern is commonly used for search fields, address inputs, tag selectors, and any scenario where users choose from a large set of options.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The component manages the input value and dropdown open state as bindable props, so consumers can reactively filter options and control visibility. It supports full ARIA combobox semantics including `aria-expanded`, `aria-controls`, and `aria-autocomplete` for screen reader accessibility.
 
 ## Implementation Notes
@@ -11,7 +13,9 @@ The component manages the input value and dropdown open state as bindable props,
 - The `value` prop uses two-way binding of the input text.
 - The `open` prop uses two-way binding of dropdown visibility.
 - The listbox is conditionally rendered with conditional rendering to hide it from the DOM when closed.
-- Escape key closes the dropdown via an `onkeydown` handler on the input.
+- Focus stays in the input: the highlighted option is `aria-activedescendant`.
+- Typing opens the list; blur closes it; clicking an option chooses it.
+- Filtering stays the consumer's: the component navigates whatever options are present.
 - Spreads `restProps` onto the outer wrapper `<div>`.
 
 ## Props
@@ -19,6 +23,10 @@ The component manages the input value and dropdown open state as bindable props,
 - `label`: string (required) -- accessible name applied via `aria-label` on both the input and listbox.
 - `value`: string (default: `""`) -- bindable current text input value.
 - `open`: boolean (default: `false`) -- bindable dropdown visibility state.
+- `resultCount`: number (optional) -- how many options match the text, as the consumer counts them (the consumer filters the options)
+- `resultsLabel`: (count) => string (optional) -- the count in the consumer's words ("4 matches"), in a polite `combobox-status` region after the listbox, updated when typing pauses
+- `noResultsLabel`: string (optional) -- the consumer's words when nothing matches, shown and announced in the same region
+- `statusDelay`: number (default 500) -- how long typing must pause, in milliseconds, before the count is announced (Blazor updates at once)
 - `children`: slot (required) -- option elements rendered inside the listbox dropdown.
 - `...restProps`: unknown -- additional attributes spread onto the wrapper `<div>`.
 
@@ -32,30 +40,9 @@ Country selector with type-ahead filtering:
   value="{country}"
   open="{countryOpen}"
 >
-  <div
-    role="option"
-    tabindex="-1"
-    onclick="{()"
-    =""
-  >
-    { country = 'United Kingdom'; countryOpen = false; }}>United Kingdom
-  </div>
-  <div
-    role="option"
-    tabindex="-1"
-    onclick="{()"
-    =""
-  >
-    { country = 'United States'; countryOpen = false; }}>United States
-  </div>
-  <div
-    role="option"
-    tabindex="-1"
-    onclick="{()"
-    =""
-  >
-    { country = 'France'; countryOpen = false; }}>France
-  </div>
+  <div role="option">United Kingdom</div>
+  <div role="option">United States</div>
+  <div role="option">France</div>
 </Combobox>
 ```
 
@@ -68,21 +55,20 @@ Medication picker with dynamic filtering:
   open="{medOpen}"
 >
   {#each filteredMedications as med}
-  <div
-    role="option"
-    tabindex="-1"
-    onclick="{()"
-    =""
-  >
-    { medQuery = med.name; medOpen = false; }}> {med.name} ({med.dosage})
-  </div>
+  <div role="option">{med.name} ({med.dosage})</div>
   {/each}
 </Combobox>
 ```
 
 ## Keyboard Interactions
 
-- Escape: Closes the dropdown listbox.
+- ArrowDown, ArrowUp: open on the first or last option; while open, move and wrap
+- Home, End: jump to the first or last option while open; while closed they stay the caret's
+- Enter: choose the highlighted option; with none highlighted it is left alone, so a form still submits
+- Escape: close while open; while closed it is left alone, so an enclosing dialog still gets it
+- Alt+ArrowDown: open without moving the highlight
+- Alt+ArrowUp: close
+- A key during IME composition belongs to the IME
 
 ## ARIA
 
@@ -135,6 +121,10 @@ The consumer provides all CSS styling. The component renders with a `.combobox` 
 - `select` — a dropdown select element for choosing one option
 - `cascader` — a multi-level dropdown for selecting a value from a hierarchy
 - `tree-select` — a select dropdown showing a tree of hierarchical options
+
+## Known limitations
+
+None known.
 
 ## References
 

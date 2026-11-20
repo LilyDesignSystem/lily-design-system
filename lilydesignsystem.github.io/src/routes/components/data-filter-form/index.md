@@ -2,6 +2,8 @@
 
 A data filter component allows users to narrow down a dataset by applying criteria. It wraps filter controls in a semantic `<form>` element with `role="search"` and accessible labelling via `aria-label`. Consumers provide their own filter inputs, submit buttons, and reset buttons as children.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 The component prevents default form submission behavior, allowing the consumer's `onsubmit` callback to handle filter application programmatically. This makes it suitable for client-side filtering, AJAX-based search, or any scenario where a full page reload is undesirable.
 
 ## Implementation Notes
@@ -81,6 +83,10 @@ The consumer provides all CSS styling. The component renders with a `.data-filte
 - `form` — a form element for collecting and submitting user data
 - `data-table` — a data table interactive grid for displaying and sorting tabular data <table>
 - `search-input` — an input for entering a search query <input type="search">
+
+## Known limitations
+
+None known.
 
 ## References
 

@@ -3,6 +3,8 @@
 An affix is a wrapper that pins its content to a viewport position while
 the page scrolls, using CSS `position: sticky` as the headless behavior.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it for sidebars, table-of-contents, action bars, or any block that
 must remain visible while the user scrolls past long-form content.
 
@@ -88,6 +90,10 @@ state if a visual cue is desired.
 
 - `sticky-promo-banner` — a fixed-position promotional banner with a dismiss button
 - `float-button` — a floating action button anchored to a viewport corner
+
+## Known limitations
+
+None known.
 
 ## References
 

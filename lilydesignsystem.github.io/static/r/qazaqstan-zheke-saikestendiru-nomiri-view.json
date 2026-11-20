@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/QazaqstanZhekeSaikestendiruNomiriView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/qazaqstan-zheke-saikestendiru-nomiri-view/",
+  "markdown": "https://lilydesignsystem.com/components/qazaqstan-zheke-saikestendiru-nomiri-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/qazaqstan-zheke-saikestendiru-nomiri-view/AGENTS.md"
 }

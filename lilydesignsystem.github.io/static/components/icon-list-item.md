@@ -93,6 +93,10 @@ control.
 
 - `icon-list` — an ordered list of icon list item components
 
+## Known limitations
+
+None known.
+
 ## References
 
 - US Web Design System Icon List: https://designsystem.digital.gov/components/icon-list/

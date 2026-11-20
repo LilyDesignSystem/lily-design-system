@@ -649,7 +649,7 @@ describe("pointer open survives the button content swap (regression)", () => {
     });
 });
 
-describe("<lily-motion-picker> — tooltip (§7.19–§7.24)", () => {
+describe("<lily-motion-picker> — tooltip (§7.19–§7.25)", () => {
     function setup() {
         const el = mount({ label: "Motion", motions: MOTIONS.join(",") }) as HTMLElement;
         const host = el.querySelector("lily-icon-button") as HTMLElement;

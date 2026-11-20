@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/NederlandIdentiteitskaartNummerView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/nederland-identiteitskaart-nummer-view/",
+  "markdown": "https://lilydesignsystem.com/components/nederland-identiteitskaart-nummer-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/nederland-identiteitskaart-nummer-view/AGENTS.md"
 }

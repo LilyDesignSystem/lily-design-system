@@ -135,6 +135,10 @@ The consumer provides all CSS styling. The component renders with a `.command` c
 - `menu` — a list of actions or options triggered by a button
 - `search-input` — an input for entering a search query <input type="search">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/listbox/

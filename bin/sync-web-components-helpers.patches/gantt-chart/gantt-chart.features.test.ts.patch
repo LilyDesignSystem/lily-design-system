@@ -1,0 +1,20 @@
+--- /var/folders/zp/p2vtmfrj35b27yh4ns6h_6h40000gn/T/tmp.2S1lvgxmIb	2026-11-20 06:21:06.841142843 +0000
++++ lily-design-system-web-components-gantt-chart/gantt-chart.features.test.ts	2026-10-28 07:24:36.829563695 +0000
+@@ -46,7 +46,7 @@
+     return chart;
+ }
+ const rowLabels = () =>
+-    Array.from(chart.querySelectorAll(".gantt-table-tbody > tr[data-task-id] > th")).map((th) =>
++    Array.from(chart.querySelectorAll("tbody > tr[data-task-id] > th")).map((th) =>
+         th.textContent?.trim(),
+     );
+ const input = () => chart.querySelector<HTMLInputElement>(".gantt-chart-search")!;
+@@ -225,7 +225,7 @@
+         expect(th.getAttribute("data-unavailable")).toBe("holiday");
+         expect(th.querySelector(".gantt-chart-unavailable-label")!.textContent).toBe("Day off");
+         const column = heads().indexOf(th);
+-        for (const row of chart.querySelectorAll(".gantt-table-tbody > tr[data-task-id]")) {
++        for (const row of chart.querySelectorAll("tbody > tr[data-task-id]")) {
+             expect(
+                 row.querySelectorAll("td[data-col]")[column]!.getAttribute("data-unavailable"),
+             ).toBe("holiday");

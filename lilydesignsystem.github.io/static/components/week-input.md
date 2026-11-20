@@ -107,6 +107,10 @@ The consumer provides all CSS styling. The component renders with a `.week-input
 - `date-input` — an input for entering a date value <input type="date">
 - `month-input` — an input for selecting a month and year <input type="month">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN input type="week": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/week

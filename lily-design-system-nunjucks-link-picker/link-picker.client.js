@@ -166,10 +166,17 @@ function wireTooltip(root, button, selector, popup) {
  * }=} opts
  *   `navigate` is the client-side routing hook: a plain left click calls `navigate(href)` and
  *   prevents the page load; modified clicks and `target="_blank"` links stay native.
- * @returns {{open: () => void, close: () => void, destroy: () => void}}
+ * @returns {{isOpen: () => boolean, setOpen: (open: boolean) => void, setDisabled: (disabled: boolean) => void, open: () => void, close: () => void, destroy: () => void}}
  */
 export function initLinkPicker(root, opts = {}) {
-    const noop = { open: () => {}, close: () => {}, destroy: () => {} };
+    const noop = {
+        isOpen: () => false,
+        setOpen: () => {},
+        setDisabled: () => {},
+        open: () => {},
+        close: () => {},
+        destroy: () => {},
+    };
     if (typeof document === "undefined" || !root) return noop;
 
     const trigger = root.querySelector("[data-lily-link-picker-button]");

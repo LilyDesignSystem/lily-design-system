@@ -36,5 +36,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/FiveFaceRatingView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/five-face-rating-view/",
+  "markdown": "https://lilydesignsystem.com/components/five-face-rating-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/five-face-rating-view/AGENTS.md"
 }

@@ -75,6 +75,10 @@ A national identifier is personal data, and often a key to other records.
 - `prathet-thai-lek-prajam-tua-prachachon-input` — an input for entering Thailand's เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [Thai identity card](https://en.wikipedia.org/wiki/Thai_identity_card)

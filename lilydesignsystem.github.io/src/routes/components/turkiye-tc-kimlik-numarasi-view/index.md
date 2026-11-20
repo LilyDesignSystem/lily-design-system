@@ -14,7 +14,7 @@ TurkiyeTcKimlikNumarasiView is a headless read-only display of Turkey's T.C. Kim
 ## Props
 
 - `value`: string (default: "") — the identifier to display
-- `label`: string (required) — accessible label via `aria-label`
+- `label`: string (optional) — hidden text naming the value, in a `.screen-reader-span`. Leave it out when a visible caption names the value
 - `...restProps`: any — additional HTML attributes spread onto the `<span>`
 
 ## Usage
@@ -32,7 +32,7 @@ TurkiyeTcKimlikNumarasiView is a headless read-only display of Turkey's T.C. Kim
 
 ## ARIA
 
-- `aria-label={label}` — provides the accessible name
+- No ARIA on the root: a plain `<span>` cannot be named. A visible caption names the value, or `label` renders as hidden text in a `.screen-reader-span`
 
 ## When to Use
 
@@ -54,7 +54,7 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 - Verify renders a `<span>` with the correct class
 - Verify the `value` prop is rendered as text content
-- Verify `aria-label` is set from the `label` prop
+- Verify `label` renders as hidden text, and that the root has no `aria-label`
 
 ## Domain Knowledge
 
@@ -62,10 +62,22 @@ Eleven digits, the first never zero. The tenth digit is the units digit of ((sum
 
 **Where to find it:** Printed on the Turkish national identity card (T.C. Kimlik Kartı) and required to register with SGK (Sosyal Güvenlik Kurumu), Turkey's Social Security Institution, for health coverage.
 
+## Security and privacy
+
+A national identifier is personal data, and often a key to other records.
+
+- The view shows exactly the text it is given; it does not mask. Pass the masked form (for example the last four characters) wherever the full number is not needed, and render the full number only to someone entitled to it.
+- Do not log the value, put it in a URL or query string, or send it to analytics or an error tracker.
+- Text on screen can be read over a shoulder and is kept by screenshots and screen recordings; treat a page that shows it as sensitive.
+
 ## Related components
 
 - `turkiye-tc-kimlik-numarasi-input` — an input for entering Turkey's T.C. Kimlik Numarası
 - `summary-list-item` — one key-value pair in a summary list
+
+## Known limitations
+
+None known.
 
 ## References
 

@@ -5,6 +5,7 @@
 - Component: data-table-head
 - PascalCase: DataTableHead
 - Description: a data table interactive grid thead for displaying and sorting tabular data <thead>
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <thead>
 - CSS class: .data-table-head
 - Interactive: no
@@ -40,6 +41,10 @@
 - [ ] Renders <thead> element with class="data-table-head"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

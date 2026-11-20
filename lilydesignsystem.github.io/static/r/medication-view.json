@@ -48,5 +48,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MedicationView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/medication-view/",
+  "markdown": "https://lilydesignsystem.com/components/medication-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/medication-view/AGENTS.md"
 }

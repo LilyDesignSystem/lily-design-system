@@ -91,6 +91,10 @@ The consumer provides all CSS styling. The component renders with a `.email-inpu
 - `tel-input` — an input for entering a telephone number <input type="tel">
 - `url-input` — an input for entering a URL <input type="url">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN `<input type="email">`: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/email

@@ -86,6 +86,10 @@ This headless component ships zero CSS and decides nothing visual. The consumer 
 - `record-list-item` — one record in a record list, with its status and last update around the consumer's content
 - `record-list` and the other record lists — the same status contract for each part of a record
 
+## Known limitations
+
+None known.
+
 ## References
 
 - IPS Composition section: https://hl7.org/fhir/uv/ips/StructureDefinition-Composition-uv-ips.html

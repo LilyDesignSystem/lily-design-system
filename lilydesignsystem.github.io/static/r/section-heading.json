@@ -44,5 +44,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SectionHeading.razor"
   },
   "docs": "https://lilydesignsystem.com/components/section-heading/",
+  "markdown": "https://lilydesignsystem.com/components/section-heading.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/section-heading/AGENTS.md"
 }

@@ -5,6 +5,7 @@
 - Component: medical-banner-box
 - PascalCase: MedicalBannerBox
 - Description: a medical banner box that is inside a medical-banner component, using flexbox horizontal, with medical information
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .medical-banner-box
 - Interactive: no
@@ -19,6 +20,7 @@
 
 ## ARIA
 
+- With a `label`, the root is `role="group"`, because a plain `<div>` cannot be named. Without one it has no role
 - No additional ARIA attributes required; the parent MedicalBanner provides the landmark role and aria-live region
 
 ## Keyboard
@@ -51,6 +53,10 @@ MedicalBannerBox is designed to be used inside a MedicalBanner:
   </MedicalBannerBox>
 </MedicalBanner>
 ```
+
+## Known limitations
+
+None known.
 
 ## References
 

@@ -43,5 +43,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ColumnChart.razor"
   },
   "docs": "https://lilydesignsystem.com/components/column-chart/",
+  "markdown": "https://lilydesignsystem.com/components/column-chart.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/column-chart/AGENTS.md"
 }

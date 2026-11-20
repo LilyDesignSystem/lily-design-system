@@ -2,6 +2,8 @@
 
 A tile cartogram map with configurable layers for geographic data visualization, where each geographic unit is represented as an equal-sized tile.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses a `<div>` element with `role="img"` and `aria-label` to present a grid of tiles representing geographic data.
 
 ## Implementation Notes
@@ -142,6 +144,10 @@ The consumer provides all CSS styling. The component renders with a `.tile-map` 
 
 - `tile` — a grouping container that presents related content in a structured format, often as a single clickable area
 - `image` — an image element with alt text
+
+## Known limitations
+
+None known.
 
 ## References
 

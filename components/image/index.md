@@ -100,6 +100,10 @@ The consumer provides all CSS styling. The component renders with a `.image` cla
 - `image-file-input` — an input for selecting image files with preview
 - `picture` — a responsive image wrapper that lets the browser choose among several sources
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI Images Tutorial: https://www.w3.org/WAI/tutorials/images/

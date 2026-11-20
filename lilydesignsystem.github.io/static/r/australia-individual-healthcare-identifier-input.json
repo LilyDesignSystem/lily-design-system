@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/AustraliaIndividualHealthcareIdentifierInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/australia-individual-healthcare-identifier-input/",
+  "markdown": "https://lilydesignsystem.com/components/australia-individual-healthcare-identifier-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/australia-individual-healthcare-identifier-input/AGENTS.md"
 }

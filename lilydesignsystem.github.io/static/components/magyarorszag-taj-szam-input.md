@@ -89,6 +89,10 @@ A national identifier is personal data, and often a key to other records.
 - `magyarorszag-taj-szam-view` — a read-only display of Hungary's Társadalombiztosítási Azonosító Jel (TAJ)
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [Társadalombiztosítási azonosító jel](https://hu.wikipedia.org/wiki/T%C3%A1rsadalombiztos%C3%ADt%C3%A1si_azonos%C3%ADt%C3%B3_jel)

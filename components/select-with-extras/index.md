@@ -119,6 +119,10 @@ The consumer provides all CSS styling. The component renders with a `.select-wit
 - `combobox` — a text input combined with a dropdown list for filtering options
 - `cascader` — a multi-level dropdown for selecting a value from a hierarchy
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/listbox/

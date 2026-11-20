@@ -4,7 +4,7 @@
   "engines": {
     "node": ">=26"
   },
-  "description": "Lily Design System headless components as native autonomous custom elements (Web Components). Partial catalog (30 of 491, plan P7-T6) proving the pattern: light DOM, zero CSS, WCAG 2.2 AAA target.",
+  "description": "Lily Design System headless components as 438 native autonomous custom elements (Web Components), its full achievable core scope: light DOM, zero CSS, WCAG 2.2 AAA target.",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",

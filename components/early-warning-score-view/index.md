@@ -75,6 +75,10 @@ This headless component ships zero CSS and decides nothing visual. The consumer 
 - `observation-view` — a clinical observation or result
 - `gauge-chart` — a dial chart showing one value within a range
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Spec: spec/healthcare-ui/index.md

@@ -38,5 +38,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/MexicoClaveUnicaDeRegistroDePoblacionInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/mexico-clave-unica-de-registro-de-poblacion-input/",
+  "markdown": "https://lilydesignsystem.com/components/mexico-clave-unica-de-registro-de-poblacion-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/mexico-clave-unica-de-registro-de-poblacion-input/AGENTS.md"
 }

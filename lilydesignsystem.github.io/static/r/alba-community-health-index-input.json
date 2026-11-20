@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/AlbaCommunityHealthIndexInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/alba-community-health-index-input/",
+  "markdown": "https://lilydesignsystem.com/components/alba-community-health-index-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/alba-community-health-index-input/AGENTS.md"
 }

@@ -2,6 +2,8 @@
 
 An organization component displays information about an organization, such as its name, logo, description, and contact details. It is used in directories, profiles, and listings.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses an `<article>` element for self-contained organization content semantics.
 
 ## Implementation Notes
@@ -87,6 +89,10 @@ The consumer provides all CSS styling. The component renders with an `.organizat
 - `person` — a person component that contains other person-related information
 - `place` — a place component that contains other place-related information
 - `government-identifier` — an identifier section with a parent agency logo, agency name, and required government links
+
+## Known limitations
+
+None known.
 
 ## References
 

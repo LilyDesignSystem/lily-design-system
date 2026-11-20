@@ -88,6 +88,10 @@ A national identifier is personal data, and often a key to other records.
 - `malaysia-kad-pengenalan-view` — a read-only display of Malaysia's MyKad Number (NRIC)
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [MyKad](https://en.wikipedia.org/wiki/MyKad)

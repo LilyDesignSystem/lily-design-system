@@ -2,6 +2,8 @@
 
 TableFoot is a headless component that renders a `<tfoot>` element within a table. It groups footer rows that provide summary or aggregate information.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use this component within a Table to define the footer section, typically for totals or summary data.
 
 ## Implementation Notes
@@ -74,6 +76,10 @@ TableFoot is a child of Table, following the Table pattern: Table > TableHead/Ta
 - `table-row` — a table interactive grid row <tr>
 - `table-td` — a table interactive grid data cell <td>
 - `table-th` — a table interactive grid column <th>
+
+## Known limitations
+
+None known.
 
 ## References
 

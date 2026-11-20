@@ -5,7 +5,8 @@
 - Component: date-range
 - PascalCase: DateRange
 - Description: paired start and end date inputs
-- HTML tag: <span>
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
+- HTML tag: <fieldset> (containing two <input type="date">)
 - CSS class: .date-range
 - Interactive: yes
 
@@ -44,6 +45,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

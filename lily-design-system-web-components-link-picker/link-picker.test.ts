@@ -275,8 +275,8 @@ describe("lily-link-picker", () => {
                 return s;
             }
         }
-        customElements.define("custom-lily-link-picker", Custom);
-        const el = document.createElement("custom-lily-link-picker") as LinkPicker;
+        customElements.define("custom-link-picker", Custom);
+        const el = document.createElement("custom-link-picker") as LinkPicker;
         el.setAttribute("label", "Pages");
         el.links = LINKS;
         document.body.appendChild(el);

@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/EmailLink.razor"
   },
   "docs": "https://lilydesignsystem.com/components/email-link/",
+  "markdown": "https://lilydesignsystem.com/components/email-link.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/email-link/AGENTS.md"
 }

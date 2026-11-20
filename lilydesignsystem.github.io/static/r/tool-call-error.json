@@ -36,6 +36,7 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ToolCallError.razor"
   },
   "docs": "https://lilydesignsystem.com/components/tool-call-error/",
+  "markdown": "https://lilydesignsystem.com/components/tool-call-error.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tool-call-error/AGENTS.md",
   "nativePlatform": {
     "decision": "native",

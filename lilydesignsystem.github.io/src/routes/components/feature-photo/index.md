@@ -2,6 +2,8 @@
 
 A feature photo is a responsive photo with lazy loading and alt text validation. Use it for editorial and feature photographs that need captions and photographer credits.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses a `<figure>` element with `<img>` and optional `<figcaption>` to create a semantic photo wrapper with required alt text and native lazy loading.
 
 ## Implementation Notes
@@ -108,6 +110,10 @@ The consumer provides all CSS styling. The component renders with a `.feature-ph
 - `image` — an image element with alt text
 - `feature-card` — a large content card with a prominent image positioned alongside or above the text
 - `hero` — a large box or image with a title and description
+
+## Known limitations
+
+None known.
 
 ## References
 

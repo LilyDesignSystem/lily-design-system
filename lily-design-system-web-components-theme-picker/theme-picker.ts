@@ -1,5 +1,5 @@
 /**
- * `<lily-theme-picker>` — Lily Design System HTML helper.
+ * `<lily-theme-picker>` — Lily Design System Web Components helper.
  *
  * See `./spec/index.md` for the canonical contract. This file implements
  * the custom-element class but does NOT register it. The `index.ts`
@@ -660,7 +660,8 @@ export class ThemePicker extends HTMLElement {
 
         if (!initial && this.storageKey) {
             try {
-                initial = localStorage.getItem(this.storageKey) ?? "";
+                const stored = localStorage.getItem(this.storageKey) ?? "";
+                if (this.#options.includes(stored)) initial = stored;
             } catch {
                 /* ignore */
             }

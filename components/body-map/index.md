@@ -76,6 +76,10 @@ This headless component ships zero CSS and decides nothing visual. The consumer 
 - `checkbox-group` — a group of checkbox inputs
 - `figure` — a figure with a caption
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Spec: spec/healthcare-ui/index.md

@@ -103,6 +103,10 @@ The consumer provides all CSS styling. The component renders with a `.calendar-r
 - `date-field` — a structured field for entering date components
 - `calendar-table` — a calendar table interactive grid for managing dates, days, etc. <table>
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Group Role: https://www.w3.org/TR/wai-aria-1.2/#group

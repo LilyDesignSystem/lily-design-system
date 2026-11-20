@@ -89,6 +89,10 @@ A national identifier is personal data, and often a key to other records.
 - `osterreich-sozialversicherungsnummer-view` — a read-only display of Austria's Sozialversicherungsnummer (SVNR)
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [Sozialversicherungsnummer](https://de.wikipedia.org/wiki/Sozialversicherungsnummer)

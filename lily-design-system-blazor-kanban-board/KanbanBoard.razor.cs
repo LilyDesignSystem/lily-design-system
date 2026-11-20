@@ -1566,11 +1566,11 @@ public partial class KanbanBoard : ComponentBase
         {
             case "Enter":
             case " ":
-            {
-                var card = CardAt(layout, _focusedCol, _focusedRow);
-                if (card is not null) OpenMoveMenu(card);
-                break;
-            }
+                {
+                    var card = CardAt(layout, _focusedCol, _focusedRow);
+                    if (card is not null) OpenMoveMenu(card);
+                    break;
+                }
         }
     }
 

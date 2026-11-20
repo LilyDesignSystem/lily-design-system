@@ -44,5 +44,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MiddleTruncation.razor"
   },
   "docs": "https://lilydesignsystem.com/components/middle-truncation/",
+  "markdown": "https://lilydesignsystem.com/components/middle-truncation.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/middle-truncation/AGENTS.md"
 }

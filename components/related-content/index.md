@@ -67,6 +67,10 @@ The component renders with `.related-content` as the root class. No default styl
 - `contents-nav` — in-page section navigation
 - `sidebar` — full sidebar nav
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN aside element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside)

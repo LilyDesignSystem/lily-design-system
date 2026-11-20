@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/RomaniaPasaportInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/romania-pasaport-input/",
+  "markdown": "https://lilydesignsystem.com/components/romania-pasaport-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/romania-pasaport-input/AGENTS.md"
 }

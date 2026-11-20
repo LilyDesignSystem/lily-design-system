@@ -2,18 +2,20 @@
 
 A list displaying documents with titles and metadata.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
-- Renders an `<ol>` of `DocumentListItem` children
+- Renders an `<ul>` of `DocumentListItem` children
 - Used to list downloadable or related documents (PDFs, attachments, references)
-- Spreads `restProps` onto the root `<ol>`
+- Spreads `restProps` onto the root `<ul>`
 
 ## Props
 
 | Prop           | Type            | Default | Description                 |
 | -------------- | --------------- | ------- | --------------------------- |
 | `children`     | slot (required) | —       | `DocumentListItem` children |
-| `...restProps` | HTML attributes | —       | Spread onto the root `<ol>` |
+| `...restProps` | HTML attributes | —       | Spread onto the root `<ul>` |
 
 ## Usage
 
@@ -40,7 +42,7 @@ A list displaying documents with titles and metadata.
 
 ## ARIA
 
-- Native ordered list semantics
+- Native list semantics announce the count of items
 
 ## When to Use
 
@@ -64,6 +66,10 @@ The component renders with `.document-list` as the root class. No default styles
 - `document-list-item` — child item
 - `collection-list` — generic content collection
 - `download-button` — single download link styled as a button
+
+## Known limitations
+
+None known.
 
 ## References
 

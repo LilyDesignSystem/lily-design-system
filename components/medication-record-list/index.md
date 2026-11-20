@@ -86,6 +86,10 @@ This headless component ships zero CSS and decides nothing visual. The consumer 
 - `medication-record-list-item` — one medicine in a medication record list, with its status and when it applies
 - `record-list` and the other record lists — the same status contract for each part of a record
 
+## Known limitations
+
+None known.
+
 ## References
 
 - FHIR MedicationStatement: https://hl7.org/fhir/R4/medicationstatement.html

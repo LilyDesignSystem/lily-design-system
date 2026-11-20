@@ -101,6 +101,10 @@ The consumer provides all CSS styling. The component renders with a `.hint` clas
 - `field` — a form field wrapper with label, input, and error message
 - `label` — a label associated with a form input
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI Forms Tutorial - Instructions: https://www.w3.org/WAI/tutorials/forms/instructions/

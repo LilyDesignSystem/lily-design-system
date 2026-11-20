@@ -1,5 +1,5 @@
 /**
- * `<lily-motion-picker>` — Lily Design System HTML helper.
+ * `<lily-motion-picker>` — Lily Design System Web Components helper.
  *
  * See `./spec/index.md` for the canonical contract. This file implements
  * the custom-element class but does NOT register it. The `index.ts`
@@ -464,7 +464,8 @@ export class MotionPicker extends HTMLElement {
 
         if (!initial && this.storageKey) {
             try {
-                initial = localStorage.getItem(this.storageKey) ?? "";
+                const stored = localStorage.getItem(this.storageKey) ?? "";
+                if (this.#motions.includes(stored)) initial = stored;
             } catch {
                 /* ignore */
             }

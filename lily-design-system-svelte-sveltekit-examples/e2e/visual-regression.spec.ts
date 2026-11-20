@@ -20,8 +20,9 @@ import { test, expect } from "@playwright/test";
 // not the full page, so header/footer/nav chrome changes don't produce
 // spurious diffs unrelated to the component or theme under test.
 //
-// Baseline commit: run with --update-snapshots once, commit the PNGs.
-// Verify: a plain re-run reports zero diffs.
+// Baselines cover Chromium, Firefox and WebKit (P38-T6). Run each project
+// with --update-snapshots once and commit the PNGs. Verify that plain
+// re-runs report zero diffs in every engine.
 
 const THEMES = [
     "united-kingdom-national-health-service-england-for-patients",

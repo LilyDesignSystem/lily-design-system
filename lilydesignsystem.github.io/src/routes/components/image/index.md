@@ -1,22 +1,22 @@
 # Image
 
-An image component displays visual content such as photographs, illustrations, or diagrams within an interface. The Image component provides a headless wrapper that ensures proper accessibility through required alt text and optional caption support via the HTML `<figure>` and `<figcaption>` elements.
+An image component displays visual content such as photographs, illustrations, or diagrams within an interface. The Image component provides a headless wrapper that ensures proper accessibility through required alt text. For a caption, put it in a `figure` with a `caption`.
 
-When a caption is provided, the component renders a `<figure>` containing the `<img>` and a `<figcaption>`, giving the image semantic association with its description. Without a caption, it renders a plain `<img>` element. The component also supports native lazy loading for performance optimization.
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
+The component renders a plain `<img>` element; a caption belongs to the `figure` around it, as a `caption`, which associates the two for assistive technology. The component also supports native lazy loading for performance optimization.
 
 ## Implementation Notes
 
-- Renders a plain `<img>` element when no caption is provided
-- Renders a `<figure>` with `<img>` and `<figcaption>` when a caption is provided
+- Renders a plain `<img>` element; for a caption, wrap it in `figure` with a `caption`
 - The `alt` prop is required to enforce accessibility
-- Rest props are spread onto the `<img>` element (no caption) or the `<figure>` element (with caption)
+- Rest props are spread onto the `<img>` element
 - Supports the native `loading` attribute for lazy/eager loading control
 
 ## Props
 
 - `src`: string (required) -- the image source URL
 - `alt`: string (required) -- alternative text describing the image for screen readers and when the image fails to load
-- `caption`: string (optional) -- when provided, wraps the image in a `<figure>` with a `<figcaption>`
 - `loading`: "lazy" | "eager" (optional) -- controls the native browser loading behavior
 - `...restProps`: unknown -- additional attributes spread onto the root element
 
@@ -57,7 +57,7 @@ None -- this component is a passive content element. Images are not interactive 
 ## ARIA
 
 - `alt="..."` -- provides the accessible name for the image, required for all non-decorative images
-- `<figure>` and `<figcaption>` -- when caption is present, these semantic HTML elements associate the caption with the image for assistive technology
+- `figure` and `caption` (a `<figcaption>`) -- wrap the image when it needs a caption; the browser associates the two
 
 ## When to Use
 
@@ -75,7 +75,7 @@ None -- this component is a passive content element. Images are not interactive 
 
 ## Headless
 
-This headless component provides an `<img>` element with required `alt` text, optional `<figure>`/`<figcaption>` wrapping, and native `loading` attribute support. The consumer provides all visual styling including sizing, borders, rounded corners, and responsive behavior.
+This headless component provides an `<img>` element with required `alt` text, and native `loading` attribute support. The consumer provides all visual styling including sizing, borders, rounded corners, and responsive behavior.
 
 ## Styles
 
@@ -83,18 +83,26 @@ The consumer provides all CSS styling. The component renders with a `.image` cla
 
 ## Testing
 
-- Verify the component renders a `<img>` element with class `image`
+- Verify the component renders an `<img>` element with class `image`
 - Verify pass-through attributes are applied
 
 ## Advice
 
 - **Designers**: Define consistent aspect ratios and sizing for images across the application. Provide placeholder or skeleton states for slow-loading images.
 - **Developers**: Always write meaningful `alt` text that describes the image content. Use `loading="lazy"` for below-the-fold images to improve page performance.
+- **Consumer CSS, three rules for `.image`**: `display: block` removes the small gap under an inline image (the line's baseline space); `max-inline-size: 100%` stops the image overflowing its container on narrow screens; `block-size: auto` keeps the aspect ratio when the width is limited. The component ships none of these, so add them in your own stylesheet.
+- **Explicit `width` and `height` attributes**: set both on the image, in pixels, to the file's real dimensions. The browser uses them to reserve the right space before the file arrives, so the page does not shift as images load (the Cumulative Layout Shift measure). With `block-size: auto` above, the attributes set the aspect ratio only and the image still scales. Pass them through the rest props.
+- For several sources, art direction or modern formats with a fallback, use `Picture`.
 
 ## Related components
 
 - `image-input` — a graphical submit button that displays an image <input type="image">
 - `image-file-input` — an input for selecting image files with preview
+- `picture` — a responsive image wrapper that lets the browser choose among several sources
+
+## Known limitations
+
+None known.
 
 ## References
 

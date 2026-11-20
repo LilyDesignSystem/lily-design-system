@@ -63,6 +63,10 @@ The component renders with `.document-list-item` as the root class. No default s
 - `document-list` — parent list
 - `download-button` — single download link styled as a button
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN download attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#download)

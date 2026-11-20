@@ -2,6 +2,8 @@
 
 A compound disclosure widget that pairs a checkbox option with a revealable panel. The user sees a vertical list of checkbox options; checking a box reveals an accordion panel of additional content beneath that option. Common use cases include conditional follow-up questions, opt-in disclosures, and form sections that only apply once selected.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Unlike `Details`, which uses a `<summary>` toggle, this component uses a real form control. The checkbox state is the source of truth — `checked` controls whether the panel is visible. Multiple AccordionCheckbox instances can stack vertically to make a list of independent toggleable options.
 
 ## Implementation Notes
@@ -79,6 +81,7 @@ Unlike `Details`, which uses a `<summary>` toggle, this component uses a real fo
 
 ## When Not to Use
 
+- Do not reveal anything complicated. [GOV.UK's research](https://accessibility.blog.gov.uk/2021/09/21/an-update-on-the-accessibility-of-conditionally-revealed-questions/) found conditional reveals work when kept simple, and confused testers when they held complicated questions
 - Do not use when the trigger is informational only — use `Details` (`<details>` / `<summary>`) instead
 - Do not use to switch a setting on/off without revealing additional content — use `SwitchButton` or a plain `CheckboxInput`
 - Do not use for mutually exclusive options — use `RadioGroup`
@@ -120,6 +123,10 @@ No default styles are included — this is a fully headless component.
 - `details` — a disclosure widget that shows and hides content
 - `switch-button` — a toggle switch for turning a setting on or off
 - `checkbox-input` — a checkbox input for toggling a boolean value <input type="checkbox">
+
+## Known limitations
+
+None known.
 
 ## References
 

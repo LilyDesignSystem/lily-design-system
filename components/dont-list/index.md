@@ -97,6 +97,10 @@ DontList composes with DontListItem using the List/ListItem pattern. DontList re
 
 - `dont-list-item` — a discouraged-practice item in a dont-list guideline list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN ul element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul

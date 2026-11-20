@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Fieldset.razor"
   },
   "docs": "https://lilydesignsystem.com/components/fieldset/",
+  "markdown": "https://lilydesignsystem.com/components/fieldset.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/fieldset/AGENTS.md"
 }

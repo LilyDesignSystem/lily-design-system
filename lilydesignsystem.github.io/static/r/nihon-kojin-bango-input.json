@@ -38,5 +38,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/NihonKojinBangoInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/nihon-kojin-bango-input/",
+  "markdown": "https://lilydesignsystem.com/components/nihon-kojin-bango-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/nihon-kojin-bango-input/AGENTS.md"
 }

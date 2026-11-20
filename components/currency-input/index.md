@@ -143,6 +143,10 @@ The consumer provides all CSS styling. The component renders with a `.currency-i
 
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - HTML text input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text

@@ -1,0 +1,285 @@
+#!/usr/bin/env node
+// Keep Web Components helper source and tests generated from the HTML helpers.
+//
+// The HTML helpers are already light-DOM custom elements. Their Web Components
+// counterparts differ mechanically in package names and public tag prefixes.
+// A reviewed unified patch under bin/sync-web-components-helpers.patches/<slug>/
+// records any genuine implementation difference; an unrecorded hand edit is drift.
+//
+//   bin/sync-web-components-helpers          write generated files
+//   bin/sync-web-components-helpers --check  report drift without writing
+
+const fs = require("fs");
+const path = require("path");
+
+const top = path.join(__dirname, "..");
+const check = process.argv.includes("--check");
+const showAt = process.argv.indexOf("--show");
+const show = showAt >= 0 ? process.argv[showAt + 1] : null;
+const onlyAt = process.argv.indexOf("--only");
+const only = onlyAt >= 0 ? new Set(process.argv[onlyAt + 1].split(",")) : null;
+const write = !check && !show;
+const patchRoot = path.join(__dirname, "sync-web-components-helpers.patches");
+const codeFile = /\.(?:ts|js|mjs|cjs|html)$/;
+
+const tags = {
+    "color-picker": ["color-picker"],
+    "data-grid": ["data-grid"],
+    "date-time-picker": ["date-time-picker", "icon-button"],
+    filter: ["filter-builder"],
+    "kanban-board": ["kanban-board"],
+    "link-picker": ["link-picker"],
+    "locale-picker": ["locale-picker"],
+    "markdown-editor": ["markdown-editor"],
+    "menu-picker": ["menu-picker"],
+    "motion-picker": ["motion-picker"],
+    "org-editor": ["org-editor"],
+    "search-picker": ["search-picker"],
+    "settings-picker": ["settings-picker"],
+    "share-picker": ["share-picker"],
+    "text-size-picker": ["text-size-picker"],
+    "theme-picker": ["theme-picker"],
+    "time-zone-picker": ["time-zone-picker"],
+    calendar: ["calendar-view"],
+    "gantt-chart": ["gantt-chart", "date-time-picker"],
+    "picker-bar": [
+        "picker-bar",
+        "link-picker",
+        "search-picker",
+        "theme-picker",
+        "locale-picker",
+        "time-zone-picker",
+        "text-size-picker",
+        "share-picker",
+    ],
+};
+
+function filesUnder(dir, base = dir) {
+    const out = [];
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+        if (entry.name === "node_modules" || entry.name === "dist") continue;
+        const full = path.join(dir, entry.name);
+        if (entry.isDirectory()) out.push(...filesUnder(full, base));
+        else if (codeFile.test(entry.name)) out.push(path.relative(base, full));
+    }
+    return out.sort();
+}
+
+function escapeRegex(value) {
+    return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function transform(source, slug, relative, usesWebHeadless) {
+    let out = source
+        .replaceAll("@lilydesignsystem/html-", "@lilydesignsystem/web-components-")
+        .replaceAll("lily-design-system-html-", "lily-design-system-web-components-")
+        .replaceAll("Lily Design System HTML helper", "Lily Design System Web Components helper")
+        .replaceAll("Lily Design System HTML helpers", "Lily Design System Web Components helpers")
+        .replaceAll("HTML custom-element surface", "Web Components custom-element surface");
+    for (const tag of tags[slug]) {
+        const escaped = escapeRegex(tag);
+        out = out.replace(new RegExp(`(<\\/?)${escaped}(?=[\\s>])`, "g"), `$1lily-${tag}`);
+        out = out
+            .split("\n")
+            .map((line) => {
+                line = line.replace(
+                    new RegExp(`^(\\s*)${escaped}(?=\\s*(?:[,>{[]))`),
+                    `$1lily-${tag}`,
+                );
+                const selectorContext = /(?:querySelector|closest\(|matches\()/.test(line);
+                const exactContext =
+                    /(?:customElements\.(?:get|define|whenDefined)|createElement|\bTAG\s*=|\.toBe\()/.test(
+                        line,
+                    );
+                const descriptionContext = /(?:\bdescribe\(|^\s*\*)/.test(line);
+                if (!selectorContext && !exactContext && !descriptionContext) {
+                    return line.replace(
+                        new RegExp(`(<title>)${escaped}(?=\\s|<)`, "g"),
+                        `$1lily-${tag}`,
+                    );
+                }
+                const end = selectorContext || descriptionContext ? `[\\s>.[#:\u2014]|["'\\x60]` : `["'\\x60]`;
+                return line.replace(
+                    new RegExp(`(["'\\x60])${escaped}(?=(?:${end}))`, "g"),
+                    `$1lily-${tag}`,
+                );
+            })
+            .join("\n");
+        const upper = tag.toUpperCase();
+        out = out.replace(
+            new RegExp(`(\\.toBe\\(\\s*["'])${escapeRegex(upper)}(["'])`, "g"),
+            `$1LILY-${upper}$2`,
+        );
+    }
+    if (relative === "vitest.config.ts" && usesWebHeadless) {
+        out = out.replace(
+            "// dist/ (build those first; bin/list-helper-packages html prints the\n" +
+                "            // order), or the headless library's source file, which needs no build.\n",
+            "// dist/ (build those first; bin/list-helper-packages web-components prints the\n" +
+                "            // order), or the headless library's built dist/.\n" +
+                '            "@lilydesignsystem/web-components-headless": fileURLToPath(\n' +
+                "                new URL(\n" +
+                '                    "../lily-design-system-web-components-headless/dist/index.js",\n' +
+                "                    import.meta.url,\n" +
+                "                ),\n" +
+                "            ),\n",
+        );
+        const broadKey = '            "@lilydesignsystem/web-components-headless":';
+        const controllerKey =
+            '            "@lilydesignsystem/web-components-headless/components/listbox-controller.js":';
+        const broadStart = out.indexOf(broadKey);
+        const controllerStart = out.indexOf(controllerKey);
+        if (broadStart >= 0 && controllerStart > broadStart) {
+            const blockEndMarker = "\n            ),\n";
+            const broadEnd = out.indexOf(blockEndMarker, broadStart) + blockEndMarker.length;
+            const broadBlock = out.slice(broadStart, broadEnd);
+            out = out.slice(0, broadStart) + out.slice(broadEnd);
+            const reorderedControllerStart = out.indexOf(controllerKey);
+            const controllerEnd =
+                out.indexOf(blockEndMarker, reorderedControllerStart) + blockEndMarker.length;
+            out = out.slice(0, controllerEnd) + broadBlock + out.slice(controllerEnd);
+        }
+    }
+    // Prefixing a custom-element name can push an otherwise formatted source
+    // line past Prettier's width. Keep these two generated test idioms in the
+    // same form Prettier writes, without making the generator depend on the
+    // repository's formatter installation.
+    if (relative === "calendar-view.test.ts" || relative.endsWith("-picker.pattern.test.ts")) {
+        out = out
+            .split("\n")
+            .map((line) => {
+                if (line.length <= 100) return line;
+                let match = /^(if \(!customElements\.get\("lily-[^"]+"\)\)) (customElements\.define\(.+\);)$/.exec(
+                    line,
+                );
+                if (match) return `${match[1]}\n    ${match[2]}`;
+                match = /^(\s*const \w+ = document\.createElement\("lily-[^"]+"\) as HTMLElement) & (Record<.+>;)$/.exec(
+                    line,
+                );
+                if (match) return `${match[1]} &\n        ${match[2]}`;
+                return line;
+            })
+            .join("\n");
+    }
+    return out;
+}
+
+function applyPatch(source, patch, label) {
+    const lines = source.split("\n");
+    const patchLines = patch.split("\n");
+    let cursor = 0;
+    const out = [];
+    let sawHunk = false;
+
+    for (let i = 0; i < patchLines.length; i++) {
+        const header = /^@@ -(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))? @@/.exec(patchLines[i]);
+        if (!header) continue;
+        sawHunk = true;
+        const start = Number(header[1]) - 1;
+        if (start < cursor) throw new Error(`${label}: overlapping patch hunk`);
+        out.push(...lines.slice(cursor, start));
+        cursor = start;
+        for (i++; i < patchLines.length && !patchLines[i].startsWith("@@ "); i++) {
+            const line = patchLines[i];
+            if (line.startsWith("\\ No newline at end of file")) continue;
+            // Patch assets store an empty context line as an empty line rather than
+            // the usual single-space marker, keeping the assets whitespace-clean.
+            // The final empty item is only split()'s trailing-newline sentinel.
+            if (line === "" && i === patchLines.length - 1) continue;
+            const kind = line === "" ? " " : line[0];
+            const text = line === "" ? "" : line.slice(1);
+            if (kind === " " || kind === "-") {
+                if (lines[cursor] !== text) {
+                    throw new Error(`${label}: stale patch near source line ${cursor + 1}`);
+                }
+                if (kind === " ") out.push(text);
+                cursor++;
+            } else if (kind === "+") out.push(text);
+            else if (line.startsWith("--- ") || line.startsWith("+++ ")) i--;
+            else throw new Error(`${label}: unsupported patch line ${line}`);
+        }
+        i--;
+    }
+    if (!sawHunk) throw new Error(`${label}: patch has no hunks`);
+    out.push(...lines.slice(cursor));
+    return out.join("\n");
+}
+
+let changed = 0;
+let managed = 0;
+const usedPatches = new Set();
+
+for (const slug of Object.keys(tags)) {
+    if (only && !only.has(slug)) continue;
+    const htmlDir = path.join(top, `lily-design-system-html-${slug}`);
+    const webDir = path.join(top, `lily-design-system-web-components-${slug}`);
+    const webManifest = JSON.parse(fs.readFileSync(path.join(webDir, "package.json"), "utf8"));
+    const usesWebHeadless = Boolean(
+        webManifest.dependencies?.["@lilydesignsystem/web-components-headless"],
+    );
+    const htmlFiles = filesUnder(htmlDir);
+    const webFiles = filesUnder(webDir);
+    if (htmlFiles.join("\n") !== webFiles.join("\n")) {
+        throw new Error(`${slug}: HTML and Web Components code-file inventories differ`);
+    }
+    for (const relative of htmlFiles) {
+        managed++;
+        const source = fs.readFileSync(path.join(htmlDir, relative), "utf8");
+        let expected = transform(source, slug, relative, usesWebHeadless);
+        const patchFile = path.join(patchRoot, slug, `${relative}.patch`);
+        if (fs.existsSync(patchFile)) {
+            usedPatches.add(path.relative(patchRoot, patchFile));
+            expected = applyPatch(
+                expected,
+                fs.readFileSync(patchFile, "utf8"),
+                path.relative(top, patchFile),
+            );
+        }
+        if (show === `${slug}/${relative}`) {
+            fs.writeFileSync(1, expected);
+            process.exit(0);
+        }
+        const target = path.join(webDir, relative);
+        const current = fs.readFileSync(target, "utf8");
+        if (current === expected) continue;
+        changed++;
+        if (check) console.error(`out of date: ${path.relative(top, target)}`);
+        else if (write) {
+            fs.writeFileSync(target, expected);
+            console.log(`wrote ${path.relative(top, target)}`);
+        }
+    }
+}
+
+function patchFilesUnder(dir, base = dir) {
+    const out = [];
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+        const full = path.join(dir, entry.name);
+        if (entry.isDirectory()) out.push(...patchFilesUnder(full, base));
+        else if (entry.name.endsWith(".patch")) out.push(path.relative(base, full));
+    }
+    return out;
+}
+
+if (fs.existsSync(patchRoot)) {
+    for (const slug of fs.readdirSync(patchRoot)) {
+        if (only && !only.has(slug)) continue;
+        const dir = path.join(patchRoot, slug);
+        if (!fs.statSync(dir).isDirectory()) continue;
+        for (const file of patchFilesUnder(dir)) {
+            const relative = path.join(slug, file);
+            if (file.endsWith(".patch") && !usedPatches.has(relative)) {
+                throw new Error(`unused patch: ${path.relative(top, path.join(dir, file))}`);
+            }
+        }
+    }
+}
+
+if (check && changed) process.exit(1);
+if (show) throw new Error(`unknown generated file: ${show}`);
+if (only) {
+    for (const slug of only) if (!(slug in tags)) throw new Error(`unknown helper slug: ${slug}`);
+}
+console.log(
+    `sync-web-components-helpers: ${managed} files, ${changed} ${write ? "written" : "different"}`,
+);

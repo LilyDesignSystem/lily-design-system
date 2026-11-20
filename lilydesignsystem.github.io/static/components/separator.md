@@ -113,6 +113,10 @@ The consumer provides all CSS styling. The component renders with a `.separator`
 - `divider` — see components.tsv
 - `horizontal-scroller` — see components.tsv
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Separator Role: https://www.w3.org/TR/wai-aria-1.2/#separator

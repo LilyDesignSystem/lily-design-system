@@ -5,6 +5,7 @@
 - Component: table-row
 - PascalCase: TableRow
 - Description: a table interactive grid row <tr>
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <tr>
 - CSS class: .table-row
 - Interactive: no
@@ -40,6 +41,10 @@ Standard table row keyboard interactions.
 - [ ] Renders <tr> element with class="table-row"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

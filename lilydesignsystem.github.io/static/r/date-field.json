@@ -55,5 +55,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/DateField.razor"
   },
   "docs": "https://lilydesignsystem.com/components/date-field/",
+  "markdown": "https://lilydesignsystem.com/components/date-field.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/date-field/AGENTS.md"
 }

@@ -5,6 +5,7 @@
 - Component: task-bar
 - PascalCase: TaskBar
 - Description: a horizontal bar of task shortcuts or actions
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .task-bar
 - Interactive: yes
@@ -19,7 +20,7 @@
 - Renders as a `<div>` element with `role="toolbar"` to identify it as a toolbar widget
 - Accessible name is set via `aria-label` from the required `label` prop
 - Content is provided through the children slot, typically TaskBarItem components or buttons
-- Does not implement arrow key navigation itself; consumers can add keyboard navigation as needed
+- Arrow keys, Home and End move between the controls; one tab stop
 - Passes through all additional HTML attributes via `...restProps`
 - Uses `slot` for children content
 
@@ -30,7 +31,9 @@
 
 ## Keyboard
 
-- Tab: Focus moves to the first focusable item within the toolbar (native browser behavior)
+- Tab: Moves focus to the toolbar's one tab stop
+- Arrow keys: Move between the controls and wrap, swapped in right-to-left
+- Home, End: Jump to the first or last control
 
 ## Props
 
@@ -45,6 +48,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

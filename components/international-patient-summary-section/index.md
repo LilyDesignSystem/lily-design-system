@@ -89,6 +89,10 @@ section with `[data-status="omitted"]` and a required one with `[data-required]`
 - `international-patient-summary` — the whole summary
 - `allergy-record-list` and the other record lists — the entries
 
+## Known limitations
+
+None known.
+
 ## References
 
 - IPS Composition sections: https://hl7.org/fhir/uv/ips/Structure-of-the-International-Patient-Summary.html

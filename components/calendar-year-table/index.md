@@ -96,6 +96,10 @@ Target `.calendar-year-table` or `[data-view="year"]` for view-specific layout. 
 - `CalendarMonthTable` to drill into a month
 - `calendar-range-picker` / `date-input` — typing a single date
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [WAI-ARIA APG: Grid pattern](https://www.w3.org/WAI/ARIA/apg/patterns/grid/)

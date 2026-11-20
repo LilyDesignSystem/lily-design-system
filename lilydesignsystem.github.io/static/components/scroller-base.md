@@ -102,6 +102,10 @@ The consumer provides all CSS styling. The component renders with a `.scroller-b
 - `scroller-video` — see components.tsv
 - `visible` — see components.tsv
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Reuters Graphics ScrollerBase

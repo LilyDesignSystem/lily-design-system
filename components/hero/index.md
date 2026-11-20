@@ -93,6 +93,10 @@ The consumer provides all CSS styling. The component renders with a `.hero` clas
 - `feature-card` — a large content card with a prominent image positioned alongside or above the text
 - `call-to-action` — a prominent prompt encouraging user action
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN section element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/section)

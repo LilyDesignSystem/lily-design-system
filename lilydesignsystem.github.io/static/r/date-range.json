@@ -42,5 +42,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/DateRange.razor"
   },
   "docs": "https://lilydesignsystem.com/components/date-range/",
+  "markdown": "https://lilydesignsystem.com/components/date-range.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/date-range/AGENTS.md"
 }

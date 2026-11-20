@@ -37,6 +37,10 @@
 - [ ] WCAG 2.2 AAA compliant — Svelte only verified so far; other 6 catalogs pending
 - [x] Zero CSS — fully headless
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Documentation: index.md

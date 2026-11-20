@@ -414,6 +414,8 @@ implemented_everywhere_or_err
     || err "a headless implementation lacks its base class hook; run bin/check-class-names"
 "$top/bin/check-html-tags" >/dev/null 2>&1 \
     || err "a headless root element differs from its contract's HTML tag (and is not listed); run bin/check-html-tags"
+"$top/bin/check-known-limitations" >/dev/null 2>&1 \
+    || err "a component document lacks its Known limitations section or required disabled-control guidance; run bin/check-known-limitations"
 # The SvelteKit, Next.js, Nuxt and Angular examples keep copies of their
 # headless library's components; the library is the source (P10-T13).
 "$top/bin/sync-example-components" --check >/dev/null 2>&1 \
@@ -443,6 +445,8 @@ test -s "$top/AGENTS/visual-identity.md" && test -s "$top/spec/visual-identity/i
     || err "compare/index.md differs from compare/compare.tsv; run bin/generate-comparisons"
 "$top/bin/generate-framework-matrix" --check >/dev/null 2>&1 \
     || err "docs/framework-comparison.md is stale; run bin/generate-framework-matrix"
+"$top/bin/generate-bootstrap-migration" --check >/dev/null 2>&1 \
+    || err "the Bootstrap migration mapping is stale or names a missing Lily slug; run bin/generate-bootstrap-migration"
 # Lily Core (P16-T2) and its self-assessed ACR (P16-T7): fails when a recorded Core member loses evidence, or an output is stale.
 "$top/bin/check-port-data-attributes" >/dev/null 2>&1 \
     || err "a port lacks a data-* attribute Svelte renders, or a listed gap is fixed; run bin/check-port-data-attributes"
@@ -458,6 +462,11 @@ test -s "$top/AGENTS/visual-identity.md" && test -s "$top/spec/visual-identity/i
     || err "docs/theme-contrast.md or the site's /theme-contrast page is stale; run bin/generate-theme-contrast"
 "$top/bin/generate-api-docs" --check >/dev/null 2>&1 \
     || err "site contract sections drift from components/*/AGENTS.md; run bin/generate-api-docs"
+"$top/bin/sync-site-component-docs" --check >/dev/null 2>&1 \
+    || err "site component Markdown copies drift from components/*; run bin/sync-site-component-docs"
+# Every code-bearing Web Components helper is generated from its HTML custom-element source (P12-T9).
+"$top/bin/sync-web-components-helpers" --check >/dev/null 2>&1 \
+    || err "a generated Web Components helper or reviewed difference patch drifted; run bin/sync-web-components-helpers"
 # Every Svelte overlay or popup component records its native-platform decision (spec/competitive-position, P16-T4).
 "$top/bin/check-native-primitives" >/dev/null 2>&1 \
     || err "a native-platform decision is missing or out of step with spec/competitive-position/native-primitives.tsv; run bin/check-native-primitives"

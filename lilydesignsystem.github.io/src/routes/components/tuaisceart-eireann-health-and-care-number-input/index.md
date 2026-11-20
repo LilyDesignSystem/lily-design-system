@@ -2,6 +2,8 @@
 
 TuaisceartEireannHealthAndCareNumberInput is a headless input for entering a Tuaisceart Eireann Health and Care (H&C) Number, the unique national healthcare identifier used by HSC Tuaisceart Eireann. It renders as `<input type="text">` with a 3-3-4 digit pattern, numeric keyboard hint, and autocomplete disabled. It is the editable companion to TuaisceartEireannHealthAndCareNumberView.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders as `<input type="text">` with pattern `[0-9]{3} [0-9]{3} [0-9]{4}`
@@ -73,12 +75,28 @@ The consumer provides all CSS styling. The component renders with a `.tuaisceart
 
 ## Domain Knowledge
 
-The Tuaisceart Eireann Health and Care (H&C) Number is a 10-digit numeric identifier, often displayed in a 3-3-4 format (e.g. 320 000 0001). The first two digits are always between 32 and 39. It is the unique patient identifier used by Health and Social Care (HSC) services in Tuaisceart Eireann.
+Ten-digit identifier in the same 3-3-4 format as the NHS number, drawn from a reserved range (320 000 001 to 399 999 999) and used across Health and Social Care Tuaisceart Eireann (HSCNI). Because it shares the NHS number's ten-digit shape, it also shares its Modulus-11 check digit scheme.
+
+**Where to find it:** HSCNI medical card, GP correspondence, hospital appointment letters, and prescriptions across Tuaisceart Eireann.
+
+## Security and privacy
+
+A national identifier is personal data, and often a key to other records.
+
+- The input renders `autocomplete="off"`, so the browser neither saves nor offers the value, and `spellcheck="false"`, so an enhanced spellchecker does not send it to a cloud service. `bin/check-identifier-inputs` keeps both in all nine catalogs.
+- Do not log the value, put it in a URL or query string, or send it to analytics or an error tracker; mask it there if it must appear.
+- The component stores nothing. Do not keep the value in `localStorage`, `sessionStorage` or a cookie; submit it in the body of a POST over HTTPS.
+- A format or checksum check proves the number is well formed, not that it belongs to the person entering it.
+- The page decides who may see it: the input does not mask what is typed. Use the matching `-view` to show it back, masked as the service requires.
 
 ## Related components
 
 - `tuaisceart-eireann-health-and-care-number-view` — a read-only display of Tuaisceart Eireann Health and Care (H&C) Number unique national healthcare identifier
 - `text-input` — a single-line text input field <input type="text">
+
+## Known limitations
+
+None known.
 
 ## References
 

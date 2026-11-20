@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/SuomiHenkilotunnusView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/suomi-henkilotunnus-view/",
+  "markdown": "https://lilydesignsystem.com/components/suomi-henkilotunnus-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/suomi-henkilotunnus-view/AGENTS.md"
 }

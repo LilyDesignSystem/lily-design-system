@@ -5,6 +5,8 @@ import ts from "typescript-eslint";
 import svelte from "eslint-plugin-svelte";
 import vue from "eslint-plugin-vue";
 import reactHooks from "eslint-plugin-react-hooks";
+import jsxA11y from "eslint-plugin-jsx-a11y";
+import angular from "angular-eslint";
 import globals from "globals";
 
 export default [
@@ -39,6 +41,64 @@ export default [
     ...ts.configs.recommended,
     ...svelte.configs["flat/recommended"],
     ...vue.configs["flat/essential"],
+    ...angular.configs.tsRecommended.map((config) => ({
+        ...config,
+        files: ["lily-design-system-angular-*/**/*.ts"],
+    })),
+    {
+        files: ["lily-design-system-angular-*/**/*.ts"],
+        ignores: ["**/*.{test,spec}.ts"],
+        processor: angular.processInlineTemplates,
+    },
+    ...[...angular.configs.templateRecommended, ...angular.configs.templateAccessibility].map(
+        (config) => ({
+            ...config,
+            files: ["lily-design-system-angular-*/**/*.html"],
+        }),
+    ),
+    {
+        ...jsxA11y.flatConfigs.recommended,
+        files: [
+            "lily-design-system-react-*/**/*.{jsx,tsx}",
+            "lily-design-system-solid-*/**/*.{jsx,tsx}",
+        ],
+        ignores: ["**/*.{test,spec}.{jsx,tsx}"],
+        rules: {
+            ...jsxA11y.flatConfigs.recommended.rules,
+            // Headless widgets use roving tabindex, conditional ARIA relationships and
+            // consumer-supplied media tracks. The plugins cannot see those runtime
+            // contracts, so report the affected heuristics while keeping structural
+            // ARIA/name rules fatal.
+            "jsx-a11y/click-events-have-key-events": "warn",
+            "jsx-a11y/interactive-supports-focus": "warn",
+            "jsx-a11y/label-has-associated-control": "warn",
+            "jsx-a11y/media-has-caption": "warn",
+            "jsx-a11y/no-noninteractive-element-interactions": "warn",
+            "jsx-a11y/no-noninteractive-tabindex": "warn",
+            "jsx-a11y/no-redundant-roles": "warn",
+            "jsx-a11y/no-static-element-interactions": "warn",
+            "jsx-a11y/role-has-required-aria-props": "warn",
+        },
+    },
+    {
+        files: ["lily-design-system-angular-*/**/*.ts"],
+        rules: {
+            // Output names are intentionally cross-framework public API names. Inline
+            // templates are processed by the Angular template configuration above.
+            "@angular-eslint/no-output-native": "warn",
+        },
+    },
+    {
+        files: ["lily-design-system-angular-*/**/*.html"],
+        rules: {
+            // Templates use roving focus and conditionally mounted ARIA targets, which
+            // these static rules cannot follow; keep the heuristics visible as warnings.
+            "@angular-eslint/template/click-events-have-key-events": "warn",
+            "@angular-eslint/template/interactive-supports-focus": "warn",
+            "@angular-eslint/template/label-has-associated-control": "warn",
+            "@angular-eslint/template/role-has-required-aria": "warn",
+        },
+    },
     { languageOptions: { globals: { ...globals.browser, ...globals.node } } },
     { files: ["**/*.svelte"], languageOptions: { parserOptions: { parser: ts.parser } } },
     { files: ["**/*.vue"], languageOptions: { parserOptions: { parser: ts.parser } } },

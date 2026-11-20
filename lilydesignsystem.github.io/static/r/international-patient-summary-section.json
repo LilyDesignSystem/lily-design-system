@@ -51,6 +51,7 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/InternationalPatientSummarySection.razor"
   },
   "docs": "https://lilydesignsystem.com/components/international-patient-summary-section/",
+  "markdown": "https://lilydesignsystem.com/components/international-patient-summary-section.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/international-patient-summary-section/AGENTS.md",
   "nativePlatform": {
     "decision": "native",

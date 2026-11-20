@@ -38,5 +38,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Option.razor"
   },
   "docs": "https://lilydesignsystem.com/components/option/",
+  "markdown": "https://lilydesignsystem.com/components/option.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/option/AGENTS.md"
 }

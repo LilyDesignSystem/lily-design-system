@@ -211,6 +211,7 @@ treat a divergence as a finding.
 | Push protection                 | enabled                                                                                                                                                                                                                                       | refuses the commit rather than filing an alert afterwards                                                                    |
 | Private vulnerability reporting | enabled                                                                                                                                                                                                                                       | the alternative reporting route named above                                                                                  |
 | Dependabot security updates     | enabled                                                                                                                                                                                                                                       | advisory-driven bumps across many package manifests                                                                          |
+| Pull-request dependency review  | `actions/dependency-review-action@v4`; fails on high or critical findings in runtime, development or unknown scopes                                                                                                                           | prevents a pull request from introducing a known high-severity vulnerable dependency                                         |
 | Branch protection on `main`     | active — no force-push, no deletion                                                                                                                                                                                                           |                                                                                                                              |
 | npm publishing                  | two-factor authentication required; publishes carry `--provenance`                                                                                                                                                                            | the publishing identity is one account; see [MAINTAINERS.md](MAINTAINERS.md)                                                 |
 | Registry tokens (`NPM_TOKEN`)   | named CI secret only, real publishes gated on manual dispatch; slated for OIDC [Trusted Publishing](https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/trusted-publishing/index.md) once it covers all three forges (not met as of 2026-09 — Codeberg unsupported)                          | a leaked long-lived token is the classic supply-chain path; the interim mitigation and the adoption trigger are written down |
@@ -224,6 +225,10 @@ treat a divergence as a finding.
 > toggles — non-provider secret patterns and validity checks — are UI-only
 > (the API accepts and ignores them) and are still off; enabling them is an
 > open maintainer task.
+
+The dependency-review workflow evaluates the dependency changes in every pull request against GitHub's Advisory
+Database and reports patched versions where known. It complements Dependabot's full-repository monitoring; it is not
+an external security audit and scanner output still needs the reachability analysis described above.
 
 ## Not a security policy for your application
 

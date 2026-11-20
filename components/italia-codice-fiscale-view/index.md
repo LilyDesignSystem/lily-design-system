@@ -72,6 +72,10 @@ A national identifier is personal data, and often a key to other records.
 - `italia-codice-fiscale-input` — an input for entering Italy's Codice fiscale (CF)
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/Italian_fiscal_code

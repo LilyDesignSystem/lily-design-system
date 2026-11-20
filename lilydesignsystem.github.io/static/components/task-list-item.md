@@ -115,6 +115,10 @@ TaskListItem is designed to be used as a child of TaskList. The TaskList provide
 
 - `task-list` — an ordered list of task list items
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN li element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li

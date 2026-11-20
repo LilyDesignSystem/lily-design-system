@@ -87,6 +87,10 @@ This headless component ships zero CSS and decides nothing visual. The consumer 
 
 - `problem-record-list` — a list of a patient's problems and conditions, whose status is never blank
 
+## Known limitations
+
+None known.
+
 ## References
 
 - FHIR Condition: https://hl7.org/fhir/R4/condition.html

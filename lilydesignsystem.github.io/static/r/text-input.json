@@ -42,5 +42,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TextInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/text-input/",
+  "markdown": "https://lilydesignsystem.com/components/text-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/text-input/AGENTS.md"
 }

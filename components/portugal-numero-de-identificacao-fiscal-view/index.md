@@ -72,6 +72,10 @@ A national identifier is personal data, and often a key to other records.
 - `portugal-numero-de-identificacao-fiscal-input` — an input for entering Portugal's Número de Identificação Fiscal (NIF)
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/Personal_identification_number_(Portugal)

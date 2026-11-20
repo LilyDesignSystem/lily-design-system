@@ -74,15 +74,21 @@ const fill = (template, tokens) =>
         name in tokens ? String(tokens[name]) : match,
     );
 
+/** @typedef {import("./filter-model").FilterGroup} FilterGroup */
+
 /**
  * Wire one rendered filterBuilder root.
  *
  * @param {HTMLElement} root - The `[data-lily-filter-builder-root]`.
- * @param {{ labels?: object, onChange?: (group: object) => void }=} opts
- * @returns {{ getValue: () => object, setValue: (group: object) => void, destroy: () => void }}
+ * @param {{ labels?: object, onChange?: (group: FilterGroup) => void }=} opts
+ * @returns {{ getValue: () => FilterGroup, setValue: (group: FilterGroup) => void, destroy: () => void }}
  */
 export function initFilterBuilder(root, opts = {}) {
-    const noop = { getValue: () => EMPTY_FILTER(), setValue: () => {}, destroy: () => {} };
+    const noop = {
+        getValue: /** @returns {FilterGroup} */ () => EMPTY_FILTER(),
+        setValue: () => {},
+        destroy: () => {},
+    };
     if (typeof document === "undefined" || !root) return noop;
 
     let config = {};

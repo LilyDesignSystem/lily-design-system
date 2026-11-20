@@ -41,5 +41,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TabPanel.razor"
   },
   "docs": "https://lilydesignsystem.com/components/tab-panel/",
+  "markdown": "https://lilydesignsystem.com/components/tab-panel.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tab-panel/AGENTS.md"
 }

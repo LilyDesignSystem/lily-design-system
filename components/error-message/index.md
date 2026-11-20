@@ -94,6 +94,10 @@ The consumer provides all CSS styling. The component renders with a `.error-mess
 - `hint` — hint text providing guidance for a form field
 - `alert` — a status message for important information or feedback
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Alert Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/alert/

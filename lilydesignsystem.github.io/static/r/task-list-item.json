@@ -36,5 +36,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TaskListItem.razor"
   },
   "docs": "https://lilydesignsystem.com/components/task-list-item/",
+  "markdown": "https://lilydesignsystem.com/components/task-list-item.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/task-list-item/AGENTS.md"
 }

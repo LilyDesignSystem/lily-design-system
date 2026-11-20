@@ -1,0 +1,60 @@
+--- /var/folders/zp/p2vtmfrj35b27yh4ns6h_6h40000gn/T/tmp.WSzcLyB3Q4	2026-11-20 06:18:47.204668492 +0000
++++ lily-design-system-web-components-picker-bar/vitest.config.ts	2026-11-17 14:47:54.148941220 +0000
+@@ -9,25 +9,37 @@
+             // regular npm `dependency`, resolved from the registry once published.
+             // For local dev/test these aliases point the bare specifiers at the
+             // sibling top-level subproject instead: a helper package's built
+-            // dist/ (build those first; bin/list-helper-packages html prints the
+-            // order), or the headless library's source file, which needs no build.
+-            "@lilydesignsystem/web-components-headless/components/listbox-controller.js": fileURLToPath(
++            // dist/ (build those first; bin/list-helper-packages web-components prints the
++            // order), or the headless library's built dist/.
++            "@lilydesignsystem/web-components-headless": fileURLToPath(
+                 new URL(
+-                    "../lily-design-system-web-components-headless/components/listbox-controller.js",
++                    "../lily-design-system-web-components-headless/dist/index.js",
+                     import.meta.url,
+                 ),
+             ),
+             "@lilydesignsystem/web-components-link-picker": fileURLToPath(
+-                new URL("../lily-design-system-web-components-link-picker/dist/index.js", import.meta.url),
++                new URL(
++                    "../lily-design-system-web-components-link-picker/dist/index.js",
++                    import.meta.url,
++                ),
+             ),
+             "@lilydesignsystem/web-components-locale-picker": fileURLToPath(
+-                new URL("../lily-design-system-web-components-locale-picker/dist/index.js", import.meta.url),
++                new URL(
++                    "../lily-design-system-web-components-locale-picker/dist/index.js",
++                    import.meta.url,
++                ),
+             ),
+             "@lilydesignsystem/web-components-search-picker": fileURLToPath(
+-                new URL("../lily-design-system-web-components-search-picker/dist/index.js", import.meta.url),
++                new URL(
++                    "../lily-design-system-web-components-search-picker/dist/index.js",
++                    import.meta.url,
++                ),
+             ),
+             "@lilydesignsystem/web-components-share-picker": fileURLToPath(
+-                new URL("../lily-design-system-web-components-share-picker/dist/index.js", import.meta.url),
++                new URL(
++                    "../lily-design-system-web-components-share-picker/dist/index.js",
++                    import.meta.url,
++                ),
+             ),
+             "@lilydesignsystem/web-components-text-size-picker": fileURLToPath(
+                 new URL(
+@@ -36,7 +48,10 @@
+                 ),
+             ),
+             "@lilydesignsystem/web-components-theme-picker": fileURLToPath(
+-                new URL("../lily-design-system-web-components-theme-picker/dist/index.js", import.meta.url),
++                new URL(
++                    "../lily-design-system-web-components-theme-picker/dist/index.js",
++                    import.meta.url,
++                ),
+             ),
+         },
+     },

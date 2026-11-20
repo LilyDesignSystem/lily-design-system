@@ -100,6 +100,10 @@ The consumer provides all CSS styling. The component renders with a `.red-amber-
 
 - `red-amber-green-radio-group` — a picker for selecting a red/amber/green status
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA status role: https://www.w3.org/TR/wai-aria-1.2/#status

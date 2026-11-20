@@ -119,6 +119,10 @@ The consumer provides all CSS styling. The component renders with a `.collapsibl
 - `expander` — a control that expands to reveal more content
 - `accordion-list-item` — an accordion list item component
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/

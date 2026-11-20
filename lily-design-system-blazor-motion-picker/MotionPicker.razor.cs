@@ -66,7 +66,8 @@ public partial class MotionPicker : ComponentBase
     [Parameter] public string Name { get; set; } = "motion";
 
     /// <summary>Optional pretty labels per motion slug.</summary>
-    [Parameter] public IReadOnlyDictionary<string, string> MotionLabels { get; set; }
+    [Parameter]
+    public IReadOnlyDictionary<string, string> MotionLabels { get; set; }
         = new Dictionary<string, string>();
 
     /// <summary>Replaces the default pause-bars icon inside the button.</summary>
@@ -248,7 +249,7 @@ public partial class MotionPicker : ComponentBase
                 var stored = await JS.InvokeAsync<string?>(
                     "eval",
                     $"(function(){{try{{return localStorage.getItem({JsonString(StorageKey!)});}}catch(e){{return null;}}}})()");
-                if (!string.IsNullOrEmpty(stored)) return stored!;
+                if (!string.IsNullOrEmpty(stored) && Motions.Contains(stored)) return stored!;
             }
             catch { /* prerender / interop unavailable */ }
         }

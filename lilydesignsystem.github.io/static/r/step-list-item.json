@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/StepListItem.razor"
   },
   "docs": "https://lilydesignsystem.com/components/step-list-item/",
+  "markdown": "https://lilydesignsystem.com/components/step-list-item.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/step-list-item/AGENTS.md"
 }

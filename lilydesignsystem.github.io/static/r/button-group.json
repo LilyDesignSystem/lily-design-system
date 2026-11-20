@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ButtonGroup.razor"
   },
   "docs": "https://lilydesignsystem.com/components/button-group/",
+  "markdown": "https://lilydesignsystem.com/components/button-group.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/button-group/AGENTS.md"
 }

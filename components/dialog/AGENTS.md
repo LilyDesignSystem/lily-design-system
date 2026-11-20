@@ -48,6 +48,18 @@
 - Notes: Same as alert-dialog. The open prop stays the source of truth, so a commandfor trigger would need the dialog always mounted. P14-T4 (2026-10-30): all nine libraries now open it with showModal(); Angular keeps the <dialog> always mounted and shows it while open (a ModalDialog directive), Blazor through Drawer.razor.js (ModalDialogBase).
 - Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
 
+## Styles
+
+The headless component ships no CSS. A Lily reference theme exposes these variables on the base `.dialog`; related
+dialog variants retain their own frame rules.
+
+| Variable                      | Default                 |
+| ----------------------------- | ----------------------- |
+| `--lily-dialog-background`    | `var(--lily-surface)`   |
+| `--lily-dialog-color`         | `var(--lily-text)`      |
+| `--lily-dialog-border-color`  | `var(--lily-border)`    |
+| `--lily-dialog-border-radius` | `var(--lily-radius-lg)` |
+
 ## Acceptance Criteria
 
 - [ ] Renders <dialog> element with class="dialog"
@@ -56,6 +68,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

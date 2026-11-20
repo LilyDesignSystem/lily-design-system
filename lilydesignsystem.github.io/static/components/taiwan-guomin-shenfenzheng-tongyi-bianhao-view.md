@@ -75,6 +75,10 @@ A national identifier is personal data, and often a key to other records.
 - `taiwan-guomin-shenfenzheng-tongyi-bianhao-input` — an input for entering Taiwan's National Identification Card Number
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [National identification card (Taiwan)](<https://en.wikipedia.org/wiki/National_identification_card_(Taiwan)>)

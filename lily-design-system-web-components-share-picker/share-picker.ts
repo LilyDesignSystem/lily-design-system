@@ -1,5 +1,5 @@
 /**
- * `<lily-share-picker>` — Lily Design System HTML helper.
+ * `<lily-share-picker>` — Lily Design System Web Components helper.
  *
  * See `./spec/index.md` for the canonical contract. This file implements
  * the custom-element class but does NOT register it. The `index.ts`

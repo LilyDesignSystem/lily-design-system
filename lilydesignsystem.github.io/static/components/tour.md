@@ -158,6 +158,10 @@ Tour is the parent container in the Tour pattern: Tour > TourList > TourListItem
 - `tour-list-item` — one step in a tour guide list
 - `coachmark` — an anchored popover that spotlights and explains a single feature
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Practices: https://www.w3.org/WAI/ARIA/apg/

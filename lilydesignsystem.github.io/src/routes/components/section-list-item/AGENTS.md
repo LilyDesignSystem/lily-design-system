@@ -5,6 +5,7 @@
 - Component: section-list-item
 - PascalCase: SectionListItem
 - Description: one section navigation item
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <li>
 - CSS class: .section-list-item
 - Interactive: no
@@ -13,6 +14,7 @@
 
 - Renders a `<li>` containing a `SectionLink`
 - Used inside `SectionList`
+- No `label`: an `aria-label` on the `<li>` would replace the link text a screen reader announces
 - Spreads `restProps` onto the root `<li>`
 
 ## ARIA
@@ -25,6 +27,7 @@
 
 ## Props
 
+- `current`: boolean (default: false) — Sets an empty `data-current` on the `<li>` for CSS; it sets no `aria-current`
 - `children`: slot (required) (default: —) — Typically a single `SectionLink`
 - `...restProps`: HTML attributes (default: —) — Spread onto the root `<li>`
 
@@ -34,6 +37,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

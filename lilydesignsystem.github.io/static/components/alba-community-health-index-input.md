@@ -89,6 +89,10 @@ A national identifier is personal data, and often a key to other records.
 - `alba-community-health-index-view` — a read-only display of Scotland's Community Health Index (CHI)
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/National_Health_Service_Central_Register

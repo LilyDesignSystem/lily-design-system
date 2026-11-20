@@ -43,6 +43,17 @@
 - `children`: slot -- button content
 - `...restProps`: Any additional HTML attributes
 
+## Styles
+
+The headless component ships no CSS. When a Lily reference theme is loaded, `.button` exposes these component-scoped
+variables; set one on a button or a containing scope without replacing the component rule:
+
+| Variable                      | Default                 |
+| ----------------------------- | ----------------------- |
+| `--lily-button-background`    | `var(--lily-brand)`     |
+| `--lily-button-color`         | `var(--lily-on-brand)`  |
+| `--lily-button-border-radius` | `var(--lily-radius-md)` |
+
 ## Acceptance Criteria
 
 - [ ] Renders <button> element with class="button"
@@ -50,6 +61,14 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+### Disabled and look-alike controls
+
+Use native `disabled` only on a native `<button>` that is genuinely unavailable. It removes the control from the tab order; do not use it for a pending action that should keep focus. `aria-disabled="true"` announces an unavailable state but does not suppress clicks, so the activation handler must still guard the action.
+
+Do not style a non-button element to look and act like a button when a native button fits. A non-button needs `role="button"`, keyboard activation for Enter and Space, and a focusable tab stop; reproducing that contract is usually unnecessary risk. Links have no disabled state and should follow the link-component guidance instead.
 
 ## References
 

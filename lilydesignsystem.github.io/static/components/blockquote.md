@@ -100,6 +100,10 @@ attribution.
 - `citation` — a citation acknowledges the relevance of a work of another to the topic of discussion
 - `inset-text` — indented text to distinguish it from surrounding content
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN `<blockquote>`: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/blockquote

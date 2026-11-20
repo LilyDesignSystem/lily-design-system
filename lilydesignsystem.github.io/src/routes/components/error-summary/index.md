@@ -2,6 +2,8 @@
 
 An error summary displays a consolidated list of form validation errors at the top of a form. It alerts users to problems that need correction and provides links to the specific fields with errors, following the pattern used by GOV.UK and NHS England design systems.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This component uses `role="alert"` to ensure screen readers announce the error summary immediately when it appears. The `tabindex="-1"` attribute allows programmatic focus (e.g., via JavaScript `focus()`) so the user's attention is directed to the error list after form submission. A heading identifies the summary, and children typically contain a list of linked error messages.
 
 ## Implementation Notes
@@ -94,6 +96,10 @@ The consumer provides all CSS styling. The component renders with a `.error-summ
 - `error-message` — an error message associated with a form field
 - `alert` — a status message for important information or feedback
 - `field` — a form field wrapper with label, input, and error message
+
+## Known limitations
+
+None known.
 
 ## References
 

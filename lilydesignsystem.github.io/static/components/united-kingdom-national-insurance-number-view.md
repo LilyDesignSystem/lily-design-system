@@ -72,6 +72,10 @@ A national identifier is personal data, and often a key to other records.
 - `united-kingdom-national-insurance-number-input` — an input for entering United Kingdom's National Insurance Number (NINO)
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/National_Insurance_number

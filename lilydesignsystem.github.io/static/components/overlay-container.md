@@ -107,6 +107,10 @@ removed from layout via the native `hidden` attribute.
 - `drawer` — a panel that slides in from the edge of the screen
 - `sheet` — a panel that slides in from a screen edge as an overlay
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA dialog pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/

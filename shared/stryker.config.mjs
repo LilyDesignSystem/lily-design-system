@@ -7,9 +7,8 @@ export default {
     plugins: ["@stryker-mutator/vitest-runner"],
     vitest: { configFile: "vitest.config.ts" },
     coverageAnalysis: "perTest",
-    // Five modules have no test file here and are left out, so the score measures this suite honestly: pattern-tester is
-    // the test driver itself; aria-baseline, cell-types, command-keys and menu-keys are tested only through the packages'
-    // copies (a gap; see spec/testing, Mutation testing).
+    // Keep the test driver and four modules outside the historical mutation baseline. P39-T5 now exercises the latter
+    // in shared coverage tests; mutation baselines for them remain separate work (see spec/testing, Mutation testing).
     mutate: [
         "*.ts",
         "!*.test.ts",

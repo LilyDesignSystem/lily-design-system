@@ -2,13 +2,15 @@
 
 A measurement system view displays a measurement system name in a `<span>` element. A measurement system is a collection of units and rules for measuring, such as "metric", "imperial", or "SI" (International System of Units). This component is part of the Input/View pattern for measurement data, providing a read-only display of measurement system names.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 The component supports an optional `aria-label` for additional accessible context, which is useful when the abbreviated system name alone may not convey enough meaning (e.g., labeling "SI" as "International System of Units").
 
 ## Implementation Notes
 
 - Renders as a `<span>` element displaying the measurement system name as text content
 - A measurement system is a collection of units and rules (e.g., "metric", "imperial", "SI")
-- Optional `label` prop maps to `aria-label` for additional accessible context
+- No ARIA on the root: a plain `<span>` cannot be named. A visible caption names the value, or `label` renders as hidden text in a `.screen-reader-span`
 - Text content is inherently accessible to screen readers
 - Spreads `...restProps` on the root `<span>` element for consumer customization
 - No hardcoded user-facing strings; all text comes through props
@@ -16,7 +18,7 @@ The component supports an optional `aria-label` for additional accessible contex
 ## Props
 
 - `value`: string (required) -- the measurement system name to display
-- `label`: string (optional) -- accessible name via aria-label for additional context
+- `label`: string (optional) — hidden text naming the value, in a `.screen-reader-span`. Leave it out when a visible caption names the value
 
 ## Usage
 
@@ -50,8 +52,6 @@ None -- this is a display-only component.
 
 ## ARIA
 
-- `aria-label` -- optionally set from the `label` prop to provide additional context beyond the displayed system name
-
 ## When to Use
 
 - Use to display the current measurement system in read-only format.
@@ -74,7 +74,7 @@ The consumer provides all CSS styling. The component renders with a `.measuremen
 ## Testing
 
 - Verify the component renders a `<div>` element with class `measurement-system-view`
-- Verify aria-label`-- optionally set from the`label` prop to provide additional context beyond the displayed system name
+- Verify `label` renders as hidden text, and that the root has no `aria-label`
 - Verify pass-through attributes are applied
 
 ## Advice
@@ -89,6 +89,10 @@ MeasurementSystemView is part of the measurement component family. It is the rea
 ## Related components
 
 - `measurement-system-input` — an input for selecting a measurement system
+
+## Known limitations
+
+None known.
 
 ## References
 

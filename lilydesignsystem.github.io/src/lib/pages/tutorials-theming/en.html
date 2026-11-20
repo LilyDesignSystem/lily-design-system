@@ -30,7 +30,7 @@
     directory ships 63 standalone stylesheets. Copy them into your app's
     static assets and link one:
   </p>
-  
+
   <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
   <p>Highlights of the set:</p>
   <ul>
@@ -61,7 +61,7 @@
     Theme selectors are wrapped in <code>:where(...)</code>, which has zero
     specificity — so any rule you write wins, plain and simple:
   </p>
-  
+
   <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
 .button {
   background: #7c3aed;
@@ -78,8 +78,7 @@
     persists to <code>localStorage</code>. Svelte shown here; React, Vue,
     Angular, HTML, Nunjucks, and Blazor ports match contract-for-contract:
   </p>
-  
-  
+
   <pre tabindex="0"><code>&lt;script&gt;
   import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
 &lt;/script&gt;
@@ -108,7 +107,7 @@
     Because the helper sets <code>data-theme</code> on the document root,
     your own styles can branch on it:
   </p>
-  
+
   <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
 
   <h2>Notes for server rendering</h2>

@@ -75,6 +75,10 @@ A national identifier is personal data, and often a key to other records.
 - `colombia-cedula-de-ciudadania-input` — an input for entering Colombia's Cedula de Ciudadania Number
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [Colombian identity card](https://en.wikipedia.org/wiki/Colombian_identity_card)

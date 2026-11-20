@@ -65,7 +65,8 @@ public partial class TextSizePicker : ComponentBase
     [Parameter] public string Name { get; set; } = "text-size";
 
     /// <summary>Optional pretty labels per size slug.</summary>
-    [Parameter] public IReadOnlyDictionary<string, string> SizeLabels { get; set; }
+    [Parameter]
+    public IReadOnlyDictionary<string, string> SizeLabels { get; set; }
         = new Dictionary<string, string>();
 
     /// <summary>Replaces the default "A" icon inside the button.</summary>
@@ -246,7 +247,7 @@ public partial class TextSizePicker : ComponentBase
                 var stored = await JS.InvokeAsync<string?>(
                     "eval",
                     $"(function(){{try{{return localStorage.getItem({JsonString(StorageKey!)});}}catch(e){{return null;}}}})()");
-                if (!string.IsNullOrEmpty(stored)) return stored!;
+                if (!string.IsNullOrEmpty(stored) && Sizes.Contains(stored)) return stored!;
             }
             catch { /* prerender / interop unavailable */ }
         }

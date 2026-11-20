@@ -103,6 +103,10 @@ The consumer provides all CSS styling. The component renders with a `.kbd` class
 - `code` — an inline code span for displaying short code snippets within surrounding text
 - `code-block` — a block of formatted code with optional line numbers and line highlighting
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN kbd element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/kbd

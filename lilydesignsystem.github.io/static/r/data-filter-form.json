@@ -38,5 +38,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/DataFilterForm.razor"
   },
   "docs": "https://lilydesignsystem.com/components/data-filter-form/",
+  "markdown": "https://lilydesignsystem.com/components/data-filter-form.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/data-filter-form/AGENTS.md"
 }

@@ -57,6 +57,8 @@ export interface ListboxKey {
     ctrlKey?: boolean;
     altKey?: boolean;
     metaKey?: boolean;
+    isComposing?: boolean;
+    nativeEvent?: { isComposing?: boolean };
 }
 
 /** What the adapter reads from the DOM at the moment of the key press. */

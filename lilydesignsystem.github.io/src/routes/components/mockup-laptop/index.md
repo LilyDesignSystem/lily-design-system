@@ -2,6 +2,8 @@
 
 A mockup laptop is a decorative container that visually resembles a laptop computer, used to frame content in documentation, demos, or marketing pages. It provides a recognizable laptop form factor around the contained content.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses a `<div>` element with `role="img"` and `aria-label` to present the mockup as a decorative image to assistive technologies.
 
 ## Implementation Notes
@@ -117,6 +119,10 @@ The consumer provides all CSS styling. The component renders with a `.mockup-lap
 - `mockup-shell` — a box area that looks like a terminal shell
 - `mockup-tablet-landscape` — a box area that looks like a tablet computer in landscape mode
 - `mockup-tablet-portrait` — a box area that looks like a tablet computer in portrait mode
+
+## Known limitations
+
+None known.
 
 ## References
 

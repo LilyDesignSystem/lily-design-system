@@ -117,6 +117,10 @@ AvatarGroup is a container for Avatar, AvatarImage, and AvatarText components.
 - `avatar-image` — an avatar indicator inside image such as a user photo
 - `avatar-text` — an avatar indicator inner text such as a user name
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN div element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div)

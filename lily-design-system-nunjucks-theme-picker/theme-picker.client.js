@@ -324,11 +324,17 @@ function wireTooltip(root, button, selector, popup) {
  * Wire one rendered ThemePicker root.
  *
  * @param {HTMLElement} root - The <div data-lily-theme-picker-root>.
- * @param {{onChange?: (slug:string, choice:string)=>void, target?: HTMLElement|null}=} opts
- * @returns {{setTheme: (slug: string) => void, destroy: () => void}}
+ * @param {{onChange?: (slug:string, choice:string)=>void, target?: HTMLElement|null, themesUrl?: string}=} opts
+ * @returns {{isOpen: () => boolean, setOpen: (open: boolean) => void, setDisabled: (disabled: boolean) => void, setTheme: (slug: string) => void, destroy: () => void}}
  */
 export function initThemePicker(root, opts = {}) {
-    const noop = { setTheme: () => {}, destroy: () => {} };
+    const noop = {
+        isOpen: () => false,
+        setOpen: () => {},
+        setDisabled: () => {},
+        setTheme: () => {},
+        destroy: () => {},
+    };
     if (typeof document === "undefined" || !root) return noop;
 
     const select = root.querySelector("[data-lily-theme-picker-select]");
@@ -576,7 +582,8 @@ function resolveInitialTheme(
     initial = valueAttr;
 
     // 2. storage
-    const storedValue = storageKey ? safeStorageGet(storageKey) || "" : "";
+    const stored = storageKey ? safeStorageGet(storageKey) || "" : "";
+    const storedValue = values.includes(stored) ? stored : "";
 
     // The precedence between these two reversed in 0.4.0, so a consumer
     // who set both and relied on storage winning would otherwise change

@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/PortugalNumeroDeIdentificacaoFiscalView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/portugal-numero-de-identificacao-fiscal-view/",
+  "markdown": "https://lilydesignsystem.com/components/portugal-numero-de-identificacao-fiscal-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/portugal-numero-de-identificacao-fiscal-view/AGENTS.md"
 }

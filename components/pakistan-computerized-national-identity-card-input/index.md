@@ -90,6 +90,10 @@ A national identifier is personal data, and often a key to other records.
 - `pakistan-computerized-national-identity-card-view` — a read-only display of Pakistan's Computerized National Identity Card Number (CNIC)
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [Computerized National Identity Card](https://en.wikipedia.org/wiki/Computerized_National_Identity_Card)

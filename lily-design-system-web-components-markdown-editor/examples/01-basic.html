@@ -12,7 +12,8 @@
     </form>
     <script type="module">
       import "../dist/index.js";
-      document.querySelector("lily-markdown-editor").labels = {
+      const editor = document.querySelector("lily-markdown-editor");
+      editor.labels = {
         heading: "Heading", bold: "Bold", italic: "Italic", strikethrough: "Strikethrough", code: "Code",
         link: "Link", quote: "Quote", bulletList: "Bulleted list", numberedList: "Numbered list",
       };

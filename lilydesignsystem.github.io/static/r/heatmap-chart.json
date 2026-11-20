@@ -44,5 +44,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/HeatmapChart.razor"
   },
   "docs": "https://lilydesignsystem.com/components/heatmap-chart/",
+  "markdown": "https://lilydesignsystem.com/components/heatmap-chart.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/heatmap-chart/AGENTS.md"
 }

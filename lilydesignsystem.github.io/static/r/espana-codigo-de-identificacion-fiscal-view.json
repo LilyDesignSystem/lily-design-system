@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/EspanaCodigoDeIdentificacionFiscalView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/espana-codigo-de-identificacion-fiscal-view/",
+  "markdown": "https://lilydesignsystem.com/components/espana-codigo-de-identificacion-fiscal-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/espana-codigo-de-identificacion-fiscal-view/AGENTS.md"
 }

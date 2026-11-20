@@ -46,6 +46,7 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/DropdownMenu.razor"
   },
   "docs": "https://lilydesignsystem.com/components/dropdown-menu/",
+  "markdown": "https://lilydesignsystem.com/components/dropdown-menu.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/dropdown-menu/AGENTS.md",
   "nativePlatform": {
     "decision": "native",

@@ -416,8 +416,8 @@ describe("open state, disabled, tooltip, button content", () => {
                 return span;
             }
         }
-        customElements.define("custom-lily-time-zone-picker", Custom);
-        const el = document.createElement("custom-lily-time-zone-picker");
+        customElements.define("custom-time-zone-picker", Custom);
+        const el = document.createElement("custom-time-zone-picker");
         for (const [k, v] of Object.entries({
             label: "Time zone",
             locale: "en",

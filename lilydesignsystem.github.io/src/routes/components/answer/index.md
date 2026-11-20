@@ -2,6 +2,8 @@
 
 An answer is anything that responds to a question, request, action, etc. Examples include FAQ replies, quiz answers, survey responses, and forum replies.
 
+**Status:** experimental — recent catalog addition with the least accumulated depth; contract may still move.
+
 This headless component renders a `<div>` with class `answer`. The consumer supplies the answer content as children.
 
 ## Implementation Notes
@@ -41,6 +43,7 @@ Paired with a question:
 
 ## ARIA
 
+- With a `label`, the root is `role="group"`, because a plain `<div>` cannot be named. Without one it has no role
 - `aria-label` -- describes the answer for screen readers when no visible heading is present
 
 ## When to Use
@@ -80,6 +83,10 @@ The consumer provides all CSS styling. The component renders with a `.answer` cl
 - `question` — a question is anything that asks for information, invites a response, tests knowledge, etc.
 - `comment` — a comment is anything that expresses an opinion, observation, explanation, etc.
 - `success-panel` — a panel confirming a task has been completed
+
+## Known limitations
+
+None known.
 
 ## References
 

@@ -5,6 +5,7 @@
 - Component: input-with-mask
 - PascalCase: InputWithMask
 - Description: an input displaying a format mask placeholder for the user to fill in
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .input-with-mask
 - Interactive: yes
@@ -52,6 +53,10 @@
 - [ ] Input handler fires on input change
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

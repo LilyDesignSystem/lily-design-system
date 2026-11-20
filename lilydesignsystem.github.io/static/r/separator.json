@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Separator.razor"
   },
   "docs": "https://lilydesignsystem.com/components/separator/",
+  "markdown": "https://lilydesignsystem.com/components/separator.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/separator/AGENTS.md"
 }

@@ -68,6 +68,10 @@ Show the result as returned; summarise only if the full result is also available
 - `tool-call-input`
 - `tool-call-error`
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN details element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details)

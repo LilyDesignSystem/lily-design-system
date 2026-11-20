@@ -115,6 +115,10 @@ input, with monospace typography so the characters align.
 - `pin-input-div` — a series of single-digit inputs for entering a PIN or OTP code
 - `input` — a generic HTML input element
 
+## Known limitations
+
+None known.
+
 ## References
 
 - US Web Design System Input Mask: https://designsystem.digital.gov/components/input-mask/

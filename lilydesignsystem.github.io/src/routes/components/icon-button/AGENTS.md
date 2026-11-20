@@ -5,6 +5,7 @@
 - Component: icon-button
 - PascalCase: IconButton
 - Description: a button containing only an icon with a required accessible label
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <button>
 - CSS class: .icon-button
 - Interactive: yes
@@ -42,6 +43,14 @@
 - `children`: slot -- icon content
 - `...restProps`: any additional HTML attributes
 
+## Native platform
+
+- Decision: native
+- Uses: native <button>; aria-haspopup passthrough
+- Could use: commandfor/command or popovertarget via restProps
+- Notes: Consumers can already pass commandfor, command and popovertarget through restProps.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
 ## Acceptance Criteria
 
 - [ ] Renders <button> element with class="icon-button"
@@ -52,6 +61,10 @@
 - [ ] Click handler fires on Enter, Space, and click
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

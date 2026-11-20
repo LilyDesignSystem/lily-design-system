@@ -36,5 +36,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Flair.razor"
   },
   "docs": "https://lilydesignsystem.com/components/flair/",
+  "markdown": "https://lilydesignsystem.com/components/flair.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/flair/AGENTS.md"
 }

@@ -42,5 +42,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/KbdShortcut.razor"
   },
   "docs": "https://lilydesignsystem.com/components/kbd-shortcut/",
+  "markdown": "https://lilydesignsystem.com/components/kbd-shortcut.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/kbd-shortcut/AGENTS.md"
 }

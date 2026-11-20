@@ -89,6 +89,10 @@ The consumer provides all CSS styling via the `.multi-select` class.
 - `checkbox-group` — several visible checkboxes
 - `combobox` — searchable choice
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN select element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select

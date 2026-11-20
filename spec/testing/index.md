@@ -17,6 +17,47 @@ Covers test coverage across the nine headless libraries and eight example apps (
 - **Assert what the interaction leaves behind, not only what it sets.** A selection test that checks the applied value and stops will pass over a listbox that never closed. Check `aria-expanded`, `hidden`, and where focus went.
 - **Numbers are spec-sourced and evolve.** The counts in the tables below come from `spec/index.md`; verify against the live suites before relying on an exact figure.
 
+## Static analysis and formatting
+
+The root lint job covers every `lily-design-system-*` JavaScript and TypeScript subproject plus `shared/`. ESLint errors
+fail CI and warnings are reported. Framework-aware rules include Svelte, Vue, React Hooks, Angular source/templates and
+JSX accessibility for React and Solid. Accessibility rules that establish a definite structural defect stay fatal;
+heuristics that cannot see runtime roving focus, conditionally mounted ARIA targets or consumer-provided media tracks
+are warnings. Test fixtures are excluded from the framework accessibility plugins but remain covered by the general
+JavaScript and TypeScript rules.
+
+`pnpm format:check` enforces the root Prettier configuration across the configured JS/TS/component and Markdown scope.
+`bin/dotnet-format --check` runs `dotnet format whitespace --verify-no-changes` over the Blazor headless and identifiers
+solutions, the Blazor example solution and every helper project. Both checks run in the same CI job; use `pnpm format`
+and `bin/dotnet-format` to apply their respective formatting.
+
+## Baseline
+
+Lily's browser support window is the current and previous major release of Chromium, Firefox and Safari, plus the
+current and previous major iOS/iPadOS Safari and Android Chrome releases. CI exercises the installed current Chromium,
+Firefox and WebKit engines; the previous-major and assistive-technology checks are manual evidence, not implied by CI.
+When a browser or operating-system vendor ends support sooner, Lily records that exception rather than claiming an
+unavailable pairing.
+
+The assistive-technology baseline is the six pairings used by the screen-reader matrix:
+
+1. NVDA with Firefox on Windows.
+2. NVDA with Chrome on Windows.
+3. JAWS with Chrome on Windows.
+4. VoiceOver with Safari on macOS.
+5. VoiceOver with Safari on iOS or iPadOS.
+6. TalkBack with Chrome on Android.
+
+For each manual session, the matrix records the browser, assistive-technology and operating-system versions actually
+tested. A blank cell is no evidence. Automated DOM, keyboard and axe results remain useful but do not substitute for a
+screen-reader result.
+
+Features that are newly available inside this rolling window, including the Popover API, CSS anchor positioning and
+declarative invoker commands, must not become silent hard dependencies. Each applicable row in
+`spec/competitive-position/native-primitives.tsv` names a `fallback:` or records an `exception:`; otherwise
+`bin/check-native-primitives` fails. Established primitives and rows with no new-platform dependency say that the rule
+is not applicable.
+
 ## Per-framework headless unit suites
 
 Re-run 2026-10-25 (all suites green; 581 components), except `html-headless` (WebdriverIO, last run 2026-10-06). The previous baselines: 2026-10-06 (571 components) and 2026-09-02 (plan P1-T6, 491 spec files per library).
@@ -99,6 +140,11 @@ its labels record from every pack. See [label-packs](../label-packs/index.md).
 ## axe-core accessibility baseline
 
 axe-core / Playwright integration runs across all seven example apps. Rule set: WCAG 2.0 A+AA, 2.1 A+AA, 2.2 AA (spec/index.md §11.5). Re-verified 2026-10-25 for the six apps whose full suites ran (they include the axe specs), 2026-09-02 for SvelteKit's 31/31 route baseline (plan P1-T6) — angular-examples added to the table (already covered by its own 1,542-spec suite, just not previously listed here); nunjucks-eleventy-examples grew from 17 routes to 31 as it gained composed-page coverage.
+
+P38-T7 makes these checks permanent in CI for all eight current example apps. The dedicated
+`accessibility-examples` matrix covers React, Vue, Angular, HTML and Solid in Chromium, Firefox and WebKit; the
+SvelteKit, Nunjucks and Alpine jobs run their accessibility or full-catalog axe suites. The new matrix passed 423
+checks locally on 2026-11-19.
 
 | App                        | Clean | Status                                                                                                                                                                                                                                                                                    |
 | -------------------------- | ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -228,8 +274,8 @@ with `-app` and its own profile name. CI on Linux does not need it.
 ## Visual regression
 
 `e2e/visual-regression.spec.ts` in the SvelteKit examples app screenshots the demo region (`main .card`) of
-`/components/{slug}`, never the whole page, so a change to the header or footer is not a diff. 210 screenshots
-(P7-T5, widened by P35-T1 on 2026-11-17):
+`/components/{slug}`, never the whole page, so a change to the header or footer is not a diff. Each of Chromium,
+Firefox and WebKit has 210 screenshots, 630 in total (P7-T5, widened by P35-T1 and made cross-engine by P38-T6):
 
 | Set            | What                                                                  | Themes                      | Shots |
 | -------------- | --------------------------------------------------------------------- | --------------------------- | ----- |
@@ -239,9 +285,10 @@ with `-app` and its own profile name. CI on Linux does not need it.
 | Right to left  | six demos with `dir="rtl"` on the demo region                         | NHS England                 | 6     |
 | Composed pages | the `main` of six pages, such as `/patient-banner` and `/ward-board`  | NHS England                 | 6     |
 
-Baselines are per platform (font rendering), with `process.platform` in the name, and only the macOS ones are committed.
-CI does not run the spec. Run it with `pnpm exec playwright test e2e/visual-regression.spec.ts --project chromium`; after an
-intended change, look at each diff in `test-results/` before `--update-snapshots=changed`.
+Baselines are per platform and engine, with `process.platform` in the name, and only the macOS ones are committed. CI
+does not run the spec. Run it with `pnpm exec playwright test e2e/visual-regression.spec.ts --project chromium` and then
+the `firefox` and `webkit` projects. After an intended change, look at each diff in `test-results/` before
+`--update-snapshots=changed`.
 
 ## Property tests (2026-11-19, tasks.md P38-T5)
 
@@ -262,6 +309,27 @@ the colour round trips drift by up to 4.5 steps, not one: that is the whole-unit
 a defect, so the bounds are derived from it. `bin/ci --job shared-tests` runs them with the example tests (881 in all);
 before it, no CI job ran the shared modules' tests.
 
+The Svelte headless listbox also runs a property through its rendered DOM. The test generates matching labels with
+CJK, Hangul and accented initials, inserts an unrelated option and checks the exposed option id after every keypress
+through wraparound. Run `pnpm exec vitest run components/Listbox` in `lily-design-system-svelte-headless`.
+The pre-fix component failed with just two matching labels starting with `가`. [Keyboard type-ahead contract](../internationalization/index.md#keyboard-type-ahead).
+
+On 2026-11-19, the HTML controller fixture also passed with dispatched `keydown` events in Chromium 159, Firefox 159
+and WebKit 27.2. For `𠮷`, `가` and decomposed `é`, a composing event kept the active option. Two subsequent presses
+moved to the other matching option and back. Testing candidate confirmation with an OS input method remains P39-T3.
+
+## Test coverage (2026-11-19, tasks.md P39-T5)
+
+`bin/coverage-report` measures executable TypeScript and JavaScript in the shared modules and Svelte headless library,
+and C# in the Blazor headless library. The report is published in [`docs/coverage.md`](../../docs/coverage.md), with a
+badge on the repository index. The latest run covered 96.1% of lines across the three measured suites: 95.4% in
+`shared/`, 96.2% in Svelte and 96.4% in Blazor.
+
+Run `pnpm coverage` from `shared/` for the fastest gate. Its Vitest configuration requires at least 95% line coverage
+and 95% function coverage. The 949-test run reached 95.43% of lines and 95.25% of functions. Direct tests exercise the
+pattern driver through production handlers and fixtures, cell-type behavior and wheel scrolling, including cleanup and
+disabled states.
+
 ## Mutation testing
 
 (2026-11-17, tasks.md P35-T3.) A mutant is a small change to the code, such as `<` made `<=`, a branch removed or a string
@@ -275,9 +343,9 @@ emptied. A test suite that still passes with the mutant in place never checked t
   below it; after adding tests, `--update-baseline` raises it. Never lower it to hide a drop.
 - **Not in `bin/test` or CI.** A full run takes about 19 minutes (a module about a minute). Run it after changing a shared
   module or its tests: `bin/mutation-test <module>` lists that module's survivors with their lines.
-- **Left out.** `pattern-tester` (the test driver itself), and `aria-baseline`, `cell-types`, `command-keys` and `menu-keys`,
-  which have no tests in `shared/` and are tested only through the packages' copies, so a score here would measure nothing.
-  Giving them tests here is open work.
+- **Left out.** `pattern-tester` remains outside the mutation target because it is the test driver itself.
+  `aria-baseline`, `cell-types`, `command-keys` and `menu-keys` also remain outside this historical mutation baseline.
+  P39-T5 now exercises these modules in the shared coverage suite; adding mutation baselines for them is separate work.
 
 The first run's survivors led to new tests in four modules. Mutants that survived had found real gaps: jsdom computes
 `direction` from `dir`, so the attribute branch of `isRtl` was never tested on its own; `linkSettled` was only ever settled
@@ -307,6 +375,11 @@ once and runs each case with [tinybench](https://github.com/tinylibs/tinybench) 
 - **Noise.** Timings depend on the machine and its load: a baseline taken while `bin/test` ran was two to four times slower.
   Re-run before believing a failure, and compare only on the machine that wrote the baseline. Hence not in `bin/test` or CI.
 - **About 15 seconds.** Run it after changing a shared module's algorithm.
+
+P38-T8 adds `bin/render-benchmark` for the canonical Svelte catalog. It renders and unmounts a button, labelled input,
+100-option listbox and 100-row data table, each paired with equivalent hand-written Svelte markup. Tinybench reports
+mean and p95 latency; `render-benchmark-baseline.json` records eight means and the machine. The runner fails beyond
+twice a baseline, stays outside CI because shared-runner timings are noisy, and prints each Lily/native ratio.
 
 Baseline, mean milliseconds (Apple M4 Max, darwin arm64, Node 26.8.1):
 
@@ -454,6 +527,9 @@ It covers all 16 composed pages, the catalog and every component page, and opens
 - [ ] The Alpine.js headless library is in `bin/check-coverage` and `bin/check-class-names`.
 - [x] `bin/test` passes for required-file coverage across repo, components, and subprojects.
 - [x] Helper-picker interaction contracts are asserted end-to-end, not implied: every pointer selection test checks `aria-expanded` and the list's `hidden`, and the apply path is asserted to fire its change callback once per applied change.
+- [x] Persisted picker choices are list-scoped: every catalog proves an unknown stored theme is ignored and the documented default applies; locale, text-size and motion use the same validation path.
+- [x] Shared tests use each runner's discovery convention: Angular helper copies are named `*.spec.ts`, including direction tests.
+- [x] Every TypeScript headless library and helper package has a required CI `check` script; the Nunjucks helpers typecheck their TypeScript tests against inferred JavaScript APIs.
 
 ## Related topics
 

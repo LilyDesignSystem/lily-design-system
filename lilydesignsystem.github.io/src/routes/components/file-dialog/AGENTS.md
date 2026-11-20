@@ -5,12 +5,14 @@
 - Component: file-dialog
 - PascalCase: FileDialog
 - Description: a dialog for browsing and selecting files
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <dialog>
 - CSS class: .file-dialog
 - Interactive: yes
 
 ## Key Behaviors
 
+- Opened with `.showModal()` (always modal): the page behind is inert, focus is trapped and returns to the opener on close; the native `cancel` and `close` events set `open` to false
 - Conditionally renders a `<dialog open>` element only when `open` is true
 - Supports two-way binding on the `open` prop for two-way state binding
 - Uses the native `<dialog>` HTML element with the `open` attribute
@@ -21,6 +23,7 @@
 ## ARIA
 
 - `aria-label={label}` -- provides an accessible name for the dialog
+- `aria-modal="true"` -- opened with `showModal()`
 - Native `<dialog>` element -- provides implicit `role="dialog"` semantics
 
 ## Keyboard
@@ -33,6 +36,14 @@
 - `open`: boolean (default: false) -- whether the dialog is visible, two-way bindable via `open`
 - `children`: slot (required) -- dialog content
 
+## Native platform
+
+- Decision: native
+- Uses: <dialog> showModal() via modal.ts
+- Could use: command="show-modal"/"close"
+- Notes: As dialog. P14-T4 (2026-10-30): showModal() in all nine libraries; the Angular and Blazor stubs were ported from Svelte.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
 ## Acceptance Criteria
 
 - [ ] Renders <dialog> element with class="file-dialog"
@@ -41,6 +52,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

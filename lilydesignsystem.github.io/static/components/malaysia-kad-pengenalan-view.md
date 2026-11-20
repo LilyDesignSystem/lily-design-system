@@ -75,6 +75,10 @@ A national identifier is personal data, and often a key to other records.
 - `malaysia-kad-pengenalan-input` — an input for entering Malaysia's MyKad Number (NRIC)
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [MyKad](https://en.wikipedia.org/wiki/MyKad)

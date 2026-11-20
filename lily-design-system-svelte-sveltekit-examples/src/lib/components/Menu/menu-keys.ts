@@ -35,13 +35,15 @@ export function typeaheadTarget(
     current: Element | null,
     event: KeyboardEvent,
 ): HTMLElement | undefined {
-    if (event.key.length !== 1 || event.key === " " || event.isComposing) return undefined;
+    const key = event.key.normalize("NFC");
+    if (!/^[^\p{Cc}\p{Cf}\p{Cs} ]$/u.test(key) || event.isComposing) return undefined;
     if (event.ctrlKey || event.metaKey || event.altKey) return undefined;
-    const letter = event.key.toLocaleLowerCase();
+    const letter = key.toLocaleLowerCase();
     const from = items.indexOf(current as HTMLElement);
     return [...items.slice(from + 1), ...items.slice(0, from + 1)].find((el) =>
         (el.getAttribute("aria-label") || el.textContent || "")
             .trim()
+            .normalize("NFC")
             .toLocaleLowerCase()
             .startsWith(letter),
     );

@@ -72,6 +72,10 @@ A national identifier is personal data, and often a key to other records.
 - `deutschland-krankenversichertennummer-input` — an input for entering Germany's Krankenversichertennummer (KVNR)
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: https://de.wikipedia.org/wiki/Krankenversichertennummer

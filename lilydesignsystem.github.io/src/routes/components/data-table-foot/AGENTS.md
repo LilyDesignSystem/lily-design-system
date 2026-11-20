@@ -5,6 +5,7 @@
 - Component: data-table-foot
 - PascalCase: DataTableFoot
 - Description: a data table interactive grid tfoot for displaying and sorting tabular data <tfoot>
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <tfoot>
 - CSS class: .data-table-foot
 - Interactive: no
@@ -40,6 +41,10 @@
 - [ ] Renders <tfoot> element with class="data-table-foot"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

@@ -2,6 +2,8 @@
 
 A comment is anything that expresses an opinion, observation, explanation, etc. Examples include user discussion replies, peer review remarks, marginalia, code review notes, and editor annotations.
 
+**Status:** experimental — recent catalog addition with the least accumulated depth; contract may still move.
+
 This headless component renders a `<div>` with class `comment`. The consumer supplies the comment body and any related metadata (author, timestamp, action buttons) as children.
 
 ## Implementation Notes
@@ -34,6 +36,7 @@ This headless component renders a `<div>` with class `comment`. The consumer sup
 
 ## ARIA
 
+- With a `label`, the root is `role="group"`, because a plain `<div>` cannot be named. Without one it has no role
 - `aria-label` -- describes the comment for screen readers
 
 ## When to Use
@@ -74,6 +77,10 @@ The consumer provides all CSS styling. The component renders with a `.comment` c
 - `answer` — an answer is anything that responds to a question, request, action, etc.
 - `chat-message` — a chat message shows one chat conversation message entry and all its data, including the author avatar, author name, time, etc.
 - `blockquote` — a block-level quotation with optional source citation
+
+## Known limitations
+
+None known.
 
 ## References
 

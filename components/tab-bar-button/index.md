@@ -102,6 +102,10 @@ TabBarButton is designed to be used as a child of TabBar. The TabBar provides th
 
 - `tab-bar` — a group of tabs for switching between content panels
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA TabBarButtons Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/tabs/

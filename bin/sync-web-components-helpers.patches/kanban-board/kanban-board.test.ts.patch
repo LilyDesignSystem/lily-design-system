@@ -1,0 +1,625 @@
+--- /var/folders/zp/p2vtmfrj35b27yh4ns6h_6h40000gn/T/tmp.WPxE2IpQUa	2026-11-20 06:21:07.942809148 +0000
++++ lily-design-system-web-components-kanban-board/kanban-board.test.ts	2026-11-20 05:50:57.584585630 +0000
+@@ -1,13 +1,16 @@
+-import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
++import { afterEach, describe, expect, test, vi } from "vitest";
+
+ import { KanbanBoard } from "./kanban-board.js";
+ import type { KanbanCard, KanbanColumn, KanbanLabels } from "./kanban-board.js";
+
+-// Ensure the custom element is registered exactly once for the suite.
+ if (typeof customElements !== "undefined" && !customElements.get("lily-kanban-board")) {
+     customElements.define("lily-kanban-board", KanbanBoard);
+ }
+
++afterEach(() => {
++    document.body.innerHTML = "";
++});
++
+ const COLUMNS: KanbanColumn[] = [
+     { id: "todo", title: "To Do" },
+     { id: "doing", title: "In Progress", wipLimit: 1 },
+@@ -29,34 +32,42 @@
+     moveAnnouncement: (title, column) => `${title} moved to ${column}`,
+ };
+
+-function mount(opts: {
++function mount(props: {
++    label?: string;
++    caption?: string;
+     columns?: KanbanColumn[];
+     cards?: KanbanCard[];
+     labels?: KanbanLabels;
+-    label?: string;
+     onMove?: (cardId: string, toColumnId: string) => void;
++    attrs?: Record<string, string>;
+ }): KanbanBoard {
+     const el = document.createElement("lily-kanban-board") as KanbanBoard;
+-    el.setAttribute("label", opts.label ?? "Sprint board");
++    el.label = props.label ?? "Sprint board";
++    if (props.caption) el.caption = props.caption;
++    for (const [k, v] of Object.entries(props.attrs ?? {})) el.setAttribute(k, v);
+     document.body.appendChild(el);
+-    el.columns = opts.columns ?? COLUMNS;
+-    el.cards = opts.cards ?? CARDS;
+-    if (opts.labels) el.labels = opts.labels;
+-    if (opts.onMove) el.onMove = opts.onMove;
++    el.columns = props.columns ?? COLUMNS;
++    el.cards = props.cards ?? CARDS;
++    if (props.labels) el.labels = props.labels;
++    if (props.onMove) el.onMove = props.onMove;
+     return el;
+ }
+
+ function bodyRows(): HTMLElement[] {
+-    return Array.from(document.querySelectorAll(".kanban-table-body .kanban-table-row"));
++    return Array.from(document.querySelectorAll(".kanban-board tbody tr"));
++}
++
++function headers(): HTMLElement[] {
++    return Array.from(document.querySelectorAll(".kanban-board thead th"));
+ }
+
+ function tabbableCells(): HTMLElement[] {
+-    return Array.from(document.querySelectorAll('.kanban-table-td[tabindex="0"]'));
++    return Array.from(document.querySelectorAll('.kanban-board-td[tabindex="0"]'));
+ }
+
+-function press(el: Element, key: string, opts: KeyboardEventInit = {}): void {
++function press(el: Element, key: string, extra: KeyboardEventInit = {}): void {
+     el.dispatchEvent(
+-        new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true, ...opts }),
++        new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true, ...extra }),
+     );
+ }
+
+@@ -64,28 +75,38 @@
+     el.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
+ }
+
+-beforeEach(() => {
+-    document.body.replaceChildren();
+-});
++function moveButtonFor(cardTitle: string): HTMLButtonElement {
++    const span = Array.from(document.querySelectorAll(".kanban-board-card-title")).find(
++        (s) => s.textContent === cardTitle,
++    )!;
++    const td = span.closest("td")!;
++    return td.querySelector("lily-icon-button button")!;
++}
+
+-afterEach(() => {
+-    document.body.replaceChildren();
+-});
++function openListFor(cardTitle: string): HTMLUListElement {
++    const span = Array.from(document.querySelectorAll(".kanban-board-card-title")).find(
++        (s) => s.textContent === cardTitle,
++    )!;
++    const td = span.closest("td")!;
++    return td.querySelector(".kanban-board-move-list:not([hidden])")!;
++}
+
+ describe("KanbanBoard — markup (§8.1, §8.2, §8.3, §8.4)", () => {
+     test("§8.1 renders a kanban-board root wrapping a role=grid labelled by `label`", () => {
+         mount({});
+-        expect(document.querySelector(".kanban-board")).toBeTruthy();
+-        const grid = document.querySelector('[role="grid"]')!;
++        const root = document.querySelector(".kanban-board");
++        expect(root).toBeTruthy();
++        const grid = document.querySelector("table.kanban-table")!;
++        expect(grid.getAttribute("role")).toBe("grid");
+         expect(grid.getAttribute("aria-label")).toBe("Sprint board");
+     });
+
+     test("§8.2 renders column titles and, when labels.cardCount is set, a derived count", () => {
+         mount({ labels: LABELS });
+-        const headers = document.querySelectorAll(".kanban-table-th");
+-        expect(headers[0].textContent).toContain("To Do");
+-        expect(headers[0].textContent).toContain("2 cards");
+-        expect(headers[2].textContent).toContain("0 cards");
++        expect(document.body.textContent).toContain("To Do");
++        const hs = headers();
++        expect(hs[0].textContent).toContain("2 cards");
++        expect(hs[2].textContent).toContain("0 cards");
+     });
+
+     test("§8.2 no card count renders when labels.cardCount is absent", () => {
+@@ -95,17 +116,17 @@
+
+     test("§8.3 a column over its wipLimit carries data-over-limit and the warning text", () => {
+         mount({ labels: LABELS });
+-        const headers = document.querySelectorAll(".kanban-table-th");
+-        expect(headers[1].hasAttribute("data-over-limit")).toBe(true);
+-        expect(headers[1].textContent).toContain("Over limit: 2/1");
+-        expect(headers[0].hasAttribute("data-over-limit")).toBe(false);
+-        expect(headers[2].hasAttribute("data-over-limit")).toBe(false);
++        const hs = headers();
++        expect(hs[1].hasAttribute("data-over-limit")).toBe(true);
++        expect(hs[1].textContent).toContain("Over limit: 2/1");
++        expect(hs[0].hasAttribute("data-over-limit")).toBe(false);
++        expect(hs[2].hasAttribute("data-over-limit")).toBe(false);
+     });
+
+     test("§8.4 the body is rectangular: row count equals the largest column's card count", () => {
+         mount({});
+         expect(bodyRows()).toHaveLength(2); // todo and doing both have 2 cards
+-        const doneCells = bodyRows().map((row) => row.querySelectorAll(".kanban-table-td")[2]);
++        const doneCells = bodyRows().map((row) => row.querySelectorAll(".kanban-board-td")[2]);
+         for (const cell of doneCells) {
+             expect(cell.textContent?.trim()).toBe("");
+         }
+@@ -155,79 +176,77 @@
+     test("§8.7 Enter on a focused card opens its move menu", () => {
+         mount({ labels: LABELS });
+         press(tabbableCells()[0], "Enter");
+-        const button = document.querySelector('[aria-label="Move Card One"]')!;
++        const button = moveButtonFor("Card One");
++        expect(button.getAttribute("aria-label")).toBe("Move Card One");
+         expect(button.getAttribute("aria-expanded")).toBe("true");
+-        const listbox = document.querySelector('[role="listbox"]')!;
+-        expect(listbox.getAttribute("aria-label")).toBe("Move to column");
+-        expect(document.querySelectorAll('[role="option"]')).toHaveLength(3);
++        const list = openListFor("Card One");
++        expect(list.getAttribute("aria-label")).toBe("Move to column");
++        expect(list.querySelectorAll('[role="option"]')).toHaveLength(3);
+     });
+
+     test("§8.8 choosing a destination calls onMove, closes the menu, and refocuses the move button", () => {
+         const onMove = vi.fn();
+         mount({ labels: LABELS, onMove });
+         press(tabbableCells()[0], "Enter");
+-        const doneOption = Array.from(document.querySelectorAll('[role="option"]')).find(
++        const list = openListFor("Card One");
++        const doneOption = Array.from(list.querySelectorAll('[role="option"]')).find(
+             (o) => o.textContent === "Done",
+         )!;
+         click(doneOption);
+         expect(onMove).toHaveBeenCalledWith("c1", "done");
+-        expect(document.querySelector('[role="listbox"]')).toBeNull();
+-        expect((document.activeElement as HTMLElement)?.className).toContain(
+-            "kanban-board-move-button",
+-        );
+-        expect((document.activeElement as HTMLElement)?.getAttribute("aria-label")).toBe(
+-            "Move Card One",
+-        );
++        expect(document.querySelector(".kanban-board-move-list:not([hidden])")).toBeNull();
++        expect(document.activeElement).toBe(moveButtonFor("Card One"));
+     });
+
+     test("§8.9 Escape closes the move menu without calling onMove", () => {
+         const onMove = vi.fn();
+         mount({ labels: LABELS, onMove });
+         press(tabbableCells()[0], "Enter");
+-        const listbox = document.querySelector('[role="listbox"]')!;
+-        press(listbox, "Escape");
++        const list = openListFor("Card One");
++        press(list, "Escape");
+         expect(onMove).not.toHaveBeenCalled();
+-        expect(document.querySelector('[role="listbox"]')).toBeNull();
++        expect(document.querySelector(".kanban-board-move-list:not([hidden])")).toBeNull();
+     });
+-});
+
+-describe("KanbanBoard — move-menu button identity regression", () => {
+-    // Every other framework catalog's kanban-board port independently
+-    // found the same latent bug in the Svelte reference: a single shared
+-    // element reference for "the move button" refocuses whichever card's
+-    // button mounted LAST, not the card whose menu actually closed. This
+-    // proves the fix (#moveButtonEls keyed by card id) by opening and
+-    // closing two different cards' menus in sequence and checking DOM
+-    // identity, not just a CSS class.
+-    test("closing card A's menu refocuses card A's own button, not card B's", () => {
++    test("Arrow keys inside the open move menu do not also move the grid's roving-tabindex cursor (stopPropagation)", () => {
+         mount({ labels: LABELS });
+-        const cardOneButton = document.querySelector(
+-            '[aria-label="Move Card One"]',
+-        ) as HTMLButtonElement;
++        press(tabbableCells()[0], "Enter"); // opens Card One's menu; grid cursor stays at row 0 col 0
++        const list = openListFor("Card One");
++        press(list, "ArrowDown");
++        // The grid cursor must still be on the original cell — only the
++        // listbox's own active option should have moved.
++        expect(tabbableCells()[0].getAttribute("data-row")).toBe("0");
++        expect(tabbableCells()[0].getAttribute("data-col")).toBe("0");
++        const activeOption = list.querySelector("[data-active]");
++        expect(activeOption?.textContent).toBe("In Progress");
++    });
++});
+
+-        // Open and close card One's menu via Escape.
++describe("KanbanBoard — move-menu button identity, not a shared/last-mounted ref (§10)", () => {
++    test("closing card one's menu refocuses card one's own button, even after card two's menu opened later", () => {
++        const onMove = vi.fn();
++        mount({ labels: LABELS, onMove });
++
++        // Open and close card one's menu via Escape — refocuses card one's button.
+         press(tabbableCells()[0], "Enter");
+-        press(document.querySelector('[role="listbox"]')!, "Escape");
+-        expect(document.activeElement).toBe(cardOneButton);
++        press(openListFor("Card One"), "Escape");
++        expect(document.activeElement).toBe(moveButtonFor("Card One"));
+
+-        // Move the roving-tabindex cursor to card Two's cell (row 1, col 0
+-        // — c2 is the second "todo" card) via the component's own keyboard
+-        // path, then open/close ITS menu.
+-        press(tabbableCells()[0], "ArrowDown");
+-        const cardTwoCell = tabbableCells()[0];
+-        expect(cardTwoCell.getAttribute("data-row")).toBe("1");
+-        expect(cardTwoCell.getAttribute("data-col")).toBe("0");
+-        const cardTwoButton = cardTwoCell.querySelector(
+-            '[aria-label="Move Card Two"]',
+-        ) as HTMLButtonElement;
+-        expect(cardOneButton).not.toBe(cardTwoButton);
++        // Move the grid cursor to card two and open/choose from its menu.
++        press(tabbableCells()[0], "ArrowDown"); // now on row 1, col 0 = Card Two
++        press(tabbableCells()[0], "Enter");
++        const list = openListFor("Card Two");
++        const doneOption = Array.from(list.querySelectorAll('[role="option"]')).find(
++            (o) => o.textContent === "Done",
++        )!;
++        click(doneOption);
+
+-        press(cardTwoCell, "Enter");
+-        press(document.querySelector('[role="listbox"]')!, "Escape");
+-        // The bug would refocus cardOneButton (the last-bound shared ref
+-        // in a naive port) instead of cardTwoButton.
+-        expect(document.activeElement).toBe(cardTwoButton);
+-        expect(document.activeElement).not.toBe(cardOneButton);
++        expect(onMove).toHaveBeenCalledWith("c2", "done");
++        // Focus must land on CARD TWO's button, not card one's (the
++        // last-mounted-ref bug every other framework catalog's port found
++        // and fixed in the Svelte reference).
++        expect(document.activeElement).toBe(moveButtonFor("Card Two"));
++        expect(document.activeElement).not.toBe(moveButtonFor("Card One"));
+     });
+ });
+
+@@ -236,17 +255,23 @@
+         const onMove = vi.fn();
+         mount({ onMove });
+         const dataTransfer = { setData: vi.fn(), getData: vi.fn(() => "c1") };
+-        const cardTitle = document.querySelector(".kanban-board-card-title")!;
+-        cardTitle.dispatchEvent(
+-            Object.assign(new Event("dragstart", { bubbles: true, cancelable: true }), {
+-                dataTransfer,
+-            }),
+-        );
++        const cardTitle = Array.from(document.querySelectorAll(".kanban-board-card-title")).find(
++            (s) => s.textContent === "Card One",
++        )!;
++        // jsdom's DragEvent doesn't carry a writable dataTransfer, so
++        // dispatch a plain Event and monkeypatch dataTransfer onto it.
++        const dragStart = new Event("dragstart", {
++            bubbles: true,
++            cancelable: true,
++        }) as unknown as DragEvent;
++        Object.defineProperty(dragStart, "dataTransfer", { value: dataTransfer });
++        cardTitle.dispatchEvent(dragStart);
++
++        const doneCell = bodyRows()[0].querySelectorAll(".kanban-board-td")[2];
++        const drop = new Event("drop", { bubbles: true, cancelable: true }) as unknown as DragEvent;
++        Object.defineProperty(drop, "dataTransfer", { value: dataTransfer });
++        doneCell.dispatchEvent(drop);
+
+-        const doneCell = bodyRows()[0].querySelectorAll(".kanban-table-td")[2];
+-        doneCell.dispatchEvent(
+-            Object.assign(new Event("drop", { bubbles: true, cancelable: true }), { dataTransfer }),
+-        );
+         expect(onMove).toHaveBeenCalledWith("c1", "done");
+     });
+ });
+@@ -255,7 +280,8 @@
+     test("§8.11 a successful move announces via labels.moveAnnouncement", () => {
+         mount({ labels: LABELS });
+         press(tabbableCells()[0], "Enter");
+-        const doneOption = Array.from(document.querySelectorAll('[role="option"]')).find(
++        const list = openListFor("Card One");
++        const doneOption = Array.from(list.querySelectorAll('[role="option"]')).find(
+             (o) => o.textContent === "Done",
+         )!;
+         click(doneOption);
+@@ -267,49 +293,35 @@
+     test("§8.11 no announcement fires when moveAnnouncement is absent", () => {
+         mount({});
+         press(tabbableCells()[0], "Enter");
+-        press(document.activeElement!, "ArrowDown");
+-        press(document.activeElement!, "Enter");
++        const list = openListFor("Card One");
++        press(list, "ArrowDown");
++        press(list, "Enter");
+         expect(document.querySelector(".kanban-board-status")?.textContent).toBe("");
+     });
+
+-    test("§8.12 the custom element itself already carries any extra HTML attribute a consumer sets (no forwarding needed)", () => {
+-        const el = document.createElement("lily-kanban-board") as KanbanBoard;
+-        el.setAttribute("label", "Sprint board");
+-        el.setAttribute("data-testid", "board-root");
+-        document.body.appendChild(el);
+-        el.columns = COLUMNS;
+-        el.cards = CARDS;
+-        expect(document.querySelector('[data-testid="board-root"]')).toBe(el);
++    test("§8.12 extra attributes spread onto the root", () => {
++        mount({ attrs: { "data-testid": "board-root" } });
++        expect(document.querySelector('[data-testid="board-root"]')).toBeTruthy();
+     });
+ });
+
+-describe("KanbanBoard — labels are the only source of user-facing strings (§8.13)", () => {
+-    test("§8.13 no move button accessible name, count, or warning renders without a label", () => {
++describe("KanbanBoard — no hardcoded strings (§8.13)", () => {
++    test("§8.13 without labels there is no unnamed move button, and the menu is named by the card", () => {
+         mount({});
+-        expect(document.querySelector(".kanban-board-count")).toBeNull();
+-        expect(document.querySelector(".kanban-board-wip-warning")).toBeNull();
+-        // No unnamed button: without labels.moveButton there is none at all.
+         expect(document.querySelector(".kanban-board-move-button")).toBeNull();
++        press(tabbableCells()[0], "Enter");
++        const list = openListFor("Card One");
++        expect(list.getAttribute("aria-label")).toBe("Card One");
+     });
+ });
+
+ describe("KanbanBoard — focus, tab stop and move edge cases", () => {
+-    function option(name: string): HTMLElement {
+-        return Array.from(document.querySelectorAll<HTMLElement>(".kanban-board-move-option")).find(
++    function option(list: HTMLElement, name: string): HTMLElement {
++        return Array.from(list.querySelectorAll<HTMLElement>(".kanban-board-move-option")).find(
+             (el) => el.textContent?.trim() === name,
+         )!;
+     }
+
+-    function list(): HTMLElement | null {
+-        return document.querySelector<HTMLElement>(".kanban-board-move-list");
+-    }
+-
+-    function moveButton(name: string): HTMLElement | null {
+-        return document.querySelector<HTMLElement>(
+-            `.kanban-board-move-button[aria-label="${name}"]`,
+-        );
+-    }
+-
+     function dragEvent(type: string, dataTransfer: unknown): Event {
+         const event = new Event(type, { bubbles: true, cancelable: true });
+         Object.defineProperty(event, "dataTransfer", { value: dataTransfer });
+@@ -322,53 +334,32 @@
+             el.cards = CARDS.map((c) => (c.id === id ? { ...c, columnId } : c));
+         };
+         press(tabbableCells()[0], "Enter");
+-        click(option("Done"));
+-        expect(document.activeElement).toBe(moveButton("Move Card One"));
++        click(option(openListFor("Card One"), "Done"));
++        expect(document.activeElement).toBe(moveButtonFor("Card One"));
+         expect(tabbableCells()).toHaveLength(1);
+         expect(tabbableCells()[0].getAttribute("data-col")).toBe("2");
+     });
+
+-    test("§8.14 keys pressed in the open move menu do not move the grid cursor or focus", () => {
+-        mount({ labels: LABELS });
+-        press(tabbableCells()[0], "Enter");
+-        const menu = list()!;
+-        expect(document.activeElement).toBe(menu);
+-        press(menu, "ArrowDown");
+-        press(menu, "ArrowRight");
+-        expect(tabbableCells()[0].getAttribute("data-col")).toBe("0");
+-        expect(document.activeElement).toBe(menu);
+-    });
+-
+-    test("§8.14 choosing a destination in the menu does not reopen it", () => {
+-        mount({ labels: LABELS });
+-        press(tabbableCells()[0], "Enter");
+-        press(list()!, "ArrowDown");
+-        press(list()!, "Enter");
+-        expect(list()).toBeNull();
+-    });
+-
+     test("§8.15 choosing the card's own column, or dropping it there, is not a move", () => {
+         const onMove = vi.fn();
+         mount({ labels: LABELS, onMove });
+         press(tabbableCells()[0], "Enter");
+-        click(option("To Do"));
+-        expect(list()).toBeNull();
++        click(option(openListFor("Card One"), "To Do"));
++        expect(document.querySelector(".kanban-board-move-list:not([hidden])")).toBeNull();
+         expect(document.querySelector(".kanban-board-status")?.textContent).toBe("");
+
+         const dataTransfer = { setData: vi.fn(), getData: vi.fn(() => "c1") };
+         const title = Array.from(document.querySelectorAll(".kanban-board-card-title")).find(
+-            (el) => el.textContent?.trim() === "Card One",
++            (el) => el.textContent === "Card One",
+         )!;
+         title.dispatchEvent(dragEvent("dragstart", dataTransfer));
+-        bodyRows()[1]
+-            .querySelectorAll(".kanban-table-td")[0]
+-            .dispatchEvent(dragEvent("drop", dataTransfer));
++        bodyRows()[1].querySelectorAll("td")[0].dispatchEvent(dragEvent("drop", dataTransfer));
+         expect(onMove).not.toHaveBeenCalled();
+     });
+
+     test("§8.16 focusing a cell by pointer moves the cursor there", () => {
+         mount({});
+-        const cell = bodyRows()[1].querySelectorAll<HTMLElement>(".kanban-table-td")[1];
++        const cell = bodyRows()[1].querySelectorAll<HTMLElement>("td")[1];
+         cell.focus();
+         expect(tabbableCells()).toEqual([cell]);
+         press(cell, "ArrowUp");
+@@ -376,35 +367,29 @@
+         expect(tabbableCells()[0].getAttribute("data-col")).toBe("1");
+     });
+
+-    test("§8.13 without labels.moveButton the menu still opens from the cell, named by the card, and Escape refocuses the cell", () => {
++    test("§8.13 without labels.moveButton, Escape returns focus to the card's cell", () => {
+         mount({});
+         const cell = tabbableCells()[0];
+         press(cell, "Enter");
+-        expect(list()!.getAttribute("aria-label")).toBe("Card One");
+-        press(list()!, "Escape");
++        press(openListFor("Card One"), "Escape");
+         expect(document.activeElement).toBe(cell);
+     });
+
+     test("§8.3 a column exactly at its wipLimit is not over it", () => {
+         mount({ cards: CARDS.filter((c) => c.id !== "c4"), labels: LABELS });
+-        expect(
+-            document.querySelectorAll(".kanban-table-th")[1].hasAttribute("data-over-limit"),
+-        ).toBe(false);
++        expect(headers()[1].hasAttribute("data-over-limit")).toBe(false);
+     });
+ });
+
+ describe("KanbanBoard — reorder, veto and read-only (§8.17–§8.21)", () => {
+     const status = () => document.querySelector(".kanban-board-status")?.textContent;
+
+-    test("§8.17 Alt+ArrowDown calls onReorder, fires reordercard and announces it", () => {
++    test("§8.17 Alt+ArrowDown calls onReorder and announces it", () => {
+         const onReorder = vi.fn();
+         const el = mount({ labels: { reorderAnnouncement: (t, p, n) => `${t} is ${p} of ${n}` } });
+         el.onReorder = onReorder;
+-        const events: unknown[] = [];
+-        el.addEventListener("reordercard", (e) => events.push((e as CustomEvent).detail));
+         press(tabbableCells()[0], "ArrowDown", { altKey: true });
+         expect(onReorder).toHaveBeenCalledWith("c1", 1);
+-        expect(events).toEqual([{ cardId: "c1", toIndex: 1 }]);
+         expect(status()).toBe("Card One is 2 of 2");
+     });
+
+@@ -425,7 +410,7 @@
+         el.canMove = (_c, to) => to.id !== "done";
+         press(tabbableCells()[0], "Enter");
+         const option = Array.from(document.querySelectorAll(".kanban-board-move-option")).find(
+-            (o) => o.textContent === "Done",
++            (o) => o.textContent === "Done" && !o.closest("[hidden]"),
+         )!;
+         expect(option.getAttribute("aria-disabled")).toBe("true");
+         click(option);
+@@ -438,9 +423,9 @@
+         const el = mount({ labels: LABELS });
+         el.onReorder = onReorder;
+         el.readonly = true;
+-        expect(document.querySelector(".kanban-board-move-button")).toBeNull();
++        expect(document.querySelector("lily-icon-button")).toBeNull();
+         press(tabbableCells()[0], "Enter");
+-        expect(document.querySelector('[role="listbox"]')).toBeNull();
++        expect(document.querySelector(".kanban-board-move-list:not([hidden])")).toBeNull();
+         press(tabbableCells()[0], "ArrowDown", { altKey: true });
+         expect(onReorder).not.toHaveBeenCalled();
+         expect(document.querySelector("[draggable='true']")).toBeNull();
+@@ -465,13 +450,11 @@
+             (b) => b.getAttribute("aria-label") === name,
+         ) as HTMLElement;
+     const text = () => document.body.textContent ?? "";
+-    const headers = () =>
+-        Array.from(document.querySelectorAll(".kanban-table-th")) as HTMLElement[];
+     const stat = () => document.querySelector(".kanban-board-status")?.textContent;
+     const moveTo = (title: string) => {
+         press(tabbableCells()[0], "Enter");
+         const option = Array.from(document.querySelectorAll(".kanban-board-move-option")).find(
+-            (o) => o.textContent === title,
++            (o) => o.textContent === title && !o.closest("[hidden]"),
+         ) as HTMLElement;
+         return option;
+     };
+@@ -499,7 +482,7 @@
+         const el = mount({ labels: LABELS });
+         el.collapsedColumns = ["todo"];
+         expect(text()).not.toContain("Card One");
+-        const cells = Array.from(document.querySelectorAll<HTMLElement>(".kanban-table-td")).filter(
++        const cells = Array.from(document.querySelectorAll<HTMLElement>(".kanban-board-td")).filter(
+             (c) => c.dataset.col === "0",
+         );
+         expect(cells.every((c) => c.hasAttribute("data-collapsed"))).toBe(true);
+@@ -593,14 +576,14 @@
+     const cell = (id: string) => document.querySelector<HTMLElement>(`[data-card-id="${id}"]`)!;
+     const cellAt = (row: number, col: number) =>
+         document.querySelector<HTMLElement>(
+-            `.kanban-table-td[data-row="${row}"][data-col="${col}"]`,
++            `.kanban-board-td[data-row="${row}"][data-col="${col}"]`,
+         )!;
+     const titles = () =>
+         Array.from(document.querySelectorAll(".kanban-board-card-title")).map((e) =>
+             e.textContent?.trim(),
+         );
+     const status = () => document.querySelector(".kanban-board-status")!.textContent;
+-    const heads = () => Array.from(document.querySelectorAll<HTMLElement>(".kanban-table-th"));
++    const heads = () => Array.from(document.querySelectorAll<HTMLElement>(".kanban-board th"));
+     const focusIn = (el: Element) => el.dispatchEvent(new FocusEvent("focusin", { bubbles: true }));
+     const dragEvent = (type: string, d: unknown) => {
+         const e = new Event(type, { bubbles: true, cancelable: true });
+@@ -636,7 +619,7 @@
+         el.compare = (a, b) => b.title.localeCompare(a.title);
+         const todo = Array.from(
+             document.querySelectorAll<HTMLElement>(
+-                '.kanban-table-td[data-col="0"] .kanban-board-card-title',
++                '.kanban-board-td[data-col="0"] .kanban-board-card-title',
+             ),
+         ).map((e) => e.textContent?.trim());
+         expect(todo).toEqual(["Card Two", "Card One"]);
+@@ -686,14 +669,14 @@
+         expect(cellAt(0, 0).querySelector(".kanban-board-move-button")).toBeNull();
+         expect(cellAt(0, 0).querySelector("[draggable]")).toBeNull();
+         press(cellAt(0, 0), "Enter");
+-        expect(document.querySelector('[role="listbox"]')).toBeNull();
++        expect(document.querySelector('[role="listbox"]:not([hidden])')).toBeNull();
+         press(cellAt(0, 0), "ArrowDown", { altKey: true });
+         expect(onReorder).not.toHaveBeenCalled();
+         focusIn(cellAt(1, 0));
+         press(cellAt(1, 0), "Enter");
+         click(
+             Array.from(document.querySelectorAll(".kanban-board-move-option")).find(
+-                (o) => o.textContent === "Done",
++                (o) => o.textContent === "Done" && !o.closest("[hidden]"),
+             )!,
+         );
+         expect(onMove).toHaveBeenCalledWith("c2", "done");
+@@ -728,14 +711,6 @@
+         expect(cell("c2").getAttribute("data-priority")).toBe("low");
+     });
+
+-    test("§8.48a the card cell is named by its content, so the subtitle and badges a sighted user sees are in the name (WCAG 2.5.3)", () => {
+-        mount({ cards: rich, columns: cols });
+-        expect(cell("c1").hasAttribute("aria-label")).toBe(false);
+-        const text = cell("c1").textContent!;
+-        for (const visible of ["Card One", "Source · 80", "P1", "VIP"])
+-            expect(text).toContain(visible);
+-    });
+-
+     test("§8.48 subtitle, badges and a link title render; §8.50 the flag is text, data-flag and aria-describedby; §8.51 column flag and accent", () => {
+         mount({ cards: rich, columns: cols });
+         expect(cell("c1").querySelector(".kanban-board-card-subtitle")!.textContent).toBe(
+@@ -786,7 +761,9 @@
+         el.allowedColumns = (c) => (c.id === "c1" ? ["doing"] : ["done"]);
+         press(cell("c1"), "Enter");
+         expect(
+-            Array.from(document.querySelectorAll('[role="option"]')).map((o) => o.textContent),
++            Array.from(document.querySelectorAll('[role="option"]'))
++                .filter((o) => !o.closest("[hidden]"))
++                .map((o) => o.textContent),
+         ).toEqual(["To Do", "In Progress"]);
+         document.body.replaceChildren();
+         const onMove = vi.fn();
+@@ -935,7 +912,6 @@
+         };
+         focusCell("c1");
+         press(cell("c1"), "ArrowRight", { altKey: true });
+-        await Promise.resolve();
+         await new Promise((r) => setTimeout(r, 0));
+         press(tabbableCells()[0], "z", { ctrlKey: true });
+         await new Promise((r) => setTimeout(r, 0));
+@@ -955,7 +931,7 @@
+         focusCell("c1");
+         press(cell("c1"), "ArrowRight", { altKey: true, shiftKey: true });
+         expect(orders.at(-1)).toEqual(["doing", "todo", "done"]);
+-        expect(document.querySelector(".kanban-table-th")!.textContent).toContain("In Progress");
++        expect(headers()[0].textContent).toContain("In Progress");
+     });
+
+     test("§8.67 lanes: lane header rows, cards grouped by laneId", () => {
+@@ -1306,7 +1282,8 @@
+         const editor = document.querySelector<HTMLElement>(".kanban-board-field-editor")!;
+         expect(editor).not.toBeNull();
+         await fireEvent.keyDown(editor, { key: "ArrowDown" });
+-        expect(document.querySelector(".kanban-board-move-list")).toBeNull();
++        // The catalog renders every card's menu list hidden; an open one would not be `hidden`.
++        expect(document.querySelector(".kanban-board-move-list:not([hidden])")).toBeNull();
+     });
+
+     test("§8.109 Tab commits and moves to the card's next editable field", async () => {

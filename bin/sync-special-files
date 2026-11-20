@@ -161,7 +161,9 @@ def parts(name):
     # framework implementation: no package.json, nothing to `npm run
     # dev`, no required-routes contract. Matched by suffix, not any
     # single skill's exact name, so a future skill package is
-    # recognised the same way without another edit here. Checked
+    # recognised the same way without another edit here. The four
+    # task-shaped skills deliberately use their public task names rather
+    # than a redundant -skill suffix, so they are named explicitly. Checked
     # *before* the framework-prefix loop below: a name like
     # "lily-design-system-angular-headless-skill" starts with the
     # "angular" framework prefix too, and its tail ("headless-skill")
@@ -175,7 +177,13 @@ def parts(name):
         for fw in FRAMEWORK:
             if name.startswith(f"lily-design-system-{fw}-"):
                 return fw, "package"
-    if name.endswith("-skill"):
+    task_skills = {
+        "lily-design-system-install",
+        "lily-design-system-add-component",
+        "lily-design-system-theme",
+        "lily-design-system-migrate-from-bootstrap",
+    }
+    if name.endswith("-skill") or name in task_skills:
         for fw in FRAMEWORK:
             if name.startswith(f"lily-design-system-{fw}-"):
                 return fw, "skill"

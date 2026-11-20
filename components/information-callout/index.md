@@ -90,6 +90,10 @@ The consumer provides all CSS styling. The component renders with a `.informatio
 - `alert` — a status message for important information or feedback
 - `inset-text` — indented text to distinguish it from surrounding content
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA note role: https://www.w3.org/TR/wai-aria-1.2/#note

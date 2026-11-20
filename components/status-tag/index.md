@@ -69,6 +69,10 @@ The component renders with `.status-tag` as the root class. No default styles ar
 - `tag` — generic keyword tag
 - `flair` — decorative emphasis
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [GOV.UK Tag pattern](https://design-system.service.gov.uk/components/tag/)

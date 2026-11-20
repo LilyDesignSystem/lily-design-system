@@ -89,6 +89,10 @@ A national identifier is personal data, and often a key to other records.
 - `rossiya-snils-view` — a read-only display of Russia's СНИЛС (Strakhovoy Nomer Individualnogo Litsevogo Scheta)
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [SNILS (Russia)](<https://en.wikipedia.org/wiki/SNILS_(Russia)>)

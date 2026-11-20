@@ -56,6 +56,10 @@ The component renders with `.description-list-item` as the root class. No defaul
 - `description-list` — parent list
 - `summary-list-item` — change-link summary list item
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN dt element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dt)

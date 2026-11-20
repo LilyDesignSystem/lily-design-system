@@ -38,5 +38,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Grid.razor"
   },
   "docs": "https://lilydesignsystem.com/components/grid/",
+  "markdown": "https://lilydesignsystem.com/components/grid.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/grid/AGENTS.md"
 }

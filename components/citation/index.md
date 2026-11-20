@@ -92,6 +92,10 @@ The consumer provides all CSS styling. The component renders with a `.citation` 
 - `digital-object-identifier-link` — a permanent hyperlink for a Digital Object Identifier (DOI) to an electronic source
 - `footnote` — a footnote reference and content element
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN HTML cite element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/cite

@@ -50,6 +50,10 @@ The `<input type="range">` supplies all of these natively, with the implicit `sl
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Documentation: index.md

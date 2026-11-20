@@ -234,6 +234,14 @@ Style the label (`:has(input:checked)` for the selected state, `:has(input:focus
 hide the input visually without removing it — clip it, never `display: none` or `hidden`, which take it out of the
 form and the accessibility tree. For removable chips, use `TagInputDiv`.
 
+#### Known limitations: disabled and look-alike controls
+
+A choice chip is still a native radio or checkbox, not a button. Use the input's native `disabled` state when the
+choice is unavailable; style the label with `:has(input:disabled)`. Do not replace it with a button or a generic element,
+because that loses form submission, reset and the radio/checkbox keyboard model. The visible label supplies the input's
+accessible name; an icon-only choice needs an `aria-label` on the input. A visually hidden input must remain in the
+accessibility tree and tab order, so never use `display: none` or `hidden`.
+
 ### Summary card pattern: Card → title + header actions + SummaryList
 
 A composition of `Card` and `SummaryList`, not a component: the card title, optional header actions, and a summary list in the body.

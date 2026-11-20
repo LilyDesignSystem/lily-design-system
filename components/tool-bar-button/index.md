@@ -114,6 +114,10 @@ ToolBarButton is a child of ToolBar, following the Bar/BarButton pattern. The pa
 
 - `tool-bar` — a horizontal bar of tool actions
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Toolbar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/

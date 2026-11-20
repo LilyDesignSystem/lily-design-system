@@ -38,5 +38,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/TaiwanGuominShenfenzhengTongyiBianhaoInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/taiwan-guomin-shenfenzheng-tongyi-bianhao-input/",
+  "markdown": "https://lilydesignsystem.com/components/taiwan-guomin-shenfenzheng-tongyi-bianhao-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/taiwan-guomin-shenfenzheng-tongyi-bianhao-input/AGENTS.md"
 }

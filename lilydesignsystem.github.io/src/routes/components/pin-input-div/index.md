@@ -6,13 +6,15 @@ single-character input fields for entering Personal Identification Numbers
 codes. Each digit occupies its own input field, creating a segmented entry
 experience that clearly communicates the expected code length to the user.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 The component automatically advances focus to the next field when a digit is
 entered, supports Backspace to move back to the previous field, and allows Arrow
 key navigation between fields. The combined value of all digit fields is
 available as a single bindable string. This pattern is commonly used in
 two-factor authentication flows, SMS verification, and secure PIN entry
 interfaces. Each individual input field has an accessible label indicating its
-position (e.g., "Digit 1 of 4") to support screen reader users.
+position (e.g., "Digit 1 of 4", supplied through `digitLabel` in the page's language) to support screen reader users.
 
 ## Implementation Notes
 
@@ -29,6 +31,7 @@ position (e.g., "Digit 1 of 4") to support screen reader users.
 
 - `label`: string (required) -- accessible label for the group via aria-label
 - `length`: number (default: 4) -- number of digit inputs
+- `digitLabel`: (position: number, length: number) => string (optional) -- each input's accessible name; defaults to `label`
 - `value`: string (default: "") -- bindable combined string of all digits
 - `disabled`: boolean (default: false) -- disables all inputs
 - `...restProps`: Any additional HTML attributes on the group div
@@ -98,7 +101,7 @@ Disabled state while verifying:
 ## ARIA
 
 - `role="group"` with `aria-label` on the container
-- Each input has `aria-label="Digit X of Y"` for positional context
+- Each input's `aria-label` comes from the optional `digitLabel(position, length)` (e.g. "Digit 1 of 4"); without it each input is named by `label` — no English default
 - `inputmode="numeric"` for numeric keyboard on mobile
 
 ## When to Use
@@ -126,7 +129,7 @@ The consumer provides all CSS styling. The component renders with a `.pin-input-
 
 - Verify the component renders a `<div>` element with class `pin-input-div`
 - Verify role="group"`with`aria-label` on the container
-- Verify Each input has `aria-label="Digit X of Y"` for positional context
+- Verify each input's `aria-label` comes from `digitLabel`, or is `label` without it
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied
 
@@ -139,6 +142,10 @@ The consumer provides all CSS styling. The component renders with a `.pin-input-
 
 - `password-input` — an input for entering a password with obscured text <input type="password">
 - `input-with-mask` — an input displaying a format mask placeholder for the user to fill in
+
+## Known limitations
+
+None known.
 
 ## References
 

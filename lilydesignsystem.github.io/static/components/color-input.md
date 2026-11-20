@@ -73,6 +73,10 @@ The consumer provides all CSS styling. The component renders with a `.color-inpu
 - `color-radio-group` — a two-dimensional board for picking colors by hue and saturation
 - `color-radio-input` — a button showing a color swatch in a color picker
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN `<input type="color">`: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color

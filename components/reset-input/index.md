@@ -111,6 +111,10 @@ The consumer provides all CSS styling. The component renders with a `.reset-inpu
 - `button-input` — an input element of type button for form actions <input type="button">
 - `form` — a form element for collecting and submitting user data
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN input type="reset": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/reset

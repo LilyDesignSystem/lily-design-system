@@ -107,6 +107,10 @@ The consumer provides all CSS styling. The component renders with a `.date-time-
 - `date-input` — an input for entering a date value <input type="date">
 - `time-input` — an input for entering a time value <input type="time">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN datetime-local input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/datetime-local

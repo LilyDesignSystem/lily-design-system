@@ -22,9 +22,10 @@ files = subprocess.run(
 ).stdout.split()
 
 # The AGENTS/ trees inside subprojects are rsync copies of the repo-root
-# AGENTS/ (see bin/sync), and the github.io components-route AGENTS.md is
-# a copy of components/AGENTS.md; their relative links are written for
-# the repo root and are expected not to resolve from the copy location.
+# AGENTS/ (see bin/sync), and the github.io component-route Markdown hand-off
+# files are verbatim copies from components/{slug}/ (see
+# bin/sync-site-component-docs); their relative links are written for the repo
+# root and are expected not to resolve from the copy location.
 # spec/special-files-for-public-repos/AI_STATEMENT.md is a project-agnostic
 # TEMPLATE: its relative links (SECURITY.md, GOVERNANCE.md, ...) are written
 # for the root of whatever repository it is installed into, so they are not
@@ -32,6 +33,8 @@ files = subprocess.run(
 SYNCED = re.compile(
     r"^lily[^/]*/AGENTS/"
     r"|^lilydesignsystem\.github\.io/src/routes/components/AGENTS\.md$"
+    r"|^lilydesignsystem\.github\.io/src/routes/components/[^/]+/(?:AGENTS|index|README)\.md$"
+    r"|^lilydesignsystem\.github\.io/src/routes/components/[^/]+/spec/(?:index|README)\.md$"
     r"|^spec/special-files-for-public-repos/AI_STATEMENT\.md$"
     # The site's content copies (bin/sync) keep repo-root-relative links;
     # the /news and /roadmap routes rewrite them to canonical GitHub URLs

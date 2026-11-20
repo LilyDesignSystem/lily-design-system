@@ -129,6 +129,10 @@ and `sticky-promo-banner-dismiss` classes for layout and the dismiss icon.
 - `medical-banner` — a prominent message bar across the top of a page, with medical information
 - `medical-banner-box` — a medical banner box that is inside a medical-banner component, using flexbox horizontal, with medical information
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA `complementary` role: https://www.w3.org/TR/wai-aria-1.2/#complementary

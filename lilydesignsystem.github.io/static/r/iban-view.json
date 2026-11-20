@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/IbanView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/iban-view/",
+  "markdown": "https://lilydesignsystem.com/components/iban-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/iban-view/AGENTS.md"
 }

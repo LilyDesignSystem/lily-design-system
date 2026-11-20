@@ -7,7 +7,7 @@
     in the list), writes <html lang="en"> and <html dir="ltr">,
     and dispatches a localechange CustomEvent.
 
-    The rendered control is an icon button (a bundled globe SVG)
+    The rendered control is an icon button (globe glyph, U+1F310)
     that opens a <ul role="listbox"> of <li role="option"> items —
     the WAI-ARIA APG listbox pattern. It is NOT a native <select>,
     so the whole keyboard contract is the element's own JS:
@@ -41,7 +41,7 @@
     adjust the <script src=…> to point at your build output.
 
     THE STATUS LINE IS PART OF THE PATTERN — copy it along with the
-    select. The closed control shows only an icon, so without this
+    select. The closed control shows only a glyph, so without this
     line there is nowhere the current selection is displayed or
     announced. See docs/accessibility.md.
 
@@ -74,78 +74,102 @@
     localeName() helper, not the raw "en" / "fr" code.
 -->
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>locale-picker — default (icon button + listbox)</title>
-    <script type="module" src="../../locale-picker.js"></script>
+  <head>
+    <meta charset="utf-8" />
+    <title>lily-locale-picker — default (icon button + listbox)</title>
+    <script
+      type="module"
+      src="../../locale-picker.js"
+    ></script>
     <style>
-        body { font-family: system-ui, sans-serif; padding: 2rem; }
+      body {
+        font-family: system-ui, sans-serif;
+        padding: 2rem;
+      }
 
-        /* Required: the package ships no positioning. */
-        .locale-picker { position: relative; display: inline-block; }
+      /* Required: the package ships no positioning. */
+      .locale-picker {
+        position: relative;
+        display: inline-block;
+      }
 
-        .locale-picker-button {
-            font: inherit;
-            line-height: 1;
-            padding: 0.5rem;
-            background: #ffffff;
-            border: 1px solid #4c6272;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .locale-picker-button:focus-visible,
-        .locale-picker-list:focus-visible {
-            outline: 3px solid #003087;
-            outline-offset: 2px;
-        }
+      .locale-picker-button {
+        font: inherit;
+        line-height: 1;
+        padding: 0.5rem;
+        background: #ffffff;
+        border: 1px solid #4c6272;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      .locale-picker-button:focus-visible,
+      .locale-picker-list:focus-visible {
+        outline: 3px solid #003087;
+        outline-offset: 2px;
+      }
 
-        .locale-picker-list {
-            position: absolute;
-            inset-inline-start: 0;
-            inset-block-start: calc(100% + 0.25rem);
-            z-index: 10;
-            margin: 0;
-            padding: 0.25rem 0;
-            list-style: none;
-            min-inline-size: 12rem;
-            max-block-size: 16rem;
-            overflow-y: auto;
-            background: #ffffff;
-            border: 1px solid #4c6272;
-            border-radius: 4px;
-        }
-        /* The element toggles `hidden`; never override it away. */
-        .locale-picker-list[hidden] { display: none; }
+      .locale-picker-list {
+        position: absolute;
+        inset-inline-start: 0;
+        inset-block-start: calc(100% + 0.25rem);
+        z-index: 10;
+        margin: 0;
+        padding: 0.25rem 0;
+        list-style: none;
+        min-inline-size: 12rem;
+        max-block-size: 16rem;
+        overflow-y: auto;
+        background: #ffffff;
+        border: 1px solid #4c6272;
+        border-radius: 4px;
+      }
+      /* The element toggles `hidden`; never override it away. */
+      .locale-picker-list[hidden] {
+        display: none;
+      }
 
-        .locale-picker-option { padding: 0.375rem 0.75rem; cursor: pointer; }
-        /* Keyboard-highlighted — follows the arrow keys. */
-        .locale-picker-option[data-active] { background: #f0f4f5; }
-        /* Applied — survives closing the list. Not colour-only. */
-        .locale-picker-option[aria-selected="true"] { font-weight: 700; }
-        .locale-picker-option[aria-selected="true"]::after { content: " ✓"; }
+      .locale-picker-option {
+        padding: 0.375rem 0.75rem;
+        cursor: pointer;
+      }
+      /* Keyboard-highlighted — follows the arrow keys. */
+      .locale-picker-option[data-active] {
+        background: #f0f4f5;
+      }
+      /* Applied — survives closing the list. Not colour-only. */
+      .locale-picker-option[aria-selected="true"] {
+        font-weight: 700;
+      }
+      .locale-picker-option[aria-selected="true"]::after {
+        content: " ✓";
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Locale picker — default rendering</h1>
 
     <lily-locale-picker
-        label="Language"
-        locales="en,fr,de,es"
+      label="Language"
+      locales="en,fr,de,es"
     ></lily-locale-picker>
 
-    <p class="locale-picker-status" aria-live="polite">Active language: English</p>
+    <p
+      class="locale-picker-status"
+      aria-live="polite"
+    >
+      Active language: English
+    </p>
 
     <script type="module">
-        import { localeName } from "../../locale-picker.js";
+      import { localeName } from "../../locale-picker.js";
 
-        await customElements.whenDefined("locale-picker");
+      await customElements.whenDefined("lily-locale-picker");
 
-        const status = document.querySelector(".locale-picker-status");
+      const status = document.querySelector(".locale-picker-status");
 
-        document.querySelector("locale-picker")
-            .addEventListener("localechange", (e) => {
-                status.textContent = `Active language: ${localeName(e.detail.locale)}`;
-            });
+      document.querySelector("lily-locale-picker").addEventListener("localechange", (e) => {
+        status.textContent = `Active language: ${localeName(e.detail.locale)}`;
+      });
     </script>
-</body>
+  </body>
 </html>

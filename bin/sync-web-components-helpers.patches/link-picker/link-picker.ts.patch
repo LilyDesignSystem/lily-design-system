@@ -1,0 +1,87 @@
+--- generated/link-picker.ts
++++ web-components/link-picker.ts
+@@ -14,6 +14,12 @@
+  * document and persists nothing.
+  */
+
++// Depends on `@lilydesignsystem/web-components-headless`'s `<lily-icon-button>` for the
++// trigger button, composed in `#render()` rather than hand-rolled. Imported here (not only
++// from `index.ts`) so `lily-icon-button` is registered whichever module is imported first.
++// The list stays self-built: a disclosure of real `<a>` elements, not an ARIA listbox.
++import "@lilydesignsystem/web-components-headless";
++
+ const SVG_NS = "http://www.w3.org/2000/svg";
+
+ /**
+@@ -393,26 +399,24 @@
+         root.className = `link-picker ${extraClass}`.trim();
+         root.addEventListener("focusout", this.#onRootFocusOut);
+
+-        const button = document.createElement("button");
+-        button.type = "button";
+-        button.className = "link-picker-button";
+-        button.setAttribute("aria-label", this.label);
+-        button.setAttribute("aria-expanded", "false");
+-        button.setAttribute("aria-controls", this.listId);
+-        button.appendChild(this.renderButtonContent());
+-        button.addEventListener("click", this.#onButtonClick);
+-        button.addEventListener("keydown", this.#onButtonKeydown);
+-        root.appendChild(button);
+-        this.#tooltip?.destroy();
+-        const tooltip = createTooltip(
+-            button,
+-            "link-picker-tooltip",
+-            `${this.#baseId}-tooltip`,
+-            () => this.label,
+-            () => this.#open,
+-        );
+-        root.appendChild(tooltip.el);
+-        this.#tooltip = tooltip;
++        // Composes <lily-icon-button> for the trigger. base-class replaces its default
++        // "icon-button" class outright (the catalog's `{helper}-button` convention);
++        // aria-expanded/controls are copied onto the real inner <button> by that
++        // component. Listeners are not copied, so click/keydown go on the host — both
++        // bubble up from the real button.
++        const host = document.createElement("lily-icon-button");
++        host.setAttribute("base-class", "link-picker-button");
++        host.setAttribute("label", this.label);
++        host.setAttribute("aria-expanded", "false");
++        host.setAttribute("aria-controls", this.listId);
++        host.appendChild(this.renderButtonContent());
++        host.addEventListener("click", this.#onButtonClick);
++        host.addEventListener("keydown", this.#onButtonKeydown);
++        root.appendChild(host);
++
++        const tooltipSlot = document.createElement("span");
++        tooltipSlot.hidden = true;
++        root.appendChild(tooltipSlot);
+
+         const list = document.createElement("ul");
+         list.className = "link-picker-list";
+@@ -442,11 +446,26 @@
+         root.appendChild(list);
+
+         this.#rootEl = root;
+-        this.#buttonEl = button;
+         this.#listEl = list;
+
+         this.replaceChildren(root);
++        // <lily-icon-button> only builds its real inner <button> once connected to a live
++        // document, which just happened synchronously above. The tooltip's pointer and
++        // focus listeners need that real button, so it is created now and put where the
++        // placeholder is.
++        const button = host.querySelector("button") as HTMLButtonElement;
++        this.#buttonEl = button;
+         this.#applyInitialOpen();
++        this.#tooltip?.destroy();
++        const tooltip = createTooltip(
++            button,
++            "link-picker-tooltip",
++            `${this.#baseId}-tooltip`,
++            () => this.label,
++            () => this.#open,
++        );
++        tooltipSlot.replaceWith(tooltip.el);
++        this.#tooltip = tooltip;
+     }
+ }

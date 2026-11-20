@@ -38,5 +38,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/AlImaratRaqmAlHuwiyahInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/al-imarat-raqm-al-huwiyah-input/",
+  "markdown": "https://lilydesignsystem.com/components/al-imarat-raqm-al-huwiyah-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/al-imarat-raqm-al-huwiyah-input/AGENTS.md"
 }

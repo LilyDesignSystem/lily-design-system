@@ -83,6 +83,10 @@ ContentsListItem is the child component in the ContentsNav/ContentsList/Contents
 - `contents-list` — an contents ordered list of contents list item components
 - `contents-link` — one table of contents link
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN li element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li)

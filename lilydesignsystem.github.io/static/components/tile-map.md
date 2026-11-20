@@ -145,6 +145,10 @@ The consumer provides all CSS styling. The component renders with a `.tile-map` 
 - `tile` — a grouping container that presents related content in a structured format, often as a single clickable area
 - `image` — an image element with alt text
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [Reuters Graphics TileMap component](https://github.com/reuters-graphics/graphics-components)

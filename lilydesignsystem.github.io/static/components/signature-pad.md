@@ -147,6 +147,10 @@ The consumer provides all CSS styling. The component renders with a `.signature-
 - `field` — a form field wrapper with label, input, and error message
 - `form` — a form element for collecting and submitting user data
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA group role: https://www.w3.org/TR/wai-aria-1.2/#group

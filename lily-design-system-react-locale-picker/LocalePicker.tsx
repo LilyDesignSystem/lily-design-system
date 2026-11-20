@@ -237,7 +237,7 @@ function resolveInitialLocale(
     if (storageKey) {
         try {
             const stored = localStorage.getItem(storageKey);
-            if (stored) return stored;
+            if (stored && locales.includes(stored)) return stored;
         } catch {
             // ignore privacy errors
         }

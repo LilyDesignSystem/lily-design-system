@@ -75,6 +75,10 @@ A national identifier is personal data, and often a key to other records.
 - `as-saudiyah-raqm-al-huwiyah-al-wataniyah-input` — an input for entering Saudi Arabia's National Identification Number
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [National identity card](https://en.wikipedia.org/wiki/National_identity_card)

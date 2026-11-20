@@ -36,5 +36,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AddressographBox.razor"
   },
   "docs": "https://lilydesignsystem.com/components/addressograph-box/",
+  "markdown": "https://lilydesignsystem.com/components/addressograph-box.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/addressograph-box/AGENTS.md"
 }

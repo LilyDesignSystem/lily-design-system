@@ -84,6 +84,10 @@ The consumer provides all CSS styling. The component renders with a `.data-filte
 - `data-table` — a data table interactive grid for displaying and sorting tabular data <table>
 - `search-input` — an input for entering a search query <input type="search">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Landmark Roles: https://www.w3.org/WAI/ARIA/apd/practices/landmark-regions/

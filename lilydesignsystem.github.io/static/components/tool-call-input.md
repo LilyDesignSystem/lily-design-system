@@ -68,6 +68,10 @@ Pass `label` ("Input" in your language) whenever input and output both appear, s
 - `tool-call-output`
 - `code-block`
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN details element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details)

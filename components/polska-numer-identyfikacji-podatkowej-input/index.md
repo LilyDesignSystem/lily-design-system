@@ -86,6 +86,10 @@ A national identifier is personal data, and often a key to other records.
 - `polska-numer-identyfikacji-podatkowej-view` — a read-only display of Poland's Numer Identyfikacji Podatkowej (NIP)
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/National_identification_number#Poland

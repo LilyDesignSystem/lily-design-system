@@ -2,12 +2,15 @@
 """Every popup, overlay and disclosure component records its native primitive.
 
 spec/competitive-position/native-primitives.tsv (P16-T4, spec item 4) has
-one row per audited component: slug, uses, could_use, decision, notes. The
+one row per audited component: slug, uses, could_use, decision, notes,
+baseline_fallback. The
 decision is `native`, `hand-rolled because <reason>` or
 `candidate: <change>`. This check fails when:
 
   * a row has the wrong number of columns, an unknown slug or a decision
     in none of the three forms;
+  * a row names a newly available platform feature without a `fallback:` or
+    `exception:` in its baseline column;
   * the component's components/{slug}/AGENTS.md has no "## Native platform"
     section, or its "- Decision:" bullet differs from the TSV;
   * a Svelte headless component (the canonical catalog) that renders
@@ -34,6 +37,10 @@ TRIGGER = re.compile(
     r'role="(listbox|menu|menubar|tooltip|dialog|alertdialog)"'
     r"|<dialog[\s>]|<details[\s>]|\spopover(=|\s|>)|aria-haspopup"
 )
+NEWLY_AVAILABLE = re.compile(
+    r"popover|anchor position|command(?:for|=)|interestfor|<details name>|name attribute for exclusive",
+    re.I,
+)
 
 
 def kebab(name):
@@ -44,20 +51,30 @@ def rows():
     out, errors = {}, []
     with open(TSV) as f:
         lines = f.read().splitlines()
-    if not lines or lines[0].split("\t") != ["slug", "uses", "could_use", "decision", "notes"]:
-        errors.append("native-primitives.tsv: header must be slug, uses, could_use, decision, notes")
+    header = ["slug", "uses", "could_use", "decision", "notes", "baseline_fallback"]
+    if not lines or lines[0].split("\t") != header:
+        errors.append("native-primitives.tsv: header must be " + ", ".join(header))
     for n, line in enumerate(lines[1:], 2):
         cols = line.split("\t")
-        if len(cols) != 5:
-            errors.append(f"native-primitives.tsv:{n}: {len(cols)} columns, want 5")
+        if len(cols) != 6:
+            errors.append(f"native-primitives.tsv:{n}: {len(cols)} columns, want 6")
             continue
-        slug, uses, could, decision, notes = cols
+        slug, uses, could, decision, notes, baseline_fallback = cols
         if slug in out:
             errors.append(f"native-primitives.tsv:{n}: duplicate slug {slug}")
         if not DECISION.match(decision):
             errors.append(f"native-primitives.tsv:{n}: {slug}: decision must be native, "
                           f"'hand-rolled because …' or 'candidate: …'")
-        out[slug] = {"uses": uses, "could_use": could, "decision": decision, "notes": notes}
+        if NEWLY_AVAILABLE.search(f"{uses} {could}") and not baseline_fallback.startswith(("fallback:", "exception:")):
+            errors.append(f"native-primitives.tsv:{n}: {slug}: newly available feature needs "
+                          "a 'fallback:' or 'exception:' baseline")
+        out[slug] = {
+            "uses": uses,
+            "could_use": could,
+            "decision": decision,
+            "notes": notes,
+            "baseline_fallback": baseline_fallback,
+        }
     return out, errors
 
 

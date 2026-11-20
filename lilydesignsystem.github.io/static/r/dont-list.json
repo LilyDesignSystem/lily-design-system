@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/DontList.razor"
   },
   "docs": "https://lilydesignsystem.com/components/dont-list/",
+  "markdown": "https://lilydesignsystem.com/components/dont-list.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/dont-list/AGENTS.md"
 }

@@ -2,6 +2,8 @@
 
 A tree nav is a hierarchical navigation component with expandable branches, rendering as a `<nav>` element that provides a navigation landmark for tree-structured content. It is commonly used for site navigation menus with nested sections, file browsers, documentation sidebars, and category hierarchies. The component contains a TreeList with TreeListItem children that form the tree structure.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The `<nav>` element provides the navigation landmark, while the nested TreeList provides the `role="tree"` semantics and keyboard navigation. This separation allows screen reader users to identify the navigation region and navigate the tree hierarchy within it.
 
 ## Implementation Notes
@@ -137,6 +139,10 @@ TreeNav contains a TreeList, which in turn contains TreeListItem children, follo
 - `tree-list` — a hierarchical list with nested expandable items
 - `tree-list-item` — one item in a tree navigation list
 - `tree-link` — one link in the tree
+
+## Known limitations
+
+None known.
 
 ## References
 

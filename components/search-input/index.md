@@ -104,6 +104,10 @@ The consumer provides all CSS styling. The component renders with a `.search-inp
 - `text-input-with-search` — a single-line text input field <input type="text"> with search capability
 - `combobox` — a text input combined with a dropdown list for filtering options
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Search Role: https://www.w3.org/WAI/ARIA/apg/patterns/search/

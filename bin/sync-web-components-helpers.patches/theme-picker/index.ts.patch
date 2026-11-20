@@ -1,0 +1,18 @@
+--- /var/folders/zp/p2vtmfrj35b27yh4ns6h_6h40000gn/T/tmp.G231Ox4fDj	2026-11-20 06:20:27.764162975 +0000
++++ lily-design-system-web-components-theme-picker/index.ts	2026-11-20 05:50:57.627197780 +0000
+@@ -6,8 +6,15 @@
+  * not throw. Consumers who want a different tag name can import the
+  * class directly from `./theme-picker` and call
+  * `customElements.define(...)` themselves.
++ *
++ * Depends on `@lilydesignsystem/web-components-headless` for the
++ * trigger button (`<lily-icon-button>`, composed rather than
++ * hand-rolled — see theme-picker.ts's `#render()`). Importing that
++ * package here (for its side effect) registers `lily-icon-button`
++ * before `#render()` ever runs.
+  */
+
++import "@lilydesignsystem/web-components-headless";
+ import {
+     ThemePicker,
+     themeName,

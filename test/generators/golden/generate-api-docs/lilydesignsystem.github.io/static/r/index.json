@@ -5,19 +5,22 @@
       "slug": "button",
       "name": "Button",
       "description": "a generic clickable button element",
-      "manifest": "https://lilydesignsystem.com/r/button.json"
+      "manifest": "https://lilydesignsystem.com/r/button.json",
+      "markdown": "https://lilydesignsystem.com/components/button.md"
     },
     {
       "slug": "check-list",
       "name": "CheckList",
       "description": "a list of checked items",
-      "manifest": "https://lilydesignsystem.com/r/check-list.json"
+      "manifest": "https://lilydesignsystem.com/r/check-list.json",
+      "markdown": "https://lilydesignsystem.com/components/check-list.md"
     },
     {
       "slug": "mark",
       "name": "Mark",
       "description": "a highlighted run of text",
-      "manifest": "https://lilydesignsystem.com/r/mark.json"
+      "manifest": "https://lilydesignsystem.com/r/mark.json",
+      "markdown": "https://lilydesignsystem.com/components/mark.md"
     }
   ]
 }

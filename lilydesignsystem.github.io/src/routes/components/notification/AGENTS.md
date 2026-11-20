@@ -5,6 +5,7 @@
 - Component: notification
 - PascalCase: Notification
 - Description: a brief message about an event or update
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .notification
 - Interactive: no
@@ -44,6 +45,10 @@
 - [ ] Has role="status"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

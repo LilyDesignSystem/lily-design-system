@@ -99,6 +99,10 @@ The consumer provides all CSS styling. The component renders with a `.body-text`
 - `blockquote` — a block-level quotation with optional source citation
 - `section-heading` — a styled heading introducing a major content section, with optional eyebrow and subtitle
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN HTML elements reference](https://developer.mozilla.org/en-US/docs/Web/HTML/Element)

@@ -1,0 +1,576 @@
+--- /var/folders/zp/p2vtmfrj35b27yh4ns6h_6h40000gn/T/tmp.udacl8pQMO	2026-11-20 06:19:20.479064912 +0000
++++ lily-design-system-web-components-text-size-picker/text-size-picker.ts	2026-11-20 06:19:10.492602378 +0000
+@@ -7,20 +7,29 @@
+  *
+  * The control is an icon button that opens a dropdown listbox
+  * (WAI-ARIA APG listbox pattern). It is not a native `<select>`.
++ *
++ * Depends on `@lilydesignsystem/web-components-headless`'s
++ * `<lily-icon-button>` for the trigger button, composed in `#render()`
++ * rather than hand-rolled. Imported here (not only from `index.ts`) so
++ * `lily-icon-button` is registered regardless of which module a
++ * consumer (or this package's own tests) imports first.
+  */
+
++import "@lilydesignsystem/web-components-headless";
++
++/** Namespace for building the default button icon's SVG elements. */
++const SVG_NS = "http://www.w3.org/2000/svg";
++
+ /**
+  * Default button icon: a bundled SVG (a stroke-drawn "A"), not a
+  * Unicode character. Reversed 2026-09-16 from the font-dependent-glyph
+  * convention (was the plain letter U+0041, exported as
+  * `LATIN_CAPITAL_LETTER_A` — removed, not renamed). "A" itself needed
+- * no escaping and had no font-fallback risk, but still varied in
++ * no escaping and had no font-fallback risk, but it still varied in
+  * weight and proportions across font stacks; a bundled outline SVG
+- * matches the other four picker icons as one consistent visual family.
++ * matches the other four picker icons as one consistent visual family
++ * regardless of the consumer's fonts.
+  */
+-import { ListboxController } from "@lilydesignsystem/web-components-headless/components/listbox-controller.js";
+-
+-const SVG_NS = "http://www.w3.org/2000/svg";
+
+ /** Change-event detail dispatched on every applied size. */
+ export type TextSizePickerChangeDetail = {
+@@ -90,7 +99,6 @@
+     #rootEl: HTMLDivElement | null = null;
+     #inputEl: HTMLInputElement | null = null;
+     #buttonEl: HTMLButtonElement | null = null;
+-    #tooltip: { el: HTMLDivElement; update: () => void; destroy: () => void } | null = null;
+     #listEl: HTMLUListElement | null = null;
+     #optionEls: HTMLLIElement[] = [];
+
+@@ -108,11 +116,72 @@
+     // Stable ids for the button/listbox aria wiring.
+     readonly #baseId = nextTextSizePickerId();
+
+-    // Arrow/Home/End/typeahead/PageUp/PageDown/Escape/Tab keyboard handling
+-    // inside the open list is owned by the shared ListboxController (see
+-    // @lilydesignsystem/web-components-headless/components/listbox-controller.js);
+-    // this element only decides what open/close/choose mean.
+-    #listboxController: ListboxController | null = null;
++    // Tooltip: shown while the pointer is over the button or the tooltip
++    // itself (hoverable, WCAG 1.4.13) or while the button has keyboard
++    // focus; Escape dismisses it without moving focus; never shown while
++    // the popup is open, since the popup then explains the control.
++    #tooltipEl: HTMLDivElement | null = null;
++    #hoverButton = false;
++    #hoverTooltip = false;
++    #focusButton = false;
++    #tipDismissed = false;
++
++    // Escape anywhere dismisses a visible tooltip (WCAG 1.4.13: dismissable
++    // without moving pointer or focus), so a hover-only tooltip (focus
++    // elsewhere) still closes. The document listener exists only while
++    // the tooltip is visible; it neither prevents default nor stops
++    // propagation, and never moves focus.
++    #tipDocListening = false;
++    readonly #onTipDocKeydown = (event: KeyboardEvent): void => {
++        if (event.key === "Escape" && this.#tooltipVisible()) {
++            this.#tipDismissed = true;
++            this.#syncTooltip();
++        }
++    };
++    #setTipDocListener(on: boolean): void {
++        if (on === this.#tipDocListening || typeof document === "undefined") return;
++        this.#tipDocListening = on;
++        if (on) document.addEventListener("keydown", this.#onTipDocKeydown);
++        else document.removeEventListener("keydown", this.#onTipDocKeydown);
++    }
++
++    #tooltipVisible(): boolean {
++        return (
++            !this.#open &&
++            !this.#tipDismissed &&
++            (this.#hoverButton || this.#hoverTooltip || this.#focusButton)
++        );
++    }
++
++    /** Write the tooltip's text and `hidden` in place; idempotent. */
++    #syncTooltip(): void {
++        const el = this.#tooltipEl;
++        if (!el) return;
++        if (el.textContent !== this.label) el.textContent = this.label;
++        const hide = !this.#tooltipVisible();
++        this.#setTipDocListener(!hide);
++        if (el.hasAttribute("hidden") !== hide) {
++            if (hide) el.setAttribute("hidden", "");
++            else el.removeAttribute("hidden");
++        }
++    }
++
++    #resetTooltip(): void {
++        this.#setTipDocListener(false);
++        this.#hoverButton = false;
++        this.#hoverTooltip = false;
++        this.#focusButton = false;
++        this.#tipDismissed = false;
++    }
++
++    /** id of the rendered `<div class="text-size-picker-tooltip">`. */
++    get tooltipId(): string {
++        return `${this.#baseId}-tooltip`;
++    }
++
++    // Typeahead buffer: APG listbox behaviour. Reset after a pause.
++    #typeahead = "";
++    #typeaheadTimer: ReturnType<typeof setTimeout> | undefined;
+
+     #onDocumentClick = (event: MouseEvent): void => {
+         if (!this.#open) return;
+@@ -270,13 +339,12 @@
+     // ---- Public, overridable rendering hook ----
+
+     /**
+-     * Build the content of the button. The default is a bundled
+-     * SVG icon (a stroke-drawn "A")
+-     * wrapped in `aria-hidden="true"` so the accessible name comes from
+-     * the button's `aria-label` alone.
++     * Build the content of the button. The default is a bundled SVG
++     * icon (a stroke-drawn "A") wrapped in `aria-hidden="true"` so the
++     * accessible name comes from the button's `aria-label` alone.
+      *
+      * This is the HTML-helper equivalent of the Svelte/React/Vue
+-     * `children` snippet: it replaces the glyph inside the button, and
++     * `children` snippet: it replaces the icon inside the button, and
+      * has `this.value`, `this.open`, and `this.labelFor(...)` available.
+      * Subclasses may override it. Whatever it returns is placed inside
+      * the button; the button's own aria wiring is not the subclass's to
+@@ -294,9 +362,11 @@
+         svg.setAttribute("stroke-width", "1.6");
+         svg.setAttribute("stroke-linecap", "round");
+         svg.setAttribute("stroke-linejoin", "round");
++
+         const path = document.createElementNS(SVG_NS, "path");
+         path.setAttribute("d", "M4 13 7.2 3h1.6L12 13M5.4 9.5h5.2");
+         svg.appendChild(path);
++
+         return svg;
+     }
+
+@@ -363,9 +433,9 @@
+     }
+
+     disconnectedCallback(): void {
+-        this.#tooltip?.destroy();
++        this.#resetTooltip();
+         document.removeEventListener("click", this.#onDocumentClick);
+-        this.#listboxController?.destroy();
++        clearTimeout(this.#typeaheadTimer);
+         // A re-connected element must apply again: the document root it
+         // returns to need not be the one it left.
+         this.#appliedValue = "";
+@@ -437,7 +507,6 @@
+         // does not exist.
+         this.#activeIndex =
+             this.#sizes.length === 0 ? -1 : (startIndex ?? (selected >= 0 ? selected : 0));
+-        this.#listboxController?.setActiveIndex(this.#activeIndex);
+         this.#open = true;
+         this.#emitOpenChange(true);
+         this.#syncState();
+@@ -453,7 +522,6 @@
+         this.#open = false;
+         this.#emitOpenChange(false);
+         this.#activeIndex = -1;
+-        this.#listboxController?.setActiveIndex(-1);
+         this.#syncState();
+         if (refocus) this.#buttonEl?.focus({ preventScroll: true });
+     }
+@@ -470,6 +538,49 @@
+         this.#optionEls[this.#activeIndex]?.scrollIntoView?.({ block: "nearest" });
+     }
+
++    #moveActive(delta: number): void {
++        if (this.#sizes.length === 0) return;
++        this.#activeIndex = Math.min(
++            Math.max(this.#activeIndex + delta, 0),
++            this.#sizes.length - 1,
++        );
++        this.#syncState();
++        this.#scrollActiveIntoView();
++    }
++
++    #setActive(index: number): void {
++        this.#activeIndex = index;
++        this.#syncState();
++        this.#scrollActiveIntoView();
++    }
++
++    #runTypeahead(char: string): void {
++        const lower = char.toLowerCase();
++        // APG listbox typeahead: a single character moves to the NEXT
++        // option starting with it, and repeating that character keeps
++        // cycling. Only a buffer of differing characters refines the
++        // match, and that buffer stays anchored on the active option.
++        const sameCharRun =
++            this.#typeahead === "" || [...this.#typeahead].every((c) => c === lower);
++        this.#typeahead += lower;
++        clearTimeout(this.#typeaheadTimer);
++        this.#typeaheadTimer = setTimeout(() => {
++            this.#typeahead = "";
++        }, 500);
++        const query = sameCharRun ? lower : this.#typeahead;
++        const anchor = this.#activeIndex < 0 ? 0 : this.#activeIndex;
++        const start = sameCharRun ? anchor + 1 : anchor;
++        // Search forward, wrapping once — typeahead wraps even though the
++        // arrows clamp, or options above the cursor would be untypable.
++        for (let n = 0; n < this.#sizes.length; n++) {
++            const i = (start + n) % this.#sizes.length;
++            if (this.labelFor(this.#sizes[i]).toLowerCase().startsWith(query)) {
++                this.#setActive(i);
++                return;
++            }
++        }
++    }
++
+     #onButtonKeydown = (event: KeyboardEvent): void => {
+         switch (event.key) {
+             case "ArrowDown":
+@@ -485,6 +596,62 @@
+         }
+     };
+
++    #onListKeydown = (event: KeyboardEvent): void => {
++        switch (event.key) {
++            case "ArrowDown":
++                event.preventDefault();
++                this.#moveActive(1);
++                break;
++            case "ArrowUp":
++                event.preventDefault();
++                this.#moveActive(-1);
++                break;
++            case "Home":
++                event.preventDefault();
++                this.#setActive(0);
++                break;
++            case "End":
++                event.preventDefault();
++                this.#setActive(this.#sizes.length - 1);
++                break;
++            case "Enter":
++            case " ":
++                event.preventDefault();
++                if (this.#activeIndex >= 0) this.#choose(this.#activeIndex);
++                break;
++            case "Escape":
++                event.preventDefault();
++                this.closeList();
++                break;
++            case "PageUp":
++                event.preventDefault();
++                this.#moveActive(-10);
++                break;
++            case "PageDown":
++                // ±10, clamped: an APG-optional key for long lists.
++                event.preventDefault();
++                this.#moveActive(10);
++                break;
++            case "Tab":
++                // Tab moves on — but focus goes to the button FIRST,
++                // without cancelling the key. Hiding the focused list
++                // drops focus to <body>, and the browser then computes
++                // the default Tab move from the top of the document, so
++                // tabbing out of an open picker teleported the user to
++                // the page's first tab stop. From the button, the
++                // default Tab lands exactly where leaving the picker
++                // should. Guard the METHOD: jsdom-shaped environments
++                // may lack it.
++                this.#buttonEl?.focus?.({ preventScroll: true });
++                this.closeList(false);
++                break;
++            default:
++                if (event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
++                    this.#runTypeahead(event.key);
++                }
++        }
++    };
++
+     #onRootFocusOut = (event: FocusEvent): void => {
+         const next = event.relatedTarget as Node | null;
+         if (next && this.#rootEl?.contains(next)) return;
+@@ -507,7 +674,7 @@
+      */
+     #syncState(): void {
+         if (!this.#rootEl) return;
+-        this.#tooltip?.update();
++        this.#syncTooltip();
+         const value = this.value;
+
+         if (this.#inputEl) this.#inputEl.value = value;
+@@ -549,7 +716,6 @@
+         // so it closes first.
+         this.#open = false;
+         this.#activeIndex = -1;
+-        this.#listboxController?.destroy();
+
+         const extraClass = this.getAttribute("class") ?? "";
+         const root = document.createElement("div");
+@@ -563,30 +729,84 @@
+         input.value = this.value;
+         root.appendChild(input);
+
+-        const button = document.createElement("button");
+-        button.type = "button";
+-        button.className = "text-size-picker-button";
+-        button.setAttribute("aria-label", this.label);
+-        button.setAttribute("aria-haspopup", "listbox");
+-        button.setAttribute("aria-expanded", "false");
+-        button.setAttribute("aria-controls", this.listId);
+-        button.appendChild(this.renderButtonContent());
+-        button.addEventListener("click", () => {
++        // Composes @lilydesignsystem/web-components-headless's
++        // <lily-icon-button> for the trigger rather than hand-rolling a
++        // <button>. base-class replaces its default "icon-button" class
++        // outright; aria-haspopup/expanded/controls are copied onto the
++        // real inner <button> via that component's passThroughAttributes.
++        // Event listeners aren't copied by it, so click/keydown go on the
++        // host — both bubble up from the real button.
++        const iconButtonHost = document.createElement("lily-icon-button");
++        iconButtonHost.setAttribute("base-class", "text-size-picker-button");
++        iconButtonHost.setAttribute("label", this.label);
++        iconButtonHost.setAttribute("aria-haspopup", "listbox");
++        iconButtonHost.setAttribute("aria-expanded", "false");
++        iconButtonHost.setAttribute("aria-controls", this.listId);
++        iconButtonHost.appendChild(this.renderButtonContent());
++        iconButtonHost.addEventListener("click", () => {
+             if (this.#open) this.closeList();
+             else this.openList();
+         });
+-        button.addEventListener("keydown", this.#onButtonKeydown);
+-        root.appendChild(button);
+-        this.#tooltip?.destroy();
+-        const tooltip = createTooltip(
+-            button,
+-            "text-size-picker-tooltip",
+-            `${this.#baseId}-tooltip`,
+-            () => this.label,
+-            () => this.#open,
+-        );
+-        root.appendChild(tooltip.el);
+-        this.#tooltip = tooltip;
++        iconButtonHost.addEventListener("keydown", this.#onButtonKeydown);
++        root.appendChild(iconButtonHost);
++
++        // Tooltip: a purely visual sibling right after the trigger button. The
++        // same text is already the button's aria-label, so it is deliberately not
++        // wired with aria-describedby (that would announce the name twice).
++        this.#resetTooltip();
++        const tooltip = document.createElement("div");
++        tooltip.className = "text-size-picker-tooltip";
++        tooltip.setAttribute("role", "tooltip");
++        tooltip.id = this.tooltipId;
++        tooltip.setAttribute("hidden", "");
++        tooltip.textContent = this.label;
++        tooltip.addEventListener("mouseenter", () => {
++            this.#hoverTooltip = true;
++            this.#syncTooltip();
++        });
++        tooltip.addEventListener("mouseleave", () => {
++            this.#hoverTooltip = false;
++            this.#syncTooltip();
++        });
++        this.#tooltipEl = tooltip;
++        // Pointer and focus listeners go on the <lily-icon-button> host: mouseenter
++        // does not bubble but fires on the host itself; focusin/focusout bubble
++        // up from the real inner <button>.
++        iconButtonHost.addEventListener("mouseenter", () => {
++            this.#hoverButton = true;
++            this.#tipDismissed = false;
++            this.#syncTooltip();
++        });
++        iconButtonHost.addEventListener("mouseleave", () => {
++            this.#hoverButton = false;
++            this.#syncTooltip();
++        });
++        iconButtonHost.addEventListener("click", () => {
++            this.#hoverButton = false;
++            this.#syncTooltip();
++        });
++        iconButtonHost.addEventListener("focusin", () => {
++            // Keyboard focus only: a mouse click also focuses the button in
++            // Chromium, and the tooltip should not stick after a click.
++            try {
++                this.#focusButton = this.#buttonEl?.matches(":focus-visible") ?? false;
++            } catch {
++                this.#focusButton = true; // engine without :focus-visible
++            }
++            this.#syncTooltip();
++        });
++        iconButtonHost.addEventListener("focusout", () => {
++            this.#focusButton = false;
++            this.#tipDismissed = false;
++            this.#syncTooltip();
++        });
++        iconButtonHost.addEventListener("keydown", (event: Event) => {
++            if ((event as KeyboardEvent).key === "Escape" && this.#tooltipVisible()) {
++                this.#tipDismissed = true;
++                this.#syncTooltip();
++            }
++        });
++        root.appendChild(tooltip);
+
+         const list = document.createElement("ul");
+         list.className = "text-size-picker-list";
+@@ -595,35 +815,7 @@
+         list.setAttribute("aria-label", this.label);
+         list.setAttribute("tabindex", "-1");
+         list.setAttribute("hidden", "");
+-        this.#listboxController = new ListboxController({
+-            root: list,
+-            clamp: true,
+-            typeahead: true,
+-            pageSize: 10,
+-            // Each <li>'s textContent is already labelFor(size) — set
+-            // below — so reading it back needs no index lookup.
+-            getOptionLabel: (option) => option.textContent ?? "",
+-            onActiveIndexChange: (index) => {
+-                this.#activeIndex = index;
+-                this.#syncState();
+-                this.#scrollActiveIntoView();
+-            },
+-            onActivate: (index) => this.#choose(index),
+-            onEscape: () => this.closeList(),
+-            onTabOut: () => {
+-                // Tab moves on — but focus goes to the button FIRST,
+-                // without cancelling the key. Hiding the focused list
+-                // drops focus to <body>, and the browser then computes
+-                // the default Tab move from the top of the document, so
+-                // tabbing out of an open picker teleported the user to
+-                // the page's first tab stop. From the button, the
+-                // default Tab lands exactly where leaving the picker
+-                // should. Guard the METHOD: jsdom-shaped environments
+-                // may lack it.
+-                this.#buttonEl?.focus?.({ preventScroll: true });
+-                this.closeList(false);
+-            },
+-        });
++        list.addEventListener("keydown", this.#onListKeydown);
+
+         const optionEls: HTMLLIElement[] = [];
+         this.#sizes.forEach((size, i) => {
+@@ -641,11 +833,14 @@
+
+         this.#rootEl = root;
+         this.#inputEl = input;
+-        this.#buttonEl = button;
+         this.#listEl = list;
+         this.#optionEls = optionEls;
+
+         this.replaceChildren(root);
++        // <lily-icon-button> only builds its real inner <button> once
++        // connected to a live document, which just happened synchronously
++        // above.
++        this.#buttonEl = iconButtonHost.querySelector("button");
+         this.#applyInitialOpen();
+     }
+ }
+@@ -670,105 +865,3 @@
+     }
+     return {};
+ }
+-
+-// ---- Tooltip (module-local) ----
+-
+-/**
+- * The picker tooltip: a purely visual `<div role="tooltip">` holding the
+- * button's label, shown while the pointer is over the button or the
+- * tooltip itself (hoverable, WCAG 1.4.13) or while the button has keyboard
+- * focus; Escape dismisses it without moving focus; never shown while the
+- * popup is open. Deliberately NOT linked with `aria-describedby`: the text
+- * duplicates the button's `aria-label`, so linking would announce the name
+- * twice. All listeners sit on the button and tooltip elements themselves,
+- * so they are discarded with the DOM and nothing needs removing on
+- * disconnect. `update()` is idempotent.
+- */
+-function createTooltip(
+-    button: HTMLButtonElement,
+-    className: string,
+-    id: string,
+-    getLabel: () => string,
+-    isOpen: () => boolean,
+-): { el: HTMLDivElement; update: () => void; destroy: () => void } {
+-    const el = document.createElement("div");
+-    el.className = className;
+-    el.setAttribute("role", "tooltip");
+-    el.id = id;
+-    el.setAttribute("hidden", "");
+-    let hoverButton = false;
+-    let hoverTooltip = false;
+-    let focusButton = false;
+-    let dismissed = false;
+-    let listening = false;
+-    // WCAG 1.4.13: Escape dismisses wherever focus is (pointer-only hover
+-    // has no focus on the button). Added only while visible.
+-    const onDocumentKeydown = (event: KeyboardEvent): void => {
+-        if (event.key === "Escape") {
+-            dismissed = true;
+-            update();
+-        }
+-    };
+-    const destroy = (): void => {
+-        if (listening) {
+-            document.removeEventListener("keydown", onDocumentKeydown);
+-            listening = false;
+-        }
+-    };
+-    const update = (): void => {
+-        const label = getLabel();
+-        if (el.textContent !== label) el.textContent = label;
+-        const visible = !isOpen() && !dismissed && (hoverButton || hoverTooltip || focusButton);
+-        if (visible) el.removeAttribute("hidden");
+-        else if (!el.hasAttribute("hidden")) el.setAttribute("hidden", "");
+-        if (visible && !listening) {
+-            document.addEventListener("keydown", onDocumentKeydown);
+-            listening = true;
+-        } else if (!visible) destroy();
+-    };
+-    button.addEventListener("mouseenter", () => {
+-        hoverButton = true;
+-        dismissed = false;
+-        update();
+-    });
+-    button.addEventListener("mouseleave", () => {
+-        hoverButton = false;
+-        update();
+-    });
+-    button.addEventListener("focus", () => {
+-        // Keyboard focus only: a mouse click also focuses the button in
+-        // Chromium, and the tooltip should not stick after a click.
+-        try {
+-            focusButton = button.matches(":focus-visible");
+-        } catch {
+-            focusButton = true; // engine without :focus-visible — err towards showing
+-        }
+-        update();
+-    });
+-    button.addEventListener("blur", () => {
+-        focusButton = false;
+-        dismissed = false;
+-        update();
+-    });
+-    button.addEventListener("keydown", (event: KeyboardEvent) => {
+-        if (event.key === "Escape" && !el.hasAttribute("hidden")) {
+-            dismissed = true;
+-            update();
+-        }
+-    });
+-    // A click acts on the control, so the pointer hint gets out of the way.
+-    button.addEventListener("click", () => {
+-        hoverButton = false;
+-        update();
+-    });
+-    el.addEventListener("mouseenter", () => {
+-        hoverTooltip = true;
+-        update();
+-    });
+-    el.addEventListener("mouseleave", () => {
+-        hoverTooltip = false;
+-        update();
+-    });
+-    update();
+-    return { el, update, destroy };
+-}

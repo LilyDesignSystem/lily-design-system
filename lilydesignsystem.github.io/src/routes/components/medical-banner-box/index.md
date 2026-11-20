@@ -2,6 +2,8 @@
 
 MedicalBannerBox is a headless layout component designed to be placed inside a MedicalBanner component. It renders a `<div>` with `data-context="medical"` that the consumer styles with flexbox horizontal layout to arrange medical banner content items side by side, such as patient details, identifiers, and action buttons.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This component is useful for structuring medical banner content into a horizontal row, aligning patient information, clinical data, and action buttons within a medical banner message bar.
 
 ## Implementation Notes
@@ -51,6 +53,7 @@ This component is useful for structuring medical banner content into a horizonta
 
 ## ARIA
 
+- With a `label`, the root is `role="group"`, because a plain `<div>` cannot be named. Without one it has no role
 - No additional ARIA attributes required; the parent MedicalBanner provides the landmark role and aria-live region
 - Optional `aria-label` via `label` prop if the box needs an accessible name
 
@@ -107,6 +110,10 @@ The consumer provides all CSS styling. The component renders with a `.medical-ba
 - `government-banner` — a banner identifying a website as belonging to a government, with an expandable details panel
 - `medical-banner` — a prominent message bar across the top of a page, with medical information
 - `medical-banner-box-for-advice` — a medical record banner box for advice information e.g. contacts, contexts, plans, etc.
+
+## Known limitations
+
+None known.
 
 ## References
 

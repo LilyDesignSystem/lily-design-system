@@ -38,5 +38,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/GrailLayoutRightAside.razor"
   },
   "docs": "https://lilydesignsystem.com/components/grail-layout-right-aside/",
+  "markdown": "https://lilydesignsystem.com/components/grail-layout-right-aside.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/grail-layout-right-aside/AGENTS.md"
 }

@@ -108,6 +108,10 @@ The consumer provides all CSS styling. The component renders with a `.horizontal
 - `scroll-area` — a scrollable container with custom scrollbar support
 - `carousel` — a slideshow for cycling through content items
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Reuters Graphics HorizontalScroller

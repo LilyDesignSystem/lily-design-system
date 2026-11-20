@@ -5,6 +5,7 @@
 - Component: person
 - PascalCase: Person
 - Description: a person component that contains other person-related information
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <article>
 - CSS class: .person
 - Interactive: no
@@ -35,6 +36,10 @@
 - [ ] Has aria-label attribute when provided
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS -- fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

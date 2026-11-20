@@ -38,5 +38,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/IconList.razor"
   },
   "docs": "https://lilydesignsystem.com/components/icon-list/",
+  "markdown": "https://lilydesignsystem.com/components/icon-list.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/icon-list/AGENTS.md"
 }

@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/YisraelTeudatZehutView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/yisrael-teudat-zehut-view/",
+  "markdown": "https://lilydesignsystem.com/components/yisrael-teudat-zehut-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/yisrael-teudat-zehut-view/AGENTS.md"
 }

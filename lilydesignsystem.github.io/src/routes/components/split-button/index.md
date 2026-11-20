@@ -5,6 +5,8 @@ secondary dropdown trigger, both contained inside a single ARIA group. The
 primary button performs the most common action; the dropdown reveals a menu
 of related secondary actions.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it where one default action is dominant but related variants must remain
 discoverable — for example "Save / Save as…", "Send / Schedule send", or
 "Export / Export as PDF / Export as CSV".
@@ -130,6 +132,10 @@ positioning.
 - `button` — a generic clickable button element
 - `dropdown-menu` — a menu that opens below a trigger button
 - `menu-bar-button` — one item in a menu bar
+
+## Known limitations
+
+None known.
 
 ## References
 

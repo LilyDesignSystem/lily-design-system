@@ -23,7 +23,7 @@ Implement the Review Date component: a display of a content review date.
 ## Acceptance Criteria
 
 - [ ] Renders <span> with class="review-date"
-- [ ] `aria-label` -- provides screen reader context from the `label` prop
+- [ ] `label` is hidden text in a `screen-reader-span`, read before the date; a name on `<time>` is not reliably read
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
 - [ ] Tests pass in all implementations

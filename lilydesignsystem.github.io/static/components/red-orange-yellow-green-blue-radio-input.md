@@ -92,6 +92,10 @@ The consumer provides all CSS styling. The component renders with a `.red-orange
 - `red-orange-yellow-green-blue-view` — the read-only display
 - `radio-input` — the general radio input
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radio/

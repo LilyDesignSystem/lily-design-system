@@ -91,6 +91,10 @@ This headless component ships zero CSS and decides nothing visual. The consumer 
 - `problem-record-list-item` — one problem or condition in a problem record list, with its clinical and verification status, severity, onset and resolution
 - `record-list` and the other record lists — the same status contract for each part of a record
 
+## Known limitations
+
+None known.
+
 ## References
 
 - FHIR Condition: https://hl7.org/fhir/R4/condition.html

@@ -75,6 +75,10 @@ A national identifier is personal data, and often a key to other records.
 - `ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input` — an input for entering Ukraine's Реєстраційний номер облікової картки платника податків (РНОКПП)
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [Taxpayer Identification Number § Ukraine](https://en.wikipedia.org/wiki/Taxpayer_Identification_Number)

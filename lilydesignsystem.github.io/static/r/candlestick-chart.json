@@ -45,5 +45,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/CandlestickChart.razor"
   },
   "docs": "https://lilydesignsystem.com/components/candlestick-chart/",
+  "markdown": "https://lilydesignsystem.com/components/candlestick-chart.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/candlestick-chart/AGENTS.md"
 }

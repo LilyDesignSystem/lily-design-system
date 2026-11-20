@@ -95,6 +95,10 @@ The consumer provides all CSS styling. The component renders with a `.beach-ball
 - `loading` — a loading indicator, such as text, or image, or animation
 - `progress-spinner` — an indeterminate spinning progress indicator
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Status Role: https://www.w3.org/TR/wai-aria-1.2/#status

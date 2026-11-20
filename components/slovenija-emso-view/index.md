@@ -72,6 +72,10 @@ A national identifier is personal data, and often a key to other records.
 - `slovenija-emso-input` — an input for entering Slovenia's Enotna Matična Številka Občana (EMŠO)
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/Unique_Master_Citizen_Number

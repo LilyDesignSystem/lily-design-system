@@ -121,6 +121,10 @@ for status messaging.
 - `email-input` — an input for entering an email address <input type="email">
 - `call-to-action` — a prominent prompt encouraging user action
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA `role="status"`: https://www.w3.org/TR/wai-aria-1.2/#status

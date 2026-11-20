@@ -2,6 +2,8 @@
 
 A URL input is a UI/UX component that provides a text field specifically for entering web addresses. It uses the native HTML `<input type="url">` element, which provides built-in URL validation and may trigger URL-specific keyboard layouts on mobile devices. The component includes aria-label for accessibility and supports bindable value for two-way data binding, along with standard form attributes like required and disabled.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 URL inputs are commonly used in profile forms, link submission pages, and any context where users need to enter a valid web address. The browser's built-in validation ensures the entered value matches URL format before form submission.
 
 ## Implementation Notes
@@ -129,6 +131,10 @@ The consumer provides all CSS styling. The component renders with a `.url-input`
 - `text-input` — a single-line text input field <input type="text">
 - `email-input` — an input for entering an email address <input type="email">
 - `tel-input` — an input for entering a telephone number <input type="tel">
+
+## Known limitations
+
+None known.
 
 ## References
 

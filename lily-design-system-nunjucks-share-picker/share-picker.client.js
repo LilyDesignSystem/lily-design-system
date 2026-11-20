@@ -56,7 +56,7 @@ export function nextSharePickerId() {
  * `targets` array can feed both the template and this module. A
  * function that throws yields "" rather than breaking the whole list.
  *
- * @param {{href?: string | ((url: string, title: string, text: string) => string)}} target
+ * @param {{id?: string, href?: string | ((url: string, title: string, text: string) => string)}} target
  * @param {string} url
  * @param {string} title
  * @param {string} text
@@ -220,10 +220,13 @@ function wireTooltip(root, button, selector, popup) {
  *   onCopy?: (url: string) => void,
  *   onNativeShare?: (url: string) => void
  * }=} opts
- * @returns {{open: () => void, close: () => void, copy: () => Promise<void>, refreshHrefs: () => void, destroy: () => void}}
+ * @returns {{isOpen: () => boolean, setOpen: (open: boolean) => void, setDisabled: (disabled: boolean) => void, open: () => void, close: () => void, copy: () => Promise<void>, refreshHrefs: () => void, destroy: () => void}}
  */
 export function initSharePicker(root, opts = {}) {
     const noop = {
+        isOpen: () => false,
+        setOpen: () => {},
+        setDisabled: () => {},
         open: () => {},
         close: () => {},
         copy: () => Promise.resolve(),

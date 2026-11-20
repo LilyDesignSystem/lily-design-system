@@ -72,6 +72,10 @@ A national identifier is personal data, and often a key to other records.
 - `ellada-dematerialised-securities-system-input` — an input for entering Greece's Dematerialised Securities System (DSS)
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/Central_Securities_Depository

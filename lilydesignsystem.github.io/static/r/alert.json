@@ -42,5 +42,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Alert.razor"
   },
   "docs": "https://lilydesignsystem.com/components/alert/",
+  "markdown": "https://lilydesignsystem.com/components/alert.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/alert/AGENTS.md"
 }

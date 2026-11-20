@@ -5,6 +5,7 @@
 - Component: status-tag
 - PascalCase: StatusTag
 - Description: a tag showing the current status of a task
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .status-tag
 - Interactive: no
@@ -12,8 +13,8 @@
 ## Key Behaviors
 
 - Renders a `<span>` with the status text inside
-- The semantics are conveyed by the visible text and (optionally) `aria-label` — colour alone is never the indicator
-- Accepts a `tone` prop (e.g. `"success"`, `"warning"`, `"danger"`, `"info"`) which the consumer can use to drive class-based styling
+- The semantics are conveyed by the visible text and (optionally) `label`, rendered as hidden text in a `screen-reader-span` because a `<span>` cannot take a name — colour alone is never the indicator
+- Accepts a `type` prop (`"default"`, `"info"`, `"success"`, `"warning"`, `"error"`), rendered as `data-type` for the theme or consumer CSS, as on `alert`, `badge` and `banner`
 - Spreads `restProps` onto the root `<span>`
 
 ## ARIA
@@ -27,8 +28,8 @@
 
 ## Props
 
-- `label`: string (required) (default: —) — Status text shown to users
-- `tone`: "neutral" | "success" | "warning" | "danger" | "info" (default: "neutral") — Tone hint used by consumers to drive styling
+- `label`: string (optional) (default: —) — Hidden text read before the content
+- `type`: "default" | "info" | "success" | "warning" | "error" (default: "default") — The status, rendered as `data-type`; the themes colour `.status-tag[data-type]`. Meaning still comes from the text (WCAG 1.4.1)
 - `...restProps`: HTML attributes (default: —) — Spread onto the root `<span>`
 
 ## Acceptance Criteria
@@ -37,6 +38,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

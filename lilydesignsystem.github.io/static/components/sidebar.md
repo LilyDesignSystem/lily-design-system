@@ -151,6 +151,10 @@ The consumer provides all CSS styling. The component renders with a `.sidebar` c
 - `navigation-menu` — a site-wide navigation menu with links
 - `section-nav` — a navigation container for section navigation links
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Complementary Role: https://www.w3.org/TR/wai-aria-1.2/#complementary

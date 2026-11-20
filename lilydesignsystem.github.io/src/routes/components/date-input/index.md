@@ -2,6 +2,8 @@
 
 A date input provides a headless native HTML date input element with accessible labelling via `aria-label`. It is a minimal wrapper for `<input type="date">` that leverages the browser's built-in date picker for date selection.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This component is useful in forms where users need to enter a calendar date. The value is stored in ISO 8601 `YYYY-MM-DD` format. It supports min and max constraints to restrict the allowable date range, and integrates with two-way binding for reactive form state.
 
 ## Implementation Notes
@@ -94,6 +96,7 @@ The consumer provides all CSS styling. The component renders with a `.date-input
 
 - **Designers**: Ensure the date input is wide enough to display the full date format. Consider showing the expected format (e.g., YYYY-MM-DD) as placeholder or helper text nearby.
 - **Developers**: Use ISO 8601 `YYYY-MM-DD` format for `value`, `min`, and `max` props. The browser provides the native date picker UI, which varies across browsers and platforms.
+- **Developers**: Never move focus automatically between the day, month and year fields (for example after two digits are typed). It disorients screen reader and keyboard users, and makes correcting a mistake harder. Let the user Tab on. Keep `autocomplete="bday-day"`, `"bday-month"` and `"bday-year"` on a date-of-birth field.
 
 ## Related components
 
@@ -102,6 +105,10 @@ The consumer provides all CSS styling. The component renders with a `.date-input
 - `date-time-local-input` — an input for entering a date and time without time zone <input type="datetime-local">
 - `date-time-now-input` — an input for entering a date and time and "now" button <input type="date"><input type="time"><button type="button">
 - `calendar-range-picker` — a picker for selecting a date range on a calendar
+
+## Known limitations
+
+None known.
 
 ## References
 

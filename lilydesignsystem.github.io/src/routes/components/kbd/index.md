@@ -2,6 +2,8 @@
 
 Kbd is a headless component that renders a `<kbd>` element to display keyboard shortcuts and key combinations in a styled inline element. It semantically marks up user keyboard input.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use this component to display keyboard shortcuts, key combinations, or individual key references in documentation, tooltips, or help text.
 
 ## Implementation Notes
@@ -14,6 +16,7 @@ Use this component to display keyboard shortcuts, key combinations, or individua
 ## Props
 
 - `className`: string (default: `""`) -- CSS class name for the element
+- `label`: string (optional) -- spoken form, for a glyph such as ⌘: hidden text, with the visible key `aria-hidden`
 - `children`: slot (required) -- the key label text content
 - `...restProps`: unknown -- additional attributes spread onto the `<kbd>` element
 
@@ -61,7 +64,7 @@ None. Kbd is a passive display element.
 
 ## ARIA
 
-No ARIA attributes needed. The `<kbd>` element has built-in semantics for keyboard input.
+No ARIA attributes needed. The `<kbd>` element has built-in semantics for keyboard input. With `label`, the visible key is `aria-hidden` and the label is hidden text, the spoken form.
 
 ## When to Use
 
@@ -99,6 +102,10 @@ The consumer provides all CSS styling. The component renders with a `.kbd` class
 
 - `code` — an inline code span for displaying short code snippets within surrounding text
 - `code-block` — a block of formatted code with optional line numbers and line highlighting
+
+## Known limitations
+
+None known.
 
 ## References
 

@@ -43,5 +43,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TagInputDiv.razor"
   },
   "docs": "https://lilydesignsystem.com/components/tag-input-div/",
+  "markdown": "https://lilydesignsystem.com/components/tag-input-div.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tag-input-div/AGENTS.md"
 }

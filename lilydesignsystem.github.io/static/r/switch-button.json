@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SwitchButton.razor"
   },
   "docs": "https://lilydesignsystem.com/components/switch-button/",
+  "markdown": "https://lilydesignsystem.com/components/switch-button.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/switch-button/AGENTS.md"
 }

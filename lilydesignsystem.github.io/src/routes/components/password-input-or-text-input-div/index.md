@@ -2,6 +2,8 @@
 
 PasswordInputOrTextInputDiv is a headless component that wraps a native `<input type="password">` and `<input type="text">` element with accessible labelling and an optional toggle button to show or hide the password text. The input automatically includes `autocomplete="current-password"` for proper browser password manager integration.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This component is useful for login forms, registration forms, account settings, or any interface requiring secure password entry. The show/hide toggle improves usability by letting users verify their input, while the `aria-pressed` attribute on the toggle button communicates the visibility state to assistive technologies.
 
 ## Implementation Notes
@@ -20,7 +22,7 @@ This component is useful for login forms, registration forms, account settings, 
 - `label`: string (required) -- accessible name for the password input via `aria-label`
 - `value`: string (default: `""`) -- current password value; bindable with two-way `value` binding
 - `showToggle`: boolean (default: `true`) -- whether to render the show/hide toggle button
-- `toggleLabel`: string (default: `"Show password"`) -- accessible label for the toggle button
+- `toggleLabel`: string (required) -- accessible label for the toggle button
 - `required`: boolean (default: `false`) -- whether the input is required
 - `disabled`: boolean (default: `false`) -- whether the input is disabled
 - `...restProps`: unknown -- additional attributes spread onto the wrapper `<div>`
@@ -99,11 +101,22 @@ The consumer provides all CSS styling. The component renders with a `.password-i
 - **Designers**: Position the show/hide toggle button clearly within or beside the input field, using a recognizable eye icon with sufficient contrast.
 - **Developers**: Set `autocomplete` to `"new-password"` for registration forms by overriding via `restProps` to help password managers distinguish between login and signup flows.
 
+## Security and privacy
+
+- The input has `spellcheck="false"` in both states. Revealed as `type="text"`, a password would otherwise reach an enhanced spellchecker, which can send it to a cloud service; each catalog's test checks it before and after the toggle.
+- `autocomplete="current-password"` lets a password manager fill it. Do not set it to `off`.
+- Revealing is the user's choice, and should end when the form is submitted or the page is left; the component does not reveal on its own.
+- Do not log the value, send it to analytics, or keep it in any client storage; submit it in the body of a POST over HTTPS.
+
 ## Related components
 
 - `password-input` — an input for entering a password with obscured text <input type="password">
 - `text-input` — a single-line text input field <input type="text">
 - `pin-input-div` — a series of single-digit inputs for entering a PIN or OTP code
+
+## Known limitations
+
+None known.
 
 ## References
 

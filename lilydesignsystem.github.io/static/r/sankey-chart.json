@@ -44,5 +44,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SankeyChart.razor"
   },
   "docs": "https://lilydesignsystem.com/components/sankey-chart/",
+  "markdown": "https://lilydesignsystem.com/components/sankey-chart.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/sankey-chart/AGENTS.md"
 }

@@ -154,6 +154,10 @@ Provide a clear focus indicator on the panel since it is keyboard-focusable.
 - `tab-bar` — a group of tabs for switching between content panels
 - `tab-bar-button` — one tab button in a tab group
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Tabs Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/tabs/

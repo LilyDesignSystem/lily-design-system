@@ -26,7 +26,12 @@ repo-relative path and a site route don't resolve the same way.
   different domains (a git checkout vs. a live website) and are
   hand-maintained in parallel instead.
 - `llms-full.txt` (a fuller, uncurated content dump some sites also
-  publish) — not adopted; both pairs stay deliberately curated.
+  publish) — not adopted; both pairs stay deliberately curated. Per-component
+  machine detail is instead generated as `/r/{slug}.json`, indexed by
+  `/r/index.json`, while `/components/{slug}.md` carries the full human prose
+  and examples. This closes the older tasks.md P10-T5 without creating a
+  second exhaustive text dump. Only the maintainer decision in P22-T18 may
+  reopen it.
 
 ## Principles and rules
 
@@ -49,6 +54,22 @@ repo-relative path and a site route don't resolve the same way.
 - **File size stays under the budget.** Both files must stay under 40 KB;
   in practice each is well under (root: ~4.9 KB / ~6.9 KB; site: ~3.9 KB
   / ~5.0 KB) because the curation itself keeps them short.
+
+### Per-component Markdown URL
+
+The one public convention is `/components/{slug}.md` (decided 2026-11-20,
+P13-T3). It is the Markdown twin of the rendered `/components/{slug}/` page.
+`/components/{slug}/llms.txt` is not published: a second component-specific
+route would duplicate the same prose and leave clients choosing between two
+equivalent sources.
+
+`bin/generate-api-docs` copies every canonical `components/{slug}/index.md` to
+that URL, rewrites sibling component links for the flat output directory, and
+fails in `--check` mode if a copy is missing, stale, or has no source component.
+Every `/r/{slug}.json` manifest and every row of `/r/index.json` exposes the
+corresponding absolute `markdown` URL. The site and repository `llms.json`
+files point to that generated index, while the site pair also links a concrete
+Markdown component page as the discoverable example.
 
 ## Detail sections
 
@@ -89,6 +110,8 @@ section. `llms.json`: `{name, summary, description, license, sections:
       verified against `src/routes/`.
 - [x] This topic is linked from [spec/index.md](../index.md)'s topic
       table.
+- [x] Per-component Markdown uses only `/components/{slug}.md`; generated
+      manifests expose it and `bin/generate-api-docs --check` enforces it.
 
 ## Related topics
 

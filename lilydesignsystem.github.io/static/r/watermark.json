@@ -42,5 +42,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Watermark.razor"
   },
   "docs": "https://lilydesignsystem.com/components/watermark/",
+  "markdown": "https://lilydesignsystem.com/components/watermark.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/watermark/AGENTS.md"
 }

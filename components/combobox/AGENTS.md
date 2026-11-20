@@ -74,6 +74,10 @@ This is the APG combobox with list autocomplete and manual selection, in every c
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Documentation: index.md

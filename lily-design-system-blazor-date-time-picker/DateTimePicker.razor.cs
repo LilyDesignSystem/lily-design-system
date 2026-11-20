@@ -1005,17 +1005,17 @@ public partial class DateTimePicker : ComponentBase, IAsyncDisposable
                 MoveCursor(AddDays(_cursor, 7));
                 break;
             case "Home":
-            {
-                var offset = ((WeekdayOf(_cursor) - WeekStart) % 7 + 7) % 7;
-                MoveCursor(AddDays(_cursor, -offset));
-                break;
-            }
+                {
+                    var offset = ((WeekdayOf(_cursor) - WeekStart) % 7 + 7) % 7;
+                    MoveCursor(AddDays(_cursor, -offset));
+                    break;
+                }
             case "End":
-            {
-                var offset = ((WeekdayOf(_cursor) - WeekStart) % 7 + 7) % 7;
-                MoveCursor(AddDays(_cursor, 6 - offset));
-                break;
-            }
+                {
+                    var offset = ((WeekdayOf(_cursor) - WeekStart) % 7 + 7) % 7;
+                    MoveCursor(AddDays(_cursor, 6 - offset));
+                    break;
+                }
             case "PageUp":
                 if (args.ShiftKey) ShiftYear(-1, refocusCursor: true);
                 else ShiftMonth(-1, refocusCursor: true);

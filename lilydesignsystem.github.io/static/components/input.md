@@ -107,6 +107,10 @@ The consumer provides all CSS styling. The component renders with a `.input` cla
 - `field` — a form field wrapper with label, input, and error message
 - `form` — a form element for collecting and submitting user data
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN Input element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input

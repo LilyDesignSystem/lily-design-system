@@ -75,6 +75,10 @@ A national identifier is personal data, and often a key to other records.
 - `al-imarat-raqm-al-huwiyah-input` — an input for entering the United Arab Emirates' Emirates ID number
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [Emirates ID](https://en.wikipedia.org/wiki/Emirates_ID)

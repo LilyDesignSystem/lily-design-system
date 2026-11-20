@@ -95,6 +95,10 @@ The consumer provides all CSS styling. The component renders with a `.panel` cla
 - `summary-box` — a boxed callout highlighting key takeaways or next steps from a longer page
 - `info-state` — a composition of illustration, title, description, and action for empty, error, or info states
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA group role: https://www.w3.org/TR/wai-aria-1.2/#group

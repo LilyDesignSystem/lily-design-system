@@ -2,7 +2,7 @@
 
 Title: तुलनाएँ — Lily Design System
 
-Description: 
+Description:
 
 # तुलनाएँ
 

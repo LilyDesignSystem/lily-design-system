@@ -10,11 +10,23 @@ describe("typeahead", () => {
         expect(isTypeaheadKey({ key: "a", ctrlKey: true })).toBe(false);
         expect(isTypeaheadKey({ key: "a", metaKey: true })).toBe(false);
     });
+    it("accepts a printable Unicode scalar in canonically equivalent forms", () => {
+        for (const key of ["𠮷", "가", "가", "e\u0301"])
+            expect(isTypeaheadKey({ key })).toBe(true);
+        for (const key of ["", "\n", "\u200E", "\uD842", "ab"])
+            expect(isTypeaheadKey({ key })).toBe(false);
+        expect(isTypeaheadKey({ key: "𠮷", altKey: true })).toBe(false);
+    });
+    it("leaves composing initials to the input method", () => {
+        expect(isTypeaheadKey({ key: "가", isComposing: true })).toBe(false);
+        expect(isTypeaheadKey({ key: "가", nativeEvent: { isComposing: true } })).toBe(false);
+        expect(isTypeaheadKey({ key: "가", nativeEvent: { isComposing: false } })).toBe(true);
+    });
     it("grows the prefix within the reset time and starts over after it", () => {
         let s = nextTypeaheadState({ prefix: "", at: 0 }, "d", 1000);
-        s = nextTypeaheadState(s, "e", 1300);
+        s = nextTypeaheadState(s, "e", 1700);
         expect(s.prefix).toBe("de");
-        s = nextTypeaheadState(s, "x", 2200);
+        s = nextTypeaheadState(s, "x", 2401);
         expect(s.prefix).toBe("x");
     });
     const rows = ["Design", "Build", "Launch", "Deploy", "Docs"];
@@ -38,5 +50,15 @@ describe("typeahead", () => {
         expect(findTypeaheadMatch(rows, 0, "zz9")).toBe(-1);
         expect(findTypeaheadMatch([], 0, "a")).toBe(-1);
         expect(findTypeaheadMatch(rows, 0, "")).toBe(-1);
+        expect(findTypeaheadMatch(["undefined"], 0, "\u0301")).toBe(-1);
+    });
+    it("keeps cycling when a combining mark folds away", () => {
+        expect(findTypeaheadMatch(["x1", "x2"], 0, "x\u0338")).toBe(1);
+    });
+    it.each(["𠮷", "가", "𐐀", "e\u0301"])("cycles and extends the initial %s", (key) => {
+        const labels = [key + "1", key + "2"];
+        expect(findTypeaheadMatch(labels, 0, key)).toBe(1);
+        expect(findTypeaheadMatch(labels, 1, key.repeat(2))).toBe(0);
+        expect(findTypeaheadMatch(labels, 1, key + "2")).toBe(1);
     });
 });

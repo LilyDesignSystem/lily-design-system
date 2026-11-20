@@ -198,6 +198,11 @@ the providers are hard-coded.
 
 ### 9. Pending-state contract for async buttons
 
+**Adopted 2026-11-20 (P13-T9).** The contract is documented in `button` and
+`loading`; each of the nine catalogs tests the focusable, ARIA-marked pending
+state and a consumer-owned repeat-activation guard. `status-button` was
+declined as a component in favour of the composition recorded in item 12.
+
 sv-chanhdai's `extra/button` adds `loading` and `onClickPromise`: the button
 disables itself, shows a spinner while the promise runs, and re-enables in a
 `finally`. The pattern is common, and the defect is nearly as common: a
@@ -219,7 +224,7 @@ and a screen reader announces nothing.
 
 sv-chanhdai's `pm-command` renders one command as pnpm / npm / yarn / bun
 tabs with a copy button, resolving the text with `package-manager-detector`.
-Lily's own docs show only npm / NuGet install lines.
+Lily's docs used to show only npm / NuGet install lines.
 
 - **Deliverable:** a docs-site and example-app recipe, not a catalog
   component: `tabs` plus `clipboard-copy-button` plus `code`, with the
@@ -227,19 +232,20 @@ Lily's own docs show only npm / NuGet install lines.
 - **Why a recipe:** the variation (which managers, which commands) is content,
   which the headless layer leaves to the consumer.
 - **Check:** the site's install blocks use it and pass the existing axe sweep.
+- **Done 2026-11-20:** the English getting-started page and package-install tutorial blocks use one shared Svelte recipe with pnpm, npm, yarn and bun, exact-copy buttons and a polite completion status. The translated static-HTML pipeline retains the npm command as its non-hydrated fallback. Focus movement, manual activation, exact clipboard content and a component-scoped WCAG 2.2 A/AA axe scan run in Playwright. No package-manager detector or other runtime dependency was added.
 
 ### 11. Catalog gaps seen in the `ui/` layer
 
 A slug search of `components.tsv` found no match for these `ui/` components.
 Each is a candidate catalog entry only if it is more than a styled `<div>`:
 
-| `ui/` component                                                                | Lily today                                  | Verdict to decide                                                                          |
-| ------------------------------------------------------------------------------ | ------------------------------------------- | ------------------------------------------------------------------------------------------ |
-| `item` (media, content, title, description, actions, footer, group, separator) | no generic row; many `*-list-item` families | decide: a generic `item` family, or document composing `description-list` / `summary-list` |
-| `frame` (header, panel, title, description, footer)                            | none                                        | likely a recipe on `figure` / `fieldset` / `article`, not a component                      |
-| `highlight` (a `<mark>` with a marker-gradient look)                           | `mark` exists                               | document the look as a theme recipe on `mark` (`--marker-color`); no component             |
-| `annotation` (note text, eight arrow directions, custom properties for gaps)   | none                                        | decorative; the note must stay real text tied to its target. Open question below           |
-| `light-switch` (a sun / moon toggle with a `D` hotkey and a `kbd` tooltip)     | `theme-picker`, `kbd-shortcut`              | no; a toggle is a lesser `theme-picker`. Document the hotkey as an app concern             |
+| `ui/` component                                                                | Lily today                                  | Verdict to decide                                                                                                                                                                                                       |
+| ------------------------------------------------------------------------------ | ------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `item` (media, content, title, description, actions, footer, group, separator) | no generic row; many `*-list-item` families | **Declined 2026-11-19.** The root semantics and keyboard contract depend on the collection. Compose `description-list`, `summary-list`, or the relevant named `*-list-item`; a generic wrapper would erase that choice. |
+| `frame` (header, panel, title, description, footer)                            | none                                        | **Recipe 2026-11-19.** Choose `figure`, `fieldset`, `article`, or a plain section from the content; frame styling does not justify a component that fixes the wrong element.                                            |
+| `highlight` (a `<mark>` with a marker-gradient look)                           | `mark` exists                               | **Theme recipe 2026-11-19.** Style `mark` with a consumer-owned `--marker-color`; keep the marked text in the native element and add no catalog component.                                                              |
+| `annotation` (note text, eight arrow directions, custom properties for gaps)   | none                                        | **Recipe 2026-11-19.** Keep the note as visible text beside its target (and associate it with `aria-describedby` when it describes a control); draw any arrow decoratively in CSS. No component.                        |
+| `light-switch` (a sun / moon toggle with a `D` hotkey and a `kbd` tooltip)     | `theme-picker`, `kbd-shortcut`              | **Declined 2026-11-19.** Use `theme-picker`; a two-state switch is a less capable duplicate. A hotkey and its `kbd-shortcut` help are application concerns.                                                             |
 
 Already present in Lily: `input-group`, `button-group`, `hover-card`,
 `command`, `collapsible`, `resizable`, `scroll-area`, `sidebar`, `masonry`,
@@ -257,7 +263,7 @@ docs for the original):
 | Component              | What it really is                                                                                                                                                                                                                            | Lily today                                                                                                 | Verdict                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `wheel-picker`         | `role="listbox"`, `aria-orientation="vertical"`, `role="option"` with `aria-selected` / `aria-disabled`, a roving `tabindex`, keyboard navigation, type-ahead over labels, infinite loop, touch inertia                                      | `listbox` (catalog, with an `active-descendant` mode); no wheel                                            | **Added 2026-10-23 in all nine catalogs** as `wheel-picker`: a single-select listbox whose roles, keys and type-ahead are headless; inertia and snapping stay CSS (`scroll-snap`). Also the natural control for the time part of `date-time-picker` (not yet wired in)                                                                                                                                                          |
-| `status-button`        | idle / loading / success / error states; `aria-busy`, `aria-disabled` (not `disabled`), focus kept while busy; `role="status"` and `role="alert"` live regions; invisible copies of each label reserve the width so the button never resizes | `button`, `loading`, `status-light`                                                                        | **Fold into item 9**: this is the evidence for it. Add as `status-button` only if the per-state live-region wiring is worth owning                                                                                                                                                                                                                                                                                              |
+| `status-button`        | idle / loading / success / error states; `aria-busy`, `aria-disabled` (not `disabled`), focus kept while busy; `role="status"` and `role="alert"` live regions; invisible copies of each label reserve the width so the button never resizes | `button`, `loading`, `status-light`                                                                        | **Declined as a component; composition recipe (2026-11-19).** Keep the action as `button`, progress as `loading`, success in a separate `role="status"`, and actionable failure in a separate `role="alert"`. Promise state and repeat guards remain consumer logic; reserved width is consumer/theme CSS. A single component would blur those semantic regions without removing consumer state handling.                       |
 | `apple-carousel`       | APG tabbed carousel: `role="tablist"` / `tab` / `tabpanel`, roving `tabindex`, ArrowLeft / ArrowRight / Home / End, a Play / Pause button whose label changes, no autoplay until Play is pressed, cloned items for the loop                  | `carousel` (region + `aria-roledescription` only; navigation, autoplay and pause are left to the consumer) | **Document** the APG pattern in `carousel`: tab controls, the rotation-control rule (WCAG 2.2.2), and that cloned slides must be `aria-hidden` and non-focusable. The clones here carry no role but are not marked hidden, so a screen reader may read them twice: do not copy that                                                                                                                                             |
 | `elastic-slider`       | `role="slider"` with `aria-valuemin` / `valuemax` / `valuenow` / `valuetext`, Arrow / Home / End; the rubber-band stretch is skipped under reduced motion                                                                                    | `slider` (Home documented; no `aria-valuetext` or PageUp / PageDown in its docs)                           | **Tighten** `slider`'s contract: `aria-valuetext` (a formatted string supplied by the consumer), PageUp / PageDown steps, and a Reduced motion note (item 6). The elastic effect itself is not Lily's                                                                                                                                                                                                                           |
 | `middle-truncation`    | measures the rendered text with a canvas `measureText`, re-runs on resize with a `ResizeObserver`, then renders the shortened string; `title` holds the full text                                                                            | none                                                                                                       | **Added 2026-10-23 in the Svelte canonical** (not as built: see the rule below)                                                                                                                                                                                                                                                                                                                                                 |
@@ -280,28 +286,22 @@ even-split strategies are an enum.
 - **Check:** for `middle-truncation`, a test that the full text is in the
   accessibility tree and that a resize changes only the visual string.
 
-## Open questions (not yet items)
+## Decisions on the former open questions (2026-11-19)
 
-- **A shadcn-style `registry.json` output.** chanhdai.com publishes
-  `public/r/{name}.json` in the shadcn schema so `npx shadcn add` installs a
-  component. Lily already has `/r/{slug}.json` manifests; whether to make them
-  schema-compatible with shadcn / shadcn-svelte (copy-in distribution
-  alongside the npm packages) is a distribution decision for the maintainer,
-  and overlaps the manifests item in
-  [coss-ui-lessons](../coss-ui/index.md).
-- **MCP config in the repo.** Both repos commit an `.mcp.json` / `.cursor/mcp.json`.
-  Lily's [daisyui-lessons](../daisyui/index.md) already proposes a
-  read-only MCP server; committing a project config that points at it is the
-  small follow-up, once the server exists.
-- **A "registry stats" file.** chanhdai.com emits `registry-stats.json`
-  (total and count by type). Lily's counts (581, 536, 133 packages…) are
-  hand-written across `AGENTS/`, the spec and the site; a generated
-  `stats.json` consumed by those pages would end the count drift, but it is a
-  larger change than one item.
-- **`annotation`.** Eight arrow directions and gap custom properties make it
-  a pure presentation component with a text note. If added, the note is a
-  real visible text node (not a CSS `content:` string, which assistive
-  technology may skip), and the arrow is decorative. Needs a maintainer call.
+- **A shadcn-style `registry.json` output: adopted for React.** `bin/generate-registries` now writes shadcn-schema
+  items under `/r/react/`, and the documented `npx shadcn add @lily/{slug}` flow has built a scratch Next.js app.
+  Keep the existing framework-neutral `/r/{slug}.json` manifests. Do not emit Svelte or Vue items until their CLIs
+  publish and accept a compatible namespaced schema; this is tracked by P16-T5.
+- **MCP config in the repo: declined until there is a server.** A committed `.mcp.json` that points at a nonexistent
+  or unapproved endpoint is broken configuration. P22-T19 owns the read-only server; its implementation may propose
+  an opt-in config, but this topic adds none.
+- **A "registry stats" file: declined as a second source of truth.** Counts are derived from `components.tsv`, package
+  manifests, and the tree by existing generators and checks. A generated `stats.json` would help only after every
+  prose consumer read it, which Markdown cannot do; keep fixing stale prose through the existing count audits rather
+  than introducing another published contract.
+- **`annotation`: recipe, not a component.** The semantic content is a visible note associated with its target; the
+  eight arrow directions and gaps are presentation. A recipe keeps the note in the DOM, uses `aria-describedby` when
+  it describes a control, and draws the arrow with an `aria-hidden` element or CSS.
 - **`masonry-grid` retry.** Each masonry card has a retry button that
   re-keys its content so a demo can replay; Lily's example apps could offer
   the same on animated demos. Not an item: it is demo chrome.
@@ -313,7 +313,7 @@ even-split strategies are an enum.
 ## Acceptance criteria
 
 - [ ] 1. `AGENTS/lily.md` lists every generated file with its generator and check.
-- [ ] 2. Every site page has a `.md` twin or an allow-listed reason.
+- [x] 2. Every site page has a `.md` twin or an allow-listed reason.
 - [ ] 3. One per-component Markdown URL convention is decided and documented.
 - [ ] 4. The three scaffolders accept `--dry-run` and write nothing under it.
 - [ ] 5. Each generator has golden-output tests in `bin/test`.
@@ -321,10 +321,10 @@ even-split strategies are an enum.
 - [ ] 7. `bin/check-port-parity` reports Web Components and Alpine drift against their references.
 - [ ] 8. One open-in-assistant recipe exists with consumer-supplied `href(query)` targets and no bundled endpoints.
 - [ ] 9. The async-button pending contract is documented and tested in each library.
-- [ ] 10. The docs site's install blocks use a package-manager tabs recipe.
-- [ ] 11. A decision (add, recipe, decline) is recorded for each row of the gap table.
+- [x] 10. The docs site's install blocks use a package-manager tabs recipe.
+- [x] 11. A decision (add, recipe, decline) is recorded for each row of the gap table.
 - [ ] 12. `wheel-picker` and `middle-truncation` exist in the catalog; `carousel` and `slider` carry the tightened contracts.
-- [ ] The open questions above are decided, or recorded as declined.
+- [x] The open questions above are decided, or recorded as declined.
 
 ## Related topics
 

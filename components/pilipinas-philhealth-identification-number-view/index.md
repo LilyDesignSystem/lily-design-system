@@ -75,6 +75,10 @@ A national identifier is personal data, and often a key to other records.
 - `pilipinas-philhealth-identification-number-input` — an input for entering the Philippines's PhilHealth Identification Number (PIN)
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [PhilHealth](https://en.wikipedia.org/wiki/PhilHealth)

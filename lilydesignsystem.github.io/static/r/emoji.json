@@ -36,5 +36,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Emoji.razor"
   },
   "docs": "https://lilydesignsystem.com/components/emoji/",
+  "markdown": "https://lilydesignsystem.com/components/emoji.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/emoji/AGENTS.md"
 }

@@ -308,7 +308,8 @@
             let initial = current;
             if (!initial && storageKey) {
                 try {
-                    initial = localStorage.getItem(storageKey) ?? "";
+                    const stored = localStorage.getItem(storageKey) ?? "";
+                    if (motions.includes(stored)) initial = stored;
                 } catch {
                     // ignore privacy errors
                 }

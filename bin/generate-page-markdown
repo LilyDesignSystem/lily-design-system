@@ -1,15 +1,13 @@
 #!/usr/bin/env node
 // bin/generate-page-markdown — plan P13-T2: a `.md` twin for the docs site's text pages.
 //
-// The site's English text pages are extracted to plain HTML (bin/extract-site-pages ->
+// The site's text pages are extracted to plain HTML (bin/extract-site-pages ->
 // lilydesignsystem.github.io/src/lib/pages/<slug>/en.html). This turns each into Markdown at
 // lilydesignsystem.github.io/static/<route>.md, so /about.md sits next to /about/ and an agent
 // can fetch Markdown instead of HTML. Dependency-free: the pages use a small, fixed tag set.
 //
-// Translated pages (<code>.html) have no twin yet: that is the one allow-listed gap, TRANSLATIONS_PENDING.
-//
 //   bin/generate-page-markdown           write the twins
-//   bin/generate-page-markdown --check   exit 1 if a twin is missing, stale, or has no source
+//   bin/generate-page-markdown --check   exit 1 if a twin is missing or stale, or a route is unaccounted for
 
 const fs = require("fs");
 const path = require("path");
@@ -25,110 +23,275 @@ const absolute = (h) => (/^\/(?!\/)/.test(h) ? ORIGIN + h : h);
 
 const extra = JSON.parse(fs.readFileSync(path.join(site, "src/lib/extra-pages.json"), "utf8"));
 const routeOf = Object.fromEntries(extra.map((e) => [e.slug, e.route]));
+const mainSlugs = [
+    "about",
+    "why",
+    "accessibility",
+    "help",
+    "compare",
+    "tutorials",
+    "examples",
+    "skills",
+];
+const allow = JSON.parse(
+    fs.readFileSync(path.join(top, "bin/generate-page-markdown.allow.json"), "utf8"),
+);
 
 const decode = (s) =>
-  s.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&");
+    s
+        .replace(/&lt;/g, "<")
+        .replace(/&gt;/g, ">")
+        .replace(/&quot;/g, '"')
+        .replace(/&#39;/g, "'")
+        .replace(/&nbsp;/g, " ")
+        .replace(/&amp;/g, "&");
 
 // Tokenise into tags and text.
 function tokens(html) {
-  const out = [];
-  const re = /<!--[\s\S]*?-->|<\/?([a-zA-Z][a-zA-Z0-9]*)((?:[^>"']|"[^"]*"|'[^']*')*)>|([^<]+)/g;
-  for (const m of html.matchAll(re)) {
-    if (m[0].startsWith("<!--")) continue;
-    if (m[3] !== undefined) out.push({ text: m[3] });
-    else out.push({ tag: m[1].toLowerCase(), close: m[0][1] === "/", attrs: m[2] });
-  }
-  return out;
+    const out = [];
+    const re = /<!--[\s\S]*?-->|<\/?([a-zA-Z][a-zA-Z0-9]*)((?:[^>"']|"[^"]*"|'[^']*')*)>|([^<]+)/g;
+    for (const m of html.matchAll(re)) {
+        if (m[0].startsWith("<!--")) continue;
+        if (m[3] !== undefined) out.push({ text: m[3] });
+        else out.push({ tag: m[1].toLowerCase(), close: m[0][1] === "/", attrs: m[2] });
+    }
+    return out;
 }
 const attr = (attrs, name) => (attrs.match(new RegExp(`\\b${name}="([^"]*)"`)) || [])[1];
 
 function toMarkdown(html) {
-  const out = [];
-  let pre = false, inline = "", listStack = [], href = [], cell = null, rows = [], row = null, tableHead = false;
-  const emit = (s) => (cell !== null ? (cell += s) : (inline += s));
-  const flush = () => {
-    const t = inline.replace(/[ \t\r\n]+/g, " ").trim();
-    if (t) out.push(t);
-    inline = "";
-  };
-  for (const t of tokens(html)) {
-    if (t.text !== undefined) {
-      emit(pre ? t.text : decode(t.text).replace(/[ \t\r\n]+/g, " "));
-      continue;
-    }
-    const { tag, close } = t;
-    if (/^h[1-6]$/.test(tag)) {
-      if (!close) { flush(); inline = "#".repeat(+tag[1]) + " "; } else { flush(); }
-    } else if (tag === "p" || tag === "summary") {
-      flush();
-    } else if (tag === "ul" || tag === "ol") {
-      flush();
-      if (!close) listStack.push({ ordered: tag === "ol", n: 0 }); else listStack.pop();
-    } else if (tag === "li") {
-      flush();
-      if (!close && listStack.length) {
-        const l = listStack[listStack.length - 1];
-        l.n++;
-        inline = "  ".repeat(listStack.length - 1) + (l.ordered ? `${l.n}. ` : "- ");
-      }
-    } else if (tag === "pre") {
-      if (!close) { flush(); pre = true; inline = ""; }
-      else { out.push("```\n" + decode(inline).replace(/\n+$/, "") + "\n```"); inline = ""; pre = false; }
-    } else if (tag === "code") {
-      if (!pre) emit("`");
-    } else if (tag === "strong" || tag === "b") emit("**");
-    else if (tag === "em" || tag === "i") emit("*");
-    else if (tag === "kbd") emit("`");
-    else if (tag === "a") {
-      if (!close) { href.push(attr(t.attrs, "href") || ""); emit("["); }
-      else emit(`](${absolute(href.pop())})`);
-    } else if (tag === "br") emit("\n");
-    else if (tag === "table") {
-      if (!close) { flush(); rows = []; } else {
-        if (rows.length) {
-          const w = Math.max(...rows.map((r) => r.length));
-          const line = (r) => "| " + Array.from({ length: w }, (_, i) => r[i] || "").join(" | ") + " |";
-          out.push([line(rows[0]), "| " + Array(w).fill("---").join(" | ") + " |", ...rows.slice(1).map(line)].join("\n"));
+    const out = [];
+    let pre = false,
+        inline = "",
+        listStack = [],
+        href = [],
+        cell = null,
+        rows = [],
+        row = null,
+        tableHead = false;
+    const emit = (s) => (cell !== null ? (cell += s) : (inline += s));
+    const flush = () => {
+        const t = inline.replace(/[ \t\r\n]+/g, " ").trim();
+        if (t) out.push(t);
+        inline = "";
+    };
+    for (const t of tokens(html)) {
+        if (t.text !== undefined) {
+            emit(pre ? t.text : decode(t.text).replace(/[ \t\r\n]+/g, " "));
+            continue;
         }
-        rows = [];
-      }
-    } else if (tag === "tr") {
-      if (!close) row = []; else { rows.push(row); row = null; }
-    } else if (tag === "td" || tag === "th") {
-      if (!close) cell = ""; else { row.push(cell.replace(/\|/g, "\\|").replace(/\s+/g, " ").trim()); cell = null; }
-    } else if (["section", "div", "header", "nav", "details", "thead", "tbody"].includes(tag)) {
-      flush();
+        const { tag, close } = t;
+        if (/^h[1-6]$/.test(tag)) {
+            if (!close) {
+                flush();
+                inline = "#".repeat(+tag[1]) + " ";
+            } else {
+                flush();
+            }
+        } else if (tag === "p" || tag === "summary") {
+            flush();
+        } else if (tag === "ul" || tag === "ol") {
+            flush();
+            if (!close) listStack.push({ ordered: tag === "ol", n: 0 });
+            else listStack.pop();
+        } else if (tag === "li") {
+            flush();
+            if (!close && listStack.length) {
+                const l = listStack[listStack.length - 1];
+                l.n++;
+                inline = "  ".repeat(listStack.length - 1) + (l.ordered ? `${l.n}. ` : "- ");
+            }
+        } else if (tag === "pre") {
+            if (!close) {
+                flush();
+                pre = true;
+                inline = "";
+            } else {
+                out.push("```\n" + decode(inline).replace(/\n+$/, "") + "\n```");
+                inline = "";
+                pre = false;
+            }
+        } else if (tag === "code") {
+            if (!pre) emit("`");
+        } else if (tag === "strong" || tag === "b") emit("**");
+        else if (tag === "em" || tag === "i") emit("*");
+        else if (tag === "kbd") emit("`");
+        else if (tag === "a") {
+            if (!close) {
+                href.push(attr(t.attrs, "href") || "");
+                emit("[");
+            } else emit(`](${absolute(href.pop())})`);
+        } else if (tag === "br") emit("\n");
+        else if (tag === "table") {
+            if (!close) {
+                flush();
+                rows = [];
+            } else {
+                if (rows.length) {
+                    const w = Math.max(...rows.map((r) => r.length));
+                    const line = (r) =>
+                        "| " + Array.from({ length: w }, (_, i) => r[i] || "").join(" | ") + " |";
+                    out.push(
+                        [
+                            line(rows[0]),
+                            "| " + Array(w).fill("---").join(" | ") + " |",
+                            ...rows.slice(1).map(line),
+                        ].join("\n"),
+                    );
+                }
+                rows = [];
+            }
+        } else if (tag === "tr") {
+            if (!close) row = [];
+            else {
+                rows.push(row);
+                row = null;
+            }
+        } else if (tag === "td" || tag === "th") {
+            if (!close) cell = "";
+            else {
+                row.push(cell.replace(/\|/g, "\\|").replace(/\s+/g, " ").trim());
+                cell = null;
+            }
+        } else if (["section", "div", "header", "nav", "details", "thead", "tbody"].includes(tag)) {
+            flush();
+        }
     }
-  }
-  flush();
-  // Consecutive list items form one tight list.
-  const isItem = (b) => /^ *(- |\d+\. )/.test(b);
-  let md = "";
-  out.forEach((b, i) => { md += i === 0 ? b : isItem(b) && isItem(out[i - 1]) ? "\n" + b : "\n\n" + b; });
-  return md;
+    flush();
+    // Consecutive list items form one tight list.
+    const isItem = (b) => /^ *(- |\d+\. )/.test(b);
+    let md = "";
+    out.forEach((b, i) => {
+        md += i === 0 ? b : isItem(b) && isItem(out[i - 1]) ? "\n" + b : "\n\n" + b;
+    });
+    return md;
 }
 
-function twin(slug) {
-  const src = fs.readFileSync(path.join(pagesDir, slug, "en.html"), "utf8");
-  const title = (src.match(/<!-- title: (.*?) -->/) || [])[1] || slug;
-  const description = (src.match(/<!-- description: (.*?) -->/) || [])[1] || "";
-  const body = toMarkdown(src);
-  return `<!-- Generated by bin/generate-page-markdown from src/lib/pages/${slug}/en.html — do not edit. -->\n\n` +
-    `Title: ${title}\n\nDescription: ${description}\n\n${body}\n`;
+function localizedSource(src, locale, lang) {
+    if (!locale) return src;
+    const routes = [
+        ...mainSlugs,
+        ...extra
+            .filter((page) => fs.existsSync(path.join(pagesDir, page.slug, `${lang}.html`)))
+            .map((page) => page.route),
+    ];
+    for (const route of routes.sort((a, b) => b.length - a.length)) {
+        const escaped = route.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        src = src.replace(new RegExp(`href="/${escaped}/"`, "g"), `href="/${locale}/${route}/"`);
+    }
+    return src;
 }
 
-const slugs = fs.readdirSync(pagesDir).filter((d) => fs.existsSync(path.join(pagesDir, d, "en.html"))).sort();
-let bad = 0, wrote = 0;
+function twin(slug, lang = "en", locale = null) {
+    const relative = `src/lib/pages/${slug}/${lang}.html`;
+    let src = fs.readFileSync(path.join(site, relative), "utf8");
+    const title = (src.match(/<!-- title: (.*?) -->/) || [])[1] || slug;
+    const description = (src.match(/<!-- description: (.*?) -->/) || [])[1] || "";
+    src = localizedSource(src, locale, lang);
+    const body = toMarkdown(src);
+    return (
+        `<!-- Generated by bin/generate-page-markdown from ${relative} — do not edit. -->\n\n` +
+        `Title: ${title}\n\nDescription:${description ? ` ${description}` : ""}\n\n${body}\n`
+    );
+}
+
+const slugs = fs
+    .readdirSync(pagesDir)
+    .filter((d) => fs.existsSync(path.join(pagesDir, d, "en.html")))
+    .sort();
+let bad = 0,
+    wrote = 0;
 const expected = new Set();
-for (const slug of slugs) {
-  const file = `${routeOf[slug] || slug}.md`;
-  expected.add(file);
-  const dest = path.join(outDir, file);
-  const want = twin(slug);
-  const have = fs.existsSync(dest) ? fs.readFileSync(dest, "utf8") : null;
-  if (have === want) continue;
-  if (check) { console.error(`Error: ${file} ${have === null ? "is missing" : "is stale"}; run bin/generate-page-markdown`); bad++; }
-  else { fs.mkdirSync(path.dirname(dest), { recursive: true }); fs.writeFileSync(dest, want); wrote++; }
+function output(file, want) {
+    expected.add(file);
+    const dest = path.join(outDir, file);
+    const have = fs.existsSync(dest) ? fs.readFileSync(dest, "utf8") : null;
+    if (have === want) return;
+    if (check) {
+        console.error(
+            `Error: ${file} ${have === null ? "is missing" : "is stale"}; run bin/generate-page-markdown`,
+        );
+        bad++;
+    } else {
+        fs.mkdirSync(path.dirname(dest), { recursive: true });
+        fs.writeFileSync(dest, want);
+        wrote++;
+    }
 }
-console.log(check ? (bad ? `generate-page-markdown: FAILED (${bad})` : `generate-page-markdown: OK (${slugs.length} twins)`) : `generate-page-markdown: ${wrote} written, ${slugs.length - wrote} current`);
+
+for (const slug of slugs) output(`${routeOf[slug] || slug}.md`, twin(slug));
+
+// A translated HTML source is shared by every locale with that language (`cy.html` serves cy-001 and cy-gb).
+// Emit the Markdown at each real locale route so its internal links stay in the same locale, like LocalizedPage does.
+const routesDir = path.join(site, "src/routes");
+const localePattern = /^[a-z]{2,3}-(?:[a-z]{2}|[0-9]{3})(?:-[a-z0-9]+)?$/;
+const locales = fs
+    .readdirSync(routesDir, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory() && localePattern.test(entry.name))
+    .map((entry) => entry.name)
+    .sort();
+for (const locale of locales) {
+    const lang = locale.split("-")[0];
+    for (const slug of slugs) {
+        if (!fs.existsSync(path.join(pagesDir, slug, `${lang}.html`))) continue;
+        const route = routeOf[slug] || slug;
+        if (!fs.existsSync(path.join(routesDir, locale, route, "+page.svelte"))) continue;
+        output(`${locale}/${route}.md`, twin(slug, lang, locale));
+    }
+}
+
+// This page already has canonical Markdown generated from the same theme data; publish it beside the HTML route.
+output(
+    "theme-contrast.md",
+    "<!-- Copied by bin/generate-page-markdown from docs/theme-contrast.md — do not edit. -->\n\n" +
+        fs.readFileSync(path.join(top, "docs/theme-contrast.md"), "utf8"),
+);
+
+function routesUnder(dir, prefix = "") {
+    const found = [];
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+        if (!entry.isDirectory()) continue;
+        const route = prefix ? `${prefix}/${entry.name}` : entry.name;
+        const child = path.join(dir, entry.name);
+        if (fs.existsSync(path.join(child, "+page.svelte"))) found.push(`/${route}/`);
+        found.push(...routesUnder(child, route));
+    }
+    if (!prefix && fs.existsSync(path.join(dir, "+page.svelte"))) found.push("/");
+    return found;
+}
+
+const routes = routesUnder(routesDir);
+const usedAllow = new Set();
+for (const route of routes) {
+    const relative = route.replace(/^\//, "").replace(/\/$/, "");
+    const file =
+        relative.startsWith("components/") && relative !== "components"
+            ? `${relative.replace(/\/$/, "")}.md`
+            : `${relative}.md`;
+    if (file && fs.existsSync(path.join(outDir, file))) continue;
+    const allowed = allow.find((entry, index) => {
+        if (!new RegExp(entry.pattern).test(route)) return false;
+        usedAllow.add(index);
+        return true;
+    });
+    if (!allowed) {
+        console.error(`Error: route ${route} has no Markdown twin or allow-listed reason`);
+        bad++;
+    }
+}
+allow.forEach((entry, index) => {
+    if (!entry.reason || !usedAllow.has(index)) {
+        console.error(`Error: stale or reasonless Markdown allow-list pattern: ${entry.pattern}`);
+        bad++;
+    }
+});
+
+const total = expected.size;
+console.log(
+    check
+        ? bad
+            ? `generate-page-markdown: FAILED (${bad})`
+            : `generate-page-markdown: OK (${total} twins; ${allow.length} route exceptions)`
+        : `generate-page-markdown: ${wrote} written, ${total - wrote} current`,
+);
 process.exit(bad ? 1 : 0);

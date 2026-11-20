@@ -116,7 +116,8 @@ public partial class ThemePicker : ComponentBase, IAsyncDisposable
     [Parameter] public string Extension { get; set; } = ".css";
 
     /// <summary>Optional pretty labels per slug.</summary>
-    [Parameter] public IReadOnlyDictionary<string, string> ThemeLabels { get; set; }
+    [Parameter]
+    public IReadOnlyDictionary<string, string> ThemeLabels { get; set; }
         = new Dictionary<string, string>();
 
     /// <summary>Replaces the default half-circle icon inside the button.</summary>
@@ -404,7 +405,7 @@ public partial class ThemePicker : ComponentBase, IAsyncDisposable
                     "eval",
                     $"(function(){{try{{return localStorage.getItem({JsonString(StorageKeyOrDefault)});}}catch(e){{return null;}}}})()"
                 );
-                if (!string.IsNullOrEmpty(stored)) return stored!;
+                if (!string.IsNullOrEmpty(stored) && Choices.Contains(stored)) return stored!;
             }
             catch
             {

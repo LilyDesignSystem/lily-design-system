@@ -1277,7 +1277,7 @@ describe("KanbanBoard — typed fields, editing, export (§8.95–§8.108)", () 
         { id: "points", header: "Points", type: "number" as const },
         { id: "due", header: "Due", type: "date" as const },
     ];
-    const FCARDS: KanbanCard[] = [
+    const FCARDS: Record<string, unknown>[] = [
         {
             id: "c1",
             columnId: "todo",
@@ -1290,7 +1290,7 @@ describe("KanbanBoard — typed fields, editing, export (§8.95–§8.108)", () 
         { id: "c2", columnId: "todo", title: "Two", values: { points: 5 } },
         { id: "c3", columnId: "done", title: "Three =cmd", values: { owner: "b" } },
     ];
-    const EXPORT_LABELS: KanbanLabels = {
+    const EXPORT_LABELS: Record<string, unknown> = {
         export: "Export",
         exportCsv: "CSV",
         exportTsv: "TSV",

@@ -1,12 +1,12 @@
 ---
 name: lily-design-system-svelte-headless-skill
-description: Explains how to install and consume Lily Design System's Svelte headless component library — the npm package name, the Svelte 5 runes-specific usage idiom (the `class` prop convention, `$props()` with rest-props spread onto the root element, `$bindable()` for open/close state), and where the 609-component catalog and its naming/composition rules live. Use when someone asks how to install or import Lily's Svelte components, wants the Svelte 5 idiom for consuming a headless Lily component, asks what npm package to depend on, or asks how theming/class hooks work in the Svelte catalog.
+description: Explains how to install and consume Lily Design System's 473-component Svelte core headless library — its npm package, Svelte 5 runes idioms, and naming and composition rules. Use when someone asks how to install or import Lily's Svelte components, wants the Svelte 5 consumption idiom, asks which package to depend on, or asks how theming and class hooks work.
 license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 ---
 
 # Lily Design System™ — Svelte headless
 
-The Svelte 5 implementation of Lily's canonical 609-component catalog:
+The Svelte 5 implementation of Lily's 473-component core catalog:
 headless, unstyled, accessible components — semantic HTML, ARIA, focus
 management, and keyboard behaviour, and **no CSS**. Published to npm as
 [`@lilydesignsystem/svelte-headless`](https://www.npmjs.com/package/@lilydesignsystem/svelte-headless).

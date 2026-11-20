@@ -77,6 +77,10 @@ The consumer provides all CSS styling via the `.empty-state` class.
 - `loading` — an indeterminate busy indicator
 - `skeleton` — a placeholder for content in flight
 
+## Known limitations
+
+None known.
+
 ## References
 
 - NHS UK content style guide: https://service-manual.nhs.uk/content

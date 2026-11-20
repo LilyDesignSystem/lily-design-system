@@ -104,6 +104,10 @@ The consumer provides all CSS styling. The component renders with a `.switch-but
 - `toggle-button` — a button that toggles between pressed and unpressed states
 - `checkbox-input` — a checkbox input for toggling a boolean value <input type="checkbox">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Switch Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/switch/

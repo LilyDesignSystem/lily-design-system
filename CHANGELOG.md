@@ -9,6 +9,171 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## One per-component Markdown URL (2026-11-20, P13-T3, unreleased)
+
+- `/components/{slug}.md` is now the sole public Markdown convention for a component; a parallel component-specific `llms.txt` route is deliberately not published.
+- Every generated component manifest and manifest-index row exposes its absolute `markdown` URL, and the existing API-docs drift check enforces all 661 Markdown copies.
+
+## Async-button pending contract (2026-11-20, P13-T9, unreleased)
+
+- All nine catalogs now test that an asynchronous action keeps its native button focusable with `aria-busy` and `aria-disabled`, while a consumer-owned guard prevents repeat work.
+- Angular's button exposes the two pending-state ARIA inputs. A dedicated `status-button` remains declined in favour of composing the action, progress, success status and actionable-failure alert as separate semantic regions.
+
+## Generated Web Components helpers (2026-11-20, P12-T9, unreleased)
+
+- A new package-scoped generator derives Web Components helper source and tests from the corresponding HTML custom elements, transforming package names and public tags and supporting reviewed patches for genuine differences.
+- All 20 code-bearing pairs cover 258 managed files and 1,588 passing focused tests. Their full drift check now runs in `bin/test`; genuine Web Components icon-button, stable child-picker, preference-list, Gantt-table and Kanban-table composition is preserved as explicit stale-checked patches.
+
+## Package-manager install tabs (2026-11-20, P13-T10, unreleased)
+
+- Documentation package-install blocks now share pnpm, npm, yarn and bun tabs built from the headless tab and clipboard components, with exact command copying and polite confirmation.
+- Focus movement, manual activation, clipboard output and a component-scoped WCAG 2.2 A/AA axe scan are covered by Playwright. Static translated pages retain their npm fallback, and no package-manager detector ships to readers.
+
+## Group fieldset theme reset (2026-11-19, P10-T14, unreleased)
+
+- All 63 reference themes reset the browser border, margin, padding and
+  intrinsic minimum width on `radio-group` and `checkbox-group` fieldsets.
+  The dedicated `fieldset` component remains the visible bordered grouping
+  treatment, avoiding nested double boxes and narrow-layout overflow.
+
+## Task-shaped agent skills (2026-11-19, P22-T7, unreleased)
+
+- Four cross-framework playbooks now cover installing Lily, adding a canonical
+  component, application and reference-theme work, and Bootstrap migration.
+- They remain local skill packages. Public registry listing and a `skills add`
+  route remain a separate maintainer decision.
+
+## Bootstrap migration guide (2026-11-19, P22-T8, unreleased)
+
+- A generated, slug-checked mapping covers 29 common Bootstrap 5 components and class families, with the semantic and
+  styling differences that matter when moving to Lily. The root guide and docs-site page include a worked conversion.
+- The canonical TSV cannot name a missing Lily component: its generator validates every target against the catalog and
+  its drift check runs in `bin/test`.
+
+## Chanhdai lesson decisions (2026-11-19, P13-T11 and P13-T16, unreleased)
+
+- The five `ui/` gaps now have explicit outcomes: semantic collection items stay specific, frame/highlight/annotation
+  remain recipes, and the light switch stays part of the fuller theme picker.
+- React shadcn output is adopted; a project MCP config is deferred until a real server exists; a second stats contract
+  is declined in favour of deriving counts from canonical repository data.
+
+## Component AI and source links (2026-11-19, P22-T17, unreleased)
+
+- Every component page now offers Copy Markdown, Open in ChatGPT, Open in Claude, and View source. The assistant links
+  are ordinary anchors and carry only the component's public Markdown URL, with no page content or tracking parameter.
+
+## Localized Markdown documentation (2026-11-19, P13-T2, unreleased)
+
+- The docs site now publishes 2,600 generated Markdown twins across English and localized text-page routes. Links in a
+  translated twin stay in its locale just as they do in the rendered page.
+- The drift check audits the whole SvelteKit route tree. A page without a Markdown twin must match one of five explicit,
+  reasoned interactive exceptions, and stale exceptions fail.
+
+## Optimize guide (2026-11-19, P22-T12 partial, unreleased)
+
+- The docs site now explains the zero-runtime copy path, named imports and tree-shaking, the different catalog package
+  formats, one-theme loading, exact pre-1.0 pins, and a reproducible production-bundle measurement workflow.
+- Its package-size table is explicitly the dated installed-footprint data from `BENCHMARKS.md`, not a claim about bytes
+  sent to users. Buildable framework starters remain open.
+
+## Repository-wide lint and formatting gates (2026-11-19, P12-T3, unreleased)
+
+- Angular source and templates now run through `angular-eslint`; React and Solid JSX run through
+  `eslint-plugin-jsx-a11y`. Definite structural failures are errors, while rules that cannot follow runtime headless
+  focus and conditional ARIA contracts are reported as warnings.
+- Prettier checks every configured JavaScript, TypeScript, component and Markdown source. `bin/dotnet-format` checks
+  all Blazor solutions and helper projects with .NET 11. Both gates run in the lint CI job.
+
+## Component root tags agree with their contracts (2026-11-19, P10-T12, unreleased)
+
+- The root-tag audit now covers 661 components in each of nine rendered catalogs. Every statically resolved root agrees
+  with its component contract except three reviewed listbox choices in Angular, Blazor and Nunjucks; those differences
+  are explicit and the allow-list may only shrink.
+
+## Component-scoped theme variables (2026-11-19, P22-T1, unreleased)
+
+- Buttons, alerts, cards, tables and dialogs now expose small token-backed customization surfaces in all 63 reference
+  themes. An adopter can restyle one component instance with inline custom properties without copying the theme rule;
+  regional density and component-family variants keep their existing defaults.
+- `bin/check-theme` requires every theme to declare and consume the complete pilot contract, and a browser test proves
+  an inline button background and text override reaches computed style.
+
+## Explicit component limitations and disabled-control guidance (2026-11-19, P22-T5 and P22-T21, unreleased)
+
+- Every canonical component `AGENTS.md` and `index.md` now has a Known limitations section. A new repository gate checks
+  all 1,322 documents and rejects a missing, duplicate or empty section.
+- Button, all 17 anchor-root components, and the choice-chip composition now document native disabled behavior,
+  `aria-disabled`, tab-order and semantic look-alike pitfalls. The gate pins each required case.
+
+## Unicode initials in keyboard type-ahead (2026-11-19, P39-T1 and P39-T2, unreleased)
+
+- Typing a supplementary character such as `𠮷` or a Hangul syllable such as `가` advances through matching options
+  in controls that use the shared type-ahead module. Repeating the initial wraps through the matches. A mounted Svelte
+  listbox property test checks the active option after each key.
+- The generated React shadcn registry now includes the type-ahead and search helpers imported by the listbox machine.
+- Menus, tree widgets and wheel pickers also cycle through labels starting with supplementary characters. Wheel pickers
+  skip disabled options and cycle repeated Hangul syllables and canonically equivalent accents.
+
+## Shared test coverage above 95 percent (2026-11-19, P39-T5, unreleased)
+
+- The shared suite now directly covers cell types, production pattern handlers and fixtures, and wheel scrolling. Its
+  949 tests cover 95.43 percent of lines and 95.25 percent of functions.
+- `pnpm coverage` in `shared/` enforces 95 percent minimums for line and function coverage. `bin/coverage-report`
+  publishes the shared, Svelte and Blazor measurements in `docs/coverage.md`; together they cover 96.1 percent of lines.
+
+## Cross-engine visual regression (2026-11-19, P38-T6, unreleased)
+
+- The SvelteKit example's 210 visual comparisons now run in Chromium, Firefox and WebKit. The repository contains 630
+  macOS baselines covering three themes, keyboard focus, 320-pixel layouts, right-to-left layouts and composed pages.
+
+## Accessibility automation for every example app (2026-11-19, P38-T7, unreleased)
+
+- CI now runs the axe accessibility suites for React, Vue, Angular, HTML and Solid in Chromium, Firefox and WebKit.
+  SvelteKit, Nunjucks and Alpine remain covered by their existing jobs. The new matrix contains 423 passing checks.
+
+## Reproducible render benchmarks (2026-11-19, P38-T8, unreleased)
+
+- `bin/render-benchmark` compares representative Svelte headless components with equivalent hand-written markup,
+  reports mean and p95 render-and-unmount latency, and checks eight cases against a machine-labelled baseline.
+
+## Pull-request dependency security gate (2026-11-19, P38-T10, unreleased)
+
+- GitHub's dependency-review action now rejects pull requests that introduce known high or critical vulnerabilities
+  in runtime, development or unknown scopes, and reports patched versions when the advisory provides one.
+
+## Package-scoped catalog counts (2026-11-19, P37-T5, unreleased)
+
+- Headless package descriptions and skills now state their current package scope: 473 core components in full
+  catalogs and Alpine, 438 in Web Components, and separate national-identifier add-ons. Stale global counts are gone.
+
+## Picker storage validation (2026-11-19, P35-T6, unreleased)
+
+- Theme, locale, text-size and motion pickers now ignore persisted values that are absent from their configured option
+  list. This prevents stale or tampered storage from selecting an impossible option or constructing an unintended theme
+  stylesheet URL. The eight requested catalogs and Solid share the protection.
+
+## Synchronized site component documents (2026-11-19, P35-T7, unreleased)
+
+- The docs site's 637 component route directories now carry current copies of each canonical `index.md`, `AGENTS.md`
+  and `spec/index.md`. `bin/sync-site-component-docs --check` prevents them drifting again and is part of `bin/test`.
+
+## Angular helper direction tests enabled (2026-11-19, P35-T8, unreleased)
+
+- Calendar, data grid, Gantt chart and kanban board now receive the shared direction tests as `direction.spec.ts`, so
+  Angular's Vitest configuration discovers them. All four focused suites pass their eight direction cases.
+
+## Browser and assistive-technology baseline (2026-11-19, P23-T5, unreleased)
+
+- The testing specification now defines the rolling browser window and six screen-reader pairings. Every audited native
+  primitive records a fallback or exception for newly available browser features, enforced by
+  `bin/check-native-primitives`.
+
+## Complete headless and helper typechecking (2026-11-19, P12-T1, unreleased)
+
+- All 22 Nunjucks helper packages now run strict TypeScript checks over their tests and inferred JavaScript APIs. The
+  new checks corrected stale public controller declarations and test types; their 2,182 tests pass. CI now requires a
+  `check` script from every headless and helper package instead of silently skipping packages without one.
+
 ## `field` labels the input inside a Web Components or Angular input (2026-11-18, P38-T3)
 
 - Web Components: an `id` on an input component moves to its inner labelable control instead of being copied, so there is

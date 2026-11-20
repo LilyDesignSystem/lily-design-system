@@ -89,6 +89,10 @@ A national identifier is personal data, and often a key to other records.
 - `peru-documento-nacional-de-identidad-view` — a read-only display of Peru's Documento Nacional de Identidad (DNI)
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [Documento Nacional de Identidad (Perú)](<https://es.wikipedia.org/wiki/Documento_Nacional_de_Identidad_(Per%C3%BA)>)

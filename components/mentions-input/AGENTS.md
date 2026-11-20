@@ -69,6 +69,10 @@ Filtering is the consumer's, from the query it is told. From `shared/widget-keys
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Documentation: index.md

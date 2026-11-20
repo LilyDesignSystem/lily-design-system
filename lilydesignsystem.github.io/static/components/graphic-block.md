@@ -104,6 +104,10 @@ The consumer provides all CSS styling. The component renders with a `.graphic-bl
 
 - `figure` — a self-contained figure with optional caption
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Reuters Graphics GraphicBlock component

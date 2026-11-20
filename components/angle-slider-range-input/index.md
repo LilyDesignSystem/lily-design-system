@@ -143,6 +143,10 @@ The consumer provides all CSS styling. The component renders with a `.angle-slid
 
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Slider Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/slider/

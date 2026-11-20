@@ -77,6 +77,10 @@ The consumer provides all CSS styling. The component renders with a `.option` cl
 - `select` — a dropdown select element for choosing one option
 - `theme-select-option` — one option in a theme select dropdown
 
+## Known limitations
+
+None known.
+
 ## References
 
 - HTML option element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/option

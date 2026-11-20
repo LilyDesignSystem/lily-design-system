@@ -86,6 +86,10 @@ A national identifier is personal data, and often a key to other records.
 - `danmark-personnummer-view` — a read-only display of Denmark's Personnummer (CPR-nummer) (CPR)
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/Personal_identification_number_(Denmark)

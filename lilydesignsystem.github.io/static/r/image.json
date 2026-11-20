@@ -37,5 +37,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Image.razor"
   },
   "docs": "https://lilydesignsystem.com/components/image/",
+  "markdown": "https://lilydesignsystem.com/components/image.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/image/AGENTS.md"
 }

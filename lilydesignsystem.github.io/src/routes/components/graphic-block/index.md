@@ -2,6 +2,8 @@
 
 A graphic block is a wrapper for charts and graphics with title, description, notes, and ARIA description. Use it to provide semantic structure and accessible labeling around data visualizations, maps, and interactive graphics.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses a `<figure>` element with `<figcaption>` to create a semantic graphic wrapper with visible captions and an `aria-label` for screen reader accessibility.
 
 ## Implementation Notes
@@ -101,6 +103,10 @@ The consumer provides all CSS styling. The component renders with a `.graphic-bl
 ## Related components
 
 - `figure` — a self-contained figure with optional caption
+
+## Known limitations
+
+None known.
 
 ## References
 

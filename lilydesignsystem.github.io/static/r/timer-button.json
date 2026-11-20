@@ -42,5 +42,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TimerButton.razor"
   },
   "docs": "https://lilydesignsystem.com/components/timer-button/",
+  "markdown": "https://lilydesignsystem.com/components/timer-button.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/timer-button/AGENTS.md"
 }

@@ -203,10 +203,16 @@ function wireTooltip(root, button, selector, popup) {
  *
  * @param {HTMLElement} root - The <div data-lily-text-size-picker-root>.
  * @param {{onChange?: (size:string)=>void, target?: HTMLElement|null}=} opts
- * @returns {{setSize: (size: string) => void, destroy: () => void}}
+ * @returns {{isOpen: () => boolean, setOpen: (open: boolean) => void, setDisabled: (disabled: boolean) => void, setSize: (size: string) => void, destroy: () => void}}
  */
 export function initTextSizePicker(root, opts = {}) {
-    const noop = { setSize: () => {}, destroy: () => {} };
+    const noop = {
+        isOpen: () => false,
+        setOpen: () => {},
+        setDisabled: () => {},
+        setSize: () => {},
+        destroy: () => {},
+    };
     if (typeof document === "undefined" || !root) return noop;
 
     const button = root.querySelector("[data-lily-text-size-picker-button]");
@@ -401,7 +407,10 @@ export function initTextSizePicker(root, opts = {}) {
     initial = valueAttr;
 
     // 2. storage
-    if (!initial && storageKey) initial = safeStorageGet(storageKey) || "";
+    if (!initial && storageKey) {
+        const stored = safeStorageGet(storageKey) || "";
+        if (values.includes(stored)) initial = stored;
+    }
 
     // 3. default-value
     if (!initial && defaultValue) initial = defaultValue;
@@ -451,7 +460,7 @@ export function initTextSizePicker(root, opts = {}) {
  * Find every [data-lily-text-size-picker-root] and wire it.
  *
  * @param {{onChange?: (size:string)=>void, target?: HTMLElement|null}=} opts
- * @returns {Array<{setSize: (size:string)=>void, destroy: ()=>void}>}
+ * @returns {Array<ReturnType<typeof initTextSizePicker>>}
  */
 export function autoInit(opts = {}) {
     if (typeof document === "undefined") return [];

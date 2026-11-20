@@ -2,6 +2,8 @@
 
 A command palette provides a searchable list of actions or items. Users type into a search input to filter and select commands via keyboard or mouse. This pattern is commonly used for quick-access command palettes (e.g., Ctrl+K interfaces), searchable menus, and action launchers.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 The component renders a search region containing a text input and a listbox for results. The search value is bindable, allowing consumers to implement their own filtering logic and dynamically update the listbox content.
 
 ## Implementation Notes
@@ -82,7 +84,7 @@ Admin panel action launcher with dynamic filtering:
 ## Keyboard Interactions
 
 - **Tab**: Moves focus into and out of the search input
-- Additional keyboard navigation (arrow keys within the listbox) should be implemented by the consumer
+- ArrowDown and ArrowUp move the highlight and wrap; Home, End, Enter and Escape act on a highlighted option
 
 ## ARIA
 
@@ -132,6 +134,10 @@ The consumer provides all CSS styling. The component renders with a `.command` c
 - `combobox` — a text input combined with a dropdown list for filtering options
 - `menu` — a list of actions or options triggered by a button
 - `search-input` — an input for entering a search query <input type="search">
+
+## Known limitations
+
+None known.
 
 ## References
 

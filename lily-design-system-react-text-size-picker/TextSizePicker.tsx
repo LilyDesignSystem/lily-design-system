@@ -147,7 +147,7 @@ function resolveInitialSize(
     if (storageKey) {
         try {
             const stored = localStorage.getItem(storageKey);
-            if (stored) return stored;
+            if (stored && sizes.includes(stored)) return stored;
         } catch {
             // ignore privacy errors
         }

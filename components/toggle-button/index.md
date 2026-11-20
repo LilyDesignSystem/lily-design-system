@@ -130,6 +130,10 @@ ToggleButton works as a standalone component or as a child of ToggleGroup. When 
 - `button` — a generic clickable button element
 - `checkbox-input` — a checkbox input for toggling a boolean value <input type="checkbox">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Button Pattern (toggle button): https://www.w3.org/WAI/ARIA/apg/patterns/button/

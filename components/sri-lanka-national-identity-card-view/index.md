@@ -75,6 +75,10 @@ A national identifier is personal data, and often a key to other records.
 - `sri-lanka-national-identity-card-input` — an input for entering Sri Lanka's National Identity Card (NIC) number
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [National identity card (Sri Lanka)](<https://en.wikipedia.org/wiki/National_identity_card_(Sri_Lanka)>)

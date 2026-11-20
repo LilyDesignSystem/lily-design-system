@@ -2,20 +2,22 @@
 
 AiLabel is a headless inline indicator that communicates the presence of AI-generated content and provides a pathway to AI explainability. It renders as a `<span>` element with appropriate ARIA attributes, serving as a visual marker that content has been generated, modified, or enhanced by artificial intelligence.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use AiLabel wherever AI is generating, modifying, or enhancing content to reinforce AI transparency, accountability, and explainability. The component can be placed inline with text, within form fields, alongside data visualizations, or anywhere users need to identify AI-generated content.
 
 ## Implementation Notes
 
 - Renders a `<span>` element for inline placement
-- Uses `aria-label` for accessible naming, defaulting to "AI" if not provided
-- The `text` prop provides visible label text, defaulting to "AI"
+- Uses `aria-label` for accessible naming
+- The `text` prop provides visible label text
 - Spreads `restProps` onto the span for consumer customization
 - Designed as the first layer of AI explainability; consumers can wrap in a button or attach a popover for deeper explainability content
 
 ## Props
 
-- `label`: string (default: "AI") -- accessible name for the indicator via `aria-label`
-- `text`: string (default: "AI") -- visible text displayed inside the indicator
+- `label`: string (required) -- accessible name for the indicator via `aria-label`
+- `text`: string (required) -- visible text displayed inside the indicator
 - `...restProps`: unknown -- additional attributes spread onto the `<span>` element
 
 ## Usage
@@ -52,6 +54,7 @@ None at the component level. When used as an explainability trigger, the consume
 
 ## ARIA
 
+- `role="img"`, because a `<span>` cannot be named; the label replaces the visible text for screen readers
 - `aria-label={label}` -- provides an accessible name for the AI indicator so screen readers announce its purpose
 
 ## When to Use
@@ -79,9 +82,8 @@ The consumer provides all CSS styling. The component renders with an `.ai-label`
 ## Testing
 
 - Verify the component renders a `<span>` element with the `ai-label` class
-- Verify the default text "AI" is rendered
+- Verify nothing English appears when `text` is not given
 - Verify custom `text` prop is rendered
-- Verify `aria-label` defaults to "AI" when not provided
 - Verify custom `label` prop is applied as `aria-label`
 - Verify pass-through attributes are applied to the span
 
@@ -95,6 +97,10 @@ The consumer provides all CSS styling. The component renders with an `.ai-label`
 - `badge` — a small label for counts, statuses, or categories
 - `tag` — a keyword label for categorizing content
 - `flair` — a decorative highlight or emphasis element
+
+## Known limitations
+
+None known.
 
 ## References
 

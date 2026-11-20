@@ -5,6 +5,7 @@
 - Component: date-time-local-input
 - PascalCase: DateTimeLocalInput
 - Description: an input for entering a date and time without time zone <input type="datetime-local">
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .date-time-local-input
 - Interactive: yes
@@ -44,6 +45,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

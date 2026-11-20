@@ -72,7 +72,8 @@ jobs:
   lint:
     # Repo-level ESLint (eslint.config.mjs, scope set by the root "lint" script).
     # Errors fail; warnings are reported only. Prettier (.prettierrc.json) is enforced by
-    # `pnpm format:check` on the same libraries; run `pnpm format` to fix.
+    # `pnpm format:check` on the configured JS/TS/component and Markdown scope, plus
+    # `bin/dotnet-format --check` for every Blazor project.
     name: eslint
     runs-on: ubuntu-latest
     timeout-minutes: 25
@@ -84,7 +85,10 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: 26
-      # eslint, Prettier and the Alpine generator's --check.
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: "11.0.x"
+      # ESLint, Prettier, dotnet format and the Alpine generator's --check.
       - run: bin/ci --job lint
 
   helper-packages:
@@ -270,6 +274,52 @@ jobs:
         run: pnpm exec playwright install-deps chromium firefox webkit
       # Accessibility, responsive, /components search, rtl-demo and book-an-appointment.
       - run: bin/ci --job example-smoke
+
+  accessibility-examples:
+    name: axe accessibility (${{ matrix.app }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
+    strategy:
+      fail-fast: false
+      matrix:
+        app:
+          - lily-design-system-react-next-examples
+          - lily-design-system-vue-nuxt-examples
+          - lily-design-system-angular-examples
+          - lily-design-system-html-css-js-examples
+          - lily-design-system-solid-examples
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 11
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 26
+          cache: pnpm
+          cache-dependency-path: ${{ matrix.app }}/pnpm-lock.yaml
+      - name: Install
+        working-directory: ${{ matrix.app }}
+        run: pnpm install --frozen-lockfile
+      - name: Cache Playwright browsers
+        uses: actions/cache@v6
+        id: playwright-cache-accessibility
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-browsers-${{ hashFiles(format('{0}/pnpm-lock.yaml', matrix.app)) }}
+      - name: Install Playwright browsers
+        working-directory: ${{ matrix.app }}
+        if: steps.playwright-cache-accessibility.outputs.cache-hit != 'true'
+        timeout-minutes: 10
+        run: pnpm exec playwright install --with-deps chromium firefox webkit
+      - name: Install Playwright OS deps only
+        working-directory: ${{ matrix.app }}
+        if: steps.playwright-cache-accessibility.outputs.cache-hit == 'true'
+        timeout-minutes: 10
+        run: pnpm exec playwright install-deps chromium firefox webkit
+      - run: bin/ci --job accessibility-examples ${{ matrix.app }}
 
   eleventy-example:
     # Nothing built this app in CI, and it went unbuildable for weeks

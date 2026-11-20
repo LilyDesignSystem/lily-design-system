@@ -43,6 +43,10 @@ Standard text input keyboard interactions provided natively by `<input type="pas
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Documentation: index.md

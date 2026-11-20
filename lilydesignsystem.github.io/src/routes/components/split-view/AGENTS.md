@@ -5,6 +5,7 @@
 - Component: split-view
 - PascalCase: SplitView
 - Description: a two-panel resizable layout container with a draggable divider between them
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div> container with two <section> panels and a role="separator" divider
 - CSS class: .split-view
 - Interactive: yes (separator is focusable)
@@ -20,6 +21,7 @@
 
 ## ARIA
 
+- With a `label`, the root is `role="group"`, because a plain `<div>` cannot be named. Without one it has no role
 - Container: aria-label (required)
 - Container: data-orientation, data-split-percent for consumer CSS
 - Default divider: role="separator", aria-orientation, aria-valuenow, aria-valuemin, aria-valuemax, tabindex="0"
@@ -27,9 +29,9 @@
 ## Keyboard
 
 - Tab: Focus to and from the divider
-- Arrow keys: (Consumer-provided) move divider position
-- Home / End: (Consumer-provided) snap to min / max
-- Enter / Space: (Consumer-provided) toggle a collapsed panel
+- Arrow keys: Move the divider, as [Splitter](../splitter/), by its orientation; Shift moves ten steps
+- Home / End: Snap to the bounds
+- Enter: Collapses the primary panel, and restores it
 
 ## Props
 
@@ -53,6 +55,10 @@
 - [ ] Custom divider replaces the default when provided
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

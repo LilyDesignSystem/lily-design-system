@@ -117,6 +117,10 @@ flex layout with the actions column between the two lists.
 - `select` — a dropdown select element for choosing one option
 - `checkbox-group` — a group component that manages a collection of checkboxes with shared state
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/listbox/

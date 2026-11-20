@@ -40,5 +40,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ScrollArea.razor"
   },
   "docs": "https://lilydesignsystem.com/components/scroll-area/",
+  "markdown": "https://lilydesignsystem.com/components/scroll-area.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/scroll-area/AGENTS.md"
 }

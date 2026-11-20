@@ -58,5 +58,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/RangeFieldset.razor"
   },
   "docs": "https://lilydesignsystem.com/components/range-fieldset/",
+  "markdown": "https://lilydesignsystem.com/components/range-fieldset.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/range-fieldset/AGENTS.md"
 }

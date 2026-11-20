@@ -2,6 +2,8 @@
 
 A pagination list item represents a single entry within a pagination navigation list. It renders as a semantic `<li>` element designed to be placed inside a PaginationList component (which provides the parent `<nav>` and `<ul>` structure). The item typically contains a link or button for a specific page number, previous/next controls, or an ellipsis indicator.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 Consumers are responsible for adding `aria-current="page"` on the active page link and any additional ARIA attributes needed on the child elements.
 
 ## Implementation Notes
@@ -93,6 +95,10 @@ PaginationNav → PaginationList → PaginationListItem (li) → link or button
 - `pagination-nav` — an ordered list of page navigation links
 - `pagination-list` — an ordered list of pagination list items
 - `pagination-link` — one pagination link in the trail
+
+## Known limitations
+
+None known.
 
 ## References
 

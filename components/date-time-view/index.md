@@ -102,6 +102,10 @@ component to apply font-variant-numeric or letter-spacing for tabular dates.
 - `date-range` — paired start and end date inputs
 - `review-date` — a display of a content review date
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN time element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time

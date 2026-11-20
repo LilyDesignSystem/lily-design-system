@@ -89,6 +89,10 @@ A national identifier is personal data, and often a key to other records.
 - `sverige-personnummer-view` — a read-only display of Sweden's Personnummer
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/Personal_identity_number_(Sweden)

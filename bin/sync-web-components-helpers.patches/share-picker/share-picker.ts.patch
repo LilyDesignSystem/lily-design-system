@@ -1,0 +1,381 @@
+--- /var/folders/zp/p2vtmfrj35b27yh4ns6h_6h40000gn/T/tmp.KnO7AP0L3Y	2026-11-20 06:12:35.661138374 +0000
++++ lily-design-system-web-components-share-picker/share-picker.ts	2026-11-20 06:12:26.671852678 +0000
+@@ -5,7 +5,7 @@
+  * the custom-element class but does NOT register it. The `index.ts`
+  * barrel registers it on import.
+  *
+- * The control is a single-glyph button that opens the **native share
++ * The control is a single-icon button that opens the **native share
+  * sheet** where the browser provides one, and otherwise a **disclosure
+  * list** of consumer-supplied destinations plus a built-in copy-the-URL
+  * action.
+@@ -13,19 +13,29 @@
+  * Unlike its sibling helpers this one owns an *action*, not a user
+  * preference: it applies nothing to the document and persists nothing.
+  * There is no `storage-key`, and nothing is written to `localStorage`.
++ *
++ * Depends on `@lilydesignsystem/web-components-headless`'s
++ * `<lily-icon-button>` for the trigger button, composed in `#render()`
++ * rather than hand-rolled. Imported here (not only from `index.ts`) so
++ * `lily-icon-button` is registered regardless of which module a
++ * consumer (or this package's own tests) imports first. The
++ * destination/copy list stays self-built: it is a disclosure of real
++ * `<a>`/`<button>` elements, not an ARIA listbox.
+  */
+
++import "@lilydesignsystem/web-components-headless";
++
++/** Namespace for building the default button icon's SVG elements. */
++const SVG_NS = "http://www.w3.org/2000/svg";
++
+ /**
+- * Default button icon: a bundled SVG (outline right arrow), not a
+- * Unicode character. Reversed 2026-09-16 from the font-dependent-glyph
++ * Default button icon: a bundled SVG (outline arrow), not a Unicode
++ * character. Reversed 2026-09-16 from the font-dependent-glyph
+  * convention (was U+27A4 BLACK RIGHTWARDS ARROWHEAD, exported as
+- * `BLACK_RIGHTWARDS_ARROWHEAD` — removed, not renamed). Maintainer-
+- * directed, following the outline-arrow icon already used at
+- * https://testingexamples.github.io/. A bundled SVG renders identically
+- * across every font stack; the other four picker icons moved to the
+- * same bundled-SVG convention the same day.
++ * `BLACK_RIGHTWARDS_ARROWHEAD` — removed, not renamed). Matches the
++ * arrow at testingexamples.github.io and the other four picker icons
++ * as one consistent visual family regardless of the consumer's fonts.
+  */
+-const SVG_NS = "http://www.w3.org/2000/svg";
+
+ /**
+  * One destination in the share list.
+@@ -136,7 +146,6 @@
+     // Rendered-DOM references. Null until #render() has run.
+     #rootEl: HTMLDivElement | null = null;
+     #buttonEl: HTMLButtonElement | null = null;
+-    #tooltip: { el: HTMLDivElement; update: () => void; destroy: () => void } | null = null;
+     #listEl: HTMLUListElement | null = null;
+     #statusEl: HTMLParagraphElement | null = null;
+     #targetEls: HTMLAnchorElement[] = [];
+@@ -155,6 +164,69 @@
+     // Stable id for the button/list aria wiring.
+     readonly #baseId = nextSharePickerId();
+
++    // Tooltip: shown while the pointer is over the button or the tooltip
++    // itself (hoverable, WCAG 1.4.13) or while the button has keyboard
++    // focus; Escape dismisses it without moving focus; never shown while
++    // the popup is open, since the popup then explains the control.
++    #tooltipEl: HTMLDivElement | null = null;
++    #hoverButton = false;
++    #hoverTooltip = false;
++    #focusButton = false;
++    #tipDismissed = false;
++
++    // Escape anywhere dismisses a visible tooltip (WCAG 1.4.13: dismissable
++    // without moving pointer or focus), so a hover-only tooltip (focus
++    // elsewhere) still closes. The document listener exists only while
++    // the tooltip is visible; it neither prevents default nor stops
++    // propagation, and never moves focus.
++    #tipDocListening = false;
++    readonly #onTipDocKeydown = (event: KeyboardEvent): void => {
++        if (event.key === "Escape" && this.#tooltipVisible()) {
++            this.#tipDismissed = true;
++            this.#syncTooltip();
++        }
++    };
++    #setTipDocListener(on: boolean): void {
++        if (on === this.#tipDocListening || typeof document === "undefined") return;
++        this.#tipDocListening = on;
++        if (on) document.addEventListener("keydown", this.#onTipDocKeydown);
++        else document.removeEventListener("keydown", this.#onTipDocKeydown);
++    }
++
++    #tooltipVisible(): boolean {
++        return (
++            !this.#open &&
++            !this.#tipDismissed &&
++            (this.#hoverButton || this.#hoverTooltip || this.#focusButton)
++        );
++    }
++
++    /** Write the tooltip's text and `hidden` in place; idempotent. */
++    #syncTooltip(): void {
++        const el = this.#tooltipEl;
++        if (!el) return;
++        if (el.textContent !== this.label) el.textContent = this.label;
++        const hide = !this.#tooltipVisible();
++        this.#setTipDocListener(!hide);
++        if (el.hasAttribute("hidden") !== hide) {
++            if (hide) el.setAttribute("hidden", "");
++            else el.removeAttribute("hidden");
++        }
++    }
++
++    #resetTooltip(): void {
++        this.#setTipDocListener(false);
++        this.#hoverButton = false;
++        this.#hoverTooltip = false;
++        this.#focusButton = false;
++        this.#tipDismissed = false;
++    }
++
++    /** id of the rendered `<div class="share-picker-tooltip">`. */
++    get tooltipId(): string {
++        return `${this.#baseId}-tooltip`;
++    }
++
+     #onDocumentClick = (event: MouseEvent): void => {
+         if (!this.#open) return;
+         // Judge the click by its composedPath() snapshot, not by containment
+@@ -337,9 +409,9 @@
+     // ---- Public, overridable rendering hook ----
+
+     /**
+-     * Build the content of the button. The default is the ➤ glyph
+-     * wrapped in `aria-hidden="true"`, so the accessible name comes from
+-     * the button's `aria-label` alone.
++     * Build the content of the button. The default is a bundled outline
++     * arrow SVG wrapped in `aria-hidden="true"`, so the accessible name
++     * comes from the button's `aria-label` alone.
+      *
+      * This is the HTML-helper equivalent of the Svelte/React/Vue
+      * `children` snippet, and it receives the same information those
+@@ -403,7 +475,7 @@
+     }
+
+     disconnectedCallback(): void {
+-        this.#tooltip?.destroy();
++        this.#resetTooltip();
+         document.removeEventListener("click", this.#onDocumentClick);
+     }
+
+@@ -614,7 +686,7 @@
+      */
+     #syncState(): void {
+         if (!this.#rootEl) return;
+-        this.#tooltip?.update();
++        this.#syncTooltip();
+
+         if (this.#buttonEl) {
+             this.#buttonEl.setAttribute("aria-expanded", String(this.#open));
+@@ -656,28 +728,81 @@
+         root.className = `share-picker ${extraClass}`.trim();
+         root.addEventListener("focusout", this.#onRootFocusOut);
+
+-        const button = document.createElement("button");
+-        button.type = "button";
+-        // Follows the catalog's `{helper}-button` convention, same as the
+-        // sibling helpers.
+-        button.className = "share-picker-button";
+-        button.setAttribute("aria-label", this.label);
+-        button.setAttribute("aria-expanded", "false");
+-        button.setAttribute("aria-controls", this.listId);
+-        button.appendChild(this.renderButtonContent());
+-        button.addEventListener("click", this.#onButtonClick);
+-        button.addEventListener("keydown", this.#onButtonKeydown);
+-        root.appendChild(button);
+-        this.#tooltip?.destroy();
+-        const tooltip = createTooltip(
+-            button,
+-            "share-picker-tooltip",
+-            `${this.#baseId}-tooltip`,
+-            () => this.label,
+-            () => this.#open,
+-        );
+-        root.appendChild(tooltip.el);
+-        this.#tooltip = tooltip;
++        // Composes @lilydesignsystem/web-components-headless's
++        // <lily-icon-button> for the trigger rather than hand-rolling a
++        // <button>. base-class replaces its default "icon-button" class
++        // outright, following the catalog's `{helper}-button` convention;
++        // aria-expanded/controls are copied onto the real inner <button>
++        // via that component's passThroughAttributes. Event listeners
++        // aren't copied by it, so click/keydown go on the host — both
++        // bubble up from the real button.
++        const iconButtonHost = document.createElement("lily-icon-button");
++        iconButtonHost.setAttribute("base-class", "share-picker-button");
++        iconButtonHost.setAttribute("label", this.label);
++        iconButtonHost.setAttribute("aria-expanded", "false");
++        iconButtonHost.setAttribute("aria-controls", this.listId);
++        iconButtonHost.appendChild(this.renderButtonContent());
++        iconButtonHost.addEventListener("click", this.#onButtonClick);
++        iconButtonHost.addEventListener("keydown", this.#onButtonKeydown);
++        root.appendChild(iconButtonHost);
++
++        // Tooltip: a purely visual sibling right after the trigger button. The
++        // same text is already the button's aria-label, so it is deliberately not
++        // wired with aria-describedby (that would announce the name twice).
++        this.#resetTooltip();
++        const tooltip = document.createElement("div");
++        tooltip.className = "share-picker-tooltip";
++        tooltip.setAttribute("role", "tooltip");
++        tooltip.id = this.tooltipId;
++        tooltip.setAttribute("hidden", "");
++        tooltip.textContent = this.label;
++        tooltip.addEventListener("mouseenter", () => {
++            this.#hoverTooltip = true;
++            this.#syncTooltip();
++        });
++        tooltip.addEventListener("mouseleave", () => {
++            this.#hoverTooltip = false;
++            this.#syncTooltip();
++        });
++        this.#tooltipEl = tooltip;
++        // Pointer and focus listeners go on the <lily-icon-button> host: mouseenter
++        // does not bubble but fires on the host itself; focusin/focusout bubble
++        // up from the real inner <button>.
++        iconButtonHost.addEventListener("mouseenter", () => {
++            this.#hoverButton = true;
++            this.#tipDismissed = false;
++            this.#syncTooltip();
++        });
++        iconButtonHost.addEventListener("mouseleave", () => {
++            this.#hoverButton = false;
++            this.#syncTooltip();
++        });
++        iconButtonHost.addEventListener("click", () => {
++            this.#hoverButton = false;
++            this.#syncTooltip();
++        });
++        iconButtonHost.addEventListener("focusin", () => {
++            // Keyboard focus only: a mouse click also focuses the button in
++            // Chromium, and the tooltip should not stick after a click.
++            try {
++                this.#focusButton = this.#buttonEl?.matches(":focus-visible") ?? false;
++            } catch {
++                this.#focusButton = true; // engine without :focus-visible
++            }
++            this.#syncTooltip();
++        });
++        iconButtonHost.addEventListener("focusout", () => {
++            this.#focusButton = false;
++            this.#tipDismissed = false;
++            this.#syncTooltip();
++        });
++        iconButtonHost.addEventListener("keydown", (event: Event) => {
++            if ((event as KeyboardEvent).key === "Escape" && this.#tooltipVisible()) {
++                this.#tipDismissed = true;
++                this.#syncTooltip();
++            }
++        });
++        root.appendChild(tooltip);
+
+         const list = document.createElement("ul");
+         list.className = "share-picker-list";
+@@ -742,114 +867,15 @@
+         root.appendChild(status);
+
+         this.#rootEl = root;
+-        this.#buttonEl = button;
+         this.#listEl = list;
+         this.#statusEl = status;
+         this.#targetEls = targetEls;
+
+         this.replaceChildren(root);
++        // <lily-icon-button> only builds its real inner <button> once
++        // connected to a live document, which just happened synchronously
++        // above.
++        this.#buttonEl = iconButtonHost.querySelector("button");
+         this.#applyInitialOpen();
+     }
+ }
+-
+-// ---- Tooltip (module-local) ----
+-
+-/**
+- * The picker tooltip: a purely visual `<div role="tooltip">` holding the
+- * button's label, shown while the pointer is over the button or the
+- * tooltip itself (hoverable, WCAG 1.4.13) or while the button has keyboard
+- * focus; Escape dismisses it without moving focus; never shown while the
+- * popup is open. Deliberately NOT linked with `aria-describedby`: the text
+- * duplicates the button's `aria-label`, so linking would announce the name
+- * twice. All listeners sit on the button and tooltip elements themselves,
+- * so they are discarded with the DOM and nothing needs removing on
+- * disconnect. `update()` is idempotent.
+- */
+-function createTooltip(
+-    button: HTMLButtonElement,
+-    className: string,
+-    id: string,
+-    getLabel: () => string,
+-    isOpen: () => boolean,
+-): { el: HTMLDivElement; update: () => void; destroy: () => void } {
+-    const el = document.createElement("div");
+-    el.className = className;
+-    el.setAttribute("role", "tooltip");
+-    el.id = id;
+-    el.setAttribute("hidden", "");
+-    let hoverButton = false;
+-    let hoverTooltip = false;
+-    let focusButton = false;
+-    let dismissed = false;
+-    let listening = false;
+-    // WCAG 1.4.13: Escape dismisses wherever focus is (pointer-only hover
+-    // has no focus on the button). Added only while visible.
+-    const onDocumentKeydown = (event: KeyboardEvent): void => {
+-        if (event.key === "Escape") {
+-            dismissed = true;
+-            update();
+-        }
+-    };
+-    const destroy = (): void => {
+-        if (listening) {
+-            document.removeEventListener("keydown", onDocumentKeydown);
+-            listening = false;
+-        }
+-    };
+-    const update = (): void => {
+-        const label = getLabel();
+-        if (el.textContent !== label) el.textContent = label;
+-        const visible = !isOpen() && !dismissed && (hoverButton || hoverTooltip || focusButton);
+-        if (visible) el.removeAttribute("hidden");
+-        else if (!el.hasAttribute("hidden")) el.setAttribute("hidden", "");
+-        if (visible && !listening) {
+-            document.addEventListener("keydown", onDocumentKeydown);
+-            listening = true;
+-        } else if (!visible) destroy();
+-    };
+-    button.addEventListener("mouseenter", () => {
+-        hoverButton = true;
+-        dismissed = false;
+-        update();
+-    });
+-    button.addEventListener("mouseleave", () => {
+-        hoverButton = false;
+-        update();
+-    });
+-    button.addEventListener("focus", () => {
+-        // Keyboard focus only: a mouse click also focuses the button in
+-        // Chromium, and the tooltip should not stick after a click.
+-        try {
+-            focusButton = button.matches(":focus-visible");
+-        } catch {
+-            focusButton = true; // engine without :focus-visible — err towards showing
+-        }
+-        update();
+-    });
+-    button.addEventListener("blur", () => {
+-        focusButton = false;
+-        dismissed = false;
+-        update();
+-    });
+-    button.addEventListener("keydown", (event: KeyboardEvent) => {
+-        if (event.key === "Escape" && !el.hasAttribute("hidden")) {
+-            dismissed = true;
+-            update();
+-        }
+-    });
+-    // A click acts on the control, so the pointer hint gets out of the way.
+-    button.addEventListener("click", () => {
+-        hoverButton = false;
+-        update();
+-    });
+-    el.addEventListener("mouseenter", () => {
+-        hoverTooltip = true;
+-        update();
+-    });
+-    el.addEventListener("mouseleave", () => {
+-        hoverTooltip = false;
+-        update();
+-    });
+-    update();
+-    return { el, update, destroy };
+-}

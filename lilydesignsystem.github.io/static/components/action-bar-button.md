@@ -116,6 +116,10 @@ indicator and hover/active visual feedback. Maintain a 44×44 px touch target.
 
 - `action-bar` — a contextual action bar that appears when items are selected, showing the selection count and bulk action buttons
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/

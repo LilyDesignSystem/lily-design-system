@@ -176,7 +176,7 @@ function resolveInitialMotion(
     if (storageKey) {
         try {
             const stored = localStorage.getItem(storageKey);
-            if (stored) return stored;
+            if (stored && motions.includes(stored)) return stored;
         } catch {
             // ignore privacy errors
         }

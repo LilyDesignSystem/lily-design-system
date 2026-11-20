@@ -37,5 +37,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/BarcodeImage.razor"
   },
   "docs": "https://lilydesignsystem.com/components/barcode-image/",
+  "markdown": "https://lilydesignsystem.com/components/barcode-image.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/barcode-image/AGENTS.md"
 }

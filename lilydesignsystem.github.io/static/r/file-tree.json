@@ -45,5 +45,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/FileTree.razor"
   },
   "docs": "https://lilydesignsystem.com/components/file-tree/",
+  "markdown": "https://lilydesignsystem.com/components/file-tree.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/file-tree/AGENTS.md"
 }

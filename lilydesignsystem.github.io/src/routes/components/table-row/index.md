@@ -2,6 +2,8 @@
 
 TableRow is a headless component that renders a `<tr>` element within a table. It represents a single row of cells.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use this component within TableHead, TableBody, or TableFoot to define rows of table data.
 
 ## Implementation Notes
@@ -72,6 +74,10 @@ TableRow is a child of TableHead/TableBody/TableFoot, following the Table patter
 - `table-head` — a table interactive grid thead <thead>
 - `table-td` — a table interactive grid data cell <td>
 - `table-th` — a table interactive grid column <th>
+
+## Known limitations
+
+None known.
 
 ## References
 

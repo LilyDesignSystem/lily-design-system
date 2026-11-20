@@ -67,6 +67,10 @@ The component renders with `.document-list` as the root class. No default styles
 - `collection-list` — generic content collection
 - `download-button` — single download link styled as a button
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN ol element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol)

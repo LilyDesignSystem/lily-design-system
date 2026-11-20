@@ -450,7 +450,8 @@
             if (!initial && cookieName) initial = readDocumentThemeCookie(cookieName, options);
             if (!initial && storageKey) {
                 try {
-                    initial = localStorage.getItem(storageKey) ?? "";
+                    const stored = localStorage.getItem(storageKey) ?? "";
+                    if (options.includes(stored)) initial = stored;
                 } catch {
                     // ignore privacy errors
                 }

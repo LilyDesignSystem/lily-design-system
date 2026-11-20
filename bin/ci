@@ -21,8 +21,8 @@ set -uo pipefail
 top="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$top" || exit 1
 
-JOBS=(verify lint helper-packages headless html-headless dotnet-tests dotnet-helper-packages example-smoke eleventy-example
-    alpine-examples consumer-smoke shadcn-registry spell-check shared-tests)
+JOBS=(verify lint helper-packages headless html-headless dotnet-tests dotnet-helper-packages example-smoke accessibility-examples
+    eleventy-example alpine-examples consumer-smoke shadcn-registry spell-check shared-tests)
 HELPER_FRAMEWORKS=(svelte react vue angular html web-components nunjucks alpine solid)
 HEADLESS_CATALOGS=(lily-design-system-svelte-headless lily-design-system-svelte-headless-identifiers lily-design-system-react-headless lily-design-system-react-headless-identifiers lily-design-system-vue-headless lily-design-system-vue-headless-identifiers
     lily-design-system-angular-headless lily-design-system-angular-headless-identifiers lily-design-system-nunjucks-headless lily-design-system-nunjucks-headless-identifiers lily-design-system-web-components-headless lily-design-system-web-components-headless-identifiers
@@ -101,6 +101,7 @@ job_lint() {
     step "lint: install" pnpm install --frozen-lockfile || return 1
     step "lint: eslint" pnpm lint || failed=1
     step "lint: prettier" pnpm format:check || failed=1
+    step "lint: dotnet format" bin/dotnet-format --check || failed=1
     step "lint: Alpine snippets match their generator" node lily-design-system-alpine-headless/generate-components.mjs --check || failed=1
     return "$failed"
 }
@@ -111,7 +112,7 @@ helper_packages_one() {
     (cd "lily-design-system-$framework-headless" && pnpm install --frozen-lockfile && pnpm run --if-present build)
     for d in $(bin/list-helper-packages "$framework"); do
         echo "-- $d"
-        (cd "$d" && pnpm install --frozen-lockfile && pnpm run build && pnpm run --if-present check && pnpm run test)
+        (cd "$d" && pnpm install --frozen-lockfile && pnpm run build && pnpm run check && pnpm run test)
     done
 }
 
@@ -126,7 +127,7 @@ job_helper_packages() {
 headless_one() {
     cd "$1"
     pnpm install --frozen-lockfile
-    pnpm run --if-present check
+    pnpm run check
     pnpm run --if-present build
     pnpm exec vitest run
 }
@@ -192,6 +193,32 @@ example_smoke() {
 }
 
 job_example_smoke() { step "example-smoke: svelte-sveltekit-examples" example_smoke; }
+
+ACCESSIBILITY_APPS=(
+    lily-design-system-react-next-examples
+    lily-design-system-vue-nuxt-examples
+    lily-design-system-angular-examples
+    lily-design-system-html-css-js-examples
+    lily-design-system-solid-examples
+)
+
+accessibility_examples() {
+    local app="$1"
+    cd "$app"
+    pnpm install --frozen-lockfile
+    pnpm exec playwright test e2e/accessibility.spec.ts
+}
+
+job_accessibility_examples() {
+    local app
+    if [ -n "${1:-}" ]; then
+        step "accessibility-examples: $1" accessibility_examples "$1"
+        return
+    fi
+    for app in "${ACCESSIBILITY_APPS[@]}"; do
+        step "accessibility-examples: $app" accessibility_examples "$app"
+    done
+}
 
 eleventy_example() {
     # The site serves the locale picker's and the date-time picker's dist/index.js.
@@ -280,10 +307,13 @@ shadcn_registry() {
 }
 EOF
     cd "$app"
-    npx --yes shadcn@latest add @lily/button @lily/dialog @lily/scroller --yes
+    npx --yes shadcn@latest add @lily/button @lily/dialog @lily/scroller @lily/listbox --yes
     local f
-    for f in Button Dialog Scroller ScrollerBase; do
+    for f in Button Dialog Scroller ScrollerBase Listbox; do
         test -f "src/components/lily/$f.tsx" || { echo "missing src/components/lily/$f.tsx" >&2; return 1; }
+    done
+    for f in listbox-machine typeahead search-text; do
+        test -f "src/components/lily/$f.ts" || { echo "missing src/components/lily/$f.ts" >&2; return 1; }
     done
     cat > src/app/demo.tsx <<'EOF'
 "use client";

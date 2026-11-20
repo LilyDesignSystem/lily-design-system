@@ -92,6 +92,10 @@ The consumer provides all CSS styling. The component renders with a `.details` c
 - `accordion-list-item` — an accordion list item component
 - `summary-box` — a boxed callout highlighting key takeaways or next steps from a longer page
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN details element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details

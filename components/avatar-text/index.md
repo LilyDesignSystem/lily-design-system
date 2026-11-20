@@ -119,6 +119,10 @@ AvatarText is a child component within the Avatar composition pattern:
 - `avatar-image` — an avatar indicator inside image such as a user photo
 - `avatar-group` — a group of avatar components
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Img Role: https://www.w3.org/TR/wai-aria-1.2/#img

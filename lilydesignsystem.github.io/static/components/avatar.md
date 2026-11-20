@@ -164,6 +164,10 @@ Avatar follows a parent/child composition pattern:
 - `avatar-text` — an avatar indicator inner text such as a user name
 - `avatar-group` — a group of avatar components
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Img Role: https://www.w3.org/TR/wai-aria-1.2/#img

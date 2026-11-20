@@ -57,6 +57,10 @@ The component renders with `.container` as the root class. No default styles are
 - `container-with-fixed-width` — a centered content wrapper with a fixed max-width breakpoint
 - `container-with-fluid-width` — a full-width content wrapper with horizontal padding
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Documentation: index.md

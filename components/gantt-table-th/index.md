@@ -93,6 +93,10 @@ The consumer provides all CSS styling. The component renders with a `.gantt-tabl
 - `gantt-table-td` — a Gantt chart table interactive grid data cell for planning schedule visualization <td>
 - `table` — a table with rows and columns <table>
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/

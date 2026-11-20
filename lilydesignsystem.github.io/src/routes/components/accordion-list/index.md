@@ -1,6 +1,8 @@
-# accordion list
+# Accordion List
 
 An accordion list is an ordered list of accordion list items, rendered as a semantic `<ol>` element. It provides the structural grouping for collapsible sections within an AccordionNav container.
+
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
 
 ## Implementation Notes
 
@@ -105,7 +107,7 @@ AccordionList follows the Nav / List / ListItem composition pattern:
 
 - **AccordionNav** -- outer `<nav>` container providing the landmark region and accessible label.
 - **AccordionList** -- `<ol>` list grouping the collapsible items in order.
-- **AccordionListItem** -- individual `<details>` / `<summary>` sections for each expandable item.
+- **AccordionListItem** -- an `<li>` holding the `<details>` / `<summary>` section for each expandable item.
 
 ```html
 <AccordionNav label="FAQ">
@@ -121,6 +123,10 @@ AccordionList follows the Nav / List / ListItem composition pattern:
 - `accordion-nav` — an accordion navigation area for collapsible accordion information
 - `accordion-list-item` — an accordion list item component
 - `accordion-link` — an accordion link
+
+## Known limitations
+
+None known.
 
 ## References
 

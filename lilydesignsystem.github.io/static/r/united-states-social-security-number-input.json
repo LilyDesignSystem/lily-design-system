@@ -40,5 +40,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/UnitedStatesSocialSecurityNumberInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/united-states-social-security-number-input/",
+  "markdown": "https://lilydesignsystem.com/components/united-states-social-security-number-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/united-states-social-security-number-input/AGENTS.md"
 }

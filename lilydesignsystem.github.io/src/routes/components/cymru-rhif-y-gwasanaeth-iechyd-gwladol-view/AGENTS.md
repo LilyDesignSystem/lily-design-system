@@ -1,3 +1,49 @@
-# CymruRhifYGwasanaethIechydGwladolView — Lily Design System docs page
+# CymruRhifYGwasanaethIechydGwladolView
 
-See `components/cymru-rhif-y-gwasanaeth-iechyd-gwladol-view/AGENTS.md` for canonical metadata.
+## Metadata
+
+- Component: cymru-rhif-y-gwasanaeth-iechyd-gwladol-view
+- PascalCase: CymruRhifYGwasanaethIechydGwladolView
+- Description: a read-only display of Wales's Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG)
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
+- HTML tag: <span>
+- CSS class: .cymru-rhif-y-gwasanaeth-iechyd-gwladol-view
+- Interactive: no
+
+## Key Behaviors
+
+- Renders as `<span>` with class `cymru-rhif-y-gwasanaeth-iechyd-gwladol-view`, and no role
+- Format: 10 digits in 3-3-4 format with a Modulus-11 check digit (shared with England and the Isle of Man)
+- Read-only; not editable
+
+## ARIA
+
+- No ARIA. A plain `<span>` cannot be named: `aria-label` is prohibited on it, and most screen readers drop it. A visible caption names the value, or the optional `label` renders as hidden text
+
+## Keyboard
+
+- Not interactive
+
+## Props
+
+- `value`: string (required) — the identifier to display
+- `label`: string (optional) — hidden text naming the value, in a `.screen-reader-span`. Leave it out when a visible caption names the value
+- `...restProps`: any additional HTML attributes spread onto the root
+
+## Acceptance Criteria
+
+- [ ] Renders <span> element with class="cymru-rhif-y-gwasanaeth-iechyd-gwladol-view"
+- [ ] Renders `value` as text content
+- [ ] WCAG 2.2 AAA compliant
+- [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
+
+## References
+
+- Documentation: index.md
+- CSS class: .cymru-rhif-y-gwasanaeth-iechyd-gwladol-view in css-style-sheet-template.css
+- Companion: CymruRhifYGwasanaethIechydGwladolInput
+- Wikipedia: https://en.wikipedia.org/wiki/NHS_number

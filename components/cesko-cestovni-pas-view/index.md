@@ -72,6 +72,10 @@ A national identifier is personal data, and often a key to other records.
 - `cesko-cestovni-pas-input` — an input for entering Czech Republic's Cestovní pas
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/Czech_passport

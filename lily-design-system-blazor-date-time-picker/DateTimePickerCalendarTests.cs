@@ -10,9 +10,16 @@ public class DateTimePickerCalendarTests : TestContext
 {
     private static readonly DateTimePickerLabels Labels = new()
     {
-        PreviousYear = "PrevYear", PreviousMonth = "PrevMonth", PreviousWeek = "PrevWeek", PreviousDay = "PrevDay",
-        NextDay = "NextDay", NextWeek = "NextWeek", NextMonth = "NextMonth", NextYear = "NextYear",
-        Confirm = "Commit", Cancel = "Dismiss",
+        PreviousYear = "PrevYear",
+        PreviousMonth = "PrevMonth",
+        PreviousWeek = "PrevWeek",
+        PreviousDay = "PrevDay",
+        NextDay = "NextDay",
+        NextWeek = "NextWeek",
+        NextMonth = "NextMonth",
+        NextYear = "NextYear",
+        Confirm = "Commit",
+        Cancel = "Dismiss",
     };
 
     private async Task<IRenderedComponent<DateTimePicker>> OpenOn(string calendar, string value, string locale)

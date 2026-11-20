@@ -313,11 +313,11 @@ Every item has a task in [tasks.md](../../../tasks.md) Phase 22 (P12-T16).
 - [ ] 3. The theme generator page exports a contrast-checked theme.
 - [ ] 4. The `data-color` / `data-size` / `data-variant` vocabulary is documented, styled by all 63 themes and allow-list checked.
 - [ ] 5. Invalid styling uses `:user-invalid` and `aria-invalid`; the bootstrap and coss validation items are updated to match.
-- [ ] 6. Component pages carry Copy Markdown, Open in Claude / ChatGPT and View source links.
+- [x] 6. Component pages carry Copy Markdown, Open in Claude / ChatGPT and View source links.
 - [ ] 7. `llms-rules.md` and the per-category component files are generated and drift-checked; the llms-full decision is recorded.
 - [ ] 8. The read-only MCP server ships with its four tools and protocol tests.
 - [ ] 9. The pair-contrast gate is in `bin/test` with a shrinking allow-list; the colour-token page exists.
-- [ ] 10. The disabled and look-alike guidance is in the affected components, each case tested.
+- [x] 10. The disabled and look-alike guidance is in the affected components, each case tested.
 - [ ] 11. The integration guides build in CI; the playground runs fully client-side.
 - [ ] The components-to-evaluate table is decided row by row.
 

@@ -47,5 +47,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/NumericRatingScalePicker.razor"
   },
   "docs": "https://lilydesignsystem.com/components/numeric-rating-scale-picker/",
+  "markdown": "https://lilydesignsystem.com/components/numeric-rating-scale-picker.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/numeric-rating-scale-picker/AGENTS.md"
 }

@@ -1,3 +1,49 @@
-# SlovenskoRodneCisloView — Lily Design System docs page
+# SlovenskoRodneCisloView
 
-See `components/slovensko-rodne-cislo-view/AGENTS.md` for canonical metadata.
+## Metadata
+
+- Component: slovensko-rodne-cislo-view
+- PascalCase: SlovenskoRodneCisloView
+- Description: a read-only display of Slovakia's Rodné číslo (RČ)
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
+- HTML tag: <span>
+- CSS class: .slovensko-rodne-cislo-view
+- Interactive: no
+
+## Key Behaviors
+
+- Renders as `<span>` with class `slovensko-rodne-cislo-view`, and no role
+- Format: 10 digits in the form YYMMDDCCCX where MM is 01-12 for males and 51-62 for females; X is a check digit and the whole number is divisible by 11
+- Read-only; not editable
+
+## ARIA
+
+- No ARIA. A plain `<span>` cannot be named: `aria-label` is prohibited on it, and most screen readers drop it. A visible caption names the value, or the optional `label` renders as hidden text
+
+## Keyboard
+
+- Not interactive
+
+## Props
+
+- `value`: string (required) — the identifier to display
+- `label`: string (optional) — hidden text naming the value, in a `.screen-reader-span`. Leave it out when a visible caption names the value
+- `...restProps`: any additional HTML attributes spread onto the root
+
+## Acceptance Criteria
+
+- [ ] Renders <span> element with class="slovensko-rodne-cislo-view"
+- [ ] Renders `value` as text content
+- [ ] WCAG 2.2 AAA compliant
+- [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
+
+## References
+
+- Documentation: index.md
+- CSS class: .slovensko-rodne-cislo-view in css-style-sheet-template.css
+- Companion: SlovenskoRodneCisloInput
+- Wikipedia: https://en.wikipedia.org/wiki/National_identification_number#Slovakia

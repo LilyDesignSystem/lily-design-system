@@ -23,7 +23,7 @@
     permanently visible. See docs/styling.md.
 
     THE STATUS LINE IS PART OF THE PATTERN — copy it along with the
-    control. The closed button shows only an icon, never the active
+    control. The closed button shows only a glyph, never the active
     theme name, so without this line there is nowhere the current
     selection is announced or displayed. See docs/accessibility.md.
 
@@ -48,97 +48,105 @@
        this example sets no storage-key or default-value.
 -->
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>theme-picker — basic</title>
-    <script type="module" src="/dist/theme-picker.js"></script>
+  <head>
+    <meta charset="utf-8" />
+    <title>lily-theme-picker — basic</title>
+    <script
+      type="module"
+      src="/dist/theme-picker.js"
+    ></script>
     <style>
-        /* The root is the positioning context for the dropdown. */
-        .theme-picker {
-            position: relative;
-            display: inline-block;
-        }
+      /* The root is the positioning context for the dropdown. */
+      .theme-picker {
+        position: relative;
+        display: inline-block;
+      }
 
-        .theme-picker-button {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.35rem 0.5rem;
-            border: 1px solid currentColor;
-            border-radius: 0.25rem;
-            background: transparent;
-            color: inherit;
-            cursor: pointer;
-            line-height: 1;
-        }
+      .theme-picker-button {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.35rem 0.5rem;
+        border: 1px solid currentColor;
+        border-radius: 0.25rem;
+        background: transparent;
+        color: inherit;
+        cursor: pointer;
+        line-height: 1;
+      }
 
-        .theme-picker-button:focus-visible,
-        .theme-picker-list:focus-visible {
-            outline: 2px solid currentColor;
-            outline-offset: 2px;
-        }
+      .theme-picker-button:focus-visible,
+      .theme-picker-list:focus-visible {
+        outline: 2px solid currentColor;
+        outline-offset: 2px;
+      }
 
-        .theme-picker-list {
-            position: absolute;
-            inset-block-start: calc(100% + 0.25rem);
-            inset-inline-start: 0;
-            z-index: 10;
-            min-inline-size: 10rem;
-            margin: 0;
-            padding: 0.25rem 0;
-            list-style: none;
-            border: 1px solid currentColor;
-            border-radius: 0.25rem;
-            background: Canvas;
-        }
+      .theme-picker-list {
+        position: absolute;
+        inset-block-start: calc(100% + 0.25rem);
+        inset-inline-start: 0;
+        z-index: 10;
+        min-inline-size: 10rem;
+        margin: 0;
+        padding: 0.25rem 0;
+        list-style: none;
+        border: 1px solid currentColor;
+        border-radius: 0.25rem;
+        background: Canvas;
+      }
 
-        /* Any `display` rule above would beat the UA stylesheet's
+      /* Any `display` rule above would beat the UA stylesheet's
            `[hidden] { display: none }`, so re-assert it here. */
-        .theme-picker-list[hidden] {
-            display: none;
-        }
+      .theme-picker-list[hidden] {
+        display: none;
+      }
 
-        .theme-picker-option {
-            padding: 0.35rem 0.75rem;
-            cursor: pointer;
-        }
+      .theme-picker-option {
+        padding: 0.35rem 0.75rem;
+        cursor: pointer;
+      }
 
-        /* The keyboard-highlighted option: where Enter would land.
+      /* The keyboard-highlighted option: where Enter would land.
            Focus stays on the <ul>, so :focus never matches an <li>. */
-        .theme-picker-option[data-active] {
-            background: Highlight;
-            color: HighlightText;
-        }
+      .theme-picker-option[data-active] {
+        background: Highlight;
+        color: HighlightText;
+      }
 
-        /* The chosen option: a deliberately different signal, since
+      /* The chosen option: a deliberately different signal, since
            the two frequently disagree while the list is open. */
-        .theme-picker-option[aria-selected="true"]::after {
-            content: " ✓";
-        }
+      .theme-picker-option[aria-selected="true"]::after {
+        content: " ✓";
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Theme picker — basic</h1>
 
     <lily-theme-picker
-        label="Theme"
-        themes-url="/assets/themes/"
-        themes="light,dark,abyss"
+      label="Theme"
+      themes-url="/assets/themes/"
+      themes="light,dark,abyss"
     ></lily-theme-picker>
 
-    <p class="theme-picker-status" aria-live="polite">Active theme: Light</p>
+    <p
+      class="theme-picker-status"
+      aria-live="polite"
+    >
+      Active theme: Light
+    </p>
 
     <script type="module">
-        await customElements.whenDefined("theme-picker");
+      await customElements.whenDefined("lily-theme-picker");
 
-        const select = document.querySelector("theme-picker");
-        const status = document.querySelector(".theme-picker-status");
+      const select = document.querySelector("lily-theme-picker");
+      const status = document.querySelector(".theme-picker-status");
 
-        // labelFor() is a public method on the element, so any
-        // theme-labels overrides and translations are picked up for
-        // free and the status line never shows a raw slug.
-        select.addEventListener("themechange", (e) => {
-            status.textContent = `Active theme: ${select.labelFor(e.detail.theme)}`;
-        });
+      // labelFor() is a public method on the element, so any
+      // theme-labels overrides and translations are picked up for
+      // free and the status line never shows a raw slug.
+      select.addEventListener("themechange", (e) => {
+        status.textContent = `Active theme: ${select.labelFor(e.detail.theme)}`;
+      });
     </script>
-</body>
+  </body>
 </html>

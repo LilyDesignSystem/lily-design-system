@@ -89,6 +89,10 @@ A national identifier is personal data, and often a key to other records.
 - `south-africa-identity-number-view` — a read-only display of South Africa's South African Identity Number
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [South African identity card](https://en.wikipedia.org/wiki/South_African_identity_card)

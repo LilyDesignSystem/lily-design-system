@@ -36,5 +36,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ConvertFromUnitDiv.razor"
   },
   "docs": "https://lilydesignsystem.com/components/convert-from-unit-div/",
+  "markdown": "https://lilydesignsystem.com/components/convert-from-unit-div.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/convert-from-unit-div/AGENTS.md"
 }

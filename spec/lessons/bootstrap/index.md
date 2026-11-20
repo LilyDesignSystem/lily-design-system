@@ -279,9 +279,9 @@ Every item has a task in [tasks.md](../../../tasks.md) Phase 22 (P12-T16).
 - [ ] 2. The no-flash snippet is documented and tested in the catalogs that need it; the mode-axis question is decided or recorded as declined.
 - [ ] 3. The paired `lily:open` / `lily:close` event convention is in the headless topic and tested in the DOM-event catalogs.
 - [ ] 4. `open()` / `close()` / `toggle()` exist on openable elements in HTML, Alpine and Web Components.
-- [ ] 5. Every component doc has a Known limitations section; the theme contrast table is published.
+- [x] 5. Every component doc has a Known limitations section; the theme contrast table is published.
 - [ ] 6. The task skills exist and are listed in the agent-skills topic.
-- [ ] 7. `MIGRATING-FROM-BOOTSTRAP.md` exists with a slug-checked mapping table.
+- [x] 7. `MIGRATING-FROM-BOOTSTRAP.md` exists with a slug-checked mapping table.
 - [ ] 8. The validation hooks match the coss-ui-lessons item 5 docs.
 - [ ] 9. Focus tokens are a documented, contrast-checked contract; the whole-card recipe exists.
 - [ ] 10. Starters, the optimize page and (post-1.0) the version switcher exist.

@@ -141,6 +141,10 @@ TimelineList contains TimelineListItem children following the List/ListItem patt
 
 - `timeline-list-item` — one event in a timeline list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - HTML `<time>` element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time

@@ -36,5 +36,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AgeView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/age-view/",
+  "markdown": "https://lilydesignsystem.com/components/age-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/age-view/AGENTS.md"
 }

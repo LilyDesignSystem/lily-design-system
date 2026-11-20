@@ -5,6 +5,7 @@
 - Component: breadcrumb-nav
 - PascalCase: BreadcrumbNav
 - Description: a navigation container for breadcrumb trail links
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <nav>
 - CSS class: .breadcrumb-nav
 - Interactive: yes
@@ -49,6 +50,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

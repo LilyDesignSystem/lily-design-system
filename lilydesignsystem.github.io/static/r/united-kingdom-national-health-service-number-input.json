@@ -40,5 +40,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/UnitedKingdomNationalHealthServiceNumberInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/united-kingdom-national-health-service-number-input/",
+  "markdown": "https://lilydesignsystem.com/components/united-kingdom-national-health-service-number-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/united-kingdom-national-health-service-number-input/AGENTS.md"
 }

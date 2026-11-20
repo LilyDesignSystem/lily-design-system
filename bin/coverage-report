@@ -1,0 +1,203 @@
+#!/usr/bin/env node
+// bin/coverage-report -- test coverage for the packages where the logic lives, as docs/coverage.md and a badge
+// (tasks.md P38-T9).
+//
+// Measures:
+//   shared/                              the pure modules every package copies (Vitest, @vitest/coverage-v8)
+//   lily-design-system-svelte-headless   the canonical headless catalog, its components/ (Vitest, @vitest/coverage-v8)
+//   lily-design-system-blazor-headless   the Blazor catalog (dotnet test, coverlet's XPlat Code Coverage)
+// and writes docs/coverage.md (lines, branches, functions and statements per package, the date) and
+// docs/coverage-badge.svg (lines over all three), which index.md shows. No coverage service: the numbers and the badge
+// are files in the repository, written by this script.
+//
+// Usage:
+//   bin/coverage-report          run the three suites with coverage and write both files (a few minutes)
+//
+// Not in bin/test: it runs three full test suites. Run it after a change that adds or removes tests or code paths,
+// and commit the two files with it.
+
+import { execFileSync } from "node:child_process";
+import {
+    existsSync,
+    mkdtempSync,
+    readdirSync,
+    readFileSync,
+    rmSync,
+    statSync,
+    writeFileSync,
+} from "node:fs";
+import { tmpdir } from "node:os";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const top = join(dirname(fileURLToPath(import.meta.url)), "..");
+
+function vitestCoverage(dir, include) {
+    const cwd = join(top, dir);
+    if (!existsSync(join(cwd, "node_modules", "@vitest", "coverage-v8"))) {
+        execFileSync("pnpm", ["install", "--frozen-lockfile"], { cwd, stdio: "inherit" });
+    }
+    const args = [
+        "vitest",
+        "run",
+        "--coverage",
+        "--coverage.reporter=json-summary",
+        "--coverage.reportsDirectory=reports/coverage",
+        ...(include ? [`--coverage.include=${include}`] : []),
+    ];
+    execFileSync("npx", args, { cwd, stdio: ["ignore", "ignore", "inherit"] });
+    const total = JSON.parse(
+        readFileSync(join(cwd, "reports/coverage/coverage-summary.json"), "utf8"),
+    ).total;
+    const pick = (k) => ({ covered: total[k].covered, total: total[k].total });
+    return {
+        lines: pick("lines"),
+        branches: pick("branches"),
+        functions: pick("functions"),
+        statements: pick("statements"),
+    };
+}
+
+function findFile(dir, name) {
+    for (const entry of readdirSync(dir)) {
+        const p = join(dir, entry);
+        if (statSync(p).isDirectory()) {
+            const found = findFile(p, name);
+            if (found) return found;
+        } else if (entry === name) return p;
+    }
+    return null;
+}
+
+function coverletCoverage(dir, project) {
+    const out = mkdtempSync(join(tmpdir(), "lily-coverage-"));
+    try {
+        execFileSync(
+            "dotnet",
+            ["test", project, "--collect:XPlat Code Coverage", "--results-directory", out],
+            {
+                cwd: join(top, dir),
+                stdio: ["ignore", "ignore", "inherit"],
+            },
+        );
+        const xml = readFileSync(findFile(out, "coverage.cobertura.xml"), "utf8");
+        const attr = (n) =>
+            Number((xml.match(new RegExp(`<coverage[^>]* ${n}="([^"]+)"`)) || [])[1]);
+        return {
+            lines: { covered: attr("lines-covered"), total: attr("lines-valid") },
+            branches: { covered: attr("branches-covered"), total: attr("branches-valid") },
+            functions: null,
+            statements: null,
+        };
+    } finally {
+        rmSync(out, { recursive: true, force: true });
+    }
+}
+
+const PACKAGES = [
+    { name: "shared/ (pure modules)", run: () => vitestCoverage("shared") },
+    {
+        name: "Svelte headless",
+        run: () => vitestCoverage("lily-design-system-svelte-headless", "components/**"),
+    },
+    {
+        name: "Blazor headless",
+        run: () =>
+            coverletCoverage(
+                "lily-design-system-blazor-headless",
+                "tests/LilyBlazorHeadless.Tests/LilyBlazorHeadless.Tests.csproj",
+            ),
+    },
+];
+
+const pct = (m) => (m && m.total ? (100 * m.covered) / m.total : null);
+const cell = (m) =>
+    m
+        ? `${pct(m).toFixed(1)}% (${m.covered.toLocaleString("en")} of ${m.total.toLocaleString("en")})`
+        : "—";
+
+const rows = PACKAGES.map((p) => {
+    console.log(`coverage: ${p.name}`);
+    return { name: p.name, ...p.run() };
+});
+
+const lines = rows.reduce(
+    (a, r) => ({ covered: a.covered + r.lines.covered, total: a.total + r.lines.total }),
+    { covered: 0, total: 0 },
+);
+const overall = pct(lines);
+const date = new Date().toISOString().slice(0, 10);
+
+const table = [
+    "| Package | Lines | Branches | Functions | Statements |",
+    "| --- | --- | --- | --- | --- |",
+    ...rows.map(
+        (r) =>
+            `| ${r.name} | ${cell(r.lines)} | ${cell(r.branches)} | ${cell(r.functions)} | ${cell(r.statements)} |`,
+    ),
+    `| **All three** | **${overall.toFixed(1)}%** (${lines.covered.toLocaleString("en")} of ${lines.total.toLocaleString("en")}) | | | |`,
+].join("\n");
+
+// Through the repo's Prettier, so docs/coverage.md passes format:check as written.
+const prettier = (text, file) =>
+    execFileSync(join(top, "node_modules/.bin/prettier"), ["--stdin-filepath", file], {
+        cwd: top,
+        input: text,
+        encoding: "utf-8",
+    });
+
+writeFileSync(
+    join(top, "docs/coverage.md"),
+    prettier(
+        `# Test coverage
+
+<!-- Written by bin/coverage-report; run it again rather than editing. -->
+
+Measured ${date} by \`bin/coverage-report\`, which runs each suite with coverage on: Vitest with
+\`@vitest/coverage-v8\` for \`shared/\` and the Svelte headless catalog (its \`components/\`), and \`dotnet test\` with
+coverlet for the Blazor catalog. The badge in \`index.md\` is the lines figure over all three.
+
+${table}
+
+Why these three: \`shared/\` holds the logic every package copies (search, filter, export, keyboard machines,
+calendars), Svelte is the canonical catalog the others port, and Blazor is the one catalog in another language. The
+other catalogs run the same tests in their own framework (each catalog's suite counts are in
+[spec/testing](../spec/testing/index.md)); coverage for them is not measured yet.
+
+The shared suite exercises \`pattern-tester.ts\` directly through the same framework-neutral handlers that catalogs
+ship. It also tests \`cell-types.ts\` directly, including links, civil dates and times, zones, aggregates and formulas.
+Its Vitest configuration enforces at least 95 percent line and function coverage whenever coverage is measured.
+
+Coverage says which lines a test ran, not that the test checked them: the mutation tests (\`bin/mutation-test\`) and
+the property tests (\`shared/*.property.test.ts\`) are the measure of how well \`shared/\` is checked.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.
+`,
+        "docs/coverage.md",
+    ),
+);
+
+// A flat badge in the usual two-part shape, drawn here: no badge service sees the repository.
+const value = `${Math.floor(overall)}%`;
+const colour = overall >= 90 ? "#2e7d32" : overall >= 75 ? "#8a6d00" : "#b3261e";
+const lw = 62;
+const vw = 8 + value.length * 7;
+writeFileSync(
+    join(top, "docs/coverage-badge.svg"),
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${lw + vw}" height="20" role="img" aria-label="coverage: ${value}">
+  <title>coverage: ${value}</title>
+  <rect width="${lw}" height="20" fill="#3b3b3b"/>
+  <rect x="${lw}" width="${vw}" height="20" fill="${colour}"/>
+  <g fill="#ffffff" font-family="Verdana,DejaVu Sans,sans-serif" font-size="11">
+    <text x="6" y="14">coverage</text>
+    <text x="${lw + 4}" y="14">${value}</text>
+  </g>
+</svg>
+`,
+);
+
+console.log(
+    `coverage: ${overall.toFixed(1)}% of lines over all three; wrote docs/coverage.md and docs/coverage-badge.svg`,
+);

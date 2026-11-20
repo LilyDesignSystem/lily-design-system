@@ -585,7 +585,10 @@ public class GanttChartTests : TestContext
 
     private static readonly GanttTask BaselineTask = new()
     {
-        Id = "a", Label = "A", Start = "2026-10-04", End = "2026-10-06",
+        Id = "a",
+        Label = "A",
+        Start = "2026-10-04",
+        End = "2026-10-06",
         Baseline = new GanttBaseline("2026-10-02", "2026-10-04"),
     };
 
@@ -858,15 +861,25 @@ public class GanttChartExtrasTests : TestContext
 
     private static readonly DateTimePickerLabels DtpLabels = new()
     {
-        PreviousYear = "Previous year", PreviousMonth = "Previous month", PreviousWeek = "Previous week",
-        PreviousDay = "Previous day", NextDay = "Next day", NextWeek = "Next week",
-        NextMonth = "Next month", NextYear = "Next year", Confirm = "Confirm", Cancel = "Cancel",
+        PreviousYear = "Previous year",
+        PreviousMonth = "Previous month",
+        PreviousWeek = "Previous week",
+        PreviousDay = "Previous day",
+        NextDay = "Next day",
+        NextWeek = "Next week",
+        NextMonth = "Next month",
+        NextYear = "Next year",
+        Confirm = "Confirm",
+        Cancel = "Cancel",
     };
 
     private static readonly GanttLabels Labels = new()
     {
-        StartLabel = "Start date", EndLabel = "End date", DateTimePickerLabels = DtpLabels,
-        SaveLabel = "Save", CancelLabel = "Cancel",
+        StartLabel = "Start date",
+        EndLabel = "End date",
+        DateTimePickerLabels = DtpLabels,
+        SaveLabel = "Save",
+        CancelLabel = "Cancel",
         CollapseButton = (task, collapsed) => collapsed ? $"Expand {task.Label}" : $"Collapse {task.Label}",
     };
 

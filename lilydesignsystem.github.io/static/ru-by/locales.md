@@ -2,7 +2,7 @@
 
 Title: Lily Design System&trade; — Языки
 
-Description: 
+Description:
 
 # Выберите язык
 

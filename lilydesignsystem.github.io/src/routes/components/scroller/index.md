@@ -2,7 +2,9 @@
 
 A scrollytelling container with step-based foreground and background composition. The background content sticks in the viewport while foreground steps scroll over it, with the current step index driving background content changes.
 
-This headless component uses a `<div>` element with an optional `aria-label` to create a scrollytelling region with separate background and foreground slots.
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
+This headless component uses a `<div>` element with `role="group"` and an optional `aria-label` to create a scrollytelling region with separate background and foreground slots.
 
 ## Implementation Notes
 
@@ -77,7 +79,7 @@ This headless component uses a `<div>` element with an optional `aria-label` to 
 
 ## ARIA
 
-- `aria-label` on container when `label` prop is provided
+- `role="group"` with `aria-label` on container when `label` prop is provided
 - `aria-live="polite"` on background for screen reader updates when content changes
 
 ## Composition
@@ -102,6 +104,13 @@ This headless component uses a `<div>` element with an optional `aria-label` to 
 
 This component provides a `<div>` element with foreground/background composition and scroll tracking, with zero visual styling. The consumer is responsible for all CSS including background stickiness, foreground overlay positioning, step spacing, and responsive layout.
 
+## Reduced motion
+
+Reduced motion changes how content appears, never whether it does. Apply it in consumer CSS under `@media (prefers-reduced-motion: reduce)` and under the `motion-picker`'s `[data-motion="reduce"]` on the document root (the 63 reference themes already honour both for the preference hooks they style). For a scrollytelling scroller:
+
+- **Suppress:** parallax and animated transitions between steps. Switch the background frame at once, or cross-fade it briefly, when a step becomes active.
+- **Keep:** every step's text, the order of the steps, and step activation by scrolling. Nothing autoplays; the story reads in full with no animation.
+
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.scroller` class for targeting. No default styles are included -- this is a fully headless component.
@@ -109,7 +118,7 @@ The consumer provides all CSS styling. The component renders with a `.scroller` 
 ## Testing
 
 - Verify the component renders a `<div>` element with class `scroller`
-- Verify `aria-label` is applied when label prop is provided
+- Verify `role="group"` and `aria-label` are applied when label prop is provided
 - Verify background slot content is rendered
 - Verify foreground step content is rendered
 - Verify index updates as steps scroll into view
@@ -128,6 +137,10 @@ The consumer provides all CSS styling. The component renders with a `.scroller` 
 - `scroller-video` — see components.tsv
 - `horizontal-scroller` — see components.tsv
 - `carousel` — a slideshow for cycling through content items
+
+## Known limitations
+
+None known.
 
 ## References
 

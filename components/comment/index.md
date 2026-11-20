@@ -78,6 +78,10 @@ The consumer provides all CSS styling. The component renders with a `.comment` c
 - `chat-message` — a chat message shows one chat conversation message entry and all its data, including the author avatar, author name, time, etc.
 - `blockquote` — a block-level quotation with optional source citation
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN div element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div)

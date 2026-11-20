@@ -89,6 +89,10 @@ A national identifier is personal data, and often a key to other records.
 - `bulgaria-edinen-grazhdanski-nomer-view` — a read-only display of Bulgaria's Единен граждански номер / Edinen grazhdanski nomer (EGN)
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/Unique_citizenship_number

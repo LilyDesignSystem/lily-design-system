@@ -2,6 +2,8 @@
 
 The dominant element on a confirmation page — a prominent panel that says, in plain language, that a multi-step task has finished, and (optionally) shows a reference number and what happens next.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 The component is built around a configurable heading (defaulting to `<h1>` because the confirmation panel is normally the page's main heading) and a body slot for follow-up information: confirmation reference, what to expect next, links to related services, contact details. The wrapping `<div>` is exposed as `role="alert"` with `aria-live="polite"` so screen readers announce the heading when the page loads, even if focus has not yet been moved into it.
 
 This is heavier than `Alert` (which is for inline status inside a longer page) and `Notification` / `Toast` (which are transient). Reach for `SuccessPanel` only at the end of a discrete task — form submission, payment, booking, account creation — when the page changes role from "perform task" to "confirm task complete".
@@ -42,8 +44,7 @@ This is heavier than `Alert` (which is for inline status inside a longer page) a
 
 ## ARIA
 
-- `role="alert"` exposes the panel as an alert region
-- `aria-live="polite"` ensures the heading and body are announced when the panel renders
+- `role="status"` exposes the panel as a polite live region, so the heading and body are announced when it renders
 - Heading level is configurable via the `headingLevel` prop (default `<h1>` — confirmation pages typically use the panel as the page's main heading)
 
 ## When to Use
@@ -70,6 +71,10 @@ The component renders with `.success-panel` as the root class. No default styles
 - `alert` — inline status messaging
 - `notification` — transient confirmation
 - `info-state` — empty/error/info state composition
+
+## Known limitations
+
+None known.
 
 ## References
 

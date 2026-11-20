@@ -81,6 +81,10 @@ The component renders with `.announcement-banner` as the root class. No default 
 - `alert` — in-flow status message
 - `notification` — transient toast
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [WAI-ARIA region role](https://www.w3.org/TR/wai-aria-1.2/#region)

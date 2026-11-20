@@ -5,6 +5,7 @@
 - Component: segment-group
 - PascalCase: SegmentGroup
 - Description: a group of mutually exclusive segment options
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .segment-group
 - Interactive: yes
@@ -30,8 +31,8 @@
 ## Keyboard
 
 - Tab: Moves focus into the segment group
-- Arrow Left / Arrow Right: Consumer should implement arrow key navigation between segments (following the radiogroup pattern)
-- Space / Enter: Consumer should implement activation of the focused segment
+- Arrow keys: Move to the next or previous segment and check it, wrapping, swapped in right-to-left; each change clicks the segment, which is how the consumer hears of it
+- Space / Enter: Check the focused segment
 
 ## Props
 
@@ -47,6 +48,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

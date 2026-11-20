@@ -2,6 +2,8 @@
 
 A horizontal progress indicator.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders a `<div>` with `role="progressbar"` and ARIA value attributes
@@ -65,6 +67,10 @@ The component renders with `.progress-bar` as the root class. No default styles 
 - `progress-spinner` — an indeterminate spinning progress indicator
 - `meter` — a gauge displaying a scalar value within a known range
 - `loading` — a loading indicator, such as text, or image, or animation
+
+## Known limitations
+
+None known.
 
 ## References
 

@@ -89,6 +89,10 @@ A national identifier is personal data, and often a key to other records.
 - `guatemala-codigo-unico-de-identificacion-view` — a read-only display of Guatemala's Código Único de Identificación (CUI)
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [RENAP: ¿Qué es el CUI?](https://www.renap.gob.gt/sites/default/files/boletines-publicaciones/inforenap_163_-_08042021_-_que_es_el_cui.pdf)

@@ -43,5 +43,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ProgressCircle.razor"
   },
   "docs": "https://lilydesignsystem.com/components/progress-circle/",
+  "markdown": "https://lilydesignsystem.com/components/progress-circle.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/progress-circle/AGENTS.md"
 }

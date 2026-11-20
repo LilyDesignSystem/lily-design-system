@@ -87,6 +87,10 @@ TaskBarButton is designed to be used as a child of TaskBar. The TaskBar provides
 
 - `task-bar` — a horizontal bar of task shortcuts or actions
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN button element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button)

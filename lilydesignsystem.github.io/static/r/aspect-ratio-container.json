@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AspectRatioContainer.razor"
   },
   "docs": "https://lilydesignsystem.com/components/aspect-ratio-container/",
+  "markdown": "https://lilydesignsystem.com/components/aspect-ratio-container.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/aspect-ratio-container/AGENTS.md"
 }

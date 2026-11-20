@@ -5,6 +5,7 @@
 - Component: tab-bar
 - PascalCase: TabBar
 - Description: a group of tabs for switching between content panels
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .tab-bar
 - Interactive: yes
@@ -53,6 +54,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

@@ -138,6 +138,10 @@ TreeListItem is a child of TreeList, following the Nav/List/ListItem pattern. Ex
 - `tree-list` — a hierarchical list with nested expandable items
 - `tree-link` — one link in the tree
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Tree View Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/treeview/

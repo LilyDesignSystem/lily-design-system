@@ -5,6 +5,7 @@
 - Component: eire-individual-health-identifier-input
 - PascalCase: EireIndividualHealthIdentifierInput
 - Description: an input for entering Eire Individual Health Identifier (IHI) unique national healthcare identifier
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .eire-individual-health-identifier-input
 - Interactive: yes
@@ -40,6 +41,10 @@
 - [ ] Has aria-label, pattern, inputmode="numeric", autocomplete="off"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS -- fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

@@ -190,7 +190,7 @@
         {
           "title": "Component manifests",
           "url": "https://lilydesignsystem.com/r/index.json",
-          "description": "Machine-readable manifest of every component (HTML tag, base and sub-classes, ARIA, keyboard, props, related, per-framework file paths); one /r/{slug}.json each."
+          "description": "Machine-readable manifest of every component (HTML tag, classes, ARIA, keyboard, props, related, per-framework files and its /components/{slug}.md URL); one /r/{slug}.json each."
         },
         {
           "title": "components-categories.tsv",

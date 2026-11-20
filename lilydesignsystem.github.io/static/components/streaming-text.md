@@ -83,6 +83,10 @@ Append chunks to the existing text rather than replacing the element, and flip `
 - `loading`
 - `progress-spinner`
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [WAI-ARIA status role](https://www.w3.org/TR/wai-aria-1.2/#status)

@@ -1,8 +1,101 @@
 # Ellada Dematerialised Securities System Input
 
-an input for entering Greece's Dematerialised Securities System (DSS)
+ElladaDematerialisedSecuritiesSystemInput is a headless input for entering Greece's Dematerialised Securities System (DSS), Greece's securities identifier. It renders as `<input type="text">` with pattern validation, numeric/letter keyboard hints, and `autocomplete="off"` to protect sensitive identifiers. It is the editable companion to ElladaDematerialisedSecuritiesSystemView.
 
-See the canonical documentation at `components/ellada-dematerialised-securities-system-input/index.md` in the Lily Design System™ repo.
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
+## Implementation Notes
+
+- Renders as `<input type="text">` with pattern validation
+- Format: 10 digits linked to the investor's personal details (name, ID number, passport number, tax registration number) and managed by the Central Securities Depository of Greece
+- `autocomplete="off"` to protect sensitive identifiers
+- Supports two-way binding on the `value` prop
+- Companion to ElladaDematerialisedSecuritiesSystemView
+
+## Props
+
+- `label`: string (required) — accessible label via `aria-label`
+- `value`: string (default: "") — bindable input value
+- `required`: boolean (default: false) — form validation
+- `disabled`: boolean (default: false) — disabled state
+- `...restProps`: any — additional HTML attributes spread onto the `<input>`
+
+## Usage
+
+```html
+<Field
+  label="Dematerialised Securities System"
+  required
+>
+  <ElladaDematerialisedSecuritiesSystemInput
+    label="Dematerialised Securities System"
+    value="{value}"
+    required
+  />
+  <Hint
+    >10 digits linked to the investor's personal details (name, ID number, passport number, tax
+    registration number) and managed by the Central Securities Depository of Greece</Hint
+  >
+  <ErrorMessage>Please enter a valid Dematerialised Securities System</ErrorMessage>
+</Field>
+```
+
+## ARIA
+
+- `aria-label={label}` — provides accessible name
+
+## When to Use
+
+- Use in forms collecting Greece's Dematerialised Securities System (DSS).
+- Use with pattern validation matching the documented format.
+- Use in administrative or securities workflows where the identifier is required.
+
+## When Not to Use
+
+- Do not use for displaying read-only identifiers — use `ellada-dematerialised-securities-system-view` instead.
+- Do not use for general text input — use `text-input` instead.
+- Do not use for other countries' identifiers — use the corresponding country-specific input.
+
+## Headless
+
+This headless component ships zero CSS. The consumer provides all styling targeting the `.ellada-dematerialised-securities-system-input` class hook.
+
+## Testing
+
+- Verify renders an `<input>` with the correct class and `type="text"`
+- Verify `aria-label` is set from the `label` prop
+- Verify pattern attribute matches the documented format
+- Verify `autocomplete="off"`
+- Verify value binding works
+
+## Domain Knowledge
+
+Ten-digit investor identifier linked to personal details (name, identity-card number, passport number, tax registration number); the investor share is the account record held in the DSS operated by the Hellenic Central Securities Depository (ATHEXCSD). No check-digit or checksum algorithm is published for this identifier; correctness is confirmed by the issuing authority's own records, not by the format alone.
+
+**Where to find it:** Account statements and confirmations issued by the Hellenic Central Securities Depository (ATHEXCSD) and by the investor's appointed operator (broker or bank).
+
+## Security and privacy
+
+A national identifier is personal data, and often a key to other records.
+
+- The input renders `autocomplete="off"`, so the browser neither saves nor offers the value, and `spellcheck="false"`, so an enhanced spellchecker does not send it to a cloud service. `bin/check-identifier-inputs` keeps both in all nine catalogs.
+- Do not log the value, put it in a URL or query string, or send it to analytics or an error tracker; mask it there if it must appear.
+- The component stores nothing. Do not keep the value in `localStorage`, `sessionStorage` or a cookie; submit it in the body of a POST over HTTPS.
+- A format or checksum check proves the number is well formed, not that it belongs to the person entering it.
+- The page decides who may see it: the input does not mask what is typed. Use the matching `-view` to show it back, masked as the service requires.
+
+## Related components
+
+- `ellada-dematerialised-securities-system-view` — a read-only display of Greece's Dematerialised Securities System (DSS)
+- `text-input` — a single-line text input field <input type="text">
+
+## Known limitations
+
+None known.
+
+## References
+
+- Wikipedia: https://en.wikipedia.org/wiki/Central_Securities_Depository
 
 ---
 

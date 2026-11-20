@@ -5,6 +5,7 @@
 - Component: file-input
 - PascalCase: FileInput
 - Description: an input for selecting files from the file system <input type="file">
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <input>
 - CSS class: .file-input
 - Interactive: no
@@ -41,6 +42,10 @@
 - [ ] Has aria-label attribute
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

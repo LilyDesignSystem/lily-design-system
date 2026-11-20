@@ -2,6 +2,8 @@
 
 A footer is a semantic page landmark located at the bottom of a web page or section, typically used to provide secondary navigation, legal information, contact details, and links to important but less prominent content like privacy policies, terms of service, or social media profiles.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The component uses the native `<footer>` element, which is automatically recognized by assistive technologies as the `contentinfo` landmark role. An optional `aria-label` can distinguish multiple footers on the same page (e.g., a page footer vs. a section footer).
 
 ## Implementation Notes
@@ -77,6 +79,10 @@ The consumer provides all CSS styling. The component renders with a `.footer` cl
 
 - `header` — a page or section header area
 - `grail-layout-bottom-footer` — grail layout bottom footer full width with <footer> tag
+
+## Known limitations
+
+None known.
 
 ## References
 

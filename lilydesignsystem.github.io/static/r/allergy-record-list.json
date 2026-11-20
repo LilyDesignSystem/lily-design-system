@@ -49,5 +49,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AllergyRecordList.razor"
   },
   "docs": "https://lilydesignsystem.com/components/allergy-record-list/",
+  "markdown": "https://lilydesignsystem.com/components/allergy-record-list.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/allergy-record-list/AGENTS.md"
 }

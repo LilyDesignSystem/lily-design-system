@@ -94,6 +94,10 @@ Consumer CSS may target the `container-with-fixed-width` class or the
 - `container` — a generic block-level content container
 - `container-with-fluid-width` — a full-width content wrapper with horizontal padding
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN max-width: https://developer.mozilla.org/en-US/docs/Web/CSS/max-width

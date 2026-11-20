@@ -74,6 +74,10 @@ TableTD is a child of TableRow, following the Table pattern: Table > TableHead/T
 - `table-row` — a table interactive grid row <tr>
 - `table-th` — a table interactive grid column <th>
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN td element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td

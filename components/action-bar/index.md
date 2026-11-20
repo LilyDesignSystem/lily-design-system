@@ -123,6 +123,10 @@ indicator on every interactive descendant.
 
 - `action-bar-button` — one action button inside an action bar
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Toolbar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/

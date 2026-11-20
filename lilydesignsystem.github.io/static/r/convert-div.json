@@ -38,5 +38,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ConvertDiv.razor"
   },
   "docs": "https://lilydesignsystem.com/components/convert-div/",
+  "markdown": "https://lilydesignsystem.com/components/convert-div.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/convert-div/AGENTS.md"
 }

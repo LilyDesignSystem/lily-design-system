@@ -38,5 +38,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/LuxembourgMatriculeInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/luxembourg-matricule-input/",
+  "markdown": "https://lilydesignsystem.com/components/luxembourg-matricule-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/luxembourg-matricule-input/AGENTS.md"
 }

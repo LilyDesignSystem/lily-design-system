@@ -132,6 +132,10 @@ The consumer provides all CSS styling. The component renders with a `.scroll-bar
 
 - `scroll-area` — a scrollable container with custom scrollbar support
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA scrollbar role: https://www.w3.org/TR/wai-aria-1.2/#scrollbar

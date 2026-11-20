@@ -43,6 +43,7 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Popover.razor"
   },
   "docs": "https://lilydesignsystem.com/components/popover/",
+  "markdown": "https://lilydesignsystem.com/components/popover.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/popover/AGENTS.md",
   "nativePlatform": {
     "decision": "native",

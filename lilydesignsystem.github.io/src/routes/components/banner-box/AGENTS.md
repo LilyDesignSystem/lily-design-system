@@ -5,6 +5,7 @@
 - Component: banner-box
 - PascalCase: BannerBox
 - Description: a banner box that is inside a banner component, using flexbox horizontal
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .banner-box
 - Interactive: no
@@ -19,6 +20,7 @@
 
 ## ARIA
 
+- With a `label`, the root is `role="group"`, because a plain `<div>` cannot be named. Without one it has no role
 - No additional ARIA attributes required; the parent Banner provides the landmark role and aria-live region
 
 ## Keyboard
@@ -50,6 +52,10 @@ BannerBox is designed to be used inside a Banner:
   </BannerBox>
 </Banner>
 ```
+
+## Known limitations
+
+None known.
 
 ## References
 

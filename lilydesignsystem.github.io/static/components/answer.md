@@ -84,6 +84,10 @@ The consumer provides all CSS styling. The component renders with a `.answer` cl
 - `comment` — a comment is anything that expresses an opinion, observation, explanation, etc.
 - `success-panel` — a panel confirming a task has been completed
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN div element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div)

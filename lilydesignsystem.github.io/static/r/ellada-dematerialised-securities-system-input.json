@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/ElladaDematerialisedSecuritiesSystemInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/ellada-dematerialised-securities-system-input/",
+  "markdown": "https://lilydesignsystem.com/components/ellada-dematerialised-securities-system-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/ellada-dematerialised-securities-system-input/AGENTS.md"
 }

@@ -110,6 +110,10 @@ classes for fine-grained control.
 - `government-banner` — a banner identifying a website as belonging to a government, with an expandable details panel
 - `organization` — an organization component that contains other organization-related information
 
+## Known limitations
+
+None known.
+
 ## References
 
 - US Web Design System Identifier: https://designsystem.digital.gov/components/identifier/

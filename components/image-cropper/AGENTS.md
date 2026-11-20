@@ -47,6 +47,10 @@ The rectangle is `{ x, y, width, height }` in percent, and stays inside the imag
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Documentation: index.md

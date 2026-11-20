@@ -2,9 +2,9 @@
 
 ## Summary
 
-Thirty repository top-level [Claude Skill](https://code.claude.com/docs/en/skills)
+Thirty-four repository top-level [Claude Skill](https://code.claude.com/docs/en/skills)
 packages give AI coding agents a curated, loadable entry point into Lily
-Design System, in three tiers: [`lily-design-system-skill`](../../lily-design-system-skill/)
+Design System, in four groups: [`lily-design-system-skill`](../../lily-design-system-skill/)
 for people building _with_ the system in general and
 [`lily-design-system-maintainer-skill`](../../lily-design-system-maintainer-skill/)
 for people working _on_ this monorepo (the original two); nine
@@ -12,7 +12,8 @@ framework-umbrella skills, one per framework family, added 2026-09-05 (Solid 202
 and nineteen framework-specific skills, one headless-skill and one
 helpers-skill per framework, added 2026-09-04, plus
 `lily-design-system-alpine-headless-skill` (2026-10-21; it also covers the four Alpine helpers and the
-example app, so there is no separate helpers-skill or umbrella yet). All thirty follow the
+example app, so there is no separate helpers-skill or umbrella yet); and four
+task-shaped playbooks added 2026-11-19. All thirty-four follow the
 same `lily-design-system-` naming convention and get identical
 full-subproject treatment — see "Naming-split retirement" and
 "Framework-specific skills reversal" below for how each tier arrived.
@@ -28,6 +29,10 @@ full-subproject treatment — see "Naming-split retirement" and
   layout, the `bin/` tooling, the spec-driven workflow, and pointers into
   the binding `AGENTS/*.md` design-principle rules, for people maintaining
   this monorepo.
+- Four task-shaped skills: `lily-design-system-install`,
+  `lily-design-system-add-component`, `lily-design-system-theme`, and
+  `lily-design-system-migrate-from-bootstrap`. These cut across framework
+  tiers and lead an agent through one complete job.
 - Eight framework-umbrella skills, `lily-design-system-{framework}-skill`,
   one per framework family — see "The eight framework-umbrella skills"
   below. Each ties together the up-to-three real subprojects for that
@@ -49,11 +54,9 @@ full-subproject treatment — see "Naming-split retirement" and
   docs, or a framework's own subproject `AGENTS.md`/`spec/index.md` in
   full — every skill points at the canonical files rather than
   duplicating them, so those files stay the single source of truth.
-- A skill scoped to a single component, a single helper package, or a
-  single example app — the framework-umbrella/framework-headless/
-  framework-helpers three-tier split is the finest grain this topic
-  supports; a narrower need is served by reading that component's or
-  package's own `AGENTS.md` directly, not by another skill package.
+- A skill scoped to a single named component, helper package, or example app.
+  Task playbooks may cross those boundaries, but the component or package's
+  own `AGENTS.md` remains the detailed source of truth.
 - Component implementation, example pages, or new headless/helper
   packages — a skill is documentation for an AI agent, never code that
   ships to a consumer.
@@ -64,10 +67,10 @@ full-subproject treatment — see "Naming-split retirement" and
 
 ## Principles and rules
 
-- **Thirty skills, one naming convention.** `lily-design-system-skill`
+- **Thirty-four skills, one naming convention.** `lily-design-system-skill`
   is portable in spirit — useful in any project that consumes Lily Design
-  System, not just this monorepo — while the other twenty-nine are bound
-  to this repository's own subprojects and conventions. All thirty
+  System, not just this monorepo — while the other thirty-three are bound
+  to this repository's own subprojects and conventions. All thirty-four
   nonetheless share the `lily-design-system-` prefix, because a
   directory's naming convention is a statement about repository plumbing
   (is it swept into `bin/list-implementations`/`bin/sync-special-files`?),
@@ -80,7 +83,7 @@ full-subproject treatment — see "Naming-split retirement" and
   `spec/index.md`, the 14 special files), per
   [architecture](../architecture/index.md) and
   [special-files-for-public-repos](../special-files-for-public-repos/index.md).
-  All thirty skills carry the full set.
+  All thirty-four skills carry the full set.
 - **Content, not code.** No skill folder ships components, tests, or a
   build step — a skill package is documentation for an AI agent, so
   `bin/test`'s per-framework checks (Storybook, vitest, Playwright) don't
@@ -89,7 +92,7 @@ full-subproject treatment — see "Naming-split retirement" and
   `index.md` explains what the package is for a person browsing the repo;
   `SKILL.md` is what an agent actually loads. `README.md` symlinks to
   `index.md` in every skill.
-- **Three tiers, increasingly specific, each pointing down rather than
+- **Framework tiers point down rather than
   duplicating.** `lily-design-system-skill` covers framework-agnostic
   concepts. A framework-umbrella skill (`lily-design-system-{fw}-skill`)
   maps that framework's up-to-three real subprojects and is the one place
@@ -126,7 +129,7 @@ the record of intent):
 
 ### File shape by skill
 
-Identical across all thirty skills:
+Identical across all thirty-four skills:
 
 | File                  | General/maintainer skills                                                                                    | Umbrella / framework-specific skills                                                   |
 | --------------------- | ------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------- |
@@ -223,6 +226,21 @@ covering exactly the one real subproject it is named after:
 | Vue            | [`lily-design-system-vue-headless-skill`](../../lily-design-system-vue-headless-skill/) → [`@lilydesignsystem/vue-headless`](../../lily-design-system-vue-headless/)                                                                                  | [`lily-design-system-vue-helpers-skill`](../../lily-design-system-vue-helpers-skill/) → [the Vue helper packages](../helpers/index.md#vue-helper-packages)                                                                                                              |
 | Web Components | [`lily-design-system-web-components-headless-skill`](../../lily-design-system-web-components-headless-skill/) → [`@lilydesignsystem/web-components-headless`](../../lily-design-system-web-components-headless/) (573/608, its full achievable scope) | [`lily-design-system-web-components-helpers-skill`](../../lily-design-system-web-components-helpers-skill/) → [the Web Components helper packages](../helpers/index.md#web-components-helper-packages) (an independent copy of the HTML helpers, `<lily-*>` tag prefix) |
 
+### The four task-shaped skills
+
+Added 2026-11-19 for jobs that cross framework and package boundaries:
+
+| Skill                                                                                           | Complete job                                                                                                                  |
+| ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| [`lily-design-system-install`](../../lily-design-system-install/)                               | Choose the framework package and optional identifier, helper, and theme layers; install and smoke-test them.                  |
+| [`lily-design-system-add-component`](../../lily-design-system-add-component/)                   | Define a component contract, run `bin/new-component`, replace the generic scaffold across applicable catalogs, and verify it. |
+| [`lily-design-system-theme`](../../lily-design-system-theme/)                                   | Customize application CSS or author and validate a canonical DTCG-backed reference theme.                                     |
+| [`lily-design-system-migrate-from-bootstrap`](../../lily-design-system-migrate-from-bootstrap/) | Inventory and replace Bootstrap components, JavaScript, forms, layout, and utilities without losing accessibility.            |
+
+These local packages make no claim that a public skills registry or
+`npx skills add` route exists. Publication remains the maintainer decision in
+tasks.md P22-T28.
+
 ### Tooling touched
 
 `bin/list-implementations`'s glob was tightened from `lily-*` to
@@ -287,14 +305,14 @@ subproject's remote carries remains a maintainer step.
 
 ## Acceptance criteria
 
-- [x] All thirty skill folders exist at the repository root, all
+- [x] All thirty-four skill folders exist at the repository root, all
       named under the `lily-design-system-` prefix.
 - [x] Each has a `SKILL.md` with `name` + `description` frontmatter
       naming concrete trigger phrases.
-- [x] All thirty skills carry the full required-files set
+- [x] All thirty-four skills carry the full required-files set
       (`index.md`, `README.md` symlink to `index.md`, `AGENTS.md`, `spec/index.md`, the 14 special
       files via `bin/sync-special-files`) and pass `bin/test`.
-- [x] `bin/sync-special-files`'s generated files for all thirty
+- [x] `bin/sync-special-files`'s generated files for all thirty-four
       skills (and for the two pre-existing `web-components-*`
       subprojects caught by the same classification fix) describe a
       Claude Skill or the correct real-subproject kind, not a
@@ -335,5 +353,7 @@ subproject's remote carries remains a maintainer step.
   in "The eight framework-umbrella skills" above.
 - The sixteen `lily-design-system-{framework}-{headless,helpers}-skill/SKILL.md`
   files listed in "The sixteen framework-specific skills" above.
+- The four task-shaped `SKILL.md` files listed in "The four task-shaped
+  skills" above.
 - [`bin/list-implementations`](../../bin/list-implementations)
 - [`bin/sync-special-files`](../../bin/sync-special-files)

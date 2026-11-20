@@ -5,6 +5,7 @@
 - Component: select
 - PascalCase: Select
 - Description: a dropdown select element for choosing one option
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <select>
 - CSS class: .select
 - Interactive: yes
@@ -40,6 +41,14 @@
 - `children`: slot (required) -- `<option>` elements to render inside the select
 - `...restProps`: unknown -- additional attributes spread onto the select element
 
+## Native platform
+
+- Decision: native
+- Uses: native <select>
+- Could use: appearance: base-select in theme CSS under @supports
+- Notes: base-select is Chromium-only, so any styling is progressive enhancement in themes, never in the headless.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
 ## Acceptance Criteria
 
 - [ ] Renders <select> element with class="select"
@@ -48,6 +57,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

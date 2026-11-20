@@ -145,26 +145,26 @@ public static class ClinicalFormat
                 if (denominator != 1) throw new ArgumentOutOfRangeException(nameof(denominator), "a unitary proportion has denominator 1");
                 return Number(numerator);
             case ProportionKind.Percent:
-            {
-                if (denominator != 100) throw new ArgumentOutOfRangeException(nameof(denominator), "a percent has denominator 100");
-                var format = (NumberFormatInfo)culture.NumberFormat.Clone();
-                var text = numerator.ToString(CultureInfo.InvariantCulture);
-                format.PercentDecimalDigits = text.Contains('.') ? text.Length - text.IndexOf('.') - 1 : 0;
-                return (numerator / 100m).ToString("P", format);
-            }
+                {
+                    if (denominator != 100) throw new ArgumentOutOfRangeException(nameof(denominator), "a percent has denominator 100");
+                    var format = (NumberFormatInfo)culture.NumberFormat.Clone();
+                    var text = numerator.ToString(CultureInfo.InvariantCulture);
+                    format.PercentDecimalDigits = text.Contains('.') ? text.Length - text.IndexOf('.') - 1 : 0;
+                    return (numerator / 100m).ToString("P", format);
+                }
             case ProportionKind.Fraction:
             case ProportionKind.IntegerFraction:
-            {
-                if (decimal.Truncate(numerator) != numerator || decimal.Truncate(denominator) != denominator || denominator <= 0)
-                    throw new ArgumentOutOfRangeException(nameof(denominator), "a fraction needs a whole numerator and a positive whole denominator");
-                if (kind == ProportionKind.Fraction) return $"{Number(numerator)}/{Number(denominator)}";
-                var sign = numerator < 0 ? "-" : "";
-                var whole = decimal.Floor(Math.Abs(numerator) / denominator);
-                var rest = Math.Abs(numerator) % denominator;
-                if (rest == 0) return sign + Number(whole);
-                if (whole == 0) return $"{sign}{Number(rest)}/{Number(denominator)}";
-                return $"{sign}{Number(whole)}{NoBreakSpace}{Number(rest)}/{Number(denominator)}";
-            }
+                {
+                    if (decimal.Truncate(numerator) != numerator || decimal.Truncate(denominator) != denominator || denominator <= 0)
+                        throw new ArgumentOutOfRangeException(nameof(denominator), "a fraction needs a whole numerator and a positive whole denominator");
+                    if (kind == ProportionKind.Fraction) return $"{Number(numerator)}/{Number(denominator)}";
+                    var sign = numerator < 0 ? "-" : "";
+                    var whole = decimal.Floor(Math.Abs(numerator) / denominator);
+                    var rest = Math.Abs(numerator) % denominator;
+                    if (rest == 0) return sign + Number(whole);
+                    if (whole == 0) return $"{sign}{Number(rest)}/{Number(denominator)}";
+                    return $"{sign}{Number(whole)}{NoBreakSpace}{Number(rest)}/{Number(denominator)}";
+                }
             default:
                 throw new ArgumentOutOfRangeException(nameof(kind), kind, "not a proportion kind");
         }

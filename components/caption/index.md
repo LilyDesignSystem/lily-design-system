@@ -108,6 +108,10 @@ The consumer provides all CSS styling. The component renders with a `.caption` c
 
 - `figure` — a self-contained figure with optional caption
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN caption element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/caption)

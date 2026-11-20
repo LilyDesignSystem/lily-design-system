@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SubmitInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/submit-input/",
+  "markdown": "https://lilydesignsystem.com/components/submit-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/submit-input/AGENTS.md"
 }

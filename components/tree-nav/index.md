@@ -140,6 +140,10 @@ TreeNav contains a TreeList, which in turn contains TreeListItem children, follo
 - `tree-list-item` — one item in a tree navigation list
 - `tree-link` — one link in the tree
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Tree View Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/treeview/

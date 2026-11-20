@@ -105,6 +105,10 @@ color alone.
 
 - `menu-item` — one item in a menu
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menubar/

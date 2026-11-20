@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/BelgiqueNumeroDeRegistreNationalView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/belgique-numero-de-registre-national-view/",
+  "markdown": "https://lilydesignsystem.com/components/belgique-numero-de-registre-national-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/belgique-numero-de-registre-national-view/AGENTS.md"
 }

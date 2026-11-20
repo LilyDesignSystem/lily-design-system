@@ -93,6 +93,10 @@ TaskBar uses the Bar/BarButton composition pattern. Place TaskBarButton componen
 
 - `task-bar-button` — one item in a task bar
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Toolbar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/

@@ -2,6 +2,8 @@
 
 An expander shows or hides additional content with a toggle button control. It is similar to a native `<details>`/`<summary>` disclosure element but uses a `<button>` trigger with `aria-expanded` for full control over behavior and presentation.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This component is useful for progressive disclosure patterns such as FAQ sections, collapsible panels, settings groups, or any interface where content should be hidden by default and revealed on demand. The expanded state is bindable, allowing parent components to programmatically control visibility.
 
 ## Implementation Notes
@@ -24,7 +26,7 @@ This component is useful for progressive disclosure patterns such as FAQ section
 ## Usage
 
 ```html
-<Expander summary="How to get your medical records">
+<Expander label="How to get your medical records">
   <p>You can see your GP records by:</p>
   <ul>
     <li>asking for them at your GP surgery</li>
@@ -32,7 +34,7 @@ This component is useful for progressive disclosure patterns such as FAQ section
   </ul>
 </Expander>
 
-<Expander summary="How to measure your blood glucose levels">
+<Expander label="How to measure your blood glucose levels">
   <p>
     Testing your blood glucose levels involves a simple finger prick test using a blood glucose
     monitor.
@@ -103,6 +105,10 @@ The consumer provides all CSS styling. The component renders with a `.expander` 
 - `details` — a disclosure widget that shows and hides content
 - `collapsible` — a container that can be expanded or collapsed
 - `accordion-list-item` — an accordion list item component
+
+## Known limitations
+
+None known.
 
 ## References
 

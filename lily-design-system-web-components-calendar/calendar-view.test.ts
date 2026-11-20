@@ -68,7 +68,7 @@ const click = (el: Element) =>
 beforeEach(() => document.body.replaceChildren());
 afterEach(() => document.body.replaceChildren());
 
-describe("calendar-view — pure period helpers", () => {
+describe("lily-calendar-view — pure period helpers", () => {
     test("weekStart finds the Monday on/before a Tuesday anchor", () => {
         expect(weekStart("2026-01-06", 1)).toBe("2026-01-05");
     });
@@ -100,7 +100,7 @@ describe("calendar-view — pure period helpers", () => {
     });
 });
 
-describe("calendar-view — markup", () => {
+describe("lily-calendar-view — markup", () => {
     test("§8.1 renders a calendar-view root wrapping a role=grid table labelled by `label`", () => {
         mount();
         expect(document.querySelector(".calendar-view")).toBeTruthy();
@@ -147,7 +147,7 @@ describe("calendar-view — markup", () => {
     });
 });
 
-describe("calendar-view — view switcher and navigation", () => {
+describe("lily-calendar-view — view switcher and navigation", () => {
     test("§8.8 the switcher renders only labelled buttons and marks the active one aria-pressed", () => {
         mount({}, { labels: { weekView: "Week", monthView: "Month" } });
         expect(button("Week").getAttribute("aria-pressed")).toBe("true");
@@ -195,7 +195,7 @@ describe("calendar-view — view switcher and navigation", () => {
     });
 });
 
-describe("calendar-view — keyboard", () => {
+describe("lily-calendar-view — keyboard", () => {
     test("§8.9 one tab stop; arrows move by day/week; Home/End clamp to the row", () => {
         mount({ view: "four-week" });
         expect(tabbable()).toHaveLength(1);
@@ -244,7 +244,7 @@ describe("calendar-view — keyboard", () => {
     });
 });
 
-describe("calendar-view — events", () => {
+describe("lily-calendar-view — events", () => {
     test("§8.12 events render as buttons inside every day they cover", () => {
         mount({}, { events: EVENTS });
         const titles = (iso: string) =>
@@ -280,7 +280,7 @@ describe("calendar-view — events", () => {
     });
 });
 
-describe("calendar-view — interaction", () => {
+describe("lily-calendar-view — interaction", () => {
     const base = { today: "2026-01-08" };
 
     test("§8.17 picking a day marks it data-selected, distinct from the keyboard cursor", () => {
@@ -334,7 +334,7 @@ describe("calendar-view — interaction", () => {
     });
 });
 
-describe("calendar-view — week numbers, marked ranges and range selection", () => {
+describe("lily-calendar-view — week numbers, marked ranges and range selection", () => {
     const base = { view: "month", "anchor-date": "2026-01-15", today: "2026-01-08" };
     const rangeLabels: CalendarViewLabels = {
         ...LABELS,
@@ -464,7 +464,7 @@ describe("calendar-view — week numbers, marked ranges and range selection", ()
     });
 });
 
-describe("calendar-view — day view, maxEvents, drag-and-drop, title, weekends, multiple selection", () => {
+describe("lily-calendar-view — day view, maxEvents, drag-and-drop, title, weekends, multiple selection", () => {
     const dayAttrs = { view: "day", "anchor-date": "2026-01-06", today: "2026-01-08" };
     const dayLabels: CalendarViewLabels = { ...LABELS, dayView: "Day" };
     const evs: CalendarEvent[] = [

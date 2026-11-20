@@ -5,6 +5,7 @@
 - Component: slider-button
 - PascalCase: SliderButton
 - Description: a button with a slider that the user needs to slide to confirm
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <button>
 - CSS class: .slider-button
 - Interactive: yes
@@ -18,7 +19,7 @@
 
 ## ARIA
 
-- Implicit `button` role from `<button>` element
+- `role="slider"` on the `<button>`
 - `aria-label` -- describes the confirmation action
 - `aria-valuenow` -- current slider position percentage
 
@@ -45,6 +46,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS -- fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

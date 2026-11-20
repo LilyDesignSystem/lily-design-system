@@ -99,6 +99,10 @@ buttons.
 - `segment-group` — a group of mutually exclusive segment options
 - `toggle-group` — a group of toggle buttons for selecting options
 
+## Known limitations
+
+None known.
+
 ## References
 
 - US Web Design System Button Group: https://designsystem.digital.gov/components/button-group/

@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/ItaliaCodiceFiscaleInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/italia-codice-fiscale-input/",
+  "markdown": "https://lilydesignsystem.com/components/italia-codice-fiscale-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/italia-codice-fiscale-input/AGENTS.md"
 }

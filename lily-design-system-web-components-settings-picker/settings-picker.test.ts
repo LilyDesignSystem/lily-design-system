@@ -72,8 +72,8 @@ describe("lily-settings-picker", () => {
                 return s;
             }
         }
-        customElements.define("custom-lily-settings-picker", Custom);
-        const el = document.createElement("custom-lily-settings-picker") as SettingsPicker;
+        customElements.define("custom-settings-picker", Custom);
+        const el = document.createElement("custom-settings-picker") as SettingsPicker;
         el.setAttribute("label", "Settings");
         document.body.appendChild(el);
         expect(el.querySelector(".mine")).toBeTruthy();
@@ -100,9 +100,9 @@ describe("lily-settings-picker", () => {
         expect(panel(el).querySelector(".settings-picker")).toBeNull();
         expect(panel(el).querySelector("a")?.textContent).toBe("Alpha");
         // Defined AFTER the markup exists: the upgrade renders from attributeChangedCallback first.
-        document.body.innerHTML = `<late-lily-settings-picker label="Late"><a href="/b/">Beta</a></late-lily-settings-picker>`;
-        customElements.define("late-lily-settings-picker", class extends SettingsPicker {});
-        const late = document.querySelector("late-lily-settings-picker") as SettingsPicker;
+        document.body.innerHTML = `<late-settings-picker label="Late"><a href="/b/">Beta</a></late-settings-picker>`;
+        customElements.define("late-settings-picker", class extends SettingsPicker {});
+        const late = document.querySelector("late-settings-picker") as SettingsPicker;
         expect(late.querySelectorAll(".settings-picker")).toHaveLength(1);
         expect(panel(late).querySelector("a")?.textContent).toBe("Beta");
     });

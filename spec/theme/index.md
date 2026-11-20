@@ -19,6 +19,9 @@ It explicitly does **not** cover: the example apps' full stylesheets (see [examp
 - **Preference sections (P12-T12, P12-T13).** Every theme also ends with two pinned sections after "Focus not obscured": "Text size and motion preferences" (the seven `data-text-size` steps as percentages of the root font size, 80% to 150%, `normal` 100%; `data-motion="reduce"` shortens animations and transitions to 0.01ms, never removes them, so no information is lost) and "Forced colours and contrast preference" (`@media (forced-colors: active)`: control borders, `Highlight` focus ring, `SelectedItem` for selected states; `@media (prefers-contrast: more)`: heavier borders and focus ring). `bin/check-theme` rule 13 and rule 5 pin them.
 - **Focus not obscured.** Every theme ends with the same pinned "Focus not obscured" section (WCAG 2.2 SC 2.4.11): `:where(html) { scroll-padding-block: var(--lily-fixed-bar-block-start, 0px) var(--lily-fixed-bar-block-end, 0px); }`. A fixed bar sets those two custom properties on the root to its height; `bin/check-theme` rule 12 requires the section in any theme that uses `position: fixed|sticky`, and rule 5 pins its text.
 - **Headless components only set ARIA, semantic structure, class hooks, and `data-*` attributes** — never literal visual values.
+- **Component variables are a narrow customization API.** The reference themes expose token-backed variables on the
+  base `button`, `alert`, `card`, `table` and `dialog` classes. They can be set on one element or a containing scope;
+  the component docs list the supported names. `bin/check-theme` requires every theme to declare and consume them.
 - **Light and dark must pass; the other themes are the user's choice (2026-11-15).** The `light` and `dark` themes are the
   defaults, so they must meet WCAG 2.2 AA: every text pair at least 4.5:1 (SC 1.4.3) and the focus ring at least 3:1 against
   the page (SC 1.4.11, 2.4.13), with every colour parseable. `bin/check-theme --contrast --gate`, in `bin/test`, fails when
@@ -106,6 +109,28 @@ The root [`themes/`](../../themes/) directory ships 63 ready-to-use theme styles
 - Each file is standalone: link one stylesheet, get one complete theme.
 - Selectors use `:where(...)` so consumer overrides always win on specificity.
 - The [`theme-select` helper](../helpers/index.md) loads these at runtime by swapping a managed `<link>` href and setting `data-theme` on the document root.
+- `radio-group` and `checkbox-group` keep their `<fieldset>` semantics while
+  resetting the browser-default border, margin, padding and intrinsic minimum
+  width. The separate `fieldset` component supplies a visible bordered group;
+  this avoids double boxes and narrow-layout overflow when a choice group is
+  composed inside it (tasks.md P10-T14, decided 2026-11-19).
+
+### Component-scoped variable pilot (2026-11-19, P22-T1)
+
+Five base components expose a small variable surface while preserving the zero-specificity `:where(...)` rules and all
+regional theme variants:
+
+| Component | Variables                                                                                                      |
+| --------- | -------------------------------------------------------------------------------------------------------------- |
+| button    | `--lily-button-background`, `--lily-button-color`, `--lily-button-border-radius`                               |
+| alert     | `--lily-alert-color`, `--lily-alert-border-color`, `--lily-alert-border-radius`                                |
+| card      | `--lily-card-background`, `--lily-card-color`, `--lily-card-border-color`, `--lily-card-border-radius`         |
+| table     | `--lily-table-background`, `--lily-table-color`, `--lily-table-header-background`                              |
+| dialog    | `--lily-dialog-background`, `--lily-dialog-color`, `--lily-dialog-border-color`, `--lily-dialog-border-radius` |
+
+Defaults are the existing `--lily-*` surface, text, border, radius and brand tokens. Variables are declared only on the
+base class, so a `.card` customization does not silently restyle `.feature-card`; table variables deliberately inherit
+to its header. The component documents give the default for each name.
 
 ## First paint
 

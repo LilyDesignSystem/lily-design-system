@@ -5,6 +5,7 @@
 - Component: clamp-text
 - PascalCase: ClampText
 - Description: a text container that truncates content to a maximum number of lines
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .clamp-text
 - Interactive: no
@@ -19,8 +20,8 @@
 
 ## ARIA
 
+- With a `label`, the root is `role="group"`, because a plain `<div>` cannot be named. Without one it has no role
 - `aria-label` rendered only when the `label` prop is provided
-- No role is forced — this is a generic presentation container
 
 ## Keyboard
 
@@ -42,6 +43,10 @@
 - [ ] Children content is preserved
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

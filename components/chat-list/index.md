@@ -90,6 +90,10 @@ ChatList is part of the ChatNav composition pattern:
 - `chat-list-item` — one chat list item component, typically containing one chat message component
 - `chat-message` — a chat message shows one chat conversation message entry and all its data, including the author avatar, author name, time, etc.
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN HTML ol element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol

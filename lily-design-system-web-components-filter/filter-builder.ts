@@ -1,5 +1,5 @@
 /**
- * `<lily-filter-builder>` — Lily Design System HTML helper.
+ * `<lily-filter-builder>` — Lily Design System Web Components helper.
  *
  * See `./spec/index.md` for the contract; it ports the canonical Svelte filter. This file implements the custom-element
  * class but does NOT register it; the `index.ts` barrel registers it on import.

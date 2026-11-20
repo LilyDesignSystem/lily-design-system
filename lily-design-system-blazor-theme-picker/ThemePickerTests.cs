@@ -697,6 +697,23 @@ public class ThemePickerTests : TestContext
         Assert.Equal("abyss", observed);
     }
 
+    [Fact]
+    public async Task Stored_Value_Outside_Themes_Is_Ignored()
+    {
+        JSInterop.Setup<string?>("eval", _ => true).SetResult("not-a-theme");
+
+        var observed = "";
+        RenderComponent<ThemePicker>(p => p
+            .Add(x => x.Label, "Theme")
+            .Add(x => x.ThemesUrl, UrlTrailing)
+            .Add(x => x.Themes, Themes)
+            .Add(x => x.StorageKey, "lily-theme")
+            .Add(x => x.ValueChanged, EventCallback.Factory.Create<string>(this, v => observed = v)));
+        await Task.Yield();
+
+        Assert.Equal("light", observed);
+    }
+
     // -----------------------------------------------------------------
     // §7.25 — An explicit Value still beats detection.
     // -----------------------------------------------------------------

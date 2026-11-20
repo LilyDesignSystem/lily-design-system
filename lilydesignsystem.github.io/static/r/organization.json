@@ -37,5 +37,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Organization.razor"
   },
   "docs": "https://lilydesignsystem.com/components/organization/",
+  "markdown": "https://lilydesignsystem.com/components/organization.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/organization/AGENTS.md"
 }

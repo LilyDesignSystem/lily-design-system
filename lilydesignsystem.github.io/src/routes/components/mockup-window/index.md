@@ -2,6 +2,8 @@
 
 A mockup window is a decorative container that visually resembles a desktop window, used to frame content in documentation, demos, or marketing pages.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses a `<div>` element with `role="img"` and `aria-label` to present the mockup as a decorative image to assistive technologies.
 
 ## Implementation Notes
@@ -107,6 +109,10 @@ The consumer provides all CSS styling. The component renders with a `.mockup-win
 - `mockup-phone-portrait` — a box area that looks like a mobile phone
 - `mockup-shell` — a box area that looks like a terminal shell
 - `mockup-tablet-landscape` — a box area that looks like a tablet computer in landscape mode
+
+## Known limitations
+
+None known.
 
 ## References
 

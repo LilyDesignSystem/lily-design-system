@@ -40,5 +40,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/NetPromoterScoreRadioGroup.razor"
   },
   "docs": "https://lilydesignsystem.com/components/net-promoter-score-radio-group/",
+  "markdown": "https://lilydesignsystem.com/components/net-promoter-score-radio-group.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/net-promoter-score-radio-group/AGENTS.md"
 }

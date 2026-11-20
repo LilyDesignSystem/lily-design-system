@@ -102,6 +102,10 @@ The consumer provides all CSS styling. The component renders with a `.file-input
 - `image-file-input` — an input for selecting image files with preview
 - `file-dialog` — a dialog for browsing and selecting files
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN input type="file": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file

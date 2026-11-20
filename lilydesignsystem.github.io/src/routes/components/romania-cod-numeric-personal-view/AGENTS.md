@@ -1,3 +1,49 @@
-# RomaniaCodNumericPersonalView — Lily Design System docs page
+# RomaniaCodNumericPersonalView
 
-See `components/romania-cod-numeric-personal-view/AGENTS.md` for canonical metadata.
+## Metadata
+
+- Component: romania-cod-numeric-personal-view
+- PascalCase: RomaniaCodNumericPersonalView
+- Description: a read-only display of Romania's Cod Numeric Personal (CNP)
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
+- HTML tag: <span>
+- CSS class: .romania-cod-numeric-personal-view
+- Interactive: no
+
+## Key Behaviors
+
+- Renders as `<span>` with class `romania-cod-numeric-personal-view`, and no role
+- Format: 13 digits: gender and century (1/3/5/7 male; 2/4/6/8 female; 9 foreigner), date of birth (YYMMDD), country zone (01-52, or 99 for Bucharest sectors), serial (3 digits), and a Modulus-11 checksum digit
+- Read-only; not editable
+
+## ARIA
+
+- No ARIA. A plain `<span>` cannot be named: `aria-label` is prohibited on it, and most screen readers drop it. A visible caption names the value, or the optional `label` renders as hidden text
+
+## Keyboard
+
+- Not interactive
+
+## Props
+
+- `value`: string (required) — the identifier to display
+- `label`: string (optional) — hidden text naming the value, in a `.screen-reader-span`. Leave it out when a visible caption names the value
+- `...restProps`: any additional HTML attributes spread onto the root
+
+## Acceptance Criteria
+
+- [ ] Renders <span> element with class="romania-cod-numeric-personal-view"
+- [ ] Renders `value` as text content
+- [ ] WCAG 2.2 AAA compliant
+- [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
+
+## References
+
+- Documentation: index.md
+- CSS class: .romania-cod-numeric-personal-view in css-style-sheet-template.css
+- Companion: RomaniaCodNumericPersonalInput
+- Wikipedia: https://en.wikipedia.org/wiki/National_identification_number#Romania

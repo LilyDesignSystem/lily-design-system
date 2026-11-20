@@ -41,5 +41,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TabBar.razor"
   },
   "docs": "https://lilydesignsystem.com/components/tab-bar/",
+  "markdown": "https://lilydesignsystem.com/components/tab-bar.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tab-bar/AGENTS.md"
 }

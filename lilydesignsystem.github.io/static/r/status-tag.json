@@ -37,5 +37,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/StatusTag.razor"
   },
   "docs": "https://lilydesignsystem.com/components/status-tag/",
+  "markdown": "https://lilydesignsystem.com/components/status-tag.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/status-tag/AGENTS.md"
 }

@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/IslandKennitalaView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/island-kennitala-view/",
+  "markdown": "https://lilydesignsystem.com/components/island-kennitala-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/island-kennitala-view/AGENTS.md"
 }

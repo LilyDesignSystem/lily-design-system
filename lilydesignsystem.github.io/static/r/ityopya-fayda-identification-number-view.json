@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/ItyopyaFaydaIdentificationNumberView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/ityopya-fayda-identification-number-view/",
+  "markdown": "https://lilydesignsystem.com/components/ityopya-fayda-identification-number-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/ityopya-fayda-identification-number-view/AGENTS.md"
 }

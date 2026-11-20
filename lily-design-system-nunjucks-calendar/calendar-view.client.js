@@ -188,7 +188,9 @@ export function eventsByDay(events) {
  *   },
  * }=} opts
  * @returns {{ destroy: () => void, setEvents: (events: object[]) => void,
- *   setRanges: (ranges: object[]) => void, setSelectedRange: (range?: { start: string, end: string }) => void }}
+ *   setRanges: (ranges: object[]) => void, getSelectedDates: () => string[],
+ *   setSelectedDates: (dates: string[]) => void,
+ *   setSelectedRange: (range?: { start: string, end: string }) => void }}
  */
 export function initCalendarView(root, opts = {}) {
     const noop = {

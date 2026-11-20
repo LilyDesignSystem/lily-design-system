@@ -5,6 +5,7 @@
 - Component: password-input-or-text-input-div
 - PascalCase: PasswordInputOrTextInputDiv
 - Description: an input for entering a password <input type="password"> or text <input type="text"> with show/hide toggle
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .password-input-or-text-input-div
 - Interactive: yes
@@ -35,7 +36,7 @@
 - `label`: string (required) -- accessible name for the password input via `aria-label`
 - `value`: string (default: `""`) -- current password value; bindable with two-way `value` binding
 - `showToggle`: boolean (default: `true`) -- whether to render the show/hide toggle button
-- `toggleLabel`: string (default: `"Show password"`) -- accessible label for the toggle button
+- `toggleLabel`: string (required) -- accessible label for the toggle button
 - `required`: boolean (default: `false`) -- whether the input is required
 - `disabled`: boolean (default: `false`) -- whether the input is disabled
 - `...restProps`: unknown -- additional attributes spread onto the wrapper `<div>`
@@ -47,6 +48,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

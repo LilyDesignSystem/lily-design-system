@@ -2,13 +2,14 @@
 
 A Kanban board is a component that organizes work items into columns representing different stages of a workflow, such as "To Do," "In Progress," and "Done." Commonly used in project management tools, agile development platforms, and task tracking applications, the Kanban board provides a visual overview of work status and flow, helping teams identify bottlenecks and prioritize tasks.
 
-This headless component renders a `<div>` with `role="region"` and an accessible label, defining a semantic boundary for the board. The consumer provides the column structure, card content, and any drag-and-drop or keyboard-based item movement as children.
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
+This headless component renders a `<table role="grid">` with an accessible label. The consumer provides the column structure, card content, and any drag-and-drop or keyboard-based item movement as children.
 
 ## Implementation Notes
 
-- Renders a `<div>` with `role="region"` to define a named landmark for the Kanban board
+- Renders a `<table role="grid">`, named by `label`; its cells are `gridcell`s, and a `<table>` root replaced the `<div role="region">` this contract once described
 - Consumer provides column containers and item cards as children
-- The region role with a label allows screen reader users to navigate directly to the board
 - Accepts `...restProps` for forwarding additional attributes to the container
 - No internal state -- purely a structural wrapper
 
@@ -42,12 +43,21 @@ Sprint board with three workflow stages:
 
 ## Keyboard Interactions
 
-None built-in -- the consumer should implement keyboard interactions for moving items between columns and navigating within the board as appropriate.
+- Tab: moves to the board, on its one tab stop, and out of it
+- ArrowRight / ArrowLeft: next or previous column, swapped in right-to-left; stops at the edge
+- ArrowDown / ArrowUp: next or previous row; stops at the edge
+- Home / End: first or last cell in the row
+- Ctrl+Home / Ctrl+End (Cmd on macOS): first or last cell on the board
+- PageDown / PageUp: ten rows, stopping at the edge
+- Enter or F2: go to the first control in the cell, which keeps its own keys
+- Escape: from a control, back to its cell
+
+Moving a card between columns is the consumer's. A consumer running its own grid keys, as `kanban-board` does, sets `data-consumer-keys` on the root.
 
 ## ARIA
 
-- `role="region"` -- defines the Kanban board as a named landmark section
-- `aria-label={label}` -- provides an accessible name for the board region
+- `role="grid"` -- the board is a grid of cells
+- `aria-label={label}` -- provides an accessible name for the board
 
 ## When to Use
 
@@ -64,7 +74,7 @@ None built-in -- the consumer should implement keyboard interactions for moving 
 
 ## Headless
 
-This headless component provides a `<div>` with `role="region"` and `aria-label` for defining a named landmark for the Kanban board. The consumer provides all visual styling including column layout, card design, drag-and-drop interactions, and status color coding.
+This headless component provides a `<table role="grid">` with `aria-label` for the Kanban board. The consumer provides all visual styling including column layout, card design, drag-and-drop interactions, and status color coding.
 
 ## Styles
 
@@ -73,8 +83,8 @@ The consumer provides all CSS styling. The component renders with a `.kanban-tab
 ## Testing
 
 - Verify the component renders a `<table>` element with class `kanban-table`
-- Verify role="region"` -- defines the Kanban board as a named landmark section
-- Verify aria-label={label}` -- provides an accessible name for the board region
+- Verify `role="grid"` -- the board is a grid of cells
+- Verify aria-label={label}` -- provides an accessible name for the board
 - Verify pass-through attributes are applied
 
 ## Advice
@@ -96,9 +106,13 @@ KanbanTable uses the Table composition pattern: KanbanTable contains KanbanTable
 - `kanban-table-th` — a kanban board table interactive grid header cell for organizing items by status <th>
 - `table` — a table with rows and columns <table>
 
+## Known limitations
+
+None known.
+
 ## References
 
-- WAI-ARIA region role: https://www.w3.org/TR/wai-aria-1.2/#region
+- WAI-ARIA grid role: https://www.w3.org/TR/wai-aria-1.2/#grid
 
 ---
 

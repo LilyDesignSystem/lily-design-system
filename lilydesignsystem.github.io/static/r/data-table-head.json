@@ -38,5 +38,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/DataTableHead.razor"
   },
   "docs": "https://lilydesignsystem.com/components/data-table-head/",
+  "markdown": "https://lilydesignsystem.com/components/data-table-head.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/data-table-head/AGENTS.md"
 }

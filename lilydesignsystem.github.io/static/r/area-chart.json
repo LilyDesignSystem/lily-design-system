@@ -46,5 +46,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AreaChart.razor"
   },
   "docs": "https://lilydesignsystem.com/components/area-chart/",
+  "markdown": "https://lilydesignsystem.com/components/area-chart.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/area-chart/AGENTS.md"
 }

@@ -44,5 +44,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SuperBanner.razor"
   },
   "docs": "https://lilydesignsystem.com/components/super-banner/",
+  "markdown": "https://lilydesignsystem.com/components/super-banner.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/super-banner/AGENTS.md"
 }

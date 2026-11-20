@@ -15,38 +15,39 @@
     user toggles their system setting), see the second script block.
 -->
 <html lang="en">
-<head>
-    <meta charset="utf-8">
+  <head>
+    <meta charset="utf-8" />
     <title>theme-picker — system preference</title>
-    <script type="module" src="/dist/theme-picker.js"></script>
-</head>
-<body>
+    <script
+      type="module"
+      src="/dist/theme-picker.js"
+    ></script>
+  </head>
+  <body>
     <h1>Theme picker — system preference</h1>
 
     <theme-picker
-        label="Theme"
-        themes-url="/assets/themes/"
-        themes="light,dark"
-        storage-key="my-app:theme"
+      label="Theme"
+      themes-url="/assets/themes/"
+      themes="light,dark"
+      storage-key="my-app:theme"
     ></theme-picker>
 
     <script>
-        // Runs before the module script (no `type="module"`), so
-        // the attribute is set before the custom element upgrades.
-        const prefersDark =
-            window.matchMedia?.("(prefers-color-scheme: dark)").matches;
-        const select = document.querySelector("theme-picker");
-        select.setAttribute("default-value", prefersDark ? "dark" : "light");
+      // Runs before the module script (no `type="module"`), so
+      // the attribute is set before the custom element upgrades.
+      const prefersDark = window.matchMedia?.("(prefers-color-scheme: dark)").matches;
+      const select = document.querySelector("theme-picker");
+      select.setAttribute("default-value", prefersDark ? "dark" : "light");
     </script>
 
     <script type="module">
-        // Track OS preference changes live (optional).
-        await customElements.whenDefined("theme-picker");
-        const select = document.querySelector("theme-picker");
-        window.matchMedia("(prefers-color-scheme: dark)")
-            .addEventListener("change", (e) => {
-                select.value = e.matches ? "dark" : "light";
-            });
+      // Track OS preference changes live (optional).
+      await customElements.whenDefined("theme-picker");
+      const select = document.querySelector("theme-picker");
+      window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
+        select.value = e.matches ? "dark" : "light";
+      });
     </script>
-</body>
+  </body>
 </html>

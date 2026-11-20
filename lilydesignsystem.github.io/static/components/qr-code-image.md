@@ -73,6 +73,10 @@ The consumer provides all CSS styling. The component renders with a `.qr-code-im
 - `image` — an image element with alt text
 - `icon` — a container for displaying an icon
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA img Role: https://www.w3.org/TR/wai-aria-1.2/#img

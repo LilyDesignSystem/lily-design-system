@@ -224,6 +224,29 @@ const item = (root: HTMLElement, text: string): HTMLElement =>
         (el) => el.firstChild?.textContent?.trim() === text,
     )!;
 
+test("repeating a supplementary initial moves through visible tree items and wraps", () => {
+    const tree = `<ul role="tree">
+        <li role="treeitem">𠮷田</li>
+        <li role="treeitem" aria-expanded="false">Branch
+            <ul role="group"><li role="treeitem">𠮷野</li></ul>
+        </li>
+        <li role="treeitem">𠮷川</li>
+    </ul>`;
+    const root = mount(POPUP("", tree));
+    const detach = attachTreePopup(root);
+    root.querySelector("button")!.click();
+    const first = item(root, "𠮷田");
+    const second = item(root, "𠮷川");
+    expect(document.activeElement).toBe(first);
+    expect(press(first, "𠮷", { isComposing: true }).defaultPrevented).toBe(false);
+    expect(document.activeElement).toBe(first);
+    press(first, "𠮷");
+    expect(document.activeElement).toBe(second);
+    press(second, "𠮷");
+    expect(document.activeElement).toBe(first);
+    detach();
+});
+
 test("a chosen leaf reports its value, path and selection, and dispatches an event", () => {
     const root = mount(POPUP());
     const onSelect = vi.fn();

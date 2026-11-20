@@ -89,6 +89,10 @@ A national identifier is personal data, and often a key to other records.
 - `suomi-henkilotunnus-view` — a read-only display of Finland's Henkilötunnus (HETU)
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/Personal_identity_code_(Finland)

@@ -16,6 +16,8 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
         [disabled]="disabled()"
         [attr.aria-pressed]="pressed() ?? null"
         [attr.aria-label]="label() || null"
+        [attr.aria-busy]="ariaBusy() ?? null"
+        [attr.aria-disabled]="ariaDisabled() ?? null"
     >
         <ng-content />
     </button>`,
@@ -32,4 +34,8 @@ export class Button {
     readonly disabled = input<boolean>(false);
     /** Toggle state, for a button that stays pressed. Unset is not a toggle. */
     readonly pressed = input<boolean | undefined>(undefined);
+    /** Whether an asynchronous button action is currently pending. */
+    readonly ariaBusy = input<boolean | undefined>(undefined);
+    /** Whether activation is guarded without removing the button from focus order. */
+    readonly ariaDisabled = input<boolean | undefined>(undefined);
 }

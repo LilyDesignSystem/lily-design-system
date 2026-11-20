@@ -53,6 +53,10 @@
 - [ ] WCAG 2.2 AAA compliant (color is never the sole indicator)
 - [ ] Zero CSS — fully headless
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Documentation: index.md

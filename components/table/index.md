@@ -77,7 +77,9 @@ This headless component renders a semantic `<table>` element with `aria-label` f
 
 ## Styles
 
-The consumer provides all CSS styling. The component renders with a `.table` class for targeting. No default styles are included — this is a fully headless component.
+The headless component includes no CSS and renders `.table` for targeting. A Lily reference theme exposes
+`--lily-table-background`, `--lily-table-color`, and `--lily-table-header-background`, defaulting to the surface, text,
+and alternate-surface tokens. The header value is inherited by `.table-head`.
 
 ## Testing
 
@@ -99,6 +101,10 @@ The consumer provides all CSS styling. The component renders with a `.table` cla
 - `table-row` — a table interactive grid row <tr>
 - `table-td` — a table interactive grid data cell <td>
 - `table-th` — a table interactive grid column <th>
+
+## Known limitations
+
+None known.
 
 ## References
 

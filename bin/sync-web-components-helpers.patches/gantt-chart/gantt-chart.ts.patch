@@ -1,0 +1,1437 @@
+--- /var/folders/zp/p2vtmfrj35b27yh4ns6h_6h40000gn/T/tmp.2B0Ee0r5pN	2026-11-20 06:21:06.401479340 +0000
++++ lily-design-system-web-components-gantt-chart/gantt-chart.ts	2026-11-20 06:20:58.752592883 +0000
+@@ -5,38 +5,35 @@
+  * the custom-element class but does NOT register it. The `index.ts`
+  * barrel registers it on import.
+  *
+- * A headless interactive Gantt chart: task bars as column-spanning grid
+- * cells (never pixel-positioned floating divs), keyboard-accessible
+- * date/duration editing composed from `<lily-date-time-picker>` (never
+- * arrow-key drag as the only path — WCAG 2.5.7), row hierarchy,
+- * milestones, percent-complete, a today marker, and dependency data
+- * exposed as text via `aria-describedby`.
++ * A headless Gantt chart: task bars as column-spanning grid cells
++ * (never pixel-positioned floating divs), keyboard-accessible date
++ * editing composed from `date-time-picker` (never arrow-key drag as the
++ * only path), row hierarchy, milestones, percent-complete, a today
++ * marker, and dependency data exposed as text (never a rendered arrow).
+  *
+- * The table structure (`gantt-table`/`gantt-table-th`/`gantt-table-td`/…)
+- * is this catalog's markup CONTRACT, documented in
+- * `@lilydesignsystem/web-components-headless`'s `components/gantt-table*.html`
+- * reference files — those are static templates, not JS classes, so this
+- * element builds the class names/attributes they document by hand,
+- * exclusively via `document.createElement`/`appendChild` (never
+- * `innerHTML`/template strings: a `thead`/`tbody`/`tr`/`th`/`td` start
+- * tag is silently dropped by the HTML parser whenever it isn't already
+- * inside a real `<table>`'s own insertion mode, for `innerHTML` exactly
+- * as for literal light-DOM children).
++ * Direct port of `@lilydesignsystem/svelte-gantt-chart`. Composes
++ * `@lilydesignsystem/web-components-headless`'s `<lily-gantt-table>`
++ * (unmodified — the consumer supplies `<thead>`/`<tbody>`/`<tr>`/`<th>`/
++ * `<td>` as plain light-DOM children, this catalog has no
++ * `GanttTableTD`-style sub-element family) and, twice per edit session,
++ * the sibling helper `@lilydesignsystem/web-components-date-time-picker`
++ * — the first Web Components helper-to-helper composition, the same
++ * shape the Svelte/React/Vue/Angular ports already use.
+  *
+- * Composes `@lilydesignsystem/web-components-date-time-picker` twice per edit
+- * session (start date, end date) — the sibling-helper composition
+- * pattern established by `@lilydesignsystem/web-components-picker-bar`.
++ * Imported here (not only from `index.ts`) so `lily-gantt-table` is
++ * registered regardless of which module a consumer imports first.
+  */
++
++import "@lilydesignsystem/web-components-headless";
+ import "@lilydesignsystem/web-components-date-time-picker";
+-import type { DateTimePicker, DateTimePickerLabels } from "@lilydesignsystem/web-components-date-time-picker";
+ import {
+-    addDays as dtpAddDays,
++    addDays,
+     daysInMonth,
+     formatIsoDate,
+     parseIsoDate,
+     toEpochDay,
+ } from "@lilydesignsystem/web-components-date-time-picker";
+-
++import type { DateTimePickerLabels } from "@lilydesignsystem/web-components-date-time-picker";
+ import {
+     copyToClipboard,
+     downloadBlob,
+@@ -85,7 +82,9 @@
+     type ResolvedField,
+ } from "./typed-fields.js";
+
+-const SVG_NS = "http://www.w3.org/2000/svg";
++// ---------------------------------------------------------------------
++// Types
++// ---------------------------------------------------------------------
+
+ /**
+  * A typed field a task carries (an owner, a status, an estimate), shown as a column between the task name and the timeline and
+@@ -111,7 +110,7 @@
+     start?: string;
+     /** ISO date (`YYYY-MM-DD`), inclusive. Equal to `start` means a milestone. */
+     end?: string;
+-    /** 0–100. Rendering the fill is the consumer's own CSS. */
++    /** 0-100. Rendering the fill is the consumer's own CSS. */
+     percentComplete?: number;
+     /** Another task's id; builds the row hierarchy. */
+     parentId?: string;
+@@ -135,18 +134,25 @@
+ export type GanttTimeUnit = "day" | "week" | "month";
+
+ /**
+- * Every field is optional, but its presence gates the control it names —
+- * no baked-in English fallback, matching every other helper's
+- * label-gating convention.
++ * Every field is optional, but its presence gates the control it
++ * names — no baked-in English fallback, matching every other helper's
++ * label-gating convention. See spec/index.md §5.
++ *
++ * `editButton`/`editDialogLabel` are accepted for API parity with the
++ * canonical Svelte contract's own `GanttLabels` type, but — mirroring
++ * that reference exactly — neither is wired to any rendered control
++ * there either: editing opens from Enter/Space on the row itself, not
++ * a dedicated button. Not a gap introduced by this port.
+  */
+ export type GanttLabels = {
+     /** Header for the leading task-label column; an empty header cell otherwise. */
+     taskColumnHeader?: string;
+     columnLabel?: (start: string, end: string, timeUnit: GanttTimeUnit) => string;
+     editButton?: (task: GanttTask) => string;
++    editDialogLabel?: (task: GanttTask) => string;
+     startLabel?: string;
+     endLabel?: string;
+-    /** Reused for both composed date-time-picker instances. Editing is gated on this. */
++    /** Reused for both composed DateTimePicker instances. Editing is gated on this. */
+     dateTimePickerLabels?: DateTimePickerLabels;
+     saveLabel?: string;
+     /** Visible text on a task with `critical: true` (e.g. "Critical path"), beside its label: the state is never colour-only, and the task label itself (also used in "depends on" text) stays unchanged. */
+@@ -216,32 +222,35 @@
+     redoAnnouncement?: (taskLabel: string, fieldHeader: string, text: string) => string;
+ };
+
+-/** Detail of the `taskchange` event, paired with the `onTaskChange` property. */
+-export type GanttChartTaskChangeDetail = {
+-    taskId: string;
+-    start: string;
+-    end: string;
+-    /** Present only when the edit region's progress field is shown. */
+-    percentComplete?: number;
+-};
+-
+ /** Mirrors the observed attributes / properties for typing convenience. */
+ export type GanttChartProps = {
++    /** Accessible name for the chart, passed through to `<lily-gantt-table>`. */
+     label: string;
++    /** Optional visible caption. */
+     caption?: string;
++    /** Property-only — the chart's own overall time range. */
+     range: { start: string; end: string };
++    /** Property-only — task data. */
+     tasks: GanttTask[];
++    /** Column granularity. A static rendering choice, not an interactive zoom control. */
+     timeUnit?: GanttTimeUnit;
++    /** ISO date marking "today"; never computed internally (stays SSR-safe). */
+     today?: string;
++    /** Property-only. Dated markers; each marks the column that contains its date with `data-marker`. */
+     markers?: GanttMarker[];
++    /** Property-only. Consumer's own working calendar; a column is `data-non-working` when every day in it is non-working. */
+     isNonWorking?: (isoDate: string) => boolean;
+-    /** Weekdays to shade (0 = Sunday … 6 = Saturday), for example `[0, 6]` or `[5, 6]`. Never defaulted: the weekend is the consumer's locale. Marks day columns `data-weekend` on the header and every cell; week and month columns are not marked. Shading itself is CSS. */
++    /** Property-only. Weekdays to shade (0 = Sunday … 6 = Saturday), for example `[0, 6]` or `[5, 6]`; never defaulted. Marks day columns `data-weekend` on the header and every cell; week and month columns are not marked. */
+     weekends?: number[];
+-    /** Draw an arrow from each predecessor's bar to its dependent task's, by the dependency's type. An `aria-hidden` SVG overlay measured from the rendered cells; the dependencies stay available as text through `labels.dependencySummary`. Drawn only between rendered rows. */
++    /** Attribute `dependency-arrows`. Draws an `aria-hidden` SVG arrow per dependency, by its type; the dependencies stay available as text through `labels.dependencySummary`. */
+     dependencyArrows?: boolean;
++    /** Attribute `readonly`. Suppresses editing, drag and the edit region; navigation and collapse still work. */
+     readonly?: boolean;
++    /** Property-only. Resolves a task to its display label. Defaults to `task.label`. */
+     taskLabel?: (task: GanttTask) => string;
++    /** Property-only. Called after a task's start/end changes, by pointer or the edit region. */
+     onTaskChange?: (taskId: string, start: string, end: string, percentComplete?: number) => void;
++    /** Property-only. See GanttLabels — presence gates each control. */
+     labels?: GanttLabels;
+     fields?: GanttField[];
+     locale?: string;
+@@ -255,17 +264,20 @@
+ };
+
+ // ---------------------------------------------------------------------
+-// Civil-date arithmetic. `addDays`/`daysInMonth`/`formatIsoDate`/
+-// `parseIsoDate` are REUSED from `@lilydesignsystem/web-components-date-time-picker`
+-// (itself UTC/epoch-day only, never local-midnight `Date` construction)
+-// rather than re-implemented — the same functions a consumer wiring
+-// `min`/`max` on that picker already reaches for. Only `compareISO` and
+-// `endOfMonth` have no equivalent export there and are added locally.
++// Civil-date arithmetic
++//
++// `addDays`/`parseIsoDate`/`formatIsoDate`/`daysInMonth`/`toEpochDay`
++// are REUSED from `@lilydesignsystem/web-components-date-time-picker`
++// rather than re-derived (that package already went through the
++// UTC/epoch-day-safe exercise; re-deriving here would be a second,
++// divergence-prone implementation of the same rule). Only the two
++// small helpers that package does not itself need — `compareISO` (a
++// plain string comparison; ordinary comparison already works for
++// zero-padded ISO dates) and `endOfMonth` (composed from the imported
++// primitives) — are defined locally, matching the Svelte reference's
++// own exported surface.
+ // ---------------------------------------------------------------------
+
+-/** Re-exported for consumers doing their own date maths against `range`/`tasks`. */
+-export const addDays = dtpAddDays;
+-
+ /** -1 / 0 / 1, ordinary string comparison works for zero-padded ISO dates. */
+ export function compareISO(a: string, b: string): number {
+     return a < b ? -1 : a > b ? 1 : 0;
+@@ -393,7 +405,45 @@
+     return `gantt-chart-${uid}`;
+ }
+
+-const defaultTaskLabel = (task: GanttTask): string => task.label;
++const HANDLED_ATTRS = new Set([
++    "label",
++    "caption",
++    "class",
++    "today",
++    "time-unit",
++    "readonly",
++    "selected-task-id",
++]);
++
++/** See kanban-board.ts's identical helper for the rationale. */
++function passThroughAttributes(host: Element, target: Element): void {
++    for (const attr of Array.from(host.attributes)) {
++        if (attr.name === "class" || HANDLED_ATTRS.has(attr.name)) continue;
++        target.setAttribute(attr.name, attr.value);
++    }
++}
++
++/** See kanban-board.ts's identical helper for the rationale — generalised to the two custom elements this component nests. */
++function upgradeNestedCustomElements(root: ParentNode): void {
++    root.querySelectorAll("lily-gantt-table, lily-date-time-picker").forEach((el) => {
++        (el as HTMLElement & { connectedCallback?: () => void }).connectedCallback?.();
++    });
++}
++
++function clamp(n: number, min: number, max: number): number {
++    return Math.min(Math.max(n, min), max);
++}
++
++type DateTimePickerElement = HTMLElement & {
++    mode: string;
++    value: string;
++    labels: DateTimePickerLabels;
++    onChange?: (value: string) => void;
++};
++
++// ---------------------------------------------------------------------
++// Custom element
++// ---------------------------------------------------------------------
+
+ /** Custom-element class implementing `<lily-gantt-chart>`. */
+ export class GanttChart extends HTMLElement {
+@@ -401,8 +451,8 @@
+         return [
+             "label",
+             "caption",
+-            "time-unit",
+             "today",
++            "time-unit",
+             "class",
+             "readonly",
+             "selected-task-id",
+@@ -411,48 +461,28 @@
+         ];
+     }
+
+-    // Backing storage for property-only members (arrays/objects/functions
+-    // can't be attributes — matches date-time-picker's §4.3 precedent).
++    // ---- Backing storage for property-only members ----
+     #range: { start: string; end: string } = { start: "", end: "" };
+     #tasks: GanttTask[] = [];
+-    #taskLabel: (task: GanttTask) => string = defaultTaskLabel;
+-    #onTaskChange:
+-        | ((taskId: string, start: string, end: string, percentComplete?: number) => void)
+-        | undefined;
++    #taskLabel: (task: GanttTask) => string = (task) => task.label;
++    #onTaskChange?: (taskId: string, start: string, end: string, percentComplete?: number) => void;
+     #editPercentEl: HTMLInputElement | null = null;
+     #labels: GanttLabels = {};
+     #markers: GanttMarker[] = [];
+-    #isNonWorking: ((isoDate: string) => boolean) | undefined;
++    #isNonWorking?: (isoDate: string) => boolean;
+     #weekends: number[] | undefined;
+     #arrowObserver: ResizeObserver | undefined;
+     #observedTable: HTMLTableElement | null = null;
+
+-    #rootEl: HTMLDivElement | null = null;
+-    #statusEl: HTMLParagraphElement | null = null;
++    // ---- Internal state ----
+     #statusMessage = "";
+-    #taskAttrs: ((task: GanttTask) => Record<string, string>) | undefined;
+-    #onTaskSelect: ((taskId: string | undefined) => void) | undefined;
+-    /** Which edge of the dragged task's bar is being resized, or null for a whole-bar move. */
+-    #resizingEdge: "start" | "end" | null = null;
+-
+     #collapsed = new Set<string>();
+     #onCollapsedTaskIdsChange: ((collapsedTaskIds: string[]) => void) | undefined;
+-
+-    // Roving-tabindex cursor (WAI-ARIA APG Grid pattern).
+     #focusedRow = 0;
+     #focusedCol = 0;
+-    #cellEls = new Map<string, HTMLTableCellElement>();
+-    #rowEls = new Map<string, HTMLTableRowElement>(); // taskId -> <tr>
+-
+-    // Editing (at most one task at a time). Targeted insert/remove of a
+-    // single <tr>, not a structural rebuild, so the grid's own DOM
+-    // (including the roving-tabindex cursor's cell) is untouched by
+-    // opening or closing the edit region.
+     #editingTaskId: string | null = null;
+-    #editRowEl: HTMLTableRowElement | null = null;
+-    #editStartPickerEl: DateTimePicker | null = null;
+-    #editEndPickerEl: DateTimePicker | null = null;
+-
++    #editStart = "";
++    #editEnd = "";
+     #draggingTaskId: string | null = null;
+
+     #fields: GanttField[] | undefined;
+@@ -477,9 +507,19 @@
+     #scrollTop = 0;
+     #scrollEl: HTMLDivElement | null = null;
+     #windowSig = "";
++    #taskAttrs?: (task: GanttTask) => Record<string, string>;
++    #onTaskSelect?: (taskId: string | undefined) => void;
++    /** Which edge of the dragged task's bar is being resized, or null for a whole-bar move. */
++    #resizingEdge: "start" | "end" | null = null;
+
+     readonly #baseId = nextGanttChartId();
+
++    // ---- Rendered-DOM references ----
++    #statusEl: HTMLParagraphElement | null = null;
++    #cellEls = new Map<string, HTMLTableCellElement>(); // "row-col" -> td
++    #rowEls = new Map<string, HTMLTableRowElement>(); // taskId -> tr
++    #editRowEl: HTMLTableRowElement | null = null;
++
+     // ---- Property accessors ----
+
+     get label(): string {
+@@ -497,12 +537,12 @@
+         else this.removeAttribute("caption");
+     }
+
+-    get timeUnit(): GanttTimeUnit {
+-        const v = this.getAttribute("time-unit");
+-        return v === "week" || v === "month" ? v : "day";
++    get today(): string {
++        return this.getAttribute("today") ?? "";
+     }
+-    set timeUnit(v: GanttTimeUnit) {
+-        this.setAttribute("time-unit", v);
++    set today(v: string) {
++        if (v) this.setAttribute("today", v);
++        else this.removeAttribute("today");
+     }
+
+     /** The selected task's id (attribute `selected-task-id`). A click on a task's row or the `s` key on it selects (again deselects); `aria-selected`, `data-selected`. */
+@@ -531,7 +571,7 @@
+         this.#render();
+     }
+
+-    /** Called with the collapsed ids when they change by the user (the `collapsechange` event also fires). */
++    /** Property-only. Called with the collapsed ids when the user changes them (the `collapsechange` event also fires). */
+     get onCollapsedTaskIdsChange(): ((collapsedTaskIds: string[]) => void) | undefined {
+         return this.#onCollapsedTaskIdsChange;
+     }
+@@ -548,15 +588,51 @@
+         this.#render();
+     }
+
+-    get today(): string {
+-        return this.getAttribute("today") ?? "";
++    get timeUnit(): GanttTimeUnit {
++        const v = this.getAttribute("time-unit");
++        return v === "week" || v === "month" ? v : "day";
+     }
+-    set today(v: string) {
+-        if (v) this.setAttribute("today", v);
+-        else this.removeAttribute("today");
++    set timeUnit(v: GanttTimeUnit) {
++        this.setAttribute("time-unit", v);
++    }
++
++    get range(): { start: string; end: string } {
++        return { ...this.#range };
++    }
++    set range(v: { start: string; end: string }) {
++        this.#range = v ?? { start: "", end: "" };
++        this.#render();
++    }
++
++    get tasks(): GanttTask[] {
++        return [...this.#tasks];
++    }
++    set tasks(v: GanttTask[]) {
++        this.#tasks = Array.isArray(v) ? v.slice() : [];
++        this.#render();
++    }
++
++    get taskLabel(): (task: GanttTask) => string {
++        return this.#taskLabel;
++    }
++    set taskLabel(fn: ((task: GanttTask) => string) | undefined) {
++        this.#taskLabel = fn ?? ((task) => task.label);
++        this.#render();
++    }
++
++    get onTaskChange():
++        | ((taskId: string, start: string, end: string, percentComplete?: number) => void)
++        | undefined {
++        return this.#onTaskChange;
++    }
++    set onTaskChange(
++        fn:
++            | ((taskId: string, start: string, end: string, percentComplete?: number) => void)
++            | undefined,
++    ) {
++        this.#onTaskChange = fn;
+     }
+
+-    /** Dated markers; each marks the column that contains its date with `data-marker`. */
+     get markers(): GanttMarker[] {
+         return [...this.#markers];
+     }
+@@ -565,7 +641,6 @@
+         this.#render();
+     }
+
+-    /** Consumer's own working calendar; a column is `data-non-working` when every day in it is non-working. */
+     get isNonWorking(): ((isoDate: string) => boolean) | undefined {
+         return this.#isNonWorking;
+     }
+@@ -574,7 +649,6 @@
+         this.#render();
+     }
+
+-    /** Weekdays to shade (0 = Sunday … 6 = Saturday); never defaulted. Marks day columns `data-weekend`. */
+     get weekends(): number[] | undefined {
+         return this.#weekends;
+     }
+@@ -634,7 +708,6 @@
+         this.#onCopy = fn;
+     }
+
+-    /** Draw an `aria-hidden` SVG arrow per dependency, by its type. Also the `dependency-arrows` attribute. */
+     get dependencyArrows(): boolean {
+         return this.hasAttribute("dependency-arrows");
+     }
+@@ -643,7 +716,6 @@
+         else this.removeAttribute("dependency-arrows");
+     }
+
+-    /** Suppress editing, drag and the edit region; navigation and collapse still work. */
+     get readonly(): boolean {
+         return this.hasAttribute("readonly");
+     }
+@@ -652,43 +724,6 @@
+         else this.removeAttribute("readonly");
+     }
+
+-    get range(): { start: string; end: string } {
+-        return { ...this.#range };
+-    }
+-    set range(v: { start: string; end: string }) {
+-        this.#range = v ? { start: v.start, end: v.end } : { start: "", end: "" };
+-        this.#render();
+-    }
+-
+-    get tasks(): GanttTask[] {
+-        return [...this.#tasks];
+-    }
+-    set tasks(v: GanttTask[]) {
+-        this.#tasks = Array.isArray(v) ? v.slice() : [];
+-        this.#render();
+-    }
+-
+-    get taskLabel(): (task: GanttTask) => string {
+-        return this.#taskLabel;
+-    }
+-    set taskLabel(fn: ((task: GanttTask) => string) | undefined) {
+-        this.#taskLabel = fn ?? defaultTaskLabel;
+-        this.#render();
+-    }
+-
+-    get onTaskChange():
+-        | ((taskId: string, start: string, end: string, percentComplete?: number) => void)
+-        | undefined {
+-        return this.#onTaskChange;
+-    }
+-    set onTaskChange(
+-        fn:
+-            | ((taskId: string, start: string, end: string, percentComplete?: number) => void)
+-            | undefined,
+-    ) {
+-        this.#onTaskChange = fn;
+-    }
+-
+     /** Typed fields: a column per field between the task name and the timeline, read from `task.values`. Editable types edit in place (click the value, or F2 on the task's row for the first editable field; Tab moves to the next) when `onFieldEdit` is set or `editableFields` is on. */
+     get fields(): GanttField[] | undefined {
+         return this.#fields ? [...this.#fields] : undefined;
+@@ -765,20 +800,16 @@
+         return { ...this.#labels };
+     }
+     set labels(v: GanttLabels | undefined) {
+-        this.#labels = v && typeof v === "object" ? { ...v } : {};
++        this.#labels = v ?? {};
+         this.#render();
+     }
+
+-    /** Is a task's edit region currently open? Read-only. */
+-    get editing(): boolean {
+-        return this.#editingTaskId !== null;
+-    }
+-
+-    // ---- Public, overridable rendering hooks ----
++    // ---- Lifecycle ----
+
+-    /** Default collapse-button glyph: a chevron, `aria-hidden`. */
++    /** Default collapse-button glyph: a chevron, `aria-hidden`. Override to replace it. */
+     renderCollapseIcon(collapsed: boolean): Node {
+-        const svg = document.createElementNS(SVG_NS, "svg");
++        const NS = "http://www.w3.org/2000/svg";
++        const svg = document.createElementNS(NS, "svg");
+         svg.setAttribute("class", "gantt-chart-collapse-icon");
+         svg.setAttribute("viewBox", "0 0 16 16");
+         svg.setAttribute("width", "0.85rem");
+@@ -789,68 +820,56 @@
+         svg.setAttribute("stroke-width", "1.8");
+         svg.setAttribute("stroke-linecap", "round");
+         svg.setAttribute("stroke-linejoin", "round");
+-        const path = document.createElementNS(SVG_NS, "path");
++        const path = document.createElementNS(NS, "path");
+         path.setAttribute("d", collapsed ? "M5 2l6 6-6 6" : "M2 5l6 6 6-6");
+         svg.appendChild(path);
+         return svg;
+     }
+
+-    // ---- Lifecycle ----
+-
+     connectedCallback(): void {
+         this.#render();
+     }
+
++    disconnectedCallback(): void {
++        this.#arrowObserver?.disconnect();
++        this.#arrowObserver = undefined;
++        this.#observedTable = null;
++    }
++
+     attributeChangedCallback(
+         name: string,
+         oldValue?: string | null,
+         newValue?: string | null,
+     ): void {
+-        switch (name) {
+-            case "label":
+-            case "caption":
+-            case "time-unit":
+-            case "today":
+-            case "class":
+-            case "readonly":
+-            case "selected-task-id":
+-            case "dependency-arrows":
+-                this.#render();
+-                break;
+-            case "search": {
+-                this.#render();
+-                // Announce how many tasks match after the search changes (not when it is first set).
+-                if (this.isConnected && (oldValue ?? "") !== (newValue ?? "")) {
+-                    const matched = this.#matchedIds();
+-                    if (matched)
+-                        this.#announce(
+-                            this.#labels.searchAnnouncement?.(matched.size, this.#tasks.length),
+-                        );
+-                    else if ((newValue ?? "") === "")
+-                        this.#announce(
+-                            this.#labels.searchAnnouncement?.(
+-                                this.#tasks.length,
+-                                this.#tasks.length,
+-                            ),
+-                        );
+-                }
+-                break;
+-            }
+-            default:
+-                break;
++        if (!this.isConnected) return;
++        if (
++            name === "label" ||
++            name === "caption" ||
++            name === "today" ||
++            name === "time-unit" ||
++            name === "class" ||
++            name === "readonly" ||
++            name === "selected-task-id" ||
++            name === "dependency-arrows" ||
++            name === "search"
++        ) {
++            this.#render();
++        }
++        // Announce how many tasks match after the search changes (not when it is first set).
++        if (name === "search" && (oldValue ?? "") !== (newValue ?? "")) {
++            const matched = this.#matchedIds();
++            if (matched)
++                this.#announce(this.#labels.searchAnnouncement?.(matched.size, this.#tasks.length));
++            else if ((newValue ?? "") === "")
++                this.#announce(
++                    this.#labels.searchAnnouncement?.(this.#tasks.length, this.#tasks.length),
++                );
+         }
+-    }
+-
+-    disconnectedCallback(): void {
+-        this.#arrowObserver?.disconnect();
+-        this.#arrowObserver = undefined;
+-        // Nothing owns process-level listeners here; the composed
+-        // date-time-picker elements clean up their own on disconnect.
+     }
+
+     // ---- Derived data ----
+
+-    #columns(): GanttColumn[] {
++    #gridColumns(): GanttColumn[] {
+         return generateColumns(this.#range, this.timeUnit);
+     }
+
+@@ -886,7 +905,7 @@
+         return this.#compare ? [...this.#tasks].sort(this.#compare) : this.#tasks;
+     }
+
+-    #rows(): GanttFlatRow[] {
++    #gridRows(): GanttFlatRow[] {
+         const matched = this.#matchedIds();
+         if (!matched) return flattenTasks(this.#orderedTasks(), this.#collapsed);
+         // Matches plus their ancestors, so a match is never shown without its context; searching ignores collapse.
+@@ -1206,7 +1225,7 @@
+     #exportTasks(): GanttTask[] {
+         return (
+             this.#exportScope === "visible"
+-                ? this.#rows()
++                ? this.#gridRows()
+                 : flattenTasks(this.#orderedTasks(), new Set<string>())
+         ).map((r) => r.task);
+     }
+@@ -1335,7 +1354,7 @@
+         const v = this.#virtualize;
+         if (!v || !this.#scrollEl) return;
+         this.#scrollTop = this.#scrollEl.scrollTop;
+-        const rowCount = this.#rows().length;
++        const rowCount = this.#gridRows().length;
+         if (this.#windowIndices(rowCount).join(",") === this.#windowSig) return;
+         // The rebuild replaces the cells: keep focus on the cursor's cell if it was there.
+         const hadFocus =
+@@ -1346,7 +1365,9 @@
+         if (hadFocus) this.#focusActiveCell();
+     }
+
+-    // ---- Hierarchy ----
++    // ---------------------------------------------------------------
++    // Hierarchy
++    // ---------------------------------------------------------------
+
+     #reportCollapsed(): void {
+         const ids = [...this.#collapsed];
+@@ -1371,59 +1392,53 @@
+         this.#collapsed = new Set(value ? this.#parentIds() : []);
+         this.#reportCollapsed();
+         this.#render();
+-        this.#rootEl?.querySelector<HTMLElement>(`.${focusClass}`)?.focus({ preventScroll: true });
++        this.querySelector<HTMLElement>(`.${focusClass}`)?.focus({ preventScroll: true });
+     }
+
+     #toggleCollapse(taskId: string): void {
+-        if (this.#collapsed.has(taskId)) this.#collapsed.delete(taskId);
+-        else this.#collapsed.add(taskId);
++        const next = new Set(this.#collapsed);
++        if (next.has(taskId)) next.delete(taskId);
++        else next.add(taskId);
++        this.#collapsed = next;
+         this.#reportCollapsed();
+-        // Collapsing/expanding changes which rows exist, which renumbers
+-        // every subsequent row's `data-row` index — a structural change,
+-        // handled the same way a structural attribute change closes
+-        // date-time-picker's own dialog.
+         this.#render();
+         // The rebuild replaced the button that had focus; give focus to its
+         // successor rather than letting it fall to <body>.
+-        this.#rootEl
+-            ?.querySelector<HTMLElement>(
+-                `[data-task-id="${CSS.escape(taskId)}"] .gantt-chart-collapse-button`,
+-            )
++        this.#rowEls
++            .get(taskId)
++            ?.querySelector<HTMLElement>(".gantt-chart-collapse-button")
+             ?.focus({ preventScroll: true });
+     }
+
+-    // ---- Edit — keyboard (composed date-time-picker) and pointer (native DnD) ----
++    // ---------------------------------------------------------------
++    // Edit — keyboard (composed DateTimePicker) and pointer (native DnD)
++    // ---------------------------------------------------------------
+
+     #applyChange(task: GanttTask, start: string, end: string, percentComplete?: number): void {
+         if (percentComplete === undefined) this.#onTaskChange?.(task.id, start, end);
+         else this.#onTaskChange?.(task.id, start, end, percentComplete);
+-        this.dispatchEvent(
+-            new CustomEvent<GanttChartTaskChangeDetail>("taskchange", {
+-                detail:
+-                    percentComplete === undefined
+-                        ? { taskId: task.id, start, end }
+-                        : { taskId: task.id, start, end, percentComplete },
+-                bubbles: true,
+-                composed: true,
+-            }),
+-        );
+         this.#announce(this.#labels.dateAnnouncement?.(this.#taskLabel(task), start, end));
+     }
+
+     #openEdit(task: GanttTask): void {
+-        const dateTimePickerLabels = this.#labels.dateTimePickerLabels;
+-        if (!dateTimePickerLabels || !this.#canEdit()) return;
+-        if (this.#editingTaskId && this.#editingTaskId !== task.id) this.#closeEdit();
+-
++        if (!this.#canEdit()) return;
++        if (this.#editingTaskId) this.#closeEditRow();
+         this.#editingTaskId = task.id;
+-        const row = this.#rowEls.get(task.id);
+-        if (!row) return;
++        this.#editStart = task.start ?? "";
++        this.#editEnd = task.end ?? "";
++        this.#insertEditRow(task);
++    }
++
++    #insertEditRow(task: GanttTask): void {
++        const taskRow = this.#rowEls.get(task.id);
++        if (!taskRow) return;
++        const dateTimePickerLabels = this.#labels.dateTimePickerLabels;
++        if (!dateTimePickerLabels) return;
+
+-        const columns = this.#columns();
+         const tr = document.createElement("tr");
+         tr.className = "gantt-chart-edit-row";
+         const td = document.createElement("td");
+-        td.colSpan = columns.length + 1 + this.#resolvedFields.length;
++        td.colSpan = this.#gridColumns().length + 1 + this.#resolvedFields.length;
+         td.addEventListener("keydown", (event) => {
+             // Escape cancels, unless a date picker's own dialog used it to close itself.
+             if (event.key === "Escape" && !event.defaultPrevented) {
+@@ -1432,20 +1447,30 @@
+             }
+         });
+
+-        const startPicker = document.createElement("lily-date-time-picker") as DateTimePicker;
++        const startPicker = document.createElement(
++            "lily-date-time-picker",
++        ) as DateTimePickerElement;
+         startPicker.className = "gantt-chart-start-picker";
+-        startPicker.label = this.#labels.startLabel ?? "";
++        startPicker.setAttribute("label", this.#labels.startLabel ?? "");
+         startPicker.mode = "date";
+         startPicker.labels = dateTimePickerLabels;
+-        startPicker.value = task.start ?? "";
++        startPicker.value = this.#editStart;
++        startPicker.onChange = (value: string) => {
++            this.#editStart = value;
++            syncSave();
++        };
+         td.appendChild(startPicker);
+
+-        const endPicker = document.createElement("lily-date-time-picker") as DateTimePicker;
++        const endPicker = document.createElement("lily-date-time-picker") as DateTimePickerElement;
+         endPicker.className = "gantt-chart-end-picker";
+-        endPicker.label = this.#labels.endLabel ?? "";
++        endPicker.setAttribute("label", this.#labels.endLabel ?? "");
+         endPicker.mode = "date";
+         endPicker.labels = dateTimePickerLabels;
+-        endPicker.value = task.end ?? "";
++        endPicker.value = this.#editEnd;
++        endPicker.onChange = (value: string) => {
++            this.#editEnd = value;
++            syncSave();
++        };
+         td.appendChild(endPicker);
+
+         this.#editPercentEl = null;
+@@ -1472,11 +1497,9 @@
+         saveButton.addEventListener("click", () => this.#saveEdit(task));
+         td.appendChild(saveButton);
+         // Save is disabled while either date is empty.
+-        const syncSave = (): void => {
++        function syncSave(): void {
+             saveButton.disabled = !startPicker.value || !endPicker.value;
+-        };
+-        td.addEventListener("datetimechange", syncSave);
+-        syncSave(); // an unscheduled task opens with both dates empty
++        }
+
+         const cancelButton = document.createElement("button");
+         cancelButton.type = "button";
+@@ -1484,56 +1507,53 @@
+         cancelButton.textContent = this.#labels.cancelLabel ?? "";
+         cancelButton.addEventListener("click", () => this.#cancelEdit());
+         td.appendChild(cancelButton);
++        syncSave(); // an unscheduled task opens with both dates empty
+
+         tr.appendChild(td);
+-        row.insertAdjacentElement("afterend", tr);
+-
++        taskRow.insertAdjacentElement("afterend", tr);
++        upgradeNestedCustomElements(tr);
+         this.#editRowEl = tr;
+-        this.#editStartPickerEl = startPicker;
+-        this.#editEndPickerEl = endPicker;
+         // Focus moves into the region it opened, onto the start date's field.
+         startPicker
+             .querySelector<HTMLElement>(".date-time-picker-input")
+             ?.focus({ preventScroll: true });
+     }
+
+-    #closeEdit(): void {
+-        this.#editRowEl?.remove();
+-        this.#editRowEl = null;
+-        this.#editStartPickerEl = null;
+-        this.#editEndPickerEl = null;
+-        this.#editPercentEl = null;
+-        this.#editingTaskId = null;
+-    }
+-
+     /**
+      * A range entered end-first is saved start-first. The region closes before
+      * the consumer hears of the change — its `tasks` update rebuilds the chart —
+      * and focus then returns to the grid's tab stop on the edited row.
+      */
+     #saveEdit(task: GanttTask): void {
+-        const a = this.#editStartPickerEl?.value;
+-        const b = this.#editEndPickerEl?.value;
++        const a = this.#editStart;
++        const b = this.#editEnd;
+         if (!a || !b) return;
+         const [start, end] = compareISO(a, b) <= 0 ? [a, b] : [b, a];
+         const raw = this.#editPercentEl?.value ?? "";
+         const rounded = raw === "" ? NaN : Math.min(100, Math.max(0, Math.round(Number(raw))));
+-        this.#closeEdit();
++        this.#closeEditRow();
+         this.#applyChange(task, start, end, Number.isFinite(rounded) ? rounded : undefined);
+         this.#focusActiveCell();
+     }
+
+     /** Cancel returns focus to the grid's tab stop, on the edited task's row. */
+     #cancelEdit(): void {
+-        this.#closeEdit();
++        this.#closeEditRow();
+         this.#focusActiveCell();
+     }
+
+-    #onBarDragStart(task: GanttTask, event: DragEvent): void {
++    #closeEditRow(): void {
++        this.#editPercentEl = null;
++        this.#editingTaskId = null;
++        this.#editRowEl?.remove();
++        this.#editRowEl = null;
++    }
++
++    #onBarDragStart = (task: GanttTask, event: DragEvent): void => {
+         this.#draggingTaskId = task.id;
+         this.#resizingEdge = null;
+         event.dataTransfer?.setData("text/plain", task.id);
+-    }
++    };
+
+     #onHandleDragStart(task: GanttTask, edge: "start" | "end", event: DragEvent): void {
+         event.stopPropagation();
+@@ -1567,12 +1587,14 @@
+     // ---- Keyboard shift / resize (Alt+Arrow) ----
+
+     #columnIndexOf(isoDate: string): number {
+-        return this.#columns().findIndex((c) => rangesOverlap(c.start, c.end, isoDate, isoDate));
++        return this.#gridColumns().findIndex((c) =>
++            rangesOverlap(c.start, c.end, isoDate, isoDate),
++        );
+     }
+
+     #shiftTask(task: GanttTask, delta: 1 | -1, endOnly: boolean): void {
+         if (!task.start || !task.end) return; // an unscheduled task has nothing to shift
+-        const columns = this.#columns();
++        const columns = this.#gridColumns();
+         if (endOnly) {
+             const target = columns[this.#columnIndexOf(task.end) + delta];
+             if (target && compareISO(task.start, target.end) <= 0)
+@@ -1587,11 +1609,11 @@
+         this.#applyChange(task, target.start, addDays(target.start, duration));
+     }
+
+-    #onCellDragOver(event: DragEvent): void {
++    #onCellDragOver = (event: DragEvent): void => {
+         if (this.#draggingTaskId) event.preventDefault();
+-    }
++    };
+
+-    #onCellDrop(column: GanttColumn, event: DragEvent): void {
++    #onCellDrop = (column: GanttColumn, event: DragEvent): void => {
+         event.preventDefault();
+         if (this.readonly) return;
+         const taskId = this.#draggingTaskId ?? event.dataTransfer?.getData("text/plain");
+@@ -1612,52 +1634,65 @@
+         const endDate = parseIsoDate(task.end);
+         const duration = startDate && endDate ? toEpochDay(endDate) - toEpochDay(startDate) : 0;
+         this.#applyChange(task, column.start, addDays(column.start, duration));
+-    }
+-
+-    // ---- Roving-tabindex grid keyboard navigation (WAI-ARIA APG Grid pattern) ----
+-
+-    #setActiveCell(row: number, col: number): HTMLTableCellElement | undefined {
+-        const oldCell = this.#cellEls.get(`${this.#focusedRow}-${this.#focusedCol}`);
+-        oldCell?.setAttribute("tabindex", "-1");
+-
+-        this.#focusedRow = row;
+-        this.#focusedCol = col;
++    };
+
+-        const newCell = this.#cellEls.get(`${row}-${col}`);
+-        newCell?.setAttribute("tabindex", "0");
+-        return newCell;
++    // ---------------------------------------------------------------
++    // Roving-tabindex grid keyboard navigation (WAI-ARIA APG Grid pattern)
++    // ---------------------------------------------------------------
++
++    #syncFocusState(previousRow: number, previousCol: number, focusNewCell: boolean): void {
++        const previous = this.#cellEls.get(`${previousRow}-${previousCol}`);
++        if (previous) {
++            previous.setAttribute("tabindex", "-1");
++        }
++        const next = this.#cellEls.get(`${this.#focusedRow}-${this.#focusedCol}`);
++        if (next) {
++            next.setAttribute("tabindex", "0");
++            if (focusNewCell) next.focus({ preventScroll: true });
++        }
+     }
+
+-    #moveFocus(row: number, col: number, rowCount: number, colCount: number): void {
+-        const clampedCol = Math.min(Math.max(col, 0), Math.max(colCount - 1, 0));
+-        const clampedRow = Math.min(Math.max(row, 0), Math.max(rowCount - 1, 0));
+-        let cell = this.#setActiveCell(clampedRow, clampedCol);
++    #moveFocus(row: number, col: number): void {
++        const rows = this.#gridRows();
++        const columns = this.#gridColumns();
++        const previousRow = this.#focusedRow;
++        const previousCol = this.#focusedCol;
++        this.#focusedRow = clamp(row, 0, Math.max(rows.length - 1, 0));
++        this.#focusedCol = clamp(col, 0, Math.max(columns.length - 1, 0));
+         if (this.#virtualize) {
+-            this.#focusedRow = clampedRow;
+-            this.#revealRow(clampedRow, rowCount);
++            this.#revealRow(this.#focusedRow, rows.length);
+             // The target row may have been outside the rendered window: the reveal re-renders.
+-            if (!cell || !cell.isConnected) {
++            if (!this.#cellEls.get(`${this.#focusedRow}-${this.#focusedCol}`)?.isConnected) {
+                 this.#render();
+-                cell = this.#cellEls.get(`${clampedRow}-${clampedCol}`);
++                this.#cellEls
++                    .get(`${this.#focusedRow}-${this.#focusedCol}`)
++                    ?.focus({ preventScroll: true });
++                return;
+             }
+         }
+-        cell?.focus({ preventScroll: true });
++        if (this.#focusedRow === previousRow && this.#focusedCol === previousCol) return;
++        this.#syncFocusState(previousRow, previousCol, true);
+     }
+
+     /** The cursor follows focus however it arrives — a click, or a consumer's own focus(). */
+-    #onGridFocusin(event: FocusEvent): void {
++    #onGridFocusin = (event: FocusEvent): void => {
+         const cell = (event.target as HTMLElement).closest<HTMLElement>("[data-row][data-col]");
+         if (!cell) return;
+-        this.#setActiveCell(Number(cell.dataset.row), Number(cell.dataset.col));
+-    }
++        const previousRow = this.#focusedRow;
++        const previousCol = this.#focusedCol;
++        this.#focusedRow = Number(cell.dataset.row);
++        this.#focusedCol = Number(cell.dataset.col);
++        this.#syncFocusState(previousRow, previousCol, false);
++    };
+
+-    #onGridKeydown(event: KeyboardEvent): void {
+-        const target = event.target as HTMLElement;
+-        if (target.closest(".gantt-chart-field-editor")) return;
+-        const cell = target.closest<HTMLElement>("[data-row][data-col]");
++    #onGridKeydown = (event: KeyboardEvent): void => {
++        if ((event.target as HTMLElement).closest(".gantt-chart-field-editor")) return;
++        const cell = (event.target as HTMLElement).closest<HTMLElement>("[data-row][data-col]");
+         if (!cell) return;
+-        const rows = this.#rows();
+-        const colCount = this.#columns().length;
++        const ctrlOrMeta = event.ctrlKey || event.metaKey;
++        const rows = this.#gridRows();
++        const columns = this.#gridColumns();
++        const colCount = columns.length;
+         // The horizontal arrows are visual: in a right-to-left layout the later date is on the left, so ArrowLeft goes forward.
+         const key = logicalKey(event.key, isRtl(cell));
+         const historyAction =
+@@ -1682,7 +1717,12 @@
+         if (event.altKey && (key === "ArrowLeft" || key === "ArrowRight")) {
+             // Alt+Arrow shifts the task one column; Alt+Shift+Arrow moves only its end.
+             const row = rows[this.#focusedRow];
+-            if (row && !row.hasChildren && !this.readonly && target.closest(".gantt-table-td")) {
++            if (
++                row &&
++                !row.hasChildren &&
++                !this.readonly &&
++                (event.target as HTMLElement).closest(".gantt-chart-td")
++            ) {
+                 event.preventDefault();
+                 this.#shiftTask(row.task, key === "ArrowLeft" ? -1 : 1, event.shiftKey);
+                 return;
+@@ -1690,7 +1730,7 @@
+         }
+         // Type-ahead: letters typed in quick succession move to the next task whose label starts with them. A lone "s" stays the
+         // select shortcut; it joins a prefix already in progress ("ds" for "Design Sprint").
+-        if (isTypeaheadKey(event) && target.closest(".gantt-table-td")) {
++        if (isTypeaheadKey(event) && (event.target as HTMLElement).closest(".gantt-chart-td")) {
+             const now = Date.now();
+             const continuing = this.#typeahead.prefix !== "" && now - this.#typeahead.at <= 700;
+             if (continuing || (event.key !== "s" && event.key !== "S")) {
+@@ -1703,7 +1743,7 @@
+                 if (hit !== -1) {
+                     this.#typeahead = state;
+                     event.preventDefault();
+-                    this.#moveFocus(hit, this.#focusedCol, rows.length, colCount);
++                    this.#moveFocus(hit, this.#focusedCol);
+                     return;
+                 }
+             }
+@@ -1721,7 +1761,7 @@
+         );
+         if (move) {
+             event.preventDefault();
+-            this.#moveFocus(move.row, move.col, rows.length, colCount);
++            this.#moveFocus(move.row, move.col);
+             return;
+         }
+         switch (key) {
+@@ -1729,7 +1769,7 @@
+             case "S": {
+                 if (event.ctrlKey || event.metaKey || event.altKey) break;
+                 const row = rows[this.#focusedRow];
+-                if (row && target.closest(".gantt-table-td")) {
++                if (row && (event.target as HTMLElement).closest(".gantt-chart-td")) {
+                     event.preventDefault();
+                     this.#selectTask(row.task.id);
+                 }
+@@ -1745,14 +1785,24 @@
+             default:
+                 break;
+         }
+-    }
++    };
+
+-    // ---- Rendering ----
++    // ---------------------------------------------------------------
++    // Rendering
++    // ---------------------------------------------------------------
+
+     #render(): void {
+         if (!this.isConnected) return;
+
+-        this.#closeEdit();
++        // A structural rebuild cannot preserve an in-progress edit region.
++        this.#editingTaskId = null;
++        this.#editRowEl = null;
++
++        const columns = this.#gridColumns();
++        const rows = this.#gridRows();
++        this.#focusedRow = clamp(this.#focusedRow, 0, Math.max(rows.length - 1, 0));
++        this.#focusedCol = clamp(this.#focusedCol, 0, Math.max(columns.length - 1, 0));
++
+         this.#cellEls = new Map();
+         this.#rowEls = new Map();
+
+@@ -1760,6 +1810,7 @@
+         const root = document.createElement("div");
+         root.className = `gantt-chart ${extraClass}`.trim();
+         if (this.readonly) root.setAttribute("data-readonly", "");
++        passThroughAttributes(this, root);
+
+         if (this.#labels.search) {
+             const input = document.createElement("input");
+@@ -1882,8 +1933,10 @@
+             root.appendChild(group);
+         }
+
+-        const table = document.createElement("table");
+-        table.className = "gantt-table";
++        const table = document.createElement("lily-gantt-table");
++        table.setAttribute("label", this.label);
++        // This chart runs its own grid keys.
++        table.setAttribute("data-consumer-keys", "true");
+         table.addEventListener("click", (event) => {
+             const t = event.target as HTMLElement;
+             if (
+@@ -1893,45 +1946,31 @@
+             const id = t.closest<HTMLElement>("[data-task-id]")?.dataset.taskId;
+             if (id) this.#selectTask(id);
+         });
+-        table.setAttribute("role", "grid");
+-        table.setAttribute("aria-label", this.label);
+-        table.addEventListener("keydown", (event) => this.#onGridKeydown(event as KeyboardEvent));
+-        table.addEventListener("focusin", (event) => this.#onGridFocusin(event as FocusEvent));
+-
+         if (this.caption) {
+-            const caption = document.createElement("caption");
+-            caption.textContent = this.caption;
+-            table.appendChild(caption);
++            const captionEl = document.createElement("caption");
++            captionEl.textContent = this.caption;
++            table.appendChild(captionEl);
+         }
++        table.addEventListener("keydown", this.#onGridKeydown);
++        table.addEventListener("focusin", this.#onGridFocusin);
+
+-        const columns = this.#columns();
+-        const rows = this.#rows();
+-        const timeUnit = this.timeUnit;
+-        const todayIso = this.today || null;
+-
+-        this.#focusedCol = Math.min(Math.max(this.#focusedCol, 0), Math.max(columns.length - 1, 0));
+-        this.#focusedRow = Math.min(Math.max(this.#focusedRow, 0), Math.max(rows.length - 1, 0));
++        const today = this.today || null;
+
+-        // ---- thead ----
+         const thead = document.createElement("thead");
+-        thead.className = "gantt-table-thead";
+         const headRow = document.createElement("tr");
+-        headRow.className = "gantt-table-tr";
+-
+         const leadingTh = document.createElement("th");
+-        leadingTh.className = "gantt-table-th";
++        leadingTh.className = "gantt-chart-th";
+         leadingTh.setAttribute("scope", "col");
+         leadingTh.textContent = this.#labels.taskColumnHeader ?? "";
+         headRow.appendChild(leadingTh);
+         for (const f of this.#resolvedFields) {
+             const fieldTh = document.createElement("th");
+-            fieldTh.className = "gantt-table-th";
++            fieldTh.className = "gantt-chart-th";
+             fieldTh.setAttribute("scope", "col");
+             fieldTh.setAttribute("data-field", f.id);
+             fieldTh.textContent = f.header;
+             headRow.appendChild(fieldTh);
+         }
+-
+         const columnMarkers = columns.map((column) =>
+             this.#markers.filter((m) => rangesOverlap(column.start, column.end, m.date, m.date)),
+         );
+@@ -1943,7 +1982,6 @@
+             }
+             return true;
+         });
+-
+         const weekends = this.#weekends;
+         const columnWeekend = columns.map((column) => {
+             if (!weekends?.length || column.start !== column.end) return false;
+@@ -1955,10 +1993,9 @@
+             unavailableIn(this.#unavailable, column.start, column.end),
+         );
+         columns.forEach((column, columnIndex) => {
+-            const isToday =
+-                todayIso != null && rangesOverlap(column.start, column.end, todayIso, todayIso);
++            const isToday = today != null && rangesOverlap(column.start, column.end, today, today);
+             const th = document.createElement("th");
+-            th.className = "gantt-table-th";
++            th.className = "gantt-chart-th";
+             th.setAttribute("scope", "col");
+             if (isToday) th.setAttribute("data-today", "");
+             if (columnNonWorking[columnIndex]) th.setAttribute("data-non-working", "");
+@@ -1978,7 +2015,8 @@
+                 th.setAttribute("data-marker", markers.map((m) => m.kind ?? "marker").join(" "));
+             th.appendChild(
+                 document.createTextNode(
+-                    this.#labels.columnLabel?.(column.start, column.end, timeUnit) ?? column.start,
++                    this.#labels.columnLabel?.(column.start, column.end, this.timeUnit) ??
++                        column.start,
+                 ),
+             );
+             for (const marker of markers) {
+@@ -2000,10 +2038,7 @@
+         thead.appendChild(headRow);
+         table.appendChild(thead);
+
+-        // ---- tbody ----
+         const tbody = document.createElement("tbody");
+-        tbody.className = "gantt-table-tbody";
+-
+         const ranges = effectiveRanges(this.#tasks);
+         if (this.#virtualize) table.setAttribute("aria-rowcount", String(rows.length + 1));
+         const windowIdx = this.#windowIndices(rows.length);
+@@ -2025,106 +2060,101 @@
+             if (this.#virtualize && rowIndex - previousIdx > 1) spacer(rowIndex - previousIdx - 1);
+             previousIdx = rowIndex;
+             const row = rows[rowIndex];
+-            const { task } = row;
+-            const { start, end } = this.#rangeFor(task, row.hasChildren, ranges);
+-            const deps = this.#predecessorLabels(task);
++            const { start, end } = this.#rangeFor(row.task, row.hasChildren, ranges);
++            const deps = this.#predecessorLabels(row.task);
+             const hasDependencySummary = deps.length > 0 && !!this.#labels.dependencySummary;
+
+             const tr = document.createElement("tr");
+-            tr.className = "gantt-table-tr";
+-            tr.dataset.taskId = task.id;
++            if (row.task.type) tr.setAttribute("data-task-type", row.task.type);
++            if (row.task.critical) tr.setAttribute("data-critical", "");
++            if (row.task.slack != null) tr.setAttribute("data-slack", String(row.task.slack));
++            tr.dataset.taskId = row.task.id;
+             if (this.#virtualize) tr.setAttribute("aria-rowindex", String(rowIndex + 2));
+-            if (!row.hasChildren && (!task.start || !task.end))
++            if (!row.hasChildren && (!row.task.start || !row.task.end))
+                 tr.setAttribute("data-unscheduled", "");
+-            if (task.type) tr.setAttribute("data-task-type", task.type);
+-            if (task.critical) tr.setAttribute("data-critical", "");
+-            if (task.slack != null) tr.setAttribute("data-slack", String(task.slack));
+-            if (this.selectedTaskId === task.id) {
++            if (this.selectedTaskId === row.task.id) {
+                 tr.setAttribute("aria-selected", "true");
+                 tr.setAttribute("data-selected", "");
+             }
+             if (this.#taskAttrs) {
+-                for (const [name, value] of Object.entries(this.#taskAttrs(task)))
++                for (const [name, value] of Object.entries(this.#taskAttrs(row.task)))
+                     tr.setAttribute(name, value);
+             }
+
+-            const rowTh = document.createElement("th");
+-            rowTh.className = "gantt-table-th";
+-            rowTh.setAttribute("scope", "row");
++            const rowHeader = document.createElement("th");
++            rowHeader.className = "gantt-chart-row-header";
++            rowHeader.setAttribute("scope", "row");
+             // Depth is data for the consumer's CSS (indentation), never an inline style.
+-            rowTh.dataset.depth = String(row.depth);
+-
++            rowHeader.dataset.depth = String(row.depth);
+             if (row.hasChildren && this.#labels.collapseButton) {
+-                const collapsed = this.#collapsed.has(task.id);
+                 const collapseButton = document.createElement("button");
+                 collapseButton.type = "button";
+                 collapseButton.className = "gantt-chart-collapse-button";
+-                collapseButton.setAttribute("aria-expanded", String(!collapsed));
++                const isCollapsed = this.#collapsed.has(row.task.id);
++                collapseButton.setAttribute("aria-expanded", String(!isCollapsed));
+                 collapseButton.setAttribute(
+                     "aria-label",
+-                    this.#labels.collapseButton(task, collapsed),
++                    this.#labels.collapseButton(row.task, isCollapsed),
+                 );
+-                collapseButton.appendChild(this.renderCollapseIcon(collapsed));
+-                collapseButton.addEventListener("click", () => this.#toggleCollapse(task.id));
+-                rowTh.appendChild(collapseButton);
++                collapseButton.appendChild(this.renderCollapseIcon(isCollapsed));
++                collapseButton.addEventListener("click", () => this.#toggleCollapse(row.task.id));
++                rowHeader.appendChild(collapseButton);
+             }
+
+             if (this.search.trim() === "")
+-                rowTh.appendChild(document.createTextNode(this.#taskLabel(task)));
++                rowHeader.appendChild(document.createTextNode(this.#taskLabel(row.task)));
+             else {
+-                for (const part of highlightSegments(this.#taskLabel(task), this.search)) {
++                for (const part of highlightSegments(this.#taskLabel(row.task), this.search)) {
+                     if (!part.match) {
+-                        rowTh.appendChild(document.createTextNode(part.text));
++                        rowHeader.appendChild(document.createTextNode(part.text));
+                         continue;
+                     }
+                     const mark = document.createElement("mark");
+                     mark.className = "mark gantt-chart-match";
+                     mark.textContent = part.text;
+-                    rowTh.appendChild(mark);
++                    rowHeader.appendChild(mark);
+                 }
+             }
+
+-            if (task.critical && this.#labels.criticalLabel) {
++            if (row.task.critical && this.#labels.criticalLabel) {
+                 const critical = document.createElement("span");
+                 critical.className = "gantt-chart-critical-label";
+                 critical.textContent = this.#labels.criticalLabel;
+-                rowTh.appendChild(critical);
++                rowHeader.appendChild(critical);
+             }
+
+             if (hasDependencySummary) {
+                 const summary = document.createElement("span");
+-                summary.id = this.#dependencyId(task.id);
++                summary.id = this.#dependencyId(row.task.id);
+                 summary.className = "gantt-chart-dependency-summary";
+                 summary.hidden = true;
+                 summary.textContent = this.#labels.dependencySummary!(deps);
+-                rowTh.appendChild(summary);
++                rowHeader.appendChild(summary);
+             }
+-
+-            if (task.baseline && this.#labels.baselineSummary) {
+-                const a = parseIsoDate(task.baseline.end);
++            if (row.task.baseline && this.#labels.baselineSummary) {
++                const a = parseIsoDate(row.task.baseline.end);
+                 const c = parseIsoDate(end);
+                 const variance = a && c ? toEpochDay(c) - toEpochDay(a) : 0;
+                 const summary = document.createElement("span");
+-                summary.id = this.#baselineId(task.id);
++                summary.id = this.#baselineId(row.task.id);
+                 summary.className = "gantt-chart-baseline-summary";
+                 summary.hidden = true;
+                 summary.textContent = this.#labels.baselineSummary(
+-                    this.#taskLabel(task),
+-                    task.baseline,
++                    this.#taskLabel(row.task),
++                    row.task.baseline,
+                     variance,
+                 );
+-                rowTh.appendChild(summary);
++                rowHeader.appendChild(summary);
+             }
+-
+-            tr.appendChild(rowTh);
++            tr.appendChild(rowHeader);
+
+             for (const f of this.#resolvedFields) {
+                 const fieldTd = document.createElement("td");
+-                fieldTd.className = "gantt-table-td";
++                fieldTd.className = "gantt-chart-td";
+                 fieldTd.setAttribute("data-field", f.id);
+                 fieldTd.setAttribute("data-type", f.type ?? "text");
+                 if (f.align) fieldTd.setAttribute("data-align", f.align);
+-                this.#fieldContent(task, f, fieldTd);
++                this.#fieldContent(row.task, f, fieldTd);
+                 tr.appendChild(fieldTd);
+             }
+
+@@ -2133,20 +2163,17 @@
+                     !!start && !!end && rangesOverlap(column.start, column.end, start, end);
+                 const isMilestone = inRange && start === end;
+                 const isToday =
+-                    todayIso != null && rangesOverlap(column.start, column.end, todayIso, todayIso);
++                    today != null && rangesOverlap(column.start, column.end, today, today);
+                 const isLeadingCell =
+                     inRange && rangesOverlap(column.start, column.end, start, start);
+
+                 const td = document.createElement("td");
+-                td.className = "gantt-table-td";
++                td.className = "gantt-chart-td";
++                td.setAttribute("role", "gridcell");
+                 td.setAttribute("data-row", String(rowIndex));
+                 td.setAttribute("data-col", String(colIndex));
+-                const active = this.#focusedRow === rowIndex && this.#focusedCol === colIndex;
+-                td.setAttribute("tabindex", active ? "0" : "-1");
+-                td.setAttribute(
+-                    "aria-label",
+-                    this.#labels.columnLabel?.(column.start, column.end, timeUnit) ?? column.start,
+-                );
++                const isActive = this.#focusedRow === rowIndex && this.#focusedCol === colIndex;
++                td.setAttribute("tabindex", isActive ? "0" : "-1");
+                 if (inRange) td.setAttribute("data-in-range", "");
+                 if (isMilestone) td.setAttribute("data-milestone", "");
+                 if (isToday) td.setAttribute("data-today", "");
+@@ -2163,40 +2190,40 @@
+                         unavailableKinds(columnUnavailable[colIndex].items) ?? "",
+                     );
+                 if (columnMarkers[colIndex].length) td.setAttribute("data-marker", "");
+-                const describedBy = this.#describedBy(task, hasDependencySummary);
++                const describedBy = this.#describedBy(row.task, hasDependencySummary);
+                 if (describedBy) td.setAttribute("aria-describedby", describedBy);
+                 if (
+-                    task.baseline &&
+-                    rangesOverlap(column.start, column.end, task.baseline.start, task.baseline.end)
++                    row.task.baseline &&
++                    rangesOverlap(
++                        column.start,
++                        column.end,
++                        row.task.baseline.start,
++                        row.task.baseline.end,
++                    )
+                 ) {
+                     td.setAttribute("data-baseline", "");
+                 }
+-
+-                td.addEventListener("dragover", (event) =>
+-                    this.#onCellDragOver(event as DragEvent),
+-                );
+-                td.addEventListener("drop", (event) =>
+-                    this.#onCellDrop(column, event as DragEvent),
+-                );
++                td.addEventListener("dragover", this.#onCellDragOver);
++                td.addEventListener("drop", (e) => this.#onCellDrop(column, e as DragEvent));
+
+                 if (isLeadingCell) {
+                     const bar = document.createElement("span");
+                     bar.className = "gantt-chart-bar";
+-                    if (task.percentComplete != null) {
+-                        bar.setAttribute("data-percent-complete", String(task.percentComplete));
++                    if (row.task.percentComplete != null) {
++                        bar.setAttribute("data-percent-complete", String(row.task.percentComplete));
+                     }
+                     if (!row.hasChildren && !this.readonly) {
+                         bar.setAttribute("draggable", "true");
+-                        bar.addEventListener("dragstart", (event) =>
+-                            this.#onBarDragStart(task, event as DragEvent),
++                        bar.addEventListener("dragstart", (e) =>
++                            this.#onBarDragStart(row.task, e as DragEvent),
+                         );
+                         const startHandle = document.createElement("span");
+                         startHandle.className =
+                             "gantt-chart-bar-handle gantt-chart-bar-handle-start";
+                         startHandle.setAttribute("draggable", "true");
+                         startHandle.setAttribute("aria-hidden", "true");
+-                        startHandle.addEventListener("dragstart", (event) =>
+-                            this.#onHandleDragStart(task, "start", event as DragEvent),
++                        startHandle.addEventListener("dragstart", (e) =>
++                            this.#onHandleDragStart(row.task, "start", e as DragEvent),
+                         );
+                         bar.appendChild(startHandle);
+                     }
+@@ -2212,8 +2239,8 @@
+                     endHandle.className = "gantt-chart-bar-handle gantt-chart-bar-handle-end";
+                     endHandle.setAttribute("draggable", "true");
+                     endHandle.setAttribute("aria-hidden", "true");
+-                    endHandle.addEventListener("dragstart", (event) =>
+-                        this.#onHandleDragStart(task, "end", event as DragEvent),
++                    endHandle.addEventListener("dragstart", (e) =>
++                        this.#onHandleDragStart(row.task, "end", e as DragEvent),
+                     );
+                     td.appendChild(endHandle);
+                 }
+@@ -2223,11 +2250,10 @@
+             });
+
+             tbody.appendChild(tr);
+-            this.#rowEls.set(task.id, tr);
++            this.#rowEls.set(row.task.id, tr);
+         }
+         if (this.#virtualize && rows.length - 1 - previousIdx > 0)
+             spacer(rows.length - 1 - previousIdx);
+-
+         table.appendChild(tbody);
+         // The scroll area is structural: a virtualized chart renders only the rows in view inside it.
+         const scroll = document.createElement("div");
+@@ -2248,7 +2274,8 @@
+         root.appendChild(status);
+
+         this.replaceChildren(root);
+-        this.#rootEl = root;
++        upgradeNestedCustomElements(root);
++
+         this.#statusEl = status;
+         if (this.#virtualize) scroll.scrollTop = this.#scrollTop;
+         this.#measureArrows();

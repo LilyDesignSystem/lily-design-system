@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/OsterreichSozialversicherungsnummerView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/osterreich-sozialversicherungsnummer-view/",
+  "markdown": "https://lilydesignsystem.com/components/osterreich-sozialversicherungsnummer-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/osterreich-sozialversicherungsnummer-view/AGENTS.md"
 }

@@ -182,27 +182,27 @@ public static class CellTypes
             case DataGridAggregate.Avg:
                 return numbers.Count == 0 ? null : numbers.Average();
             case DataGridAggregate.Median:
-            {
-                if (numbers.Count == 0) return null;
-                var sorted = numbers.OrderBy(n => n).ToList();
-                var mid = sorted.Count / 2;
-                return sorted.Count % 2 == 1 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
-            }
+                {
+                    if (numbers.Count == 0) return null;
+                    var sorted = numbers.OrderBy(n => n).ToList();
+                    var mid = sorted.Count / 2;
+                    return sorted.Count % 2 == 1 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+                }
             case DataGridAggregate.Min:
             case DataGridAggregate.Max:
-            {
-                if (numbers.Count > 0 && numbers.Count == present.Count) return kind == DataGridAggregate.Min ? numbers.Min() : numbers.Max();
-                var texts = present.OfType<string>().ToList();
-                if (texts.Count == 0) return null;
-                return kind == DataGridAggregate.Min ? texts.Min(StringComparer.Ordinal) : texts.Max(StringComparer.Ordinal);
-            }
+                {
+                    if (numbers.Count > 0 && numbers.Count == present.Count) return kind == DataGridAggregate.Min ? numbers.Min() : numbers.Max();
+                    var texts = present.OfType<string>().ToList();
+                    if (texts.Count == 0) return null;
+                    return kind == DataGridAggregate.Min ? texts.Min(StringComparer.Ordinal) : texts.Max(StringComparer.Ordinal);
+                }
             case DataGridAggregate.Range:
                 return numbers.Count == 0 ? null : numbers.Max() - numbers.Min();
             case DataGridAggregate.PercentTrue:
-            {
-                var booleans = values.OfType<bool>().ToList();
-                return booleans.Count == 0 ? null : booleans.Count(b => b) / (double)booleans.Count * 100;
-            }
+                {
+                    var booleans = values.OfType<bool>().ToList();
+                    return booleans.Count == 0 ? null : booleans.Count(b => b) / (double)booleans.Count * 100;
+                }
             case DataGridAggregate.PercentEmpty:
                 return values.Count == 0 ? null : (values.Count - present.Count) / (double)values.Count * 100;
         }
@@ -358,74 +358,74 @@ public static class CellTypes
                     ExportValue = c.ExportValue ?? (row => Raw(column, row) is DataGridZonedTime z && IsZonedTime(z) ? $"{z.Time} {z.TimeZone}" : null),
                 };
             case DataGridCellType.Person:
-            {
-                static IEnumerable<string> Names(object? v) => PeopleOf(v).Select(PersonName);
-                return c with
                 {
-                    Align = c.Align == DataGridAlign.Default ? DataGridAlign.Start : c.Align,
-                    Editor = c.Editor == DataGridEditor.Default ? DataGridEditor.Person : c.Editor,
-                    Format = c.Format ?? ((v, _) => string.Join("; ", Names(v))),
-                    FilterText = c.FilterText ?? ((v, _) => string.Join(" ", PeopleOf(v).Select(p => $"{PersonName(p)} {p.Email ?? ""}".Trim()))),
-                    Compare = c.Compare ?? ((a, b) =>
+                    static IEnumerable<string> Names(object? v) => PeopleOf(v).Select(PersonName);
+                    return c with
                     {
-                        var x = Names(a).ToList();
-                        var y = Names(b).ToList();
-                        var byName = Compare(x.FirstOrDefault() ?? "", y.FirstOrDefault() ?? "", locale);
-                        return byName != 0 ? byName : x.Count - y.Count;
-                    }),
-                    ExportValue = c.ExportValue ?? (row =>
-                    {
-                        var value = Raw(column, row);
-                        var parts = column.ExportAs == DataGridExportAs.Email ? PeopleOf(value).Select(p => p.Email ?? "") : Names(value);
-                        var joined = string.Join("; ", parts);
-                        return joined.Replace(";", "").Trim().Length == 0 ? null : joined;
-                    }),
-                };
-            }
+                        Align = c.Align == DataGridAlign.Default ? DataGridAlign.Start : c.Align,
+                        Editor = c.Editor == DataGridEditor.Default ? DataGridEditor.Person : c.Editor,
+                        Format = c.Format ?? ((v, _) => string.Join("; ", Names(v))),
+                        FilterText = c.FilterText ?? ((v, _) => string.Join(" ", PeopleOf(v).Select(p => $"{PersonName(p)} {p.Email ?? ""}".Trim()))),
+                        Compare = c.Compare ?? ((a, b) =>
+                        {
+                            var x = Names(a).ToList();
+                            var y = Names(b).ToList();
+                            var byName = Compare(x.FirstOrDefault() ?? "", y.FirstOrDefault() ?? "", locale);
+                            return byName != 0 ? byName : x.Count - y.Count;
+                        }),
+                        ExportValue = c.ExportValue ?? (row =>
+                        {
+                            var value = Raw(column, row);
+                            var parts = column.ExportAs == DataGridExportAs.Email ? PeopleOf(value).Select(p => p.Email ?? "") : Names(value);
+                            var joined = string.Join("; ", parts);
+                            return joined.Replace(";", "").Trim().Length == 0 ? null : joined;
+                        }),
+                    };
+                }
             case DataGridCellType.File:
-            {
-                static IEnumerable<string> Names(object? v) => FilesOf(v).Select(f => f.Name);
-                return c with
                 {
-                    Align = c.Align == DataGridAlign.Default ? DataGridAlign.Start : c.Align,
-                    Format = c.Format ?? ((v, _) => string.Join("; ", Names(v))),
-                    FilterText = c.FilterText ?? ((v, _) => string.Join(" ", Names(v))),
-                    Compare = c.Compare ?? ((a, b) =>
+                    static IEnumerable<string> Names(object? v) => FilesOf(v).Select(f => f.Name);
+                    return c with
                     {
-                        var x = Names(a).ToList();
-                        var y = Names(b).ToList();
-                        var byName = Compare(x.FirstOrDefault() ?? "", y.FirstOrDefault() ?? "", locale);
-                        return byName != 0 ? byName : x.Count - y.Count;
-                    }),
-                    ExportValue = c.ExportValue ?? (row =>
-                    {
-                        var joined = string.Join("; ", Names(Raw(column, row)));
-                        return joined.Length == 0 ? null : joined;
-                    }),
-                };
-            }
+                        Align = c.Align == DataGridAlign.Default ? DataGridAlign.Start : c.Align,
+                        Format = c.Format ?? ((v, _) => string.Join("; ", Names(v))),
+                        FilterText = c.FilterText ?? ((v, _) => string.Join(" ", Names(v))),
+                        Compare = c.Compare ?? ((a, b) =>
+                        {
+                            var x = Names(a).ToList();
+                            var y = Names(b).ToList();
+                            var byName = Compare(x.FirstOrDefault() ?? "", y.FirstOrDefault() ?? "", locale);
+                            return byName != 0 ? byName : x.Count - y.Count;
+                        }),
+                        ExportValue = c.ExportValue ?? (row =>
+                        {
+                            var joined = string.Join("; ", Names(Raw(column, row)));
+                            return joined.Length == 0 ? null : joined;
+                        }),
+                    };
+                }
             case DataGridCellType.Select:
             case DataGridCellType.Radio:
-            {
-                var order = (column.Options ?? Array.Empty<DataGridOption>()).Select((o, i) => (o.Id, i)).ToDictionary(x => x.Id, x => x.i);
-                int Rank(object? v) => v is string id && order.TryGetValue(id, out var i) ? i : int.MaxValue;
-                return c with
                 {
-                    Align = c.Align == DataGridAlign.Default ? DataGridAlign.Start : c.Align,
-                    Editor = c.Editor == DataGridEditor.Default ? (column.Type == DataGridCellType.Select ? DataGridEditor.Select : DataGridEditor.Radio) : c.Editor,
-                    Format = c.Format ?? ((v, _) => OptionLabel(column, v)),
-                    FilterText = c.FilterText ?? ((v, _) => OptionLabel(column, v)),
-                    Compare = c.Compare ?? (column.Type == DataGridCellType.Radio || column.SortBy == DataGridSortBy.Order
-                        ? (a, b) => Rank(a).CompareTo(Rank(b))
-                        : (a, b) => Compare(OptionLabel(column, a), OptionLabel(column, b), locale)),
-                    ExportValue = c.ExportValue ?? (row =>
+                    var order = (column.Options ?? Array.Empty<DataGridOption>()).Select((o, i) => (o.Id, i)).ToDictionary(x => x.Id, x => x.i);
+                    int Rank(object? v) => v is string id && order.TryGetValue(id, out var i) ? i : int.MaxValue;
+                    return c with
                     {
-                        var id = Raw(column, row);
-                        if (IsEmpty(id)) return null;
-                        return column.ExportAs == DataGridExportAs.Id ? id : OptionLabel(column, id);
-                    }),
-                };
-            }
+                        Align = c.Align == DataGridAlign.Default ? DataGridAlign.Start : c.Align,
+                        Editor = c.Editor == DataGridEditor.Default ? (column.Type == DataGridCellType.Select ? DataGridEditor.Select : DataGridEditor.Radio) : c.Editor,
+                        Format = c.Format ?? ((v, _) => OptionLabel(column, v)),
+                        FilterText = c.FilterText ?? ((v, _) => OptionLabel(column, v)),
+                        Compare = c.Compare ?? (column.Type == DataGridCellType.Radio || column.SortBy == DataGridSortBy.Order
+                            ? (a, b) => Rank(a).CompareTo(Rank(b))
+                            : (a, b) => Compare(OptionLabel(column, a), OptionLabel(column, b), locale)),
+                        ExportValue = c.ExportValue ?? (row =>
+                        {
+                            var id = Raw(column, row);
+                            if (IsEmpty(id)) return null;
+                            return column.ExportAs == DataGridExportAs.Id ? id : OptionLabel(column, id);
+                        }),
+                    };
+                }
             default:
                 return c;
         }

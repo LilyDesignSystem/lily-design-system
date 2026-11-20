@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/PaginationListItem.razor"
   },
   "docs": "https://lilydesignsystem.com/components/pagination-list-item/",
+  "markdown": "https://lilydesignsystem.com/components/pagination-list-item.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/pagination-list-item/AGENTS.md"
 }

@@ -5,6 +5,7 @@
 - Component: affix
 - PascalCase: Affix
 - Description: a wrapper that pins its content to a viewport position while the page scrolls
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .affix
 - Interactive: no
@@ -43,6 +44,10 @@
 - [ ] data-offset-top and data-offset-bottom data attributes are emitted when provided
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

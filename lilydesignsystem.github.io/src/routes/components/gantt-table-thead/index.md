@@ -2,6 +2,8 @@
 
 A Gantt table head is the header section of a Gantt chart grid, wrapping one or more rows that label the columns of the chart. Typically contains a row with a task-name column header and time-period column headers (e.g., weeks, months, sprints). It is designed to be used inside a GanttTable `<table>` structure.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 The component renders a `<thead>` element and passes through its children, which are expected to be GanttTableTr or `<tr>` elements containing `<th>` header cells.
 
 ## Implementation Notes
@@ -78,6 +80,10 @@ The consumer provides all CSS styling. The component renders with a `.gantt-tabl
 - `gantt-table-tr` — see components.tsv
 - `gantt-table-th` — a Gantt chart table interactive grid header cell for planning schedule visualization <th>
 - `gantt-table-td` — a Gantt chart table interactive grid data cell for planning schedule visualization <td>
+
+## Known limitations
+
+None known.
 
 ## References
 

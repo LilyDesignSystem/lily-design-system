@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/MaltaPassportNumberInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/malta-passport-number-input/",
+  "markdown": "https://lilydesignsystem.com/components/malta-passport-number-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/malta-passport-number-input/AGENTS.md"
 }

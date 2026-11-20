@@ -89,6 +89,10 @@ The consumer provides all CSS styling. The component renders with a `.place` cla
 - `organization` — an organization component that contains other organization-related information
 - `address-input` — an input for searching or manually entering an address
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN article element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article)

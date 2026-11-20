@@ -58,6 +58,10 @@ The component renders with `.section-list-item` as the root class. No default st
 - `section-list` — parent list
 - `section-link` — link inside the item
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN li element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li)

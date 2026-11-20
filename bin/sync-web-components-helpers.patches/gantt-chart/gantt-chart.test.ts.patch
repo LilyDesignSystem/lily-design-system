@@ -1,0 +1,538 @@
+--- /var/folders/zp/p2vtmfrj35b27yh4ns6h_6h40000gn/T/tmp.ieObAVbSXk	2026-11-20 06:21:06.621963843 +0000
++++ lily-design-system-web-components-gantt-chart/gantt-chart.test.ts	2026-10-28 07:24:36.829806114 +0000
+@@ -1,12 +1,7 @@
+-import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
+-
+-// Registers <lily-date-time-picker> as a side effect (gantt-chart.ts imports
+-// it too, but the test file exercises the pure helpers directly first).
+-import "@lilydesignsystem/web-components-date-time-picker";
++import { afterEach, describe, expect, test, vi } from "vitest";
+
+ import {
+     GanttChart,
+-    addDays,
+     compareISO,
+     effectiveRange,
+     endOfMonth,
+@@ -15,11 +10,14 @@
+ } from "./gantt-chart.js";
+ import type { GanttLabels, GanttTask } from "./gantt-chart.js";
+
+-// Ensure the custom element is registered exactly once for the suite.
+ if (typeof customElements !== "undefined" && !customElements.get("lily-gantt-chart")) {
+     customElements.define("lily-gantt-chart", GanttChart);
+ }
+
++afterEach(() => {
++    document.body.innerHTML = "";
++});
++
+ const RANGE = { start: "2026-10-01", end: "2026-10-10" };
+
+ const TASKS: GanttTask[] = [
+@@ -64,34 +62,38 @@
+         collapsed ? `Expand ${task.label}` : `Collapse ${task.label}`,
+ };
+
+-function mount(opts: {
++function mount(props: {
++    label?: string;
++    range?: { start: string; end: string };
+     tasks?: GanttTask[];
+     labels?: GanttLabels;
+     today?: string;
+     onTaskChange?: (taskId: string, start: string, end: string, percentComplete?: number) => void;
++    attrs?: Record<string, string>;
+ }): GanttChart {
+     const el = document.createElement("lily-gantt-chart") as GanttChart;
+-    el.setAttribute("label", "Q4 plan");
++    el.label = props.label ?? "Q4 plan";
++    if (props.today) el.today = props.today;
++    for (const [k, v] of Object.entries(props.attrs ?? {})) el.setAttribute(k, v);
+     document.body.appendChild(el);
+-    el.range = RANGE;
+-    el.tasks = opts.tasks ?? TASKS;
+-    if (opts.labels) el.labels = opts.labels;
+-    if (opts.today) el.today = opts.today;
+-    if (opts.onTaskChange) el.onTaskChange = opts.onTaskChange;
++    el.range = props.range ?? RANGE;
++    el.tasks = props.tasks ?? TASKS;
++    if (props.labels) el.labels = props.labels;
++    if (props.onTaskChange) el.onTaskChange = props.onTaskChange;
+     return el;
+ }
+
+ function tabbableCells(): HTMLElement[] {
+-    return Array.from(document.querySelectorAll('.gantt-table-td[tabindex="0"]'));
++    return Array.from(document.querySelectorAll('.gantt-chart-td[tabindex="0"]'));
+ }
+
+ function rows(): HTMLElement[] {
+-    return Array.from(document.querySelectorAll(".gantt-table-tbody > .gantt-table-tr"));
++    return Array.from(document.querySelectorAll(".gantt-chart tbody tr"));
+ }
+
+-function press(el: Element, key: string, opts: KeyboardEventInit = {}): void {
++function press(el: Element, key: string, extra: KeyboardEventInit = {}): void {
+     el.dispatchEvent(
+-        new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true, ...opts }),
++        new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true, ...extra }),
+     );
+ }
+
+@@ -99,13 +101,30 @@
+     el.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
+ }
+
+-beforeEach(() => {
+-    document.body.replaceChildren();
+-});
++function buttonNamed(name: string): HTMLButtonElement {
++    return Array.from(document.querySelectorAll("button")).find(
++        (b) => b.textContent === name,
++    ) as HTMLButtonElement;
++}
+
+-afterEach(() => {
+-    document.body.replaceChildren();
+-});
++/** The collapse button for a task, found by its state: its chevron points down when open, right when collapsed. */
++function collapseChevron(collapsed: boolean): HTMLButtonElement {
++    const d = collapsed ? "M5 2l6 6-6 6" : "M2 5l6 6 6-6";
++    return Array.from(
++        document.querySelectorAll<HTMLButtonElement>("button.gantt-chart-collapse-button"),
++    ).find((b) => b.querySelector("path")?.getAttribute("d") === d) as HTMLButtonElement;
++}
++
++// The composed <lily-date-time-picker>'s own footer can ALSO carry a
++// button whose text is "Cancel"/"Confirm" (from DTP_LABELS below), so
++// gantt-chart's own Save/Cancel controls must be queried by class, not
++// text content, to avoid clicking the wrong one.
++function saveButton(): HTMLButtonElement {
++    return document.querySelector(".gantt-chart-save-button")!;
++}
++function cancelButton(): HTMLButtonElement {
++    return document.querySelector(".gantt-chart-cancel-button")!;
++}
+
+ // =====================================================================
+ // Pure helpers — civil-date arithmetic, column generation, hierarchy
+@@ -118,10 +137,6 @@
+         expect(compareISO("2026-10-01", "2026-10-01")).toBe(0);
+     });
+
+-    test("addDays (reused from html-date-time-picker) is UTC-safe across a month boundary", () => {
+-        expect(addDays("2026-10-30", 3)).toBe("2026-11-02");
+-    });
+-
+     test("endOfMonth returns the last calendar day of the month", () => {
+         expect(endOfMonth("2026-02-05")).toBe("2026-02-28"); // 2026 is not a leap year
+         expect(endOfMonth("2026-10-15")).toBe("2026-10-31");
+@@ -192,14 +207,14 @@
+
+     test("§8.2 renders one column header per day across the range", () => {
+         mount({ labels: LABELS });
+-        const headers = document.querySelectorAll(".gantt-table-thead .gantt-table-th");
+-        expect(headers).toHaveLength(11); // 10 day columns + 1 leading blank column
++        const hs = document.querySelectorAll(".gantt-chart thead th");
++        expect(hs).toHaveLength(11); // 10 day columns + 1 leading blank column
+     });
+
+     test("§8.3 a task's range marks its overlapping cells data-in-range; other cells do not", () => {
+         mount({});
+         const designRow = rows()[0];
+-        const cells = designRow.querySelectorAll(".gantt-table-td");
++        const cells = designRow.querySelectorAll(".gantt-chart-td");
+         expect(cells[0].hasAttribute("data-in-range")).toBe(true); // Oct 1
+         expect(cells[2].hasAttribute("data-in-range")).toBe(true); // Oct 3
+         expect(cells[3].hasAttribute("data-in-range")).toBe(false); // Oct 4
+@@ -208,7 +223,7 @@
+     test("§8.3 a milestone (start === end) marks exactly one cell data-milestone", () => {
+         mount({});
+         const launchRow = rows()[2];
+-        const cells = Array.from(launchRow.querySelectorAll(".gantt-table-td"));
++        const cells = Array.from(launchRow.querySelectorAll(".gantt-chart-td"));
+         const milestoneCells = cells.filter((c) => c.hasAttribute("data-milestone"));
+         expect(milestoneCells).toHaveLength(1);
+         expect(milestoneCells[0].getAttribute("data-col")).toBe("6"); // Oct 7 = index 6
+@@ -227,7 +242,7 @@
+     test("§8.5 a parent row's cells reflect its derived range, not its own start/end", () => {
+         mount({});
+         const parentRow = rows()[3];
+-        const cells = parentRow.querySelectorAll(".gantt-table-td");
++        const cells = parentRow.querySelectorAll(".gantt-chart-td");
+         expect(cells[0].hasAttribute("data-in-range")).toBe(false); // Oct 1 (parent's own start) not in derived range
+         expect(cells[7].hasAttribute("data-in-range")).toBe(true); // Oct 8 (child1)
+         expect(cells[8].hasAttribute("data-in-range")).toBe(true); // Oct 9 (child2)
+@@ -236,15 +251,17 @@
+     test("§8.6 collapsing a parent removes its descendant rows from the DOM outright", () => {
+         mount({ labels: LABELS });
+         expect(rows()).toHaveLength(6);
+-        const collapseButton = document.querySelector(
+-            '[aria-label="Collapse Phase 1"]',
+-        ) as HTMLButtonElement;
++        const collapseButton = collapseChevron(false);
++        expect(collapseButton.getAttribute("aria-label")).toBe("Collapse Phase 1");
+         expect(collapseButton.getAttribute("aria-expanded")).toBe("true");
+         click(collapseButton);
+         expect(rows()).toHaveLength(4);
+         expect(document.body.textContent).not.toContain("Child A");
+-        const expanded = document.querySelector('[aria-label="Expand Phase 1"]')!;
+-        expect(expanded.getAttribute("aria-expanded")).toBe("false");
++        const expandButton = collapseChevron(true);
++        expect(expandButton.getAttribute("aria-label")).toBe("Expand Phase 1");
++        expect(expandButton.getAttribute("aria-expanded")).toBe("false");
++        expect(expandButton.textContent).toBe("");
++        expect(expandButton.querySelector("svg")!.getAttribute("aria-hidden")).toBe("true");
+     });
+ });
+
+@@ -252,7 +269,7 @@
+     test("§8.7 a task with dependsOn carries aria-describedby to a generated summary", () => {
+         mount({ labels: LABELS });
+         const buildRow = rows()[1];
+-        const describedCell = buildRow.querySelector(".gantt-table-td[aria-describedby]");
++        const describedCell = buildRow.querySelector(".gantt-chart-td[aria-describedby]");
+         expect(describedCell).toBeTruthy();
+         const id = describedCell!.getAttribute("aria-describedby")!;
+         expect(document.getElementById(id)?.textContent).toBe("Blocked by: Design");
+@@ -261,7 +278,7 @@
+     test("§8.7 a task with no dependencies carries no aria-describedby", () => {
+         mount({ labels: LABELS });
+         const designRow = rows()[0];
+-        expect(designRow.querySelector(".gantt-table-td[aria-describedby]")).toBeNull();
++        expect(designRow.querySelector(".gantt-chart-td[aria-describedby]")).toBeNull();
+     });
+ });
+
+@@ -292,12 +309,10 @@
+     test("§8.9 Enter on a focused non-parent row opens an edit region with two date pickers", () => {
+         mount({ labels: LABELS });
+         press(tabbableCells()[0], "Enter");
+-        expect(
+-            document.querySelector('.date-time-picker-button[aria-label="Start date"]'),
+-        ).toBeTruthy();
+-        expect(
+-            document.querySelector('.date-time-picker-button[aria-label="End date"]'),
+-        ).toBeTruthy();
++        const pickers = document.querySelectorAll(".gantt-chart-edit-row lily-date-time-picker");
++        expect(pickers).toHaveLength(2);
++        expect(pickers[0].getAttribute("label")).toBe("Start date");
++        expect(pickers[1].getAttribute("label")).toBe("End date");
+     });
+
+     test("§8.9 editing does not open when labels.dateTimePickerLabels is absent", () => {
+@@ -308,7 +323,6 @@
+
+     test("§8.9 Enter on a parent row does not open an edit region", () => {
+         mount({ labels: LABELS });
+-        // Move focus down to the parent row (index 3).
+         for (let i = 0; i < 3; i++) {
+             press(tabbableCells()[0], "ArrowDown");
+         }
+@@ -321,7 +335,7 @@
+         const onTaskChange = vi.fn();
+         mount({ labels: LABELS, onTaskChange });
+         press(tabbableCells()[0], "Enter");
+-        click(document.querySelector(".gantt-chart-save-button")!);
++        click(saveButton());
+         expect(onTaskChange).toHaveBeenCalledWith("design", "2026-10-01", "2026-10-03");
+         expect(document.querySelector(".gantt-chart-edit-row")).toBeNull();
+     });
+@@ -330,19 +344,10 @@
+         const onTaskChange = vi.fn();
+         mount({ labels: LABELS, onTaskChange });
+         press(tabbableCells()[0], "Enter");
+-        click(document.querySelector(".gantt-chart-cancel-button")!);
++        click(cancelButton());
+         expect(onTaskChange).not.toHaveBeenCalled();
+         expect(document.querySelector(".gantt-chart-edit-row")).toBeNull();
+     });
+-
+-    test("opening a task's edit region preserves the roving-tabindex cursor's own DOM node (targeted insert, not a rebuild)", () => {
+-        mount({ labels: LABELS });
+-        const cell = tabbableCells()[0];
+-        press(cell, "Enter");
+-        // Same DOM node still carries tabindex=0 and is still in the document.
+-        expect(tabbableCells()[0]).toBe(cell);
+-        expect(cell.isConnected).toBe(true);
+-    });
+ });
+
+ describe("GanttChart — pointer drag and announcements (§8.12, §8.13, §8.14)", () => {
+@@ -351,16 +356,18 @@
+         mount({ onTaskChange });
+         const dataTransfer = { setData: vi.fn(), getData: vi.fn(() => "design") };
+         const bar = rows()[0].querySelector(".gantt-chart-bar")!;
+-        bar.dispatchEvent(
+-            Object.assign(new Event("dragstart", { bubbles: true, cancelable: true }), {
+-                dataTransfer,
+-            }),
+-        );
++        const dragStart = new Event("dragstart", {
++            bubbles: true,
++            cancelable: true,
++        }) as unknown as DragEvent;
++        Object.defineProperty(dragStart, "dataTransfer", { value: dataTransfer });
++        bar.dispatchEvent(dragStart);
++
++        const targetCell = rows()[0].querySelectorAll(".gantt-chart-td")[5]; // Oct 6
++        const drop = new Event("drop", { bubbles: true, cancelable: true }) as unknown as DragEvent;
++        Object.defineProperty(drop, "dataTransfer", { value: dataTransfer });
++        targetCell.dispatchEvent(drop);
+
+-        const targetCell = rows()[0].querySelectorAll(".gantt-table-td")[5]; // Oct 6
+-        targetCell.dispatchEvent(
+-            Object.assign(new Event("drop", { bubbles: true, cancelable: true }), { dataTransfer }),
+-        );
+         // design was Oct1-Oct3 (2-day duration); dropped on Oct6 keeps that duration.
+         expect(onTaskChange).toHaveBeenCalledWith("design", "2026-10-06", "2026-10-08");
+     });
+@@ -368,7 +375,7 @@
+     test("§8.13 a successful edit announces via labels.dateAnnouncement", () => {
+         mount({ labels: LABELS });
+         press(tabbableCells()[0], "Enter");
+-        click(document.querySelector(".gantt-chart-save-button")!);
++        click(saveButton());
+         expect(document.querySelector(".gantt-chart-status")?.textContent).toBe(
+             "Design moved to 2026-10-01 - 2026-10-03",
+         );
+@@ -376,32 +383,27 @@
+
+     test("§8.14 `today` marks its column data-today; omitting it marks nothing", () => {
+         mount({ today: "2026-10-05" });
+-        const headers = document.querySelectorAll(".gantt-table-thead .gantt-table-th");
+-        expect(headers[5].hasAttribute("data-today")).toBe(true); // Oct 5 = index 4 + 1 leading column
+-        document.body.replaceChildren();
++        const hs = document.querySelectorAll(".gantt-chart thead th");
++        expect(hs[5].hasAttribute("data-today")).toBe(true); // Oct 5 = index 4 + 1 leading column
++        document.body.innerHTML = "";
+
+         mount({});
+         expect(document.querySelectorAll("[data-today]")).toHaveLength(0);
+     });
+ });
+
+-describe("GanttChart — extra attributes and labels (§8.15, §8.16)", () => {
+-    test("§8.15 the custom element itself already carries any extra HTML attribute a consumer sets (no forwarding needed)", () => {
+-        const el = document.createElement("lily-gantt-chart") as GanttChart;
+-        el.setAttribute("label", "Q4 plan");
+-        el.setAttribute("data-testid", "chart-root");
+-        document.body.appendChild(el);
+-        el.range = RANGE;
+-        el.tasks = TASKS;
+-        expect(document.querySelector('[data-testid="chart-root"]')).toBe(el);
++describe("GanttChart — extra attributes (§8.15)", () => {
++    test("§8.15 extra attributes spread onto the root", () => {
++        mount({ attrs: { "data-testid": "chart-root" } });
++        expect(document.querySelector('[data-testid="chart-root"]')).toBeTruthy();
+     });
++});
+
+-    test("§8.16 no collapse-button accessible name or dependency summary renders without a label", () => {
++describe("GanttChart — no hardcoded strings (§8.16)", () => {
++    test("§8.16 column headers fall back to the raw ISO date, never English text, when columnLabel is absent", () => {
+         mount({});
+-        // No unnamed button: without labels.collapseButton there is none at all.
+-        expect(document.querySelector(".gantt-chart-collapse-button")).toBeNull();
+-        const buildRow = rows()[1];
+-        expect(buildRow.querySelector(".gantt-table-td[aria-describedby]")).toBeNull();
++        const hs = document.querySelectorAll(".gantt-chart thead th");
++        expect(hs[1].textContent).toBe("2026-10-01");
+     });
+ });
+
+@@ -412,16 +414,14 @@
+         );
+     }
+
+-    function editButton(className: string): HTMLButtonElement {
+-        return document.querySelector<HTMLButtonElement>(
+-            `.gantt-chart-edit-row button.${className}`,
+-        )!;
++    function taskRows(): HTMLElement[] {
++        return rows().filter((r) => !r.classList.contains("gantt-chart-edit-row"));
+     }
+
+     test("§8.17 depth is a data-depth attribute, never an inline style", () => {
+         mount({});
+         const headers = Array.from(
+-            document.querySelectorAll<HTMLElement>(".gantt-table-tbody .gantt-table-th"),
++            document.querySelectorAll<HTMLElement>(".gantt-chart-row-header"),
+         );
+         expect(headers.map((h) => h.dataset.depth)).toEqual(["0", "0", "0", "0", "1", "1"]);
+         expect(headers.filter((h) => h.hasAttribute("style"))).toHaveLength(0);
+@@ -452,17 +452,19 @@
+         mount({ labels: LABELS });
+         press(tabbableCells()[0], "End", { ctrlKey: true });
+         expect(tabbableCells()[0].getAttribute("data-row")).toBe("5");
+-        const collapse = document.querySelector<HTMLElement>('[aria-label="Collapse Phase 1"]')!;
++        const collapse = document.querySelector<HTMLButtonElement>(
++            '[aria-label="Collapse Phase 1"]',
++        )!;
+         collapse.focus();
+         click(collapse);
+-        expect(rows()).toHaveLength(4);
++        expect(taskRows()).toHaveLength(4);
+         expect(tabbableCells()).toHaveLength(1);
+         expect(document.activeElement?.getAttribute("aria-label")).toBe("Expand Phase 1");
+     });
+
+     test("§8.8 focusing a cell by pointer moves the cursor there", () => {
+         mount({});
+-        const cell = rows()[2].querySelectorAll<HTMLElement>(".gantt-table-td")[4];
++        const cell = taskRows()[2].querySelectorAll<HTMLElement>("td")[4];
+         cell.focus();
+         expect(tabbableCells()).toEqual([cell]);
+     });
+@@ -489,7 +491,7 @@
+             el.tasks = TASKS.map((t) => (t.id === id ? { ...t, start, end } : t));
+         };
+         press(tabbableCells()[0], "Enter");
+-        click(editButton("gantt-chart-save-button"));
++        click(saveButton());
+         expect(document.activeElement).toBe(tabbableCells()[0]);
+     });
+
+@@ -502,35 +504,25 @@
+         field.dispatchEvent(new Event("input", { bubbles: true }));
+         field.dispatchEvent(new Event("change", { bubbles: true }));
+         field.dispatchEvent(new FocusEvent("blur"));
+-        click(editButton("gantt-chart-save-button"));
++        click(saveButton());
+         expect(onTaskChange).toHaveBeenCalledWith("design", "2026-10-03", "2026-10-09");
+     });
+
+-    test("§8.16 the edit region does not open without its labels", () => {
++    test("§8.16 controls whose labels are absent do not render unnamed", () => {
+         mount({ labels: { dateTimePickerLabels: DTP_LABELS } });
++        expect(document.querySelector(".gantt-chart-collapse-button")).toBeNull();
+         press(tabbableCells()[0], "Enter");
+         expect(document.querySelector(".gantt-chart-edit-row")).toBeNull();
+     });
+
+     test("§8.16 labels.taskColumnHeader names the leading header cell", () => {
+         mount({ labels: { ...LABELS, taskColumnHeader: "Task" } });
+-        expect(document.querySelector(".gantt-table-thead .gantt-table-th")?.textContent).toBe(
+-            "Task",
+-        );
++        expect(document.querySelector(".gantt-chart thead th")?.textContent).toBe("Task");
+     });
+ });
+
+ describe("GanttChart — markers, working calendar, task data, readonly", () => {
+-    const heads = () =>
+-        Array.from(document.querySelectorAll(".gantt-table-thead .gantt-table-th")).slice(1);
+-    const bodyRows = () =>
+-        Array.from(document.querySelectorAll(".gantt-table-tbody > .gantt-table-tr"));
+-    const key = (el: Element, k: string, opts: KeyboardEventInit = {}) =>
+-        el.dispatchEvent(
+-            new KeyboardEvent("keydown", { key: k, bubbles: true, cancelable: true, ...opts }),
+-        );
+-    const tabbable = () =>
+-        Array.from(document.querySelectorAll<HTMLElement>('.gantt-table-td[tabindex="0"]'));
++    const heads = () => Array.from(document.querySelectorAll(".gantt-chart thead th")).slice(1);
+
+     test("markers mark the containing column, and a marker label renders as text", () => {
+         const el = mount({ labels: LABELS });
+@@ -538,8 +530,8 @@
+         expect(heads()[4].getAttribute("data-marker")).toBe("holiday");
+         expect(heads()[4].textContent).toContain("Bank holiday");
+         expect(heads()[3].hasAttribute("data-marker")).toBe(false);
+-        expect(document.querySelectorAll(".gantt-table-td[data-marker]").length).toBe(
+-            bodyRows().length,
++        expect(document.querySelectorAll(".gantt-chart-td[data-marker]").length).toBe(
++            rows().length,
+         );
+     });
+
+@@ -555,7 +547,7 @@
+         const el = mount({});
+         el.timeUnit = "week";
+         el.isNonWorking = (d) => d === "2026-10-03";
+-        expect(document.querySelector(".gantt-table-thead [data-non-working]")).toBeNull();
++        expect(document.querySelector(".gantt-chart thead [data-non-working]")).toBeNull();
+     });
+
+     test("task type, critical and slack become data attributes on the row", () => {
+@@ -572,7 +564,7 @@
+                 },
+             ],
+         });
+-        const row = bodyRows()[0];
++        const row = rows()[0];
+         expect(row.getAttribute("data-task-type")).toBe("design");
+         expect(row.hasAttribute("data-critical")).toBe(true);
+         expect(row.getAttribute("data-slack")).toBe("2");
+@@ -610,20 +602,20 @@
+     test("readonly: no edit region, no drag, navigation and collapse still work", () => {
+         const el = mount({ labels: LABELS });
+         el.readonly = true;
+-        key(tabbable()[0], "Enter");
++        press(tabbableCells()[0], "Enter");
+         expect(document.querySelector(".gantt-chart-edit-row")).toBeNull();
+         expect(document.querySelector(".gantt-chart-bar[draggable='true']")).toBeNull();
+         expect(document.querySelector(".gantt-chart")!.hasAttribute("data-readonly")).toBe(true);
+-        key(tabbable()[0], "ArrowRight");
+-        expect(tabbable()[0].getAttribute("data-col")).toBe("1");
++        press(tabbableCells()[0], "ArrowRight");
++        expect(tabbableCells()[0].getAttribute("data-col")).toBe("1");
+         (document.querySelector('[aria-label="Collapse Phase 1"]') as HTMLElement).click();
+         expect(document.querySelector('[aria-label="Expand Phase 1"]')).toBeTruthy();
+     });
+ });
+
+-describe("lily-gantt-chart — progress field, baselines, typed dependencies", () => {
++describe("GanttChart — progress field, baselines, typed dependencies", () => {
+     const cellsOf = (i: number) =>
+-        Array.from(rows()[i].querySelectorAll<HTMLElement>(".gantt-table-td"));
++        Array.from(rows()[i].querySelectorAll<HTMLElement>(".gantt-chart-td"));
+     const percentLabels: GanttLabels = { ...LABELS, percentLabel: "Percent complete" };
+     const percentInput = () =>
+         document.querySelector(".gantt-chart-percent-input") as HTMLInputElement | null;
+@@ -763,19 +755,19 @@
+     });
+ });
+
+-describe("lily-gantt-chart — zoom, resize handles, selection, Alt+Arrow, taskAttrs (§14.1–§14.17)", () => {
++describe("GanttChart — zoom, resize handles, selection, Alt+Arrow, taskAttrs (§14.1–§14.17)", () => {
+     const zl: GanttLabels = {
+         ...LABELS,
+         zoomIn: "Zoom in",
+         zoomOut: "Zoom out",
+         zoomAnnouncement: (u) => `Showing ${u}s`,
+     };
+-    const cols = () => document.querySelectorAll(".gantt-table-thead .gantt-table-th").length - 1;
++    const cols = () => document.querySelectorAll(".gantt-chart thead th").length - 1;
+     const btn = (n: string) =>
+         Array.from(document.querySelectorAll("button")).find(
+             (b) => b.getAttribute("aria-label") === n,
+         ) as HTMLButtonElement;
+-    const cellAt = (i: number) => rows()[0].querySelectorAll(".gantt-table-td")[i] as HTMLElement;
++    const cellAt = (i: number) => rows()[0].querySelectorAll(".gantt-chart-td")[i] as HTMLElement;
+     const dragEvent = (type: string) => {
+         const e = new Event(type, { bubbles: true, cancelable: true });
+         Object.defineProperty(e, "dataTransfer", {
+@@ -837,11 +829,11 @@
+         const onTaskSelect = vi.fn();
+         const el = mount({});
+         el.onTaskSelect = onTaskSelect;
+-        const c = rows()[1].querySelectorAll(".gantt-table-td")[0];
++        const c = rows()[1].querySelectorAll(".gantt-chart-td")[0];
+         click(c);
+         expect(rows()[1].getAttribute("aria-selected")).toBe("true");
+         expect(rows()[1].hasAttribute("data-selected")).toBe(true);
+-        click(rows()[1].querySelectorAll(".gantt-table-td")[0]);
++        click(rows()[1].querySelectorAll(".gantt-chart-td")[0]);
+         expect(rows()[1].hasAttribute("data-selected")).toBe(false);
+         expect(onTaskSelect.mock.calls).toEqual([["build"], [undefined]]);
+         press(tabbableCells()[0], "s");
+@@ -1075,7 +1067,7 @@
+
+     test("§14.25 each field is a column between the task name and the timeline, with a header and formatted cells", () => {
+         render(base);
+-        const heads = Array.from(document.querySelectorAll(".gantt-table-thead th"))
++        const heads = Array.from(document.querySelectorAll("thead th"))
+             .slice(0, 3)
+             .map((e) => e.textContent?.trim());
+         expect(heads).toEqual(["", "Owner", "Points"]);

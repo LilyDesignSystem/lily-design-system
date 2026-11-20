@@ -72,6 +72,10 @@ A national identifier is personal data, and often a key to other records.
 - `nederland-burgerservice-nummer-input` — an input for entering Netherlands's Burgerservicenummer (BSN)
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/Burgerservicenummer

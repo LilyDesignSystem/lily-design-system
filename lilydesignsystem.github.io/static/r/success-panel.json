@@ -40,5 +40,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SuccessPanel.razor"
   },
   "docs": "https://lilydesignsystem.com/components/success-panel/",
+  "markdown": "https://lilydesignsystem.com/components/success-panel.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/success-panel/AGENTS.md"
 }

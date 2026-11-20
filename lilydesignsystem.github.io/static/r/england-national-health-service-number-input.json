@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/EnglandNationalHealthServiceNumberInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/england-national-health-service-number-input/",
+  "markdown": "https://lilydesignsystem.com/components/england-national-health-service-number-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/england-national-health-service-number-input/AGENTS.md"
 }

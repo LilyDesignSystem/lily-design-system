@@ -88,6 +88,10 @@ A national identifier is personal data, and often a key to other records.
 - `espana-codigo-de-identificacion-fiscal-view` — a read-only display of Spain's Código de Identificación Fiscal (CIF)
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/VAT_identification_number#Spain

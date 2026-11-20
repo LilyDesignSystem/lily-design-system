@@ -9462,6 +9462,20 @@
       ]
     },
     {
+      "name": "search-text-utils",
+      "type": "registry:lib",
+      "title": "search-text.ts",
+      "description": "Shared helper module search-text.ts, used by Lily React headless components.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/search-text.ts",
+          "type": "registry:lib",
+          "target": "@components/lily/search-text.ts"
+        }
+      ]
+    },
+    {
       "name": "section-heading",
       "type": "registry:component",
       "title": "SectionHeading",
@@ -11656,6 +11670,23 @@
           "path": "lily-design-system-react-headless-identifiers/components/TurkiyeTcKimlikNumarasiView.tsx",
           "type": "registry:component",
           "target": "@components/lily/TurkiyeTcKimlikNumarasiView.tsx"
+        }
+      ]
+    },
+    {
+      "name": "typeahead-utils",
+      "type": "registry:lib",
+      "title": "typeahead.ts",
+      "description": "Shared helper module typeahead.ts, used by Lily React headless components.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/search-text-utils"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/typeahead.ts",
+          "type": "registry:lib",
+          "target": "@components/lily/typeahead.ts"
         }
       ]
     },

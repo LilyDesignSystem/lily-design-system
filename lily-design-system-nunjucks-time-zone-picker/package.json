@@ -23,6 +23,7 @@
   ],
   "scripts": {
     "build": "bash build.sh",
+    "check": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
     "prepublishOnly": "npm run build"

@@ -67,6 +67,10 @@ Project a `role="tree"` into the panel. A single choice closes it; a multiple on
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Documentation: index.md

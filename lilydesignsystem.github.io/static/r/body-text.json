@@ -34,5 +34,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/BodyText.razor"
   },
   "docs": "https://lilydesignsystem.com/components/body-text/",
+  "markdown": "https://lilydesignsystem.com/components/body-text.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/body-text/AGENTS.md"
 }

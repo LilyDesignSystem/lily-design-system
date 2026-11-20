@@ -63,6 +63,14 @@ The component renders with `.go-to-top` as the root class. No default styles are
 - `go-to-previous-section` / `go-to-next-section` — adjacent-section navigation within a page
 - `skip-link` — keyboard-only "skip to main content" link
 
+## Known limitations
+
+### Disabled links and link look-alikes
+
+A link has no disabled state: the `disabled` attribute has no effect. Prefer not rendering an unavailable link. When the unavailable item must remain visible, set `aria-disabled="true"`, omit `href` (or guard every pointer and keyboard activation if the URL must remain), and use `tabindex="-1"` so it is not a misleading tab stop. Add `role="link"` when an anchor without `href` must retain link semantics.
+
+Use a native `<button>` for an action. Styling an anchor as a button does not give it button keyboard or disabled behavior.
+
 ## References
 
 - [MDN anchor element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a)

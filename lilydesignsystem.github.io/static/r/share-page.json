@@ -40,5 +40,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SharePage.razor"
   },
   "docs": "https://lilydesignsystem.com/components/share-page/",
+  "markdown": "https://lilydesignsystem.com/components/share-page.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/share-page/AGENTS.md"
 }

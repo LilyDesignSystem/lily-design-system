@@ -89,6 +89,10 @@ A national identifier is personal data, and often a key to other records.
 - `belgique-numero-de-registre-national-view` — a read-only display of Belgium's Numéro de Registre National / Rijksregisternummer (NRN)
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/National_identification_number#Belgium

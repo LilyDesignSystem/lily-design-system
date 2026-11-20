@@ -2,6 +2,8 @@
 
 A place component displays information about a place, such as its name, address, description, and map or image. It is used in location directories, venue listings, and geographic references.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses an `<article>` element for self-contained place content semantics.
 
 ## Implementation Notes
@@ -86,6 +88,10 @@ The consumer provides all CSS styling. The component renders with a `.place` cla
 - `person` — a person component that contains other person-related information
 - `organization` — an organization component that contains other organization-related information
 - `address-input` — an input for searching or manually entering an address
+
+## Known limitations
+
+None known.
 
 ## References
 

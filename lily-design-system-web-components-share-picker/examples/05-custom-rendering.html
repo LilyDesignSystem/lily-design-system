@@ -3,14 +3,14 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>share-picker — custom rendering</title>
+        <title>lily-share-picker — custom rendering</title>
         <style>
             body {
                 font-family: system-ui, sans-serif;
                 margin: 2rem;
                 max-width: 40rem;
             }
-            share-picker {
+            lily-share-picker {
                 display: inline-block;
             }
             .share-picker {
@@ -90,7 +90,7 @@
             copy-label="Copy link"
         ></svg-share-picker>
 
-        <h2>Icon plus visible text</h2>
+        <h2>Glyph plus visible text</h2>
         <p>
             Note the visible text is <code>this.label</code>, so the accessible
             name contains it — WCAG 2.5.3 Label in Name.
@@ -128,7 +128,7 @@
                     const icon = document.createElement("span");
                     icon.className = "share-picker-icon";
                     icon.setAttribute("aria-hidden", "true");
-                    icon.textContent = this.open ? "×" : "→"; // your own icon choice
+                    icon.textContent = this.open ? "×" : "➤";
                     const text = document.createElement("span");
                     text.style.marginInlineStart = "0.4em";
                     text.textContent = this.label;

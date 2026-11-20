@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SectionListItem.razor"
   },
   "docs": "https://lilydesignsystem.com/components/section-list-item/",
+  "markdown": "https://lilydesignsystem.com/components/section-list-item.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/section-list-item/AGENTS.md"
 }

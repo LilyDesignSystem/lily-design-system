@@ -75,6 +75,10 @@ TableRow is a child of TableHead/TableBody/TableFoot, following the Table patter
 - `table-td` — a table interactive grid data cell <td>
 - `table-th` — a table interactive grid column <th>
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN tr element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tr

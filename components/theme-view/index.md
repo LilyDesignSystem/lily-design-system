@@ -108,6 +108,10 @@ ThemeView is the read-only display counterpart to ThemeSelect. Use ThemeView to 
 
 - `theme-select` — a select dropdown for choosing a theme
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Accessible Name: https://www.w3.org/TR/accname-1.2/

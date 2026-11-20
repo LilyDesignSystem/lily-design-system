@@ -5,6 +5,7 @@
 - Component: grail-layout-center-main
 - PascalCase: GrailLayoutCenterMain
 - Description: grail layout center main content with <main> tag
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <main>
 - CSS class: .grail-layout-center-main
 - Interactive: no
@@ -51,6 +52,10 @@
 - [ ] Renders <main> element with class="grail-layout-center-main"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

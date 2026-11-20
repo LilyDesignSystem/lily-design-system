@@ -72,6 +72,10 @@ A national identifier is personal data, and often a key to other records.
 - `england-national-health-service-number-input` — an input for entering England's National Health Service Number (NHS)
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/NHS_number

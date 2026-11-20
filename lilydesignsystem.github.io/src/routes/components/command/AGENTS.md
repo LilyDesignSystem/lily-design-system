@@ -5,6 +5,7 @@
 - Component: command
 - PascalCase: Command
 - Description: a command palette for searching and executing actions
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .command
 - Interactive: yes
@@ -27,8 +28,14 @@
 
 ## Keyboard
 
-- **Tab**: Moves focus into and out of the search input
-- Additional keyboard navigation (arrow keys within the listbox) should be implemented by the consumer
+- Tab: Moves focus into and out of the search input
+- ArrowDown, ArrowUp: move the highlight and wrap; focus stays in the input
+- Home, End: jump to the first or last option, once one is highlighted; before that they stay the input's
+- Enter: clicks the highlighted option; with none highlighted it is left alone
+- Escape: drops the highlight; with none highlighted it is left alone, so an enclosing dialog still gets it
+- A key during IME composition belongs to the IME
+
+The highlighted option is `aria-activedescendant` on the input, with `aria-selected` and `data-active` on the option. Filtering, and what an option does, are the consumer's. From `shared/command-keys.ts`, held to the `command` contract.
 
 ## Props
 
@@ -38,6 +45,14 @@
 - `children`: slot (required) -- listbox content, typically option or command items
 - `...restProps`: any additional HTML attributes spread onto the outer `<div>`
 
+## Native platform
+
+- Decision: hand-rolled because a filtered listbox driven from a search input has no native element
+- Uses: native <input> in div role="search"; div role="listbox"
+- Could use: <dialog> showModal() around it for a Ctrl+K palette
+- Notes: Not an overlay; compose with dialog for the palette case.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
 ## Acceptance Criteria
 
 - [ ] Renders <div> element with class="command"
@@ -46,6 +61,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

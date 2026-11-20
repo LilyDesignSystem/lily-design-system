@@ -75,6 +75,10 @@ A national identifier is personal data, and often a key to other records.
 - `viet-nam-can-cuoc-cong-dan-input` — an input for entering Viet Nam's Citizen Identification Number (CCCD)
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [Vietnamese identity card](https://en.wikipedia.org/wiki/Vietnamese_identity_card)

@@ -5,6 +5,7 @@
 - Component: scroller-video
 - PascalCase: ScrollerVideo
 - Description: a video-driven scrollytelling component with frame-by-frame scrubbing
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .scroller-video
 - Interactive: yes
@@ -20,7 +21,7 @@
 
 ## ARIA
 
-- `aria-label` on container
+- `role="group"` with `aria-label` on container, because a plain `<div>` cannot be named
 - `role="img"` with `aria-roledescription="scrollable video"` on video area
 - `alt` text for non-visual access
 
@@ -42,13 +43,17 @@
 ## Acceptance Criteria
 
 - [ ] Renders <div> element with class="scroller-video"
-- [ ] Has aria-label attribute
+- [ ] Has role="group" and aria-label
 - [ ] Video scrubs based on scroll position
 - [ ] Video is muted
 - [ ] Exposes bindable index and progress values
 - [ ] Provides alt text for non-visual access
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS -- fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

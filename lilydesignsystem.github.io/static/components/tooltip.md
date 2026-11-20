@@ -132,6 +132,10 @@ The consumer provides all CSS styling. The component renders with a `.tooltip` c
 - `popover` — a floating content box anchored to a trigger element
 - `contextual-help` — a help button that opens a popover with explanatory content
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Tooltip Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/

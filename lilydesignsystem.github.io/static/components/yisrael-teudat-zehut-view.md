@@ -75,6 +75,10 @@ A national identifier is personal data, and often a key to other records.
 - `yisrael-teudat-zehut-input` — an input for entering Israel's Teudat Zehut (תעודת זהות)
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [Israeli identity card](https://en.wikipedia.org/wiki/Israeli_identity_card)

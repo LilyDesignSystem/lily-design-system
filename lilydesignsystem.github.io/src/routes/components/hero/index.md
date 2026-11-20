@@ -2,6 +2,8 @@
 
 A hero is a large, prominent section typically placed at the top of a page, featuring a title, description, and optionally a background image or call-to-action. Heroes are used to create a strong visual introduction and draw attention to key content.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses a `<section>` element with an `aria-label` to create a labeled landmark region for the hero content.
 
 ## Implementation Notes
@@ -90,6 +92,10 @@ The consumer provides all CSS styling. The component renders with a `.hero` clas
 
 - `feature-card` — a large content card with a prominent image positioned alongside or above the text
 - `call-to-action` — a prominent prompt encouraging user action
+
+## Known limitations
+
+None known.
 
 ## References
 

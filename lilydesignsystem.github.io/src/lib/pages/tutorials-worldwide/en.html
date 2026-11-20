@@ -20,7 +20,7 @@
   </p>
 
   <h2>Step 1 — Names: one field, not two</h2>
-  
+
   <pre tabindex="0"><code>&lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
 &lt;TextInput id="name" name="name" autocomplete="name" label="Full name" /&gt;</code></pre>
   <p>
@@ -30,7 +30,7 @@
   </p>
 
   <h2>Step 2 — Dates: the parts in the reader's order</h2>
-  
+
   <pre tabindex="0"><code>&lt;DateField
   label="Date of birth"
   dayLabel="Day"
@@ -55,7 +55,7 @@
   </p>
 
   <h2>Step 3 — Addresses: no country's shape as the default</h2>
-  
+
   <pre tabindex="0"><code>&lt;AddressInput label="Home address"&gt;
   &lt;label class="label" for="address"&gt;Address&lt;/label&gt;
   &lt;textarea class="text-area-input" id="address" name="address" autocomplete="street-address" rows="4"&gt;&lt;/textarea&gt;
@@ -70,7 +70,7 @@
   </p>
 
   <h2>Step 4 — Phone numbers and money</h2>
-  
+
   <pre tabindex="0"><code>&lt;TelInput label="Phone number" name="phone" autocomplete="tel" /&gt;
 &lt;CurrencyInput label="Fee" currencyCode="KES" bind:value={fee} /&gt;</code></pre>
   <p>
@@ -81,7 +81,7 @@
   </p>
 
   <h2>Step 5 — Direction and language</h2>
-  
+
   <pre tabindex="0"><code>&lt;LocalePicker label="Language" locales={["en", "fr", "ar", "sw"]} bind:value={locale} /&gt;</code></pre>
   <p>
     The locale picker sets <code>lang</code> and <code>dir</code> on the page,
@@ -93,7 +93,7 @@
   </p>
 
   <h2>Step 6 — The helpers' labels, in the reader's language</h2>
-  
+
   <pre tabindex="0"><code>&lt;script lang="ts"&gt;
   import { labelsFor } from "@lilydesignsystem/svelte-locale-translations";
   import sw from "@lilydesignsystem/svelte-locale-translations/sw-001";

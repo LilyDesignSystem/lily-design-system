@@ -104,6 +104,10 @@ The consumer provides all CSS styling. The component renders with a `.review-dat
 - `date-time-view` — see components.tsv
 - `byline` — see components.tsv
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN span element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span)

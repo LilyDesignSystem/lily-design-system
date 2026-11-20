@@ -155,6 +155,10 @@ and `-details` parts; each contents `li` has `data-section` and `data-status`. N
 - `observation-view` — results and vital signs in a `data-table`
 - `medical-banner` — the patient banner
 
+## Known limitations
+
+None known.
+
 ## References
 
 - IPS Implementation Guide (HL7 FHIR, 2.0.1): https://hl7.org/fhir/uv/ips/

@@ -5,6 +5,7 @@
 - Component: progress-bar
 - PascalCase: ProgressBar
 - Description: a horizontal progress indicator
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .progress-bar
 - Interactive: no
@@ -39,6 +40,10 @@
 - [ ] Renders `<div>` element with class="progress-bar"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

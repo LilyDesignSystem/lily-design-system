@@ -2,7 +2,7 @@
 
 Title: Cymariaethau — Lily Design System
 
-Description: 
+Description:
 
 # Cymariaethau
 

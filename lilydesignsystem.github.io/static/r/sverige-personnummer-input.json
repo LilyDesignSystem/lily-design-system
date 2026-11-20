@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/SverigePersonnummerInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/sverige-personnummer-input/",
+  "markdown": "https://lilydesignsystem.com/components/sverige-personnummer-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/sverige-personnummer-input/AGENTS.md"
 }

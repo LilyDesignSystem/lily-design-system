@@ -8,6 +8,8 @@ deletion or notifying of failed actions. They should be clear, concise, and
 appropriately styled (e.g., color-coded for severity by the consumer) to avoid
 confusion or unnecessary disruption.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This component renders as a `<div>` with ARIA live region attributes for
 automatic screen reader announcements. It supports different severity types
 (info, success, warning, error) exposed via a `data-type` attribute that
@@ -104,7 +106,9 @@ This component provides ARIA live region semantics (`role="alert"` or `role="sta
 
 ## Styles
 
-The consumer provides all CSS styling. The component renders with a `.alert` class for targeting. No default styles are included — this is a fully headless component.
+The headless component includes no CSS and renders `.alert` for targeting. A Lily reference theme exposes
+`--lily-alert-color`, `--lily-alert-border-color`, and `--lily-alert-border-radius`, defaulting to `--lily-text`,
+`--lily-border`, and `--lily-radius-md`. Severity still controls the accent rail and tint through `data-type`.
 
 ## Testing
 
@@ -124,6 +128,10 @@ The consumer provides all CSS styling. The component renders with a `.alert` cla
 - `banner` — a prominent message bar across the top of a page
 - `notification` — a brief message about an event or update
 - `warning-callout` — a callout box highlighting a warning message
+
+## Known limitations
+
+None known.
 
 ## References
 

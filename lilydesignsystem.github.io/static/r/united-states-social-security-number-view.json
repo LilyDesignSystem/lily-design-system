@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/UnitedStatesSocialSecurityNumberView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/united-states-social-security-number-view/",
+  "markdown": "https://lilydesignsystem.com/components/united-states-social-security-number-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/united-states-social-security-number-view/AGENTS.md"
 }

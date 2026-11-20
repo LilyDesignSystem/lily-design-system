@@ -108,6 +108,10 @@ The consumer provides all CSS styling. The component renders with a `.select` cl
 - `combobox` — a text input combined with a dropdown list for filtering options
 - `theme-select` — a select dropdown for choosing a theme
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN select element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select

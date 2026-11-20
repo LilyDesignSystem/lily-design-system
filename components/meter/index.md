@@ -116,6 +116,10 @@ The consumer provides all CSS styling. The component renders with a `.meter` cla
 - `progress-bar` — a horizontal progress indicator
 - `statistic` — a numeric value display with title, prefix, and suffix
 
+## Known limitations
+
+None known.
+
 ## References
 
 - HTML meter element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meter

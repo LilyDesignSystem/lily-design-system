@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TreeList.razor"
   },
   "docs": "https://lilydesignsystem.com/components/tree-list/",
+  "markdown": "https://lilydesignsystem.com/components/tree-list.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tree-list/AGENTS.md"
 }

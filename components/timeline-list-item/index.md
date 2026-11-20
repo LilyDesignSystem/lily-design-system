@@ -118,6 +118,10 @@ TimelineListItem is a child of TimelineList, following the List/ListItem pattern
 
 - `timeline-list` — an ordered list of chronological events or milestones
 
+## Known limitations
+
+None known.
+
 ## References
 
 - HTML `<li>` element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li

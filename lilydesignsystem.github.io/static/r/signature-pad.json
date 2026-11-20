@@ -48,5 +48,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SignaturePad.razor"
   },
   "docs": "https://lilydesignsystem.com/components/signature-pad/",
+  "markdown": "https://lilydesignsystem.com/components/signature-pad.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/signature-pad/AGENTS.md"
 }

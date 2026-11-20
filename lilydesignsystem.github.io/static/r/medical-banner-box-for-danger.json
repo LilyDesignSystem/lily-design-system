@@ -40,5 +40,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MedicalBannerBoxForDanger.razor"
   },
   "docs": "https://lilydesignsystem.com/components/medical-banner-box-for-danger/",
+  "markdown": "https://lilydesignsystem.com/components/medical-banner-box-for-danger.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/medical-banner-box-for-danger/AGENTS.md"
 }

@@ -5,6 +5,7 @@
 - Component: step-list-item
 - PascalCase: StepListItem
 - Description: one step in a step list with status of waiting, in progress, finished, or error
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <li>
 - CSS class: .step-list-item
 - Interactive: no
@@ -13,14 +14,14 @@
 
 - Renders a semantic <li class="step-list-item"> element
 - data-status reflects the status prop (default "waiting")
-- aria-current="step" is set when current is true
+- `data-current` is set when `current` is true (the item marks itself; put `aria-current="step"` on the content inside yourself)
 - aria-label is set when the optional label prop is provided
 - Composition: child of step-list
 
 ## ARIA
 
 - <li> provides list-item semantics
-- aria-current="step" when current is true
+- `data-current` when `current` is true; the component sets no `aria-current`
 - aria-label set when label prop is provided
 - data-status is a CSS hook for status-driven styling
 
@@ -40,11 +41,15 @@
 
 - [ ] Renders <li> with class="step-list-item"
 - [ ] data-status reflects the status prop
-- [ ] aria-current="step" set when current is true and absent when false
+- [ ] `data-current` set when `current` is true and absent when false; no `aria-current` on the `<li>`
 - [ ] aria-label equals the label prop when provided
 - [ ] Children render inside the list item
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

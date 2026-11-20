@@ -95,6 +95,10 @@ This headless component ships zero CSS and decides nothing visual. The consumer 
 - `allergy-record-list-item` — one allergy or intolerance in an allergy record list, with substance, reaction, severity, criticality and status
 - `record-list` and the other record lists — the same status contract for each part of a record
 
+## Known limitations
+
+None known.
+
 ## References
 
 - FHIR AllergyIntolerance: https://hl7.org/fhir/allergyintolerance.html

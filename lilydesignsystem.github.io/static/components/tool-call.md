@@ -86,6 +86,10 @@ The component never opens, times or animates itself. Open it yourself on error s
 - `expander`
 - `streaming-text`
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN details element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details)

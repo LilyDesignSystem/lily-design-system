@@ -1,0 +1,30 @@
+Bootstrap component or class	Lily slugs	What changes
+Accordion (`.accordion`)	accordion-list;accordion-list-item	Use the list and item composition; Lily owns disclosure semantics and keyboard behaviour, while a theme supplies appearance.
+Alerts (`.alert`)	alert	Pass the message as content and the semantic type as data or a component prop; do not carry Bootstrap colour classes across.
+Badges (`.badge`)	badge	Use text that communicates the status without colour; Lily does not provide `bg-*` utility classes.
+Breadcrumb (`.breadcrumb`)	breadcrumb-nav;breadcrumb-list;breadcrumb-list-item;breadcrumb-link	Use the complete navigation/list family so the landmark, current page, and separators remain semantic.
+Buttons (`.btn`, `.btn-*`)	button	Use the component for element and disabled semantics; choose a theme or target `.button` instead of copying variant utility classes.
+Button group (`.btn-group`)	button-group	Keep each action as a real button and provide an accessible group label where the actions form one set.
+Cards (`.card`)	card	Card is structural and unstyled; compose headings, links, and actions as content rather than translating `.card-*` classes one by one.
+Carousel (`.carousel`)	carousel	Lily supplies the carousel contract and keyboard behaviour; labels and autoplay policy stay under product control.
+Collapse (`.collapse`)	collapsible	Lily uses native disclosure semantics. Connect the visible trigger and region rather than toggling a presentation class.
+Dropdowns (`.dropdown`)	dropdown-menu;menu;menu-item	Choose menu semantics only for a set of actions. A navigation list or select is not a menu merely because it opens.
+List group (`.list-group`)	collection-list;collection-list-item	Use a semantic collection. Links and buttons inside items keep their native roles instead of making every row interactive.
+Modal (`.modal`)	dialog	Lily uses the native dialog element and supplies focus management; open it through the catalog API rather than toggling display classes.
+Navbar (`.navbar`)	navigation-menu	Use a labelled navigation landmark and real links. Responsive layout and branding belong to your stylesheet or chosen theme.
+Tabs (`.nav-tabs`)	tab-bar;tab-bar-button;tab-panel	Use the whole tabs family so selection, focus, arrow keys, and panel relationships remain synchronized.
+Offcanvas (`.offcanvas`)	drawer	Use a modal drawer when background interaction must stop; use ordinary layout for persistent side navigation.
+Pagination (`.pagination`)	pagination-nav;pagination-list;pagination-list-item;pagination-link	Use the family and mark the current page in words and with `aria-current`; disabled links are not a native state.
+Placeholders (`.placeholder`)	skeleton	Treat loading placeholders as temporary content and preserve an accessible loading announcement outside decorative shapes.
+Popovers (`.popover`)	popover	Use the Popover API contract and an explicit trigger relationship; Lily does not infer behaviour from a class.
+Progress (`.progress`)	progress	Provide an accessible name and a numeric value when progress is determinate; omit the value for indeterminate work.
+Scrollspy (`data-bs-spy="scroll"`)	contents-nav	Use a contents navigation and add observation behaviour separately; the navigation remains useful when scripting is unavailable.
+Spinners (`.spinner-border`, `.spinner-grow`)	progress-spinner	Supply adjacent status text or an accessible name. Animation alone must not communicate that work is happening.
+Toasts (`.toast`)	toast	Choose the live-region urgency deliberately, keep messages available long enough, and put persistent actions elsewhere.
+Tooltips (`.tooltip`)	tooltip	Tooltips supplement a visible label; they must work with keyboard focus and pointer hover and must not contain required information.
+Form controls (`.form-control`, `.form-select`)	text-input;text-area-input;select	Choose the component that matches the native control. Labels, hints, and errors are separate content, not placeholder text.
+Checks (`.form-check`)	checkbox-input;radio-input	Keep native checkbox or radio semantics and group radios with a fieldset and legend when they answer one question.
+Input groups (`.input-group`)	input-group	Keep one accessible control name; visible prefixes and suffixes need not be repeated in that name when they are decorative.
+Floating labels (`.form-floating`)	field;label;hint;error-message	Lily has no floating-label primitive. Compose a persistent visible label, optional hint, control, and linked error message.
+Tables (`.table`)	table	Use native table structure and header cells. Responsive overflow is a wrapper concern and must not destroy the table semantics.
+Layout (`.container`, `.row`, `.col-*`)	container;grid	Use semantic containers plus your own responsive CSS; Lily intentionally has no spacing, breakpoint, or column utility vocabulary.

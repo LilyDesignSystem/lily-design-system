@@ -2,6 +2,8 @@
 
 A postal code view displays a postal or ZIP code as read-only text within a `<span>` element. It is used to present postal code information in address displays, confirmation pages, shipping summaries, or any context where the value is not editable.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This component pairs with PostalCodeInput to form an Input/View pattern: PostalCodeInput handles data entry while PostalCodeView handles display. The simple span-based rendering allows consumers to apply any formatting or styling needed.
 
 ## Implementation Notes
@@ -29,6 +31,12 @@ UK postcode display:
 
 ```html
 <PostalCodeView text="SW1A 1AA" />
+```
+
+Brazilian CEP and Indian PIN code display:
+
+```html
+<PostalCodeView text="01310-100" /> <PostalCodeView text="110001" />
 ```
 
 Postal code inline in an address summary:
@@ -91,7 +99,7 @@ The consumer provides all CSS styling. The component renders with a `.postal-cod
 ## Advice
 
 - **Designers**: Ensure the postal code is visually distinct within address blocks, using consistent typography and spacing with surrounding address fields.
-- **Developers**: Format the postal code text appropriately for the target locale before passing it to the `text` prop (e.g., adding spaces in UK postcodes).
+- **Developers**: Format the postal code text appropriately for the target locale before passing it to the `text` prop (e.g., the space in a UK postcode, the hyphen in a Brazilian CEP or a Japanese postal code).
 
 ## Composition
 
@@ -100,6 +108,10 @@ PostalCodeView is the read-only counterpart of PostalCodeInput. Use PostalCodeIn
 ## Related components
 
 - `postal-code-input` — an input for entering a postal or ZIP code
+
+## Known limitations
+
+None known.
 
 ## References
 

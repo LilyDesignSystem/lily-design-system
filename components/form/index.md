@@ -136,6 +136,10 @@ Form uses the Form composition pattern: Form contains Field components, which wr
 - `fieldset` — a group of related form fields with a legend
 - `input-group` — a group wrapping an input with prefix and suffix addons
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN `<form>`: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form

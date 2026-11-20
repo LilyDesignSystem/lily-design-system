@@ -91,6 +91,10 @@ A national identifier is personal data, and often a key to other records.
 - `espana-tarjeta-sanitaria-individual-view` — a read-only display of an España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Ministerio de Sanidad: https://www.sanidad.gob.es/

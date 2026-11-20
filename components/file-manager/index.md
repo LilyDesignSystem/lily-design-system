@@ -85,6 +85,10 @@ The consumer provides all CSS styling. The component renders with a `.file-manag
 - `file-dialog` — a dialog for browsing and selecting files
 - `tree-nav` — a hierarchical navigation with expandable branches
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA region role: https://www.w3.org/TR/wai-aria-1.2/#region

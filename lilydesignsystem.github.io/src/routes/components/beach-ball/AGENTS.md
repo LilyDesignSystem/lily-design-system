@@ -5,6 +5,7 @@
 - Component: beach-ball
 - PascalCase: BeachBall
 - Description: a decorative animated beach ball element
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .beach-ball
 - Interactive: no
@@ -43,6 +44,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

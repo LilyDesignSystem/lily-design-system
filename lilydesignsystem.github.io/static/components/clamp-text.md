@@ -109,6 +109,10 @@ hooks the `--clamp-text-lines` custom property:
 
 - `blockquote` — a block-level quotation with optional source citation
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN line-clamp: https://developer.mozilla.org/en-US/docs/Web/CSS/line-clamp

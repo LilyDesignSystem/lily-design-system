@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Progress.razor"
   },
   "docs": "https://lilydesignsystem.com/components/progress/",
+  "markdown": "https://lilydesignsystem.com/components/progress.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/progress/AGENTS.md"
 }

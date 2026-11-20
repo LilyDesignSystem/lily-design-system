@@ -40,5 +40,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Byline.razor"
   },
   "docs": "https://lilydesignsystem.com/components/byline/",
+  "markdown": "https://lilydesignsystem.com/components/byline.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/byline/AGENTS.md"
 }

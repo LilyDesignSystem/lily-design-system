@@ -2,6 +2,8 @@
 
 PasswordInput is a headless component that renders a native `<input type="password">` element with accessible labelling. The input obscures the entered text with dots or asterisks, providing secure password entry.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use this component in login forms, registration forms, account settings, or any interface requiring secure password entry. For a more featured variant with a show/hide toggle, see PasswordInputOrTextInputDiv.
 
 ## Implementation Notes
@@ -85,11 +87,21 @@ The consumer provides all CSS styling. The component renders with a `.password-i
 - **Designers**: Ensure the password input matches the visual style of other form inputs. Consider using a lock icon or label to clearly indicate the field requires a password.
 - **Developers**: Set `autocomplete` to `"new-password"` for registration forms to help password managers distinguish between login and signup flows.
 
+## Security and privacy
+
+- `autocomplete` is `current-password` by default; set it to `new-password` for a new one, so a password manager can fill or generate it (WCAG 1.3.5). Do not set it to `off`: that pushes people towards weak, reused passwords.
+- The field is `type="password"`, so the browser does not spellcheck it, and the value is never shown.
+- Do not log the value, send it to analytics, or keep it in any client storage; submit it in the body of a POST over HTTPS.
+
 ## Related components
 
 - `password-input-or-text-input-div` — an input for entering a password <input type="password"> or text <input type="text"> with show/hide toggle
 - `text-input` — a single-line text input field <input type="text">
 - `pin-input-div` — a series of single-digit inputs for entering a PIN or OTP code
+
+## Known limitations
+
+None known.
 
 ## References
 

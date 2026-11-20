@@ -86,6 +86,10 @@ A national identifier is personal data, and often a key to other records.
 - `norge-fodselsnummer-view` — a read-only display of Norway's Fødselsnummer
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/National_identification_number#Norway

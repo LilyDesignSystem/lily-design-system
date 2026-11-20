@@ -38,6 +38,17 @@
 - `children`: slot (required) -- the alert content
 - `...restProps`: Any additional HTML attributes spread onto the `<div>`
 
+## Styles
+
+The headless component ships no CSS. A Lily reference theme exposes these variables on `.alert`; severity continues to
+control the accent rail and tinted background through `data-type`.
+
+| Variable                     | Default                 |
+| ---------------------------- | ----------------------- |
+| `--lily-alert-color`         | `var(--lily-text)`      |
+| `--lily-alert-border-color`  | `var(--lily-border)`    |
+| `--lily-alert-border-radius` | `var(--lily-radius-md)` |
+
 ## Acceptance Criteria
 
 - [ ] Renders <div> element with class="alert"
@@ -45,6 +56,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

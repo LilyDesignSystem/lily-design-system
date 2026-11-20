@@ -50,6 +50,10 @@
 - [ ] WCAG 2.2 AAA compliant
 - [x] Zero CSS — fully headless
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Documentation: index.md

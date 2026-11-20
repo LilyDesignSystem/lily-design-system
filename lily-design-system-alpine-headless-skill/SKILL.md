@@ -7,7 +7,7 @@ license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 # Lily Design System™ — Alpine.js headless usage
 
 `@lilydesignsystem/alpine-headless` (0.1.0, added 2026-10-21, **not yet
-published to npm**) is Lily's ninth headless catalog. It covers **all 608
+published to npm**) is Lily's ninth headless catalog. It covers **all 473 core
 components**. Alpine has no component model, so a Lily component here is
 two things:
 
@@ -52,7 +52,7 @@ dependency (`^3.14`).
 ## What has behaviour
 
 Most components are static markup, identical to the html-headless snippet; the interactive ones have a hand-written
-behaviour (488 static and 83 behavioural at the 2026-10-21 count of 571; the package `index.md` has the current lists). By
+behaviour. The package `index.md` has the generated current lists. By
 behaviour:
 
 | Behaviour                                                                                                    | Components                                                                                                                             | Keys and events                                                                         |

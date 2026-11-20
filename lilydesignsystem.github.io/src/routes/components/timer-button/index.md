@@ -2,6 +2,8 @@
 
 A timer button is a button with a countdown timer that will automatically activate after a given amount of time. It is used for auto-advancing workflows, timed confirmations, or undo-with-timeout patterns.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses a `<button>` element with a visible countdown timer, providing both manual click activation and automatic timer-based activation.
 
 ## Implementation Notes
@@ -106,6 +108,10 @@ The consumer provides all CSS styling. The component renders with a `.timer-butt
 
 - `button` — a generic clickable button element
 - `timer` — a countdown or elapsed time display
+
+## Known limitations
+
+None known.
 
 ## References
 

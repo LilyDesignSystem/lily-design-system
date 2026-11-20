@@ -104,6 +104,10 @@ A national identifier is personal data, and often a key to other records.
 - `france-numero-d-identification-au-repertoire-view` — a read-only display of a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
 - `eire-individual-health-identifier-input` — an input for entering Eire Individual Health Identifier (IHI) unique national healthcare identifier
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Social Security Number: https://www.ssa.gov/history/ssn/geocard.html

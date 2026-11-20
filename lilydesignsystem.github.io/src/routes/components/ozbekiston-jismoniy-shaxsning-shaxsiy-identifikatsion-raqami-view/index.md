@@ -14,7 +14,7 @@ OzbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiView is a headless read-o
 ## Props
 
 - `value`: string (default: "") — the identifier to display
-- `label`: string (required) — accessible label via `aria-label`
+- `label`: string (optional) — hidden text naming the value, in a `.screen-reader-span`. Leave it out when a visible caption names the value
 - `...restProps`: any — additional HTML attributes spread onto the `<span>`
 
 ## Usage
@@ -32,7 +32,7 @@ OzbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiView is a headless read-o
 
 ## ARIA
 
-- `aria-label={label}` — provides the accessible name
+- No ARIA on the root: a plain `<span>` cannot be named. A visible caption names the value, or `label` renders as hidden text in a `.screen-reader-span`
 
 ## When to Use
 
@@ -54,7 +54,7 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 - Verify renders a `<span>` with the correct class
 - Verify the `value` prop is rendered as text content
-- Verify `aria-label` is set from the `label` prop
+- Verify `label` renders as hidden text, and that the root has no `aria-label`
 
 ## Domain Knowledge
 
@@ -62,10 +62,22 @@ Fourteen digits in five groups (Cabinet of Ministers Resolution No. 177 of 2022)
 
 **Where to find it:** Printed on the back of the ID card and in the machine-readable zone of the passport, and used as the personal tax number.
 
+## Security and privacy
+
+A national identifier is personal data, and often a key to other records.
+
+- The view shows exactly the text it is given; it does not mask. Pass the masked form (for example the last four characters) wherever the full number is not needed, and render the full number only to someone entitled to it.
+- Do not log the value, put it in a URL or query string, or send it to analytics or an error tracker.
+- Text on screen can be read over a shoulder and is kept by screenshots and screen recordings; treat a page that shows it as sensitive.
+
 ## Related components
 
 - `ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-input` — an input for entering Uzbekistan's Personal identification number (JShShIR / PINFL)
 - `summary-list-item` — one key-value pair in a summary list
+
+## Known limitations
+
+None known.
 
 ## References
 

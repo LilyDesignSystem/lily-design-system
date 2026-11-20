@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/LuxembourgMatriculeView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/luxembourg-matricule-view/",
+  "markdown": "https://lilydesignsystem.com/components/luxembourg-matricule-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/luxembourg-matricule-view/AGENTS.md"
 }

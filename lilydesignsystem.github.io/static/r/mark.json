@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Mark.razor"
   },
   "docs": "https://lilydesignsystem.com/components/mark/",
+  "markdown": "https://lilydesignsystem.com/components/mark.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/mark/AGENTS.md"
 }

@@ -78,6 +78,10 @@ The graphic is wrapped in `<div class="area-chart-graphic" role="img" aria-label
 - `graphic-block` — chart wrapper with title/notes
 - `sparkline` — tiny inline trend
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN figure element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figure)

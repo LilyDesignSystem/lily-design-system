@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/KanbanTableFoot.razor"
   },
   "docs": "https://lilydesignsystem.com/components/kanban-table-foot/",
+  "markdown": "https://lilydesignsystem.com/components/kanban-table-foot.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/kanban-table-foot/AGENTS.md"
 }

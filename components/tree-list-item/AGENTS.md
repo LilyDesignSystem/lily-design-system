@@ -60,6 +60,10 @@ ArrowRight and ArrowLeft act only when the item itself has focus, never on a key
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Documentation: index.md

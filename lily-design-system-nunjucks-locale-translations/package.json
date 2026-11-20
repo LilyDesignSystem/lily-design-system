@@ -30,6 +30,7 @@
   ],
   "scripts": {
     "build": "rm -rf dist && tsc -p tsconfig.build.json",
+    "check": "tsc --noEmit",
     "test": "vitest run",
     "prepublishOnly": "npm run build"
   },

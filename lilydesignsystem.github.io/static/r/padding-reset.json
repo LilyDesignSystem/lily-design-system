@@ -33,5 +33,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/PaddingReset.razor"
   },
   "docs": "https://lilydesignsystem.com/components/padding-reset/",
+  "markdown": "https://lilydesignsystem.com/components/padding-reset.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/padding-reset/AGENTS.md"
 }

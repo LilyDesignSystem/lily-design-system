@@ -47,5 +47,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/CalendarWeekTable.razor"
   },
   "docs": "https://lilydesignsystem.com/components/calendar-week-table/",
+  "markdown": "https://lilydesignsystem.com/components/calendar-week-table.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/calendar-week-table/AGENTS.md"
 }

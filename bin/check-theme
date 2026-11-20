@@ -74,6 +74,17 @@ Asserts the contracts a theme stylesheet must honour (plan P3-T5):
      stack and a per-language `--lily-font-script`, re-declared on every
      `[lang]` element, and sets `--lily-line-height-body`.
 
+ 18. Component-scoped variables (tasks.md P22-T1). Button, alert, card, table
+     and dialog declare their documented public variables on the base class,
+     default each one to a stable `--lily-*` token, and consume it in the
+     component rules. A theme cannot silently omit the pilot customization API.
+
+ 19. Group fieldsets (tasks.md P10-T14). RadioGroup and CheckboxGroup retain
+     native fieldset semantics but reset the user-agent border, margin, padding
+     and intrinsic minimum width. The separate Fieldset component owns a
+     visible grouping treatment; nested groups must not acquire a second,
+     browser-dependent box or force narrow-page overflow.
+
 Exits non-zero listing every violation. Wired into bin/test.
 
 `bin/check-theme --contrast` (plan P10-T4) is a separate pass, report-only unless `--gate` is added (P22-T20: exit 1 on any pair below AA or unparsed, and since P22-T10a on a focus ring below 3:1 against the page; since 2026-11-15 only in the light and dark themes, the others being the user's choice; `bin/test` runs it with `--gate`) (`--suggest` adds, for a pair below AA, the black or white text colour that would reach it):
@@ -126,6 +137,7 @@ REQUIRED_TOKENS = [
 BREAKPOINTS_REM = ("40rem", "48rem", "64rem", "80rem", "96rem")
 
 SHARED_SECTIONS = (
+    "Group fieldsets",
     "Scoped overflow",
     "target-size (minimum) floor",
     "Coarse pointer targets",
@@ -140,6 +152,36 @@ SHARED_SECTIONS = (
     "Forced colours and contrast preference",
     "Writing systems",
 )
+
+COMPONENT_SCOPED_VARIABLES = {
+    "button": {
+        "--lily-button-background": "--lily-brand",
+        "--lily-button-color": "--lily-on-brand",
+        "--lily-button-border-radius": "--lily-radius-md",
+    },
+    "alert": {
+        "--lily-alert-color": "--lily-text",
+        "--lily-alert-border-color": "--lily-border",
+        "--lily-alert-border-radius": "--lily-radius-md",
+    },
+    "card": {
+        "--lily-card-background": "--lily-surface",
+        "--lily-card-color": "--lily-text",
+        "--lily-card-border-color": "--lily-border",
+        "--lily-card-border-radius": "--lily-radius-lg",
+    },
+    "table": {
+        "--lily-table-background": "--lily-surface",
+        "--lily-table-color": "--lily-text",
+        "--lily-table-header-background": "--lily-surface-alt",
+    },
+    "dialog": {
+        "--lily-dialog-background": "--lily-surface",
+        "--lily-dialog-color": "--lily-text",
+        "--lily-dialog-border-color": "--lily-border",
+        "--lily-dialog-border-radius": "--lily-radius-lg",
+    },
+}
 
 
 
@@ -577,6 +619,26 @@ def main() -> int:
         for t in REQUIRED_TOKENS:
             if t not in declared:
                 errors.append(f"{base}: required token {t} not declared")
+
+        # 18. the five-component customization pilot is present and wired.
+        for component, variables in COMPONENT_SCOPED_VARIABLES.items():
+            block_match = re.search(
+                rf":where\(\.{re.escape(component)}\)\s*\{{([^}}]*)\}}",
+                raw,
+                re.S,
+            )
+            if not block_match:
+                errors.append(f"{base}: .{component} has no component-scoped variable block")
+                continue
+            block = block_match.group(1)
+            for variable, default in variables.items():
+                declaration = rf"{re.escape(variable)}\s*:\s*var\({re.escape(default)}\)\s*;"
+                if not re.search(declaration, block):
+                    errors.append(
+                        f"{base}: .{component} must default {variable} to var({default})"
+                    )
+                if not re.search(rf"var\({re.escape(variable)}\s*,", raw):
+                    errors.append(f"{base}: {variable} is declared but never consumed")
 
         # 6. provenance line present (in the raw file — it lives in a comment)
         if raw.count("Upstream tracked:") != 1:

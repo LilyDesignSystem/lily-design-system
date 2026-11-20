@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/UnitedKingdomNationalHealthServiceNumberView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/united-kingdom-national-health-service-number-view/",
+  "markdown": "https://lilydesignsystem.com/components/united-kingdom-national-health-service-number-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/united-kingdom-national-health-service-number-view/AGENTS.md"
 }

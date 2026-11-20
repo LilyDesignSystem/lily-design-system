@@ -44,5 +44,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/WarningText.razor"
   },
   "docs": "https://lilydesignsystem.com/components/warning-text/",
+  "markdown": "https://lilydesignsystem.com/components/warning-text.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/warning-text/AGENTS.md"
 }

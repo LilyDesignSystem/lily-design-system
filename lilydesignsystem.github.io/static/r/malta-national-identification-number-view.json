@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/MaltaNationalIdentificationNumberView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/malta-national-identification-number-view/",
+  "markdown": "https://lilydesignsystem.com/components/malta-national-identification-number-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/malta-national-identification-number-view/AGENTS.md"
 }

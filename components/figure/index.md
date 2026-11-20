@@ -112,6 +112,10 @@ The consumer provides all CSS styling. The component renders with a `.figure` cl
 - `caption` — a caption for a table or figure element
 - `image` — an image element with alt text
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA img role: https://www.w3.org/TR/wai-aria-1.2/#img

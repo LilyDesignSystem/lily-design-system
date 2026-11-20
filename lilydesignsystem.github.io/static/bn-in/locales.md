@@ -2,7 +2,7 @@
 
 Title: Lily Design System&trade; — ভাষা
 
-Description: 
+Description:
 
 # একটি ভাষা বেছে নিন
 

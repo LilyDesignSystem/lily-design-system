@@ -42,5 +42,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Sparkline.razor"
   },
   "docs": "https://lilydesignsystem.com/components/sparkline/",
+  "markdown": "https://lilydesignsystem.com/components/sparkline.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/sparkline/AGENTS.md"
 }

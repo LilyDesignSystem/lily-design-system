@@ -2,6 +2,8 @@
 
 A menu bar is a horizontal menu container using the ARIA menubar role, typically found at the top of an application window. It provides left/right arrow key navigation between top-level menu items, mimicking the behavior of desktop application menu bars (e.g., File, Edit, View). Each top-level item may open a submenu or trigger an action directly.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The component manages horizontal focus movement between menu items, with Home and End keys to jump to the first and last items. The consumer provides menu bar item elements as children and handles submenu display and item activation externally.
 
 ## Implementation Notes
@@ -128,6 +130,10 @@ MenuBar (role="menubar") → MenuBarItem (role="menuitem")
 ## Related components
 
 - `menu-bar-button` — one item in a menu bar
+
+## Known limitations
+
+None known.
 
 ## References
 

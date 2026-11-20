@@ -2,6 +2,8 @@
 
 A breadcrumb link is a navigational anchor element representing one step in a breadcrumb trail. It renders as a semantic `<a>` element and is designed to be placed inside a BreadcrumbListItem within a BreadcrumbList and BreadcrumbNav structure.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders as a semantic `<a>` element for breadcrumb navigation
@@ -101,6 +103,14 @@ BreadcrumbLink follows the Nav / List / ListItem composition pattern:
 - `breadcrumb-nav` — a navigation container for breadcrumb trail links
 - `breadcrumb-list` — an ordered list of breadcrumb list items
 - `breadcrumb-list-item` — one breadcrumb list item in the trail
+
+## Known limitations
+
+### Disabled links and link look-alikes
+
+A link has no disabled state: the `disabled` attribute has no effect. Prefer not rendering an unavailable link. When the unavailable item must remain visible, set `aria-disabled="true"`, omit `href` (or guard every pointer and keyboard activation if the URL must remain), and use `tabindex="-1"` so it is not a misleading tab stop. Add `role="link"` when an anchor without `href` must retain link semantics.
+
+Use a native `<button>` for an action. Styling an anchor as a button does not give it button keyboard or disabled behavior.
 
 ## References
 

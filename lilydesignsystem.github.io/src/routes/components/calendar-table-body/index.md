@@ -2,6 +2,8 @@
 
 A calendar table body is the main content section of a calendar grid, wrapping the rows that contain the day cells. It groups the data rows of the calendar, where each row represents a week and each cell represents a day. It is designed to be used inside a CalendarTable `<table>` structure.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 The component renders a `<tbody>` element and passes through its children, which are expected to be CalendarTableRow or `<tr>` elements containing day cells.
 
 ## Implementation Notes
@@ -113,6 +115,10 @@ CalendarTableBody is part of the CalendarTable composition pattern:
 - `calendar-table-td` — a calendar table interactive grid data cell for managing dates, days, etc. <td>
 - `calendar-table-th` — a calendar table interactive grid header cell for managing dates, days, etc. <th>
 - `table` — a table with rows and columns <table>
+
+## Known limitations
+
+None known.
 
 ## References
 

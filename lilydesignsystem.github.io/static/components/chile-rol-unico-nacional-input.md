@@ -89,6 +89,10 @@ A national identifier is personal data, and often a key to other records.
 - `chile-rol-unico-nacional-view` — a read-only display of Chile's Rol Único Nacional (RUN)
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [RUT](https://en.wikipedia.org/wiki/RUT)

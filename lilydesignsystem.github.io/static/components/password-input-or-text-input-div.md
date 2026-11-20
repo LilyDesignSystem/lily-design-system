@@ -114,6 +114,10 @@ The consumer provides all CSS styling. The component renders with a `.password-i
 - `text-input` — a single-line text input field <input type="text">
 - `pin-input-div` — a series of single-digit inputs for entering a PIN or OTP code
 
+## Known limitations
+
+None known.
+
 ## References
 
 - HTML password input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/password

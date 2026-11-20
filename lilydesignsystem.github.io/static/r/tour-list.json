@@ -32,6 +32,7 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TourList.razor"
   },
   "docs": "https://lilydesignsystem.com/components/tour-list/",
+  "markdown": "https://lilydesignsystem.com/components/tour-list.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tour-list/AGENTS.md",
   "nativePlatform": {
     "decision": "hand-rolled because it is a list of steps, not a dialog: modality, if any, belongs to tour, which is non-modal",

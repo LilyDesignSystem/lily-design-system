@@ -2,10 +2,13 @@
 
 A file dialog provides a modal dialog for file-related operations such as opening, saving, or managing files. It renders a native `<dialog>` element conditionally based on its `open` state, with accessible labelling and keyboard dismissal support.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This component is useful in applications that need custom file operation interfaces, such as file managers, document editors, or content management systems. The consumer provides all dialog content -- file lists, action buttons, and navigation controls -- as children.
 
 ## Implementation Notes
 
+- Opened with `.showModal()` (always modal): the page behind is inert, focus is trapped and returns to the opener on close; the native `cancel` and `close` events set `open` to false
 - Conditionally renders a `<dialog open>` element only when `open` is true
 - Supports two-way binding on the `open` prop for two-way state binding
 - Uses the native `<dialog>` HTML element with the `open` attribute
@@ -135,6 +138,10 @@ The consumer provides all CSS styling. The component renders with a `.file-dialo
 - `file-input` — an input for selecting files from the file system <input type="file">
 - `file-manager` — a file browser for navigating and managing files
 - `dialog` — a modal or non-modal dialog window
+
+## Known limitations
+
+None known.
 
 ## References
 

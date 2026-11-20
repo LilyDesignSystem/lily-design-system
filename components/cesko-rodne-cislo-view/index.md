@@ -72,6 +72,10 @@ A national identifier is personal data, and often a key to other records.
 - `cesko-rodne-cislo-input` — an input for entering Czech Republic's Rodné číslo (RČ)
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/National_identification_number#Czech_Republic

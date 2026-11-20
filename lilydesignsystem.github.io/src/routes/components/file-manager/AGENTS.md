@@ -5,6 +5,7 @@
 - Component: file-manager
 - PascalCase: FileManager
 - Description: a file browser for navigating and managing files
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .file-manager
 - Interactive: no
@@ -38,6 +39,10 @@
 - [ ] Has role="region"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

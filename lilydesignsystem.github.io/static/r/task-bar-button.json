@@ -37,5 +37,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TaskBarButton.razor"
   },
   "docs": "https://lilydesignsystem.com/components/task-bar-button/",
+  "markdown": "https://lilydesignsystem.com/components/task-bar-button.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/task-bar-button/AGENTS.md"
 }

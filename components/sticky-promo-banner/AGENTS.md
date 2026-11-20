@@ -59,6 +59,10 @@
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — only documented inline positioning styles, no <style> blocks
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Documentation: index.md

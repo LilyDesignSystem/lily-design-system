@@ -5,6 +5,7 @@
 - Component: gantt-table-thead
 - PascalCase: GanttTableThead
 - Description: a Gantt chart table interactive grid thead for planning schedule visualization <thead>
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <thead>
 - CSS class: .gantt-table-thead
 - Interactive: no
@@ -40,6 +41,10 @@
 - [ ] Renders <thead> element with class="gantt-table-thead"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

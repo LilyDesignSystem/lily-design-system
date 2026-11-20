@@ -19,7 +19,31 @@ import {
     type FilterRule,
 } from "./filter-model";
 
-type FilterLabels = Record<string, any>;
+type FilterLabels = {
+    rule: (number: number) => string;
+    group: (depth: number) => string;
+    field: string;
+    operator: string;
+    operatorName: (operator: string) => string;
+    value: string;
+    valueFrom: string;
+    valueTo: string;
+    combinator: string;
+    and: string;
+    or: string;
+    not: string;
+    addRule: string;
+    addGroup: string;
+    removeRule: (number: number) => string;
+    removeGroup: (depth: number) => string;
+    choose: string;
+    empty: string;
+    output: string;
+    ruleAdded: (number: number) => string;
+    ruleRemoved: (number: number) => string;
+    groupAdded: (depth: number) => string;
+    groupRemoved: (depth: number) => string;
+};
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const env = nunjucks.configure([__dirname], {

@@ -21,7 +21,6 @@ export type {
 } from "./data-grid.js";
 export * from "./export-data.js";
 export * from "./cell-types.js";
-
 export { foldText, highlightSegments, matchesSearch, searchTerms } from "./search-text.js";
 export type { SearchSegment } from "./search-text.js";
 export {

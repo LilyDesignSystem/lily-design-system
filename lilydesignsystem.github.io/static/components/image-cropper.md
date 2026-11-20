@@ -125,6 +125,10 @@ The consumer provides all CSS styling. The component renders with an `.image-cro
 - `signature-pad` — a drawing area for capturing a handwritten signature
 - `field` — a form field wrapper with label, input, and error message
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA application Role: https://www.w3.org/TR/wai-aria-1.2/#application

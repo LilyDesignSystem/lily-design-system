@@ -40,5 +40,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/CareCard.razor"
   },
   "docs": "https://lilydesignsystem.com/components/care-card/",
+  "markdown": "https://lilydesignsystem.com/components/care-card.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/care-card/AGENTS.md"
 }

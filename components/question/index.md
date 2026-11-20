@@ -85,6 +85,10 @@ The consumer provides all CSS styling. The component renders with a `.question` 
 - `comment` — a comment is anything that expresses an opinion, observation, explanation, etc.
 - `field` — a form field wrapper with label, input, and error message
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN div element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div)

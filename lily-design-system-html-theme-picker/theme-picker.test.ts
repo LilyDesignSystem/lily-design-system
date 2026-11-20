@@ -663,6 +663,18 @@ describe("<theme-picker> — dynamic loading (§7.6–§7.11)", () => {
         expect(document.documentElement.dataset.theme).toBe("light");
     });
 
+    test("ignores a stored value that is not one of its themes", async () => {
+        localStorage.setItem("lily-theme", "not-a-theme");
+        mount({
+            label: "Theme",
+            "themes-url": URL_TRAILING,
+            themes: THEMES.join(","),
+            "storage-key": "lily-theme",
+        });
+        await flush();
+        expect(document.documentElement.dataset.theme).toBe("light");
+    });
+
     test("§7.11 missing trailing slash on themes-url still yields one slash", async () => {
         mount({
             label: "Theme",

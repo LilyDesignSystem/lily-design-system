@@ -89,6 +89,10 @@ The consumer provides all CSS styling. The component renders with a `.progress-s
 - `progress` — a horizontal progress bar showing completion
 - `skeleton` — a placeholder loading animation for content
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA `status` role: https://www.w3.org/WAI/ARIA/apd/roles/status/

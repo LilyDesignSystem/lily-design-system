@@ -13,7 +13,7 @@ Implement the Hamburger Menu component: a toggle button that opens a mobile navi
 
 ## Approach
 
-1. Use semantic <button> element with class="hamburger-menu"
+1. Use a <div> element with class="hamburger-menu", holding a semantic <button> and the navigation region
 2. Add ARIA attributes for accessibility
 3. Implement keyboard navigation
 4. Add vanilla JavaScript for interactive behavior
@@ -24,7 +24,7 @@ Implement the Hamburger Menu component: a toggle button that opens a mobile navi
 
 ## Acceptance Criteria
 
-- [ ] Renders <button> with class="hamburger-menu"
+- [ ] Renders <div> with class="hamburger-menu"
 - [ ] `aria-label={label}` -- on the button, provides an accessible name for the toggle control
 - [ ] `aria-expanded={open}` -- on the button, indicates whether the navigation panel is currently visible
 - [ ] `aria-controls={menuId}` -- on the button, references the id of the navigation panel

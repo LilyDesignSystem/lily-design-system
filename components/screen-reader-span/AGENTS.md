@@ -36,6 +36,10 @@
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero visual presence
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Documentation: index.md

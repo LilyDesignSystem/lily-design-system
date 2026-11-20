@@ -96,6 +96,10 @@ The consumer provides all CSS styling via `.show-more`, `.show-more-content` (wi
 - `details` — native disclosure of supplementary content
 - `collapsible` — a native-details panel
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/

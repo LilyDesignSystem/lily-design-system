@@ -2,6 +2,8 @@
 
 TreeList is a headless hierarchical list component that uses the ARIA `tree` role with full keyboard navigation. It provides an accessible container for displaying nested or flat tree structures such as file browsers, organizational charts, or navigation menus.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This component manages keyboard navigation between tree items using ArrowDown, ArrowUp, Home, and End keys with wrapping behavior. Consumers provide the tree items as children with `role="treeitem"` and `tabindex` attributes, and bring their own styling for indentation, expansion indicators, and visual hierarchy.
 
 ## Implementation Notes
@@ -141,6 +143,10 @@ TreeList is a child of TreeNav and contains TreeListItem children, following the
 - `tree-nav` — a hierarchical navigation with expandable branches
 - `tree-list-item` — one item in a tree navigation list
 - `tree-link` — one link in the tree
+
+## Known limitations
+
+None known.
 
 ## References
 

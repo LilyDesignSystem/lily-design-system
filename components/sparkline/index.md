@@ -79,6 +79,10 @@ The consumer provides all CSS styling. The component renders with a `.sparkline`
 - `line-chart` — a line chart visualization connecting data points to display data
 - `meter` — a gauge displaying a scalar value within a known range
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA img role: https://www.w3.org/TR/wai-aria-1.2/#img

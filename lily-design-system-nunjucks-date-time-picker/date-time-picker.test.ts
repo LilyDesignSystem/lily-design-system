@@ -536,7 +536,7 @@ describe("DateTimePicker -- range, vetoes, shortcuts (§7.29-§7.33)", () => {
         );
         const api = initDateTimePicker(root, { locale: "en-GB", isDateDisabled });
         api.open();
-        const dialog = root.querySelector(".date-time-picker-dialog")!;
+        const dialog = root.querySelector<HTMLElement>(".date-time-picker-dialog")!;
         expect(dayButton(dialog, "2026-03-16").getAttribute("aria-disabled")).toBe("true");
         // The function form REPLACES the list-based baseline rather than
         // union-ing with it.

@@ -27,22 +27,24 @@
         localStorage.removeItem("lily-text-size")
 -->
 <html lang="en">
-<head>
-    <meta charset="utf-8">
+  <head>
+    <meta charset="utf-8" />
     <title>text-size-picker — persistence</title>
-    <script type="module" src="/dist/text-size-picker.js"></script>
-</head>
-<body>
+    <script
+      type="module"
+      src="/dist/text-size-picker.js"
+    ></script>
+  </head>
+  <body>
     <h1>Text size picker — persistence</h1>
 
     <text-size-picker
-        label="Text size"
-        sizes="small,medium,large,x-large,xx-large"
-        storage-key="lily-text-size"
-        default-value="medium"
+      label="Text size"
+      sizes="small,medium,large,x-large,xx-large"
+      storage-key="lily-text-size"
+      default-value="medium"
     ></text-size-picker>
 
-    <p>Try selecting a size, reloading the page, and observing that
-       your choice is restored.</p>
-</body>
+    <p>Try selecting a size, reloading the page, and observing that your choice is restored.</p>
+  </body>
 </html>

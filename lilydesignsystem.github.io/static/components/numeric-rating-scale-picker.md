@@ -80,6 +80,10 @@ This headless component ships zero CSS and decides nothing visual. The consumer 
 - `net-promoter-score-radio-group` — a picker for selecting a 0-10 Net Promoter Score
 - `radio-group` — a group of radio inputs
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Spec: spec/healthcare-ui/index.md

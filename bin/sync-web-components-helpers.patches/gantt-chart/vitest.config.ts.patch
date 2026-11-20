@@ -1,0 +1,22 @@
+--- /var/folders/zp/p2vtmfrj35b27yh4ns6h_6h40000gn/T/tmp.QNsasp7qF6	2026-11-20 06:21:07.282713767 +0000
++++ lily-design-system-web-components-gantt-chart/vitest.config.ts	2026-11-17 14:47:53.517436932 +0000
+@@ -11,15 +11,15 @@
+             // sibling top-level subproject instead: a helper package's built
+             // dist/ (build those first; bin/list-helper-packages web-components prints the
+             // order), or the headless library's built dist/.
+-            "@lilydesignsystem/web-components-headless": fileURLToPath(
++            "@lilydesignsystem/web-components-date-time-picker": fileURLToPath(
+                 new URL(
+-                    "../lily-design-system-web-components-headless/dist/index.js",
++                    "../lily-design-system-web-components-date-time-picker/dist/index.js",
+                     import.meta.url,
+                 ),
+             ),
+-            "@lilydesignsystem/web-components-date-time-picker": fileURLToPath(
++            "@lilydesignsystem/web-components-headless": fileURLToPath(
+                 new URL(
+-                    "../lily-design-system-web-components-date-time-picker/dist/index.js",
++                    "../lily-design-system-web-components-headless/dist/index.js",
+                     import.meta.url,
+                 ),
+             ),

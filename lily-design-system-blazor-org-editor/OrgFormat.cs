@@ -44,18 +44,40 @@ public static class OrgFormat
     /// <summary>The group each tool sits in, for a consumer's separators (<c>data-group</c>).</summary>
     public static readonly IReadOnlyDictionary<string, string> ToolGroups = new Dictionary<string, string>
     {
-        ["heading"] = "structure", ["promote"] = "structure", ["demote"] = "structure", ["bulletList"] = "structure",
-        ["numberedList"] = "structure", ["checkbox"] = "structure", ["quote"] = "structure", ["sourceBlock"] = "structure",
-        ["todo"] = "task", ["priority"] = "task", ["scheduled"] = "task", ["deadline"] = "task", ["timestamp"] = "task",
-        ["bold"] = "text", ["italic"] = "text", ["underline"] = "text", ["strikethrough"] = "text", ["code"] = "text",
-        ["verbatim"] = "text", ["link"] = "text",
-        ["property"] = "data", ["drawer"] = "data", ["contact"] = "data",
+        ["heading"] = "structure",
+        ["promote"] = "structure",
+        ["demote"] = "structure",
+        ["bulletList"] = "structure",
+        ["numberedList"] = "structure",
+        ["checkbox"] = "structure",
+        ["quote"] = "structure",
+        ["sourceBlock"] = "structure",
+        ["todo"] = "task",
+        ["priority"] = "task",
+        ["scheduled"] = "task",
+        ["deadline"] = "task",
+        ["timestamp"] = "task",
+        ["bold"] = "text",
+        ["italic"] = "text",
+        ["underline"] = "text",
+        ["strikethrough"] = "text",
+        ["code"] = "text",
+        ["verbatim"] = "text",
+        ["link"] = "text",
+        ["property"] = "data",
+        ["drawer"] = "data",
+        ["contact"] = "data",
     };
 
     /// <summary>The marker each wrap tool puts on both sides of the selection.</summary>
     public static readonly IReadOnlyDictionary<string, string> WrapMarkers = new Dictionary<string, string>
     {
-        ["bold"] = "*", ["italic"] = "/", ["underline"] = "_", ["strikethrough"] = "+", ["code"] = "~", ["verbatim"] = "=",
+        ["bold"] = "*",
+        ["italic"] = "/",
+        ["underline"] = "_",
+        ["strikethrough"] = "+",
+        ["code"] = "~",
+        ["verbatim"] = "=",
     };
 
     private static readonly string[] DefaultKeywords = { "TODO", "DONE" };
@@ -138,7 +160,7 @@ public static class OrgFormat
     private static (int From, int To, Heading Heading)? HeadingAbove(string text, int pos, IReadOnlyList<string> keywords)
     {
         var from = LineStartOf(text, pos);
-        for (;;)
+        for (; ; )
         {
             var to = LineEndOf(text, from);
             var heading = ParseHeading(text[from..to], keywords);

@@ -41,5 +41,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Blockquote.razor"
   },
   "docs": "https://lilydesignsystem.com/components/blockquote/",
+  "markdown": "https://lilydesignsystem.com/components/blockquote.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/blockquote/AGENTS.md"
 }

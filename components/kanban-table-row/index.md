@@ -84,6 +84,10 @@ KanbanTableRow is a child of KanbanTableHead/KanbanTableBody/KanbanTableFoot, fo
 - `kanban-table-th` — a kanban board table interactive grid header cell for organizing items by status <th>
 - `table` — a table with rows and columns <table>
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN tr element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tr

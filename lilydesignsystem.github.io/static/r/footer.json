@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Footer.razor"
   },
   "docs": "https://lilydesignsystem.com/components/footer/",
+  "markdown": "https://lilydesignsystem.com/components/footer.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/footer/AGENTS.md"
 }

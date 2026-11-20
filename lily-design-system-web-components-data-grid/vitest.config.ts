@@ -1,6 +1,6 @@
 import { defineConfig } from "vitest/config";
 
-// Standalone test harness for @lilydesignsystem/html-data-grid (no Lily dependencies).
+// Standalone test harness for @lilydesignsystem/web-components-data-grid (no Lily dependencies).
 export default defineConfig({
     test: {
         environment: "jsdom",

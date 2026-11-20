@@ -40,5 +40,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/StatusLight.razor"
   },
   "docs": "https://lilydesignsystem.com/components/status-light/",
+  "markdown": "https://lilydesignsystem.com/components/status-light.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/status-light/AGENTS.md"
 }

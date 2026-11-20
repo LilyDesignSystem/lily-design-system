@@ -5,7 +5,8 @@
 - Component: collapsible
 - PascalCase: Collapsible
 - Description: a container that can be expanded or collapsed
-- HTML tag: <div>
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
+- HTML tag: <details>
 - CSS class: .collapsible
 - Interactive: yes
 
@@ -30,12 +31,24 @@
 - `open`: boolean (default: false) -- whether the content is expanded; bindable for two-way control
 - `children`: slot (required) -- the collapsible content revealed when expanded
 
+## Native platform
+
+- Decision: native
+- Uses: <details>/<summary>
+- Could use: name attribute
+- Notes: As details.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
 ## Acceptance Criteria
 
-- [ ] Renders <div> element with class="collapsible"
+- [ ] Renders <details> element with class="collapsible"
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

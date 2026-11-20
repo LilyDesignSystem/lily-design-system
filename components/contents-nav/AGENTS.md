@@ -65,6 +65,10 @@
 - [ ] With `spy`, exactly one link carries `aria-current` and `data-active`: the last section past the line, the last at the bottom, the first before the first
 - [ ] A click holds its link until the scroll settles; the URL hash wins on load; links with no target are ignored
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Documentation: index.md

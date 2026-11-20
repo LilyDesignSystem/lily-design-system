@@ -66,6 +66,10 @@ Do not translate or alter the tool name: show what the system calls it.
 - `tool-call`
 - `tool-call-status`
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN details element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details)

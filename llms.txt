@@ -99,7 +99,7 @@ start in every framework: https://lilydesignsystem.com/getting-started/.
 
 ## Optional
 
-- [Component manifests](https://lilydesignsystem.com/r/index.json): Machine-readable manifest of every component (HTML tag, base and sub-classes, ARIA, keyboard, props, related, per-framework file paths); one /r/{slug}.json each.
+- [Component manifests](https://lilydesignsystem.com/r/index.json): Machine-readable manifest of every component (HTML tag, classes, ARIA, keyboard, props, related, per-framework files and its `/components/{slug}.md` URL); one `/r/{slug}.json` each.
 - [components-categories.tsv](components-categories.tsv): per-component
   HTML tag and category (content, forms, navigation, tables, …).
 - [css-style-sheet-template.css](css-style-sheet-template.css): one CSS

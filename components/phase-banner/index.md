@@ -66,6 +66,10 @@ The component renders with `.phase-banner` as the root class. No default styles 
 - `banner` — generic top banner
 - `status-tag` — single-element status indicator
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [GOV.UK Phase banners pattern](https://design-system.service.gov.uk/components/phase-banner/)

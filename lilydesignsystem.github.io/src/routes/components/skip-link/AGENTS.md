@@ -5,6 +5,7 @@
 - Component: skip-link
 - PascalCase: SkipLink
 - Description: a hidden link for keyboard users to skip to main content
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <a>
 - CSS class: .skip-link
 - Interactive: yes
@@ -32,7 +33,7 @@
 ## Props
 
 - `href`: string (default: `"#content"`) -- the anchor target that the link navigates to
-- `label`: string (default: `"Skip to content"`) -- the visible link text
+- `label`: string (required) -- the visible link text
 - `...restProps`: unknown -- additional attributes spread onto the `<a>` element
 
 ## Acceptance Criteria
@@ -41,6 +42,14 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+### Disabled links and link look-alikes
+
+A link has no disabled state: the `disabled` attribute has no effect. Prefer not rendering an unavailable link. When the unavailable item must remain visible, set `aria-disabled="true"`, omit `href` (or guard every pointer and keyboard activation if the URL must remain), and use `tabindex="-1"` so it is not a misleading tab stop. Add `role="link"` when an anchor without `href` must retain link semantics.
+
+Use a native `<button>` for an action. Styling an anchor as a button does not give it button keyboard or disabled behavior.
 
 ## References
 

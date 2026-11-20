@@ -143,6 +143,10 @@ The consumer provides all CSS styling. The component renders with a `.tile` clas
 - `panel` — a generic content panel with optional heading
 - `feature-card` — a large content card with a prominent image positioned alongside or above the text
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN div element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div)

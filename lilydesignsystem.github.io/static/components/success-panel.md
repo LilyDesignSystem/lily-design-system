@@ -72,6 +72,10 @@ The component renders with `.success-panel` as the root class. No default styles
 - `notification` — transient confirmation
 - `info-state` — empty/error/info state composition
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [GOV.UK Confirmation pages pattern](https://design-system.service.gov.uk/patterns/confirmation-pages/)

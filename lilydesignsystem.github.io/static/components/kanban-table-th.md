@@ -90,6 +90,10 @@ KanbanTableTD is part of the KanbanTable composition pattern: KanbanTable > Kanb
 - `kanban-table-td` — kanban board table interactive grid data cell for organizing items by status <td>
 - `table` — a table with rows and columns <table>
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN th element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th

@@ -96,6 +96,10 @@ Target `.calendar-week-table` or `[data-view="week"]` for view-specific layout. 
 - `CalendarDayTable` for slot-level detail
 - `calendar-range-picker` / `date-input` — typing a single date
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [WAI-ARIA APG: Grid pattern](https://www.w3.org/WAI/ARIA/apg/patterns/grid/)

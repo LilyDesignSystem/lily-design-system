@@ -105,7 +105,11 @@ A button that starts work (save, send, pay) is _pending_ until the work ends. Do
 </Button>
 ```
 
-The component holds no promise, no timer and no network state; the pending flag is the consumer's. A built-in `status-button` (idle, loading, success, error with its live regions and reserved width) is an open decision: see tasks P13-T9.
+The component holds no promise, no timer and no network state; the pending flag is the consumer's. A built-in
+`status-button` was considered and declined (tasks P13-T9, 2026-11-19): the action must remain a button, progress may
+use `Loading`, success belongs in a separate `role="status"`, and an actionable failure belongs in a separate
+`role="alert"`. Promise state and repeat guards would still be consumer logic, while reserved width is CSS, so a new
+component would blur semantic regions without owning the work that coordinates them.
 
 ## Keyboard Interactions
 
@@ -142,7 +146,10 @@ This component provides a native `<button>` element with optional `aria-pressed`
 
 ## Styles
 
-The consumer provides all CSS styling. The component renders with a `.button` class for targeting. No default styles are included — this is a fully headless component.
+The headless component includes no CSS and renders `.button` for targeting. When a Lily reference theme is loaded, set
+`--lily-button-background`, `--lily-button-color`, or `--lily-button-border-radius` on one button or a containing scope
+to customise it without replacing the theme rule. Their defaults are `--lily-brand`, `--lily-on-brand`, and
+`--lily-radius-md` respectively.
 
 ## Testing
 
@@ -165,6 +172,14 @@ The consumer provides all CSS styling. The component renders with a `.button` cl
 - `split-button` — a button with a primary action and a dropdown for related actions
 - `toggle-button` — a button that toggles between pressed and unpressed states
 - `float-button` — a floating action button anchored to a viewport corner
+
+## Known limitations
+
+### Disabled and look-alike controls
+
+Use native `disabled` only on a native `<button>` that is genuinely unavailable. It removes the control from the tab order; do not use it for a pending action that should keep focus. `aria-disabled="true"` announces an unavailable state but does not suppress clicks, so the activation handler must still guard the action.
+
+Do not style a non-button element to look and act like a button when a native button fits. A non-button needs `role="button"`, keyboard activation for Enter and Space, and a focusable tab stop; reproducing that contract is usually unnecessary risk. Links have no disabled state and should follow the link-component guidance instead.
 
 ## References
 

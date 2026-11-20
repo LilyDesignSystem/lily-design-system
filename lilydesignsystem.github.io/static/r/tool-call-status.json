@@ -38,5 +38,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ToolCallStatus.razor"
   },
   "docs": "https://lilydesignsystem.com/components/tool-call-status/",
+  "markdown": "https://lilydesignsystem.com/components/tool-call-status.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tool-call-status/AGENTS.md"
 }

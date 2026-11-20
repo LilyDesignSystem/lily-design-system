@@ -92,6 +92,15 @@ and `care-card`, `data-variant` on `status-light`, `data-value` on the RAG parts
 `.class[data-*]` selector whose attribute neither the owning Svelte component nor a Svelte helper renders, unless it is
 listed with a reason (a theme's own documented variant that the consumer sets, such as NHS Wales `data-tone`).
 
+### Component-scoped variables
+
+The first customization pilot exposes variables on `:where(.button)`, `:where(.alert)`, `:where(.card)`,
+`:where(.table)` and `:where(.dialog)`. Each variable defaults to a stable `--lily-*` token and the component rule
+consumes it with its old value as a fallback, so related component families and regional density variants are unchanged.
+Set a variable on one element or a containing scope; do not fork the whole theme rule. Each component's `AGENTS.md`
+Styles section is the authoritative variable list. `bin/check-theme` rule 18 requires every reference theme to declare
+and consume the complete pilot contract.
+
 ### Forbidden in the headless layer
 
 - Hard-coded hex values, named colours, RGB / HSL literals
@@ -105,3 +114,13 @@ These all live in example-app CSS and consume the theme CSS custom properties. T
 ### Reference theme stylesheets
 
 The root [themes/](../themes) directory ships 63 standalone theme stylesheets targeting the Lily class hooks — NHS England/Scotland/Wales (patient + practitioner variants), GOV.UK GDS, USWDS, the GC Design System (Canada), SGDS (Singapore), the Digital Agency (Japan), gov.br (Brazil), ECL (European Commission), AgDS (Australia), Adobe Spectrum, Mozilla Protocol, Ant Design, Atlassian, Excel, Fluent, GitHub Primer, IBM Carbon, Linear, Notion, Salesforce, SAP Fiori, Vercel, and general-purpose light/dark themes. Selectors use `:where(...)` so consumer overrides win. The `theme-picker` helper (see [helpers.md](helpers.md)) loads them at runtime by swapping a managed `<link>` href and setting `data-theme` on the document root.
+
+### Group fieldsets
+
+`radio-group` and `checkbox-group` are semantic `<fieldset>` elements, but a
+reference theme resets their user-agent `border`, `margin`, `padding` and
+intrinsic minimum width. The dedicated `fieldset` component owns the visible
+border and padded grouping cue. This prevents a nested group from drawing a
+second browser-dependent box and keeps it shrinkable on narrow pages; semantics
+and accessible naming do not depend on a visible border. `bin/check-theme`
+pins the reset across all reference themes.

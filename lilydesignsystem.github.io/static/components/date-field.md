@@ -117,6 +117,10 @@ The consumer provides all CSS styling. The component renders with a `.date-field
 - `date-range` — paired start and end date inputs
 - `calendar-range-picker` — a picker for selecting a date range on a calendar
 
+## Known limitations
+
+None known.
+
 ## References
 
 - ARIA Error Handling: https://www.w3.org/WAI/WCAG22/Techniques/aria/ARIA21

@@ -20,4 +20,37 @@ describe("Button", function () {
         const label = await el.getAttribute("aria-label");
         expect(label).not.toBeNull();
     });
+
+    it("keeps a pending button focused while a consumer guard ignores a second click", async function () {
+        const state = await browser.execute(() => {
+            const button = document.querySelector("button.button");
+            let pending = false;
+            let starts = 0;
+            button.setAttribute("aria-busy", "true");
+            button.setAttribute("aria-disabled", "true");
+            button.addEventListener("click", () => {
+                if (pending) return;
+                pending = true;
+                starts += 1;
+            });
+            button.focus();
+            button.click();
+            button.click();
+            return {
+                disabled: button.disabled,
+                busy: button.getAttribute("aria-busy"),
+                ariaDisabled: button.getAttribute("aria-disabled"),
+                focused: document.activeElement === button,
+                starts,
+            };
+        });
+
+        expect(state).toEqual({
+            disabled: false,
+            busy: "true",
+            ariaDisabled: "true",
+            focused: true,
+            starts: 1,
+        });
+    });
 });

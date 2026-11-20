@@ -37,5 +37,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TableHead.razor"
   },
   "docs": "https://lilydesignsystem.com/components/table-head/",
+  "markdown": "https://lilydesignsystem.com/components/table-head.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/table-head/AGENTS.md"
 }

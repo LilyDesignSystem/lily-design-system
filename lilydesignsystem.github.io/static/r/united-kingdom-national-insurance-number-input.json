@@ -39,5 +39,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/UnitedKingdomNationalInsuranceNumberInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/united-kingdom-national-insurance-number-input/",
+  "markdown": "https://lilydesignsystem.com/components/united-kingdom-national-insurance-number-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/united-kingdom-national-insurance-number-input/AGENTS.md"
 }

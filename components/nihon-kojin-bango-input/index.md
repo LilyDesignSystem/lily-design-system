@@ -89,6 +89,10 @@ A national identifier is personal data, and often a key to other records.
 - `nihon-kojin-bango-view` — a read-only display of Japan's Individual Number / My Number (マイナンバー)
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [Individual Number](https://en.wikipedia.org/wiki/Individual_Number)

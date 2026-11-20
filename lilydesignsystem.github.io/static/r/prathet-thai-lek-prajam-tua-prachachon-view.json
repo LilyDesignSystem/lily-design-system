@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/PrathetThaiLekPrajamTuaPrachachonView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/prathet-thai-lek-prajam-tua-prachachon-view/",
+  "markdown": "https://lilydesignsystem.com/components/prathet-thai-lek-prajam-tua-prachachon-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/prathet-thai-lek-prajam-tua-prachachon-view/AGENTS.md"
 }

@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/MaltaPassportNumberView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/malta-passport-number-view/",
+  "markdown": "https://lilydesignsystem.com/components/malta-passport-number-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/malta-passport-number-view/AGENTS.md"
 }

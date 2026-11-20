@@ -40,5 +40,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Kbd.razor"
   },
   "docs": "https://lilydesignsystem.com/components/kbd/",
+  "markdown": "https://lilydesignsystem.com/components/kbd.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/kbd/AGENTS.md"
 }

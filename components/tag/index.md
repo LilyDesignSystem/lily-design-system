@@ -96,6 +96,10 @@ Tag is designed to be used as a child of TagGroup. The TagGroup provides a `role
 - `badge` — a small label for counts, statuses, or categories
 - `status-tag` — a tag showing the current status of a task
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Status Role: https://www.w3.org/TR/wai-aria-1.2/#status

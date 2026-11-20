@@ -300,10 +300,9 @@ export class TextSizePicker {
                 const sk = this.storageKey();
                 if (!initial && sk) {
                     try {
-                        initial =
-                            (typeof localStorage !== "undefined"
-                                ? localStorage.getItem(sk)
-                                : null) ?? "";
+                        const stored =
+                            typeof localStorage !== "undefined" ? localStorage.getItem(sk) : null;
+                        if (stored && this.sizes().includes(stored)) initial = stored;
                     } catch {
                         // ignore privacy errors
                     }

@@ -635,7 +635,7 @@ describe("pointer open survives the button content swap (regression)", () => {
     });
 });
 
-describe("<lily-text-size-picker> — tooltip (§7.25–§7.30)", () => {
+describe("<lily-text-size-picker> — tooltip (§7.25–§7.31)", () => {
     function setup() {
         const el = mount({ label: "Text size", sizes: SIZES.join(",") }) as HTMLElement;
         const host = el.querySelector("lily-icon-button") as HTMLElement;

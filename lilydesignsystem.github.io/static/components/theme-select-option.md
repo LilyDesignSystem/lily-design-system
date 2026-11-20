@@ -141,6 +141,10 @@ ThemeSelectOption is a child of ThemeSelect, following the Select/SelectOption p
 
 - `theme-select` — a select dropdown for choosing a theme
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN option element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/option

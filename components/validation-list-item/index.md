@@ -119,6 +119,10 @@ Consumer CSS targets the `validation-list-item` class with
 
 - `validation-list` — a live-feedback list of input validation rules with pending, passed, and failed states
 
+## Known limitations
+
+None known.
+
 ## References
 
 - US Web Design System Validation: https://designsystem.digital.gov/components/validation/

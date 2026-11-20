@@ -122,6 +122,10 @@ The consumer provides all CSS styling. The component renders with a `.combobox` 
 - `cascader` — a multi-level dropdown for selecting a value from a hierarchy
 - `tree-select` — a select dropdown showing a tree of hierarchical options
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/

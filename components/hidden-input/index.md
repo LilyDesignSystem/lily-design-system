@@ -95,6 +95,10 @@ The consumer provides all CSS styling. The component renders with a `.hidden-inp
 - `form` — a form element for collecting and submitting user data
 - `field` — a form field wrapper with label, input, and error message
 
+## Known limitations
+
+None known.
+
 ## References
 
 - HTML hidden input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/hidden

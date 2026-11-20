@@ -38,5 +38,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/BangladeshNationalIdentityCardInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/bangladesh-national-identity-card-input/",
+  "markdown": "https://lilydesignsystem.com/components/bangladesh-national-identity-card-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/bangladesh-national-identity-card-input/AGENTS.md"
 }

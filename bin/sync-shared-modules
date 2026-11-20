@@ -102,6 +102,12 @@ EXTRA_TARGETS = {
         "lily-design-system-angular-headless/components/widget-keys.spec.ts",  # Angular runs *.spec.ts
         "lily-design-system-web-components-headless/lib/widget-keys.test.ts",
     ],
+    "direction.test.ts": [
+        "lily-design-system-angular-calendar/direction.spec.ts",
+        "lily-design-system-angular-data-grid/direction.spec.ts",
+        "lily-design-system-angular-gantt-chart/direction.spec.ts",
+        "lily-design-system-angular-kanban-board/direction.spec.ts",
+    ],
     "command-keys.ts": [
         "lily-design-system-svelte-headless/components/Command/command-keys.ts",
         "lily-design-system-react-headless/components/command-keys.ts",

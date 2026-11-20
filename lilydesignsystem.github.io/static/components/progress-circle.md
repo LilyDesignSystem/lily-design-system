@@ -110,6 +110,10 @@ The consumer provides all CSS styling. The component renders with a `.progress-c
 - `progress-spinner` — an indeterminate spinning progress indicator
 - `loading` — a loading indicator, such as text, or image, or animation
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Meter Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/meter/

@@ -96,6 +96,10 @@ PaginationNav → PaginationList → PaginationListItem (li) → link or button
 - `pagination-list` — an ordered list of pagination list items
 - `pagination-link` — one pagination link in the trail
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN li element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li)

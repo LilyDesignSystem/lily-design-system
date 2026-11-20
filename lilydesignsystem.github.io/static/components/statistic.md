@@ -108,6 +108,10 @@ weight for the value than the title.
 - `meter` — a gauge displaying a scalar value within a known range
 - `sparkline` — a small inline chart showing a data trend
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Group Role: https://www.w3.org/TR/wai-aria-1.2/#group

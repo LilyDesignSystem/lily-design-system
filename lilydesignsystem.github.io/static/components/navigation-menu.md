@@ -180,6 +180,10 @@ Overflow mode adds the sub-class hooks `.navigation-menu-list` (the list; give i
 - `hamburger-menu` — a toggle button that opens a mobile navigation menu
 - `tree-nav` — a hierarchical navigation with expandable branches
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Navigation Landmark: https://www.w3.org/TR/wai-aria-1.2/#navigation

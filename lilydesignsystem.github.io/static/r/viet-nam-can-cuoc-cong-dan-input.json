@@ -38,5 +38,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/VietNamCanCuocCongDanInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/viet-nam-can-cuoc-cong-dan-input/",
+  "markdown": "https://lilydesignsystem.com/components/viet-nam-can-cuoc-cong-dan-input.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/viet-nam-can-cuoc-cong-dan-input/AGENTS.md"
 }

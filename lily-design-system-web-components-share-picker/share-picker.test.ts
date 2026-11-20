@@ -683,7 +683,7 @@ describe("<lily-share-picker> — url resolution and custom glyph (§7.20–§7.
     });
 });
 
-describe("<lily-share-picker> — HTML custom-element surface", () => {
+describe("<lily-share-picker> — Web Components custom-element surface", () => {
     test("targets is property-only and re-renders the list", async () => {
         const el = mount({ label: "Share", url: URL_UNDER_TEST }, { targets: [] });
         await flush();
@@ -896,7 +896,7 @@ describe("pointer open survives the button content swap (regression)", () => {
     });
 });
 
-describe("<lily-share-picker> — tooltip (§7.25–§7.30)", () => {
+describe("<lily-share-picker> — tooltip (§7.25–§7.31)", () => {
     function setup() {
         const el = mount({ label: "Share", url: URL_UNDER_TEST }) as HTMLElement;
         const host = el.querySelector("lily-icon-button") as HTMLElement;
@@ -908,7 +908,7 @@ describe("<lily-share-picker> — tooltip (§7.25–§7.30)", () => {
     const leave = (e: Element) => e.dispatchEvent(new MouseEvent("mouseleave"));
     const isHidden = (e: Element) => e.hasAttribute("hidden");
 
-    test("25 renders a role=tooltip element right after the button holding the label, hidden at rest, not aria-describedby-linked", () => {
+    test("§7.25 renders a role=tooltip element right after the button holding the label, hidden at rest, not aria-describedby-linked", () => {
         const { host, button, tip } = setup();
         expect(tip.getAttribute("role")).toBe("tooltip");
         expect(tip.textContent).toBe("Share");
@@ -919,13 +919,13 @@ describe("<lily-share-picker> — tooltip (§7.25–§7.30)", () => {
         expect(host.hasAttribute("aria-describedby")).toBe(false);
     });
 
-    test("25 its text follows the label attribute", () => {
+    test("§7.25 its text follows the label attribute", () => {
         const { el } = setup();
         el.setAttribute("label", "Renamed");
         expect(el.querySelector(".share-picker-tooltip")!.textContent).toBe("Renamed");
     });
 
-    test("26 pointer over the button shows it; leaving hides it", () => {
+    test("§7.26 pointer over the button shows it; leaving hides it", () => {
         const { host, tip } = setup();
         enter(host);
         expect(isHidden(tip)).toBe(false);
@@ -933,7 +933,7 @@ describe("<lily-share-picker> — tooltip (§7.25–§7.30)", () => {
         expect(isHidden(tip)).toBe(true);
     });
 
-    test("27 it stays visible while the pointer is over the tooltip itself", () => {
+    test("§7.27 it stays visible while the pointer is over the tooltip itself", () => {
         const { host, tip } = setup();
         enter(host);
         leave(host);
@@ -943,7 +943,7 @@ describe("<lily-share-picker> — tooltip (§7.25–§7.30)", () => {
         expect(isHidden(tip)).toBe(true);
     });
 
-    test("28 keyboard focus shows it; blur hides it", () => {
+    test("§7.28 keyboard focus shows it; blur hides it", () => {
         const { button, tip } = setup();
         // jsdom has no input-modality tracking; stand in for the keyboard.
         vi.spyOn(button, "matches").mockImplementation((q: string) => q === ":focus-visible");
@@ -953,14 +953,14 @@ describe("<lily-share-picker> — tooltip (§7.25–§7.30)", () => {
         expect(isHidden(tip)).toBe(true);
     });
 
-    test("28 mouse-induced focus (not :focus-visible) does not show it", () => {
+    test("§7.28 mouse-induced focus (not :focus-visible) does not show it", () => {
         const { button, tip } = setup();
         vi.spyOn(button, "matches").mockReturnValue(false);
         button.focus();
         expect(isHidden(tip)).toBe(true);
     });
 
-    test("29 Escape dismisses it without moving focus; re-entering shows it again", () => {
+    test("§7.29 Escape dismisses it without moving focus; re-entering shows it again", () => {
         const { host, button, tip } = setup();
         vi.spyOn(button, "matches").mockReturnValue(true);
         button.focus();
@@ -973,7 +973,7 @@ describe("<lily-share-picker> — tooltip (§7.25–§7.30)", () => {
         expect(isHidden(tip)).toBe(false);
     });
 
-    test("30 it is never shown while the popup is open", () => {
+    test("§7.30 it is never shown while the popup is open", () => {
         const { host, button, tip } = setup();
         enter(host);
         button.click();
@@ -983,7 +983,7 @@ describe("<lily-share-picker> — tooltip (§7.25–§7.30)", () => {
         expect(isHidden(tip)).toBe(true);
     });
 
-    test("31 hover with focus elsewhere shows the tooltip; Escape on document.body dismisses it without moving focus or being prevented", () => {
+    test("§7.31 hover with focus elsewhere shows the tooltip; Escape on document.body dismisses it without moving focus or being prevented", () => {
         const { host, button, tip } = setup();
         enter(host);
         expect(isHidden(tip)).toBe(false);
@@ -998,7 +998,7 @@ describe("<lily-share-picker> — tooltip (§7.25–§7.30)", () => {
         expect(isHidden(tip)).toBe(false);
     });
 
-    test("31 the document keydown listener is added once while visible and removed on hide and on disconnect", () => {
+    test("§7.31 the document keydown listener is added once while visible and removed on hide and on disconnect", () => {
         const add = vi.spyOn(document, "addEventListener");
         const rem = vi.spyOn(document, "removeEventListener");
         const keydowns = (spy: typeof add) => spy.mock.calls.filter((c) => c[0] === "keydown");

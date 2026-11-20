@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/PeruDocumentoNacionalDeIdentidadView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/peru-documento-nacional-de-identidad-view/",
+  "markdown": "https://lilydesignsystem.com/components/peru-documento-nacional-de-identidad-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/peru-documento-nacional-de-identidad-view/AGENTS.md"
 }

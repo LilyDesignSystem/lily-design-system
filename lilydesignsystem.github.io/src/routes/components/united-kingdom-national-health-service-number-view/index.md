@@ -2,11 +2,13 @@
 
 A display component for showing a United Kingdom National Health Service (NHS) number in a read-only format. The NHS number is a 10-digit identifier that uniquely identifies individuals registered with the National Health Service in England, Wales, and the Isle of Man.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This component renders the NHS number as an inline `<span>` element with an accessible label, making it suitable for use in patient records, summaries, confirmation screens, or any context where an NHS number needs to be displayed but not edited. The accessible label ensures screen readers can announce the purpose of the displayed number.
 
 ## Implementation Notes
 
-- Renders as a `<span>` element with `aria-label` for accessible naming
+- No ARIA on the root: a plain `<span>` cannot be named. A visible caption names the value, or `label` renders as hidden text in a `.screen-reader-span`
 - Displays the NHS number value as inline text content
 - Read-only display component (not an input); pairs with an Input component for editing
 - Uses props for prop destructuring with rest props spread
@@ -15,7 +17,7 @@ This component renders the NHS number as an inline `<span>` element with an acce
 
 ## Props
 
-- `label`: string (required) -- accessible label for screen readers via `aria-label`
+- `label`: string (optional) — hidden text naming the value, in a `.screen-reader-span`. Leave it out when a visible caption names the value
 - `value`: string (default: `""`) -- the NHS number string to display
 - `...restProps`: any -- additional HTML attributes spread onto the `<span>` element
 
@@ -41,7 +43,6 @@ This component renders the NHS number as an inline `<span>` element with an acce
 
 ## ARIA
 
-- `aria-label` -- provides the accessible name from the `label` prop so screen readers can announce the purpose of the displayed number
 - Screen readers announce the label followed by the text content (the number value)
 
 ## When to Use
@@ -68,7 +69,7 @@ The consumer provides all CSS styling. The component renders with a `.united-kin
 ## Testing
 
 - Verify the component renders a `<div>` element with class `united-kingdom-national-health-service-number-view`
-- Verify aria-label`-- provides the accessible name from the`label` prop so screen readers can announce the purpose of the displayed number
+- Verify `label` renders as hidden text, and that the root has no `aria-label`
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied
 
@@ -81,6 +82,20 @@ The consumer provides all CSS styling. The component renders with a `.united-kin
 
 UnitedKingdomNationalHealthServiceNumberView is the read-only display counterpart to UnitedKingdomNationalHealthServiceNumberInput, following the Input/View pattern. Use the View for display and the Input for data entry.
 
+## Domain Knowledge
+
+Shared NHS numbering scheme across England, Wales, and the Isle of Man: ten digits in 3-3-4 format with a Modulus-11 check digit. Scotland and Tuaisceart Eireann operate parallel schemes (CHI and H&C Number) using the same ten-digit shape.
+
+**Where to find it:** NHS medical card, GP correspondence, prescriptions, hospital letters, and the NHS App.
+
+## Security and privacy
+
+A national identifier is personal data, and often a key to other records.
+
+- The view shows exactly the text it is given; it does not mask. Pass the masked form (for example the last four characters) wherever the full number is not needed, and render the full number only to someone entitled to it.
+- Do not log the value, put it in a URL or query string, or send it to analytics or an error tracker.
+- Text on screen can be read over a shoulder and is kept by screenshots and screen recordings; treat a page that shows it as sensitive.
+
 ## Related components
 
 - `united-kingdom-national-health-service-number-input` — an input for entering a UK NHS number
@@ -89,6 +104,10 @@ UnitedKingdomNationalHealthServiceNumberView is the read-only display counterpar
 - `france-numero-d-identification-au-repertoire-input` — an input for entering a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
 - `france-numero-d-identification-au-repertoire-view` — a read-only display of a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
 - `eire-individual-health-identifier-input` — an input for entering Eire Individual Health Identifier (IHI) unique national healthcare identifier
+
+## Known limitations
+
+None known.
 
 ## References
 

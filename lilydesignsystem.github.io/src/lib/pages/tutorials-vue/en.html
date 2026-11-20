@@ -23,7 +23,7 @@
   </p>
 
   <h2>Step 1 — Get the code</h2>
-  
+
   <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
 cd lily-design-system/lily-design-system-vue-headless
 pnpm install
@@ -36,8 +36,7 @@ pnpm run storybook   # browse all 608 components</code></pre>
   </p>
 
   <h2>Step 2 — Your first component</h2>
-  
-  
+
   <pre tabindex="0"><code>&lt;script setup&gt;
 import Button from "lily-design-system-vue-headless/components/Button.vue";
 &lt;/script&gt;
@@ -53,7 +52,7 @@ import Button from "lily-design-system-vue-headless/components/Button.vue";
   </p>
 
   <h2>Step 3 — Compose a small form</h2>
-  
+
   <pre tabindex="0"><code>&lt;script setup&gt;
 import { ref } from "vue";
 import Form from ".../components/Form.vue";
@@ -109,7 +108,7 @@ const name = ref("");
     <code>.label</code>, <code>.field</code> — in your stylesheet, or link a
     ready-made theme in <code>index.html</code> / <code>nuxt.config</code>:
   </p>
-  
+
   <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/nord.css" /&gt;</code></pre>
 
   <h2>Step 5 — See it all working</h2>
@@ -117,7 +116,7 @@ const name = ref("");
     The <a href="/examples/">Nuxt example app</a> is the full catalog styled
     and demoed, with Playwright e2e and an axe-core baseline:
   </p>
-  
+
   <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
 cd lily-design-system/lily-design-system-vue-nuxt-examples
 pnpm install &amp;&amp; pnpm run dev</code></pre>

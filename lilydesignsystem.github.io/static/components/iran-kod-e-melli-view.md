@@ -75,6 +75,10 @@ A national identifier is personal data, and often a key to other records.
 - `iran-kod-e-melli-input` — an input for entering Iran's National Code (Kod-e Melli)
 - `summary-list-item` — one key-value pair in a summary list
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [Iranian identity card](https://en.wikipedia.org/wiki/Iranian_identity_card)

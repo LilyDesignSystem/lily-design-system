@@ -422,7 +422,8 @@
 
             if (!initial && storageKey) {
                 try {
-                    initial = localStorage.getItem(storageKey) ?? "";
+                    const stored = localStorage.getItem(storageKey) ?? "";
+                    if (locales.includes(stored)) initial = stored;
                 } catch {
                     // ignore privacy errors
                 }

@@ -2,6 +2,8 @@
 
 A file input wraps a native `<input type="file">` element with accessible labelling. It allows users to select one or more files from their device for upload. The component supports filtering by accepted file types, multiple file selection, and standard form states.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This component is useful in upload forms, profile editors, document management interfaces, and anywhere users need to attach files. It provides a headless wrapper around the native file picker, leaving all visual presentation to the consumer.
 
 ## Implementation Notes
@@ -99,6 +101,10 @@ The consumer provides all CSS styling. The component renders with a `.file-input
 - `file-upload` — a drag-and-drop area for uploading files
 - `image-file-input` — an input for selecting image files with preview
 - `file-dialog` — a dialog for browsing and selecting files
+
+## Known limitations
+
+None known.
 
 ## References
 

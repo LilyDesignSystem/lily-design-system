@@ -13,34 +13,40 @@ public class ChoroplethChartTests : TestContext
         RenderComponent<ChoroplethChart>(p => { p.Add(x => x.Label, "Quarterly figures").AddChildContent(Svg); extra?.Invoke(p); });
 
     [Fact] public void Renders_figure_with_base_class() => Assert.NotNull(Render().Find("figure.choropleth-chart"));
-    [Fact] public void Exposes_graphic_as_single_named_image()
+    [Fact]
+    public void Exposes_graphic_as_single_named_image()
     {
         var g = Render().Find("[role=img]");
         Assert.Equal("DIV", g.TagName);
         Assert.Equal("choropleth-chart-graphic", g.GetAttribute("class"));
         Assert.Equal("Quarterly figures", g.GetAttribute("aria-label"));
     }
-    [Fact] public void Omits_aria_label_without_label() =>
+    [Fact]
+    public void Omits_aria_label_without_label() =>
         Assert.Null(RenderComponent<ChoroplethChart>(p => p.AddChildContent(Svg)).Find("[role=img]").GetAttribute("aria-label"));
     [Fact] public void Figure_has_no_role() => Assert.Null(Render().Find("figure").GetAttribute("role"));
-    [Fact] public void Consumer_class_follows_base_class() =>
+    [Fact]
+    public void Consumer_class_follows_base_class() =>
         Assert.Equal("choropleth-chart mine", Render(p => p.Add(x => x.CssClass, "mine")).Find("figure").GetAttribute("class"));
     [Fact] public void Renders_svg_inside_the_image_wrapper() => Assert.NotNull(Render().Find("[role=img] svg[data-testid=art]"));
     [Fact] public void No_data_table_wrapper_without_fragment() => Assert.Empty(Render().FindAll(".choropleth-chart-data-table"));
-    [Fact] public void Renders_data_table_as_sibling_after_the_graphic()
+    [Fact]
+    public void Renders_data_table_as_sibling_after_the_graphic()
     {
         var c = Render(p => p.Add(x => x.DataTable, (Microsoft.AspNetCore.Components.RenderFragment)(b => b.AddMarkupContent(0, Table))));
         var wrap = c.Find(".choropleth-chart-data-table");
         Assert.Equal("choropleth-chart-graphic", wrap.PreviousElementSibling!.GetAttribute("class"));
         Assert.Equal("FIGURE", wrap.ParentElement!.TagName);
     }
-    [Fact] public void Table_is_outside_the_role_img_element()
+    [Fact]
+    public void Table_is_outside_the_role_img_element()
     {
         var c = Render(p => p.Add(x => x.DataTable, (Microsoft.AspNetCore.Components.RenderFragment)(b => b.AddMarkupContent(0, Table))));
         Assert.Empty(c.FindAll("[role=img] table"));
         Assert.NotNull(c.Find("table"));
     }
-    [Fact] public void Spreads_rest_props_on_figure()
+    [Fact]
+    public void Spreads_rest_props_on_figure()
     {
         var el = Render(p => p.AddUnmatched("id", "c1").AddUnmatched("data-test", "chart")).Find("figure");
         Assert.Equal("c1", el.Id);

@@ -86,6 +86,10 @@ A national identifier is personal data, and often a key to other records.
 - `slovensko-rodne-cislo-view` — a read-only display of Slovakia's Rodné číslo (RČ)
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/National_identification_number#Slovakia

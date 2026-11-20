@@ -142,6 +142,10 @@ The consumer provides all CSS styling. The component renders with a `.hover-card
 - `tooltip` — a small popup showing descriptive text on hover or focus
 - `popup` — a temporary overlay that appears above page content
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA tooltip role: https://www.w3.org/TR/wai-aria-1.2/#tooltip

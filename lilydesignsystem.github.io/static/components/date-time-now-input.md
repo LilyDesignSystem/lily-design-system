@@ -129,6 +129,10 @@ The consumer provides all CSS styling. The component renders with a `.date-time-
 
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - MDN date input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date

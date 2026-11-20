@@ -2,6 +2,8 @@
 
 A Kanban table body provides the main content area of a Kanban board, containing the columns and cards that represent work items at various workflow stages. It renders as a `<div>` and is designed to be used as a child of a KanbanTable component. The body area holds the column containers with their respective card items.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders as a `<div>` for the main Kanban board content area
@@ -99,6 +101,10 @@ KanbanTable → KanbanTableHead + KanbanTableBody + KanbanTableFoot
 - `kanban-table-td` — kanban board table interactive grid data cell for organizing items by status <td>
 - `kanban-table-th` — a kanban board table interactive grid header cell for organizing items by status <th>
 - `table` — a table with rows and columns <table>
+
+## Known limitations
+
+None known.
 
 ## References
 

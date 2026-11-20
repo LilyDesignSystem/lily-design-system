@@ -33,5 +33,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AccordionNav.razor"
   },
   "docs": "https://lilydesignsystem.com/components/accordion-nav/",
+  "markdown": "https://lilydesignsystem.com/components/accordion-nav.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/accordion-nav/AGENTS.md"
 }

@@ -970,10 +970,10 @@ describe("<lily-date-time-picker> — assistive technology", () => {
 });
 
 // =====================================================================
-// HTML custom-element surface — beyond §7
+// Web Components custom-element surface — beyond §7
 // =====================================================================
 
-describe("<lily-date-time-picker> — HTML custom-element surface", () => {
+describe("<lily-date-time-picker> — Web Components custom-element surface", () => {
     test("nextDateTimePickerId-derived instance ids are stable and prefixed", () => {
         const el = mount(base());
         expect(el.dialogId).toMatch(/^date-time-picker-\d+-dialog$/);

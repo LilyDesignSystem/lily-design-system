@@ -104,6 +104,10 @@ BreadcrumbList follows the Nav / List / ListItem composition pattern:
 - `breadcrumb-list-item` — one breadcrumb list item in the trail
 - `breadcrumb-link` — one breadcrumb link in the trail
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Breadcrumb Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/

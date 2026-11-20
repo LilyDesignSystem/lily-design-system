@@ -2,6 +2,8 @@
 
 A skeleton is a loading placeholder that indicates content is in the process of loading. It shows the approximate layout of content before it loads, reducing perceived loading time and preventing layout shift. The component uses `aria-hidden="true"` to hide the placeholder from screen readers and `aria-busy="true"` to signal that the region is being updated. The component is headless, allowing consumers to style the placeholder shapes with their own CSS.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 ## Implementation Notes
 
 - Renders a `<div>` with `aria-hidden="true"` so screen readers completely skip the placeholder
@@ -89,6 +91,13 @@ None -- this component is a passive placeholder hidden from interaction.
 
 This headless component provides a `<div>` with `aria-hidden="true"` and `aria-busy="true"` to hide the placeholder from screen readers while signaling a loading state. The consumer provides all visual styling including placeholder shapes, shimmer animations, dimensions, and colors.
 
+## Reduced motion
+
+Reduced motion changes how content appears, never whether it does. Apply it in consumer CSS under `@media (prefers-reduced-motion: reduce)` and under the `motion-picker`'s `[data-motion="reduce"]` on the document root (the 63 reference themes already honour both for the preference hooks they style). For a skeleton:
+
+- **Suppress:** the shimmer sweep and the pulse. A placeholder that moves for more than five seconds also needs a way to stop it (WCAG 2.2.2); a static one needs nothing.
+- **Keep:** the placeholder shapes, drawn static and at a lower-contrast fill, and `aria-busy="true"` on the region. The loading state must not be carried by the animation alone (WCAG 1.4.1): the shapes and the busy state say it.
+
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.skeleton` class for targeting. No default styles are included — this is a fully headless component.
@@ -107,6 +116,10 @@ The consumer provides all CSS styling. The component renders with a `.skeleton` 
 
 - `loading` — a loading indicator, such as text, or image, or animation
 - `progress-spinner` — an indeterminate spinning progress indicator
+
+## Known limitations
+
+None known.
 
 ## References
 

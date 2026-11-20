@@ -2,6 +2,8 @@
 
 MedicalBanner is a headless component for displaying prominent medical information messages at the top of a page. It renders as a `<div role="region" aria-live="polite">` with `data-context="medical"` and supports optional dismiss functionality. It follows the same pattern as Banner but is specifically intended for clinical and medical contexts.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This component is useful for patient alerts, clinical notifications, medical record summaries, and health-related announcements in electronic health record systems and clinical interfaces.
 
 ## Implementation Notes
@@ -29,7 +31,9 @@ This component is useful for patient alerts, clinical notifications, medical rec
 ```html
 <MedicalBanner label="Patient summary">
   <MedicalBannerBox>
-    <strong>Sarah Mitchell</strong> | NHS: 485 777 3456 | DOB: 15/03/1984
+    <strong>Sarah Mitchell</strong> | NHS number:
+    <EnglandNationalHealthServiceNumberView value="9434765919" /> | Born:
+    <time datetime="1984-03-15">15 March 1984</time>
   </MedicalBannerBox>
   <MedicalBannerBoxForDanger label="Allergies and reactions">
     Allergies: Penicillin, Latex
@@ -71,10 +75,26 @@ MedicalBanner can contain MedicalBannerBox for horizontal layout:
 <MedicalBanner label="Patient summary">
   <MedicalBannerBox>
     <span>Patient: John Smith</span>
-    <span>NHS: 123 456 7890</span>
+    <span>NHS number: <EnglandNationalHealthServiceNumberView value="9434765870" /></span>
   </MedicalBannerBox>
 </MedicalBanner>
 ```
+
+The same banner elsewhere uses that country's identifier component and its own date format; in Australia:
+
+```html
+<MedicalBanner label="Patient summary">
+  <MedicalBannerBox>
+    <strong>Mia Nguyen</strong> | IHI:
+    <AustraliaIndividualHealthcareIdentifierView value="8003608166690503" /> | Born:
+    <time datetime="1991-07-04">4 July 1991</time>
+  </MedicalBannerBox>
+</MedicalBanner>
+```
+
+The identifier is the region-specific part: Lily has a `-view` component for 82 national identifier types (see
+the `spec/national-identifiers` topic); format the date with `Intl.DateTimeFormat` in the
+patient's locale and keep the ISO date in `datetime`.
 
 ## When to Use
 
@@ -107,9 +127,62 @@ The consumer provides all CSS styling. The component renders with a `.medical-ba
 - Verify dismiss functionality works when `dismissible` is true
 - Verify keyboard interactions work correctly
 
+## Patient banner
+
+A documented composition, not a component. A labelled section holding a `dl` of consumer-supplied items (name, date of birth, identifier, gender, adverse reactions):
+
+```html
+<section
+  aria-label="{consumer string}"
+  class="patient-banner"
+>
+  <dl>
+    <div>
+      <dt>{name label}</dt>
+      <dd>{name}</dd>
+    </div>
+    <div>
+      <dt>{date of birth label}</dt>
+      <dd><time datetime="1980-02-03">{formatted}</time></dd>
+    </div>
+    <div>
+      <dt>{identifier label}</dt>
+      <dd><EnglandNationalHealthServiceNumberView value="..." /></dd>
+    </div>
+    <div>
+      <dt>{gender label}</dt>
+      <dd>{gender}</dd>
+    </div>
+    <div>
+      <dt>{adverse reactions label}</dt>
+      <dd>{adverse reactions}</dd>
+    </div>
+  </dl>
+</section>
+```
+
+Rules (P27-T8, [spec/healthcare-ui](https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md) item 7):
+
+- The `aria-label` and every `dt` and `dd` string come from the consumer. Lily supplies no English.
+- **Two identifiers.** Show at least two, such as the name with the date of birth, and the national identifier with its `-view`
+  component (for example `england-national-health-service-number-view`), so grouping and normalization stay consistent (The
+  Joint Commission, Quick Safety 45).
+- **Never truncated.** No field is ever truncated, clipped or hidden at a narrow width: wrap instead. This is a patient-safety
+  rule, and allergies stay visible at every width.
+- **Allergies are never blank.** Show them with `allergy-record-list`, whose required `status` tells "no known allergies" apart from
+  "not recorded" and "unavailable".
+- **Age beside the date of birth.** Use `age-view` with `ageParts()`, so an infant's age reads in weeks and days.
+- **A missing value is words.** Show the consumer's text ("Not known"), never `?`, `-` or an empty cell.
+- **A deceased patient is said in words.** Put `data-deceased="true"` on the section for the theme, and a visible line of text
+  ("Deceased"); never colour or pattern alone. Show the date of death and the age at death.
+- It is not named `patient-header` because Lily's suffix table maps `-header` to `<header>`, which would be wrong for a labelled
+  `<section>` that is not page chrome. If the composition proves awkward in the example apps, a `patient-banner` component (root
+  `<section>`) is the candidate.
+- Example: `/patient-banner` in the SvelteKit examples app, with `e2e/patient-banner.spec.ts` checking every field at 320px.
+
 ## Advice
 
-- **Designers**: Use distinct styling for medical banners to differentiate them from generic site banners. Consider NHS blue or clinical color schemes.
+- **Designers**: Use distinct styling for medical banners to differentiate them from generic site banners. Follow the clinical colour scheme of the health service you build for (NHS blue in England, say).
 - **Developers**: Always provide a meaningful `label` prop. Use `data-context="medical"` in CSS selectors for medical-specific styling.
 
 ## Domain Knowledge
@@ -124,6 +197,10 @@ Medical banners in clinical systems display patient-specific information, clinic
 - `government-banner` — a banner identifying a website as belonging to a government, with an expandable details panel
 - `medical-banner-box` — a medical banner box that is inside a medical-banner component, using flexbox horizontal, with medical information
 - `medical-banner-box-for-advice` — a medical record banner box for advice information e.g. contacts, contexts, plans, etc.
+
+## Known limitations
+
+None known.
 
 ## References
 

@@ -93,6 +93,10 @@ Sonner serves as the container region that manages Toast notification components
 - `toast` — a brief auto-dismissing notification message
 - `notification` — a brief message about an event or update
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Live Regions: https://www.w3.org/TR/wai-aria-1.2/#aria-live

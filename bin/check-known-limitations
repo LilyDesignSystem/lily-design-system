@@ -1,0 +1,81 @@
+#!/usr/bin/env node
+// Every canonical component document must state its known limitations, even
+// when the honest statement is "None known." (tasks.md P22-T5). The same gate
+// pins the disabled-link and look-alike guidance from P22-T21.
+
+const fs = require("fs");
+const path = require("path");
+
+const top = path.join(__dirname, "..");
+const components = fs
+    .readFileSync(path.join(top, "components.tsv"), "utf8")
+    .trim()
+    .split("\n")
+    .map((line) => line.split("\t")[0]);
+const errors = [];
+
+function section(text, file) {
+    const headings = [...text.matchAll(/^## Known limitations\s*$/gm)];
+    if (headings.length !== 1) {
+        errors.push(
+            `${file}: expected one "## Known limitations" section, found ${headings.length}`,
+        );
+        return "";
+    }
+    const start = headings[0].index + headings[0][0].length;
+    const next = text.slice(start).search(/^## /m);
+    const body = text.slice(start, next < 0 ? text.length : start + next).trim();
+    if (!body)
+        errors.push(`${file}: Known limitations section is empty; use "None known." when accurate`);
+    return body;
+}
+
+function requires(body, file, terms) {
+    for (const [term, pattern] of terms) {
+        if (!pattern.test(body)) errors.push(`${file}: Known limitations must mention ${term}`);
+    }
+}
+
+for (const slug of components) {
+    const agentPath = `components/${slug}/AGENTS.md`;
+    const agentText = fs.readFileSync(path.join(top, agentPath), "utf8");
+    const htmlTag = (agentText.match(/^- HTML tag:\s*<([^ >]+)/m) || [])[1];
+
+    for (const name of ["AGENTS.md", "index.md"]) {
+        const file = `components/${slug}/${name}`;
+        const body = section(fs.readFileSync(path.join(top, file), "utf8"), file);
+        if (slug === "button") {
+            requires(body, file, [
+                ["native disabled", /native [`]?disabled/i],
+                ["aria-disabled", /aria-disabled/],
+                ["non-button elements", /non-button/],
+            ]);
+        }
+        if (htmlTag === "a") {
+            requires(body, file, [
+                ["links have no disabled state", /no disabled state/],
+                ["aria-disabled", /aria-disabled/],
+                ["href", /href/],
+                ["tabindex=-1", /tabindex=["`]*-1/],
+            ]);
+        }
+    }
+}
+
+const compositionPath = "AGENTS/components.md";
+const composition = fs.readFileSync(path.join(top, compositionPath), "utf8");
+const choiceStart = composition.indexOf("### Choice-chip pattern:");
+const choiceEnd = composition.indexOf("\n### ", choiceStart + 4);
+const choice =
+    choiceStart < 0 ? "" : composition.slice(choiceStart, choiceEnd < 0 ? undefined : choiceEnd);
+requires(choice, compositionPath, [
+    ["choice-chip known limitations", /Known limitations: disabled and look-alike controls/],
+    ["native radio or checkbox", /native radio or checkbox/],
+    ["aria-label for an icon-only choice", /aria-label/],
+]);
+
+if (errors.length) {
+    console.error(errors.join("\n"));
+    process.exit(1);
+}
+console.log(`check-known-limitations: OK (${components.length * 2} component documents)`);

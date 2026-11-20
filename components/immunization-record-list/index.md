@@ -88,6 +88,10 @@ This headless component ships zero CSS and decides nothing visual. The consumer 
 - `immunization-record-list-item` — one immunization in an immunization record list, with vaccine, date, dose and status
 - `record-list` and the other record lists — the same status contract for each part of a record
 
+## Known limitations
+
+None known.
+
 ## References
 
 - FHIR Immunization: https://hl7.org/fhir/R4/immunization.html

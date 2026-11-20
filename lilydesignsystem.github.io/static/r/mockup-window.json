@@ -40,5 +40,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MockupWindow.razor"
   },
   "docs": "https://lilydesignsystem.com/components/mockup-window/",
+  "markdown": "https://lilydesignsystem.com/components/mockup-window.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/mockup-window/AGENTS.md"
 }

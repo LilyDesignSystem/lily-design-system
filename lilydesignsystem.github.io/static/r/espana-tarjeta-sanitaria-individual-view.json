@@ -37,5 +37,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/EspanaTarjetaSanitariaIndividualView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/espana-tarjeta-sanitaria-individual-view/",
+  "markdown": "https://lilydesignsystem.com/components/espana-tarjeta-sanitaria-individual-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/espana-tarjeta-sanitaria-individual-view/AGENTS.md"
 }

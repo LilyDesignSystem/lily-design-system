@@ -48,5 +48,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ActionBar.razor"
   },
   "docs": "https://lilydesignsystem.com/components/action-bar/",
+  "markdown": "https://lilydesignsystem.com/components/action-bar.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/action-bar/AGENTS.md"
 }

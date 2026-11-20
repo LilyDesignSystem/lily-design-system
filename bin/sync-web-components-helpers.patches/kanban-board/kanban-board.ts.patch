@@ -1,0 +1,1574 @@
+--- /var/folders/zp/p2vtmfrj35b27yh4ns6h_6h40000gn/T/tmp.zQ87DbJtD0	2026-11-20 06:21:07.745426503 +0000
++++ lily-design-system-web-components-kanban-board/kanban-board.ts	2026-11-20 06:20:58.770286725 +0000
+@@ -5,28 +5,32 @@
+  * the custom-element class but does NOT register it. The `index.ts`
+  * barrel registers it on import.
+  *
+- * A headless interactive kanban board: cards move between columns by
+- * pointer drag-and-drop or, independently, by a keyboard-accessible
+- * per-card "Move to…" menu — never drag-only (WCAG 2.5.7). WAI-ARIA APG
+- * Grid roving-tabindex keyboard navigation across a rectangular grid
+- * (columns × the largest column's card count).
++ * A headless kanban board: cards move between columns by pointer
++ * drag-and-drop or, independently, by a keyboard-accessible per-card
++ * "Move to…" menu — never drag-only (WCAG 2.5.7). WAI-ARIA APG Grid
++ * roving-tabindex keyboard navigation.
+  *
+- * The table structure (`kanban-table`/`kanban-table-th`/
+- * `kanban-table-td`/…) is this catalog's markup CONTRACT, documented in
+- * `@lilydesignsystem/web-components-headless`'s `components/kanban-table*.html`
+- * reference files — those are static templates, not JS classes, so this
+- * element builds the class names/attributes they document by hand,
+- * exclusively via `document.createElement`/`appendChild` (never
+- * `innerHTML`/template strings: a `thead`/`tbody`/`tr`/`th`/`td` start
+- * tag is silently dropped by the HTML parser whenever it isn't already
+- * inside a real `<table>`'s own insertion mode, for `innerHTML` exactly
+- * as for literal light-DOM children).
++ * Direct port of `@lilydesignsystem/svelte-kanban-board`. Composes
++ * `@lilydesignsystem/web-components-headless`'s `<lily-kanban-table>`
++ * (unmodified — the consumer supplies `<thead>`/`<tbody>`/`<tr>`/`<th>`/
++ * `<td>` as plain light-DOM children, this catalog has no
++ * `KanbanTableTD`-style sub-element family) and `<lily-icon-button>` for
++ * the per-card move-menu trigger. The move menu itself is hand-rolled
++ * markup (a `<ul role="listbox">`), NOT a composed `<lily-listbox>| —
++ * see spec/index.md §3 for why: `<lily-listbox>` is an autonomous
++ * custom element with a fixed `<ul>` shape of its own; nesting one
++ * inside a grid cell would add an extra wrapper element with no
++ * matching native-tag benefit the way Svelte's `<svelte:element>`
++ * composition gets, and `theme-picker`'s own dropdown already
++ * establishes "hand-roll the popup `<ul>`" as this catalog's answer to
++ * the same tradeoff.
+  *
+- * The move menu reuses `@lilydesignsystem/web-components-headless`'s
+- * `ListboxController` for its keyboard behaviour, the same module
+- * `theme-picker` composes for its own dropdown.
++ * Imported here (not only from `index.ts`) so `lily-icon-button` and
++ * `lily-kanban-table` are registered regardless of which module a
++ * consumer (or this package's own tests) imports first.
+  */
+-import { ListboxController } from "@lilydesignsystem/web-components-headless/components/listbox-controller.js";
++
++import "@lilydesignsystem/web-components-headless";
+ import {
+     copyToClipboard,
+     downloadBlob,
+@@ -67,7 +71,9 @@
+     type ResolvedField,
+ } from "./typed-fields.js";
+
+-const SVG_NS = "http://www.w3.org/2000/svg";
++// ---------------------------------------------------------------------
++// Types
++// ---------------------------------------------------------------------
+
+ /**
+  * A typed field a card carries (an owner, a due date, an estimate): a bundle of display, sort and export defaults from
+@@ -154,8 +160,8 @@
+ export type KanbanColumnContext = { column: KanbanColumn; cards: KanbanCard[]; count: number };
+
+ /**
+- * Every field is optional, but its presence gates the control it names —
+- * no baked-in English fallback, matching every other helper's
++ * Every field is optional, but its presence gates the control it
++ * names — no baked-in English fallback, matching every other helper's
+  * label-gating convention. See spec/index.md §5.
+  */
+ export type KanbanLabels = {
+@@ -251,64 +257,78 @@
+     maxRows: number;
+ };
+
+-/** Detail of the `reordercard` event, paired with the `onReorder` property. */
+-export type KanbanBoardReorderDetail = {
+-    cardId: string;
+-    /** 0-based index within the card's own column. */
+-    toIndex: number;
+-};
+-
+-/** Detail of the `movecard` event, paired with the `onMove` property. */
+-export type KanbanBoardMoveDetail = {
+-    cardId: string;
+-    toColumnId: string;
+-    /** 0-based position in the visible column; present only when a pointer drop landed on a card. */
+-    toIndex?: number;
+-    /** The destination lane; present only when a drop landed in a lane's cell. */
+-    toLaneId?: string;
+-};
+-
+ /** Mirrors the observed attributes / properties for typing convenience. */
+ export type KanbanBoardProps = {
++    /** Accessible name for the board, passed through to `<lily-kanban-table>`. */
+     label: string;
++    /** Optional visible caption. */
+     caption?: string;
++    /** Property-only — column definitions. */
+     columns: KanbanColumn[];
++    /** Property-only — card data. */
+     cards: KanbanCard[];
++    /** Property-only. Resolves a card to its display label. Defaults to `card.title`. */
+     cardLabel?: (card: KanbanCard) => string;
++    /** Property-only. Called after a card moves, by pointer or the move menu. */
+     onMove?: (cardId: string, toColumnId: string, toIndex?: number, toLaneId?: string) => void;
++    /** Property-only. Async move: awaited; the card shows in its new column at once with `data-pending` and goes back if it rejects. */
+     moveHandler?: (
+         cardId: string,
+         toColumnId: string,
+         toIndex?: number,
+         toLaneId?: string,
+     ) => void | Promise<unknown>;
++    /** Property-only. Swimlanes: horizontal bands of rows; a drop into another lane's cell passes the lane id as `onMove`'s fourth argument. */
+     lanes?: KanbanLane[];
++    /** Property-only. Several cards can be selected and moved together (Ctrl/Cmd+click or `x`). */
+     selectable?: boolean;
++    /** Property-only. The selected card ids; the `selectionchange` event and `onSelectionChange` report changes. */
+     selected?: string[];
+     onSelectionChange?: (selected: string[]) => void;
++    /** Property-only. Text for the drag preview (one card, or the whole selection). */
+     dragPreviewText?: (cards: KanbanCard[]) => string;
++    /** Property-only. Remember successful moves so Ctrl/Cmd+Z can take them back. */
+     undoable?: boolean;
++    /** Property-only. Columns can be reordered (drag a header, or Alt+Shift+ArrowLeft/Right). */
+     movableColumns?: boolean;
++    /** Property-only. Column ids in display order; `columnorderchange` / `onColumnOrderChange` report changes. */
+     columnOrder?: string[];
+     onColumnOrderChange?: (order: string[]) => void;
++    /** Property-only. Renders only the rows in view, in a scroll area of `height` px; every row is assumed `rowHeight` px tall. */
+     virtualize?: { rowHeight: number; height: number; overscan?: number };
++    /** Property-only. Called when an async `moveHandler` rejects, after the card has gone back. */
+     onMoveError?: (cardId: string, toColumnId: string, error: unknown) => void;
++    /** Property-only. The columns a card may move to (its own is always shown). */
+     allowedColumns?: (card: KanbanCard) => string[];
++    /** Property-only. Hides cards for which it returns false; counts and limits still use every card. */
+     filter?: (card: KanbanCard) => boolean;
++    /** Property-only. Orders the cards shown within each column. */
+     compare?: (a: KanbanCard, b: KanbanCard) => number;
++    /** Property-only. Extra attributes on each card's cell. */
+     cardAttrs?: (card: KanbanCard) => Record<string, string>;
++    /** Property-only. The text `search` looks in. */
+     searchText?: (card: KanbanCard) => string;
++    /** Property-only. Called when Alt+ArrowUp/Down moves a card within its column; `toIndex` is 0-based. */
+     onReorder?: (cardId: string, toIndex: number) => void;
++    /** Property-only. Veto a move; refused columns show `aria-disabled` in the move menu. `toLane` is the swimlane the card would land in. */
+     canMove?: (card: KanbanCard, toColumn: KanbanColumn, toLane?: KanbanLane) => boolean;
++    /** Property-only. With swimlanes: may a card be dropped into another lane? Default true. False refuses every cross-lane drop. */
+     allowLaneChange?: boolean;
++    /** Attribute `readonly`. Disables the move menu, drag and reorder; navigation still works. */
+     readonly?: boolean;
++    /** Property-only. Show `labels.search` as visible text beside the search field. */
+     showSearchLabel?: boolean;
++    /** Property-only. `compact` sets `data-field-layout="compact"` on the board. Default stacked. */
+     fieldLayout?: "stacked" | "compact";
++    /** Property-only. Ids of collapsed columns; a collapsed column keeps its header and count but shows no cards. */
+     collapsedColumns?: string[];
++    /** Property-only. Called with the new collapsed ids when a column's toggle is pressed. */
+     onCollapsedChange?: (collapsedColumns: string[]) => void;
+     collapsedLanes?: string[];
+     onCollapsedLanesChange?: (collapsedLanes: string[]) => void;
++    /** Property-only. Called with the column id when its add-card button is pressed. */
+     onAddCard?: (columnId: string) => void;
++    /** Property-only. See KanbanLabels — presence gates each control. */
+     labels?: KanbanLabels;
+     fields?: KanbanField[];
+     locale?: string;
+@@ -327,7 +347,61 @@
+     return `kanban-board-${uid}`;
+ }
+
+-const defaultCardLabel = (card: KanbanCard): string => card.title;
++const HANDLED_ATTRS = new Set(["label", "caption", "class", "readonly", "search"]);
++
++/**
++ * Copy every attribute the consumer set on the HOST element (this
++ * custom element) onto `target`, except the ones this component
++ * handles itself. Mirrors the headless catalog's own
++ * `passThroughAttributes` (see `dom-utils.ts`), reimplemented locally
++ * so this package does not reach into headless's unexported internals
++ * — the same self-contained-helpers convention `theme-picker.ts`
++ * follows for its own module-local `parseCsv`/`parseJsonObject`.
++ */
++function passThroughAttributes(host: Element, target: Element): void {
++    for (const attr of Array.from(host.attributes)) {
++        if (attr.name === "class" || HANDLED_ATTRS.has(attr.name)) continue;
++        target.setAttribute(attr.name, attr.value);
++    }
++}
++
++/**
++ * Defensive nested-custom-element upgrade sweep.
++ *
++ * This component builds a THREE-level-deep nested custom-element tree
++ * fully detached (`<lily-kanban-board>` root div → `<lily-kanban-table>`
++ * → `<td>` → `<lily-icon-button>`) before attaching it to the document in
++ * one `appendChild`. Per the HTML spec, inserting a connected subtree
++ * upgrades every custom element within it, in tree order — but
++ * `picker-bar.ts`'s own comment documents observing this NOT happen
++ * reliably in jsdom for even one level of nesting, which is why that
++ * component connects `root` first and appends each picker into it
++ * one at a time instead of building the whole subtree upfront.
++ *
++ * Doing that node-by-node dance for a whole grid (potentially dozens
++ * of cells) is impractical, so instead this sweep runs once, right
++ * after the whole tree is attached: it calls `connectedCallback()`
++ * directly (a plain public method) on every nested `<lily-kanban-table>`
++ * / `<lily-icon-button>` that has not yet built its expected inner
++ * element. Both of those components' own `connectedCallback`s guard
++ * themselves against re-entry (`if (this.querySelector(...)) return;`),
++ * so calling one that already ran is a safe no-op — this sweep is
++ * correct whether or not the engine already upgraded some or all of
++ * these elements on its own.
++ */
++function upgradeNestedCustomElements(root: ParentNode): void {
++    root.querySelectorAll("lily-kanban-table, lily-icon-button").forEach((el) => {
++        (el as HTMLElement & { connectedCallback?: () => void }).connectedCallback?.();
++    });
++}
++
++function clamp(n: number, min: number, max: number): number {
++    return Math.min(Math.max(n, min), max);
++}
++
++// ---------------------------------------------------------------------
++// Custom element
++// ---------------------------------------------------------------------
+
+ /** Custom-element class implementing `<lily-kanban-board>`. */
+ export class KanbanBoard extends HTMLElement {
+@@ -335,9 +409,7 @@
+         return ["label", "caption", "class", "readonly", "search"];
+     }
+
+-    // Backing storage for property-only members (arrays of objects and
+-    // functions can't be attributes — the same rule `date-time-picker`'s
+-    // §4.3 documents for its own `labels`/`shortcuts`/callbacks).
++    // ---- Backing storage for property-only members ----
+     #columns: KanbanColumn[] = [];
+     /** Columns in display order: those named in `columnOrder` first, the rest after in their own order. */
+     #ordered(): KanbanColumn[] {
+@@ -350,23 +422,19 @@
+             .map((x) => x.c);
+     }
+     #cards: KanbanCard[] = [];
+-    #cardLabel: (card: KanbanCard) => string = defaultCardLabel;
+-    #onMove:
+-        | ((cardId: string, toColumnId: string, toIndex?: number, toLaneId?: string) => void)
+-        | undefined;
+-    #moveHandler:
+-        | ((
+-              cardId: string,
+-              toColumnId: string,
+-              toIndex?: number,
+-              toLaneId?: string,
+-          ) => void | Promise<unknown>)
+-        | undefined;
+-    #lanes: KanbanLane[] | undefined;
++    #cardLabel: (card: KanbanCard) => string = (card) => card.title;
++    #onMove?: (cardId: string, toColumnId: string, toIndex?: number, toLaneId?: string) => void;
++    #moveHandler?: (
++        cardId: string,
++        toColumnId: string,
++        toIndex?: number,
++        toLaneId?: string,
++    ) => void | Promise<unknown>;
++    #lanes?: KanbanLane[];
+     #selectable = false;
+     #selected: string[] = [];
+-    #onSelectionChange: ((selected: string[]) => void) | undefined;
+-    #dragPreviewText: ((cards: KanbanCard[]) => string) | undefined;
++    #onSelectionChange?: (selected: string[]) => void;
++    #dragPreviewText?: (cards: KanbanCard[]) => string;
+     #undoable = false;
+     #onCopy?: (copy: { text: string; rowCount: number }) => boolean | void;
+     #history: EditHistory = EMPTY_HISTORY;
+@@ -376,33 +444,31 @@
+     #undoBtn: HTMLButtonElement | null = null;
+     #movableColumns = false;
+     #columnOrder: string[] = [];
+-    #onColumnOrderChange: ((order: string[]) => void) | undefined;
+-    #virtualize: { rowHeight: number; height: number; overscan?: number } | undefined;
++    #onColumnOrderChange?: (order: string[]) => void;
++    #virtualize?: { rowHeight: number; height: number; overscan?: number };
+     #scrollTop = 0;
+     #scrollEl: HTMLDivElement | null = null;
+     #windowSig = "";
+     #draggingColumnId: string | null = null;
+-    #onMoveError: ((cardId: string, toColumnId: string, error: unknown) => void) | undefined;
+-    #allowedColumns: ((card: KanbanCard) => string[]) | undefined;
+-    #filter: ((card: KanbanCard) => boolean) | undefined;
+-    #compare: ((a: KanbanCard, b: KanbanCard) => number) | undefined;
+-    #cardAttrs: ((card: KanbanCard) => Record<string, string>) | undefined;
+-    #searchText: ((card: KanbanCard) => string) | undefined;
++    #onMoveError?: (cardId: string, toColumnId: string, error: unknown) => void;
++    #allowedColumns?: (card: KanbanCard) => string[];
++    #filter?: (card: KanbanCard) => boolean;
++    #compare?: (a: KanbanCard, b: KanbanCard) => number;
++    #cardAttrs?: (card: KanbanCard) => Record<string, string>;
++    #searchText?: (card: KanbanCard) => string;
+     /** Cards moved optimistically by an async `moveHandler` that has not settled: id → destination column. */
+     #optimistic: Record<string, string> = {};
+-    #dropTarget: string | null = null;
+-    #onReorder: ((cardId: string, toIndex: number) => void) | undefined;
+-    #canMove:
+-        ((card: KanbanCard, toColumn: KanbanColumn, toLane?: KanbanLane) => boolean) | undefined;
++    #onReorder?: (cardId: string, toIndex: number) => void;
++    #canMove?: (card: KanbanCard, toColumn: KanbanColumn, toLane?: KanbanLane) => boolean;
+     #allowLaneChange = true;
+     #showSearchLabel = false;
+     #fieldLayout: "stacked" | "compact" = "stacked";
+     #labels: KanbanLabels = {};
+     #collapsed: string[] = [];
+-    #onCollapsedChange: ((collapsedColumns: string[]) => void) | undefined;
++    #onCollapsedChange?: (collapsedColumns: string[]) => void;
+     #collapsedLanes: string[] = [];
+-    #onCollapsedLanesChange: ((collapsedLanes: string[]) => void) | undefined;
+-    #onAddCard: ((columnId: string) => void) | undefined;
++    #onCollapsedLanesChange?: (collapsedLanes: string[]) => void;
++    #onAddCard?: (columnId: string) => void;
+     #fields: KanbanField[] | undefined;
+     #resolvedFields: ResolvedField[] = [];
+     #locale: string | undefined;
+@@ -419,39 +485,25 @@
+     /** The cards a render shows, kept for export. */
+     #exportCards: KanbanCard[] = [];
+
+-    // Rendered-DOM references.
+-    #rootEl: HTMLDivElement | null = null;
+-    #statusEl: HTMLParagraphElement | null = null;
++    // ---- Internal state ----
+     #statusMessage = "";
+-
+-    // Roving-tabindex cursor (WAI-ARIA APG Grid pattern).
+     #focusedRow = 0;
+     #focusedCol = 0;
+-    // `"row-col"` -> the <td>. Rebuilt every #render(); read on every
+-    // focus move so moving the cursor never needs a structural rebuild.
+-    #cellEls = new Map<string, HTMLTableCellElement>();
+-
+-    // Per-card move-button reference, keyed by card id — NOT a single
+-    // shared variable. Every other framework catalog's kanban-board port
+-    // independently found the same latent bug in the Svelte reference:
+-    // binding one shared element reference across every card's button
+-    // refocuses whichever card mounted last, not the card whose menu
+-    // closed. A `Map<cardId, button>` makes that bug structurally
+-    // impossible here — see kanban-board.test.ts's dedicated regression
+-    // test and spec/index.md §10.
+-    #moveButtonEls = new Map<string, HTMLButtonElement>();
+-
+-    // Move menu (at most one open at a time).
+     #openCardId: string | null = null;
+-    #moveListEl: HTMLUListElement | null = null;
+-    #moveOptionEls: HTMLLIElement[] = [];
+-    #moveController: ListboxController | null = null;
+-
+-    // Pointer drag-and-drop (supplementary, never the only path).
++    #moveActiveIndex = -1;
+     #draggingCardId: string | null = null;
+
+     readonly #baseId = nextKanbanBoardId();
+
++    // ---- Rendered-DOM references. Null/empty until #render() has run. ----
++    #rootEl: HTMLDivElement | null = null;
++    #tableEl: HTMLElement | null = null;
++    #statusEl: HTMLParagraphElement | null = null;
++    #cellEls = new Map<string, HTMLTableCellElement>(); // "row-col" -> td
++    #moveButtonHosts = new Map<string, HTMLElement>(); // cardId -> <lily-icon-button>
++    #moveListEls = new Map<string, HTMLUListElement>(); // cardId -> <ul>
++    #moveOptionEls = new Map<string, HTMLLIElement[]>(); // cardId -> li[]
++
+     // ---- Property accessors ----
+
+     get label(): string {
+@@ -489,7 +541,7 @@
+         return this.#cardLabel;
+     }
+     set cardLabel(fn: ((card: KanbanCard) => string) | undefined) {
+-        this.#cardLabel = fn ?? defaultCardLabel;
++        this.#cardLabel = fn ?? ((card) => card.title);
+         this.#render();
+     }
+
+@@ -506,7 +558,7 @@
+         this.#onMove = fn;
+     }
+
+-    /** Swimlanes: horizontal bands of rows. Each card sits in the lane named by `card.laneId` (the first lane when absent). A drop into another lane's cell changes the lane: `onMove` / `movecard` carry the lane id. */
++    /** Swimlanes: horizontal bands of rows. Each card sits in the lane named by `card.laneId` (the first lane when absent). */
+     get lanes(): KanbanLane[] | undefined {
+         return this.#lanes ? [...this.#lanes] : undefined;
+     }
+@@ -566,7 +618,7 @@
+         this.#render();
+     }
+
+-    /** Column ids in display order; columns it does not name follow in their own order. `columnorderchange` / `onColumnOrderChange` report changes. */
++    /** Column ids in display order; columns it does not name follow in their own order. */
+     get columnOrder(): string[] {
+         return [...this.#columnOrder];
+     }
+@@ -598,7 +650,6 @@
+         this.#onReorder = fn;
+     }
+
+-    /** Ids of collapsed columns: a collapsed column keeps its header and count but shows no cards. */
+     get collapsedColumns(): string[] {
+         return [...this.#collapsed];
+     }
+@@ -607,13 +658,6 @@
+         this.#render();
+     }
+
+-    get onCollapsedChange(): ((collapsedColumns: string[]) => void) | undefined {
+-        return this.#onCollapsedChange;
+-    }
+-    set onCollapsedChange(fn: ((collapsedColumns: string[]) => void) | undefined) {
+-        this.#onCollapsedChange = fn;
+-    }
+-
+     /** Ids of collapsed swimlanes: a collapsed lane keeps its header row (and count) but renders no card rows. */
+     get collapsedLanes(): string[] {
+         return [...this.#collapsedLanes];
+@@ -630,6 +674,13 @@
+         this.#onCollapsedLanesChange = fn;
+     }
+
++    get onCollapsedChange(): ((collapsedColumns: string[]) => void) | undefined {
++        return this.#onCollapsedChange;
++    }
++    set onCollapsedChange(fn: ((collapsedColumns: string[]) => void) | undefined) {
++        this.#onCollapsedChange = fn;
++    }
++
+     /** Typed fields shown under each card's title, read from `card.values`. Editable types edit in place (click the value, or F2 on the card for the first editable field; Tab moves to the next) when `onFieldEdit` is set or `editableFields` is on. */
+     get fields(): KanbanField[] | undefined {
+         return this.#fields ? [...this.#fields] : undefined;
+@@ -711,7 +762,6 @@
+         this.#onExport = fn;
+     }
+
+-    /** Called with the column id when its add-card button is pressed; the consumer adds the card. */
+     get onAddCard(): ((columnId: string) => void) | undefined {
+         return this.#onAddCard;
+     }
+@@ -719,8 +769,6 @@
+         this.#onAddCard = fn;
+     }
+
+-    /** Veto a move (a hard WIP limit, a workflow rule). Refused columns show `aria-disabled` in the move menu. */
+-    /** Called when a card moves. `toIndex` is given only when a pointer drop landed on a card. */
+     get moveHandler():
+         | ((
+               cardId: string,
+@@ -733,7 +781,7 @@
+     }
+     /**
+      * An async move: awaited when a card moves. The card shows in its new column at once with `data-pending` and `aria-busy`
+-     * and goes back if the promise rejects (`labels.moveFailed`, `onMoveError`, the `moveerror` event). `onMove` and `movecard` fire either way.
++     * and goes back if the promise rejects (`labels.moveFailed`, `onMoveError`, the `moveerror` event). `onMove` fires either way.
+      */
+     set moveHandler(
+         fn:
+@@ -757,7 +805,6 @@
+         this.#onMoveError = fn;
+     }
+
+-    /** The columns a card may move to (its own column is always shown). The move menu offers only these; drops and keyboard moves elsewhere are refused. */
+     get allowedColumns(): ((card: KanbanCard) => string[]) | undefined {
+         return this.#allowedColumns;
+     }
+@@ -766,7 +813,6 @@
+         this.#render();
+     }
+
+-    /** Hides cards for which it returns false. Counts, WIP limits and over-limit warnings still use every card; a filtered column carries `data-hidden-count`. */
+     get filter(): ((card: KanbanCard) => boolean) | undefined {
+         return this.#filter;
+     }
+@@ -775,7 +821,6 @@
+         this.#render();
+     }
+
+-    /** Orders the cards shown within each column (a stable sort). */
+     get compare(): ((a: KanbanCard, b: KanbanCard) => number) | undefined {
+         return this.#compare;
+     }
+@@ -784,7 +829,6 @@
+         this.#render();
+     }
+
+-    /** Extra attributes on each card's cell (for example `data-priority`); merged after Lily's own. */
+     get cardAttrs(): ((card: KanbanCard) => Record<string, string>) | undefined {
+         return this.#cardAttrs;
+     }
+@@ -865,7 +909,6 @@
+         this.#render();
+     }
+
+-    /** Disable every mutating interaction: move menu, drag and reorder. Navigation still works. */
+     get readonly(): boolean {
+         return this.hasAttribute("readonly");
+     }
+@@ -878,25 +921,16 @@
+         return { ...this.#labels };
+     }
+     set labels(v: KanbanLabels | undefined) {
+-        this.#labels = v && typeof v === "object" ? { ...v } : {};
++        this.#labels = v ?? {};
+         this.#render();
+     }
+
+-    /** Is any card's move menu currently open? Read-only. */
+-    get moveMenuOpen(): boolean {
+-        return this.#openCardId !== null;
+-    }
+-
+-    // ---- Public, overridable rendering hook ----
++    // ---- Lifecycle ----
+
+-    /**
+-     * Build the content of a card's move-menu trigger button. Default: a
+-     * bundled swap-arrows SVG, `aria-hidden`, so the accessible name comes
+-     * from `labels.moveButton` alone — the same "no font-dependent glyph"
+-     * rule `theme-picker`/`share-picker` follow for their own buttons.
+-     */
++    /** Default move-button icon: a swap-arrows SVG, `aria-hidden`, so the accessible name is `labels.moveButton` alone. Override to replace it. */
+     renderMoveButtonIcon(): Node {
+-        const svg = document.createElementNS(SVG_NS, "svg");
++        const NS = "http://www.w3.org/2000/svg";
++        const svg = document.createElementNS(NS, "svg");
+         svg.setAttribute("class", "kanban-board-move-icon");
+         svg.setAttribute("viewBox", "0 0 16 16");
+         svg.setAttribute("width", "1rem");
+@@ -907,14 +941,12 @@
+         svg.setAttribute("stroke-width", "1.6");
+         svg.setAttribute("stroke-linecap", "round");
+         svg.setAttribute("stroke-linejoin", "round");
+-        const path = document.createElementNS(SVG_NS, "path");
++        const path = document.createElementNS(NS, "path");
+         path.setAttribute("d", "M2 5h9m0 0-3-3m3 3-3 3M14 11H5m0 0 3-3m-3 3 3 3");
+         svg.appendChild(path);
+         return svg;
+     }
+
+-    // ---- Lifecycle ----
+-
+     connectedCallback(): void {
+         this.#render();
+     }
+@@ -924,31 +956,22 @@
+         oldValue?: string | null,
+         newValue?: string | null,
+     ): void {
+-        switch (name) {
+-            case "label":
+-            case "caption":
+-            case "class":
+-            case "readonly":
+-                this.#render();
+-                break;
+-            case "search": {
+-                this.#render();
+-                // Announce how many cards match after the search changes (not when it is first set).
+-                if (this.isConnected && (oldValue ?? "") !== (newValue ?? "")) {
+-                    let matched = 0;
+-                    for (const list of this.#cardsByColumn().values()) matched += list.length;
+-                    this.#announce(this.#labels.searchAnnouncement?.(matched, this.#cards.length));
+-                }
+-                break;
+-            }
+-            default:
+-                break;
++        if (!this.isConnected) return;
++        if (
++            name === "label" ||
++            name === "caption" ||
++            name === "class" ||
++            name === "readonly" ||
++            name === "search"
++        ) {
++            this.#render();
++        }
++        // Announce how many cards match after the search changes (not when it is first set).
++        if (name === "search" && (oldValue ?? "") !== (newValue ?? "")) {
++            let matched = 0;
++            for (const list of this.#cardsByColumn().values()) matched += list.length;
++            this.#announce(this.#labels.searchAnnouncement?.(matched, this.#cards.length));
+         }
+-    }
+-
+-    disconnectedCallback(): void {
+-        this.#moveController?.destroy();
+-        this.#moveController = null;
+     }
+
+     // ---- Derived data ----
+@@ -1107,34 +1130,12 @@
+                 ?.focus({ preventScroll: true });
+     }
+
+-    #toggleCollapsed(column: KanbanColumn): void {
+-        this.#collapsed = this.#collapsed.includes(column.id)
+-            ? this.#collapsed.filter((id) => id !== column.id)
+-            : [...this.#collapsed, column.id];
+-        this.#onCollapsedChange?.([...this.#collapsed]);
+-        this.dispatchEvent(
+-            new CustomEvent<string[]>("collapsechange", {
+-                detail: [...this.#collapsed],
+-                bubbles: true,
+-                composed: true,
+-            }),
+-        );
+-        this.#render();
++    #moveListId(cardId: string): string {
++        return `${this.#baseId}-move-list-${cardId}`;
+     }
+
+-    #toggleLane(lane: KanbanLane): void {
+-        this.#collapsedLanes = this.#collapsedLanes.includes(lane.id)
+-            ? this.#collapsedLanes.filter((id) => id !== lane.id)
+-            : [...this.#collapsedLanes, lane.id];
+-        this.#onCollapsedLanesChange?.([...this.#collapsedLanes]);
+-        this.dispatchEvent(
+-            new CustomEvent<string[]>("lanecollapsechange", {
+-                detail: [...this.#collapsedLanes],
+-                bubbles: true,
+-                composed: true,
+-            }),
+-        );
+-        this.#render();
++    #moveOptionId(cardId: string, i: number): string {
++        return `${this.#baseId}-move-option-${cardId}-${i}`;
+     }
+
+     #announce(message: string | undefined): void {
+@@ -1522,7 +1523,9 @@
+         this.#announce(this.#labels.exportAnnouncement?.(format, rows.length, filename));
+     }
+
+-    // ---- Move (keyboard + pointer share this) ----
++    // ---------------------------------------------------------------
++    // Move menu (keyboard + pointer share this)
++    // ---------------------------------------------------------------
+
+     /**
+      * Choosing the card's own column is not a move: the menu just closes.
+@@ -1582,16 +1585,11 @@
+         if (toLaneId !== undefined) this.#onMove?.(card.id, toColumn.id, toIndex, toLaneId);
+         else if (toIndex === undefined) this.#onMove?.(card.id, toColumn.id);
+         else this.#onMove?.(card.id, toColumn.id, toIndex);
+-        const detail: KanbanBoardMoveDetail = { cardId: card.id, toColumnId: toColumn.id };
++        const detail: { cardId: string; toColumnId: string; toIndex?: number; toLaneId?: string } =
++            { cardId: card.id, toColumnId: toColumn.id };
+         if (toIndex !== undefined) detail.toIndex = toIndex;
+         if (toLaneId !== undefined) detail.toLaneId = toLaneId;
+-        this.dispatchEvent(
+-            new CustomEvent<KanbanBoardMoveDetail>("movecard", {
+-                detail,
+-                bubbles: true,
+-                composed: true,
+-            }),
+-        );
++        this.dispatchEvent(new CustomEvent("movecard", { detail, bubbles: true, composed: true }));
+         const result = this.#moveHandler
+             ? toLaneId !== undefined
+                 ? this.#moveHandler(card.id, toColumn.id, toIndex, toLaneId)
+@@ -1743,6 +1741,36 @@
+         }
+     }
+
++    #toggleLane(lane: KanbanLane): void {
++        this.#collapsedLanes = this.#collapsedLanes.includes(lane.id)
++            ? this.#collapsedLanes.filter((id) => id !== lane.id)
++            : [...this.#collapsedLanes, lane.id];
++        this.#onCollapsedLanesChange?.([...this.#collapsedLanes]);
++        this.dispatchEvent(
++            new CustomEvent<string[]>("lanecollapsechange", {
++                detail: [...this.#collapsedLanes],
++                bubbles: true,
++                composed: true,
++            }),
++        );
++        this.#render();
++    }
++
++    #toggleCollapsed(column: KanbanColumn): void {
++        this.#collapsed = this.#collapsed.includes(column.id)
++            ? this.#collapsed.filter((id) => id !== column.id)
++            : [...this.#collapsed, column.id];
++        this.#onCollapsedChange?.([...this.#collapsed]);
++        this.dispatchEvent(
++            new CustomEvent<string[]>("collapsechange", {
++                detail: [...this.#collapsed],
++                bubbles: true,
++                composed: true,
++            }),
++        );
++        this.#render();
++    }
++
+     #moveCard(card: KanbanCard, toColumn: KanbanColumn, toIndex?: number, toLaneId?: string): void {
+         if (this.readonly || card.locked || card.id in this.#optimistic) return;
+         const group = this.#movingGroup(card);
+@@ -1779,123 +1807,156 @@
+         return undefined;
+     }
+
+-    /**
+-     * Move the roving cursor to a card and focus it: its move button, or its
+-     * cell when there is no button.
+-     */
++    /** A card's own move button, or its cell when there is no button. */
++    #cardFocusTarget(cardId: string): HTMLElement | undefined {
++        return (
++            this.#moveButtonHosts.get(cardId)?.querySelector<HTMLButtonElement>("button") ??
++            this.#cellForCard(cardId)
++        );
++    }
++
++    /** Move the roving cursor to a card and focus it. */
+     #focusCard(cardId: string): void {
+         const cell = this.#cellForCard(cardId);
+         if (!cell) return;
+-        this.#setActiveCell(Number(cell.dataset.row), Number(cell.dataset.col));
+-        const target = this.#moveButtonEls.get(cardId) ?? cell;
+-        target.focus({ preventScroll: true });
++        const previousRow = this.#focusedRow;
++        const previousCol = this.#focusedCol;
++        this.#focusedRow = Number(cell.dataset.row);
++        this.#focusedCol = Number(cell.dataset.col);
++        this.#syncFocusState(previousRow, previousCol, false);
++        this.#cardFocusTarget(cardId)?.focus({ preventScroll: true });
+     }
+
+     #openMoveMenu(card: KanbanCard): void {
+         if (this.readonly || card.locked) return;
+-        // Only one move menu at a time; closing any other first also
+-        // exercises the same per-card-button lookup as a normal close.
+-        if (this.#openCardId && this.#openCardId !== card.id) {
+-            this.#closeMoveMenu(false);
+-        }
+-        const cell = this.#cellForCard(card.id);
+-        if (!cell) return;
+-        // The button exists only when labels.moveButton names it; Enter/Space
+-        // on the cell opens the menu either way.
+-        const button = this.#moveButtonEls.get(card.id);
+-        const listId = `${this.#baseId}-move-list`;
+-
+         this.#openCardId = card.id;
+-        button?.setAttribute("aria-expanded", "true");
+-        button?.setAttribute("aria-controls", listId);
+-
+-        const list = document.createElement("ul");
+-        list.id = listId;
+-        list.className = "kanban-board-move-list";
+-        list.setAttribute("role", "listbox");
+-        // Named by the card itself when no menu label is given.
+-        list.setAttribute("aria-label", this.#labels.moveMenuLabel ?? this.#cardLabel(card));
+-        list.setAttribute("tabindex", "-1");
+-
+-        const optionEls: HTMLLIElement[] = [];
+-        this.#moveTargets(card).forEach((destination, i) => {
+-            const li = document.createElement("li");
+-            li.className = "kanban-board-move-option";
+-            li.id = `${this.#baseId}-move-option-${i}`;
+-            li.setAttribute("role", "option");
+-            li.setAttribute("aria-selected", String(destination.id === card.columnId));
+-            if (this.#isRefused(card, destination)) li.setAttribute("aria-disabled", "true");
+-            li.textContent = destination.title;
+-            li.addEventListener("click", () => this.#moveCard(card, destination));
+-            list.appendChild(li);
+-            optionEls.push(li);
+-        });
+-
+-        cell.appendChild(list);
+-        this.#moveListEl = list;
+-        this.#moveOptionEls = optionEls;
+-
+-        const syncActive = (index: number): void => {
+-            optionEls.forEach((el, i) => {
+-                if (i === index) el.setAttribute("data-active", "");
+-                else el.removeAttribute("data-active");
+-            });
+-            if (index >= 0 && optionEls[index]) {
+-                list.setAttribute("aria-activedescendant", optionEls[index].id);
+-            } else {
+-                list.removeAttribute("aria-activedescendant");
+-            }
+-        };
+-
+-        this.#moveController = new ListboxController({
+-            root: list,
+-            clamp: true,
+-            getOptionLabel: (option) => option.textContent ?? "",
+-            onActiveIndexChange: syncActive,
+-            onActivate: (index) => {
+-                const destination = this.#moveTargets(card)[index];
+-                if (destination) this.#moveCard(card, destination);
+-            },
+-            onEscape: () => this.#closeMoveMenu(),
+-            onTabOut: () => {
+-                // Focus the button first, then close without refocusing —
+-                // matches theme-picker's own onTabOut: hiding the focused
+-                // list first would drop focus to <body>, and the browser
+-                // would then compute Tab's default target from the top of
+-                // the document instead of from here.
+-                (button ?? cell).focus({ preventScroll: true });
+-                this.#closeMoveMenu(false);
+-            },
+-        });
+-
+-        const currentIndex = this.#ordered().findIndex((c) => c.id === card.columnId);
+-        this.#moveController.setActiveIndex(currentIndex >= 0 ? currentIndex : 0);
+-        syncActive(this.#moveController.activeIndex);
+-        list.focus({ preventScroll: true });
++        const currentIndex = this.#moveTargets(card).findIndex((c) => c.id === card.columnId);
++        this.#moveActiveIndex = currentIndex >= 0 ? currentIndex : 0;
++        this.#syncMoveMenu(card.id);
++        this.#moveListEls.get(card.id)?.focus({ preventScroll: true });
+     }
+
++    /** Close the open move menu, if any. Returns focus to ITS OWN card's move button — never a shared/last-mounted one (see spec/index.md §10). */
+     #closeMoveMenu(refocus = true): void {
+-        if (this.#openCardId === null) return;
+         const cardId = this.#openCardId;
++        if (cardId === null) return;
+         this.#openCardId = null;
+-        this.#moveController?.destroy();
+-        this.#moveController = null;
+-        this.#moveListEl?.remove();
+-        this.#moveListEl = null;
+-        this.#moveOptionEls = [];
+-
+-        // Looked up per-card via the Map, never a shared scalar — the
+-        // fix for the cross-catalog move-menu refocus bug (see the field
+-        // comment on #moveButtonEls and spec/index.md §10).
+-        const button = this.#moveButtonEls.get(cardId);
+-        button?.setAttribute("aria-expanded", "false");
+-        button?.removeAttribute("aria-controls");
++        this.#moveActiveIndex = -1;
++        this.#syncMoveMenu(cardId);
+         if (refocus) this.#focusCard(cardId);
+     }
+
+-    // ---- Pointer drag-and-drop (supplementary, never the only path) ----
++    #moveActiveIndexBy(cardId: string, delta: number): void {
++        const card = this.#cards.find((c) => c.id === cardId);
++        const count = card ? this.#moveTargets(card).length : this.#ordered().length;
++        if (count === 0) return;
++        this.#moveActiveIndex = clamp(this.#moveActiveIndex + delta, 0, count - 1);
++        this.#syncMoveMenu(cardId);
++    }
++
++    #setMoveActiveIndex(cardId: string, index: number): void {
++        this.#moveActiveIndex = index;
++        this.#syncMoveMenu(cardId);
++    }
++
++    /** Update one card's move-button/listbox state attributes in place — no structural rebuild, so open/close/navigate never disturbs the rest of the grid or steals focus. */
++    #syncMoveMenu(cardId: string): void {
++        const isOpen = this.#openCardId === cardId;
++        // <lily-icon-button> passes attributes through to its real inner
++        // <button> only once, in its own connectedCallback — it has no
++        // attributeChangedCallback, so setting aria-expanded on the HOST
++        // after connect is a silent no-op. The real button (already
++        // resolved at connect time) must be updated directly.
++        const button = this.#moveButtonHosts
++            .get(cardId)
++            ?.querySelector<HTMLButtonElement>("button");
++        button?.setAttribute("aria-expanded", String(isOpen));
++
++        const list = this.#moveListEls.get(cardId);
++        if (!list) return;
++        if (isOpen) list.removeAttribute("hidden");
++        else list.setAttribute("hidden", "");
++
++        if (isOpen && this.#moveActiveIndex >= 0) {
++            list.setAttribute(
++                "aria-activedescendant",
++                this.#moveOptionId(cardId, this.#moveActiveIndex),
++            );
++        } else {
++            list.removeAttribute("aria-activedescendant");
++        }
+
+-    #onCardDragStart(card: KanbanCard, event: DragEvent): void {
++        const card = this.#cards.find((c) => c.id === cardId);
++        const options = this.#moveOptionEls.get(cardId) ?? [];
++        options.forEach((option, i) => {
++            const destination = card ? this.#moveTargets(card)[i] : this.#ordered()[i];
++            option.setAttribute(
++                "aria-selected",
++                String(!!card && destination?.id === card.columnId),
++            );
++            if (isOpen && i === this.#moveActiveIndex) option.setAttribute("data-active", "");
++            else option.removeAttribute("data-active");
++        });
++    }
++
++    #onMoveListKeydown = (event: KeyboardEvent, card: KanbanCard): void => {
++        // The listbox lives inside the currently-focused grid cell, so a
++        // keydown here also bubbles up to the grid's own onGridKeydown
++        // (attached higher, on <lily-kanban-table>) unless stopped —
++        // otherwise ArrowDown/Up would BOTH move the listbox's active
++        // option AND move the roving-tabindex grid cursor at once.
++        switch (event.key) {
++            case "ArrowDown":
++                event.preventDefault();
++                event.stopPropagation();
++                this.#moveActiveIndexBy(card.id, 1);
++                break;
++            case "ArrowUp":
++                event.preventDefault();
++                event.stopPropagation();
++                this.#moveActiveIndexBy(card.id, -1);
++                break;
++            case "Home":
++                event.preventDefault();
++                event.stopPropagation();
++                this.#setMoveActiveIndex(card.id, 0);
++                break;
++            case "End":
++                event.preventDefault();
++                event.stopPropagation();
++                this.#setMoveActiveIndex(card.id, this.#moveTargets(card).length - 1);
++                break;
++            case "Enter":
++            case " ":
++                event.preventDefault();
++                event.stopPropagation();
++                if (this.#moveActiveIndex >= 0)
++                    this.#moveCard(card, this.#moveTargets(card)[this.#moveActiveIndex]);
++                break;
++            case "Escape":
++                event.preventDefault();
++                event.stopPropagation();
++                this.#closeMoveMenu();
++                break;
++            case "Tab":
++                event.stopPropagation();
++                // Mirrors theme-picker's own Tab handling: focus moves to the
++                // button FIRST (without cancelling the key), so the browser's
++                // default Tab proceeds from the picker's position rather than
++                // from wherever hiding the focused list would drop focus to.
++                this.#cardFocusTarget(card.id)?.focus({ preventScroll: true });
++                this.#closeMoveMenu(false);
++                break;
++            default:
++                break;
++        }
++    };
++
++    // ---------------------------------------------------------------
++    // Pointer drag-and-drop (supplementary, never the only path)
++    // ---------------------------------------------------------------
++
++    #onCardDragStart = (card: KanbanCard, event: DragEvent): void => {
+         if (card.locked) {
+             event.preventDefault();
+             return;
+@@ -1914,9 +1975,9 @@
+             event.dataTransfer.setDragImage(preview, 0, 0);
+             setTimeout(() => preview.remove(), 0);
+         }
+-    }
++    };
+
+-    #onCardDragEnd(): void {
++    #onCardDragEnd = (): void => {
+         this.#draggingCardId = null;
+         this.#dropBlocked = false;
+         this.querySelectorAll("[data-drop-blocked]").forEach((el) =>
+@@ -1928,14 +1989,14 @@
+         this.querySelectorAll("[data-drop-target]").forEach((el) =>
+             el.removeAttribute("data-drop-target"),
+         );
+-    }
++    };
+
+     // ---- Column reordering ----
+
+     #moveColumnTo(columnId: string, toIndex: number): boolean {
+         const ids = this.#ordered().map((c) => c.id);
+         const from = ids.indexOf(columnId);
+-        const to = Math.min(Math.max(toIndex, 0), ids.length - 1);
++        const to = clamp(toIndex, 0, ids.length - 1);
+         if (from === -1 || from === to) return false;
+         ids.splice(to, 0, ...ids.splice(from, 1));
+         this.#columnOrder = ids;
+@@ -1954,17 +2015,11 @@
+         return true;
+     }
+
+-    #onColumnDragOver(
+-        event: DragEvent,
+-        td: HTMLElement,
+-        column: KanbanColumn,
+-        rowIndex: number,
+-        colIndex: number,
+-    ): void {
++    #onColumnDragOver = (event: DragEvent, td: HTMLElement, column: KanbanColumn): void => {
+         if (!this.#draggingCardId || this.readonly) return;
+         const card = this.#findCard(this.#draggingCardId);
+         const dragging = this.querySelectorAll("[data-dragging]").length;
+-        const overSlot = this.#layout().rows[rowIndex];
++        const overSlot = this.#layout().rows[Number(td.getAttribute("data-row"))];
+         const blocked =
+             !!card &&
+             this.#isRefused(
+@@ -1974,7 +2029,6 @@
+                 this.#lanes && this.#lanes.length > 0 && overSlot ? overSlot.laneId : undefined,
+             );
+         this.#dropBlocked = blocked;
+-        this.#dropTarget = `${rowIndex}-${colIndex}`;
+         this.querySelectorAll("[data-drop-target], [data-drop-blocked]").forEach((el) => {
+             el.removeAttribute("data-drop-target");
+             el.removeAttribute("data-drop-blocked");
+@@ -1987,13 +2041,12 @@
+         }
+         event.preventDefault();
+         if (event.dataTransfer) event.dataTransfer.dropEffect = "move";
+-    }
++    };
+
+-    #onColumnDrop(column: KanbanColumn, rowIndex: number, event: DragEvent): void {
++    #onColumnDrop = (column: KanbanColumn, rowIndex: number, event: DragEvent): void => {
+         event.preventDefault();
+         const cardId = this.#draggingCardId ?? event.dataTransfer?.getData("text/plain");
+         this.#draggingCardId = null;
+-        this.#dropTarget = null;
+         this.#dropBlocked = false;
+         this.querySelectorAll("[data-drop-target], [data-drop-blocked]").forEach((el) => {
+             el.removeAttribute("data-drop-target");
+@@ -2030,13 +2083,6 @@
+             const from = shown.findIndex((c) => c.id === card.id);
+             if (overCard && from >= 0 && from !== dropIndex) {
+                 this.#onReorder?.(card.id, dropIndex);
+-                this.dispatchEvent(
+-                    new CustomEvent<KanbanBoardReorderDetail>("reordercard", {
+-                        detail: { cardId: card.id, toIndex: dropIndex },
+-                        bubbles: true,
+-                        composed: true,
+-                    }),
+-                );
+                 this.#announce(
+                     this.#labels.reorderAnnouncement?.(
+                         this.#cardLabel(card),
+@@ -2048,44 +2094,49 @@
+             return;
+         }
+         this.#moveCard(card, column, overCard ? dropIndex : undefined, dropLane);
+-    }
+-
+-    // ---- Roving-tabindex grid keyboard navigation (WAI-ARIA APG Grid pattern) ----
++    };
+
+-    #setActiveCell(row: number, col: number): HTMLTableCellElement | undefined {
+-        const oldCell = this.#cellEls.get(`${this.#focusedRow}-${this.#focusedCol}`);
+-        oldCell?.setAttribute("tabindex", "-1");
+-
+-        this.#focusedRow = row;
+-        this.#focusedCol = col;
+-
+-        const newCell = this.#cellEls.get(`${row}-${col}`);
+-        newCell?.setAttribute("tabindex", "0");
+-        return newCell;
++    // ---------------------------------------------------------------
++    // Roving-tabindex grid keyboard navigation (WAI-ARIA APG Grid pattern)
++    // ---------------------------------------------------------------
++
++    #syncFocusState(previousRow: number, previousCol: number, focusNewCell: boolean): void {
++        const previous = this.#cellEls.get(`${previousRow}-${previousCol}`);
++        if (previous) {
++            previous.setAttribute("tabindex", "-1");
++        }
++        const next = this.#cellEls.get(`${this.#focusedRow}-${this.#focusedCol}`);
++        if (next) {
++            next.setAttribute("tabindex", "0");
++            if (focusNewCell) next.focus({ preventScroll: true });
++        }
+     }
+
+     #moveFocus(row: number, col: number, layout: Layout): void {
+-        const clampedCol = Math.min(Math.max(col, 0), Math.max(this.#ordered().length - 1, 0));
+-        const clampedRow = Math.min(Math.max(row, 0), Math.max(layout.maxRows - 1, 0));
+-        let cell = this.#setActiveCell(clampedRow, clampedCol);
++        const previousRow = this.#focusedRow;
++        const previousCol = this.#focusedCol;
++        this.#focusedCol = clamp(col, 0, this.#ordered().length - 1);
++        this.#focusedRow = clamp(row, 0, layout.maxRows - 1);
++        if (this.#focusedRow === previousRow && this.#focusedCol === previousCol) return;
+         if (this.#virtualize) {
+-            this.#focusedRow = clampedRow;
+-            this.#revealRow(clampedRow, layout);
+-            // The target row may have been outside the rendered window: the reveal re-renders.
+-            if (!cell || !cell.isConnected) {
++            this.#revealRow(this.#focusedRow, layout);
++            // The target row may have been outside the rendered window: render it, then focus.
++            if (!this.#cellEls.get(`${this.#focusedRow}-${this.#focusedCol}`)?.isConnected)
+                 this.#render();
+-                cell = this.#cellEls.get(`${clampedRow}-${clampedCol}`);
+-            }
+         }
+-        cell?.focus({ preventScroll: true });
++        this.#syncFocusState(previousRow, previousCol, true);
+     }
+
+     /** The cursor follows focus however it arrives — a click, or a consumer's own focus(). */
+-    #onGridFocusin(event: FocusEvent): void {
++    #onGridFocusin = (event: FocusEvent): void => {
+         const cell = (event.target as HTMLElement).closest<HTMLElement>("[data-row][data-col]");
+         if (!cell) return;
+-        this.#setActiveCell(Number(cell.dataset.row), Number(cell.dataset.col));
+-    }
++        const previousRow = this.#focusedRow;
++        const previousCol = this.#focusedCol;
++        this.#focusedRow = Number(cell.dataset.row);
++        this.#focusedCol = Number(cell.dataset.col);
++        this.#syncFocusState(previousRow, previousCol, false);
++    };
+
+     #reorderCard(delta: 1 | -1, layout: Layout): void {
+         if (this.readonly) return;
+@@ -2101,26 +2152,15 @@
+         const toIndex = laneRow + delta;
+         if (toIndex < 0 || toIndex >= total) return;
+         this.#onReorder?.(card.id, toIndex);
+-        this.dispatchEvent(
+-            new CustomEvent<KanbanBoardReorderDetail>("reordercard", {
+-                detail: { cardId: card.id, toIndex },
+-                bubbles: true,
+-                composed: true,
+-            }),
+-        );
+         this.#announce(
+             this.#labels.reorderAnnouncement?.(this.#cardLabel(card), toIndex + 1, total),
+         );
+         this.#focusCard(card.id);
+     }
+
+-    #onGridKeydown(event: KeyboardEvent): void {
+-        const target = event.target as HTMLElement;
+-        // The open move menu owns its own keys; letting them bubble here moved the
+-        // grid cursor (and focus) out of the menu, and Enter reopened it after a move.
+-        if (target.closest(".kanban-board-move-list")) return;
+-        if (target.closest(".kanban-board-field-editor")) return;
+-        const cell = target.closest<HTMLElement>("[data-row][data-col]");
++    #onGridKeydown = (event: KeyboardEvent): void => {
++        if ((event.target as HTMLElement).closest(".kanban-board-field-editor")) return;
++        const cell = (event.target as HTMLElement).closest<HTMLElement>("[data-row][data-col]");
+         if (!cell) return;
+         const layout = this.#layout();
+         const maxRows = layout.maxRows;
+@@ -2227,10 +2267,10 @@
+             !event.altKey &&
+             (event.key === "x" || event.key === "X")
+         ) {
+-            const selectable = this.#cardAt(this.#focusedCol, this.#focusedRow, layout);
+-            if (selectable && !this.readonly) {
++            const target = this.#cardAt(this.#focusedCol, this.#focusedRow, layout);
++            if (target && !this.readonly) {
+                 event.preventDefault();
+-                this.#toggleSelected(selectable.id);
++                this.#toggleSelected(target.id);
+             }
+             return;
+         }
+@@ -2275,42 +2315,19 @@
+             default:
+                 break;
+         }
+-    }
++    };
+
+-    // ---- Rendering ----
++    // ---------------------------------------------------------------
++    // Rendering
++    // ---------------------------------------------------------------
+
+     #render(): void {
+         if (!this.isConnected) return;
+
+-        // A structural rebuild cannot preserve the open move menu's DOM
+-        // (its list lives inside a <td> that is about to be replaced).
+-        this.#moveController?.destroy();
+-        this.#moveController = null;
++        // A structural rebuild cannot preserve focus inside an open move
++        // menu; it closes first (mirrors theme-picker's own `#render()`).
+         this.#openCardId = null;
+-        this.#moveListEl = null;
+-        this.#moveOptionEls = [];
+-        this.#cellEls = new Map();
+-        this.#moveButtonEls = new Map();
+-
+-        const extraClass = this.getAttribute("class") ?? "";
+-        const root = document.createElement("div");
+-        root.className = `kanban-board ${extraClass}`.trim();
+-        if (this.readonly) root.setAttribute("data-readonly", "");
+-        if (this.#fieldLayout === "compact") root.setAttribute("data-field-layout", "compact");
+-
+-        const table = document.createElement("table");
+-        table.className = "kanban-table";
+-        table.setAttribute("role", "grid");
+-        table.setAttribute("aria-label", this.label);
+-        if (this.#selectable) table.setAttribute("aria-multiselectable", "true");
+-        table.addEventListener("keydown", (event) => this.#onGridKeydown(event as KeyboardEvent));
+-        table.addEventListener("focusin", (event) => this.#onGridFocusin(event as FocusEvent));
+-
+-        if (this.caption) {
+-            const caption = document.createElement("caption");
+-            caption.textContent = this.caption;
+-            table.appendChild(caption);
+-        }
++        this.#moveActiveIndex = -1;
+
+         const layout = this.#layout();
+         const cardsByColumn = layout.cardsByColumn;
+@@ -2324,7 +2341,39 @@
+         }
+         const maxRows = layout.maxRows;
+         const hasLanes = !!this.#lanes && this.#lanes.length > 0;
++        this.#focusedCol = clamp(this.#focusedCol, 0, this.#ordered().length - 1);
++        this.#focusedRow = clamp(this.#focusedRow, 0, Math.max(maxRows - 1, 0));
++
++        this.#cellEls = new Map();
++        this.#moveButtonHosts = new Map();
++        this.#moveListEls = new Map();
++        this.#moveOptionEls = new Map();
++
++        const extraClass = this.getAttribute("class") ?? "";
++        const root = document.createElement("div");
++        root.className = `kanban-board ${extraClass}`.trim();
++        passThroughAttributes(this, root);
++        if (this.readonly) root.setAttribute("data-readonly", "");
++        if (this.#fieldLayout === "compact") root.setAttribute("data-field-layout", "compact");
++
++        const table = document.createElement("lily-kanban-table");
++        // This board runs its own grid keys, so the table must not run them too.
++        table.setAttribute("data-consumer-keys", "true");
++        table.setAttribute("label", this.label);
++        // See architecture note: <lily-kanban-table> defaults its inner
++        // <table> to role="region" (a documented, deliberate quirk kept
++        // as-is); setting role="grid" here overrides it via that
++        // component's own passThroughAttributes mechanism.
++        table.setAttribute("role", "grid");
++        if (this.#selectable) table.setAttribute("aria-multiselectable", "true");
+         if (this.#virtualize) table.setAttribute("aria-rowcount", String(layout.slots.length + 1));
++        if (this.caption) {
++            const captionEl = document.createElement("caption");
++            captionEl.textContent = this.caption;
++            table.appendChild(captionEl);
++        }
++        table.addEventListener("keydown", this.#onGridKeydown);
++        table.addEventListener("focusin", this.#onGridFocusin);
+
+         if (this.#labels.search) {
+             if (this.#showSearchLabel) {
+@@ -2356,24 +2405,15 @@
+             root.appendChild(input);
+         }
+
+-        // Clamp the roving cursor to whatever the new data still has.
+-        this.#focusedCol = Math.min(
+-            Math.max(this.#focusedCol, 0),
+-            Math.max(this.#ordered().length - 1, 0),
+-        );
+-        this.#focusedRow = Math.min(Math.max(this.#focusedRow, 0), Math.max(maxRows - 1, 0));
+-
+         const thead = document.createElement("thead");
+-        thead.className = "kanban-table-head";
+         const headRow = document.createElement("tr");
+-        headRow.className = "kanban-table-row";
+-
+-        for (const column of this.#ordered()) {
++        this.#ordered().forEach((column) => {
+             const count = allByColumn.get(column.id)?.length ?? 0;
+             const hidden = count - (cardsByColumn.get(column.id)?.length ?? 0);
+             const overLimit = column.wipLimit != null && count > column.wipLimit;
+             const th = document.createElement("th");
+-            th.className = "kanban-table-th";
++            th.className = "kanban-board-th";
++            th.setAttribute("scope", "col");
+             if (this.#movableColumns) {
+                 th.setAttribute("draggable", "true");
+                 th.addEventListener("dragstart", (event) => {
+@@ -2431,10 +2471,10 @@
+                 th.appendChild(span);
+             }
+             if (overLimit && this.#labels.overLimit) {
+-                const span = document.createElement("span");
+-                span.className = "kanban-board-wip-warning";
+-                span.textContent = this.#labels.overLimit(count, column.wipLimit ?? 0);
+-                th.appendChild(span);
++                const warn = document.createElement("span");
++                warn.className = "kanban-board-wip-warning";
++                warn.textContent = this.#labels.overLimit(count, column.wipLimit ?? 0);
++                th.appendChild(warn);
+             }
+             if (this.#labels.addCard && !this.readonly) {
+                 const add = document.createElement("button");
+@@ -2455,13 +2495,11 @@
+                 th.appendChild(add);
+             }
+             headRow.appendChild(th);
+-        }
++        });
+         thead.appendChild(headRow);
+         table.appendChild(thead);
+
+         const tbody = document.createElement("tbody");
+-        tbody.className = "kanban-table-body";
+-
+         const windowIdx = this.#windowIndices(layout);
+         this.#windowSig = windowIdx.join(",");
+         const rowHeight = this.#virtualize?.rowHeight ?? 0;
+@@ -2483,7 +2521,6 @@
+             const item = layout.slots[slotIndex];
+             if (item.kind === "lane") {
+                 const laneRow = document.createElement("tr");
+-                laneRow.className = "kanban-table-row";
+                 laneRow.setAttribute("data-lane-row", "");
+                 const laneTh = document.createElement("th");
+                 laneTh.className = "kanban-board-lane";
+@@ -2525,22 +2562,18 @@
+             }
+             const rowIndex = item.rowIndex;
+             const tr = document.createElement("tr");
+-            tr.className = "kanban-table-row";
+             if (this.#virtualize) tr.setAttribute("aria-rowindex", String(slotIndex + 2));
+             if (hasLanes) tr.setAttribute("data-lane-id", item.laneId);
+-
+             this.#ordered().forEach((column, colIndex) => {
+                 const card = this.#cardAt(colIndex, rowIndex, layout);
+                 const td = document.createElement("td");
+-                td.className = "kanban-table-td";
++                td.className = "kanban-board-td";
++                td.setAttribute("role", "gridcell");
+                 td.setAttribute("data-row", String(rowIndex));
+                 td.setAttribute("data-col", String(colIndex));
+                 if (this.#collapsed.includes(column.id)) td.setAttribute("data-collapsed", "");
+-                const active = this.#focusedRow === rowIndex && this.#focusedCol === colIndex;
+-                td.setAttribute("tabindex", active ? "0" : "-1");
+-                if (card) {
+-                    td.dataset.cardId = card.id;
+-                }
++                const isActive = this.#focusedRow === rowIndex && this.#focusedCol === colIndex;
++                td.setAttribute("tabindex", isActive ? "0" : "-1");
+                 if (column.accent) td.setAttribute("data-accent", column.accent);
+                 if (card?.locked) td.setAttribute("data-locked", "");
+                 if (card && this.#selectable && selectedSet.has(card.id)) {
+@@ -2572,15 +2605,15 @@
+                 ) {
+                     td.setAttribute("data-empty", "");
+                 }
+-                td.addEventListener("dragover", (event) =>
+-                    this.#onColumnDragOver(event as DragEvent, td, column, rowIndex, colIndex),
++                td.addEventListener("dragover", (e) =>
++                    this.#onColumnDragOver(e as DragEvent, td, column),
+                 );
+                 td.addEventListener("dragleave", () => {
+                     td.removeAttribute("data-drop-target");
+                     td.removeAttribute("data-drop-blocked");
+                 });
+-                td.addEventListener("drop", (event) =>
+-                    this.#onColumnDrop(column, rowIndex, event as DragEvent),
++                td.addEventListener("drop", (e) =>
++                    this.#onColumnDrop(column, rowIndex, e as DragEvent),
+                 );
+                 if (card && this.#cardAttrs) {
+                     for (const [name, value] of Object.entries(this.#cardAttrs(card)))
+@@ -2588,8 +2621,9 @@
+                 }
+
+                 if (card) {
+-                    const titleSpan = document.createElement("span");
+-                    titleSpan.className = "kanban-board-card-title";
++                    td.dataset.cardId = card.id;
++                    const cardSpan = document.createElement("span");
++                    cardSpan.className = "kanban-board-card-title";
+                     const editingThisTitle = this.#editingTitle?.cardId === card.id;
+                     if (
+                         !this.readonly &&
+@@ -2597,40 +2631,40 @@
+                         card.draggable !== false &&
+                         !editingThisTitle
+                     )
+-                        titleSpan.setAttribute("draggable", "true");
+-                    titleSpan.addEventListener("dblclick", () => this.#startTitleEdit(card));
++                        cardSpan.setAttribute("draggable", "true");
++                    cardSpan.addEventListener("dblclick", () => this.#startTitleEdit(card));
+                     if (editingThisTitle) {
+-                        const input = document.createElement("input");
+-                        input.className = "kanban-board-title-editor";
+-                        input.type = "text";
+-                        input.setAttribute(
++                        const titleInput = document.createElement("input");
++                        titleInput.className = "kanban-board-title-editor";
++                        titleInput.type = "text";
++                        titleInput.setAttribute(
+                             "aria-label",
+                             this.#labels.titleEditor
+                                 ? this.#labels.titleEditor(this.#cardLabel(card))
+                                 : this.#cardLabel(card),
+                         );
+-                        input.value = this.#editingTitle!.draft;
+-                        input.addEventListener("input", () => {
+-                            if (this.#editingTitle) this.#editingTitle.draft = input.value;
++                        titleInput.value = this.#editingTitle!.draft;
++                        titleInput.addEventListener("input", () => {
++                            if (this.#editingTitle) this.#editingTitle.draft = titleInput.value;
+                         });
+-                        input.addEventListener("keydown", (event) => {
+-                            event.stopPropagation();
+-                            if (event.isComposing || event.keyCode === 229) return;
+-                            if (event.key === "Enter") {
+-                                event.preventDefault();
++                        titleInput.addEventListener("keydown", (e) => {
++                            e.stopPropagation();
++                            if (e.isComposing || e.keyCode === 229) return;
++                            if (e.key === "Enter") {
++                                e.preventDefault();
+                                 this.#commitTitleEdit();
+-                            } else if (event.key === "Escape") {
+-                                event.preventDefault();
++                            } else if (e.key === "Escape") {
++                                e.preventDefault();
+                                 const cardId = this.#editingTitle?.cardId;
+                                 this.#editingTitle = null;
+                                 this.#render();
+                                 if (cardId) this.#focusCard(cardId);
+                             }
+                         });
+-                        input.addEventListener("blur", () => this.#commitTitleEdit(false));
+-                        titleSpan.appendChild(input);
++                        titleInput.addEventListener("blur", () => this.#commitTitleEdit(false));
++                        cardSpan.appendChild(titleInput);
+                     } else if (this.renderCard) {
+-                        titleSpan.appendChild(
++                        cardSpan.appendChild(
+                             this.renderCard({
+                                 card,
+                                 label: this.#cardLabel(card),
+@@ -2643,15 +2677,15 @@
+                         link.className = "kanban-board-card-link";
+                         link.href = card.href;
+                         this.#fillTitle(link, card);
+-                        titleSpan.appendChild(link);
++                        cardSpan.appendChild(link);
+                     } else {
+-                        this.#fillTitle(titleSpan, card);
++                        this.#fillTitle(cardSpan, card);
+                     }
+-                    titleSpan.addEventListener("dragstart", (event) =>
+-                        this.#onCardDragStart(card, event as DragEvent),
++                    cardSpan.addEventListener("dragstart", (e) =>
++                        this.#onCardDragStart(card, e as DragEvent),
+                     );
+-                    titleSpan.addEventListener("dragend", () => this.#onCardDragEnd());
+-                    td.appendChild(titleSpan);
++                    cardSpan.addEventListener("dragend", () => this.#onCardDragEnd());
++                    td.appendChild(cardSpan);
+                     if (!this.renderCard) {
+                         if (card.subtitle) {
+                             const sub = document.createElement("span");
+@@ -2691,21 +2725,57 @@
+                     // Gated on labels.moveButton: an unnamed button is worse than
+                     // none, and Enter/Space on the cell opens the menu either way.
+                     if (this.#labels.moveButton && !this.readonly && !card.locked) {
+-                        const button = document.createElement("button");
+-                        button.type = "button";
+-                        button.className = "kanban-board-move-button";
+-                        button.setAttribute("aria-label", this.#labels.moveButton(card));
+-                        button.setAttribute("aria-haspopup", "listbox");
+-                        button.setAttribute("aria-expanded", "false");
+-                        button.setAttribute("tabindex", "-1");
+-                        button.appendChild(this.renderMoveButtonIcon());
+-                        button.addEventListener("click", () => {
++                        const buttonHost = document.createElement("lily-icon-button");
++                        buttonHost.setAttribute("base-class", "kanban-board-move-button");
++                        buttonHost.setAttribute("label", this.#labels.moveButton(card));
++                        buttonHost.setAttribute("tabindex", "-1");
++                        buttonHost.setAttribute("aria-haspopup", "listbox");
++                        buttonHost.setAttribute("aria-expanded", "false");
++                        buttonHost.setAttribute("aria-controls", this.#moveListId(card.id));
++                        buttonHost.appendChild(this.renderMoveButtonIcon());
++                        buttonHost.addEventListener("click", () => {
+                             if (this.#openCardId === card.id) this.#closeMoveMenu();
+                             else this.#openMoveMenu(card);
+                         });
+-                        td.appendChild(button);
+-                        this.#moveButtonEls.set(card.id, button);
++                        td.appendChild(buttonHost);
++                        this.#moveButtonHosts.set(card.id, buttonHost);
+                     }
++
++                    const list = document.createElement("ul");
++                    list.className = "kanban-board-move-list";
++                    list.id = this.#moveListId(card.id);
++                    list.setAttribute("role", "listbox");
++                    // Named by the card itself when no menu label is given.
++                    list.setAttribute(
++                        "aria-label",
++                        this.#labels.moveMenuLabel ?? this.#cardLabel(card),
++                    );
++                    list.setAttribute("tabindex", "-1");
++                    list.setAttribute("hidden", "");
++                    list.addEventListener("keydown", (e) =>
++                        this.#onMoveListKeydown(e as KeyboardEvent, card),
++                    );
++
++                    const optionEls: HTMLLIElement[] = [];
++                    this.#moveTargets(card).forEach((destination, i) => {
++                        const option = document.createElement("li");
++                        option.className = "kanban-board-move-option";
++                        option.id = this.#moveOptionId(card.id, i);
++                        option.setAttribute("role", "option");
++                        option.setAttribute(
++                            "aria-selected",
++                            String(destination.id === card.columnId),
++                        );
++                        if (this.#isRefused(card, destination))
++                            option.setAttribute("aria-disabled", "true");
++                        option.textContent = destination.title;
++                        option.addEventListener("click", () => this.#moveCard(card, destination));
++                        list.appendChild(option);
++                        optionEls.push(option);
++                    });
++                    td.appendChild(list);
++                    this.#moveListEls.set(card.id, list);
++                    this.#moveOptionEls.set(card.id, optionEls);
+                 }
+
+                 if (
+@@ -2723,7 +2793,6 @@
+                 tr.appendChild(td);
+                 this.#cellEls.set(`${rowIndex}-${colIndex}`, td);
+             });
+-
+             tbody.appendChild(tr);
+         }
+         if (this.#virtualize && layout.slots.length - 1 - previousIdx > 0)
+@@ -2731,12 +2800,10 @@
+         table.appendChild(tbody);
+         if (this.renderColumnFooter) {
+             const tfoot = document.createElement("tfoot");
+-            tfoot.className = "kanban-table-foot";
+             const frow = document.createElement("tr");
+-            frow.className = "kanban-table-row";
+             for (const column of this.#ordered()) {
+                 const fcell = document.createElement("td");
+-                fcell.className = "kanban-table-td kanban-board-column-footer";
++                fcell.className = "kanban-board-td kanban-board-column-footer";
+                 if (column.accent) fcell.setAttribute("data-accent", column.accent);
+                 const cardsAll = allByColumn.get(column.id) ?? [];
+                 fcell.appendChild(
+@@ -2807,8 +2874,11 @@
+         root.appendChild(status);
+
+         this.replaceChildren(root);
++        upgradeNestedCustomElements(root);
++        if (this.#virtualize) scroll.scrollTop = this.#scrollTop;
++
+         this.#rootEl = root;
++        this.#tableEl = table;
+         this.#statusEl = status;
+-        if (this.#virtualize) scroll.scrollTop = this.#scrollTop;
+     }
+ }

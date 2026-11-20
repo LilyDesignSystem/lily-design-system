@@ -1,0 +1,279 @@
+--- /var/folders/zp/p2vtmfrj35b27yh4ns6h_6h40000gn/T/tmp.vLZZQmdPQK	2026-11-20 06:20:27.352494969 +0000
++++ lily-design-system-web-components-theme-picker/theme-picker.test.ts	2026-11-20 06:20:19.953123431 +0000
+@@ -335,8 +335,8 @@
+         await flush();
+         const icon = document.body.querySelector<SVGElement>(".theme-picker-icon")!;
+         expect(icon.tagName.toLowerCase()).toBe("svg");
+-        expect(icon.getAttribute("aria-hidden")).toBe("true");
+         expect(icon.querySelector("circle")).toBeTruthy();
++        expect(icon.getAttribute("aria-hidden")).toBe("true");
+         expect(icon.closest("button")).toBe(button());
+     });
+
+@@ -955,133 +955,131 @@
+
+ describe("<lily-theme-picker> — tooltip (§7.26–§7.32)", () => {
+     function setup() {
+-        mount({ label: "Theme", themes: THEMES.join(",") });
+-        const btn = document.body.querySelector<HTMLButtonElement>(".theme-picker-button")!;
+-        const tip = document.body.querySelector<HTMLElement>(".theme-picker-tooltip")!;
+-        return { btn, tip };
++        const el = mount({ label: "Theme", themes: "light,dark" }) as HTMLElement;
++        const host = el.querySelector("lily-icon-button") as HTMLElement;
++        const button = el.querySelector(".theme-picker-button") as HTMLButtonElement;
++        const tip = el.querySelector(".theme-picker-tooltip") as HTMLElement;
++        return { el, host, button, tip };
+     }
+-    const fire = (el: Element, type: string): void => {
+-        el.dispatchEvent(new MouseEvent(type, { bubbles: false }));
+-    };
++    const enter = (e: Element) => e.dispatchEvent(new MouseEvent("mouseenter"));
++    const leave = (e: Element) => e.dispatchEvent(new MouseEvent("mouseleave"));
++    const isHidden = (e: Element) => e.hasAttribute("hidden");
+
+-    test("§7.26 renders a role=tooltip element holding label, hidden at rest, not aria-describedby-linked", () => {
+-        const { btn, tip } = setup();
++    test("26 renders a role=tooltip element right after the button holding the label, hidden at rest, not aria-describedby-linked", () => {
++        const { host, button, tip } = setup();
+         expect(tip.getAttribute("role")).toBe("tooltip");
+-        expect(tip.textContent).toBe(btn.getAttribute("aria-label"));
+-        expect(tip.hasAttribute("hidden")).toBe(true);
+-        expect(tip.id).toMatch(/-tooltip$/);
+-        expect(btn.hasAttribute("aria-describedby")).toBe(false);
+-        expect(btn.nextElementSibling).toBe(tip);
++        expect(tip.textContent).toBe("Theme");
++        expect(isHidden(tip)).toBe(true);
++        expect(tip.id).toBeTruthy();
++        expect(host.nextElementSibling).toBe(tip);
++        expect(button.hasAttribute("aria-describedby")).toBe(false);
++        expect(host.hasAttribute("aria-describedby")).toBe(false);
+     });
+
+-    test("§7.26 the tooltip text follows a label change", () => {
+-        setup();
+-        const el = document.body.querySelector<HTMLElement>("lily-theme-picker")!;
++    test("26 its text follows the label attribute", () => {
++        const { el } = setup();
+         el.setAttribute("label", "Renamed");
+-        const t2 = document.body.querySelector<HTMLElement>(".theme-picker-tooltip")!;
+-        expect(t2.textContent).toBe("Renamed");
++        expect(el.querySelector(".theme-picker-tooltip")!.textContent).toBe("Renamed");
+     });
+
+-    test("§7.27 pointer over the button shows it; leaving hides it", () => {
+-        const { btn, tip } = setup();
+-        fire(btn, "mouseenter");
+-        expect(tip.hasAttribute("hidden")).toBe(false);
+-        fire(btn, "mouseleave");
+-        expect(tip.hasAttribute("hidden")).toBe(true);
+-    });
+-
+-    test("§7.28 it stays visible while the pointer is over the tooltip itself", () => {
+-        const { btn, tip } = setup();
+-        fire(btn, "mouseenter");
+-        fire(btn, "mouseleave");
+-        fire(tip, "mouseenter");
+-        expect(tip.hasAttribute("hidden")).toBe(false);
+-        fire(tip, "mouseleave");
+-        expect(tip.hasAttribute("hidden")).toBe(true);
++    test("27 pointer over the button shows it; leaving hides it", () => {
++        const { host, tip } = setup();
++        enter(host);
++        expect(isHidden(tip)).toBe(false);
++        leave(host);
++        expect(isHidden(tip)).toBe(true);
+     });
+
+-    test("§7.29 keyboard focus shows it; blur hides it", () => {
+-        const { btn, tip } = setup();
+-        // jsdom has no input-modality tracking; stand in for the keyboard.
+-        vi.spyOn(btn, "matches").mockImplementation((q) => q === ":focus-visible");
+-        btn.focus();
+-        expect(tip.hasAttribute("hidden")).toBe(false);
+-        btn.blur();
+-        expect(tip.hasAttribute("hidden")).toBe(true);
+-    });
+-
+-    test("§7.29 mouse-induced focus (not :focus-visible) does not show it", () => {
+-        const { btn, tip } = setup();
+-        vi.spyOn(btn, "matches").mockReturnValue(false);
+-        btn.focus();
+-        expect(tip.hasAttribute("hidden")).toBe(true);
+-    });
+-
+-    test("§7.30 Escape dismisses it without moving focus; re-entering shows it again", () => {
+-        const { btn, tip } = setup();
+-        fire(btn, "mouseenter");
+-        btn.focus();
+-        btn.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+-        expect(tip.hasAttribute("hidden")).toBe(true);
+-        expect(document.activeElement).toBe(btn);
+-        fire(btn, "mouseleave");
+-        fire(btn, "mouseenter");
+-        expect(tip.hasAttribute("hidden")).toBe(false);
++    test("28 it stays visible while the pointer is over the tooltip itself", () => {
++        const { host, tip } = setup();
++        enter(host);
++        leave(host);
++        enter(tip);
++        expect(isHidden(tip)).toBe(false);
++        leave(tip);
++        expect(isHidden(tip)).toBe(true);
+     });
+
+-    test("§7.31 it is never shown while the listbox is open", () => {
+-        const { btn, tip } = setup();
+-        fire(btn, "mouseenter");
+-        btn.dispatchEvent(
+-            new MouseEvent("click", { bubbles: true, cancelable: true, composed: true }),
+-        );
+-        expect(btn.getAttribute("aria-expanded")).toBe("true");
+-        expect(tip.hasAttribute("hidden")).toBe(true);
+-        fire(btn, "mouseenter");
+-        expect(tip.hasAttribute("hidden")).toBe(true);
+-    });
+-
+-    test("§7.32 pointer hover alone shows it; Escape on document.body or another element dismisses it without moving focus", () => {
+-        const { btn, tip } = setup();
+-        const other = document.createElement("input");
+-        document.body.appendChild(other);
+-        other.focus();
+-        fire(btn, "mouseenter");
+-        expect(tip.hasAttribute("hidden")).toBe(false);
+-        expect(document.activeElement).toBe(other);
+-        document.body.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+-        expect(tip.hasAttribute("hidden")).toBe(true);
+-        expect(document.activeElement).toBe(other);
+-        // Dismissal resets on re-entry; Escape from another element works too.
+-        fire(btn, "mouseleave");
+-        fire(btn, "mouseenter");
+-        expect(tip.hasAttribute("hidden")).toBe(false);
+-        other.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+-        expect(tip.hasAttribute("hidden")).toBe(true);
+-        other.remove();
++    test("29 keyboard focus shows it; blur hides it", () => {
++        const { button, tip } = setup();
++        // jsdom has no input-modality tracking; stand in for the keyboard.
++        vi.spyOn(button, "matches").mockImplementation((q: string) => q === ":focus-visible");
++        button.focus();
++        expect(isHidden(tip)).toBe(false);
++        button.blur();
++        expect(isHidden(tip)).toBe(true);
++    });
++
++    test("29 mouse-induced focus (not :focus-visible) does not show it", () => {
++        const { button, tip } = setup();
++        vi.spyOn(button, "matches").mockReturnValue(false);
++        button.focus();
++        expect(isHidden(tip)).toBe(true);
++    });
++
++    test("30 Escape dismisses it without moving focus; re-entering shows it again", () => {
++        const { host, button, tip } = setup();
++        vi.spyOn(button, "matches").mockReturnValue(true);
++        button.focus();
++        enter(host);
++        button.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
++        expect(isHidden(tip)).toBe(true);
++        expect(document.activeElement).toBe(button);
++        leave(host);
++        enter(host);
++        expect(isHidden(tip)).toBe(false);
++    });
++
++    test("31 it is never shown while the popup is open", () => {
++        const { host, button, tip } = setup();
++        enter(host);
++        button.click();
++        expect(button.getAttribute("aria-expanded")).toBe("true");
++        expect(isHidden(tip)).toBe(true);
++        enter(host);
++        expect(isHidden(tip)).toBe(true);
++    });
++
++    test("32 hover with focus elsewhere shows the tooltip; Escape on document.body dismisses it without moving focus or being prevented", () => {
++        const { host, button, tip } = setup();
++        enter(host);
++        expect(isHidden(tip)).toBe(false);
++        expect(document.activeElement).not.toBe(button);
++        const ev = new KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true });
++        document.body.dispatchEvent(ev);
++        expect(isHidden(tip)).toBe(true);
++        expect(ev.defaultPrevented).toBe(false);
++        expect(document.activeElement).not.toBe(button);
++        leave(host);
++        enter(host);
++        expect(isHidden(tip)).toBe(false);
+     });
+
+-    test("§7.32 the document Escape listener exists only while the tooltip is visible (no leak, no double-add)", () => {
+-        const { btn, tip } = setup();
++    test("32 the document keydown listener is added once while visible and removed on hide and on disconnect", () => {
+         const add = vi.spyOn(document, "addEventListener");
+-        const remove = vi.spyOn(document, "removeEventListener");
+-        const keydownCalls = (spy: typeof add) => spy.mock.calls.filter((c) => c[0] === "keydown");
+-        fire(btn, "mouseenter");
+-        fire(tip, "mouseenter"); // a second show trigger must not add again
+-        expect(keydownCalls(add).length).toBe(1);
+-        fire(btn, "mouseleave");
+-        expect(keydownCalls(remove).length).toBe(0); // still hovering the tooltip
+-        fire(tip, "mouseleave");
+-        expect(tip.hasAttribute("hidden")).toBe(true);
+-        expect(keydownCalls(remove).length).toBe(1);
+-        expect(keydownCalls(remove)[0][1]).toBe(keydownCalls(add)[0][1]);
+-        // Showing again re-adds exactly once more; disconnecting removes it.
+-        fire(btn, "mouseenter");
+-        expect(keydownCalls(add).length).toBe(2);
+-        document.body.querySelector("lily-theme-picker")!.remove();
+-        expect(keydownCalls(remove).length).toBe(2);
+-        add.mockRestore();
+-        remove.mockRestore();
++        const rem = vi.spyOn(document, "removeEventListener");
++        const keydowns = (spy: typeof add) => spy.mock.calls.filter((c) => c[0] === "keydown");
++        try {
++            const { el, host, tip } = setup();
++            add.mockClear();
++            rem.mockClear();
++            enter(host);
++            enter(host);
++            expect(keydowns(add).length).toBe(1);
++            const fn = keydowns(add)[0][1];
++            leave(host);
++            expect(isHidden(tip)).toBe(true);
++            expect(keydowns(rem).some((c) => c[1] === fn)).toBe(true);
++            // Re-show, then disconnect while visible: the listener must go too.
++            enter(host);
++            expect(keydowns(add).length).toBe(2);
++            rem.mockClear();
++            el.remove();
++            expect(keydowns(rem).some((c) => c[1] === keydowns(add)[1][1])).toBe(true);
++        } finally {
++            add.mockRestore();
++            rem.mockRestore();
++        }
+     });
+ });
+
+@@ -1174,7 +1172,7 @@
+     });
+ });
+
+-describe('ThemePicker — variant="select" (§select, RFC 3 prototype; ported from Svelte)', () => {
++describe('ThemePicker — variant="select" (§select, RFC 3 prototype; ported from Svelte, in step with the HTML helper)', () => {
+     const base = {
+         label: "Colour theme",
+         "themes-url": URL_TRAILING,
+@@ -1263,11 +1261,11 @@
+
+     test("the extra class is appended to the root", () => {
+         mount({ ...base, class: "header-theme" });
+-        expect(select().closest(".theme-picker")?.className).toBe("lily-theme-picker header-theme");
++        expect(select().closest(".theme-picker")?.className).toBe("theme-picker header-theme");
+     });
+ });
+
+-describe("lily-theme-picker — theme-color (P21-T7)", () => {
++describe("theme-picker — theme-color (P21-T7)", () => {
+     const meta = () => document.head.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+     const attrs = {
+         label: "Theme",

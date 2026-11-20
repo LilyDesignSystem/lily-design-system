@@ -43,5 +43,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ImageCropper.razor"
   },
   "docs": "https://lilydesignsystem.com/components/image-cropper/",
+  "markdown": "https://lilydesignsystem.com/components/image-cropper.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/image-cropper/AGENTS.md"
 }

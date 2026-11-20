@@ -113,6 +113,10 @@ The consumer provides all CSS styling. The component renders with a `.dial` clas
 - `slider` — a draggable control for selecting a value along a track
 - `angle-slider-range-input` — a range input for selecting an angle in degrees
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Slider Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/slider/

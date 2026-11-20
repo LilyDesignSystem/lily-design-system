@@ -88,6 +88,10 @@ A national identifier is personal data, and often a key to other records.
 - `colombia-cedula-de-ciudadania-view` — a read-only display of Colombia's Cedula de Ciudadania Number
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - Wikipedia: [Colombian identity card](https://en.wikipedia.org/wiki/Colombian_identity_card)

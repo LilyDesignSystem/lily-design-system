@@ -100,6 +100,10 @@ The consumer provides all CSS styling. The component renders with a `.barcode-im
 - `image` — an image element with alt text
 - `icon` — a container for displaying an icon
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [MDN img element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img)

@@ -1,5 +1,7 @@
 # Lily Design System™
 
+[![Test coverage](docs/coverage-badge.svg)](docs/coverage.md)
+
 Lily Design System is a free open source design system that anyone can use and improve.
 
 This is brand new work and we welcome collaboration, guidance, and feedback.
@@ -34,8 +36,8 @@ Lily is a stack of layers, each owning one job: the **catalog** (661 named compo
 
 ## AI agent support
 
-Twenty-seven [Claude Skills](https://code.claude.com/docs/en/skills) give an AI
-coding agent a curated entry point, in three tiers:
+Thirty-four [Claude Skills](https://code.claude.com/docs/en/skills) give an AI
+coding agent a curated entry point:
 [lily-design-system-skill](lily-design-system-skill) for people
 building _with_ Lily (concepts, naming, composition patterns),
 [lily-design-system-maintainer-skill](lily-design-system-maintainer-skill)
@@ -48,7 +50,8 @@ framework-specific skills — one `{framework}-headless-skill` and one
 nunjucks, react, svelte, vue, web-components) — each scoped to exactly
 the one real subproject it covers, plus
 [lily-design-system-alpine-headless-skill](lily-design-system-alpine-headless-skill)
-for the Alpine.js catalog. All 27 live at this monorepo's root (their
+for the Alpine.js catalog, plus four task playbooks for installation, adding a
+component, theme authoring, and Bootstrap migration. All 34 live at this monorepo's root (their
 standalone mirror repositories were retired on 2026-10-10). See
 [spec/agent-skills/](spec/agent-skills/index.md) for the full list, or
 the docs site's [Lily + Claude Code](https://lilydesignsystem.com/skills/)

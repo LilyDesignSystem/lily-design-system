@@ -44,5 +44,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ChoroplethChart.razor"
   },
   "docs": "https://lilydesignsystem.com/components/choropleth-chart/",
+  "markdown": "https://lilydesignsystem.com/components/choropleth-chart.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/choropleth-chart/AGENTS.md"
 }

@@ -2,6 +2,8 @@
 
 A top-level article wrapper that sets CSS custom properties for content column widths. ArticleLayout provides a semantic `<article>` element that establishes a system of named column widths for descendant ContentBlock components.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses an `<article>` element with an optional `aria-label` to create a semantic article region.
 
 ## Implementation Notes
@@ -86,6 +88,10 @@ The consumer provides all CSS styling. The component renders with an `.article-l
 
 - `container` — a generic block-level content container
 - `grail-layout` — a responsive web design structure with header, left aside, center main, right aside, footer
+
+## Known limitations
+
+None known.
 
 ## References
 

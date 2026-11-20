@@ -86,6 +86,10 @@ This headless component ships zero CSS and decides nothing visual. The consumer 
 - `device-record-list-item` — one medical device in a device record list, with its status and when it was used
 - `record-list` and the other record lists — the same status contract for each part of a record
 
+## Known limitations
+
+None known.
+
 ## References
 
 - FHIR DeviceUseStatement: https://hl7.org/fhir/R4/deviceusestatement.html

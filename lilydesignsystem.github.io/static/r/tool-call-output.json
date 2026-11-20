@@ -37,5 +37,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ToolCallOutput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/tool-call-output/",
+  "markdown": "https://lilydesignsystem.com/components/tool-call-output.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tool-call-output/AGENTS.md"
 }

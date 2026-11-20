@@ -89,6 +89,10 @@ A national identifier is personal data, and often a key to other records.
 - `bangladesh-national-identity-card-view` — a read-only display of Bangladesh's National ID (NID) number
 - `text-input` — a single-line text input field <input type="text">
 
+## Known limitations
+
+None known.
+
 ## References
 
 - [National identity card (Bangladesh)](<https://en.wikipedia.org/wiki/National_identity_card_(Bangladesh)>)

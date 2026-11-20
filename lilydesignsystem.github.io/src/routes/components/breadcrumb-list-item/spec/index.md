@@ -27,7 +27,7 @@ Implement the Breadcrumb List Item component: one breadcrumb navigation link in 
 ## Acceptance Criteria
 
 - [ ] Renders <li> with class="breadcrumb-list-item"
-- [ ] `aria-current="page"` -- set when `current` is true, indicating the user's current location in the breadcrumb trail
+- [ ] `data-current` -- set when `current` is true, indicating the user's current location in the breadcrumb trail
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
 - [ ] Tests pass in all implementations

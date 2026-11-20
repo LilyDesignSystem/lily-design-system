@@ -110,6 +110,10 @@ needed.
 
 - `step-list-item` — one step in a step list with status of waiting, in progress, finished, or error
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Group Role: https://www.w3.org/TR/wai-aria-1.2/#group

@@ -68,7 +68,7 @@ export function nextLinkPickerId(): string {
     return `link-picker-${uid}`;
 }
 
-/** Custom-element class implementing `<link-picker>`. */
+/** Custom-element class implementing `<lily-link-picker>`. */
 export class LinkPicker extends HTMLElement {
     static get observedAttributes(): string[] {
         return ["label", "links", "class", "open", "disabled"];

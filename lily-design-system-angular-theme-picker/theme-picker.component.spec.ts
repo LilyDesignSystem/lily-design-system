@@ -458,6 +458,12 @@ describe("ThemePicker — dynamic loading (§5, §7.6–§7.11)", () => {
         expect(document.documentElement.dataset["theme"]).toBe("light");
     });
 
+    test("ignores a stored value that is not one of its themes", async () => {
+        localStorage.setItem("lily-theme", "not-a-theme");
+        await mountSettled({ storageKey: "lily-theme" });
+        expect(document.documentElement.dataset["theme"]).toBe("light");
+    });
+
     test("§7.11 missing trailing slash on themesUrl still yields one slash", async () => {
         await mountSettled({ themesUrl: URL_NO_TRAILING });
         expect(getManagedLink()!.href.endsWith("/assets/themes/light.css")).toBe(true);

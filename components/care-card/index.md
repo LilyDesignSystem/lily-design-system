@@ -114,6 +114,10 @@ The consumer provides all CSS styling. The component renders with a `.care-card`
 - `medical-banner` — a prominent message bar across the top of a page, with medical information
 - `alert` — a status message for important information or feedback
 
+## Known limitations
+
+None known.
+
 ## References
 
 - NHS England Care Cards: https://service-manual.nhs.uk/design-system/components/care-cards

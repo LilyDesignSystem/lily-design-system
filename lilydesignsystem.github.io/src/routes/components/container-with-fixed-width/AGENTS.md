@@ -5,6 +5,7 @@
 - Component: container-with-fixed-width
 - PascalCase: ContainerWithFixedWidth
 - Description: a centered content wrapper with a fixed max-width breakpoint
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .container-with-fixed-width
 - Interactive: no
@@ -38,6 +39,10 @@
 - [ ] Children content is preserved
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Known limitations
+
+None known.
 
 ## References
 

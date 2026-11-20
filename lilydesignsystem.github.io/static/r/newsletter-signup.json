@@ -59,5 +59,6 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/NewsletterSignup.razor"
   },
   "docs": "https://lilydesignsystem.com/components/newsletter-signup/",
+  "markdown": "https://lilydesignsystem.com/components/newsletter-signup.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/newsletter-signup/AGENTS.md"
 }

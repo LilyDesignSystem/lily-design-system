@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/SouthAfricaIdentityNumberView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/south-africa-identity-number-view/",
+  "markdown": "https://lilydesignsystem.com/components/south-africa-identity-number-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/south-africa-identity-number-view/AGENTS.md"
 }

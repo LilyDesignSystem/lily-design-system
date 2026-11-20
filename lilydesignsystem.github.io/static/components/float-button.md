@@ -113,6 +113,10 @@ indicator, and elevation that matches the surrounding theme.
 - `icon-button` — a button containing only an icon with a required accessible label
 - `affix` — a wrapper that pins its content to a viewport position while the page scrolls
 
+## Known limitations
+
+None known.
+
 ## References
 
 - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/

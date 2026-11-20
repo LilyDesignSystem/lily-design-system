@@ -97,6 +97,10 @@ The consumer provides all CSS styling. The component renders with a `.error-summ
 - `alert` — a status message for important information or feedback
 - `field` — a form field wrapper with label, input, and error message
 
+## Known limitations
+
+None known.
+
 ## References
 
 - GOV.UK Error Summary: https://design-system.service.gov.uk/components/error-summary/

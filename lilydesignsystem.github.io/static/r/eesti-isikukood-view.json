@@ -35,5 +35,6 @@
     "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/EestiIsikukoodView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/eesti-isikukood-view/",
+  "markdown": "https://lilydesignsystem.com/components/eesti-isikukood-view.md",
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/eesti-isikukood-view/AGENTS.md"
 }
