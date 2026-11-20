@@ -11263,7 +11263,8 @@
       "description": "A horizontal bar of tool actions.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "registryDependencies": [
-        "@lily/dev-warning-utils"
+        "@lily/dev-warning-utils",
+        "@lily/widget-keys-utils"
       ],
       "categories": [
         "navigation"
