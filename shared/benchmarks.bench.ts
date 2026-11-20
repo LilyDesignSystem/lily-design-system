@@ -174,7 +174,7 @@ test("benchmarks", { timeout: 600_000 }, async () => {
         results[name] = {
             mean: latency.mean,
             p99: latency.p99 ?? latency.max,
-            samples: latency.samples?.length ?? 0,
+            samples: latency.samplesCount,
         };
     }
     mkdirSync("reports", { recursive: true });

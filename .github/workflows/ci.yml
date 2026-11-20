@@ -66,7 +66,7 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: 26
-      # The junk guard, the docs-site install, bin/test, check-links, the registries, coverage, class names and metadata.
+      # The junk guard, the root and docs-site installs, bin/test, check-links, the registries, coverage, class names and metadata.
       - run: bin/ci --job verify
 
   lint:

@@ -86,6 +86,8 @@ fast_checks() {
 job_verify() {
     local failed=0
     step "verify: no tracked node_modules or dist" no_junk || failed=1
+    # The root install brings Prettier, which the generators' --check modes format through.
+    step "verify: install the root" pnpm install --frozen-lockfile || return 1
     step "verify: install the docs site" in_dir lilydesignsystem.github.io pnpm install --frozen-lockfile || return 1
     step "verify: bin/test" bin/test || failed=1
     step "verify: bin/check-links" bin/check-links || failed=1

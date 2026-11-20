@@ -127,7 +127,7 @@ test("render benchmarks", { timeout: 600_000 }, async () => {
         // An aborted or failed task has no latency, so the result type is a union; read it as the fields used here.
         const result = b.tasks[0].result as
             | {
-                  latency?: { mean: number; p99?: number; max: number; samples?: number[] };
+                  latency?: { mean: number; p99?: number; max: number; samplesCount: number };
                   error?: unknown;
               }
             | undefined;
@@ -137,7 +137,7 @@ test("render benchmarks", { timeout: 600_000 }, async () => {
         results[name] = {
             mean: latency.mean,
             p99: latency.p99 ?? latency.max,
-            samples: latency.samples?.length ?? 0,
+            samples: latency.samplesCount,
         };
         cleanup();
     }

@@ -62,7 +62,10 @@ ArrowRight and ArrowLeft act only when the item itself has focus, never on a key
 
 ## Known limitations
 
-None known.
+Not in the Web Components catalog, by design. A custom element between an `<ol>` or `<ul>` and its `<li>` breaks the
+content model, and the only form that avoids it, a customized built-in element, does not work in Safari. Without a
+framework, write the native element with this component's class hook, or use the HTML catalog's markup. See
+[the Web Components spec](https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-web-components-headless/spec/index.md).
 
 ## References
 

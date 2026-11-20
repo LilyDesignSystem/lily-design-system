@@ -40,9 +40,10 @@ For Blazor:
 dotnet add package LilyDesignSystem.Blazor.Headless
 ```
 
-Do not claim an unpublished package is available. Check the detailed skill and
-the package's `index.md` when working from this monorepo; Alpine in particular
-may require a workspace or source install.
+Do not claim an unpublished package is available: check the registry, or the
+package's `index.md` when working from this monorepo. Alpine's package is
+`@lilydesignsystem/alpine-headless`; it ships HTML snippets and one plugin, so
+follow its skill for how to load them.
 
 ## 2. Add optional layers deliberately
 

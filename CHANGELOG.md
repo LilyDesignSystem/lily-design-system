@@ -9,10 +9,17 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Shared test coverage at 97 percent (2026-11-20, P39-T6, unreleased)
+
+- `shared/menu-keys.ts` has its own test, covering all its lines. A new suite gives every pattern-tester runner broken
+  markup and sabotaged widgets and checks it rejects each one, so a passing contract is known to fail a broken widget.
+- `shared/` covers 97.6 percent of lines and 97.5 percent of functions, and `pnpm coverage` now enforces 97 percent.
+
 ## One per-component Markdown URL (2026-11-20, P13-T3, unreleased)
 
-- `/components/{slug}.md` is now the sole public Markdown convention for a component; a parallel component-specific `llms.txt` route is deliberately not published.
-- Every generated component manifest and manifest-index row exposes its absolute `markdown` URL, and the existing API-docs drift check enforces all 661 Markdown copies.
+- `/components/{slug}.md` is now the one public Markdown URL for a component; there is no per-component `llms.txt`.
+- Every component manifest and manifest-index row gives its absolute `markdown` URL, and the API-docs drift check covers
+  all 661 Markdown copies.
 
 ## Async-button pending contract (2026-11-20, P13-T9, unreleased)
 
@@ -22,7 +29,9 @@ highlights.
 ## Generated Web Components helpers (2026-11-20, P12-T9, unreleased)
 
 - A new package-scoped generator derives Web Components helper source and tests from the corresponding HTML custom elements, transforming package names and public tags and supporting reviewed patches for genuine differences.
-- All 20 code-bearing pairs cover 258 managed files and 1,588 passing focused tests. Their full drift check now runs in `bin/test`; genuine Web Components icon-button, stable child-picker, preference-list, Gantt-table and Kanban-table composition is preserved as explicit stale-checked patches.
+- All 20 code-bearing pairs cover 258 managed files and 1,588 passing focused tests, and their drift check runs in
+  `bin/test`. Where Web Components really differs (the icon button, child pickers, preference lists, the Gantt and
+  Kanban tables), a reviewed patch keeps the difference and fails when the HTML it applies to changes.
 
 ## Package-manager install tabs (2026-11-20, P13-T10, unreleased)
 
@@ -64,7 +73,7 @@ highlights.
 
 ## Localized Markdown documentation (2026-11-19, P13-T2, unreleased)
 
-- The docs site now publishes 2,600 generated Markdown twins across English and localized text-page routes. Links in a
+- The docs site now publishes about 2,600 generated Markdown twins (2,965 on 2026-11-20) across English and localized text-page routes. Links in a
   translated twin stay in its locale just as they do in the rendered page.
 - The drift check audits the whole SvelteKit route tree. A page without a Markdown twin must match one of five explicit,
   reasoned interactive exceptions, and stale exceptions fail.
@@ -128,16 +137,21 @@ highlights.
 
 ## Accessibility automation for every example app (2026-11-19, P38-T7, unreleased)
 
-- CI now runs the axe accessibility suites for React, Vue, Angular, HTML and Solid in Chromium, Firefox and WebKit.
-  SvelteKit, Nunjucks and Alpine remain covered by their existing jobs. The new matrix contains 423 passing checks.
+- CI now runs the axe accessibility suites for React, Vue, Angular, HTML, Blazor and Solid in Chromium, Firefox and
+  WebKit. SvelteKit, Nunjucks and Alpine remain covered by their existing jobs. Without Blazor, the matrix passed 423
+  checks locally.
 
 ## Reproducible render benchmarks (2026-11-19, P38-T8, unreleased)
 
 - `bin/render-benchmark` compares representative Svelte headless components with equivalent hand-written markup,
   reports mean and p95 render-and-unmount latency, and checks eight cases against a machine-labelled baseline.
+- `bin/benchmark --suite render` times the Svelte data grid itself: 1,000 rows drawn in full take about 890 ms to
+  mount, 10,000 virtualized about 18 ms.
 
-## Pull-request dependency security gate (2026-11-19, P38-T10, unreleased)
+## Dependency security checks (2026-11-19, P38-T10, unreleased)
 
+- `bin/security-audit` checks every pnpm lockfile and published .NET project against known advisories, weekly in
+  `security-audit.yml`, and fails on a high or critical advisory in what users install.
 - GitHub's dependency-review action now rejects pull requests that introduce known high or critical vulnerabilities
   in runtime, development or unknown scopes, and reports patched versions when the advisory provides one.
 
@@ -150,7 +164,7 @@ highlights.
 
 - Theme, locale, text-size and motion pickers now ignore persisted values that are absent from their configured option
   list. This prevents stale or tampered storage from selecting an impossible option or constructing an unintended theme
-  stylesheet URL. The eight requested catalogs and Solid share the protection.
+  stylesheet URL. All eight catalogs and Solid have the check.
 
 ## Synchronized site component documents (2026-11-19, P35-T7, unreleased)
 

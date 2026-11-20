@@ -3988,10 +3988,13 @@ release; the canonical catalog keeps all 637. Plan: [spec/headless-identifiers](
       each `-headless-identifiers` package's tests pass, every drift check passes, `bin/check-worldwide` counts the new
       types by region. _(2026-11-18: 12 types, 24 components, catalog 661; packages 0.2.0, published the same day (npm `bin/publish-headless --npm-only`, NuGet run 44359743274; all ten verified on the registries);
       [spec/national-identifiers](spec/national-identifiers/index.md) has the round and the sources.)_
-- [x] **P37-T5 Stale catalog counts in the skills and package descriptions.** Headless package metadata and skills now
-      state their own scope: 473 core components in full catalogs and Alpine, 438 in Web Components, with national
-      identifiers in separate add-ons. Example-app catalog indexes are described as generated rather than frozen to a
-      number. Verified: 609, 608, 571 and 491 no longer occur in a `SKILL.md`, package description or `.csproj`.
+- [x] **P37-T5 Stale catalog counts in the skills and package descriptions.** Some headless skills and package
+      descriptions still gave an old catalog size (609, 608, 571, 491). Verify: no stale count left in a `SKILL.md`, a
+      `package.json` description or a `.csproj` Description. _(2026-11-19: 87 files. The catalog as a whole is 661; a
+      headless package holds its 473 core components, with the 188 identifiers in its add-on; Web Components covers 626
+      of 661 across its two packages; dated statements keep their numbers. `bin/sync-special-files` now counts from
+      `components-categories.tsv` instead of carrying "608" and "571", so the INSTALL and CITATION files cannot go stale
+      again. Example-app catalog indexes are described as generated rather than given a number.)_
 - [x] **P37-T4 Publish** the ten identifiers packages and the breaking headless releases (maintainer approval).
       Verify: `bin/verify-published`. _(2026-11-18, approved: after a clean `bin/ci --full` receipt for 43f04e461,
       `bin/publish-headless --npm-only` published the 18 npm versions and the publish workflow (run 44323979667) the
@@ -4039,27 +4042,42 @@ Maintainer-directed, in this order.
       component, a form, the Solid idioms, theming and the example app; the home page's Solid icon links to it. Verify: the
       form snippet renders in the package's test setup, labelled, bound and submitting. _(2026-11-19: done; English only,
       as `/getting-started/` is, until the tutorials index's translations are updated.)_
-- [x] **P38-T6 visual regression in Firefox and WebKit.** The SvelteKit example's 210-shot suite now runs in all three
-      Playwright projects, with 630 macOS baselines. Firefox and WebKit each pass all 210 comparisons after the initial
-      baseline run. CI remains excluded because committed screenshots are platform-specific.
-- [x] **P38-T7 accessibility automation.** A five-app `accessibility-examples` CI matrix runs the existing axe suites
-      for React, Vue, Angular, HTML and Solid in Chromium, Firefox and WebKit. SvelteKit, Nunjucks and Alpine retain
-      their existing CI jobs. The new matrix passes 423 checks locally (93 each for React, Vue, Angular and HTML; 51
-      for Solid), with zero WCAG 2.0, 2.1 or 2.2 A/AA violations.
-- [x] **P38-T8 render benchmarks.** `bin/render-benchmark` uses Tinybench and jsdom to render and unmount a button,
-      labelled input, 100-option listbox and 100-row table, pairing each Lily component with equivalent hand-written
-      Svelte markup. The eight-case machine-labelled baseline fails beyond twice its recorded mean and passes twice in
-      succession. The first Lily/native mean ratios were 1.29, 1.30, 1.28 and 1.04 respectively.
-- [x] **P38-T9 coverage reporting and badges.** `bin/coverage-report` runs shared Vitest, Svelte Vitest and Blazor
-      coverlet coverage, writes `docs/coverage.md` and a repository badge, and records 96.1 percent combined line
-      coverage. The shared gate enforces at least 95 percent lines and functions (P39-T5).
-- [x] **P38-T10 security audit automation.** Every pull request runs GitHub's dependency-review action and fails when
-      it introduces a high or critical known vulnerability in runtime, development or unknown scope. Dependabot
-      security updates continue to monitor the full dependency set. This automates advisory review; it does not claim
-      the external build, runtime and CI/CD audit recommended by the source audit.
-
-## Phase 39 — Worldwide keyboard navigation
-
+- [x] **P38-T6 Visual regression in Firefox and WebKit.** Verify: the visual spec passes twice in a row in all three
+      engines. _(2026-11-19: `visual-regression` joins the SvelteKit app's cross-engine specs; 420 new baselines (210
+      each for Firefox and WebKit), sampled against Chromium before committing: theme colours, focus rings, right to
+      left, 320px and composed pages render alike, with engine-specific form controls. 630 passed on two consecutive
+      runs. Not in CI, because committed screenshots are platform-specific.)_
+- [x] **P38-T7 Accessibility automation.** Verify: every example app's axe accessibility spec runs in CI. _(2026-11-19:
+      the axe specs, the screen-reader matrix, the self-assessed ACR and `generate-core` already existed; CI ran
+      accessibility checks for three of the nine example apps. The `accessibility-examples` matrix
+      (`bin/ci --job accessibility-examples`) now runs the other six (React, Vue, Angular, HTML, Blazor, Solid) in
+      Chromium, Firefox and WebKit. The five without Blazor passed 423 checks locally with no WCAG 2.2 A or AA violation; Blazor passed in
+      Chromium. 2026-11-20: Blazor's first CI run timed out installing the three browsers, not in a test.)_
+- [x] **P38-T8 Render benchmarks.** Verify: each render benchmark passes twice against its baseline. _(2026-11-19: two
+      suites, both outside `bin/test` and CI because timings depend on the machine. `bin/benchmark --suite render` times
+      the Svelte data grid in jsdom: about 890 ms to mount 1,000 rows drawn in full against 18 ms for 10,000
+      virtualized, a sort cycle and replacing every row. `bin/render-benchmark` measures component overhead: a button,
+      a labelled input, a 100-option listbox and a 100-row table, each beside equivalent hand-written Svelte markup; the
+      Lily/native mean ratios were 1.29, 1.30, 1.28 and 1.04. BENCHMARKS.md, which said Lily had no runtime benchmarks,
+      is corrected. 2026-11-20: all three Tinybench reports recorded 0 samples, since Tinybench 6 keeps the samples only
+      on request; they now read `samplesCount`.)_
+- [x] **P38-T9 Coverage reporting and badges.** Verify: a coverage report and badge exist and are written by a script.
+      _(2026-11-19: no coverage was measured anywhere; coverlet was referenced by 24 .NET test projects and never run.
+      `bin/coverage-report` measures `shared/`, Svelte headless and Blazor headless and writes `docs/coverage.md` and
+      `docs/coverage-badge.svg`, shown in `index.md`. No external service. 91.5 percent of lines at first, 96.1 after
+      P38-T12 and P39-T5, 96.6 after P39-T6.)_
+- [x] **P38-T12 Unit tests for `shared/cell-types.ts`.** Found by P38-T9: 20 percent of its lines ran in `shared/`, and
+      no test file imported it. Verify: a `cell-types.test.ts` beside it, and its coverage in `docs/coverage.md` above 90
+      percent. _(2026-11-19: 45 tests: link safety, civil dates and times, zones and daylight saving, people, files,
+      every aggregate, type validation, and each column type's defaults, roll-ups and formulas. Lines 20 to 99.2 percent;
+      three deliberate defects (a `javascript:` link allowed, an empty sum of 0, a swallowed formula error) each fail it.)_
+- [x] **P38-T10 Security audit automation.** Verify: a scheduled job audits every package's dependencies and fails only on
+      advisories users can reach. _(2026-11-19: Dependabot, secret scanning and push protection existed; no step checked
+      the locked dependencies against advisories. `bin/security-audit` covers 207 lockfiles and 23 published .NET
+      projects in about five minutes; `security-audit.yml` runs it weekly. First run: nothing users install is affected;
+      39 findings in development dependencies and apps, documented in spec/dependabot. Every pull request also runs
+      GitHub's dependency-review action, which fails on a new high or critical advisory in any scope. Neither is the
+      external build, runtime and CI/CD audit the source audit recommends.)_
 - [x] **P39-T1 Unicode initials in shared listbox and grid type-ahead.** The matcher accepts supplementary letters and
       handles repeated Hangul syllables and canonically equivalent accents. Verify with `cd lily-design-system-svelte-headless && pnpm exec vitest run components/Listbox`,
       `bin/mutation-test typeahead` and `bin/sync-shared-modules --check`. The mounted property test failed on the old
@@ -4078,8 +4096,8 @@ Maintainer-directed, in this order.
       and menu submenus, right-to-left, popover submenus, clicks, focus leaving, tree keys): 100 percent of its lines,
       from 82.6. `pattern-tester-failures.test.ts` hands every runner broken markup and sabotaged widgets (a key
       swallowed, an attribute stripped, focus lost) and checks each rejects with a message naming why, so a green
-      contract is shown to mean something. The gate rises to 97 percent of lines and functions. Verify: `cd shared &&
-    pnpm coverage` passes 1,044 tests at 97.6 percent of lines and 97.5 percent of functions; restoring an RTL-blind or
+      contract is shown to mean something. The gate rises to 97 percent of lines and functions. Verify:
+      `cd shared && pnpm coverage` passes 1,044 tests at 97.6 percent of lines and 97.5 percent of functions; restoring an RTL-blind or
       non-moving menubar in `menu-keys.ts` fails two tests.
 - [ ] **P39-T3 Observe composition through a browser and input method.** Use a Japanese or Korean IME in a searchable
       picker. Record the browser, OS, input method, active option and submitted value while composing and after commit.

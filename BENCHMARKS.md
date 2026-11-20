@@ -1,22 +1,18 @@
 # Benchmarks
 
-Lily has reproducible pure-logic and Svelte render benchmarks, each compared with a recorded baseline.
-
-The render measurements compare Lily with equivalent hand-written markup so they
-separate Lily's overhead from the framework's own work.
+Lily Design System™ has reproducible benchmarks of its pure logic and of Svelte rendering, each compared with a
+recorded baseline. They are regression measurements for the machine that recorded them, not promises about a
+consumer's performance.
 
 ## Why render benchmarks need a control
 
-Not an oversight — a consequence of what Lily is. A headless component renders
-semantic HTML with ARIA attributes and attaches keyboard handlers. There is no
-virtual DOM diffing strategy of Lily's own, no layout engine, no animation loop,
-no data layer, and no CSS. What a Lily component costs at runtime is almost
-entirely what the host framework costs to render an element, which is a benchmark
-of Svelte, React, or Vue rather than of Lily.
+A headless component renders semantic HTML with ARIA attributes and attaches keyboard handlers. Lily has no virtual DOM
+diffing of its own, no layout engine, no animation loop, no data layer and no CSS, so what a Lily component costs at
+runtime is almost entirely what the host framework costs to render an element. Timed alone, that is a benchmark of
+Svelte, React or Vue rather than of Lily.
 
-Benchmarking Lily without an equivalent control would produce numbers that look
-meaningful and are not. Every render case therefore measures both forms in the
-same Svelte process and jsdom environment.
+So every render case is timed twice in the same Svelte process and jsdom environment: once as the Lily component and
+once as equivalent hand-written markup. The ratio between the two is Lily's overhead.
 
 ## What is measured
 
@@ -30,8 +26,7 @@ p95 latency, the Lily/native mean ratio and a comparison with
 
 The 2026-11-19 baseline on an Apple M4 Max with Node 26.13.1 records means of
 0.05 ms for the Lily button and input, 1.04 ms for the listbox and 1.33 ms for the
-table. Their overhead over the controls was 1.29×, 1.30×, 1.28× and 1.04×. These
-are regression measurements for that machine, not consumer performance promises.
+table: 1.29, 1.30, 1.28 and 1.04 times the hand-written markup.
 
 `bin/benchmark` also measures helper-scale pure logic and the Svelte data grid: search, filter and export over 10,000
 rows, the critical path of 1,000 tasks, type-ahead over 5,000 options, and data-grid mounting/sorting/replacement at

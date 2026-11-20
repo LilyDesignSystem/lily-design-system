@@ -375,11 +375,11 @@ once and runs each case with [tinybench](https://github.com/tinylibs/tinybench) 
 - **Noise.** Timings depend on the machine and its load: a baseline taken while `bin/test` ran was two to four times slower.
   Re-run before believing a failure, and compare only on the machine that wrote the baseline. Hence not in `bin/test` or CI.
 - **About 15 seconds.** Run it after changing a shared module's algorithm.
-
-P38-T8 adds `bin/render-benchmark` for the canonical Svelte catalog. It renders and unmounts a button, labelled input,
-100-option listbox and 100-row data table, each paired with equivalent hand-written Svelte markup. Tinybench reports
-mean and p95 latency; `render-benchmark-baseline.json` records eight means and the machine. The runner fails beyond
-twice a baseline, stays outside CI because shared-runner timings are noisy, and prints each Lily/native ratio.
+- **Render suite** (2026-11-19, tasks.md P38-T8). `bin/benchmark --suite render` times the Svelte data grid component
+  itself in jsdom, with its own Vitest config (`vitest.bench.config.ts`) and baseline (`render-benchmark-baseline.json`):
+  mounting 1,000 rows drawn in full (about 890 ms) and 10,000 virtualized (about 18 ms), a sort cycle over 10,000 rows
+  (ascending, descending, none, about 145 ms) and replacing every row (about 13 ms). A single sort click was not stable,
+  since each state costs differently, so a case is a full cycle. About 35 seconds; `bin/benchmark` runs both suites.
 
 Baseline, mean milliseconds (Apple M4 Max, darwin arm64, Node 26.8.1):
 
@@ -400,6 +400,12 @@ What the numbers say: on this machine everything a keystroke triggers fits a 16 
 `matchesSearch` over 10,000 rows takes about 10 ms and highlighting 1,000 rows about 11 ms, while the filter predicate (6 ms)
 and type-ahead (under 1 ms) have room. A phone several times slower would push search past a frame, so the data grid's search is
 the first place to optimise. The XLSX export (28 ms) is the slowest case, but it runs once per button press.
+
+**Component overhead** (P38-T8). `bin/render-benchmark` measures the canonical Svelte catalog against a control: it
+renders and unmounts a button, a labelled input, a 100-option listbox and a 100-row data table, each beside equivalent
+hand-written Svelte markup. Tinybench reports mean and p95 latency; `render-benchmark-baseline.json` records the eight
+means and the machine. The runner fails beyond twice a baseline, stays outside CI because shared-runner timings are
+noisy, and prints each Lily/native ratio.
 
 ## Pattern testers
 

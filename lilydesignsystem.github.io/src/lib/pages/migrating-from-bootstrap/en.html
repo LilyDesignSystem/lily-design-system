@@ -332,20 +332,23 @@
 &lt;/div&gt;</code
         ></pre>
     <p>
-        The Lily HTML contract keeps semantic structure and moves visual choices into product CSS:
+        In Lily the card stays a <code>div.card</code>, the field and its button sit in a
+        <code>form</code> named by the heading, and the visual utilities become product CSS:
     </p>
 
     <pre tabindex="0"><code
-            >&lt;article class="card sign-in-card" aria-labelledby="sign-in-title"&gt;
+            >&lt;div class="card sign-in-card"&gt;
   &lt;h1 id="sign-in-title"&gt;Sign in&lt;/h1&gt;
-  &lt;div class="field"&gt;
-    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
-    &lt;p class="hint" id="email-hint"&gt;Use the address your account was registered with.&lt;/p&gt;
-    &lt;input class="text-input" id="email" name="email" type="email"
-      autocomplete="email" aria-describedby="email-hint" required /&gt;
-  &lt;/div&gt;
-  &lt;button class="button sign-in-card__submit" type="submit"&gt;Continue&lt;/button&gt;
-&lt;/article&gt;</code
+  &lt;form class="form" aria-labelledby="sign-in-title" method="post"&gt;
+    &lt;div class="field"&gt;
+      &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+      &lt;p class="hint" id="email-hint"&gt;Use the address your account was registered with.&lt;/p&gt;
+      &lt;input class="text-input" id="email" name="email" type="email"
+        autocomplete="email" aria-describedby="email-hint" required /&gt;
+    &lt;/div&gt;
+    &lt;button class="button sign-in-card-submit" type="submit"&gt;Continue&lt;/button&gt;
+  &lt;/form&gt;
+&lt;/div&gt;</code
         ></pre>
     <p>
         The product stylesheet owns spacing and width. A Lily theme can provide the baseline

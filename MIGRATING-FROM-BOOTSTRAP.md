@@ -1,6 +1,6 @@
 # Migrating from Bootstrap to Lily
 
-This guide maps common Bootstrap 5 component and class names to Lily. It is a migration plan, not a compatibility
+This guide maps common Bootstrap 5 component and class names to Lily Design System™. It is a migration plan, not a compatibility
 layer: changing a class name is not enough when the component's semantics or behaviour also changes.
 
 ## Before converting markup
@@ -84,46 +84,50 @@ Bootstrap markup often combines component and utility classes:
 </div>
 ```
 
-The Lily HTML contract keeps semantic structure and replaces visual utilities with product-owned CSS:
+In Lily the card stays a `div.card`, the field and its button sit in a `form` named by the heading, and the visual
+utilities become product CSS:
 
 ```html
-<article
-  class="card sign-in-card"
-  aria-labelledby="sign-in-title"
->
+<div class="card sign-in-card">
   <h1 id="sign-in-title">Sign in</h1>
-  <div class="field">
-    <label
-      class="label"
-      for="email"
-      >Email</label
-    >
-    <p
-      class="hint"
-      id="email-hint"
-    >
-      Use the address your account was registered with.
-    </p>
-    <input
-      class="text-input"
-      id="email"
-      name="email"
-      type="email"
-      autocomplete="email"
-      aria-describedby="email-hint"
-      required
-    />
-  </div>
-  <button
-    class="button sign-in-card__submit"
-    type="submit"
+  <form
+    class="form"
+    aria-labelledby="sign-in-title"
+    method="post"
   >
-    Continue
-  </button>
-</article>
+    <div class="field">
+      <label
+        class="label"
+        for="email"
+        >Email</label
+      >
+      <p
+        class="hint"
+        id="email-hint"
+      >
+        Use the address your account was registered with.
+      </p>
+      <input
+        class="text-input"
+        id="email"
+        name="email"
+        type="email"
+        autocomplete="email"
+        aria-describedby="email-hint"
+        required
+      />
+    </div>
+    <button
+      class="button sign-in-card-submit"
+      type="submit"
+    >
+      Continue
+    </button>
+  </form>
+</div>
 ```
 
-The product stylesheet now owns `.sign-in-card` spacing and `.sign-in-card__submit` width. A Lily theme can provide
+The product stylesheet now owns `.sign-in-card` spacing and `.sign-in-card-submit` width. A Lily theme can provide
 the baseline appearance without becoming a dependency of the headless library.
 
 ## Accessibility gains to preserve

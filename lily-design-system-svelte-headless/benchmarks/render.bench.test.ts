@@ -35,7 +35,7 @@ test("render and unmount distributions", { timeout: 120_000 }, async () => {
         results[variant] = {
             mean: latency.mean,
             p95: latency.p95 ?? latency.max,
-            samples: latency.samples?.length ?? 0,
+            samples: latency.samplesCount,
         };
     }
 
