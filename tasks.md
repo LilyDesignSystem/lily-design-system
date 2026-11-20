@@ -4104,7 +4104,10 @@ Maintainer-directed, in this order.
       containers, missing parts, popover panels and the Blazor `attach` dispatch; every line of `widget-keys.ts`, `shared/`
       at 98.5 percent of lines and 99.1 of functions, and the gate at 98. Then `filter-model.outputs.test.ts`: every
       comparison operator through the predicate, MongoDB, OData and inline SQL, so the four writers stay in step;
-      `filter-model.ts` from 94.7 to 99.3 percent of lines, and two deliberate writer defects each fail it.)_
+      `filter-model.ts` from 94.7 to 99.3 percent of lines, and two deliberate writer defects each fail it. Then
+      `invalid-input.test.ts`: refused input in cell types, colours, the critical path and the system zone. `shared/` at
+      99.0 percent of lines and 99.3 of functions; what is left is mostly defensive branches that validated input
+      cannot reach, and the pattern tester's own harness.)_
 - [ ] **P39-T3 Observe composition through a browser and input method.** Use a Japanese or Korean IME in a searchable
       picker. Record the browser, OS, input method, active option and submitted value while composing and after commit.
       Verify that confirming a candidate leaves the picker open for selection and that selecting an option fires one change.
