@@ -5,6 +5,7 @@ import {
     cellText,
     columnName,
     crc32,
+    downloadBlob,
     exportBlob,
     copyToClipboard,
     exportFilename,
@@ -19,7 +20,7 @@ import {
 function unzip(bytes: Uint8Array): Record<string, string> {
     const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
     const out: Record<string, string> = {};
-    let at = bytes.length - 22;
+    const at = bytes.length - 22;
     expect(view.getUint32(at, true)).toBe(0x06054b50);
     const count = view.getUint16(at + 10, true);
     let entry = view.getUint32(at + 16, true);
@@ -260,6 +261,70 @@ describe("clipboard", () => {
         });
         (document as unknown as { execCommand: unknown }).execCommand = () => false;
         expect(await copyToClipboard("x")).toBe(false);
+        vi.unstubAllGlobals();
+    });
+});
+
+describe("edges: invalid dates, the download link, a clipboard with no DOM", () => {
+    test("an invalid date is an empty cell in text and in a sheet", () => {
+        expect(cellText(new Date("not a date"))).toBe("");
+        const sheet = unzip(toXlsx({ headers: ["A", "B"], rows: [[new Date("nope"), 1]] }))[
+            "xl/worksheets/sheet1.xml"
+        ];
+        expect(sheet).not.toContain('r="A2"');
+        expect(sheet).toContain('<c r="B2"><v>1</v></c>');
+    });
+
+    test("downloadBlob clicks a temporary hidden link, then revokes the URL later", () => {
+        vi.useFakeTimers();
+        const create = vi.fn(() => "blob:lily/1");
+        const revoke = vi.fn();
+        vi.stubGlobal(
+            "URL",
+            Object.assign(URL, { createObjectURL: create, revokeObjectURL: revoke }),
+        );
+        const clicked: { href: string; download: string; hidden: boolean; attached: boolean }[] =
+            [];
+        const click = vi.spyOn(HTMLAnchorElement.prototype, "click").mockImplementation(function (
+            this: HTMLAnchorElement,
+        ) {
+            clicked.push({
+                href: this.href,
+                download: this.download,
+                hidden: this.style.display === "none",
+                attached: this.isConnected,
+            });
+        });
+        downloadBlob(new Blob(["x"]), "people.csv");
+        expect(clicked).toEqual([
+            { href: "blob:lily/1", download: "people.csv", hidden: true, attached: true },
+        ]);
+        expect(document.querySelector("a")).toBeNull();
+        expect(revoke).not.toHaveBeenCalled();
+        vi.advanceTimersByTime(1000);
+        expect(revoke).toHaveBeenCalledWith("blob:lily/1");
+        click.mockRestore();
+        vi.unstubAllGlobals();
+        vi.useRealTimers();
+    });
+
+    test("downloadBlob does nothing where object URLs are missing", () => {
+        const saved = URL.createObjectURL;
+        (URL as unknown as { createObjectURL?: unknown }).createObjectURL = undefined;
+        const click = vi.spyOn(HTMLAnchorElement.prototype, "click");
+        downloadBlob(new Blob(["x"]), "a.csv");
+        expect(click).not.toHaveBeenCalled();
+        click.mockRestore();
+        URL.createObjectURL = saved;
+    });
+
+    test("copyToClipboard resolves false when the textarea path itself throws", async () => {
+        vi.stubGlobal("navigator", {});
+        const create = vi.spyOn(document, "createElement").mockImplementation(() => {
+            throw new Error("no DOM");
+        });
+        expect(await copyToClipboard("x")).toBe(false);
+        create.mockRestore();
         vi.unstubAllGlobals();
     });
 });
