@@ -121,7 +121,20 @@ export const LOCALE_LABELS: Record<string, string> = {
   'wuu-001': '吴语',
   'yue-001': '粵語',
   'zh-001': '中文',
-  'zh-cn': '中文 - 中国'
+  'zh-cn': '中文 - 中国',
+  'zh-th': '中文 - 泰国',
+  'hi-np': 'हिन्दी - नेपाल',
+  'cy-ar': 'Cymraeg - Ariannin',
+  'ar-eg': 'العربية - مصر',
+  'ar-dz': 'العربية - الجزائر',
+  'es-mx': 'Español - México',
+  'fr-ca': 'Français - Canada',
+  'ru-ru': 'Русский - Россия',
+  'ru-by': 'Русский - Беларусь',
+  'bn-bd': 'বাংলা - বাংলাদেশ',
+  'bn-in': 'বাংলা - ভারত',
+  'id-my': 'Bahasa Indonesia - Malaysia',
+  'pt-br': 'Português - Brasil'
 };
 
 /** Resolve a locale code to its display label, falling back to the raw code. */
@@ -143,7 +156,7 @@ export function locales(): string[] {
 // already handles this via its bundled RTL_LANGUAGE_TAGS list, kept here
 // too since the localized layout needs it for the same reason (choosing
 // which side a "Skip to main content" link, etc. visually anchors to).
-const RTL_LOCALES = new Set(['ar-001', 'fa-001', 'he-001', 'ur-001']);
+const RTL_LOCALES = new Set(['ar-001', 'ar-eg', 'ar-dz', 'fa-001', 'he-001', 'ur-001']);
 
 export function isRtl(locale: string): boolean {
   return RTL_LOCALES.has(locale);
