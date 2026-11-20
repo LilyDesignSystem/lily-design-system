@@ -80,6 +80,21 @@ describe("RangeFieldset", () => {
         expect(upper.value).toBe("75");
     });
 
+    test("after a form reset the thumbs stay back, and the next move clamps against them", async () => {
+        const form = document.createElement("form");
+        document.body.append(form);
+        render(Subject, { container: form, props: { ...base, minimum: 20, maximum: 80 } });
+        const lower = form.querySelector(".range-fieldset-minimum") as HTMLInputElement;
+        const upper = form.querySelector(".range-fieldset-maximum") as HTMLInputElement;
+        await fireEvent.update(lower, "50");
+        form.reset();
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(lower.value).toBe("20");
+        await fireEvent.update(upper, "30");
+        expect(upper.value).toBe("30");
+        form.remove();
+    });
+
     test("disabled disables both thumbs", () => {
         render(Subject, { props: { ...base, disabled: true } });
         expect((screen.getByRole("group") as HTMLFieldSetElement).disabled).toBe(true);

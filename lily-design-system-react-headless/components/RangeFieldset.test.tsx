@@ -103,6 +103,27 @@ describe("RangeFieldset", () => {
         expect(upper.value).toBe("75");
     });
 
+    test("after a form reset the thumbs stay back, and the next move clamps against them", async () => {
+        const onChange = vi.fn();
+        const { container } = render(
+            <form>
+                <Subject
+                    {...base}
+                    minimum={20}
+                    maximum={80}
+                    onChange={onChange}
+                />
+            </form>,
+        );
+        const { lower, upper } = thumbs();
+        fireEvent.input(lower, { target: { value: "50" } });
+        container.querySelector("form")!.reset();
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(lower.value).toBe("20");
+        fireEvent.input(upper, { target: { value: "30" } });
+        expect(upper.value).toBe("30");
+    });
+
     test("disabled disables both thumbs", () => {
         render(
             <Subject

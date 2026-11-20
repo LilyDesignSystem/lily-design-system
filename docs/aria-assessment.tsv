@@ -450,7 +450,7 @@ tel-link	ARIA evidence incomplete	no	no	no	yes	8	6	no	-
 text-area-input	automated evidence complete	yes	yes	no	yes	8	8	yes	-
 text-area-input-with-character-counter	automated evidence complete	no	no	no	yes	1	8	no	-
 text-input	automated evidence complete	yes	no	no	yes	8	8	yes	-
-text-input-with-search	key evidence incomplete	no	yes	no	yes	2	4	no	-
+text-input-with-search	key evidence incomplete	no	yes	no	yes	3	4	no	-
 theme-provider	automated evidence complete	no	no	no	no	1	1	no	-
 theme-select	key evidence incomplete	no	yes	yes	yes	1	4	yes	-
 theme-select-option	key evidence incomplete	no	yes	yes	no	1	1	no	-

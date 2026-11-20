@@ -130,14 +130,15 @@
         }
     }
 
-    // A form reset restores the inputs after the reset event, so read them on the next task.
+    // A form reset puts both thumbs back to their first values. The state is set, not read back from the inputs: by the next
+    // task the inputs show the state again, so reading them would keep the moved values.
     $effect(() => {
         const form = lower?.form;
         if (!form) return;
         const restore = () =>
             setTimeout(() => {
-                minimum = Number(lower?.value ?? initialMinimum);
-                maximum = Number(upper?.value ?? initialMaximum);
+                minimum = initialMinimum;
+                maximum = initialMaximum;
             });
         form.addEventListener("reset", restore);
         return () => form.removeEventListener("reset", restore);

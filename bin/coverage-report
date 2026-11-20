@@ -44,6 +44,8 @@ function vitestCoverage(dir, include) {
         "--coverage.reporter=json-summary",
         "--coverage.reportsDirectory=reports/coverage",
         ...(include ? [`--coverage.include=${include}`] : []),
+        // Story files are not code under test, and the coverage provider cannot parse a .stories.svelte file.
+        "--coverage.exclude=**/*.stories.*",
     ];
     execFileSync("npx", args, { cwd, stdio: ["ignore", "ignore", "inherit"] });
     const total = JSON.parse(

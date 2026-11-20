@@ -4119,6 +4119,13 @@ Maintainer-directed, in this order.
       Components and Alpine (the old code failed four and three), and Blazor, whose `ToolBar` now inherits
       `KeyedComponentBase` like `ActionBar`, so `ToolBar.razor.js` is gone and its tests run on the generated module.
       Nunjucks already wired `.tool-bar` to `attachToolbar` in `autoInit()`; it gains the contract test.)_
+- [ ] **P39-T8 `range-fieldset` keeps a form reset in every catalog.** Found 2026-11-20 by coverage: in Svelte, after `form.reset()` the
+      inputs showed the first values, but the component's restore read them back on the next task, after Svelte had
+      re-rendered the moved values into them, so the state, the thumbs and the next clamp kept the moved values. The
+      existing test checked straight after the reset and passed. Verify: in each catalog, a test that waits for the
+      restore and then moves the upper thumb below the moved minimum. _(2026-11-20: the restore sets the first values instead of reading
+      the inputs; the new test fails on the old code. React and Vue gain the same test and already pass. Solid, Angular,
+      HTML, Web Components, Alpine and Blazor are not yet tested this way. jsdom only: not yet seen in a browser.)_
 - [ ] **P39-T3 Observe composition through a browser and input method.** Use a Japanese or Korean IME in a searchable
       picker. Record the browser, OS, input method, active option and submitted value while composing and after commit.
       Verify that confirming a candidate leaves the picker open for selection and that selecting an option fires one change.

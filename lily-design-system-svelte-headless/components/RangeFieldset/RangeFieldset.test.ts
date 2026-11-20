@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/svelte";
+import { tick } from "svelte";
 import { describe, expect, test, vi } from "vitest";
 import RangeFieldset from "./RangeFieldset.svelte";
 
@@ -88,6 +89,11 @@ describe("RangeFieldset", () => {
         form.reset();
         expect(lower.value).toBe("25");
         expect(upper.value).toBe("75");
+        // And they stay back once the component has caught up, which is what the next move reads.
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        await tick();
+        expect(lower.value).toBe("25");
+        expect(upper.value).toBe("75");
     });
 
     test("disabled disables both thumbs", () => {
@@ -98,5 +104,36 @@ describe("RangeFieldset", () => {
     test("passes through attributes", () => {
         render(RangeFieldset, { props: { ...base, "data-testid": "rf" } });
         expect(screen.getByTestId("rf")).toBeTruthy();
+    });
+
+    test("a form reset restores both thumbs, so the next move clamps against them", async () => {
+        const form = document.createElement("form");
+        document.body.append(form);
+        const onchange = vi.fn();
+        const { container } = render(RangeFieldset, {
+            target: form,
+            props: {
+                legend: "Price",
+                minimumLabel: "Minimum",
+                maximumLabel: "Maximum",
+                minimum: 20,
+                maximum: 80,
+                onchange,
+            },
+        });
+        const lower = container.querySelector<HTMLInputElement>(".range-fieldset-minimum")!;
+        const upper = container.querySelector<HTMLInputElement>(".range-fieldset-maximum")!;
+        await tick(); // the reset listener is attached by an effect, after mount
+        lower.value = "50";
+        lower.dispatchEvent(new Event("input", { bubbles: true }));
+        expect(onchange).toHaveBeenLastCalledWith(50, 80);
+        form.reset();
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        // The minimum is 20 again, so the upper thumb can come down to 30.
+        upper.value = "30";
+        upper.dispatchEvent(new Event("input", { bubbles: true }));
+        expect(upper.value).toBe("30");
+        expect(onchange).toHaveBeenLastCalledWith(20, 30);
+        form.remove();
     });
 });

@@ -9,6 +9,11 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Svelte `range-fieldset` resets with its form (2026-11-20, P39-T8, unreleased)
+
+- After a form reset the Svelte `range-fieldset` went back to the moved values on the next task, so the thumbs and the
+  next clamp were wrong. It now restores its first values. React and Vue gain the same test and already passed.
+
 ## `tool-bar` keys follow right-to-left and skip disabled buttons (2026-11-20, P39-T7, unreleased)
 
 - In every catalog `tool-bar` now uses the shared toolbar keys that `action-bar` and `task-bar` already had: one tab
