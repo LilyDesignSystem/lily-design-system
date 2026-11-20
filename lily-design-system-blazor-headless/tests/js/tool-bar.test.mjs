@@ -1,5 +1,5 @@
-// Behaviour tests for src/LilyBlazorHeadless/Components/ToolBar.razor.js
-// (mirrors the Svelte ToolBar.test.ts key cases).
+// Behaviour tests for ToolBar's keys: attach("toolbar") in src/LilyBlazorHeadless/Components/ActionBar.razor.js,
+// generated from shared/widget-keys.ts (mirrors the Svelte ToolBar.test.ts key cases).
 // Run: JSDOM_PATH=/path/to/jsdom node --test tests/js/tool-bar.test.mjs
 // Needs the `jsdom` package (resolved normally, or via the JSDOM_PATH env var).
 import { test } from "node:test";
@@ -14,15 +14,24 @@ const { JSDOM } = process.env.JSDOM_PATH
     : await import("jsdom");
 
 const dom = new JSDOM("<!doctype html><body></body>", { pretendToBeVisual: true });
-for (const k of ["window", "document", "HTMLElement", "Node", "KeyboardEvent"]) {
+for (const k of [
+    "window",
+    "document",
+    "HTMLElement",
+    "Node",
+    "KeyboardEvent",
+    "Event",
+    "FocusEvent",
+]) {
     globalThis[k] = k === "window" ? dom.window : (dom.window[k] ?? globalThis[k]);
 }
-const { attach } = await import("../../src/LilyBlazorHeadless/Components/ToolBar.razor.js");
+const { attach } = await import("../../src/LilyBlazorHeadless/Components/ActionBar.razor.js");
+const { runPattern } = await import("../../../shared/pattern-tester.ts");
 
 function mount() {
     document.body.innerHTML = `<div class="tool-bar" role="toolbar" aria-label="Format"><button>Bold</button><button disabled>Italic</button><button>Link</button><span role="button" tabindex="0">More</span></div>`;
     const root = document.body.firstElementChild;
-    return { root, handle: attach(root) };
+    return { root, handle: attach("toolbar", root) };
 }
 const item = (text) =>
     [...document.body.querySelectorAll("*")].find((e) => e.firstChild?.nodeValue === text);
@@ -85,4 +94,32 @@ test("dispose removes the listener", () => {
     item("Bold").focus();
     assert.equal(press("ArrowRight"), false);
     assert.equal(focused(), "Bold");
+});
+
+test("meets the toolbar contract", async () => {
+    document.body.innerHTML = `<div class="tool-bar" role="toolbar" aria-label="Tools"></div>`;
+    const root = document.body.firstElementChild;
+    const handle = attach("toolbar", root);
+    await runPattern("toolbar", { root, hook: "tool-bar" });
+    handle.dispose();
+});
+
+test("right-to-left swaps the arrows", () => {
+    const { root, handle } = mount();
+    root.setAttribute("dir", "rtl");
+    root.style.direction = "rtl";
+    item("Bold").focus();
+    press("ArrowLeft");
+    assert.equal(focused(), "Link");
+    handle.dispose();
+});
+
+test("one tab stop, which follows focus", () => {
+    const { root, handle } = mount();
+    item("Link").focus();
+    const stops = [...root.querySelectorAll("button:not([disabled]), [role='button']")].map(
+        (el) => el.tabIndex,
+    );
+    assert.deepEqual(stops, [-1, 0, -1]);
+    handle.dispose();
 });

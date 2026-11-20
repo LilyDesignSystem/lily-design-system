@@ -2374,28 +2374,15 @@ export default function lily(Alpine) {
     // ToolBar: an APG toolbar. ArrowRight/ArrowLeft move focus among its
     // buttons and wrap, Home/End jump to the first and last; Tab enters and
     // leaves. Disabled buttons are skipped (they cannot take focus).
+    // ToolBar: the shared toolbar keys (attachToolbar): one tab stop that follows focus, arrows that skip a disabled control
+    // and swap in right-to-left, ArrowDown/ArrowUp with aria-orientation="vertical", Home and End.
     Alpine.data("lilyToolBar", () => ({
-        bar: {
-            role: "toolbar",
-            "@keydown"(event) {
-                if (!["ArrowRight", "ArrowLeft", "Home", "End"].includes(event.key)) return;
-                const items = Array.from(
-                    this.$el.querySelectorAll(
-                        "button:not([disabled]), [role='button'], [tabindex]:not([tabindex='-1'])",
-                    ),
-                );
-                if (!items.length) return;
-                event.preventDefault();
-                const index = items.indexOf(document.activeElement);
-                const last = items.length - 1;
-                const next = {
-                    ArrowRight: index < last ? index + 1 : 0,
-                    ArrowLeft: index > 0 ? index - 1 : last,
-                    Home: 0,
-                    End: last,
-                }[event.key];
-                items[next].focus();
-            },
+        bar: { role: "toolbar" },
+        init() {
+            this.detachKeys = attachToolbar(this.$el);
+        },
+        destroy() {
+            this.detachKeys?.();
         },
     }));
 

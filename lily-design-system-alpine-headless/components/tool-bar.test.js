@@ -63,4 +63,23 @@ describe("ToolBar", () => {
         });
         expect(prevented).toEqual([true, false, false]);
     });
+    it("right-to-left swaps the arrows", async () => {
+        await mount("tool-bar");
+        fill();
+        el().setAttribute("dir", "rtl");
+        el().style.direction = "rtl";
+        el().querySelector("button").focus();
+        await press(document.activeElement, "ArrowLeft");
+        expect(focused()).toBe("Link");
+    });
+    it("one tab stop, which follows focus", async () => {
+        await mount("tool-bar");
+        fill();
+        const link = el().querySelectorAll("button")[2];
+        link.focus();
+        const stops = [...el().querySelectorAll("button, [role='button']")]
+            .filter((item) => !item.disabled)
+            .map((item) => item.tabIndex);
+        expect(stops).toEqual([-1, 0, -1]);
+    });
 });

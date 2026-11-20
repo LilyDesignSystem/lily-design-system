@@ -253,7 +253,7 @@ const now = () => el().getAttribute("aria-valuenow");`,
     "tool-bar": {
         tag: "div",
         keyboard:
-            "ArrowRight/ArrowLeft move focus among the buttons and wrap, Home/End jump; Tab enters and leaves",
+            "ArrowRight/ArrowLeft move focus among the enabled buttons and wrap (swapped in right-to-left; ArrowDown/ArrowUp with aria-orientation=\"vertical\"), Home/End jump; one tab stop, which follows focus",
         aria: 'role="toolbar" with aria-label',
         markup: `<div class="tool-bar" aria-label="" x-data="lilyToolBar()" x-bind="bar">
   <!-- Consumer provides tool-bar-button buttons -->
@@ -304,6 +304,25 @@ const focused = () => document.activeElement.textContent;`,
       return e.defaultPrevented;
     });
     expect(prevented).toEqual([true, false, false]);
+  });
+  it("right-to-left swaps the arrows", async () => {
+    await mount("tool-bar");
+    fill();
+    el().setAttribute("dir", "rtl");
+    el().style.direction = "rtl";
+    el().querySelector("button").focus();
+    await press(document.activeElement, "ArrowLeft");
+    expect(focused()).toBe("Link");
+  });
+  it("one tab stop, which follows focus", async () => {
+    await mount("tool-bar");
+    fill();
+    const link = el().querySelectorAll("button")[2];
+    link.focus();
+    const stops = [...el().querySelectorAll("button, [role='button']")]
+      .filter((item) => !item.disabled)
+      .map((item) => item.tabIndex);
+    expect(stops).toEqual([-1, 0, -1]);
   });`,
     },
 

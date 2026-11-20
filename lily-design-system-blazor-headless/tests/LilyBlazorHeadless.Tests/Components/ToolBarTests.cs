@@ -4,7 +4,7 @@ using Xunit;
 
 namespace LilyBlazorHeadless.Tests.Components;
 
-// The keys live in ToolBar.razor.js (bUnit runs no JavaScript); tests/js/tool-bar.test.mjs tests them.
+// The keys are attach("toolbar") in ActionBar.razor.js (bUnit runs no JavaScript); tests/js/tool-bar.test.mjs tests them.
 public class ToolBarTests : TestContext
 {
     public ToolBarTests()
@@ -47,6 +47,6 @@ public class ToolBarTests : TestContext
     {
         RenderComponent<ToolBar>(p => p.AddChildContent("body"));
         Assert.Contains(JSInterop.Invocations, i => i.Identifier == "import" && (string?)i.Arguments[0] == ToolBar.ModulePath);
-        Assert.Contains(JSInterop.Invocations, i => i.Identifier == "attach");
+        Assert.Contains(JSInterop.Invocations, i => i.Identifier == "attach" && (string?)i.Arguments[0] == "toolbar");
     }
 }

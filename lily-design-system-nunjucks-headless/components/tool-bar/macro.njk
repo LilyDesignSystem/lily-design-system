@@ -17,6 +17,10 @@
   Usage:
     {% from "components/tool-bar/macro.njk" import toolBar %}
     {% call toolBar({ id: "example", label: "Example" }) %}…{% endcall %}
+
+  Keyboard: the macro renders markup only; autoInit() from components/widget-init.js attaches the shared toolbar
+  keys (attachToolbar: one tab stop, arrows that skip a disabled control and swap in right-to-left, Up and Down
+  when vertical, Home, End) to every .tool-bar.
 #}
 {%- macro toolBar(params) -%}
 {%- set p = params | default({}) -%}

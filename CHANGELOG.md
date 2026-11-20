@@ -9,6 +9,15 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## `tool-bar` keys follow right-to-left and skip disabled buttons (2026-11-20, P39-T7, unreleased)
+
+- In every catalog `tool-bar` now uses the shared toolbar keys that `action-bar` and `task-bar` already had: one tab
+  stop that follows focus, arrows that skip a disabled control and swap in right-to-left, ArrowDown and ArrowUp with
+  `aria-orientation="vertical"`, and a text field that keeps its own arrows. Before, each catalog hand-rolled the
+  arrows, and the toolbar contract never ran on `tool-bar`; now it does in all ten.
+- Blazor: `ToolBar` inherits `KeyedComponentBase`, and `ToolBar.razor.js` is removed; its keys are in
+  `ActionBar.razor.js`. `ToolBar.ModulePath` still resolves, to that module.
+
 ## Shared test coverage at 99 percent (2026-11-20, P39-T6, unreleased)
 
 - `shared/menu-keys.ts` has its own test, covering all its lines. A new suite gives every pattern-tester runner broken

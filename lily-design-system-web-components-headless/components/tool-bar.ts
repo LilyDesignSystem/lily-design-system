@@ -1,7 +1,7 @@
 // ToolBar component
 //
 // A <div role="toolbar"> horizontal bar of tool actions, with
-// roving-focus arrow-key navigation between its focusable children. No
+// roving-focus arrow-key navigation between its enabled focusable children. No
 // native element behaviour is worth deferring to for a plain `<div>`, so
 // the custom element instance itself stands in for the wrapper (see
 // lib/dom-utils.applySelfClassName).
@@ -9,17 +9,20 @@
 // Attributes:
 //   label — REQUIRED. Accessible name for the toolbar, via aria-label.
 //
-// Keyboard:
-//   ArrowRight — focus the next item, wrapping to the first.
-//   ArrowLeft — focus the previous item, wrapping to the last.
+// Keyboard (the shared attachToolbar in lib/widget-keys; the toolbar contract holds every port to it):
+//   ArrowRight — focus the next enabled item, wrapping to the first; ArrowLeft in right-to-left.
+//   ArrowLeft — focus the previous enabled item, wrapping to the last; ArrowRight in right-to-left.
+//   ArrowDown / ArrowUp instead, with aria-orientation="vertical".
 //   Home — focus the first item.
 //   End — focus the last item.
+//   One item at a time is the tab stop, and it follows focus.
 //
 // References:
 //   - components/tool-bar/index.md (canonical contract)
 //   - WAI-ARIA Toolbar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/
 
 import { applySelfClassName } from "../lib/dom-utils.js";
+import { attachToolbar } from "../lib/widget-keys.js";
 
 export class ToolBar extends HTMLElement {
     #built = false;
@@ -32,38 +35,7 @@ export class ToolBar extends HTMLElement {
         this.setAttribute("role", "toolbar");
         const label = this.getAttribute("label");
         if (label !== null) this.setAttribute("aria-label", label);
-        this.addEventListener("keydown", this.#onKeydown);
+        // The shared toolbar keys: one tab stop, arrows that skip a disabled control and swap in right-to-left, Home, End.
+        attachToolbar(this);
     }
-
-    #onKeydown = (event: KeyboardEvent): void => {
-        const items = Array.from(
-            this.querySelectorAll<HTMLElement>("button, [role='button'], [tabindex]"),
-        );
-        const current = document.activeElement as HTMLElement;
-        const index = items.indexOf(current);
-        switch (event.key) {
-            case "ArrowRight": {
-                event.preventDefault();
-                const next = index < items.length - 1 ? index + 1 : 0;
-                items[next]?.focus();
-                break;
-            }
-            case "ArrowLeft": {
-                event.preventDefault();
-                const prev = index > 0 ? index - 1 : items.length - 1;
-                items[prev]?.focus();
-                break;
-            }
-            case "Home": {
-                event.preventDefault();
-                items[0]?.focus();
-                break;
-            }
-            case "End": {
-                event.preventDefault();
-                items[items.length - 1]?.focus();
-                break;
-            }
-        }
-    };
 }

@@ -4108,15 +4108,17 @@ Maintainer-directed, in this order.
       `invalid-input.test.ts`: refused input in cell types, colours, the critical path and the system zone. `shared/` at
       99.0 percent of lines and 99.3 of functions; what is left is mostly defensive branches that validated input
       cannot reach, and the pattern tester's own harness.)_
-- [ ] **P39-T7 `tool-bar` takes the shared toolbar keys in every catalog.** Found 2026-11-20 by coverage: every
+- [x] **P39-T7 `tool-bar` takes the shared toolbar keys in every catalog.** Found 2026-11-20 by coverage: every
       catalog's `ToolBar` hand-rolls its arrows, while `action-bar` and `task-bar` use `attachToolbar`, so `tool-bar`
       ignored right-to-left, did not skip a disabled control, had no single tab stop and ignored `aria-orientation`; and
       the toolbar contract never ran on it. Verify: the toolbar contract and a right-to-left and disabled test run on
       `tool-bar` in each catalog. _(2026-11-20: Svelte done, four tests failing on the old code; the contract in
       `components/tool-bar/AGENTS.md` updated. Then React, Vue and Solid, the same four tests failing on each old
       `ToolBar`. Then Angular (the same four) and HTML (real-browser tests; the snippet now inlines `widget-keys` through
-      `bin/sync-shared-modules`; the contract, disabled and right-to-left tests fail on the old one). Web Components,
-      Nunjucks, Alpine and Blazor to follow.)_
+      `bin/sync-shared-modules`; the contract, disabled and right-to-left tests fail on the old one). Then Web
+      Components and Alpine (the old code failed four and three), and Blazor, whose `ToolBar` now inherits
+      `KeyedComponentBase` like `ActionBar`, so `ToolBar.razor.js` is gone and its tests run on the generated module.
+      Nunjucks already wired `.tool-bar` to `attachToolbar` in `autoInit()`; it gains the contract test.)_
 - [ ] **P39-T3 Observe composition through a browser and input method.** Use a Japanese or Korean IME in a searchable
       picker. Record the browser, OS, input method, active option and submitted value while composing and after commit.
       Verify that confirming a candidate leaves the picker open for selection and that selecting an option fires one change.

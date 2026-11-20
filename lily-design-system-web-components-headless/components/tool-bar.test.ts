@@ -85,3 +85,43 @@ describe("ToolBar", () => {
         expect(host.className).toBe("tool-bar my-extra");
     });
 });
+
+describe("the shared toolbar keys", () => {
+    const press = (el: Element, key: string) =>
+        el.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true }));
+
+    test("the arrows skip a disabled button, and Home and End jump", () => {
+        const bar = render(
+            '<lily-tool-bar label="Tools"><button>One</button><button disabled>Two</button><button>Three</button></lily-tool-bar>',
+        );
+        const [one, , three] = bar.querySelectorAll("button");
+        one.focus();
+        press(one, "ArrowRight");
+        expect(document.activeElement).toBe(three);
+        press(three, "ArrowLeft");
+        expect(document.activeElement).toBe(one);
+        press(one, "End");
+        expect(document.activeElement).toBe(three);
+        press(three, "Home");
+        expect(document.activeElement).toBe(one);
+    });
+
+    test("right-to-left swaps the arrows", () => {
+        const bar = render(
+            '<lily-tool-bar label="Tools" dir="rtl" style="direction: rtl"><button>One</button><button>Two</button><button>Three</button></lily-tool-bar>',
+        );
+        const [one, two] = bar.querySelectorAll("button");
+        one.focus();
+        press(one, "ArrowLeft");
+        expect(document.activeElement).toBe(two);
+    });
+
+    test("one tab stop, which follows focus", () => {
+        const bar = render(
+            '<lily-tool-bar label="Tools"><button>One</button><button>Two</button><button>Three</button></lily-tool-bar>',
+        );
+        const buttons = [...bar.querySelectorAll("button")];
+        buttons[1].focus();
+        expect(buttons.map((b) => b.tabIndex)).toEqual([-1, 0, -1]);
+    });
+});
