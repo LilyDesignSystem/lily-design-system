@@ -4100,7 +4100,9 @@ Maintainer-directed, in this order.
       `cd shared && pnpm coverage` passes 1,044 tests at 97.6 percent of lines and 97.5 percent of functions; restoring an RTL-blind or
       non-moving menubar in `menu-keys.ts` fails two tests. _(2026-11-20, later: direct tests for `command-keys.ts` and the
       edges of `export-data.ts` (invalid dates, `downloadBlob`, the clipboard fallback); both cover every line, and
-      `shared/` is at 98.0 percent of lines and functions.)_
+      `shared/` is at 98.0 percent of lines and functions. Then `widget-keys.edges.test.ts`: composition, empty
+      containers, missing parts, popover panels and the Blazor `attach` dispatch; every line of `widget-keys.ts`, `shared/`
+      at 98.5 percent of lines and 99.1 of functions, and the gate at 98.)_
 - [ ] **P39-T3 Observe composition through a browser and input method.** Use a Japanese or Korean IME in a searchable
       picker. Record the browser, OS, input method, active option and submitted value while composing and after commit.
       Verify that confirming a candidate leaves the picker open for selection and that selecting an option fires one change.

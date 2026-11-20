@@ -9,11 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
-## Shared test coverage at 97 percent (2026-11-20, P39-T6, unreleased)
+## Shared test coverage at 98 percent (2026-11-20, P39-T6, unreleased)
 
 - `shared/menu-keys.ts` has its own test, covering all its lines. A new suite gives every pattern-tester runner broken
   markup and sabotaged widgets and checks it rejects each one, so a passing contract is known to fail a broken widget.
-- `shared/` covers 97.6 percent of lines and 97.5 percent of functions, and `pnpm coverage` now enforces 97 percent.
+- `menu-keys.ts`, `command-keys.ts`, `widget-keys.ts` and `export-data.ts` now cover every line. `shared/` covers 98.5
+  percent of lines and 99.1 percent of functions, and `pnpm coverage` now enforces 98 percent.
 
 ## One per-component Markdown URL (2026-11-20, P13-T3, unreleased)
 

@@ -8,10 +8,10 @@ coverlet for the Blazor catalog. The badge in `index.md` is the lines figure ove
 
 | Package                | Lines                        | Branches               | Functions              | Statements             |
 | ---------------------- | ---------------------------- | ---------------------- | ---------------------- | ---------------------- |
-| shared/ (pure modules) | 98.0% (3,286 of 3,352)       | 90.5% (3,101 of 3,427) | 98.0% (743 of 758)     | 96.6% (3,909 of 4,046) |
+| shared/ (pure modules) | 98.5% (3,301 of 3,352)       | 91.2% (3,127 of 3,427) | 99.1% (751 of 758)     | 97.3% (3,938 of 4,046) |
 | Svelte headless        | 96.2% (5,428 of 5,644)       | 84.7% (2,300 of 2,714) | 97.0% (1,969 of 2,029) | 95.0% (7,350 of 7,739) |
 | Blazor headless        | 96.4% (5,258 of 5,453)       | 83.2% (1,691 of 2,033) | —                      | —                      |
-| **All three**          | **96.7%** (13,972 of 14,449) |                        |                        |                        |
+| **All three**          | **96.8%** (13,987 of 14,449) |                        |                        |                        |
 
 Why these three: `shared/` holds the logic every package copies (search, filter, export, keyboard machines,
 calendars), Svelte is the canonical catalog the others port, and Blazor is the one catalog in another language. The
@@ -21,7 +21,7 @@ other catalogs run the same tests in their own framework (each catalog's suite c
 The shared suite exercises `pattern-tester.ts` directly through the same framework-neutral handlers that catalogs
 ship, and hands each of its runners broken and sabotaged widgets to check it rejects them. It also tests
 `cell-types.ts` directly, including links, civil dates and times, zones, aggregates and formulas.
-Its Vitest configuration enforces at least 97 percent line and function coverage whenever coverage is measured.
+Its Vitest configuration enforces at least 98 percent line and function coverage whenever coverage is measured.
 
 Coverage says which lines a test ran, not that the test checked them: the mutation tests (`bin/mutation-test`) and
 the property tests (`shared/*.property.test.ts`) are the measure of how well `shared/` is checked.
