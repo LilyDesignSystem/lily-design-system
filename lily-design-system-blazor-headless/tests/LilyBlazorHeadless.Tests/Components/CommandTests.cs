@@ -52,4 +52,16 @@ public class CommandTests : TestContext
         var root = cut.Find(".command");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Typing_reports_the_query()
+    {
+        string? reported = null;
+        var cut = RenderComponent<Command>(p => p
+            .Add(x => x.Label, "Actions")
+            .Add(x => x.ValueChanged, v => reported = v));
+        cut.Find("input").Input("open");
+        Assert.Equal("open", reported);
+        Assert.Equal("open", cut.Instance.Value);
+    }
 }

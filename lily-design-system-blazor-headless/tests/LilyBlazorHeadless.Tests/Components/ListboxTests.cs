@@ -213,4 +213,42 @@ public class ListboxTests : TestContext
         var cut = RenderComponent<Listbox>(p => p.AddChildContent("body"));
         Assert.False(string.IsNullOrEmpty(cut.Instance.Element.Id));
     }
+
+    [Fact]
+    public void ArrowUp_PageUp_and_PageDown_move_by_one_and_by_a_page()
+    {
+        var indices = new List<int>();
+        var cut = RenderComponent<Listbox>(p => p
+            .AddChildContent("body")
+            .Add(x => x.Navigation, Listbox.ActiveDescendant)
+            .Add(x => x.Clamp, true)
+            .Add(x => x.OptionCount, 6)
+            .Add(x => x.PageSize, 2)
+            .Add(x => x.OptionId, (int i) => $"opt-{i}")
+            .Add(x => x.ActiveIndex, 3)
+            .Add(x => x.ActiveIndexChanged, EventCallback.Factory.Create<int>(this, i => indices.Add(i))));
+        var box = cut.Find(".listbox");
+        box.KeyDown(new KeyboardEventArgs { Key = "ArrowUp" });
+        cut.SetParametersAndRender(p => p.Add(x => x.ActiveIndex, indices[^1]));
+        cut.Find(".listbox").KeyDown(new KeyboardEventArgs { Key = "PageDown" });
+        cut.SetParametersAndRender(p => p.Add(x => x.ActiveIndex, indices[^1]));
+        cut.Find(".listbox").KeyDown(new KeyboardEventArgs { Key = "PageUp" });
+        Assert.Equal(new[] { 2, 4, 2 }, indices);
+    }
+
+    [Fact]
+    public void Typeahead_with_no_match_leaves_the_active_option()
+    {
+        var changes = 0;
+        var cut = RenderComponent<Listbox>(p => p
+            .AddChildContent("body")
+            .Add(x => x.Navigation, Listbox.ActiveDescendant)
+            .Add(x => x.Typeahead, true)
+            .Add(x => x.OptionCount, 2)
+            .Add(x => x.OptionLabel, (int i) => i == 0 ? "Apple" : "Banana")
+            .Add(x => x.ActiveIndex, 0)
+            .Add(x => x.ActiveIndexChanged, EventCallback.Factory.Create<int>(this, _ => changes++)));
+        cut.Find(".listbox").KeyDown(new KeyboardEventArgs { Key = "z" });
+        Assert.Equal(0, changes);
+    }
 }

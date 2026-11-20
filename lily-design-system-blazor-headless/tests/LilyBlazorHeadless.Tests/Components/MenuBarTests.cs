@@ -7,10 +7,12 @@ namespace LilyBlazorHeadless.Tests.Components;
 // The keys live in Menu.razor.js (bUnit runs no JavaScript); tests/js/menu-bar.test.mjs tests them.
 public class MenuBarTests : TestContext
 {
+    private readonly BunitJSModuleInterop _handle;
+
     public MenuBarTests()
     {
         var module = JSInterop.SetupModule(Menu.ModulePath);
-        module.SetupModule("attach", _ => true);
+        _handle = module.SetupModule("attach", _ => true);
     }
 
     [Fact]
@@ -48,5 +50,14 @@ public class MenuBarTests : TestContext
         RenderComponent<MenuBar>(p => p.AddChildContent("body"));
         Assert.Contains(JSInterop.Invocations, i => i.Identifier == "import" && (string?)i.Arguments[0] == Menu.ModulePath);
         Assert.Contains(JSInterop.Invocations, i => i.Identifier == "attach");
+    }
+
+    [Fact]
+    public async Task Disposing_releases_the_keys_handle()
+    {
+        _handle.SetupVoid("dispose").SetVoidResult();
+        var cut = RenderComponent<MenuBar>(p => p.AddChildContent("body"));
+        await cut.Instance.DisposeAsync();
+        Assert.Contains(_handle.Invocations, i => i.Identifier == "dispose");
     }
 }

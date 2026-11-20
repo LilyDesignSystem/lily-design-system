@@ -52,4 +52,18 @@ public class QuantityInputDivTests : TestContext
         Assert.Equal(unit.Id, cut.Find(".quantity-input-div-magnitude").GetAttribute("aria-describedby"));
         Assert.Equal("weight-unit", cut.Find("input[type=hidden]").GetAttribute("name"));
     }
+
+    [Fact]
+    public void Typing_the_magnitude_reports_it()
+    {
+        string? reported = null;
+        var cut = RenderComponent<QuantityInputDiv>(p => p
+            .Add(x => x.Label, "Dose")
+            .Add(x => x.MagnitudeLabel, "Amount")
+            .Add(x => x.Units, new[] { new QuantityUnit("mg", "mg") })
+            .Add(x => x.MagnitudeChanged, v => reported = v));
+        cut.Find(".quantity-input-div-magnitude").Input("2.5");
+        Assert.Equal("2.5", reported);
+        Assert.Equal("2.5", cut.Instance.Magnitude);
+    }
 }
