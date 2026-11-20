@@ -137,6 +137,16 @@ at `/patient-banner` in the SvelteKit example app:
   not answer. An empty list from a source that did not answer is not proof that nothing exists.
 - A reminder list is a `record-list` whose items carry a due date (`review-date`) and a due state in words, with `data-due`; the
   rule that produced it is yours.
+- A column whose cells are icons has a header in full words, a legend, and the value as text in every cell. A short visible
+  header ("Cosign") is fine only if its accessible name is the whole phrase ("Cosign required"); a header cut off after a few
+  letters names nothing. A row like `<td><span aria-hidden="true">!!</span> New critical result</td>` keeps the icon for the
+  eye and the words for everyone.
+- Data that may be stale says when it was fetched and offers a Refresh button: "Updated <time datetime="2026-11-20T14:05">3
+  minutes ago</time>". Refreshing never reorders rows under the user's focus or pointer; new rows arrive at the end of the
+  sort or after the user asks.
+- A derived score (a risk score, an early warning score, a wellness score) says what it is based on and when it was
+  calculated, as text or in a `contextual-help` reachable by keyboard: "NEWS2 6, from observations at 14:00". How the score is
+  calculated is yours; Lily shows it and computes nothing.
 
 ## Forms
 

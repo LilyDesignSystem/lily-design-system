@@ -4166,10 +4166,10 @@ guide (T5, T6) and the examples (T7); T8 and T9 are investigations. New props go
       legal name stays for identification.
       Verify: the rules are in `components/medical-banner/index.md` and the healthcare guide; `/patient-banner` shows both. _(2026-11-20: done; `/patient-banner` shows "Known as" and "Pronouns" beside the legal
       name, and its 320px test checks both are visible and unclipped, in three browsers.)_
-- [ ] **P40-T6 Guide rules: icon-only columns, data freshness, derived scores.** Full-word headers and a legend for icon columns;
+- [x] **P40-T6 Guide rules: icon-only columns, data freshness, derived scores.** Full-word headers and a legend for icon columns;
       a fetched-at `<time>` and a Refresh button that never reorders rows under focus; every derived score says what it is
       based on and when.
-      Verify: the rules are in the healthcare guide with an example each; `bin/check-links` passes.
+      Verify: the rules are in the healthcare guide with an example each; `bin/check-links` passes. _(2026-11-20: done, in the guide's Dashboards section.)_
 - [ ] **P40-T7 `/results-inbox` and a vital-signs trend table.** The inbox: select-all, bulk actions named for what they do, a
       review state per row in words, priority as text. The trend table: added to the existing `/patient-dashboard` (P30-T5), last,
       lowest and highest per sign with a `sparkline` whose summary gives the same numbers.
