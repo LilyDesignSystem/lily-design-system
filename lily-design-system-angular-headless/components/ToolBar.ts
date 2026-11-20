@@ -1,21 +1,23 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     Component,
+    DestroyRef,
     input,
     ElementRef,
     OnInit,
     inject,
 } from "@angular/core";
 import { warnMissingName } from "./dev-warning";
+import { attachToolbar } from "./widget-keys";
 
 /**
  * ToolBar component
  *
  * A headless toolbar container that provides the ARIA toolbar role and built-in
- * keyboard navigation for action buttons and controls. It implements the roving
- * focus pattern with Left/Right arrow keys to move between items and Home/End
- * keys to jump to first/last items. Focus wraps around from last to first and
- * vice versa.
+ * keyboard navigation for action buttons and controls, through the shared
+ * attachToolbar (widget-keys): one tab stop that follows focus, arrows that
+ * move between enabled controls and wrap, Home and End.
  *
  * Props:
  *   className — input<string>, optional. CSS class name, added after the base class hook on the root.
@@ -35,8 +37,10 @@ import { warnMissingName } from "./dev-warning";
  *   </lily-tool-bar>
  *
  * Keyboard:
- *   - ArrowRight: move focus to next item (wraps to first)
- *   - ArrowLeft: move focus to previous item (wraps to last)
+ *   - ArrowRight: move focus to next enabled item (wraps to first); ArrowLeft in right-to-left
+ *   - ArrowLeft: move focus to previous enabled item (wraps to last); ArrowRight in right-to-left
+ *   - ArrowDown / ArrowUp instead, with aria-orientation="vertical"
+ *   - A text field, select or textarea in the toolbar keeps its own arrows
  *   - Home: move focus to first item
  *   - End: move focus to last item
  *   - Tab: enter/exit the toolbar
@@ -52,7 +56,7 @@ import { warnMissingName } from "./dev-warning";
  * Claude rules:
  *   - Headless: no CSS, no styles -- consumer provides all styling
  *   - Compound component: use with ToolBarButton
- *   - Uses horizontal (ArrowLeft/ArrowRight) navigation
+ *   - Keys come from attachToolbar in widget-keys; the toolbar contract holds every port to it
  *   - Arrow keys wrap around at boundaries
  *
  * References:
@@ -65,41 +69,21 @@ import { warnMissingName } from "./dev-warning";
     class="tool-bar {{ className() }}"
     role="toolbar"
     [attr.aria-label]="label() || null"
-    (keydown)="onKeydown($event)"
   ><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ToolBar implements OnInit {
+export class ToolBar implements OnInit, AfterViewInit {
     private readonly lilyHost = inject(ElementRef);
 
     readonly label = input<string>("");
     readonly className = input<string>("");
 
-    /** Roving focus over buttons and tabindex descendants (left/right, wrapping; Home/End). */
-    protected onKeydown(event: KeyboardEvent): void {
-        const root = event.currentTarget as HTMLElement;
-        const items = Array.from(
-            root.querySelectorAll<HTMLElement>("button, [role='button'], [tabindex]"),
-        );
-        const index = items.indexOf(document.activeElement as HTMLElement);
-        switch (event.key) {
-            case "ArrowRight":
-                event.preventDefault();
-                items[index < items.length - 1 ? index + 1 : 0]?.focus();
-                break;
-            case "ArrowLeft":
-                event.preventDefault();
-                items[index > 0 ? index - 1 : items.length - 1]?.focus();
-                break;
-            case "Home":
-                event.preventDefault();
-                items[0]?.focus();
-                break;
-            case "End":
-                event.preventDefault();
-                items[items.length - 1]?.focus();
-                break;
-        }
+    private readonly keysDestroy = inject(DestroyRef);
+
+    /** The shared toolbar keys: one tab stop, arrows that skip a disabled control and swap in right-to-left, Home, End. */
+    ngAfterViewInit(): void {
+        const root = this.lilyHost.nativeElement.querySelector(".tool-bar");
+        this.keysDestroy.onDestroy(attachToolbar(root));
     }
 
     ngOnInit(): void {

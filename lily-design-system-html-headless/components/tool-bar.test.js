@@ -79,6 +79,21 @@ describe("ToolBar keyboard", function () {
         await browser.keys("Home");
         expect(await active()).toBe("a");
     });
+    it("the arrows skip a disabled button", async function () {
+        await load(
+            '<button id="a" type="button">a</button><button id="b" type="button" disabled>b</button><button id="c" type="button">c</button>',
+        );
+        await focus("a");
+        await browser.keys("ArrowRight");
+        expect(await active()).toBe("c");
+    });
+    it("right-to-left swaps the arrows", async function () {
+        await load(ITEMS);
+        await browser.execute(() => document.querySelector(".tool-bar").setAttribute("dir", "rtl"));
+        await focus("a");
+        await browser.keys("ArrowLeft");
+        expect(await active()).toBe("b");
+    });
     it("ignores keys that are not part of its contract", async function () {
         await load(ITEMS);
         await focus("b");

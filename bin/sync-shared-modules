@@ -86,6 +86,7 @@ EXTRA_TARGETS = {
         "lily-design-system-html-headless/components/calendar-day-table.html",
         "lily-design-system-html-headless/components/action-group.html",
         "lily-design-system-html-headless/components/task-bar.html",
+        "lily-design-system-html-headless/components/tool-bar.html",
         "lily-design-system-html-headless/components/segment-group.html",
         "lily-design-system-html-headless/components/splitter.html",
         "lily-design-system-html-headless/components/image-cropper.html",

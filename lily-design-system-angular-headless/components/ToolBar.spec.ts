@@ -80,3 +80,47 @@ describe("ToolBar — role and roving focus", () => {
         expect(document.activeElement).toBe(items[0]);
     });
 });
+
+describe("ToolBar — the shared toolbar keys", () => {
+    function create(items: string, dir?: string) {
+        const fixture = TestBed.createComponent(ToolBar);
+        fixture.componentRef.setInput("label", "Tools");
+        fixture.detectChanges();
+        const root = fixture.nativeElement.querySelector("[role='toolbar']") as HTMLElement;
+        if (dir) {
+            root.setAttribute("dir", dir);
+            root.style.direction = dir;
+        }
+        root.innerHTML = items;
+        return { root, items: Array.from(root.querySelectorAll<HTMLElement>("button")) };
+    }
+
+    test("the arrows skip a disabled button, and Home and End jump", () => {
+        const { items } = create(
+            '<button type="button">One</button><button type="button" disabled>Two</button><button type="button">Three</button>',
+        );
+        const [one, , three] = items;
+        one.focus();
+        key(one, "ArrowRight");
+        expect(document.activeElement).toBe(three);
+        key(three, "ArrowLeft");
+        expect(document.activeElement).toBe(one);
+        key(one, "End");
+        expect(document.activeElement).toBe(three);
+        key(three, "Home");
+        expect(document.activeElement).toBe(one);
+    });
+
+    test("right-to-left swaps the arrows", () => {
+        const { items } = create(ITEMS, "rtl");
+        items[0].focus();
+        key(items[0], "ArrowLeft");
+        expect(document.activeElement).toBe(items[1]);
+    });
+
+    test("one tab stop, which follows focus", () => {
+        const { items } = create(ITEMS);
+        items[1].focus();
+        expect(items.map((el) => el.tabIndex)).toEqual([-1, 0, -1]);
+    });
+});
