@@ -2,7 +2,7 @@
 
 > Lily Design System™ specification — topic doc. All topics: [spec index](../index.md).
 
-**Summary.** Lily™ implements one canonical 609-component catalog across seven framework pairs — a headless library plus a styled example app per framework — so the same semantic, accessible markup is expressed in each framework's native idiom. This topic maps the pairs, their stacks, and their per-framework component file shapes.
+**Summary.** Lily™ implements one canonical 661-component catalog across seven framework pairs — a headless library plus a styled example app per framework — so the same semantic, accessible markup is expressed in each framework's native idiom. This topic maps the pairs, their stacks, and their per-framework component file shapes.
 
 ## Scope
 
@@ -114,7 +114,7 @@ Follow-up: tasks.md P20-T2 (a SolidJS recipe for the Web Components catalog, wit
 ## Related topics
 
 - [headless](../headless/index.md) — the markup/ARIA rules every framework obeys, including the rest-props mechanism table
-- [components](../components/index.md) — the canonical 609-component catalog and suffix-to-element mapping each framework implements
+- [components](../components/index.md) — the canonical 661-component catalog and suffix-to-element mapping each framework implements
 - [examples](../examples/index.md) — the styled reference apps, required routes, and copy-pattern target
 - [testing](../testing/index.md) — per-framework vitest / bUnit / Playwright / Storybook coverage
 - [helpers](../helpers/index.md) — the reusable helper packages shipped per framework alongside the headless libraries

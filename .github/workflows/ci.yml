@@ -289,6 +289,7 @@ jobs:
           - lily-design-system-vue-nuxt-examples
           - lily-design-system-angular-examples
           - lily-design-system-html-css-js-examples
+          - lily-design-system-blazor-web-examples
           - lily-design-system-solid-examples
     steps:
       - uses: actions/checkout@v7
@@ -300,6 +301,10 @@ jobs:
           node-version: 26
           cache: pnpm
           cache-dependency-path: ${{ matrix.app }}/pnpm-lock.yaml
+      - uses: actions/setup-dotnet@v6
+        if: matrix.app == 'lily-design-system-blazor-web-examples'
+        with:
+          dotnet-version: "11.0.x"
       - name: Install
         working-directory: ${{ matrix.app }}
         run: pnpm install --frozen-lockfile

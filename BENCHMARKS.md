@@ -33,6 +33,12 @@ The 2026-11-19 baseline on an Apple M4 Max with Node 26.13.1 records means of
 table. Their overhead over the controls was 1.29×, 1.30×, 1.28× and 1.04×. These
 are regression measurements for that machine, not consumer performance promises.
 
+`bin/benchmark` also measures helper-scale pure logic and the Svelte data grid: search, filter and export over 10,000
+rows, the critical path of 1,000 tasks, type-ahead over 5,000 options, and data-grid mounting/sorting/replacement at
+1,000 full rows or 10,000 virtualized rows. Baselines live in `shared/benchmark-baseline.json` and beside the Svelte
+data-grid render benchmark. On the 2026-11-19 Apple M4 Max baseline, virtualizing 10,000 rows took about 18 ms while
+drawing 1,000 rows in full took about 890 ms. These machine-local comparisons do not run in CI.
+
 ### Package size
 
 Measured from the npm registry on 2026-08-26. `unpackedSize` is the installed

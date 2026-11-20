@@ -22,8 +22,8 @@ url: 'https://lilydesignsystem.com/'
 abstract: >-
   This is the Nunjucks date-time-picker helper: a date/time field with an APG date-picker dialog.
   It is one subproject of Lily Design System, a free open-source headless
-  design system whose canonical catalog of 571 components is implemented
-  across eight frameworks. Its source is the lily-design-system-nunjucks-date-time-picker directory
+  design system whose canonical catalog of 661 components is implemented
+  across ten frameworks. Its source is the lily-design-system-nunjucks-date-time-picker directory
   of the canonical monorepo at https://github.com/LilyDesignSystem/lily-design-system.
 keywords:
   - design system

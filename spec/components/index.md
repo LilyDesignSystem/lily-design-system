@@ -241,7 +241,7 @@ sample across the catalog):
 - "When Not to Use" always names specific Lily alternatives.
 - Code examples use semantic HTML with proper ARIA.
 - No hardcoded user-facing strings in examples — use realistic placeholder content.
-- Consistent voice across all 608 components.
+- Consistent voice across all 661 components.
 
 ### Example-app demo strategy
 

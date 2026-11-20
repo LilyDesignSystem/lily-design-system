@@ -1,6 +1,6 @@
 # Install
 
-This is the Blazor headless component library: all 608 catalog components, unstyled and accessible.
+This is the Blazor headless component library: the 473 core catalog components, unstyled and accessible.
 
 Its source is the `lily-design-system-blazor-headless/` directory of the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.
@@ -13,7 +13,7 @@ Full documentation and the searchable component catalog: <https://lilydesignsyst
 dotnet add package LilyDesignSystem.Blazor.Headless
 ```
 
-Use any of the 571 catalog components as Razor components. The
+Use any of the 473 core catalog components as Razor components. The
 components ship semantic HTML, ARIA, focus management, and keyboard
 behaviour — and **no CSS**. Style them through the kebab-case class hook on each
 root element. See the canonical

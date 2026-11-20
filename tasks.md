@@ -19,6 +19,18 @@ Rules for the executing agent:
   something the spec claims, update `spec/index.md` (and the relevant
   `spec/{topic}/index.md`) in the same commit.
 
+## Work in progress handoff — 2026-11-20
+
+- Shared test coverage is gated above 95% (95.43% lines, 95.25% functions).
+- This batch closes P12-T9 and P13-T3/P13-T9, plus the completed quality, documentation, theme, skill and CI work
+  recorded in each checked task below.
+- The next bounded code task is P13-T7 (review the remaining Alpine parity allow-list and compare Alpine props). P12-T11
+  is the next larger refactor. Tasks explicitly marked “maintainer decision”, native-speaker review, screen-reader
+  evidence, publishing, or external audit remain open and need their named authority or person.
+- `bin/test` passed immediately before commit `09ed37e18`. After merging `origin/main`, conflict resolution, shell/Node
+  syntax checks, staged whitespace checks and `bin/sync-special-files --check` passed; the post-merge `bin/test` rerun
+  was interrupted on the maintainer's request before it produced a failure or completion result.
+
 ## Phase 1 — Truth, hygiene, and registry cleanup
 
 - [x] **P1-T1 Reconcile catalog counts (490 vs 491).**

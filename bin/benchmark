@@ -1,18 +1,24 @@
 #!/usr/bin/env node
-// bin/benchmark -- performance benchmarks for the shared pure modules (tasks.md P35-T4).
+// bin/benchmark -- performance benchmarks, each mean compared with a baseline (tasks.md P35-T4, P38-T8).
 //
-// Runs shared/benchmarks.bench.ts (tinybench inside one Vitest test) at the sizes the helpers meet -- a 10,000-row data
-// grid, a 1,000-task Gantt chart, a 5,000-option listbox -- and compares each mean time with
-// shared/benchmark-baseline.json. Timings depend on the machine, so the check is loose: it fails only when a case takes
-// more than --tolerance times its baseline (default 2). A baseline is only comparable on the machine that wrote it,
-// which the file records.
+// Two suites:
+//   shared  shared/benchmarks.bench.ts: the shared pure modules at the sizes the helpers meet -- a 10,000-row data grid,
+//           a 1,000-task Gantt chart, a 5,000-option listbox (search, filter, export, critical path, type-ahead). About
+//           15 seconds. Baseline: shared/benchmark-baseline.json.
+//   render  lily-design-system-svelte-data-grid/DataGrid.render.bench.ts: the data grid component itself, mounted,
+//           sorted and given new rows, 1,000 rows drawn in full and 10,000 virtualized, in jsdom. About 35 seconds.
+//           Baseline: lily-design-system-svelte-data-grid/render-benchmark-baseline.json.
+//
+// Timings depend on the machine, so the check is loose: it fails only when a case takes more than --tolerance times its
+// baseline (default 2). A baseline is only comparable on the machine that wrote it, which the file records.
 //
 // Usage:
-//   bin/benchmark                      run and compare; fails on a case slower than tolerance x baseline
+//   bin/benchmark                      both suites; fails on a case slower than tolerance x baseline
+//   bin/benchmark --suite render       one suite (shared or render)
 //   bin/benchmark --tolerance 1.5      a tighter check
 //   bin/benchmark --update-baseline    record this machine's results as the baseline
 //
-// About 15 seconds. Not in bin/test, since a shared CI runner's timings are too noisy to gate on.
+// Not in bin/test, since a shared CI runner's timings are too noisy to gate on.
 
 import { execFileSync } from "node:child_process";
 import { cpus, platform, arch } from "node:os";
@@ -21,64 +27,92 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const top = join(dirname(fileURLToPath(import.meta.url)), "..");
-const shared = join(top, "shared");
-const baselinePath = join(shared, "benchmark-baseline.json");
+
+const SUITES = {
+    shared: {
+        dir: join(top, "shared"),
+        report: "reports/benchmark.json",
+        baseline: join(top, "shared", "benchmark-baseline.json"),
+        needs: "tinybench",
+    },
+    render: {
+        dir: join(top, "lily-design-system-svelte-data-grid"),
+        report: "reports/render-benchmark.json",
+        baseline: join(top, "lily-design-system-svelte-data-grid", "render-benchmark-baseline.json"),
+        needs: "tinybench",
+        // The grid imports the headless catalog's built dist/ (its vite alias).
+        before: () => {
+            const headless = join(top, "lily-design-system-svelte-headless");
+            if (!existsSync(join(headless, "dist", "index.js"))) {
+                execFileSync("node", ["build.mjs"], { cwd: headless, stdio: "inherit" });
+            }
+        },
+    },
+};
+
 const args = process.argv.slice(2);
 const update = args.includes("--update-baseline");
 const t = args.indexOf("--tolerance");
 const tolerance = t >= 0 ? Number(args[t + 1]) : 2;
 if (!(tolerance >= 1)) throw new Error("--tolerance must be a number of at least 1");
-
-if (!existsSync(join(shared, "node_modules", "tinybench"))) {
-    execFileSync("pnpm", ["install", "--frozen-lockfile"], { cwd: shared, stdio: "inherit" });
+const s = args.indexOf("--suite");
+const chosen = s >= 0 ? [args[s + 1]] : Object.keys(SUITES);
+for (const name of chosen) {
+    if (!SUITES[name]) throw new Error(`--suite must be one of ${Object.keys(SUITES).join(", ")}`);
 }
-execFileSync("npx", ["vitest", "run", "--config", "vitest.bench.config.ts"], {
-    cwd: shared,
-    stdio: ["ignore", "ignore", "inherit"],
-});
-const results = JSON.parse(readFileSync(join(shared, "reports", "benchmark.json"), "utf8"));
+
 const machine = `${cpus()[0]?.model ?? "unknown CPU"}, ${platform()} ${arch()}, Node ${process.versions.node}`;
-const baseline = existsSync(baselinePath)
-    ? JSON.parse(readFileSync(baselinePath, "utf8"))
-    : { cases: {} };
-
-let failed = false;
 const ms = (v) => (v === undefined ? "-" : v < 0.01 ? v.toFixed(4) : v.toFixed(2));
-console.log(
-    "case".padEnd(64),
-    "mean ms".padStart(10),
-    "baseline".padStart(10),
-    "ratio".padStart(7),
-);
-for (const [name, { mean }] of Object.entries(results)) {
-    const was = baseline.cases[name];
-    const ratio = was ? mean / was : undefined;
-    const slow = ratio !== undefined && ratio > tolerance;
-    if (slow) failed = true;
-    console.log(
-        name.padEnd(64),
-        ms(mean).padStart(10),
-        ms(was).padStart(10),
-        (ratio === undefined ? "-" : ratio.toFixed(2)).padStart(7),
-        slow ? "  SLOWER" : "",
-    );
-}
-if (baseline.machine && baseline.machine !== machine) {
-    console.log(
-        `note: the baseline was written on ${baseline.machine}; this is ${machine}, so the ratios mean little.`,
-    );
+let failed = false;
+
+for (const name of chosen) {
+    const suite = SUITES[name];
+    if (!existsSync(join(suite.dir, "node_modules", suite.needs))) {
+        execFileSync("pnpm", ["install", "--frozen-lockfile"], { cwd: suite.dir, stdio: "inherit" });
+    }
+    suite.before?.();
+    execFileSync("npx", ["vitest", "run", "--config", "vitest.bench.config.ts"], {
+        cwd: suite.dir,
+        stdio: ["ignore", "ignore", "inherit"],
+    });
+    const results = JSON.parse(readFileSync(join(suite.dir, suite.report), "utf8"));
+    const baseline = existsSync(suite.baseline)
+        ? JSON.parse(readFileSync(suite.baseline, "utf8"))
+        : { cases: {} };
+
+    console.log(`\n== ${name}`);
+    console.log("case".padEnd(64), "mean ms".padStart(10), "baseline".padStart(10), "ratio".padStart(7));
+    for (const [caseName, { mean }] of Object.entries(results)) {
+        const was = baseline.cases[caseName];
+        const ratio = was ? mean / was : undefined;
+        const slow = ratio !== undefined && ratio > tolerance;
+        if (slow) failed = true;
+        console.log(
+            caseName.padEnd(64),
+            ms(mean).padStart(10),
+            ms(was).padStart(10),
+            (ratio === undefined ? "-" : ratio.toFixed(2)).padStart(7),
+            slow ? "  SLOWER" : "",
+        );
+    }
+    if (baseline.machine && baseline.machine !== machine) {
+        console.log(
+            `note: the baseline was written on ${baseline.machine}; this is ${machine}, so the ratios mean little.`,
+        );
+    }
+    if (update) {
+        const cases = Object.fromEntries(
+            Object.entries(results).map(([caseName, { mean }]) => [caseName, Number(mean.toPrecision(4))]),
+        );
+        writeFileSync(suite.baseline, JSON.stringify({ machine, cases }, null, 2) + "\n");
+        console.log(`bin/benchmark: ${name} baseline written (${Object.keys(cases).length} cases)`);
+    }
 }
 
 if (update) {
-    const cases = Object.fromEntries(
-        Object.entries(results).map(([name, { mean }]) => [name, Number(mean.toPrecision(4))]),
-    );
-    writeFileSync(baselinePath, JSON.stringify({ machine, cases }, null, 2) + "\n");
-    console.log(`bin/benchmark: baseline written (${Object.keys(cases).length} cases)`);
+    // written above
 } else if (failed) {
-    console.error(
-        `bin/benchmark: FAILED -- a case takes more than ${tolerance} times its baseline`,
-    );
+    console.error(`bin/benchmark: FAILED -- a case takes more than ${tolerance} times its baseline`);
     process.exit(1);
 } else {
     console.log("bin/benchmark: OK");

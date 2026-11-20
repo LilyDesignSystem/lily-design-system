@@ -22,8 +22,8 @@ url: 'https://lilydesignsystem.com/'
 abstract: >-
   This is a Claude Skill covering the Alpine.js headless component library for an AI coding agent.
   It is one subproject of Lily Design System, a free open-source headless
-  design system whose canonical catalog of 571 components is implemented
-  across eight frameworks. Its source is the lily-design-system-alpine-headless-skill directory
+  design system whose canonical catalog of 661 components is implemented
+  across ten frameworks. Its source is the lily-design-system-alpine-headless-skill directory
   of the canonical monorepo at https://github.com/LilyDesignSystem/lily-design-system.
 keywords:
   - design system

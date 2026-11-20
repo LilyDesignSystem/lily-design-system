@@ -1,0 +1,9 @@
+{
+  "machine": "Apple M4 Max, darwin arm64, Node 26.8.1",
+  "cases": {
+    "mount, 1,000 rows": 885.8,
+    "mount, 10,000 rows, virtualized": 18.5,
+    "sort ascending, descending and back, 10,000 rows, virtualized": 148.7,
+    "replace every row, 10,000 rows, virtualized": 13.32
+  }
+}

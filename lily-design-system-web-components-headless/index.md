@@ -54,7 +54,7 @@ Every component's real semantic element (the `<button>`, `<input>`, `<dialog>`, 
 
 ## Components in this catalog
 
-573 of the 608 canonical components, spanning every major category:
+626 of the 661 canonical components, spanning every major category:
 buttons and links, forms, pickers, overlays, media and data
 visualisation, content, navigation (including the `*Nav`/`*List`/
 `*ListItem` families via the "upgrade in place" pattern — see

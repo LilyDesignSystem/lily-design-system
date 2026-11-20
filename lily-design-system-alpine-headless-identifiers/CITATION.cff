@@ -22,8 +22,8 @@ url: 'https://lilydesignsystem.com/'
 abstract: >-
   This is the Alpine.js headless national identifier components: the 188 national personal identifier components (an input and a view for each of 94 identifier types), the add-on to the headless library.
   It is one subproject of Lily Design System, a free open-source headless
-  design system whose canonical catalog of 571 components is implemented
-  across eight frameworks. Its source is the lily-design-system-alpine-headless-identifiers directory
+  design system whose canonical catalog of 661 components is implemented
+  across ten frameworks. Its source is the lily-design-system-alpine-headless-identifiers directory
   of the canonical monorepo at https://github.com/LilyDesignSystem/lily-design-system.
 keywords:
   - design system

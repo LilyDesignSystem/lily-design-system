@@ -24,7 +24,7 @@ This library does NOT depend on Nuxt. Components work in any Vue 3 host
 
 ### In scope
 
-- Vue 3 Composition API single-file components for all 608 components.
+- Vue 3 Composition API single-file components for all 661 components (the 473 core ones here, the 188 national identifiers in its `-identifiers` add-on).
 - TypeScript types for every component's props and emits.
 - A vitest test file per component asserting ARIA, keyboard, and structural
   contract.

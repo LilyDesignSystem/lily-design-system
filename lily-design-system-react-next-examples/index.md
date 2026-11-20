@@ -1,6 +1,6 @@
 # Lily Design System™ - React Next.js Examples
 
-React 19 + Next.js 16 example application demonstrating all 608 components from the [Lily Design System](https://github.com/LilyDesignSystem/lily-design-system) headless component library, styled with [NHS UK design system](https://service-manual.nhs.uk/design-system) colors, typography, spacing, and focus states.
+React 19 + Next.js 16 example application demonstrating all 661 components from the [Lily Design System](https://github.com/LilyDesignSystem/lily-design-system) headless component library, styled with [NHS UK design system](https://service-manual.nhs.uk/design-system) colors, typography, spacing, and focus states.
 
 ## Features
 
@@ -84,7 +84,7 @@ lily-design-system-react-next-examples/
 | Route                   | Description                                             |
 | ----------------------- | ------------------------------------------------------- |
 | `/`                     | Home page with links to all examples                    |
-| `/components`           | Lists all 608 components with links to individual demos |
+| `/components`           | Lists all 661 components with links to individual demos |
 | `/components/{slug}`    | Demonstrates one component with a live interactive demo |
 | `/contact-form`         | Contact form example page                               |
 | `/dashboard`            | Dashboard example page                                  |

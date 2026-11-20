@@ -3,7 +3,8 @@ import { E2E_HOST, e2ePort, e2eURL } from "./e2e-port";
 
 const port = e2ePort();
 
-// Specs that also run in Firefox and WebKit (P18-T1).
+// Specs that also run in Firefox and WebKit (P18-T1). visual-regression joined 2026-11-19 (P38-T6): each engine keeps
+// its own baselines, named by Playwright with the project and the platform.
 const crossEngineSpecs =
     /(responsive|focus-obscured|accessibility|axe-catalog|overflow-navigation|wheel-picker-theme|time-wheels|patient-banner|healthcare-pages|clinic-pages|patient-dashboard|motion-recipes|visual-regression)\.spec\.ts$/;
 

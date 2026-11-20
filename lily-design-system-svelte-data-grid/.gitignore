@@ -5,3 +5,4 @@ dist/
 .svelte-kit/
 test-results/
 playwright-report/
+reports/

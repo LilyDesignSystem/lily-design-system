@@ -48,12 +48,12 @@ the compound name-family patterns, rather than the short list in SKILL.md.
 - `ContainerWith*` — ContainerWithFixedWidth, ContainerWithFluidWidth
 - Table sub-elements — `*TableHead`/`*TableBody`/`*TableFoot`/`*TableRow`/`*TableTH`/`*TableTD` on Table, CalendarTable, DataTable, KanbanTable; GanttTable spells its own sub-elements with plain HTML names (`*TableThead`, `*TableTbody`, …)
 
-## Catalog by category (608 components)
+## Catalog by category (a snapshot; the catalog has 661 components)
 
 | Category                      | Count | Examples                                                              |
 | ----------------------------- | ----- | --------------------------------------------------------------------- |
 | Content                       | 165   | Byline, Headline, ContentBlock, FeaturePhoto, Scroller*               |
-| National personal identifiers | 164   | 94 identifier types × `-input`/`-view` across 50+ countries           |
+| National personal identifiers | 188   | 94 identifier types × `-input`/`-view` across 50+ countries           |
 | Forms                         | 61    | TextInput, Field, ErrorSummary, Fieldset, RadioGroup                  |
 | Navigation                    | 55    | BreadcrumbNav, TabBar, AccordionNav, PaginationNav                    |
 | Lists                         | 40    | CheckList, SummaryList, TaskList, TreeList                            |

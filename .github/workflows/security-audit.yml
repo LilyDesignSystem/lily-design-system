@@ -1,0 +1,31 @@
+# Weekly known-vulnerability audit (tasks.md P38-T10). Advisories are published while the code stands still, so this
+# runs on a schedule, not on push: every pnpm lockfile (pnpm audit) and every published .NET project
+# (dotnet list package --vulnerable). It fails only on a high or critical advisory in what users install, and writes
+# every finding to the run's summary. Run it by hand from the Actions tab, or locally with bin/security-audit.
+name: security audit
+
+on:
+  schedule:
+    - cron: "17 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  security-audit:
+    name: dependency vulnerability audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 11
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 26
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: "11.0.x"
+      - run: bin/ci --job security-audit

@@ -25,7 +25,7 @@ and keyboard behaviour that every other framework binding mirrors.
 
 ### In scope
 
-- Plain HTML + vanilla JavaScript implementation of all 608 components.
+- Plain HTML + vanilla JavaScript implementation of all 661 components (the 473 core ones here, the 188 national identifiers in its `-identifiers` add-on).
 - WebDriverIO browser tests per component.
 - Zero build dependencies (no bundler required to use a component).
 - Comprehensive per-component HTML file with embedded `<script>` block where

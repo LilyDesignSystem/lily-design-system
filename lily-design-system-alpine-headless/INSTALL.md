@@ -1,6 +1,6 @@
 # Install
 
-This is the Alpine.js headless component library: 583 of the 608 catalog components as annotated snippets plus an Alpine plugin, unstyled and accessible.
+This is the Alpine.js headless component library: the 473 core catalog components as annotated snippets plus an Alpine plugin, unstyled and accessible.
 
 Its source is the `lily-design-system-alpine-headless/` directory of the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.
@@ -13,7 +13,7 @@ Full documentation and the searchable component catalog: <https://lilydesignsyst
 npm install @lilydesignsystem/alpine-headless
 ```
 
-Import any of the 571 catalog components from the package root; the barrel is
+Import any of the 473 core catalog components from the package root; the barrel is
 tree-shakeable (`sideEffects: false`), so your bundler drops what you do not use.
 
 The components ship semantic HTML, ARIA, focus management, and keyboard
