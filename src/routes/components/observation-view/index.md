@@ -22,6 +22,7 @@ ObservationView is a headless read-only display of one clinical observation or t
 - `flagLabel`: string (optional) — the flag in words ("High"); required when the flag is not normal
 - `range`: string (optional) — the reference range as text
 - `ranges`: { label, text }[] (optional) — further named reference ranges ("Critical", "below 2.5"), each its own `-range` part with a `-range-label` (openEHR `other_reference_ranges`)
+- `meterValue`, `meterMin`, `meterMax`: number (optional) — with all three, an `aria-hidden` native `<meter class="observation-view-meter">` shows where the value sits; `meterLow`, `meterHigh` and `meterOptimum` (optional) mark the reference range and best value for the theme. It is the picture of the words, never the only signal: the value, range and flag stay text. No meter for a missing result
 - `previousValue`: string (optional) — a superseded value, shown in a `<del class="observation-view-previous-value">` so a reader who saw it knows it changed
 - `previousLabel`: string (optional; required with `previousValue`) — the consumer's words for it ("was 5.1 until 3 Nov"), since a screen reader may not announce `<del>`
 - `status`: "final" | "preliminary" | "amended" | "corrected" | "entered-in-error" | "cancelled" | "masked" | "not-recorded" | "unavailable" | "not-applicable" (optional) — default `final`, rendered as `data-status`
