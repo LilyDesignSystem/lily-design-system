@@ -21,6 +21,27 @@
     import MedicationRecordListItem from "#lib/components/MedicationRecordListItem/MedicationRecordListItem.svelte";
     import ImmunizationRecordList from "#lib/components/ImmunizationRecordList/ImmunizationRecordList.svelte";
     import RecordProvenanceView from "#lib/components/RecordProvenanceView/RecordProvenanceView.svelte";
+    import Sparkline from "#lib/components/Sparkline/Sparkline.svelte";
+    import Table from "#lib/components/Table/Table.svelte";
+    import TableHead from "#lib/components/TableHead/TableHead.svelte";
+    import TableBody from "#lib/components/TableBody/TableBody.svelte";
+    import TableRow from "#lib/components/TableRow/TableRow.svelte";
+    import TableTH from "#lib/components/TableTH/TableTH.svelte";
+    import TableTD from "#lib/components/TableTD/TableTD.svelte";
+
+    // Vital signs over the last five readings (tasks.md P40-T7, spec/lessons/ehr-products item 10): the last, lowest and
+    // highest value of each sign in words, and a sparkline whose label gives the same numbers, so the line is never the only
+    // way to read the trend. The readings and their units are the application's.
+    const VITALS = [
+        { sign: "Pulse", unit: "beats a minute", readings: [72, 76, 81, 88, 94] },
+        { sign: "Systolic blood pressure", unit: "mmHg", readings: [128, 131, 126, 122, 118] },
+        { sign: "Temperature", unit: "°C", readings: [36.8, 37.1, 37.4, 37.9, 38.2] },
+    ];
+    const points = (values: number[]) => {
+        const low = Math.min(...values);
+        const span = Math.max(...values) - low || 1;
+        return values.map((v, i) => `${i * 25},${20 - ((v - low) / span) * 20}`).join(" ");
+    };
 
     type Allergy = { substance: string; reaction: string };
     let allergies: Allergy[] = $state([{ substance: "Penicillin", reaction: "Anaphylaxis" }]);
@@ -203,6 +224,52 @@
                 status="not-recorded"
                 statusLabel="No immunizations have been recorded"
             />
+        </section>
+
+        <section aria-labelledby="vitals-heading">
+            <h2 id="vitals-heading">Vital signs</h2>
+            <p>The last five readings, oldest to newest, from 06:00 to 10:00 today.</p>
+            <Table label="Vital signs trend">
+                <TableHead>
+                    <TableRow>
+                        <TableTH scope="col">Sign</TableTH>
+                        <TableTH scope="col">Last</TableTH>
+                        <TableTH scope="col">Lowest</TableTH>
+                        <TableTH scope="col">Highest</TableTH>
+                        <TableTH scope="col">Trend</TableTH>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {#each VITALS as v (v.sign)}
+                        <TableRow>
+                            <TableTH scope="row">{v.sign}</TableTH>
+                            <TableTD>{v.readings.at(-1)} {v.unit}</TableTD>
+                            <TableTD>{Math.min(...v.readings)} {v.unit}</TableTD>
+                            <TableTD>{Math.max(...v.readings)} {v.unit}</TableTD>
+                            <TableTD>
+                                <Sparkline
+                                    label={`${v.sign}: ${v.readings.join(", ")} ${v.unit}`}
+                                    pointCount={v.readings.length}
+                                >
+                                    <svg
+                                        viewBox="0 0 100 20"
+                                        width="100"
+                                        height="20"
+                                        aria-hidden="true"
+                                    >
+                                        <polyline
+                                            points={points(v.readings)}
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="1.5"
+                                        />
+                                    </svg>
+                                </Sparkline>
+                            </TableTD>
+                        </TableRow>
+                    {/each}
+                </TableBody>
+            </Table>
         </section>
 
         <section aria-labelledby="reminders-heading">

@@ -48,6 +48,12 @@
             description: "Statuses and waits in words, nothing blinks, updates only when asked",
         },
         {
+            href: "/results-inbox",
+            title: "Results Inbox",
+            description:
+                "Select and act on results together; flags, priority and review state in words",
+        },
+        {
             href: "/handover",
             title: "Handover",
             description: "An SBAR handover form, completed and sent by keyboard alone",

@@ -87,3 +87,15 @@ test.describe("workspace panel", () => {
         await expect(page.getByRole("button", { name: "Add an allergy" })).toBeFocused();
     });
 });
+
+test("the vital signs trend gives each sign's last, lowest and highest in words, and the line's label repeats them", async ({
+    page,
+}) => {
+    await page.goto("/patient-dashboard");
+    const pulse = page.getByRole("row", { name: /^Pulse/ });
+    await expect(pulse).toContainText("94 beats a minute");
+    await expect(pulse).toContainText("72 beats a minute");
+    await expect(
+        pulse.getByRole("img", { name: "Pulse: 72, 76, 81, 88, 94 beats a minute" }),
+    ).toBeVisible();
+});

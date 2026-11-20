@@ -6,7 +6,7 @@ import AxeBuilder from "@axe-core/playwright";
 
 const WCAG = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"];
 
-for (const path of ["/flow-board", "/find-patient", "/review-of-systems"]) {
+for (const path of ["/flow-board", "/find-patient", "/review-of-systems", "/results-inbox"]) {
     test(`${path} passes axe`, async ({ page }) => {
         await page.goto(path);
         await expect(page.locator("main")).toBeVisible();
@@ -107,5 +107,46 @@ test.describe("review of systems", () => {
                 .getByRole("radiogroup", { name: "Chest pain" })
                 .getByRole("radio", { name: "Absent" }),
         ).not.toBeChecked();
+    });
+});
+
+test.describe("results inbox", () => {
+    test("select-all is mixed while only some rows are chosen", async ({ page }) => {
+        await page.goto("/results-inbox");
+        const all = page.getByRole("checkbox", { name: "Select all results" });
+        await page.getByRole("checkbox", { name: "Select Potassium for JONES, Mary" }).check();
+        expect(await all.evaluate((el: HTMLInputElement) => el.indeterminate)).toBe(true);
+        await all.check();
+        await expect(page.getByRole("checkbox", { name: /^Select .+ for / })).toHaveCount(3);
+        for (const box of await page.getByRole("checkbox", { name: /^Select .+ for / }).all())
+            await expect(box).toBeChecked();
+        expect(await all.evaluate((el: HTMLInputElement) => el.indeterminate)).toBe(false);
+    });
+
+    test("a bulk action says what it did once, in words per row, and focus stays on its button", async ({
+        page,
+    }) => {
+        await page.goto("/results-inbox");
+        const status = page.getByRole("status");
+        const review = page.getByRole("button", { name: "Mark selected as reviewed" });
+        await review.click();
+        await expect(status).toHaveText("Select at least one result first.");
+        await page.getByRole("checkbox", { name: "Select Sodium for NGUYEN, Linh" }).check();
+        await review.focus();
+        await page.keyboard.press("Enter");
+        await expect(status).toHaveText("1 marked as reviewed.");
+        await expect(review).toBeFocused();
+        const row = page.getByRole("row", { name: /NGUYEN, Linh/ });
+        await expect(row).toContainText("Reviewed by Dr A. Rahman at 09:30");
+        await expect(page.getByRole("row", { name: /JONES, Mary/ })).toContainText("Not reviewed");
+        await expect(page.locator(".results-inbox-coverage")).toContainText("2 not yet reviewed");
+    });
+
+    test("flags and priority are words, not colour", async ({ page }) => {
+        await page.goto("/results-inbox");
+        const jones = page.getByRole("row", { name: /JONES, Mary/ });
+        await expect(jones).toContainText("High");
+        await expect(jones).toContainText("Urgent");
+        await expect(jones).toHaveAttribute("data-priority", "urgent");
     });
 });

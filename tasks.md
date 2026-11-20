@@ -4175,10 +4175,12 @@ guide (T5, T6) and the examples (T7); T8 and T9 are investigations. New props go
       a fetched-at `<time>` and a Refresh button that never reorders rows under focus; every derived score says what it is
       based on and when.
       Verify: the rules are in the healthcare guide with an example each; `bin/check-links` passes. _(2026-11-20: done, in the guide's Dashboards section.)_
-- [ ] **P40-T7 `/results-inbox` and a vital-signs trend table.** The inbox: select-all, bulk actions named for what they do, a
+- [x] **P40-T7 `/results-inbox` and a vital-signs trend table.** The inbox: select-all, bulk actions named for what they do, a
       review state per row in words, priority as text. The trend table: added to the existing `/patient-dashboard` (P30-T5), last,
       lowest and highest per sign with a `sparkline` whose summary gives the same numbers.
-      Verify: both in the SvelteKit app with e2e and axe tests in three browsers.
+      Verify: both in the SvelteKit app with e2e and axe tests in three browsers. _(2026-11-20: done. The inbox's select-all shows its mixed state, the bulk buttons say
+      what they did once in a status line and keep focus, and every flag, priority and review state is words. The trend table
+      is on `/patient-dashboard`, its sparkline label repeating the readings.)_
 - [ ] **P40-T8 Investigate resource columns in the day calendar.** P30-T6 found categories and free slots covered; it did not
       look at several clinicians or rooms side by side. One column per resource, its header naming it, and each appointment's
       type as text.
