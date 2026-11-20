@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { readdirSync, readFileSync } from 'node:fs';
+import { THEMES } from '../src/lib/themes';
 
 // Every theme in static/assets/themes, chosen through the real theme picker, must paint the page the way its own
 // `color-scheme` says: dark themes get a dark page, card and light text; light themes the reverse. This guards the
@@ -14,11 +15,12 @@ const themes = readdirSync(DIR)
     const scheme = /color-scheme:\s*(dark|light)/.exec(css)?.[1] ?? 'light';
     return { slug: f.replace(/\.css$/, ''), scheme };
   })
-  // The picker lists general and design-system themes alphabetically, then the UK and US government themes.
-  .sort((a, b) => Number(a.slug.startsWith('united-')) - Number(b.slug.startsWith('united-')) || a.slug.localeCompare(b.slug));
+  // In the picker's order: the site's THEMES list, generic themes first, then the company and public-sector ones by label.
+  .sort((a, b) => THEMES.indexOf(a.slug) - THEMES.indexOf(b.slug));
 
 test('there are 63 themes and the picker offers all of them', async ({ page }) => {
   expect(themes).toHaveLength(63);
+  expect(themes.map((t) => t.slug)).toEqual(THEMES);
   await page.goto('/');
   await page.locator('.theme-picker-button').click();
   await expect(page.locator('.theme-picker-option')).toHaveCount(themes.length);
