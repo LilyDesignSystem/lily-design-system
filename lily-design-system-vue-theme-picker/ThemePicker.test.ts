@@ -9,7 +9,8 @@ import ThemePicker, {
     themeName,
 } from "./ThemePicker.vue";
 
-const THEMES = ["light", "dark", "abyss"];
+// In the order the picker lists them: alphabetical by the name shown (spec/theme-picker, "Order of themes").
+const THEMES = ["abyss", "dark", "light"];
 const URL_TRAILING = "/assets/themes/";
 const URL_NO_TRAILING = "/assets/themes";
 
@@ -257,10 +258,14 @@ describe("ThemePicker — keyboard contract (APG listbox)", () => {
     });
 
     test("§7.15 ArrowDown / ArrowUp move the active descendant and clamp", async () => {
+        // The list opens on the selected option, "light", which is the last of the sorted three.
         const { list, el } = await openWith("ArrowDown");
-        expect(el.getAttribute("aria-activedescendant")).toBe(el.children[0].id);
+        const last = THEMES.length - 1;
+        expect(el.getAttribute("aria-activedescendant")).toBe(el.children[last].id);
         await list.trigger("keydown", { key: "ArrowDown" });
-        expect(el.getAttribute("aria-activedescendant")).toBe(el.children[1].id);
+        expect(el.getAttribute("aria-activedescendant")).toBe(el.children[last].id);
+        await list.trigger("keydown", { key: "ArrowUp" });
+        expect(el.getAttribute("aria-activedescendant")).toBe(el.children[last - 1].id);
         await list.trigger("keydown", { key: "ArrowUp" });
         await list.trigger("keydown", { key: "ArrowUp" });
         expect(el.getAttribute("aria-activedescendant")).toBe(el.children[0].id);
@@ -268,7 +273,7 @@ describe("ThemePicker — keyboard contract (APG listbox)", () => {
 
     test("§7.15 the active option carries data-active", async () => {
         const { list, el } = await openWith("ArrowDown");
-        await list.trigger("keydown", { key: "ArrowDown" });
+        await list.trigger("keydown", { key: "ArrowUp" });
         const active = el.querySelectorAll("[data-active]");
         expect(active.length).toBe(1);
         expect(active[0].id).toBe(el.children[1].id);
@@ -284,7 +289,8 @@ describe("ThemePicker — keyboard contract (APG listbox)", () => {
 
     test("§7.16 Enter selects the active option, applies it, and closes", async () => {
         const { button, list, el } = await openWith("ArrowDown");
-        await list.trigger("keydown", { key: "ArrowDown" });
+        // Open on "light" (last), move up to "dark".
+        await list.trigger("keydown", { key: "ArrowUp" });
         await list.trigger("keydown", { key: "Enter" });
         await flush();
         expect(el.hasAttribute("hidden")).toBe(true);
@@ -318,8 +324,8 @@ describe("ThemePicker — keyboard contract (APG listbox)", () => {
     test("§7.17 typeahead moves the active descendant by label prefix", async () => {
         const { list, el } = await openWith("ArrowDown");
         await list.trigger("keydown", { key: "a" });
-        // "Abyss" is index 2 in THEMES.
-        expect(el.getAttribute("aria-activedescendant")).toBe(el.children[2].id);
+        // "Abyss" is the first of the sorted THEMES.
+        expect(el.getAttribute("aria-activedescendant")).toBe(el.children[0].id);
     });
 
     test("§7.17 clicking an option selects it, applies it, and closes the listbox", async () => {
@@ -394,7 +400,8 @@ describe("ThemePicker — dynamic loading (§5, §7.6–§7.11)", () => {
         wrappers.push(wrapper);
         await flush();
         await wrapper.find("button.theme-picker-button").trigger("click");
-        await wrapper.findAll("li.theme-picker-option")[2].trigger("click");
+        // Given as light, dark, abyss; listed alphabetically, so the first option is Abyss.
+        await wrapper.findAll("li.theme-picker-option")[0].trigger("click");
         await flush();
         expect(document.documentElement.dataset.theme).toBe("abyss");
         expect(getManagedLink()!.href.endsWith("/assets/themes/abyss.css")).toBe(true);
@@ -820,8 +827,13 @@ describe('ThemePicker — variant="select" (§select, RFC 3 prototype; ported fr
         const w = build({ ...base, label: "Thème", themeLabels: { dark: "Sombre" } });
         expect(select(w).getAttribute("aria-label")).toBe("Thème");
         const options = w.findAll("option.theme-picker-option");
-        expect(options.map((o) => (o.element as HTMLOptionElement).value)).toEqual(THEMES);
-        expect(options.map((o) => o.text())).toEqual(["Light", "Sombre", "Abyss"]);
+        // Sorted by the name shown, so "dark", labelled "Sombre", sorts after "Light".
+        expect(options.map((o) => (o.element as HTMLOptionElement).value)).toEqual([
+            "abyss",
+            "light",
+            "dark",
+        ]);
+        expect(options.map((o) => o.text())).toEqual(["Abyss", "Light", "Sombre"]);
         expect(w.text()).not.toMatch(/default/i);
     });
 

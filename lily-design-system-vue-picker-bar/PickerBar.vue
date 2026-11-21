@@ -15,20 +15,25 @@ import type { Props as SearchPickerProps } from "@lilydesignsystem/vue-search-pi
 import type { Props as LinkPickerProps, LinkItem } from "@lilydesignsystem/vue-link-picker";
 
 /**
- * All 63 Lily reference theme slugs (see `themes/` at the repo root): the 36
- * generic themes alphabetically, then the 27 themes that follow a company's
- * or a public body's design system, alphabetically by their label
- * (`DEFAULT_THEME_LABELS`, else the title-cased slug), so "NHS England
- * (patients)" sorts under N.
+ * All 63 Lily reference theme slugs (see `themes/` at the repo root), in one list sorted alphabetically by the name shown
+ * (`DEFAULT_THEME_LABELS`, else the title-cased slug), so "IBM Carbon" sorts under I and "NHS England (patients)" under N.
+ * Generic and company or public-sector themes are not grouped apart (spec/theme-picker, "Order of themes"). The theme picker
+ * sorts its options the same way whatever order it is given.
  */
 export const DEFAULT_THEMES: string[] = [
     "abyss",
     "acid",
+    "adobe-spectrum",
+    "ant-design",
     "aqua",
+    "atlassian",
+    "australia-agriculture-design-system",
     "autumn",
     "black",
+    "brazil-padrao-digital-de-governo",
     "bumblebee",
     "business",
+    "canada-government-of-canada-design-system",
     "cappuccino",
     "caramellatte",
     "cmyk",
@@ -40,38 +45,22 @@ export const DEFAULT_THEMES: string[] = [
     "dim",
     "dracula",
     "emerald",
-    "fantasy",
-    "forest",
-    "garden",
-    "halloween",
-    "lemonade",
-    "light",
-    "lofi",
-    "luxury",
-    "night",
-    "nord",
-    "pastel",
-    "retro",
-    "silk",
-    "sunset",
-    "synthwave",
-    "valentine",
-    "winter",
-    "wireframe",
-    "adobe-spectrum",
-    "ant-design",
-    "atlassian",
-    "australia-agriculture-design-system",
-    "brazil-padrao-digital-de-governo",
-    "canada-government-of-canada-design-system",
     "european-union-europa-component-library",
     "excel",
+    "fantasy",
     "fluent",
+    "forest",
+    "garden",
     "github-primer",
     "united-kingdom-government-digital-service",
+    "halloween",
     "ibm-carbon",
     "japan-digital-agency-design-system",
+    "lemonade",
+    "light",
     "linear",
+    "lofi",
+    "luxury",
     "mozilla-protocol",
     "united-kingdom-national-health-service-england-for-patients",
     "united-kingdom-national-health-service-england-for-practitioners",
@@ -79,12 +68,22 @@ export const DEFAULT_THEMES: string[] = [
     "united-kingdom-national-health-service-scotland-for-practitioners",
     "united-kingdom-national-health-service-wales-for-patients",
     "united-kingdom-national-health-service-wales-for-practitioners",
+    "night",
+    "nord",
     "notion",
+    "pastel",
+    "retro",
     "salesforce",
     "sap-fiori",
+    "silk",
     "singapore-government-design-system",
+    "sunset",
+    "synthwave",
     "united-states-web-design-system",
+    "valentine",
     "vercel",
+    "winter",
+    "wireframe",
 ];
 
 /**

@@ -2987,6 +2987,7 @@
             "status": "met",
             "met": true,
             "testFiles": [
+              "lily-design-system-vue-theme-picker/ThemePicker.order.test.ts",
               "lily-design-system-vue-theme-picker/ThemePicker.pattern.test.ts",
               "lily-design-system-vue-theme-picker/ThemePicker.system.test.ts",
               "lily-design-system-vue-theme-picker/ThemePicker.test.ts",
