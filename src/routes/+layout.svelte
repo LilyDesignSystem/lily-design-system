@@ -23,7 +23,8 @@
   const bare = $derived(
     page.url.pathname.startsWith('/demo/') ||
       page.url.pathname.startsWith('/examples/welsh-clinical-portal/') ||
-      page.url.pathname.startsWith('/examples/epic-emr-')
+      page.url.pathname.startsWith('/examples/epic-emr-') ||
+      page.url.pathname.startsWith('/en-001/examples/health-care-')
   );
 
   const strings = $derived(ui(currentLocale));
