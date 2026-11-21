@@ -97,7 +97,7 @@ browser installs (with the app install they need first) and `consumer-smoke`'s r
 `set -e` and fail only on its last command. `--fast` is the install-free part of `verify` plus the Alpine generator check;
 it is not split out of `bin/test`, which stays one script. Locally, `consumer-smoke` refuses to run unless `CI` or
 `LILY_CI_ALLOW_CONSUMER_SMOKE=1` is set, because it runs `npm install` inside pnpm projects and then deletes their
-`node_modules`; run it in a fresh worktree (proposal 5, the clean room, is still open).
+`node_modules`; run it in a fresh worktree (`bin/ci --clean`, proposal 6).
 
 ### 3. A pre-push hook for tier 1
 
@@ -142,6 +142,22 @@ fresh `git worktree` of `HEAD` with no `node_modules` carried over, in a contain
 (`--platform linux/amd64`, since Codeberg's runner and GitHub's are amd64). This session showed why: a worktree without the
 dependencies fails `bin/test` in `bin/generate-site-pages`, which a laptop checkout hides. Check: the clean run fails on a
 missing lockfile entry that a normal run does not notice.
+
+Built, the worktree half (2026-11-21). `bin/ci --clean [mode]` runs `--full` by default, or any mode (`--clean --job verify`,
+`--clean --fast`) in a fresh worktree of `HEAD`, and removes the worktree on any exit, Ctrl-C included; the first version left
+a stale worktree registered after an interrupted run. The first clean runs found:
+
+- **No lockfile gap.** Installed from the root and docs-site lockfiles alone (`pnpm install --frozen-lockfile`, as the
+  `verify` job does), `bin/test` passes in the bare tree, so the 2026-11-04 `MODULE_NOT_FOUND` was a missing install, not a
+  missing dependency.
+- **Misleading messages.** With no install, `bin/test` said `docs/framework-comparison.md` and the Bootstrap migration were
+  stale and the generator goldens differed, when the checks could not run (they use the root Prettier and the site's
+  `marked`). They now fail saying which install is missing.
+- **`--fast` was not install-free.** Its Alpine generator step needs the root Prettier; it now skips, as `bin/test` does, when
+  the root is not installed, and the lint job still runs it. `bin/test` inside `--fast` needs the root and docs-site installs.
+
+Still open: the Linux jobs in a container (`--platform linux/amd64`), and a deliberate missing lockfile entry to prove the
+check bites.
 
 ### 7. A decision on a second forge's CI
 

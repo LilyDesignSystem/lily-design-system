@@ -443,10 +443,16 @@ test -s "$top/AGENTS/visual-identity.md" && test -s "$top/spec/visual-identity/i
     || err "AGENTS/visual-identity.md or spec/visual-identity/index.md is missing, or AGENTS.md does not load it"
 "$top/bin/generate-comparisons" --check >/dev/null 2>&1 \
     || err "compare/index.md differs from compare/compare.tsv; run bin/generate-comparisons"
-"$top/bin/generate-framework-matrix" --check >/dev/null 2>&1 \
-    || err "docs/framework-comparison.md is stale; run bin/generate-framework-matrix"
-"$top/bin/generate-bootstrap-migration" --check >/dev/null 2>&1 \
-    || err "the Bootstrap migration mapping is stale or names a missing Lily slug; run bin/generate-bootstrap-migration"
+# These two format their output with the root Prettier. Without the root install they cannot run, which is not the same
+# as stale output, so say which it is (a clean worktree found the misleading message, tasks.md P24-T6).
+if test -e "$top/node_modules/prettier/package.json"; then
+    "$top/bin/generate-framework-matrix" --check >/dev/null 2>&1 \
+        || err "docs/framework-comparison.md is stale; run bin/generate-framework-matrix"
+    "$top/bin/generate-bootstrap-migration" --check >/dev/null 2>&1 \
+        || err "the Bootstrap migration mapping is stale or names a missing Lily slug; run bin/generate-bootstrap-migration"
+else
+    err "the framework matrix and Bootstrap migration checks need the root install (Prettier); run pnpm install"
+fi
 # Lily Core (P16-T2) and its self-assessed ACR (P16-T7): fails when a recorded Core member loses evidence, or an output is stale.
 "$top/bin/check-port-data-attributes" >/dev/null 2>&1 \
     || err "a port lacks a data-* attribute Svelte renders, or a listed gap is fixed; run bin/check-port-data-attributes"
@@ -517,8 +523,13 @@ fi
     || err "headless coverage drifted (a missing file, or a keyboard contract without a key test); run bin/check-coverage"
 "$top/bin/check-links" >/dev/null 2>&1 \
     || err "a relative markdown link does not resolve; run bin/check-links"
-"$top/bin/test-generators" >/dev/null 2>&1 \
-    || err "a generator's output differs from its golden; run bin/test-generators (then --update-goldens if intended)"
+# The generators under test read Markdown with the docs site's marked and format with the root Prettier.
+if test -e "$top/node_modules/prettier/package.json" && test -e "$top/lilydesignsystem.github.io/node_modules/marked/package.json"; then
+    "$top/bin/test-generators" >/dev/null 2>&1 \
+        || err "a generator's output differs from its golden; run bin/test-generators (then --update-goldens if intended)"
+else
+    err "bin/test-generators needs the root install and the docs site's (marked); run pnpm install in both"
+fi
 # The Alpine snippets are generated (tasks.md P12-T5b). The generator formats with the root Prettier, so it needs the
 # root install; where that is missing (CI's verify job) the lint job runs the same check.
 if test -e "$top/node_modules/prettier/package.json"; then

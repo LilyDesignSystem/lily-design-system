@@ -3,11 +3,13 @@
 #
 #   bin/ci --list                 the jobs, in the order --full runs them
 #   bin/ci --job <name> [arg...]  one job; a matrix job takes its matrix values (default: all of them)
-#   bin/ci --fast                 seconds: the checks that need no install (generated files, links, coverage, class names)
+#   bin/ci --fast                 seconds: the checks that need no per-package install (generated files, links,
+#                                 coverage, class names); bin/test in it needs the root and docs-site installs
 #   bin/ci --full                 every job, in order; ends with a table of step, result and seconds, and writes
 #                                 .ci/receipt.json (git-ignored)
 #   bin/ci --verify-receipt        is there a receipt for HEAD, from a clean tree, with every job passing? (the publish gate)
-#   bin/ci --clean                a clean-room mode: runs --full in a fresh git worktree of HEAD (tasks.md P24-T6)
+#   bin/ci --clean [mode]         a clean-room mode: runs a mode (default --full) in a fresh git worktree of HEAD,
+#                                 e.g. `bin/ci --clean --job verify` (tasks.md P24-T6)
 #
 # Each function below is one job in .github/workflows/ci.yml, and ci.yml calls `bin/ci --job <name>` for it, so the local and
 # GitHub runs cannot drift: the YAML keeps only the setup (checkout, Node, pnpm, .NET, caches, Playwright browsers).
@@ -77,7 +79,12 @@ fast_checks() {
     step "bin/check-coverage" bin/check-coverage --quiet || failed=1
     step "bin/check-class-names" bin/check-class-names || failed=1
     step "bin/check-package-metadata" bin/check-package-metadata || failed=1
-    step "Alpine snippets match their generator" node lily-design-system-alpine-headless/generate-components.mjs --check || failed=1
+    # The generator formats with the root Prettier; without the root install the lint job runs it, as in bin/test.
+    if test -e node_modules/prettier/package.json; then
+        step "Alpine snippets match their generator" node lily-design-system-alpine-headless/generate-components.mjs --check || failed=1
+    else
+        echo "bin/ci: skipped the Alpine generator check (no root node_modules; the lint job runs it)"
+    fi
     return "$failed"
 }
 
@@ -487,14 +494,25 @@ case "${1:-}" in
         exit "$failed"
         ;;
     --clean)
-        # Clean-room mode: run --full in a fresh git worktree of HEAD (tasks.md P24-T6)
+        # Clean-room mode (tasks.md P24-T6): run a mode in a fresh git worktree of HEAD, with no node_modules, build
+        # output or untracked file carried over, so a dependency missing from a lockfile fails here when a normal run
+        # hides it. The mode is the rest of the arguments (default --full): `bin/ci --clean --job verify`, or --fast.
+        # The worktree is removed on any exit, Ctrl-C included. A --full run's receipt stays in the worktree and is
+        # discarded: the publish gate needs a receipt from the real checkout.
+        shift
+        [ "$#" -eq 0 ] && set -- --full
+        case "$1" in --fast | --full | --job | --list) ;; *) usage ;; esac
         worktree_dir="$(mktemp -d -t ci-clean-XXXXXX)"
-        echo "bin/ci: clean-room worktree at $worktree_dir"
-        git worktree add --detach "$worktree_dir" HEAD
+        cleanup_worktree() {
+            git worktree remove --force "$worktree_dir" 2>/dev/null
+            rm -rf "$worktree_dir"
+        }
+        trap cleanup_worktree EXIT
+        trap 'exit 130' INT TERM
+        echo "bin/ci: clean-room worktree of $(git rev-parse --short HEAD) at $worktree_dir"
+        git worktree add --quiet --detach "$worktree_dir" HEAD || exit 1
         result=0
-        (cd "$worktree_dir" && bin/ci --full) || result=$?
-        git worktree remove --force "$worktree_dir"
-        rm -rf "$worktree_dir"
+        (cd "$worktree_dir" && bin/ci "$@") || result=$?
         exit "$result"
         ;;
     --verify-receipt)
