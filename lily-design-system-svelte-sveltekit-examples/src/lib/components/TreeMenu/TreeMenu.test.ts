@@ -52,4 +52,14 @@ describe("TreeMenu", () => {
         await fireEvent.keyDown(items[2], { key: "Home" });
         expect(document.activeElement).toBe(items[0]);
     });
+
+    test("keys other than the four movement keys are left alone", () => {
+        render(TreeMenu, { props: { label: "Site", children: itemsSnippet() } });
+        const items = screen.getAllByRole("treeitem");
+        items[1].focus();
+        const event = new KeyboardEvent("keydown", { key: "a", bubbles: true, cancelable: true });
+        items[1].dispatchEvent(event);
+        expect(event.defaultPrevented).toBe(false);
+        expect(document.activeElement).toBe(items[1]);
+    });
 });

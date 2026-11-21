@@ -62,4 +62,31 @@ describe("BodyMap", () => {
         form.append(document.querySelector(".body-map") as Element);
         expect(new FormData(form).getAll("sites")).toEqual(["head"]);
     });
+
+    test("a click on a shape that is not one of the regions changes nothing", async () => {
+        const user = userEvent.setup();
+        const stray = createRawSnippet(() => ({
+            render: () =>
+                '<svg viewBox="0 0 10 10"><circle data-region="tail" r="2" cx="5" cy="8"></circle></svg>',
+        }));
+        const bound = { selected: [] as string[] };
+        render(Subject, {
+            props: {
+                label: "Where is the pain?",
+                regions,
+                children: stray,
+                get selected() {
+                    return bound.selected;
+                },
+                set selected(v: string[]) {
+                    bound.selected = v;
+                },
+            },
+        });
+        await user.click(document.querySelector('circle[data-region="tail"]') as Element);
+        flushSync();
+        expect(bound.selected).toEqual([]);
+        for (const box of screen.getAllByRole("checkbox"))
+            expect((box as HTMLInputElement).checked).toBe(false);
+    });
 });

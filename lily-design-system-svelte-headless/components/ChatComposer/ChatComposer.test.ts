@@ -130,4 +130,12 @@ describe("ChatComposer", () => {
         expect(f.getAttribute("class")).toBe("chat-composer mine");
         expect(f.id).toBe("cc1");
     });
+
+    it("keys other than Enter are typing, left to the textarea", () => {
+        const { ta, onSend } = setup();
+        const event = new KeyboardEvent("keydown", { key: "a", bubbles: true, cancelable: true });
+        ta.dispatchEvent(event);
+        expect(event.defaultPrevented).toBe(false);
+        expect(onSend).not.toHaveBeenCalled();
+    });
 });

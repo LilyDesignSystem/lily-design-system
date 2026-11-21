@@ -142,4 +142,19 @@ describe("TreeListItem — expand, collapse and move between levels", () => {
         expect(t.parent.getAttribute("aria-expanded")).toBe("true");
         t.cleanup();
     });
+
+    test("ArrowRight on an open item with no child item, and keys it does not use, are left alone", () => {
+        const { container } = render(TreeListItem, {
+            props: { label: "Empty folder", expanded: true, children: (() => {}) as any },
+        });
+        const item = container.querySelector(".tree-list-item") as HTMLElement;
+        item.focus();
+        for (const key of ["ArrowRight", "a"]) {
+            const event = new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true });
+            item.dispatchEvent(event);
+            expect(event.defaultPrevented).toBe(false);
+        }
+        expect(item.getAttribute("aria-expanded")).toBe("true");
+        expect(document.activeElement).toBe(item);
+    });
 });
