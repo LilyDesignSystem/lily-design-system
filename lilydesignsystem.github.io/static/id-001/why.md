@@ -20,7 +20,7 @@ Karena setiap komponen membawa kelas pengait yang stabil dan struktur murni, pen
 - **Dapat diinternasionalisasi sejak dirancang.** Setiap teks yang tampil bagi pengguna — setiap label, galat, dan pengumuman — adalah properti dengan nama yang stabil di semua framework, sehingga penerjemahan mengalir dengan alami. Teks kanan-ke-kiri dan dua arah mewarisi dari `dir` Anda. Komponen yang peka lokal menerima lokal sebagai properti, selalu secara eksplisit.
 - **Satu katalog, delapan framework.** 608 komponen yang sama (573 sebagai Web Components native) dengan kelas pengait dan konvensi properti yang sama di HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks, dan Web Components. CSS dan pengetahuan tim Anda berpindah dengan mulus antartumpukan teknologi.
 - **Tidak terikat strategi CSS.** Satu kelas kebab-case yang stabil untuk setiap akar komponen. CSS semantik, utilitas Tailwind, CSS-in-JS, atau salah satu dari 63 tema siap pakai — Lily menyambut semuanya dan dengan sopan tidak menghalangi.
-- **Gratis, selamanya, dengan syarat dari Anda.** Sumber terbuka dengan lisensi pilihan Anda: BSD, MIT, Apache-2.0, GPL-2.0, atau GPL-3.0. Tanpa tingkat berbayar, tanpa lisensi per pengguna, tanpa telemetri.
+- **Gratis, selamanya, dengan syarat dari Anda.** Sumber terbuka dengan lisensi pilihan Anda: BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0, atau GPL-3.0. Tanpa tingkat berbayar, tanpa lisensi per pengguna, tanpa telemetri.
 
 ## Kedalaman di tempat yang penting
 

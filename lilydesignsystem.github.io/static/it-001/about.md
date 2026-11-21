@@ -61,7 +61,7 @@ Lily attinge pattern e linguaggio da un insieme volutamente ampio di design syst
 
 ## Licenza
 
-Lily è distribuito con più licenze: **BSD, MIT, Apache-2.0, GPL-2.0 o GPL-3.0**. Scegli quella più adatta al tuo progetto. Se nessuna va bene, contattaci.
+Lily è distribuito con più licenze: **BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 o GPL-3.0**. Scegli quella più adatta al tuo progetto. Se nessuna va bene, contattaci.
 
 ## Contatti
 

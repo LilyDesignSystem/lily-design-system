@@ -15,6 +15,7 @@ dictionaryDefinitions:
     addWords: false
 ignorePaths:
   - "**/node_modules/**"
+  - "LICENSES/**"
   - "**/dist/**"
   - "**/build/**"
   - "**/.svelte-kit/**"

@@ -1,7 +1,7 @@
 ---
 name: lily-design-system-add-component
 description: Adds a new canonical Lily component across the monorepo with bin/new-component, then replaces its generic scaffold with reviewed semantics, behaviour, docs, ports, and tests. Use when a Lily maintainer asks to add, scaffold, introduce, or port a new catalog component or component slug.
-license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
+license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-NC-SA-4.0
 ---
 
 # Add a Lily component

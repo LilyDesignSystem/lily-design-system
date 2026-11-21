@@ -134,14 +134,14 @@ upload, no table sort.
 **Changes my mind:** a helper you needed and had to build yourself, or a principled
 line between "helper" and "component" that the current set violates.
 
-### RFC 5 — Does a five-way license choice help or confuse?
+### RFC 5 — Does a seven-way license choice help or confuse?
 
-**Current answer:** MIT, Apache-2.0, GPL-2.0-only, GPL-3.0-only, or BSD-3-Clause,
+**Current answer:** MIT, Apache-2.0, GPL-2.0-only, GPL-3.0-only, BSD-3-Clause, OGL-UK-3.0, or CC-BY-NC-SA-4.0,
 at the adopter's option ([LICENSE.md](LICENSE.md)).
 
 **The doubt:** a disjunction is maximally permissive in theory and can read as
 ambiguity in practice. Some corporate legal reviews prefer one obvious answer, and
-"pick any of five" may cost more review time than plain MIT would. Apache-2.0 alone
+"pick any of seven" may cost more review time than plain MIT would. Apache-2.0 alone
 would also pair better with a trademark policy, which matters because Lily™ is a
 claimed mark.
 

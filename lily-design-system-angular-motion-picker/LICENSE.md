@@ -18,12 +18,16 @@ License is any of these, at your option, or contact us for custom license option
 
 - [BSD 3-Clause License](https://opensource.org/license/bsd-3-clause) ([SPDX: BSD-3-Clause](https://spdx.org/licenses/BSD-3-Clause.html))
 
+- [UK Open Government Licence v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/) ([SPDX: OGL-UK-3.0](https://spdx.org/licenses/OGL-UK-3.0.html))
+
+- [Creative Commons Attribution Non Commercial Share Alike 4.0 International](https://creativecommons.org/licenses/by-nc-sa/4.0/) ([SPDX: CC-BY-NC-SA-4.0](https://spdx.org/licenses/CC-BY-NC-SA-4.0.html))
+
 ## SPDX
 
 The machine-readable expression for the choice above is:
 
 ```
-SPDX-License-Identifier: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
+SPDX-License-Identifier: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-NC-SA-4.0
 ```
 
 Every package manifest in this repository should carry that expression, or a
@@ -37,10 +41,15 @@ stylesheets, the `bin/` tooling, and the documentation.
 
 ## Scope note
 
-This file supersedes an earlier `CC BY-NC-SA` notice. That notice was a content
-license with a non-commercial clause, it was not an open-source license, and it
-contradicted both the specification and the published packages. It should not be
-relied on. If you obtained Lily under it and that raises a question for you,
+This file supersedes an earlier `CC BY-NC-SA` notice, which was the only license
+stated at the time. That notice was a content license with a non-commercial
+clause, and it contradicted both the specification and the published packages, so
+it was replaced with the list above.
+
+`CC-BY-NC-SA-4.0` is now offered again, as one option among seven rather than as
+the sole license. It restricts use to non-commercial purposes; anyone who needs
+commercial use chooses another license from the list, such as `MIT`. If you
+obtained Lily under the earlier notice and that raises a question for you,
 contact <joel@joelparkerhenderson.com>.
 
 ## Trademarks
@@ -62,3 +71,15 @@ public-sector design systems including NHS UK, GOV.UK, and USWDS. Lily is not
 affiliated with, endorsed by, or connected to any of those organisations. Their
 names and marks belong to them, and this license grants nothing in respect of
 them.
+
+## Full license texts
+
+The full text of each license is in its own directory:
+
+- [MIT](https://github.com/LilyDesignSystem/lily-design-system/blob/main/LICENSES/mit/index.md)
+- [Apache-2.0](https://github.com/LilyDesignSystem/lily-design-system/blob/main/LICENSES/apache-2.0/index.md)
+- [BSD-3-Clause](https://github.com/LilyDesignSystem/lily-design-system/blob/main/LICENSES/bsd-3-clause/index.md)
+- [GPL-2.0-only](https://github.com/LilyDesignSystem/lily-design-system/blob/main/LICENSES/gpl-2.0-only/index.md)
+- [GPL-3.0-only](https://github.com/LilyDesignSystem/lily-design-system/blob/main/LICENSES/gpl-3.0-only/index.md)
+- [OGL-UK-3.0](https://github.com/LilyDesignSystem/lily-design-system/blob/main/LICENSES/ogl-uk-3.0/index.md)
+- [CC-BY-NC-SA-4.0](https://github.com/LilyDesignSystem/lily-design-system/blob/main/LICENSES/cc-by-nc-sa-4.0/index.md)

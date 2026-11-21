@@ -10,7 +10,7 @@ Read on 28 October 2026 from each system's own public site, plus Lily's own surv
 
 | Tsarin zane | Marar kai | Tsarin aiki | Samun dama | Lasisi |
 | --- | --- | --- | --- | --- |
-| Lily | Eh | HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks, Web Components, Alpine | WCAG 2.2 AAA | BSD, MIT, Apache-2.0, GPL-2.0, GPL-3.0 |
+| Lily | Eh | HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks, Web Components, Alpine | WCAG 2.2 AAA | BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0, GPL-3.0 |
 | [GOV.UK Design System](https://lilydesignsystem.com/compare/lily-design-system-and-gov-uk-design-system/) | A’a | Nunjucks | WCAG 2.2 AA | MIT |
 | [U.S. Web Design System](https://lilydesignsystem.com/compare/lily-design-system-and-us-web-design-system/) | A’a | HTML, Twig | WCAG 2.1 AA | Mallakar jama’a (CC0) |
 | [Adobe Spectrum](https://lilydesignsystem.com/compare/lily-design-system-and-adobe-spectrum/) | A’a | React, Web Components | WCAG 2.1 AA | Apache-2.0 |

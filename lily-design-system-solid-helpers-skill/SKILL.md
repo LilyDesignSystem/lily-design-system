@@ -1,7 +1,7 @@
 ---
 name: lily-design-system-solid-helpers-skill
 description: Explains Lily Design System's Solid 2.0 helper packages — the eleven *-picker helpers (theme, locale, text-size, motion, time-zone, share, search, link, menu, settings, date-time), picker-bar, the color picker, the Markdown and Org editors, filter, the grid-like data-grid, kanban-board, calendar and gantt-chart, and locale-translations — their npm names, props, render-prop icons, server rendering and the label packs. Use when someone asks which Solid helper package they need, how to install or wire one up in Solid, how its controlled and uncontrolled props work, or how to localise the grid-like helpers' labels.
-license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
+license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-NC-SA-4.0
 ---
 
 # Lily Design System™ — Solid helpers

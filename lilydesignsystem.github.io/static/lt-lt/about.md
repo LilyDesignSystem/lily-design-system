@@ -61,7 +61,7 @@ Lily semiasi šablonų ir kalbos iš sąmoningai plataus dizaino sistemų rinkin
 
 ## Licencija
 
-Lily turi kelias licencijas: **BSD, MIT, Apache-2.0, GPL-2.0 arba GPL-3.0**. Pasirinkite tą, kuri tinka jūsų projektui. Jei netinka nė viena, susisiekite su mumis.
+Lily turi kelias licencijas: **BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 arba GPL-3.0**. Pasirinkite tą, kuri tinka jūsų projektui. Jei netinka nė viena, susisiekite su mumis.
 
 ## Kontaktai
 

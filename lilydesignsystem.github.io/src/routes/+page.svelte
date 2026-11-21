@@ -371,6 +371,8 @@ pnpm install && pnpm run dev`}</code></pre>
     <summary>Is Lily really free?</summary>
     <p>
       Yes! Free and open source under your choice of BSD, MIT, Apache-2.0,
+      OGL-UK-3.0,
+      CC-BY-NC-SA-4.0,
       GPL-2.0, or GPL-3.0. Every component, every theme, and every helper is
       included — yours, forever.
     </p>

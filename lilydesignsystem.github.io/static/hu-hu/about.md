@@ -61,7 +61,7 @@ A Lily mintákat és nyelvezetet vesz át a tervezési rendszerek szándékosan 
 
 ## Licenc
 
-A Lily többes licenc alatt áll: **BSD, MIT, Apache-2.0, GPL-2.0 vagy GPL-3.0**. Válaszd a projektedhez illőt. Ha egyik sem megfelelő, vedd fel velünk a kapcsolatot.
+A Lily többes licenc alatt áll: **BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 vagy GPL-3.0**. Válaszd a projektedhez illőt. Ha egyik sem megfelelő, vedd fel velünk a kapcsolatot.
 
 ## Kapcsolat
 

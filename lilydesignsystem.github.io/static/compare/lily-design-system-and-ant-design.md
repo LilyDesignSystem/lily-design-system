@@ -54,7 +54,7 @@ Lily's catalog is much larger in count (608 components) because it splits compou
 
 The Ant Design LICENSE file is the MIT licence, with the line "Copyright (c) 2015-present Ant UED". The three community ports I checked (NG-ZORRO, Ant Design Vue, Ant Design Blazor) all state MIT as well. The README names no individual maintainers, and points to a contribution guide and a collaborators page. The introduction page ties the project to the Ant User-Experience Design Team and Ant Financial, and says Alibaba, Tencent and others use it.
 
-Lily is offered under a choice of licences (an SPDX expression listing MIT, Apache-2.0, GPL-2.0-only, GPL-3.0-only and BSD-3-Clause, recorded in LICENSE.md). It was first committed in August 2025 and has one maintainer. Ant Design has an organisation, a decade-long history and a large user base behind it; Lily has none of those, and the sensible reading is that Ant Design is the lower-risk choice on longevity and support, and Lily the lower-risk choice on lock-in to a look or a framework.
+Lily is offered under a choice of licences (an SPDX expression listing MIT, Apache-2.0, GPL-2.0-only, GPL-3.0-only, BSD-3-Clause, OGL-UK-3.0 and CC-BY-NC-SA-4.0, recorded in LICENSE.md). It was first committed in August 2025 and has one maintainer. Ant Design has an organisation, a decade-long history and a large user base behind it; Lily has none of those, and the sensible reading is that Ant Design is the lower-risk choice on longevity and support, and Lily the lower-risk choice on lock-in to a look or a framework.
 
 ## Sources
 

@@ -223,7 +223,7 @@ pnpm exec vitest run tests/components/Button    # Run a specific test
 
 ## License
 
-MIT or Apache-2.0 or GPL-2.0 or GPL-3.0, or contact us for more options.
+MIT or Apache-2.0 or OGL-UK-3.0 or CC-BY-NC-SA-4.0 or GPL-2.0 or GPL-3.0, or contact us for more options.
 
 ## Contact
 

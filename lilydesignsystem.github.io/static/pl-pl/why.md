@@ -20,7 +20,7 @@ Ponieważ każdy komponent ma stabilny hak klasy i czystą strukturę, twoja sty
 - **Przystosowany do internacjonalizacji z założenia.** Każdy ciąg widoczny dla użytkownika — każda etykieta, błąd i komunikat — to właściwość o stabilnych nazwach we wszystkich frameworkach, więc tłumaczenie przebiega naturalnie. RTL i tekst dwukierunkowy dziedziczą z twojego `dir`. Komponenty uwzględniające ustawienia regionalne przyjmują język jako właściwość, zawsze jawnie.
 - **Jeden katalog, osiem frameworków.** Te same 608 komponentów (573 jako natywne Web Components) z tymi samymi hakami klas i konwencjami właściwości w HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks i Web Components. Twój CSS i wiedza zespołu przenoszą się między stosami technologicznymi.
 - **Niezależny od strategii CSS.** Jedna stabilna klasa w kebab-case na korzeń komponentu. Semantyczny CSS, narzędziowe klasy Tailwind, CSS-in-JS lub jeden z 63 gotowych motywów — Lily wita je wszystkie i taktownie schodzi z drogi.
-- **Za darmo, na zawsze, na twoich warunkach.** Otwarty kod na licencji do wyboru: BSD, MIT, Apache-2.0, GPL-2.0 lub GPL-3.0. Bez wersji pro, bez licencji na stanowisko, bez telemetrii.
+- **Za darmo, na zawsze, na twoich warunkach.** Otwarty kod na licencji do wyboru: BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 lub GPL-3.0. Bez wersji pro, bez licencji na stanowisko, bez telemetrii.
 
 ## Głębia tam, gdzie ma znaczenie
 

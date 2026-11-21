@@ -307,7 +307,7 @@ the accessible name never relies on it. Full treatment in
 
 - Package: @lilydesignsystem/react-search-picker
 - Version: 0.1.0
-- License: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
+- License: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-NC-SA-4.0
 - **2026-10-02**: created, ported from `@lilydesignsystem/svelte-search-picker`
   0.1.0: magnifying-glass icon button, dropdown with a search field and a
   `⏎` submit button, GET to `/?<query>`.

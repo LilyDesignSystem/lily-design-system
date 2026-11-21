@@ -20,7 +20,7 @@ Gan fod pob cydran yn cario bachyn dosbarth sefydlog a strwythur pur, mae eich a
 - **Rhyngwladoladwy drwy ddylunio.** Mae pob llinyn sy'n wynebu'r defnyddiwr — pob label, gwall, a hysbysiad — yn brop gydag enwau sefydlog ar draws fframweithiau, felly mae cyfieithu'n llifo'n naturiol. Mae testun de-i-chwith a deugyfeiriadol yn etifeddu o'ch `dir`. Mae cydrannau sy'n ymwybodol o'r locale yn cymryd y locale fel prop, bob amser yn benodol.
 - **Un catalog, wyth fframwaith.** Yr un 608 cydran (573 fel Web Components brodorol) gyda'r un bachau dosbarth a chonfensiynau propiau yn HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks, a Web Components. Mae eich CSS a gwybodaeth eich tîm yn trosglwyddo ar draws pentyrrau.
 - **Yn niwtral o ran strategaeth CSS.** Un dosbarth kebab-case sefydlog i bob gwraidd cydran. CSS semantig, cyfleustodau Tailwind, CSS-in-JS, neu un o'r 63 thema barod — mae Lily yn croesawu pob un ac yn cadw'n gymwynasgar o'r ffordd.
-- **Am ddim, am byth, ar eich telerau chi.** Cod agored o dan eich dewis o BSD, MIT, Apache-2.0, GPL-2.0, neu GPL-3.0. Dim haen pro, dim trwyddedau fesul sedd, dim telemetreg.
+- **Am ddim, am byth, ar eich telerau chi.** Cod agored o dan eich dewis o BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0, neu GPL-3.0. Dim haen pro, dim trwyddedau fesul sedd, dim telemetreg.
 
 ## Dyfnder lle mae'n bwysig
 

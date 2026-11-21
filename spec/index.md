@@ -89,6 +89,7 @@ coding agents.
 | [citations](citations/index.md)                                           | Design systems Lily learns from, the NHS UK reference, Reuters Graphics influence.                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | [history](history/index.md)                                               | The dated, per-event record of releases and fixes (moved out of this file 2026-10-06 to keep it loadable).                                                                                                                                                                                                                                                                                                                                                                                           |
 | [trademarks](trademarks.md)                                               | The Lily™ / Lily Design System™ marks, the first-occurrence ™ convention, the standard footer.                                                                                                                                                                                                                                                                                                                                                                                                       |
+| [licenses](licenses/index.md)                                             | The licenses Lily is offered under (any one, at the recipient's option), the SPDX expression, and how LICENSE.md, manifests, and documentation stay consistent.                                                                                                                                                                                                                                                                                                                                      |
 
 ### How the topic docs are organised
 
@@ -650,7 +651,7 @@ Long-term: versioned releases per subproject npm/NuGet package
 - Version: 0.9.0
 - Created: 2025-08-09
 - Updated: 2026-11-03
-- License: `MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause`
+- License: `MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-NC-SA-4.0`
   (SPDX expression; or contact for other terms). See
   [LICENSE.md](../LICENSE.md) — it is the single source of truth, and every
   package manifest carries the same expression.

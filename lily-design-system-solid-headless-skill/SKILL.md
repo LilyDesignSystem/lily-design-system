@@ -1,7 +1,7 @@
 ---
 name: lily-design-system-solid-headless-skill
 description: Explains how to install, import, and use Lily Design System's Solid 2.0 headless component library — the npm package name, the two builds (the solid export condition and the compiled bundle), JSX usage with class and rest props, controlled props (value/onChange, open/onChange), and where the 637-component catalog and naming rules live. Use when someone asks how to install or import Lily Design System's Solid headless components, wants the Solid-specific usage idiom (class, signals, controlled props, form reset), asks what Solid version or peer dependencies it needs, or needs the npm package name for a Lily component in Solid.
-license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
+license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-NC-SA-4.0
 ---
 
 # Lily Design System™ — Solid headless

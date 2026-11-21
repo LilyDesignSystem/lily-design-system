@@ -1,7 +1,7 @@
 ---
 name: lily-design-system-html-helpers-skill
 description: Explains Lily Design System's HTML `*-picker` helpers catalog — vanilla custom elements, one package each (`<theme-picker>`, `<locale-picker>`, `<text-size-picker>`, `<motion-picker>`, `<share-picker>`, `<date-time-picker>`, the other pickers, `picker-bar`, and the grid-like and editor packages) that each own one whole interaction end to end. Use when someone asks how to use Lily's HTML/web-component pickers, what a picker's markup or keyboard contract is, how the icon-button-plus-listbox shape differs from share-picker's disclosure or date-time-picker's field+dialog, or how this catalog relates to the Web Components helpers catalog.
-license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
+license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-NC-SA-4.0
 ---
 
 # Lily Design System™ — HTML helpers usage

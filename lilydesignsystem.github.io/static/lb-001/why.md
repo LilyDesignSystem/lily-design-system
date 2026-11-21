@@ -20,7 +20,7 @@ Well all Komponent e stabilen Klassenhaken a pur Struktur mathëlt, bleift Är S
 - **Vun der Konstruktioun hier internationaliséierbar.** All Zeechefolleg, déi de Benotzer gesäit — all Etikett, Feeler an Ukënnegung — ass eng Eegenschaft mat stabilen Nimm iwwer d’Frameworke ewech, sou datt d’Iwwersetzung natierlech fléisst. RTL an zweesäitegen Text erwe vun Ärem `dir`. Sproochbewosst Komponente kréien d’Sprooch als Eegenschaft, ëmmer explizit.
 - **Ee Katalog, aacht Frameworken.** Déiselwecht 608 Komponenten (573 als native Web Components) mat denselwechte Klassenhaken an Eegenschaftskonventiounen a HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks a Web Components. Äre CSS an d’Wëssen vun Ärer Equipe loossen sech tëscht Stacken iwwerdroen.
 - **Onofhängeg vun der CSS-Strategie.** Eng stabil Kebab-Case-Klass pro Komponentewuerzel. Semantescht CSS, Tailwind-Utilities, CSS-in-JS oder ee vun de 63 fäerdegen Themen — Lily begréisst se all a geet graziéis aus dem Wee.
-- **Gratis, fir ëmmer, op Är Konditiounen.** Open Source ënner Ärer Wiel vu BSD, MIT, Apache-2.0, GPL-2.0 oder GPL-3.0. Keng Pro-Stuf, keng Plazlizenzen, keng Telemetrie.
+- **Gratis, fir ëmmer, op Är Konditiounen.** Open Source ënner Ärer Wiel vu BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 oder GPL-3.0. Keng Pro-Stuf, keng Plazlizenzen, keng Telemetrie.
 
 ## Déift, wou se zielt
 

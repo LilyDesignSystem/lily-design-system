@@ -996,7 +996,7 @@ canonical, since these are all behavioural rather than framework-specific.
 - Spec version: 0.1.0
 - Created: 2026-07-28
 - Ported from: `@lilydesignsystem/svelte-date-time-picker` 0.1.0
-- License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause (or
+- License: MIT or Apache-2.0 or OGL-UK-3.0 or CC-BY-NC-SA-4.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause (or
   contact for other terms)
 - Contact: Joel Parker Henderson &lt;joel@joelparkerhenderson.com&gt;
 

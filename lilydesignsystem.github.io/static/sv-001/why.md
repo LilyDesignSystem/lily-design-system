@@ -20,7 +20,7 @@ Eftersom varje komponent har en stabil klasskrok och ren struktur förblir din f
 - **Internationaliserbart genom konstruktion.** Varje användarvänd sträng – varje etikett, fel och avisering – är en egenskap med stabila namn i alla ramverk, så att översättning flyter naturligt. RTL och dubbelriktad text ärver från ditt `dir`. Språkmedvetna komponenter tar språket som en egenskap, alltid uttryckligen.
 - **En katalog, åtta ramverk.** Samma 608 komponenter (573 som inbyggda Web Components) med samma klasskrokar och egenskapskonventioner i HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks och Web Components. Din CSS och ditt teams kunskap följer med mellan teknikstackar.
 - **Oberoende av CSS-strategi.** En stabil klass i kebab-case per komponentrot. Semantisk CSS, Tailwind-verktygsklasser, CSS-in-JS eller något av de 63 färdiga temana – Lily välkomnar dem alla och håller sig elegant i bakgrunden.
-- **Gratis, för alltid, på dina villkor.** Öppen källkod under ditt val av BSD, MIT, Apache-2.0, GPL-2.0 eller GPL-3.0. Ingen proversion, inga användarlicenser, ingen telemetri.
+- **Gratis, för alltid, på dina villkor.** Öppen källkod under ditt val av BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 eller GPL-3.0. Ingen proversion, inga användarlicenser, ingen telemetri.
 
 ## Djup där det spelar roll
 

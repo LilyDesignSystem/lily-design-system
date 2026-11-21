@@ -61,7 +61,7 @@ Lily dey take patterns and language from plenty different design systems wey e c
 
 ## License
 
-Lily get many licenses, under **BSD, MIT, Apache-2.0, GPL-2.0, abi GPL-3.0**. Pick di license wey fit your project. If none of dem work, abeg contact us.
+Lily get many licenses, under **BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0, abi GPL-3.0**. Pick di license wey fit your project. If none of dem work, abeg contact us.
 
 ## Contact
 

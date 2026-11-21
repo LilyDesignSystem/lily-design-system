@@ -1,7 +1,7 @@
 ---
 name: lily-design-system-angular-skill
 description: Use when someone asks what's available for Angular in Lily Design System, which Angular subproject they need (the headless component library, the helper packages (eleven *-picker helpers, picker-bar, grid-like helpers, editors), or the styled example app), wants to see Lily's Angular components running with real CSS, or asks about the Angular Analog.js example app's routes, NHS UK visual reference, or composed-page demos.
-license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
+license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-NC-SA-4.0
 ---
 
 # Lily Design System™ — Angular overview

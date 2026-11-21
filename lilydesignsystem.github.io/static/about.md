@@ -61,7 +61,7 @@ Lily draws patterns and language from a deliberately broad set of design systems
 
 ## License
 
-Lily is multi-licensed under **BSD, MIT, Apache-2.0, GPL-2.0, or GPL-3.0**. Pick whichever license fits your project. If none of those work, get in touch.
+Lily is multi-licensed under **BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0, or GPL-3.0**. Pick whichever license fits your project. If none of those work, get in touch.
 
 ## Contact
 

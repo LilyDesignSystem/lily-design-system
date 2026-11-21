@@ -61,7 +61,7 @@ Lily übernimmt Muster und Sprache aus einer bewusst breit gewählten Gruppe von
 
 ## Lizenz
 
-Lily ist mehrfach lizenziert unter **BSD, MIT, Apache-2.0, GPL-2.0 oder GPL-3.0**. Wählen Sie die Lizenz, die zu Ihrem Projekt passt. Falls keine davon passt, nehmen Sie Kontakt auf.
+Lily ist mehrfach lizenziert unter **BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 oder GPL-3.0**. Wählen Sie die Lizenz, die zu Ihrem Projekt passt. Falls keine davon passt, nehmen Sie Kontakt auf.
 
 ## Kontakt
 

@@ -20,7 +20,7 @@ Saboda kowane ɓangare yana da ƙugiyar aji tabbatacciya da tsari tsantsa, ado n
 - **Mai iya daidaita ƙasashen duniya ta tsari.** Kowane rubutun da mai amfani ke gani — kowace lakabi, kuskure da sanarwa — kadara ce mai sunaye tabbatattu a duk tsarin aiki, don haka fassara tana gudana a hankali. RTL da rubutu mai alƙibla biyu suna gado daga `dir` ɗinka. Abubuwan da suka san yare suna karɓar yaren a matsayin kadara, kullum a bayyane.
 - **Jeri ɗaya, tsarin aiki takwas.** Abubuwa 608 iri ɗaya (573 a matsayin Web Components na asali) masu ƙugiyoyin aji da al’adun kadara iri ɗaya a HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks da Web Components. CSS ɗinka da ilimin ƙungiyarka suna canjawa tsakanin tarin fasaha.
 - **Ba ya dogara da dabarar CSS.** Aji ɗaya tabbatacce na kebab-case ga kowane tushen ɓangare. CSS mai ma’ana, kayan aikin Tailwind, CSS-in-JS, ko ɗaya daga cikin jigogi 63 da aka shirya — Lily tana maraba da su duka kuma tana ba da hanya cikin ladabi.
-- **Kyauta, har abada, bisa sharuɗɗanka.** Buɗaɗɗen tushe a ƙarƙashin zaɓinka na BSD, MIT, Apache-2.0, GPL-2.0, ko GPL-3.0. Babu matakin pro, babu lasisin kujeru, babu telemetry.
+- **Kyauta, har abada, bisa sharuɗɗanka.** Buɗaɗɗen tushe a ƙarƙashin zaɓinka na BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0, ko GPL-3.0. Babu matakin pro, babu lasisin kujeru, babu telemetry.
 
 ## Zurfi a inda yake da muhimmanci
 

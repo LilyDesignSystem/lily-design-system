@@ -61,7 +61,7 @@ Tarraingíonn Lily patrúin agus teanga as tacar leathan d’aon ghnó de chóra
 
 ## Ceadúnas
 
-Tá ilcheadúnas ag Lily faoi **BSD, MIT, Apache-2.0, GPL-2.0, nó GPL-3.0**. Roghnaigh cibé ceann a oireann do do thionscadal. Mura n-oireann aon cheann acu, déan teagmháil linn.
+Tá ilcheadúnas ag Lily faoi **BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0, nó GPL-3.0**. Roghnaigh cibé ceann a oireann do do thionscadal. Mura n-oireann aon cheann acu, déan teagmháil linn.
 
 ## Teagmháil
 

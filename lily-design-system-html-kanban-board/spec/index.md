@@ -372,7 +372,7 @@ for the reasoning behind each.
 - Package directory: `lily-design-system-html-kanban-board/` (top-level subproject; until 2026-10-10 inside `lily-design-system-html-helpers/`)
 - Spec version: 0.1.0
 - Created: 2026-09-22
-- License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause (or
+- License: MIT or Apache-2.0 or OGL-UK-3.0 or CC-BY-NC-SA-4.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause (or
   contact for other terms)
 - Contact: Joel Parker Henderson &lt;joel@joelparkerhenderson.com&gt;
 

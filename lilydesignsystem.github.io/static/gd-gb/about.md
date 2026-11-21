@@ -61,7 +61,7 @@ Bidh Lily a’ tarraing phàtranan is cànain à raon farsaing de shiostaman dea
 
 ## Cead
 
-Tha Lily air a cheadachadh ann an iomadh dòigh fo **BSD, MIT, Apache-2.0, GPL-2.0 no GPL-3.0**. Tagh cò air bith a fhreagras air do phròiseact. Mura obraich gin dhiubh, cuir fios thugainn.
+Tha Lily air a cheadachadh ann an iomadh dòigh fo **BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 no GPL-3.0**. Tagh cò air bith a fhreagras air do phròiseact. Mura obraich gin dhiubh, cuir fios thugainn.
 
 ## Fios thugainn
 

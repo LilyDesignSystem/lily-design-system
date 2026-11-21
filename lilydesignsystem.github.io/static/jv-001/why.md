@@ -20,7 +20,7 @@ Amarga saben komponèn nggawa pancingan kelas sing stabil lan struktur murni, ga
 - **Bisa diinternasionalisasi saka dhasaré.** Saben string sing katon pangguna — saben labèl, kesalahan, lan woro-woro — iku properti kanthi jeneng stabil ing kabèh framework, dadi terjemahan mili kanthi alami. RTL lan tèks rong arah nurunaké saka `dir` sampéyan. Komponèn sing ngerti lokal nampa lokal minangka properti, tansah kanthi jelas.
 - **Siji katalog, wolung framework.** 608 komponèn sing padha (573 minangka Web Components asli) kanthi pancingan kelas lan konvènsi properti sing padha ing HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks, lan Web Components. CSS sampéyan lan kawruh tim bisa dipindhah antar tumpukan.
 - **Ora gumantung strategi CSS.** Siji kelas kebab-case sing stabil saben oyod komponèn. CSS semantik, utilitas Tailwind, CSS-in-JS, utawa salah siji saka 63 tema sing wis siap — Lily nampa kabèh lan minggir kanthi alus.
-- **Gratis, salawasé, miturut sarat sampéyan.** Sumber terbuka miturut pilihan sampéyan antara BSD, MIT, Apache-2.0, GPL-2.0, utawa GPL-3.0. Ora ana tingkat pro, ora ana lisènsi kursi, ora ana telemetri.
+- **Gratis, salawasé, miturut sarat sampéyan.** Sumber terbuka miturut pilihan sampéyan antara BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0, utawa GPL-3.0. Ora ana tingkat pro, ora ana lisènsi kursi, ora ana telemetri.
 
 ## Ambane ing panggonan sing penting
 

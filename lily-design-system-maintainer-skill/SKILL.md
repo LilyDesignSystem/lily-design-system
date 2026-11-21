@@ -1,7 +1,7 @@
 ---
 name: lily-design-system-maintainer-skill
 description: Technical workflow for maintainers of the Lily Design System monorepo — the required-files layout for subprojects and components, the AGENTS.md sync model, the bin/ tooling (test, sync, sync-special-files, generate-registries, publish-headless, publish-helpers, check-package-metadata), the per-framework implementation conventions, and the spec-driven development workflow. Use when adding, changing, or auditing a component, subproject, or helper in this repository, or when running its verification, sync, or publish tooling.
-license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
+license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-NC-SA-4.0
 ---
 
 # Lily Design System™ — maintainer workflow

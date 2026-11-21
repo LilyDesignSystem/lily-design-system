@@ -20,7 +20,7 @@ Osagai bakoitzak klase-gako egonkorra eta egitura garbia duenez, zure estiloa ga
 - **Nazioartekotu daiteke eraikuntzaz.** Erabiltzaileak ikusten duen kate guztia — etiketa, errore eta jakinarazpen bakoitza — framework-etan izen egonkorrak dituen propa da, eta itzulpena modu naturalean doa. RTL eta bi noranzkoko testua zure `dir`-tik heredatzen dira. Locale-a ezagutzen duten osagaiek locale-a propa gisa hartzen dute, beti esplizituki.
 - **Katalogo bat, zortzi framework.** 608 osagai berak (573 Web Components natibo gisa) klase-gako eta propa-hitzarmen berdinekin HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks eta Web Components-en. Zure CSSa eta zure taldearen ezagutza stack batetik bestera pasatzen dira.
 - **CSS estrategiarekiko neutrala.** Kebab-case klase egonkor bat osagai-erro bakoitzeko. CSS semantikoa, Tailwind utilitateak, CSS-in-JS edo prest dauden 63 gaietako bat — Lilyk guztiak ongi hartzen ditu eta dotore kentzen da bidetik.
-- **Doakoa, betiko, zure baldintzetan.** Kode irekia zure aukerako lizentziapean: BSD, MIT, Apache-2.0, GPL-2.0 edo GPL-3.0. Pro mailarik ez, eserleku-lizentziarik ez, telemetriarik ez.
+- **Doakoa, betiko, zure baldintzetan.** Kode irekia zure aukerako lizentziapean: BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 edo GPL-3.0. Pro mailarik ez, eserleku-lizentziarik ez, telemetriarik ez.
 
 ## Sakontasuna axola duen tokian
 

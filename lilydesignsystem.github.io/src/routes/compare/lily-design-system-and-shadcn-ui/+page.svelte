@@ -36,7 +36,7 @@
 
   <h2>Licence and maintainers</h2>
   <p>shadcn/ui is MIT licensed, with the copyright held by shadcn (2023), and its GitHub page showed about 126.8k stars on 28 October 2026. Its docs home page says it is built by shadcn at Vercel. A copy-in model pairs well with a permissive licence, since the code becomes part of your project.</p>
-  <p>Lily is released under a choice of licences (MIT, Apache-2.0, GPL-2.0-only, GPL-3.0-only or BSD-3-Clause) and is maintained by one person. If your procurement process needs a vendor, a support contract or a conformance statement, neither project offers one in the pages I read, and a large, widely used project is a lower adoption risk than a new one.</p>
+  <p>Lily is released under a choice of licences (MIT, Apache-2.0, GPL-2.0-only, GPL-3.0-only, BSD-3-Clause, OGL-UK-3.0 or CC-BY-NC-SA-4.0) and is maintained by one person. If your procurement process needs a vendor, a support contract or a conformance statement, neither project offers one in the pages I read, and a large, widely used project is a lower adoption risk than a new one.</p>
 
   <h2>Sources</h2>
   <ul>

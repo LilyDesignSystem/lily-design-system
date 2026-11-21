@@ -120,7 +120,7 @@ const es: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Software libre y de código abierto — BSD, MIT, Apache-2.0, GPL-2.0 o GPL-3.0.',
+    license: 'Software libre y de código abierto — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 o GPL-3.0.',
     trademark: 'Lily™ y Lily Design System™ son marcas registradas.',
     why: 'Por qué Lily'
   },
@@ -170,7 +170,7 @@ const fr: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Logiciel libre et open source — BSD, MIT, Apache-2.0, GPL-2.0 ou GPL-3.0.',
+    license: 'Logiciel libre et open source — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 ou GPL-3.0.',
     trademark: 'Lily™ et Lily Design System™ sont des marques déposées.',
     why: 'Pourquoi Lily'
   },
@@ -219,7 +219,7 @@ const pt: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Software livre e de código aberto — BSD, MIT, Apache-2.0, GPL-2.0 ou GPL-3.0.',
+    license: 'Software livre e de código aberto — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 ou GPL-3.0.',
     trademark: 'Lily™ e Lily Design System™ são marcas registradas.',
     why: 'Por que Lily'
   },
@@ -270,7 +270,7 @@ const ru: UiStrings = {
   },
   footer: {
     license:
-      'Бесплатное программное обеспечение с открытым исходным кодом — BSD, MIT, Apache-2.0, GPL-2.0 или GPL-3.0.',
+      'Бесплатное программное обеспечение с открытым исходным кодом — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 или GPL-3.0.',
     trademark: 'Lily™ и Lily Design System™ являются товарными знаками.',
     why: 'Почему Lily'
   },
@@ -320,7 +320,7 @@ const hi: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'निःशुल्क और ओपन-सोर्स — BSD, MIT, Apache-2.0, GPL-2.0, या GPL-3.0।',
+    license: 'निःशुल्क और ओपन-सोर्स — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0, या GPL-3.0।',
     trademark: 'Lily™ और Lily Design System™ ट्रेडमार्क हैं।',
     why: 'Lily क्यों'
   },
@@ -368,7 +368,7 @@ const id: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Gratis dan sumber terbuka — BSD, MIT, Apache-2.0, GPL-2.0, atau GPL-3.0.',
+    license: 'Gratis dan sumber terbuka — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0, atau GPL-3.0.',
     trademark: 'Lily™ dan Lily Design System™ adalah merek dagang.',
     why: 'Mengapa Lily'
   },
@@ -419,7 +419,7 @@ const cy: UiStrings = {
   },
   footer: {
     license:
-      'Meddalwedd ffynhonnell agored am ddim — BSD, MIT, Apache-2.0, GPL-2.0, neu GPL-3.0.',
+      'Meddalwedd ffynhonnell agored am ddim — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0, neu GPL-3.0.',
     trademark: 'Mae Lily™ a Lily Design System™ yn nodau masnach.',
     why: 'Pam Lily'
   },
@@ -469,7 +469,7 @@ const ar: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'برنامج مجاني ومفتوح المصدر — BSD أو MIT أو Apache-2.0 أو GPL-2.0 أو GPL-3.0.',
+    license: 'برنامج مجاني ومفتوح المصدر — BSD أو MIT أو Apache-2.0 أو OGL-UK-3.0 أو CC-BY-NC-SA-4.0 أو GPL-2.0 أو GPL-3.0.',
     trademark: 'Lily™ وLily Design System™ علامتان تجاريتان.',
     why: 'لماذا Lily'
   },
@@ -516,7 +516,7 @@ const ur: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'مفت اور اوپن سورس — BSD، MIT، Apache-2.0، GPL-2.0، یا GPL-3.0۔',
+    license: 'مفت اور اوپن سورس — BSD، MIT، Apache-2.0، OGL-UK-3.0، CC-BY-NC-SA-4.0، GPL-2.0، یا GPL-3.0۔',
     trademark: 'Lily™ اور Lily Design System™ تجارتی نشانات ہیں۔',
     why: 'Lily کیوں'
   },
@@ -564,7 +564,7 @@ const bn: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'বিনামূল্যে ও ওপেন-সোর্স — BSD, MIT, Apache-2.0, GPL-2.0, বা GPL-3.0।',
+    license: 'বিনামূল্যে ও ওপেন-সোর্স — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0, বা GPL-3.0।',
     trademark: 'Lily™ এবং Lily Design System™ ট্রেডমার্ক।',
     why: 'কেন Lily'
   },
@@ -612,7 +612,7 @@ const zh: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: '免费开源软件 — BSD、MIT、Apache-2.0、GPL-2.0 或 GPL-3.0。',
+    license: '免费开源软件 — BSD、MIT、Apache-2.0、OGL-UK-3.0、CC-BY-NC-SA-4.0、GPL-2.0 或 GPL-3.0。',
     trademark: 'Lily™ 和 Lily Design System™ 是商标。',
     why: '为什么选择 Lily'
   },
@@ -659,7 +659,7 @@ const ja: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: '無料のオープンソース — BSD、MIT、Apache-2.0、GPL-2.0、または GPL-3.0。',
+    license: '無料のオープンソース — BSD、MIT、Apache-2.0、OGL-UK-3.0、CC-BY-NC-SA-4.0、GPL-2.0、または GPL-3.0。',
     trademark: 'Lily™ および Lily Design System™ は商標です。',
     why: 'Lily を選ぶ理由'
   },
@@ -697,7 +697,7 @@ const ko: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: '무료 오픈 소스 — BSD, MIT, Apache-2.0, GPL-2.0 또는 GPL-3.0.',
+    license: '무료 오픈 소스 — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 또는 GPL-3.0.',
     trademark: 'Lily™ 및 Lily Design System™은 상표입니다.',
     why: 'Lily를 선택하는 이유'
   },
@@ -735,7 +735,7 @@ const sw: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Programu huria ya chanzo wazi bila malipo — BSD, MIT, Apache-2.0, GPL-2.0 au GPL-3.0.',
+    license: 'Programu huria ya chanzo wazi bila malipo — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 au GPL-3.0.',
     trademark: 'Lily™ na Lily Design System™ ni alama za biashara.',
     why: 'Kwa nini Lily'
   },
@@ -773,7 +773,7 @@ const sv: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Gratis öppen källkod — BSD, MIT, Apache-2.0, GPL-2.0 eller GPL-3.0.',
+    license: 'Gratis öppen källkod — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 eller GPL-3.0.',
     trademark: 'Lily™ och Lily Design System™ är varumärken.',
     why: 'Varför Lily'
   },
@@ -811,7 +811,7 @@ const nl: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Gratis opensourcesoftware — BSD, MIT, Apache-2.0, GPL-2.0 of GPL-3.0.',
+    license: 'Gratis opensourcesoftware — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 of GPL-3.0.',
     trademark: 'Lily™ en Lily Design System™ zijn handelsmerken.',
     why: 'Waarom Lily'
   },
@@ -849,7 +849,7 @@ const de: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Freie Open-Source-Software — BSD, MIT, Apache-2.0, GPL-2.0 oder GPL-3.0.',
+    license: 'Freie Open-Source-Software — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 oder GPL-3.0.',
     trademark: 'Lily™ und Lily Design System™ sind Marken.',
     why: 'Warum Lily'
   },
@@ -887,7 +887,7 @@ const da: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Gratis open source — BSD, MIT, Apache-2.0, GPL-2.0 eller GPL-3.0.',
+    license: 'Gratis open source — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 eller GPL-3.0.',
     trademark: 'Lily™ og Lily Design System™ er varemærker.',
     why: 'Hvorfor Lily'
   },
@@ -925,7 +925,7 @@ const th: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'ซอฟต์แวร์โอเพนซอร์สฟรี — BSD, MIT, Apache-2.0, GPL-2.0 หรือ GPL-3.0',
+    license: 'ซอฟต์แวร์โอเพนซอร์สฟรี — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 หรือ GPL-3.0',
     trademark: 'Lily™ และ Lily Design System™ เป็นเครื่องหมายการค้า',
     why: 'ทำไมต้อง Lily'
   },
@@ -963,7 +963,7 @@ const et: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Tasuta avatud lähtekoodiga tarkvara — BSD, MIT, Apache-2.0, GPL-2.0 või GPL-3.0.',
+    license: 'Tasuta avatud lähtekoodiga tarkvara — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 või GPL-3.0.',
     trademark: 'Lily™ ja Lily Design System™ on kaubamärgid.',
     why: 'Miks Lily'
   },
@@ -1001,7 +1001,7 @@ const fi: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Ilmainen avoimen lähdekoodin ohjelmisto — BSD, MIT, Apache-2.0, GPL-2.0 tai GPL-3.0.',
+    license: 'Ilmainen avoimen lähdekoodin ohjelmisto — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 tai GPL-3.0.',
     trademark: 'Lily™ ja Lily Design System™ ovat tavaramerkkejä.',
     why: 'Miksi Lily'
   },
@@ -1039,7 +1039,7 @@ const it: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Software libero e open source — BSD, MIT, Apache-2.0, GPL-2.0 o GPL-3.0.',
+    license: 'Software libero e open source — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 o GPL-3.0.',
     trademark: 'Lily™ e Lily Design System™ sono marchi.',
     why: 'Perché Lily'
   },
@@ -1077,7 +1077,7 @@ const tr: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Ücretsiz açık kaynak — BSD, MIT, Apache-2.0, GPL-2.0 veya GPL-3.0.',
+    license: 'Ücretsiz açık kaynak — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 veya GPL-3.0.',
     trademark: 'Lily™ ve Lily Design System™ ticari markalardır.',
     why: 'Neden Lily'
   },
@@ -1115,7 +1115,7 @@ const vi: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Phần mềm mã nguồn mở miễn phí — BSD, MIT, Apache-2.0, GPL-2.0 hoặc GPL-3.0.',
+    license: 'Phần mềm mã nguồn mở miễn phí — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 hoặc GPL-3.0.',
     trademark: 'Lily™ và Lily Design System™ là các nhãn hiệu.',
     why: 'Vì sao chọn Lily'
   },
@@ -1153,7 +1153,7 @@ const pl: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Darmowe oprogramowanie open source — BSD, MIT, Apache-2.0, GPL-2.0 lub GPL-3.0.',
+    license: 'Darmowe oprogramowanie open source — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 lub GPL-3.0.',
     trademark: 'Lily™ i Lily Design System™ są znakami towarowymi.',
     why: 'Dlaczego Lily'
   },
@@ -1191,7 +1191,7 @@ const ro: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Software gratuit și open source — BSD, MIT, Apache-2.0, GPL-2.0 sau GPL-3.0.',
+    license: 'Software gratuit și open source — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 sau GPL-3.0.',
     trademark: 'Lily™ și Lily Design System™ sunt mărci comerciale.',
     why: 'De ce Lily'
   },
@@ -1229,7 +1229,7 @@ const cs: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Svobodný software s otevřeným zdrojovým kódem — BSD, MIT, Apache-2.0, GPL-2.0 nebo GPL-3.0.',
+    license: 'Svobodný software s otevřeným zdrojovým kódem — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 nebo GPL-3.0.',
     trademark: 'Lily™ a Lily Design System™ jsou ochranné známky.',
     why: 'Proč Lily'
   },
@@ -1267,7 +1267,7 @@ const hu: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Ingyenes, nyílt forráskódú szoftver — BSD, MIT, Apache-2.0, GPL-2.0 vagy GPL-3.0.',
+    license: 'Ingyenes, nyílt forráskódú szoftver — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 vagy GPL-3.0.',
     trademark: 'A Lily™ és a Lily Design System™ védjegyek.',
     why: 'Miért a Lily'
   },
@@ -1305,7 +1305,7 @@ const el: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Δωρεάν λογισμικό ανοιχτού κώδικα — BSD, MIT, Apache-2.0, GPL-2.0 ή GPL-3.0.',
+    license: 'Δωρεάν λογισμικό ανοιχτού κώδικα — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 ή GPL-3.0.',
     trademark: 'Τα Lily™ και Lily Design System™ είναι εμπορικά σήματα.',
     why: 'Γιατί Lily'
   },
@@ -1343,7 +1343,7 @@ const bg: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Безплатен софтуер с отворен код — BSD, MIT, Apache-2.0, GPL-2.0 или GPL-3.0.',
+    license: 'Безплатен софтуер с отворен код — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 или GPL-3.0.',
     trademark: 'Lily™ и Lily Design System™ са търговски марки.',
     why: 'Защо Lily'
   },
@@ -1381,7 +1381,7 @@ const sk: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Slobodný softvér s otvoreným zdrojovým kódom — BSD, MIT, Apache-2.0, GPL-2.0 alebo GPL-3.0.',
+    license: 'Slobodný softvér s otvoreným zdrojovým kódom — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 alebo GPL-3.0.',
     trademark: 'Lily™ a Lily Design System™ sú ochranné známky.',
     why: 'Prečo Lily'
   },
@@ -1419,7 +1419,7 @@ const hr: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Besplatan softver otvorenog koda — BSD, MIT, Apache-2.0, GPL-2.0 ili GPL-3.0.',
+    license: 'Besplatan softver otvorenog koda — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 ili GPL-3.0.',
     trademark: 'Lily™ i Lily Design System™ su zaštitni znakovi.',
     why: 'Zašto Lily'
   },
@@ -1457,7 +1457,7 @@ const lt: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Nemokama atvirojo kodo programinė įranga — BSD, MIT, Apache-2.0, GPL-2.0 arba GPL-3.0.',
+    license: 'Nemokama atvirojo kodo programinė įranga — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 arba GPL-3.0.',
     trademark: 'Lily™ ir Lily Design System™ yra prekių ženklai.',
     why: 'Kodėl Lily'
   },
@@ -1495,7 +1495,7 @@ const sl: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Brezplačna odprtokodna programska oprema — BSD, MIT, Apache-2.0, GPL-2.0 ali GPL-3.0.',
+    license: 'Brezplačna odprtokodna programska oprema — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 ali GPL-3.0.',
     trademark: 'Lily™ in Lily Design System™ sta blagovni znamki.',
     why: 'Zakaj Lily'
   },
@@ -1533,7 +1533,7 @@ const lv: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Bezmaksas atvērtā koda programmatūra — BSD, MIT, Apache-2.0, GPL-2.0 vai GPL-3.0.',
+    license: 'Bezmaksas atvērtā koda programmatūra — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 vai GPL-3.0.',
     trademark: 'Lily™ un Lily Design System™ ir preču zīmes.',
     why: 'Kāpēc Lily'
   },
@@ -1571,7 +1571,7 @@ const mt: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Softwer ħieles b’sors miftuħ — BSD, MIT, Apache-2.0, GPL-2.0 jew GPL-3.0.',
+    license: 'Softwer ħieles b’sors miftuħ — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 jew GPL-3.0.',
     trademark: 'Lily™ u Lily Design System™ huma trademarks.',
     why: 'Għaliex Lily'
   },
@@ -1609,7 +1609,7 @@ const ga: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Bogearraí foinse oscailte saor in aisce — BSD, MIT, Apache-2.0, GPL-2.0 nó GPL-3.0.',
+    license: 'Bogearraí foinse oscailte saor in aisce — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 nó GPL-3.0.',
     trademark: 'Is trádmharcanna iad Lily™ agus Lily Design System™.',
     why: 'Cén fáth Lily'
   },
@@ -1647,7 +1647,7 @@ const lb: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Gratis Open-Source-Software — BSD, MIT, Apache-2.0, GPL-2.0 oder GPL-3.0.',
+    license: 'Gratis Open-Source-Software — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 oder GPL-3.0.',
     trademark: 'Lily™ a Lily Design System™ si Mark.',
     why: 'Firwat Lily'
   },
@@ -1685,7 +1685,7 @@ const pa: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'ਮੁਫ਼ਤ ਓਪਨ ਸੋਰਸ — BSD, MIT, Apache-2.0, GPL-2.0, ਜਾਂ GPL-3.0।',
+    license: 'ਮੁਫ਼ਤ ਓਪਨ ਸੋਰਸ — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0, ਜਾਂ GPL-3.0।',
     trademark: 'Lily™ ਅਤੇ Lily Design System™ ਟ੍ਰੇਡਮਾਰਕ ਹਨ।',
     why: 'Lily ਕਿਉਂ'
   },
@@ -1723,7 +1723,7 @@ const mr: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'मोफत ओपन-सोर्स — BSD, MIT, Apache-2.0, GPL-2.0, किंवा GPL-3.0.',
+    license: 'मोफत ओपन-सोर्स — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0, किंवा GPL-3.0.',
     trademark: 'Lily™ आणि Lily Design System™ ही ट्रेडमार्क आहेत.',
     why: 'Lily का'
   },
@@ -1761,7 +1761,7 @@ const te: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'ఉచిత ఓపెన్ సోర్స్ — BSD, MIT, Apache-2.0, GPL-2.0, లేదా GPL-3.0.',
+    license: 'ఉచిత ఓపెన్ సోర్స్ — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0, లేదా GPL-3.0.',
     trademark: 'Lily™ మరియు Lily Design System™ ట్రేడ్‌మార్క్‌లు.',
     why: 'Lily ఎందుకు'
   },
@@ -1799,7 +1799,7 @@ const ha: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Manhaja ta kyauta mai buɗaɗɗen tushe — BSD, MIT, Apache-2.0, GPL-2.0 ko GPL-3.0.',
+    license: 'Manhaja ta kyauta mai buɗaɗɗen tushe — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 ko GPL-3.0.',
     trademark: 'Lily™ da Lily Design System™ alamomin kasuwanci ne.',
     why: 'Me ya sa Lily'
   },
@@ -1837,7 +1837,7 @@ const ta: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'இலவச திறந்த மூல மென்பொருள் — BSD, MIT, Apache-2.0, GPL-2.0 அல்லது GPL-3.0.',
+    license: 'இலவச திறந்த மூல மென்பொருள் — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 அல்லது GPL-3.0.',
     trademark: 'Lily™ மற்றும் Lily Design System™ வர்த்தக முத்திரைகள்.',
     why: 'ஏன் Lily'
   },
@@ -1875,7 +1875,7 @@ const fa: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'نرم‌افزار آزاد و متن‌باز — BSD، MIT، Apache-2.0، GPL-2.0 یا GPL-3.0.',
+    license: 'نرم‌افزار آزاد و متن‌باز — BSD، MIT، Apache-2.0، OGL-UK-3.0، CC-BY-NC-SA-4.0، GPL-2.0 یا GPL-3.0.',
     trademark: 'Lily™ و Lily Design System™ علائم تجاری هستند.',
     why: 'چرا Lily'
   },
@@ -1913,7 +1913,7 @@ const jv: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Piranti lunak sumber terbuka gratis — BSD, MIT, Apache-2.0, GPL-2.0, utawa GPL-3.0.',
+    license: 'Piranti lunak sumber terbuka gratis — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0, utawa GPL-3.0.',
     trademark: 'Lily™ lan Lily Design System™ iku merek dagang.',
     why: 'Kenging punapa Lily'
   },
@@ -1951,7 +1951,7 @@ const gu: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'મફત ઓપન-સોર્સ — BSD, MIT, Apache-2.0, GPL-2.0, અથવા GPL-3.0.',
+    license: 'મફત ઓપન-સોર્સ — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0, અથવા GPL-3.0.',
     trademark: 'Lily™ અને Lily Design System™ ટ્રેડમાર્ક છે.',
     why: 'Lily શા માટે'
   },
@@ -1989,7 +1989,7 @@ const bh: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'मुफ्त ओपन-सोर्स — BSD, MIT, Apache-2.0, GPL-2.0, भा GPL-3.0।',
+    license: 'मुफ्त ओपन-सोर्स — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0, भा GPL-3.0।',
     trademark: 'Lily™ आ Lily Design System™ ट्रेडमार्क हवें।',
     why: 'Lily काहें'
   },
@@ -2027,7 +2027,7 @@ const gd: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Bathar-bog fosgailte an-asgaidh — BSD, MIT, Apache-2.0, GPL-2.0 no GPL-3.0.',
+    license: 'Bathar-bog fosgailte an-asgaidh — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 no GPL-3.0.',
     trademark: 'Tha Lily™ agus Lily Design System™ nan comharran-malairt.',
     why: 'Carson Lily'
   },
@@ -2065,7 +2065,7 @@ const is: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Ókeypis opinn hugbúnaður — BSD, MIT, Apache-2.0, GPL-2.0 eða GPL-3.0.',
+    license: 'Ókeypis opinn hugbúnaður — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 eða GPL-3.0.',
     trademark: 'Lily™ og Lily Design System™ eru vörumerki.',
     why: 'Af hverju Lily'
   },
@@ -2103,7 +2103,7 @@ const eu: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Kode irekiko software librea — BSD, MIT, Apache-2.0, GPL-2.0 edo GPL-3.0.',
+    license: 'Kode irekiko software librea — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 edo GPL-3.0.',
     trademark: 'Lily™ eta Lily Design System™ marka erregistratuak dira.',
     why: 'Zergatik Lily'
   },
@@ -2141,7 +2141,7 @@ const uk: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Безкоштовне програмне забезпечення з відкритим кодом — BSD, MIT, Apache-2.0, GPL-2.0 або GPL-3.0.',
+    license: 'Безкоштовне програмне забезпечення з відкритим кодом — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 або GPL-3.0.',
     trademark: 'Lily™ та Lily Design System™ є торговельними марками.',
     why: 'Чому Lily'
   },
@@ -2179,7 +2179,7 @@ const ms: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Perisian sumber terbuka percuma — BSD, MIT, Apache-2.0, GPL-2.0 atau GPL-3.0.',
+    license: 'Perisian sumber terbuka percuma — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 atau GPL-3.0.',
     trademark: 'Lily™ dan Lily Design System™ ialah tanda dagangan.',
     why: 'Mengapa Lily'
   },
@@ -2217,7 +2217,7 @@ const he: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'תוכנה חופשית בקוד פתוח — BSD, MIT, Apache-2.0, GPL-2.0 או GPL-3.0.',
+    license: 'תוכנה חופשית בקוד פתוח — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 או GPL-3.0.',
     trademark: 'Lily™ ו-Lily Design System™ הם סימנים מסחריים.',
     why: 'למה Lily'
   },
@@ -2255,7 +2255,7 @@ const pcm: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Free open source software — BSD, MIT, Apache-2.0, GPL-2.0 or GPL-3.0.',
+    license: 'Free open source software — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 or GPL-3.0.',
     trademark: 'Lily™ and Lily Design System™ na trademarks.',
     why: 'Why Lily'
   },
@@ -2293,7 +2293,7 @@ const yue: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: '免費開源軟件 — BSD、MIT、Apache-2.0、GPL-2.0 或 GPL-3.0。',
+    license: '免費開源軟件 — BSD、MIT、Apache-2.0、OGL-UK-3.0、CC-BY-NC-SA-4.0、GPL-2.0 或 GPL-3.0。',
     trademark: 'Lily™ 同 Lily Design System™ 係商標。',
     why: '點解揀 Lily'
   },
@@ -2331,7 +2331,7 @@ const tl: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Libreng open source na software — BSD, MIT, Apache-2.0, GPL-2.0 o GPL-3.0.',
+    license: 'Libreng open source na software — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 o GPL-3.0.',
     trademark: 'Ang Lily™ at Lily Design System™ ay mga trademark.',
     why: 'Bakit Lily'
   },
@@ -2369,7 +2369,7 @@ const kn: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'ಉಚಿತ ಮುಕ್ತ ಮೂಲ ತಂತ್ರಾಂಶ — BSD, MIT, Apache-2.0, GPL-2.0 ಅಥವಾ GPL-3.0.',
+    license: 'ಉಚಿತ ಮುಕ್ತ ಮೂಲ ತಂತ್ರಾಂಶ — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 ಅಥವಾ GPL-3.0.',
     trademark: 'Lily™ ಮತ್ತು Lily Design System™ ಟ್ರೇಡ್‌ಮಾರ್ಕ್‌ಗಳು.',
     why: 'ಏಕೆ Lily'
   },
@@ -2407,7 +2407,7 @@ const nb: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Gratis åpen kildekode — BSD, MIT, Apache-2.0, GPL-2.0 eller GPL-3.0.',
+    license: 'Gratis åpen kildekode — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 eller GPL-3.0.',
     trademark: 'Lily™ og Lily Design System™ er varemerker.',
     why: 'Hvorfor Lily'
   },
@@ -2445,7 +2445,7 @@ const km: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'កម្មវិធីប្រភពបើកចំហឥតគិតថ្លៃ — BSD, MIT, Apache-2.0, GPL-2.0 ឬ GPL-3.0។',
+    license: 'កម្មវិធីប្រភពបើកចំហឥតគិតថ្លៃ — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 ឬ GPL-3.0។',
     trademark: 'Lily™ និង Lily Design System™ ជាពាណិជ្ជសញ្ញា។',
     why: 'ហេតុអ្វីជ្រើសរើស Lily'
   },
@@ -2483,7 +2483,7 @@ const lo: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'ຊອບແວໂອເພນຊອດຟຣີ — BSD, MIT, Apache-2.0, GPL-2.0 ຫຼື GPL-3.0.',
+    license: 'ຊອບແວໂອເພນຊອດຟຣີ — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 ຫຼື GPL-3.0.',
     trademark: 'Lily™ ແລະ Lily Design System™ ແມ່ນເຄື່ອງໝາຍການຄ້າ.',
     why: 'ເປັນຫຍັງຕ້ອງ Lily'
   },
@@ -2521,7 +2521,7 @@ const wuu: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: '免费开源软件 — BSD、MIT、Apache-2.0、GPL-2.0 或者 GPL-3.0。',
+    license: '免费开源软件 — BSD、MIT、Apache-2.0、OGL-UK-3.0、CC-BY-NC-SA-4.0、GPL-2.0 或者 GPL-3.0。',
     trademark: 'Lily™ 搭 Lily Design System™ 是商标。',
     why: '为啥用 Lily'
   },
@@ -2559,7 +2559,7 @@ const sco: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Free open source saftware — BSD, MIT, Apache-2.0, GPL-2.0 or GPL-3.0.',
+    license: 'Free open source saftware — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 or GPL-3.0.',
     trademark: 'Lily™ an Lily Design System™ are tredemairks.',
     why: 'Why Lily'
   },
@@ -2597,7 +2597,7 @@ const kw: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Medhelweyth ygor-fenten rydh — BSD, MIT, Apache-2.0, GPL-2.0 po GPL-3.0.',
+    license: 'Medhelweyth ygor-fenten rydh — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 po GPL-3.0.',
     trademark: 'Lily™ ha Lily Design System™ yw nodhow-marghas.',
     why: 'Prag Lily'
   },

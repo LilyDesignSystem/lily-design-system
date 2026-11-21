@@ -37,7 +37,7 @@
   <h2>Languages, Welsh and licences</h2>
   <p>GOV.UK has a Language navigation component for switching between languages, with Welsh as its example (shown as "Cymraeg"). It states "The component does not translate content" and that you must "create, test and maintain content for all the languages you offer". Components use English by default but "include methods to translate text within them". For languages written right to left, such as Arabic, it says "you'll need to make changes to components and layouts", with no detailed guidance on the page I read.</p>
   <p>Lily ships no English strings in components: every label is a prop, and it provides 64 per-locale label packs for its grid-like helpers (63 are unreviewed machine drafts) and Unicode CLDR time zone names. It inherits direction from your <code>dir</code> attribute. Those translations need review by native speakers, and no Welsh service standard stands behind them.</p>
-  <p>On licences, govuk-frontend code is MIT "unless stated otherwise", and the site's content is under the Open Government Licence v3.0 except where otherwise stated, and is Crown copyright. Lily is offered under a choice of MIT, Apache-2.0, GPL-2.0-only, GPL-3.0-only or BSD-3-Clause. Both are free to use.</p>
+  <p>On licences, govuk-frontend code is MIT "unless stated otherwise", and the site's content is under the Open Government Licence v3.0 except where otherwise stated, and is Crown copyright. Lily is offered under a choice of MIT, Apache-2.0, GPL-2.0-only, GPL-3.0-only, BSD-3-Clause, OGL-UK-3.0 or CC-BY-NC-SA-4.0. Both are free to use.</p>
 
   <h2>Sources</h2>
   <ul>

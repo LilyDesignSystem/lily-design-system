@@ -20,7 +20,7 @@ Kerana setiap komponen membawa cangkuk kelas yang stabil dan struktur tulen, gay
 - **Boleh diantarabangsakan mengikut reka bentuk.** Setiap rentetan yang dilihat pengguna — setiap label, ralat dan pengumuman — ialah prop dengan nama stabil merentas rangka kerja, jadi terjemahan mengalir secara semula jadi. RTL dan teks dwiarah diwarisi daripada `dir`anda. Komponen yang peka lokal menerima lokal sebagai prop, sentiasa secara eksplisit.
 - **Satu katalog, lapan rangka kerja.** 608 komponen yang sama (573 sebagai Web Components natif) dengan cangkuk kelas dan konvensyen prop yang sama dalam HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks dan Web Components. CSS anda dan pengetahuan pasukan anda berpindah merentas tindanan.
 - **Tidak terikat strategi CSS.** Satu kelas kebab-case yang stabil bagi setiap akar komponen. CSS semantik, utiliti Tailwind, CSS-in-JS, atau salah satu daripada 63 tema siap pakai — Lily menyambut kesemuanya dan mengelak daripada menghalang dengan anggun.
-- **Percuma, selama-lamanya, mengikut syarat anda.** Sumber terbuka di bawah pilihan lesen anda: BSD, MIT, Apache-2.0, GPL-2.0 atau GPL-3.0. Tiada peringkat pro, tiada lesen kerusi, tiada telemetri.
+- **Percuma, selama-lamanya, mengikut syarat anda.** Sumber terbuka di bawah pilihan lesen anda: BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 atau GPL-3.0. Tiada peringkat pro, tiada lesen kerusi, tiada telemetri.
 
 ## Kedalaman di tempat yang penting
 

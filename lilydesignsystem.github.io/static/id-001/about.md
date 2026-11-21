@@ -61,7 +61,7 @@ Lily mengambil pola dan bahasa dari sekumpulan sistem desain yang sengaja dipili
 
 ## Lisensi
 
-Lily berlisensi ganda di bawah **BSD, MIT, Apache-2.0, GPL-2.0, atau GPL-3.0**. Pilih lisensi yang cocok untuk proyek Anda. Jika tak satu pun cocok, hubungi kami.
+Lily berlisensi ganda di bawah **BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0, atau GPL-3.0**. Pilih lisensi yang cocok untuk proyek Anda. Jika tak satu pun cocok, hubungi kami.
 
 ## Kontak
 

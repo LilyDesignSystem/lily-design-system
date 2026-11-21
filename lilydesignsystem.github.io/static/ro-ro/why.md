@@ -20,7 +20,7 @@ Pentru că fiecare componentă are un cârlig de clasă stabil și o structură 
 - **Internaționalizabil prin construcție.** Fiecare șir vizibil utilizatorului — fiecare etichetă, eroare și anunț — este o proprietate cu nume stabile în toate framework-urile, așa că traducerea curge firesc. RTL și textul bidirecțional moștenesc de la `dir`tău. Componentele sensibile la limbă primesc limba ca proprietate, mereu explicit.
 - **Un catalog, opt framework-uri.** Aceleași 608 de componente (573 ca Web Components native) cu aceleași cârlige de clasă și convenții de proprietăți în HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks și Web Components. CSS-ul tău și cunoștințele echipei se transferă între stack-uri.
 - **Independent de strategia CSS.** O clasă stabilă în kebab-case pe rădăcina fiecărei componente. CSS semantic, utilitare Tailwind, CSS-in-JS sau una dintre cele 63 de teme gata făcute — Lily le primește pe toate și se retrage elegant din drum.
-- **Gratuit, pentru totdeauna, în termenii tăi.** Open source sub licența ta preferată: BSD, MIT, Apache-2.0, GPL-2.0 sau GPL-3.0. Fără nivel pro, fără licențe pe loc, fără telemetrie.
+- **Gratuit, pentru totdeauna, în termenii tăi.** Open source sub licența ta preferată: BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 sau GPL-3.0. Fără nivel pro, fără licențe pe loc, fără telemetrie.
 
 ## Profunzime acolo unde contează
 

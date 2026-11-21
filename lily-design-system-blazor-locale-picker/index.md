@@ -595,7 +595,7 @@ combobox) drive it externally via `@ref` + `SetLocaleAsync`, because
 
 ## License
 
-MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause. Contact
+MIT or Apache-2.0 or OGL-UK-3.0 or CC-BY-NC-SA-4.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause. Contact
 joel@joelparkerhenderson.com for other terms.
 
 ---

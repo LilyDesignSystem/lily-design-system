@@ -94,7 +94,7 @@
 
   <h2>License</h2>
   <p>
-    Lily is multi-licensed under <strong>BSD, MIT, Apache-2.0, GPL-2.0, or GPL-3.0</strong>.
+    Lily is multi-licensed under <strong>BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0, or GPL-3.0</strong>.
     Pick whichever license fits your project. If none of those work, get in touch.
   </p>
 

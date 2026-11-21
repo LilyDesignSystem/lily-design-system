@@ -442,7 +442,7 @@ Each of these is forced by the framework, not chosen.
 - Package: lily-design-system-blazor-share-picker
 - Assembly / NuGet id: LilyDesignSystem.Blazor.SharePicker
 - Version: 0.1.0
-- License: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
+- License: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-NC-SA-4.0
 
 ### 10.1 Changelog
 

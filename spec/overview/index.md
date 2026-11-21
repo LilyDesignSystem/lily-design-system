@@ -74,7 +74,7 @@ The headless layer is the contract; the example layer is the proof. Adopters can
 | Version | 0.9.0 (latest monorepo tag `v0.9.0`)                                                                             |
 | Created | 2025-08-09                                                                                                       |
 | Updated | 2026-10-30                                                                                                       |
-| License | `MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause` (or contact for other terms; see LICENSE.md) |
+| License | `MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-NC-SA-4.0` (or contact for other terms; see LICENSE.md) |
 | Contact | Joel Parker Henderson <joel@joelparkerhenderson.com>                                                             |
 
 ## Acceptance criteria

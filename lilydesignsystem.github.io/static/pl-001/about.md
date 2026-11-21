@@ -61,7 +61,7 @@ Lily czerpie wzorce i język z celowo szerokiego zbioru systemów projektowych:
 
 ## Licencja
 
-Lily jest wielolicencyjny: **BSD, MIT, Apache-2.0, GPL-2.0 lub GPL-3.0**. Wybierz licencję pasującą do twojego projektu. Jeśli żadna nie pasuje, skontaktuj się z nami.
+Lily jest wielolicencyjny: **BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 lub GPL-3.0**. Wybierz licencję pasującą do twojego projektu. Jeśli żadna nie pasuje, skontaktuj się z nami.
 
 ## Kontakt
 

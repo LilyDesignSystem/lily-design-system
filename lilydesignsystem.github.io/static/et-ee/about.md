@@ -61,7 +61,7 @@ Lily võtab mustreid ja keelt teadlikult laiast disainisüsteemide valikust:
 
 ## Litsents
 
-Lilyl on mitu litsentsi: **BSD, MIT, Apache-2.0, GPL-2.0 või GPL-3.0**. Vali see, mis sinu projektile sobib. Kui ükski ei sobi, võta ühendust.
+Lilyl on mitu litsentsi: **BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 või GPL-3.0**. Vali see, mis sinu projektile sobib. Kui ükski ei sobi, võta ühendust.
 
 ## Kontakt
 

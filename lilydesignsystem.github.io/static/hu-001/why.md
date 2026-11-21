@@ -20,7 +20,7 @@ Mivel minden komponens stabil osztályhorgot és tiszta szerkezetet hordoz, a st
 - **Felépítésénél fogva nemzetköziesíthető.** Minden, a felhasználónak látható karakterlánc – minden címke, hiba és közlemény – a keretrendszerek között stabil nevű tulajdonság, így a fordítás természetesen áramlik. Az RTL és a kétirányú szöveg a te `dir` értékedből öröklődik. A nyelvérzékeny komponensek a nyelvet tulajdonságként kapják, mindig kifejezetten.
 - **Egy katalógus, nyolc keretrendszer.** Ugyanaz az 608 komponens (573 natív Web Components-ként) ugyanazokkal az osztályhorgokkal és tulajdonság-konvenciókkal HTML-ben, Svelte-ben, Reactben, Vue-ban, Angularban, Blazorban, Nunjucksban és Web Componentsben. A CSS-ed és a csapatod tudása átvihető a technológiai veremek között.
 - **CSS-stratégiától független.** Komponensgyökerenként egy stabil kebab-case osztály. Szemantikus CSS, Tailwind-segédosztályok, CSS-in-JS vagy az 63 kész téma egyike – a Lily mindet szívesen fogadja, és kecsesen félreáll.
-- **Ingyen, örökre, a te feltételeiddel.** Nyílt forráskód a választott licenc alatt: BSD, MIT, Apache-2.0, GPL-2.0 vagy GPL-3.0. Nincs pro szint, nincs helyenkénti licenc, nincs telemetria.
+- **Ingyen, örökre, a te feltételeiddel.** Nyílt forráskód a választott licenc alatt: BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 vagy GPL-3.0. Nincs pro szint, nincs helyenkénti licenc, nincs telemetria.
 
 ## Mélység, ahol számít
 

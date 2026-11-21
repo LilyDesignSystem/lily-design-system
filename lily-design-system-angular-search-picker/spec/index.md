@@ -332,7 +332,7 @@ Total: **31 cases** (30 clauses; §7.28 has two tests), all green.
 
 - Package: @lilydesignsystem/angular-search-picker
 - Version: 0.1.0
-- License: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
+- License: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-NC-SA-4.0
 - **2026-10-02**: created (maintainer-directed), ported from the Svelte
   canonical `@lilydesignsystem/svelte-search-picker` the same day.
 

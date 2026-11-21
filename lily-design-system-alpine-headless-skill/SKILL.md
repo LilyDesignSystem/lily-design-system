@@ -1,7 +1,7 @@
 ---
 name: lily-design-system-alpine-headless-skill
 description: Explains Lily Design System's Alpine.js headless catalog — annotated semantic-HTML snippets (`components/{slug}.html`) plus one Alpine plugin (`lily-alpine.js`) that registers `Alpine.data("lily…")` behaviours — and the six Alpine helpers built on it (data grid, kanban board, calendar, Gantt chart, Markdown editor, Org editor) and the Alpine example app. Use when someone asks how to use Lily with Alpine.js, wants the snippet-plus-plugin idiom, asks which components have Alpine behaviour and which are pure markup, needs the `x-bind` object names and keyboard contracts (menus, trees, combobox, tabs, dialogs, sliders), the `lily:*` events, how to test a snippet under jsdom, or how to use the Alpine data grid, kanban board, calendar or Gantt chart.
-license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
+license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-NC-SA-4.0
 ---
 
 # Lily Design System™ — Alpine.js headless usage

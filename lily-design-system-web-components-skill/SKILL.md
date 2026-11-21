@@ -1,7 +1,7 @@
 ---
 name: lily-design-system-web-components-skill
 description: Explains what's available as native Web Components in Lily Design System and which layer to reach for — the 438-component headless core catalog, separate identifier add-on, or `<lily-*>` helper packages. Use when someone asks what Lily offers as Web Components, which subproject they need, how the headless and helper catalogs relate, or whether there is a Web Components example application.
-license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
+license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-NC-SA-4.0
 ---
 
 # Lily Design System™ — Web Components umbrella

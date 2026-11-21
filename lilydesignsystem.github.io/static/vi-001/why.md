@@ -20,7 +20,7 @@ Vì mỗi thành phần đều có một móc lớp ổn định và cấu trúc
 - **Có thể quốc tế hóa ngay từ thiết kế.** Mọi chuỗi hiển thị cho người dùng — mỗi nhãn, lỗi và thông báo — là một prop có tên ổn định giữa các framework, nên việc dịch diễn ra tự nhiên. RTL và văn bản hai chiều kế thừa từ `dir`của bạn. Các thành phần nhận biết ngôn ngữ nhận ngôn ngữ làm prop, luôn một cách tường minh.
 - **Một danh mục, tám framework.** Cùng 608 thành phần (573 là Web Components gốc) với cùng móc lớp và quy ước prop trong HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks và Web Components. CSS của bạn và kiến thức của đội chuyển được giữa các ngăn xếp công nghệ.
 - **Không phụ thuộc chiến lược CSS.** Một lớp kebab-case ổn định cho mỗi gốc thành phần. CSS ngữ nghĩa, tiện ích Tailwind, CSS-in-JS, hoặc một trong 63 giao diện làm sẵn — Lily đón nhận tất cả và nhẹ nhàng tránh đường.
-- **Miễn phí, mãi mãi, theo điều kiện của bạn.** Mã nguồn mở theo giấy phép bạn chọn: BSD, MIT, Apache-2.0, GPL-2.0 hoặc GPL-3.0. Không có bậc pro, không có giấy phép theo chỗ ngồi, không có telemetry.
+- **Miễn phí, mãi mãi, theo điều kiện của bạn.** Mã nguồn mở theo giấy phép bạn chọn: BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 hoặc GPL-3.0. Không có bậc pro, không có giấy phép theo chỗ ngồi, không có telemetry.
 
 ## Chiều sâu ở nơi quan trọng
 

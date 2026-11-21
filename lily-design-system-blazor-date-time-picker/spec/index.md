@@ -928,7 +928,7 @@ Func<DateTime>` seam, swapped by the test project via
 - Assembly / NuGet id: `LilyDesignSystem.Blazor.DateTimePicker`
 - Spec version: 0.1.0
 - Created: 2026-07-28
-- License: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
+- License: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-NC-SA-4.0
   (or contact for other terms)
 - Contact: Joel Parker Henderson &lt;joel@joelparkerhenderson.com&gt;
 

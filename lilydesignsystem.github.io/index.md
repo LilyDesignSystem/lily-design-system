@@ -64,7 +64,7 @@ every registry's entry count matches the catalog.
 
 ## License
 
-The site content (text, layout, CSS) is multi-licensed under BSD, MIT, Apache-2.0, GPL-2.0, or GPL-3.0 — same as the rest of Lily™. Pick whichever fits your needs.
+The site content (text, layout, CSS) is multi-licensed under BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0, or GPL-3.0 — same as the rest of Lily™. Pick whichever fits your needs.
 
 Contact: Joel Parker Henderson — <joel@joelparkerhenderson.com>.
 

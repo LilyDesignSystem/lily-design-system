@@ -61,7 +61,7 @@ Lily crpi obrasce i jezik iz namjerno širokog skupa dizajnerskih sustava:
 
 ## Licenca
 
-Lily ima više licenci: **BSD, MIT, Apache-2.0, GPL-2.0 ili GPL-3.0**. Odaberite onu koja odgovara vašem projektu. Ako nijedna ne odgovara, javite nam se.
+Lily ima više licenci: **BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 ili GPL-3.0**. Odaberite onu koja odgovara vašem projektu. Ako nijedna ne odgovara, javite nam se.
 
 ## Kontakt
 

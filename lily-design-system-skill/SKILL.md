@@ -1,7 +1,7 @@
 ---
 name: lily-design-system-skill
 description: Explains Lily Design System™ concepts, terminology, and usage patterns — the headless-versus-example layers, 473-component core packages plus identifier add-ons, naming, composition, theming, and supported frameworks. Use when someone asks what Lily is, what a Lily term means, how to compose a pattern, or wants a working example in a framework.
-license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
+license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-NC-SA-4.0
 ---
 
 # Lily Design System™ — concepts & usage

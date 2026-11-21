@@ -42,7 +42,7 @@ Lily's catalog is far wider: 608 components, including charts, a data grid, Gant
 
 USWDS's README says most of the project is in the public domain under the CC0 1.0 Universal dedication. Its `LICENSE.md` says "A few parts of this project are not in the public domain": Google Material Icons and Roboto Mono fall under Apache 2.0, the Source Sans Pro, Merriweather and Public Sans fonts under the SIL Open Font License 1.1, and some files under the MIT licence or CC0. You can use it without conditions, apart from those few parts.
 
-Lily is licensed, at your option, under any of MIT, Apache 2.0, GPL-2.0-only, GPL-3.0-only or BSD-3-Clause, with custom terms available on request. It bundles no fonts or icon sets. Both are free to use commercially, but USWDS's public-domain dedication is the simpler position, and Lily's multi-licence choice is the more flexible one.
+Lily is licensed, at your option, under any of MIT, Apache 2.0, GPL-2.0-only, GPL-3.0-only, BSD-3-Clause, OGL-UK-3.0 or CC-BY-NC-SA-4.0, with custom terms available on request. It bundles no fonts or icon sets. Both are free to use commercially, but USWDS's public-domain dedication is the simpler position, and Lily's multi-licence choice is the more flexible one.
 
 ## Sources
 

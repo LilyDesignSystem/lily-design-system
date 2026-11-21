@@ -6,7 +6,7 @@
     "node": ">=26"
   },
   "description": "Lily Design System Alpine.js headless components (473 core components): annotated semantic-HTML snippets with ARIA, class hooks and Alpine directives, plus a small Alpine plugin that owns the keyboard and state behaviour. Zero CSS. Targets WCAG 2.2 AAA.",
-  "license": "MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause",
+  "license": "MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-NC-SA-4.0",
   "scripts": {
     "test": "vitest run",
     "check": "tsc --noEmit",

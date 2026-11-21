@@ -20,7 +20,7 @@ Ker ima vsaka komponenta stabilen kavelj razreda in čisto strukturo, vaše stil
 - **Internacionalizirano že po zasnovi.** Vsak uporabniku viden niz — vsaka oznaka, napaka in obvestilo — je lastnost s stabilnimi imeni v vseh ogrodjih, zato prevajanje teče naravno. RTL in dvosmerno besedilo se dedujeta iz vašega `dir`. Komponente, ki upoštevajo jezik, prejmejo jezik kot lastnost, vedno izrecno.
 - **En katalog, osem ogrodij.** Istih 608 komponent (573 kot izvorne Web Components) z istimi kavlji razredov in dogovori o lastnostih v HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks in Web Components. Vaš CSS in znanje ekipe se prenašata med skladi.
 - **Neodvisno od strategije CSS.** En stabilen razred v kebab-case na koren komponente. Semantični CSS, pripomočki Tailwind, CSS-in-JS ali ena od 63 že pripravljenih tem — Lily jih vse pozdravi in se elegantno umakne.
-- **Brezplačno, za vedno, pod vašimi pogoji.** Odprta koda pod licenco po vaši izbiri: BSD, MIT, Apache-2.0, GPL-2.0 ali GPL-3.0. Brez pro stopnje, brez licenc na sedež, brez telemetrije.
+- **Brezplačno, za vedno, pod vašimi pogoji.** Odprta koda pod licenco po vaši izbiri: BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 ali GPL-3.0. Brez pro stopnje, brez licenc na sedež, brez telemetrije.
 
 ## Globina tam, kjer šteje
 

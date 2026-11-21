@@ -61,7 +61,7 @@ Mae Lily yn benthyca patrymau ac iaith o gasgliad eang yn fwriadol o systemau dy
 
 ## Trwydded
 
-Mae Lily wedi'i amlrwyddedu o dan **BSD, MIT, Apache-2.0, GPL-2.0, neu GPL-3.0**. Dewiswch ba bynnag drwydded sy'n gweddu i'ch prosiect. Os nad yw'r un o'r rheini'n gweithio, cysylltwch â ni.
+Mae Lily wedi'i amlrwyddedu o dan **BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0, neu GPL-3.0**. Dewiswch ba bynnag drwydded sy'n gweddu i'ch prosiect. Os nad yw'r un o'r rheini'n gweithio, cysylltwch â ni.
 
 ## Cysylltu
 

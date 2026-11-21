@@ -20,7 +20,7 @@ Her bileşen kararlı bir sınıf kancası ve saf bir yapı taşıdığı için,
 - **Yapısı gereği uluslararasılaştırılabilir.** Kullanıcıya dönük her dize — her etiket, hata ve duyuru — çerçeveler arasında kararlı adlara sahip bir prop'tur; bu yüzden çeviri doğal biçimde akar. RTL ve çift yönlü metin, sizin `dir` değerinizden devralınır. Yerel ayara duyarlı bileşenler yerel ayarı prop olarak alır, her zaman açıkça.
 - **Tek katalog, sekiz çerçeve.** Aynı 608 bileşen (573'sı yerel Web Components olarak), HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks ve Web Components'te aynı sınıf kancaları ve prop kurallarıyla. CSS'iniz ve ekibinizin bilgisi yığınlar arasında aktarılır.
 - **CSS stratejisinden bağımsız.** Bileşen kökü başına tek bir kararlı kebab-case sınıf. Anlamsal CSS, Tailwind yardımcıları, CSS-in-JS veya hazır 63 temadan biri — Lily hepsini ağırlar ve zarifçe yolunuzdan çekilir.
-- **Ücretsiz, sonsuza dek, sizin şartlarınızla.** BSD, MIT, Apache-2.0, GPL-2.0 veya GPL-3.0 arasından seçeceğiniz lisansla açık kaynak. Pro katman yok, koltuk lisansı yok, telemetri yok.
+- **Ücretsiz, sonsuza dek, sizin şartlarınızla.** BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 veya GPL-3.0 arasından seçeceğiniz lisansla açık kaynak. Pro katman yok, koltuk lisansı yok, telemetri yok.
 
 ## Önemli olan yerde derinlik
 

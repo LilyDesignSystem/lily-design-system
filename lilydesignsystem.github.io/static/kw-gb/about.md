@@ -61,7 +61,7 @@ Lily a gemmer patromow hag yeth a set ledan a systemow dyllans dewisys yn arbenn
 
 ## Kummyas
 
-Lily a'n jeves lies kummyas dres **BSD, MIT, Apache-2.0, GPL-2.0, po GPL-3.0**. Dewisewgh an kummyas a gormel orth dha raglen. Mar ny wra onan anedha ober, kestewgh genen.
+Lily a'n jeves lies kummyas dres **BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0, po GPL-3.0**. Dewisewgh an kummyas a gormel orth dha raglen. Mar ny wra onan anedha ober, kestewgh genen.
 
 ## Kestava
 

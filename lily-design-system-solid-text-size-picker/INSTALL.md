@@ -21,7 +21,7 @@ Its contract is the package's own `spec/index.md`, summarised in
 ## License
 
 Free open source, under your choice of MIT, Apache-2.0, GPL-2.0-only,
-GPL-3.0-only, or BSD-3-Clause. See [LICENSE.md](LICENSE.md).
+GPL-3.0-only, BSD-3-Clause, OGL-UK-3.0, or CC-BY-NC-SA-4.0. See [LICENSE.md](LICENSE.md).
 
 ## Contributing
 

@@ -20,7 +20,7 @@ Dahil bawat component ay may matatag na class hook at purong istruktura, nananat
 - **Maaaring i-internationalize sa disenyo.** Ang bawat string na nakikita ng user — bawat label, error, at anunsyo — ay prop na may matatag na pangalan sa lahat ng framework, kaya natural na dumadaloy ang pagsasalin. Namamana ang RTL at bidirectional na teksto mula sa iyong `dir`. Tinatanggap ng mga component na nakakaalam ng locale ang locale bilang prop, palaging tahasan.
 - **Isang catalog, walong framework.** Ang parehong 608 component (573 bilang native na Web Components) na may parehong class hook at kombensyon ng prop sa HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks, at Web Components. Nalilipat ang iyong CSS at kaalaman ng koponan sa iba't ibang stack.
 - **Walang pinapanigan na estratehiya sa CSS.** Isang matatag na kebab-case na klase sa bawat ugat ng component. Semantic CSS, mga utility ng Tailwind, CSS-in-JS, o isa sa 63 handa nang tema — tinatanggap sila lahat ng Lily at maayos na umiiwas sa daan.
-- **Libre, magpakailanman, sa iyong mga tuntunin.** Open source sa ilalim ng pinili mong BSD, MIT, Apache-2.0, GPL-2.0, o GPL-3.0. Walang pro tier, walang seat license, walang telemetry.
+- **Libre, magpakailanman, sa iyong mga tuntunin.** Open source sa ilalim ng pinili mong BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0, o GPL-3.0. Walang pro tier, walang seat license, walang telemetry.
 
 ## Lalim kung saan mahalaga
 

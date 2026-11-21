@@ -20,7 +20,7 @@ Leis gu bheil crochadh clas seasmhach agus structar glan aig gach co-phàirt, fa
 - **Eadar-nàiseantach le dealbhadh.** Tha gach sreang a chì cleachdaiche — gach leubail, mearachd agus fios — na prop le ainmean seasmhach thar fhrèamaichean, agus mar sin sruthaidh eadar-theangachadh gu nàdarra. Gabhaidh RTL agus teacsa dà-chlaon seilbh bhon `dir`agad. Gabhaidh co-phàirtean a tha mothachail air an locale an locale mar prop, an-còmhnaidh gu follaiseach.
 - **Aon chatalog, ochd frèamaichean.** An aon 608 co-phàirt (573 mar Web Components dùthchasach) leis na h-aon chrochaidhean clas agus gnàthasan prop ann an HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks agus Web Components. Gluaisidh do CSS agus eòlas an sgioba agad thar stac.
 - **Neo-eisimeileach air ro-innleachd CSS.** Aon chlas kebab-case seasmhach airson gach freumh co-phàirt. CSS seamantach, goireasan Tailwind, CSS-in-JS, no fear dhe na 63 ùrlaran deiseil — fàilteachaidh Lily iad uile agus fanaidh i gu grinn a-mach às an rathad.
-- **An-asgaidh, gu bràth, air na teirmean agadsa.** Tùs fosgailte fo do roghainn de BSD, MIT, Apache-2.0, GPL-2.0 no GPL-3.0. Gun ìre pro, gun chead-suidheachain, gun telemetry.
+- **An-asgaidh, gu bràth, air na teirmean agadsa.** Tùs fosgailte fo do roghainn de BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 no GPL-3.0. Gun ìre pro, gun chead-suidheachain, gun telemetry.
 
 ## Doimhneachd far a bheil e cudromach
 

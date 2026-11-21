@@ -61,7 +61,7 @@ Lily tieħu x-xejriet u l-lingwaġġ minn sett wiesa’ apposta ta’ sistemi ta
 
 ## Liċenzja
 
-Lily għandha liċenzji multipli: **BSD, MIT, Apache-2.0, GPL-2.0 jew GPL-3.0**. Agħżel dik li taqbel mal-proġett tiegħek. Jekk l-ebda waħda ma taqbel, ikkuntattjana.
+Lily għandha liċenzji multipli: **BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 jew GPL-3.0**. Agħżel dik li taqbel mal-proġett tiegħek. Jekk l-ebda waħda ma taqbel, ikkuntattjana.
 
 ## Kuntatt
 
