@@ -4201,6 +4201,33 @@ guide (T5, T6) and the examples (T7); T8 and T9 are investigations. New props go
       English) and `labels.clearAll`, in the next label-pack round so all 64 packs gain them together.
       Verify: in all eight catalogs with tests; `bin/check-label-packs` and `bin/check-built-english` pass.
 
+## Phase 41 — Public-sector health adoption (2026-11-21)
+
+From a review of what a public-sector health digital team needs before it would adopt Lily alongside, then instead of, its
+current design system. No person or organisation is named. Order: T1 first (a trust gap), then T2 and T3, then T4 to T6.
+
+- [ ] **P41-T1 A reviewed Welsh label pack.** `cy-001` is an unreviewed machine draft, and equal treatment of Welsh is a core
+      expectation of a Welsh public service. Have a Welsh-speaking clinician or translator review it, record who and when, and
+      drop the "unreviewed" note for `cy-001` only.
+      Verify: `bin/check-label-packs` passes; the label-packs topic records the review.
+- [ ] **P41-T2 A bilingual vaccination example.** Record a vaccination, stock by site, and a reporting dashboard, in English and
+      Welsh, from the existing `immunization-record-list` and the clinical formatting module; invented data only.
+      Verify: an example page under `/examples/` with e2e and axe tests in three browsers, the language switch tested.
+- [x] **P41-T3 FHIR notes for the healthcare components.** A table mapping `observation-view`, `immunization-record-list`,
+      `allergy-record-list` and `medication-view` to the FHIR resources and fields they display; no data model shipped.
+      Verify: the table is in the healthcare guide; `bin/check-links` passes. _(2026-11-21: done. The guide already mapped IPS
+      sections and status codes; a new "Fields" table maps 23 FHIR R4 elements to the props of the four components and their
+      items, and says plainly that nothing validates a resource.)_
+- [ ] **P41-T4 "Switching from a government design system" guide.** A component-by-component mapping, effort estimates and an
+      incremental "adopt alongside, then migrate" path, modelled on the Bootstrap migration guide.
+      Verify: generated from a TSV like `docs/migrating/bootstrap.tsv`, with a `--check`.
+- [ ] **P41-T5 An assurance pack.** Security and supply-chain notes, an SBOM per package, provenance-attested releases (depends on
+      the trusted-publishing work), and clinical-safety support documents; UK public-sector profile, kept regional, not the default.
+      Verify: the pack is linked from the site; `bin/check-worldwide` still passes.
+- [ ] **P41-T6 A "for public-sector health" landing page.** Outcomes first, with the measured figures (coverage, test counts,
+      sweeps), a side-by-side comparison, an honest list of what is not yet proved, and an adopter slot left empty until real.
+      Verify: page with a Playwright spec; every figure links to its generator.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.

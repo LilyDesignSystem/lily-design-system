@@ -229,6 +229,40 @@ and the words for every state are your own.
 | `dataAbsentReason` `not-applicable`                                          | `status="not-applicable"` (also on the record lists)              |
 | `Quantity.comparator`                                                        | `formatQuantity(value, unit, locale, comparator)`                 |
 
+### Fields
+
+The element-by-element mapping for the four components a vaccination, results or medicines view is built from (FHIR R4 names).
+Lily shows text; your code turns codes, dates and numbers into the words and formats for your readers' language.
+
+| FHIR resource and element                                   | Lily component and prop                                                       |
+| ----------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| `Immunization.vaccineCode`                                  | `immunization-record-list-item` `vaccine` (the display text, never truncated) |
+| `Immunization.occurrenceDateTime`                           | `occurrence` (machine date) and `occurrenceLabel` (your formatted words)      |
+| `Immunization.occurrenceString`                             | `occurrenceLabel` only, with no `occurrence`                                  |
+| `Immunization.protocolApplied.doseNumber`                   | `doseNumberLabel` ("Dose 2 of 2"; you write the words)                        |
+| `Immunization.lotNumber`                                    | `lotNumber`                                                                   |
+| `Immunization.status`                                       | `status` (`completed`, `entered-in-error`, `not-done`) with `statusLabel`     |
+| `Immunization.patient` when not the subject of the page     | `subjectLabel`                                                                |
+| `Observation.code`                                          | the visible caption, or `observation-view` `label`                            |
+| `Observation.valueQuantity.value`, `.unit`                  | `value` (formatted by you, for example with `formatQuantity`) and `unit`      |
+| `Observation.referenceRange.text`, or `.low` and `.high`    | `range` (text), plus `meterLow` and `meterHigh` for the optional `<meter>`    |
+| `Observation.referenceRange` with a `type` such as critical | `ranges` (`{ label, text }`)                                                  |
+| `Observation.interpretation`                                | `interpretation` and `flagLabel`                                              |
+| `Observation.status`, `.dataAbsentReason`                   | `status` and `statusLabel` (see Codes above)                                  |
+| `MedicationStatement.medicationCodeableConcept`             | `medication-view` `name`, or `nameSegments` when tall man letters apply       |
+| `MedicationStatement.dosage.text`                           | `dosageText`                                                                  |
+| `MedicationStatement.dosage.route`                          | `route`                                                                       |
+| `MedicationStatement.dosage.timing`                         | `frequency` (your words: "twice a day")                                       |
+| `MedicationStatement.dosage.doseAndRate.doseQuantity`       | `strength` (what is given), or inside `dosageText`                            |
+| `Medication.form`                                           | `form`                                                                        |
+| `AllergyIntolerance.code`                                   | `allergy-record-list-item` `substance` (never truncated)                      |
+| `AllergyIntolerance.reaction.manifestation`                 | `reaction`                                                                    |
+| `AllergyIntolerance.type`, `.category`                      | `typeLabel`, `categoryLabel`                                                  |
+| `AllergyIntolerance.recordedDate` or `.lastOccurrence`      | `updated` and `updatedLabel`                                                  |
+
+Lily ships no FHIR data model, parser or terminology: these tables describe where each element shows up, and nothing here
+validates a resource.
+
 Map an `entered-in-error` record to its `entered-in-error` status, with words, rather than dropping it silently: whether to show
 it at all is your service's decision.
 
