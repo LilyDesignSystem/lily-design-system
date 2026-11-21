@@ -59,7 +59,8 @@
 
 <header class="site-header">
   <div class="site-header-inner">
-    <a class="site-brand" href={homeHref} aria-label={strings.brandAriaLabel}>
+    <!-- The visible name names the link (WCAG 2.5.3, label in name); a linked logo leads home by convention. -->
+    <a class="site-brand" href={homeHref}>
       <img
         class="site-brand-mark"
         src="/assets/images/lily-design-system-icon/lily-design-system-icon.svg"

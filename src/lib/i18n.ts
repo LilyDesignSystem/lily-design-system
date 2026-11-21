@@ -11,7 +11,6 @@ import { DEFAULT_LOCALE } from './locales';
 
 export type UiStrings = {
   skipLink: string;
-  brandAriaLabel: string;
   nav: {
     home: string;
     components: string;
@@ -49,7 +48,6 @@ export type UiStrings = {
 
 const en: UiStrings = {
   skipLink: 'Skip to main content',
-  brandAriaLabel: 'Lily Design System home',
   nav: {
     home: 'Home',
     components: 'Components',
@@ -107,7 +105,6 @@ const enUs: UiStrings = en;
 
 const es: UiStrings = {
   skipLink: 'Saltar al contenido principal',
-  brandAriaLabel: 'Inicio de Lily Design System',
   nav: {
     home: 'Inicio',
     components: 'Componentes',
@@ -157,7 +154,6 @@ const es: UiStrings = {
 
 const fr: UiStrings = {
   skipLink: 'Passer au contenu principal',
-  brandAriaLabel: 'Accueil de Lily Design System',
   nav: {
     home: 'Accueil',
     components: 'Composants',
@@ -206,7 +202,6 @@ const fr: UiStrings = {
 
 const pt: UiStrings = {
   skipLink: 'Pular para o conteúdo principal',
-  brandAriaLabel: 'Início do Lily Design System',
   nav: {
     home: 'Início',
     components: 'Componentes',
@@ -256,7 +251,6 @@ const pt: UiStrings = {
 
 const ru: UiStrings = {
   skipLink: 'Перейти к основному содержимому',
-  brandAriaLabel: 'Главная страница Lily Design System',
   nav: {
     home: 'Главная',
     components: 'Компоненты',
@@ -307,7 +301,6 @@ const ru: UiStrings = {
 
 const hi: UiStrings = {
   skipLink: 'मुख्य सामग्री पर जाएँ',
-  brandAriaLabel: 'Lily Design System होम',
   nav: {
     home: 'होम',
     components: 'कॉम्पोनेंट्स',
@@ -355,7 +348,6 @@ const hi: UiStrings = {
 
 const id: UiStrings = {
   skipLink: 'Lewati ke konten utama',
-  brandAriaLabel: 'Beranda Lily Design System',
   nav: {
     home: 'Beranda',
     components: 'Komponen',
@@ -405,7 +397,6 @@ const id: UiStrings = {
 
 const cy: UiStrings = {
   skipLink: "Neidio i'r prif gynnwys",
-  brandAriaLabel: 'Hafan Lily Design System',
   nav: {
     home: 'Hafan',
     components: 'Cydrannau',
@@ -456,7 +447,6 @@ const cy: UiStrings = {
 
 const ar: UiStrings = {
   skipLink: 'الانتقال إلى المحتوى الرئيسي',
-  brandAriaLabel: 'الصفحة الرئيسية لـ Lily Design System',
   nav: {
     home: 'الرئيسية',
     components: 'المكوّنات',
@@ -503,7 +493,6 @@ const ar: UiStrings = {
 
 const ur: UiStrings = {
   skipLink: 'بنیادی مواد پر جائیں',
-  brandAriaLabel: 'Lily Design System کا صفحۂ اول',
   nav: {
     home: 'ہوم',
     components: 'اجزاء',
@@ -551,7 +540,6 @@ const ur: UiStrings = {
 
 const bn: UiStrings = {
   skipLink: 'মূল বিষয়বস্তুতে যান',
-  brandAriaLabel: 'Lily Design System হোম',
   nav: {
     home: 'হোম',
     components: 'কম্পোনেন্ট',
@@ -599,7 +587,6 @@ const bn: UiStrings = {
 
 const zh: UiStrings = {
   skipLink: '跳到主要内容',
-  brandAriaLabel: 'Lily Design System 首页',
   nav: {
     home: '首页',
     components: '组件',
@@ -646,7 +633,6 @@ const zh: UiStrings = {
 
 const ja: UiStrings = {
   skipLink: 'メインコンテンツへスキップ',
-  brandAriaLabel: 'Lily Design System ホーム',
   nav: {
     home: 'ホーム',
     components: 'コンポーネント',
@@ -684,7 +670,6 @@ const ja: UiStrings = {
 
 const ko: UiStrings = {
   skipLink: '본문으로 건너뛰기',
-  brandAriaLabel: 'Lily Design System 홈',
   nav: {
     home: '홈',
     components: '컴포넌트',
@@ -722,7 +707,6 @@ const ko: UiStrings = {
 
 const sw: UiStrings = {
   skipLink: 'Ruka hadi maudhui makuu',
-  brandAriaLabel: 'Ukurasa wa mwanzo wa Lily Design System',
   nav: {
     home: 'Mwanzo',
     components: 'Vipengele',
@@ -760,7 +744,6 @@ const sw: UiStrings = {
 
 const sv: UiStrings = {
   skipLink: 'Hoppa till huvudinnehållet',
-  brandAriaLabel: 'Lily Design System startsida',
   nav: {
     home: 'Start',
     components: 'Komponenter',
@@ -798,7 +781,6 @@ const sv: UiStrings = {
 
 const nl: UiStrings = {
   skipLink: 'Direct naar de hoofdinhoud',
-  brandAriaLabel: 'Startpagina van Lily Design System',
   nav: {
     home: 'Home',
     components: 'Componenten',
@@ -836,7 +818,6 @@ const nl: UiStrings = {
 
 const de: UiStrings = {
   skipLink: 'Zum Hauptinhalt springen',
-  brandAriaLabel: 'Startseite von Lily Design System',
   nav: {
     home: 'Start',
     components: 'Komponenten',
@@ -874,7 +855,6 @@ const de: UiStrings = {
 
 const da: UiStrings = {
   skipLink: 'Gå til hovedindholdet',
-  brandAriaLabel: 'Startside for Lily Design System',
   nav: {
     home: 'Hjem',
     components: 'Komponenter',
@@ -912,7 +892,6 @@ const da: UiStrings = {
 
 const th: UiStrings = {
   skipLink: 'ข้ามไปยังเนื้อหาหลัก',
-  brandAriaLabel: 'หน้าแรกของ Lily Design System',
   nav: {
     home: 'หน้าแรก',
     components: 'คอมโพเนนต์',
@@ -950,7 +929,6 @@ const th: UiStrings = {
 
 const et: UiStrings = {
   skipLink: 'Liigu põhisisu juurde',
-  brandAriaLabel: 'Lily Design Systemi avaleht',
   nav: {
     home: 'Avaleht',
     components: 'Komponendid',
@@ -988,7 +966,6 @@ const et: UiStrings = {
 
 const fi: UiStrings = {
   skipLink: 'Siirry pääsisältöön',
-  brandAriaLabel: 'Lily Design Systemin etusivu',
   nav: {
     home: 'Etusivu',
     components: 'Komponentit',
@@ -1026,7 +1003,6 @@ const fi: UiStrings = {
 
 const it: UiStrings = {
   skipLink: 'Salta al contenuto principale',
-  brandAriaLabel: 'Pagina iniziale di Lily Design System',
   nav: {
     home: 'Home',
     components: 'Componenti',
@@ -1064,7 +1040,6 @@ const it: UiStrings = {
 
 const tr: UiStrings = {
   skipLink: 'Ana içeriğe geç',
-  brandAriaLabel: 'Lily Design System ana sayfası',
   nav: {
     home: 'Ana sayfa',
     components: 'Bileşenler',
@@ -1102,7 +1077,6 @@ const tr: UiStrings = {
 
 const vi: UiStrings = {
   skipLink: 'Chuyển đến nội dung chính',
-  brandAriaLabel: 'Trang chủ Lily Design System',
   nav: {
     home: 'Trang chủ',
     components: 'Thành phần',
@@ -1140,7 +1114,6 @@ const vi: UiStrings = {
 
 const pl: UiStrings = {
   skipLink: 'Przejdź do głównej treści',
-  brandAriaLabel: 'Strona główna Lily Design System',
   nav: {
     home: 'Start',
     components: 'Komponenty',
@@ -1178,7 +1151,6 @@ const pl: UiStrings = {
 
 const ro: UiStrings = {
   skipLink: 'Salt la conținutul principal',
-  brandAriaLabel: 'Pagina de start Lily Design System',
   nav: {
     home: 'Acasă',
     components: 'Componente',
@@ -1216,7 +1188,6 @@ const ro: UiStrings = {
 
 const cs: UiStrings = {
   skipLink: 'Přejít na hlavní obsah',
-  brandAriaLabel: 'Domovská stránka Lily Design System',
   nav: {
     home: 'Domů',
     components: 'Komponenty',
@@ -1254,7 +1225,6 @@ const cs: UiStrings = {
 
 const hu: UiStrings = {
   skipLink: 'Ugrás a fő tartalomra',
-  brandAriaLabel: 'A Lily Design System kezdőlapja',
   nav: {
     home: 'Kezdőlap',
     components: 'Komponensek',
@@ -1292,7 +1262,6 @@ const hu: UiStrings = {
 
 const el: UiStrings = {
   skipLink: 'Μετάβαση στο κύριο περιεχόμενο',
-  brandAriaLabel: 'Αρχική σελίδα του Lily Design System',
   nav: {
     home: 'Αρχική',
     components: 'Στοιχεία',
@@ -1330,7 +1299,6 @@ const el: UiStrings = {
 
 const bg: UiStrings = {
   skipLink: 'Към основното съдържание',
-  brandAriaLabel: 'Начална страница на Lily Design System',
   nav: {
     home: 'Начало',
     components: 'Компоненти',
@@ -1368,7 +1336,6 @@ const bg: UiStrings = {
 
 const sk: UiStrings = {
   skipLink: 'Prejsť na hlavný obsah',
-  brandAriaLabel: 'Domovská stránka Lily Design System',
   nav: {
     home: 'Domov',
     components: 'Komponenty',
@@ -1406,7 +1373,6 @@ const sk: UiStrings = {
 
 const hr: UiStrings = {
   skipLink: 'Preskoči na glavni sadržaj',
-  brandAriaLabel: 'Početna stranica Lily Design Systema',
   nav: {
     home: 'Početna',
     components: 'Komponente',
@@ -1444,7 +1410,6 @@ const hr: UiStrings = {
 
 const lt: UiStrings = {
   skipLink: 'Pereiti prie pagrindinio turinio',
-  brandAriaLabel: 'Lily Design System pradžia',
   nav: {
     home: 'Pradžia',
     components: 'Komponentai',
@@ -1482,7 +1447,6 @@ const lt: UiStrings = {
 
 const sl: UiStrings = {
   skipLink: 'Preskoči na glavno vsebino',
-  brandAriaLabel: 'Domača stran Lily Design System',
   nav: {
     home: 'Domov',
     components: 'Komponente',
@@ -1520,7 +1484,6 @@ const sl: UiStrings = {
 
 const lv: UiStrings = {
   skipLink: 'Pāriet uz galveno saturu',
-  brandAriaLabel: 'Lily Design System sākumlapa',
   nav: {
     home: 'Sākums',
     components: 'Komponenti',
@@ -1558,7 +1521,6 @@ const lv: UiStrings = {
 
 const mt: UiStrings = {
   skipLink: 'Aqbeż għall-kontenut ewlieni',
-  brandAriaLabel: 'Paġna ewlenija ta’ Lily Design System',
   nav: {
     home: 'Dar',
     components: 'Komponenti',
@@ -1596,7 +1558,6 @@ const mt: UiStrings = {
 
 const ga: UiStrings = {
   skipLink: 'Léim chuig an bpríomhábhar',
-  brandAriaLabel: 'Leathanach baile Lily Design System',
   nav: {
     home: 'Baile',
     components: 'Comhpháirteanna',
@@ -1634,7 +1595,6 @@ const ga: UiStrings = {
 
 const lb: UiStrings = {
   skipLink: 'Direkt zum Haaptinhalt',
-  brandAriaLabel: 'Startsäit vu Lily Design System',
   nav: {
     home: 'Start',
     components: 'Komponenten',
@@ -1672,7 +1632,6 @@ const lb: UiStrings = {
 
 const pa: UiStrings = {
   skipLink: 'ਮੁੱਖ ਸਮੱਗਰੀ ਤੇ ਜਾਓ',
-  brandAriaLabel: 'Lily Design System ਮੁੱਖ ਪੰਨਾ',
   nav: {
     home: 'ਮੁੱਖ ਪੰਨਾ',
     components: 'ਕੰਪੋਨੈਂਟ',
@@ -1710,7 +1669,6 @@ const pa: UiStrings = {
 
 const mr: UiStrings = {
   skipLink: 'मुख्य मजकुराकडे जा',
-  brandAriaLabel: 'Lily Design System मुख्यपृष्ठ',
   nav: {
     home: 'मुख्यपृष्ठ',
     components: 'घटक',
@@ -1748,7 +1706,6 @@ const mr: UiStrings = {
 
 const te: UiStrings = {
   skipLink: 'ప్రధాన కంటెంట్‌కు వెళ్లండి',
-  brandAriaLabel: 'Lily Design System హోమ్',
   nav: {
     home: 'హోమ్',
     components: 'భాగాలు',
@@ -1786,7 +1743,6 @@ const te: UiStrings = {
 
 const ha: UiStrings = {
   skipLink: 'Tsallaka zuwa babban abun ciki',
-  brandAriaLabel: 'Shafin farko na Lily Design System',
   nav: {
     home: 'Gida',
     components: 'Abubuwan haɗawa',
@@ -1824,7 +1780,6 @@ const ha: UiStrings = {
 
 const ta: UiStrings = {
   skipLink: 'முதன்மை உள்ளடக்கத்திற்குச் செல்',
-  brandAriaLabel: 'Lily Design System முகப்பு',
   nav: {
     home: 'முகப்பு',
     components: 'கூறுகள்',
@@ -1862,7 +1817,6 @@ const ta: UiStrings = {
 
 const fa: UiStrings = {
   skipLink: 'پرش به محتوای اصلی',
-  brandAriaLabel: 'صفحهٔ اصلی Lily Design System',
   nav: {
     home: 'خانه',
     components: 'مؤلفه‌ها',
@@ -1900,7 +1854,6 @@ const fa: UiStrings = {
 
 const jv: UiStrings = {
   skipLink: 'Langsung menyang isi utama',
-  brandAriaLabel: 'Kaca ngarep Lily Design System',
   nav: {
     home: 'Ngarep',
     components: 'Komponen',
@@ -1938,7 +1891,6 @@ const jv: UiStrings = {
 
 const gu: UiStrings = {
   skipLink: 'મુખ્ય સામગ્રી પર જાઓ',
-  brandAriaLabel: 'Lily Design System હોમ',
   nav: {
     home: 'હોમ',
     components: 'ઘટકો',
@@ -1976,7 +1928,6 @@ const gu: UiStrings = {
 
 const bh: UiStrings = {
   skipLink: 'मुख्य सामग्री पर जाईं',
-  brandAriaLabel: 'Lily Design System होम',
   nav: {
     home: 'होम',
     components: 'घटक',
@@ -2014,7 +1965,6 @@ const bh: UiStrings = {
 
 const gd: UiStrings = {
   skipLink: 'Leum chun na prìomh shusbaint',
-  brandAriaLabel: 'Duilleag-dhachaigh Lily Design System',
   nav: {
     home: 'Dhachaigh',
     components: 'Co-phàirtean',
@@ -2052,7 +2002,6 @@ const gd: UiStrings = {
 
 const is: UiStrings = {
   skipLink: 'Fara beint í aðalefni',
-  brandAriaLabel: 'Heimasíða Lily Design System',
   nav: {
     home: 'Heim',
     components: 'Íhlutir',
@@ -2090,7 +2039,6 @@ const is: UiStrings = {
 
 const eu: UiStrings = {
   skipLink: 'Joan eduki nagusira',
-  brandAriaLabel: 'Lily Design System hasierako orria',
   nav: {
     home: 'Hasiera',
     components: 'Osagaiak',
@@ -2128,7 +2076,6 @@ const eu: UiStrings = {
 
 const uk: UiStrings = {
   skipLink: 'Перейти до основного вмісту',
-  brandAriaLabel: 'Головна сторінка Lily Design System',
   nav: {
     home: 'Головна',
     components: 'Компоненти',
@@ -2166,7 +2113,6 @@ const uk: UiStrings = {
 
 const ms: UiStrings = {
   skipLink: 'Langkau ke kandungan utama',
-  brandAriaLabel: 'Laman utama Lily Design System',
   nav: {
     home: 'Utama',
     components: 'Komponen',
@@ -2204,7 +2150,6 @@ const ms: UiStrings = {
 
 const he: UiStrings = {
   skipLink: 'דלג לתוכן הראשי',
-  brandAriaLabel: 'דף הבית של Lily Design System',
   nav: {
     home: 'בית',
     components: 'רכיבים',
@@ -2242,7 +2187,6 @@ const he: UiStrings = {
 
 const pcm: UiStrings = {
   skipLink: 'Skip go di main content',
-  brandAriaLabel: 'Lily Design System home',
   nav: {
     home: 'Home',
     components: 'Components',
@@ -2280,7 +2224,6 @@ const pcm: UiStrings = {
 
 const yue: UiStrings = {
   skipLink: '跳去主要內容',
-  brandAriaLabel: 'Lily Design System 主頁',
   nav: {
     home: '主頁',
     components: '元件',
@@ -2318,7 +2261,6 @@ const yue: UiStrings = {
 
 const tl: UiStrings = {
   skipLink: 'Lumaktaw sa pangunahing nilalaman',
-  brandAriaLabel: 'Home ng Lily Design System',
   nav: {
     home: 'Home',
     components: 'Mga Component',
@@ -2356,7 +2298,6 @@ const tl: UiStrings = {
 
 const kn: UiStrings = {
   skipLink: 'ಮುಖ್ಯ ವಿಷಯಕ್ಕೆ ಹೋಗಿ',
-  brandAriaLabel: 'Lily Design System ಮುಖಪುಟ',
   nav: {
     home: 'ಮುಖಪುಟ',
     components: 'ಘಟಕಗಳು',
@@ -2394,7 +2335,6 @@ const kn: UiStrings = {
 
 const nb: UiStrings = {
   skipLink: 'Hopp til hovedinnholdet',
-  brandAriaLabel: 'Lily Design System startside',
   nav: {
     home: 'Hjem',
     components: 'Komponenter',
@@ -2432,7 +2372,6 @@ const nb: UiStrings = {
 
 const km: UiStrings = {
   skipLink: 'រំលងទៅខ្លឹមសារចម្បង',
-  brandAriaLabel: 'ទំព័រដើមរបស់ Lily Design System',
   nav: {
     home: 'ទំព័រដើម',
     components: 'សមាសភាគ',
@@ -2470,7 +2409,6 @@ const km: UiStrings = {
 
 const lo: UiStrings = {
   skipLink: 'ຂ້າມໄປຫາເນື້ອໃນຫຼັກ',
-  brandAriaLabel: 'ໜ້າຫຼັກ Lily Design System',
   nav: {
     home: 'ໜ້າຫຼັກ',
     components: 'ອົງປະກອບ',
@@ -2508,7 +2446,6 @@ const lo: UiStrings = {
 
 const wuu: UiStrings = {
   skipLink: '跳到主要内容',
-  brandAriaLabel: 'Lily Design System 首页',
   nav: {
     home: '首页',
     components: '组件',
@@ -2546,7 +2483,6 @@ const wuu: UiStrings = {
 
 const sco: UiStrings = {
   skipLink: 'Skip tae the main content',
-  brandAriaLabel: 'Lily Design System hame',
   nav: {
     home: 'Hame',
     components: 'Components',
@@ -2584,7 +2520,6 @@ const sco: UiStrings = {
 
 const kw: UiStrings = {
   skipLink: 'Lemmel dhe\'n dhrehevyans pennfenten',
-  brandAriaLabel: 'Folen dre Lily Design System',
   nav: {
     home: 'Tre',
     components: 'Darnow',
