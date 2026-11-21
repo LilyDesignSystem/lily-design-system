@@ -53,4 +53,50 @@ describe("Details", () => {
         render(Subject, { props: { summary: "S", "data-testid": "det" }, slots: { default: "C" } });
         expect(screen.getByTestId("det")).toBeTruthy();
     });
+
+    describe("print (P42-T9)", () => {
+        const print = (name: "beforeprint" | "afterprint") => window.dispatchEvent(new Event(name));
+        const slots = { default: "Content" };
+
+        test("a closed disclosure opens for print and closes again afterwards", () => {
+            render(Subject, { props: { summary: "Info", "data-testid": "det" }, slots });
+            const det = screen.getByTestId("det") as HTMLDetailsElement;
+            print("beforeprint");
+            expect(det.open).toBe(true);
+            print("afterprint");
+            expect(det.open).toBe(false);
+        });
+
+        test("one the reader had opened stays open", () => {
+            render(Subject, {
+                props: { summary: "Info", open: true, "data-testid": "det" },
+                slots,
+            });
+            const det = screen.getByTestId("det") as HTMLDetailsElement;
+            print("beforeprint");
+            print("afterprint");
+            expect(det.open).toBe(true);
+        });
+
+        test("printOpen false leaves it closed", () => {
+            render(Subject, {
+                props: { summary: "Info", printOpen: false, "data-testid": "det" },
+                slots,
+            });
+            const det = screen.getByTestId("det") as HTMLDetailsElement;
+            print("beforeprint");
+            expect(det.open).toBe(false);
+        });
+
+        test("stops listening once unmounted", () => {
+            const { unmount } = render(Subject, {
+                props: { summary: "Info", "data-testid": "det" },
+                slots,
+            });
+            const det = screen.getByTestId("det") as HTMLDetailsElement;
+            unmount();
+            print("beforeprint");
+            expect(det.open).toBe(false);
+        });
+    });
 });

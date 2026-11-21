@@ -34,4 +34,43 @@ describe("Details", () => {
         el.dispatchEvent(new Event("toggle"));
         expect(fixture.componentInstance.open()).toBe(true);
     });
+
+    describe("print (P42-T9)", () => {
+        const print = (name: "beforeprint" | "afterprint") => window.dispatchEvent(new Event(name));
+        const detailsOf = (fixture: ReturnType<typeof render>) =>
+            fixture.nativeElement.querySelector("details.details") as HTMLDetailsElement;
+
+        test("a closed disclosure opens for print and closes again afterwards", async () => {
+            const fixture = render();
+            await fixture.whenStable();
+            print("beforeprint");
+            expect(detailsOf(fixture).open).toBe(true);
+            print("afterprint");
+            expect(detailsOf(fixture).open).toBe(false);
+        });
+
+        test("one the reader had opened stays open", async () => {
+            const fixture = render({ open: true });
+            await fixture.whenStable();
+            print("beforeprint");
+            print("afterprint");
+            expect(detailsOf(fixture).open).toBe(true);
+        });
+
+        test("printOpen false leaves it closed", async () => {
+            const fixture = render({ printOpen: false });
+            await fixture.whenStable();
+            print("beforeprint");
+            expect(detailsOf(fixture).open).toBe(false);
+        });
+
+        test("stops listening once destroyed", async () => {
+            const fixture = render();
+            await fixture.whenStable();
+            const el = detailsOf(fixture);
+            fixture.destroy();
+            print("beforeprint");
+            expect(el.open).toBe(false);
+        });
+    });
 });

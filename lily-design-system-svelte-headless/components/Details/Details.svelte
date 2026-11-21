@@ -10,6 +10,9 @@
     //   className — string, optional. CSS class name.
     //   summary — string, required. Text displayed in the clickable summary toggle.
     //   open — boolean, default false. Whether the details section is expanded; bindable.
+    //   printOpen — boolean, default true. A printed page cannot open a closed disclosure, so on `beforeprint` a closed
+    //     one is opened and on `afterprint` it is closed again (one the reader had opened stays open). Pass false for a
+    //     disclosure whose content should not print.
     //   children — Snippet, required. Content revealed when expanded.
     //   ...restProps — additional HTML attributes spread onto the <details> element.
     //
@@ -42,6 +45,7 @@
     // Claude rules:
     //   - Headless: no CSS, no styles — consumer provides all styling
     //   - Uses $bindable() on open for two-way state synchronization
+    //   - Browser-only: the print listeners are added in an effect, never during server rendering
     //   - Similar to Collapsible but uses a standards-based API
     //
     // References:
@@ -51,10 +55,13 @@
 
     import type { Snippet } from "svelte";
 
+    import { keepOpenForPrint } from "./print-open";
+
     let {
         class: className = "",
         summary,
         open = $bindable(false),
+        printOpen = true,
         children,
         ...restProps
     }: {
@@ -62,15 +69,27 @@
         summary: string;
         /** Whether the details are expanded. Bindable. */
         open?: boolean;
+        /** Open the disclosure while printing, and restore it afterwards. Default true. */
+        printOpen?: boolean;
         /** Content shown when expanded. */
         children: Snippet;
         [key: string]: unknown;
     } = $props();
+
+    let element: HTMLDetailsElement | undefined = $state();
+
+    // Print cannot open a closed disclosure, so open it for the page and close it again (P42-T9).
+    $effect(() => {
+        if (!printOpen || !element) return;
+        const target = element;
+        return keepOpenForPrint(() => [target]);
+    });
 </script>
 
 <!-- Details.svelte -->
 <details
     class={`details ${className}`}
+    bind:this={element}
     bind:open
     {...restProps}
 >

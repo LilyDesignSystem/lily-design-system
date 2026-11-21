@@ -285,6 +285,20 @@ EXTRA_TARGETS = {
         "lily-design-system-web-components-date-time-picker/calendar-system.ts",
         "lily-design-system-nunjucks-date-time-picker/calendar-system.ts",
     ],
+    # Print opens closed disclosures (P42-T9): the Details component of each TypeScript catalog.
+    "print-open.ts": [
+        "lily-design-system-svelte-headless/components/Details/print-open.ts",
+        "lily-design-system-react-headless/components/print-open.ts",
+        "lily-design-system-solid-headless/components/print-open.ts",
+        "lily-design-system-vue-headless/components/print-open.ts",
+        "lily-design-system-angular-headless/components/print-open.ts",
+        "lily-design-system-angular-examples/src/app/components/print-open.ts",
+        "lily-design-system-react-next-examples/components/print-open.ts",
+        "lily-design-system-vue-nuxt-examples/components/print-open.ts",
+    ],
+    "print-open.test.ts": [
+        "lily-design-system-svelte-headless/components/Details/print-open.test.ts",
+    ],
     # Development warnings (spec/testing): one file per catalog, imported by each component that reports one, and in the example apps' copies.
     "dev-warning.ts": [
         "lily-design-system-svelte-headless/components/dev-warning.ts",

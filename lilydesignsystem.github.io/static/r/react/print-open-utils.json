@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "print-open-utils",
+  "type": "registry:lib",
+  "title": "print-open.ts",
+  "description": "Shared helper module print-open.ts, used by Lily React headless components.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/print-open.ts",
+      "content": "/**\n * Print opens closed disclosures (spec/testing, P42-T9). A printed page cannot open a closed `<details>`, so clinical text inside one\n * is lost on paper. On `beforeprint` every closed `<details>` the caller names is opened; on `afterprint` exactly the ones this\n * opened are closed again, so a disclosure the reader had opened stays open and the page is as it was.\n *\n * Browser-only: call it from a mount or effect hook, never during server rendering, and call the function it returns on unmount.\n */\n\n/** Open `targets()` for print and close them again afterwards. Returns a function that stops listening (and restores). */\nexport function keepOpenForPrint(\n    targets: () => Iterable<HTMLDetailsElement>,\n    win: Pick<Window, \"addEventListener\" | \"removeEventListener\"> = window,\n): () => void {\n    let reopened: HTMLDetailsElement[] = [];\n\n    const before = () => {\n        // A second beforeprint with no afterprint in between must not forget what the first one opened.\n        for (const details of targets()) {\n            if (!details.open) {\n                details.open = true;\n                reopened.push(details);\n            }\n        }\n    };\n    const after = () => {\n        for (const details of reopened) details.open = false;\n        reopened = [];\n    };\n\n    win.addEventListener(\"beforeprint\", before);\n    win.addEventListener(\"afterprint\", after);\n    return () => {\n        win.removeEventListener(\"beforeprint\", before);\n        win.removeEventListener(\"afterprint\", after);\n        after();\n    };\n}\n\n/**\n * The page-level form: open every `<details>` under `root` for print. Call once from the root of a page (a layout's mount hook);\n * it covers disclosures a library does not own, such as a consumer's own.\n */\nexport function keepAllOpenForPrint(root: ParentNode = document): () => void {\n    return keepOpenForPrint(() => root.querySelectorAll(\"details\"));\n}\n",
+      "type": "registry:lib",
+      "target": "@components/lily/print-open.ts"
+    }
+  ]
+}

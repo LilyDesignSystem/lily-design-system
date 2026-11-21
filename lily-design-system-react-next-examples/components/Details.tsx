@@ -48,7 +48,9 @@
 //   - MDN summary element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/summary
 //   - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+
+import { keepOpenForPrint } from "./print-open";
 
 export interface DetailsProps {
     className?: string;
@@ -56,6 +58,8 @@ export interface DetailsProps {
     summary: string;
     /** Whether the details are expanded. Bindable. */
     open?: boolean;
+    /** Open the disclosure while printing, and restore it afterwards. Default true. */
+    printOpen?: boolean;
     /** Content shown when expanded. */
     children: React.ReactNode;
     /** Callback when open changes. */
@@ -67,11 +71,20 @@ export default function Details({
     className = "",
     summary,
     open: openProp = false,
+    printOpen = true,
     onChange,
     children,
     ...restProps
 }: DetailsProps) {
     const [open, setOpen] = useState(openProp);
+    const element = useRef<HTMLDetailsElement>(null);
+
+    // A printed page cannot open a closed disclosure: open it for print and close it again (P42-T9).
+    useEffect(() => {
+        const target = element.current;
+        if (!printOpen || !target) return;
+        return keepOpenForPrint(() => [target]);
+    }, [printOpen]);
 
     const handleToggle = (e: React.SyntheticEvent<HTMLDetailsElement>) => {
         const newOpen = (e.currentTarget as HTMLDetailsElement).open;
@@ -81,6 +94,7 @@ export default function Details({
 
     return (
         <details
+            ref={element}
             className={`details ${className}`}
             open={open}
             onToggle={handleToggle}

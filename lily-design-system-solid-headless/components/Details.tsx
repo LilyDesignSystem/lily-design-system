@@ -49,14 +49,17 @@
 //   - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
 
 import type { JSX } from "@solidjs/web";
-import { omit, createSignal, untrack } from "solid-js";
+import { createEffect, createSignal, omit, untrack } from "solid-js";
 import { withDefaults } from "./defaults";
+import { keepOpenForPrint } from "./print-open";
 export interface DetailsProps {
     class?: string;
     /** Text for the summary toggle. */
     summary: string;
     /** Whether the details are expanded. Bindable. */
     open?: boolean;
+    /** Open the disclosure while printing, and restore it afterwards. Default true. */
+    printOpen?: boolean;
     /** Content shown when expanded. */
     children: JSX.Element;
     /** Callback when open changes. */
@@ -65,9 +68,21 @@ export interface DetailsProps {
 }
 
 export default function Details(props: DetailsProps) {
-    const p = withDefaults({ class: "" as const, open: false }, props);
-    const restProps = omit(p, "class", "summary", "open", "onChange", "children");
+    const p = withDefaults({ class: "" as const, open: false, printOpen: true }, props);
+    const restProps = omit(p, "class", "summary", "open", "printOpen", "onChange", "children");
     const [open, setOpen] = createSignal(untrack(() => p.open));
+
+    let element: HTMLDetailsElement | undefined;
+
+    // A printed page cannot open a closed disclosure: open it for print and close it again (P42-T9).
+    createEffect(
+        () => p.printOpen,
+        (enabled) => {
+            const target = element;
+            if (!enabled || !target) return;
+            return keepOpenForPrint(() => [target]);
+        },
+    );
 
     const handleToggle = (e: Event & { currentTarget: HTMLDetailsElement }) => {
         const newOpen = (e.currentTarget as HTMLDetailsElement).open;
@@ -77,6 +92,7 @@ export default function Details(props: DetailsProps) {
 
     return (
         <details
+            ref={element}
             class={`details ${p.class}`}
             open={open()}
             onToggle={handleToggle}

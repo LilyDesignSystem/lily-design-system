@@ -33,6 +33,7 @@
 
 - `summary`: string (required) -- text displayed in the summary toggle
 - `open`: boolean (default: false) -- whether the details section is expanded; bindable
+- `printOpen`: boolean (default: true) -- a printed page cannot open a closed disclosure, so on `beforeprint` a closed one is opened and on `afterprint` it is closed again (one the reader had opened stays open); pass false for content that should not print. Svelte, React, Solid, Vue and Angular (2026-11-21, P42-T9)
 - `children`: slot (required) -- content revealed when expanded
 
 ## Native platform
@@ -52,7 +53,7 @@
 
 ## Known limitations
 
-None known.
+Print opens the disclosure in the Svelte, React, Solid, Vue and Angular catalogs (`printOpen`, a shared `print-open` module). The Web Components, HTML, Alpine, Nunjucks and Blazor catalogs do not yet: a page there opens its disclosures itself on `beforeprint` (task P42-T9).
 
 ## References
 

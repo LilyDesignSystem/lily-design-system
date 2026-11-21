@@ -1,4 +1,15 @@
-import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
+import {
+    afterNextRender,
+    ChangeDetectionStrategy,
+    Component,
+    DestroyRef,
+    ElementRef,
+    inject,
+    input,
+    model,
+} from "@angular/core";
+
+import { keepOpenForPrint } from "./print-open";
 
 /**
  * Details — a disclosure widget that shows and hides content
@@ -19,6 +30,20 @@ export class Details {
     /** Whether the content is shown (two-way: [(open)]). */
     readonly open = model<boolean>(false);
     readonly className = input<string>("");
+    /** Open the disclosure while printing, and restore it afterwards. Default true. */
+    readonly printOpen = input<boolean>(true);
+
+    private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+
+    constructor() {
+        // A printed page cannot open a closed disclosure: open it for print and close it again (P42-T9).
+        const destroyRef = inject(DestroyRef);
+        afterNextRender(() => {
+            const target = this.host.nativeElement.querySelector("details");
+            if (!this.printOpen() || !target) return;
+            destroyRef.onDestroy(keepOpenForPrint(() => [target]));
+        });
+    }
 
     onToggle(event: Event): void {
         this.open.set((event.target as HTMLDetailsElement).open);

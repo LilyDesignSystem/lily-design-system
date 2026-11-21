@@ -49,17 +49,38 @@
 //   - MDN summary element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/summary
 //   - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
 
-defineProps<{
-    /** Text for the summary toggle. */
-    summary: string;
-}>();
+import { onBeforeUnmount, onMounted, ref } from "vue";
+
+import { keepOpenForPrint } from "./print-open";
+
+const props = withDefaults(
+    defineProps<{
+        /** Text for the summary toggle. */
+        summary: string;
+        /** Open the disclosure while printing, and restore it afterwards. Default true. */
+        printOpen?: boolean;
+    }>(),
+    { printOpen: true },
+);
 
 const open = defineModel<boolean>("open", { default: false });
+
+const element = ref<HTMLDetailsElement | null>(null);
+let stopPrinting: (() => void) | undefined;
+
+// A printed page cannot open a closed disclosure: open it for print and close it again (P42-T9).
+onMounted(() => {
+    const target = element.value;
+    if (!props.printOpen || !target) return;
+    stopPrinting = keepOpenForPrint(() => [target]);
+});
+onBeforeUnmount(() => stopPrinting?.());
 </script>
 
 <template>
     <!-- Details.vue -->
     <details
+        ref="element"
         class="details"
         :open="open"
     >
