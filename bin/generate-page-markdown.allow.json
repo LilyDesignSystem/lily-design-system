@@ -16,6 +16,10 @@
     "reason": "This is an interactive application demo, not a prose document."
   },
   {
+    "pattern": "^/examples/welsh-clinical-portal/$",
+    "reason": "This is an interactive example application (a clinician's results screen), not a prose document."
+  },
+  {
     "pattern": "^/markdown-editor/$",
     "reason": "This is an interactive editor demo; its component and helper documentation have Markdown sources."
   }
