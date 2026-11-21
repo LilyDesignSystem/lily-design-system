@@ -367,6 +367,20 @@ input; the dark line carries the contrast, and buttons and links keep DHCW's yel
 `outline` given a colour alone, and the Nunjucks app's `e2e/focus-visible.spec.ts` focuses an input under each theme and
 checks the ring, and the inner line where a theme has one.
 
+## Link colour and hero content (2026-11-21, tasks.md P42-T2 to P42-T4)
+
+Found by two consumers of the International Patient Summary projects (`spec/lessons/international-patient-summary`, items 6 to 8):
+
+- **`--lily-link`** is the colour for a link in the adopter's own CSS (`a { color: var(--lily-link) }`). `--color-primary` is a fill, and
+  in `bumblebee` (yellow) or `acid` (pink) it is unreadable as text on the page. The token is the primary mixed 20 percent into
+  `--color-base-content` (`color-mix(in oklch, …)`), in a shared "Link colour" section identical in all 63 themes. At 20 percent every
+  theme reaches 4.5:1 on `--color-base-100` and `--color-base-200` (the lowest is 4.69:1). `bin/check-theme --contrast` reports both
+  pairs, and the gate holds them for the `light` and `dark` themes. Because the colour is then close to the text colour, a link keeps
+  its underline (WCAG 1.4.1).
+- **`.hero` content** (shared "Hero content" section): a link or heading inside `.hero` takes `color: inherit` (links stay underlined),
+  so it is the banner's text colour on the banner's fill, a pair the gate already checks; and a direct child with a `max-inline-size` is
+  centred with `margin-inline: auto`. Both are in `:where()`, so an adopter's own rule wins.
+
 ## Forbidden in the headless layer
 
 None of the following may appear in headless markup; they live in example CSS and consume the theme custom properties.

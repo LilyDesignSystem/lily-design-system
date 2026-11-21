@@ -18,7 +18,8 @@
   "files": [
     "dist",
     "index.md",
-    "README.md"
+    "README.md",
+    "CHANGELOG.md"
   ],
   "scripts": {
     "build": "node build.js",

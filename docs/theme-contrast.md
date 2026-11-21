@@ -6,7 +6,7 @@ The WCAG 2 contrast ratio of every text pair in each of the 63 reference themes:
 (`--color-base-content`) on the three surfaces, each `-content` colour on its fill, and the error text
 (`--lily-error-text`) on the page. AA is 4.5:1 (WCAG 1.4.3) and AAA 7:1 (1.4.6), for normal-size text.
 
-Of 756 pairs, 756 meet AA and 487 meet AAA; 269 miss AAA. 3 of 63 themes meet AAA in
+Of 882 pairs, 882 meet AA and 602 meet AAA; 280 miss AAA. 3 of 63 themes meet AAA in
 every pair. `bin/test` fails when any pair is below AA. A ratio marked ≈ has a colour outside sRGB, clipped as a
 browser paints it, so it is approximate. The table measures tokens, not pages: a component's own colours, and the
 contrast of non-text parts (1.4.11), are checked by the axe sweeps.
@@ -27,6 +27,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | ≈4.58:1 | yes | no |
 | `--color-error-content` | `--color-error` | 5.91:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | ≈10.54:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | ≈12.66:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | ≈14.04:1 | yes | yes |
 
 ## acid
 
@@ -44,6 +46,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | ≈14.39:1 | yes | yes |
 | `--color-error-content` | `--color-error` | ≈5.04:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 18.74:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 18.77:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 17.18:1 | yes | yes |
 
 ## adobe-spectrum
 
@@ -61,6 +65,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 5.90:1 | yes | no |
 | `--color-error-content` | `--color-error` | 4.66:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 12.70:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 12.96:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 11.88:1 | yes | yes |
 
 ## ant-design
 
@@ -78,6 +84,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 8.68:1 | yes | yes |
 | `--color-error-content` | `--color-error` | 5.04:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 12.24:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 13.32:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 12.22:1 | yes | yes |
 
 ## aqua
 
@@ -95,6 +103,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 4.84:1 | yes | no |
 | `--color-error-content` | `--color-error` | ≈7.42:1 | yes | yes |
 | `--lily-error-text` | `--color-base-100` | ≈7.03:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | ≈7.96:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | ≈10.92:1 | yes | yes |
 
 ## atlassian
 
@@ -112,6 +122,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 9.36:1 | yes | yes |
 | `--color-error-content` | `--color-error` | 5.16:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 11.67:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 11.93:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 11.22:1 | yes | yes |
 
 ## australia-agriculture-design-system
 
@@ -129,6 +141,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 5.73:1 | yes | no |
 | `--color-error-content` | `--color-error` | 5.66:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 20.39:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 20.76:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 18.63:1 | yes | yes |
 
 ## autumn
 
@@ -146,6 +160,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 7.13:1 | yes | yes |
 | `--color-error-content` | `--color-error` | ≈5.51:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 13.74:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 14.91:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 12.17:1 | yes | yes |
 
 ## black
 
@@ -163,6 +179,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 17.02:1 | yes | yes |
 | `--color-error-content` | `--color-error` | 5.09:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 11.88:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 10.13:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 8.89:1 | yes | yes |
 
 ## brazil-padrao-digital-de-governo
 
@@ -180,6 +198,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 13.99:1 | yes | yes |
 | `--color-error-content` | `--color-error` | 4.60:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 10.26:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 11.32:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 10.66:1 | yes | yes |
 
 ## bumblebee
 
@@ -197,6 +217,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | ≈5.24:1 | yes | no |
 | `--color-error-content` | `--color-error` | 7.19:1 | yes | yes |
 | `--lily-error-text` | `--color-base-100` | 13.36:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 12.17:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 11.16:1 | yes | yes |
 
 ## business
 
@@ -214,6 +236,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 9.52:1 | yes | yes |
 | `--color-error-content` | `--color-error` | 6.02:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 7.93:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 7.66:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 8.02:1 | yes | yes |
 
 ## canada-government-of-canada-design-system
 
@@ -231,6 +255,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 11.86:1 | yes | yes |
 | `--color-error-content` | `--color-error` | 7.07:1 | yes | yes |
 | `--lily-error-text` | `--color-base-100` | 11.24:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 12.51:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 11.16:1 | yes | yes |
 
 ## cappuccino
 
@@ -248,6 +274,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 5.60:1 | yes | no |
 | `--color-error-content` | `--color-error` | 5.51:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 10.53:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 11.36:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 10.00:1 | yes | yes |
 
 ## caramellatte
 
@@ -265,6 +293,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | ≈5.24:1 | yes | no |
 | `--color-error-content` | `--color-error` | 7.19:1 | yes | yes |
 | `--lily-error-text` | `--color-base-100` | ≈7.00:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | ≈12.41:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 11.39:1 | yes | yes |
 
 ## cmyk
 
@@ -282,6 +312,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 7.42:1 | yes | yes |
 | `--color-error-content` | `--color-error` | 5.06:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 14.21:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 13.37:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 11.52:1 | yes | yes |
 
 ## coffee
 
@@ -299,6 +331,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 13.19:1 | yes | yes |
 | `--color-error-content` | `--color-error` | 9.12:1 | yes | yes |
 | `--lily-error-text` | `--color-base-100` | 6.90:1 | yes | no |
+| `--lily-link` | `--color-base-100` | 6.68:1 | yes | no |
+| `--lily-link` | `--color-base-200` | 7.17:1 | yes | yes |
 
 ## corporate
 
@@ -316,6 +350,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | ≈13.35:1 | yes | yes |
 | `--color-error-content` | `--color-error` | 7.19:1 | yes | yes |
 | `--lily-error-text` | `--color-base-100` | 12.61:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 13.91:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 11.35:1 | yes | yes |
 
 ## cupcake
 
@@ -333,6 +369,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | ≈7.63:1 | yes | yes |
 | `--color-error-content` | `--color-error` | 5.51:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 12.29:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 10.51:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 9.39:1 | yes | yes |
 
 ## cyberpunk
 
@@ -350,6 +388,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | ≈12.62:1 | yes | yes |
 | `--color-error-content` | `--color-error` | ≈6.82:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | ≈16.91:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | ≈17.10:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 15.69:1 | yes | yes |
 
 ## dark
 
@@ -367,6 +407,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | ≈5.24:1 | yes | no |
 | `--color-error-content` | `--color-error` | ≈5.45:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | ≈12.20:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | ≈11.57:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | ≈12.25:1 | yes | yes |
 
 ## dim
 
@@ -384,6 +426,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 12.51:1 | yes | yes |
 | `--color-error-content` | `--color-error` | 10.85:1 | yes | yes |
 | `--lily-error-text` | `--color-base-100` | 7.80:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 8.16:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 8.99:1 | yes | yes |
 
 ## dracula
 
@@ -401,6 +445,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 16.48:1 | yes | yes |
 | `--color-error-content` | `--color-error` | 6.40:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 10.99:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 11.69:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 12.50:1 | yes | yes |
 
 ## emerald
 
@@ -418,6 +464,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | ≈12.62:1 | yes | yes |
 | `--color-error-content` | `--color-error` | ≈6.82:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 8.12:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 7.75:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 6.32:1 | yes | no |
 
 ## european-union-europa-component-library
 
@@ -435,6 +483,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 6.38:1 | yes | no |
 | `--color-error-content` | `--color-error` | 5.56:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 10.82:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 11.18:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 10.33:1 | yes | yes |
 
 ## excel
 
@@ -452,6 +502,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 9.01:1 | yes | yes |
 | `--color-error-content` | `--color-error` | 6.07:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 13.02:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 12.89:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 11.62:1 | yes | yes |
 
 ## fantasy
 
@@ -469,6 +521,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | ≈12.62:1 | yes | yes |
 | `--color-error-content` | `--color-error` | ≈6.82:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 10.44:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 13.83:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 11.29:1 | yes | yes |
 
 ## fluent
 
@@ -486,6 +540,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 4.99:1 | yes | no |
 | `--color-error-content` | `--color-error` | 4.93:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 12.52:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 13.02:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 11.94:1 | yes | yes |
 
 ## forest
 
@@ -503,6 +559,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | ≈12.62:1 | yes | yes |
 | `--color-error-content` | `--color-error` | ≈6.82:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 9.69:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 9.65:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 10.10:1 | yes | yes |
 
 ## garden
 
@@ -520,6 +578,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | ≈12.62:1 | yes | yes |
 | `--color-error-content` | `--color-error` | ≈6.82:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 11.63:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 12.87:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 10.53:1 | yes | yes |
 
 ## github-primer
 
@@ -537,6 +597,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 5.03:1 | yes | no |
 | `--color-error-content` | `--color-error` | 5.36:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 12.85:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 13.03:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 12.24:1 | yes | yes |
 
 ## halloween
 
@@ -554,6 +616,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 6.31:1 | yes | no |
 | `--color-error-content` | `--color-error` | 5.88:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 9.54:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 10.51:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 11.83:1 | yes | yes |
 
 ## ibm-carbon
 
@@ -571,6 +635,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 10.75:1 | yes | yes |
 | `--color-error-content` | `--color-error` | 5.00:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 14.80:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 15.10:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 13.73:1 | yes | yes |
 
 ## japan-digital-agency-design-system
 
@@ -588,6 +654,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 11.12:1 | yes | yes |
 | `--color-error-content` | `--color-error` | 5.79:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 14.46:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 16.02:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 14.31:1 | yes | yes |
 
 ## lemonade
 
@@ -605,6 +673,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 12.54:1 | yes | yes |
 | `--color-error-content` | `--color-error` | 12.31:1 | yes | yes |
 | `--lily-error-text` | `--color-base-100` | 11.21:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 14.08:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 11.46:1 | yes | yes |
 
 ## light
 
@@ -622,6 +692,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | ≈5.24:1 | yes | no |
 | `--color-error-content` | `--color-error` | ≈5.45:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 12.87:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 15.84:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 14.91:1 | yes | yes |
 
 ## linear
 
@@ -639,6 +711,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 8.55:1 | yes | yes |
 | `--color-error-content` | `--color-error` | 5.47:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 14.64:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 14.09:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 12.74:1 | yes | yes |
 
 ## lofi
 
@@ -656,6 +730,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | ≈12.91:1 | yes | yes |
 | `--color-error-content` | `--color-error` | ≈8.97:1 | yes | yes |
 | `--lily-error-text` | `--color-base-100` | 19.16:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 21.00:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 19.26:1 | yes | yes |
 
 ## luxury
 
@@ -673,6 +749,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 12.65:1 | yes | yes |
 | `--color-error-content` | `--color-error` | 7.36:1 | yes | yes |
 | `--lily-error-text` | `--color-base-100` | 8.63:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 10.70:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 9.70:1 | yes | yes |
 
 ## mozilla-protocol
 
@@ -690,6 +768,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 9.26:1 | yes | yes |
 | `--color-error-content` | `--color-error` | 5.37:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 14.32:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 14.80:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 14.07:1 | yes | yes |
 
 ## night
 
@@ -707,6 +787,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 11.41:1 | yes | yes |
 | `--color-error-content` | `--color-error` | 7.38:1 | yes | yes |
 | `--lily-error-text` | `--color-base-100` | 9.93:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 10.34:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 10.65:1 | yes | yes |
 
 ## nord
 
@@ -724,6 +806,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 12.24:1 | yes | yes |
 | `--color-error-content` | `--color-error` | 4.97:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 8.60:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 8.78:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 8.31:1 | yes | yes |
 
 ## notion
 
@@ -741,6 +825,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 5.82:1 | yes | no |
 | `--color-error-content` | `--color-error` | 4.53:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 9.84:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 10.07:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 9.31:1 | yes | yes |
 
 ## pastel
 
@@ -758,6 +844,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | ≈12.14:1 | yes | yes |
 | `--color-error-content` | `--color-error` | 10.72:1 | yes | yes |
 | `--lily-error-text` | `--color-base-100` | 12.24:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 11.83:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 11.32:1 | yes | yes |
 
 ## retro
 
@@ -775,6 +863,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | ≈5.71:1 | yes | no |
 | `--color-error-content` | `--color-error` | 7.19:1 | yes | yes |
 | `--lily-error-text` | `--color-base-100` | 5.59:1 | yes | no |
+| `--lily-link` | `--color-base-100` | 5.21:1 | yes | no |
+| `--lily-link` | `--color-base-200` | 4.69:1 | yes | no |
 
 ## salesforce
 
@@ -792,6 +882,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 7.99:1 | yes | yes |
 | `--color-error-content` | `--color-error` | 6.73:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 15.20:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 14.56:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 13.12:1 | yes | yes |
 
 ## sap-fiori
 
@@ -809,6 +901,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 4.51:1 | yes | no |
 | `--color-error-content` | `--color-error` | 5.54:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 11.64:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 11.43:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 10.56:1 | yes | yes |
 
 ## silk
 
@@ -826,6 +920,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | ≈4.80:1 | yes | no |
 | `--color-error-content` | `--color-error` | ≈8.21:1 | yes | yes |
 | `--lily-error-text` | `--color-base-100` | 6.17:1 | yes | no |
+| `--lily-link` | `--color-base-100` | 9.73:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 9.13:1 | yes | yes |
 
 ## singapore-government-design-system
 
@@ -843,6 +939,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 13.07:1 | yes | yes |
 | `--color-error-content` | `--color-error` | 5.36:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 14.38:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 15.34:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 14.32:1 | yes | yes |
 
 ## sunset
 
@@ -860,6 +958,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 12.18:1 | yes | yes |
 | `--color-error-content` | `--color-error` | 11.93:1 | yes | yes |
 | `--lily-error-text` | `--color-base-100` | 8.92:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 8.24:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 8.63:1 | yes | yes |
 
 ## synthwave
 
@@ -877,6 +977,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 6.47:1 | yes | no |
 | `--color-error-content` | `--color-error` | 7.00:1 | yes | yes |
 | `--lily-error-text` | `--color-base-100` | 9.31:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | ≈9.16:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | ≈8.46:1 | yes | yes |
 
 ## united-kingdom-government-digital-service
 
@@ -894,6 +996,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 7.04:1 | yes | yes |
 | `--color-error-content` | `--color-error` | 5.16:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 16.10:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 16.72:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 14.95:1 | yes | yes |
 
 ## united-kingdom-national-health-service-england-for-patients
 
@@ -911,6 +1015,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 8.23:1 | yes | yes |
 | `--color-error-content` | `--color-error` | 5.42:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 11.84:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 12.87:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 10.82:1 | yes | yes |
 
 ## united-kingdom-national-health-service-england-for-practitioners
 
@@ -928,6 +1034,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 8.23:1 | yes | yes |
 | `--color-error-content` | `--color-error` | 5.42:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 11.84:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 12.87:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 10.82:1 | yes | yes |
 
 ## united-kingdom-national-health-service-scotland-for-patients
 
@@ -945,6 +1053,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 8.76:1 | yes | yes |
 | `--color-error-content` | `--color-error` | 5.42:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 12.55:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 14.91:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 13.28:1 | yes | yes |
 
 ## united-kingdom-national-health-service-scotland-for-practitioners
 
@@ -962,6 +1072,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 8.76:1 | yes | yes |
 | `--color-error-content` | `--color-error` | 5.42:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 12.55:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 14.91:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 13.28:1 | yes | yes |
 
 ## united-kingdom-national-health-service-wales-for-patients
 
@@ -979,6 +1091,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 9.54:1 | yes | yes |
 | `--color-error-content` | `--color-error` | 5.17:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 11.80:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 6.94:1 | yes | no |
+| `--lily-link` | `--color-base-200` | 6.16:1 | yes | no |
 
 ## united-kingdom-national-health-service-wales-for-practitioners
 
@@ -996,6 +1110,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 9.54:1 | yes | yes |
 | `--color-error-content` | `--color-error` | 5.17:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 11.80:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 6.94:1 | yes | no |
+| `--lily-link` | `--color-base-200` | 6.16:1 | yes | no |
 
 ## united-states-web-design-system
 
@@ -1013,6 +1129,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 10.38:1 | yes | yes |
 | `--color-error-content` | `--color-error` | 4.61:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 13.71:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 14.94:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 13.11:1 | yes | yes |
 
 ## valentine
 
@@ -1030,6 +1148,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | ≈6.72:1 | yes | no |
 | `--color-error-content` | `--color-error` | 5.34:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | ≈5.52:1 | yes | no |
+| `--lily-link` | `--color-base-100` | ≈5.52:1 | yes | no |
+| `--lily-link` | `--color-base-200` | ≈5.00:1 | yes | no |
 
 ## vercel
 
@@ -1047,6 +1167,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 8.85:1 | yes | yes |
 | `--color-error-content` | `--color-error` | 4.53:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 14.37:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 19.30:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 18.50:1 | yes | yes |
 
 ## winter
 
@@ -1064,6 +1186,8 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | 13.55:1 | yes | yes |
 | `--color-error-content` | `--color-error` | 7.93:1 | yes | yes |
 | `--lily-error-text` | `--color-base-100` | 6.43:1 | yes | no |
+| `--lily-link` | `--color-base-100` | 7.47:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 6.94:1 | yes | no |
 
 ## wireframe
 
@@ -1081,3 +1205,5 @@ contrast of non-text parts (1.4.11), are checked by the axe sweeps.
 | `--color-warning-content` | `--color-warning` | ≈5.68:1 | yes | no |
 | `--color-error-content` | `--color-error` | 5.82:1 | yes | no |
 | `--lily-error-text` | `--color-base-100` | 16.02:1 | yes | yes |
+| `--lily-link` | `--color-base-100` | 12.08:1 | yes | yes |
+| `--lily-link` | `--color-base-200` | 11.08:1 | yes | yes |

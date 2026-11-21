@@ -9,7 +9,8 @@
   "files": [
     "dist",
     "index.md",
-    "README.md"
+    "README.md",
+    "CHANGELOG.md"
   ],
   "exports": {
     "./*.css": "./dist/*.css",

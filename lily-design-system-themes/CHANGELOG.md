@@ -1,14 +1,30 @@
-# Changelog
+# Changelog — @lilydesignsystem/themes
 
-This subproject is a directory of the canonical Lily Design System™ monorepo,
-and does not keep a separate change history.
+The format is loosely based on [Keep a Changelog](https://keepachangelog.com/) and the package follows
+[Semantic Versioning](https://semver.org/). Each entry names the components, hooks and tokens whose rules changed, and marks
+anything that can change how an existing page lays out. The monorepo's root
+[CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md) has the reasoning behind each change.
 
-**The canonical changelog is
-[CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md).** It records every change to
-this subproject, with reasoning, alongside the rest of the system.
+## Unreleased
 
-Release highlights and project news: [NEWS.md](NEWS.md).
+- **Fixed:** a link inside `.hero` takes the hero's text colour (`color: inherit`, underlined), and so do the headings, so it is
+  never the banner's own fill on the banner. `.hero` children with a `max-inline-size` are centred (`margin-inline: auto`).
+  Components: `hero`.
+- **Added:** `--lily-link`, a link colour with at least 4.5:1 against the page and the card surface in every theme, checked by
+  `bin/check-theme`; use it for links in your own CSS instead of `--color-primary`, which is a fill. Tokens: `--lily-link`.
 
----
+## 0.7.0 — 2026-11-21
 
-Lily™ and Lily Design System™ are trademarks.
+- **Changed (layout):** table header cells, and links and code inside them, use `overflow-wrap: break-word` instead of `anywhere`,
+  so a one-word header is no longer split mid-word ("Patie/nt"). A column is now at least as wide as its header's longest word,
+  which raises the minimum content width of a `table`, `data-table` and anything that holds one. **Watch for:** a page whose layout
+  is a single `1fr` grid column holding a table can grow wider than a 320px screen (a 47px sideways scroll was seen); write the
+  column as `minmax(0, 1fr)`, or put the table in a `horizontal-scroller`. Data cells keep `anywhere`. Components: `table`,
+  `data-table`, `calendar-table`, `kanban-table`.
+- **Added:** a shared "Whole-card link" section: a link marked `data-lily-card-link` in a card's heading makes the whole `card` its
+  target, keeps other controls above it, and draws the focus ring round the card. Components: `card`.
+
+## 0.6.2 — 2026-11-06 and earlier
+
+See the root [CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md). Versions 0.6.0
+(2026-10-24), 0.6.1 (2026-11-05) and 0.6.2 (2026-11-06) were published without an entry here.

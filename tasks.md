@@ -4287,6 +4287,48 @@ current design system. No person or organisation is named. Order: T1 first (a tr
       Verify: the site's picker bar reads its labels from a pack in every language it offers; `bin/check-label-packs` and the
       locale specs pass.
 
+## Phase 42 — Lessons from the International Patient Summary projects (2026-11-21)
+
+From `spec/lessons/international-patient-summary` (a review of two consumers of svelte-headless 0.12.0, svelte-picker-bar 0.8.0 and
+themes 0.7.0; the file is the other session's, so it is not linked). Each task keeps the review's item number. Order: T1 to T4 are the
+quick wins and are done; then T5, T6/T7, T9, T8, T10.
+
+- [x] **P42-T1 Ship a real changelog in `themes` and `svelte-picker-bar` (item 10).** Done 2026-11-21. Both had a `CHANGELOG.md` that was
+      a stub pointing at the monorepo and was not in `files`, so it never reached npm. Now each has an entry per recent version, naming
+      the components, hooks and tokens that changed, with a "Watch for" note where a layout can change, and `CHANGELOG.md` is in `files`.
+      Still open: 144 other published packages have a stub changelog outside `files`; give each a real entry when it next releases, and
+      add a `bin/check-package-metadata` rule that a published package's `files` includes its `CHANGELOG.md`.
+      Verify: `npm pack --dry-run` in both lists `CHANGELOG.md`.
+- [x] **P42-T2 Links in `.hero` read (item 6).** Done 2026-11-21: shared "Hero content" section, all 63 themes.
+- [x] **P42-T3 `.hero` centres a child with a maximum width (item 7).** Done 2026-11-21: same section.
+- [x] **P42-T4 `--lily-link` (item 8).** Done 2026-11-21: shared "Link colour" section; `bin/check-theme --contrast` reports it on both
+      surfaces in every theme (lowest 4.69:1) and `--gate` holds light and dark.
+      Still open: use it in the examples' and the docs site's own `a` rule (they still use `--color-primary`).
+- [ ] **P42-T5 A 320px page in the themes' tests (item 9).** Cause found by reading the changelog: themes 0.7.0 gave table header cells
+      `overflow-wrap: break-word`, which keeps each column as wide as its longest header word, so a table in a single `1fr` grid column
+      widens the page (the consumer's `minmax(0, 1fr)` is the right fix on its side; the dashboards in six example apps went into a
+      `horizontal-scroller` for the same reason). Add a 320px page (a record list, a table, a `details`, a long unbroken word) in every
+      theme asserting no horizontal scroll, and decide whether a `table` should contain its own overflow.
+      Verify: the test fails on a table in a bare `1fr` column and passes with `minmax(0, 1fr)` or a scroller.
+- [ ] **P42-T6 One owner for a section's status words (items 1 and 2).** `InternationalPatientSummarySection` prints `statusLabel` under the
+      heading and its record list prints the same state. Provide the status to the list through context, so the words appear once, in all
+      nine catalogs; only then add optional `meta` and `warning` snippets and `data-level`. Decide 1 before 2.
+      Verify: a section with `status="unavailable"` and a record list shows the words once, with no development warning.
+- [ ] **P42-T7 Silence one component's development warning (item 4).** Accept `globalThis.lilyWarnings = { Name: false }` as well as a
+      boolean, in the four catalogs that warn.
+      Verify: a test silences one component and still sees another's warning.
+- [ ] **P42-T8 `meterScale` in `clinical-format` (item 3).** `meterScale(value, low?, high?)` returns `{ min, max, low, high }` or
+      `undefined`: two-sided range, half a range beyond each end; one-sided, from zero to half as far again; wide enough to hold the
+      value; nothing for a non-numeric value, a non-numeric or reversed range, or differing units.
+      Verify: a unit test for each rule, in every catalog that has the module.
+- [ ] **P42-T9 Print opens closed disclosures (item 5).** `Details` opens on `beforeprint` and restores on `afterprint` (`printOpen`,
+      default true, cleaned up on destroy), in all catalogs that have it.
+      Verify: printing a page with closed disclosures shows their content; closing them again leaves the page as it was.
+- [ ] **P42-T10 A `next` dist-tag for risky releases (item 11).** Fewer, larger releases and grouped breaking changes are right; holding
+      `latest` two days behind is not adopted (it would delay fixes such as P42-T2 for every consumer). Publish breaking or large
+      releases under `next` first, then promote.
+      Verify: the publish scripts take a `--tag`, and `docs/` says which releases go to `next`.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.

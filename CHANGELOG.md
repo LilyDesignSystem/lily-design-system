@@ -9,6 +9,17 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Links in `.hero`, a link colour, and real package changelogs (2026-11-21, P42-T1 to P42-T4; themes, unreleased)
+
+- A link or heading inside `.hero` takes the banner's text colour (links stay underlined); before, a global `a { color: var(--color-primary) }`
+  drew the link in the banner's own fill, so a language list in a hero could not be read. A direct child with a `max-inline-size` is
+  centred with the text. Two shared sections, "Link colour" and "Hero content", identical in all 63 themes.
+- `--lily-link`: the colour for a link in your own CSS, the primary mixed 20 percent into the body text colour. `--color-primary` is a fill
+  (a yellow or pink theme makes an unreadable link). Every theme reaches 4.5:1 on both surfaces (lowest 4.69:1);
+  `bin/check-theme --contrast` reports both pairs and the gate holds light and dark.
+- `@lilydesignsystem/themes` and `@lilydesignsystem/svelte-picker-bar` ship a real `CHANGELOG.md` (it was a stub outside `files`). Found by
+  two consumers upgrading to themes 0.7.0, whose page grew 47px past a 320px screen: the cause is the table-header change below.
+
 ## Table headers no longer split mid-word (2026-11-21; themes 0.7.0)
 
 - The 63 themes gave every table cell `overflow-wrap: anywhere`, which also shrinks a cell's minimum width to one letter,

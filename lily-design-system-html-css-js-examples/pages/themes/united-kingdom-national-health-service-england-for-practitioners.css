@@ -4170,6 +4170,42 @@
 }
 
 /* ============================================================================
+ * Link colour — shared verbatim by all themes (tasks.md P42-T4).
+ *
+ * --color-primary is a fill, not a text colour: a pale primary (a yellow or a pink) is unreadable as a link on the page, and
+ * a link inside a primary banner is the banner's own colour. --lily-link is the colour for a link in the adopter's own CSS
+ * (a { color: var(--lily-link) }): the primary mixed toward the body text colour until it reads on the page and on the card
+ * surface. bin/check-theme --contrast reports it against both surfaces, and gates it for the light and dark themes. At 20 percent
+ * every theme reaches 4.5:1 on both; the colour is then close to the text colour, so a link keeps its underline (WCAG 1.4.1).
+ * ========================================================================== */
+
+:where(:root) {
+    --lily-link: color-mix(in oklch, var(--color-primary) 20%, var(--color-base-content));
+}
+
+/* ============================================================================
+ * Hero content — shared verbatim by all themes (tasks.md P42-T2, P42-T3).
+ *
+ * .hero is a banner filled with the primary colour. A link or a heading inside it takes the banner's text colour, never the
+ * page's link colour (which can be the banner's own fill), and a child with a maximum width is centred with the text. The rules
+ * are in :where(), so an adopter's own rule wins.
+ * ========================================================================== */
+
+@layer lily {
+    :where(.hero) :where(a, h1, h2, h3, h4, h5, h6) {
+        color: inherit;
+    }
+
+    :where(.hero) :where(a) {
+        text-decoration: underline;
+    }
+
+    :where(.hero) > :where(*) {
+        margin-inline: auto;
+    }
+}
+
+/* ============================================================================
  * Whole-card link — shared verbatim by all themes (tasks.md P22-T11).
  *
  * One link, in the card's heading, makes the whole card its target: the link

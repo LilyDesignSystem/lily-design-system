@@ -142,6 +142,8 @@ SHARED_SECTIONS = (
     "target-size (minimum) floor",
     "Coarse pointer targets",
     "Brand colour",
+    "Link colour",
+    "Hero content",
     "Whole-card link",
     "Logo slot",
     "Overflow guards",
@@ -281,6 +283,9 @@ CONTRAST_PAIRS = [
     *[(f"--color-{n}-content", f"--color-{n}")
       for n in ("primary", "secondary", "accent", "neutral", "info", "success", "warning", "error")],
     ("--lily-error-text", "--color-base-100"),
+    # The link colour, on the page and on the card surface (P42-T4).
+    ("--lily-link", "--color-base-100"),
+    ("--lily-link", "--color-base-200"),
 ]
 AAA, AA = 7.0, 4.5
 
