@@ -21,9 +21,11 @@ import { linkSettled, withViewTransition } from "./view-transition.js";
 import {
     DEFAULT_SYSTEM_THEMES,
     SYSTEM_THEME,
+    pageLanguage,
     prefersDarkScheme,
     readDocumentThemeCookie,
     resolveTheme,
+    sortThemes as sortThemeSlugs,
     themeChoices,
     watchColorScheme,
     writeDocumentThemeCookie,
@@ -146,6 +148,7 @@ export class ThemePicker extends HTMLElement {
             "name",
             "extension",
             "theme-labels",
+            "sort-themes",
             "class",
             "open",
             "disabled",
@@ -156,6 +159,9 @@ export class ThemePicker extends HTMLElement {
     // Backing storage for properties.
     #themes: string[] = [];
     #themeLabels: Record<string, string> = {};
+    // The page's language (`<html lang>`), kept current while connected, so a language change sorts the names again.
+    #language: string | undefined = undefined;
+    #languageObserver: MutationObserver | null = null;
     #target: HTMLElement | null = null;
     #initialised = false;
 
@@ -373,9 +379,23 @@ export class ThemePicker extends HTMLElement {
         else this.setAttribute("cookie-name", v);
     }
 
-    /** The choices offered: "system" first when it has a label, then the themes. */
+    /**
+     * List the themes alphabetically by the name shown, in the page's language. On by default; `sort-themes="false"` keeps the
+     * order of `themes`, for an editorial order. "Follow this device" is first either way.
+     */
+    get sortThemes(): boolean {
+        return this.getAttribute("sort-themes") !== "false";
+    }
+    set sortThemes(v: boolean) {
+        this.setAttribute("sort-themes", v ? "true" : "false");
+    }
+
+    /** The choices offered: "system" first when it has a label, then the themes in alphabetical order of the name shown. */
     get #options(): string[] {
-        return themeChoices(this.#themes, this.systemLabel || undefined);
+        const themes = this.sortThemes
+            ? sortThemeSlugs(this.#themes, (theme) => this.labelFor(theme), this.#language)
+            : this.#themes;
+        return themeChoices(themes, this.systemLabel || undefined);
     }
 
     /**
@@ -583,6 +603,17 @@ export class ThemePicker extends HTMLElement {
             this.#themeLabels = parseJsonObject(labelsAttr);
         }
 
+        // Read before the first render and kept current, so the names are sorted in the page's language.
+        this.#language = pageLanguage();
+        this.#languageObserver = new MutationObserver(() => {
+            this.#language = pageLanguage();
+            this.#render();
+        });
+        this.#languageObserver.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ["lang"],
+        });
+
         if (!this.#initialised) {
             this.#initialised = true;
             this.#resolveInitialValue();
@@ -614,6 +645,7 @@ export class ThemePicker extends HTMLElement {
                 if (this.isConnected && value) this.#applyChoice(value);
                 break;
             case "system-label":
+            case "sort-themes":
                 this.#render();
                 break;
             case "system-themes":
@@ -633,6 +665,8 @@ export class ThemePicker extends HTMLElement {
     }
 
     disconnectedCallback(): void {
+        this.#languageObserver?.disconnect();
+        this.#languageObserver = null;
         this.#resetTooltip();
         document.removeEventListener("click", this.#onDocumentClick);
         clearTimeout(this.#typeaheadTimer);

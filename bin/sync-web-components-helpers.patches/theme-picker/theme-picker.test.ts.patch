@@ -1,6 +1,6 @@
---- /var/folders/zp/p2vtmfrj35b27yh4ns6h_6h40000gn/T/tmp.vLZZQmdPQK	2026-11-20 06:20:27.352494969 +0000
-+++ lily-design-system-web-components-theme-picker/theme-picker.test.ts	2026-11-20 06:20:19.953123431 +0000
-@@ -335,8 +335,8 @@
+--- /var/folders/zp/p2vtmfrj35b27yh4ns6h_6h40000gn/T/tmp.mwBCvrcjEC
++++ lily-design-system-web-components-theme-picker/theme-picker.test.ts
+@@ -336,8 +336,8 @@
          await flush();
          const icon = document.body.querySelector<SVGElement>(".theme-picker-icon")!;
          expect(icon.tagName.toLowerCase()).toBe("svg");
@@ -9,9 +9,9 @@
 +        expect(icon.getAttribute("aria-hidden")).toBe("true");
          expect(icon.closest("button")).toBe(button());
      });
-
-@@ -955,133 +955,131 @@
-
+ 
+@@ -960,133 +960,131 @@
+ 
  describe("<lily-theme-picker> — tooltip (§7.26–§7.32)", () => {
      function setup() {
 -        mount({ label: "Theme", themes: THEMES.join(",") });
@@ -30,7 +30,7 @@
 +    const enter = (e: Element) => e.dispatchEvent(new MouseEvent("mouseenter"));
 +    const leave = (e: Element) => e.dispatchEvent(new MouseEvent("mouseleave"));
 +    const isHidden = (e: Element) => e.hasAttribute("hidden");
-
+ 
 -    test("§7.26 renders a role=tooltip element holding label, hidden at rest, not aria-describedby-linked", () => {
 -        const { btn, tip } = setup();
 +    test("26 renders a role=tooltip element right after the button holding the label, hidden at rest, not aria-describedby-linked", () => {
@@ -48,7 +48,7 @@
 +        expect(button.hasAttribute("aria-describedby")).toBe(false);
 +        expect(host.hasAttribute("aria-describedby")).toBe(false);
      });
-
+ 
 -    test("§7.26 the tooltip text follows a label change", () => {
 -        setup();
 -        const el = document.body.querySelector<HTMLElement>("lily-theme-picker")!;
@@ -59,7 +59,7 @@
 -        expect(t2.textContent).toBe("Renamed");
 +        expect(el.querySelector(".theme-picker-tooltip")!.textContent).toBe("Renamed");
      });
-
+ 
 -    test("§7.27 pointer over the button shows it; leaving hides it", () => {
 -        const { btn, tip } = setup();
 -        fire(btn, "mouseenter");
@@ -83,7 +83,7 @@
 +        leave(host);
 +        expect(isHidden(tip)).toBe(true);
      });
-
+ 
 -    test("§7.29 keyboard focus shows it; blur hides it", () => {
 -        const { btn, tip } = setup();
 -        // jsdom has no input-modality tracking; stand in for the keyboard.
@@ -120,7 +120,7 @@
 +        leave(tip);
 +        expect(isHidden(tip)).toBe(true);
      });
-
+ 
 -    test("§7.31 it is never shown while the listbox is open", () => {
 -        const { btn, tip } = setup();
 -        fire(btn, "mouseenter");
@@ -205,7 +205,7 @@
 +        enter(host);
 +        expect(isHidden(tip)).toBe(false);
      });
-
+ 
 -    test("§7.32 the document Escape listener exists only while the tooltip is visible (no leak, no double-add)", () => {
 -        const { btn, tip } = setup();
 +    test("32 the document keydown listener is added once while visible and removed on hide and on disconnect", () => {
@@ -253,25 +253,25 @@
 +        }
      });
  });
-
-@@ -1174,7 +1172,7 @@
+ 
+@@ -1179,7 +1177,7 @@
      });
  });
-
+ 
 -describe('ThemePicker — variant="select" (§select, RFC 3 prototype; ported from Svelte)', () => {
 +describe('ThemePicker — variant="select" (§select, RFC 3 prototype; ported from Svelte, in step with the HTML helper)', () => {
      const base = {
          label: "Colour theme",
          "themes-url": URL_TRAILING,
-@@ -1263,11 +1261,11 @@
-
+@@ -1269,11 +1267,11 @@
+ 
      test("the extra class is appended to the root", () => {
          mount({ ...base, class: "header-theme" });
 -        expect(select().closest(".theme-picker")?.className).toBe("lily-theme-picker header-theme");
 +        expect(select().closest(".theme-picker")?.className).toBe("theme-picker header-theme");
      });
  });
-
+ 
 -describe("lily-theme-picker — theme-color (P21-T7)", () => {
 +describe("theme-picker — theme-color (P21-T7)", () => {
      const meta = () => document.head.querySelector<HTMLMetaElement>('meta[name="theme-color"]');

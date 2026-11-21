@@ -1,9 +1,9 @@
---- generated/picker-bar.test.ts
+--- /var/folders/zp/p2vtmfrj35b27yh4ns6h_6h40000gn/T/tmp.jUIQNOEDFu/t_new
 +++ lily-design-system-web-components-picker-bar/picker-bar.test.ts
 @@ -3,11 +3,8 @@
  import { PickerBar, DEFAULT_THEMES, DEFAULT_THEME_LABELS, DEFAULT_SIZES } from "./picker-bar.js";
  import type { PickerBarLabels } from "./picker-bar.js";
-
+ 
 -// Ensure every custom element involved is registered exactly once for
 -// the suite (this module's own side-effect imports already register
 -// the five wrapped elements; only picker-bar itself needs registering
@@ -17,7 +17,7 @@
 @@ -24,34 +21,57 @@
  const THEMES_URL = "/assets/themes/";
  const LOCALES = ["en", "cy"];
-
+ 
 -function mount(overrides: Record<string, unknown> = {}): PickerBar {
 +type MountOptions = {
 +    labels?: PickerBarLabels;
@@ -74,7 +74,7 @@
      document.body.appendChild(el);
      return el;
  }
-
+ 
 +function click(el: Element): void {
 +    el.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
 +}
@@ -91,7 +91,7 @@
      } catch {
 @@ -60,11 +80,11 @@
  });
-
+ 
  afterEach(() => {
 +    document.body.innerHTML = "";
      document.documentElement.removeAttribute("data-theme");
@@ -100,10 +100,10 @@
      document.documentElement.removeAttribute("data-text-size");
 -    document.body.innerHTML = "";
  });
-
+ 
  describe("PickerBar — DEFAULT_THEMES (§3, §5.1)", () => {
-@@ -128,122 +148,143 @@
-
+@@ -146,123 +166,148 @@
+ 
      test("§7.2 renders all five pickers, each named from `labels`", () => {
          const el = mount();
 -        expect(el.searchPicker?.label).toBe("Search this site");
@@ -118,7 +118,7 @@
 +        );
 +        expect(buttons).toEqual(["Search this site", "Theme", "Language", "Text size", "Share"]);
      });
-
+ 
 -    test("§7.2 renders the five picker tags in search, theme, locale, text-size, share order", () => {
 +    test("§7.2 renders the five picker elements in search, theme, locale, text-size, share order", () => {
          const el = mount();
@@ -146,7 +146,7 @@
 -        expect(el.getAttribute("data-testid")).toBe("header-picker-bar");
 -    });
  });
-
+ 
  describe("PickerBar — theme-picker wiring (§5.1, §7.3, §7.6)", () => {
      test("§7.3 forwards themesUrl and uses DEFAULT_THEMES when `themes` is omitted", () => {
          const el = mount();
@@ -156,10 +156,11 @@
 +        const options = el.querySelectorAll(".theme-picker-option");
 +        expect(options).toHaveLength(63);
 +        expect(options[0].textContent).toBe("Abyss");
-+        expect(options[36].textContent).toBe("Adobe Spectrum");
-+        expect(options[47].textContent).toBe("IBM Carbon");
++        expect(options[2].textContent).toBe("Adobe Spectrum");
++        expect(options[33].textContent).toBe("IBM Carbon");
++        expect(options[62].textContent).toBe("Wireframe");
      });
-
+ 
      test("§7.6 an explicit `themes` prop overrides the default", () => {
          const el = mount({ themes: ["light", "dark"] });
 -        expect(el.themePicker?.themes).toEqual(["light", "dark"]);
@@ -167,7 +168,7 @@
 +        const options = el.querySelectorAll(".theme-picker-option");
 +        expect(options).toHaveLength(2);
      });
-
+ 
 -    test("§7.7 `themeProps` reaches ThemePicker (storageKey persists a selection)", async () => {
 +    test("§7.7 `themeProps` reaches ThemePicker (storageKey persists a selection)", () => {
          const el = mount({ themeProps: { storageKey: "lily-theme" } });
@@ -184,21 +185,26 @@
 +        click(options[0]);
 +        expect(localStorage.getItem("lily-theme")).toBe("abyss");
      });
-
+ 
 -    test("the default theme labels reach ThemePicker, and a consumer's own label wins", () => {
 +    test("a consumer's own theme label wins over the default", () => {
          const el = mount({ themeProps: { themeLabels: { "sap-fiori": "Fiori" } } });
 -        expect(el.themePicker?.themeLabels["ibm-carbon"]).toBe("IBM Carbon");
 -        expect(el.themePicker?.themeLabels["sap-fiori"]).toBe("Fiori");
--        expect(el.themePicker?.themes[36]).toBe("adobe-spectrum");
+-        // The list handed on is the sorted default: "adobe-spectrum" is third, after "abyss" and "acid".
+-        expect(el.themePicker?.themes[2]).toBe("adobe-spectrum");
 +        click(el.querySelector(".theme-picker-button")!);
 +        const text = [...el.querySelectorAll(".theme-picker-option")].map((o) => o.textContent);
 +        expect(text).toContain("Fiori");
 +        expect(text).toContain("IBM Carbon");
 +        expect(text).not.toContain("SAP Fiori");
++        // One list by the name shown: "Fiori" (the consumer's own label) sorts under F, "Adobe Spectrum" is third.
++        expect(text[2]).toBe("Adobe Spectrum");
++        expect(text.indexOf("Fantasy")).toBeLessThan(text.indexOf("Fiori"));
++        expect(text.indexOf("Fiori")).toBeLessThan(text.indexOf("Fluent"));
      });
  });
-
+ 
  describe("PickerBar — locale-picker wiring (§5.2, §7.4)", () => {
      test("§7.4 forwards the required `locales` list", () => {
          const el = mount();
@@ -208,7 +214,7 @@
 +        expect(options).toHaveLength(LOCALES.length);
      });
  });
-
+ 
  describe("PickerBar — text-size-picker wiring (§5.3, §7.8, §7.9)", () => {
      test("§7.8 uses DEFAULT_SIZES when `sizes` is omitted, in largest-to-smallest order", () => {
          const el = mount();
@@ -227,14 +233,14 @@
 +            "Smallest",
 +        ]);
      });
-
+ 
      test("§7.9 defaults the initial value to 'normal'", () => {
          const el = mount();
 -        expect(el.textSizePicker?.value).toBe("normal");
 +        const hidden = el.querySelector('input[name="text-size"]') as HTMLInputElement;
 +        expect(hidden.value).toBe("normal");
      });
-
+ 
      test("§7.9 `textSizeProps.defaultValue` overrides the built-in 'normal' default", () => {
          const el = mount({ textSizeProps: { defaultValue: "small" } });
 -        expect(el.textSizePicker?.value).toBe("small");
@@ -242,7 +248,7 @@
 +        expect(hidden.value).toBe("small");
      });
  });
-
+ 
  describe("PickerBar — share-picker wiring (§5.4, §7.10)", () => {
      test("§7.10 forwards `shareTargets` to SharePicker's list", () => {
 -        const targets = [
@@ -268,7 +274,7 @@
 +        expect(target?.textContent?.trim()).toBe("Email");
      });
  });
-
+ 
  describe("PickerBar — search-picker wiring (§7.12, §7.13)", () => {
      test("§7.12 search is the first picker, with its field and ⏎ button named from `labels`", () => {
          const el = mount();
@@ -293,7 +299,7 @@
 +            "Search",
 +        );
      });
-
+ 
      test("§7.13 `searchProps` reaches SearchPicker (action + navigate)", () => {
          const navigate = vi.fn();
          const el = mount({ searchProps: { action: "/search", navigate } });
@@ -302,10 +308,10 @@
          const input = el.querySelector<HTMLInputElement>(".search-picker-input")!;
          input.value = "foo";
          input.dispatchEvent(new Event("input", { bubbles: true }));
-@@ -261,19 +302,19 @@
+@@ -280,19 +325,19 @@
      { label: "Privacy Policy", href: "/privacy/" },
  ];
-
+ 
 -describe("PickerBar — link-picker wiring (§L1–§L4)", () => {
 +describe("lily-picker-bar — link-picker wiring (§L1–§L4)", () => {
      test("§L1 a link picker renders FIRST when `links` and `labels.link` are given", () => {
@@ -329,10 +335,10 @@
          ]);
          expect(el.linkPicker).toBeTruthy();
          expect(
-@@ -282,23 +323,28 @@
+@@ -301,23 +346,28 @@
          expect(el.querySelector(".link-picker-button")!.getAttribute("aria-label")).toBe("Pages");
      });
-
+ 
 -    test("§L2 no link picker without links, with empty links, or without labels.link", () => {
 -        for (const overrides of [
 +    test("§L2 no link picker without links, with empty links, or without labels.link; it appears and disappears live", () => {
@@ -358,16 +364,16 @@
 +        el.links = [];
 +        expect(el.querySelector("lily-link-picker")).toBeNull();
      });
-
+ 
 -    test("§L3 `linkProps` reaches the LinkPicker (onNavigate)", () => {
 +    test("§L3 `linkProps` reaches the link picker (onNavigate)", () => {
          const onNavigate = vi.fn();
          const el = mount({
              links: LINKS,
-@@ -327,31 +373,33 @@
+@@ -346,31 +396,33 @@
      };
      const WITH = { ...LABELS, timeZone: "Time zone" };
-
+ 
 -    test("§T1 a time-zone-picker renders after the locale-picker when `labels.timeZone` and `timeZoneProps.locale` are given", () => {
 +    test("§T1 a lily-time-zone-picker renders after the locale picker when `labels.timeZone` and `timeZoneProps.locale` are given", () => {
          const el = mount({ labels: WITH, timeZoneProps: TZ });
@@ -390,7 +396,7 @@
              "Time zone",
          );
      });
-
+ 
 -    test("§T2 no time-zone-picker without labels.timeZone or without a locale", () => {
 +    test("§T2 no time-zone picker without labels.timeZone or without a locale", () => {
          for (const extra of [{}, { timeZoneProps: TZ }, { labels: WITH }]) {
@@ -398,7 +404,7 @@
              expect(mount(extra).querySelector("lily-time-zone-picker")).toBeNull();
          }
      });
-
+ 
 -    test("§T3 `timeZoneProps` reaches the time-zone-picker (zones)", () => {
 -        const el = mount({ labels: WITH, timeZoneProps: TZ });
 +    test("§T3 `timeZoneProps` reaches the time-zone picker (zones), also when set after mount", () => {
@@ -407,8 +413,8 @@
 +        el.timeZoneProps = TZ as never;
          expect(el.querySelectorAll(".time-zone-picker-option")).toHaveLength(2);
      });
-
-@@ -364,12 +412,17 @@
+ 
+@@ -383,12 +435,17 @@
  describe("PickerBar — search is optional (tasks.md P28-T7)", () => {
      test("without labels.search there is no search picker, and theme comes first", () => {
          const el = mount({

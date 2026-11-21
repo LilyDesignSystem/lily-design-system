@@ -13,7 +13,8 @@ if (typeof customElements !== "undefined" && !customElements.get("lily-theme-pic
     customElements.define("lily-theme-picker", ThemePicker);
 }
 
-const THEMES = ["light", "dark", "abyss"];
+// In the order the picker lists them: alphabetical by the name shown (spec/theme-picker, "Order of themes").
+const THEMES = ["abyss", "dark", "light"];
 const URL_TRAILING = "/assets/themes/";
 const URL_NO_TRAILING = "/assets/themes";
 
@@ -478,9 +479,10 @@ describe("<lily-theme-picker> — keyboard contract (APG listbox, §7.14–§7.1
     test("§7.14 opening moves focus to the listbox and activates the selected option", async () => {
         await openWith("ArrowDown");
         expect(document.activeElement).toBe(list());
-        // "light" is the resolved initial value, index 0.
-        expect(list().getAttribute("aria-activedescendant")).toBe(options()[0].id);
-        expect(options()[0].hasAttribute("data-active")).toBe(true);
+        // "light" is the resolved initial value, and the last of the sorted three.
+        const last = THEMES.length - 1;
+        expect(list().getAttribute("aria-activedescendant")).toBe(options()[last].id);
+        expect(options()[last].hasAttribute("data-active")).toBe(true);
     });
 
     test("§7.14 ArrowUp opens with the last option active", async () => {
@@ -489,18 +491,20 @@ describe("<lily-theme-picker> — keyboard contract (APG listbox, §7.14–§7.1
     });
 
     test("§7.15 ArrowDown / ArrowUp move the active descendant and clamp", async () => {
+        // The list opens on the selected option, "light", which is the last of the sorted three.
         await openWith("ArrowDown");
+        const last = THEMES.length - 1;
+        expect(list().getAttribute("aria-activedescendant")).toBe(options()[last].id);
+        // Clamp at the bottom.
+        press(list(), "ArrowDown");
+        expect(list().getAttribute("aria-activedescendant")).toBe(options()[last].id);
+        press(list(), "ArrowUp");
+        expect(list().getAttribute("aria-activedescendant")).toBe(options()[last - 1].id);
+        press(list(), "ArrowUp");
         expect(list().getAttribute("aria-activedescendant")).toBe(options()[0].id);
         // Clamp at the top.
         press(list(), "ArrowUp");
         expect(list().getAttribute("aria-activedescendant")).toBe(options()[0].id);
-        press(list(), "ArrowDown");
-        expect(list().getAttribute("aria-activedescendant")).toBe(options()[1].id);
-        press(list(), "ArrowDown");
-        // Clamp at the bottom.
-        press(list(), "ArrowDown");
-        press(list(), "ArrowDown");
-        expect(list().getAttribute("aria-activedescendant")).toBe(options()[THEMES.length - 1].id);
     });
 
     test("§7.15 Home and End jump to the first and last option", async () => {
@@ -513,7 +517,8 @@ describe("<lily-theme-picker> — keyboard contract (APG listbox, §7.14–§7.1
 
     test("§7.16 Enter selects the active option, applies it, closes, and refocuses the button", async () => {
         await openWith("ArrowDown");
-        press(list(), "ArrowDown");
+        // Open on "light" (last), move up to "dark".
+        press(list(), "ArrowUp");
         press(list(), "Enter");
         await flush();
         expect(list().hasAttribute("hidden")).toBe(true);
@@ -525,7 +530,7 @@ describe("<lily-theme-picker> — keyboard contract (APG listbox, §7.14–§7.1
 
     test("§7.16 Space also selects the active option", async () => {
         await openWith("ArrowDown");
-        press(list(), "End");
+        press(list(), "Home");
         press(list(), " ");
         await flush();
         expect(document.documentElement.dataset.theme).toBe("abyss");
@@ -552,8 +557,8 @@ describe("<lily-theme-picker> — keyboard contract (APG listbox, §7.14–§7.1
     test("§7.18 typeahead moves the active descendant by label prefix", async () => {
         await openWith("ArrowDown");
         press(list(), "a");
-        // "Abyss" is index 2 in THEMES.
-        expect(list().getAttribute("aria-activedescendant")).toBe(options()[2].id);
+        // "Abyss" is the first of the sorted THEMES.
+        expect(list().getAttribute("aria-activedescendant")).toBe(options()[0].id);
     });
 
     test("§7.18 a click outside the root closes the listbox", async () => {
@@ -1200,8 +1205,9 @@ describe('ThemePicker — variant="select" (§select, RFC 3 prototype; ported fr
         const opts = [
             ...document.querySelectorAll<HTMLOptionElement>("option.theme-picker-option"),
         ];
-        expect(opts.map((o) => o.value)).toEqual(THEMES);
-        expect(opts.map((o) => o.textContent?.trim())).toEqual(["Light", "Sombre", "Abyss"]);
+        // Sorted by the name shown, so "dark", labelled "Sombre", sorts after "Light".
+        expect(opts.map((o) => o.value)).toEqual(["abyss", "light", "dark"]);
+        expect(opts.map((o) => o.textContent?.trim())).toEqual(["Abyss", "Light", "Sombre"]);
         expect(document.body.textContent).not.toMatch(/default/i);
     });
 

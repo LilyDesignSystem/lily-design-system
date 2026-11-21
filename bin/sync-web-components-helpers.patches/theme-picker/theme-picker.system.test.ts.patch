@@ -1,26 +1,27 @@
---- /var/folders/zp/p2vtmfrj35b27yh4ns6h_6h40000gn/T/tmp.8kLphzekWy	2026-11-20 06:20:27.557176302 +0000
-+++ lily-design-system-web-components-theme-picker/theme-picker.system.test.ts	2026-11-20 05:50:57.628030241 +0000
+--- /var/folders/zp/p2vtmfrj35b27yh4ns6h_6h40000gn/T/tmp.Dv1xKrFAxL
++++ lily-design-system-web-components-theme-picker/theme-picker.system.test.ts
 @@ -5,7 +5,8 @@
-
+ 
  // spec §5.6 "Follow this device" and §5.7 the theme cookie (ported from the Svelte reference, 2026-11-16).
-
+ 
 -if (!customElements.get("lily-theme-picker")) customElements.define("lily-theme-picker", ThemePicker);
 +if (!customElements.get("lily-theme-picker"))
 +    customElements.define("lily-theme-picker", ThemePicker);
-
+ 
  const BASE = { label: "Theme", "themes-url": "/assets/themes/", themes: "light,dark,abyss" };
  const SYSTEM = { ...BASE, "system-label": "Follow this device" };
-@@ -178,6 +179,17 @@
+@@ -178,6 +179,18 @@
      });
  });
-
+ 
 +test("§6.2 End reaches the last theme and Home the follow-this-device option", () => {
 +    mount(SYSTEM);
 +    const button = document.querySelector(".theme-picker-button") as HTMLButtonElement;
 +    button.click();
 +    const list = document.querySelector(".theme-picker-list") as HTMLElement;
 +    list.dispatchEvent(new KeyboardEvent("keydown", { key: "End", bubbles: true }));
-+    expect(optionNamed("Abyss").hasAttribute("data-active")).toBe(true);
++    // The themes are listed alphabetically by the name shown, so the last is "Light".
++    expect(optionNamed("Light").hasAttribute("data-active")).toBe(true);
 +    list.dispatchEvent(new KeyboardEvent("keydown", { key: "Home", bubbles: true }));
 +    expect(optionNamed("Follow this device").hasAttribute("data-active")).toBe(true);
 +});

@@ -73,9 +73,9 @@ describe("<theme-picker> — follow this device (§5.6, §7.35–§7.39)", () =>
         const options = [...document.querySelectorAll(".theme-picker-option")];
         expect(options.map((o) => o.textContent)).toEqual([
             "Follow this device",
-            "Light",
-            "Dark",
             "Abyss",
+            "Dark",
+            "Light",
         ]);
         expect(options[0]!.classList.contains("theme-picker-option-system")).toBe(true);
         expect(options[1]!.classList.contains("theme-picker-option-system")).toBe(false);

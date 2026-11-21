@@ -1,5 +1,5 @@
---- /var/folders/zp/p2vtmfrj35b27yh4ns6h_6h40000gn/T/tmp.R97CXBfqi4	2026-11-20 06:20:27.140399989 +0000
-+++ lily-design-system-web-components-theme-picker/theme-picker.ts	2026-11-20 06:20:19.934804629 +0000
+--- /var/folders/zp/p2vtmfrj35b27yh4ns6h_6h40000gn/T/tmp.iuFt1Nghyl
++++ lily-design-system-web-components-theme-picker/theme-picker.ts
 @@ -7,18 +7,15 @@
   *
   * The control is an icon button that opens a dropdown listbox
@@ -11,7 +11,7 @@
 + * `lily-icon-button` is registered regardless of which module a
 + * consumer (or this package's own tests) imports first.
   */
-
+ 
 -/**
 - * Default button icon: a bundled SVG (contrast/half-circle), not a
 - * Unicode character. Reversed 2026-09-16 from the font-dependent-glyph
@@ -26,13 +26,13 @@
  import { applyThemeColorWhenLoaded } from "./theme-color.js";
  import { linkSettled, withViewTransition } from "./view-transition.js";
  import {
-@@ -33,8 +30,21 @@
+@@ -35,8 +32,21 @@
      type SystemThemes,
  } from "./theme-choice.js";
-
+ 
 +/** Namespace for building the default button icon's SVG elements. */
  const SVG_NS = "http://www.w3.org/2000/svg";
-
+ 
 +/**
 + * Default button icon: a bundled SVG (contrast/half-circle), not a
 + * Unicode character. Reversed 2026-09-16 from the font-dependent-glyph
@@ -48,7 +48,7 @@
  /** Change-event detail dispatched on every applied theme. */
  export type ThemePickerChangeDetail = {
      /** The theme applied. */
-@@ -154,8 +164,9 @@
+@@ -160,8 +170,9 @@
      // The native select of variant="select"; null in the listbox variant.
      #selectEl: HTMLSelectElement | null = null;
      #inputEl: HTMLInputElement | null = null;
@@ -58,11 +58,11 @@
 -    #tooltip: { el: HTMLDivElement; update: () => void; destroy: () => void } | null = null;
      #listEl: HTMLUListElement | null = null;
      #optionEls: HTMLLIElement[] = [];
-
-@@ -173,13 +184,72 @@
+ 
+@@ -179,13 +190,72 @@
      // Stable ids for the button/listbox aria wiring.
      readonly #baseId = nextThemePickerId();
-
+ 
 -    // Arrow/Home/End/typeahead/PageUp/PageDown/Escape/Tab keyboard handling
 -    // inside the open list is owned by the shared ListboxController (see
 -    // @lilydesignsystem/web-components-headless/components/listbox-controller.js);
@@ -136,11 +136,11 @@
 +    // Typeahead buffer: APG listbox behaviour. Reset after a pause.
 +    #typeahead = "";
 +    #typeaheadTimer: ReturnType<typeof setTimeout> | undefined;
-
+ 
      #onDocumentClick = (event: MouseEvent): void => {
          if (!this.#open) return;
-@@ -389,8 +459,8 @@
-
+@@ -409,8 +479,8 @@
+ 
      /**
       * `"select"` renders a native `<select>` instead of the button and listbox (RFC 3 prototype; ported from the
 -     * Svelte reference 2026-10-30). Keyboard, typeahead and the mobile picker are the platform's; `open` does not
@@ -150,7 +150,7 @@
       */
      get variant(): "listbox" | "select" {
          return this.getAttribute("variant") === "select" ? "select" : "listbox";
-@@ -476,15 +546,19 @@
+@@ -496,15 +566,19 @@
          svg.setAttribute("stroke-width", "1.6");
          svg.setAttribute("stroke-linecap", "round");
          svg.setAttribute("stroke-linejoin", "round");
@@ -170,11 +170,11 @@
 +
          return svg;
      }
-
-@@ -559,16 +633,16 @@
-     }
-
+ 
+@@ -593,16 +667,16 @@
      disconnectedCallback(): void {
+         this.#languageObserver?.disconnect();
+         this.#languageObserver = null;
 -        this.#tooltip?.destroy();
 +        this.#resetTooltip();
          document.removeEventListener("click", this.#onDocumentClick);
@@ -191,7 +191,7 @@
          if (sameName.length === 0) {
              const link = document.head.querySelector(`link[data-lily-theme-picker="${this.name}"]`);
              link?.remove();
-@@ -705,10 +779,6 @@
+@@ -739,10 +813,6 @@
          // does not exist.
          this.#activeIndex =
              this.#options.length === 0 ? -1 : (startIndex ?? (selected >= 0 ? selected : 0));
@@ -202,7 +202,7 @@
          this.#open = true;
          this.#emitOpenChange(true);
          this.#syncState();
-@@ -724,7 +794,6 @@
+@@ -758,7 +828,6 @@
          this.#open = false;
          this.#emitOpenChange(false);
          this.#activeIndex = -1;
@@ -210,10 +210,10 @@
          this.#syncState();
          if (refocus) this.#buttonEl?.focus({ preventScroll: true });
      }
-@@ -741,6 +810,51 @@
+@@ -775,6 +844,51 @@
          this.#optionEls[this.#activeIndex]?.scrollIntoView?.({ block: "nearest" });
      }
-
+ 
 +    #moveActive(delta: number): void {
 +        if (this.#options.length === 0) return;
 +        this.#activeIndex = Math.min(
@@ -262,10 +262,10 @@
      #onButtonKeydown = (event: KeyboardEvent): void => {
          switch (event.key) {
              case "ArrowDown":
-@@ -756,6 +870,62 @@
+@@ -790,6 +904,62 @@
          }
      };
-
+ 
 +    #onListKeydown = (event: KeyboardEvent): void => {
 +        switch (event.key) {
 +            case "ArrowDown":
@@ -325,7 +325,7 @@
      #onRootFocusOut = (event: FocusEvent): void => {
          const next = event.relatedTarget as Node | null;
          if (next && this.#rootEl?.contains(next)) return;
-@@ -778,7 +948,7 @@
+@@ -812,7 +982,7 @@
       */
      #syncState(): void {
          if (!this.#rootEl) return;
@@ -333,19 +333,19 @@
 +        this.#syncTooltip();
          const value = this.value;
          if (this.#selectEl && this.#selectEl.value !== value) this.#selectEl.value = value;
-
-@@ -822,7 +992,6 @@
+ 
+@@ -856,7 +1026,6 @@
          // so it closes first.
          this.#open = false;
          this.#activeIndex = -1;
 -        this.#listboxController?.destroy();
-
+ 
          const extraClass = this.getAttribute("class") ?? "";
          const root = document.createElement("div");
-@@ -842,30 +1011,84 @@
+@@ -876,30 +1045,84 @@
          input.value = this.value;
          root.appendChild(input);
-
+ 
 -        const button = document.createElement("button");
 -        button.type = "button";
 -        button.className = "theme-picker-button";
@@ -445,10 +445,10 @@
 +            }
 +        });
 +        root.appendChild(tooltip);
-
+ 
          const list = document.createElement("ul");
          list.className = "theme-picker-list";
-@@ -874,34 +1097,7 @@
+@@ -908,34 +1131,7 @@
          list.setAttribute("aria-label", this.label);
          list.setAttribute("tabindex", "-1");
          list.setAttribute("hidden", "");
@@ -481,17 +481,17 @@
 -            },
 -        });
 +        list.addEventListener("keydown", this.#onListKeydown);
-
+ 
          // The "system" option carries its own class hook: a listbox may hold only options and groups, so the line
          // between it and the themes is the theme's CSS (a border on this option), not an element.
-@@ -921,11 +1117,15 @@
-
+@@ -955,11 +1151,15 @@
+ 
          this.#rootEl = root;
          this.#inputEl = input;
 -        this.#buttonEl = button;
          this.#listEl = list;
          this.#optionEls = optionEls;
-
+ 
          this.replaceChildren(root);
 +        // <lily-icon-button> only builds its real inner <button> once
 +        // connected to a live document, which just happened synchronously
@@ -500,8 +500,8 @@
 +        this.#buttonEl = iconButtonHost.querySelector("button");
          this.#applyInitialOpen();
      }
-
-@@ -936,8 +1136,8 @@
+ 
+@@ -970,8 +1170,8 @@
       * first change.
       */
      #renderSelect(root: HTMLDivElement): void {
@@ -512,7 +512,7 @@
          root.setAttribute("data-variant", "select");
          const select = document.createElement("select");
          select.className = "theme-picker-select";
-@@ -1000,105 +1200,3 @@
+@@ -1034,105 +1234,3 @@
      }
      return {};
  }

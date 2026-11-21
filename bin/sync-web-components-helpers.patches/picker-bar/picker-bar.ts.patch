@@ -1,4 +1,4 @@
---- generated/picker-bar.ts
+--- /var/folders/zp/p2vtmfrj35b27yh4ns6h_6h40000gn/T/tmp.htHgHCduxA/t_new
 +++ lily-design-system-web-components-picker-bar/picker-bar.ts
 @@ -5,37 +5,58 @@
   * the custom-element class but does NOT register it. The `index.ts`
@@ -18,7 +18,7 @@
 + * pre-wired (§5.1, §5.2 of the spec). It owns no interaction of its
 + * own: no listbox, no keyboard handling, no applied/persisted state.
   */
-
+ 
 -// Side-effect imports: each registers its own custom element.
 +// Side-effect imports: each registers its custom element tag on load.
 +// These must stay bare `import "…"` statements — importing the class
@@ -35,7 +35,7 @@
  import "@lilydesignsystem/web-components-text-size-picker";
 +import "@lilydesignsystem/web-components-time-zone-picker";
  import "@lilydesignsystem/web-components-share-picker";
-
+ 
 -import type { LinkPicker, LinkPickerProps, LinkItem } from "@lilydesignsystem/web-components-link-picker";
 -import type { SearchPicker, SearchPickerProps } from "@lilydesignsystem/web-components-search-picker";
 +import type {
@@ -68,14 +68,14 @@
      SharePickerProps,
      ShareTarget,
  } from "@lilydesignsystem/web-components-share-picker";
-
+ 
 -export type { ShareTarget, LinkItem };
 -
  /**
-  * All 63 Lily reference theme slugs (see `themes/` at the repo root): the 36
-  * generic themes alphabetically, then the 27 themes that follow a company's
-@@ -137,9 +158,8 @@
-
+  * All 63 Lily reference theme slugs (see `themes/` at the repo root), in one list sorted alphabetically by the name shown
+  * (`DEFAULT_THEME_LABELS`, else the title-cased slug), so "IBM Carbon" sorts under I and "NHS England (patients)" under N.
+@@ -136,9 +157,8 @@
+ 
  /**
   * The seven-step text-size scale. Each slug title-cases to exactly the
 - * requested label ("largest" → "Largest", …) via `lily-text-size-picker`'s
@@ -86,19 +86,19 @@
   */
  export const DEFAULT_SIZES: string[] = [
      "largest",
-@@ -151,7 +171,7 @@
+@@ -150,7 +170,7 @@
      "smallest",
  ];
-
+ 
 -/** Accessible names for the pickers. Required — no English default (`link` only when `links` is given). */
 +/** Accessible names for the four pickers. Required — no English default. */
  export type PickerBarLabels = {
      /**
       * Accessible name for the link picker's button and list. Needed only when `links` is
-@@ -183,6 +203,11 @@
+@@ -182,6 +202,11 @@
      share: string;
  };
-
+ 
 +/**
 + * Matches `DateTimePicker`'s own `DEFAULT_LABELS`: empty strings, never
 + * English text, so an omitted `labels` renders unnamed controls rather
@@ -107,10 +107,10 @@
  const DEFAULT_LABELS: PickerBarLabels = {
      search: "",
      searchInput: "",
-@@ -193,90 +218,74 @@
+@@ -192,90 +217,74 @@
      share: "",
  };
-
+ 
 -/**
 - * Extra per-picker configuration, applied to that picker's element
 - * instance (via property assignment, which each sibling package
@@ -166,7 +166,7 @@
 +    shareProps?: Partial<Omit<SharePickerProps, "targets" | "label">>;
      class?: string;
  };
-
+ 
 +function parseCsv(s: string): string[] {
 +    return s
 +        .split(",")
@@ -179,7 +179,7 @@
      static get observedAttributes(): string[] {
          return ["themes-url", "themes", "locales", "sizes", "class"];
      }
-
+ 
 -    // Backing storage for property-only members (no honest attribute
 -    // encoding — labels/targets carry non-string data, and the *Extra
 -    // bags are applied at property-assignment time, not re-derivable
@@ -207,7 +207,7 @@
 +    #textSizeProps: Partial<TextSizePickerProps> = {};
 +    #timeZoneProps: Partial<TimeZonePickerProps> = {};
 +    #shareProps: Partial<SharePickerProps> = {};
-
+ 
 -    // Rendered-DOM references. Null until #render() has run.
 +    #built = false;
      #rootEl: HTMLDivElement | null = null;
@@ -225,9 +225,9 @@
 +    #textSizeEl: TextSizePicker | null = null;
 +    #timeZoneEl: TimeZonePicker | null = null;
 +    #shareEl: SharePicker | null = null;
-
+ 
      // ---- Property accessors ----
-
+ 
 -    get labels(): PickerBarLabels {
 -        return this.#labels;
 -    }
@@ -239,7 +239,7 @@
      get themesUrl(): string {
          return this.getAttribute("themes-url") ?? "";
      }
-@@ -288,13 +297,13 @@
+@@ -287,13 +296,13 @@
          return [...this.#themes];
      }
      set themes(v: string[]) {
@@ -254,16 +254,16 @@
 -        this.#render();
 +        if (this.#themeEl) this.#themeEl.themes = this.#themes;
      }
-
+ 
      get locales(): string[] {
-@@ -307,127 +316,168 @@
+@@ -306,127 +315,168 @@
              this.setAttribute("locales", csv);
              return;
          }
 -        this.#render();
 +        if (this.#localeEl) this.#localeEl.locales = this.#locales;
      }
-
+ 
      get sizes(): string[] {
          return [...this.#sizes];
      }
@@ -278,7 +278,7 @@
 -        this.#render();
 +        if (this.#textSizeEl) this.#textSizeEl.sizes = this.#sizes;
      }
-
+ 
 +    /** Property-only. No English default — see `spec/index.md` §4.3. */
 +    get labels(): PickerBarLabels {
 +        return { ...this.#labels };
@@ -307,7 +307,7 @@
 -        this.#render();
 +        if (this.#shareEl) this.#shareEl.targets = this.#shareTargets;
      }
-
+ 
 +    /** Page links for the link picker (leftmost). Property-only. */
      get links(): LinkItem[] {
          return [...this.#links];
@@ -317,7 +317,7 @@
 -        this.#render();
 +        this.#syncLink();
      }
-
+ 
 -    get linkProps(): LinkPickerExtra {
 -        return this.#linkProps;
 +    get linkProps(): Partial<LinkPickerProps> {
@@ -329,7 +329,7 @@
 -        this.#render();
 +        if (this.#linkEl) Object.assign(this.#linkEl, this.#linkProps);
      }
-
+ 
 -    get searchProps(): SearchPickerExtra {
 -        return this.#searchProps;
 +    /** The rendered `<lily-link-picker>` instance (null when no links). */
@@ -368,7 +368,7 @@
 -        this.#render();
 +        if (this.#searchEl) Object.assign(this.#searchEl, this.#searchProps);
      }
-
+ 
 -    get themeProps(): ThemePickerExtra {
 -        return this.#themeProps;
 +    get themeProps(): Partial<ThemePickerProps> {
@@ -380,7 +380,7 @@
 -        this.#render();
 +        if (this.#themeEl) Object.assign(this.#themeEl, this.#themeProps);
      }
-
+ 
 -    get localeProps(): LocalePickerExtra {
 -        return this.#localeProps;
 +    get localeProps(): Partial<LocalePickerProps> {
@@ -392,7 +392,7 @@
 -        this.#render();
 +        if (this.#localeEl) Object.assign(this.#localeEl, this.#localeProps);
      }
-
+ 
 -    get timeZoneProps(): TimeZonePickerExtra {
 -        return this.#timeZoneProps;
 +    get timeZoneProps(): Partial<TimeZonePickerProps> {
@@ -404,7 +404,7 @@
 -        this.#render();
 +        this.#syncTimeZone();
      }
-
+ 
 -    get textSizeProps(): TextSizePickerExtra {
 -        return this.#textSizeProps;
 -    }
@@ -431,7 +431,7 @@
 +            this.#rootEl.insertBefore(el, this.#textSizeEl);
 +        }
      }
-
+ 
 -    get shareProps(): SharePickerExtra {
 -        return this.#shareProps;
 +    get textSizeProps(): Partial<TextSizePickerProps> {
@@ -444,7 +444,7 @@
 +        this.#textSizeProps = v ?? {};
 +        if (this.#textSizeEl) Object.assign(this.#textSizeEl, this.#textSizeProps);
      }
-
+ 
 -    /** The rendered `<lily-link-picker>` instance, once connected (null when no links). */
 -    get linkPicker(): LinkPicker | null {
 -        return this.#linkPickerEl;
@@ -478,9 +478,9 @@
 +        this.#shareProps = v ?? {};
 +        if (this.#shareEl) Object.assign(this.#shareEl, this.#shareProps);
      }
-
+ 
      // ---- Lifecycle ----
-
+ 
      connectedCallback(): void {
 -        // Pick up CSV attributes set via HTML before the JS evaluated.
 +        // Pick up initial CSV attributes set via HTML before JS evaluated,
@@ -488,14 +488,14 @@
          const themesAttr = this.getAttribute("themes");
          if (themesAttr !== null) this.#themes = parseCsv(themesAttr);
          const localesAttr = this.getAttribute("locales");
-@@ -435,54 +485,57 @@
+@@ -434,54 +484,57 @@
          const sizesAttr = this.getAttribute("sizes");
          if (sizesAttr !== null) this.#sizes = parseCsv(sizesAttr);
-
+ 
 -        this.#render();
 +        this.#build();
      }
-
+ 
      attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
          switch (name) {
 +            case "themes-url":
@@ -529,20 +529,20 @@
                  break;
          }
      }
-
+ 
 -    // ---- Rendering ----
 +    // ---- Rendering (built once; later changes update the existing children in place) ----
-
+ 
 -    #render(): void {
 -        if (!this.isConnected) return;
 +    #build(): void {
 +        if (this.#built) return;
 +        this.#built = true;
-
+ 
          const extraClass = this.getAttribute("class") ?? "";
          const root = document.createElement("div");
          root.className = `picker-bar ${extraClass}`.trim();
-
+ 
 -        // The link picker (a home icon) is leftmost (maintainer-directed, 2026-10-07), and only
 -        // rendered when the app supplies links and a label for it.
 -        this.#linkPickerEl = null;
@@ -563,16 +563,16 @@
 +        // chain is already connected guarantees its connectedCallback
 +        // fires immediately, in every environment.
 +        this.replaceChildren(root);
-
+ 
 -        // Search comes next in the row (maintainer-directed, 2026-10-02).
 +        // Search comes first in the row (maintainer-directed, 2026-10-02).
          // Only when the app names it: a client-side app can leave search out (tasks.md P28-T7).
          let searchEl: SearchPicker | null = null;
          if (this.#labels.search) {
-@@ -508,24 +561,12 @@
+@@ -507,24 +560,12 @@
          Object.assign(localeEl, this.#localeProps);
          root.appendChild(localeEl);
-
+ 
 -        let timeZoneEl: TimeZonePicker | null = null;
 -        if (this.#labels.timeZone && this.#timeZoneProps.locale) {
 -            timeZoneEl = document.createElement("lily-time-zone-picker") as TimeZonePicker;
@@ -597,10 +597,10 @@
          textSizeEl.defaultValue = "normal";
          Object.assign(textSizeEl, this.#textSizeProps);
          root.appendChild(textSizeEl);
-@@ -536,20 +577,15 @@
+@@ -535,20 +576,15 @@
          Object.assign(shareEl, this.#shareProps);
          root.appendChild(shareEl);
-
+ 
 -        this.replaceChildren(root);
          this.#rootEl = root;
 -        this.#searchPickerEl = searchEl;

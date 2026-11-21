@@ -3019,6 +3019,7 @@
             "testFiles": [
               "lily-design-system-html-theme-picker/theme-choice.test.ts",
               "lily-design-system-html-theme-picker/theme-color.test.ts",
+              "lily-design-system-html-theme-picker/theme-picker.order.test.ts",
               "lily-design-system-html-theme-picker/theme-picker.pattern.test.ts",
               "lily-design-system-html-theme-picker/theme-picker.system.test.ts",
               "lily-design-system-html-theme-picker/theme-picker.test.ts",
@@ -3033,6 +3034,7 @@
             "testFiles": [
               "lily-design-system-web-components-theme-picker/theme-choice.test.ts",
               "lily-design-system-web-components-theme-picker/theme-color.test.ts",
+              "lily-design-system-web-components-theme-picker/theme-picker.order.test.ts",
               "lily-design-system-web-components-theme-picker/theme-picker.pattern.test.ts",
               "lily-design-system-web-components-theme-picker/theme-picker.system.test.ts",
               "lily-design-system-web-components-theme-picker/theme-picker.test.ts",

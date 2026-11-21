@@ -74,9 +74,9 @@ describe("<lily-theme-picker> — follow this device (§5.6, §7.35–§7.39)", 
         const options = [...document.querySelectorAll(".theme-picker-option")];
         expect(options.map((o) => o.textContent)).toEqual([
             "Follow this device",
-            "Light",
-            "Dark",
             "Abyss",
+            "Dark",
+            "Light",
         ]);
         expect(options[0]!.classList.contains("theme-picker-option-system")).toBe(true);
         expect(options[1]!.classList.contains("theme-picker-option-system")).toBe(false);
@@ -185,7 +185,8 @@ test("§6.2 End reaches the last theme and Home the follow-this-device option", 
     button.click();
     const list = document.querySelector(".theme-picker-list") as HTMLElement;
     list.dispatchEvent(new KeyboardEvent("keydown", { key: "End", bubbles: true }));
-    expect(optionNamed("Abyss").hasAttribute("data-active")).toBe(true);
+    // The themes are listed alphabetically by the name shown, so the last is "Light".
+    expect(optionNamed("Light").hasAttribute("data-active")).toBe(true);
     list.dispatchEvent(new KeyboardEvent("keydown", { key: "Home", bubbles: true }));
     expect(optionNamed("Follow this device").hasAttribute("data-active")).toBe(true);
 });
