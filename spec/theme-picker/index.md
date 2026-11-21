@@ -149,7 +149,7 @@ consumer's `::view-transition-*` CSS can animate it ([docs/patterns/motion](../.
 
 ## Follow this device, kept in a cookie (added 2026-11-16)
 
-The listbox reads **Follow this device**, a line, then **Light** and **Dark** (and any other themes). In all eight catalogs, Svelte first. Contract: the Svelte package's [spec §5.6 and §5.7](../../lily-design-system-svelte-theme-picker/spec/index.md#56-follow-this-device-2026-11-16).
+The listbox reads **Follow this device**, a line, then the themes in alphabetical order ([order of themes](#order-of-themes-added-2026-11-21)). In all eight catalogs, Svelte first. Contract: the Svelte package's [spec §5.6 and §5.7](../../lily-design-system-svelte-theme-picker/spec/index.md#56-follow-this-device-2026-11-16).
 
 - `systemLabel` adds a first option, value `"system"` (`SYSTEM_THEME`), with no English default. While chosen it applies
   `systemThemes.light` or `.dark` (default `light`, `dark`) from `prefers-color-scheme`, and follows the device when it switches.
@@ -164,6 +164,31 @@ The listbox reads **Follow this device**, a line, then **Light** and **Dark** (a
   one off, and nothing is written on the first load, only when the choice changes. In all eight catalogs.
 - A server reads it with `readThemeCookie(header, name, allowed)` and sends `data-theme` and the `<link>` with the page; for
   `"system"` it links both themes by `media`. Recipe: the Svelte package's `examples/sveltekit-cookie/`.
+
+## Order of themes (added 2026-11-21)
+
+Themes are listed **alphabetically by the name the reader sees**, in one list. Generic themes and company or public-sector
+themes are not grouped apart, and the list does not follow the order of the `themes` array.
+
+- **What is sorted.** The options of the listbox, and the `<option>`s of the native `<select>` variant. `data-theme`, the slugs
+  and the stylesheet URLs are unchanged: only the order of the list changes.
+- **The name.** The consumer's `themeLabels` entry, else the title-cased slug. The `picker-bar` supplies its
+  `DEFAULT_THEME_LABELS` first, so "IBM Carbon" sorts under I and "NHS England (patients)" under N, not under the slug's
+  first letter.
+- **The comparison.** `Intl.Collator` for the language of the page (`document.documentElement.lang`, else `en`), with
+  `sensitivity: "base"` and `numeric: true`, so case and accents do not decide the order and "Theme 2" comes before "Theme 10".
+  Names that compare equal are ordered by slug, so the order is the same on every render. When the page's language changes,
+  the list is sorted again.
+- **What stays where it is.** "Follow this device" (`systemLabel`) is the first option, then the line, then the sorted themes.
+  Nothing else is pinned: "Dark" now comes before "Light".
+- **An editorial order.** A consumer who wants a hand-picked order passes `sortThemes={false}` (`sort-themes="false"` on the
+  custom elements, `SortThemes="false"` in Blazor); the order of `themes` is then kept. The default is to sort.
+- **One helper.** A pure function, `sortThemes(themes, labelOf, locale)`, in `shared/theme-choice.ts` beside `themeChoices`, which
+  uses it. It is copied into the TypeScript catalogs by `bin/sync-shared-modules` (Nunjucks gets the `.js`); Blazor repeats it in
+  C# with `CompareInfo` and the same options. A server that renders the list sorts it with the same function, so the server and
+  the client agree.
+- **Why.** A reader looking for a theme by name should not have to know which group it was filed under. Grouping by kind put
+  "Notion" and "Normal" a screen apart and made the position of a theme depend on a classification the reader never sees.
 
 ## Acceptance criteria
 
@@ -185,6 +210,10 @@ The listbox reads **Follow this device**, a line, then **Light** and **Dark** (a
 - [x] HTML and Web Components (0.4.0, `theme-picker.system.test.ts`) (2026-11-16).
 - [x] Nunjucks (0.4.0, `theme-picker.system.test.ts`) (2026-11-16).
 - [x] Blazor (0.5.0, `ThemePickerSystemTests.cs`, with C# versions of the helpers) (2026-11-16): all eight catalogs.
+- [ ] Order of themes (2026-11-21): all eight catalogs list the themes alphabetically by displayed name, in the listbox and in the
+      `select` variant, with "Follow this device" first; `sortThemes={false}` keeps the given order. Tests use labels that differ
+      from their slugs, two names that differ only by case or accent, a number in a name, and a change of page language.
+- [ ] `sortThemes` has unit tests in `shared/theme-choice.test.ts`, and its C# twin has the same cases (`bin/sync-shared-modules --check`).
 
 ## Related topics
 
