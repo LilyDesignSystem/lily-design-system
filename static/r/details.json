@@ -19,6 +19,7 @@
   "props": [
     "`summary`: string (required) -- text displayed in the summary toggle",
     "`open`: boolean (default: false) -- whether the details section is expanded; bindable",
+    "`printOpen`: boolean (default: true) -- a printed page cannot open a closed disclosure, so on `beforeprint` a closed one is opened and on `afterprint` it is closed again (one the reader had opened stays open); pass false for content that should not print. Svelte, React, Solid, Vue and Angular (2026-11-21, P42-T9)",
     "`children`: slot (required) -- content revealed when expanded"
   ],
   "related": [

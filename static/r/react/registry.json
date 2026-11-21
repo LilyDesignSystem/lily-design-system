@@ -3132,6 +3132,9 @@
       "title": "Details",
       "description": "A disclosure widget that shows and hides content.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/print-open-utils"
+      ],
       "categories": [
         "navigation"
       ],
@@ -8481,6 +8484,20 @@
           "path": "lily-design-system-react-headless-identifiers/components/PrathetThaiLekPrajamTuaPrachachonView.tsx",
           "type": "registry:component",
           "target": "@components/lily/PrathetThaiLekPrajamTuaPrachachonView.tsx"
+        }
+      ]
+    },
+    {
+      "name": "print-open-utils",
+      "type": "registry:lib",
+      "title": "print-open.ts",
+      "description": "Shared helper module print-open.ts, used by Lily React headless components.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/print-open.ts",
+          "type": "registry:lib",
+          "target": "@components/lily/print-open.ts"
         }
       ]
     },
