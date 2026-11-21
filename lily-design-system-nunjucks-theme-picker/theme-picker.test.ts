@@ -25,7 +25,8 @@ const env = nunjucks.configure(__dirname, {
     lstripBlocks: true,
 });
 
-const THEMES = ["light", "dark", "abyss"];
+// In the order the picker lists them: alphabetical by the name shown (spec/theme-picker, "Order of themes").
+const THEMES = ["abyss", "dark", "light"];
 const URL_TRAILING = "/assets/themes/";
 const URL_NO_TRAILING = "/assets/themes";
 
@@ -277,7 +278,8 @@ describe("ThemePicker — macro markup contract (§7.1–§7.6)", () => {
         const text = [...root.querySelectorAll(".theme-picker-option")].map((o) =>
             o.textContent?.trim(),
         );
-        expect(text).toEqual(["IBM Carbon", "Fiori", "Light"]);
+        // Sorted by the name shown: the consumer's "Fiori" sorts under F, before "IBM Carbon".
+        expect(text).toEqual(["Fiori", "IBM Carbon", "Light"]);
     });
 });
 
@@ -380,18 +382,23 @@ describe("ThemePicker — keyboard contract (APG listbox, §7.20–§7.24)", () 
     });
 
     test("§7.21 opening puts the active descendant on the selected theme", () => {
-        // "light" resolves as the initial theme, so it is index 0.
+        // "light" resolves as the initial theme, and is the last of the sorted three.
         const { button, list, options } = setup();
         key(button, "ArrowDown");
-        expect(list.getAttribute("aria-activedescendant")).toBe(options[0].id);
-        expect(options[0].hasAttribute("data-active")).toBe(true);
+        const last = THEMES.length - 1;
+        expect(list.getAttribute("aria-activedescendant")).toBe(options[last].id);
+        expect(options[last].hasAttribute("data-active")).toBe(true);
     });
 
     test("§7.21 ArrowDown / ArrowUp move the active descendant and clamp", () => {
         const { button, list, options } = setup();
         key(button, "ArrowDown");
+        // The list opens on the selected option, "light", the last of the sorted three: down clamps there.
+        const last = THEMES.length - 1;
         key(list, "ArrowDown");
-        expect(list.getAttribute("aria-activedescendant")).toBe(options[1].id);
+        expect(list.getAttribute("aria-activedescendant")).toBe(options[last].id);
+        key(list, "ArrowUp");
+        expect(list.getAttribute("aria-activedescendant")).toBe(options[last - 1].id);
         key(list, "ArrowUp");
         expect(list.getAttribute("aria-activedescendant")).toBe(options[0].id);
         // Clamps at the top rather than wrapping.
@@ -416,7 +423,8 @@ describe("ThemePicker — keyboard contract (APG listbox, §7.20–§7.24)", () 
         const onChange = vi.fn();
         const { button, list, input } = setup({}, { onChange });
         key(button, "ArrowDown");
-        key(list, "ArrowDown");
+        // Open on "light" (last), move up to "dark".
+        key(list, "ArrowUp");
         key(list, "Enter");
         expect(list.hasAttribute("hidden")).toBe(true);
         expect(button.getAttribute("aria-expanded")).toBe("false");
@@ -429,7 +437,7 @@ describe("ThemePicker — keyboard contract (APG listbox, §7.20–§7.24)", () 
     test("§7.22 Space also selects the active option", () => {
         const { button, list } = setup();
         key(button, "ArrowDown");
-        key(list, "End");
+        key(list, "Home");
         key(list, " ");
         expect(document.documentElement.dataset.theme).toBe("abyss");
         expect(list.hasAttribute("hidden")).toBe(true);
@@ -463,8 +471,8 @@ describe("ThemePicker — keyboard contract (APG listbox, §7.20–§7.24)", () 
     test("§7.24 typeahead moves the active descendant by label prefix", () => {
         const { button, list, options } = setup();
         key(button, "ArrowDown");
-        key(list, "a"); // "Abyss"
-        expect(list.getAttribute("aria-activedescendant")).toBe(options[2].id);
+        key(list, "a"); // "Abyss", the first of the sorted three
+        expect(list.getAttribute("aria-activedescendant")).toBe(options[0].id);
     });
 
     test("§7.24 the typeahead buffer accumulates, then resets after 500ms", () => {
@@ -479,7 +487,7 @@ describe("ThemePicker — keyboard contract (APG listbox, §7.20–§7.24)", () 
             // After the reset window, a lone "a" starts a fresh search.
             vi.advanceTimersByTime(600);
             key(list, "a");
-            expect(list.getAttribute("aria-activedescendant")).toBe(options[2].id);
+            expect(list.getAttribute("aria-activedescendant")).toBe(options[0].id);
         } finally {
             vi.useRealTimers();
         }
@@ -489,13 +497,14 @@ describe("ThemePicker — keyboard contract (APG listbox, §7.20–§7.24)", () 
         const { button, list, options } = setup();
         key(button, "ArrowDown");
         key(list, "a", { ctrlKey: true });
-        expect(list.getAttribute("aria-activedescendant")).toBe(options[0].id);
+        // Unmoved: still on the selected option, "light", the last of the sorted three.
+        expect(list.getAttribute("aria-activedescendant")).toBe(options[THEMES.length - 1].id);
     });
 
     test("§7.24 clicking an option selects it, applies it, and closes the listbox", () => {
         const { button, list, options } = setup();
         click(button);
-        click(options[2]);
+        click(options[0]);
         expect(document.documentElement.dataset.theme).toBe("abyss");
         // A pointer selection closes, exactly as Enter does. The asymmetry
         // would be invisible to a consumer reading the DOM: a stale
@@ -543,11 +552,11 @@ describe("ThemePicker — keyboard contract (APG listbox, §7.20–§7.24)", () 
     test("§7.24 aria-selected follows the applied theme, not merely the active option", () => {
         const { button, list, options } = setup();
         key(button, "ArrowDown");
-        key(list, "ArrowDown"); // active = dark, but not chosen yet
-        expect(options[0].getAttribute("aria-selected")).toBe("true");
+        key(list, "ArrowUp"); // active = dark, but not chosen yet
+        expect(options[2].getAttribute("aria-selected")).toBe("true");
         expect(options[1].getAttribute("aria-selected")).toBe("false");
         key(list, "Enter");
-        expect(options[0].getAttribute("aria-selected")).toBe("false");
+        expect(options[2].getAttribute("aria-selected")).toBe("false");
         expect(options[1].getAttribute("aria-selected")).toBe("true");
     });
 });
@@ -586,8 +595,9 @@ describe("ThemePicker — pure helpers (§7.12)", () => {
                 themes: slugs,
             }),
         );
+        // The same names, in the macro's sorted order.
         expect(partsOf(root).options.map((o) => (o.textContent || "").trim())).toEqual(
-            slugs.map(themeName),
+            slugs.map(themeName).sort((a, b) => a.localeCompare(b, "en")),
         );
     });
 
@@ -769,7 +779,7 @@ describe("ThemePicker — client.js lifecycle (§7.7–§7.11, §7.13)", () => {
         const onChange = vi.fn();
         const { button, options, input } = setup({}, { onChange });
         click(button);
-        click(options[2]);
+        click(options[0]);
         expect(document.documentElement.dataset.theme).toBe("abyss");
         expect(getManagedLink()!.getAttribute("href")).toBe("/assets/themes/abyss.css");
         expect(input.value).toBe("abyss");
@@ -1262,8 +1272,9 @@ describe('themePicker — variant="select" (§select, RFC 3 prototype; ported fr
             renderMacro({ ...base, label: "Thème", themeLabels: { dark: "Sombre" } }),
         );
         const options = [...root.querySelectorAll<HTMLOptionElement>("option.theme-picker-option")];
-        expect(options.map((o) => o.value)).toEqual(THEMES);
-        expect(options.map((o) => o.textContent?.trim())).toEqual(["Light", "Sombre", "Abyss"]);
+        // Sorted by the name shown, so "dark", labelled "Sombre", sorts after "Light".
+        expect(options.map((o) => o.value)).toEqual(["abyss", "light", "dark"]);
+        expect(options.map((o) => o.textContent?.trim())).toEqual(["Abyss", "Light", "Sombre"]);
         expect(root.textContent).not.toMatch(/default/i);
     });
 

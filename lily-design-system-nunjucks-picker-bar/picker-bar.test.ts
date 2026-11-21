@@ -108,17 +108,21 @@ describe("PickerBar — DEFAULT_THEMES / DEFAULT_SIZES agree with the macro (§3
             .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
             .join(" ");
 
-    test("lists the 36 generic themes first, alphabetically, then the official ones by label", () => {
-        const generic = DEFAULT_THEMES.slice(0, 36);
-        const official = DEFAULT_THEMES.slice(36);
-        expect(generic).toEqual([...generic].sort());
-        expect(official.map(labelOf)).toEqual(
-            [...official.map(labelOf)].sort((a, b) =>
-                a.localeCompare(b, "en", { sensitivity: "base" }),
-            ),
+    test("lists all 63 themes in one list, alphabetically by the name shown", () => {
+        expect(new Set(DEFAULT_THEMES).size).toBe(63);
+        const collator = new Intl.Collator("en", { sensitivity: "base", numeric: true });
+        const names = DEFAULT_THEMES.map(labelOf);
+        expect(names).toEqual([...names].sort((a, b) => collator.compare(a, b)));
+        // Not grouped by kind: a company theme sits between generic ones, and a public body sorts under its name.
+        expect(DEFAULT_THEMES.indexOf("adobe-spectrum")).toBeLessThan(
+            DEFAULT_THEMES.indexOf("aqua"),
         );
-        expect(DEFAULT_THEMES[36]).toBe("adobe-spectrum");
-        expect(DEFAULT_THEMES.at(-1)).toBe("vercel");
+        expect(DEFAULT_THEMES.indexOf("ibm-carbon")).toBeLessThan(DEFAULT_THEMES.indexOf("light"));
+        expect(DEFAULT_THEMES.indexOf("light")).toBeLessThan(
+            DEFAULT_THEMES.indexOf("united-kingdom-national-health-service-england-for-patients"),
+        );
+        expect(DEFAULT_THEMES[0]).toBe("abyss");
+        expect(DEFAULT_THEMES.at(-1)).toBe("wireframe");
     });
 
     test("the macro renders the client's default labels, and a consumer's own label wins", () => {

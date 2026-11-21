@@ -33,39 +33,38 @@
 {% from "lily-design-system-nunjucks-time-zone-picker/dist/time-zone-picker.njk" import timeZonePicker %}
 {% from "lily-design-system-nunjucks-share-picker/dist/share-picker.njk" import sharePicker %}
 {#
-  All 63 Lily reference theme slugs (see `themes/` at the repo root): the 36
-  generic themes alphabetically, then the 27 themes that follow a company's
-  or a public body's design system, alphabetically by their label
-  (`DEFAULT_THEME_LABELS`, else the title-cased slug), so "NHS England
-  (patients)" sorts under N. Kept in agreement with `DEFAULT_THEMES` in
-  picker-bar.client.js by a test — a Nunjucks macro cannot import a JS
-  constant, so, as with `themeName`/`sizeName` elsewhere in this catalog,
-  the two copies are held in sync by assertion rather than by delegation.
+  All 63 Lily reference theme slugs (see `themes/` at the repo root), in one
+  list sorted alphabetically by the name shown (`DEFAULT_THEME_LABELS`, else
+  the title-cased slug), so "IBM Carbon" sorts under I and "NHS England
+  (patients)" under N. Generic and company or public-sector themes are not
+  grouped apart (spec/theme-picker, "Order of themes"). The theme picker sorts
+  its options the same way whatever order it is given. Kept in agreement with
+  `DEFAULT_THEMES` in picker-bar.client.js by a test — a Nunjucks macro cannot
+  import a JS constant, so, as with `themeName`/`sizeName` elsewhere in this
+  catalog, the two copies are held in sync by assertion rather than by
+  delegation.
 #}
 {%- set DEFAULT_THEMES = [
-  "abyss", "acid", "aqua", "autumn", "black", "bumblebee", "business",
-  "cappuccino", "caramellatte", "cmyk", "coffee", "corporate",
-  "cupcake", "cyberpunk", "dark", "dim", "dracula", "emerald",
-  "fantasy", "forest", "garden", "halloween", "lemonade", "light",
-  "lofi", "luxury", "night", "nord", "pastel", "retro", "silk",
-  "sunset", "synthwave", "valentine", "winter", "wireframe",
-  "adobe-spectrum", "ant-design", "atlassian",
-  "australia-agriculture-design-system",
-  "brazil-padrao-digital-de-governo",
-  "canada-government-of-canada-design-system",
-  "european-union-europa-component-library", "excel", "fluent",
-  "github-primer", "united-kingdom-government-digital-service",
-  "ibm-carbon", "japan-digital-agency-design-system", "linear",
-  "mozilla-protocol",
+  "abyss", "acid", "adobe-spectrum", "ant-design", "aqua", "atlassian",
+  "australia-agriculture-design-system", "autumn", "black",
+  "brazil-padrao-digital-de-governo", "bumblebee", "business",
+  "canada-government-of-canada-design-system", "cappuccino", "caramellatte",
+  "cmyk", "coffee", "corporate", "cupcake", "cyberpunk", "dark", "dim",
+  "dracula", "emerald", "european-union-europa-component-library", "excel",
+  "fantasy", "fluent", "forest", "garden", "github-primer",
+  "united-kingdom-government-digital-service", "halloween", "ibm-carbon",
+  "japan-digital-agency-design-system", "lemonade", "light", "linear", "lofi",
+  "luxury", "mozilla-protocol",
   "united-kingdom-national-health-service-england-for-patients",
   "united-kingdom-national-health-service-england-for-practitioners",
   "united-kingdom-national-health-service-scotland-for-patients",
   "united-kingdom-national-health-service-scotland-for-practitioners",
   "united-kingdom-national-health-service-wales-for-patients",
-  "united-kingdom-national-health-service-wales-for-practitioners",
-  "notion", "salesforce", "sap-fiori",
-  "singapore-government-design-system",
-  "united-states-web-design-system", "vercel"
+  "united-kingdom-national-health-service-wales-for-practitioners", "night",
+  "nord", "notion", "pastel", "retro", "salesforce", "sap-fiori", "silk",
+  "singapore-government-design-system", "sunset", "synthwave",
+  "united-states-web-design-system", "valentine", "vercel", "winter",
+  "wireframe"
 ] -%}
 {#
   Labels for the default themes whose title-cased slug reads wrongly: an

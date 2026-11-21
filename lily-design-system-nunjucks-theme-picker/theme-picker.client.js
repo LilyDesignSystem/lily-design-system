@@ -33,9 +33,11 @@ import { linkSettled, withViewTransition } from "./view-transition.js";
 import {
     DEFAULT_SYSTEM_THEMES,
     SYSTEM_THEME,
+    pageLanguage,
     prefersDarkScheme,
     readDocumentThemeCookie,
     resolveTheme,
+    sortThemes,
     watchColorScheme,
     writeDocumentThemeCookie,
 } from "./theme-choice.js";
@@ -47,6 +49,8 @@ export {
     prefersDarkScheme,
     watchColorScheme,
     resolveTheme,
+    sortThemes,
+    pageLanguage,
     themeChoices,
     readThemeCookie,
     themeCookie,
@@ -321,6 +325,54 @@ function wireTooltip(root, button, selector, popup) {
 }
 
 /**
+ * Order the themes alphabetically by the name shown, in the page's language (spec/theme-picker, "Order of themes"): the
+ * option elements move in the DOM and `options` / `values` are reordered in place, and each option's index id is
+ * reassigned, so the arrays still match the DOM. A "system" option stays first, with its separator after it. Does nothing
+ * when the root says `data-lily-theme-picker-sort="false"`. The macro already sorted with Nunjucks' plain sort; this is the
+ * Intl.Collator pass, and it runs again when `<html lang>` changes.
+ *
+ * @param {HTMLElement} root
+ * @param {Element} container - the <ul> or <select> holding the options
+ * @param {Element[]} options - the option elements, in DOM order (reordered in place)
+ * @param {string[]} values - their slugs (reordered in place)
+ * @param {(index: number) => string} idFor - the id an option at that index takes, or "" to leave ids alone
+ */
+function sortOptions(root, container, options, values, idFor) {
+    if (root.getAttribute("data-lily-theme-picker-sort") === "false") return;
+    const bySlug = new Map(options.map((o, i) => [values[i], o]));
+    const labelOf = (slug) => (bySlug.get(slug)?.textContent || "").trim() || slug;
+    const sorted = sortThemes(
+        values.filter((v) => v !== SYSTEM_THEME),
+        labelOf,
+        pageLanguage(),
+    );
+    const order = (values.includes(SYSTEM_THEME) ? [SYSTEM_THEME] : []).concat(sorted);
+    const separator = container.querySelector(".theme-picker-separator");
+    const nodes = order.map((slug) => bySlug.get(slug));
+    options.splice(0, options.length, ...nodes);
+    values.splice(0, values.length, ...order);
+    for (const [i, node] of nodes.entries()) {
+        container.appendChild(node);
+        if (separator && values[i] === SYSTEM_THEME) container.appendChild(separator);
+        const id = idFor(i);
+        if (id) node.id = id;
+    }
+}
+
+/**
+ * Watch `<html lang>` and call `resort` when it changes.
+ *
+ * @param {() => void} resort
+ * @returns {() => void} stop watching
+ */
+function watchLanguage(resort) {
+    if (typeof MutationObserver === "undefined") return () => {};
+    const observer = new MutationObserver(resort);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
+    return () => observer.disconnect();
+}
+
+/**
  * Wire one rendered ThemePicker root.
  *
  * @param {HTMLElement} root - The <div data-lily-theme-picker-root>.
@@ -347,6 +399,17 @@ export function initThemePicker(root, opts = {}) {
 
     const options = Array.from(list.querySelectorAll('[role="option"]'));
     const values = options.map((o) => o.getAttribute("data-value") || "");
+
+    // Sorted alphabetically by the name shown, in the page's language, and again when it changes (never while the list is
+    // open: moving options under a reader would lose the active one).
+    const optionId = (i) => `${list.id.replace(/-list$/, "")}-option-${i}`;
+    sortOptions(root, list, options, values, optionId);
+    let resortPending = false;
+    const resort = () => {
+        if (!list.hidden) resortPending = true;
+        else sortOptions(root, list, options, values, optionId);
+    };
+    const stopWatchingLanguage = watchLanguage(resort);
 
     const storageKey = root.getAttribute("data-lily-theme-picker-storage-key") || "";
     const defaultValue = root.getAttribute("data-lily-theme-picker-default-value") || "";
@@ -428,6 +491,10 @@ export function initThemePicker(root, opts = {}) {
         list.hidden = true;
         button.setAttribute("aria-expanded", "false");
         keyboard.setActive(-1);
+        if (resortPending) {
+            resortPending = false;
+            sortOptions(root, list, options, values, optionId);
+        }
         if (refocus) button.focus({ preventScroll: true });
     }
 
@@ -555,6 +622,7 @@ export function initThemePicker(root, opts = {}) {
         setTheme: applyTheme,
         destroy: () => {
             chooser.destroy();
+            stopWatchingLanguage();
             tooltipDestroy();
             keyboard.destroy();
             button.removeEventListener("click", onButtonClick);
@@ -611,8 +679,11 @@ function resolveInitialTheme(
     // 6. "light" if present
     if (!initial && values.includes("light")) initial = "light";
 
-    // 7. first option
-    if (!initial && values.length > 0) initial = values[0];
+    // 7. the first theme the consumer gave (the markup is sorted, so the macro says which that was), else the first option
+    if (!initial && values.length > 0) {
+        const first = root.getAttribute("data-lily-theme-picker-first-theme") || "";
+        initial = values.includes(first) ? first : values[0];
+    }
 
     return initial;
 }
@@ -628,7 +699,12 @@ function resolveInitialTheme(
  * @param {{onChange?: (slug:string, choice:string)=>void, target?: HTMLElement|null}} opts
  */
 function initSelectVariant(root, select, opts) {
-    const values = Array.from(select.options).map((o) => o.value);
+    const optionEls = Array.from(select.options);
+    const values = optionEls.map((o) => o.value);
+    // Sorted alphabetically by the name shown, in the page's language, and again when it changes. The chosen option keeps
+    // its `selected` state as it moves.
+    sortOptions(root, select, optionEls, values, () => "");
+    const stopWatchingLanguage = watchLanguage(() => sortOptions(root, select, optionEls, values, () => ""));
     const storageKey = root.getAttribute("data-lily-theme-picker-storage-key") || "";
     const chooser = createChoiceApplier(root, opts, (choice) => {
         if (select.value !== choice) select.value = choice;
@@ -657,6 +733,7 @@ function initSelectVariant(root, select, opts) {
         setTheme: applyTheme,
         destroy: () => {
             chooser.destroy();
+            stopWatchingLanguage();
             select.removeEventListener("change", onSelectChange);
         },
     };

@@ -4263,7 +4263,7 @@ current design system. No person or organisation is named. Order: T1 first (a tr
       _(2026-11-21, progress: done in the shared module and the Svelte catalog. `sortThemes` and `pageLanguage` are in
       `shared/theme-choice.ts` with tests (copied by `bin/sync-shared-modules`); the Svelte `ThemePicker` has `sortThemes` (default
       true) and re-sorts when `<html lang>` changes; the picker-bar's `DEFAULT_THEMES` is sorted and its doc updated. Seven existing
-      Svelte tests that assumed the given order now expect the sorted order. The React, Vue, Angular, HTML, Web Components and Solid theme pickers and picker-bars followed the same day (the Web Components ones are generated from the HTML sources by `bin/sync-web-components-helpers`; its reviewed patches had to be re-anchored). Still to do: Nunjucks and Blazor, their own
+      Svelte tests that assumed the given order now expect the sorted order. The React, Vue, Angular, HTML, Web Components, Solid and Nunjucks theme pickers and picker-bars followed the same day (the Web Components ones are generated from the HTML sources by `bin/sync-web-components-helpers`; its reviewed patches had to be re-anchored). Nunjucks sorts in the macro with Nunjucks' plain sort (it has no Intl) and again in `theme-picker.client.js` with `Intl.Collator`; the macro tells the client the first theme the consumer gave. Still to do: Blazor (with a C# `SortThemes`), their own
       `spec/index.md` and README text, and the site. The picker-bar resolves the theme picker's built `dist`, so rebuild it
       (`pnpm build`) before running the picker-bar tests.)_
 

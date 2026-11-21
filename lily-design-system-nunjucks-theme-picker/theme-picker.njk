@@ -52,6 +52,12 @@
                     (default "theme").
     extension     — string. Appended to slug for URL (default ".css").
     themeLabels   — object<string,string>. Pretty label per slug.
+    sortThemes    — boolean (default true). List the themes alphabetically by the name
+                    shown. Nunjucks has no Intl, so the macro uses its plain
+                    case-insensitive sort; theme-picker.client.js then sorts again with
+                    Intl.Collator in the page's language (<html lang>) and when it
+                    changes. Pass false to keep the order of `themes`. "Follow this
+                    device" is first either way.
     fallbackLabels — object<string,string>. A label per slug used when
                     `themeLabels` has none, before title-casing the slug.
                     `picker-bar` passes its default labels here ("IBM
@@ -112,8 +118,20 @@
 {%- set systemLabel = opts.systemLabel | default("") -%}
 {%- set systemThemes = opts.systemThemes | default({light: "light", dark: "dark"}) -%}
 {%- set cookieName = opts.cookieName | default("lily-" + name) -%}
+{#- The themes in alphabetical order of the name shown, unless sortThemes is false. The names are the ones rendered below. -#}
+{%- set themeList = opts.themes -%}
+{%- if opts.sortThemes != false -%}
+  {%- set labelled = [] -%}
+  {%- for slug in opts.themes -%}
+    {%- set ignored = labelled.push({slug: slug, label: (themeLabels[slug] or fallbackLabels[slug] or (slug | replace(r/-/g, " ") | title))}) -%}
+  {%- endfor -%}
+  {%- set themeList = [] -%}
+  {%- for item in labelled | sort(false, false, "label") -%}
+    {%- set ignored = themeList.push(item.slug) -%}
+  {%- endfor -%}
+{%- endif -%}
 {#- The choices: "system" first when it has a label, then the themes. -#}
-{%- set choices = (["system"] if systemLabel else []).concat(opts.themes) -%}
+{%- set choices = (["system"] if systemLabel else []).concat(themeList) -%}
 {%- set id = opts.id | default("theme-picker-" + name) -%}
 {%- set disabled = opts.disabled | default(false) -%}
 {%- set isOpen = (opts.open | default(false)) and not disabled -%}
@@ -140,6 +158,8 @@
   data-lily-theme-picker-view-transition="{{ 'true' if viewTransition else 'false' }}"
   data-lily-theme-picker-cookie-name="{{ cookieName }}"
   data-lily-theme-picker-system-themes="{{ systemThemes.light }},{{ systemThemes.dark }}"
+  data-lily-theme-picker-sort="{{ 'false' if opts.sortThemes == false else 'true' }}"
+  data-lily-theme-picker-first-theme="{{ opts.themes[0] }}"
   {%- if value %} data-lily-theme-picker-value="{{ value }}"{% endif %}
   {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
@@ -174,6 +194,8 @@
   data-lily-theme-picker-view-transition="{{ 'true' if viewTransition else 'false' }}"
   data-lily-theme-picker-cookie-name="{{ cookieName }}"
   data-lily-theme-picker-system-themes="{{ systemThemes.light }},{{ systemThemes.dark }}"
+  data-lily-theme-picker-sort="{{ 'false' if opts.sortThemes == false else 'true' }}"
+  data-lily-theme-picker-first-theme="{{ opts.themes[0] }}"
   {%- if value %} data-lily-theme-picker-value="{{ value }}"{% endif %}
   {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
