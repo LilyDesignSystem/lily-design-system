@@ -27,8 +27,8 @@
         <pre tabindex="0" aria-label="Card: the whole card as one link markup"><code>&lt;!-- One link, in the heading, carries data-lily-card-link: the theme&#x27;s shared &quot;Whole-card link&quot; section stretches
      its target over the card and draws the focus ring round the card. The link&#x27;s text is the card&#x27;s name, so a
      screen reader hears one link, not the whole card read as a link. Anything else interactive inside the card,
-     such as the button here, stays above the link and keeps its own target. Write the heading yourself rather than
-     passing href to card, whose own heading link takes no extra attributes. --&gt;
+     such as the button here, stays above the link and keeps its own target. In a framework catalog, card&#x27;s own heading does the
+     same with href and wholeCardLink. --&gt;
 &lt;div class=&quot;card&quot;&gt;
   &lt;h3&gt;
     &lt;a
