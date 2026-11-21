@@ -4266,13 +4266,19 @@ current design system. No person or organisation is named. Order: T1 first (a tr
       Svelte tests that assumed the given order now expect the sorted order. The React, Vue, Angular, HTML, Web Components, Solid and Nunjucks theme pickers and picker-bars followed the same day (the Web Components ones are generated from the HTML sources by `bin/sync-web-components-helpers`; its reviewed patches had to be re-anchored). Nunjucks sorts in the macro with Nunjucks' plain sort (it has no Intl) and again in `theme-picker.client.js` with `Intl.Collator`; the macro tells the client the first theme the consumer gave. Blazor has `ThemePicker.SortThemeSlugs` (a `CompareInfo` twin, ties by slug, `SortThemes` and `Language` parameters, the app's UI culture by default) and a sorted `PickerBar.DefaultThemes`. The docs site sorts its own `THEMES` list (the published picker-bar 0.7.0 does not sort yet; `tests/theme-order.spec.ts`). Still to do: republish the pickers, and the per-package README text of the other catalogs. The picker-bar resolves the theme picker's built `dist`, so rebuild it
       (`pnpm build`) before running the picker-bar tests.)_
 
-- [ ] **P41-T8 Six tiles after the home page hero.** The spec changed 2026-11-21 ([homepage](spec/homepage/index.md)): exactly six
-      tile cards immediately after the hero, in a grid of 1, 2, 3 or 6 columns (1×6, 2×3, 3×2, 6×1), never 4 or 5. Confirm the six
-      (the topic proposes Components, Tutorials, Examples, Styles, Compare, Accessibility), add the new tiles' strings to every
-      language (the English words fall back), replace the `auto-fit` grid in `LocaleHome` with explicit column counts by container
-      width, and state the rule in the site's `AGENTS.md`.
-      Verify: a Playwright test over every locale home counts six tiles directly after the hero and reads 1, 2, 3 and 6 columns at
-      320, 768, 1280 and 1920 pixels; `bin/check-site-page-translations` and the locale specs pass.
+- [x] **P41-T8 Six tiles after the home page hero.** Done 2026-11-21: `HomeTiles.svelte` (Tutorials, Components, Examples, Styles, Compare,
+      Accessibility) on `/` and every `LocaleHome`, directly after the hero; `.tile-grid` is 1, 2 (container 30rem), 3 (46rem) and 6
+      (viewport 100rem) columns, never 4 or 5 (the sixth step is on the viewport because the main column is capped at 72rem; see
+      [spec/homepage](spec/homepage/index.md)); the rule is in the site's `AGENTS.md`; `tests/home-tiles.spec.ts` covers every
+      locale home. Also fixed: the hero's framework icon row overflowed to the left at 320px in right-to-left languages
+      (`:dir(rtl)` mirror). Still open: P41-T8a (the three new tiles' strings in every language) and P41-T8b.
+- [ ] **P41-T8a Translate the three new tile strings.** `styles`, `compare` and `accessibility` have English words only; every other
+      language shows them (`homeTile` falls back). Add them to each language in `src/lib/i18n.ts`.
+      Verify: `tests/home-tiles.spec.ts` no longer needs the English fallback for a language it lists; a check that every language
+      in `i18n.ts` has all six tiles.
+- [ ] **P41-T8b The hero's icon row overflows at the largest text size.** At 320px with `data-text-size="largest"` the page scrolls
+      sideways (the row is `width: min(calc(100vw - 2rem), …)` with `rem` gaps and 5rem links, which grow with the text).
+      Verify: `tests/home-tiles.spec.ts` asserts the whole page, not only the tiles, at the largest size.
 - [ ] **P41-T9 Use the picker names in the apps.** The `pickers` section is in all 64 packs and loaded in TypeScript and Blazor
       (2026-11-21, [spec/label-packs](spec/label-packs/index.md#picker-names-added-2026-11-21)). Still to do: a Nunjucks macro
       helper (`nunjucksLabelsFor` does not cover pickers), the docs site and the example apps using `pickerBarLabels(pack)` and

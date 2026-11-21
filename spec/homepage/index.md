@@ -54,20 +54,34 @@ A change to the set keeps the number at six. To add a tile, remove one.
 
 ## Today (2026-11-21)
 
-The hero is followed by a `section` with a `card-grid` of three cards. `card-grid` is
-`repeat(auto-fit, minmax(16rem, 1fr))`, which gives two, three or four columns by width and would leave an orphan row with six
-tiles. The work to meet this topic is task [P41-T8](../../tasks.md).
+The six tiles are built (task [P41-T8](../../tasks.md)): `HomeTiles.svelte`, rendered by `LocaleHome` (every language) and by the
+English home at `/`, immediately after the hero. The set is the proposal above: Tutorials, Components, Examples, Styles, Compare,
+Accessibility. `/` is its own page, not `LocaleHome`, so it renders `HomeTiles` itself.
+
+- **Column counts.** `.tile-grid` in `style.css` sets 1 column, 2 from a container width of 30rem, 3 from 46rem, and 6 from a
+  _viewport_ of 100rem. The sixth step is on the viewport, not the container, on purpose: the site's main column is capped at
+  `--lily-content-max` (72rem), so a container is the same width at 1280 and at 1920 pixels and cannot tell 3 from 6. This
+  is a page-shell decision, which [responsive](../responsive/index.md) allows for the window. At 6 columns the tiles are about
+  10rem wide, so the minimum of 14rem above holds for 1 to 3 columns only.
+- **Words.** The three older tiles' strings are in every language; `styles`, `compare` and `accessibility` are optional in
+  `UiStrings`, and `homeTile(locale, tile)` returns the English words for a language without them. Translating them is open.
+- **Whole-tile link.** The link is in the heading, carries `data-lily-card-link`, and `style.css` stretches it over the tile itself
+  (the themes' rule does the same once a theme has loaded).
+- **Test.** `tests/home-tiles.spec.ts`: every locale home plus `/` has six tiles directly after the hero, each one link with a heading
+  and a description, no raw key; the column counts at 320, 768, 1280 and 1920 pixels on five homes; the tiles do not scroll sideways at
+  the largest text size.
+- **Known gap.** At the largest text size the hero's framework icon row still overflows the page at 320 pixels (task P41-T8b).
 
 ## Acceptance criteria
 
-- [ ] The home page of every language, and `/`, has exactly six tile cards in the first section after the hero, with nothing between
+- [x] The home page of every language, and `/`, has exactly six tile cards in the first section after the hero, with nothing between
       the hero and the tiles (a Playwright test over every locale home, `tests/locale-pages.spec.ts` or its own spec).
-- [ ] At widths of 320, 768, 1280 and 1920 CSS pixels, the tile grid has 1, 2, 3 and 6 columns respectively, and never 4 or 5; the
+- [x] At widths of 320, 768, 1280 and 1920 CSS pixels, the tile grid has 1, 2, 3 and 6 columns respectively, and never 4 or 5; the
       test reads the computed `grid-template-columns` and counts the tracks.
-- [ ] Each tile is one link with a heading and one description, and the whole tile is its target.
+- [x] Each tile is one link with a heading and one description, and the whole tile is its target.
 - [ ] No horizontal scrolling at 320 pixels, at 400 percent zoom, or at the largest text size.
 - [ ] Every tile's text comes from the per-language strings, with the English words as the fallback.
-- [ ] The six-tile rule is stated in the site's `AGENTS.md`, so a later change does not quietly add a seventh.
+- [x] The six-tile rule is stated in the site's `AGENTS.md`, so a later change does not quietly add a seventh.
 
 ## Related topics
 

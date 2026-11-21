@@ -381,6 +381,12 @@ html[data-text-size='largest'] { font-size: 150%; }
   padding: 0;
   list-style: none;
 }
+/* Right to left starts the row at the right edge, so centring it mirrors: right, not left, and the opposite translation. */
+.framework-icon-row:dir(rtl) {
+  left: auto;
+  right: 50%;
+  transform: translateX(50%);
+}
 .framework-icon-link {
   display: flex;
   flex-direction: column;
@@ -447,6 +453,33 @@ html[data-text-size='largest'] { font-size: 150%; }
 
 a.card { color: inherit; text-decoration: none; }
 a.card:hover { color: inherit; }
+
+/* The six home page tiles (spec/homepage). Exactly six, so the column count is 1, 2, 3 or 6 and never 4 or 5: set explicitly,
+   not by auto-fit. One, two and three columns follow the width of the container (the main column is capped at
+   --lily-content-max, so it cannot tell 1280px from 1920px); the sixth step is a page-shell decision on the viewport. */
+.tile-section { container-type: inline-size; }
+.tile-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+@container (min-width: 30rem) {
+  .tile-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@container (min-width: 46rem) {
+  .tile-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (min-width: 100rem) {
+  .tile-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 1rem; }
+}
+.tile { position: relative; }
+/* The whole tile is the link target (the themes' whole-card link rule does the same once a theme has loaded). */
+.tile-link::after { content: ""; position: absolute; inset: 0; }
+.tile:has(.tile-link:focus-visible) { outline: 2px solid var(--lily-focus-ring, currentColor); outline-offset: 2px; }
+.tile-link:focus-visible { outline: none; }
+.tile-link { color: inherit; text-decoration: none; overflow-wrap: anywhere; }
+.tile-link:hover { text-decoration: underline; }
 
 /* Sections */
 
