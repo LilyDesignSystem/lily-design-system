@@ -47,7 +47,7 @@
 - Decision: native
 - Uses: <dialog> showModal() via Dialog/modal.ts
 - Could use: command="show-modal"/"close" on consumer buttons
-- Notes: Top layer, inert background, focus trap and focus return come from the browser. commandfor cannot target it from outside today because the <dialog> is only mounted while open is true. P14-T4 (2026-10-30): showModal() in all nine libraries; the Angular and Blazor stubs (label, no alertdialog contract) were ported from Svelte.
+- Notes: Top layer, inert background, focus trap and focus return come from the browser. commandfor cannot target it from outside today because the <dialog> is only mounted while open is true. P14-T4 (2026-10-30): showModal() in all nine libraries; the Angular and Blazor stubs (label, no alertdialog contract) were ported from Svelte. Watch, not adopted (2026-11-21, P23-T10): the dialog closedby attribute ships in Chrome and Edge 134, Firefox 141 and Safari 27.3 (MDN browser-compat-data; webstatus.dev still says limited availability, with no Safari entry). Lily sets none, so a modal keeps the platform default, Escape only; do not pass closedby="any": this dialog asks for an answer, so a click outside must not dismiss it.
 - Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
 
 ## Acceptance Criteria

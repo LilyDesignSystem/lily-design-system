@@ -45,7 +45,7 @@
 - Decision: native
 - Uses: <dialog> showModal() (always mounted, shown while open)
 - Could use: command="close" on its buttons
-- Notes: Always mounted, so it is the one dialog a consumer commandfor button could already target. P14-T4 (2026-10-30): showModal() in all nine libraries; React, Vue, Angular and Blazor gained the open prop and role="alertdialog" they lacked.
+- Notes: Always mounted, so it is the one dialog a consumer commandfor button could already target. P14-T4 (2026-10-30): showModal() in all nine libraries; React, Vue, Angular and Blazor gained the open prop and role="alertdialog" they lacked. Watch, not adopted (2026-11-21, P23-T10): the dialog closedby attribute ships in Chrome and Edge 134, Firefox 141 and Safari 27.3 (MDN browser-compat-data; webstatus.dev still says limited availability, with no Safari entry). Lily sets none, so a modal keeps the platform default, Escape only; do not pass closedby="any": this dialog asks for an answer, so a click outside must not dismiss it.
 - Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
 
 ## Acceptance Criteria

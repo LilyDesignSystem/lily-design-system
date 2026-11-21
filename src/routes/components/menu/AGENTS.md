@@ -57,7 +57,7 @@ A submenu is the consumer's markup, read from the DOM: an item with `aria-haspop
 - Decision: hand-rolled because no native element has APG menu semantics (<menu> is only a list) and arrow-key focus over menuitems must be scripted
 - Uses: none (div role="menu")
 - Could use: none
-- Notes: In-page, not an overlay; it is the content a popover would hold.
+- Notes: In-page, not an overlay; it is the content a popover would hold. Watch, not adopted (2026-11-21, P23-T10): the focusgroup attribute could replace the scripted arrow-key focus, but it ships only in Chrome and Edge 150 (webstatus.dev, limited availability); Firefox has a positive position and no implementation, and WebKit lists concerns. Revisit when a second engine ships it.
 - Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
 
 ## Acceptance Criteria
