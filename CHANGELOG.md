@@ -15,6 +15,8 @@ highlights.
   did not contain its visible text, "Lily Design System™": a WCAG 2.5.3 (label in name) failure on every page. The label
   is gone, so the visible text names the link, and `tests/site-header.spec.ts` runs axe over the header on three routes,
   one of them translated. No site test had run axe over the header before.
+- The header's main navigation was named with a hard-coded English "Main" on every route. It now takes `nav.label`,
+  drafted in all 64 locales ("Principal", "Hauptnavigation"), and the header test checks it on a translated route.
 
 ## A whole-card link (2026-11-21, P22-T11)
 

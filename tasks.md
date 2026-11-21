@@ -4138,11 +4138,11 @@ Maintainer-directed, in this order.
 - [ ] **P39-T4 Review which marks search may ignore.** `shared/search-text.ts` currently folds both `की` and `कु`
       to `क`. Agree a matching policy with Hindi readers for these vowel signs. Verify the agreed behavior in filtering,
       highlighting and type-ahead, alongside the existing `cafe` / `Café` contract.
-- [ ] **P38-T13 Name the site's main navigation in each language.** `+layout.svelte` labels the header's `<nav>` with a
+- [x] **P38-T13 Name the site's main navigation in each language.** `+layout.svelte` labels the header's `<nav>` with a
       hard-coded English "Main", so a screen reader on `/es-001/` hears English. Add a `navAriaLabel` to every locale in
       `src/lib/i18n.ts` (63 machine drafts, as for the other strings) and use it. Found 2026-11-21 while fixing the brand
       link's label in name.
-      Verify: `tests/site-header.spec.ts` checks the nav's name on a translated route is not "Main".
+      Verify: `tests/site-header.spec.ts` checks the nav's name on a translated route is not "Main". _(2026-11-21: done. `nav.label` in all 64 locales (machine drafts, as the other strings: the adjective alone, "Principal", since a screen reader adds "navigation", or the usual compound where it cannot stand alone, "Hauptnavigation"); the test checks "Main" on `/` and "Principal" on `/es-001/`.)_
 
 ## Phase 40 — Lessons from commercial health record products (2026-11-20)
 
