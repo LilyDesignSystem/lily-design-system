@@ -4210,9 +4210,15 @@ current design system. No person or organisation is named. Order: T1 first (a tr
       expectation of a Welsh public service. Have a Welsh-speaking clinician or translator review it, record who and when, and
       drop the "unreviewed" note for `cy-001` only.
       Verify: `bin/check-label-packs` passes; the label-packs topic records the review.
-- [ ] **P41-T2 A bilingual vaccination example.** Record a vaccination, stock by site, and a reporting dashboard, in English and
+- [x] **P41-T2 A bilingual vaccination example.** Record a vaccination, stock by site, and a reporting dashboard, in English and
       Welsh, from the existing `immunization-record-list` and the clinical formatting module; invented data only.
       Verify: an example page under `/examples/` with e2e and axe tests in three browsers, the language switch tested.
+      _(2026-11-21: built at `/en-001/examples/health-care-vaccinations/`, not under `/examples/`, beside the other health-care
+      pages. A record list, a form with a focus-taking error summary, stock states in words and a doses-today table; every string
+      switches language, `lang` marks each part, dates and numbers go through `Intl`. Found that Playwright's Chromium has no
+      Welsh locale data and `Intl` then silently writes a US-style date, so the page falls back to an ISO date when
+      `supportedLocalesOf` is empty. Still open: axe in three browsers (only Chromium is run on the docs site), and the Welsh text
+      is an unreviewed draft until P41-T1.)_
 - [x] **P41-T3 FHIR notes for the healthcare components.** A table mapping `observation-view`, `immunization-record-list`,
       `allergy-record-list` and `medication-view` to the FHIR resources and fields they display; no data model shipped.
       Verify: the table is in the healthcare guide; `bin/check-links` passes. _(2026-11-21: done. The guide already mapped IPS

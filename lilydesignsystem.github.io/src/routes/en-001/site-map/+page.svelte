@@ -70,6 +70,7 @@
         { href: '/en-001/examples/health-care-prescriptions/', label: 'Prescriptions' },
         { href: '/en-001/examples/health-care-continuous-patient-monitoring/', label: 'Continuous patient monitoring' },
         { href: '/en-001/examples/health-care-shared-medicines/', label: 'Shared medicines' },
+        { href: '/en-001/examples/health-care-vaccinations/', label: 'Vaccinations (English and Welsh)' },
         { href: '/examples/welsh-clinical-portal/', label: 'Clinician results screen' },
         { href: '/examples/epic-emr-patient-lists-patient-lookup/', label: 'Chart index' },
         { href: '/examples/epic-emr-patient-summary-overview/', label: 'Chart summary overview' },
