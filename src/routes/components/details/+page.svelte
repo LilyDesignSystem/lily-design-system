@@ -94,7 +94,7 @@
     <ul>
       <li><code>summary</code>: string (required) -- text displayed in the summary toggle</li>
       <li><code>open</code>: boolean (default: false) -- whether the details section is expanded; bindable</li>
-      <li><code>printOpen</code>: boolean (default: true) -- a printed page cannot open a closed disclosure, so on <code>beforeprint</code> a closed one is opened and on <code>afterprint</code> it is closed again (one the reader had opened stays open); pass false for content that should not print. Svelte, React, Solid, Vue and Angular (2026-11-21, P42-T9)</li>
+      <li><code>printOpen</code>: boolean (default: true) -- a printed page cannot open a closed disclosure, so on <code>beforeprint</code> a closed one is opened and on <code>afterprint</code> it is closed again (one the reader had opened stays open); pass false for content that should not print. Svelte, React, Solid, Vue, Angular, Web Components (<code>print-open="false"</code>) and Blazor (<code>PrintOpen</code>) (2026-11-21, P42-T9)</li>
       <li><code>children</code>: slot (required) -- content revealed when expanded</li>
     </ul>
 </section>
