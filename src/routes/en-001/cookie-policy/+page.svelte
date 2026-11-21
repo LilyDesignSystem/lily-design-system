@@ -2,15 +2,15 @@
   <title>Cookie policy — Lily Design System</title>
   <meta
     name="description"
-    content="This site sets no cookies. It stores a few preferences in your browser; here is each one, what it is for and how to clear it."
+    content="This site sets one preference cookie, only after you choose a theme, and keeps a few choices in browser storage. Here is each one, what it is for and how to clear it."
   />
 </svelte:head>
 
 <section class="page-intro">
   <h1>Cookie policy</h1>
   <p class="page-intro-tagline">
-    The Lily website sets no cookies. It does keep a few preferences in your browser’s storage so your choices last. This
-    page lists them all.
+    The Lily website sets one cookie, and only if you choose a theme. It also keeps a few choices in your browser’s storage so
+    they last. This page lists all of it.
   </p>
 </section>
 
@@ -24,8 +24,35 @@
 
   <h2>Cookies</h2>
   <p>
-    <strong>We set none.</strong> There are no analytics, advertising or tracking cookies, and no third-party scripts, fonts
-    or embedded media on this site. Because of that there is no cookie banner and nothing to accept.
+    <strong>We set one cookie, and only after you choose a theme.</strong> Nothing is set when you first arrive, and no
+    cookie is set for any other choice.
+  </p>
+  <div class="scroll" role="region" aria-label="Cookie table" tabindex="0">
+    <table>
+      <caption>Cookies set by this site</caption>
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Kind</th>
+          <th scope="col">What it holds and why</th>
+          <th scope="col">How long</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row"><code>lily-theme</code></th>
+          <td>First-party preference cookie, <code>SameSite=Lax</code>, for the whole site</td>
+          <td>The name of the theme you chose, so the page can use it again on your next visit.</td>
+          <td>400 days, or until you clear it</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    It holds only the name of a theme; it does not identify you. It is set because you asked for a theme, so we do not show a
+    consent banner for it. There are no analytics, advertising or tracking cookies, and no third-party scripts, fonts or
+    embedded media. If you would rather not have it, do not choose a theme, or block cookies for this site: the site works the
+    same, with the default theme.
   </p>
 
   <h2>Browser storage we use</h2>
@@ -61,7 +88,7 @@
   <h2>Your choices</h2>
   <ul>
     <li>Use the theme, language and text-size controls in the header at any time; each new choice replaces the old one.</li>
-    <li>Clear the stored values in your browser’s settings under site data, or by using private browsing, which discards them when you close the window.</li>
+    <li>Clear the cookie and the stored values in your browser’s settings under site data, or by using private browsing, which discards them when you close the window.</li>
     <li>Turn off storage for this site in your browser’s settings. Nothing will break.</li>
   </ul>
 
@@ -73,8 +100,8 @@
 
   <h2>Changes</h2>
   <p>
-    If we ever add a cookie or a script that sets one, we will list it here before it goes live and ask for your permission
-    first. This policy was last reviewed on 21 November 2026. See also the <a href="/en-001/privacy-policy/">privacy policy</a>.
+    If we ever add another cookie, or a script that sets one, we will list it here before it goes live, and ask for your
+    permission first if it is not a preference you chose. This policy was last reviewed on 21 November 2026. See also the <a href="/en-001/privacy-policy/">privacy policy</a>.
   </p>
 </section>
 
