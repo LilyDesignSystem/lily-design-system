@@ -3096,7 +3096,8 @@
           "lily-design-system-nunjucks-eleventy-examples/e2e/theme-switching.spec.ts",
           "lily-design-system-blazor-web-examples/e2e/site-preferences.spec.ts",
           "lily-design-system-blazor-web-examples/e2e/theme-switching.spec.ts",
-          "lilydesignsystem.github.io/tests/header-popups.spec.ts"
+          "lilydesignsystem.github.io/tests/header-popups.spec.ts",
+          "lilydesignsystem.github.io/tests/theme-order.spec.ts"
         ]
       },
       "screenReader": {
