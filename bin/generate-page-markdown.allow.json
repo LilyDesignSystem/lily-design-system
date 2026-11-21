@@ -20,6 +20,10 @@
     "reason": "These are interactive example applications (a clinician's results screen, EMR-style chart pages), not prose documents."
   },
   {
+    "pattern": "^/en-001/(styles|principles|colours|typographies|icons|layouts|templates)/$",
+    "reason": "These style-guide pages are live specimen sheets: their colours, type and spacing are read from the selected theme in the browser, so a static Markdown twin would be a different page."
+  },
+  {
     "pattern": "^/markdown-editor/$",
     "reason": "This is an interactive editor demo; its component and helper documentation have Markdown sources."
   }
