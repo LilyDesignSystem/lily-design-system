@@ -3,10 +3,12 @@ import { afterEach, describe, expect, test, vi } from "vitest";
 import {
     SYSTEM_THEME,
     THEME_COOKIE_MAX_AGE,
+    pageLanguage,
     prefersDarkScheme,
     readDocumentThemeCookie,
     readThemeCookie,
     resolveTheme,
+    sortThemes,
     themeChoices,
     themeCookie,
     watchColorScheme,
@@ -158,13 +160,105 @@ describe("theme-choice", () => {
     );
 
     test("a document that refuses cookies reads as none and ignores a write", () => {
-        vi.spyOn(document, "cookie", "get").mockImplementation(() => {
-            throw new Error("SecurityError");
+        // An own property that throws, removed in `finally`: an accessor spy is not undone by restoreAllMocks in every DOM
+        // environment, and a leaked one breaks the cookie clearing in afterEach and every test after it.
+        Object.defineProperty(document, "cookie", {
+            configurable: true,
+            get() {
+                throw new Error("SecurityError");
+            },
+            set() {
+                throw new Error("SecurityError");
+            },
         });
-        vi.spyOn(document, "cookie", "set").mockImplementation(() => {
-            throw new Error("SecurityError");
-        });
-        expect(readDocumentThemeCookie("theme", ["dark"])).toBe("");
-        expect(() => writeDocumentThemeCookie("theme", "dark")).not.toThrow();
+        try {
+            expect(readDocumentThemeCookie("theme", ["dark"])).toBe("");
+            expect(() => writeDocumentThemeCookie("theme", "dark")).not.toThrow();
+        } finally {
+            delete (document as { cookie?: string }).cookie;
+        }
+    });
+});
+
+describe("sortThemes", () => {
+    const labels: Record<string, string> = {
+        "ibm-carbon": "IBM Carbon",
+        "adobe-spectrum": "Adobe Spectrum",
+        "united-kingdom-national-health-service-england-for-patients": "NHS England (patients)",
+        light: "Light",
+        dark: "Dark",
+        notion: "Notion",
+    };
+    const labelOf = (slug: string) => labels[slug] ?? slug;
+
+    test("sorts by the name shown, in one list, not by slug or by kind", () => {
+        const out = sortThemes(Object.keys(labels), labelOf, "en");
+        expect(out.map(labelOf)).toEqual([
+            "Adobe Spectrum",
+            "Dark",
+            "IBM Carbon",
+            "Light",
+            "NHS England (patients)",
+            "Notion",
+        ]);
+        // Under the slug, "united-kingdom-…" would come last and "ibm-carbon" before "light".
+        expect(out.indexOf("united-kingdom-national-health-service-england-for-patients")).toBe(4);
+    });
+
+    test("does not change its input and returns a new array", () => {
+        const input = ["light", "dark"];
+        const out = sortThemes(input, labelOf, "en");
+        expect(input).toEqual(["light", "dark"]);
+        expect(out).toEqual(["dark", "light"]);
+        expect(out).not.toBe(input);
+    });
+
+    test("ignores case and accents, and reads numbers as numbers", () => {
+        const names: Record<string, string> = {
+            a: "theme 10",
+            b: "Theme 2",
+            c: "émile",
+            d: "Emma",
+            e: "Zed",
+        };
+        expect(sortThemes(Object.keys(names), (s) => names[s], "en")).toEqual([
+            "c",
+            "d",
+            "b",
+            "a",
+            "e",
+        ]);
+    });
+
+    test("uses the language: in Swedish, Ä sorts after Z", () => {
+        const names: Record<string, string> = { a: "Äpple", z: "Zebra" };
+        expect(sortThemes(["a", "z"], (s) => names[s], "en")).toEqual(["a", "z"]);
+        expect(sortThemes(["a", "z"], (s) => names[s], "sv")).toEqual(["z", "a"]);
+    });
+
+    test("orders names that compare equal by slug, so the order is stable", () => {
+        const same = () => "Same";
+        expect(sortThemes(["b", "a", "c"], same, "en")).toEqual(["a", "b", "c"]);
+        expect(sortThemes(["c", "b", "a"], same, "en")).toEqual(["a", "b", "c"]);
+    });
+
+    test("falls back to English for a language the platform rejects, or none", () => {
+        const names: Record<string, string> = { a: "Äpple", z: "Zebra" };
+        expect(sortThemes(["z", "a"], (s) => names[s], "not a locale!")).toEqual(["a", "z"]);
+        expect(sortThemes(["z", "a"], (s) => names[s])).toEqual(["a", "z"]);
+        expect(sortThemes([], labelOf, "en")).toEqual([]);
+    });
+});
+
+describe("pageLanguage", () => {
+    test("reads <html lang>, and is English without one", () => {
+        const html = document.documentElement;
+        const before = html.getAttribute("lang");
+        html.removeAttribute("lang");
+        expect(pageLanguage()).toBe("en");
+        html.setAttribute("lang", "cy");
+        expect(pageLanguage()).toBe("cy");
+        if (before === null) html.removeAttribute("lang");
+        else html.setAttribute("lang", before);
     });
 });

@@ -8,7 +8,8 @@ import ThemePicker, {
     matchSystemTheme,
 } from "./ThemePicker.svelte";
 
-const THEMES = ["light", "dark", "abyss"];
+// In the order the picker lists them: alphabetical by the name shown (spec/theme-picker, "Order of themes").
+const THEMES = ["abyss", "dark", "light"];
 const URL_TRAILING = "/assets/themes/";
 const URL_NO_TRAILING = "/assets/themes";
 
@@ -187,10 +188,14 @@ describe("ThemePicker — keyboard contract (APG listbox)", () => {
     });
 
     test("§7.15 ArrowDown / ArrowUp move the active descendant and clamp", async () => {
+        // The list opens on the selected option, "light", which is the last of the sorted three.
         const { list } = await openWith("ArrowDown");
-        expect(list.getAttribute("aria-activedescendant")).toBe(list.children[0].id);
+        const last = THEMES.length - 1;
+        expect(list.getAttribute("aria-activedescendant")).toBe(list.children[last].id);
         await fireEvent.keyDown(list, { key: "ArrowDown" });
-        expect(list.getAttribute("aria-activedescendant")).toBe(list.children[1].id);
+        expect(list.getAttribute("aria-activedescendant")).toBe(list.children[last].id);
+        await fireEvent.keyDown(list, { key: "ArrowUp" });
+        expect(list.getAttribute("aria-activedescendant")).toBe(list.children[last - 1].id);
         await fireEvent.keyDown(list, { key: "ArrowUp" });
         await fireEvent.keyDown(list, { key: "ArrowUp" });
         expect(list.getAttribute("aria-activedescendant")).toBe(list.children[0].id);
@@ -208,7 +213,8 @@ describe("ThemePicker — keyboard contract (APG listbox)", () => {
 
     test("§7.16 Enter selects the active option, applies it, and closes", async () => {
         const { button, list } = await openWith("ArrowDown");
-        await fireEvent.keyDown(list, { key: "ArrowDown" });
+        // Open on "light" (last), move up to "dark".
+        await fireEvent.keyDown(list, { key: "ArrowUp" });
         await fireEvent.keyDown(list, { key: "Enter" });
         await flush();
         expect(list.hasAttribute("hidden")).toBe(true);
@@ -228,8 +234,8 @@ describe("ThemePicker — keyboard contract (APG listbox)", () => {
     test("§7.17 typeahead moves the active descendant by label prefix", async () => {
         const { list } = await openWith("ArrowDown");
         await fireEvent.keyDown(list, { key: "a" });
-        // "Abyss" is index 2 in THEMES.
-        expect(list.getAttribute("aria-activedescendant")).toBe(list.children[2].id);
+        // "Abyss" is the first of the sorted THEMES.
+        expect(list.getAttribute("aria-activedescendant")).toBe(list.children[0].id);
     });
 });
 
@@ -854,8 +860,9 @@ describe('ThemePicker — variant="select" (§select, RFC 3 prototype)', () => {
         const options = [
             ...document.querySelectorAll<HTMLOptionElement>("option.theme-picker-option"),
         ];
-        expect(options.map((o) => o.value)).toEqual(THEMES);
-        expect(options.map((o) => o.textContent?.trim())).toEqual(["Light", "Sombre", "Abyss"]);
+        // Sorted by the name shown, so "dark", labelled "Sombre", sorts after "Light".
+        expect(options.map((o) => o.value)).toEqual(["abyss", "light", "dark"]);
+        expect(options.map((o) => o.textContent?.trim())).toEqual(["Abyss", "Light", "Sombre"]);
         expect(document.body.textContent).not.toMatch(/default/i);
     });
 

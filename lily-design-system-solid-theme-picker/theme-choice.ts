@@ -40,6 +40,34 @@ export function resolveTheme(
     return prefersDark ? systemThemes.dark : systemThemes.light;
 }
 
+/** The language of the page (`<html lang>`), else English: the language the theme names are sorted in. */
+export function pageLanguage(): string {
+    return (typeof document !== "undefined" && document.documentElement.lang) || "en";
+}
+
+/**
+ * The themes in alphabetical order of the name the reader sees (`labelOf`), in one list: not by slug, and not grouped by kind.
+ * Compared with `Intl.Collator` for `locale` (else English), ignoring case and accents and reading numbers as numbers, so
+ * "Theme 2" comes before "Theme 10". Names that compare equal are ordered by slug, so the order is the same on every render.
+ * A `locale` the platform does not understand falls back to English. Returns a new array.
+ */
+export function sortThemes(
+    themes: readonly string[],
+    labelOf: (theme: string) => string,
+    locale?: string,
+): string[] {
+    const options = { sensitivity: "base", numeric: true } as const;
+    let collator: Intl.Collator;
+    try {
+        collator = new Intl.Collator(locale || "en", options);
+    } catch {
+        collator = new Intl.Collator("en", options);
+    }
+    return [...themes].sort(
+        (a, b) => collator.compare(labelOf(a), labelOf(b)) || (a < b ? -1 : a > b ? 1 : 0),
+    );
+}
+
 /** The choices a picker offers: "system" first when it has a label, then the themes. */
 export function themeChoices(themes: readonly string[], systemLabel?: string): string[] {
     return systemLabel ? [SYSTEM_THEME, ...themes] : [...themes];

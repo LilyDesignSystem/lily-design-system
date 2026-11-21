@@ -4260,6 +4260,13 @@ current design system. No person or organisation is named. Order: T1 first (a tr
       alphabetically, then the 27 …"), and check the docs site and the example apps that pass their own `themes` order.
       Verify: unit tests for `sortThemes` and per-catalog tests with labels that differ from slugs; `bin/sync-shared-modules --check`
       and `bin/check-port-parity` pass; the site's theme picker lists "IBM Carbon" under I.
+      _(2026-11-21, progress: done in the shared module and the Svelte catalog. `sortThemes` and `pageLanguage` are in
+      `shared/theme-choice.ts` with tests (copied by `bin/sync-shared-modules`); the Svelte `ThemePicker` has `sortThemes` (default
+      true) and re-sorts when `<html lang>` changes; the picker-bar's `DEFAULT_THEMES` is sorted and its doc updated. Seven existing
+      Svelte tests that assumed the given order now expect the sorted order. Still to do: the other seven catalogs, their own
+      `spec/index.md` and README text, and the site. The picker-bar resolves the theme picker's built `dist`, so rebuild it
+      (`pnpm build`) before running the picker-bar tests.)_
+
 - [ ] **P41-T8 Six tiles after the home page hero.** The spec changed 2026-11-21 ([homepage](spec/homepage/index.md)): exactly six
       tile cards immediately after the hero, in a grid of 1, 2, 3 or 6 columns (1×6, 2×3, 3×2, 6×1), never 4 or 5. Confirm the six
       (the topic proposes Components, Tutorials, Examples, Styles, Compare, Accessibility), add the new tiles' strings to every

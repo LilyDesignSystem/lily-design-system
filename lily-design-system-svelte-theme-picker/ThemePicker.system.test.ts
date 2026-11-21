@@ -12,7 +12,8 @@ import {
 
 // §5.6 "Follow this device" and §5.7 the theme cookie.
 
-const THEMES = ["light", "dark", "abyss"];
+// In the order the picker lists them: alphabetical by the name shown (spec/theme-picker, "Order of themes").
+const THEMES = ["abyss", "dark", "light"];
 const base = { label: "Theme", themesUrl: "/assets/themes/", themes: THEMES };
 const withSystem = { ...base, systemLabel: "Follow this device" };
 
@@ -66,9 +67,9 @@ describe("ThemePicker — follow this device (§5.6, §7.35–§7.39)", () => {
         const options = screen.getAllByRole("option", { hidden: true });
         expect(options.map((o) => o.textContent?.trim())).toEqual([
             "Follow this device",
-            "Light",
-            "Dark",
             "Abyss",
+            "Dark",
+            "Light",
         ]);
         expect(options[0]!.classList.contains("theme-picker-option-system")).toBe(true);
         expect(options[1]!.classList.contains("theme-picker-option-system")).toBe(false);

@@ -81,6 +81,11 @@
         target?: HTMLElement | null;
         /** Optional pretty labels per slug. */
         themeLabels?: Record<string, string>;
+        /**
+         * List the themes alphabetically by the name shown, in the page's language (`<html lang>`). Default true. Pass `false`
+         * to keep the order of `themes`, for an editorial order. "Follow this device" is first either way.
+         */
+        sortThemes?: boolean;
         /** Replaces the default half-circle icon inside the button. */
         children?: Snippet<[ChildArgs]>;
         /**
@@ -164,9 +169,11 @@
     import { linkSettled, withViewTransition } from "./view-transition.js";
     import {
         SYSTEM_THEME,
+        pageLanguage,
         prefersDarkScheme,
         readDocumentThemeCookie,
         resolveTheme,
+        sortThemes as sortThemeSlugs,
         themeChoices,
         watchColorScheme,
         writeDocumentThemeCookie,
@@ -189,6 +196,7 @@
         extension = ".css",
         target,
         themeLabels = {},
+        sortThemes = true,
         children,
         onChange,
         open = $bindable(false),
@@ -245,8 +253,21 @@
     let listEl: HTMLElement | undefined = $state();
     let rootEl: HTMLDivElement | undefined = $state();
 
-    // The choices offered: "system" first when it has a label, then the themes.
-    const options = $derived(themeChoices(themes, systemLabel));
+    // The page's language, kept current so a language change sorts the names again.
+    let language = $state(pageLanguage());
+    $effect(() => {
+        language = pageLanguage();
+        const observer = new MutationObserver(() => {
+            language = pageLanguage();
+        });
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
+        return () => observer.disconnect();
+    });
+
+    // The choices offered: "system" first when it has a label, then the themes in alphabetical order of the name shown.
+    const options = $derived(
+        themeChoices(sortThemes ? sortThemeSlugs(themes, labelFor, language) : themes, systemLabel),
+    );
 
     // The device's colour scheme, read at once (no light flash before a dark device is seen) and kept current
     // while "system" is chosen, so the page follows the device when it switches.
