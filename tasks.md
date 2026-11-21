@@ -4314,7 +4314,7 @@ quick wins and are done; then T5, T6/T7, T9, T8, T10.
       heading and its record list prints the same state. Provide the status to the list through context, so the words appear once, in all
       nine catalogs; only then add optional `meta` and `warning` snippets and `data-level`. Decide 1 before 2.
       Verify: a section with `status="unavailable"` and a record list shows the words once, with no development warning.
-- [ ] **P42-T7 Silence one component's development warning (item 4).** Accept `globalThis.lilyWarnings = { Name: false }` as well as a
+- [x] **P42-T7 Silence one component's development warning (item 4).** Done 2026-11-21 in `shared/dev-warning.ts` (synced to the 14 copies: Svelte, React, Solid, Vue and Angular, headless, identifiers and examples). Accept `globalThis.lilyWarnings = { Name: false }` as well as a
       boolean, in the four catalogs that warn.
       Verify: a test silences one component and still sees another's warning.
 - [ ] **P42-T8 `meterScale` in `clinical-format` (item 3).** `meterScale(value, low?, high?)` returns `{ min, max, low, high }` or

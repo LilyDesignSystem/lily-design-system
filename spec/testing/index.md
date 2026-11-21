@@ -483,7 +483,8 @@ for the developer, so it is English and exempt from the no-hardcoded-strings rul
 
 - **When it prints:** only where a bundler replaces `process.env.NODE_ENV` with something other than `production`. With no bundler, the read
   throws and the module is silent.
-- **Off switch:** `globalThis.lilyWarnings = false`.
+- **Off switch:** `globalThis.lilyWarnings = false` silences every warning; `globalThis.lilyWarnings = { InternationalPatientSummarySection: false }`
+  silences one component's (a map by component name; a name left out, or set to anything but `false`, still warns). Added 2026-11-21 (P42-T7).
 - **Production cost:** silent, but about 275 minified bytes stay in a bundle, because the guard runs inside a function so that it
   cannot throw. Each component that warns adds its call, about 50 more minified bytes (esbuild, a 24-letter name).
 - **Coverage:** every interactive component with a required `label` in Svelte, React, Vue and Angular, 168 in all, less the

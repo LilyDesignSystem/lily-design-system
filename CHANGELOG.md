@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Silence one component's development warning (2026-11-21, P42-T7)
+
+- `globalThis.lilyWarnings` accepts a map by component name as well as `false`: `{ InternationalPatientSummarySection: false }` silences
+  that component's development warnings and leaves every other one. Before, a consumer that used a component in a way its author did not
+  foresee had to choose between noise and losing every warning. The change is in `shared/dev-warning.ts` and its 14 copies.
+
 ## Links in `.hero`, a link colour, and real package changelogs (2026-11-21, P42-T1 to P42-T4; themes, unreleased)
 
 - A link or heading inside `.hero` takes the banner's text colour (links stay underlined); before, a global `a { color: var(--color-primary) }`

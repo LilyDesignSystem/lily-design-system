@@ -3,7 +3,9 @@
  * component reports it here. Messages are English on purpose: they are for the developer, never shown to a user.
  *
  * Silent in production builds and wherever no bundler replaces `process.env.NODE_ENV`. A page can turn every warning
- * off with `globalThis.lilyWarnings = false`. Each message prints once. Spec: spec/testing/index.md#development-warnings.
+ * off with `globalThis.lilyWarnings = false`, or one component's with a map by component name,
+ * `globalThis.lilyWarnings = { InternationalPatientSummarySection: false }` (a name left out, or set to anything but `false`, still
+ * warns). Each message prints once. Spec: spec/testing/index.md#development-warnings.
  */
 declare const process: { env: { NODE_ENV?: string } };
 
@@ -18,9 +20,19 @@ function development(): boolean {
     }
 }
 
-function warn(message: string): void {
+/** Whether the page has switched off warnings for `component` (or for all of them). */
+function silenced(component: string | undefined): boolean {
+    const setting = (globalThis as { lilyWarnings?: unknown }).lilyWarnings;
+    if (setting === false) return true;
+    if (setting && typeof setting === "object" && component !== undefined) {
+        return (setting as Record<string, unknown>)[component] === false;
+    }
+    return false;
+}
+
+function warn(message: string, component?: string): void {
     if (!development()) return;
-    if ((globalThis as { lilyWarnings?: boolean }).lilyWarnings === false) return;
+    if (silenced(component)) return;
     if (printed.has(message)) return;
     printed.add(message);
     console.warn(`[Lily] ${message}`);
@@ -29,7 +41,7 @@ function warn(message: string): void {
 /** Warn when a control has no accessible name. Pass every source of a name: `label`, an `aria-labelledby`, and so on. */
 export function warnMissingName(component: string, ...names: unknown[]): void {
     if (names.some(Boolean)) return;
-    warn(`${component} has no accessible name. Set its label (WCAG 4.1.2).`);
+    warn(`${component} has no accessible name. Set its label (WCAG 4.1.2).`, component);
 }
 
 /**
@@ -43,7 +55,7 @@ export function warnMissingProp(
     why: string,
 ): void {
     if (value !== undefined && value !== null && value !== "") return;
-    warn(`${component} has no ${prop}. ${why}`);
+    warn(`${component} has no ${prop}. ${why}`, component);
 }
 
 /** Warn when a deprecated component is used, naming what replaces it. */
@@ -54,6 +66,7 @@ export function warnDeprecated(
 ): void {
     warn(
         `${component} is deprecated and will be removed in ${removalVersion}. Use ${replacement}.`,
+        component,
     );
 }
 

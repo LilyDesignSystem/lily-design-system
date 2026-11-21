@@ -5,7 +5,7 @@ import { resetDevWarnings, warnDeprecated, warnMissingName, warnMissingProp } fr
 afterEach(() => {
     vi.restoreAllMocks();
     vi.unstubAllEnvs();
-    delete (globalThis as { lilyWarnings?: boolean }).lilyWarnings;
+    delete (globalThis as { lilyWarnings?: unknown }).lilyWarnings;
     resetDevWarnings();
 });
 
@@ -68,5 +68,37 @@ describe("development warnings", () => {
         const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
         warnMissingName("Thing");
         expect(spy).not.toHaveBeenCalled();
+    });
+
+    test("one component can be silenced by name while another still warns", () => {
+        const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
+        (globalThis as { lilyWarnings?: unknown }).lilyWarnings = { Quiet: false };
+        warnMissingName("Quiet");
+        warnMissingProp("Quiet", "status", undefined, "Why.");
+        warnDeprecated("Quiet", "New", "1.0.0");
+        expect(spy).not.toHaveBeenCalled();
+        warnMissingName("Loud");
+        expect(spy).toHaveBeenCalledOnce();
+        expect(spy.mock.calls[0][0]).toContain("Loud has no accessible name");
+    });
+
+    test("a name left out of the map, or set to anything but false, still warns", () => {
+        const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
+        (globalThis as { lilyWarnings?: unknown }).lilyWarnings = { Other: false, Kept: true };
+        warnMissingName("Kept");
+        warnMissingName("Absent");
+        expect(spy).toHaveBeenCalledTimes(2);
+    });
+
+    test("an empty map, or a non-false value, silences nothing; false still silences all", () => {
+        const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
+        (globalThis as { lilyWarnings?: unknown }).lilyWarnings = {};
+        warnMissingName("A");
+        (globalThis as { lilyWarnings?: unknown }).lilyWarnings = true;
+        warnMissingName("B");
+        expect(spy).toHaveBeenCalledTimes(2);
+        (globalThis as { lilyWarnings?: unknown }).lilyWarnings = false;
+        warnMissingName("C");
+        expect(spy).toHaveBeenCalledTimes(2);
     });
 });
