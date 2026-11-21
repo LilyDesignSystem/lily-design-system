@@ -142,4 +142,25 @@ public class AutosuggestTests : TestContext
         cut.Find("input").Blur();
         Assert.Equal("false", Expanded(cut));
     }
+
+    [Fact]
+    public void With_no_suggestions_the_arrows_leave_the_list_closed()
+    {
+        var cut = Render(suggestions: []);
+        Press(cut, "ArrowDown");
+        Press(cut, "ArrowUp");
+        Assert.Equal("false", Expanded(cut));
+        Assert.Equal(-1, Active(cut));
+    }
+
+    [Fact]
+    public void Enter_with_the_list_open_but_nothing_highlighted_chooses_nothing()
+    {
+        var cut = Render();
+        cut.Find("input").Input("ap");
+        Assert.Equal("true", Expanded(cut));
+        Press(cut, "Enter");
+        Assert.Empty(_selected);
+        Assert.Equal("true", Expanded(cut));
+    }
 }

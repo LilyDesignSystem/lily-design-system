@@ -131,4 +131,13 @@ public class ChatComposerTests : TestContext
         var c = Render(p => p.AddChildContent("<span data-testid=\"extra\">E</span>"));
         Assert.Equal("extra", c.Find("form").FirstElementChild!.GetAttribute("data-testid"));
     }
+
+    [Fact]
+    public void Cmd_Enter_sends_as_Ctrl_Enter_does()
+    {
+        var sent = new List<string>();
+        var c = Render(p => p.Add(x => x.Value, "hello").Add(x => x.OnSend, EventCallback.Factory.Create<string>(this, v => sent.Add(v))));
+        c.Find("textarea").KeyDown(new KeyboardEventArgs { Key = "Enter", MetaKey = true });
+        Assert.Equal(new[] { "hello" }, sent);
+    }
 }
