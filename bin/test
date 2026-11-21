@@ -453,8 +453,10 @@ if test -e "$top/node_modules/prettier/package.json"; then
         || err "docs/framework-comparison.md is stale; run bin/generate-framework-matrix"
     "$top/bin/generate-bootstrap-migration" --check >/dev/null 2>&1 \
         || err "the Bootstrap migration mapping is stale or names a missing Lily slug; run bin/generate-bootstrap-migration"
+    "$top/bin/generate-government-migration" --check >/dev/null 2>&1 \
+        || err "the government design system migration mapping is stale or names a missing Lily slug; run bin/generate-government-migration"
 else
-    err "the framework matrix and Bootstrap migration checks need the root install (Prettier); run pnpm install"
+    err "the framework matrix and migration checks need the root install (Prettier); run pnpm install"
 fi
 # Lily Core (P16-T2) and its self-assessed ACR (P16-T7): fails when a recorded Core member loses evidence, or an output is stale.
 "$top/bin/check-port-data-attributes" >/dev/null 2>&1 \

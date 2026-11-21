@@ -4224,9 +4224,13 @@ current design system. No person or organisation is named. Order: T1 first (a tr
       Verify: the table is in the healthcare guide; `bin/check-links` passes. _(2026-11-21: done. The guide already mapped IPS
       sections and status codes; a new "Fields" table maps 23 FHIR R4 elements to the props of the four components and their
       items, and says plainly that nothing validates a resource.)_
-- [ ] **P41-T4 "Switching from a government design system" guide.** A component-by-component mapping, effort estimates and an
+- [x] **P41-T4 "Switching from a government design system" guide.** A component-by-component mapping, effort estimates and an
       incremental "adopt alongside, then migrate" path, modelled on the Bootstrap migration guide.
       Verify: generated from a TSV like `docs/migrating/bootstrap.tsv`, with a `--check`.
+      _(2026-11-21: done as a guide at `docs/migrating/government-design-system.md` with a 40-row mapping generated from
+      `docs/migrating/government-design-system.tsv` by `bin/generate-government-migration` (`--check` in `bin/test`, listed in the
+      Generated files table). The guide says adopt alongside, then migrate; its effort table is labelled as estimates, not
+      measurements. Not yet a docs-site page.)_
 - [ ] **P41-T5 An assurance pack.** Security and supply-chain notes, an SBOM per package, provenance-attested releases (depends on
       the trusted-publishing work), and clinical-safety support documents; UK public-sector profile, kept regional, not the default.
       Verify: the pack is linked from the site; `bin/check-worldwide` still passes.

@@ -1,0 +1,41 @@
+Government design system component	Lily slugs	What changes
+Skip link	skip-link	First focusable element on the page; point it at the `main` landmark. The visible text is yours.
+Header	header	A semantic `header` landmark with a base class; your logo, navigation and search go inside. Lily ships no logo.
+Footer	footer	A `contentinfo` landmark. Policy links (accessibility, privacy, cookies, terms, site map) are your content.
+Phase banner or beta banner	phase-banner	A labelled strip for the service stage; the wording and the feedback link are yours.
+Notification banner	notification;banner	Use `notification` for a message the user must hear (`role` and live region are set for you); the text is yours.
+Cookie banner	announcement-banner	There is no cookie component: a banner is a decision about consent, not a layout. Use the announcement banner for the markup, and only add it if you set cookies.
+Breadcrumbs	breadcrumb-nav;breadcrumb-list;breadcrumb-list-item;breadcrumb-link	Use the whole family so the landmark, list and current page stay semantic.
+Back link	back-link	A real link with your text; do not use `history.back()` on a button.
+Navigation or service navigation	navigation-menu	A labelled `nav`; give each repeated navigation its own name.
+Pagination	pagination-nav;pagination-list;pagination-list-item;pagination-link	Previous, next and numbered links as a list inside a labelled `nav`; the current page has `aria-current`.
+Contents list	contents-nav;contents-list;contents-list-item	A labelled in-page navigation; the headings it links to need ids.
+Tabs	tab-bar;tab-bar-button	Tabs switch panels on the same page. For links to other pages use a navigation, not tabs.
+Details or expander	details	The native disclosure element; the summary text is yours.
+Accordion	accordion-list;accordion-list-item	A list of disclosures. Prefer one `details` when there is a single section.
+Button	button	A native `button`; set `type`. The primary, secondary and warning looks come from the theme's `data-` hooks, not from component props.
+Action link	action-link	A link styled as a call to action; it is still a link, so use it for navigation, not for a command.
+Text input	text-input;field	`text-input` is a native `input`; `field` joins its label and its error message so they are announced together.
+Textarea	text-area-input	A native `textarea`.
+Character count	text-area-input-with-character-counter	The count is text a screen reader can read; the limit and the wording are yours.
+Select	select	A native `select`. For long lists, use a combobox from the catalog.
+Radios	radio-group;radio-input	A `fieldset` holding native radios, so arrow keys, form reset and submission work as the browser does them.
+Checkboxes	checkbox-group;checkbox-input	A `fieldset` holding native checkboxes.
+Date input	date-field;date-input	`date-field` for three typed parts; `date-input` for the native control. Order and labels are yours.
+File upload	file-input;file-upload	`file-input` is the native control; `file-upload` is the drag-and-drop area, which never replaces the button (dragging is never the only way).
+Password input	password-input;password-input-or-text-input-div	`password-input` is the native control. For a show-or-hide toggle use `password-input-or-text-input-div`; the toggle's words are yours.
+Fieldset	fieldset	A native `fieldset` with a `legend`; a theme draws the border.
+Label and hint text	label;hint	Visible text tied to its control; never use `placeholder` instead of a label.
+Error message	error-message	Linked to its input with `aria-describedby`; start the text with the field's name.
+Error summary	error-summary	Put it at the top, give it focus on submit and link each message to its field.
+Summary list	summary-list;summary-list-item	A description list of questions and answers, with optional actions whose names say what they change.
+Table	table;data-table	`table` for a static table; `data-table` for a keyboard-navigable grid. Add a caption.
+Tag	tag;badge	Write the status in words; colour is a second cue.
+Warning text or warning callout	warning-callout;warning-text	The warning is words first. Do not use it for decoration.
+Inset text	inset-text	A quoted or set-aside paragraph with no role of its own.
+Panel (confirmation)	panel	A generic content panel with an optional heading; build a confirmation page from it. The heading and reference are yours.
+Card	card	A container; make the whole card a link with `wholeCardLink` and a heading link, not by wrapping everything in an anchor.
+Care card or urgency card	care-card	A card with an urgency level; the level is `data-type` and is also written in words.
+Do and don't lists	do-list;dont-list	Two lists; the heading says do or don't, the icons are decoration.
+Stepped form or step list	step-list;step-list-item	A list of steps with the current one marked; the number and the state are written in words.
+Layout grid or page template	grail-layout	A five-region page shell. See the templates page for other structures.
