@@ -17,6 +17,8 @@ highlights.
   one of them translated. No site test had run axe over the header before.
 - The header's main navigation was named with a hard-coded English "Main" on every route. It now takes `nav.label`,
   drafted in all 64 locales ("Principal", "Hauptnavigation"), and the header test checks it on a translated route.
+- `tests/site-axe.spec.ts` runs axe over whole pages, header and footer included, on 11 of the site's main routes, one
+  of them translated; all pass.
 
 ## A whole-card link (2026-11-21, P22-T11)
 
