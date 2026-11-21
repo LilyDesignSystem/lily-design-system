@@ -66,4 +66,36 @@ public class QuantityInputDivTests : TestContext
         Assert.Equal("2.5", reported);
         Assert.Equal("2.5", cut.Instance.Magnitude);
     }
+
+    [Fact]
+    public void A_consumer_id_names_the_parts()
+    {
+        var cut = Make(TwoUnits, p => p.Add(x => x.Id, "body-weight"));
+        Assert.Equal("body-weight-magnitude", cut.Find(".quantity-input-div-magnitude").Id);
+        Assert.Equal("body-weight-unit", cut.Find("select").Id);
+        Assert.Equal("body-weight-unit", cut.Find("label[for='body-weight-unit']").GetAttribute("for"));
+    }
+
+    [Fact]
+    public void Without_a_unit_the_first_unit_is_chosen_and_sets_the_limits()
+    {
+        var cut = Make(TwoUnits);
+        Assert.Equal("kg", cut.Find("select").GetAttribute("value"));
+        Assert.Equal("300", cut.Find(".quantity-input-div-magnitude").GetAttribute("max"));
+    }
+
+    [Fact]
+    public void One_unit_without_a_name_is_shown_as_text_and_not_submitted()
+    {
+        var cut = Make([TwoUnits[0]]);
+        Assert.Equal("kilograms", cut.Find("span.quantity-input-div-unit").TextContent);
+        Assert.Empty(cut.FindAll("input[type=hidden]"));
+    }
+
+    [Fact]
+    public void With_no_units_there_is_no_unit_part()
+    {
+        var cut = Make([]);
+        Assert.Empty(cut.FindAll(".quantity-input-div-unit"));
+    }
 }

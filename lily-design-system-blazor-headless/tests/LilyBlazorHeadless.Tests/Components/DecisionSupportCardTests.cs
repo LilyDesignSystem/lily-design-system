@@ -64,4 +64,31 @@ public class DecisionSupportCardTests : TestContext
     {
         Assert.Empty(Render().FindAll("button"));
     }
+
+    [Fact]
+    public void Dismissing_when_no_reasons_are_offered_reports_no_reason()
+    {
+        var dismissed = new List<string?>();
+        var cut = Render(p => p
+            .Add(x => x.DismissLabel, "Dismiss")
+            .Add(x => x.OnDismiss, (string? reason) => dismissed.Add(reason)));
+        Assert.Empty(cut.FindAll("select"));
+        cut.Find("form").Submit();
+        Assert.Equal(new string?[] { null }, dismissed);
+    }
+
+    [Fact]
+    public void The_source_is_a_link_only_with_an_href_and_the_detail_only_with_content()
+    {
+        var plain = Render();
+        Assert.Empty(plain.FindAll(".decision-support-card-source a"));
+        Assert.Equal("Local formulary", plain.Find(".decision-support-card-source").TextContent);
+        Assert.Empty(plain.FindAll(".decision-support-card-detail"));
+
+        var linked = Render(p => p
+            .Add(x => x.SourceHref, "https://example.org/formulary")
+            .AddChildContent("<p>Reaction: anaphylaxis, 2019.</p>"));
+        Assert.Equal("https://example.org/formulary", linked.Find(".decision-support-card-source a").GetAttribute("href"));
+        Assert.Equal("Reaction: anaphylaxis, 2019.", linked.Find(".decision-support-card-detail p").TextContent);
+    }
 }
