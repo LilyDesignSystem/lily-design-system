@@ -1,5 +1,6 @@
 import { describe, expect, test, vi } from "vitest";
 import {
+    WHEEL_SCROLL_SETTLE_MS,
     isWheelRtl,
     isWheelTypeaheadKey,
     nextWheelIndex,
@@ -219,5 +220,38 @@ describe("watchWheelScroll", () => {
         list.dispatchEvent(new Event("pointerdown"));
         list.dispatchEvent(new Event("scrollend"));
         expect(choose).not.toHaveBeenCalled();
+    });
+
+    test("a click after the gesture cancels it, and a scroll with no scrollend settles by timer", () => {
+        vi.useFakeTimers();
+        try {
+            const list = document.createElement("div");
+            list.innerHTML = '<div role="option">A</div><div role="option">B</div>';
+            list.getBoundingClientRect = () => ({ top: 0, height: 200 }) as DOMRect;
+            const rows = [...list.querySelectorAll<HTMLElement>('[role="option"]')];
+            rows[0].getBoundingClientRect = () => ({ top: 20, height: 20 }) as DOMRect;
+            rows[1].getBoundingClientRect = () => ({ top: 90, height: 20 }) as DOMRect;
+            const choose = vi.fn();
+            watchWheelScroll(list, {
+                options: () => opts(["A", "B"]),
+                selected: () => 0,
+                orientation: () => "vertical",
+                disabled: () => false,
+                choose,
+                recentre: vi.fn(),
+            });
+            list.dispatchEvent(new Event("pointerdown"));
+            list.dispatchEvent(new Event("click"));
+            list.dispatchEvent(new Event("scroll"));
+            vi.advanceTimersByTime(WHEEL_SCROLL_SETTLE_MS + 1);
+            expect(choose).not.toHaveBeenCalled();
+
+            list.dispatchEvent(new Event("wheel"));
+            list.dispatchEvent(new Event("scroll"));
+            vi.advanceTimersByTime(WHEEL_SCROLL_SETTLE_MS + 1);
+            expect(choose).toHaveBeenCalledWith(1);
+        } finally {
+            vi.useRealTimers();
+        }
     });
 });
