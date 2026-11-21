@@ -9,6 +9,13 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## The site's brand link is named by its visible text (2026-11-21)
+
+- The docs site header's brand link had `aria-label="Lily Design System home"` (and a translation in 64 locales), which
+  did not contain its visible text, "Lily Design System™": a WCAG 2.5.3 (label in name) failure on every page. The label
+  is gone, so the visible text names the link, and `tests/site-header.spec.ts` runs axe over the header on three routes,
+  one of them translated. No site test had run axe over the header before.
+
 ## A whole-card link (2026-11-21, P22-T11)
 
 - One link in a card's heading, marked `data-lily-card-link`, makes the whole card its target. A new section shared by
