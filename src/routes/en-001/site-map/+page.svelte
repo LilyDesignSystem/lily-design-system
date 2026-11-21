@@ -62,6 +62,7 @@
     {
       heading: 'Why try Lily',
       links: [
+        { href: '/en-001/public-sector-health/', label: 'Lily for public-sector health' },
         { href: '/en-001/agile/', label: 'Lily and agile' },
         { href: '/en-001/itil5/', label: 'Lily and ITIL 5' },
         { href: '/en-001/prince2/', label: 'Lily and PRINCE2' }
