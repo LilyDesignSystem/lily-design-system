@@ -9,6 +9,14 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## A form-validation pattern (2026-11-21, P23-T9)
+
+- `docs/patterns/form-validation/`: when an error appears (not on load; `:user-invalid` after a field is left; on input
+  only to clear an error; everything on submit, with focus moved to the error summary), the summary's links, the field
+  in error (`aria-invalid`, the message linked from `aria-describedby` and `aria-errormessage`), and a warning that does
+  not block, as hint text. `e2e/form-validation.spec.ts` in the HTML examples app tests it in three browsers. The
+  screen-reader comparison of the summary's focus and `role="alert"` is still to be done.
+
 ## `wholeCardLink` on `card` (2026-11-21)
 
 - In Svelte, React, Vue, Solid and Angular, `card` takes `wholeCardLink` (`whole-card-link` in Web Components): with
