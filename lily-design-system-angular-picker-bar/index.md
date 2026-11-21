@@ -70,8 +70,8 @@ if you add `[copyLabel]="'Copy link'"`.
 ## Defaults
 
 - **`themes`** defaults to `DEFAULT_THEMES` — all 63 Lily reference
-  theme slugs: the 36 generic themes alphabetically, then the 27 company
-  and public-sector themes alphabetically by label.
+  theme slugs, in one list sorted alphabetically by the name shown (not
+  grouped by kind; the theme-picker's "Order of themes" rule).
   `DEFAULT_THEME_LABELS` gives the names title-casing gets wrong ("IBM
   Carbon", "GitHub Primer", "NHS England (patients)"); your own
   `themeLabels` win. Pass your own `[themes]` array to override.

@@ -10,7 +10,8 @@ import {
     themeName,
 } from "./theme-picker.component";
 
-const THEMES = ["light", "dark", "abyss"];
+// In the order the picker lists them: alphabetical by the name shown (spec/theme-picker, "Order of themes").
+const THEMES = ["abyss", "dark", "light"];
 const URL_TRAILING = "/assets/themes/";
 const URL_NO_TRAILING = "/assets/themes";
 
@@ -240,9 +241,9 @@ describe("ThemePicker — keyboard contract (APG listbox, §7.14–§7.18)", () 
 
     test("§7.14 opening puts the active descendant on the selected theme", async () => {
         const fixture = await openWith("ArrowDown");
-        // "light" resolves as the initial theme, so it is index 0.
+        // "light" resolves as the initial theme, and is the last of the sorted three.
         expect(list(fixture).getAttribute("aria-activedescendant")).toBe(
-            list(fixture).children[0].id,
+            list(fixture).children[THEMES.length - 1].id,
         );
     });
 
@@ -261,9 +262,13 @@ describe("ThemePicker — keyboard contract (APG listbox, §7.14–§7.18)", () 
     test("§7.15 ArrowDown / ArrowUp move the active descendant and clamp", async () => {
         const fixture = await openWith("ArrowDown");
         const ul = list(fixture);
-        expect(ul.getAttribute("aria-activedescendant")).toBe(ul.children[0].id);
+        // The list opens on the selected option, "light", which is the last of the sorted three.
+        const last = THEMES.length - 1;
+        expect(ul.getAttribute("aria-activedescendant")).toBe(ul.children[last].id);
         press(fixture, ul, "ArrowDown");
-        expect(ul.getAttribute("aria-activedescendant")).toBe(ul.children[1].id);
+        expect(ul.getAttribute("aria-activedescendant")).toBe(ul.children[last].id);
+        press(fixture, ul, "ArrowUp");
+        expect(ul.getAttribute("aria-activedescendant")).toBe(ul.children[last - 1].id);
         press(fixture, ul, "ArrowUp");
         expect(ul.getAttribute("aria-activedescendant")).toBe(ul.children[0].id);
         // Clamps at the top rather than wrapping.
@@ -290,7 +295,8 @@ describe("ThemePicker — keyboard contract (APG listbox, §7.14–§7.18)", () 
     test("§7.16 Enter selects the active option, applies it, and closes", async () => {
         const fixture = await openWith("ArrowDown");
         const ul = list(fixture);
-        press(fixture, ul, "ArrowDown");
+        // Open on "light" (last), move up to "dark".
+        press(fixture, ul, "ArrowUp");
         press(fixture, ul, "Enter");
         await flush();
         fixture.detectChanges();
@@ -310,7 +316,8 @@ describe("ThemePicker — keyboard contract (APG listbox, §7.14–§7.18)", () 
     test("§7.16 Space selects the active option and closes", async () => {
         const fixture = await openWith("ArrowDown");
         const ul = list(fixture);
-        press(fixture, ul, "ArrowDown");
+        // Open on "light" (last), move up to "dark".
+        press(fixture, ul, "ArrowUp");
         press(fixture, ul, " ");
         await flush();
         fixture.detectChanges();
@@ -354,8 +361,8 @@ describe("ThemePicker — keyboard contract (APG listbox, §7.14–§7.18)", () 
         const fixture = await openWith("ArrowDown");
         const ul = list(fixture);
         press(fixture, ul, "a");
-        // "Abyss" is index 2 in THEMES.
-        expect(ul.getAttribute("aria-activedescendant")).toBe(ul.children[2].id);
+        // "Abyss" is the first of the sorted THEMES.
+        expect(ul.getAttribute("aria-activedescendant")).toBe(ul.children[0].id);
     });
 
     test("§7.18 the typeahead buffer resets after the 500 ms pause", async () => {
@@ -370,7 +377,7 @@ describe("ThemePicker — keyboard contract (APG listbox, §7.14–§7.18)", () 
             // the buffer is empty so "a" alone matches "Abyss".
             vi.advanceTimersByTime(600);
             press(fixture, ul, "a");
-            expect(ul.getAttribute("aria-activedescendant")).toBe(ul.children[2].id);
+            expect(ul.getAttribute("aria-activedescendant")).toBe(ul.children[0].id);
         } finally {
             vi.useRealTimers();
         }
@@ -936,8 +943,9 @@ describe('ThemePicker — variant="select" (§select, RFC 3 prototype; ported fr
         const options = [
             ...f.nativeElement.querySelectorAll("option.theme-picker-option"),
         ] as HTMLOptionElement[];
-        expect(options.map((o) => o.value)).toEqual(THEMES);
-        expect(options.map((o) => o.textContent?.trim())).toEqual(["Light", "Sombre", "Abyss"]);
+        // Sorted by the name shown, so "dark", labelled "Sombre", sorts after "Light".
+        expect(options.map((o) => o.value)).toEqual(["abyss", "light", "dark"]);
+        expect(options.map((o) => o.textContent?.trim())).toEqual(["Abyss", "Light", "Sombre"]);
         expect((f.nativeElement as HTMLElement).textContent).not.toMatch(/default/i);
     });
 
