@@ -1,0 +1,27 @@
+---
+title: "Card: the whole card as one link"
+components: [card, button]
+tags: [card, navigation, link]
+---
+
+<!-- One link, in the heading, carries data-lily-card-link: the theme's shared "Whole-card link" section stretches
+     its target over the card and draws the focus ring round the card. The link's text is the card's name, so a
+     screen reader hears one link, not the whole card read as a link. Anything else interactive inside the card,
+     such as the button here, stays above the link and keeps its own target. Write the heading yourself rather than
+     passing href to card, whose own heading link takes no extra attributes. -->
+<div class="card">
+  <h3>
+    <a
+      href="/appointments/2026-11-24"
+      data-lily-card-link
+      >Physiotherapy, 24 November</a
+    >
+  </h3>
+  <p>10:30 at Riverside Health Centre, with Sam Okoro.</p>
+  <button
+    class="button"
+    type="button"
+  >
+    Add to calendar
+  </button>
+</div>

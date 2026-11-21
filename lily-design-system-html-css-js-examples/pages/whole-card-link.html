@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Whole-card link — Lily Design System</title>
+    <link
+      rel="stylesheet"
+      href="/assets/css/app-shell.css"
+    />
+    <script src="/assets/js/theme-boot.js"></script>
+  </head>
+  <body>
+    <a
+      class="skip-link"
+      href="#main-content"
+      >Skip to main content</a
+    >
+
+    <header
+      class="header"
+      aria-label="Site header"
+    >
+      <!-- The adopter's own mark. This one is a fictional organisation, drawn inline. -->
+      <a
+        href="index.html"
+        data-lily-logo
+      >
+        <svg
+          role="img"
+          aria-label="Example Organisation"
+          viewBox="0 0 160 40"
+          width="160"
+          height="40"
+        >
+          <rect
+            width="40"
+            height="40"
+            rx="8"
+            fill="currentColor"
+          ></rect>
+          <text
+            x="50"
+            y="27"
+            font-size="20"
+            font-family="system-ui, sans-serif"
+            fill="currentColor"
+          >
+            Example Org
+          </text>
+        </svg>
+      </a>
+      <nav
+        class="navigation-menu"
+        aria-label="Main navigation"
+      >
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li>
+            <a
+              href="logo-slot.html"
+              aria-current="page"
+              >Logo slot</a
+            >
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main
+      id="main-content"
+      class="page-wrapper"
+    >
+      <h1>Whole-card link</h1>
+      <p>
+        The card's heading link carries data-lily-card-link, so the whole card is its target and the
+        card shows its focus ring. The button inside the card keeps its own target. Recipe:
+        recipes/card/whole-card-link.html.
+      </p>
+      <div class="card">
+        <h2>
+          <a
+            href="#appointment"
+            data-lily-card-link
+            >Physiotherapy, 24 November</a
+          >
+        </h2>
+        <p>10:30 at Riverside Health Centre, with Sam Okoro.</p>
+        <button
+          class="button"
+          type="button"
+        >
+          Add to calendar
+        </button>
+      </div>
+    </main>
+  </body>
+</html>

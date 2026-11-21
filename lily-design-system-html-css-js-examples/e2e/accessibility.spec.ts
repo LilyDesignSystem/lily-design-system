@@ -104,6 +104,7 @@ const composedPages = [
     "/dashboard.html",
     "/dialog-flow.html",
     "/logo-slot.html",
+    "/whole-card-link.html",
     "/file-upload-form.html",
     "/navigation-and-menus.html",
     "/page-layout.html",

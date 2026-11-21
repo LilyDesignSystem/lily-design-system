@@ -142,6 +142,7 @@ SHARED_SECTIONS = (
     "target-size (minimum) floor",
     "Coarse pointer targets",
     "Brand colour",
+    "Whole-card link",
     "Logo slot",
     "Overflow guards",
     "Helper packages — layout and look",

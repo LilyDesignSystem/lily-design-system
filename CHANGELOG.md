@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## A whole-card link (2026-11-21, P22-T11)
+
+- One link in a card's heading, marked `data-lily-card-link`, makes the whole card its target. A new section shared by
+  all 63 themes stretches the link over the card, keeps other controls above it, and draws the focus ring round the
+  card. Recipe `recipes/card/whole-card-link.html`; example page and e2e in the HTML examples app, in three browsers.
+
 ## A recipes layer (2026-11-21, P22-T27)
 
 - `recipes/{slug}/{name}.html`: small copy-paste compositions of catalog components with front matter (title,

@@ -32,6 +32,7 @@ const routes = [
     "/contact-form.html",
     "/dashboard.html",
     "/logo-slot.html",
+    "/whole-card-link.html",
     "/page-layout.html",
     "/task-management.html",
     "/timeline-and-cards.html",

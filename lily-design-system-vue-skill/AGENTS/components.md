@@ -293,6 +293,36 @@ logo.
 - Never put a body's logo, crest or mark in a theme ([visual-identity.md](visual-identity.md)).
 - Example: `pages/logo-slot.html` in the HTML examples app, with `e2e/logo-slot.spec.ts`.
 
+### Whole-card link pattern
+
+A composition, not a component: one link, in the card's heading, makes the whole `card` its target. The link carries
+`data-lily-card-link`; the themes' shared "Whole-card link" section stretches its `::after` over the card, keeps other
+links, buttons and fields inside the card above it, and draws the focus ring round the card.
+
+```html
+<div class="card">
+  <h3>
+    <a
+      href="/appointments/2026-11-24"
+      data-lily-card-link
+      >Physiotherapy, 24 November</a
+    >
+  </h3>
+  <p>10:30 at Riverside Health Centre, with Sam Okoro.</p>
+  <button
+    class="button"
+    type="button"
+  >
+    Add to calendar
+  </button>
+</div>
+```
+
+- The link's text is the card's name, so a screen reader hears one short link, not the whole card read out as a link.
+- Write the heading yourself: `card`'s own `href` heading link takes no extra attributes.
+- Recipe: `recipes/card/whole-card-link.html`; example `pages/whole-card-link.html` in the HTML examples app, with
+  `e2e/whole-card-link.spec.ts`.
+
 ### Several wheels pattern
 
 A composition, not a component: one value asked for in parts, such as a time, with one `WheelPicker` per part inside a

@@ -52,6 +52,7 @@ tags: [form, required]
 | [field/number-field](field/number-field.html)                                     | A number with limits                                                    |
 | [checkbox-group/select-all-that-apply](checkbox-group/select-all-that-apply.html) | Several checkboxes in a fieldset with a hint                            |
 | [radio-group/one-choice](radio-group/one-choice.html)                             | One choice in a radio group                                             |
+| [card/whole-card-link](card/whole-card-link.html)                                 | The whole card as one link, with a button that keeps its own target     |
 | [form/complete-form](form/complete-form.html)                                     | An error summary linking to the field in error, and a submit button     |
 
 Still to come (P22-T27): a Recipes section on each component's page and a `/recipes` index on the site.

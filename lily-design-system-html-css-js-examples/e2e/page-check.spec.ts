@@ -16,6 +16,7 @@ const COMPOSED = [
     "/dialog-flow.html",
     "/file-upload-form.html",
     "/logo-slot.html",
+    "/whole-card-link.html",
     "/navigation-and-menus.html",
     "/page-layout.html",
     "/rating-and-feedback.html",
