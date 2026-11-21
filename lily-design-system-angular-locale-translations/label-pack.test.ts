@@ -5,6 +5,8 @@ import { describe, expect, it } from "vitest";
 import {
     fillTemplate,
     labelsFor,
+    mergedLabels,
+    packKeys,
     SPEC,
     textSizeLabels,
     dateTimeNowInputLabels,
@@ -214,5 +216,36 @@ describe("dateTimeNowInputLabels", () => {
                 "date-time-now-input": { date: "D", now: "" },
             }),
         ).toEqual({ dateLabel: "D" });
+    });
+});
+
+describe("mergedLabels and packKeys", () => {
+    const helpers: LabelHelper[] = [
+        "data-grid",
+        "kanban-board",
+        "calendar",
+        "gantt-chart",
+        "filter",
+    ];
+
+    it("packKeys lists exactly the keys mergedLabels holds, for every helper", () => {
+        for (const h of helpers) {
+            expect(packKeys(h, english).sort()).toEqual(
+                Object.keys(mergedLabels(h, english)).sort(),
+            );
+        }
+    });
+
+    it("the helper's own section wins over a common label of the same name", () => {
+        const pack = { common: { search: "COMMON" }, "data-grid": { search: "OWN" } } as LabelPack;
+        expect(mergedLabels("data-grid", pack)).toEqual({ search: "OWN" });
+        expect(mergedLabels("data-grid", { common: { search: "COMMON" } } as LabelPack)).toEqual({
+            search: "COMMON",
+        });
+    });
+
+    it("a pack with no common section and no helper section has no keys", () => {
+        expect(packKeys("filter", {} as LabelPack)).toEqual([]);
+        expect(mergedLabels("filter", {} as LabelPack)).toEqual({});
     });
 });
