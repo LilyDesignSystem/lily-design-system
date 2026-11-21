@@ -225,4 +225,48 @@ describe("FileTree", () => {
         expect(stops).toHaveLength(1);
         expect(stops[0]).not.toBe(item("index"));
     });
+
+    function press(target: HTMLElement, key: string, init: KeyboardEventInit = {}) {
+        const event = new KeyboardEvent("keydown", {
+            key,
+            bubbles: true,
+            cancelable: true,
+            ...init,
+        });
+        target.dispatchEvent(event);
+        return event;
+    }
+
+    test("browser and system shortcuts (Ctrl, Cmd or Alt held) are left alone", () => {
+        const { item } = setup();
+        item("src").focus();
+        for (const init of [{ ctrlKey: true }, { metaKey: true }, { altKey: true }])
+            expect(press(item("src"), "ArrowDown", init).defaultPrevented).toBe(false);
+        expect(document.activeElement).toBe(item("src"));
+    });
+
+    test("a control inside an item keeps its own Right, Left, Enter and Space", () => {
+        const { item } =
+            setup(`<li role="treeitem" aria-expanded="false" data-id="f">f <button data-id="rename">Rename</button>
+          <ul role="group"><li role="treeitem" data-id="c">c</li></ul></li>`);
+        const button = item("rename");
+        button.focus();
+        for (const key of ["ArrowRight", "ArrowLeft", "Enter", " "])
+            expect(press(button, key).defaultPrevented).toBe(false);
+        expect(item("f").getAttribute("aria-expanded")).toBe("false");
+    });
+
+    test("a key that is not a character, such as F2, is left alone", () => {
+        const { item } = setup();
+        item("src").focus();
+        expect(press(item("src"), "F2").defaultPrevented).toBe(false);
+        expect(document.activeElement).toBe(item("src"));
+    });
+
+    test("ArrowLeft on a closed top-level item stays there", async () => {
+        const { user, item } = setup();
+        item("docs").focus();
+        await user.keyboard("{ArrowLeft}");
+        expect(document.activeElement).toBe(item("docs"));
+    });
 });

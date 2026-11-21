@@ -140,4 +140,63 @@ describe("Autosuggest", () => {
             expect(event.defaultPrevented).toBe(false);
         }
     });
+
+    // The guards: a key the component does not act on is left to the input (not prevented) and changes nothing.
+    function press(input: HTMLInputElement, key: string, init: KeyboardEventInit = {}) {
+        const event = new KeyboardEvent("keydown", {
+            key,
+            bubbles: true,
+            cancelable: true,
+            ...init,
+        });
+        input.dispatchEvent(event);
+        return event;
+    }
+
+    test("keys typed while an input method is composing belong to it, not the list", async () => {
+        const onSelect = vi.fn();
+        const { input } = setup({ onSelect });
+        await type(input, "a");
+        expect(input.getAttribute("aria-expanded")).toBe("true");
+        for (const key of ["ArrowDown", "Enter", "Escape"])
+            expect(press(input, key, { isComposing: true }).defaultPrevented).toBe(false);
+        expect(input.getAttribute("aria-expanded")).toBe("true");
+        expect(input.hasAttribute("aria-activedescendant")).toBe(false);
+        expect(onSelect).not.toHaveBeenCalled();
+    });
+
+    test("while the list is closed, Home, End, Enter, Escape and Alt+ArrowUp keep their editing meaning", () => {
+        const { input } = setup();
+        for (const [key, init] of [
+            ["Home"],
+            ["End"],
+            ["Enter"],
+            ["Escape"],
+            ["ArrowUp", { altKey: true }],
+        ] as const)
+            expect(press(input, key, init).defaultPrevented).toBe(false);
+        expect(input.getAttribute("aria-expanded")).toBe("false");
+    });
+
+    test("with no suggestions the arrow keys do nothing", () => {
+        const { input } = setup({ suggestions: [] });
+        expect(press(input, "ArrowDown").defaultPrevented).toBe(false);
+        expect(press(input, "ArrowUp").defaultPrevented).toBe(false);
+        expect(input.getAttribute("aria-expanded")).toBe("false");
+    });
+
+    test("Enter with the list open but nothing highlighted is left to the form", async () => {
+        const onSelect = vi.fn();
+        const { input } = setup({ onSelect });
+        await type(input, "a");
+        expect(press(input, "Enter").defaultPrevented).toBe(false);
+        expect(onSelect).not.toHaveBeenCalled();
+    });
+
+    test("Alt+ArrowDown on an open list does not move the highlight", async () => {
+        const { input } = setup();
+        await type(input, "a");
+        expect(press(input, "ArrowDown", { altKey: true }).defaultPrevented).toBe(false);
+        expect(input.hasAttribute("aria-activedescendant")).toBe(false);
+    });
 });

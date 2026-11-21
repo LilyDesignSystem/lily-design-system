@@ -11,7 +11,7 @@ leaves out its byte-identical copies of `shared/` modules (13 files, such as `se
 | Package                | Lines                        | Branches               | Functions              | Statements             |
 | ---------------------- | ---------------------------- | ---------------------- | ---------------------- | ---------------------- |
 | shared/ (pure modules) | 99.0% (3,327 of 3,360)       | 92.2% (3,171 of 3,439) | 99.3% (754 of 759)     | 98.0% (3,975 of 4,056) |
-| Svelte headless        | 99.9% (4,566 of 4,572)       | 89.7% (1,504 of 1,677) | 99.8% (1,779 of 1,782) | 99.1% (6,380 of 6,436) |
+| Svelte headless        | 99.9% (4,566 of 4,572)       | 90.5% (1,518 of 1,677) | 99.8% (1,779 of 1,782) | 99.3% (6,392 of 6,436) |
 | Blazor headless        | 99.7% (5,450 of 5,464)       | 86.4% (1,771 of 2,049) | —                      | —                      |
 | **All three**          | **99.6%** (13,343 of 13,396) |                        |                        |                        |
 
