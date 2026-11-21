@@ -5261,6 +5261,40 @@
 }
 
 /* ============================================================================
+ * Whole-card link — shared verbatim by all themes (tasks.md P22-T11).
+ *
+ * One link, in the card's heading, makes the whole card its target: the link
+ * carries data-lily-card-link and its ::after covers the card. Other links,
+ * buttons and fields inside the card stay above it and keep their own
+ * targets. The card draws the link's focus ring, because the link's own
+ * outline would surround only the heading. Recipe:
+ * recipes/card/whole-card-link.html.
+ * ========================================================================== */
+
+@layer lily {
+    :where(.card:has([data-lily-card-link])) {
+        position: relative;
+    }
+
+    :where([data-lily-card-link])::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+    }
+
+    :where(.card:has([data-lily-card-link]))
+        :where(a, button, input, select, textarea, summary, [tabindex]):not([data-lily-card-link]) {
+        position: relative;
+        z-index: 1;
+    }
+
+    :where(.card:has([data-lily-card-link]:focus-visible)) {
+        outline: 2px solid var(--lily-focus-ring);
+        outline-offset: 2px;
+    }
+}
+
+/* ============================================================================
  * Logo slot — shared verbatim by all themes (spec/visual-identity, P21-T4).
  *
  * The adopter's logo link carries data-lily-logo: an <a href="/"> holding the
