@@ -27,29 +27,31 @@
 
 <section class="section">
     <h2>Sprint Tasks</h2>
-    <DataTable Label="Sprint tasks">
-        <DataTableHead>
-            <DataTableRow>
-                <th>Task</th>
-                <th>Assignee</th>
-                <th>Status</th>
-                <th>Priority</th>
-            </DataTableRow>
-        </DataTableHead>
-        <DataTableBody>
-            @foreach (var task in tasks)
-            {
+    <HorizontalScroller Label="Sprint tasks">
+        <DataTable Label="Sprint tasks">
+            <DataTableHead>
                 <DataTableRow>
-                    <DataTableTD>@task.Title</DataTableTD>
-                    <DataTableTD>@task.Assignee</DataTableTD>
-                    <DataTableTD>
-                        <Badge Type="@StatusBadgeType(task.Status)">@task.Status</Badge>
-                    </DataTableTD>
-                    <DataTableTD>@task.Priority</DataTableTD>
+                    <th>Task</th>
+                    <th>Assignee</th>
+                    <th>Status</th>
+                    <th>Priority</th>
                 </DataTableRow>
-            }
-        </DataTableBody>
-    </DataTable>
+            </DataTableHead>
+            <DataTableBody>
+                @foreach (var task in tasks)
+                {
+                    <DataTableRow>
+                        <DataTableTD>@task.Title</DataTableTD>
+                        <DataTableTD>@task.Assignee</DataTableTD>
+                        <DataTableTD>
+                            <Badge Type="@StatusBadgeType(task.Status)">@task.Status</Badge>
+                        </DataTableTD>
+                        <DataTableTD>@task.Priority</DataTableTD>
+                    </DataTableRow>
+                }
+            </DataTableBody>
+        </DataTable>
+    </HorizontalScroller>
 </section>
 
 @code {

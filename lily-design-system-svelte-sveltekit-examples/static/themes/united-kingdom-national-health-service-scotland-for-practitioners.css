@@ -4355,6 +4355,14 @@
     overflow-wrap: anywhere;
 }
 
+/* A header cell keeps whole words (2026-11-21). overflow-wrap: anywhere also lowers a cell's min-content width to one
+   letter, so a table that sizes its own columns split one-word headers ("Patie/nt"). break-word still wraps a word too
+   long for its cell, but keeps the header, and so its column, at least as wide as its longest word. Data cells keep
+   anywhere, so a long identifier or address still wraps at a narrow width (WCAG 1.4.10). */
+:where(th, th a, th code) {
+    overflow-wrap: break-word;
+}
+
 /* ============================================================================
  * Scoped overflow — shared verbatim by all themes.
  *

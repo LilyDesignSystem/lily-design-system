@@ -31,48 +31,50 @@ title: Dashboard
     </div>
 
     <h2>Task List</h2>
-    <table class="data-table" aria-label="Sprint tasks">
-      <thead>
-        <tr>
-          <th scope="col">Title</th>
-          <th scope="col">Assignee</th>
-          <th scope="col">Status</th>
-          <th scope="col">Priority</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Design landing page</td>
-          <td>Alice</td>
-          <td><span class="badge" data-type="success">done</span></td>
-          <td>high</td>
-        </tr>
-        <tr>
-          <td>Implement auth flow</td>
-          <td>Bob</td>
-          <td><span class="badge" data-type="warning">in-progress</span></td>
-          <td>high</td>
-        </tr>
-        <tr>
-          <td>Write unit tests</td>
-          <td>Carol</td>
-          <td><span class="badge" data-type="warning">in-progress</span></td>
-          <td>medium</td>
-        </tr>
-        <tr>
-          <td>Update documentation</td>
-          <td>Dave</td>
-          <td><span class="badge" data-type="default">todo</span></td>
-          <td>low</td>
-        </tr>
-        <tr>
-          <td>Code review</td>
-          <td>Alice</td>
-          <td><span class="badge" data-type="default">todo</span></td>
-          <td>medium</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="horizontal-scroller" role="region" aria-label="Sprint tasks" tabindex="0">
+      <table class="data-table" aria-label="Sprint tasks">
+        <thead>
+          <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Assignee</th>
+            <th scope="col">Status</th>
+            <th scope="col">Priority</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Design landing page</td>
+            <td>Alice</td>
+            <td><span class="badge" data-type="success">done</span></td>
+            <td>high</td>
+          </tr>
+          <tr>
+            <td>Implement auth flow</td>
+            <td>Bob</td>
+            <td><span class="badge" data-type="warning">in-progress</span></td>
+            <td>high</td>
+          </tr>
+          <tr>
+            <td>Write unit tests</td>
+            <td>Carol</td>
+            <td><span class="badge" data-type="warning">in-progress</span></td>
+            <td>medium</td>
+          </tr>
+          <tr>
+            <td>Update documentation</td>
+            <td>Dave</td>
+            <td><span class="badge" data-type="default">todo</span></td>
+            <td>low</td>
+          </tr>
+          <tr>
+            <td>Code review</td>
+            <td>Alice</td>
+            <td><span class="badge" data-type="default">todo</span></td>
+            <td>medium</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
 <script>
 (function() {

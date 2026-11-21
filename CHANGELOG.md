@@ -9,6 +9,19 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Table headers no longer split mid-word (2026-11-21)
+
+- The 63 themes gave every table cell `overflow-wrap: anywhere`, which also shrinks a cell's minimum width to one letter,
+  so a table that sizes its own columns split one-word headers ("Patie/nt"). Header cells, and links and code in them,
+  now use `break-word`, which keeps each column at least as wide as its header's longest word. Data cells keep
+  `anywhere`, so a long identifier or address still wraps at 320px (WCAG 1.4.10). Switching every cell to `break-word`
+  was tried first and failed 36 of the reflow tests.
+- The dashboards in the HTML, SvelteKit, Next.js, Nuxt, Nunjucks and Blazor example apps put their four-column table in
+  a `horizontal-scroller`, the labelled region the reflow rule asks for, because its whole-word headers are wider than a
+  320px screen once text is 30 percent longer.
+- `e2e/table-word-break.spec.ts` in the HTML examples app, in three browsers: one-word headers stay on one line in three
+  themes (it fails with `anywhere`: "Patient wraps onto 3 lines"), and a long value still wraps without widening the page.
+
 ## A form-validation pattern (2026-11-21, P23-T9)
 
 - `docs/patterns/form-validation/`: when an error appears (not on load; `:user-invalid` after a field is left; on input

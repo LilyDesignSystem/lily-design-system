@@ -5,6 +5,7 @@ import Card from "@lily/Card";
 import Progress from "@lily/Progress";
 import ProgressCircle from "@lily/ProgressCircle";
 import Badge from "@lily/Badge";
+import HorizontalScroller from "@lily/HorizontalScroller";
 import Banner from "@lily/Banner";
 import DataTable from "@lily/DataTable";
 import DataTableHead from "@lily/DataTableHead";
@@ -91,28 +92,30 @@ export default function DashboardPage() {
             </div>
 
             <h2>Task List</h2>
-            <DataTable label="Sprint tasks">
-                <DataTableHead>
-                    <DataTableRow>
-                        <th>Title</th>
-                        <th>Assignee</th>
-                        <th>Status</th>
-                        <th>Priority</th>
-                    </DataTableRow>
-                </DataTableHead>
-                <DataTableBody>
-                    {tasks.map((task) => (
-                        <DataTableRow key={task.id}>
-                            <DataTableTD>{task.title}</DataTableTD>
-                            <DataTableTD>{task.assignee}</DataTableTD>
-                            <DataTableTD>
-                                <Badge type={statusBadgeType(task.status)}>{task.status}</Badge>
-                            </DataTableTD>
-                            <DataTableTD>{task.priority}</DataTableTD>
+            <HorizontalScroller label="Sprint tasks">
+                <DataTable label="Sprint tasks">
+                    <DataTableHead>
+                        <DataTableRow>
+                            <th>Title</th>
+                            <th>Assignee</th>
+                            <th>Status</th>
+                            <th>Priority</th>
                         </DataTableRow>
-                    ))}
-                </DataTableBody>
-            </DataTable>
+                    </DataTableHead>
+                    <DataTableBody>
+                        {tasks.map((task) => (
+                            <DataTableRow key={task.id}>
+                                <DataTableTD>{task.title}</DataTableTD>
+                                <DataTableTD>{task.assignee}</DataTableTD>
+                                <DataTableTD>
+                                    <Badge type={statusBadgeType(task.status)}>{task.status}</Badge>
+                                </DataTableTD>
+                                <DataTableTD>{task.priority}</DataTableTD>
+                            </DataTableRow>
+                        ))}
+                    </DataTableBody>
+                </DataTable>
+            </HorizontalScroller>
         </main>
     );
 }

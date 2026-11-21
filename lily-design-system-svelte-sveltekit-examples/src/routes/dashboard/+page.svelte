@@ -3,6 +3,7 @@
     import Badge from "#lib/components/Badge/Badge.svelte";
     import Banner from "#lib/components/Banner/Banner.svelte";
     import Progress from "#lib/components/Progress/Progress.svelte";
+    import HorizontalScroller from "#lib/components/HorizontalScroller/HorizontalScroller.svelte";
     import ProgressCircle from "#lib/components/ProgressCircle/ProgressCircle.svelte";
     import Meter from "#lib/components/Meter/Meter.svelte";
     import DataTable from "#lib/components/DataTable/DataTable.svelte";
@@ -99,39 +100,41 @@
 
     <h2>Patient Records</h2>
 
-    <DataTable
-        label="Patient records"
-        caption="Recent patient activity"
-    >
-        <DataTableHead>
-            <DataTableRow>
-                <th>Name</th>
-                <th>Age</th>
-                <th>Status</th>
-                <th>Ward</th>
-            </DataTableRow>
-        </DataTableHead>
-        <DataTableBody>
-            {#each patients as patient}
+    <HorizontalScroller label="Patient records">
+        <DataTable
+            label="Patient records"
+            caption="Recent patient activity"
+        >
+            <DataTableHead>
                 <DataTableRow>
-                    <DataTableTD>{patient.name}</DataTableTD>
-                    <DataTableTD>{patient.age}</DataTableTD>
-                    <DataTableTD>
-                        <Badge
-                            type={patient.status === "Active"
-                                ? "success"
-                                : patient.status === "Pending"
-                                  ? "warning"
-                                  : "default"}
-                        >
-                            {patient.status}
-                        </Badge>
-                    </DataTableTD>
-                    <DataTableTD>{patient.ward}</DataTableTD>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Status</th>
+                    <th>Ward</th>
                 </DataTableRow>
-            {/each}
-        </DataTableBody>
-    </DataTable>
+            </DataTableHead>
+            <DataTableBody>
+                {#each patients as patient}
+                    <DataTableRow>
+                        <DataTableTD>{patient.name}</DataTableTD>
+                        <DataTableTD>{patient.age}</DataTableTD>
+                        <DataTableTD>
+                            <Badge
+                                type={patient.status === "Active"
+                                    ? "success"
+                                    : patient.status === "Pending"
+                                      ? "warning"
+                                      : "default"}
+                            >
+                                {patient.status}
+                            </Badge>
+                        </DataTableTD>
+                        <DataTableTD>{patient.ward}</DataTableTD>
+                    </DataTableRow>
+                {/each}
+            </DataTableBody>
+        </DataTable>
+    </HorizontalScroller>
 
     <Separator />
 

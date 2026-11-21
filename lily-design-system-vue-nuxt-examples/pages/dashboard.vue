@@ -90,28 +90,30 @@ function statusBadgeType(status: string): string {
         </div>
 
         <h2>Task List</h2>
-        <DataTable label="Sprint tasks">
-            <DataTableHead>
-                <DataTableRow>
-                    <th>Title</th>
-                    <th>Assignee</th>
-                    <th>Status</th>
-                    <th>Priority</th>
-                </DataTableRow>
-            </DataTableHead>
-            <DataTableBody>
-                <DataTableRow
-                    v-for="task in tasks"
-                    :key="task.id"
-                >
-                    <DataTableTD>{{ task.title }}</DataTableTD>
-                    <DataTableTD>{{ task.assignee }}</DataTableTD>
-                    <DataTableTD>
-                        <Badge :type="statusBadgeType(task.status)">{{ task.status }}</Badge>
-                    </DataTableTD>
-                    <DataTableTD>{{ task.priority }}</DataTableTD>
-                </DataTableRow>
-            </DataTableBody>
-        </DataTable>
+        <HorizontalScroller label="Sprint tasks">
+            <DataTable label="Sprint tasks">
+                <DataTableHead>
+                    <DataTableRow>
+                        <th>Title</th>
+                        <th>Assignee</th>
+                        <th>Status</th>
+                        <th>Priority</th>
+                    </DataTableRow>
+                </DataTableHead>
+                <DataTableBody>
+                    <DataTableRow
+                        v-for="task in tasks"
+                        :key="task.id"
+                    >
+                        <DataTableTD>{{ task.title }}</DataTableTD>
+                        <DataTableTD>{{ task.assignee }}</DataTableTD>
+                        <DataTableTD>
+                            <Badge :type="statusBadgeType(task.status)">{{ task.status }}</Badge>
+                        </DataTableTD>
+                        <DataTableTD>{{ task.priority }}</DataTableTD>
+                    </DataTableRow>
+                </DataTableBody>
+            </DataTable>
+        </HorizontalScroller>
     </main>
 </template>
