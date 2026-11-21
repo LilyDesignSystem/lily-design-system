@@ -4246,9 +4246,13 @@ current design system. No person or organisation is named. Order: T1 first (a tr
       _(Found 2026-11-21: the site's cookie policy first said "no cookies" and was wrong; the policy is corrected and
       `tests/policy-pages.spec.ts` now checks the one cookie set. The other seven catalogs have not been checked.)_
       Verify: a Playwright check in each helper that a first visit sets no cookie and a choice sets only the documented one.
-- [ ] **P41-T6 A "for public-sector health" landing page.** Outcomes first, with the measured figures (coverage, test counts,
+- [x] **P41-T6 A "for public-sector health" landing page.** Outcomes first, with the measured figures (coverage, test counts,
       sweeps), a side-by-side comparison, an honest list of what is not yet proved, and an adopter slot left empty until real.
       Verify: page with a Playwright spec; every figure links to its generator.
+      _(2026-11-21: built at `/en-001/public-sector-health/`: three outcomes, a figures table where each number links to its source,
+      the clinical components, nine working examples, a comparison that says where an official system is stronger, six
+      unproved items, a try-it path, and an adopter slot left empty. The figures are typed into the page from the generated
+      reports, not generated: a later task could generate them, so they cannot go stale.)_
 
 ---
 
