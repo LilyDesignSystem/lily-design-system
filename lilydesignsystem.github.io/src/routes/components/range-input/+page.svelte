@@ -103,5 +103,9 @@
       <li><code>disabled</code>: boolean (default: false) -- whether the input is disabled</li>
       <li><code>...restProps</code>: spread onto the <code>&lt;input&gt;</code> element</li>
     </ul>
+    <h3>Recipes</h3>
+    <ul>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/slider.html">Field: slider</a></li>
+    </ul>
 </section>
 <!-- END generated: canonical contract -->

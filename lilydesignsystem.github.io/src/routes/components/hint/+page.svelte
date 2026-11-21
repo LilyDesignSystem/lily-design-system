@@ -94,5 +94,19 @@
       <li><code>id</code>: string (default: undefined) -- ID for linking via <code>aria-describedby</code> on the associated form control</li>
       <li><code>children</code>: slot (required) -- hint text content</li>
     </ul>
+    <h3>Recipes</h3>
+    <ul>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/checkbox-group/select-all-that-apply.html">Checkbox group: select all that apply</a></li>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/combobox.html">Field: combobox</a></li>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/disabled.html">Field: disabled</a></li>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/input-group.html">Field: input group</a></li>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/number-field.html">Field: number</a></li>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/required.html">Field: required</a></li>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/slider.html">Field: slider</a></li>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/switch.html">Field: switch</a></li>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/textarea.html">Field: text area</a></li>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/with-error.html">Field: with an error</a></li>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/with-validity.html">Field: native validity</a></li>
+    </ul>
 </section>
 <!-- END generated: canonical contract -->

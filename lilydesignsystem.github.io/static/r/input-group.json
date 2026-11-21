@@ -45,5 +45,12 @@
   },
   "docs": "https://lilydesignsystem.com/components/input-group/",
   "markdown": "https://lilydesignsystem.com/components/input-group.md",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/input-group/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/input-group/AGENTS.md",
+  "recipes": [
+    {
+      "title": "Field: input group",
+      "path": "recipes/field/input-group.html",
+      "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/input-group.html"
+    }
+  ]
 }

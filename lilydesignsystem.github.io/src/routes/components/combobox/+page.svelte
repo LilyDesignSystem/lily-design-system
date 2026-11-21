@@ -113,5 +113,9 @@
       <li><code>children</code>: slot (required) -- <code>role="option"</code> elements rendered inside the listbox dropdown.</li>
       <li><code>...restProps</code>: unknown -- additional attributes spread onto the wrapper <code>&lt;div&gt;</code>.</li>
     </ul>
+    <h3>Recipes</h3>
+    <ul>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/combobox.html">Field: combobox</a></li>
+    </ul>
 </section>
 <!-- END generated: canonical contract -->

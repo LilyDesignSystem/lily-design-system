@@ -97,5 +97,10 @@
       <li><code>children</code>: slot (required) -- radio button elements to render inside the fieldset</li>
       <li><code>...restProps</code>: unknown -- additional attributes spread onto the <code>&lt;fieldset&gt;</code> element</li>
     </ul>
+    <h3>Recipes</h3>
+    <ul>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/form/complete-form.html">Form: a complete form</a></li>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/radio-group/one-choice.html">Radio group: one choice</a></li>
+    </ul>
 </section>
 <!-- END generated: canonical contract -->

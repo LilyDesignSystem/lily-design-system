@@ -96,5 +96,14 @@
       <li><code>disabled</code>: boolean (default: <code>false</code>) -- whether the field is disabled</li>
       <li><code>...restProps</code>: any additional HTML attributes spread onto the input</li>
     </ul>
+    <h3>Recipes</h3>
+    <ul>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/autocomplete.html">Field: browser autocomplete</a></li>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/disabled.html">Field: disabled</a></li>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/required.html">Field: required</a></li>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/with-error.html">Field: with an error</a></li>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/with-validity.html">Field: native validity</a></li>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/form/complete-form.html">Form: a complete form</a></li>
+    </ul>
 </section>
 <!-- END generated: canonical contract -->

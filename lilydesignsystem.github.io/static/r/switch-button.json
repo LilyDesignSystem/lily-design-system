@@ -40,5 +40,12 @@
   },
   "docs": "https://lilydesignsystem.com/components/switch-button/",
   "markdown": "https://lilydesignsystem.com/components/switch-button.md",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/switch-button/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/switch-button/AGENTS.md",
+  "recipes": [
+    {
+      "title": "Field: switch",
+      "path": "recipes/field/switch.html",
+      "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/switch.html"
+    }
+  ]
 }

@@ -99,5 +99,9 @@
       <li><code>children</code>: slot -- the input</li>
       <li><code>...restProps</code>: any additional HTML attributes</li>
     </ul>
+    <h3>Recipes</h3>
+    <ul>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/input-group.html">Field: input group</a></li>
+    </ul>
 </section>
 <!-- END generated: canonical contract -->

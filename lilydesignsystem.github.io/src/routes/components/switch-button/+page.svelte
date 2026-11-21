@@ -98,5 +98,9 @@
       <li><code>disabled</code>: boolean (default: false) -- whether the switch is disabled</li>
       <li><code>...restProps</code>: spread onto the <code>&lt;button&gt;</code> element</li>
     </ul>
+    <h3>Recipes</h3>
+    <ul>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/switch.html">Field: switch</a></li>
+    </ul>
 </section>
 <!-- END generated: canonical contract -->

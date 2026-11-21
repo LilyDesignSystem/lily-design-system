@@ -93,6 +93,39 @@ def md_section(md):
     return "\n".join(out)
 
 
+def recipes_by_component():
+    """{slug: [{title, path, url}]}: each recipe in recipes/*/*.html, listed under every component its front matter names
+    (tasks.md P22-T27). bin/check-recipes keeps the front matter sound; a missing recipes/ means none."""
+    out = {}
+    root = os.path.join(TOP, "recipes")
+    if not os.path.isdir(root):
+        return out
+    for folder in sorted(os.listdir(root)):
+        base = os.path.join(root, folder)
+        if not os.path.isdir(base):
+            continue
+        for name in sorted(os.listdir(base)):
+            if not name.endswith(".html"):
+                continue
+            text = open(os.path.join(base, name)).read()
+            m = re.match(r"---\n(.*?)\n---\n", text, re.S)
+            if not m:
+                continue
+            front = re.sub(r"\[\s*([^\]]*?)\s*\]", lambda x: "[" + " ".join(x.group(1).split()) + "]", m.group(1))
+            title = re.search(r'^title:\s*"?(.*?)"?\s*$', front, re.M)
+            comps = re.search(r"^components:\s*\[(.*?)\]", front, re.M | re.S)
+            if not title or not comps:
+                continue
+            path = f"recipes/{folder}/{name}"
+            entry = {"title": title.group(1), "path": path, "url": f"{REPO_URL}/{path}"}
+            for slug in [c.strip() for c in comps.group(1).split(",") if c.strip()]:
+                out.setdefault(slug, []).append(entry)
+    return out
+
+
+RECIPES = recipes_by_component()
+
+
 def contract_html(slug):
     src = os.path.join(TOP, "components", slug, "AGENTS.md")
     text = open(src).read()
@@ -106,6 +139,9 @@ def contract_html(slug):
         if name in sections and sections[name].strip():
             blocks.append(f"    <h3>{name}</h3>\n" +
                           "\n".join("    " + l for l in md_section(sections[name]).splitlines()))
+    if RECIPES.get(slug):
+        items = "\n".join(f'      <li><a href="{r["url"]}">{html.escape(r["title"])}</a></li>' for r in RECIPES[slug])
+        blocks.append(f"    <h3>Recipes</h3>\n    <ul>\n{items}\n    </ul>")
     inner = "\n".join(blocks)
     return f"""{BEGIN}
 <section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
@@ -179,6 +215,8 @@ def manifest(slug, name, description, categories):
     }
     if native:  # P16-T4: only the audited overlay and popup components carry one
         m["nativePlatform"] = native
+    if RECIPES.get(slug):  # P22-T27: only the components a recipe uses carry them
+        m["recipes"] = RECIPES[slug]
     return m
 
 

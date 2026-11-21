@@ -40,5 +40,12 @@
   },
   "docs": "https://lilydesignsystem.com/components/error-summary/",
   "markdown": "https://lilydesignsystem.com/components/error-summary.md",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/error-summary/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/error-summary/AGENTS.md",
+  "recipes": [
+    {
+      "title": "Form: a complete form",
+      "path": "recipes/form/complete-form.html",
+      "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/form/complete-form.html"
+    }
+  ]
 }

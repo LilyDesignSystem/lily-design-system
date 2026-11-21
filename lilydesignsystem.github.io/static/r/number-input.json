@@ -43,5 +43,17 @@
   },
   "docs": "https://lilydesignsystem.com/components/number-input/",
   "markdown": "https://lilydesignsystem.com/components/number-input.md",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/number-input/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/number-input/AGENTS.md",
+  "recipes": [
+    {
+      "title": "Field: input group",
+      "path": "recipes/field/input-group.html",
+      "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/input-group.html"
+    },
+    {
+      "title": "Field: number",
+      "path": "recipes/field/number-field.html",
+      "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/number-field.html"
+    }
+  ]
 }

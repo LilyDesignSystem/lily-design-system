@@ -44,5 +44,17 @@
   },
   "docs": "https://lilydesignsystem.com/components/checkbox-input/",
   "markdown": "https://lilydesignsystem.com/components/checkbox-input.md",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/checkbox-input/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/checkbox-input/AGENTS.md",
+  "recipes": [
+    {
+      "title": "Checkbox group: select all that apply",
+      "path": "recipes/checkbox-group/select-all-that-apply.html",
+      "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/checkbox-group/select-all-that-apply.html"
+    },
+    {
+      "title": "Field: checkbox",
+      "path": "recipes/field/checkbox.html",
+      "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/checkbox.html"
+    }
+  ]
 }

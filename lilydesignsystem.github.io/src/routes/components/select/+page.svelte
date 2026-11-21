@@ -103,5 +103,9 @@
       <li><code>children</code>: slot (required) -- <code>&lt;option&gt;</code> elements to render inside the select</li>
       <li><code>...restProps</code>: unknown -- additional attributes spread onto the select element</li>
     </ul>
+    <h3>Recipes</h3>
+    <ul>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/select.html">Field: select</a></li>
+    </ul>
 </section>
 <!-- END generated: canonical contract -->

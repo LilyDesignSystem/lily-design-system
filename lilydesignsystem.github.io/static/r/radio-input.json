@@ -43,5 +43,17 @@
   },
   "docs": "https://lilydesignsystem.com/components/radio-input/",
   "markdown": "https://lilydesignsystem.com/components/radio-input.md",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/radio-input/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/radio-input/AGENTS.md",
+  "recipes": [
+    {
+      "title": "Form: a complete form",
+      "path": "recipes/form/complete-form.html",
+      "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/form/complete-form.html"
+    },
+    {
+      "title": "Radio group: one choice",
+      "path": "recipes/radio-group/one-choice.html",
+      "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/radio-group/one-choice.html"
+    }
+  ]
 }

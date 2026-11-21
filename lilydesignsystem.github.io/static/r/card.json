@@ -43,5 +43,12 @@
   },
   "docs": "https://lilydesignsystem.com/components/card/",
   "markdown": "https://lilydesignsystem.com/components/card.md",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/card/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/card/AGENTS.md",
+  "recipes": [
+    {
+      "title": "Card: the whole card as one link",
+      "path": "recipes/card/whole-card-link.html",
+      "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/card/whole-card-link.html"
+    }
+  ]
 }

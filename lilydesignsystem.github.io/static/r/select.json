@@ -52,5 +52,12 @@
     "decision": "native",
     "uses": "native <select>",
     "could_use": "appearance: base-select in theme CSS under @supports"
-  }
+  },
+  "recipes": [
+    {
+      "title": "Field: select",
+      "path": "recipes/field/select.html",
+      "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/select.html"
+    }
+  ]
 }

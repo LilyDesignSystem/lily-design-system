@@ -96,5 +96,9 @@
       <li><code>children</code>: slot (required) -- form content to render inside</li>
       <li><code>...restProps</code>: unknown -- additional attributes spread onto the <code>&lt;form&gt;</code></li>
     </ul>
+    <h3>Recipes</h3>
+    <ul>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/form/complete-form.html">Form: a complete form</a></li>
+    </ul>
 </section>
 <!-- END generated: canonical contract -->

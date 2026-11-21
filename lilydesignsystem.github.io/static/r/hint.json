@@ -36,5 +36,62 @@
   },
   "docs": "https://lilydesignsystem.com/components/hint/",
   "markdown": "https://lilydesignsystem.com/components/hint.md",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/hint/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/hint/AGENTS.md",
+  "recipes": [
+    {
+      "title": "Checkbox group: select all that apply",
+      "path": "recipes/checkbox-group/select-all-that-apply.html",
+      "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/checkbox-group/select-all-that-apply.html"
+    },
+    {
+      "title": "Field: combobox",
+      "path": "recipes/field/combobox.html",
+      "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/combobox.html"
+    },
+    {
+      "title": "Field: disabled",
+      "path": "recipes/field/disabled.html",
+      "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/disabled.html"
+    },
+    {
+      "title": "Field: input group",
+      "path": "recipes/field/input-group.html",
+      "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/input-group.html"
+    },
+    {
+      "title": "Field: number",
+      "path": "recipes/field/number-field.html",
+      "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/number-field.html"
+    },
+    {
+      "title": "Field: required",
+      "path": "recipes/field/required.html",
+      "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/required.html"
+    },
+    {
+      "title": "Field: slider",
+      "path": "recipes/field/slider.html",
+      "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/slider.html"
+    },
+    {
+      "title": "Field: switch",
+      "path": "recipes/field/switch.html",
+      "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/switch.html"
+    },
+    {
+      "title": "Field: text area",
+      "path": "recipes/field/textarea.html",
+      "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/textarea.html"
+    },
+    {
+      "title": "Field: with an error",
+      "path": "recipes/field/with-error.html",
+      "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/with-error.html"
+    },
+    {
+      "title": "Field: native validity",
+      "path": "recipes/field/with-validity.html",
+      "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/with-validity.html"
+    }
+  ]
 }

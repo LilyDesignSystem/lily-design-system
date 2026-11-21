@@ -21,6 +21,8 @@ highlights.
   components, tags). The first 16 are the "Field with X" patterns, from required and with-error to a complete form with
   an error summary. `bin/check-recipes` (in `bin/test`) checks that each lists real slugs it uses, parses, gives every
   control an accessible name, refers only to ids that exist, and never describes a control with a hidden element.
+- Each component's site page lists the recipes that use it, in its canonical-contract section, and its
+  `/r/{slug}.json` manifest gains a `recipes` array (only where a recipe uses the component).
 
 ## Theme order and names in `picker-bar` (2026-11-20, unreleased)
 
