@@ -14,9 +14,11 @@ import { linkSettled, withViewTransition } from "./view-transition.js";
 import {
     DEFAULT_SYSTEM_THEMES,
     SYSTEM_THEME,
+    pageLanguage,
     prefersDarkScheme,
     readDocumentThemeCookie,
     resolveTheme,
+    sortThemes as sortThemeSlugs,
     themeChoices,
     watchColorScheme,
     writeDocumentThemeCookie,
@@ -102,6 +104,11 @@ export type Props = Omit<
     target?: HTMLElement | null;
     /** Optional pretty labels per slug. */
     themeLabels?: Record<string, string>;
+    /**
+     * List the themes alphabetically by the name shown, in the page's language (`<html lang>`). Default true. Pass `false` to
+     * keep the order of `themes`, for an editorial order. "Follow this device" is first either way.
+     */
+    sortThemes?: boolean;
     /** Replaces the default half-circle icon inside the button. */
     children?: (args: ChildArgs) => JSX.Element;
     /**
@@ -288,6 +295,7 @@ export function ThemePicker(props: Props): JSX.Element {
         "extension",
         "target",
         "themeLabels",
+        "sortThemes",
         "children",
         "onChange",
         "class",
@@ -346,8 +354,30 @@ export function ThemePicker(props: Props): JSX.Element {
     // Set when a close should hand focus back to the button.
     let refocus = false;
 
-    // The choices offered: "system" first when it has a label, then the themes.
-    const options = () => themeChoices(props.themes, props.systemLabel);
+    // The page's language, read once the component is on the page (effects run only on the client, so a server render and
+    // the first client render agree) and kept current, so a language change sorts the names again.
+    const [language, setLanguage] = createSignal<string | undefined>(undefined);
+    createEffect(
+        () => true,
+        () => {
+            setLanguage(pageLanguage());
+            const observer = new MutationObserver(() => setLanguage(pageLanguage()));
+            observer.observe(document.documentElement, {
+                attributes: true,
+                attributeFilter: ["lang"],
+            });
+            return () => observer.disconnect();
+        },
+    );
+
+    // The choices offered: "system" first when it has a label, then the themes in alphabetical order of the name shown.
+    const options = () =>
+        themeChoices(
+            (props.sortThemes ?? true)
+                ? sortThemeSlugs(props.themes, labelFor, language())
+                : props.themes,
+            props.systemLabel,
+        );
 
     // The device's colour scheme, kept current while "system" is chosen so the page follows the device.
     const [prefersDark, setPrefersDark] = createSignal(false);
