@@ -41,4 +41,11 @@ describe("CurrencyInput", () => {
         render(CurrencyInput, { props: { label: "Test", currencyCode: "EUR", disabled: true } });
         expect((screen.getByLabelText("Test") as HTMLInputElement).disabled).toBe(true);
     });
+
+    test("clearing the field leaves no amount, not zero", async () => {
+        render(CurrencyInput, { props: { label: "Amount", currencyCode: "EUR", value: 5 } });
+        const el = screen.getByRole("textbox") as HTMLInputElement;
+        await fireEvent.input(el, { target: { value: "  " } });
+        expect(el.value).toBe("");
+    });
 });

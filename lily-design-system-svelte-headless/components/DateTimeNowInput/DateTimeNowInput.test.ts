@@ -45,4 +45,29 @@ describe("DateTimeNowInput", () => {
             "09:05",
         );
     });
+
+    test("typing a date and a time writes them back to the bound values", async () => {
+        const bound = { dateValue: "", timeValue: "" };
+        render(DateTimeNowInput, {
+            props: {
+                label: "Event time",
+                ...labels,
+                get dateValue() {
+                    return bound.dateValue;
+                },
+                set dateValue(v: string) {
+                    bound.dateValue = v;
+                },
+                get timeValue() {
+                    return bound.timeValue;
+                },
+                set timeValue(v: string) {
+                    bound.timeValue = v;
+                },
+            },
+        });
+        await fireEvent.input(screen.getByLabelText("Fecha"), { target: { value: "2026-11-21" } });
+        await fireEvent.input(screen.getByLabelText("Hora"), { target: { value: "09:30" } });
+        expect(bound).toEqual({ dateValue: "2026-11-21", timeValue: "09:30" });
+    });
 });

@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/svelte";
 import { describe, expect, test } from "vitest";
+import { createRawSnippet } from "svelte";
 
 import Subject from "./InfoState.svelte";
 
@@ -140,5 +141,23 @@ describe("InfoState", () => {
         const root = container.querySelector("section") as HTMLElement;
         expect(root.className).toContain("info-state");
         expect(root.className).toContain("extra");
+    });
+
+    test("renders the illustration and action snippets in their own parts", () => {
+        const { container } = render(Subject, {
+            props: {
+                title: "No results",
+                illustration: createRawSnippet(() => ({
+                    render: () => '<svg aria-hidden="true"></svg>',
+                })),
+                action: createRawSnippet(() => ({
+                    render: () => "<button>Clear filters</button>",
+                })),
+            },
+        });
+        expect(container.querySelector(".info-state-illustration svg")).toBeTruthy();
+        expect(container.querySelector(".info-state-action button")?.textContent).toBe(
+            "Clear filters",
+        );
     });
 });

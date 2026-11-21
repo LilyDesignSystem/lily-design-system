@@ -100,4 +100,16 @@ describe("SectionHeading", () => {
         expect(root.className).toContain("section-heading");
         expect(root.className).toContain("extra");
     });
+
+    test("renders heading at levels 4 and 5", () => {
+        for (const level of [4, 5] as const) {
+            const { container, unmount } = render(Subject, {
+                props: { heading: `Level ${level}`, level },
+            });
+            expect(container.querySelector(`h${level}.section-heading-heading`)?.textContent).toBe(
+                `Level ${level}`,
+            );
+            unmount();
+        }
+    });
 });
