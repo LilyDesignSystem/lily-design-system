@@ -288,5 +288,23 @@
     "date": "日期",
     "time": "时间",
     "now": "现在"
+  },
+  "pickers": {
+    "link": "地点",
+    "search": "搜索",
+    "searchInput": "搜索",
+    "searchSubmit": "搜索",
+    "theme": "主题",
+    "locale": "语言",
+    "timeZone": "时区",
+    "textSize": "文字大小",
+    "motion": "动效",
+    "share": "分享",
+    "menu": "菜单",
+    "settings": "设置",
+    "copyLink": "复制链接",
+    "linkCopied": "链接已复制",
+    "copyFailed": "无法复制链接",
+    "followDevice": "跟随设备"
   }
 }

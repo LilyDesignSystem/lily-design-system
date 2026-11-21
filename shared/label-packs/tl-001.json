@@ -244,5 +244,23 @@
     "date": "Petsa",
     "time": "Oras",
     "now": "Ngayon"
+  },
+  "pickers": {
+    "link": "Mga lugar",
+    "search": "Maghanap",
+    "searchInput": "Maghanap",
+    "searchSubmit": "Maghanap",
+    "theme": "Mga tema",
+    "locale": "Mga wika",
+    "timeZone": "Mga time zone",
+    "textSize": "Mga laki ng teksto",
+    "motion": "Galaw",
+    "share": "Ibahagi",
+    "menu": "Menu",
+    "settings": "Mga setting",
+    "copyLink": "Kopyahin ang link",
+    "linkCopied": "Nakopya ang link",
+    "copyFailed": "Hindi makopya ang link",
+    "followDevice": "Sundan ang device"
   }
 }

@@ -288,5 +288,23 @@
     "date": "Dáta",
     "time": "Am",
     "now": "Anois"
+  },
+  "pickers": {
+    "link": "Áiteanna",
+    "search": "Cuardaigh",
+    "searchInput": "Cuardaigh",
+    "searchSubmit": "Cuardaigh",
+    "theme": "Téamaí",
+    "locale": "Teangacha",
+    "timeZone": "Criosanna ama",
+    "textSize": "Méideanna téacs",
+    "motion": "Gluaiseacht",
+    "share": "Comhroinn",
+    "menu": "Roghchlár",
+    "settings": "Socruithe",
+    "copyLink": "Cóipeáil an nasc",
+    "linkCopied": "Cóipeáladh an nasc",
+    "copyFailed": "Níorbh fhéidir an nasc a chóipeáil",
+    "followDevice": "Lean an gléas"
   }
 }

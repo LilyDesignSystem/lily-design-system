@@ -244,5 +244,23 @@
     "date": "תאריך",
     "time": "שעה",
     "now": "עכשיו"
+  },
+  "pickers": {
+    "link": "מקומות",
+    "search": "חיפוש",
+    "searchInput": "חיפוש",
+    "searchSubmit": "חיפוש",
+    "theme": "ערכות נושא",
+    "locale": "שפות",
+    "timeZone": "אזורי זמן",
+    "textSize": "גדלי טקסט",
+    "motion": "תנועה",
+    "share": "שיתוף",
+    "menu": "תפריט",
+    "settings": "הגדרות",
+    "copyLink": "העתקת הקישור",
+    "linkCopied": "הקישור הועתק",
+    "copyFailed": "לא ניתן היה להעתיק את הקישור",
+    "followDevice": "התאמה להתקן"
   }
 }

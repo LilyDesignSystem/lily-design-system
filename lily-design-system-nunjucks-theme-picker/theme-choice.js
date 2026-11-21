@@ -40,16 +40,17 @@ export function resolveTheme(
     return prefersDark ? systemThemes.dark : systemThemes.light;
 }
 
-/** The language of the page (`<html lang>`), else English: the language the theme names are sorted in. */
-export function pageLanguage()         {
-    return (typeof document !== "undefined" && document.documentElement.lang) || "en";
+/** The language of the page (`<html lang>`), or undefined when it has none, so a collator uses the platform's own default. */
+export function pageLanguage()                     {
+    return (typeof document !== "undefined" && document.documentElement.lang) || undefined;
 }
 
 /**
  * The themes in alphabetical order of the name the reader sees (`labelOf`), in one list: not by slug, and not grouped by kind.
- * Compared with `Intl.Collator` for `locale` (else English), ignoring case and accents and reading numbers as numbers, so
- * "Theme 2" comes before "Theme 10". Names that compare equal are ordered by slug, so the order is the same on every render.
- * A `locale` the platform does not understand falls back to English. Returns a new array.
+ * Compared with `Intl.Collator` for `locale`, ignoring case and accents and reading numbers as numbers, so "Theme 2" comes
+ * before "Theme 10". Names that compare equal are ordered by slug, so the order is the same on every render. Without a
+ * `locale`, or with one the platform does not understand, the platform's own default language is used: no language is
+ * assumed. Returns a new array.
  */
 export function sortThemes(
     themes                   ,
@@ -59,9 +60,9 @@ export function sortThemes(
     const options = { sensitivity: "base", numeric: true }         ;
     let collator               ;
     try {
-        collator = new Intl.Collator(locale || "en", options);
+        collator = new Intl.Collator(locale || undefined, options);
     } catch {
-        collator = new Intl.Collator("en", options);
+        collator = new Intl.Collator(undefined, options);
     }
     return [...themes].sort(
         (a, b) => collator.compare(labelOf(a), labelOf(b)) || (a < b ? -1 : a > b ? 1 : 0),

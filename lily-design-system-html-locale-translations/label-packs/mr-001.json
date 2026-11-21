@@ -288,5 +288,23 @@
     "date": "दिनांक",
     "time": "वेळ",
     "now": "आता"
+  },
+  "pickers": {
+    "link": "ठिकाणे",
+    "search": "शोधा",
+    "searchInput": "शोधा",
+    "searchSubmit": "शोधा",
+    "theme": "थीम",
+    "locale": "भाषा",
+    "timeZone": "वेळ क्षेत्रे",
+    "textSize": "मजकुराचे आकार",
+    "motion": "हालचाल",
+    "share": "शेअर करा",
+    "menu": "मेनू",
+    "settings": "सेटिंग्ज",
+    "copyLink": "लिंक कॉपी करा",
+    "linkCopied": "लिंक कॉपी केली",
+    "copyFailed": "लिंक कॉपी करता आली नाही",
+    "followDevice": "डिव्हाइसनुसार"
   }
 }

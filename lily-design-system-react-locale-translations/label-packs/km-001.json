@@ -244,5 +244,23 @@
     "date": "កាលបរិច្ឆេទ",
     "time": "ម៉ោង",
     "now": "ឥឡូវនេះ"
+  },
+  "pickers": {
+    "link": "ទីកន្លែង",
+    "search": "ស្វែងរក",
+    "searchInput": "ស្វែងរក",
+    "searchSubmit": "ស្វែងរក",
+    "theme": "ធីម",
+    "locale": "ភាសា",
+    "timeZone": "ល្វែងម៉ោង",
+    "textSize": "ទំហំអក្សរ",
+    "motion": "ចលនា",
+    "share": "ចែករំលែក",
+    "menu": "ម៉ឺនុយ",
+    "settings": "ការកំណត់",
+    "copyLink": "ចម្លងតំណ",
+    "linkCopied": "បានចម្លងតំណ",
+    "copyFailed": "មិនអាចចម្លងតំណបានទេ",
+    "followDevice": "តាមឧបករណ៍"
   }
 }

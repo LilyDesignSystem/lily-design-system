@@ -62,6 +62,39 @@ public static class LocaleTranslations
         return new DateTimeNowInputLabels(Read("date"), Read("time"), Read("now"));
     }
 
+    /// <summary>The names of the page-header pickers and their messages, as a pack holds them.</summary>
+    public static IReadOnlyList<string> PickerLabelKeys { get; } = new[]
+    {
+        "link", "search", "searchInput", "searchSubmit", "theme", "locale", "timeZone", "textSize",
+        "motion", "share", "menu", "settings", "copyLink", "linkCopied", "copyFailed", "followDevice",
+    };
+
+    /// <summary>
+    /// Every picker label a pack holds, by key (<c>link</c>, <c>theme</c>, <c>locale</c>, <c>textSize</c>, <c>share</c>, …),
+    /// for example <c>Places</c>, <c>Themes</c>, <c>Locales</c>, <c>Text Sizes</c>, <c>Share</c> in English. A key the pack
+    /// lacks or leaves empty is omitted, so that control stays unnamed rather than showing another language's text. The
+    /// components ship no default of their own: this is the opt-in way to get one.
+    /// </summary>
+    public static IReadOnlyDictionary<string, string> PickerLabels(string locale)
+    {
+        var result = new Dictionary<string, string>();
+        if (Parse(locale)["pickers"] is JsonObject section)
+            foreach (var key in PickerLabelKeys)
+                if ((string?)section[key] is { Length: > 0 } text) result[key] = text;
+        return result;
+    }
+
+    /// <summary>
+    /// The share picker's three messages for its <c>CopyLabel</c>, <c>CopiedLabel</c> and <c>CopyFailedLabel</c>
+    /// parameters. A message the pack lacks is null.
+    /// </summary>
+    public static ShareLabels ShareLabels(string locale)
+    {
+        var labels = PickerLabels(locale);
+        string? Read(string key) => labels.TryGetValue(key, out var text) ? text : null;
+        return new ShareLabels(Read("copyLink"), Read("linkCopied"), Read("copyFailed"));
+    }
+
     // -----------------------------------------------------------------
     // Time zone names (Unicode CLDR). One pack per label-pack locale; see zone-names in index.md.
     // -----------------------------------------------------------------
@@ -123,3 +156,6 @@ public static class LocaleTranslations
 
 /// <summary>The date-time-now-input's names from a pack; see <see cref="LocaleTranslations.DateTimeNowInputLabels"/>.</summary>
 public sealed record DateTimeNowInputLabels(string? Date, string? Time, string? Now);
+
+/// <summary>The share picker's messages from a pack; see <see cref="LocaleTranslations.ShareLabels"/>.</summary>
+public sealed record ShareLabels(string? Copy, string? Copied, string? CopyFailed);

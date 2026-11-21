@@ -244,5 +244,23 @@
     "date": "Date",
     "time": "Time",
     "now": "Nou"
+  },
+  "pickers": {
+    "link": "Places",
+    "search": "Seek",
+    "searchInput": "Seek",
+    "searchSubmit": "Seek",
+    "theme": "Themes",
+    "locale": "Leids",
+    "timeZone": "Time zones",
+    "textSize": "Text sizes",
+    "motion": "Muivement",
+    "share": "Shaire",
+    "menu": "Menu",
+    "settings": "Settins",
+    "copyLink": "Copy link",
+    "linkCopied": "Link copied",
+    "copyFailed": "Couldnae copy the link",
+    "followDevice": "Follae the device"
   }
 }

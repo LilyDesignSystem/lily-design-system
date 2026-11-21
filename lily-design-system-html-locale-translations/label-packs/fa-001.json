@@ -288,5 +288,23 @@
     "date": "تاریخ",
     "time": "زمان",
     "now": "اکنون"
+  },
+  "pickers": {
+    "link": "مکان‌ها",
+    "search": "جستجو",
+    "searchInput": "جستجو",
+    "searchSubmit": "جستجو",
+    "theme": "پوسته‌ها",
+    "locale": "زبان‌ها",
+    "timeZone": "منطقه‌های زمانی",
+    "textSize": "اندازه‌های متن",
+    "motion": "حرکت",
+    "share": "هم‌رسانی",
+    "menu": "منو",
+    "settings": "تنظیمات",
+    "copyLink": "کپی پیوند",
+    "linkCopied": "پیوند کپی شد",
+    "copyFailed": "کپی پیوند ممکن نشد",
+    "followDevice": "پیروی از دستگاه"
   }
 }

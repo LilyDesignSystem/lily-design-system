@@ -288,5 +288,23 @@
     "date": "Kuupäev",
     "time": "Kellaaeg",
     "now": "Praegu"
+  },
+  "pickers": {
+    "link": "Kohad",
+    "search": "Otsing",
+    "searchInput": "Otsing",
+    "searchSubmit": "Otsing",
+    "theme": "Teemad",
+    "locale": "Keeled",
+    "timeZone": "Ajavööndid",
+    "textSize": "Teksti suurused",
+    "motion": "Liikumine",
+    "share": "Jaga",
+    "menu": "Menüü",
+    "settings": "Seaded",
+    "copyLink": "Kopeeri link",
+    "linkCopied": "Link kopeeritud",
+    "copyFailed": "Linki ei saanud kopeerida",
+    "followDevice": "Järgi seadet"
   }
 }

@@ -244,5 +244,23 @@
     "date": "Tarehe",
     "time": "Saa",
     "now": "Sasa"
+  },
+  "pickers": {
+    "link": "Maeneo",
+    "search": "Tafuta",
+    "searchInput": "Tafuta",
+    "searchSubmit": "Tafuta",
+    "theme": "Mandhari",
+    "locale": "Lugha",
+    "timeZone": "Maeneo ya saa",
+    "textSize": "Ukubwa wa maandishi",
+    "motion": "Mwendo",
+    "share": "Shiriki",
+    "menu": "Menyu",
+    "settings": "Mipangilio",
+    "copyLink": "Nakili kiungo",
+    "linkCopied": "Kiungo kimenakiliwa",
+    "copyFailed": "Imeshindwa kunakili kiungo",
+    "followDevice": "Fuata kifaa"
   }
 }

@@ -42,6 +42,8 @@ export type LabelPack = {
     "text-size"?: Record<string, string>;
     /** The date-time-now-input's three names (`date`, `time`, `now`), plain strings. */
     "date-time-now-input"?: Record<string, string>;
+    /** The page-header pickers' names and messages (`theme`, `locale`, `share`, `copyLink`, …), plain strings. */
+    pickers?: Record<string, string>;
 };
 
 /** Per helper: function label -> the names of its arguments (see the header comment). A key not listed here is a plain string. */
@@ -336,5 +338,74 @@ export function dateTimeNowInputLabels(pack: LabelPack): DateTimeNowInputLabels 
         const label = section[key];
         if (typeof label === "string" && label !== "") out[prop] = label;
     }
+    return out;
+}
+
+/** The names of the page-header pickers and their messages, as a pack holds them. */
+export const PICKER_LABEL_KEYS = [
+    "link",
+    "search",
+    "searchInput",
+    "searchSubmit",
+    "theme",
+    "locale",
+    "timeZone",
+    "textSize",
+    "motion",
+    "share",
+    "menu",
+    "settings",
+    "copyLink",
+    "linkCopied",
+    "copyFailed",
+    "followDevice",
+] as const;
+export type PickerLabelKey = (typeof PICKER_LABEL_KEYS)[number];
+export type PickerLabels = Partial<Record<PickerLabelKey, string>>;
+
+/**
+ * Every picker label a pack holds, by key: `{ link: "Places", theme: "Themes", locale: "Locales", textSize: "Text Sizes", … }`.
+ * A key the pack lacks, or leaves empty, is omitted, so that control stays unnamed rather than showing another language's text.
+ * The components ship no default of their own: this is the opt-in way to get one.
+ */
+export function pickerLabels(pack: LabelPack): PickerLabels {
+    const section = pack.pickers ?? {};
+    const out: PickerLabels = {};
+    for (const key of PICKER_LABEL_KEYS) {
+        const label = section[key];
+        if (typeof label === "string" && label !== "") out[key] = label;
+    }
+    return out;
+}
+
+/** The `labels` the `picker-bar` takes (its link, search, theme, locale, time zone, text size and share names). */
+export function pickerBarLabels(pack: LabelPack): PickerLabels {
+    const all = pickerLabels(pack);
+    const out: PickerLabels = {};
+    for (const key of [
+        "link",
+        "search",
+        "searchInput",
+        "searchSubmit",
+        "theme",
+        "locale",
+        "timeZone",
+        "textSize",
+        "share",
+    ] as const)
+        if (key in all) out[key] = all[key];
+    return out;
+}
+
+/** The share picker's three messages, under the prop names every catalog gives them. */
+export type ShareLabels = { copyLabel?: string; copiedLabel?: string; copyFailedLabel?: string };
+
+/** The share picker's `copyLabel`, `copiedLabel` and `copyFailedLabel` for a pack; a message the pack lacks is omitted. */
+export function shareLabels(pack: LabelPack): ShareLabels {
+    const all = pickerLabels(pack);
+    const out: ShareLabels = {};
+    if (all.copyLink) out.copyLabel = all.copyLink;
+    if (all.linkCopied) out.copiedLabel = all.linkCopied;
+    if (all.copyFailed) out.copyFailedLabel = all.copyFailed;
     return out;
 }

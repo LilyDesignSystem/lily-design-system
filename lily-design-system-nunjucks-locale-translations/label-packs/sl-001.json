@@ -288,5 +288,23 @@
     "date": "Datum",
     "time": "Čas",
     "now": "Zdaj"
+  },
+  "pickers": {
+    "link": "Kraji",
+    "search": "Iskanje",
+    "searchInput": "Iskanje",
+    "searchSubmit": "Iskanje",
+    "theme": "Teme",
+    "locale": "Jeziki",
+    "timeZone": "Časovni pasovi",
+    "textSize": "Velikosti besedila",
+    "motion": "Gibanje",
+    "share": "Deli",
+    "menu": "Meni",
+    "settings": "Nastavitve",
+    "copyLink": "Kopiraj povezavo",
+    "linkCopied": "Povezava kopirana",
+    "copyFailed": "Povezave ni bilo mogoče kopirati",
+    "followDevice": "Sledi napravi"
   }
 }

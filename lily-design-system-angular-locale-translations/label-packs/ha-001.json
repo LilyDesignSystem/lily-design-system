@@ -288,5 +288,23 @@
     "date": "Kwanan wata",
     "time": "Lokaci",
     "now": "Yanzu"
+  },
+  "pickers": {
+    "link": "Wurare",
+    "search": "Nema",
+    "searchInput": "Nema",
+    "searchSubmit": "Nema",
+    "theme": "Jigogi",
+    "locale": "Harsuna",
+    "timeZone": "Yankunan lokaci",
+    "textSize": "Girman rubutu",
+    "motion": "Motsi",
+    "share": "Raba",
+    "menu": "Menu",
+    "settings": "Saituna",
+    "copyLink": "Kwafi mahaɗin",
+    "linkCopied": "An kwafi mahaɗin",
+    "copyFailed": "Ba a iya kwafar mahaɗin ba",
+    "followDevice": "Bi na’ura"
   }
 }

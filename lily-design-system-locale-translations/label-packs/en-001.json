@@ -289,5 +289,23 @@
     "date": "Date",
     "time": "Time",
     "now": "Now"
+  },
+  "pickers": {
+    "link": "Places",
+    "search": "Search",
+    "searchInput": "Search",
+    "searchSubmit": "Search",
+    "theme": "Themes",
+    "locale": "Locales",
+    "timeZone": "Time Zones",
+    "textSize": "Text Sizes",
+    "motion": "Motion",
+    "share": "Share",
+    "menu": "Menu",
+    "settings": "Settings",
+    "copyLink": "Copy link",
+    "linkCopied": "Link copied",
+    "copyFailed": "Could not copy the link",
+    "followDevice": "Follow this device"
   }
 }

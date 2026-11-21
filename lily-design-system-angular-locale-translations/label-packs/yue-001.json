@@ -244,5 +244,23 @@
     "date": "日期",
     "time": "時間",
     "now": "而家"
+  },
+  "pickers": {
+    "link": "地方",
+    "search": "搜尋",
+    "searchInput": "搜尋",
+    "searchSubmit": "搜尋",
+    "theme": "主題",
+    "locale": "語言",
+    "timeZone": "時區",
+    "textSize": "文字大小",
+    "motion": "動態",
+    "share": "分享",
+    "menu": "選單",
+    "settings": "設定",
+    "copyLink": "複製連結",
+    "linkCopied": "已複製連結",
+    "copyFailed": "複製唔到連結",
+    "followDevice": "跟隨裝置"
   }
 }

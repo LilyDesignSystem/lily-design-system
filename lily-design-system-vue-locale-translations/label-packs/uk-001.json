@@ -244,5 +244,23 @@
     "date": "Дата",
     "time": "Час",
     "now": "Зараз"
+  },
+  "pickers": {
+    "link": "Місця",
+    "search": "Пошук",
+    "searchInput": "Пошук",
+    "searchSubmit": "Пошук",
+    "theme": "Теми",
+    "locale": "Мови",
+    "timeZone": "Часові пояси",
+    "textSize": "Розміри тексту",
+    "motion": "Рух",
+    "share": "Поділитися",
+    "menu": "Меню",
+    "settings": "Налаштування",
+    "copyLink": "Копіювати посилання",
+    "linkCopied": "Посилання скопійовано",
+    "copyFailed": "Не вдалося скопіювати посилання",
+    "followDevice": "Як на пристрої"
   }
 }

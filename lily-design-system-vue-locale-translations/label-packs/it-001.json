@@ -288,5 +288,23 @@
     "date": "Data",
     "time": "Ora",
     "now": "Adesso"
+  },
+  "pickers": {
+    "link": "Luoghi",
+    "search": "Cerca",
+    "searchInput": "Cerca",
+    "searchSubmit": "Cerca",
+    "theme": "Temi",
+    "locale": "Lingue",
+    "timeZone": "Fusi orari",
+    "textSize": "Dimensioni del testo",
+    "motion": "Movimento",
+    "share": "Condividi",
+    "menu": "Menu",
+    "settings": "Impostazioni",
+    "copyLink": "Copia link",
+    "linkCopied": "Link copiato",
+    "copyFailed": "Impossibile copiare il link",
+    "followDevice": "Segui il dispositivo"
   }
 }

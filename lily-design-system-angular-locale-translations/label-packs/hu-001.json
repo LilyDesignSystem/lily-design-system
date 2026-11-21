@@ -288,5 +288,23 @@
     "date": "Dátum",
     "time": "Időpont",
     "now": "Most"
+  },
+  "pickers": {
+    "link": "Helyek",
+    "search": "Keresés",
+    "searchInput": "Keresés",
+    "searchSubmit": "Keresés",
+    "theme": "Témák",
+    "locale": "Nyelvek",
+    "timeZone": "Időzónák",
+    "textSize": "Szövegméretek",
+    "motion": "Mozgás",
+    "share": "Megosztás",
+    "menu": "Menü",
+    "settings": "Beállítások",
+    "copyLink": "Hivatkozás másolása",
+    "linkCopied": "Hivatkozás másolva",
+    "copyFailed": "A hivatkozást nem sikerült másolni",
+    "followDevice": "Eszköz követése"
   }
 }

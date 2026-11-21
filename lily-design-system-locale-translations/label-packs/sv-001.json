@@ -288,5 +288,23 @@
     "date": "Datum",
     "time": "Tid",
     "now": "Nu"
+  },
+  "pickers": {
+    "link": "Platser",
+    "search": "Sök",
+    "searchInput": "Sök",
+    "searchSubmit": "Sök",
+    "theme": "Teman",
+    "locale": "Språk",
+    "timeZone": "Tidszoner",
+    "textSize": "Textstorlekar",
+    "motion": "Rörelse",
+    "share": "Dela",
+    "menu": "Meny",
+    "settings": "Inställningar",
+    "copyLink": "Kopiera länk",
+    "linkCopied": "Länk kopierad",
+    "copyFailed": "Det gick inte att kopiera länken",
+    "followDevice": "Följ enheten"
   }
 }

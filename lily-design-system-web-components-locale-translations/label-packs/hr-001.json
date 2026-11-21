@@ -288,5 +288,23 @@
     "date": "Datum",
     "time": "Vrijeme",
     "now": "Sada"
+  },
+  "pickers": {
+    "link": "Mjesta",
+    "search": "Traži",
+    "searchInput": "Traži",
+    "searchSubmit": "Traži",
+    "theme": "Teme",
+    "locale": "Jezici",
+    "timeZone": "Vremenske zone",
+    "textSize": "Veličine teksta",
+    "motion": "Kretanje",
+    "share": "Podijeli",
+    "menu": "Izbornik",
+    "settings": "Postavke",
+    "copyLink": "Kopiraj poveznicu",
+    "linkCopied": "Poveznica kopirana",
+    "copyFailed": "Poveznicu nije moguće kopirati",
+    "followDevice": "Prati uređaj"
   }
 }

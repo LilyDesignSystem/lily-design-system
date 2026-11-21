@@ -288,5 +288,23 @@
     "date": "Tanggal",
     "time": "Wektu",
     "now": "Saiki"
+  },
+  "pickers": {
+    "link": "Panggonan",
+    "search": "Goleki",
+    "searchInput": "Goleki",
+    "searchSubmit": "Goleki",
+    "theme": "Tema",
+    "locale": "Basa",
+    "timeZone": "Zona wektu",
+    "textSize": "Ukuran teks",
+    "motion": "Obahan",
+    "share": "Nuduhake",
+    "menu": "Menu",
+    "settings": "Setelan",
+    "copyLink": "Salin pranala",
+    "linkCopied": "Pranala disalin",
+    "copyFailed": "Pranala ora bisa disalin",
+    "followDevice": "Tututi piranti"
   }
 }

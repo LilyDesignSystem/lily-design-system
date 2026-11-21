@@ -288,5 +288,23 @@
     "date": "تاریخ",
     "time": "وقت",
     "now": "ابھی"
+  },
+  "pickers": {
+    "link": "مقامات",
+    "search": "تلاش کریں",
+    "searchInput": "تلاش کریں",
+    "searchSubmit": "تلاش کریں",
+    "theme": "تھیمز",
+    "locale": "زبانیں",
+    "timeZone": "ٹائم زونز",
+    "textSize": "متن کے سائز",
+    "motion": "حرکت",
+    "share": "شیئر کریں",
+    "menu": "مینو",
+    "settings": "ترتیبات",
+    "copyLink": "لنک کاپی کریں",
+    "linkCopied": "لنک کاپی ہو گیا",
+    "copyFailed": "لنک کاپی نہیں ہو سکا",
+    "followDevice": "آلے کی پیروی کریں"
   }
 }

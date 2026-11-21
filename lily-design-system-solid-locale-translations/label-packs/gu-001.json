@@ -288,5 +288,23 @@
     "date": "તારીખ",
     "time": "સમય",
     "now": "હમણાં"
+  },
+  "pickers": {
+    "link": "સ્થળો",
+    "search": "શોધો",
+    "searchInput": "શોધો",
+    "searchSubmit": "શોધો",
+    "theme": "થીમ્સ",
+    "locale": "ભાષાઓ",
+    "timeZone": "સમય ઝોન",
+    "textSize": "ટેક્સ્ટના કદ",
+    "motion": "ગતિ",
+    "share": "શેર કરો",
+    "menu": "મેનૂ",
+    "settings": "સેટિંગ્સ",
+    "copyLink": "લિંક કૉપિ કરો",
+    "linkCopied": "લિંક કૉપિ થઈ",
+    "copyFailed": "લિંક કૉપિ થઈ શકી નથી",
+    "followDevice": "ઉપકરણને અનુસરો"
   }
 }

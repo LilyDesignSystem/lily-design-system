@@ -288,5 +288,23 @@
     "date": "Tanggal",
     "time": "Waktu",
     "now": "Sekarang"
+  },
+  "pickers": {
+    "link": "Tempat",
+    "search": "Cari",
+    "searchInput": "Cari",
+    "searchSubmit": "Cari",
+    "theme": "Tema",
+    "locale": "Bahasa",
+    "timeZone": "Zona waktu",
+    "textSize": "Ukuran teks",
+    "motion": "Gerakan",
+    "share": "Bagikan",
+    "menu": "Menu",
+    "settings": "Pengaturan",
+    "copyLink": "Salin tautan",
+    "linkCopied": "Tautan disalin",
+    "copyFailed": "Tautan tidak dapat disalin",
+    "followDevice": "Ikuti perangkat"
   }
 }

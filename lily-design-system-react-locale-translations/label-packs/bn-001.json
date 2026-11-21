@@ -288,5 +288,23 @@
     "date": "তারিখ",
     "time": "সময়",
     "now": "এখন"
+  },
+  "pickers": {
+    "link": "জায়গা",
+    "search": "অনুসন্ধান",
+    "searchInput": "অনুসন্ধান",
+    "searchSubmit": "অনুসন্ধান",
+    "theme": "থিম",
+    "locale": "ভাষা",
+    "timeZone": "সময় অঞ্চল",
+    "textSize": "লেখার আকার",
+    "motion": "গতি",
+    "share": "শেয়ার",
+    "menu": "মেনু",
+    "settings": "সেটিংস",
+    "copyLink": "লিংক কপি করুন",
+    "linkCopied": "লিংক কপি হয়েছে",
+    "copyFailed": "লিংক কপি করা যায়নি",
+    "followDevice": "ডিভাইস অনুসরণ করুন"
   }
 }

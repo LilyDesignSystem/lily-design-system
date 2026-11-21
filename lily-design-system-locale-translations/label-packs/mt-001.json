@@ -288,5 +288,23 @@
     "date": "Data",
     "time": "Ħin",
     "now": "Issa"
+  },
+  "pickers": {
+    "link": "Postijiet",
+    "search": "Fittex",
+    "searchInput": "Fittex",
+    "searchSubmit": "Fittex",
+    "theme": "Temi",
+    "locale": "Lingwi",
+    "timeZone": "Żoni tal-ħin",
+    "textSize": "Daqsijiet tat-test",
+    "motion": "Moviment",
+    "share": "Taqsam",
+    "menu": "Menu",
+    "settings": "Settings",
+    "copyLink": "Ikkopja l-link",
+    "linkCopied": "Il-link ikkopjat",
+    "copyFailed": "Ma setax jiġi kkopjat il-link",
+    "followDevice": "Segwi l-apparat"
   }
 }

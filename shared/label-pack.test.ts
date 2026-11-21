@@ -9,6 +9,10 @@ import {
     packKeys,
     SPEC,
     textSizeLabels,
+    pickerBarLabels,
+    pickerLabels,
+    PICKER_LABEL_KEYS,
+    shareLabels,
     dateTimeNowInputLabels,
     type LabelHelper,
     type LabelPack,
@@ -33,6 +37,7 @@ const SECTIONS = [
     "gantt-chart",
     "filter",
     "text-size",
+    "pickers",
 ] as const;
 const HELPERS: LabelHelper[] = ["data-grid", "kanban-board", "calendar", "gantt-chart", "filter"];
 
@@ -247,5 +252,76 @@ describe("mergedLabels and packKeys", () => {
     it("a pack with no common section and no helper section has no keys", () => {
         expect(packKeys("filter", {} as LabelPack)).toEqual([]);
         expect(mergedLabels("filter", {} as LabelPack)).toEqual({});
+    });
+});
+
+describe("picker labels", () => {
+    it("every pack names every picker, in its own words", () => {
+        for (const [locale, pack] of packs) {
+            const labels = pickerLabels(pack);
+            expect(Object.keys(labels).sort(), locale).toEqual([...PICKER_LABEL_KEYS].sort());
+            for (const [key, text] of Object.entries(labels)) {
+                expect(text!.trim(), `${locale} ${key}`).not.toBe("");
+            }
+        }
+    });
+
+    it("English reads Places, Search, Themes, Locales, Text Sizes and Share", () => {
+        expect(pickerLabels(english)).toMatchObject({
+            link: "Places",
+            search: "Search",
+            theme: "Themes",
+            locale: "Locales",
+            textSize: "Text Sizes",
+            share: "Share",
+        });
+    });
+
+    it("the search labels reuse the pack's own word for search", () => {
+        for (const [locale, pack] of packs) {
+            const search = pack.common?.search;
+            const labels = pickerLabels(pack);
+            expect(labels.search, locale).toBe(search);
+            expect(labels.searchInput, locale).toBe(search);
+            expect(labels.searchSubmit, locale).toBe(search);
+        }
+    });
+
+    it("pickerBarLabels holds exactly the nine names the picker bar takes", () => {
+        expect(Object.keys(pickerBarLabels(english)).sort()).toEqual([
+            "link",
+            "locale",
+            "search",
+            "searchInput",
+            "searchSubmit",
+            "share",
+            "textSize",
+            "theme",
+            "timeZone",
+        ]);
+    });
+
+    it("shareLabels renames the three messages to the share picker's props", () => {
+        expect(shareLabels(english)).toEqual({
+            copyLabel: "Copy link",
+            copiedLabel: "Link copied",
+            copyFailedLabel: "Could not copy the link",
+        });
+    });
+
+    it("a key a pack lacks or leaves empty is omitted, never filled from another language", () => {
+        const pack: LabelPack = { pickers: { theme: "Themes", locale: "", share: 4 as never } };
+        expect(pickerLabels(pack)).toEqual({ theme: "Themes" });
+        expect(pickerBarLabels(pack)).toEqual({ theme: "Themes" });
+        expect(shareLabels(pack)).toEqual({});
+        expect(pickerLabels({})).toEqual({});
+        expect(shareLabels({ pickers: { copyLink: "Copy" } })).toEqual({ copyLabel: "Copy" });
+    });
+
+    it("right-to-left packs name the pickers in their own script", () => {
+        for (const [locale, pack] of packs) {
+            if (pack.direction !== "rtl") continue;
+            expect(pickerLabels(pack).theme, locale).toMatch(/[\u0590-\u08FF]/);
+        }
     });
 });

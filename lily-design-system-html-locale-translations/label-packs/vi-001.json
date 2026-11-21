@@ -288,5 +288,23 @@
     "date": "Ngày",
     "time": "Giờ",
     "now": "Bây giờ"
+  },
+  "pickers": {
+    "link": "Địa điểm",
+    "search": "Tìm kiếm",
+    "searchInput": "Tìm kiếm",
+    "searchSubmit": "Tìm kiếm",
+    "theme": "Giao diện",
+    "locale": "Ngôn ngữ",
+    "timeZone": "Múi giờ",
+    "textSize": "Cỡ chữ",
+    "motion": "Chuyển động",
+    "share": "Chia sẻ",
+    "menu": "Menu",
+    "settings": "Cài đặt",
+    "copyLink": "Sao chép liên kết",
+    "linkCopied": "Đã sao chép liên kết",
+    "copyFailed": "Không thể sao chép liên kết",
+    "followDevice": "Theo thiết bị"
   }
 }

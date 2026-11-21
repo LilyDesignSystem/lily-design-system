@@ -4274,6 +4274,13 @@ current design system. No person or organisation is named. Order: T1 first (a tr
       width, and state the rule in the site's `AGENTS.md`.
       Verify: a Playwright test over every locale home counts six tiles directly after the hero and reads 1, 2, 3 and 6 columns at
       320, 768, 1280 and 1920 pixels; `bin/check-site-page-translations` and the locale specs pass.
+- [ ] **P41-T9 Use the picker names in the apps.** The `pickers` section is in all 64 packs and loaded in TypeScript and Blazor
+      (2026-11-21, [spec/label-packs](spec/label-packs/index.md#picker-names-added-2026-11-21)). Still to do: a Nunjucks macro
+      helper (`nunjucksLabelsFor` does not cover pickers), the docs site and the example apps using `pickerBarLabels(pack)` and
+      `shareLabels(pack)` instead of their hand-written labels, native-speaker review of the 63 draft sets (the nouns are plural
+      on purpose; "Locales" is "Languages" in other languages), and the C# twin of `sortThemes` from P41-T7.
+      Verify: the site's picker bar reads its labels from a pack in every language it offers; `bin/check-label-packs` and the
+      locale specs pass.
 
 ---
 

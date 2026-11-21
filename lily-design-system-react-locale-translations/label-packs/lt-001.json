@@ -288,5 +288,23 @@
     "date": "Data",
     "time": "Laikas",
     "now": "Dabar"
+  },
+  "pickers": {
+    "link": "Vietos",
+    "search": "Paieška",
+    "searchInput": "Paieška",
+    "searchSubmit": "Paieška",
+    "theme": "Temos",
+    "locale": "Kalbos",
+    "timeZone": "Laiko juostos",
+    "textSize": "Teksto dydžiai",
+    "motion": "Judėjimas",
+    "share": "Bendrinti",
+    "menu": "Meniu",
+    "settings": "Nustatymai",
+    "copyLink": "Kopijuoti nuorodą",
+    "linkCopied": "Nuoroda nukopijuota",
+    "copyFailed": "Nepavyko nukopijuoti nuorodos",
+    "followDevice": "Sekti įrenginį"
   }
 }

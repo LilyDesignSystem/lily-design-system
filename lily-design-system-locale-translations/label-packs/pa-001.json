@@ -288,5 +288,23 @@
     "date": "ਤਾਰੀਖ਼",
     "time": "ਸਮਾਂ",
     "now": "ਹੁਣ"
+  },
+  "pickers": {
+    "link": "ਥਾਵਾਂ",
+    "search": "ਖੋਜੋ",
+    "searchInput": "ਖੋਜੋ",
+    "searchSubmit": "ਖੋਜੋ",
+    "theme": "ਥੀਮ",
+    "locale": "ਭਾਸ਼ਾਵਾਂ",
+    "timeZone": "ਸਮਾਂ ਖੇਤਰ",
+    "textSize": "ਲਿਖਤ ਦੇ ਆਕਾਰ",
+    "motion": "ਗਤੀ",
+    "share": "ਸਾਂਝਾ ਕਰੋ",
+    "menu": "ਮੀਨੂ",
+    "settings": "ਸੈਟਿੰਗਾਂ",
+    "copyLink": "ਲਿੰਕ ਕਾਪੀ ਕਰੋ",
+    "linkCopied": "ਲਿੰਕ ਕਾਪੀ ਹੋ ਗਿਆ",
+    "copyFailed": "ਲਿੰਕ ਕਾਪੀ ਨਹੀਂ ਹੋ ਸਕਿਆ",
+    "followDevice": "ਡਿਵਾਈਸ ਦੀ ਪਾਲਣਾ ਕਰੋ"
   }
 }

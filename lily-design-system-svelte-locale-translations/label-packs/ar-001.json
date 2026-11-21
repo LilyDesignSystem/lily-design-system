@@ -288,5 +288,23 @@
     "date": "التاريخ",
     "time": "الوقت",
     "now": "الآن"
+  },
+  "pickers": {
+    "link": "الأماكن",
+    "search": "بحث",
+    "searchInput": "بحث",
+    "searchSubmit": "بحث",
+    "theme": "السمات",
+    "locale": "اللغات",
+    "timeZone": "المناطق الزمنية",
+    "textSize": "أحجام النص",
+    "motion": "الحركة",
+    "share": "مشاركة",
+    "menu": "القائمة",
+    "settings": "الإعدادات",
+    "copyLink": "نسخ الرابط",
+    "linkCopied": "تم نسخ الرابط",
+    "copyFailed": "تعذّر نسخ الرابط",
+    "followDevice": "اتبع جهازك"
   }
 }

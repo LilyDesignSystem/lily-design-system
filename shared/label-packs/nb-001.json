@@ -244,5 +244,23 @@
     "date": "Dato",
     "time": "Klokkeslett",
     "now": "Nå"
+  },
+  "pickers": {
+    "link": "Steder",
+    "search": "Søk",
+    "searchInput": "Søk",
+    "searchSubmit": "Søk",
+    "theme": "Temaer",
+    "locale": "Språk",
+    "timeZone": "Tidssoner",
+    "textSize": "Tekststørrelser",
+    "motion": "Bevegelse",
+    "share": "Del",
+    "menu": "Meny",
+    "settings": "Innstillinger",
+    "copyLink": "Kopier lenke",
+    "linkCopied": "Lenke kopiert",
+    "copyFailed": "Kunne ikke kopiere lenken",
+    "followDevice": "Følg enheten"
   }
 }

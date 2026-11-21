@@ -288,5 +288,23 @@
     "date": "日付",
     "time": "時刻",
     "now": "現在"
+  },
+  "pickers": {
+    "link": "場所",
+    "search": "検索",
+    "searchInput": "検索",
+    "searchSubmit": "検索",
+    "theme": "テーマ",
+    "locale": "言語",
+    "timeZone": "タイムゾーン",
+    "textSize": "文字サイズ",
+    "motion": "モーション",
+    "share": "共有",
+    "menu": "メニュー",
+    "settings": "設定",
+    "copyLink": "リンクをコピー",
+    "linkCopied": "リンクをコピーしました",
+    "copyFailed": "リンクをコピーできませんでした",
+    "followDevice": "デバイスに合わせる"
   }
 }

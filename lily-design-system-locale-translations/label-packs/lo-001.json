@@ -244,5 +244,23 @@
     "date": "ວັນທີ",
     "time": "ເວລາ",
     "now": "ຕອນນີ້"
+  },
+  "pickers": {
+    "link": "ສະຖານທີ່",
+    "search": "ຄົ້ນຫາ",
+    "searchInput": "ຄົ້ນຫາ",
+    "searchSubmit": "ຄົ້ນຫາ",
+    "theme": "ຮູບແບບ",
+    "locale": "ພາສາ",
+    "timeZone": "ເຂດເວລາ",
+    "textSize": "ຂະໜາດຕົວອັກສອນ",
+    "motion": "ການເຄື່ອນໄຫວ",
+    "share": "ແບ່ງປັນ",
+    "menu": "ເມນູ",
+    "settings": "ການຕັ້ງຄ່າ",
+    "copyLink": "ສຳເນົາລິ້ງ",
+    "linkCopied": "ສຳເນົາລິ້ງແລ້ວ",
+    "copyFailed": "ບໍ່ສາມາດສຳເນົາລິ້ງໄດ້",
+    "followDevice": "ຕາມອຸປະກອນ"
   }
 }

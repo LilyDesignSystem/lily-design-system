@@ -242,20 +242,28 @@ describe("sortThemes", () => {
         expect(sortThemes(["c", "b", "a"], same, "en")).toEqual(["a", "b", "c"]);
     });
 
-    test("falls back to English for a language the platform rejects, or none", () => {
-        const names: Record<string, string> = { a: "Äpple", z: "Zebra" };
-        expect(sortThemes(["z", "a"], (s) => names[s], "not a locale!")).toEqual(["a", "z"]);
-        expect(sortThemes(["z", "a"], (s) => names[s])).toEqual(["a", "z"]);
+    test("uses the platform's default language for one the platform rejects, or none", () => {
+        const names: Record<string, string> = { a: "Äpple", z: "Zebra", m: "Mango" };
+        const platform = [...Object.keys(names)].sort(
+            (x, y) =>
+                new Intl.Collator(undefined, { sensitivity: "base", numeric: true }).compare(
+                    names[x],
+                    names[y],
+                ) || (x < y ? -1 : 1),
+        );
+        expect(sortThemes(["z", "a", "m"], (s) => names[s], "not a locale!")).toEqual(platform);
+        expect(sortThemes(["z", "a", "m"], (s) => names[s])).toEqual(platform);
+        expect(sortThemes(["z", "a", "m"], (s) => names[s], "")).toEqual(platform);
         expect(sortThemes([], labelOf, "en")).toEqual([]);
     });
 });
 
 describe("pageLanguage", () => {
-    test("reads <html lang>, and is English without one", () => {
+    test("reads <html lang>, and is undefined without one", () => {
         const html = document.documentElement;
         const before = html.getAttribute("lang");
         html.removeAttribute("lang");
-        expect(pageLanguage()).toBe("en");
+        expect(pageLanguage()).toBeUndefined();
         html.setAttribute("lang", "cy");
         expect(pageLanguage()).toBe("cy");
         if (before === null) html.removeAttribute("lang");

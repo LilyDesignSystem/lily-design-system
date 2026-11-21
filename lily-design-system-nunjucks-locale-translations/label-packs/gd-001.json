@@ -244,5 +244,23 @@
     "date": "Ceann-latha",
     "time": "Àm",
     "now": "An-dràsta"
+  },
+  "pickers": {
+    "link": "Àitichean",
+    "search": "Lorg",
+    "searchInput": "Lorg",
+    "searchSubmit": "Lorg",
+    "theme": "Stoidhlean",
+    "locale": "Cànanan",
+    "timeZone": "Roinnean-ama",
+    "textSize": "Meudan teacsa",
+    "motion": "Gluasad",
+    "share": "Co-roinn",
+    "menu": "Clàr-taice",
+    "settings": "Roghainnean",
+    "copyLink": "Dèan lethbhreac den cheangal",
+    "linkCopied": "Chaidh lethbhreac a dhèanamh den cheangal",
+    "copyFailed": "Cha deach leis lethbhreac a dhèanamh den cheangal",
+    "followDevice": "Lean an uidheam"
   }
 }

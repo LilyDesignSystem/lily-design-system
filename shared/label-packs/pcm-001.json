@@ -244,5 +244,23 @@
     "date": "Date",
     "time": "Time",
     "now": "Now"
+  },
+  "pickers": {
+    "link": "Plɛs dem",
+    "search": "Search",
+    "searchInput": "Search",
+    "searchSubmit": "Search",
+    "theme": "Theme dem",
+    "locale": "Language dem",
+    "timeZone": "Time zone dem",
+    "textSize": "Text size dem",
+    "motion": "Movement",
+    "share": "Share",
+    "menu": "Menu",
+    "settings": "Setting dem",
+    "copyLink": "Copy di link",
+    "linkCopied": "Di link don copy",
+    "copyFailed": "We no fit copy di link",
+    "followDevice": "Follow di device"
   }
 }

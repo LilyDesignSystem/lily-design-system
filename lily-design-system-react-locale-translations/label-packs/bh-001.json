@@ -289,5 +289,23 @@
     "date": "तारीख",
     "time": "समय",
     "now": "अभी"
+  },
+  "pickers": {
+    "link": "जगह",
+    "search": "खोजीं",
+    "searchInput": "खोजीं",
+    "searchSubmit": "खोजीं",
+    "theme": "थीम",
+    "locale": "भाषा",
+    "timeZone": "समय क्षेत्र",
+    "textSize": "पाठ के आकार",
+    "motion": "हलचल",
+    "share": "साझा करीं",
+    "menu": "मेनू",
+    "settings": "सेटिंग",
+    "copyLink": "लिंक कॉपी करीं",
+    "linkCopied": "लिंक कॉपी हो गइल",
+    "copyFailed": "लिंक कॉपी ना हो सकल",
+    "followDevice": "डिवाइस के हिसाब से"
   }
 }

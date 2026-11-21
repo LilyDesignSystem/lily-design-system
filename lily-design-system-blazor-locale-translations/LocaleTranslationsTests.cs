@@ -26,6 +26,38 @@ public class LocaleTranslationsTests
     }
 
     [Fact]
+    public void PickerLabels_names_every_picker_in_every_pack()
+    {
+        var english = LocaleTranslations.PickerLabels("en-001");
+        Assert.Equal("Places", english["link"]);
+        Assert.Equal("Search", english["search"]);
+        Assert.Equal("Themes", english["theme"]);
+        Assert.Equal("Locales", english["locale"]);
+        Assert.Equal("Text Sizes", english["textSize"]);
+        Assert.Equal("Share", english["share"]);
+        Assert.Equal("Temas", LocaleTranslations.PickerLabels("es-001")["theme"]);
+        Assert.All(LocaleTranslations.Locales, l =>
+        {
+            var labels = LocaleTranslations.PickerLabels(l);
+            Assert.Equal(LocaleTranslations.PickerLabelKeys.Count, labels.Count);
+            Assert.All(labels.Values, v => Assert.False(string.IsNullOrWhiteSpace(v)));
+        });
+    }
+
+    [Fact]
+    public void ShareLabels_renames_the_three_messages_for_the_share_picker()
+    {
+        Assert.Equal(new ShareLabels("Copy link", "Link copied", "Could not copy the link"), LocaleTranslations.ShareLabels("en-001"));
+        Assert.All(LocaleTranslations.Locales, l =>
+        {
+            var labels = LocaleTranslations.ShareLabels(l);
+            Assert.False(string.IsNullOrEmpty(labels.Copy));
+            Assert.False(string.IsNullOrEmpty(labels.Copied));
+            Assert.False(string.IsNullOrEmpty(labels.CopyFailed));
+        });
+    }
+
+    [Fact]
     public void Embeds_all_64_packs() => Assert.Equal(64, LocaleTranslations.Locales.Count);
 
     [Fact]

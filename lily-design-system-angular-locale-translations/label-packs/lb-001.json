@@ -244,5 +244,23 @@
     "date": "Datum",
     "time": "Zäit",
     "now": "Elo"
+  },
+  "pickers": {
+    "link": "Plazen",
+    "search": "Sichen",
+    "searchInput": "Sichen",
+    "searchSubmit": "Sichen",
+    "theme": "Designen",
+    "locale": "Sproochen",
+    "timeZone": "Zäitzonen",
+    "textSize": "Textgréissten",
+    "motion": "Beweegung",
+    "share": "Deelen",
+    "menu": "Menü",
+    "settings": "Astellungen",
+    "copyLink": "Link kopéieren",
+    "linkCopied": "Link kopéiert",
+    "copyFailed": "Link konnt net kopéiert ginn",
+    "followDevice": "Dem Gerät follegen"
   }
 }

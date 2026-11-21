@@ -244,5 +244,23 @@
     "date": "Dagsetning",
     "time": "Tími",
     "now": "Núna"
+  },
+  "pickers": {
+    "link": "Staðir",
+    "search": "Leita",
+    "searchInput": "Leita",
+    "searchSubmit": "Leita",
+    "theme": "Þemu",
+    "locale": "Tungumál",
+    "timeZone": "Tímabelti",
+    "textSize": "Textastærðir",
+    "motion": "Hreyfing",
+    "share": "Deila",
+    "menu": "Valmynd",
+    "settings": "Stillingar",
+    "copyLink": "Afrita tengil",
+    "linkCopied": "Tengill afritaður",
+    "copyFailed": "Ekki tókst að afrita tengilinn",
+    "followDevice": "Fylgja tæki"
   }
 }

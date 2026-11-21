@@ -288,5 +288,23 @@
     "date": "Data",
     "time": "Ora",
     "now": "Acum"
+  },
+  "pickers": {
+    "link": "Locuri",
+    "search": "Căutare",
+    "searchInput": "Căutare",
+    "searchSubmit": "Căutare",
+    "theme": "Teme",
+    "locale": "Limbi",
+    "timeZone": "Fusuri orare",
+    "textSize": "Dimensiuni ale textului",
+    "motion": "Mișcare",
+    "share": "Distribuie",
+    "menu": "Meniu",
+    "settings": "Setări",
+    "copyLink": "Copiază linkul",
+    "linkCopied": "Link copiat",
+    "copyFailed": "Linkul nu a putut fi copiat",
+    "followDevice": "Urmează dispozitivul"
   }
 }

@@ -288,5 +288,23 @@
     "date": "Datum",
     "time": "Tijd",
     "now": "Nu"
+  },
+  "pickers": {
+    "link": "Plaatsen",
+    "search": "Zoeken",
+    "searchInput": "Zoeken",
+    "searchSubmit": "Zoeken",
+    "theme": "Thema’s",
+    "locale": "Talen",
+    "timeZone": "Tijdzones",
+    "textSize": "Tekstgroottes",
+    "motion": "Beweging",
+    "share": "Delen",
+    "menu": "Menu",
+    "settings": "Instellingen",
+    "copyLink": "Link kopiëren",
+    "linkCopied": "Link gekopieerd",
+    "copyFailed": "Link kopiëren mislukt",
+    "followDevice": "Apparaat volgen"
   }
 }

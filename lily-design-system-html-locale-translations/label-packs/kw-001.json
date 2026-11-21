@@ -244,5 +244,23 @@
     "date": "Dydhyas",
     "time": "Termyn",
     "now": "Lemmyn"
+  },
+  "pickers": {
+    "link": "Tylleryow",
+    "search": "Whelas",
+    "searchInput": "Whelas",
+    "searchSubmit": "Whelas",
+    "theme": "Temow",
+    "locale": "Yethow",
+    "timeZone": "Gwedhow eur",
+    "textSize": "Mynsow tekst",
+    "motion": "Gwrians",
+    "share": "Kevrenna",
+    "menu": "Menu",
+    "settings": "Settyansow",
+    "copyLink": "Kopiya an kevren",
+    "linkCopied": "Kevren kopiys",
+    "copyFailed": "Ny yllir kopiya an kevren",
+    "followDevice": "Holya an dyvnas"
   }
 }

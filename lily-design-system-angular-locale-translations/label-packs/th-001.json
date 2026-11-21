@@ -244,5 +244,23 @@
     "date": "วันที่",
     "time": "เวลา",
     "now": "ตอนนี้"
+  },
+  "pickers": {
+    "link": "สถานที่",
+    "search": "ค้นหา",
+    "searchInput": "ค้นหา",
+    "searchSubmit": "ค้นหา",
+    "theme": "ธีม",
+    "locale": "ภาษา",
+    "timeZone": "เขตเวลา",
+    "textSize": "ขนาดข้อความ",
+    "motion": "การเคลื่อนไหว",
+    "share": "แชร์",
+    "menu": "เมนู",
+    "settings": "การตั้งค่า",
+    "copyLink": "คัดลอกลิงก์",
+    "linkCopied": "คัดลอกลิงก์แล้ว",
+    "copyFailed": "คัดลอกลิงก์ไม่ได้",
+    "followDevice": "ตามอุปกรณ์"
   }
 }

@@ -288,5 +288,23 @@
     "date": "Päivämäärä",
     "time": "Kellonaika",
     "now": "Nyt"
+  },
+  "pickers": {
+    "link": "Paikat",
+    "search": "Haku",
+    "searchInput": "Haku",
+    "searchSubmit": "Haku",
+    "theme": "Teemat",
+    "locale": "Kielet",
+    "timeZone": "Aikavyöhykkeet",
+    "textSize": "Tekstikoot",
+    "motion": "Liike",
+    "share": "Jaa",
+    "menu": "Valikko",
+    "settings": "Asetukset",
+    "copyLink": "Kopioi linkki",
+    "linkCopied": "Linkki kopioitu",
+    "copyFailed": "Linkin kopiointi epäonnistui",
+    "followDevice": "Seuraa laitetta"
   }
 }

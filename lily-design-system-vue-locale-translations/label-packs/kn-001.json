@@ -244,5 +244,23 @@
     "date": "ದಿನಾಂಕ",
     "time": "ಸಮಯ",
     "now": "ಈಗ"
+  },
+  "pickers": {
+    "link": "ಸ್ಥಳಗಳು",
+    "search": "ಹುಡುಕಿ",
+    "searchInput": "ಹುಡುಕಿ",
+    "searchSubmit": "ಹುಡುಕಿ",
+    "theme": "ಥೀಮ್‌ಗಳು",
+    "locale": "ಭಾಷೆಗಳು",
+    "timeZone": "ಸಮಯ ವಲಯಗಳು",
+    "textSize": "ಪಠ್ಯ ಗಾತ್ರಗಳು",
+    "motion": "ಚಲನೆ",
+    "share": "ಹಂಚಿಕೊಳ್ಳಿ",
+    "menu": "ಮೆನು",
+    "settings": "ಸೆಟ್ಟಿಂಗ್‌ಗಳು",
+    "copyLink": "ಲಿಂಕ್ ನಕಲಿಸಿ",
+    "linkCopied": "ಲಿಂಕ್ ನಕಲಿಸಲಾಗಿದೆ",
+    "copyFailed": "ಲಿಂಕ್ ನಕಲಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ",
+    "followDevice": "ಸಾಧನವನ್ನು ಅನುಸರಿಸಿ"
   }
 }

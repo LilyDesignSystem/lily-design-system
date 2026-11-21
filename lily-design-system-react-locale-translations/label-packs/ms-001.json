@@ -244,5 +244,23 @@
     "date": "Tarikh",
     "time": "Masa",
     "now": "Sekarang"
+  },
+  "pickers": {
+    "link": "Tempat",
+    "search": "Cari",
+    "searchInput": "Cari",
+    "searchSubmit": "Cari",
+    "theme": "Tema",
+    "locale": "Bahasa",
+    "timeZone": "Zon masa",
+    "textSize": "Saiz teks",
+    "motion": "Gerakan",
+    "share": "Kongsi",
+    "menu": "Menu",
+    "settings": "Tetapan",
+    "copyLink": "Salin pautan",
+    "linkCopied": "Pautan disalin",
+    "copyFailed": "Pautan tidak dapat disalin",
+    "followDevice": "Ikut peranti"
   }
 }

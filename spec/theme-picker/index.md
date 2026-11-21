@@ -175,7 +175,8 @@ themes are not grouped apart, and the list does not follow the order of the `the
 - **The name.** The consumer's `themeLabels` entry, else the title-cased slug. The `picker-bar` supplies its
   `DEFAULT_THEME_LABELS` first, so "IBM Carbon" sorts under I and "NHS England (patients)" under N, not under the slug's
   first letter.
-- **The comparison.** `Intl.Collator` for the language of the page (`document.documentElement.lang`, else `en`), with
+- **The comparison.** `Intl.Collator` for the language of the page (`document.documentElement.lang`; with none, the platform's own default, never a
+  language we choose), with
   `sensitivity: "base"` and `numeric: true`, so case and accents do not decide the order and "Theme 2" comes before "Theme 10".
   Names that compare equal are ordered by slug, so the order is the same on every render. When the page's language changes,
   the list is sorted again.

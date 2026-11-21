@@ -288,5 +288,23 @@
     "date": "Datum",
     "time": "Čas",
     "now": "Teď"
+  },
+  "pickers": {
+    "link": "Místa",
+    "search": "Hledat",
+    "searchInput": "Hledat",
+    "searchSubmit": "Hledat",
+    "theme": "Motivy",
+    "locale": "Jazyky",
+    "timeZone": "Časová pásma",
+    "textSize": "Velikosti textu",
+    "motion": "Pohyb",
+    "share": "Sdílet",
+    "menu": "Nabídka",
+    "settings": "Nastavení",
+    "copyLink": "Kopírovat odkaz",
+    "linkCopied": "Odkaz zkopírován",
+    "copyFailed": "Odkaz se nepodařilo zkopírovat",
+    "followDevice": "Podle zařízení"
   }
 }

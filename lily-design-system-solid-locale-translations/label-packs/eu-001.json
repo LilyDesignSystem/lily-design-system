@@ -288,5 +288,23 @@
     "date": "Data",
     "time": "Ordua",
     "now": "Orain"
+  },
+  "pickers": {
+    "link": "Lekuak",
+    "search": "Bilatu",
+    "searchInput": "Bilatu",
+    "searchSubmit": "Bilatu",
+    "theme": "Gaiak",
+    "locale": "Hizkuntzak",
+    "timeZone": "Ordu-zonak",
+    "textSize": "Testu-tamainak",
+    "motion": "Mugimendua",
+    "share": "Partekatu",
+    "menu": "Menua",
+    "settings": "Ezarpenak",
+    "copyLink": "Kopiatu esteka",
+    "linkCopied": "Esteka kopiatu da",
+    "copyFailed": "Ezin izan da esteka kopiatu",
+    "followDevice": "Jarraitu gailua"
   }
 }

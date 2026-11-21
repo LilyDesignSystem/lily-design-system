@@ -288,5 +288,23 @@
     "date": "Dyddiad",
     "time": "Amser",
     "now": "Nawr"
+  },
+  "pickers": {
+    "link": "Lleoedd",
+    "search": "Chwilio",
+    "searchInput": "Chwilio",
+    "searchSubmit": "Chwilio",
+    "theme": "Themâu",
+    "locale": "Ieithoedd",
+    "timeZone": "Parthau amser",
+    "textSize": "Meintiau testun",
+    "motion": "Symudiad",
+    "share": "Rhannu",
+    "menu": "Dewislen",
+    "settings": "Gosodiadau",
+    "copyLink": "Copïo’r ddolen",
+    "linkCopied": "Copïwyd y ddolen",
+    "copyFailed": "Methu copïo’r ddolen",
+    "followDevice": "Dilyn y ddyfais"
   }
 }

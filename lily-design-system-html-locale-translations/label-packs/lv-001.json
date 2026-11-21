@@ -288,5 +288,23 @@
     "date": "Datums",
     "time": "Laiks",
     "now": "Tagad"
+  },
+  "pickers": {
+    "link": "Vietas",
+    "search": "Meklēt",
+    "searchInput": "Meklēt",
+    "searchSubmit": "Meklēt",
+    "theme": "Motīvi",
+    "locale": "Valodas",
+    "timeZone": "Laika joslas",
+    "textSize": "Teksta izmēri",
+    "motion": "Kustība",
+    "share": "Kopīgot",
+    "menu": "Izvēlne",
+    "settings": "Iestatījumi",
+    "copyLink": "Kopēt saiti",
+    "linkCopied": "Saite nokopēta",
+    "copyFailed": "Saiti nevarēja nokopēt",
+    "followDevice": "Sekot ierīcei"
   }
 }

@@ -12,8 +12,8 @@ and filter, plus a small loader per catalog that turns a pack into the `labels` 
 
 In: the pack format, the loaders (TypeScript, Nunjucks, Blazor), the 64 locales, and the checks that keep packs and helpers in step.
 Out: anything that depends on how a locale writes dates (weekday and day names, period titles and announcements, the Gantt column
-label, the date-time-picker labels) — build those with `Intl` or the culture; pickers (their labels are few and per-app); publishing
-the packs as a package (not done yet).
+label, the date-time-picker labels) — build those with `Intl` or the culture; publishing
+the packs as a package (not done yet). The page-header pickers' names are in: see [Picker names](#picker-names-added-2026-11-21).
 
 ## Principles and rules
 
@@ -67,6 +67,34 @@ Every pack also has a `date-time-now-input` section: the headless `date-time-now
 `NowLabel`). A name a pack lacks is omitted, so that control stays unnamed rather than in another language. Unreviewed
 machine drafts like the rest (English excepted).
 
+## Picker names (added 2026-11-21)
+
+Every pack also has a `pickers` section: the names of the page-header pickers and their messages, in the pack's language. The
+components still ship no English default; this is the opt-in way to get a default, from a locale's pack, so an app does not
+write and translate the same sixteen words. English reads:
+
+| Key                                     | English                                         | Used for                                                                                               |
+| --------------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| `link`                                  | Places                                          | the link-picker's button (the page links an app defines)                                               |
+| `search`, `searchInput`, `searchSubmit` | Search                                          | the search-picker's button, its field and its submit; the pack's own word for search (`common.search`) |
+| `theme`                                 | Themes                                          | the theme-picker's button                                                                              |
+| `locale`                                | Locales                                         | the locale-picker's button (in other languages, "Languages")                                           |
+| `timeZone`                              | Time Zones                                      | the time-zone-picker's button                                                                          |
+| `textSize`                              | Text Sizes                                      | the text-size-picker's button                                                                          |
+| `motion`                                | Motion                                          | the motion-picker's button                                                                             |
+| `share`                                 | Share                                           | the share-picker's button                                                                              |
+| `menu`, `settings`                      | Menu, Settings                                  | the menu-picker's and settings-picker's buttons                                                        |
+| `copyLink`, `linkCopied`, `copyFailed`  | Copy link, Link copied, Could not copy the link | the share-picker's `copyLabel`, `copiedLabel` and `copyFailedLabel`                                    |
+| `followDevice`                          | Follow this device                              | the theme-picker's `systemLabel`                                                                       |
+
+Use `pickerBarLabels(pack)` for the `picker-bar`'s `labels` (its nine names), `shareLabels(pack)` for the share picker's three
+messages, and `pickerLabels(pack)` for all sixteen by key (Blazor: `LocaleTranslations.PickerLabels(locale)` and
+`ShareLabels(locale)`). A key a pack lacks or leaves empty is omitted, so that control stays unnamed rather than showing another
+language's text. The nouns are plural because each button opens a list of them; where a language has no natural plural for a
+button's name, the pack uses what a native UI would. The words are unreviewed machine drafts like the rest of the pack (English
+excepted), and Cornish, Scots, Bhojpuri and Nigerian Pidgin are lowest confidence. An app can still pass its own `labels`; they win
+over a pack.
+
 ## Locales
 
 `ar bg bh bn cs cy da de el en es et eu fa fi fr ga gu ha hi hr hu id it ja jv ko lt lv mr mt nl pa pl pt ro ru sk sl sv ta te tr ur vi zh`,
@@ -115,6 +143,9 @@ The list is a plan, not a commitment; a funded native reviewer moves a language 
 - [x] Every Nunjucks package renders its macro with every pack and leaves no placeholder in a visible label (`*.label-pack.test.ts`).
 - [x] Every Blazor package builds its labels from every pack (`*LabelPackTests.cs`).
 - [x] `shared/label-pack.test.ts` and `shared/label-pack-nunjucks.test.ts` build every label from every pack.
+- [x] Picker names (2026-11-21): a `pickers` section in all 64 packs; `pickerLabels`, `pickerBarLabels` and `shareLabels` in
+      `shared/label-pack.ts` (every pack names every picker; the search labels reuse the pack's own word for search), and
+      `PickerLabels` and `ShareLabels` in the Blazor loader. The Nunjucks macros and the site's own picker bar do not use them yet.
 - [ ] Native-speaker review of the 63 draft packs (Welsh included).
 - [x] Packaged (2026-10-18, not yet published): `@lilydesignsystem/locale-translations` (npm, one flat export per locale; the `reviewed` flag, not a path, marks a draft) and `LilyDesignSystem.Blazor.LocaleTranslations` (NuGet, packs embedded). Each pack also holds `direction`, `endonym` and `exonyms`.
 

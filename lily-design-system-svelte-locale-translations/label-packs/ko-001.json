@@ -288,5 +288,23 @@
     "date": "날짜",
     "time": "시간",
     "now": "지금"
+  },
+  "pickers": {
+    "link": "장소",
+    "search": "검색",
+    "searchInput": "검색",
+    "searchSubmit": "검색",
+    "theme": "테마",
+    "locale": "언어",
+    "timeZone": "시간대",
+    "textSize": "글자 크기",
+    "motion": "모션",
+    "share": "공유",
+    "menu": "메뉴",
+    "settings": "설정",
+    "copyLink": "링크 복사",
+    "linkCopied": "링크가 복사됨",
+    "copyFailed": "링크를 복사할 수 없음",
+    "followDevice": "기기 설정 따르기"
   }
 }

@@ -244,5 +244,23 @@
     "date": "日期",
     "time": "辰光",
     "now": "现在"
+  },
+  "pickers": {
+    "link": "地方",
+    "search": "搜索",
+    "searchInput": "搜索",
+    "searchSubmit": "搜索",
+    "theme": "主题",
+    "locale": "语言",
+    "timeZone": "时区",
+    "textSize": "字体大小",
+    "motion": "动效",
+    "share": "分享",
+    "menu": "菜单",
+    "settings": "设置",
+    "copyLink": "复制链接",
+    "linkCopied": "链接复制好了",
+    "copyFailed": "链接复制失败",
+    "followDevice": "跟牢设备"
   }
 }

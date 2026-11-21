@@ -288,5 +288,23 @@
     "date": "Tarih",
     "time": "Saat",
     "now": "Şimdi"
+  },
+  "pickers": {
+    "link": "Yerler",
+    "search": "Ara",
+    "searchInput": "Ara",
+    "searchSubmit": "Ara",
+    "theme": "Temalar",
+    "locale": "Diller",
+    "timeZone": "Saat dilimleri",
+    "textSize": "Metin boyutları",
+    "motion": "Hareket",
+    "share": "Paylaş",
+    "menu": "Menü",
+    "settings": "Ayarlar",
+    "copyLink": "Bağlantıyı kopyala",
+    "linkCopied": "Bağlantı kopyalandı",
+    "copyFailed": "Bağlantı kopyalanamadı",
+    "followDevice": "Cihazı izle"
   }
 }

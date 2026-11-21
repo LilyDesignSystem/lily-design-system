@@ -288,5 +288,23 @@
     "date": "Dato",
     "time": "Tidspunkt",
     "now": "Nu"
+  },
+  "pickers": {
+    "link": "Steder",
+    "search": "Søg",
+    "searchInput": "Søg",
+    "searchSubmit": "Søg",
+    "theme": "Temaer",
+    "locale": "Sprog",
+    "timeZone": "Tidszoner",
+    "textSize": "Tekststørrelser",
+    "motion": "Bevægelse",
+    "share": "Del",
+    "menu": "Menu",
+    "settings": "Indstillinger",
+    "copyLink": "Kopiér link",
+    "linkCopied": "Link kopieret",
+    "copyFailed": "Linket kunne ikke kopieres",
+    "followDevice": "Følg enheden"
   }
 }
