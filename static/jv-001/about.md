@@ -61,7 +61,7 @@ Lily njupuk pola lan basa saka sakumpulan sistem desain sing sengaja dipilih jem
 
 ## Lisènsi
 
-Lily duwé pirang-pirang lisènsi ing sangisoré **BSD, MIT, Apache-2.0, GPL-2.0, utawa GPL-3.0**. Pilih sing cocog karo proyèk sampéyan. Yèn ora ana sing cocog, hubungi kita.
+Lily duwé pirang-pirang lisènsi ing sangisoré **BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0, utawa GPL-3.0**. Pilih sing cocog karo proyèk sampéyan. Yèn ora ana sing cocog, hubungi kita.
 
 ## Kontak
 

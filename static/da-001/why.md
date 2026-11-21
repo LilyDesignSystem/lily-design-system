@@ -20,7 +20,7 @@ Fordi hver komponent har en stabil klassekrog og ren struktur, forbliver din sti
 - **Kan internationaliseres fra grunden.** Hver brugervendt streng – hver etiket, fejl og meddelelse – er en prop med stabile navne på tværs af frameworks, så oversættelse flyder naturligt. RTL og tovejstekst arver fra din `dir`. Sprogbevidste komponenter tager sproget som en prop, altid udtrykkeligt.
 - **Ét katalog, otte frameworks.** De samme 608 komponenter (573 som native Web Components) med de samme klassekroge og prop-konventioner i HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks og Web Components. Din CSS og dit teams viden kan overføres på tværs af stakke.
 - **Uafhængig af CSS-strategi.** Én stabil klasse i kebab-case pr. komponentrod. Semantisk CSS, Tailwind-utilities, CSS-in-JS eller et af de 63 færdige temaer – Lily byder dem alle velkommen og holder sig elegant i baggrunden.
-- **Gratis, for evigt, på dine vilkår.** Åben kildekode under en licens efter eget valg: BSD, MIT, Apache-2.0, GPL-2.0 eller GPL-3.0. Intet pro-niveau, ingen brugerlicenser, ingen telemetri.
+- **Gratis, for evigt, på dine vilkår.** Åben kildekode under en licens efter eget valg: BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 eller GPL-3.0. Intet pro-niveau, ingen brugerlicenser, ingen telemetri.
 
 ## Dybde, hvor det tæller
 

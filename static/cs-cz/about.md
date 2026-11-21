@@ -61,7 +61,7 @@ Lily čerpá vzory a jazyk z záměrně široké sady návrhových systémů:
 
 ## Licence
 
-Lily je vícelicencovaný: **BSD, MIT, Apache-2.0, GPL-2.0 nebo GPL-3.0**. Vyberte si licenci, která vyhovuje vašemu projektu. Pokud nevyhovuje žádná, ozvěte se nám.
+Lily je vícelicencovaný: **BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 nebo GPL-3.0**. Vyberte si licenci, která vyhovuje vašemu projektu. Pokud nevyhovuje žádná, ozvěte se nám.
 
 ## Kontakt
 

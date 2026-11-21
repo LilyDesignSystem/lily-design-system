@@ -61,7 +61,7 @@ Lily hëlt Muster a Sprooch aus engem bewosst breede Set vu Designsystemer:
 
 ## Lizenz
 
-Lily huet méi Lizenzen: **BSD, MIT, Apache-2.0, GPL-2.0 oder GPL-3.0**. Wielt déi, déi bei Äre Projet passt. Wann keng passt, mellt Iech bei eis.
+Lily huet méi Lizenzen: **BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 oder GPL-3.0**. Wielt déi, déi bei Äre Projet passt. Wann keng passt, mellt Iech bei eis.
 
 ## Kontakt
 

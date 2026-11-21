@@ -5,7 +5,7 @@
   "description": "This is the public documentation site. Every link below is a page on this site unless marked otherwise; the github_repository links go to the canonical source monorepo, where the specification, design-principle rules, and every framework implementation actually live.",
   "site": "https://lilydesignsystem.com/",
   "github_repository": "https://github.com/LilyDesignSystem/lily-design-system",
-  "license": "MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause",
+  "license": "MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-NC-SA-4.0",
   "component_count": 583,
   "sections": [
     {

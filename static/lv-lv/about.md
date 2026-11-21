@@ -61,7 +61,7 @@ Lily smeļas paraugus un valodu no apzināti plašas dizaina sistēmu kopas:
 
 ## Licence
 
-Lily ir vairākas licences: **BSD, MIT, Apache-2.0, GPL-2.0 vai GPL-3.0**. Izvēlieties to, kas der jūsu projektam. Ja neder neviena, sazinieties ar mums.
+Lily ir vairākas licences: **BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 vai GPL-3.0**. Izvēlieties to, kas der jūsu projektam. Ja neder neviena, sazinieties ar mums.
 
 ## Kontakti
 

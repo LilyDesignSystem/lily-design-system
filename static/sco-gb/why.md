@@ -20,7 +20,7 @@ Because ilka component cairries a stable class hook an pure structure, yer styli
 - **Internationalizable bi construction.** Ilka uiser-facin string — ilka label, error, an announcement — is a prop wi stable names athort frameworks, sae translation flows naturally. RTL an bidirectional text inherit frae yer `dir`. Locale-awaur components tak the locale as a prop, aye explicitly.
 - **Ae catalog, aicht frameworks.** The same 608 components (573 as native Web Components) wi the same class hooks an prop conventions in HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks, an Web Components. Yer CSS an yer team's knowledge transfer athort stacks.
 - **CSS-strategy agnostic.** Ae stable kebab-case class per component root. Semantic CSS, Tailwind utilities, CSS-in-JS, or ane o the 63 ready-made themes — Lily walcomes them aw an gits oot the road gracefully.
-- **Free, forever, on yer ain terms.** Open source unner yer choice o BSD, MIT, Apache-2.0, GPL-2.0, or GPL-3.0. Nae pro tier, nae seat licences, nae telemetry.
+- **Free, forever, on yer ain terms.** Open source unner yer choice o BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0, or GPL-3.0. Nae pro tier, nae seat licences, nae telemetry.
 
 ## Depth whaur it maitters
 

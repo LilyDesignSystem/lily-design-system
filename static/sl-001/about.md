@@ -61,7 +61,7 @@ Lily črpa vzorce in jezik iz namerno širokega nabora oblikovalskih sistemov:
 
 ## Licenca
 
-Lily ima več licenc: **BSD, MIT, Apache-2.0, GPL-2.0 ali GPL-3.0**. Izberite tisto, ki ustreza vašemu projektu. Če nobena ne ustreza, se obrnite na nas.
+Lily ima več licenc: **BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 ali GPL-3.0**. Izberite tisto, ki ustreza vašemu projektu. Če nobena ne ustreza, se obrnite na nas.
 
 ## Stik
 

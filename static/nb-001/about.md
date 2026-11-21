@@ -61,7 +61,7 @@ Lily henter mønstre og språk fra et bevisst bredt utvalg designsystemer:
 
 ## Lisens
 
-Lily har flere lisenser under **BSD, MIT, Apache-2.0, GPL-2.0 eller GPL-3.0**. Velg den som passer prosjektet ditt. Hvis ingen av dem fungerer, ta kontakt.
+Lily har flere lisenser under **BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 eller GPL-3.0**. Velg den som passer prosjektet ditt. Hvis ingen av dem fungerer, ta kontakt.
 
 ## Kontakt
 

@@ -20,7 +20,7 @@ Poiché ogni componente porta con sé un hook di classe stabile e una struttura 
 - **Internazionalizzabile per costruzione.** Ogni stringa visibile all'utente – ogni etichetta, errore e annuncio – è una prop con nomi stabili tra i framework, così la traduzione scorre in modo naturale. RTL e testo bidirezionale ereditano dal tuo `dir`. I componenti sensibili alla lingua ricevono la lingua come prop, sempre in modo esplicito.
 - **Un catalogo, otto framework.** Gli stessi 608 componenti (573 come Web Components nativi) con gli stessi hook di classe e le stesse convenzioni per le prop in HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks e Web Components. Il tuo CSS e le competenze del tuo team si trasferiscono da uno stack all'altro.
 - **Indipendente dalla strategia CSS.** Una classe stabile in kebab-case per ogni radice di componente. CSS semantico, utility di Tailwind, CSS-in-JS o uno dei 63 temi pronti: Lily li accoglie tutti e si fa da parte con eleganza.
-- **Gratuito, per sempre, alle tue condizioni.** Open source con la licenza che preferisci tra BSD, MIT, Apache-2.0, GPL-2.0 o GPL-3.0. Nessun livello pro, nessuna licenza per postazione, nessuna telemetria.
+- **Gratuito, per sempre, alle tue condizioni.** Open source con la licenza che preferisci tra BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 o GPL-3.0. Nessun livello pro, nessuna licenza per postazione, nessuna telemetria.
 
 ## Profondità dove conta
 

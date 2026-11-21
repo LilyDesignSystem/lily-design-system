@@ -20,7 +20,7 @@ Peress li kull komponent għandu ganċ tal-klassi stabbli u struttura nadifa, l-
 - **Internazzjonalizzabbli mid-disinn.** Kull sekwenza viżibbli għall-utent — kull tikketta, żball u anunċju — hija proprjetà b’ismijiet stabbli fil-framework kollha, għalhekk it-traduzzjoni tgħaddi b’mod naturali. L-RTL u t-test bidirezzjonali jirtu mid- `dir` tiegħek. Il-komponenti li jafu l-lokal jirċievu l-lokal bħala proprjetà, dejjem b’mod espliċitu.
 - **Katalgu wieħed, tmien framework.** L-istess 608 komponent (573 bħala Web Components nattivi) bl-istess ganċijiet tal-klassi u konvenzjonijiet tal-proprjetajiet f’HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks u Web Components. Is-CSS tiegħek u l-għarfien tat-tim tiegħek jinbidlu bejn stacks.
 - **Indipendenti mill-istrateġija CSS.** Klassi stabbli waħda f’kebab-case għal kull għerq ta’ komponent. CSS semantiku, utilitajiet Tailwind, CSS-in-JS jew waħda mit-63 tema lesta — Lily tilqa’ lil kollha u titbiegħed bil-grazzja.
-- **B’xejn, għal dejjem, bit-termini tiegħek.** Sors miftuħ taħt l-għażla tiegħek ta’ BSD, MIT, Apache-2.0, GPL-2.0 jew GPL-3.0. L-ebda livell pro, l-ebda liċenzji għal kull siġġu, l-ebda telemetrija.
+- **B’xejn, għal dejjem, bit-termini tiegħek.** Sors miftuħ taħt l-għażla tiegħek ta’ BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 jew GPL-3.0. L-ebda livell pro, l-ebda liċenzji għal kull siġġu, l-ebda telemetrija.
 
 ## Fond fejn jgħodd
 

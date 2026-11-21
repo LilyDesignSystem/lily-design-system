@@ -10,7 +10,7 @@ Read on 28 October 2026 from each system's own public site, plus Lily's own surv
 
 | ডিজাইন সিস্টেম | Headless | ফ্রেমওয়ার্ক | অ্যাক্সেসিবিলিটি | লাইসেন্স |
 | --- | --- | --- | --- | --- |
-| Lily | হ্যাঁ | HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks, Web Components, Alpine | WCAG 2.2 AAA | BSD, MIT, Apache-2.0, GPL-2.0, GPL-3.0 |
+| Lily | হ্যাঁ | HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks, Web Components, Alpine | WCAG 2.2 AAA | BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0, GPL-3.0 |
 | [GOV.UK Design System](https://lilydesignsystem.com/compare/lily-design-system-and-gov-uk-design-system/) | না | Nunjucks | WCAG 2.2 AA | MIT |
 | [U.S. Web Design System](https://lilydesignsystem.com/compare/lily-design-system-and-us-web-design-system/) | না | HTML, Twig | WCAG 2.1 AA | সর্বজনীন সম্পদ (CC0) |
 | [Adobe Spectrum](https://lilydesignsystem.com/compare/lily-design-system-and-adobe-spectrum/) | না | React, Web Components | WCAG 2.1 AA | Apache-2.0 |

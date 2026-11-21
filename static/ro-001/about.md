@@ -61,7 +61,7 @@ Lily preia modele și limbaj dintr-un set intenționat larg de sisteme de design
 
 ## Licență
 
-Lily are mai multe licențe: **BSD, MIT, Apache-2.0, GPL-2.0 sau GPL-3.0**. Alege-o pe cea care se potrivește proiectului tău. Dacă niciuna nu merge, contactează-ne.
+Lily are mai multe licențe: **BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 sau GPL-3.0**. Alege-o pe cea care se potrivește proiectului tău. Dacă niciuna nu merge, contactează-ne.
 
 ## Contact
 

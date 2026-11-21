@@ -20,7 +20,7 @@ Toisc go bhfuil crúca aicme seasmhach agus struchtúr glan ag gach comhpháirt,
 - **Idirnáisiúnaithe trí dhearadh.** Is airí é gach teaghrán a fheiceann an t-úsáideoir — gach lipéad, earráid agus fógra — le hainmneacha seasmhacha thar na creataí, mar sin sreabhann an t-aistriúchán go nádúrtha. Faigheann RTL agus téacs déthreorach le hoidhreacht ó do `dir`. Glacann comhpháirteanna a bhfuil aithne acu ar an logchaighdeán leis an logchaighdeán mar airí, go sainráite i gcónaí.
 - **Catalóg amháin, ocht gcreat.** An 608 comhpháirt chéanna (573 mar Web Components dúchasacha) leis na crúcaí aicme chéanna agus coinbhinsiúin airíonna sna HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks agus Web Components. Aistrítear do CSS agus eolas d’fhoirne thar chruacha.
 - **Neamhspleách ar straitéis CSS.** Aicme sheasmhach amháin i kebab-case in aghaidh gach fréimhe comhpháirte. CSS séimeantach, fóntais Tailwind, CSS-in-JS, nó ceann de na 63 téama réamhdhéanta — fáiltíonn Lily rompu ar fad agus bogann sé as an mbealach le gràs.
-- **Saor in aisce, go deo, ar do théarmaí féin.** Foinse oscailte faoi do rogha de BSD, MIT, Apache-2.0, GPL-2.0, nó GPL-3.0. Gan leibhéal pro, gan ceadúnais suíocháin, gan telemetry.
+- **Saor in aisce, go deo, ar do théarmaí féin.** Foinse oscailte faoi do rogha de BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0, nó GPL-3.0. Gan leibhéal pro, gan ceadúnais suíocháin, gan telemetry.
 
 ## Doimhneacht san áit a bhfuil tábhacht leis
 

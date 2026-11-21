@@ -61,7 +61,7 @@ Lily lấy các mẫu và ngôn ngữ từ một tập hợp hệ thống thiế
 
 ## Giấy phép
 
-Lily được cấp nhiều giấy phép theo **BSD, MIT, Apache-2.0, GPL-2.0 hoặc GPL-3.0**. Hãy chọn giấy phép phù hợp với dự án của bạn. Nếu không giấy phép nào phù hợp, hãy liên hệ với chúng tôi.
+Lily được cấp nhiều giấy phép theo **BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 hoặc GPL-3.0**. Hãy chọn giấy phép phù hợp với dự án của bạn. Nếu không giấy phép nào phù hợp, hãy liên hệ với chúng tôi.
 
 ## Liên hệ
 

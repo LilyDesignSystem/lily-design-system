@@ -61,7 +61,7 @@ Lily mengambil corak dan bahasa daripada set sistem reka bentuk yang sengaja dip
 
 ## Lesen
 
-Lily berlesen berbilang di bawah **BSD, MIT, Apache-2.0, GPL-2.0 atau GPL-3.0**. Pilih lesen yang sesuai untuk projek anda. Jika tiada yang sesuai, hubungi kami.
+Lily berlesen berbilang di bawah **BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 atau GPL-3.0**. Pilih lesen yang sesuai untuk projek anda. Jika tiada yang sesuai, hubungi kami.
 
 ## Hubungi
 

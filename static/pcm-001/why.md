@@ -20,7 +20,7 @@ Because every component carry stable class hook and pure structure, your styling
 - **Internationalizable by construction.** Every string wey user go see — each label, error, and announcement — na prop wey get stable names for all frameworks, so translation go flow naturally. RTL and bidirectional text dey inherit from your `dir`. Locale-aware components dey take di locale as prop, always explicitly.
 - **One catalog, eight frameworks.** Di same 608 components (573 as native Web Components) with di same class hooks and prop conventions for HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks, and Web Components. Your CSS and your team knowledge go move across stacks.
 - **CSS-strategy agnostic.** One stable kebab-case class for every component root. Semantic CSS, Tailwind utilities, CSS-in-JS, or one of di 63 ready-made themes — Lily welcome all of dem and e go gracefully comot for your way.
-- **Free, forever, for your own terms.** Open source under your choice of BSD, MIT, Apache-2.0, GPL-2.0, or GPL-3.0. No pro tier, no seat licenses, no telemetry.
+- **Free, forever, for your own terms.** Open source under your choice of BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0, or GPL-3.0. No pro tier, no seat licenses, no telemetry.
 
 ## Depth where e matter
 

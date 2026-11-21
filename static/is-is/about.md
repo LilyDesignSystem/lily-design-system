@@ -61,7 +61,7 @@ Lily sækir mynstur og orðalag í viljandi breiðan hóp hönnunarkerfa:
 
 ## Leyfi
 
-Lily er með mörg leyfi, þar á meðal **BSD, MIT, Apache-2.0, GPL-2.0 eða GPL-3.0**. Veldu það leyfi sem hentar verkefninu þínu. Ef ekkert þeirra gengur, hafðu samband.
+Lily er með mörg leyfi, þar á meðal **BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 eða GPL-3.0**. Veldu það leyfi sem hentar verkefninu þínu. Ef ekkert þeirra gengur, hafðu samband.
 
 ## Samband
 

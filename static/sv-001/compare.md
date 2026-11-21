@@ -10,7 +10,7 @@ Read on 28 October 2026 from each system's own public site, plus Lily's own surv
 
 | Designsystem | Huvudlöst | Ramverk | Tillgänglighet | Licens |
 | --- | --- | --- | --- | --- |
-| Lily | Ja | HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks, Web Components, Alpine | WCAG 2.2 AAA | BSD, MIT, Apache-2.0, GPL-2.0, GPL-3.0 |
+| Lily | Ja | HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks, Web Components, Alpine | WCAG 2.2 AAA | BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0, GPL-3.0 |
 | [GOV.UK Design System](https://lilydesignsystem.com/compare/lily-design-system-and-gov-uk-design-system/) | Nej | Nunjucks | WCAG 2.2 AA | MIT |
 | [U.S. Web Design System](https://lilydesignsystem.com/compare/lily-design-system-and-us-web-design-system/) | Nej | HTML, Twig | WCAG 2.1 AA | Allmän egendom (CC0) |
 | [Adobe Spectrum](https://lilydesignsystem.com/compare/lily-design-system-and-adobe-spectrum/) | Nej | React, Web Components | WCAG 2.1 AA | Apache-2.0 |

@@ -20,7 +20,7 @@ Weil jede Komponente einen stabilen Klassen-Hook und reine Struktur mitbringt, b
 - **Von Grund auf internationalisierbar.** Jede für Nutzer sichtbare Zeichenkette – jede Beschriftung, jeder Fehler, jede Ansage – ist ein Prop mit über alle Frameworks stabilen Namen, sodass Übersetzung ganz natürlich fließt. RTL und bidirektionaler Text erben von Ihrem `dir`. Sprachabhängige Komponenten erhalten die Sprache als Prop, immer ausdrücklich.
 - **Ein Katalog, acht Frameworks.** Dieselben 608 Komponenten (573 als native Web Components) mit denselben Klassen-Hooks und Prop-Konventionen in HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks und Web Components. Ihr CSS und das Wissen Ihres Teams lassen sich über Stacks hinweg übertragen.
 - **Unabhängig von der CSS-Strategie.** Eine stabile Kebab-Case-Klasse pro Komponentenwurzel. Semantisches CSS, Tailwind-Utilities, CSS-in-JS oder eines der 63 fertigen Themes – Lily heißt sie alle willkommen und hält sich elegant im Hintergrund.
-- **Kostenlos, für immer, zu Ihren Bedingungen.** Open Source unter einer Lizenz Ihrer Wahl: BSD, MIT, Apache-2.0, GPL-2.0 oder GPL-3.0. Keine Pro-Stufe, keine Benutzerlizenzen, keine Telemetrie.
+- **Kostenlos, für immer, zu Ihren Bedingungen.** Open Source unter einer Lizenz Ihrer Wahl: BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 oder GPL-3.0. Keine Pro-Stufe, keine Benutzerlizenzen, keine Telemetrie.
 
 ## Tiefe, wo sie zählt
 

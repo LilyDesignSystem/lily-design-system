@@ -20,7 +20,7 @@ Tā kā katrai komponentei ir stabils klases āķis un tīra struktūra, jūsu s
 - **Internacionalizējams pēc konstrukcijas.** Katra lietotājam redzama virkne — katra etiķete, kļūda un paziņojums — ir īpašība ar stabiliem nosaukumiem visos ietvaros, tāpēc tulkošana plūst dabiski. RTL un divvirzienu teksts manto no jūsu `dir`. Lokalizācijas apzinošās komponentes saņem lokāli kā īpašību, vienmēr skaidri.
 - **Viens katalogs, astoņi ietvari.** Tās pašas 608 komponentes (573 kā dabiskie Web Components) ar tiem pašiem klases āķiem un īpašību konvencijām HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks un Web Components. Jūsu CSS un komandas zināšanas pārnesas starp tehnoloģiju kaudzēm.
 - **Neatkarīgs no CSS stratēģijas.** Viena stabila kebab-case klase uz komponentes sakni. Semantisks CSS, Tailwind palīgklases, CSS-in-JS vai viena no 63 gatavajām tēmām — Lily sveic tās visas un graciozi atkāpjas.
-- **Bez maksas, uz visiem laikiem, uz jūsu noteikumiem.** Atvērtais kods ar jūsu izvēlētu licenci: BSD, MIT, Apache-2.0, GPL-2.0 vai GPL-3.0. Nav pro līmeņa, nav licenču uz vietu, nav telemetrijas.
+- **Bez maksas, uz visiem laikiem, uz jūsu noteikumiem.** Atvērtais kods ar jūsu izvēlētu licenci: BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 vai GPL-3.0. Nav pro līmeņa, nav licenču uz vietu, nav telemetrijas.
 
 ## Dziļums tur, kur tas ir svarīgi
 

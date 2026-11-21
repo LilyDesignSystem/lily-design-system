@@ -61,7 +61,7 @@ Lily tana ɗaukar tsare-tsare da harshe daga faffadan tarin tsarin zane da aka z
 
 ## Lasisi
 
-Lily tana da lasisi da yawa a ƙarƙashin **BSD, MIT, Apache-2.0, GPL-2.0, ko GPL-3.0**. Zaɓi wanda ya dace da aikinka. Idan babu wanda ya dace, ka tuntube mu.
+Lily tana da lasisi da yawa a ƙarƙashin **BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0, ko GPL-3.0**. Zaɓi wanda ya dace da aikinka. Idan babu wanda ya dace, ka tuntube mu.
 
 ## Tuntuɓa
 

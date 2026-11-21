@@ -20,7 +20,7 @@ Omdat elke component een stabiele klassenhaak en pure structuur heeft, blijft je
 - **Per ontwerp te internationaliseren.** Elke voor de gebruiker zichtbare tekenreeks – elk label, elke fout en elke aankondiging – is een prop met stabiele namen in alle frameworks, zodat vertalen vanzelf gaat. RTL en bidirectionele tekst erven van je `dir`. Locatiebewuste componenten nemen de taal als prop, altijd expliciet.
 - **Eén catalogus, acht frameworks.** Dezelfde 608 componenten (573 als native Web Components) met dezelfde klassenhaken en prop-conventies in HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks en Web Components. Je CSS en de kennis van je team zijn over te dragen tussen stacks.
 - **Onafhankelijk van je CSS-strategie.** Eén stabiele kebab-case klasse per componentroot. Semantische CSS, Tailwind-utilities, CSS-in-JS of een van de 63 kant-en-klare thema's – Lily verwelkomt ze allemaal en blijft elegant uit de weg.
-- **Gratis, voor altijd, op jouw voorwaarden.** Opensource onder een licentie naar keuze: BSD, MIT, Apache-2.0, GPL-2.0 of GPL-3.0. Geen pro-variant, geen gebruikerslicenties, geen telemetrie.
+- **Gratis, voor altijd, op jouw voorwaarden.** Opensource onder een licentie naar keuze: BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 of GPL-3.0. Geen pro-variant, geen gebruikerslicenties, geen telemetrie.
 
 ## Diepgang waar het ertoe doet
 

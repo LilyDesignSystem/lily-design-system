@@ -61,7 +61,7 @@ Lily ontleent patronen en taal aan een bewust brede set designsystemen:
 
 ## Licentie
 
-Lily heeft meerdere licenties: **BSD, MIT, Apache-2.0, GPL-2.0 of GPL-3.0**. Kies de licentie die bij je project past. Past geen enkele, neem dan contact op.
+Lily heeft meerdere licenties: **BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 of GPL-3.0**. Kies de licentie die bij je project past. Past geen enkele, neem dan contact op.
 
 ## Contact
 

@@ -61,7 +61,7 @@ Kumukuha ang Lily ng mga pattern at wika mula sa sadyang malawak na hanay ng mga
 
 ## Lisensya
 
-Ang Lily ay may maraming lisensya sa ilalim ng **BSD, MIT, Apache-2.0, GPL-2.0, o GPL-3.0**. Piliin ang lisensyang akma sa proyekto mo. Kung wala sa mga ito ang gumagana, makipag-ugnayan sa amin.
+Ang Lily ay may maraming lisensya sa ilalim ng **BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0, o GPL-3.0**. Piliin ang lisensyang akma sa proyekto mo. Kung wala sa mga ito ang gumagana, makipag-ugnayan sa amin.
 
 ## Makipag-ugnayan
 

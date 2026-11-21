@@ -20,7 +20,7 @@ Como cada componente lleva una clase de enlace estable y una estructura pura, tu
 - **Internacionalizable por construcción.** Cada cadena visible para el usuario —cada etiqueta, error y anuncio— es una propiedad con nombres estables en todos los frameworks, de modo que la traducción fluye con naturalidad. El texto de derecha a izquierda y el bidireccional heredan de tu `dir`. Los componentes sensibles a la configuración regional reciben el idioma como propiedad, siempre de forma explícita.
 - **Un catálogo, ocho frameworks.** Los mismos 608 componentes (573 como Web Components nativos) con las mismas clases de enlace y convenciones de propiedades en HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks y Web Components. Tu CSS y los conocimientos de tu equipo se trasladan de una tecnología a otra.
 - **Independiente de la estrategia de CSS.** Una clase estable en kebab-case por cada raíz de componente. CSS semántico, utilidades de Tailwind, CSS-in-JS o uno de los 63 temas listos para usar: Lily los acepta todos y se mantiene discretamente al margen.
-- **Gratis, para siempre y en tus términos.** Código abierto con la licencia que elijas entre BSD, MIT, Apache-2.0, GPL-2.0 o GPL-3.0. Sin nivel de pago, sin licencias por usuario, sin telemetría.
+- **Gratis, para siempre y en tus términos.** Código abierto con la licencia que elijas entre BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 o GPL-3.0. Sin nivel de pago, sin licencias por usuario, sin telemetría.
 
 ## Profundidad donde importa
 

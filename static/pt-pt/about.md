@@ -61,7 +61,7 @@ A Lily extrai padrões e linguagem de um conjunto deliberadamente amplo de siste
 
 ## Licença
 
-A Lily tem licenciamento múltiplo: **BSD, MIT, Apache-2.0, GPL-2.0 ou GPL-3.0**. Escolha a licença que combina com o seu projeto. Se nenhuma servir, entre em contato.
+A Lily tem licenciamento múltiplo: **BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 ou GPL-3.0**. Escolha a licença que combina com o seu projeto. Se nenhuma servir, entre em contato.
 
 ## Contato
 

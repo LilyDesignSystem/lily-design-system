@@ -61,7 +61,7 @@ Lily puise ses motifs et son vocabulaire dans un ensemble délibérément large 
 
 ## Licence
 
-Lily est sous licences multiples : **BSD, MIT, Apache-2.0, GPL-2.0 ou GPL-3.0**. Choisissez celle qui convient à votre projet. Si aucune ne vous convient, contactez-nous.
+Lily est sous licences multiples : **BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 ou GPL-3.0**. Choisissez celle qui convient à votre projet. Si aucune ne vous convient, contactez-nous.
 
 ## Contact
 

@@ -61,7 +61,7 @@ Lily taks patterns an leid frae a deliberately braid set o design systems:
 
 ## Licence
 
-Lily is multi-licenced unner **BSD, MIT, Apache-2.0, GPL-2.0, or GPL-3.0**. Pick whitever licence fits yer project. If nane o them wirk, gie us a shout.
+Lily is multi-licenced unner **BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0, or GPL-3.0**. Pick whitever licence fits yer project. If nane o them wirk, gie us a shout.
 
 ## Contact
 

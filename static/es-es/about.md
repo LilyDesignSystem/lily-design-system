@@ -61,7 +61,7 @@ Lily toma patrones y lenguaje de un conjunto deliberadamente amplio de sistemas 
 
 ## Licencia
 
-Lily tiene licencia múltiple: **BSD, MIT, Apache-2.0, GPL-2.0 o GPL-3.0**. Elige la que mejor se adapte a tu proyecto. Si ninguna te sirve, ponte en contacto con nosotros.
+Lily tiene licencia múltiple: **BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 o GPL-3.0**. Elige la que mejor se adapte a tu proyecto. Si ninguna te sirve, ponte en contacto con nosotros.
 
 ## Contacto
 

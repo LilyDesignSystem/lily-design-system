@@ -42,7 +42,7 @@ Welsh is where the two differ most in practice. DHCW's fourth principle is "Desi
 
 ## Licence
 
-DHCW's terms of use say its code is under the MIT licence. Its content, such as guidance text and images, is under the [United Kingdom (UK) Open Government License (OGL) version 3 for Public Sector Information](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/). The OGL lets you copy, adapt and use the content commercially if you acknowledge the source, so reusing DHCW's wording needs an attribution line. Lily's own code is under a choice of five licences (MIT, Apache-2.0, GPL-2.0-only, GPL-3.0-only or BSD-3-Clause).
+DHCW's terms of use say its code is under the MIT licence. Its content, such as guidance text and images, is under the [United Kingdom (UK) Open Government License (OGL) version 3 for Public Sector Information](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/). The OGL lets you copy, adapt and use the content commercially if you acknowledge the source, so reusing DHCW's wording needs an attribution line. Lily's own code is under a choice of seven licences (MIT, Apache-2.0, GPL-2.0-only, GPL-3.0-only, BSD-3-Clause, OGL-UK-3.0 or CC-BY-NC-SA-4.0).
 
 ## Sources
 

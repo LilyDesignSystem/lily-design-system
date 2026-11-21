@@ -20,7 +20,7 @@ Kadangi kiekvienas komponentas turi stabilią klasės kabliuką ir gryną strukt
 - **Internacionalizuojamas pagal konstrukciją.** Kiekviena vartotojui matoma eilutė — kiekviena etiketė, klaida ir pranešimas — yra savybė su stabiliais pavadinimais visuose karkasuose, todėl vertimas teka natūraliai. RTL ir dvikryptis tekstas paveldi iš jūsų `dir`. Lokalei jautrūs komponentai lokalę gauna kaip savybę, visada aiškiai.
 - **Vienas katalogas, aštuoni karkasai.** Tie patys 608 komponentai (573 kaip vietiniai Web Components) su tais pačiais klasės kabliukais ir savybių konvencijomis HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks ir Web Components. Jūsų CSS ir komandos žinios perkeliamos tarp technologijų rinkinių.
 - **Nepriklausomas nuo CSS strategijos.** Viena stabili kebab-case klasė vienai komponento šakniai. Semantinis CSS, Tailwind pagalbinės klasės, CSS-in-JS arba viena iš 63 paruoštų temų — Lily sveikina jas visas ir grakščiai pasitraukia.
-- **Nemokamai, amžinai, jūsų sąlygomis.** Atvirasis kodas pagal jūsų pasirinktą licenciją: BSD, MIT, Apache-2.0, GPL-2.0 arba GPL-3.0. Jokio pro lygio, jokių vietų licencijų, jokios telemetrijos.
+- **Nemokamai, amžinai, jūsų sąlygomis.** Atvirasis kodas pagal jūsų pasirinktą licenciją: BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 arba GPL-3.0. Jokio pro lygio, jokių vietų licencijų, jokios telemetrijos.
 
 ## Gylis ten, kur jis svarbus
 

@@ -20,7 +20,7 @@ Budući da svaka komponenta nosi stabilnu kuku klase i čistu strukturu, vaše s
 - **Internacionalizabilno po konstrukciji.** Svaki niz vidljiv korisniku — svaka oznaka, pogreška i obavijest — svojstvo je sa stabilnim nazivima kroz frameworke, pa prevođenje teče prirodno. RTL i dvosmjerni tekst nasljeđuju vaš `dir`. Komponente svjesne lokala primaju lokal kao svojstvo, uvijek izričito.
 - **Jedan katalog, osam frameworka.** Istih 608 komponenta (573 kao nativni Web Components) s istim kukama klasa i konvencijama svojstava u HTML-u, Svelteu, Reactu, Vueu, Angularu, Blazoru, Nunjucksu i Web Componentsu. Vaš CSS i znanje vašeg tima prenose se između stackova.
 - **Neovisno o CSS strategiji.** Jedna stabilna klasa u kebab-caseu po korijenu komponente. Semantički CSS, Tailwind uslužne klase, CSS-in-JS ili jedna od 63 gotovih tema — Lily ih sve pozdravlja i graciozno se povlači s puta.
-- **Besplatno, zauvijek, pod vašim uvjetima.** Otvoreni kod pod licencom po vašem izboru: BSD, MIT, Apache-2.0, GPL-2.0 ili GPL-3.0. Bez pro razine, bez licenci po mjestu, bez telemetrije.
+- **Besplatno, zauvijek, pod vašim uvjetima.** Otvoreni kod pod licencom po vašem izboru: BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 ili GPL-3.0. Bez pro razine, bez licenci po mjestu, bez telemetrije.
 
 ## Dubina ondje gdje je važna
 

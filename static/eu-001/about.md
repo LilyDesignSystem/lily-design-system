@@ -61,7 +61,7 @@ Lilyk patroiak eta hizkuntza hartzen ditu nahita zabala den diseinu-sistema sort
 
 ## Lizentzia
 
-Lilyk lizentzia anitz ditu, besteak beste **BSD, MIT, Apache-2.0, GPL-2.0 edo GPL-3.0**. Aukeratu zure proiektuari egokitzen zaiona. Bat ere ez bada egokia, jarri harremanetan.
+Lilyk lizentzia anitz ditu, besteak beste **BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 edo GPL-3.0**. Aukeratu zure proiektuari egokitzen zaiona. Bat ere ez bada egokia, jarri harremanetan.
 
 ## Kontaktua
 

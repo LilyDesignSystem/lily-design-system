@@ -40,7 +40,7 @@ Lily targets WCAG 2.2 AAA and follows the APG patterns, with automated axe check
 
 Spectrum's pages I read list beta areas for React and Web Components, and the Web Components docs list 91 navigation entries under Components, some of which may be utilities. The Web Components migration guide is dated "2024/10/31 (v1.0.0)". The spectrum.adobe.com home page gives no component count. Lily lists 608 components in its catalog, a wider surface than a typical design system, but each is newer and less proven in real use.
 
-Both Spectrum code repositories I checked show Apache-2.0. Lily's licence is a choice among several, expressed as `MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause`. The Spectrum design language itself (foundations, guidance) has no licence stated on the pages I read, so check Adobe's terms before reusing anything beyond the code.
+Both Spectrum code repositories I checked show Apache-2.0. Lily's licence is a choice among several, expressed as `MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-NC-SA-4.0`. The Spectrum design language itself (foundations, guidance) has no licence stated on the pages I read, so check Adobe's terms before reusing anything beyond the code.
 
 ## Sources
 

@@ -20,7 +20,7 @@ Kuna igal komponendil on stabiilne klassihaak ja puhas struktuur, jääb sinu ku
 - **Ehituselt rahvusvahelistatav.** Iga kasutajale nähtav string – iga silt, viga ja teadaanne – on atribuut, millel on raamistikuüleselt stabiilsed nimed, nii et tõlkimine toimub loomulikult. RTL ja kahesuunaline tekst pärivad sinu `dir`. Keelepõhised komponendid võtavad keele atribuudina, alati selgesõnaliselt.
 - **Üks kataloog, kaheksa raamistikku.** Samad 608 komponenti (573 natiivsete Web Components'ina) samade klassihaakide ja atribuudikokkulepetega HTML-is, Svelte'is, Reactis, Vue's, Angularis, Blazoris, Nunjucksis ja Web Components'is. Sinu CSS ja meeskonna teadmised kanduvad üle tehnoloogiapakettide vahel.
 - **CSS-strateegiast sõltumatu.** Üks stabiilne kebab-case klass komponendi juure kohta. Semantiline CSS, Tailwindi utiliidid, CSS-in-JS või üks 63 valmisteemast – Lily võtab kõik vastu ja hoiab graatsiliselt eemale.
-- **Tasuta, igavesti, sinu tingimustel.** Avatud lähtekood sinu valitud litsentsi all: BSD, MIT, Apache-2.0, GPL-2.0 või GPL-3.0. Ei mingit pro-taset, ei kasutajalitsentse, ei telemeetriat.
+- **Tasuta, igavesti, sinu tingimustel.** Avatud lähtekood sinu valitud litsentsi all: BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 või GPL-3.0. Ei mingit pro-taset, ei kasutajalitsentse, ei telemeetriat.
 
 ## Sügavus seal, kus see loeb
 

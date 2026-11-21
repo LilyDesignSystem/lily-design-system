@@ -20,7 +20,7 @@ Kwa sababu kila kipengele kina kishikio thabiti cha darasa na muundo safi, mapam
 - **Inaweza kutafsiriwa kwa muundo wake.** Kila maandishi ya mtumiaji — kila lebo, kosa, na tangazo — ni sifa yenye majina thabiti kati ya mifumo ya kazi, hivyo tafsiri hutiririka kwa urahisi. RTL na maandishi ya pande mbili hurithi `dir` yako. Vipengele vinavyojali lugha na eneo hupokea lugha kama sifa, kila mara waziwazi.
 - **Orodha moja, mifumo minane ya kazi.** Vipengele vilevile 608 (573 kama Web Components asilia) vyenye vishikio vya darasa na kanuni za sifa zilezile katika HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks, na Web Components. CSS yako na maarifa ya timu yako huhamia kati ya mifumo.
 - **Haitegemei mkakati wa CSS.** Darasa moja thabiti la herufi ndogo zilizotenganishwa kwa kistari kwa kila mzizi wa kipengele. CSS ya kisemantiki, huduma za Tailwind, CSS-in-JS, au mojawapo ya mandhari 63 yaliyo tayari — Lily inakaribisha yote na kukupisha njia kwa upole.
-- **Bure, milele, kwa masharti yako.** Chanzo wazi chini ya chaguo lako la BSD, MIT, Apache-2.0, GPL-2.0, au GPL-3.0. Hakuna daraja la kulipia, hakuna leseni za viti, hakuna ufuatiliaji wa matumizi.
+- **Bure, milele, kwa masharti yako.** Chanzo wazi chini ya chaguo lako la BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0, au GPL-3.0. Hakuna daraja la kulipia, hakuna leseni za viti, hakuna ufuatiliaji wa matumizi.
 
 ## Kina pale kinapohitajika
 

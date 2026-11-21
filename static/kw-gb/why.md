@@ -20,7 +20,7 @@ Drefen pub darn dhe dhon kroghen klass stabel ha strewyans pur, dha stil a eth y
 - **Yn-ranngeneledhek dre dhrehevyans.** Pub linenn a wel an devnydhyer — pub lavell, gwall, ha displetyans — yw perthynas gans hanow stabel dres framwyth, may tefydh an dhrehedhans yn naturel. RTL ha tekst diwo-tu a ertheg dhiworth dha `dir`. Darnow ow perthi yeth a gemmer an yeth avel perthynas, pub prys yn splann.
 - **Unn rolyans, eth framwyth.** An keth 608 darn (573 avel Web Components genesow) gans an keth crokennow klass ha usadow perthynas yn HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks, ha Web Components. Dha CSS ha skians dha bagas a dreylyas dres stakkow.
 - **Heb tuedh strateji CSS.** Unn klass kebab-case stabel yn pub gwreydh darn. CSS a dhiswelyans, toulys Tailwind, CSS-in-JS, po onan a'n 63 tebel parys — Lily a dhynnergh anedha oll hag a re fordh yn teg.
-- **Rydh, bys vyken, war dha dermyn dha honan.** Ygor-fenten dre dha dhewis a BSD, MIT, Apache-2.0, GPL-2.0, po GPL-3.0. Heb derivas pro, heb kummyasow esedhek, heb telemetri.
+- **Rydh, bys vyken, war dha dermyn dha honan.** Ygor-fenten dre dha dhewis a BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0, po GPL-3.0. Heb derivas pro, heb kummyasow esedhek, heb telemetri.
 
 ## Downder le may hevel
 

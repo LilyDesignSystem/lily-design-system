@@ -10,7 +10,7 @@ Read on 28 October 2026 from each system's own public site, plus Lily's own surv
 
 | ប្រព័ន្ធរចនា | គ្មានក្បាល | ក្របខណ្ឌ | ភាពងាយស្រួលចូលប្រើ | អាជ្ញាប័ណ្ណ |
 | --- | --- | --- | --- | --- |
-| Lily | បាទ/ចាស | HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks, Web Components, Alpine | WCAG 2.2 AAA | BSD, MIT, Apache-2.0, GPL-2.0, GPL-3.0 |
+| Lily | បាទ/ចាស | HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks, Web Components, Alpine | WCAG 2.2 AAA | BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0, GPL-3.0 |
 | [GOV.UK Design System](https://lilydesignsystem.com/compare/lily-design-system-and-gov-uk-design-system/) | ទេ | Nunjucks | WCAG 2.2 AA | MIT |
 | [U.S. Web Design System](https://lilydesignsystem.com/compare/lily-design-system-and-us-web-design-system/) | ទេ | HTML, Twig | WCAG 2.1 AA | ដែនសាធារណៈ (CC0) |
 | [Adobe Spectrum](https://lilydesignsystem.com/compare/lily-design-system-and-adobe-spectrum/) | ទេ | React, Web Components | WCAG 2.1 AA | Apache-2.0 |

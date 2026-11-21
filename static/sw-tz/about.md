@@ -61,7 +61,7 @@ Lily huchukua michoro na lugha kutoka kwa mkusanyiko mpana wa kimakusudi wa mifu
 
 ## Leseni
 
-Lily ina leseni nyingi: **BSD, MIT, Apache-2.0, GPL-2.0, au GPL-3.0**. Chagua leseni inayofaa mradi wako. Kama hakuna inayofaa, wasiliana nasi.
+Lily ina leseni nyingi: **BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0, au GPL-3.0**. Chagua leseni inayofaa mradi wako. Kama hakuna inayofaa, wasiliana nasi.
 
 ## Mawasiliano
 

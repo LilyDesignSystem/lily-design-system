@@ -20,7 +20,7 @@ Koska jokaisessa komponentissa on vakaa luokkakoukku ja puhdas rakenne, tyylitte
 - **Kansainvälistettävä rakenteeltaan.** Jokainen käyttäjälle näkyvä merkkijono – jokainen nimiö, virhe ja ilmoitus – on ominaisuus, jonka nimet ovat vakaita kaikissa kehyksissä, joten kääntäminen sujuu luontevasti. RTL ja kaksisuuntainen teksti perivät `dir`-attribuuttisi. Kielitietoiset komponentit saavat kielen ominaisuutena, aina nimenomaisesti.
 - **Yksi luettelo, kahdeksan kehystä.** Samat 608 komponenttia (573 natiivina Web Components -komponentteina) samoilla luokkakoukuilla ja ominaisuuskäytännöillä HTML:ssä, Sveltessä, Reactissa, Vuessa, Angularissa, Blazorissa, Nunjucksissa ja Web Componentsissa. CSS:äsi ja tiimisi osaaminen siirtyvät teknologiapinojen välillä.
 - **CSS-strategiasta riippumaton.** Yksi vakaa kebab-case-luokka komponentin juurta kohti. Semanttinen CSS, Tailwind-apuluokat, CSS-in-JS tai yksi 63 valmiista teemasta – Lily toivottaa kaikki tervetulleiksi ja pysyy sulavasti poissa tieltä.
-- **Ilmainen, ikuisesti, sinun ehdoillasi.** Avointa lähdekoodia valitsemallasi lisenssillä: BSD, MIT, Apache-2.0, GPL-2.0 tai GPL-3.0. Ei pro-tasoa, ei käyttäjäkohtaisia lisenssejä, ei telemetriaa.
+- **Ilmainen, ikuisesti, sinun ehdoillasi.** Avointa lähdekoodia valitsemallasi lisenssillä: BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 tai GPL-3.0. Ei pro-tasoa, ei käyttäjäkohtaisia lisenssejä, ei telemetriaa.
 
 ## Syvyyttä siellä, missä sillä on väliä
 

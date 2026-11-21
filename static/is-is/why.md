@@ -20,7 +20,7 @@ Teymið þitt veit nú þegar hvernig varan á að líta út. Lily byrjar nákv�
 - **Alþjóðavæðanlegt frá grunni.** Sérhver texti sem notandinn sér — hver merkimiði, villa og tilkynning — er eiginleiki með stöðug heiti milli ramma, svo þýðing flæðir eðlilega. RTL og tvíátta texti erfist frá `dir`þínu. Íhlutir sem þekkja staðfærslu taka staðfærsluna sem eiginleika, alltaf berum orðum.
 - **Eitt safn, átta rammar.** Sömu 608 íhlutirnir (573 sem innbyggðir Web Components) með sömu klasakrókum og eiginleikavenjum í HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks og Web Components. CSS-ið þitt og þekking teymisins flytjast milli tækniumhverfa.
 - **Óháð CSS-aðferð.** Einn stöðugur kebab-case klasi á hverja íhlutarrót. Merkingarfræðilegt CSS, Tailwind-tól, CSS-in-JS eða eitt af 63 tilbúnum þemum — Lily tekur þeim öllum vel og heldur sér þokkafullt til hlés.
-- **Ókeypis, að eilífu, á þínum forsendum.** Opinn hugbúnaður með leyfi að eigin vali: BSD, MIT, Apache-2.0, GPL-2.0 eða GPL-3.0. Engin atvinnuútgáfa, engin sætaleyfi, engin fjarmæling.
+- **Ókeypis, að eilífu, á þínum forsendum.** Opinn hugbúnaður með leyfi að eigin vali: BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 eða GPL-3.0. Engin atvinnuútgáfa, engin sætaleyfi, engin fjarmæling.
 
 ## Dýpt þar sem hún skiptir máli
 

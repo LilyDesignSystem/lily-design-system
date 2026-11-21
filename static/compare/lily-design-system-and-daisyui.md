@@ -46,7 +46,7 @@ Lily publishes an llms.txt and llms.json as a curated map of the project, Claude
 
 The daisyUI home page lists 68 components, 35 themes and 600+ utility classes. The GitHub licence file begins "MIT License" with "Copyright (c) 2020 Pouya Saadeghi", although the home page links the licence without naming it. The repository page shows about 42.7k stars, and the site credits Pouya Saadeghi as creator, says it is built by the community and links sponsors. It is a mature, widely used project with a large community.
 
-Lily lists 608 components in its catalog, 63 themes and one maintainer, with a first commit in August 2025. Its licence is a multi-licence SPDX expression (MIT, Apache-2.0, GPL-2.0-only, GPL-3.0-only or BSD-3-Clause), and it has no plugin ecosystem or community to speak of. In Lily's own 429-row survey of component equivalents, 194 rows match a daisyUI component, the most of any system compared; Lily scores 429 of 429 by construction, because the survey is built from Lily's catalog. That tells you daisyUI covers much of the same ground, not that the two are equal in maturity.
+Lily lists 608 components in its catalog, 63 themes and one maintainer, with a first commit in August 2025. Its licence is a multi-licence SPDX expression (MIT, Apache-2.0, GPL-2.0-only, GPL-3.0-only, BSD-3-Clause, OGL-UK-3.0 or CC-BY-NC-SA-4.0), and it has no plugin ecosystem or community to speak of. In Lily's own 429-row survey of component equivalents, 194 rows match a daisyUI component, the most of any system compared; Lily scores 429 of 429 by construction, because the survey is built from Lily's catalog. That tells you daisyUI covers much of the same ground, not that the two are equal in maturity.
 
 ## Sources
 

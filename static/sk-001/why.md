@@ -20,7 +20,7 @@ Pretože každý komponent nesie stabilný háčik triedy a čistú štruktúru,
 - **Internacionalizovateľné už konštrukciou.** Každý reťazec viditeľný používateľom — každý štítok, chyba aj oznámenie — je vlastnosť so stabilnými názvami naprieč frameworkmi, takže preklad plynie prirodzene. RTL a obojsmerný text dedia z vášho `dir`. Komponenty citlivé na jazyk prijímajú jazyk ako vlastnosť, vždy výslovne.
 - **Jeden katalóg, osem frameworkov.** Rovnakých 608 komponentov (573 ako natívne Web Components) s rovnakými háčikmi tried a konvenciami vlastností v HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks a Web Components. Vaše CSS aj znalosti tímu sa prenášajú medzi technologickými stackmi.
 - **Nezávislé od stratégie CSS.** Jedna stabilná trieda v kebab-case na koreň komponentu. Sémantické CSS, utility Tailwindu, CSS-in-JS alebo jedna z 63 hotových tém — Lily víta všetky a elegantne ustupuje z cesty.
-- **Zadarmo, navždy, za vašich podmienok.** Otvorený kód pod licenciou podľa vášho výberu: BSD, MIT, Apache-2.0, GPL-2.0 alebo GPL-3.0. Žiadna pro verzia, žiadne licencie na miesta, žiadna telemetria.
+- **Zadarmo, navždy, za vašich podmienok.** Otvorený kód pod licenciou podľa vášho výberu: BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0 alebo GPL-3.0. Žiadna pro verzia, žiadne licencie na miesta, žiadna telemetria.
 
 ## Hĺbka tam, kde na nej záleží
 
