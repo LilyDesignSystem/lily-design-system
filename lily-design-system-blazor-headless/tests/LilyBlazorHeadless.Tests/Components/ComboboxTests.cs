@@ -142,6 +142,9 @@ public class ComboboxTests : TestContext
         Assert.Equal("4 matches", cut.Find("[role=status]").TextContent);
         cut.SetParametersAndRender(p => p.Add(x => x.ResultCount, 0));
         Assert.Equal("No matches", cut.Find("[role=status]").TextContent);
+        // No count (the consumer has not counted yet) says nothing, rather than "No matches".
+        cut.SetParametersAndRender(p => p.Add(x => x.ResultCount, (int?)null));
+        Assert.Equal("", cut.Find("[role=status]").TextContent);
     }
 }
 

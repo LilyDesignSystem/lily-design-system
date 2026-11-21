@@ -280,4 +280,35 @@ public class WheelPickerTests : TestContext
         Assert.Equal("February", Selected(c));
         Assert.Equal(["3", "2"], changes);
     }
+
+    [Fact]
+    public void PageDown_and_PageUp_move_by_the_page_size_over_enabled_options_and_stop_at_the_ends()
+    {
+        // Months: January, February, March, April (disabled), May.
+        Assert.Equal(2, WheelPickerKeys.NextIndex(Months, 0, "PageDown", pageSize: 2));
+        Assert.Equal(4, WheelPickerKeys.NextIndex(Months, 1, "PageDown", pageSize: 2));
+        Assert.Equal(4, WheelPickerKeys.NextIndex(Months, 2, "PageDown", pageSize: 10));
+        Assert.Equal(0, WheelPickerKeys.NextIndex(Months, 4, "PageUp", pageSize: 10));
+        Assert.Equal(1, WheelPickerKeys.NextIndex(Months, 4, "PageUp", pageSize: 2));
+    }
+
+    [Fact]
+    public void A_key_that_does_not_move_keeps_the_current_option()
+    {
+        Assert.Equal(2, WheelPickerKeys.NextIndex(Months, 2, "Enter"));
+    }
+
+    [Fact]
+    public void Typeahead_with_no_match_moves_nowhere()
+    {
+        Assert.Equal(-1, WheelPickerKeys.TypeaheadIndex(Months, 0, "z"));
+        // April starts with "a" but is disabled.
+        Assert.Equal(-1, WheelPickerKeys.TypeaheadIndex(Months, 0, "apr"));
+    }
+
+    [Fact]
+    public void MoveKeys_are_the_six_movement_keys()
+    {
+        Assert.Equal(["ArrowUp", "ArrowDown", "Home", "End", "PageUp", "PageDown"], WheelPickerKeys.MoveKeys);
+    }
 }

@@ -18,6 +18,7 @@ public class PopoverSyncTests : TestContext
         { nameof(ContextMenu), nameof(ContextMenu.Open) },
         { nameof(ContextualHelp), nameof(ContextualHelp.Expanded) },
         { nameof(DropdownMenu), nameof(DropdownMenu.Open) },
+        { nameof(Popover), nameof(Popover.Open) },
         { nameof(Popup), nameof(Popup.Open) },
         { nameof(SplitButton), nameof(SplitButton.MenuOpen) },
     };

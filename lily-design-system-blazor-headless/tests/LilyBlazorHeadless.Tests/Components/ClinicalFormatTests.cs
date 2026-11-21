@@ -150,4 +150,19 @@ public class ClinicalFormatTests
         var error = Assert.Throws<ArgumentOutOfRangeException>(() => ClinicalFormat.FormatRange(2.12m, 1.82m, "", En));
         Assert.Contains("above high", error.Message);
     }
+
+    [Fact]
+    public void ToIsoDuration_writes_hours_in_the_time_part()
+    {
+        Assert.Equal("PT3H", ClinicalFormat.ToIsoDuration([new(3, AgeUnit.Hours)]));
+        Assert.Equal("P1DT6H30M", ClinicalFormat.ToIsoDuration([new(1, AgeUnit.Days), new(6, AgeUnit.Hours), new(30, AgeUnit.Minutes)]));
+    }
+
+    [Fact]
+    public void FormatProportion_refuses_a_kind_that_is_not_a_proportion()
+    {
+        var error = Assert.Throws<ArgumentOutOfRangeException>(
+            () => ClinicalFormat.FormatProportion(1, 2, (ProportionKind)99, CultureInfo.InvariantCulture));
+        Assert.Equal("kind", error.ParamName);
+    }
 }
