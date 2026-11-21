@@ -86,6 +86,39 @@ describe("DropdownMenu", () => {
         expect(screen.queryByRole("menu")).toBeNull();
     });
 
+    test("ArrowDown wraps from the last item to the first, ArrowUp from the first to the last", async () => {
+        const user: UserEvent = userEvent.setup();
+        render(Subject, { props: { label: "Options", open: true, children: menuItemsSnippet() } });
+        const items = screen.getAllByRole("menuitem");
+        items[1].focus();
+        await user.keyboard("{ArrowDown}");
+        expect(document.activeElement).toBe(items[0]);
+        await user.keyboard("{ArrowUp}");
+        expect(document.activeElement).toBe(items[1]);
+    });
+
+    test("Home and End move to the first and last item", async () => {
+        const user: UserEvent = userEvent.setup();
+        render(Subject, { props: { label: "Options", open: true, children: menuItemsSnippet() } });
+        const items = screen.getAllByRole("menuitem");
+        items[0].focus();
+        await user.keyboard("{End}");
+        expect(document.activeElement).toBe(items[1]);
+        await user.keyboard("{Home}");
+        expect(document.activeElement).toBe(items[0]);
+    });
+
+    test("a light dismiss (the popover's toggle to closed) closes the menu and updates the button", async () => {
+        render(Subject, { props: { label: "Options", open: true, children: menuItemsSnippet() } });
+        const menu = screen.getByRole("menu");
+        const toggle = Object.assign(new Event("toggle"), { newState: "closed", oldState: "open" });
+        menu.dispatchEvent(toggle);
+        await Promise.resolve();
+        expect(screen.getByRole("button", { name: "Options" }).getAttribute("aria-expanded")).toBe(
+            "false",
+        );
+    });
+
     test("passes through attributes", () => {
         render(Subject, {
             props: { label: "Options", "data-testid": "dd", children: menuItemsSnippet() },

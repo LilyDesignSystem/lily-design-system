@@ -1,5 +1,5 @@
 import { render } from "@testing-library/svelte";
-import { describe, expect, test } from "vitest";
+import { describe, expect, test, vi } from "vitest";
 
 import Subject from "./ScrollerVideo.svelte";
 
@@ -83,5 +83,39 @@ describe("ScrollerVideo", () => {
         const root = container.querySelector(".scroller-video");
         expect(root?.getAttribute("role")).toBe("group");
         expect(root?.getAttribute("aria-label")).toBe("Story");
+    });
+
+    test("scroll progress seeks the video to the same fraction of its duration", () => {
+        class StubObserver {
+            observe() {}
+            unobserve() {}
+            disconnect() {}
+            takeRecords() {
+                return [];
+            }
+        }
+        vi.stubGlobal("IntersectionObserver", StubObserver);
+        const duration = vi
+            .spyOn(HTMLMediaElement.prototype, "duration", "get")
+            .mockReturnValue(80);
+        try {
+            const onProgressChange = vi.fn();
+            const { container } = render(Subject, {
+                props: {
+                    label: "Story",
+                    src: "/clip.mp4",
+                    alt: "A river",
+                    onProgressChange,
+                    children: snippet("<p>Step</p>"),
+                },
+            });
+            const video = container.querySelector("video") as HTMLVideoElement;
+            expect(onProgressChange).toHaveBeenCalled();
+            const progress = onProgressChange.mock.calls.at(-1)![0] as number;
+            expect(video.currentTime).toBeCloseTo(80 * progress);
+        } finally {
+            duration.mockRestore();
+            vi.unstubAllGlobals();
+        }
     });
 });

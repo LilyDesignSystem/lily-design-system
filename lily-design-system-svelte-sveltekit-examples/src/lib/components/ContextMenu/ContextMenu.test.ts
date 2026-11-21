@@ -115,6 +115,14 @@ describe("ContextMenu", () => {
         expect(document.activeElement).toBe(items[2]);
     });
 
+    test("Escape closes the menu", async () => {
+        const user = userEvent.setup();
+        render(Subject, { props: { label: "Actions", open: true, children: menuItemsSnippet() } });
+        screen.getAllByRole("menuitem")[0].focus();
+        await user.keyboard("{Escape}");
+        expect(screen.queryByRole("menu")).toBeNull();
+    });
+
     test("subjectLabel is a non-interactive first part that names the menu", () => {
         const { container } = render(Subject, {
             props: {

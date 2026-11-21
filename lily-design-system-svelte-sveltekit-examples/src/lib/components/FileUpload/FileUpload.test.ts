@@ -96,4 +96,48 @@ describe("FileUpload", () => {
         });
         expect(onchange).not.toHaveBeenCalled();
     });
+
+    test("the button opens the browser's file chooser", async () => {
+        const { container } = render(Subject, { props: { label: "Upload" } });
+        const input = container.querySelector("input[type=file]") as HTMLInputElement;
+        const opened = vi.spyOn(input, "click");
+        await fireEvent.click(screen.getByRole("button", { name: "Upload" }));
+        expect(opened).toHaveBeenCalledOnce();
+    });
+
+    test("leaving the drop zone clears its drag-over state", async () => {
+        const { container } = render(Subject, { props: { label: "Upload", dropZone: true } });
+        const root = container.querySelector(".file-upload") as HTMLElement;
+        await fireEvent.dragOver(root, { dataTransfer: { types: ["Files"], files: [] } });
+        expect(root.hasAttribute("data-drag-over")).toBe(true);
+        await fireEvent.dragLeave(root);
+        expect(root.hasAttribute("data-drag-over")).toBe(false);
+    });
+
+    test("without multiple, a drop of several files keeps only the first", async () => {
+        // jsdom has no DataTransfer; a minimal one records what the component keeps.
+        class FakeDataTransfer {
+            kept: File[] = [];
+            items = { add: (file: File) => this.kept.push(file) };
+            get files() {
+                return this.kept as unknown as FileList;
+            }
+        }
+        vi.stubGlobal("DataTransfer", FakeDataTransfer);
+        try {
+            const onchange = vi.fn();
+            const { container } = render(Subject, {
+                props: { label: "Upload", dropZone: true, onchange },
+            });
+            const root = container.querySelector(".file-upload") as HTMLElement;
+            const files = [new File(["a"], "a.pdf"), new File(["b"], "b.pdf")];
+            await fireEvent.drop(root, { dataTransfer: { types: ["Files"], files } });
+            expect(onchange).toHaveBeenCalledOnce();
+            expect(Array.from(onchange.mock.calls[0][0] as File[]).map((f) => f.name)).toEqual([
+                "a.pdf",
+            ]);
+        } finally {
+            vi.unstubAllGlobals();
+        }
+    });
 });

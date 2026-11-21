@@ -167,4 +167,14 @@ describe("no English default", () => {
         expect(document.activeElement).toBe(inputs[0]);
         expect(inputs[0].value).toBe("");
     });
+
+    test("a character that is not a digit is refused and the input keeps its digit", async () => {
+        const user: UserEvent = userEvent.setup();
+        render(Subject, { props: { label: "PIN" } });
+        const inputs = screen.getAllByRole("textbox") as HTMLInputElement[];
+        inputs[0].focus();
+        await user.keyboard("a");
+        expect(inputs[0].value).toBe("");
+        expect(document.activeElement).toBe(inputs[0]);
+    });
 });
