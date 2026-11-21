@@ -131,4 +131,13 @@ describe("Autosuggest", () => {
         await fireEvent.keyDown(input, { key: "Escape" });
         form.remove();
     });
+
+    test("keys it does not handle keep their native behaviour (Tab, typing)", async () => {
+        const { input } = setup();
+        for (const key of ["Tab", "a"]) {
+            const event = new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true });
+            input.dispatchEvent(event);
+            expect(event.defaultPrevented).toBe(false);
+        }
+    });
 });

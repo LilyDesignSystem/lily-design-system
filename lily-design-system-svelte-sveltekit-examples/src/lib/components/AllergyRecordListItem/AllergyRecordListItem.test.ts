@@ -75,4 +75,35 @@ describe("AllergyRecordListItem", () => {
             ),
         ).toBe(true);
     });
+
+    test("subjectLabel says whose record it is, first, when it is not the patient's", () => {
+        const { container } = render(Subject, {
+            props: {
+                substance: "Penicillin",
+                clinicalStatus: "active",
+                clinicalStatusLabel: "Active",
+                verificationStatus: "confirmed",
+                verificationStatusLabel: "Confirmed",
+                subjectLabel: "Mother",
+            },
+        });
+        const subject = container.querySelector(".allergy-record-list-item-subject");
+        expect(subject?.textContent).toBe("Mother");
+        expect(container.querySelector(".allergy-record-list-item")?.firstElementChild).toBe(
+            subject,
+        );
+    });
+
+    test("without subjectLabel there is no subject part", () => {
+        const { container } = render(Subject, {
+            props: {
+                substance: "Penicillin",
+                clinicalStatus: "active",
+                clinicalStatusLabel: "Active",
+                verificationStatus: "confirmed",
+                verificationStatusLabel: "Confirmed",
+            },
+        });
+        expect(container.querySelector(".allergy-record-list-item-subject")).toBeNull();
+    });
 });

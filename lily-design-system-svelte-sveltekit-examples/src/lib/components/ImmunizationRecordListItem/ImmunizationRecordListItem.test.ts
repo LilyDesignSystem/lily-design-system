@@ -54,4 +54,27 @@ describe("ImmunizationRecordListItem", () => {
             ),
         ).toBe(true);
     });
+
+    test("subjectLabel says whose record it is, first, when it is not the patient's", () => {
+        const { container } = render(Subject, {
+            props: {
+                vaccine: "MMR vaccine",
+                status: "completed",
+                statusLabel: "Given",
+                subjectLabel: "Mother",
+            },
+        });
+        const subject = container.querySelector(".immunization-record-list-item-subject");
+        expect(subject?.textContent).toBe("Mother");
+        expect(container.querySelector(".immunization-record-list-item")?.firstElementChild).toBe(
+            subject,
+        );
+    });
+
+    test("without subjectLabel there is no subject part", () => {
+        const { container } = render(Subject, {
+            props: { vaccine: "MMR vaccine", status: "completed", statusLabel: "Given" },
+        });
+        expect(container.querySelector(".immunization-record-list-item-subject")).toBeNull();
+    });
 });

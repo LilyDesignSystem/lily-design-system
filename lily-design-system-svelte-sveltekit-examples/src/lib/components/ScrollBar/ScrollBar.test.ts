@@ -99,4 +99,21 @@ describe("ScrollBar", () => {
         await fireEvent.keyDown(bar, { key: "Home" });
         expect(bar.getAttribute("aria-valuenow")).toBe("10");
     });
+
+    test("keys it does not handle keep their native behaviour", () => {
+        render(Subject, { props: { label: "Scroll", children: textSnippet("thumb") } });
+        const bar = screen.getByRole("scrollbar");
+        for (const key of ["Tab", "a"]) {
+            const event = new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true });
+            bar.dispatchEvent(event);
+            expect(event.defaultPrevented).toBe(false);
+        }
+        const handled = new KeyboardEvent("keydown", {
+            key: "End",
+            bubbles: true,
+            cancelable: true,
+        });
+        bar.dispatchEvent(handled);
+        expect(handled.defaultPrevented).toBe(true);
+    });
 });

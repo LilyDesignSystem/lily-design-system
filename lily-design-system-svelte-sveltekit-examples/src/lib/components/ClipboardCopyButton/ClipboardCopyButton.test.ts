@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/svelte";
 import { userEvent, type UserEvent } from "@testing-library/user-event";
 import { describe, expect, test, vi } from "vitest";
+import { createRawSnippet } from "svelte";
 
 import Subject from "./ClipboardCopyButton.svelte";
 
@@ -92,5 +93,34 @@ describe("ClipboardCopyButton", () => {
             props: { text: "test", label: "Copy", "data-testid": "clip" },
         });
         expect(screen.getByTestId("clip")).toBeTruthy();
+    });
+
+    test("data-copied clears two seconds after a copy", async () => {
+        mockClipboard();
+        vi.useFakeTimers();
+        try {
+            render(Subject, { props: { text: "test", label: "Copy" } });
+            const button = screen.getByRole("button");
+            button.click();
+            await vi.advanceTimersByTimeAsync(0);
+            expect(button.getAttribute("data-copied")).toBe("true");
+            await vi.advanceTimersByTimeAsync(1999);
+            expect(button.getAttribute("data-copied")).toBe("true");
+            await vi.advanceTimersByTimeAsync(1);
+            expect(button.getAttribute("data-copied")).not.toBe("true");
+        } finally {
+            vi.useRealTimers();
+        }
+    });
+
+    test("renders the consumer's content inside the button", () => {
+        render(Subject, {
+            props: {
+                text: "x",
+                label: "Copy link",
+                children: createRawSnippet(() => ({ render: () => "<span>Copy</span>" })),
+            },
+        });
+        expect(screen.getByRole("button", { name: "Copy link" }).textContent).toBe("Copy");
     });
 });

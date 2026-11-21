@@ -43,4 +43,14 @@ describe("Byline", () => {
         const { container } = render(Subject, { children: snippet("Jane") });
         expect(container.querySelector(".byline-published")).toBeNull();
     });
+
+    test("renders the updated snippet in its own part", () => {
+        const { container } = render(Subject, {
+            children: snippet("Jane"),
+            updated: htmlSnippet('<time datetime="2026-04-20">Updated April 20</time>'),
+        });
+        expect(container.querySelector(".byline-updated time")?.getAttribute("datetime")).toBe(
+            "2026-04-20",
+        );
+    });
 });

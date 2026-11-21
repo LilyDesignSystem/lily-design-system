@@ -126,4 +126,22 @@ describe("Drawer modality", () => {
         expect(screen.queryByRole("dialog")).toBeNull();
         expect(document.activeElement).toBe(trigger);
     });
+
+    test("closing the dialog (Escape, or the browser) writes open = false back", () => {
+        const bound = { open: true };
+        const { container } = render(Subject, {
+            props: {
+                label: "Nav",
+                children: textSnippet("Content"),
+                get open() {
+                    return bound.open;
+                },
+                set open(v: boolean) {
+                    bound.open = v;
+                },
+            },
+        });
+        container.querySelector("dialog")!.dispatchEvent(new Event("close"));
+        expect(bound.open).toBe(false);
+    });
 });

@@ -48,4 +48,27 @@ describe("ProcedureRecordListItem", () => {
             ),
         ).toBe(true);
     });
+
+    test("subjectLabel says whose record it is, first, when it is not the patient's", () => {
+        const { container } = render(Subject, {
+            props: {
+                procedure: "Appendectomy",
+                status: "completed",
+                statusLabel: "Completed",
+                subjectLabel: "Mother",
+            },
+        });
+        const subject = container.querySelector(".procedure-record-list-item-subject");
+        expect(subject?.textContent).toBe("Mother");
+        expect(container.querySelector(".procedure-record-list-item")?.firstElementChild).toBe(
+            subject,
+        );
+    });
+
+    test("without subjectLabel there is no subject part", () => {
+        const { container } = render(Subject, {
+            props: { procedure: "Appendectomy", status: "completed", statusLabel: "Completed" },
+        });
+        expect(container.querySelector(".procedure-record-list-item-subject")).toBeNull();
+    });
 });
