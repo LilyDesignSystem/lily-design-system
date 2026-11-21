@@ -5,9 +5,11 @@ import { linkSettled, withViewTransition } from "./view-transition.js";
 import {
     DEFAULT_SYSTEM_THEMES,
     SYSTEM_THEME,
+    pageLanguage,
     prefersDarkScheme,
     readDocumentThemeCookie,
     resolveTheme,
+    sortThemes as sortThemeSlugs,
     themeChoices,
     watchColorScheme,
     writeDocumentThemeCookie,
@@ -93,6 +95,11 @@ export type Props = Omit<
     target?: HTMLElement | null;
     /** Optional pretty labels per slug. */
     themeLabels?: Record<string, string>;
+    /**
+     * List the themes alphabetically by the name shown, in the page's language (`<html lang>`). Default true. Pass `false` to
+     * keep the order of `themes`, for an editorial order. "Follow this device" is first either way.
+     */
+    sortThemes?: boolean;
     /** Replaces the default half-circle icon inside the button. */
     children?: (args: ChildArgs) => React.ReactNode;
     /**
@@ -273,6 +280,7 @@ export function ThemePicker({
     extension = ".css",
     target,
     themeLabels = {},
+    sortThemes = true,
     children,
     onChange,
     className = "",
@@ -334,8 +342,21 @@ export function ThemePicker({
     // Set when a close should hand focus back to the button.
     const refocusRef = React.useRef(false);
 
-    // The choices offered: "system" first when it has a label, then the themes.
-    const options = themeChoices(themes, systemLabel);
+    // The page's language, read after mount (so a server render and the first client render agree) and kept current, so a
+    // language change sorts the names again.
+    const [language, setLanguage] = React.useState<string | undefined>(undefined);
+    React.useEffect(() => {
+        setLanguage(pageLanguage());
+        const observer = new MutationObserver(() => setLanguage(pageLanguage()));
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
+        return () => observer.disconnect();
+    }, []);
+
+    // The choices offered: "system" first when it has a label, then the themes in alphabetical order of the name shown.
+    const options = themeChoices(
+        sortThemes ? sortThemeSlugs(themes, labelFor, language) : themes,
+        systemLabel,
+    );
 
     // The device's colour scheme: read at once on the client (no light flash on a dark device), kept current while
     // "system" is chosen so the page follows the device when it switches.

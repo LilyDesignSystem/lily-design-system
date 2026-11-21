@@ -4263,7 +4263,7 @@ current design system. No person or organisation is named. Order: T1 first (a tr
       _(2026-11-21, progress: done in the shared module and the Svelte catalog. `sortThemes` and `pageLanguage` are in
       `shared/theme-choice.ts` with tests (copied by `bin/sync-shared-modules`); the Svelte `ThemePicker` has `sortThemes` (default
       true) and re-sorts when `<html lang>` changes; the picker-bar's `DEFAULT_THEMES` is sorted and its doc updated. Seven existing
-      Svelte tests that assumed the given order now expect the sorted order. Still to do: the other seven catalogs, their own
+      Svelte tests that assumed the given order now expect the sorted order. The React theme picker and picker-bar followed the same day. Still to do: the other six catalogs, their own
       `spec/index.md` and README text, and the site. The picker-bar resolves the theme picker's built `dist`, so rebuild it
       (`pnpm build`) before running the picker-bar tests.)_
 
