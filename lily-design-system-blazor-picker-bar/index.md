@@ -62,8 +62,8 @@ if you add `ShareAttributes["CopyLabel"] = "Copy link"`.
 ## Defaults
 
 - **`Themes`** defaults to `PickerBar.DefaultThemes` — all 63 Lily
-  reference theme slugs: the 36 generic themes alphabetically, then the
-  27 company and public-sector themes alphabetically by label.
+  reference theme slugs, in one list sorted alphabetically by the name shown
+  (not grouped by kind; the theme picker's "Order of themes" rule).
   `PickerBar.DefaultThemeLabels` gives the names title-casing gets wrong
   ("IBM Carbon", "GitHub Primer", "NHS England (patients)"); your own
   `ThemeLabels` in `ThemeAttributes` win. Pass your own `Themes` list to

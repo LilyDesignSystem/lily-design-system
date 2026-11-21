@@ -95,17 +95,10 @@ otherwise gets out of the way.
 
 ### 5.1 `DefaultThemes`
 
-All 63 Lily reference theme slugs (`themes/` at the repo root), in two
-alphabetical groups: the **36 generic themes** first (`abyss` …
-`wireframe`: the DaisyUI palettes and the Lily-original `cappuccino`),
-then the **27 themes that follow a company's or a public body's design
-system** (`adobe-spectrum` … `vercel`), sorted by the label a person
-sees, so "NHS England (patients)" sorts under N and "GOV.UK Design
-System" under G. This is a maintainer-directed ordering (2026-11-20,
-replacing the 2026-10-16 order that put only the UK and US government
-themes last): most people picking a theme are choosing a visual style,
-so the generic themes lead, and the official ones are grouped after
-them because each is chosen for the body it follows.
+All 63 Lily reference theme slugs (`themes/` at the repo root), in one list sorted alphabetically by the name shown
+(`DefaultThemeLabels`, else the title-cased slug), so "IBM Carbon" sorts under I, "NHS England (patients)" under N and "GOV.UK
+Design System" under G. Generic and company or public-sector themes are not grouped apart: this replaces the 2026-11-20 grouped
+order, by the theme picker's "Order of themes" rule (2026-11-21), which sorts its options the same way whatever order it is given.
 
 `DEFAULT_THEME_LABELS` names the default themes whose title-cased slug
 reads wrongly: an abbreviation ("IBM Carbon", "SAP Fiori", "CMYK"), a
@@ -208,6 +201,6 @@ version, not vendored or duplicated source.
 
 ## Default theme order and labels (2026-11-20)
 
-The 36 generic themes come first, then the 27 company and public-sector themes by label (§5.1); `DEFAULT_THEME_LABELS`
-supplies the labels title-casing gets wrong, under the consumer's own. Tests: the order of both groups, the spelling of the
-abbreviations and the NHS themes, and a consumer's label winning over a default.
+One list of 63 sorted by the name shown (§5.1, 2026-11-21); `DEFAULT_THEME_LABELS` supplies the labels title-casing gets wrong,
+under the consumer's own. Tests: the order (against `ThemePicker.SortThemeSlugs`), the spelling of the abbreviations and the NHS
+themes, and a consumer's label winning over a default.

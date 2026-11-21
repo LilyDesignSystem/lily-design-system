@@ -80,23 +80,25 @@ Give a Blazor application a drop-in, headless theme select that:
 
 ### 4.1 Parameters
 
-| Parameter              | Type                                  | Required | Default                                | Purpose                                                                                                            |
-| ---------------------- | ------------------------------------- | -------- | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `Label`                | `string`                              | yes      | —                                      | Accessible name for the button AND the listbox. The button is icon-only, so this is its entire accessible name.    |
-| `ThemesUrl`            | `string`                              | yes      | —                                      | Base URL of the themes directory. Trailing `/` is auto-normalised.                                                 |
-| `Themes`               | `IReadOnlyList<string>`               | yes      | —                                      | Available theme slugs.                                                                                             |
-| `Value`                | `string`                              | no       | `""`                                   | Currently selected theme slug. Two-way bindable via `@bind-Value`.                                                 |
-| `ValueChanged`         | `EventCallback<string>`               | no       | —                                      | Fires when the selected slug changes.                                                                              |
-| `DefaultValue`         | `string?`                             | no       | `"light"` if present, else `Themes[0]` | Initial theme when nothing else is supplied.                                                                       |
-| `StorageKey`           | `string?`                             | no       | `null`                                 | If set, persist selection to `localStorage` under this key.                                                        |
-| `DetectFromSystem`     | `bool`                                | no       | `false`                                | Resolve `prefers-color-scheme` to a supported theme on first visit. Mirrors `DetectFromNavigator` on LocalePicker. |
-| `Name`                 | `string`                              | no       | `"theme"`                              | `name` on the hidden input AND the `data-lily-theme-picker` discriminator on the managed `<link>`.                 |
-| `Extension`            | `string`                              | no       | `".css"`                               | File extension appended to each slug when constructing the URL.                                                    |
-| `ThemeLabels`          | `IReadOnlyDictionary<string,string>`  | no       | empty                                  | Optional pretty labels per slug.                                                                                   |
-| `ChildContent`         | `RenderFragment<ThemePickerContext>?` | no       | the default SVG icon                   | **Replaces the icon inside the button.** It does not render options.                                               |
-| `OnChange`             | `EventCallback<string>`               | no       | —                                      | Fires after the control applies a new theme. Mirrors `ValueChanged`.                                               |
-| `CssClass`             | `string`                              | no       | `""`                                   | Extra CSS class merged into the root `<div>`.                                                                      |
-| `AdditionalAttributes` | `Dictionary<string,object>?`          | no       | —                                      | Captures all unmatched attributes; spread onto the root `<div>`.                                                   |
+| Parameter              | Type                                  | Required | Default                                | Purpose                                                                                                                  |
+| ---------------------- | ------------------------------------- | -------- | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `Label`                | `string`                              | yes      | —                                      | Accessible name for the button AND the listbox. The button is icon-only, so this is its entire accessible name.          |
+| `ThemesUrl`            | `string`                              | yes      | —                                      | Base URL of the themes directory. Trailing `/` is auto-normalised.                                                       |
+| `Themes`               | `IReadOnlyList<string>`               | yes      | —                                      | Available theme slugs.                                                                                                   |
+| `Value`                | `string`                              | no       | `""`                                   | Currently selected theme slug. Two-way bindable via `@bind-Value`.                                                       |
+| `ValueChanged`         | `EventCallback<string>`               | no       | —                                      | Fires when the selected slug changes.                                                                                    |
+| `DefaultValue`         | `string?`                             | no       | `"light"` if present, else `Themes[0]` | Initial theme when nothing else is supplied.                                                                             |
+| `StorageKey`           | `string?`                             | no       | `null`                                 | If set, persist selection to `localStorage` under this key.                                                              |
+| `DetectFromSystem`     | `bool`                                | no       | `false`                                | Resolve `prefers-color-scheme` to a supported theme on first visit. Mirrors `DetectFromNavigator` on LocalePicker.       |
+| `Name`                 | `string`                              | no       | `"theme"`                              | `name` on the hidden input AND the `data-lily-theme-picker` discriminator on the managed `<link>`.                       |
+| `Extension`            | `string`                              | no       | `".css"`                               | File extension appended to each slug when constructing the URL.                                                          |
+| `ThemeLabels`          | `IReadOnlyDictionary<string,string>`  | no       | empty                                  | Optional pretty labels per slug.                                                                                         |
+| `SortThemes`           | `bool`                                | no       | `true`                                 | Alphabetical by the name shown, in one list (spec/theme-picker, "Order of themes"); `false` keeps the order of `Themes`. |
+| `Language`             | `string?`                             | no       | current UI culture                     | Culture the names are sorted in; an unknown name falls back to the UI culture.                                           |
+| `ChildContent`         | `RenderFragment<ThemePickerContext>?` | no       | the default SVG icon                   | **Replaces the icon inside the button.** It does not render options.                                                     |
+| `OnChange`             | `EventCallback<string>`               | no       | —                                      | Fires after the control applies a new theme. Mirrors `ValueChanged`.                                                     |
+| `CssClass`             | `string`                              | no       | `""`                                   | Extra CSS class merged into the root `<div>`.                                                                            |
+| `AdditionalAttributes` | `Dictionary<string,object>?`          | no       | —                                      | Captures all unmatched attributes; spread onto the root `<div>`.                                                         |
 
 There is **no `Placeholder` parameter**. It existed only to pin a native
 `<select>`'s closed display; there is no `<select>` any more.
@@ -576,3 +578,11 @@ Ported from the Svelte reference ([spec §5.8](../../lily-design-system-svelte-t
 With `StorageKey` / `CookieName` not given (`null`), the choice is kept in both `localStorage` and a first-party cookie,
 under `lily-{Name}` (`lily-theme`); an empty string turns a store off. Nothing is written on the first load, nor when the
 device switches while following it, only when the choice changes.
+
+## Order of themes (2026-11-21)
+
+`ThemePicker.SortThemeSlugs(themes, labelOf, language)` is the C# twin of `sortThemes` in `shared/theme-choice.ts`: it orders by
+the name shown with `CompareInfo` (ignoring case and accents, numbers read as numbers), ties by slug, in `Language` or the current
+UI culture. Blazor has no `<html lang>` to read without script, so the culture is the app's own, the language it already renders
+in. The picker sorts when `SortThemes` is `true`, "Follow this device" first, and caches the result until the themes, labels,
+language or culture change. Tests: `ThemePickerOrderTests.cs`.

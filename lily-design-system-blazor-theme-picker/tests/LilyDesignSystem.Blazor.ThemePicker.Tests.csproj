@@ -30,6 +30,7 @@
     <Compile Include="..\ThemePickerTests.cs" />
     <Compile Include="..\ThemePickerPatternTests.cs" />
     <Compile Include="..\ThemePickerSystemTests.cs" />
+    <Compile Include="..\ThemePickerOrderTests.cs" />
     <Compile Include="..\..\shared\PatternTester.cs" />
   </ItemGroup>
 

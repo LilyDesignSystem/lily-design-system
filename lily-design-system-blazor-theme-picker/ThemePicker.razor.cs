@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -120,6 +121,20 @@ public partial class ThemePicker : ComponentBase, IAsyncDisposable
     public IReadOnlyDictionary<string, string> ThemeLabels { get; set; }
         = new Dictionary<string, string>();
 
+    /// <summary>
+    /// List the themes alphabetically by the name shown, in one list (spec/theme-picker, "Order of themes"). Default
+    /// <c>true</c>. Pass <c>false</c> to keep the order of <see cref="Themes"/>, for an editorial order. "Follow this
+    /// device" is first either way.
+    /// </summary>
+    [Parameter] public bool SortThemes { get; set; } = true;
+
+    /// <summary>
+    /// The language the names are sorted in, as a culture name (<c>"sv"</c>, <c>"en-GB"</c>). Blazor has no
+    /// <c>&lt;html lang&gt;</c> to read without script, so by default this is the app's current UI culture, which is the
+    /// language a Blazor app already renders in. A name the platform does not know falls back to the same default.
+    /// </summary>
+    [Parameter] public string? Language { get; set; }
+
     /// <summary>Replaces the default half-circle icon inside the button.</summary>
     [Parameter] public RenderFragment<ThemePickerContext>? ChildContent { get; set; }
 
@@ -210,10 +225,63 @@ public partial class ThemePicker : ComponentBase, IAsyncDisposable
 
     private string RootClass => $"theme-picker {CssClass}".Trim();
 
-    /// <summary>The choices offered: <c>"system"</c> first when it has a label, then the themes.</summary>
-    private IReadOnlyList<string> Choices => string.IsNullOrEmpty(SystemLabel)
-        ? Themes
-        : new[] { SystemTheme }.Concat(Themes).ToList();
+    /// <summary>
+    /// The themes in alphabetical order of the name the reader sees (<paramref name="labelOf"/>), in one list: not by slug,
+    /// and not grouped by kind. Compared with <see cref="CompareInfo"/> for <paramref name="language"/>, ignoring case and
+    /// accents and reading numbers as numbers, so "Theme 2" comes before "Theme 10". Names that compare equal are ordered
+    /// by slug, so the order is the same on every render. With no language, or one the platform does not know, the current
+    /// UI culture is used: no language is assumed. The C# twin of <c>sortThemes</c> in <c>shared/theme-choice.ts</c>.
+    /// </summary>
+    public static IReadOnlyList<string> SortThemeSlugs(
+        IEnumerable<string> themes, Func<string, string> labelOf, string? language = null)
+    {
+        CompareInfo info;
+        try
+        {
+            info = (string.IsNullOrEmpty(language)
+                ? CultureInfo.CurrentUICulture
+                : CultureInfo.GetCultureInfo(language)).CompareInfo;
+        }
+        catch (CultureNotFoundException)
+        {
+            info = CultureInfo.CurrentUICulture.CompareInfo;
+        }
+        const CompareOptions options =
+            CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace | CompareOptions.NumericOrdering;
+        return themes
+            .OrderBy(t => t, Comparer<string>.Create((a, b) =>
+            {
+                var order = info.Compare(labelOf(a), labelOf(b), options);
+                return order != 0 ? order : string.CompareOrdinal(a, b);
+            }))
+            .ToList();
+    }
+
+    // The choices are worked out once per set of inputs: the template reads Choices[i] in a loop.
+    private IReadOnlyList<string>? _choices;
+    private object?[]? _choicesKey;
+
+    /// <summary>The choices offered: <c>"system"</c> first when it has a label, then the themes in alphabetical order of the name shown.</summary>
+    private IReadOnlyList<string> Choices
+    {
+        get
+        {
+            // By content, not reference, so a list the consumer changes in place is not served from a stale cache.
+            var key = new object?[]
+            {
+                string.Join('\u001f', Themes), SystemLabel, SortThemes, Language, ThemeLabels,
+                string.Join('\u001f', ThemeLabels.Select(l => l.Key + "=" + l.Value)),
+                CultureInfo.CurrentUICulture.Name,
+            };
+            if (_choices is not null && _choicesKey is not null && key.SequenceEqual(_choicesKey)) return _choices;
+            var themes = SortThemes ? SortThemeSlugs(Themes, LabelFor, Language) : Themes;
+            _choices = string.IsNullOrEmpty(SystemLabel)
+                ? themes
+                : new[] { SystemTheme }.Concat(themes).ToList();
+            _choicesKey = key;
+            return _choices;
+        }
+    }
 
     /// <summary>The class list of one option: the <c>"system"</c> option also carries
     /// <c>theme-picker-option-system</c>, the hook the themes draw the line under.</summary>

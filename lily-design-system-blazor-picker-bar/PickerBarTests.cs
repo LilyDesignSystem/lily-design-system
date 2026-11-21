@@ -62,15 +62,18 @@ public class PickerBarTests : TestContext
             : string.Join(" ", slug.Split('-').Select(w => char.ToUpperInvariant(w[0]) + w[1..]));
 
     [Fact]
-    public void Section_5_1_DefaultThemes_Lists_Generic_Themes_First_Then_Official_Ones_By_Label()
+    public void Section_5_1_DefaultThemes_Are_One_List_Sorted_By_The_Name_Shown()
     {
-        var generic = PickerBar.DefaultThemes.Take(36).ToList();
-        var official = PickerBar.DefaultThemes.Skip(36).Select(LabelOf).ToList();
-        Assert.Equal(generic.OrderBy(t => t, System.StringComparer.Ordinal), generic);
-        Assert.Equal(official.OrderBy(l => l, System.StringComparer.OrdinalIgnoreCase), official);
-        Assert.Equal("wireframe", PickerBar.DefaultThemes[35]);
-        Assert.Equal("adobe-spectrum", PickerBar.DefaultThemes[36]);
-        Assert.Equal("vercel", PickerBar.DefaultThemes[^1]);
+        Assert.Equal(63, PickerBar.DefaultThemes.Distinct().Count());
+        var sorted = LilyDesignSystem.Blazor.Helpers.ThemePicker.SortThemeSlugs(
+            PickerBar.DefaultThemes.Reverse(), LabelOf, "en");
+        Assert.Equal(sorted, PickerBar.DefaultThemes);
+        // Not grouped by kind.
+        var themes = PickerBar.DefaultThemes.ToList();
+        Assert.True(themes.IndexOf("adobe-spectrum") < themes.IndexOf("aqua"));
+        Assert.True(themes.IndexOf("ibm-carbon") < themes.IndexOf("light"));
+        Assert.Equal("abyss", PickerBar.DefaultThemes[0]);
+        Assert.Equal("wireframe", PickerBar.DefaultThemes[^1]);
     }
 
     [Fact]
@@ -94,8 +97,10 @@ public class PickerBarTests : TestContext
         var options = cut.FindAll(".theme-picker-option");
         Assert.Equal(63, options.Count);
         Assert.Equal("Abyss", options[0].TextContent);
-        Assert.Equal("Adobe Spectrum", options[36].TextContent);
-        Assert.Equal("IBM Carbon", options[47].TextContent);
+        // One list sorted by the name shown, not grouped by kind.
+        var themes = PickerBar.DefaultThemes.ToList();
+        Assert.Equal("Adobe Spectrum", options[themes.IndexOf("adobe-spectrum")].TextContent);
+        Assert.Equal("IBM Carbon", options[themes.IndexOf("ibm-carbon")].TextContent);
     }
 
     [Fact]

@@ -14,7 +14,8 @@ namespace LilyDesignSystem.Blazor.Helpers.Tests;
 
 public class ThemePickerTests : TestContext
 {
-    private static readonly string[] Themes = { "light", "dark", "abyss" };
+    // In the order the picker lists them: alphabetical by the name shown (spec/theme-picker, "Order of themes").
+    private static readonly string[] Themes = { "abyss", "dark", "light" };
     private const string UrlTrailing = "/assets/themes/";
     private const string UrlNoTrailing = "/assets/themes";
 
@@ -166,10 +167,11 @@ public class ThemePickerTests : TestContext
 
         // Opening puts the active descendant on the selected option, which
         // also carries the data-active styling hook.
+        // "light" is the selected option, and the last of the sorted three.
         var list = cut.Find("ul");
-        Assert.Equal(cut.FindAll("li")[0].GetAttribute("id"),
+        Assert.Equal(cut.FindAll("li")[Themes.Length - 1].GetAttribute("id"),
             list.GetAttribute("aria-activedescendant"));
-        Assert.True(cut.FindAll("li")[0].HasAttribute("data-active"));
+        Assert.True(cut.FindAll("li")[Themes.Length - 1].HasAttribute("data-active"));
     }
 
     // -----------------------------------------------------------------
@@ -186,7 +188,8 @@ public class ThemePickerTests : TestContext
 
         var labels = cut.FindAll("li.theme-picker-option")
             .Select(li => li.TextContent.Trim()).ToList();
-        Assert.Equal(new[] { "Light", "Dark" }, labels);
+        // Listed alphabetically by the name shown.
+        Assert.Equal(new[] { "Dark", "Light" }, labels);
         // The word "default" is never emitted as a user-facing label.
         // (Asserted over the option text, not cut.Markup: bUnit renders its
         // own `:onmousedown:preventDefault` bookkeeping attribute there.)
@@ -257,8 +260,8 @@ public class ThemePickerTests : TestContext
 
             Assert.False(cut.Find("ul").HasAttribute("hidden"));
             Assert.Equal("true", cut.Find("button").GetAttribute("aria-expanded"));
-            // Opens on the currently-selected option ("light", index 0).
-            Assert.Equal(cut.FindAll("li")[0].GetAttribute("id"),
+            // Opens on the currently-selected option ("light", the last of the sorted three).
+            Assert.Equal(cut.FindAll("li")[Themes.Length - 1].GetAttribute("id"),
                 cut.Find("ul").GetAttribute("aria-activedescendant"));
         }
     }
@@ -293,10 +296,11 @@ public class ThemePickerTests : TestContext
         string Active() => cut.Find("ul").GetAttribute("aria-activedescendant")!;
         string OptionId(int i) => cut.FindAll("li")[i].GetAttribute("id")!;
 
-        Assert.Equal(OptionId(0), Active());
+        // The list opens on the selected option, "light", which is the last of the sorted three.
+        Assert.Equal(OptionId(Themes.Length - 1), Active());
 
-        Key(cut, "ul", "ArrowDown");
-        Assert.Equal(OptionId(1), Active());
+        Key(cut, "ul", "ArrowUp");
+        Assert.Equal(OptionId(Themes.Length - 2), Active());
 
         // Clamp at the top.
         Key(cut, "ul", "ArrowUp");
@@ -344,7 +348,8 @@ public class ThemePickerTests : TestContext
         await Task.Yield();
 
         Key(cut, "button", "ArrowDown");
-        Key(cut, "ul", "ArrowDown");
+        // Open on "light" (last), move up to "dark".
+        Key(cut, "ul", "ArrowUp");
         Key(cut, "ul", "Enter");
 
         Assert.True(cut.Find("ul").HasAttribute("hidden"));
@@ -365,7 +370,7 @@ public class ThemePickerTests : TestContext
         await Task.Yield();
 
         Key(cut, "button", "ArrowDown");
-        Key(cut, "ul", "End");
+        Key(cut, "ul", "Home");
         Key(cut, "ul", " ");
 
         Assert.True(cut.Find("ul").HasAttribute("hidden"));
@@ -408,15 +413,15 @@ public class ThemePickerTests : TestContext
         await Task.Yield();
         Key(cut, "button", "ArrowDown");
 
-        // "Abyss" is index 2 in Themes.
+        // "Abyss" is the first of the sorted Themes.
         Key(cut, "ul", "a");
-        Assert.Equal(cut.FindAll("li")[2].GetAttribute("id"),
+        Assert.Equal(cut.FindAll("li")[0].GetAttribute("id"),
             cut.Find("ul").GetAttribute("aria-activedescendant"));
 
         // "d" within the same buffer window makes "ad", which matches
         // nothing, so the active option stays put.
         Key(cut, "ul", "d");
-        Assert.Equal(cut.FindAll("li")[2].GetAttribute("id"),
+        Assert.Equal(cut.FindAll("li")[0].GetAttribute("id"),
             cut.Find("ul").GetAttribute("aria-activedescendant"));
     }
 
@@ -436,7 +441,7 @@ public class ThemePickerTests : TestContext
         await Task.Yield();
 
         cut.Find("button").Click();
-        cut.FindAll("li")[2].Click();
+        cut.FindAll("li")[0].Click();
 
         Assert.True(cut.Find("ul").HasAttribute("hidden"));
         // A pointer selection closes, exactly as Enter does. The
@@ -596,7 +601,8 @@ public class ThemePickerTests : TestContext
         var labels = cut.FindAll("li.theme-picker-option")
             .Select(li => li.TextContent.Trim()).ToList();
         Assert.Equal(
-            new[] { ThemePicker.ThemeName("high-contrast"), ThemePicker.ThemeName("dark") },
+            // Listed alphabetically by the name shown.
+            new[] { ThemePicker.ThemeName("dark"), ThemePicker.ThemeName("high-contrast") },
             labels);
     }
 
@@ -1297,8 +1303,9 @@ public class ThemePickerSelectVariantTests : TestContext
             .Add(x => x.ThemeLabels, new Dictionary<string, string> { ["dark"] = "Sombre" }), label: "Thème");
         Assert.Equal("Thème", cut.Find("select").GetAttribute("aria-label"));
         var options = cut.FindAll("option.theme-picker-option");
-        Assert.Equal(Themes, options.Select(o => o.GetAttribute("value")).ToArray());
-        Assert.Equal(new[] { "Light", "Sombre", "Abyss" }, options.Select(o => o.TextContent.Trim()).ToArray());
+        // Sorted by the name shown, so "dark", labelled "Sombre", sorts after "Light".
+        Assert.Equal(new[] { "abyss", "light", "dark" }, options.Select(o => o.GetAttribute("value")).ToArray());
+        Assert.Equal(new[] { "Abyss", "Light", "Sombre" }, options.Select(o => o.TextContent.Trim()).ToArray());
         Assert.DoesNotContain("default", cut.Markup, StringComparison.OrdinalIgnoreCase);
     }
 

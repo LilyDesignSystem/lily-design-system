@@ -3059,11 +3059,12 @@
             "status": "met",
             "met": true,
             "testFiles": [
+              "lily-design-system-blazor-theme-picker/ThemePickerOrderTests.cs",
               "lily-design-system-blazor-theme-picker/ThemePickerPatternTests.cs",
               "lily-design-system-blazor-theme-picker/ThemePickerSystemTests.cs",
               "lily-design-system-blazor-theme-picker/ThemePickerTests.cs"
             ],
-            "keyEvent": "lily-design-system-blazor-theme-picker/ThemePickerPatternTests.cs",
+            "keyEvent": "lily-design-system-blazor-theme-picker/ThemePickerOrderTests.cs",
             "ariaAssertion": "lily-design-system-blazor-theme-picker/ThemePickerPatternTests.cs"
           }
         }

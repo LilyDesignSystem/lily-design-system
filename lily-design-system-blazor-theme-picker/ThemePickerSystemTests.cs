@@ -13,7 +13,8 @@ namespace LilyDesignSystem.Blazor.Helpers.Tests;
 
 public class ThemePickerSystemTests : TestContext
 {
-    private static readonly string[] Themes = { "light", "dark", "abyss" };
+    // In the order the picker lists them: alphabetical by the name shown (spec/theme-picker, "Order of themes").
+    private static readonly string[] Themes = { "abyss", "dark", "light" };
 
     public ThemePickerSystemTests()
     {
@@ -68,7 +69,7 @@ public class ThemePickerSystemTests : TestContext
     {
         var cut = Render(WithSystem());
         var options = cut.FindAll(".theme-picker-option");
-        Assert.Equal(new[] { "Follow this device", "Light", "Dark", "Abyss" }, options.Select(o => o.TextContent.Trim()));
+        Assert.Equal(new[] { "Follow this device", "Abyss", "Dark", "Light" }, options.Select(o => o.TextContent.Trim()));
         Assert.Contains("theme-picker-option-system", options[0].ClassList);
         Assert.DoesNotContain("theme-picker-option-system", options[1].ClassList);
     }
