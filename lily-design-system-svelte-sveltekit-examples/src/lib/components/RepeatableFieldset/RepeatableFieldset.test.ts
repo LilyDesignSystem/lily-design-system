@@ -59,4 +59,14 @@ describe("RepeatableFieldset", () => {
         for (const button of document.querySelectorAll("fieldset button"))
             expect(button.getAttribute("type")).toBe("button");
     });
+
+    test("without addedLabel and removedLabel there is no status region, and adding still works", async () => {
+        const { container } = render(Host, {
+            props: { initial: [{ name: "Aspirin" }], announce: false },
+        });
+        expect(screen.queryByRole("status")).toBeNull();
+        await fireEvent.click(screen.getByRole("button", { name: "Add another medicine" }));
+        expect(container.querySelectorAll(".repeatable-fieldset-item")).toHaveLength(2);
+        expect(screen.queryByRole("status")).toBeNull();
+    });
 });

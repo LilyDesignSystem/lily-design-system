@@ -57,6 +57,17 @@ describe("QuantityInputDiv", () => {
         );
     });
 
+    test("one unit without a name is shown as text and not submitted", () => {
+        const { container } = render(Subject, {
+            props: { label: "Weight", magnitudeLabel: "Amount", units: [units[0]] },
+        });
+        expect(container.querySelector("span.quantity-input-div-unit")?.textContent).toBe(
+            units[0].label,
+        );
+        expect(container.querySelector("select")).toBeNull();
+        expect(container.querySelector("input[type=hidden]")).toBeNull();
+    });
+
     test("names the fields from name", () => {
         const { container } = render(Subject, { props: { ...base, name: "weight" } });
         expect(

@@ -47,4 +47,13 @@ describe("ToggleButton", () => {
         render(Subject, { props: { label: "T", "data-testid": "tg" } });
         expect(screen.getByTestId("tg")).toBeTruthy();
     });
+
+    test("Enter toggles it, as a native button does", async () => {
+        const user: UserEvent = userEvent.setup();
+        render(Subject, { props: { label: "ToggleButton" } });
+        const btn = screen.getByRole("button");
+        btn.focus();
+        await user.keyboard("{Enter}");
+        expect(btn.getAttribute("aria-pressed")).toBe("true");
+    });
 });

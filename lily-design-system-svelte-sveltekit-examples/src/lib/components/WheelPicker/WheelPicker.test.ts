@@ -192,6 +192,38 @@ describe("WheelPicker", () => {
         form.remove();
     });
 
+    it("a cancelled form reset leaves the picker where it is", async () => {
+        const form = document.body.appendChild(document.createElement("form"));
+        const onChange = vi.fn();
+        render(WheelPicker, {
+            target: form,
+            props: { label: "Month", options: months, value: "2", name: "month", onChange },
+        });
+        await fireEvent.keyDown(list(), { key: "ArrowDown" });
+        onChange.mockClear();
+        form.addEventListener("reset", (event) => event.preventDefault());
+        form.reset();
+        await new Promise((resolve) => setTimeout(resolve, 5));
+        expect(selected()).toBe("March");
+        expect(onChange).not.toHaveBeenCalled();
+        form.remove();
+    });
+
+    it("a form reset when nothing has changed reports nothing", async () => {
+        const form = document.body.appendChild(document.createElement("form"));
+        const onChange = vi.fn();
+        render(WheelPicker, {
+            target: form,
+            props: { label: "Month", options: months, value: "2", name: "month", onChange },
+        });
+        onChange.mockClear();
+        form.reset();
+        await new Promise((resolve) => setTimeout(resolve, 5));
+        expect(selected()).toBe("February");
+        expect(onChange).not.toHaveBeenCalled();
+        form.remove();
+    });
+
     it("horizontal: aria-orientation, ArrowRight and ArrowLeft move, ArrowDown does not", async () => {
         make({ orientation: "horizontal" });
         expect(list().getAttribute("aria-orientation")).toBe("horizontal");

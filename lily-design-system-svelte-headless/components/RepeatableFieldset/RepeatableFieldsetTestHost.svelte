@@ -7,7 +7,8 @@
         initial = [],
         min = 0,
         max = undefined,
-    }: { initial?: { name: string }[]; min?: number; max?: number } = $props();
+        announce = true,
+    }: { initial?: { name: string }[]; min?: number; max?: number; announce?: boolean } = $props();
     // The host starts from the first items only; later changes come from the component.
     let items = $state(untrack(() => initial.map((x) => ({ ...x }))));
 </script>
@@ -19,8 +20,8 @@
     itemLegend={(n) => `Medicine ${n}`}
     addLabel="Add another medicine"
     removeLabel={(n) => `Remove medicine ${n}`}
-    addedLabel={(n) => `Medicine ${n} added`}
-    removedLabel={(n) => `Medicine ${n} removed`}
+    addedLabel={announce ? (n) => `Medicine ${n} added` : undefined}
+    removedLabel={announce ? (n) => `Medicine ${n} removed` : undefined}
     {min}
     {max}
 >
