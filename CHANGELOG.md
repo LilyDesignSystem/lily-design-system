@@ -23,6 +23,8 @@ highlights.
   control an accessible name, refers only to ids that exist, and never describes a control with a hidden element.
 - Each component's site page lists the recipes that use it, in its canonical-contract section, and its
   `/r/{slug}.json` manifest gains a `recipes` array (only where a recipe uses the component).
+- The site has a `/recipes/` index and its `/recipes.md` twin, generated from `recipes/` and drift-checked by
+  `bin/generate-api-docs --check`.
 
 ## Theme order and names in `picker-bar` (2026-11-20, unreleased)
 

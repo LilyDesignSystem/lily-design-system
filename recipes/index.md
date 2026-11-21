@@ -56,7 +56,8 @@ tags: [form, required]
 | [form/complete-form](form/complete-form.html)                                     | An error summary linking to the field in error, and a submit button     |
 
 Each component's page on the site lists the recipes that use it, and its `/r/{slug}.json` manifest has a `recipes`
-array; `bin/generate-api-docs` reads the front matter above. Still to come (P22-T27): a `/recipes` index on the site.
+array, and the site's `/recipes/` page (with its `/recipes.md` twin) lists them all; `bin/generate-api-docs` writes
+both from the front matter above.
 
 ---
 
