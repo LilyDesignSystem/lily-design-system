@@ -21,8 +21,9 @@
 //   - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { keepOpenForPrint } from "../lib/print-open.js";
 
-const HANDLED = new Set(["summary", "open"]);
+const HANDLED = new Set(["summary", "open", "print-open"]);
 
 export class Details extends HTMLElement {
     static get observedAttributes(): string[] {
@@ -30,8 +31,16 @@ export class Details extends HTMLElement {
     }
 
     #details: HTMLDetailsElement | null = null;
+    #stopPrinting: (() => void) | undefined;
 
     connectedCallback(): void {
+        // A printed page cannot open a closed disclosure: open it for print and close it again (P42-T9).
+        // `print-open="false"` opts out.
+        this.#stopPrinting?.();
+        this.#stopPrinting =
+            this.getAttribute("print-open") === "false"
+                ? undefined
+                : keepOpenForPrint(() => (this.#details ? [this.#details] : []));
         if (this.#details) return;
 
         const details = document.createElement("details");
@@ -51,6 +60,11 @@ export class Details extends HTMLElement {
 
         this.appendChild(details);
         this.#details = details;
+    }
+
+    disconnectedCallback(): void {
+        this.#stopPrinting?.();
+        this.#stopPrinting = undefined;
     }
 
     attributeChangedCallback(name: string): void {

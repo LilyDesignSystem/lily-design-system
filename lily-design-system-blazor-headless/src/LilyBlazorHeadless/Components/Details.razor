@@ -13,10 +13,14 @@
         ChildContent, CssClass, AdditionalAttributes (spread onto the details).
 *@
 
-<details class="@($"details {CssClass}".Trim())" open="@Open" @ref="Root" @attributes="AdditionalAttributes"><summary>@Summary</summary>@ChildContent</details>
+<details class="@($"details {CssClass}".Trim())" open="@Open" data-print-open="@(PrintOpen ? null : "false")" @ref="Root" @attributes="AdditionalAttributes"><summary>@Summary</summary>@ChildContent</details>
 
 @code {
     [Parameter, EditorRequired] public string Summary { get; set; } = "";
+    /// <summary>A printed page cannot open a closed disclosure, so on <c>beforeprint</c> a closed one is opened and on
+    /// <c>afterprint</c> closed again; one the reader had opened stays open. Default true; false leaves it as it is.</summary>
+    [Parameter] public bool PrintOpen { get; set; } = true;
+
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }

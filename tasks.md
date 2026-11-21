@@ -4321,7 +4321,7 @@ quick wins and are done; then T5, T6/T7, T9, T8, T10.
       `undefined`: two-sided range, half a range beyond each end; one-sided, from zero to half as far again; wide enough to hold the
       value; nothing for a non-numeric value, a non-numeric or reversed range, or differing units.
       Verify: a unit test for each rule, in every catalog that has the module.
-- [ ] **P42-T9 Print opens closed disclosures (item 5).** Done 2026-11-21 for Svelte, React, Solid, Vue and Angular (`shared/print-open.ts`, `printOpen` default true, `keepAllOpenForPrint(root)` for a page's own disclosures); still open: Web Components, HTML, Alpine, Nunjucks and Blazor. `Details` opens on `beforeprint` and restores on `afterprint` (`printOpen`,
+- [x] **P42-T9 Print opens closed disclosures (item 5).** Done 2026-11-21 for Svelte, React, Solid, Vue, Angular, Web Components (`print-open="false"` opts out) and Blazor (`PrintOpen`; the script is not unit-run) (`shared/print-open.ts`, `printOpen` default true, `keepAllOpenForPrint(root)` for a page's own disclosures); HTML, Alpine and Nunjucks ship markup only, so `components/details/AGENTS.md` gives the page a five-line script. `Details` opens on `beforeprint` and restores on `afterprint` (`printOpen`,
       default true, cleaned up on destroy), in all catalogs that have it.
       Verify: printing a page with closed disclosures shows their content; closing them again leaves the page as it was.
 - [ ] **P42-T10 A `next` dist-tag for risky releases (item 11).** Fewer, larger releases and grouped breaking changes are right; holding

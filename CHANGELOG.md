@@ -9,12 +9,13 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
-## Print opens closed disclosures (2026-11-21, P42-T9; Svelte, React, Solid, Vue and Angular)
+## Print opens closed disclosures (2026-11-21, P42-T9; Svelte, React, Solid, Vue, Angular, Web Components and Blazor)
 
 - A printed page cannot open a closed `<details>`, so clinical text inside one was lost on paper. `details` now opens on `beforeprint` and
   closes again on `afterprint` (`printOpen`, default true; a disclosure the reader had opened stays open, and the listeners are removed on
-  unmount). `shared/print-open.ts` also exports `keepAllOpenForPrint(root)` for a page's own disclosures. Not yet in Web Components, HTML,
-  Alpine, Nunjucks or Blazor.
+  unmount). `shared/print-open.ts` also exports `keepAllOpenForPrint(root)` for a page's own disclosures. Web Components opts out with
+  `print-open="false"`, Blazor with `PrintOpen="false"`. HTML, Alpine and Nunjucks ship markup only: the component's docs give the page a
+  five-line script.
 
 ## Silence one component's development warning (2026-11-21, P42-T7)
 

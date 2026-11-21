@@ -62,4 +62,24 @@ public class DetailsTests : TestContext
         cut.InvokeAsync(() => cut.Instance.OnDetailsToggle(true));
         Assert.Equal(0, calls);
     }
+
+    [Fact]
+    public void Print_opens_by_default_so_the_element_carries_no_opt_out()
+        => Assert.False(Make().Find("details").HasAttribute("data-print-open"));
+
+    [Fact]
+    public void PrintOpen_false_says_so_on_the_element_for_the_script()
+        => Assert.Equal("false", Make(p => p.Add(x => x.PrintOpen, false)).Find("details").GetAttribute("data-print-open"));
+
+    [Fact]
+    public void The_module_opens_a_closed_disclosure_for_print_and_closes_it_afterwards()
+    {
+        // The print handling lives in Details.razor.js (bUnit does not run it): pin the contract it implements.
+        var js = System.IO.File.ReadAllText(System.IO.Path.Combine(
+            AppContext.BaseDirectory, "..", "..", "..", "..", "..", "src", "LilyBlazorHeadless", "Components", "Details.razor.js"));
+        Assert.Contains("\"beforeprint\"", js);
+        Assert.Contains("\"afterprint\"", js);
+        Assert.Contains("printOpen === \"false\"", js);
+        Assert.Contains("removeEventListener(\"beforeprint\"", js);
+    }
 }

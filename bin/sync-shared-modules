@@ -292,6 +292,7 @@ EXTRA_TARGETS = {
         "lily-design-system-solid-headless/components/print-open.ts",
         "lily-design-system-vue-headless/components/print-open.ts",
         "lily-design-system-angular-headless/components/print-open.ts",
+        "lily-design-system-web-components-headless/lib/print-open.ts",
         "lily-design-system-angular-examples/src/app/components/print-open.ts",
         "lily-design-system-react-next-examples/components/print-open.ts",
         "lily-design-system-vue-nuxt-examples/components/print-open.ts",
