@@ -11,7 +11,7 @@ public class RepeatableFieldsetTests : TestContext
 
     private sealed class Medicine { public string Name { get; set; } = ""; }
 
-    private IRenderedComponent<RepeatableFieldset<Medicine>> Make(List<Medicine> items, int min = 0, int? max = null, Action<IReadOnlyList<Medicine>>? changed = null) =>
+    private IRenderedComponent<RepeatableFieldset<Medicine>> Make(List<Medicine> items, int min = 0, int? max = null, Action<IReadOnlyList<Medicine>>? changed = null, bool announce = true) =>
         RenderComponent<RepeatableFieldset<Medicine>>(p => p
             .Add(x => x.Legend, "Medicines")
             .Add(x => x.Items, items)
@@ -20,8 +20,8 @@ public class RepeatableFieldsetTests : TestContext
             .Add(x => x.ItemLegend, n => $"Medicine {n}")
             .Add(x => x.AddLabel, "Add another medicine")
             .Add(x => x.RemoveLabel, n => $"Remove medicine {n}")
-            .Add(x => x.AddedLabel, n => $"Medicine {n} added")
-            .Add(x => x.RemovedLabel, n => $"Medicine {n} removed")
+            .Add(x => x.AddedLabel, announce ? n => $"Medicine {n} added" : null)
+            .Add(x => x.RemovedLabel, announce ? n => $"Medicine {n} removed" : null)
             .Add(x => x.Min, min)
             .Add(x => x.Max, max)
             .Add(x => x.ItemTemplate, ctx => builder =>
@@ -62,5 +62,16 @@ public class RepeatableFieldsetTests : TestContext
         var cut = Make([new() { Name = "Aspirin" }], min: 1, max: 1);
         Assert.Empty(cut.FindAll(".repeatable-fieldset-remove"));
         Assert.True(cut.Find(".repeatable-fieldset-add").HasAttribute("disabled"));
+    }
+
+    [Fact]
+    public void Without_added_and_removed_labels_there_is_no_status_and_adding_still_works()
+    {
+        IReadOnlyList<Medicine>? changed = null;
+        var cut = Make([new() { Name = "Aspirin" }], changed: next => changed = next, announce: false);
+        Assert.Empty(cut.FindAll("[role=status]"));
+        cut.Find(".repeatable-fieldset-add").Click();
+        Assert.Equal(2, changed!.Count);
+        Assert.Empty(cut.FindAll("[role=status]"));
     }
 }

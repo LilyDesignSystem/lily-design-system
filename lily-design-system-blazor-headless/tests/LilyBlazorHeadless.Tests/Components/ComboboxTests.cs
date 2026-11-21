@@ -146,5 +146,30 @@ public class ComboboxTests : TestContext
         cut.SetParametersAndRender(p => p.Add(x => x.ResultCount, (int?)null));
         Assert.Equal("", cut.Find("[role=status]").TextContent);
     }
+
+    [Fact]
+    public void A_count_with_no_words_for_it_says_nothing_rather_than_built_english()
+    {
+        // No words at all: no status region.
+        var none = RenderComponent<Combobox>(p => p.Add(x => x.Label, "Medicine").Add(x => x.Open, true).Add(x => x.ResultCount, 4));
+        Assert.Empty(none.FindAll("[role=status]"));
+        // Words for one case only: the other case says nothing.
+        var some = RenderComponent<Combobox>(p => p.Add(x => x.Label, "Medicine").Add(x => x.Open, true).Add(x => x.ResultCount, 0)
+            .Add(x => x.ResultsLabel, n => $"{n} matches"));
+        Assert.Equal("", some.Find("[role=status]").TextContent);
+        var other = RenderComponent<Combobox>(p => p.Add(x => x.Label, "Medicine").Add(x => x.Open, true).Add(x => x.ResultCount, 4)
+            .Add(x => x.NoResultsLabel, "No matches"));
+        Assert.Equal("", other.Find("[role=status]").TextContent);
+    }
+
+    [Fact]
+    public void Escape_on_a_closed_dropdown_changes_nothing()
+    {
+        var changes = new List<bool>();
+        var cut = RenderComponent<Combobox>(p => p.Add(x => x.Label, "Medicine").Add(x => x.Open, false)
+            .Add(x => x.OpenChanged, v => changes.Add(v)));
+        cut.Find("input").KeyDown(new KeyboardEventArgs { Key = "Escape" });
+        Assert.Empty(changes);
+    }
 }
 
