@@ -4231,9 +4231,21 @@ current design system. No person or organisation is named. Order: T1 first (a tr
       `docs/migrating/government-design-system.tsv` by `bin/generate-government-migration` (`--check` in `bin/test`, listed in the
       Generated files table). The guide says adopt alongside, then migrate; its effort table is labelled as estimates, not
       measurements. Not yet a docs-site page.)_
-- [ ] **P41-T5 An assurance pack.** Security and supply-chain notes, an SBOM per package, provenance-attested releases (depends on
+- [x] **P41-T5 An assurance pack.** Security and supply-chain notes, an SBOM per package, provenance-attested releases (depends on
       the trusted-publishing work), and clinical-safety support documents; UK public-sector profile, kept regional, not the default.
-      Verify: the pack is linked from the site; `bin/check-worldwide` still passes.
+      Verify: the pack is linked from the site; `bin/check-worldwide` still passes. _(2026-11-21: the document is done at
+      `docs/assurance/index.md`: what Lily is for assurance purposes, the evidence that exists, a table of gaps with the task for
+      each, how to make your own SBOM, an eight-row clinical hazard table, and a UK public-sector profile that names the
+      standards for a team to confirm. It is not yet linked from the site, and an SBOM and provenance are not shipped: T5b.)_
+- [ ] **P41-T5b Ship an SBOM and check provenance.** A CycloneDX document per published package, generated in the release
+      pipeline and attached to the release; a script that verifies each registry's provenance for the latest version.
+      Verify: `bin/verify-published` reports provenance, and the assurance pack's gap rows are removed.
+- [ ] **P41-T5c The theme picker's cookie is on by default.** `ThemePicker` writes a first-party `lily-theme` cookie (400 days) on a
+      choice, as well as `localStorage`, unless `cookieName=""`; `AGENTS/helpers.md` and the picker docs say "optional
+      `localStorage`". Decide whether the default should be off, and either way document the cookie in every catalog's picker docs.
+      _(Found 2026-11-21: the site's cookie policy first said "no cookies" and was wrong; the policy is corrected and
+      `tests/policy-pages.spec.ts` now checks the one cookie set. The other seven catalogs have not been checked.)_
+      Verify: a Playwright check in each helper that a first visit sets no cookie and a choice sets only the documented one.
 - [ ] **P41-T6 A "for public-sector health" landing page.** Outcomes first, with the measured figures (coverage, test counts,
       sweeps), a side-by-side comparison, an honest list of what is not yet proved, and an adopter slot left empty until real.
       Verify: page with a Playwright spec; every figure links to its generator.

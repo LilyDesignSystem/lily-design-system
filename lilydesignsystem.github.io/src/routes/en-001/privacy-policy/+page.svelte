@@ -17,9 +17,9 @@
   <h2>The short version</h2>
   <ul>
     <li>No accounts, no sign-in, no forms that send data to us.</li>
-    <li>No analytics, advertising, tracking pixels or cookies.</li>
+    <li>No analytics, advertising or tracking cookies or pixels. One preference cookie is set only if you choose a theme.</li>
     <li>No third-party scripts, fonts or embedded media loaded from other companies.</li>
-    <li>Your theme, text size and language choices stay in your own browser.</li>
+    <li>Your theme, text size and language choices stay in your own browser, and the theme cookie goes only to this site.</li>
   </ul>
 
   <h2>What we collect</h2>
@@ -30,8 +30,9 @@
 
   <h2>What is stored on your device</h2>
   <p>
-    A few preferences are kept in your browser’s storage so that your choices last. They stay on your device. See the
-    <a href="/en-001/cookie-policy/">cookie policy</a> for the full list.
+    A few preferences are kept in your browser’s storage so that your choices last, and choosing a theme also sets one
+    first-party cookie. The storage stays on your device; the cookie is sent back to this site with your page requests but
+    holds only the theme’s name. See the <a href="/en-001/cookie-policy/">cookie policy</a> for the full list.
   </p>
 
   <h2>Who else can see your visit</h2>

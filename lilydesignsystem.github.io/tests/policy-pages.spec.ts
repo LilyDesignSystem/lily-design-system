@@ -37,13 +37,33 @@ test('the footer policy links appear on an ordinary page and are marked as Engli
   await expect(footer.locator('a[lang="en"]')).toHaveCount(5);
 });
 
-// The policies say the site sets no cookies and lists the browser storage it uses. These tests keep that true.
-test('the site sets no cookies, even after the preferences are used', async ({ page, context }) => {
+// The policies say the site sets no cookie until a theme is chosen, and then exactly one, `lily-theme`. These tests keep that true:
+// the theme picker's cookie is on by default, and the first version of the policy missed it.
+test('no cookie is set on arrival, or by choosing a text size or a language', async ({ page, context }) => {
   await page.goto('/getting-started/');
   await expect(page.locator('html')).toHaveAttribute('data-theme', /.+/);
+  expect(await context.cookies()).toEqual([]);
   await page.getByRole('button', { name: /text size/i }).click();
   await page.getByRole('option').nth(1).click();
   expect(await context.cookies()).toEqual([]);
+});
+
+test('choosing a theme sets exactly the one cookie the cookie policy documents', async ({ page, context }) => {
+  await page.goto('/getting-started/');
+  await expect(page.locator('html')).toHaveAttribute('data-theme', /.+/);
+  await page.getByRole('button', { name: /theme/i }).first().click();
+  await page.getByRole('option').nth(2).click();
+  const cookies = await context.cookies();
+  expect(cookies.map((c) => c.name)).toEqual(['lily-theme']);
+  expect(cookies[0].sameSite).toBe('Lax');
+  expect(cookies[0].path).toBe('/');
+  const days = (cookies[0].expires - Date.now() / 1000) / 86400;
+  expect(days).toBeGreaterThan(399);
+  expect(days).toBeLessThanOrEqual(400);
+  await page.goto('/en-001/cookie-policy/');
+  const table = await page.getByRole('table', { name: 'Cookies set by this site' }).innerText();
+  for (const c of cookies) expect(table, `cookie ${c.name}`).toContain(c.name);
+  expect(table).toContain('400 days');
 });
 
 test('every browser-storage key the site writes is listed on the cookie policy', async ({ page }) => {
