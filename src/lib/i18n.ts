@@ -12,6 +12,8 @@ import { DEFAULT_LOCALE } from './locales';
 export type UiStrings = {
   skipLink: string;
   nav: {
+    /** The accessible name of the header's main <nav>; a screen reader adds "navigation". */
+    label: string;
     home: string;
     components: string;
     tutorials: string;
@@ -49,6 +51,7 @@ export type UiStrings = {
 const en: UiStrings = {
   skipLink: 'Skip to main content',
   nav: {
+    label: 'Main',
     home: 'Home',
     components: 'Components',
     tutorials: 'Tutorials',
@@ -106,6 +109,7 @@ const enUs: UiStrings = en;
 const es: UiStrings = {
   skipLink: 'Saltar al contenido principal',
   nav: {
+    label: 'Principal',
     home: 'Inicio',
     components: 'Componentes',
     tutorials: 'Tutoriales',
@@ -155,6 +159,7 @@ const es: UiStrings = {
 const fr: UiStrings = {
   skipLink: 'Passer au contenu principal',
   nav: {
+    label: 'Principale',
     home: 'Accueil',
     components: 'Composants',
     tutorials: 'Tutoriels',
@@ -203,6 +208,7 @@ const fr: UiStrings = {
 const pt: UiStrings = {
   skipLink: 'Pular para o conteúdo principal',
   nav: {
+    label: 'Principal',
     home: 'Início',
     components: 'Componentes',
     tutorials: 'Tutoriais',
@@ -252,6 +258,7 @@ const pt: UiStrings = {
 const ru: UiStrings = {
   skipLink: 'Перейти к основному содержимому',
   nav: {
+    label: 'Основная',
     home: 'Главная',
     components: 'Компоненты',
     tutorials: 'Уроки',
@@ -302,6 +309,7 @@ const ru: UiStrings = {
 const hi: UiStrings = {
   skipLink: 'मुख्य सामग्री पर जाएँ',
   nav: {
+    label: 'मुख्य',
     home: 'होम',
     components: 'कॉम्पोनेंट्स',
     tutorials: 'ट्यूटोरियल',
@@ -349,6 +357,7 @@ const hi: UiStrings = {
 const id: UiStrings = {
   skipLink: 'Lewati ke konten utama',
   nav: {
+    label: 'Utama',
     home: 'Beranda',
     components: 'Komponen',
     tutorials: 'Tutorial',
@@ -398,6 +407,7 @@ const id: UiStrings = {
 const cy: UiStrings = {
   skipLink: "Neidio i'r prif gynnwys",
   nav: {
+    label: 'Prif lywio',
     home: 'Hafan',
     components: 'Cydrannau',
     tutorials: 'Tiwtorialau',
@@ -448,6 +458,7 @@ const cy: UiStrings = {
 const ar: UiStrings = {
   skipLink: 'الانتقال إلى المحتوى الرئيسي',
   nav: {
+    label: 'الرئيسية',
     home: 'الرئيسية',
     components: 'المكوّنات',
     tutorials: 'الدروس',
@@ -494,6 +505,7 @@ const ar: UiStrings = {
 const ur: UiStrings = {
   skipLink: 'بنیادی مواد پر جائیں',
   nav: {
+    label: 'مرکزی',
     home: 'ہوم',
     components: 'اجزاء',
     tutorials: 'سبق',
@@ -541,6 +553,7 @@ const ur: UiStrings = {
 const bn: UiStrings = {
   skipLink: 'মূল বিষয়বস্তুতে যান',
   nav: {
+    label: 'প্রধান',
     home: 'হোম',
     components: 'কম্পোনেন্ট',
     tutorials: 'টিউটোরিয়াল',
@@ -588,6 +601,7 @@ const bn: UiStrings = {
 const zh: UiStrings = {
   skipLink: '跳到主要内容',
   nav: {
+    label: '主要',
     home: '首页',
     components: '组件',
     tutorials: '教程',
@@ -634,6 +648,7 @@ const zh: UiStrings = {
 const ja: UiStrings = {
   skipLink: 'メインコンテンツへスキップ',
   nav: {
+    label: 'メイン',
     home: 'ホーム',
     components: 'コンポーネント',
     tutorials: 'チュートリアル',
@@ -671,6 +686,7 @@ const ja: UiStrings = {
 const ko: UiStrings = {
   skipLink: '본문으로 건너뛰기',
   nav: {
+    label: '주요',
     home: '홈',
     components: '컴포넌트',
     tutorials: '튜토리얼',
@@ -708,6 +724,7 @@ const ko: UiStrings = {
 const sw: UiStrings = {
   skipLink: 'Ruka hadi maudhui makuu',
   nav: {
+    label: 'Kuu',
     home: 'Mwanzo',
     components: 'Vipengele',
     tutorials: 'Mafunzo',
@@ -745,6 +762,7 @@ const sw: UiStrings = {
 const sv: UiStrings = {
   skipLink: 'Hoppa till huvudinnehållet',
   nav: {
+    label: 'Huvudnavigering',
     home: 'Start',
     components: 'Komponenter',
     tutorials: 'Handledningar',
@@ -782,6 +800,7 @@ const sv: UiStrings = {
 const nl: UiStrings = {
   skipLink: 'Direct naar de hoofdinhoud',
   nav: {
+    label: 'Hoofdnavigatie',
     home: 'Home',
     components: 'Componenten',
     tutorials: 'Handleidingen',
@@ -819,6 +838,7 @@ const nl: UiStrings = {
 const de: UiStrings = {
   skipLink: 'Zum Hauptinhalt springen',
   nav: {
+    label: 'Hauptnavigation',
     home: 'Start',
     components: 'Komponenten',
     tutorials: 'Anleitungen',
@@ -856,6 +876,7 @@ const de: UiStrings = {
 const da: UiStrings = {
   skipLink: 'Gå til hovedindholdet',
   nav: {
+    label: 'Hovednavigation',
     home: 'Hjem',
     components: 'Komponenter',
     tutorials: 'Vejledninger',
@@ -893,6 +914,7 @@ const da: UiStrings = {
 const th: UiStrings = {
   skipLink: 'ข้ามไปยังเนื้อหาหลัก',
   nav: {
+    label: 'หลัก',
     home: 'หน้าแรก',
     components: 'คอมโพเนนต์',
     tutorials: 'บทเรียน',
@@ -930,6 +952,7 @@ const th: UiStrings = {
 const et: UiStrings = {
   skipLink: 'Liigu põhisisu juurde',
   nav: {
+    label: 'Põhinavigatsioon',
     home: 'Avaleht',
     components: 'Komponendid',
     tutorials: 'Õpetused',
@@ -967,6 +990,7 @@ const et: UiStrings = {
 const fi: UiStrings = {
   skipLink: 'Siirry pääsisältöön',
   nav: {
+    label: 'Päänavigaatio',
     home: 'Etusivu',
     components: 'Komponentit',
     tutorials: 'Opetusohjelmat',
@@ -1004,6 +1028,7 @@ const fi: UiStrings = {
 const it: UiStrings = {
   skipLink: 'Salta al contenuto principale',
   nav: {
+    label: 'Principale',
     home: 'Home',
     components: 'Componenti',
     tutorials: 'Tutorial',
@@ -1041,6 +1066,7 @@ const it: UiStrings = {
 const tr: UiStrings = {
   skipLink: 'Ana içeriğe geç',
   nav: {
+    label: 'Ana',
     home: 'Ana sayfa',
     components: 'Bileşenler',
     tutorials: 'Eğitimler',
@@ -1078,6 +1104,7 @@ const tr: UiStrings = {
 const vi: UiStrings = {
   skipLink: 'Chuyển đến nội dung chính',
   nav: {
+    label: 'Chính',
     home: 'Trang chủ',
     components: 'Thành phần',
     tutorials: 'Hướng dẫn',
@@ -1115,6 +1142,7 @@ const vi: UiStrings = {
 const pl: UiStrings = {
   skipLink: 'Przejdź do głównej treści',
   nav: {
+    label: 'Główna',
     home: 'Start',
     components: 'Komponenty',
     tutorials: 'Samouczki',
@@ -1152,6 +1180,7 @@ const pl: UiStrings = {
 const ro: UiStrings = {
   skipLink: 'Salt la conținutul principal',
   nav: {
+    label: 'Principală',
     home: 'Acasă',
     components: 'Componente',
     tutorials: 'Tutoriale',
@@ -1189,6 +1218,7 @@ const ro: UiStrings = {
 const cs: UiStrings = {
   skipLink: 'Přejít na hlavní obsah',
   nav: {
+    label: 'Hlavní',
     home: 'Domů',
     components: 'Komponenty',
     tutorials: 'Návody',
@@ -1226,6 +1256,7 @@ const cs: UiStrings = {
 const hu: UiStrings = {
   skipLink: 'Ugrás a fő tartalomra',
   nav: {
+    label: 'Fő',
     home: 'Kezdőlap',
     components: 'Komponensek',
     tutorials: 'Oktatóanyagok',
@@ -1263,6 +1294,7 @@ const hu: UiStrings = {
 const el: UiStrings = {
   skipLink: 'Μετάβαση στο κύριο περιεχόμενο',
   nav: {
+    label: 'Κύρια',
     home: 'Αρχική',
     components: 'Στοιχεία',
     tutorials: 'Οδηγοί',
@@ -1300,6 +1332,7 @@ const el: UiStrings = {
 const bg: UiStrings = {
   skipLink: 'Към основното съдържание',
   nav: {
+    label: 'Основна',
     home: 'Начало',
     components: 'Компоненти',
     tutorials: 'Уроци',
@@ -1337,6 +1370,7 @@ const bg: UiStrings = {
 const sk: UiStrings = {
   skipLink: 'Prejsť na hlavný obsah',
   nav: {
+    label: 'Hlavná',
     home: 'Domov',
     components: 'Komponenty',
     tutorials: 'Návody',
@@ -1374,6 +1408,7 @@ const sk: UiStrings = {
 const hr: UiStrings = {
   skipLink: 'Preskoči na glavni sadržaj',
   nav: {
+    label: 'Glavna',
     home: 'Početna',
     components: 'Komponente',
     tutorials: 'Vodiči',
@@ -1411,6 +1446,7 @@ const hr: UiStrings = {
 const lt: UiStrings = {
   skipLink: 'Pereiti prie pagrindinio turinio',
   nav: {
+    label: 'Pagrindinė',
     home: 'Pradžia',
     components: 'Komponentai',
     tutorials: 'Vadovėliai',
@@ -1448,6 +1484,7 @@ const lt: UiStrings = {
 const sl: UiStrings = {
   skipLink: 'Preskoči na glavno vsebino',
   nav: {
+    label: 'Glavna',
     home: 'Domov',
     components: 'Komponente',
     tutorials: 'Vodniki',
@@ -1485,6 +1522,7 @@ const sl: UiStrings = {
 const lv: UiStrings = {
   skipLink: 'Pāriet uz galveno saturu',
   nav: {
+    label: 'Galvenā',
     home: 'Sākums',
     components: 'Komponenti',
     tutorials: 'Pamācības',
@@ -1522,6 +1560,7 @@ const lv: UiStrings = {
 const mt: UiStrings = {
   skipLink: 'Aqbeż għall-kontenut ewlieni',
   nav: {
+    label: 'Ewlenija',
     home: 'Dar',
     components: 'Komponenti',
     tutorials: 'Tutorjals',
@@ -1559,6 +1598,7 @@ const mt: UiStrings = {
 const ga: UiStrings = {
   skipLink: 'Léim chuig an bpríomhábhar',
   nav: {
+    label: 'Príomhnascleanúint',
     home: 'Baile',
     components: 'Comhpháirteanna',
     tutorials: 'Teagasc',
@@ -1596,6 +1636,7 @@ const ga: UiStrings = {
 const lb: UiStrings = {
   skipLink: 'Direkt zum Haaptinhalt',
   nav: {
+    label: 'Haaptnavigatioun',
     home: 'Start',
     components: 'Komponenten',
     tutorials: 'Tutorialen',
@@ -1633,6 +1674,7 @@ const lb: UiStrings = {
 const pa: UiStrings = {
   skipLink: 'ਮੁੱਖ ਸਮੱਗਰੀ ਤੇ ਜਾਓ',
   nav: {
+    label: 'ਮੁੱਖ',
     home: 'ਮੁੱਖ ਪੰਨਾ',
     components: 'ਕੰਪੋਨੈਂਟ',
     tutorials: 'ਟਿਊਟੋਰਿਅਲ',
@@ -1670,6 +1712,7 @@ const pa: UiStrings = {
 const mr: UiStrings = {
   skipLink: 'मुख्य मजकुराकडे जा',
   nav: {
+    label: 'मुख्य',
     home: 'मुख्यपृष्ठ',
     components: 'घटक',
     tutorials: 'ट्यूटोरियल',
@@ -1707,6 +1750,7 @@ const mr: UiStrings = {
 const te: UiStrings = {
   skipLink: 'ప్రధాన కంటెంట్‌కు వెళ్లండి',
   nav: {
+    label: 'ప్రధాన',
     home: 'హోమ్',
     components: 'భాగాలు',
     tutorials: 'ట్యుటోరియల్స్',
@@ -1744,6 +1788,7 @@ const te: UiStrings = {
 const ha: UiStrings = {
   skipLink: 'Tsallaka zuwa babban abun ciki',
   nav: {
+    label: 'Babba',
     home: 'Gida',
     components: 'Abubuwan haɗawa',
     tutorials: 'Darussa',
@@ -1781,6 +1826,7 @@ const ha: UiStrings = {
 const ta: UiStrings = {
   skipLink: 'முதன்மை உள்ளடக்கத்திற்குச் செல்',
   nav: {
+    label: 'முதன்மை',
     home: 'முகப்பு',
     components: 'கூறுகள்',
     tutorials: 'பயிற்சிகள்',
@@ -1818,6 +1864,7 @@ const ta: UiStrings = {
 const fa: UiStrings = {
   skipLink: 'پرش به محتوای اصلی',
   nav: {
+    label: 'اصلی',
     home: 'خانه',
     components: 'مؤلفه‌ها',
     tutorials: 'آموزش‌ها',
@@ -1855,6 +1902,7 @@ const fa: UiStrings = {
 const jv: UiStrings = {
   skipLink: 'Langsung menyang isi utama',
   nav: {
+    label: 'Utama',
     home: 'Ngarep',
     components: 'Komponen',
     tutorials: 'Tutorial',
@@ -1892,6 +1940,7 @@ const jv: UiStrings = {
 const gu: UiStrings = {
   skipLink: 'મુખ્ય સામગ્રી પર જાઓ',
   nav: {
+    label: 'મુખ્ય',
     home: 'હોમ',
     components: 'ઘટકો',
     tutorials: 'ટ્યુટોરિયલ',
@@ -1929,6 +1978,7 @@ const gu: UiStrings = {
 const bh: UiStrings = {
   skipLink: 'मुख्य सामग्री पर जाईं',
   nav: {
+    label: 'मुख्य',
     home: 'होम',
     components: 'घटक',
     tutorials: 'ट्यूटोरियल',
@@ -1966,6 +2016,7 @@ const bh: UiStrings = {
 const gd: UiStrings = {
   skipLink: 'Leum chun na prìomh shusbaint',
   nav: {
+    label: 'Prìomh sheòladh',
     home: 'Dhachaigh',
     components: 'Co-phàirtean',
     tutorials: 'Oideachaidhean',
@@ -2003,6 +2054,7 @@ const gd: UiStrings = {
 const is: UiStrings = {
   skipLink: 'Fara beint í aðalefni',
   nav: {
+    label: 'Aðalvalmynd',
     home: 'Heim',
     components: 'Íhlutir',
     tutorials: 'Kennsluefni',
@@ -2040,6 +2092,7 @@ const is: UiStrings = {
 const eu: UiStrings = {
   skipLink: 'Joan eduki nagusira',
   nav: {
+    label: 'Nagusia',
     home: 'Hasiera',
     components: 'Osagaiak',
     tutorials: 'Tutorialak',
@@ -2077,6 +2130,7 @@ const eu: UiStrings = {
 const uk: UiStrings = {
   skipLink: 'Перейти до основного вмісту',
   nav: {
+    label: 'Основна',
     home: 'Головна',
     components: 'Компоненти',
     tutorials: 'Посібники',
@@ -2114,6 +2168,7 @@ const uk: UiStrings = {
 const ms: UiStrings = {
   skipLink: 'Langkau ke kandungan utama',
   nav: {
+    label: 'Utama',
     home: 'Utama',
     components: 'Komponen',
     tutorials: 'Tutorial',
@@ -2151,6 +2206,7 @@ const ms: UiStrings = {
 const he: UiStrings = {
   skipLink: 'דלג לתוכן הראשי',
   nav: {
+    label: 'ראשי',
     home: 'בית',
     components: 'רכיבים',
     tutorials: 'מדריכים',
@@ -2188,6 +2244,7 @@ const he: UiStrings = {
 const pcm: UiStrings = {
   skipLink: 'Skip go di main content',
   nav: {
+    label: 'Main',
     home: 'Home',
     components: 'Components',
     tutorials: 'Tutorials',
@@ -2225,6 +2282,7 @@ const pcm: UiStrings = {
 const yue: UiStrings = {
   skipLink: '跳去主要內容',
   nav: {
+    label: '主要',
     home: '主頁',
     components: '元件',
     tutorials: '教學',
@@ -2262,6 +2320,7 @@ const yue: UiStrings = {
 const tl: UiStrings = {
   skipLink: 'Lumaktaw sa pangunahing nilalaman',
   nav: {
+    label: 'Pangunahin',
     home: 'Home',
     components: 'Mga Component',
     tutorials: 'Mga Tutorial',
@@ -2299,6 +2358,7 @@ const tl: UiStrings = {
 const kn: UiStrings = {
   skipLink: 'ಮುಖ್ಯ ವಿಷಯಕ್ಕೆ ಹೋಗಿ',
   nav: {
+    label: 'ಮುಖ್ಯ',
     home: 'ಮುಖಪುಟ',
     components: 'ಘಟಕಗಳು',
     tutorials: 'ಟ್ಯುಟೋರಿಯಲ್‌ಗಳು',
@@ -2336,6 +2396,7 @@ const kn: UiStrings = {
 const nb: UiStrings = {
   skipLink: 'Hopp til hovedinnholdet',
   nav: {
+    label: 'Hovednavigasjon',
     home: 'Hjem',
     components: 'Komponenter',
     tutorials: 'Veiledninger',
@@ -2373,6 +2434,7 @@ const nb: UiStrings = {
 const km: UiStrings = {
   skipLink: 'រំលងទៅខ្លឹមសារចម្បង',
   nav: {
+    label: 'ចម្បង',
     home: 'ទំព័រដើម',
     components: 'សមាសភាគ',
     tutorials: 'មេរៀន',
@@ -2410,6 +2472,7 @@ const km: UiStrings = {
 const lo: UiStrings = {
   skipLink: 'ຂ້າມໄປຫາເນື້ອໃນຫຼັກ',
   nav: {
+    label: 'ຫຼັກ',
     home: 'ໜ້າຫຼັກ',
     components: 'ອົງປະກອບ',
     tutorials: 'ບົດສອນ',
@@ -2447,6 +2510,7 @@ const lo: UiStrings = {
 const wuu: UiStrings = {
   skipLink: '跳到主要内容',
   nav: {
+    label: '主要',
     home: '首页',
     components: '组件',
     tutorials: '教程',
@@ -2484,6 +2548,7 @@ const wuu: UiStrings = {
 const sco: UiStrings = {
   skipLink: 'Skip tae the main content',
   nav: {
+    label: 'Main',
     home: 'Hame',
     components: 'Components',
     tutorials: 'Tutorials',
@@ -2521,6 +2586,7 @@ const sco: UiStrings = {
 const kw: UiStrings = {
   skipLink: 'Lemmel dhe\'n dhrehevyans pennfenten',
   nav: {
+    label: 'Penn',
     home: 'Tre',
     components: 'Darnow',
     tutorials: 'Dyskansow',

@@ -22,3 +22,10 @@ test("the brand link is named by its visible text and leads home", async ({ page
     await expect(brand).not.toHaveAttribute("aria-label");
     await expect(brand).toHaveAttribute("href", "/");
 });
+
+test("the main navigation is named in the page's language", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator("header.site-header nav.site-nav")).toHaveAccessibleName("Main");
+    await page.goto("/es-001/");
+    await expect(page.locator("header.site-header nav.site-nav")).toHaveAccessibleName("Principal");
+});

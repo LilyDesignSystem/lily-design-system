@@ -69,7 +69,7 @@
       />
       <span class="site-brand-name">Lily Design System™</span>
     </a>
-    <nav class="site-nav" aria-label="Main">
+    <nav class="site-nav" aria-label={strings.nav.label}>
       {#each navLinks as link}
         <a href={link.href} aria-current={isCurrent(link.href) ? 'page' : undefined}>
           {link.label}
