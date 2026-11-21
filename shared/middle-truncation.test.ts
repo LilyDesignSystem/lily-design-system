@@ -1,4 +1,4 @@
-import { describe, expect, test } from "vitest";
+import { afterEach, describe, expect, test, vi } from "vitest";
 import { splitGraphemes, truncateMiddle } from "./middle-truncation";
 
 // One unit per grapheme: widths are cluster counts, so expectations are exact.
@@ -87,5 +87,14 @@ describe("truncateMiddle", () => {
         });
         expect(wide(out)).toBeLessThanOrEqual(10);
         expect(out).toContain("…");
+    });
+});
+
+describe("splitGraphemes without Intl.Segmenter", () => {
+    afterEach(() => vi.unstubAllGlobals());
+
+    test("falls back to code points", () => {
+        vi.stubGlobal("Intl", { ...Intl, Segmenter: undefined });
+        expect(splitGraphemes("a😀b")).toEqual(["a", "😀", "b"]);
     });
 });

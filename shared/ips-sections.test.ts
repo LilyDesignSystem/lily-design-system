@@ -66,4 +66,16 @@ describe("ips-sections", () => {
             required: true,
         });
     });
+
+    test("an empty idPrefix falls back to the default prefix", () => {
+        expect(ipsSectionId("allergies", undefined, "")).toBe(
+            "international-patient-summary-allergies",
+        );
+    });
+
+    test("a missing required section with no consumer heading is headed by an empty string", () => {
+        const added = ipsContents([], {}).filter((e) => e.added);
+        expect(added.length).toBeGreaterThan(0);
+        expect(added.every((e) => e.heading === "")).toBe(true);
+    });
 });
