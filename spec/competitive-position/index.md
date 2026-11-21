@@ -152,6 +152,16 @@ RFC 3 asks for: native mobile and screen-reader behaviour, without losing visual
   tooltip and tree-select. The `variant="select"` prototype is in all eight theme-pickers (P18-T12) and its e2e runs
   in the HTML example only, in Chromium and WebKit; Firefox, the engine without `base-select`, was not run.
   Each row also records the fallback or exception for a newly available primitive; the checker rejects an omitted one.
+- Watch list (2026-11-21, P23-T10), recorded in the notes of the rows each would change, not adopted:
+  - `closedby` on `<dialog>`: Chrome and Edge 134, Firefox 141, Safari 27.3 (MDN browser-compat-data); webstatus.dev
+    still shows limited availability with no Safari entry. Lily sets none, so a modal keeps Escape-only dismissal; an
+    adopter may pass `closedby="any"` to `dialog`, `drawer`, `sheet`, `slide-out-drawer` or `file-dialog`, never to
+    `alert-dialog`, `timeout-dialog` or `popconfirm-dialog`, which ask for an answer.
+  - `focusgroup`: Chrome and Edge 150 only (webstatus.dev, limited availability); Firefox positive with no
+    implementation, WebKit with concerns. It could replace the scripted arrow-key focus in `listbox`, `menu` and
+    `menu-bar`; revisit when a second engine ships it.
+  - Sources: `api.webstatus.dev/v1/features?q=closedby` and `?q=focusgroup`, and `html/elements/dialog.json` in
+    mdn/browser-compat-data. Neither gives a data date; the dates above are when they were read.
 
 ### 5. A shadcn-compatible registry instead of a bespoke CLI
 

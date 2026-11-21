@@ -120,7 +120,7 @@ consumer's markup; no prop is needed:
 - Decision: hand-rolled because the APG listbox needs aria-activedescendant mode, typeahead and rich option content, and the helpers compose it inside a popup; <select size> renders only text options
 - Uses: none (svelte:element role="listbox"; roving tabindex or aria-activedescendant)
 - Could use: <select size> / <select multiple>
-- Notes: In-page; not itself an overlay.
+- Notes: In-page; not itself an overlay. Watch, not adopted (2026-11-21, P23-T10): the focusgroup attribute could replace the scripted arrow-key focus, but it ships only in Chrome and Edge 150 (webstatus.dev, limited availability); Firefox has a positive position and no implementation, and WebKit lists concerns. Revisit when a second engine ships it.
 - Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
 
 ## Acceptance Criteria

@@ -56,7 +56,7 @@ The arrows swap in right-to-left. A submenu's markup is as in [Menu](../menu/). 
 - Decision: hand-rolled because role="menubar" has no native element
 - Uses: none (div role="menubar")
 - Could use: none
-- Notes: Submenus would use popover="auto" like dropdown-menu.
+- Notes: Submenus would use popover="auto" like dropdown-menu. Watch, not adopted (2026-11-21, P23-T10): the focusgroup attribute could replace the scripted arrow-key focus, but it ships only in Chrome and Edge 150 (webstatus.dev, limited availability); Firefox has a positive position and no implementation, and WebKit lists concerns. Revisit when a second engine ships it.
 - Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
 
 ## Acceptance Criteria

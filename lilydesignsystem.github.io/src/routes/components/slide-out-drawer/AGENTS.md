@@ -51,7 +51,7 @@
 - Decision: native
 - Uses: <dialog> showModal() via Dialog/modal.ts (open-attribute fallback where showModal is missing)
 - Could use: ::backdrop; command="show-modal"/"close" on consumer buttons
-- Notes: P18-T6: same as drawer.
+- Notes: P18-T6: same as drawer. Watch, not adopted (2026-11-21, P23-T10): the dialog closedby attribute ships in Chrome and Edge 134, Firefox 141 and Safari 27.3 (MDN browser-compat-data; webstatus.dev still says limited availability, with no Safari entry). Lily sets none, so a modal keeps the platform default, Escape only; an adopter who wants light dismiss can pass closedby="any" through the rest props.
 - Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
 
 ## Acceptance Criteria

@@ -53,7 +53,7 @@
 - Decision: native
 - Uses: <dialog> showModal() via Dialog/modal.ts (open-attribute fallback where showModal is missing)
 - Could use: ::backdrop; command="show-modal"/"close" on consumer buttons
-- Notes: P18-T6: modal, so rendered as a <dialog> opened with showModal(): top layer, inert page, Tab trap, Escape (cancel) and focus return to the opener come from the browser. Root tag changed from <div> to <dialog> (no check pins it; Web Components keeps the custom-element host and puts the <dialog> inside, as lily-dialog does). data-side placement stays theme CSS; themes must now reset the UA dialog box (margin, inset-inline-start, max-height, border).
+- Notes: P18-T6: modal, so rendered as a <dialog> opened with showModal(): top layer, inert page, Tab trap, Escape (cancel) and focus return to the opener come from the browser. Root tag changed from <div> to <dialog> (no check pins it; Web Components keeps the custom-element host and puts the <dialog> inside, as lily-dialog does). data-side placement stays theme CSS; themes must now reset the UA dialog box (margin, inset-inline-start, max-height, border). Watch, not adopted (2026-11-21, P23-T10): the dialog closedby attribute ships in Chrome and Edge 134, Firefox 141 and Safari 27.3 (MDN browser-compat-data; webstatus.dev still says limited availability, with no Safari entry). Lily sets none, so a modal keeps the platform default, Escape only; an adopter who wants light dismiss can pass closedby="any" through the rest props.
 - Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
 
 ## Acceptance Criteria
