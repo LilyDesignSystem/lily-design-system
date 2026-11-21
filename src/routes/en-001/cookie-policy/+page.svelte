@@ -24,8 +24,9 @@
 
   <h2>Cookies</h2>
   <p>
-    <strong>We set one cookie, and only after you choose a theme.</strong> Nothing is set when you first arrive, and no
-    cookie is set for any other choice.
+    <strong>The only cookies we use are for your own user preferences.</strong> Today that is one cookie, set when you choose a
+    colour theme. Your text size and your language are also preferences, but they are kept in browser storage, not in
+    cookies; see below. Nothing is set when you first arrive.
   </p>
   <div class="scroll" role="region" aria-label="Cookie table" tabindex="0">
     <table>
