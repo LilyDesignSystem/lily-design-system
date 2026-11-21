@@ -12,7 +12,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
     selector: "lily-card",
     standalone: true,
     imports: [NgTemplateOutlet],
-    template: `<ng-template #title>@if (href()) {<a [attr.href]="href()">{{ heading() }}</a>} @else {{{ heading() }}}</ng-template>
+    template: `<ng-template #title>@if (href()) {<a [attr.href]="href()" [attr.data-lily-card-link]="wholeCardLink() ? '' : null">{{ heading() }}</a>} @else {{{ heading() }}}</ng-template>
     <div class="card {{ className() }}" [attr.role]="label() ? 'group' : null" [attr.aria-label]="label() || null">
         @if (heading()) {
             @switch (headingLevel()) {
@@ -36,4 +36,6 @@ export class Card {
     readonly headingLevel = input<2 | 3 | 4 | 5 | 6>(3);
     /** Makes the title a link. */
     readonly href = input<string | undefined>(undefined);
+    /** With href, marks the title link data-lily-card-link, so the themes make the whole card its target. */
+    readonly wholeCardLink = input<boolean>(false);
 }

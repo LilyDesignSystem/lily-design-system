@@ -10,6 +10,8 @@
 //   heading — string, optional. Heading text for the card.
 //   headingLevel — 2 | 3 | 4 | 5 | 6, default 3. HTML heading level.
 //   href — string, optional. Makes the heading a link.
+//   wholeCardLink — boolean, default false. With href, marks the heading link data-lily-card-link, so the themes'
+//     "Whole-card link" section makes the whole card its target and draws the focus ring round the card.
 //   label — string, optional. Names the card, which then has role="group".
 //   children — ReactNode, required. Card body content.
 //   ...restProps — additional HTML attributes spread onto the root <div>.
@@ -53,6 +55,7 @@ export interface CardProps {
     heading?: string;
     headingLevel?: 2 | 3 | 4 | 5 | 6;
     href?: string;
+    wholeCardLink?: boolean;
     label?: string;
     children: JSX.Element;
     [key: string]: unknown;
@@ -60,8 +63,27 @@ export interface CardProps {
 
 export default function Card(props: CardProps) {
     const p = withDefaults({ class: "" as const, headingLevel: 3 }, props);
-    const restProps = omit(p, "class", "heading", "headingLevel", "href", "label", "children");
-    const headingContent = () => (p.href ? <a href={p.href}>{p.heading}</a> : p.heading);
+    const restProps = omit(
+        p,
+        "class",
+        "heading",
+        "headingLevel",
+        "href",
+        "wholeCardLink",
+        "label",
+        "children",
+    );
+    const headingContent = () =>
+        p.href ? (
+            <a
+                href={p.href}
+                data-lily-card-link={p.wholeCardLink ? "" : undefined}
+            >
+                {p.heading}
+            </a>
+        ) : (
+            p.heading
+        );
 
     return (
         <div

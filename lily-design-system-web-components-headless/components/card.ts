@@ -7,6 +7,8 @@
 //   heading — optional heading text.
 //   heading-level — "2" | "3" | "4" | "5" | "6", default "3".
 //   href — optional; wraps the heading text in an <a>.
+//   whole-card-link — boolean attribute; with href, marks the heading link data-lily-card-link, so the themes make
+//     the whole card its target.
 //   label — optional; names the card, which then has role="group".
 //
 // References:
@@ -14,7 +16,7 @@
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 
-const HANDLED = new Set(["heading", "heading-level", "href", "label"]);
+const HANDLED = new Set(["heading", "heading-level", "href", "label", "whole-card-link"]);
 
 export class Card extends HTMLElement {
     connectedCallback(): void {
@@ -37,6 +39,7 @@ export class Card extends HTMLElement {
             if (href !== null) {
                 const a = document.createElement("a");
                 a.href = href;
+                if (this.hasAttribute("whole-card-link")) a.setAttribute("data-lily-card-link", "");
                 a.textContent = heading;
                 h.appendChild(a);
             } else {

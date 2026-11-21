@@ -31,6 +31,18 @@ describe("Card", () => {
         expect(el.querySelector("h4").textContent).toBe("Tulips");
     });
 
+    test("wholeCardLink marks the title link for the whole-card link, and only then", () => {
+        const fixture = TestBed.createComponent(Card);
+        fixture.componentRef.setInput("heading", "Tulips");
+        fixture.componentRef.setInput("href", "/tulips");
+        fixture.detectChanges();
+        const link = () => fixture.nativeElement.querySelector(".card a") as HTMLAnchorElement;
+        expect(link().hasAttribute("data-lily-card-link")).toBe(false);
+        fixture.componentRef.setInput("wholeCardLink", true);
+        fixture.detectChanges();
+        expect(link().hasAttribute("data-lily-card-link")).toBe(true);
+    });
+
     test("defaults to an unlinked h3", () => {
         const fixture = TestBed.createComponent(Card);
         fixture.componentRef.setInput("heading", "Tulips");

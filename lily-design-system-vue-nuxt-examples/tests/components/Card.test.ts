@@ -39,6 +39,34 @@ describe("Card", () => {
         expect(link.getAttribute("href")).toBe("/products/1");
     });
 
+    test("wholeCardLink marks the heading link for the whole-card link, at every level", () => {
+        for (const headingLevel of [2, 3, 4, 5, 6]) {
+            const { unmount } = render(Subject, {
+                props: {
+                    heading: "Product",
+                    href: "/products/1",
+                    headingLevel,
+                    wholeCardLink: true,
+                },
+                slots: { default: "Desc" },
+            });
+            expect(
+                screen.getByRole("link", { name: "Product" }).hasAttribute("data-lily-card-link"),
+            ).toBe(true);
+            unmount();
+        }
+    });
+
+    test("without wholeCardLink the heading link is not marked", () => {
+        render(Subject, {
+            props: { heading: "Product", href: "/products/1" },
+            slots: { default: "Desc" },
+        });
+        expect(
+            screen.getByRole("link", { name: "Product" }).hasAttribute("data-lily-card-link"),
+        ).toBe(false);
+    });
+
     test("applies aria-label", () => {
         render(Subject, { props: { label: "Featured card" }, slots: { default: "Content" } });
 

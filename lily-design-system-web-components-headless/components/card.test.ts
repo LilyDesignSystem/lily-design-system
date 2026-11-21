@@ -52,6 +52,16 @@ describe("Card", () => {
         expect(link.textContent).toBe("Title");
     });
 
+    test("whole-card-link marks the heading link for the whole-card link, and only then", () => {
+        const plain = render('<lily-card heading="Title" href="/item/1">Body content.</lily-card>');
+        expect(plain.querySelector("a")!.hasAttribute("data-lily-card-link")).toBe(false);
+        const marked = render(
+            '<lily-card heading="Title" href="/item/1" whole-card-link>Body content.</lily-card>',
+        );
+        expect(marked.querySelector("a")!.hasAttribute("data-lily-card-link")).toBe(true);
+        expect(marked.querySelector(".card")?.hasAttribute("whole-card-link") ?? false).toBe(false);
+    });
+
     test("a label names the card as a group", () => {
         const host = render('<lily-card label="Featured article">Body content.</lily-card>');
 

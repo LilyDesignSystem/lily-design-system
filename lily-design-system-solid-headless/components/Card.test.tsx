@@ -47,6 +47,35 @@ describe("Card", () => {
         expect(link.getAttribute("href")).toBe("/products/1");
     });
 
+    test("wholeCardLink marks the heading link for the whole-card link", () => {
+        render(() => (
+            <Subject
+                heading="Product"
+                href="/products/1"
+                wholeCardLink
+            >
+                Desc
+            </Subject>
+        ));
+        expect(
+            screen.getByRole("link", { name: "Product" }).hasAttribute("data-lily-card-link"),
+        ).toBe(true);
+    });
+
+    test("without wholeCardLink the heading link is not marked", () => {
+        render(() => (
+            <Subject
+                heading="Product"
+                href="/products/1"
+            >
+                Desc
+            </Subject>
+        ));
+        expect(
+            screen.getByRole("link", { name: "Product" }).hasAttribute("data-lily-card-link"),
+        ).toBe(false);
+    });
+
     test("applies aria-label", () => {
         render(() => <Subject label="Featured card">Content</Subject>);
 

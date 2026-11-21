@@ -319,7 +319,8 @@ links, buttons and fields inside the card above it, and draws the focus ring rou
 ```
 
 - The link's text is the card's name, so a screen reader hears one short link, not the whole card read out as a link.
-- Write the heading yourself: `card`'s own `href` heading link takes no extra attributes.
+- With `card`'s own heading, pass `href` and `wholeCardLink` (`whole-card-link` in Web Components); in HTML, Nunjucks,
+  Alpine and Blazor, whose card has no heading, write the heading yourself as above.
 - Recipe: `recipes/card/whole-card-link.html`; example `pages/whole-card-link.html` in the HTML examples app, with
   `e2e/whole-card-link.spec.ts`.
 

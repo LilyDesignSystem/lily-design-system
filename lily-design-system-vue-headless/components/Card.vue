@@ -11,6 +11,8 @@
 //   heading — string, optional. Heading text for the card.
 //   headingLevel — 2 | 3 | 4 | 5 | 6, default 3. HTML heading level.
 //   href — string, optional. Makes the heading a link.
+//   wholeCardLink — boolean, default false. With href, marks the heading link data-lily-card-link, so the themes'
+//     "Whole-card link" section makes the whole card its target and draws the focus ring round the card.
 //   label — string, optional. Names the card, which then has role="group".
 //   default slot. Card body content.
 //   ...restProps — additional HTML attributes spread onto the root <div>.
@@ -51,12 +53,14 @@ withDefaults(
         heading?: string;
         headingLevel?: 2 | 3 | 4 | 5 | 6;
         href?: string;
+        wholeCardLink?: boolean;
         label?: string;
     }>(),
     {
         heading: undefined,
         headingLevel: 3,
         href: undefined,
+        wholeCardLink: false,
         label: undefined,
     },
 );
@@ -74,6 +78,7 @@ withDefaults(
                 <a
                     v-if="href"
                     :href="href"
+                    :data-lily-card-link="wholeCardLink ? '' : undefined"
                     >{{ heading }}</a
                 >
                 <template v-else>{{ heading }}</template>
@@ -82,6 +87,7 @@ withDefaults(
                 <a
                     v-if="href"
                     :href="href"
+                    :data-lily-card-link="wholeCardLink ? '' : undefined"
                     >{{ heading }}</a
                 >
                 <template v-else>{{ heading }}</template>
@@ -90,6 +96,7 @@ withDefaults(
                 <a
                     v-if="href"
                     :href="href"
+                    :data-lily-card-link="wholeCardLink ? '' : undefined"
                     >{{ heading }}</a
                 >
                 <template v-else>{{ heading }}</template>
@@ -98,6 +105,7 @@ withDefaults(
                 <a
                     v-if="href"
                     :href="href"
+                    :data-lily-card-link="wholeCardLink ? '' : undefined"
                     >{{ heading }}</a
                 >
                 <template v-else>{{ heading }}</template>
@@ -106,6 +114,7 @@ withDefaults(
                 <a
                     v-if="href"
                     :href="href"
+                    :data-lily-card-link="wholeCardLink ? '' : undefined"
                     >{{ heading }}</a
                 >
                 <template v-else>{{ heading }}</template>

@@ -34,6 +34,7 @@
 - `heading`: string (optional) -- heading text for the card
 - `headingLevel`: 2 | 3 | 4 | 5 | 6 (default: 3) -- HTML heading level
 - `href`: string (optional) -- makes the heading a link
+- `wholeCardLink`: boolean (default: false) -- with `href`, marks the heading link `data-lily-card-link`, so the themes' "Whole-card link" section makes the whole card its target and draws the focus ring round it (Svelte, React, Vue, Solid, Angular; `whole-card-link` in Web Components; in the other catalogs write the heading yourself)
 - `label`: string (optional) -- names the card (`aria-label`, with `role="group"`)
 - `children`: slot (required) -- card body content
 - `...restProps`: Any additional HTML attributes passed to the root `<div>`

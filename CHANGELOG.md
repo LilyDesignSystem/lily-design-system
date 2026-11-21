@@ -9,6 +9,13 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## `wholeCardLink` on `card` (2026-11-21)
+
+- In Svelte, React, Vue, Solid and Angular, `card` takes `wholeCardLink` (`whole-card-link` in Web Components): with
+  `href`, its heading link carries `data-lily-card-link`, so the themes' shared "Whole-card link" section makes the whole
+  card its target. HTML, Nunjucks, Alpine and Blazor cards have no heading of their own; there the consumer marks their
+  own link, as the recipe shows.
+
 ## The site's brand link is named by its visible text (2026-11-21)
 
 - The docs site header's brand link had `aria-label="Lily Design System home"` (and a translation in 64 locales), which

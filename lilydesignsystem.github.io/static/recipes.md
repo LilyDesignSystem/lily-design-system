@@ -11,8 +11,8 @@ Uses [card](https://lilydesignsystem.com/components/card/), [button](https://lil
 <!-- One link, in the heading, carries data-lily-card-link: the theme's shared "Whole-card link" section stretches
      its target over the card and draws the focus ring round the card. The link's text is the card's name, so a
      screen reader hears one link, not the whole card read as a link. Anything else interactive inside the card,
-     such as the button here, stays above the link and keeps its own target. Write the heading yourself rather than
-     passing href to card, whose own heading link takes no extra attributes. -->
+     such as the button here, stays above the link and keeps its own target. In a framework catalog, card's own heading does the
+     same with href and wholeCardLink. -->
 <div class="card">
   <h3>
     <a
