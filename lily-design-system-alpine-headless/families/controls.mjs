@@ -253,7 +253,7 @@ const now = () => el().getAttribute("aria-valuenow");`,
     "tool-bar": {
         tag: "div",
         keyboard:
-            "ArrowRight/ArrowLeft move focus among the enabled buttons and wrap (swapped in right-to-left; ArrowDown/ArrowUp with aria-orientation=\"vertical\"), Home/End jump; one tab stop, which follows focus",
+            'ArrowRight/ArrowLeft move focus among the enabled buttons and wrap (swapped in right-to-left; ArrowDown/ArrowUp with aria-orientation="vertical"), Home/End jump; one tab stop, which follows focus',
         aria: 'role="toolbar" with aria-label',
         markup: `<div class="tool-bar" aria-label="" x-data="lilyToolBar()" x-bind="bar">
   <!-- Consumer provides tool-bar-button buttons -->

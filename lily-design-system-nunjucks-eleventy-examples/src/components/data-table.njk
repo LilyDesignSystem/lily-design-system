@@ -13,102 +13,108 @@ description: a data table interactive grid for displaying and sorting tabular da
 {% from "components/data-table-th/macro.njk" import dataTableTh %}
 
 <h2>Default — appointment list</h2>
-{% call dataTable({ caption: "Your upcoming appointments" }) %}
-  {% call dataTableHead() %}
-    {% call dataTableRow() %}
-      {{ dataTableTh({ text: "Date" }) }}
-      {{ dataTableTh({ text: "Clinician" }) }}
-      {{ dataTableTh({ text: "Type" }) }}
-      {{ dataTableTh({ text: "Location" }) }}
+<div class="horizontal-scroller" role="region" aria-label="Your upcoming appointments" tabindex="0">
+  {% call dataTable({ caption: "Your upcoming appointments" }) %}
+    {% call dataTableHead() %}
+      {% call dataTableRow() %}
+        {{ dataTableTh({ text: "Date" }) }}
+        {{ dataTableTh({ text: "Clinician" }) }}
+        {{ dataTableTh({ text: "Type" }) }}
+        {{ dataTableTh({ text: "Location" }) }}
+      {% endcall %}
+    {% endcall %}
+    {% call dataTableBody() %}
+      {% call dataTableRow() %}
+        {{ dataTableTd({ text: "27 April 2026, 9:30am" }) }}
+        {{ dataTableTd({ text: "Dr Patel" }) }}
+        {{ dataTableTd({ text: "GP review" }) }}
+        {{ dataTableTd({ text: "High Street Surgery" }) }}
+      {% endcall %}
+      {% call dataTableRow() %}
+        {{ dataTableTd({ text: "4 May 2026, 2:15pm" }) }}
+        {{ dataTableTd({ text: "Nurse Ahmed" }) }}
+        {{ dataTableTd({ text: "Blood test" }) }}
+        {{ dataTableTd({ text: "Main Clinic" }) }}
+      {% endcall %}
+      {% call dataTableRow() %}
+        {{ dataTableTd({ text: "19 May 2026, 11:00am" }) }}
+        {{ dataTableTd({ text: "Dr Smith" }) }}
+        {{ dataTableTd({ text: "Follow-up" }) }}
+        {{ dataTableTd({ text: "High Street Surgery" }) }}
+      {% endcall %}
     {% endcall %}
   {% endcall %}
-  {% call dataTableBody() %}
-    {% call dataTableRow() %}
-      {{ dataTableTd({ text: "27 April 2026, 9:30am" }) }}
-      {{ dataTableTd({ text: "Dr Patel" }) }}
-      {{ dataTableTd({ text: "GP review" }) }}
-      {{ dataTableTd({ text: "High Street Surgery" }) }}
-    {% endcall %}
-    {% call dataTableRow() %}
-      {{ dataTableTd({ text: "4 May 2026, 2:15pm" }) }}
-      {{ dataTableTd({ text: "Nurse Ahmed" }) }}
-      {{ dataTableTd({ text: "Blood test" }) }}
-      {{ dataTableTd({ text: "Main Clinic" }) }}
-    {% endcall %}
-    {% call dataTableRow() %}
-      {{ dataTableTd({ text: "19 May 2026, 11:00am" }) }}
-      {{ dataTableTd({ text: "Dr Smith" }) }}
-      {{ dataTableTd({ text: "Follow-up" }) }}
-      {{ dataTableTd({ text: "High Street Surgery" }) }}
-    {% endcall %}
-  {% endcall %}
-{% endcall %}
+</div>
 
 <h2>Numeric columns — weather observations</h2>
-{% call dataTable({ caption: "Recent weather observations" }) %}
-  {% call dataTableHead() %}
-    {% call dataTableRow() %}
-      {{ dataTableTh({ text: "Date" }) }}
-      {{ dataTableTh({ text: "Temperature (°C)", classes: "table-col-numeric" }) }}
-      {{ dataTableTh({ text: "Rainfall (mm)", classes: "table-col-numeric" }) }}
-      {{ dataTableTh({ text: "Wind (km/h)", classes: "table-col-numeric" }) }}
+<div class="horizontal-scroller" role="region" aria-label="Recent weather observations" tabindex="0">
+  {% call dataTable({ caption: "Recent weather observations" }) %}
+    {% call dataTableHead() %}
+      {% call dataTableRow() %}
+        {{ dataTableTh({ text: "Date" }) }}
+        {{ dataTableTh({ text: "Temperature (°C)", classes: "table-col-numeric" }) }}
+        {{ dataTableTh({ text: "Rainfall (mm)", classes: "table-col-numeric" }) }}
+        {{ dataTableTh({ text: "Wind (km/h)", classes: "table-col-numeric" }) }}
+      {% endcall %}
+    {% endcall %}
+    {% call dataTableBody() %}
+      {% call dataTableRow() %}
+        {{ dataTableTd({ text: "12 Apr" }) }}
+        {{ dataTableTd({ text: "14", classes: "table-data-numeric" }) }}
+        {{ dataTableTd({ text: "3.2", classes: "table-data-numeric" }) }}
+        {{ dataTableTd({ text: "18", classes: "table-data-numeric" }) }}
+      {% endcall %}
+      {% call dataTableRow() %}
+        {{ dataTableTd({ text: "19 Apr" }) }}
+        {{ dataTableTd({ text: "16", classes: "table-data-numeric" }) }}
+        {{ dataTableTd({ text: "0.0", classes: "table-data-numeric" }) }}
+        {{ dataTableTd({ text: "12", classes: "table-data-numeric" }) }}
+      {% endcall %}
+      {% call dataTableRow() %}
+        {{ dataTableTd({ text: "26 Apr" }) }}
+        {{ dataTableTd({ text: "15", classes: "table-data-numeric" }) }}
+        {{ dataTableTd({ text: "1.4", classes: "table-data-numeric" }) }}
+        {{ dataTableTd({ text: "20", classes: "table-data-numeric" }) }}
+      {% endcall %}
+    {% endcall %}
+    {% call dataTableFoot() %}
+      {% call dataTableRow() %}
+        {{ dataTableTd({ text: "Average", scope: "row" }) }}
+        {{ dataTableTd({ text: "15", classes: "table-data-numeric" }) }}
+        {{ dataTableTd({ text: "1.5", classes: "table-data-numeric" }) }}
+        {{ dataTableTd({ text: "17", classes: "table-data-numeric" }) }}
+      {% endcall %}
     {% endcall %}
   {% endcall %}
-  {% call dataTableBody() %}
-    {% call dataTableRow() %}
-      {{ dataTableTd({ text: "12 Apr" }) }}
-      {{ dataTableTd({ text: "14", classes: "table-data-numeric" }) }}
-      {{ dataTableTd({ text: "3.2", classes: "table-data-numeric" }) }}
-      {{ dataTableTd({ text: "18", classes: "table-data-numeric" }) }}
-    {% endcall %}
-    {% call dataTableRow() %}
-      {{ dataTableTd({ text: "19 Apr" }) }}
-      {{ dataTableTd({ text: "16", classes: "table-data-numeric" }) }}
-      {{ dataTableTd({ text: "0.0", classes: "table-data-numeric" }) }}
-      {{ dataTableTd({ text: "12", classes: "table-data-numeric" }) }}
-    {% endcall %}
-    {% call dataTableRow() %}
-      {{ dataTableTd({ text: "26 Apr" }) }}
-      {{ dataTableTd({ text: "15", classes: "table-data-numeric" }) }}
-      {{ dataTableTd({ text: "1.4", classes: "table-data-numeric" }) }}
-      {{ dataTableTd({ text: "20", classes: "table-data-numeric" }) }}
-    {% endcall %}
-  {% endcall %}
-  {% call dataTableFoot() %}
-    {% call dataTableRow() %}
-      {{ dataTableTd({ text: "Average", scope: "row" }) }}
-      {{ dataTableTd({ text: "15", classes: "table-data-numeric" }) }}
-      {{ dataTableTd({ text: "1.5", classes: "table-data-numeric" }) }}
-      {{ dataTableTd({ text: "17", classes: "table-data-numeric" }) }}
-    {% endcall %}
-  {% endcall %}
-{% endcall %}
+</div>
 
 <h2>Row headers</h2>
 <p>Use <code>TableTD</code> with <code>scope="row"</code> to mark a
   row header, so screen readers announce it together with each data
   cell in the row.</p>
-{% call dataTable({ caption: "Dosage schedule" }) %}
-  {% call dataTableHead() %}
-    {% call dataTableRow() %}
-      {{ dataTableTh({ text: "Day" }) }}
-      {{ dataTableTh({ text: "Morning" }) }}
-      {{ dataTableTh({ text: "Evening" }) }}
+<div class="horizontal-scroller" role="region" aria-label="Dosage schedule" tabindex="0">
+  {% call dataTable({ caption: "Dosage schedule" }) %}
+    {% call dataTableHead() %}
+      {% call dataTableRow() %}
+        {{ dataTableTh({ text: "Day" }) }}
+        {{ dataTableTh({ text: "Morning" }) }}
+        {{ dataTableTh({ text: "Evening" }) }}
+      {% endcall %}
+    {% endcall %}
+    {% call dataTableBody() %}
+      {% call dataTableRow() %}
+        {{ dataTableTd({ text: "Monday", scope: "row" }) }}
+        {{ dataTableTd({ text: "1 tablet" }) }}
+        {{ dataTableTd({ text: "1 tablet" }) }}
+      {% endcall %}
+      {% call dataTableRow() %}
+        {{ dataTableTd({ text: "Tuesday", scope: "row" }) }}
+        {{ dataTableTd({ text: "1 tablet" }) }}
+        {{ dataTableTd({ text: "2 tablets" }) }}
+      {% endcall %}
     {% endcall %}
   {% endcall %}
-  {% call dataTableBody() %}
-    {% call dataTableRow() %}
-      {{ dataTableTd({ text: "Monday", scope: "row" }) }}
-      {{ dataTableTd({ text: "1 tablet" }) }}
-      {{ dataTableTd({ text: "1 tablet" }) }}
-    {% endcall %}
-    {% call dataTableRow() %}
-      {{ dataTableTd({ text: "Tuesday", scope: "row" }) }}
-      {{ dataTableTd({ text: "1 tablet" }) }}
-      {{ dataTableTd({ text: "2 tablets" }) }}
-    {% endcall %}
-  {% endcall %}
-{% endcall %}
+</div>
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>

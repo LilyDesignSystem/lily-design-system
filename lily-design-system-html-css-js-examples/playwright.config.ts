@@ -4,7 +4,8 @@ import { E2E_HOST, e2ePort, e2eURL } from "./e2e-port";
 const port = e2ePort();
 
 // Specs that also run in Firefox and WebKit (P18-T1).
-const crossEngineSpecs = /(responsive|focus-obscured|accessibility|theme-select|whole-card-link|form-validation|table-word-break)\.spec\.ts$/;
+const crossEngineSpecs =
+    /(responsive|focus-obscured|accessibility|theme-select|whole-card-link|form-validation|table-word-break)\.spec\.ts$/;
 
 export default defineConfig({
     testDir: "./e2e",

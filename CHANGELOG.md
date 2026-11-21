@@ -18,7 +18,8 @@ highlights.
   was tried first and failed 36 of the reflow tests.
 - The dashboards in the HTML, SvelteKit, Next.js, Nuxt, Nunjucks and Blazor example apps put their four-column table in
   a `horizontal-scroller`, the labelled region the reflow rule asks for, because its whole-word headers are wider than a
-  320px screen once text is 30 percent longer.
+  320px screen once text is 30 percent longer. So do the Nunjucks app's `data-table` demo page and its
+  `/search-and-filter/` results, which the full CI run's fresh build caught.
 - `e2e/table-word-break.spec.ts` in the HTML examples app, in three browsers: one-word headers stay on one line in three
   themes (it fails with `anywhere`: "Patient wraps onto 3 lines"), and a long value still wraps without widening the page.
 
