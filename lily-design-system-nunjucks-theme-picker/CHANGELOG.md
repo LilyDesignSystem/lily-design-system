@@ -4,7 +4,7 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.5.0 — 2026-11-21
 
 - `fallbackLabels`: a label per slug used when `themeLabels` has none, before the title-cased slug. A template cannot merge
   two objects, so `picker-bar` passes its default labels ("IBM Carbon") here and the consumer's `themeLabels` still win.

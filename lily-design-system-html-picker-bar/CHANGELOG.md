@@ -4,7 +4,7 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.8.0 — 2026-11-21
 
 - **Order change:** the default themes list the 36 generic themes first, alphabetically, then the 27 company and
   public-sector themes alphabetically by label, so "NHS England (patients)" sorts under N. It replaces the order that put

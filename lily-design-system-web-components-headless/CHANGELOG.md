@@ -13,6 +13,18 @@ Release highlights and project news: [NEWS.md](NEWS.md).
 
 Lily™ and Lily Design System™ are trademarks.
 
+## 0.14.0 — 2026-11-21
+
+- **Added:** `whole-card-link` on `lily-card`: with `href`, the heading link carries `data-lily-card-link`, so the themes' shared "Whole-card link"
+  section makes the whole card its target and draws its focus ring round the card.
+- **Added:** `statistic` takes a `change` (with `trend`: up, down or flat, as `data-trend`) and an "as of" time
+  (`asOf` with `asOfLabel`, rendered as a `<time>`); it draws no arrow, and every word is yours.
+- **Added:** `observation-view` takes `meterValue`, `meterMin` and `meterMax` (with optional `meterLow`, `meterHigh` and
+  `meterOptimum`) and draws an `aria-hidden` native `<meter>`; the value, range and flag stay the text.
+- **Fixed:** `tool-bar` uses the shared toolbar keys.
+- Other changes in this range, including the 2026-11-20 backlog batch, are recorded in the root
+  [CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md).
+
 ## 0.13.0 — 2026-11-18
 
 - **Changed:** an `id` given to an input component (`lily-text-input`, `lily-email-input`, `lily-select` and the other

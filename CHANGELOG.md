@@ -9,7 +9,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
-## Table headers no longer split mid-word (2026-11-21)
+## Table headers no longer split mid-word (2026-11-21; themes 0.7.0)
 
 - The 63 themes gave every table cell `overflow-wrap: anywhere`, which also shrinks a cell's minimum width to one letter,
   so a table that sizes its own columns split one-word headers ("Patie/nt"). Header cells, and links and code in them,
@@ -30,7 +30,7 @@ highlights.
   not block, as hint text. `e2e/form-validation.spec.ts` in the HTML examples app tests it in three browsers. The
   screen-reader comparison of the summary's focus and `role="alert"` is still to be done.
 
-## `wholeCardLink` on `card` (2026-11-21)
+## `wholeCardLink` on `card` (2026-11-21; svelte, react and vue-headless 0.12.0, solid-headless 0.3.0, angular and web-components-headless 0.14.0)
 
 - In Svelte, React, Vue, Solid and Angular, `card` takes `wholeCardLink` (`whole-card-link` in Web Components): with
   `href`, its heading link carries `data-lily-card-link`, so the themes' shared "Whole-card link" section makes the whole
@@ -48,7 +48,7 @@ highlights.
 - `tests/site-axe.spec.ts` runs axe over whole pages, header and footer included, on 11 of the site's main routes, one
   of them translated; all pass.
 
-## A whole-card link (2026-11-21, P22-T11)
+## A whole-card link (2026-11-21, P22-T11; themes 0.7.0)
 
 - One link in a card's heading, marked `data-lily-card-link`, makes the whole card its target. A new section shared by
   all 63 themes stretches the link over the card, keeps other controls above it, and draws the focus ring round the
@@ -65,7 +65,7 @@ highlights.
 - The site has a `/recipes/` index and its `/recipes.md` twin, generated from `recipes/` and drift-checked by
   `bin/generate-api-docs --check`.
 
-## Theme order and names in `picker-bar` (2026-11-20, unreleased)
+## Theme order and names in `picker-bar` (2026-11-20; picker-bar 0.8.0, solid 0.2.0, nunjucks-theme-picker 0.5.0; the Nunjucks picker bar follows)
 
 - In all nine catalogs the picker bar's default themes list the 36 generic themes first, then the 27 company and
   public-sector themes alphabetically by label. `DEFAULT_THEME_LABELS` fixes the names title-casing got wrong ("Ibm
@@ -82,30 +82,30 @@ highlights.
   next and type-ahead searches every group. Key tests with two groups in all ten catalogs prove it.
 - The `listbox` Testing section's malformed bullets are rewritten.
 
-## A meter in `observation-view` (2026-11-20, P40-T2, unreleased)
+## A meter in `observation-view` (2026-11-20, P40-T2; svelte, react and vue-headless 0.12.0, solid-headless 0.3.0, angular and web-components-headless 0.14.0)
 
 - In all nine catalogs `observation-view` takes `meterValue`, `meterMin` and `meterMax` (with optional `meterLow`, `meterHigh`
   and `meterOptimum`) and draws an `aria-hidden` native `<meter>` of where the value sits. The value, range and flag stay
   words; the meter is their picture, for a theme to style.
 
-## A change and an "as of" on `statistic` (2026-11-20, P40-T1, unreleased)
+## A change and an "as of" on `statistic` (2026-11-20, P40-T1; svelte, react and vue-headless 0.12.0, solid-headless 0.3.0, angular and web-components-headless 0.14.0)
 
 - In all nine catalogs `statistic` takes `change` (words that name the comparison), `trend` (`data-trend` on the change, for
   the theme; no arrow is rendered) and `asOf` with `asOfLabel` (a `<time>`, shown only with its words).
 - `formatRange` no longer fails the type check in packages whose TypeScript lib settings predate ES2023.
 
-## `formatRange` for clinical ranges (2026-11-20, P40-T3, unreleased)
+## `formatRange` for clinical ranges (2026-11-20, P40-T3; the TypeScript headless releases of 2026-11-21; Blazor unreleased)
 
 - `formatRange(low, high, unit, locale)` in `shared/clinical-format.ts`, copied into every package that has
   `formatQuantity`, and `ClinicalFormat.FormatRange` in Blazor: low to high with the unit after ("3.5–5.5 mmol/L"), a range
   given backwards refused rather than written, and equal ends as one number.
 
-## Svelte `range-fieldset` resets with its form (2026-11-20, P39-T8, unreleased)
+## Svelte `range-fieldset` resets with its form (2026-11-20, P39-T8; svelte-headless 0.12.0)
 
 - After a form reset the Svelte `range-fieldset` went back to the moved values on the next task, so the thumbs and the
   next clamp were wrong. It now restores its first values. React and Vue gain the same test and already passed.
 
-## `tool-bar` keys follow right-to-left and skip disabled buttons (2026-11-20, P39-T7, unreleased)
+## `tool-bar` keys follow right-to-left and skip disabled buttons (2026-11-20, P39-T7; svelte, react and vue-headless 0.12.0, solid-headless 0.3.0, angular and web-components-headless 0.14.0; HTML, Nunjucks, Alpine and Blazor unreleased)
 
 - In every catalog `tool-bar` now uses the shared toolbar keys that `action-bar` and `task-bar` already had: one tab
   stop that follows focus, arrows that skip a disabled control and swap in right-to-left, ArrowDown and ArrowUp with

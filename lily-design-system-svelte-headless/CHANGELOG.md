@@ -3,6 +3,19 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the package follows [Semantic Versioning](https://semver.org/).
 
+## 0.12.0 — 2026-11-21
+
+- **Added:** `wholeCardLink` on `card`: with `href`, the heading link carries `data-lily-card-link`, so the themes' shared "Whole-card link"
+  section makes the whole card its target and draws its focus ring round the card.
+- **Added:** `statistic` takes a `change` (with `trend`: up, down or flat, as `data-trend`) and an "as of" time
+  (`asOf` with `asOfLabel`, rendered as a `<time>`); it draws no arrow, and every word is yours.
+- **Added:** `observation-view` takes `meterValue`, `meterMin` and `meterMax` (with optional `meterLow`, `meterHigh` and
+  `meterOptimum`) and draws an `aria-hidden` native `<meter>`; the value, range and flag stay the text.
+- **Fixed:** `tool-bar` uses the shared toolbar keys.
+- **Fixed:** `range-fieldset` keeps its values through a form reset.
+- Other changes in this range, including the 2026-11-20 backlog batch, are recorded in the root
+  [CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md).
+
 ## 0.11.0 — 2026-11-18 (breaking)
 
 - **Breaking:** the 164 national personal identifier components (an `-input` and a `-view` for each of 82 identifier
