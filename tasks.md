@@ -4260,6 +4260,13 @@ current design system. No person or organisation is named. Order: T1 first (a tr
       alphabetically, then the 27 …"), and check the docs site and the example apps that pass their own `themes` order.
       Verify: unit tests for `sortThemes` and per-catalog tests with labels that differ from slugs; `bin/sync-shared-modules --check`
       and `bin/check-port-parity` pass; the site's theme picker lists "IBM Carbon" under I.
+- [ ] **P41-T8 Six tiles after the home page hero.** The spec changed 2026-11-21 ([homepage](spec/homepage/index.md)): exactly six
+      tile cards immediately after the hero, in a grid of 1, 2, 3 or 6 columns (1×6, 2×3, 3×2, 6×1), never 4 or 5. Confirm the six
+      (the topic proposes Components, Tutorials, Examples, Styles, Compare, Accessibility), add the new tiles' strings to every
+      language (the English words fall back), replace the `auto-fit` grid in `LocaleHome` with explicit column counts by container
+      width, and state the rule in the site's `AGENTS.md`.
+      Verify: a Playwright test over every locale home counts six tiles directly after the hero and reads 1, 2, 3 and 6 columns at
+      320, 768, 1280 and 1920 pixels; `bin/check-site-page-translations` and the locale specs pass.
 
 ---
 
