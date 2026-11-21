@@ -261,6 +261,16 @@ describe("partialDatePrecision", () => {
 });
 
 describe("formatProportion", () => {
+    test("refuses a numerator or denominator that is not finite", () => {
+        expect(() => formatProportion(Number.NaN, 2, "ratio", "en-GB")).toThrow(RangeError);
+        expect(() => formatProportion(1, Number.POSITIVE_INFINITY, "ratio", "en-GB")).toThrow(
+            RangeError,
+        );
+    });
+
+    test("refuses a missing locale", () => {
+        expect(() => formatProportion(1, 2, "ratio", "")).toThrow(RangeError);
+    });
     test("writes each openEHR kind", () => {
         expect(formatProportion(1, 128, "ratio", "en-GB")).toBe("1:128");
         expect(formatProportion(0.5, 1, "unitary", "en-GB")).toBe("0.5");
