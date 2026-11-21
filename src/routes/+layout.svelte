@@ -21,7 +21,9 @@
 
   // The /demo/ pages and the Welsh clinical portal example are self-contained apps with their own shell, so they skip the site's header and footer.
   const bare = $derived(
-    page.url.pathname.startsWith('/demo/') || page.url.pathname.startsWith('/examples/welsh-clinical-portal/')
+    page.url.pathname.startsWith('/demo/') ||
+      page.url.pathname.startsWith('/examples/welsh-clinical-portal/') ||
+      page.url.pathname.startsWith('/examples/epic-emr-')
   );
 
   const strings = $derived(ui(currentLocale));
