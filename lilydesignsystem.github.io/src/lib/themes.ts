@@ -1,6 +1,6 @@
-// Every stylesheet in static/assets/themes (63), as the pickers list them: the generic themes alphabetically, then
-// the company and public-sector themes by their label. Shared by the site header and the /demo/ pages.
-export const THEMES: string[] = [
+// Every stylesheet in static/assets/themes (63), in one list sorted alphabetically by the name shown (spec/theme-picker,
+// "Order of themes"), sorted below with the platform's collation. Shared by the site header and the /demo/ pages.
+const THEME_SLUGS: string[] = [
     "abyss",
     "acid",
     "aqua",
@@ -87,3 +87,17 @@ export const THEME_LABELS: Record<string, string> = {
     "united-kingdom-national-health-service-wales-for-practitioners": "NHS Wales (practitioners)",
     "united-states-web-design-system": "U.S. Web Design System",
 };
+
+const themeName = (slug: string): string =>
+    THEME_LABELS[slug] ??
+    slug
+        .split("-")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
+
+// Sorted by the name shown: base letters, numbers as numbers, ties by slug. No language is named, so the platform's
+// default applies, as in the pickers. The published picker-bar does not sort yet; a release that does would agree.
+const collator = new Intl.Collator(undefined, { sensitivity: "base", numeric: true });
+export const THEMES: string[] = [...THEME_SLUGS].sort(
+    (a, b) => collator.compare(themeName(a), themeName(b)) || (a < b ? -1 : a > b ? 1 : 0),
+);
