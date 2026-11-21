@@ -60,6 +60,14 @@
       ]
     },
     {
+      heading: 'Why try Lily',
+      links: [
+        { href: '/en-001/agile/', label: 'Lily and agile' },
+        { href: '/en-001/itil5/', label: 'Lily and ITIL 5' },
+        { href: '/en-001/prince2/', label: 'Lily and PRINCE2' }
+      ]
+    },
+    {
       heading: 'Examples',
       links: [
         { href: '/examples/', label: 'Examples by framework' },

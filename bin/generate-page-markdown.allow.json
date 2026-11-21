@@ -28,8 +28,8 @@
     "reason": "These are interactive example applications (health-care service pages), not prose documents."
   },
   {
-    "pattern": "^/en-001/(accessibility-statement|cookie-policy|privacy-policy|terms-of-use|site-map)/$",
-    "reason": "Hand-written English policy and navigation pages, not yet part of the translation pipeline that generates Markdown twins."
+    "pattern": "^/en-001/(accessibility-statement|cookie-policy|privacy-policy|terms-of-use|site-map|agile|itil5|prince2)/$",
+    "reason": "Hand-written English policy, navigation and interest-area pages, not yet part of the translation pipeline that generates Markdown twins."
   },
   {
     "pattern": "^/markdown-editor/$",
