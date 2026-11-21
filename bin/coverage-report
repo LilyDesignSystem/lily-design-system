@@ -32,7 +32,28 @@ import { fileURLToPath } from "node:url";
 
 const top = join(dirname(fileURLToPath(import.meta.url)), "..");
 
-function vitestCoverage(dir, include) {
+// The package's byte-identical copies of shared/ modules (bin/sync-shared-modules keeps them so). They are measured once,
+// in shared/, where their tests live; counting them again in a catalog scores the same code by whichever catalog tests
+// happen to run it. A copy that has drifted is not identical, so it stays measured here (and bin/test fails on the drift).
+function sharedCopies(dir) {
+    const found = [];
+    const walk = (rel) => {
+        for (const name of readdirSync(join(top, dir, rel))) {
+            const path = rel ? `${rel}/${name}` : name;
+            if (name === "node_modules") continue;
+            if (statSync(join(top, dir, path)).isDirectory()) walk(path);
+            else if (/\.ts$/.test(name) && !/\.(test|stories|d)\.ts$/.test(name)) {
+                const source = join(top, "shared", name);
+                if (existsSync(source) && readFileSync(source, "utf8") === readFileSync(join(top, dir, path), "utf8"))
+                    found.push(path);
+            }
+        }
+    };
+    walk("components");
+    return found;
+}
+
+function vitestCoverage(dir, include, exclude = []) {
     const cwd = join(top, dir);
     if (!existsSync(join(cwd, "node_modules", "@vitest", "coverage-v8"))) {
         execFileSync("pnpm", ["install", "--frozen-lockfile"], { cwd, stdio: "inherit" });
@@ -46,6 +67,7 @@ function vitestCoverage(dir, include) {
         ...(include ? [`--coverage.include=${include}`] : []),
         // Story files are not code under test, and the coverage provider cannot parse a .stories.svelte file.
         "--coverage.exclude=**/*.stories.*",
+        ...exclude.map((path) => `--coverage.exclude=${path}`),
     ];
     execFileSync("npx", args, { cwd, stdio: ["ignore", "ignore", "inherit"] });
     const total = JSON.parse(
@@ -100,7 +122,12 @@ const PACKAGES = [
     { name: "shared/ (pure modules)", run: () => vitestCoverage("shared") },
     {
         name: "Svelte headless",
-        run: () => vitestCoverage("lily-design-system-svelte-headless", "components/**"),
+        run: () =>
+            vitestCoverage(
+                "lily-design-system-svelte-headless",
+                "components/**",
+                sharedCopies("lily-design-system-svelte-headless"),
+            ),
     },
     {
         name: "Blazor headless",
@@ -129,6 +156,7 @@ const lines = rows.reduce(
 );
 const overall = pct(lines);
 const date = new Date().toISOString().slice(0, 10);
+const sveltecopies = sharedCopies("lily-design-system-svelte-headless").length;
 
 const table = [
     "| Package | Lines | Branches | Functions | Statements |",
@@ -157,7 +185,9 @@ writeFileSync(
 
 Measured ${date} by \`bin/coverage-report\`, which runs each suite with coverage on: Vitest with
 \`@vitest/coverage-v8\` for \`shared/\` and the Svelte headless catalog (its \`components/\`), and \`dotnet test\` with
-coverlet for the Blazor catalog. The badge in \`index.md\` is the lines figure over all three.
+coverlet for the Blazor catalog. The badge in \`index.md\` is the lines figure over all three. The Svelte figure
+leaves out its byte-identical copies of \`shared/\` modules (${sveltecopies} files, such as \`search-text.ts\` and
+\`widget-keys.ts\`): they are measured once, in \`shared/\`, where their tests are.
 
 ${table}
 
