@@ -1,0 +1,149 @@
+#!/usr/bin/env python3
+"""bin/check-recipes — the recipes layer stays a composition of real catalog components (tasks.md P22-T27).
+
+A recipe is recipes/{component-slug}/{name}.html: a front-matter block (title, components, tags) and a
+framework-neutral semantic-HTML snippet that composes catalog components only, with no new CSS and no strings
+beyond realistic placeholder content (spec/lessons/coss-ui item 1). This check fails when:
+
+  * the directory is not a catalog slug, or a file has no front matter, or a field is missing or empty;
+  * a `components:` entry is not a catalog slug, the directory's own slug is not listed, or a listed
+    component is not used in the markup;
+  * the markup does not parse (an element left open or closed twice);
+  * an element's first class token is neither a listed component nor a sub-class of one (`{slug}-…`);
+  * a form control (input other than hidden, select, textarea, role=combobox or role=switch) has no
+    accessible name: no aria-label, no aria-labelledby, and no <label for> naming its id;
+  * an id named by for, aria-labelledby, aria-describedby, aria-errormessage, aria-controls or href="#…"
+    does not exist, or an id is used twice;
+  * aria-describedby names an element that is hidden: a hidden description is still read out, so an error
+    message is linked only once it is shown.
+
+Usage: bin/check-recipes   (in bin/test)
+"""
+import re
+import sys
+from html.parser import HTMLParser
+from pathlib import Path
+
+top = Path(__file__).resolve().parent.parent
+recipes = top / "recipes"
+slugs = {line.split("\t", 1)[0] for line in (top / "components.tsv").read_text().splitlines()[1:] if line}
+VOID = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "source", "track", "wbr"}
+REFS = ("aria-labelledby", "aria-describedby", "aria-errormessage", "aria-controls")
+errors = []
+
+
+def front_matter(text, where):
+    m = re.match(r"---\n(.*?)\n---\n", text, re.S)
+    if not m:
+        errors.append(f"{where}: no front matter (--- title, components, tags ---)")
+        return None, text
+    fields = {}
+    # A flow list may span lines (Prettier wraps a long one): join each one onto its key's line first.
+    lines = []
+    for line in m.group(1).splitlines():
+        if lines and (line.startswith(" ") or lines[-1].rstrip().endswith(":")) and "[" in lines[-1] + line and "]" not in lines[-1]:
+            lines[-1] = lines[-1].rstrip() + " " + line.strip()
+        else:
+            lines.append(line)
+    for line in lines:
+        key, _, value = line.partition(":")
+        value = value.strip()
+        if value.startswith("[") and value.endswith("]"):
+            fields[key.strip()] = [v.strip() for v in value[1:-1].split(",") if v.strip()]
+        else:
+            fields[key.strip()] = value.strip('"')
+    for key in ("title", "components", "tags"):
+        if not fields.get(key):
+            errors.append(f"{where}: front matter needs a non-empty {key}")
+    return fields, text[m.end():]
+
+
+class Recipe(HTMLParser):
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.stack, self.elements, self.problems = [], [], []
+
+    def handle_starttag(self, tag, attrs):
+        self.elements.append((tag, dict(attrs)))
+        if tag not in VOID:
+            self.stack.append(tag)
+
+    def handle_startendtag(self, tag, attrs):
+        self.elements.append((tag, dict(attrs)))
+
+    def handle_endtag(self, tag):
+        if tag in VOID:
+            return
+        if not self.stack or self.stack[-1] != tag:
+            self.problems.append(f"</{tag}> closes nothing open")
+        else:
+            self.stack.pop()
+
+
+def check(path):
+    where = path.relative_to(top)
+    owner = path.parent.name
+    if owner not in slugs:
+        errors.append(f"{where}: recipes/{owner}/ is not a catalog slug")
+    fields, body = front_matter(path.read_text(), where)
+    if fields is None:
+        return
+    listed = fields.get("components") or []
+    for slug in listed:
+        if slug not in slugs:
+            errors.append(f"{where}: components lists {slug}, which is not a catalog slug")
+    if owner not in listed:
+        errors.append(f"{where}: components does not list {owner}, the recipe's own component")
+
+    parser = Recipe()
+    parser.feed(body)
+    parser.close()
+    for problem in parser.problems:
+        errors.append(f"{where}: {problem}")
+    if parser.stack:
+        errors.append(f"{where}: <{parser.stack[-1]}> is never closed")
+
+    ids, used, labelled = {}, set(), set()
+    for tag, attrs in parser.elements:
+        if "id" in attrs:
+            if attrs["id"] in ids:
+                errors.append(f"{where}: id {attrs['id']} is used twice")
+            ids[attrs["id"]] = attrs
+        if tag == "label" and attrs.get("for"):
+            labelled.add(attrs["for"])
+    for tag, attrs in parser.elements:
+        classes = (attrs.get("class") or "").split()
+        if classes:
+            first = classes[0]
+            owner_slug = next((s for s in listed if first == s or first.startswith(s + "-")), None)
+            if owner_slug is None:
+                errors.append(f"{where}: <{tag} class=\"{first}\"> is not a listed component or a sub-class of one")
+            elif first == owner_slug:
+                used.add(owner_slug)
+        named = [("for", attrs.get("for"))] if tag == "label" else []
+        named += [(a, attrs.get(a)) for a in REFS]
+        if (attrs.get("href") or "").startswith("#"):
+            named.append(("href", attrs["href"][1:]))
+        for attr, value in named:
+            for ref in (value or "").split():
+                if ref not in ids:
+                    errors.append(f"{where}: {attr} names #{ref}, which does not exist")
+                elif attr == "aria-describedby" and "hidden" in ids[ref]:
+                    errors.append(f"{where}: aria-describedby names #{ref}, which is hidden and would still be read out")
+        control = (tag == "input" and attrs.get("type") != "hidden") or tag in ("select", "textarea") \
+            or attrs.get("role") in ("combobox", "switch")
+        if control and not (attrs.get("aria-label") or attrs.get("aria-labelledby") or attrs.get("id") in labelled):
+            errors.append(f"{where}: <{tag}> has no accessible name (aria-label, aria-labelledby or <label for>)")
+    for slug in listed:
+        if slug not in used:
+            errors.append(f"{where}: components lists {slug}, but no element has it as its class")
+
+
+files = sorted(recipes.glob("*/*.html")) if recipes.is_dir() else []
+for path in files:
+    check(path)
+if errors:
+    for e in errors:
+        print(f"Error: {e}", file=sys.stderr)
+    sys.exit(1)
+print(f"check-recipes: OK ({len(files)} recipes)")

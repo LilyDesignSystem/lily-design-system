@@ -1,0 +1,42 @@
+---
+title: "Field: native validity"
+components: [field, label, text-input, hint, error-message]
+tags: [form, validation]
+---
+
+<!-- The browser checks the pattern; a theme styles :user-invalid, which matches only after the user has edited and left
+     the field. On submit, script shows the error message in the consumer's words and adds its id to aria-describedby:
+     a hidden element named in aria-describedby is still read out, so it is linked only once it is shown. -->
+<div
+  class="field"
+  data-required="true"
+>
+  <label
+    class="label"
+    for="postcode"
+    >Postcode</label
+  >
+  <p
+    class="hint"
+    id="postcode-hint"
+  >
+    For example, LS1 4AP.
+  </p>
+  <p
+    class="error-message"
+    id="postcode-error"
+    hidden
+  >
+    Enter a real postcode
+  </p>
+  <input
+    class="text-input"
+    type="text"
+    id="postcode"
+    name="postcode"
+    autocomplete="postal-code"
+    required
+    pattern="[A-Za-z0-9 ]{5,8}"
+    aria-describedby="postcode-hint"
+  />
+</div>

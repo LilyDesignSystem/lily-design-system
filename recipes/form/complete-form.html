@@ -1,0 +1,101 @@
+---
+title: "Form: a complete form"
+components:
+  [
+    form,
+    error-summary,
+    field,
+    label,
+    text-input,
+    error-message,
+    radio-group,
+    radio-input,
+    button,
+  ]
+tags: [form, validation]
+---
+
+<!-- On submit with errors: show the summary, link each item to its field, and move focus to the summary. -->
+<form
+  class="form"
+  novalidate
+  aria-labelledby="booking-title"
+>
+  <h2 id="booking-title">Book an appointment</h2>
+  <div
+    class="error-summary"
+    role="alert"
+    aria-labelledby="booking-errors"
+    tabindex="-1"
+  >
+    <h2 id="booking-errors">There is a problem</h2>
+    <ul>
+      <li><a href="#booking-name">Enter your full name</a></li>
+    </ul>
+  </div>
+  <div
+    class="field"
+    data-required="true"
+    data-invalid="true"
+  >
+    <label
+      class="label"
+      for="booking-name"
+      >Full name</label
+    >
+    <p
+      class="error-message"
+      id="booking-name-error"
+    >
+      Enter your full name
+    </p>
+    <input
+      class="text-input"
+      type="text"
+      id="booking-name"
+      name="name"
+      autocomplete="name"
+      required
+      aria-invalid="true"
+      aria-describedby="booking-name-error"
+      aria-errormessage="booking-name-error"
+    />
+  </div>
+  <fieldset
+    class="radio-group"
+    role="radiogroup"
+    aria-labelledby="booking-time-legend"
+  >
+    <legend id="booking-time-legend">Preferred time</legend>
+    <input
+      class="radio-input"
+      type="radio"
+      id="booking-morning"
+      name="time"
+      value="morning"
+    />
+    <label
+      class="label"
+      for="booking-morning"
+      >Morning</label
+    >
+    <input
+      class="radio-input"
+      type="radio"
+      id="booking-afternoon"
+      name="time"
+      value="afternoon"
+    />
+    <label
+      class="label"
+      for="booking-afternoon"
+      >Afternoon</label
+    >
+  </fieldset>
+  <button
+    class="button"
+    type="submit"
+  >
+    Book appointment
+  </button>
+</form>

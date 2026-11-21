@@ -1,0 +1,28 @@
+---
+title: "Field: disabled"
+components: [field, label, text-input, hint]
+tags: [form, disabled]
+---
+
+<div class="field">
+  <label
+    class="label"
+    for="member-number"
+    >Membership number</label
+  >
+  <p
+    class="hint"
+    id="member-number-hint"
+  >
+    Your number cannot be changed. Contact us if it is wrong.
+  </p>
+  <input
+    class="text-input"
+    type="text"
+    id="member-number"
+    name="member-number"
+    value="M-204781"
+    disabled
+    aria-describedby="member-number-hint"
+  />
+</div>

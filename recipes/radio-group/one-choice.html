@@ -1,0 +1,49 @@
+---
+title: "Radio group: one choice"
+components: [radio-group, radio-input, label]
+tags: [form, choice]
+---
+
+<fieldset
+  class="radio-group"
+  role="radiogroup"
+  aria-labelledby="visit-legend"
+>
+  <legend id="visit-legend">How would you like your appointment?</legend>
+  <input
+    class="radio-input"
+    type="radio"
+    id="visit-in-person"
+    name="visit"
+    value="in-person"
+  />
+  <label
+    class="label"
+    for="visit-in-person"
+    >In person</label
+  >
+  <input
+    class="radio-input"
+    type="radio"
+    id="visit-phone"
+    name="visit"
+    value="phone"
+  />
+  <label
+    class="label"
+    for="visit-phone"
+    >By phone</label
+  >
+  <input
+    class="radio-input"
+    type="radio"
+    id="visit-video"
+    name="visit"
+    value="video"
+  />
+  <label
+    class="label"
+    for="visit-video"
+    >By video</label
+  >
+</fieldset>

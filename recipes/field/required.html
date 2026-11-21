@@ -1,0 +1,31 @@
+---
+title: "Field: required"
+components: [field, label, text-input, hint]
+tags: [form, required]
+---
+
+<div
+  class="field"
+  data-required="true"
+>
+  <label
+    class="label"
+    for="full-name"
+    >Full name</label
+  >
+  <p
+    class="hint"
+    id="full-name-hint"
+  >
+    As it appears on your passport.
+  </p>
+  <input
+    class="text-input"
+    type="text"
+    id="full-name"
+    name="full-name"
+    autocomplete="name"
+    required
+    aria-describedby="full-name-hint"
+  />
+</div>

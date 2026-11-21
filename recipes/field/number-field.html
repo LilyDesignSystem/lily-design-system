@@ -1,0 +1,30 @@
+---
+title: "Field: number"
+components: [field, label, number-input, hint]
+tags: [form, number]
+---
+
+<div class="field">
+  <label
+    class="label"
+    for="people"
+    >Number of people</label
+  >
+  <p
+    class="hint"
+    id="people-hint"
+  >
+    Up to 8.
+  </p>
+  <input
+    class="number-input"
+    type="number"
+    id="people"
+    name="people"
+    min="1"
+    max="8"
+    step="1"
+    inputmode="numeric"
+    aria-describedby="people-hint"
+  />
+</div>

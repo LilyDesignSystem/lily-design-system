@@ -1,0 +1,54 @@
+---
+title: "Checkbox group: select all that apply"
+components: [checkbox-group, checkbox-input, label, hint]
+tags: [form, choice]
+---
+
+<fieldset
+  class="checkbox-group"
+  aria-describedby="allergies-hint"
+>
+  <legend>Do you have any of these allergies?</legend>
+  <p
+    class="hint"
+    id="allergies-hint"
+  >
+    Select all that apply.
+  </p>
+  <input
+    class="checkbox-input"
+    type="checkbox"
+    id="allergy-nuts"
+    name="allergies"
+    value="nuts"
+  />
+  <label
+    class="label"
+    for="allergy-nuts"
+    >Nuts</label
+  >
+  <input
+    class="checkbox-input"
+    type="checkbox"
+    id="allergy-penicillin"
+    name="allergies"
+    value="penicillin"
+  />
+  <label
+    class="label"
+    for="allergy-penicillin"
+    >Penicillin</label
+  >
+  <input
+    class="checkbox-input"
+    type="checkbox"
+    id="allergy-latex"
+    name="allergies"
+    value="latex"
+  />
+  <label
+    class="label"
+    for="allergy-latex"
+    >Latex</label
+  >
+</fieldset>

@@ -1,0 +1,39 @@
+---
+title: "Field: with an error"
+components: [field, label, text-input, hint, error-message]
+tags: [form, validation]
+---
+
+<div
+  class="field"
+  data-invalid="true"
+>
+  <label
+    class="label"
+    for="email"
+    >Email address</label
+  >
+  <p
+    class="hint"
+    id="email-hint"
+  >
+    We will only use this to send your receipt.
+  </p>
+  <p
+    class="error-message"
+    id="email-error"
+  >
+    Enter an email address in the correct format, like name@example.com
+  </p>
+  <input
+    class="text-input"
+    type="email"
+    id="email"
+    name="email"
+    autocomplete="email"
+    value="name.example.com"
+    aria-invalid="true"
+    aria-describedby="email-hint email-error"
+    aria-errormessage="email-error"
+  />
+</div>

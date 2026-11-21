@@ -1,0 +1,26 @@
+---
+title: "Field: text area"
+components: [field, label, text-area-input, hint]
+tags: [form, text]
+---
+
+<div class="field">
+  <label
+    class="label"
+    for="symptoms"
+    >Describe your symptoms</label
+  >
+  <p
+    class="hint"
+    id="symptoms-hint"
+  >
+    Include when they started and anything that makes them better or worse.
+  </p>
+  <textarea
+    class="text-area-input"
+    id="symptoms"
+    name="symptoms"
+    rows="5"
+    aria-describedby="symptoms-hint"
+  ></textarea>
+</div>

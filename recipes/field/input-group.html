@@ -1,0 +1,37 @@
+---
+title: "Field: input group"
+components: [field, label, input-group, number-input, hint]
+tags: [form, currency]
+---
+
+<div class="field">
+  <label
+    class="label"
+    id="amount-label"
+    for="amount"
+    >Amount</label
+  >
+  <p
+    class="hint"
+    id="amount-hint"
+  >
+    In euros, to the nearest cent.
+  </p>
+  <div
+    class="input-group"
+    role="group"
+    aria-labelledby="amount-label"
+  >
+    <span aria-hidden="true">€</span>
+    <input
+      class="number-input"
+      type="number"
+      id="amount"
+      name="amount"
+      min="0"
+      step="0.01"
+      inputmode="decimal"
+      aria-describedby="amount-hint"
+    />
+  </div>
+</div>

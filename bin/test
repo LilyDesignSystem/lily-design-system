@@ -404,6 +404,9 @@ implemented_everywhere_or_err
     || err "a component with a required label does not warn when it is missing; run bin/check-dev-warnings"
 "$top/bin/check-picker-icons" >/dev/null 2>&1 \
     || err "a picker icon breaks the icon contract; run bin/check-picker-icons"
+# The recipes layer (tasks.md P22-T27): real slugs, parsing markup, named controls, existing ids.
+"$top/bin/check-recipes" >/dev/null 2>&1 \
+    || err "a recipe is not a sound composition of catalog components; run bin/check-recipes"
 "$top/bin/check-theme-references" --offline >/dev/null 2>&1 \
     || err "themes/references.tsv or themes/identity-changes.tsv is malformed; run bin/check-theme-references --offline"
 "$top/bin/generate-theme-tokens" --check >/dev/null 2>&1 \

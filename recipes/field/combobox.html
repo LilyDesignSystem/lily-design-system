@@ -1,0 +1,51 @@
+---
+title: "Field: combobox"
+components: [field, label, combobox, hint]
+tags: [form, search]
+---
+
+<div class="field">
+  <label
+    class="label"
+    for="medicine"
+    >Medicine</label
+  >
+  <p
+    class="hint"
+    id="medicine-hint"
+  >
+    Start typing, then choose from the list.
+  </p>
+  <div class="combobox">
+    <input
+      id="medicine"
+      type="text"
+      role="combobox"
+      aria-autocomplete="list"
+      aria-expanded="false"
+      aria-controls="medicine-list"
+      aria-describedby="medicine-hint"
+    />
+    <div
+      id="medicine-list"
+      role="listbox"
+      aria-label="Medicines"
+      popover="manual"
+    >
+      <div
+        role="option"
+        id="medicine-1"
+        data-value="amoxicillin"
+      >
+        Amoxicillin
+      </div>
+      <div
+        role="option"
+        id="medicine-2"
+        data-value="atorvastatin"
+      >
+        Atorvastatin
+      </div>
+    </div>
+  </div>
+</div>

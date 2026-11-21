@@ -3296,8 +3296,8 @@ Plan: [plan.md § Phase 22](plan.md#phase-22--lessons-topics-triaged-into-tasks-
       Verify: `bin/generate-api-docs` fails when a keyboard section mentions wrapping, closing or delay without a Props entry.
 - [ ] **P22-T26 Published positioning variables.** ShardsUI 4. Custom properties per popup component, only where the component already computes the value.
       Verify: A test per component reads the documented properties.
-- [ ] **P22-T27 Recipes layer.** coss 1. `recipes/{slug}/{name}.html` with front matter; the 15 "Field with X" patterns first (also P22-T9); a Recipes section per component page and a `/recipes` index.
-      Verify: `bin/check-recipes` passes.
+- [~] **P22-T27 Recipes layer.** coss 1. `recipes/{slug}/{name}.html` with front matter; the 15 "Field with X" patterns first (also P22-T9); a Recipes section per component page and a `/recipes` index.
+  Verify: `bin/check-recipes` passes. _(2026-11-21: the layer and its check are built: 16 recipes in [recipes/](recipes/index.md) (coss names 16 Field examples, counting the complete form), 13 under `field/` and one each under `checkbox-group/`, `radio-group/` and `form/`, and `bin/check-recipes` in `bin/test`, shown to fail on an unknown slug, an unnamed control, a hidden description, a dangling id, an unclosed tag and a foreign class. Open: the Recipes section on each component page and the `/recipes` site index.)_
 - [ ] **P22-T28 Decide where to publish the skills (maintainer decision).** coss 4. Which registries; the two entry skills first; listing is outward-facing and hard to retract, so a go-ahead per registry.
       Verify: The install snippet in each skill's `index.md` matches the root `llms.txt`.
 - [ ] **P22-T29 Chat composed page.** coss 6. `/chat-interface` in every example app: a conversation, a streaming reply, a failing tool call, the composer with stop; scripted content only.

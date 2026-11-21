@@ -1,0 +1,30 @@
+---
+title: "Field: slider"
+components: [field, label, range-input, hint]
+tags: [form, range]
+---
+
+<div class="field">
+  <label
+    class="label"
+    for="pain-score"
+    >Pain score</label
+  >
+  <p
+    class="hint"
+    id="pain-score-hint"
+  >
+    0 is no pain, 10 is the worst pain you can imagine.
+  </p>
+  <input
+    class="range-input"
+    type="range"
+    id="pain-score"
+    name="pain-score"
+    min="0"
+    max="10"
+    step="1"
+    value="0"
+    aria-describedby="pain-score-hint"
+  />
+</div>

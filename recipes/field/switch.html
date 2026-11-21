@@ -1,0 +1,28 @@
+---
+title: "Field: switch"
+components: [field, label, switch-button, hint]
+tags: [form, setting]
+---
+
+<!-- A switch acts at once; inside a form that submits later, use checkbox instead. -->
+<div class="field">
+  <span
+    class="label"
+    id="reminders-label"
+    >Text message reminders</span
+  >
+  <p
+    class="hint"
+    id="reminders-hint"
+  >
+    We text you the day before.
+  </p>
+  <button
+    class="switch-button"
+    type="button"
+    role="switch"
+    aria-checked="false"
+    aria-labelledby="reminders-label"
+    aria-describedby="reminders-hint"
+  ></button>
+</div>
