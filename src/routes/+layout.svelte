@@ -102,6 +102,14 @@
       <a href={pageHref('about', currentLocale)}>{strings.nav.about}</a>
       <a href="/locales/">{strings.pickerLabels.locale}</a>
     </div>
+    <!-- The policy pages are English-language pages, so their links are marked lang="en" on every locale's footer. -->
+    <nav class="site-footer-links site-footer-policies" aria-label="Policies">
+      <a href="/en-001/accessibility-statement/" lang="en">Accessibility statement</a>
+      <a href="/en-001/cookie-policy/" lang="en">Cookie policy</a>
+      <a href="/en-001/privacy-policy/" lang="en">Privacy policy</a>
+      <a href="/en-001/terms-of-use/" lang="en">Terms of use</a>
+      <a href="/en-001/site-map/" lang="en">Site map</a>
+    </nav>
   </div>
 </footer>
 {/if}
