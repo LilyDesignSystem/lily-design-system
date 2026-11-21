@@ -45,6 +45,10 @@ export type UiStrings = {
     tutorials: { heading: string; description: string };
     components: { heading: string; description: string };
     examples: { heading: string; description: string };
+    /** The three tiles added 2026-11-21 (P41-T8). A language without them shows the English words, see `homeTile`. */
+    styles?: { heading: string; description: string };
+    compare?: { heading: string; description: string };
+    accessibility?: { heading: string; description: string };
   };
 };
 
@@ -93,6 +97,18 @@ const en: UiStrings = {
     examples: {
       heading: 'Examples',
       description: 'Seven complete, styled reference applications you can clone and adjust.'
+    },
+    styles: {
+      heading: 'Styles',
+      description: 'Principles, colours, typographies, icons, layouts and page templates.'
+    },
+    compare: {
+      heading: 'Compare',
+      description: 'How Lily relates to other design systems, said fairly.'
+    },
+    accessibility: {
+      heading: 'Accessibility',
+      description: 'What is verified, what is not, and how to report a problem.'
     }
   }
 };
@@ -2751,4 +2767,15 @@ const UI: Record<string, UiStrings> = {
 /** Resolve a locale's UI chrome strings, falling back to the default locale. */
 export function ui(locale: string): UiStrings {
   return UI[locale] ?? UI[DEFAULT_LOCALE];
+}
+
+/** The six tiles after the home page hero, in order (spec/homepage). */
+export const HOME_TILES = ['tutorials', 'components', 'examples', 'styles', 'compare', 'accessibility'] as const;
+export type HomeTile = (typeof HOME_TILES)[number];
+
+/**
+ * A tile's words in a language, or the English words when that language has none for it: never blank, never a key.
+ */
+export function homeTile(locale: string, tile: HomeTile): { heading: string; description: string } {
+  return ui(locale).home[tile] ?? UI[DEFAULT_LOCALE].home[tile]!;
 }

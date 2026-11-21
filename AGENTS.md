@@ -23,7 +23,8 @@ implement or ship any component library itself — see
 
 ## Routes
 
-- `/` — home
+- `/` — home. Its hero is followed by exactly six tile cards (`HomeTiles.svelte`, also on every `LocaleHome`): 1, 2, 3 or 6
+  columns, never 4 or 5, so never add a seventh or drop to five. To add a tile, remove one. Rule: [spec/homepage](../spec/homepage/index.md)
 - `/components/` and `/components/<slug>/` — the 571-component catalog
   (one route per `components.tsv` row)
 - `/examples/` — links to the seven worked example apps

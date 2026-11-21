@@ -1,5 +1,6 @@
 <script lang="ts">
   import { LILY_COMPONENTS, type LilyComponent } from '#lib/components.js';
+  import HomeTiles from '#lib/components/HomeTiles.svelte';
   import { locales } from '#lib/locales.js';
   import { firstVisitThisSession, pickLocaleRoute } from '#lib/locale-redirect.js';
 
@@ -118,6 +119,8 @@
     <a class="button button-secondary" href="/examples/">Browse styled examples</a>
   </div>
 </section>
+
+<HomeTiles locale="en-001" />
 
 <section class="section">
   <label
