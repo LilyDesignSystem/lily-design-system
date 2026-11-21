@@ -15,8 +15,8 @@ importers:
         specifier: ^0.2.2
         version: 0.2.2(@angular/common@22.2.6(@angular/core@22.2.6(@angular/compiler@22.2.6)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.6(@angular/compiler@22.2.6)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)
       '@lilydesignsystem/angular-headless':
-        specifier: ^0.9.0
-        version: 0.9.0(@angular/common@22.2.6(@angular/core@22.2.6(@angular/compiler@22.2.6)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.6(@angular/compiler@22.2.6)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)
+        specifier: ^0.10.0
+        version: 0.10.0(@angular/common@22.2.6(@angular/core@22.2.6(@angular/compiler@22.2.6)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.6(@angular/compiler@22.2.6)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)
     devDependencies:
       '@analogjs/vite-plugin-angular':
         specifier: ^2.9.7
@@ -556,6 +556,14 @@ packages:
     peerDependencies:
       '@angular/common': '>=20.0.0 <23.0.0'
       '@angular/core': '>=20.0.0 <23.0.0'
+
+  '@lilydesignsystem/angular-headless@0.10.0':
+    resolution: {integrity: sha512-OU0x/3ztB821YhzeYo71UXDy0kSR+5M33CSURVtDyVM2BS+F+kQ/kmstHDMI02Tr6v0Bm03beoshoS5KNhp5jw==}
+    engines: {node: '>=26'}
+    peerDependencies:
+      '@angular/common': '>=20.0.0 <23.0.0'
+      '@angular/core': '>=20.0.0 <23.0.0'
+      rxjs: '>=7.0.0'
 
   '@lilydesignsystem/angular-headless@0.9.0':
     resolution: {integrity: sha512-F7ueqeqstzRbYnrBUOqw/Yd42/NsfP0GMQJiAzUQP7ztFhqAMs1G8nYnVw5StRv3L3ESJcdcQIkJ1gpKObRv2Q==}
@@ -3140,6 +3148,13 @@ snapshots:
       tslib: 2.9.1
     transitivePeerDependencies:
       - rxjs
+
+  '@lilydesignsystem/angular-headless@0.10.0(@angular/common@22.2.6(@angular/core@22.2.6(@angular/compiler@22.2.6)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.6(@angular/compiler@22.2.6)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)':
+    dependencies:
+      '@angular/common': 22.2.6(@angular/core@22.2.6(@angular/compiler@22.2.6)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)
+      '@angular/core': 22.2.6(@angular/compiler@22.2.6)(rxjs@7.8.2)(zone.js@0.16.3)
+      rxjs: 7.8.2
+      tslib: 2.9.1
 
   '@lilydesignsystem/angular-headless@0.9.0(@angular/common@22.2.6(@angular/core@22.2.6(@angular/compiler@22.2.6)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.6(@angular/compiler@22.2.6)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)':
     dependencies:
