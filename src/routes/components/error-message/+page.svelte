@@ -93,5 +93,11 @@
     <ul>
       <li><code>children</code>: slot (required) -- error message text content</li>
     </ul>
+    <h3>Recipes</h3>
+    <ul>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/with-error.html">Field: with an error</a></li>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/with-validity.html">Field: native validity</a></li>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/form/complete-form.html">Form: a complete form</a></li>
+    </ul>
 </section>
 <!-- END generated: canonical contract -->

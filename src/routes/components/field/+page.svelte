@@ -100,5 +100,22 @@
       <li><code>inputId</code>: string (default: undefined) -- ID of the input to link the label to; auto-generated if omitted</li>
       <li><code>children</code>: slot (required) -- form control (input, select, text-area-input, etc.)</li>
     </ul>
+    <h3>Recipes</h3>
+    <ul>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/autocomplete.html">Field: browser autocomplete</a></li>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/checkbox.html">Field: checkbox</a></li>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/combobox.html">Field: combobox</a></li>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/disabled.html">Field: disabled</a></li>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/input-group.html">Field: input group</a></li>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/number-field.html">Field: number</a></li>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/required.html">Field: required</a></li>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/select.html">Field: select</a></li>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/slider.html">Field: slider</a></li>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/switch.html">Field: switch</a></li>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/textarea.html">Field: text area</a></li>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/with-error.html">Field: with an error</a></li>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/with-validity.html">Field: native validity</a></li>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/form/complete-form.html">Form: a complete form</a></li>
+    </ul>
 </section>
 <!-- END generated: canonical contract -->

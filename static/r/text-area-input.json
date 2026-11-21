@@ -40,5 +40,12 @@
   },
   "docs": "https://lilydesignsystem.com/components/text-area-input/",
   "markdown": "https://lilydesignsystem.com/components/text-area-input.md",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/text-area-input/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/text-area-input/AGENTS.md",
+  "recipes": [
+    {
+      "title": "Field: text area",
+      "path": "recipes/field/textarea.html",
+      "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/textarea.html"
+    }
+  ]
 }

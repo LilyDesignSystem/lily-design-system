@@ -46,5 +46,12 @@
   },
   "docs": "https://lilydesignsystem.com/components/range-input/",
   "markdown": "https://lilydesignsystem.com/components/range-input.md",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/range-input/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/range-input/AGENTS.md",
+  "recipes": [
+    {
+      "title": "Field: slider",
+      "path": "recipes/field/slider.html",
+      "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/slider.html"
+    }
+  ]
 }

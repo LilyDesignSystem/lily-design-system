@@ -50,5 +50,17 @@
   },
   "docs": "https://lilydesignsystem.com/components/button/",
   "markdown": "https://lilydesignsystem.com/components/button.md",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/button/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/button/AGENTS.md",
+  "recipes": [
+    {
+      "title": "Card: the whole card as one link",
+      "path": "recipes/card/whole-card-link.html",
+      "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/card/whole-card-link.html"
+    },
+    {
+      "title": "Form: a complete form",
+      "path": "recipes/form/complete-form.html",
+      "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/form/complete-form.html"
+    }
+  ]
 }

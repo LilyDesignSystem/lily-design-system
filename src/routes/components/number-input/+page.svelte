@@ -99,5 +99,10 @@
       <li><code>disabled</code>: boolean (default: <code>false</code>) -- whether the input is disabled</li>
       <li><code>...restProps</code>: unknown -- additional attributes spread onto the <code>&lt;input&gt;</code> element</li>
     </ul>
+    <h3>Recipes</h3>
+    <ul>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/input-group.html">Field: input group</a></li>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/number-field.html">Field: number</a></li>
+    </ul>
 </section>
 <!-- END generated: canonical contract -->

@@ -63,5 +63,12 @@
     "decision": "native",
     "uses": "native <input role=\"combobox\">; listbox div popover=\"manual\" shown from the open state",
     "could_use": "CSS anchor positioning to the input (theme)"
-  }
+  },
+  "recipes": [
+    {
+      "title": "Field: combobox",
+      "path": "recipes/field/combobox.html",
+      "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/combobox.html"
+    }
+  ]
 }

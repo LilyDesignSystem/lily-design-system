@@ -35,5 +35,22 @@
   },
   "docs": "https://lilydesignsystem.com/components/error-message/",
   "markdown": "https://lilydesignsystem.com/components/error-message.md",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/error-message/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/error-message/AGENTS.md",
+  "recipes": [
+    {
+      "title": "Field: with an error",
+      "path": "recipes/field/with-error.html",
+      "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/with-error.html"
+    },
+    {
+      "title": "Field: native validity",
+      "path": "recipes/field/with-validity.html",
+      "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/with-validity.html"
+    },
+    {
+      "title": "Form: a complete form",
+      "path": "recipes/form/complete-form.html",
+      "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/form/complete-form.html"
+    }
+  ]
 }

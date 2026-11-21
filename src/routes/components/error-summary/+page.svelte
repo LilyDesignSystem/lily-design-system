@@ -97,5 +97,9 @@
       <li><code>children</code>: slot (required) -- error list content, typically a <code>&lt;ul&gt;</code> with <code>&lt;li&gt;</code> items containing anchor links to error fields</li>
       <li><code>...restProps</code>: any additional HTML attributes spread onto the outer <code>&lt;div&gt;</code></li>
     </ul>
+    <h3>Recipes</h3>
+    <ul>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/form/complete-form.html">Form: a complete form</a></li>
+    </ul>
 </section>
 <!-- END generated: canonical contract -->

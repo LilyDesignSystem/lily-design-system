@@ -100,5 +100,9 @@
       <li><code>children</code>: slot (required) -- card body content</li>
       <li><code>...restProps</code>: Any additional HTML attributes passed to the root <code>&lt;div&gt;</code></li>
     </ul>
+    <h3>Recipes</h3>
+    <ul>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/card/whole-card-link.html">Card: the whole card as one link</a></li>
+    </ul>
 </section>
 <!-- END generated: canonical contract -->

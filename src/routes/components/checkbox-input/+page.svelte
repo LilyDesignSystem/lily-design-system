@@ -100,5 +100,10 @@
       <li><code>value</code>: string (default: undefined) -- value attribute for form submission</li>
       <li><code>...restProps</code>: unknown -- additional attributes spread onto the input element</li>
     </ul>
+    <h3>Recipes</h3>
+    <ul>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/checkbox-group/select-all-that-apply.html">Checkbox group: select all that apply</a></li>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/checkbox.html">Field: checkbox</a></li>
+    </ul>
 </section>
 <!-- END generated: canonical contract -->

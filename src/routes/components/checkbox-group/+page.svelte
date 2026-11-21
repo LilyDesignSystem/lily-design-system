@@ -98,5 +98,9 @@
       <li><code>disabled</code>: boolean (default: false) -- disables the entire group via the fieldset <code>disabled</code> attribute</li>
       <li><code>...restProps</code>: unknown -- additional attributes spread onto the <code>&lt;fieldset&gt;</code> element</li>
     </ul>
+    <h3>Recipes</h3>
+    <ul>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/checkbox-group/select-all-that-apply.html">Checkbox group: select all that apply</a></li>
+    </ul>
 </section>
 <!-- END generated: canonical contract -->

@@ -39,5 +39,12 @@
   },
   "docs": "https://lilydesignsystem.com/components/form/",
   "markdown": "https://lilydesignsystem.com/components/form.md",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/form/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/form/AGENTS.md",
+  "recipes": [
+    {
+      "title": "Form: a complete form",
+      "path": "recipes/form/complete-form.html",
+      "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/form/complete-form.html"
+    }
+  ]
 }
