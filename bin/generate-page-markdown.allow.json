@@ -28,6 +28,10 @@
     "reason": "These are interactive example applications (health-care service pages), not prose documents."
   },
   {
+    "pattern": "^/en-001/(accessibility-statement|cookie-policy|privacy-policy|terms-of-use|site-map)/$",
+    "reason": "Hand-written English policy and navigation pages, not yet part of the translation pipeline that generates Markdown twins."
+  },
+  {
     "pattern": "^/markdown-editor/$",
     "reason": "This is an interactive editor demo; its component and helper documentation have Markdown sources."
   }
