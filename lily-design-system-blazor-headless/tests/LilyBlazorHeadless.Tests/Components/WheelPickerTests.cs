@@ -311,4 +311,34 @@ public class WheelPickerTests : TestContext
     {
         Assert.Equal(["ArrowUp", "ArrowDown", "Home", "End", "PageUp", "PageDown"], WheelPickerKeys.MoveKeys);
     }
+
+    [Fact]
+    public void With_no_current_option_down_keys_go_to_the_first_and_up_keys_to_the_last()
+    {
+        Assert.Equal(0, WheelPickerKeys.NextIndex(Months, -1, "ArrowDown"));
+        Assert.Equal(0, WheelPickerKeys.NextIndex(Months, -1, "PageDown"));
+        Assert.Equal(4, WheelPickerKeys.NextIndex(Months, -1, "ArrowUp"));
+        Assert.Equal(4, WheelPickerKeys.NextIndex(Months, -1, "PageUp"));
+    }
+
+    [Fact]
+    public void At_the_ends_the_arrows_stop_or_with_loop_go_round()
+    {
+        Assert.Equal(4, WheelPickerKeys.NextIndex(Months, 4, "ArrowDown"));
+        Assert.Equal(0, WheelPickerKeys.NextIndex(Months, 4, "ArrowDown", loop: true));
+        Assert.Equal(0, WheelPickerKeys.NextIndex(Months, 0, "ArrowUp"));
+        Assert.Equal(4, WheelPickerKeys.NextIndex(Months, 0, "ArrowUp", loop: true));
+    }
+
+    [Fact]
+    public void A_typeahead_key_is_one_printable_character_with_no_modifier()
+    {
+        Assert.True(WheelPickerKeys.IsTypeaheadKey("m", false, false, false));
+        Assert.False(WheelPickerKeys.IsTypeaheadKey("", false, false, false));
+        Assert.False(WheelPickerKeys.IsTypeaheadKey("m", true, false, false));
+        Assert.False(WheelPickerKeys.IsTypeaheadKey("m", false, true, false));
+        Assert.False(WheelPickerKeys.IsTypeaheadKey("m", false, false, true));
+        Assert.False(WheelPickerKeys.IsTypeaheadKey(" ", false, false, false));
+        Assert.False(WheelPickerKeys.IsTypeaheadKey("Enter", false, false, false));
+    }
 }

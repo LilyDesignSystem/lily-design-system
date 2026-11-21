@@ -294,4 +294,65 @@ public class ListboxTests : TestContext
         cut.Find(".listbox").KeyDown(new KeyboardEventArgs { Key = "c" });
         Assert.Equal(3, newIndex);
     }
+
+    private static readonly string[] Fruit = { "Apple", "Banana", "Blueberry", "Cherry" };
+
+    private (IRenderedComponent<Listbox> cut, List<int> moves) Typeahead(int active = 0, int count = 4)
+    {
+        var moves = new List<int>();
+        var cut = RenderComponent<Listbox>(p => p
+            .AddChildContent("body")
+            .Add(x => x.Navigation, Listbox.ActiveDescendant)
+            .Add(x => x.Typeahead, true)
+            .Add(x => x.OptionCount, count)
+            .Add(x => x.OptionLabel, (int i) => Fruit[i])
+            .Add(x => x.ActiveIndex, active)
+            .Add(x => x.ActiveIndexChanged, EventCallback.Factory.Create<int>(this, i => moves.Add(i))));
+        return (cut, moves);
+    }
+
+    [Fact]
+    public void Typeahead_repeating_one_letter_cycles_through_the_options_that_start_with_it()
+    {
+        var (cut, moves) = Typeahead();
+        var root = cut.Find(".listbox");
+        root.KeyDown(new KeyboardEventArgs { Key = "b" });
+        root.KeyDown(new KeyboardEventArgs { Key = "b" });
+        root.KeyDown(new KeyboardEventArgs { Key = "b" });
+        Assert.Equal(new[] { 1, 2, 1 }, moves);
+    }
+
+    [Fact]
+    public void Typeahead_a_longer_prefix_finds_the_option_it_starts()
+    {
+        var (cut, moves) = Typeahead();
+        var root = cut.Find(".listbox");
+        root.KeyDown(new KeyboardEventArgs { Key = "b" });
+        root.KeyDown(new KeyboardEventArgs { Key = "l" });
+        Assert.Equal(new[] { 1, 2 }, moves);
+    }
+
+    [Fact]
+    public void With_no_options_the_keys_and_typeahead_move_nothing()
+    {
+        var (cut, moves) = Typeahead(active: -1, count: 0);
+        var root = cut.Find(".listbox");
+        foreach (var key in new[] { "ArrowDown", "ArrowUp", "Home", "a" })
+            root.KeyDown(new KeyboardEventArgs { Key = key });
+        Assert.Empty(moves);
+        Assert.Equal(-1, cut.Instance.ActiveIndex);
+    }
+
+    [Fact]
+    public void In_roving_focus_mode_the_component_leaves_the_keys_to_the_options()
+    {
+        var moves = new List<int>();
+        var cut = RenderComponent<Listbox>(p => p
+            .AddChildContent("body")
+            .Add(x => x.OptionCount, 3)
+            .Add(x => x.ActiveIndex, 0)
+            .Add(x => x.ActiveIndexChanged, EventCallback.Factory.Create<int>(this, i => moves.Add(i))));
+        cut.Find(".listbox").KeyDown(new KeyboardEventArgs { Key = "ArrowDown" });
+        Assert.Empty(moves);
+    }
 }
