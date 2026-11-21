@@ -64,6 +64,7 @@ test('choosing a theme sets exactly the one cookie the cookie policy documents',
   const table = await page.getByRole('table', { name: 'Cookies set by this site' }).innerText();
   for (const c of cookies) expect(table, `cookie ${c.name}`).toContain(c.name);
   expect(table).toContain('400 days');
+  await expect(page.getByText('The only cookies we use are for your own user preferences.')).toBeVisible();
 });
 
 test('every browser-storage key the site writes is listed on the cookie policy', async ({ page }) => {
