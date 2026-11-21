@@ -23,7 +23,8 @@
     { slug: 'health-care-pharmacies', label: 'Pharmacies' },
     { slug: 'health-care-prescriptions', label: 'Prescriptions' },
     { slug: 'health-care-continuous-patient-monitoring', label: 'Patient monitoring' },
-    { slug: 'health-care-shared-medicines', label: 'Shared medicines' }
+    { slug: 'health-care-shared-medicines', label: 'Shared medicines' },
+    { slug: 'health-care-vaccinations', label: 'Vaccinations' }
   ];
 </script>
 

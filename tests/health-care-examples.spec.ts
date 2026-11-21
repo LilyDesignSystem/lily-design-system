@@ -7,7 +7,8 @@ const PAGES = [
   { slug: 'health-care-pharmacies', h1: /Choose a pharmacy/i },
   { slug: 'health-care-prescriptions', h1: /Medicines chart/i },
   { slug: 'health-care-continuous-patient-monitoring', h1: /Intensive care overview/i },
-  { slug: 'health-care-shared-medicines', h1: /Medicines list/i }
+  { slug: 'health-care-shared-medicines', h1: /Medicines list/i },
+  { slug: 'health-care-vaccinations', h1: /vaccinations/i }
 ];
 
 for (const { slug, h1 } of PAGES) {
@@ -104,4 +105,52 @@ test('shared medicines: filters by source, flags disagreements, compares two sou
   await expect(page.getByText('3 of 5 medicines shown')).toBeVisible();
   await page.getByLabel('Second source').selectOption('GP practice');
   await expect(page.getByText('Choose two different sources to compare.')).toBeVisible();
+});
+
+test('vaccinations: the language switch changes the words, the lang attribute and the date format', async ({ page }) => {
+  await page.goto('/en-001/examples/health-care-vaccinations/');
+  await expect(page.locator('html')).toHaveAttribute('data-theme', /.+/);
+  const content = page.locator('main > div[lang]');
+  await expect(content).toHaveAttribute('lang', 'en');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Record and review vaccinations');
+  await expect(page.getByText('14 Mar 2008')).toBeVisible();
+  await page.getByRole('button', { name: 'Cymraeg' }).click();
+  await expect(content).toHaveAttribute('lang', 'cy');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Cofnodi ac adolygu brechiadau');
+  await expect(page.getByRole('button', { name: 'Cymraeg' })).toHaveAttribute('aria-pressed', 'true');
+  // The date is whatever this browser's Intl writes for Welsh; if the browser has no Welsh data the page writes the ISO date
+  // instead of silently showing another language's format.
+  const expected = await page.evaluate(() =>
+    Intl.DateTimeFormat.supportedLocalesOf(['cy-GB']).length
+      ? new Intl.DateTimeFormat('cy-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }).format(new Date('2008-03-14T12:00:00Z'))
+      : '2008-03-14'
+  );
+  await expect(page.locator('time').first()).toHaveText(expected);
+  await expect(page.getByText('unreviewed draft')).toHaveCount(0);
+  await expect(page.getByText('ddrafft heb ei adolygu')).toBeVisible();
+});
+
+test('vaccinations: errors are in the chosen language and move focus; a valid dose joins the record', async ({ page }) => {
+  await page.goto('/en-001/examples/health-care-vaccinations/');
+  await expect(page.locator('html')).toHaveAttribute('data-theme', /.+/);
+  await page.getByRole('button', { name: 'Cymraeg' }).click();
+  await page.getByRole('button', { name: 'Cadw’r brechiad' }).click();
+  const alert = page.getByRole('alert');
+  await expect(alert).toContainText('Mae problem');
+  await expect(alert).toContainText('Rhowch rif swp');
+  await expect(alert).toBeFocused();
+  await page.getByRole('button', { name: 'English' }).click();
+  await page.getByLabel('Vaccine', { exact: true }).selectOption('covid');
+  await page.getByLabel('Batch number').fill('CV-0001');
+  await page.getByRole('button', { name: 'Save vaccination' }).click();
+  await expect(page.getByRole('status').first()).toContainText('Recorded: COVID-19');
+  await expect(page.getByText('CV-0001')).toBeVisible();
+});
+
+test('vaccinations: stock states are written in words in both languages', async ({ page }) => {
+  await page.goto('/en-001/examples/health-care-vaccinations/');
+  await expect(page.locator('html')).toHaveAttribute('data-theme', /.+/);
+  await expect(page.getByText('Low: order more')).toBeVisible();
+  await page.getByRole('button', { name: 'Cymraeg' }).click();
+  await expect(page.getByText('Isel: archebwch ragor')).toBeVisible();
 });
