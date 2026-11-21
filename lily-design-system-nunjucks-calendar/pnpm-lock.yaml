@@ -15,8 +15,8 @@ importers:
         specifier: ^0.2.1
         version: 0.2.1
       '@lilydesignsystem/nunjucks-headless':
-        specifier: ^0.8.0
-        version: 0.8.0(nunjucks@3.2.4)
+        specifier: ^0.9.0
+        version: 0.9.0(nunjucks@3.2.4)
     devDependencies:
       jsdom:
         specifier: ^31.0.1
@@ -227,8 +227,8 @@ packages:
     resolution: {integrity: sha512-O1KeeKOKkogl6mhffF6N/8h2zNYTJQLMAlpas/o04XJvksFNTlFJjtht1btHI2jdV/DVOZD/97tjTEBiyFS2tA==}
     engines: {node: '>=26'}
 
-  '@lilydesignsystem/nunjucks-headless@0.8.0':
-    resolution: {integrity: sha512-CPiBUrQfmfJeZb+dcY25HJritmOwe2MpdwiVwz52KfzxrN54ZYIZF4s8s+PgRHNlHuoYEtj0ItcFjWbKzonW1w==}
+  '@lilydesignsystem/nunjucks-headless@0.9.0':
+    resolution: {integrity: sha512-J6l3hTRz/x6GdWm2mJXm4D4EtoVderzzTMM0sJbVQhIRA9YJGNXdBIZiSV78d7slz7vm247ofZel8aHO2ffj/Q==}
     engines: {node: '>=26'}
     peerDependencies:
       nunjucks: '>=3.0.0'
@@ -1160,7 +1160,7 @@ snapshots:
 
   '@lilydesignsystem/nunjucks-date-time-picker@0.2.1': {}
 
-  '@lilydesignsystem/nunjucks-headless@0.8.0(nunjucks@3.2.4)':
+  '@lilydesignsystem/nunjucks-headless@0.9.0(nunjucks@3.2.4)':
     optionalDependencies:
       nunjucks: 3.2.4
 
