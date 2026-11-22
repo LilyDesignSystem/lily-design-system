@@ -169,6 +169,34 @@
                 <span>Web</span>
             </a>
         </li>
+        <li>
+            <a
+                class="framework-icon-link"
+                href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-swift"
+            >
+                <img
+                    src="/assets/images/icons/swift/64x64.png"
+                    alt=""
+                    width="40"
+                    height="40"
+                />
+                <span>Swift</span>
+            </a>
+        </li>
+        <li>
+            <a
+                class="framework-icon-link"
+                href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-kotlin"
+            >
+                <img
+                    src="/assets/images/icons/kotlin/64x64.png"
+                    alt=""
+                    width="40"
+                    height="40"
+                />
+                <span>Kotlin</span>
+            </a>
+        </li>
     </ul>
 </section>
 
