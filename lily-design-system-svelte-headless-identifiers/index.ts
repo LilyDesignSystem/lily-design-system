@@ -189,3 +189,4 @@ export { default as YisraelTeudatZehutInput } from "./components/YisraelTeudatZe
 export { default as YisraelTeudatZehutView } from "./components/YisraelTeudatZehutView/YisraelTeudatZehutView.svelte";
 export { default as ZhongguoJuminShenfenzhengHaomaInput } from "./components/ZhongguoJuminShenfenzhengHaomaInput/ZhongguoJuminShenfenzhengHaomaInput.svelte";
 export { default as ZhongguoJuminShenfenzhengHaomaView } from "./components/ZhongguoJuminShenfenzhengHaomaView/ZhongguoJuminShenfenzhengHaomaView.svelte";
+export * from "./components/national-identifiers";

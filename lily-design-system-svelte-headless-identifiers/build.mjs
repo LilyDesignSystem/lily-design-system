@@ -50,7 +50,9 @@ const barrel =
     names
         .map((name) => `export { default as ${name} } from "./components/${name}/${name}.svelte";`)
         .join("\n") +
-    "\n";
+    "\n" +
+    // The check-digit validators (a copy of shared/national-identifiers.ts): pure functions, not components.
+    'export * from "./components/national-identifiers";\n';
 
 fs.writeFileSync(path.join(root, "index.ts"), barrel);
 console.log(`generated index.ts (${names.length} components)`);
@@ -103,6 +105,7 @@ for (const artifact of [
     "index.js",
     "index.d.ts",
     "components/dev-warning.js",
+    "components/national-identifiers.js",
     "components/UnitedKingdomNationalHealthServiceNumberInput/UnitedKingdomNationalHealthServiceNumberInput.svelte",
 ]) {
     const file = path.join(distDir, artifact);

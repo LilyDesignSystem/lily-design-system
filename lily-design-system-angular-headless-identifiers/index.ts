@@ -190,3 +190,4 @@ export { YisraelTeudatZehutInput } from "./components/YisraelTeudatZehutInput";
 export { YisraelTeudatZehutView } from "./components/YisraelTeudatZehutView";
 export { ZhongguoJuminShenfenzhengHaomaInput } from "./components/ZhongguoJuminShenfenzhengHaomaInput";
 export { ZhongguoJuminShenfenzhengHaomaView } from "./components/ZhongguoJuminShenfenzhengHaomaView";
+export * from "./components/national-identifiers";

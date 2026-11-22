@@ -30,6 +30,8 @@ function isComponentSource(name) {
     if (name.endsWith(".spec.ts")) return false;
     // Internal helper shared by the components; not part of the public API.
     if (name === "form-reset.ts") return false;
+    // The check-digit validators (a copy of shared/national-identifiers.ts): pure functions, exported below.
+    if (name === "national-identifiers.ts") return false;
     // Internal shared listbox machine (a copy from shared/); Listbox.ts exports the public ListboxNavigation.
     if (name === "listbox-machine.ts") return false;
     // Internal copies from shared/. widget-keys.ts stays: its TreeSelection and CropRect are public types.
@@ -80,6 +82,8 @@ for (const file of files) {
         seen.set(name, file);
     }
 }
+
+lines.push('export * from "./components/national-identifiers";');
 
 const barrel =
     "// Lily Design System - Angular Headless\n" +

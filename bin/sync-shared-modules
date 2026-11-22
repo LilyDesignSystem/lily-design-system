@@ -167,6 +167,24 @@ EXTRA_TARGETS = {
         "lily-design-system-angular-headless/components/ips-sections.spec.ts",  # Angular runs *.spec.ts
         "lily-design-system-web-components-headless/lib/ips-sections.test.ts",
     ],
+    # Check-digit validators for the national personal identifiers (spec/national-identifiers, P43). Pure functions; each
+    # identifiers package exports them from its barrel. Web Components keeps its shared modules in lib/.
+    "national-identifiers.ts": [
+        "lily-design-system-svelte-headless-identifiers/components/national-identifiers.ts",
+        "lily-design-system-react-headless-identifiers/components/national-identifiers.ts",
+        "lily-design-system-solid-headless-identifiers/components/national-identifiers.ts",
+        "lily-design-system-vue-headless-identifiers/components/national-identifiers.ts",
+        "lily-design-system-angular-headless-identifiers/components/national-identifiers.ts",
+        "lily-design-system-web-components-headless-identifiers/lib/national-identifiers.ts",
+    ],
+    "national-identifiers.test.ts": [
+        "lily-design-system-svelte-headless-identifiers/components/national-identifiers.test.ts",
+        "lily-design-system-react-headless-identifiers/components/national-identifiers.test.ts",
+        "lily-design-system-solid-headless-identifiers/components/national-identifiers.test.ts",
+        "lily-design-system-vue-headless-identifiers/components/national-identifiers.test.ts",
+        "lily-design-system-angular-headless-identifiers/components/national-identifiers.spec.ts",  # Angular runs *.spec.ts
+        "lily-design-system-web-components-headless-identifiers/lib/national-identifiers.test.ts",
+    ],
     "middle-truncation.ts": [
         "lily-design-system-svelte-headless/components/MiddleTruncation/middle-truncation.ts",
         "lily-design-system-react-headless/components/middle-truncation.ts",

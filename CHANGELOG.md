@@ -47,7 +47,7 @@ highlights.
 
 ## National identifier validation, first slice (2026-11-22, P43-T1)
 
-- `shared/national-identifiers.ts`: pure validators with check-digit logic for the NHS number, Canada SIN, Netherlands BSN, Belgium NRN, Sweden personnummer, Poland PESEL, Australia TFN, India Aadhaar (Verhoeff), Switzerland AHV, France NIR and Turkey TC Kimlik, plus `luhnValid`, `verhoeffValid` and `isCalendarDate`. A result is `{ valid: true }` or `{ valid: false, reason }`; nothing is repaired. Not yet exported from the packages (P43-T2). Phase 43 in `tasks.md` lists the rest.
+- `shared/national-identifiers.ts`: pure validators with check-digit logic for the NHS number, Canada SIN, Netherlands BSN, Belgium NRN, Sweden personnummer, Poland PESEL, Australia TFN, India Aadhaar (Verhoeff), Switzerland AHV, France NIR and Turkey TC Kimlik, plus `luhnValid`, `verhoeffValid` and `isCalendarDate`. A result is `{ valid: true }` or `{ valid: false, reason }`; nothing is repaired. Exported from the six TypeScript `-headless-identifiers` packages (`export *` in each barrel) and, as `NationalIdentifiers`, from the Blazor one (P43-T2). Phase 43 in `tasks.md` lists the rest.
 
 ## `meterScale` throws on malformed input (2026-11-22, checked arithmetic)
 

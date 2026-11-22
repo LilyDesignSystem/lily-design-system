@@ -377,3 +377,4 @@ export { default as ZhongguoJuminShenfenzhengHaomaInput } from "./components/Zho
 export type { ZhongguoJuminShenfenzhengHaomaInputProps } from "./components/ZhongguoJuminShenfenzhengHaomaInput";
 export { default as ZhongguoJuminShenfenzhengHaomaView } from "./components/ZhongguoJuminShenfenzhengHaomaView";
 export type { ZhongguoJuminShenfenzhengHaomaViewProps } from "./components/ZhongguoJuminShenfenzhengHaomaView";
+export * from "./components/national-identifiers";

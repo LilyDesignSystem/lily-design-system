@@ -754,3 +754,4 @@ export { ZhongguoJuminShenfenzhengHaomaView } from "./components/zhongguo-jumin-
 import { ZhongguoJuminShenfenzhengHaomaView as _ZhongguoJuminShenfenzhengHaomaView } from "./components/zhongguo-jumin-shenfenzheng-haoma-view.js";
 if (!customElements.get("lily-zhongguo-jumin-shenfenzheng-haoma-view")) customElements.define("lily-zhongguo-jumin-shenfenzheng-haoma-view", _ZhongguoJuminShenfenzhengHaomaView);
 
+export * from "./lib/national-identifiers.js";
