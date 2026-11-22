@@ -33,6 +33,13 @@
 - `label`: string (optional) — hidden text naming the value
 - `...restProps`: any — additional HTML attributes spread onto the root
 
+## Mobile
+
+Decisions: [mobile/components-mobile.tsv](../../mobile/components-mobile.tsv) (`lily` on both).
+
+- Apple: `DurationView(_:duration:label:)` in `LilyUI`: one element, the label then the app's words; `parsed` gives the web's `datetime` and negative flag, and an invalid duration prints a development warning.
+- Android: `DurationView(value, duration, label)` in `lily-compose`: one TalkBack stop; `parsedDuration()` gives the `datetime` and negative flag; an invalid duration warns through `LilyWarnings`.
+
 ## Acceptance Criteria
 
 - [x] Renders <time> with class="duration-view"
