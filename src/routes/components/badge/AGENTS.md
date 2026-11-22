@@ -34,6 +34,13 @@
 - `children`: slot (required) -- badge content (text, number, etc.)
 - `...restProps`: Any additional HTML attributes passed to the `<span>` element
 
+## Mobile
+
+Decisions: [mobile/components-mobile.tsv](../../mobile/components-mobile.tsv) (`lily` on both). Tests: `lily-design-system-swift/Tests/LilyUITests`, `lily-design-system-kotlin/lily-compose/src/test`.
+
+- Apple: `Badge(_:kind:label:)` in `LilyUI`: one element named by `label` or the text; a change of the text is announced politely (the web's role="status"). `kind` goes to the style. Style: `BadgeStyle`.
+- Android: `LilyBadge(text, kind, label)` in `lily-compose` (named for Material 3's `Badge`): a polite live region named by `label` or the text.
+
 ## Acceptance Criteria
 
 - [ ] Renders <span> element with class="badge"
