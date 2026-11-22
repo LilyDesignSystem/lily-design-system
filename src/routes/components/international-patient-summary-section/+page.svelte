@@ -98,6 +98,7 @@
       <li><code>headingLevel</code>: 2 to 6 (default: 2)</li>
       <li><code>status</code>: "known" | "none-known" | "not-recorded" | "unavailable" | "omitted" (default: "known")</li>
       <li><code>statusLabel</code>: string -- the status in words; required for any status but <code>known</code></li>
+      <li><code>statusPlacement</code>: <code>"heading"</code> (default) | <code>"list"</code> -- where a status other than <code>known</code> is said in words. <code>"list"</code> prints no status line under the heading and needs no <code>statusLabel</code>: the record list inside has its own never-blank status item, so the words appear once (Svelte, React, Solid, Vue, Angular, Web Components <code>status-placement</code>, Nunjucks, Blazor <code>StatusPlacement</code>; in the HTML and Alpine snippets leave the <code>p</code> out). <code>data-status</code> stays on the section either way (2026-11-22, P42-T6)</li>
       <li><code>code</code>: string (optional) -- the LOINC code; default the IPS code for the key</li>
       <li><code>required</code>: boolean (optional) -- default whether the IPS requires the section</li>
       <li><code>id</code>: string (optional) -- default <code>international-patient-summary-&#123;section&#125;</code></li>
