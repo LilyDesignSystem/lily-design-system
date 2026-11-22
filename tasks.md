@@ -4376,11 +4376,17 @@ Kotlin UI is written. Order: T1 and T2 first (decisions), then T4 and T3 (logic)
       100% of lines. Still to add: edit-history, filter-model, calendar-system, wheel-picker, zones, intl-labels.)_
       _(2026-11-22: `ips-sections` added (18 cases: the registry, required sections, ids, the contents with missing required
       sections appended), ported to Swift and Kotlin; 160 vectors in all.)_
-- [ ] **P43-T4 Identifier validators in `shared/`.** Each national identifier's normalisation, check-digit validation and
-      display grouping lives in every catalog's own component today. Move it to `shared/identifiers.ts` (synced by
-      `bin/sync-shared-modules`), with vectors per identifier type, including invalid cases, and point the TypeScript catalogs
-      at it. Blazor keeps its C# copy and reads the vectors.
-      Verify: every catalog's identifier tests pass; `bin/sync-shared-modules --check` passes; vectors cover all 94 types.
+- [ ] **P43-T4 Identifier validation, written for the first time (needs a maintainer decision).** Corrected 2026-11-22: there
+      are no validators to move. The 94 web identifier inputs validate nothing beyond the browser: 5 carry an HTML `pattern`
+      (Ireland IHI, France NIR, UK NHS number, Northern Ireland H&C number, US SSN), the rest none, and no catalog computes a check
+      digit. `AGENTS/national-person-identifiers.tsv` describes one in prose for 63 identifiers (Modulus-11, Modulus-97, Luhn,
+      Verhoeff and others). Writing them is correctness-critical (a wrong validator rejects a real patient's number), so decide
+      first: whether inputs validate at all or only format; and for each identifier, the authoritative algorithm source and
+      official test numbers. Then, in `shared/identifiers.ts` with vectors (valid and invalid official examples), one identifier
+      at a time, synced to the web catalogs and ported to `LilyCore` and `lily-core`; a `pattern` and grouping for display can
+      come first, as they cannot reject a valid number if they are only advisory.
+      Verify: per identifier, vectors from its official source pass in TypeScript, C#, Swift and Kotlin; the source is cited in
+      the TSV.
 - [ ] **P43-T5 Swift and Kotlin token output.** `bin/generate-theme-tokens --swift` and `--kotlin` write per-theme token files
       (colours in light, dark and high-contrast sets; `rem` to points and `dp`; type roles to text styles, never fixed
       sizes) for a first set of six themes: light, dark, NHS England, GOV.UK, USWDS and one non-Anglophone public-sector

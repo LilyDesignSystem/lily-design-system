@@ -78,7 +78,7 @@ shells, HTML tables on phones.
 Steps 1 to 5 are Phase 43, shared with Apple; see the [Apple topic](../apple-swift/index.md#advice-what-lily-should-build)
 for the full reasoning. In short: a semantics map (`mobile/semantics.tsv`), a per-component mobile decision
 (`mobile/components-mobile.tsv`, `native` / `lily` / `pattern` / `none` per platform), test vectors for the shared
-modules (`shared/vectors/`), the identifier validators moved into `shared/`, tokens generated for each platform, and label
+modules (`shared/vectors/`), identifier validation written in `shared/` (it exists in no catalog yet; P43-T4), tokens generated for each platform, and label
 packs shipped as resources. On Android:
 
 1. **Tokens to Kotlin.** `bin/generate-theme-tokens` writes a `LilyTokens` object per theme: colours as light, dark and

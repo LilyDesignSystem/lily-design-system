@@ -110,8 +110,9 @@ In priority order. Each step is useful on its own.
    - _JavaScriptCore running the TypeScript modules_: slow start, no type safety at the boundary, and App Review friction.
    - _Swift on Android (Swift 6.3 SDK)_: real, but it would make Android adopters ship the Swift runtime and a JNI layer.
      Revisit in 2028.
-     Before porting, move the identifier validators out of the per-catalog components into `shared/identifiers.ts` with
-     vectors; today every catalog carries its own copy (P43-T4).
+     Identifier validation does not exist yet to port: the web inputs carry at most an HTML `pattern` (5 of 94) and no catalog
+     computes a check digit, though `AGENTS/national-person-identifiers.tsv` describes one for 63 (corrected 2026-11-22;
+     P43-T4 is now writing them, one identifier at a time from an official source, which needs a maintainer decision).
 4. **Tokens to Swift.** `bin/generate-theme-tokens` already reads strict DTCG 2025.10 JSON. Add a Swift output: a
    `LilyTokens` type per theme, colours as light/dark/high-contrast pairs, dimensions converted from `rem` to points
    (1rem = 16pt, scaled with `@ScaledMetric` for spacing that should grow with Dynamic Type), and type roles mapped to

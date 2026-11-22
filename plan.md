@@ -579,7 +579,8 @@ are not the web. Full research and advice: [spec/apple-swift](spec/apple-swift/i
   spoken form), the healthcare components, and small semantic content components (summary list, error summary, warning
   text). Every slug has a recorded decision ([mobile/components-mobile.tsv](mobile/components-mobile.tsv)): 145 Lily components plus
   the 188 identifiers on Apple, 157 plus the identifiers on Android.
-- **Logic is shared through test vectors.** The `shared/` modules and the identifier validators are ported by hand to Swift
+- **Logic is shared through test vectors.** The `shared/` modules (and identifier validation, once written: no catalog has it
+  yet, see P43-T4) are ported by hand to Swift
   and Kotlin and proved equal to the TypeScript with JSON vectors. A Kotlin Multiplatform core for Swift, JavaScriptCore,
   and Swift on Android (Swift 6.3) were each assessed and declined as too heavy a runtime dependency for a design system.
 - **Publishing differs.** Maven Central publishes from the monorepo as npm does. SwiftPM needs `Package.swift` at a
@@ -594,8 +595,8 @@ are not the web. Full research and advice: [spec/apple-swift](spec/apple-swift/i
 ### Advice, in priority order
 
 1. Decide before building: the semantics map and a per-component mobile decision, checked in `bin/test` (P43-T1, T2).
-2. Make the logic portable: vectors for the shared modules and the identifier validators moved into `shared/` (P43-T3, T4).
-   This also removes the per-catalog copies of the validators on the web.
+2. Make the logic portable: vectors for the shared modules (P43-T3). Identifier validation exists in no catalog, so P43-T4 is
+   writing it, one identifier at a time from an official source, after a maintainer decision on whether inputs validate.
 3. Generate tokens and ship label packs for both platforms (P43-T5, T6).
 4. Build both platforms side by side on the same first slice (field, error summary, summary list, alert and friends), then
    the healthcare and identifier components, then the example apps (Phases 44 and 45).
@@ -604,7 +605,7 @@ are not the web. Full research and advice: [spec/apple-swift](spec/apple-swift/i
 
 ## Phase 43 — Mobile foundations (2026-11-22)
 
-Shared by Apple and Android: the semantics map, a mobile decision per component, test vectors, identifier validators in
+Shared by Apple and Android: the semantics map, a mobile decision per component, test vectors, identifier validation (to be written) in
 `shared/`, Swift and Kotlin tokens, label packs as mobile resources.
 Tasks: [tasks.md](tasks.md#phase-43--mobile-foundations-2026-11-22).
 
