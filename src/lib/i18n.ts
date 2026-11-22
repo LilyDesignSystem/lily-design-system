@@ -168,7 +168,10 @@ const es: UiStrings = {
       heading: 'Aplicaciones de ejemplo',
       description:
         'Siete aplicaciones de referencia completas y con estilo que puedes clonar y adaptar.'
-    }
+    },
+    styles: { heading: 'Estilos', description: 'Principios, colores, tipografías, iconos, diseños y plantillas de página.' },
+    compare: { heading: 'Comparaciones', description: 'Cómo se relaciona Lily con otros sistemas de diseño, dicho con justicia.' },
+    accessibility: { heading: 'Accesibilidad', description: 'Qué se verifica, qué no, y cómo informar de un problema.' }
   }
 };
 
@@ -217,7 +220,10 @@ const fr: UiStrings = {
     examples: {
       heading: "Applications d'exemple",
       description: 'Sept applications de référence complètes et stylisées, à cloner et adapter.'
-    }
+    },
+    styles: { heading: 'Styles', description: 'Principes, couleurs, typographies, icônes, mises en page et modèles de page.' },
+    compare: { heading: 'Comparaisons', description: 'Comment Lily se situe par rapport aux autres systèmes de design, en toute équité.' },
+    accessibility: { heading: 'Accessibilité', description: 'Ce qui est vérifié, ce qui ne l\'est pas, et comment signaler un problème.' }
   }
 };
 
@@ -267,7 +273,10 @@ const pt: UiStrings = {
       heading: 'Aplicativos de exemplo',
       description:
         'Sete aplicativos de referência completos e estilizados que você pode clonar e ajustar.'
-    }
+    },
+    styles: { heading: 'Estilos', description: 'Princípios, cores, tipografias, ícones, layouts e modelos de página.' },
+    compare: { heading: 'Comparações', description: 'Como o Lily se relaciona com outros sistemas de design, dito com justiça.' },
+    accessibility: { heading: 'Acessibilidade', description: 'O que é verificado, o que não é, e como relatar um problema.' }
   }
 };
 
@@ -318,7 +327,10 @@ const ru: UiStrings = {
       heading: 'Примеры приложений',
       description:
         'Семь полноценных стилизованных эталонных приложений, которые можно клонировать и изменить.'
-    }
+    },
+    styles: { heading: 'Стили', description: 'Принципы, цвета, шрифты, значки, макеты и шаблоны страниц.' },
+    compare: { heading: 'Сравнения', description: 'Как Lily соотносится с другими дизайн-системами — честно.' },
+    accessibility: { heading: 'Доступность', description: 'Что проверено, что нет, и как сообщить о проблеме.' }
   }
 };
 
@@ -366,7 +378,10 @@ const hi: UiStrings = {
     examples: {
       heading: 'उदाहरण ऐप्स',
       description: 'सात पूर्ण, स्टाइल किए गए संदर्भ ऐप्स जिन्हें आप क्लोन और समायोजित कर सकते हैं।'
-    }
+    },
+    styles: { heading: 'शैलियाँ', description: 'सिद्धांत, रंग, टाइपोग्राफ़ी, आइकन, लेआउट और पेज टेम्पलेट।' },
+    compare: { heading: 'तुलनाएँ', description: 'Lily अन्य डिज़ाइन सिस्टम से कैसे संबंधित है, निष्पक्ष रूप से।' },
+    accessibility: { heading: 'पहुँचनीयता', description: 'क्या सत्यापित है, क्या नहीं, और समस्या की रिपोर्ट कैसे करें।' }
   }
 };
 
@@ -416,7 +431,10 @@ const id: UiStrings = {
       heading: 'Aplikasi contoh',
       description:
         'Tujuh aplikasi referensi lengkap dan bergaya yang dapat Anda kloning dan sesuaikan.'
-    }
+    },
+    styles: { heading: 'Gaya', description: 'Prinsip, warna, tipografi, ikon, tata letak, dan templat halaman.' },
+    compare: { heading: 'Perbandingan', description: 'Bagaimana Lily dibandingkan dengan sistem desain lain, dengan adil.' },
+    accessibility: { heading: 'Aksesibilitas', description: 'Apa yang diverifikasi, apa yang tidak, dan cara melaporkan masalah.' }
   }
 };
 
@@ -467,7 +485,10 @@ const cy: UiStrings = {
       heading: 'Apiau enghreifftiol',
       description:
         "Saith cymhwysiad cyfeirio cyflawn, wedi'u harddullio, y gallwch eu clonio a'u haddasu."
-    }
+    },
+    styles: { heading: 'Arddulliau', description: 'Egwyddorion, lliwiau, teipograffeg, eiconau, cynlluniau a thempledi tudalen.' },
+    compare: { heading: 'Cymariaethau', description: 'Sut mae Lily yn ymwneud â systemau dylunio eraill, wedi\'i ddweud yn deg.' },
+    accessibility: { heading: 'Hygyrchedd', description: 'Beth sy\'n cael ei wirio, beth sydd ddim, a sut i roi gwybod am broblem.' }
   }
 };
 
@@ -514,7 +535,10 @@ const ar: UiStrings = {
     examples: {
       heading: 'تطبيقات نموذجية',
       description: 'سبعة تطبيقات مرجعية كاملة ومنسّقة يمكنك استنساخها وتعديلها.'
-    }
+    },
+    styles: { heading: 'الأنماط', description: 'المبادئ والألوان والخطوط والأيقونات والتخطيطات وقوالب الصفحات.' },
+    compare: { heading: 'مقارنات', description: 'كيف يرتبط Lily بأنظمة التصميم الأخرى، بإنصاف.' },
+    accessibility: { heading: 'إمكانية الوصول', description: 'ما الذي يُتحقق منه وما لا يُتحقق منه، وكيف تبلّغ عن مشكلة.' }
   }
 };
 
@@ -562,7 +586,10 @@ const ur: UiStrings = {
     examples: {
       heading: 'نمونہ ایپس',
       description: 'سات مکمل، ڈیزائن شدہ حوالہ ایپس جنہیں آپ کاپی اور تبدیل کر سکتے ہیں۔'
-    }
+    },
+    styles: { heading: 'اسلوب', description: 'اصول، رنگ، ٹائپوگرافی، آئیکن، لے آؤٹ اور صفحہ کے سانچے۔' },
+    compare: { heading: 'موازنے', description: 'Lily دوسرے ڈیزائن سسٹمز سے کیسے تعلق رکھتا ہے، منصفانہ طور پر۔' },
+    accessibility: { heading: 'رسائی', description: 'کیا تصدیق شدہ ہے، کیا نہیں، اور مسئلے کی اطلاع کیسے دیں۔' }
   }
 };
 
@@ -610,7 +637,10 @@ const bn: UiStrings = {
     examples: {
       heading: 'উদাহরণ অ্যাপ',
       description: 'সাতটি সম্পূর্ণ, স্টাইল করা রেফারেন্স অ্যাপ, যা আপনি ক্লোন করে সামঞ্জস্য করতে পারেন।'
-    }
+    },
+    styles: { heading: 'স্টাইল', description: 'নীতি, রং, টাইপোগ্রাফি, আইকন, লেআউট এবং পৃষ্ঠার টেমপ্লেট।' },
+    compare: { heading: 'তুলনা', description: 'Lily অন্যান্য ডিজাইন সিস্টেমের সঙ্গে কীভাবে সম্পর্কিত, ন্যায্যভাবে বলা।' },
+    accessibility: { heading: 'অ্যাক্সেসিবিলিটি', description: 'কী যাচাই করা হয়, কী হয় না, এবং সমস্যা কীভাবে জানাবেন।' }
   }
 };
 
@@ -657,7 +687,10 @@ const zh: UiStrings = {
     examples: {
       heading: '示例应用',
       description: '七个完整、带样式的参考应用,你可以克隆并自行调整。'
-    }
+    },
+    styles: { heading: '样式', description: '原则、颜色、字体排印、图标、布局和页面模板。' },
+    compare: { heading: '对比', description: 'Lily 与其他设计系统的关系，公正地说明。' },
+    accessibility: { heading: '无障碍', description: '哪些已验证、哪些没有，以及如何报告问题。' }
   }
 };
 
@@ -695,7 +728,10 @@ const ja: UiStrings = {
     frameworks: '対応フレームワーク',
     tutorials: { heading: 'チュートリアル', description: 'お使いのフレームワークで、Lily を一歩ずつ学べます。' },
     components: { heading: 'コンポーネント', description: '再利用できるアクセシブルなコンポーネントが数百あり、それぞれにドキュメントとデモがあります。' },
-    examples: { heading: 'サンプル', description: 'クローンして調整できる、スタイル付きの完全なリファレンスアプリケーションが 7 つあります。' }
+    examples: { heading: 'サンプル', description: 'クローンして調整できる、スタイル付きの完全なリファレンスアプリケーションが 7 つあります。' },
+    styles: { heading: 'スタイル', description: '原則、色、タイポグラフィ、アイコン、レイアウト、ページテンプレート。' },
+    compare: { heading: '比較', description: 'Lily が他のデザインシステムとどう関わるかを、公平に述べます。' },
+    accessibility: { heading: 'アクセシビリティ', description: '何が検証され、何が検証されていないか、問題の報告方法。' }
   }
 };
 
@@ -733,7 +769,10 @@ const ko: UiStrings = {
     frameworks: '지원 프레임워크',
     tutorials: { heading: '튜토리얼', description: '사용하는 프레임워크에서 Lily를 단계별로 배워 보세요.' },
     components: { heading: '컴포넌트', description: '재사용 가능한 접근성 컴포넌트 수백 개, 각각 문서와 데모가 있습니다.' },
-    examples: { heading: '예제', description: '복제해서 조정할 수 있는, 스타일이 적용된 완전한 참조 애플리케이션 일곱 개.' }
+    examples: { heading: '예제', description: '복제해서 조정할 수 있는, 스타일이 적용된 완전한 참조 애플리케이션 일곱 개.' },
+    styles: { heading: '스타일', description: '원칙, 색상, 타이포그래피, 아이콘, 레이아웃, 페이지 템플릿.' },
+    compare: { heading: '비교', description: 'Lily가 다른 디자인 시스템과 어떤 관계인지 공정하게 설명합니다.' },
+    accessibility: { heading: '접근성', description: '무엇이 검증되고 무엇이 아닌지, 문제를 신고하는 방법.' }
   }
 };
 
@@ -771,7 +810,10 @@ const sw: UiStrings = {
     frameworks: 'Mifumo ya kazi inayotumika',
     tutorials: { heading: 'Mafunzo', description: 'Jifunze Lily hatua kwa hatua, katika mfumo wowote unaotumia.' },
     components: { heading: 'Vipengele', description: 'Mamia ya vipengele vinavyoweza kutumika tena na vinavyofikika, kila kimoja kikiwa na nyaraka na onyesho.' },
-    examples: { heading: 'Mifano', description: 'Programu saba kamili za marejeo zenye mitindo ambazo unaweza kunakili na kurekebisha.' }
+    examples: { heading: 'Mifano', description: 'Programu saba kamili za marejeo zenye mitindo ambazo unaweza kunakili na kurekebisha.' },
+    styles: { heading: 'Mitindo', description: 'Kanuni, rangi, uchapaji, ikoni, mpangilio na violezo vya kurasa.' },
+    compare: { heading: 'Ulinganisho', description: 'Jinsi Lily inavyohusiana na mifumo mingine ya usanifu, kwa haki.' },
+    accessibility: { heading: 'Ufikivu', description: 'Kinachothibitishwa, kisichothibitishwa, na jinsi ya kuripoti tatizo.' }
   }
 };
 
@@ -809,7 +851,10 @@ const sv: UiStrings = {
     frameworks: 'Ramverk som stöds',
     tutorials: { heading: 'Handledningar', description: 'Lär dig Lily steg för steg, i det ramverk du använder.' },
     components: { heading: 'Komponenter', description: 'Hundratals återanvändbara, tillgängliga komponenter, alla dokumenterade och demonstrerade.' },
-    examples: { heading: 'Exempel', description: 'Sju kompletta, stilsatta referensapplikationer som du kan klona och anpassa.' }
+    examples: { heading: 'Exempel', description: 'Sju kompletta, stilsatta referensapplikationer som du kan klona och anpassa.' },
+    styles: { heading: 'Stilar', description: 'Principer, färger, typografi, ikoner, layouter och sidmallar.' },
+    compare: { heading: 'Jämförelser', description: 'Hur Lily förhåller sig till andra designsystem, rättvist beskrivet.' },
+    accessibility: { heading: 'Tillgänglighet', description: 'Vad som är verifierat, vad som inte är det, och hur man rapporterar ett problem.' }
   }
 };
 
@@ -847,7 +892,10 @@ const nl: UiStrings = {
     frameworks: 'Ondersteunde frameworks',
     tutorials: { heading: 'Handleidingen', description: 'Leer Lily stap voor stap, in het framework dat je gebruikt.' },
     components: { heading: 'Componenten', description: 'Honderden herbruikbare, toegankelijke componenten, elk gedocumenteerd en gedemonstreerd.' },
-    examples: { heading: 'Voorbeelden', description: 'Zeven complete, opgemaakte referentietoepassingen die je kunt klonen en aanpassen.' }
+    examples: { heading: 'Voorbeelden', description: 'Zeven complete, opgemaakte referentietoepassingen die je kunt klonen en aanpassen.' },
+    styles: { heading: 'Stijlen', description: 'Principes, kleuren, typografie, pictogrammen, lay-outs en paginasjablonen.' },
+    compare: { heading: 'Vergelijkingen', description: 'Hoe Lily zich verhoudt tot andere designsystemen, eerlijk gezegd.' },
+    accessibility: { heading: 'Toegankelijkheid', description: 'Wat is geverifieerd, wat niet, en hoe je een probleem meldt.' }
   }
 };
 
@@ -885,7 +933,10 @@ const de: UiStrings = {
     frameworks: 'Unterstützte Frameworks',
     tutorials: { heading: 'Anleitungen', description: 'Lernen Sie Lily Schritt für Schritt, in dem Framework, das Sie verwenden.' },
     components: { heading: 'Komponenten', description: 'Hunderte wiederverwendbare, barrierefreie Komponenten, jede dokumentiert und vorgeführt.' },
-    examples: { heading: 'Beispiele', description: 'Sieben vollständige, gestaltete Referenzanwendungen, die Sie klonen und anpassen können.' }
+    examples: { heading: 'Beispiele', description: 'Sieben vollständige, gestaltete Referenzanwendungen, die Sie klonen und anpassen können.' },
+    styles: { heading: 'Stile', description: 'Prinzipien, Farben, Typografie, Symbole, Layouts und Seitenvorlagen.' },
+    compare: { heading: 'Vergleiche', description: 'Wie sich Lily zu anderen Designsystemen verhält, fair dargestellt.' },
+    accessibility: { heading: 'Barrierefreiheit', description: 'Was verifiziert ist, was nicht, und wie man ein Problem meldet.' }
   }
 };
 
@@ -923,7 +974,10 @@ const da: UiStrings = {
     frameworks: 'Understøttede frameworks',
     tutorials: { heading: 'Vejledninger', description: 'Lær Lily trin for trin i det framework, du bruger.' },
     components: { heading: 'Komponenter', description: 'Hundredvis af genbrugelige, tilgængelige komponenter, alle dokumenteret og demonstreret.' },
-    examples: { heading: 'Eksempler', description: 'Syv komplette, stilede referenceapplikationer, som du kan klone og tilpasse.' }
+    examples: { heading: 'Eksempler', description: 'Syv komplette, stilede referenceapplikationer, som du kan klone og tilpasse.' },
+    styles: { heading: 'Stilarter', description: 'Principper, farver, typografi, ikoner, layouts og sideskabeloner.' },
+    compare: { heading: 'Sammenligninger', description: 'Hvordan Lily forholder sig til andre designsystemer, retfærdigt fortalt.' },
+    accessibility: { heading: 'Tilgængelighed', description: 'Hvad der er verificeret, hvad der ikke er, og hvordan man melder et problem.' }
   }
 };
 
@@ -961,7 +1015,10 @@ const th: UiStrings = {
     frameworks: 'เฟรมเวิร์กที่รองรับ',
     tutorials: { heading: 'บทเรียน', description: 'เรียนรู้ Lily ทีละขั้นตอน ในเฟรมเวิร์กที่คุณใช้' },
     components: { heading: 'คอมโพเนนต์', description: 'คอมโพเนนต์ที่นำกลับมาใช้ซ้ำได้และเข้าถึงได้หลายร้อยรายการ พร้อมเอกสารและตัวอย่างการใช้งาน' },
-    examples: { heading: 'ตัวอย่าง', description: 'แอปพลิเคชันอ้างอิงที่ออกแบบเสร็จสมบูรณ์เจ็ดแอป ที่คุณโคลนและปรับแต่งได้' }
+    examples: { heading: 'ตัวอย่าง', description: 'แอปพลิเคชันอ้างอิงที่ออกแบบเสร็จสมบูรณ์เจ็ดแอป ที่คุณโคลนและปรับแต่งได้' },
+    styles: { heading: 'สไตล์', description: 'หลักการ สี การจัดพิมพ์ ไอคอน เลย์เอาต์ และเทมเพลตหน้า' },
+    compare: { heading: 'การเปรียบเทียบ', description: 'Lily เกี่ยวข้องกับระบบออกแบบอื่นอย่างไร อธิบายอย่างเป็นธรรม' },
+    accessibility: { heading: 'การเข้าถึง', description: 'สิ่งที่ตรวจสอบแล้ว สิ่งที่ยังไม่ได้ตรวจสอบ และวิธีรายงานปัญหา' }
   }
 };
 
@@ -999,7 +1056,10 @@ const et: UiStrings = {
     frameworks: 'Toetatud raamistikud',
     tutorials: { heading: 'Õpetused', description: 'Õpi Lilyt samm-sammult selles raamistikus, mida kasutad.' },
     components: { heading: 'Komponendid', description: 'Sadu taaskasutatavaid ja juurdepääsetavaid komponente, igaühel dokumentatsioon ja demo.' },
-    examples: { heading: 'Näited', description: 'Seitse täielikku, kujundatud näiterakendust, mida saad kloonida ja kohandada.' }
+    examples: { heading: 'Näited', description: 'Seitse täielikku, kujundatud näiterakendust, mida saad kloonida ja kohandada.' },
+    styles: { heading: 'Stiilid', description: 'Põhimõtted, värvid, tüpograafia, ikoonid, paigutused ja lehemallid.' },
+    compare: { heading: 'Võrdlused', description: 'Kuidas Lily suhestub teiste disainisüsteemidega, õiglaselt öeldes.' },
+    accessibility: { heading: 'Juurdepääsetavus', description: 'Mis on kontrollitud, mis mitte, ja kuidas probleemist teatada.' }
   }
 };
 
@@ -1037,7 +1097,10 @@ const fi: UiStrings = {
     frameworks: 'Tuetut kehykset',
     tutorials: { heading: 'Opetusohjelmat', description: 'Opi Lily askel askeleelta käyttämässäsi kehyksessä.' },
     components: { heading: 'Komponentit', description: 'Satoja uudelleenkäytettäviä, saavutettavia komponentteja, jokainen dokumentoitu ja esitelty.' },
-    examples: { heading: 'Esimerkit', description: 'Seitsemän täydellistä, tyylitettyä esimerkkisovellusta, jotka voit kloonata ja muokata.' }
+    examples: { heading: 'Esimerkit', description: 'Seitsemän täydellistä, tyylitettyä esimerkkisovellusta, jotka voit kloonata ja muokata.' },
+    styles: { heading: 'Tyylit', description: 'Periaatteet, värit, typografia, kuvakkeet, asettelut ja sivupohjat.' },
+    compare: { heading: 'Vertailut', description: 'Miten Lily suhtautuu muihin suunnittelujärjestelmiin, reilusti sanottuna.' },
+    accessibility: { heading: 'Saavutettavuus', description: 'Mitä on todennettu, mitä ei, ja miten ongelmasta ilmoitetaan.' }
   }
 };
 
@@ -1075,7 +1138,10 @@ const it: UiStrings = {
     frameworks: 'Framework supportati',
     tutorials: { heading: 'Tutorial', description: 'Impara Lily passo dopo passo, nel framework che usi.' },
     components: { heading: 'Componenti', description: 'Centinaia di componenti riutilizzabili e accessibili, ciascuno documentato e dimostrato.' },
-    examples: { heading: 'Esempi', description: 'Sette applicazioni di riferimento complete e con stile, che puoi clonare e adattare.' }
+    examples: { heading: 'Esempi', description: 'Sette applicazioni di riferimento complete e con stile, che puoi clonare e adattare.' },
+    styles: { heading: 'Stili', description: 'Principi, colori, tipografie, icone, layout e modelli di pagina.' },
+    compare: { heading: 'Confronti', description: 'Come Lily si rapporta ad altri sistemi di design, detto con equità.' },
+    accessibility: { heading: 'Accessibilità', description: 'Cosa è verificato, cosa no, e come segnalare un problema.' }
   }
 };
 
@@ -1113,7 +1179,10 @@ const tr: UiStrings = {
     frameworks: 'Desteklenen çerçeveler',
     tutorials: { heading: 'Eğitimler', description: 'Lily\'yi kullandığınız çerçevede adım adım öğrenin.' },
     components: { heading: 'Bileşenler', description: 'Yüzlerce yeniden kullanılabilir, erişilebilir bileşen; her biri belgelenmiş ve gösterilmiştir.' },
-    examples: { heading: 'Örnekler', description: 'Klonlayıp uyarlayabileceğiniz, yedi eksiksiz ve biçimlendirilmiş referans uygulama.' }
+    examples: { heading: 'Örnekler', description: 'Klonlayıp uyarlayabileceğiniz, yedi eksiksiz ve biçimlendirilmiş referans uygulama.' },
+    styles: { heading: 'Stiller', description: 'İlkeler, renkler, tipografiler, simgeler, yerleşimler ve sayfa şablonları.' },
+    compare: { heading: 'Karşılaştırmalar', description: 'Lily\'nin diğer tasarım sistemleriyle ilişkisi, adil biçimde anlatıldı.' },
+    accessibility: { heading: 'Erişilebilirlik', description: 'Nelerin doğrulandığı, nelerin doğrulanmadığı ve bir sorunun nasıl bildirileceği.' }
   }
 };
 
@@ -1151,7 +1220,10 @@ const vi: UiStrings = {
     frameworks: 'Các framework được hỗ trợ',
     tutorials: { heading: 'Hướng dẫn', description: 'Học Lily từng bước, trong framework bạn đang dùng.' },
     components: { heading: 'Thành phần', description: 'Hàng trăm thành phần có thể tái sử dụng và dễ tiếp cận, mỗi thành phần đều có tài liệu và bản trình diễn.' },
-    examples: { heading: 'Ví dụ', description: 'Bảy ứng dụng tham chiếu hoàn chỉnh, có định dạng, để bạn sao chép và điều chỉnh.' }
+    examples: { heading: 'Ví dụ', description: 'Bảy ứng dụng tham chiếu hoàn chỉnh, có định dạng, để bạn sao chép và điều chỉnh.' },
+    styles: { heading: 'Kiểu', description: 'Nguyên tắc, màu sắc, kiểu chữ, biểu tượng, bố cục và mẫu trang.' },
+    compare: { heading: 'So sánh', description: 'Lily liên hệ với các hệ thống thiết kế khác như thế nào, nói một cách công bằng.' },
+    accessibility: { heading: 'Khả năng tiếp cận', description: 'Điều gì đã được xác minh, điều gì chưa, và cách báo cáo vấn đề.' }
   }
 };
 
@@ -1189,7 +1261,10 @@ const pl: UiStrings = {
     frameworks: 'Obsługiwane frameworki',
     tutorials: { heading: 'Samouczki', description: 'Poznawaj Lily krok po kroku, w używanym przez siebie frameworku.' },
     components: { heading: 'Komponenty', description: 'Setki wielokrotnego użytku, dostępnych komponentów, każdy z dokumentacją i demonstracją.' },
-    examples: { heading: 'Przykłady', description: 'Siedem kompletnych, ostylowanych aplikacji referencyjnych, które możesz sklonować i dostosować.' }
+    examples: { heading: 'Przykłady', description: 'Siedem kompletnych, ostylowanych aplikacji referencyjnych, które możesz sklonować i dostosować.' },
+    styles: { heading: 'Style', description: 'Zasady, kolory, typografia, ikony, układy i szablony stron.' },
+    compare: { heading: 'Porównania', description: 'Jak Lily ma się do innych systemów projektowania, uczciwie opisane.' },
+    accessibility: { heading: 'Dostępność', description: 'Co jest zweryfikowane, co nie, i jak zgłosić problem.' }
   }
 };
 
@@ -1227,7 +1302,10 @@ const ro: UiStrings = {
     frameworks: 'Framework-uri acceptate',
     tutorials: { heading: 'Tutoriale', description: 'Învață Lily pas cu pas, în framework-ul pe care îl folosești.' },
     components: { heading: 'Componente', description: 'Sute de componente reutilizabile și accesibile, fiecare documentată și demonstrată.' },
-    examples: { heading: 'Exemple', description: 'Șapte aplicații de referință complete și stilizate, pe care le poți clona și adapta.' }
+    examples: { heading: 'Exemple', description: 'Șapte aplicații de referință complete și stilizate, pe care le poți clona și adapta.' },
+    styles: { heading: 'Stiluri', description: 'Principii, culori, tipografie, pictograme, machete și șabloane de pagină.' },
+    compare: { heading: 'Comparații', description: 'Cum se raportează Lily la alte sisteme de design, spus corect.' },
+    accessibility: { heading: 'Accesibilitate', description: 'Ce este verificat, ce nu, și cum raportezi o problemă.' }
   }
 };
 
@@ -1265,7 +1343,10 @@ const cs: UiStrings = {
     frameworks: 'Podporované frameworky',
     tutorials: { heading: 'Návody', description: 'Naučte se Lily krok za krokem v frameworku, který používáte.' },
     components: { heading: 'Komponenty', description: 'Stovky opakovaně použitelných, přístupných komponent, každá s dokumentací a ukázkou.' },
-    examples: { heading: 'Příklady', description: 'Sedm kompletních, nastylovaných referenčních aplikací, které můžete naklonovat a upravit.' }
+    examples: { heading: 'Příklady', description: 'Sedm kompletních, nastylovaných referenčních aplikací, které můžete naklonovat a upravit.' },
+    styles: { heading: 'Styly', description: 'Zásady, barvy, typografie, ikony, rozvržení a šablony stránek.' },
+    compare: { heading: 'Porovnání', description: 'Jak se Lily vztahuje k jiným designovým systémům, řečeno férově.' },
+    accessibility: { heading: 'Přístupnost', description: 'Co je ověřeno, co ne a jak nahlásit problém.' }
   }
 };
 
@@ -1303,7 +1384,10 @@ const hu: UiStrings = {
     frameworks: 'Támogatott keretrendszerek',
     tutorials: { heading: 'Oktatóanyagok', description: 'Tanuld meg a Lilyt lépésről lépésre, a használt keretrendszerben.' },
     components: { heading: 'Komponensek', description: 'Több száz újrafelhasználható, akadálymentes komponens, mindegyik dokumentált és bemutatott.' },
-    examples: { heading: 'Példák', description: 'Hét teljes, stílusos referenciaalkalmazás, amelyeket klónozhatsz és módosíthatsz.' }
+    examples: { heading: 'Példák', description: 'Hét teljes, stílusos referenciaalkalmazás, amelyeket klónozhatsz és módosíthatsz.' },
+    styles: { heading: 'Stílusok', description: 'Alapelvek, színek, tipográfia, ikonok, elrendezések és oldalsablonok.' },
+    compare: { heading: 'Összehasonlítások', description: 'Hogyan viszonyul a Lily más tervezési rendszerekhez, tisztességesen elmondva.' },
+    accessibility: { heading: 'Hozzáférhetőség', description: 'Mi van ellenőrizve, mi nincs, és hogyan lehet hibát jelenteni.' }
   }
 };
 
@@ -1341,7 +1425,10 @@ const el: UiStrings = {
     frameworks: 'Υποστηριζόμενα πλαίσια',
     tutorials: { heading: 'Οδηγοί', description: 'Μάθετε το Lily βήμα προς βήμα, στο πλαίσιο που χρησιμοποιείτε.' },
     components: { heading: 'Στοιχεία', description: 'Εκατοντάδες επαναχρησιμοποιήσιμα, προσβάσιμα στοιχεία, καθένα τεκμηριωμένο και με επίδειξη.' },
-    examples: { heading: 'Παραδείγματα', description: 'Επτά πλήρεις εφαρμογές αναφοράς με στυλ, που μπορείτε να κλωνοποιήσετε και να προσαρμόσετε.' }
+    examples: { heading: 'Παραδείγματα', description: 'Επτά πλήρεις εφαρμογές αναφοράς με στυλ, που μπορείτε να κλωνοποιήσετε και να προσαρμόσετε.' },
+    styles: { heading: 'Στυλ', description: 'Αρχές, χρώματα, τυπογραφία, εικονίδια, διατάξεις και πρότυπα σελίδων.' },
+    compare: { heading: 'Συγκρίσεις', description: 'Πώς σχετίζεται το Lily με άλλα συστήματα σχεδίασης, με δικαιοσύνη.' },
+    accessibility: { heading: 'Προσβασιμότητα', description: 'Τι επαληθεύεται, τι όχι, και πώς να αναφέρετε ένα πρόβλημα.' }
   }
 };
 
@@ -1379,7 +1466,10 @@ const bg: UiStrings = {
     frameworks: 'Поддържани фреймуърци',
     tutorials: { heading: 'Уроци', description: 'Научете Lily стъпка по стъпка във фреймуърка, който използвате.' },
     components: { heading: 'Компоненти', description: 'Стотици многократно използваеми, достъпни компоненти, всеки с документация и демонстрация.' },
-    examples: { heading: 'Примери', description: 'Седем пълни, стилизирани примерни приложения, които можете да клонирате и адаптирате.' }
+    examples: { heading: 'Примери', description: 'Седем пълни, стилизирани примерни приложения, които можете да клонирате и адаптирате.' },
+    styles: { heading: 'Стилове', description: 'Принципи, цветове, типография, икони, оформления и шаблони на страници.' },
+    compare: { heading: 'Сравнения', description: 'Как Lily се отнася към другите дизайн системи, казано честно.' },
+    accessibility: { heading: 'Достъпност', description: 'Какво е проверено, какво не, и как да съобщите за проблем.' }
   }
 };
 
@@ -1417,7 +1507,10 @@ const sk: UiStrings = {
     frameworks: 'Podporované frameworky',
     tutorials: { heading: 'Návody', description: 'Naučte sa Lily krok za krokom vo frameworku, ktorý používate.' },
     components: { heading: 'Komponenty', description: 'Stovky opakovane použiteľných, prístupných komponentov, každý s dokumentáciou a ukážkou.' },
-    examples: { heading: 'Príklady', description: 'Sedem kompletných, ostylovaných referenčných aplikácií, ktoré môžete naklonovať a upraviť.' }
+    examples: { heading: 'Príklady', description: 'Sedem kompletných, ostylovaných referenčných aplikácií, ktoré môžete naklonovať a upraviť.' },
+    styles: { heading: 'Štýly', description: 'Zásady, farby, typografia, ikony, rozloženia a šablóny stránok.' },
+    compare: { heading: 'Porovnania', description: 'Ako sa Lily vzťahuje k iným dizajnovým systémom, povedané férovo.' },
+    accessibility: { heading: 'Prístupnosť', description: 'Čo je overené, čo nie a ako nahlásiť problém.' }
   }
 };
 
@@ -1455,7 +1548,10 @@ const hr: UiStrings = {
     frameworks: 'Podržani okviri',
     tutorials: { heading: 'Vodiči', description: 'Naučite Lily korak po korak, u okviru koji koristite.' },
     components: { heading: 'Komponente', description: 'Stotine višekratno upotrebljivih, pristupačnih komponenti, svaka dokumentirana i prikazana.' },
-    examples: { heading: 'Primjeri', description: 'Sedam potpunih, stiliziranih referentnih aplikacija koje možete klonirati i prilagoditi.' }
+    examples: { heading: 'Primjeri', description: 'Sedam potpunih, stiliziranih referentnih aplikacija koje možete klonirati i prilagoditi.' },
+    styles: { heading: 'Stilovi', description: 'Načela, boje, tipografija, ikone, rasporedi i predlošci stranica.' },
+    compare: { heading: 'Usporedbe', description: 'Kako se Lily odnosi prema drugim dizajnerskim sustavima, pošteno rečeno.' },
+    accessibility: { heading: 'Pristupačnost', description: 'Što je provjereno, što nije i kako prijaviti problem.' }
   }
 };
 
@@ -1493,7 +1589,10 @@ const lt: UiStrings = {
     frameworks: 'Palaikomi karkasai',
     tutorials: { heading: 'Vadovėliai', description: 'Mokykitės Lily žingsnis po žingsnio savo naudojamame karkase.' },
     components: { heading: 'Komponentai', description: 'Šimtai pakartotinai naudojamų, prieinamų komponentų, kiekvienas dokumentuotas ir parodytas.' },
-    examples: { heading: 'Pavyzdžiai', description: 'Septynios išsamios, apipavidalintos pavyzdinės programos, kurias galite klonuoti ir pritaikyti.' }
+    examples: { heading: 'Pavyzdžiai', description: 'Septynios išsamios, apipavidalintos pavyzdinės programos, kurias galite klonuoti ir pritaikyti.' },
+    styles: { heading: 'Stiliai', description: 'Principai, spalvos, tipografija, piktogramos, maketai ir puslapių šablonai.' },
+    compare: { heading: 'Palyginimai', description: 'Kaip Lily siejasi su kitomis dizaino sistemomis, sąžiningai pasakyta.' },
+    accessibility: { heading: 'Prieinamumas', description: 'Kas patikrinta, kas ne, ir kaip pranešti apie problemą.' }
   }
 };
 
@@ -1531,7 +1630,10 @@ const sl: UiStrings = {
     frameworks: 'Podprta ogrodja',
     tutorials: { heading: 'Vodniki', description: 'Spoznajte Lily korak za korakom v ogrodju, ki ga uporabljate.' },
     components: { heading: 'Komponente', description: 'Na stotine večkrat uporabnih, dostopnih komponent, vsaka dokumentirana in prikazana.' },
-    examples: { heading: 'Primeri', description: 'Sedem popolnih, oblikovanih referenčnih aplikacij, ki jih lahko klonirate in prilagodite.' }
+    examples: { heading: 'Primeri', description: 'Sedem popolnih, oblikovanih referenčnih aplikacij, ki jih lahko klonirate in prilagodite.' },
+    styles: { heading: 'Slogi', description: 'Načela, barve, tipografija, ikone, postavitve in predloge strani.' },
+    compare: { heading: 'Primerjave', description: 'Kako se Lily povezuje z drugimi oblikovalskimi sistemi, pošteno povedano.' },
+    accessibility: { heading: 'Dostopnost', description: 'Kaj je preverjeno, kaj ne in kako prijaviti težavo.' }
   }
 };
 
@@ -1569,7 +1671,10 @@ const lv: UiStrings = {
     frameworks: 'Atbalstītie ietvari',
     tutorials: { heading: 'Pamācības', description: 'Apgūstiet Lily soli pa solim savā izmantotajā ietvarā.' },
     components: { heading: 'Komponenti', description: 'Simtiem atkārtoti izmantojamu, pieejamu komponentu, katrs dokumentēts un demonstrēts.' },
-    examples: { heading: 'Piemēri', description: 'Septiņas pilnīgas, noformētas atsauces lietotnes, ko varat klonēt un pielāgot.' }
+    examples: { heading: 'Piemēri', description: 'Septiņas pilnīgas, noformētas atsauces lietotnes, ko varat klonēt un pielāgot.' },
+    styles: { heading: 'Stili', description: 'Principi, krāsas, tipogrāfija, ikonas, izkārtojumi un lapu veidnes.' },
+    compare: { heading: 'Salīdzinājumi', description: 'Kā Lily attiecas pret citām dizaina sistēmām, godīgi sakot.' },
+    accessibility: { heading: 'Pieejamība', description: 'Kas ir pārbaudīts, kas nav, un kā ziņot par problēmu.' }
   }
 };
 
@@ -1645,7 +1750,10 @@ const ga: UiStrings = {
     frameworks: 'Creataí tacaithe',
     tutorials: { heading: 'Teagasc', description: 'Foghlaim Lily céim ar chéim, sa chreat a úsáideann tú.' },
     components: { heading: 'Comhpháirteanna', description: 'Céadta comhpháirteanna inúsáidte arís agus inrochtana, gach ceann doiciméadaithe agus léirithe.' },
-    examples: { heading: 'Samplaí', description: 'Seacht n-iarratas tagartha iomlán, stíleáilte, ar féidir leat a chlónáil agus a choigeartú.' }
+    examples: { heading: 'Samplaí', description: 'Seacht n-iarratas tagartha iomlán, stíleáilte, ar féidir leat a chlónáil agus a choigeartú.' },
+    styles: { heading: 'Stíleanna', description: 'Prionsabail, dathanna, clóghrafaíocht, deilbhíní, leagan amach agus teimpléid leathanaigh.' },
+    compare: { heading: 'Comparáidí', description: 'Cén gaol atá ag Lily le córais dearaidh eile, á rá go cothrom.' },
+    accessibility: { heading: 'Inrochtaineacht', description: 'Cad atá fíoraithe, cad nach bhfuil, agus conas fadhb a thuairisciú.' }
   }
 };
 
@@ -1721,7 +1829,10 @@ const pa: UiStrings = {
     frameworks: 'ਸਮਰਥਿਤ ਫ੍ਰੇਮਵਰਕ',
     tutorials: { heading: 'ਟਿਊਟੋਰਿਅਲ', description: 'ਜਿਹੜਾ ਫ੍ਰੇਮਵਰਕ ਤੁਸੀਂ ਵਰਤਦੇ ਹੋ, ਉਸ ਵਿੱਚ Lily ਨੂੰ ਕਦਮ-ਦਰ-ਕਦਮ ਸਿੱਖੋ।' },
     components: { heading: 'ਕੰਪੋਨੈਂਟ', description: 'ਸੈਂਕੜੇ ਮੁੜ-ਵਰਤੋਂ ਯੋਗ, ਪਹੁੰਚਯੋਗ ਕੰਪੋਨੈਂਟ, ਹਰੇਕ ਦੇ ਦਸਤਾਵੇਜ਼ ਅਤੇ ਡੈਮੋ ਸਮੇਤ।' },
-    examples: { heading: 'ਉਦਾਹਰਨਾਂ', description: 'ਸੱਤ ਪੂਰੀਆਂ, ਸਟਾਈਲ ਕੀਤੀਆਂ ਹਵਾਲਾ ਐਪਲੀਕੇਸ਼ਨਾਂ ਜਿਨ੍ਹਾਂ ਨੂੰ ਤੁਸੀਂ ਕਲੋਨ ਕਰਕੇ ਬਦਲ ਸਕਦੇ ਹੋ।' }
+    examples: { heading: 'ਉਦਾਹਰਨਾਂ', description: 'ਸੱਤ ਪੂਰੀਆਂ, ਸਟਾਈਲ ਕੀਤੀਆਂ ਹਵਾਲਾ ਐਪਲੀਕੇਸ਼ਨਾਂ ਜਿਨ੍ਹਾਂ ਨੂੰ ਤੁਸੀਂ ਕਲੋਨ ਕਰਕੇ ਬਦਲ ਸਕਦੇ ਹੋ।' },
+    styles: { heading: 'ਸ਼ੈਲੀਆਂ', description: 'ਸਿਧਾਂਤ, ਰੰਗ, ਟਾਈਪੋਗ੍ਰਾਫ਼ੀ, ਆਈਕਨ, ਲੇਆਉਟ ਅਤੇ ਪੰਨਾ ਟੈਂਪਲੇਟ।' },
+    compare: { heading: 'ਤੁਲਨਾਵਾਂ', description: 'Lily ਹੋਰ ਡਿਜ਼ਾਈਨ ਸਿਸਟਮਾਂ ਨਾਲ ਕਿਵੇਂ ਸੰਬੰਧਿਤ ਹੈ, ਨਿਰਪੱਖ ਤੌਰ \'ਤੇ ਦੱਸਿਆ ਗਿਆ।' },
+    accessibility: { heading: 'ਪਹੁੰਚਯੋਗਤਾ', description: 'ਕੀ ਪੜਤਾਲਿਆ ਗਿਆ ਹੈ, ਕੀ ਨਹੀਂ, ਅਤੇ ਸਮੱਸਿਆ ਦੀ ਰਿਪੋਰਟ ਕਿਵੇਂ ਕਰਨੀ ਹੈ।' }
   }
 };
 
@@ -1759,7 +1870,10 @@ const mr: UiStrings = {
     frameworks: 'समर्थित फ्रेमवर्क',
     tutorials: { heading: 'ट्यूटोरियल', description: 'तुम्ही वापरत असलेल्या फ्रेमवर्कमध्ये Lily टप्प्याटप्प्याने शिका.' },
     components: { heading: 'घटक', description: 'शेकडो पुन्हा वापरता येणारे, सुलभ घटक, प्रत्येकाचे दस्तऐवजीकरण आणि प्रात्यक्षिक.' },
-    examples: { heading: 'उदाहरणे', description: 'सात पूर्ण, शैलीबद्ध संदर्भ अनुप्रयोग जे तुम्ही क्लोन करून बदलू शकता.' }
+    examples: { heading: 'उदाहरणे', description: 'सात पूर्ण, शैलीबद्ध संदर्भ अनुप्रयोग जे तुम्ही क्लोन करून बदलू शकता.' },
+    styles: { heading: 'शैली', description: 'तत्त्वे, रंग, टायपोग्राफी, चिन्हे, मांडणी आणि पृष्ठ साचे.' },
+    compare: { heading: 'तुलना', description: 'Lily इतर डिझाइन प्रणालींशी कसे संबंधित आहे, निष्पक्षपणे सांगितले.' },
+    accessibility: { heading: 'सुलभता', description: 'काय सत्यापित आहे, काय नाही, आणि समस्येची तक्रार कशी करावी.' }
   }
 };
 
@@ -1797,7 +1911,10 @@ const te: UiStrings = {
     frameworks: 'మద్దతు ఉన్న ఫ్రేమ్‌వర్క్‌లు',
     tutorials: { heading: 'ట్యుటోరియల్స్', description: 'మీరు ఉపయోగించే ఫ్రేమ్‌వర్క్‌లో Lily ని దశలవారీగా నేర్చుకోండి.' },
     components: { heading: 'భాగాలు', description: 'వందలాది పునర్వినియోగ, అందుబాటులో ఉండే భాగాలు, ప్రతిదానికీ డాక్యుమెంటేషన్ మరియు డెమో ఉన్నాయి.' },
-    examples: { heading: 'ఉదాహరణలు', description: 'మీరు క్లోన్ చేసి మార్చుకోగల ఏడు పూర్తి, స్టైల్ చేసిన రిఫరెన్స్ అప్లికేషన్‌లు.' }
+    examples: { heading: 'ఉదాహరణలు', description: 'మీరు క్లోన్ చేసి మార్చుకోగల ఏడు పూర్తి, స్టైల్ చేసిన రిఫరెన్స్ అప్లికేషన్‌లు.' },
+    styles: { heading: 'శైలులు', description: 'సూత్రాలు, రంగులు, టైపోగ్రఫీ, చిహ్నాలు, లేఅవుట్లు మరియు పేజీ టెంప్లేట్లు.' },
+    compare: { heading: 'పోలికలు', description: 'Lily ఇతర డిజైన్ వ్యవస్థలతో ఎలా సంబంధం కలిగి ఉందో, న్యాయంగా చెప్పబడింది.' },
+    accessibility: { heading: 'అందుబాటు', description: 'ఏది ధృవీకరించబడింది, ఏది కాదు, మరియు సమస్యను ఎలా నివేదించాలి.' }
   }
 };
 
@@ -1873,7 +1990,10 @@ const ta: UiStrings = {
     frameworks: 'ஆதரிக்கப்படும் கட்டமைப்புகள்',
     tutorials: { heading: 'பயிற்சிகள்', description: 'நீங்கள் பயன்படுத்தும் கட்டமைப்பில் Lily ஐ படிப்படியாகக் கற்றுக்கொள்ளுங்கள்.' },
     components: { heading: 'கூறுகள்', description: 'நூற்றுக்கணக்கான மறுபயன்பாட்டு, அணுகக்கூடிய கூறுகள், ஒவ்வொன்றுக்கும் ஆவணமும் செயல்விளக்கமும் உண்டு.' },
-    examples: { heading: 'எடுத்துக்காட்டுகள்', description: 'நீங்கள் நகலெடுத்து மாற்றியமைக்கக்கூடிய ஏழு முழுமையான, பாணியிடப்பட்ட மேற்கோள் பயன்பாடுகள்.' }
+    examples: { heading: 'எடுத்துக்காட்டுகள்', description: 'நீங்கள் நகலெடுத்து மாற்றியமைக்கக்கூடிய ஏழு முழுமையான, பாணியிடப்பட்ட மேற்கோள் பயன்பாடுகள்.' },
+    styles: { heading: 'பாணிகள்', description: 'கொள்கைகள், வண்ணங்கள், அச்செழுத்து, படவுருக்கள், அமைப்புகள் மற்றும் பக்க வார்ப்புருக்கள்.' },
+    compare: { heading: 'ஒப்பீடுகள்', description: 'Lily மற்ற வடிவமைப்பு அமைப்புகளுடன் எவ்வாறு தொடர்புடையது, நேர்மையாகக் கூறப்பட்டது.' },
+    accessibility: { heading: 'அணுகல்', description: 'எது சரிபார்க்கப்பட்டது, எது இல்லை, மற்றும் சிக்கலை எவ்வாறு தெரிவிப்பது.' }
   }
 };
 
@@ -1911,7 +2031,10 @@ const fa: UiStrings = {
     frameworks: 'چارچوب‌های پشتیبانی‌شده',
     tutorials: { heading: 'آموزش‌ها', description: 'Lily را گام‌به‌گام و در چارچوبی که استفاده می‌کنید یاد بگیرید.' },
     components: { heading: 'مؤلفه‌ها', description: 'صدها مؤلفهٔ قابل‌استفادهٔ مجدد و در دسترس، هر یک با مستندات و نمونهٔ نمایشی.' },
-    examples: { heading: 'نمونه‌ها', description: 'هفت برنامهٔ مرجع کامل و سبک‌دار که می‌توانید همسان‌سازی و تنظیم کنید.' }
+    examples: { heading: 'نمونه‌ها', description: 'هفت برنامهٔ مرجع کامل و سبک‌دار که می‌توانید همسان‌سازی و تنظیم کنید.' },
+    styles: { heading: 'سبک‌ها', description: 'اصول، رنگ‌ها، تایپوگرافی، نمادها، چیدمان‌ها و قالب‌های صفحه.' },
+    compare: { heading: 'مقایسه‌ها', description: 'Lily چه نسبتی با دیگر سامانه‌های طراحی دارد، منصفانه بیان‌شده.' },
+    accessibility: { heading: 'دسترس‌پذیری', description: 'چه چیزی راستی‌آزمایی شده، چه چیزی نه، و چگونه مشکلی را گزارش کنیم.' }
   }
 };
 
@@ -1987,7 +2110,10 @@ const gu: UiStrings = {
     frameworks: 'સમર્થિત ફ્રેમવર્ક',
     tutorials: { heading: 'ટ્યુટોરિયલ', description: 'તમે વાપરો છો તે ફ્રેમવર્કમાં Lily ને પગલે પગલે શીખો.' },
     components: { heading: 'ઘટકો', description: 'સેંકડો ફરી વાપરી શકાય તેવા, સુલભ ઘટકો, દરેકના દસ્તાવેજ અને ડેમો સાથે.' },
-    examples: { heading: 'ઉદાહરણો', description: 'સાત સંપૂર્ણ, શૈલીયુક્ત સંદર્ભ એપ્લિકેશનો જેને તમે ક્લોન કરીને ગોઠવી શકો છો.' }
+    examples: { heading: 'ઉદાહરણો', description: 'સાત સંપૂર્ણ, શૈલીયુક્ત સંદર્ભ એપ્લિકેશનો જેને તમે ક્લોન કરીને ગોઠવી શકો છો.' },
+    styles: { heading: 'શૈલીઓ', description: 'સિદ્ધાંતો, રંગો, ટાઇપોગ્રાફી, ચિહ્નો, લેઆઉટ અને પૃષ્ઠ ટેમ્પ્લેટ.' },
+    compare: { heading: 'સરખામણીઓ', description: 'Lily અન્ય ડિઝાઇન સિસ્ટમ સાથે કેવી રીતે સંબંધિત છે, નિષ્પક્ષ રીતે કહેવાયું.' },
+    accessibility: { heading: 'સુલભતા', description: 'શું ચકાસાયેલ છે, શું નથી, અને સમસ્યાની જાણ કેવી રીતે કરવી.' }
   }
 };
 
@@ -2101,7 +2227,10 @@ const is: UiStrings = {
     frameworks: 'Rammar sem eru studdir',
     tutorials: { heading: 'Kennsluefni', description: 'Lærðu Lily skref fyrir skref, í hvaða ramma sem þú notar.' },
     components: { heading: 'Íhlutir', description: 'Hundruð endurnýtanlegra og aðgengilegra íhluta, hver með skjölun og sýnidæmi.' },
-    examples: { heading: 'Dæmi', description: 'Sjö heil, stíluð viðmiðunarforrit sem þú getur afritað og aðlagað.' }
+    examples: { heading: 'Dæmi', description: 'Sjö heil, stíluð viðmiðunarforrit sem þú getur afritað og aðlagað.' },
+    styles: { heading: 'Stílar', description: 'Grunnreglur, litir, leturgerð, tákn, útlit og síðusniðmát.' },
+    compare: { heading: 'Samanburður', description: 'Hvernig Lily tengist öðrum hönnunarkerfum, sagt af sanngirni.' },
+    accessibility: { heading: 'Aðgengi', description: 'Hvað er staðfest, hvað ekki, og hvernig tilkynna á vandamál.' }
   }
 };
 
@@ -2139,7 +2268,10 @@ const eu: UiStrings = {
     frameworks: 'Onartutako framework-ak',
     tutorials: { heading: 'Tutorialak', description: 'Ikasi Lily pausoz pauso, erabiltzen duzun framework-ean.' },
     components: { heading: 'Osagaiak', description: 'Ehunka osagai berrerabilgarri eta irisgarri, bakoitza dokumentatuta eta erakusketarekin.' },
-    examples: { heading: 'Adibideak', description: 'Zazpi erreferentziazko aplikazio oso eta estilatu, klonatu eta egokitu ditzakezunak.' }
+    examples: { heading: 'Adibideak', description: 'Zazpi erreferentziazko aplikazio oso eta estilatu, klonatu eta egokitu ditzakezunak.' },
+    styles: { heading: 'Estiloak', description: 'Printzipioak, koloreak, tipografiak, ikonoak, diseinuak eta orri-txantiloiak.' },
+    compare: { heading: 'Konparazioak', description: 'Lily beste diseinu-sistemekin nola erlazionatzen den, zuzentasunez esanda.' },
+    accessibility: { heading: 'Irisgarritasuna', description: 'Zer egiaztatzen den, zer ez, eta nola jakinarazi arazo bat.' }
   }
 };
 
@@ -2177,7 +2309,10 @@ const uk: UiStrings = {
     frameworks: 'Підтримувані фреймворки',
     tutorials: { heading: 'Посібники', description: 'Вивчайте Lily крок за кроком у будь-якому фреймворку, яким ви користуєтеся.' },
     components: { heading: 'Компоненти', description: 'Сотні багаторазових доступних компонентів, кожен із документацією та демонстрацією.' },
-    examples: { heading: 'Приклади', description: 'Сім повних стилізованих еталонних застосунків, які можна клонувати та змінювати.' }
+    examples: { heading: 'Приклади', description: 'Сім повних стилізованих еталонних застосунків, які можна клонувати та змінювати.' },
+    styles: { heading: 'Стилі', description: 'Принципи, кольори, типографіка, піктограми, макети та шаблони сторінок.' },
+    compare: { heading: 'Порівняння', description: 'Як Lily співвідноситься з іншими дизайн-системами, чесно кажучи.' },
+    accessibility: { heading: 'Доступність', description: 'Що перевірено, що ні, і як повідомити про проблему.' }
   }
 };
 
@@ -2215,7 +2350,10 @@ const ms: UiStrings = {
     frameworks: 'Rangka kerja yang disokong',
     tutorials: { heading: 'Tutorial', description: 'Pelajari Lily langkah demi langkah, dalam rangka kerja apa pun yang anda gunakan.' },
     components: { heading: 'Komponen', description: 'Beratus-ratus komponen yang boleh digunakan semula dan mudah diakses, masing-masing didokumenkan dan didemonstrasikan.' },
-    examples: { heading: 'Contoh', description: 'Tujuh aplikasi rujukan lengkap yang digayakan, boleh anda klon dan ubah suai.' }
+    examples: { heading: 'Contoh', description: 'Tujuh aplikasi rujukan lengkap yang digayakan, boleh anda klon dan ubah suai.' },
+    styles: { heading: 'Gaya', description: 'Prinsip, warna, tipografi, ikon, reka letak dan templat halaman.' },
+    compare: { heading: 'Perbandingan', description: 'Bagaimana Lily berkait dengan sistem reka bentuk lain, dikatakan dengan adil.' },
+    accessibility: { heading: 'Kebolehcapaian', description: 'Apa yang disahkan, apa yang tidak, dan cara melaporkan masalah.' }
   }
 };
 
@@ -2253,7 +2391,10 @@ const he: UiStrings = {
     frameworks: 'מסגרות נתמכות',
     tutorials: { heading: 'מדריכים', description: 'למדו את Lily צעד אחר צעד, בכל מסגרת שבה אתם משתמשים.' },
     components: { heading: 'רכיבים', description: 'מאות רכיבים לשימוש חוזר ונגישים, כל אחד מתועד ומודגם.' },
-    examples: { heading: 'דוגמאות', description: 'שבע אפליקציות ייחוס מלאות ומעוצבות שאפשר לשכפל ולהתאים.' }
+    examples: { heading: 'דוגמאות', description: 'שבע אפליקציות ייחוס מלאות ומעוצבות שאפשר לשכפל ולהתאים.' },
+    styles: { heading: 'סגנונות', description: 'עקרונות, צבעים, טיפוגרפיה, סמלים, פריסות ותבניות עמוד.' },
+    compare: { heading: 'השוואות', description: 'איך Lily מתייחסת למערכות עיצוב אחרות, בהגינות.' },
+    accessibility: { heading: 'נגישות', description: 'מה מאומת, מה לא, ואיך מדווחים על בעיה.' }
   }
 };
 
@@ -2329,7 +2470,10 @@ const yue: UiStrings = {
     frameworks: '支援嘅框架',
     tutorials: { heading: '教學', description: '一步一步學 Lily,你用邊個框架都得。' },
     components: { heading: '元件', description: '幾百個可以重用又無障礙嘅元件,每個都有文件同示範。' },
-    examples: { heading: '範例', description: '七個完整、有樣式嘅參考應用程式,可以複製返嚟改。' }
+    examples: { heading: '範例', description: '七個完整、有樣式嘅參考應用程式,可以複製返嚟改。' },
+    styles: { heading: '樣式', description: '原則、顏色、字體排印、圖示、版面同頁面範本。' },
+    compare: { heading: '比較', description: 'Lily 同其他設計系統嘅關係，公平咁講。' },
+    accessibility: { heading: '無障礙', description: '邊啲已驗證、邊啲冇，同埋點樣報告問題。' }
   }
 };
 
@@ -2367,7 +2511,10 @@ const tl: UiStrings = {
     frameworks: 'Mga sinusuportahang framework',
     tutorials: { heading: 'Mga Tutorial', description: 'Matutunan ang Lily nang paunti-unti, sa anumang framework na ginagamit mo.' },
     components: { heading: 'Mga Component', description: 'Daan-daang magagamit muli at naa-access na component, bawat isa ay may dokumentasyon at demo.' },
-    examples: { heading: 'Mga Halimbawa', description: 'Pitong kumpleto at may istilong reference na application na maaari mong i-clone at baguhin.' }
+    examples: { heading: 'Mga Halimbawa', description: 'Pitong kumpleto at may istilong reference na application na maaari mong i-clone at baguhin.' },
+    styles: { heading: 'Mga Estilo', description: 'Mga prinsipyo, kulay, tipograpiya, icon, layout, at template ng pahina.' },
+    compare: { heading: 'Mga Paghahambing', description: 'Paano nauugnay ang Lily sa iba pang design system, sinabi nang patas.' },
+    accessibility: { heading: 'Pagiging Accessible', description: 'Ano ang na-verify, ano ang hindi, at paano mag-ulat ng problema.' }
   }
 };
 
@@ -2405,7 +2552,10 @@ const kn: UiStrings = {
     frameworks: 'ಬೆಂಬಲಿತ ಫ್ರೇಮ್‌ವರ್ಕ್‌ಗಳು',
     tutorials: { heading: 'ಟ್ಯುಟೋರಿಯಲ್‌ಗಳು', description: 'ನೀವು ಬಳಸುವ ಯಾವುದೇ ಫ್ರೇಮ್‌ವರ್ಕ್‌ನಲ್ಲಿ Lily ಅನ್ನು ಹಂತ ಹಂತವಾಗಿ ಕಲಿಯಿರಿ.' },
     components: { heading: 'ಘಟಕಗಳು', description: 'ನೂರಾರು ಮರುಬಳಕೆ ಮಾಡಬಹುದಾದ, ಪ್ರವೇಶಿಸಬಹುದಾದ ಘಟಕಗಳು, ಪ್ರತಿಯೊಂದೂ ದಾಖಲೆ ಮತ್ತು ಪ್ರದರ್ಶನದೊಂದಿಗೆ.' },
-    examples: { heading: 'ಉದಾಹರಣೆಗಳು', description: 'ನೀವು ಕ್ಲೋನ್ ಮಾಡಿ ಹೊಂದಿಸಬಹುದಾದ ಏಳು ಸಂಪೂರ್ಣ, ಶೈಲೀಕೃತ ಉಲ್ಲೇಖ ಅಪ್ಲಿಕೇಶನ್‌ಗಳು.' }
+    examples: { heading: 'ಉದಾಹರಣೆಗಳು', description: 'ನೀವು ಕ್ಲೋನ್ ಮಾಡಿ ಹೊಂದಿಸಬಹುದಾದ ಏಳು ಸಂಪೂರ್ಣ, ಶೈಲೀಕೃತ ಉಲ್ಲೇಖ ಅಪ್ಲಿಕೇಶನ್‌ಗಳು.' },
+    styles: { heading: 'ಶೈಲಿಗಳು', description: 'ತತ್ವಗಳು, ಬಣ್ಣಗಳು, ಮುದ್ರಣಕಲೆ, ಐಕಾನ್‌ಗಳು, ವಿನ್ಯಾಸಗಳು ಮತ್ತು ಪುಟ ಟೆಂಪ್ಲೇಟ್‌ಗಳು.' },
+    compare: { heading: 'ಹೋಲಿಕೆಗಳು', description: 'Lily ಇತರ ವಿನ್ಯಾಸ ವ್ಯವಸ್ಥೆಗಳೊಂದಿಗೆ ಹೇಗೆ ಸಂಬಂಧಿಸಿದೆ, ನ್ಯಾಯಯುತವಾಗಿ ಹೇಳಲಾಗಿದೆ.' },
+    accessibility: { heading: 'ಪ್ರವೇಶಿಸುವಿಕೆ', description: 'ಏನು ಪರಿಶೀಲಿಸಲಾಗಿದೆ, ಏನು ಇಲ್ಲ, ಮತ್ತು ಸಮಸ್ಯೆಯನ್ನು ಹೇಗೆ ವರದಿ ಮಾಡುವುದು.' }
   }
 };
 
@@ -2443,7 +2593,10 @@ const nb: UiStrings = {
     frameworks: 'Støttede rammeverk',
     tutorials: { heading: 'Veiledninger', description: 'Lær Lily steg for steg, i det rammeverket du bruker.' },
     components: { heading: 'Komponenter', description: 'Hundrevis av gjenbrukbare, tilgjengelige komponenter, hver med dokumentasjon og demo.' },
-    examples: { heading: 'Eksempler', description: 'Syv komplette, stilede referanseapplikasjoner du kan klone og tilpasse.' }
+    examples: { heading: 'Eksempler', description: 'Syv komplette, stilede referanseapplikasjoner du kan klone og tilpasse.' },
+    styles: { heading: 'Stiler', description: 'Prinsipper, farger, typografi, ikoner, oppsett og sidemaler.' },
+    compare: { heading: 'Sammenligninger', description: 'Hvordan Lily forholder seg til andre designsystemer, rettferdig fortalt.' },
+    accessibility: { heading: 'Tilgjengelighet', description: 'Hva som er verifisert, hva som ikke er det, og hvordan du melder et problem.' }
   }
 };
 

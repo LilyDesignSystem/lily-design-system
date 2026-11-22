@@ -292,8 +292,8 @@
                                 <DataTableTH>Requestor</DataTableTH>
                             </DataTableRow>
                             <DataTableRow class="wcp-filter-row">
-                                <DataTableTD></DataTableTD>
-                                <DataTableTD></DataTableTD>
+                                <DataTableTD>{""}</DataTableTD>
+                                <DataTableTD>{""}</DataTableTD>
                                 <DataTableTD
                                     ><input
                                         class="text-input"
@@ -302,7 +302,7 @@
                                         value="02-Apr-2020"
                                     /></DataTableTD
                                 >
-                                <DataTableTD></DataTableTD>
+                                <DataTableTD>{""}</DataTableTD>
                                 <DataTableTD
                                     ><input
                                         class="text-input"

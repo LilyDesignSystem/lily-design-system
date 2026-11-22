@@ -158,7 +158,43 @@ test("the whole tile is the link target", async ({ page }) => {
     expect(hit.href).toMatch(/compare/);
 });
 
+const ENGLISH_DESCRIPTION = {
+    styles: "Principles, colours, typographies, icons, layouts and page templates.",
+    compare: "How Lily relates to other design systems, said fairly.",
+    accessibility: "What is verified, what is not, and how to report a problem.",
+};
+
+// The three tiles added 2026-11-21 are translated for 51 languages (unreviewed drafts: the headings of Compare and Accessibility are the
+// titles of that language's own pages, the rest are machine drafts). A language without them shows the English words (tasks.md P41-T8a).
+test("a translated language shows its own words on the three newer tiles", async ({ page }) => {
+    for (const [route, styles, compare, accessibility] of [
+        ["/ja-jp/", "スタイル", "比較", "ア"],
+        ["/de-de/", "Stile", "Vergleiche", "Barrierefreiheit"],
+        ["/cy-gb/", "Arddulliau", "Cymariaethau", "Hygyrchedd"],
+        ["/ar-001/", "الأنماط", "مقارنات", "إمكانية"],
+    ] as const) {
+        await page.goto(route);
+        await expect(page.locator('.tile[data-tile="styles"] h3'), route).toHaveText(styles);
+        await expect(page.locator('.tile[data-tile="compare"] h3'), route).toHaveText(compare);
+        await expect(page.locator('.tile[data-tile="accessibility"] h3'), route).toContainText(
+            accessibility,
+        );
+        for (const tile of ["styles", "compare", "accessibility"] as const) {
+            const description =
+                (await page
+                    .locator(`.tile[data-tile="${tile}"] .card-description`)
+                    .textContent()) ?? "";
+            expect(description.trim(), `${route} ${tile}`).not.toBe(ENGLISH_DESCRIPTION[tile]);
+            expect(description.trim(), `${route} ${tile}`).not.toBe("");
+        }
+    }
+});
+
 test("a language without a tile translation shows the English words", async ({ page }) => {
-    await page.goto("/ja-jp/");
+    await page.goto("/lb-001/");
     await expect(page.locator('.tile[data-tile="styles"] h3')).toHaveText("Styles");
+    await expect(page.locator('.tile[data-tile="compare"] h3')).toHaveText("Compare");
+    await expect(page.locator('.tile[data-tile="accessibility"] h3')).toHaveText("Accessibility");
+    // The older three tiles are the language's own: never mixed with a blank.
+    await expect(page.locator('.tile[data-tile="tutorials"] h3')).not.toHaveText("Tutorials");
 });

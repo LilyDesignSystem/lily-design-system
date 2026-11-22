@@ -13,7 +13,7 @@
   ];
 
   // One sentence per script, each in its own language, so a font stack can be judged on the glyphs it will really draw.
-  const scripts = [
+  const scripts: { lang: string; name: string; text: string; dir?: 'ltr' | 'rtl' }[] = [
     { lang: 'en', name: 'Latin', text: 'The quick brown fox jumps over the lazy dog.' },
     { lang: 'cy', name: 'Welsh (Latin)', text: 'Mae’r ŵyr yn dysgu darllen ac ysgrifennu.' },
     { lang: 'ar', name: 'Arabic', text: 'النص العربي يُكتب من اليمين إلى اليسار.', dir: 'rtl' },
