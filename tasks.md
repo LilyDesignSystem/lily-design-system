@@ -4314,11 +4314,11 @@ quick wins and are done; then T5, T6/T7, T9, T8, T10.
       heading and its record list prints the same state. Provide the status to the list through context, so the words appear once, in all
       nine catalogs; only then add optional `meta` and `warning` snippets and `data-level`. Decide 1 before 2.
       Verify: a section with `status="unavailable"` and a record list shows the words once, with no development warning.
-- [ ] **P42-T6b Optional `meta` and `warning` slots, and `data-level` (item 2).** Now that the status words have one owner, the viewer can adopt the section; it also shows the section's level, the document's own title, a revealable LOINC code and a warning when entries were not found. Add optional `meta` (after the heading and status, before the entries) and `warning` snippets that render nothing when omitted, and `data-level` beside `data-required`. Verify: a consumer can reproduce the viewer's `SectionView` markup with the component and no extra wrapper.
+- [x] **P42-T6b Optional `meta` and `warning` slots, and `data-level` (item 2).** Done 2026-11-22 in every catalog (slots in Svelte, React, Solid, Vue, Web Components, Nunjucks, Blazor; Angular projects `meta` and `warning` elements with no wrapper; HTML and Alpine show the markup), `level` prop, `ipsSectionLevel`. Original: Now that the status words have one owner, the viewer can adopt the section; it also shows the section's level, the document's own title, a revealable LOINC code and a warning when entries were not found. Add optional `meta` (after the heading and status, before the entries) and `warning` snippets that render nothing when omitted, and `data-level` beside `data-required`. Verify: a consumer can reproduce the viewer's `SectionView` markup with the component and no extra wrapper.
 - [x] **P42-T7 Silence one component's development warning (item 4).** Done 2026-11-21 in `shared/dev-warning.ts` (synced to the 14 copies: Svelte, React, Solid, Vue and Angular, headless, identifiers and examples). Accept `globalThis.lilyWarnings = { Name: false }` as well as a
       boolean, in the four catalogs that warn.
       Verify: a test silences one component and still sees another's warning.
-- [x] **P42-T8 `meterScale` in `clinical-format` (item 3).** Done 2026-11-21 in `shared/clinical-format.ts` (13 tests; synced to the TypeScript catalogs and Alpine) and `ClinicalFormat.MeterScale` in Blazor (8 tests); an optional `units` argument refuses two different units. `meterScale(value, low?, high?)` returns `{ min, max, low, high }` or
+- [x] **P42-T8 `meterScale` in `clinical-format` (item 3).** Done 2026-11-21 (amended 2026-11-22: malformed input throws `MeterScaleError`, only "no value" or "no range" gives `undefined`) in `shared/clinical-format.ts` (13 tests; synced to the TypeScript catalogs and Alpine) and `ClinicalFormat.MeterScale` in Blazor (8 tests); an optional `units` argument refuses two different units. `meterScale(value, low?, high?)` returns `{ min, max, low, high }` or
       `undefined`: two-sided range, half a range beyond each end; one-sided, from zero to half as far again; wide enough to hold the
       value; nothing for a non-numeric value, a non-numeric or reversed range, or differing units.
       Verify: a unit test for each rule, in every catalog that has the module.
@@ -4381,7 +4381,7 @@ Kotlin UI is written. Order: T1 and T2 first (decisions), then T4 and T3 (logic)
       Android's `WheelPicker`; 211 vectors. The module folds with `toLocaleLowerCase`, so labels whose lower case depends on the
       locale (Turkish İ) are kept out of the vectors. Still to add: edit-history, filter-model, calendar-system, zones,
       intl-labels.)_
-- [ ] **P43-T4 Identifier validation, written for the first time (needs a maintainer decision).** Corrected 2026-11-22: there
+- [ ] **P43-T4 Identifier validation, written for the first time.** Corrected 2026-11-22: there
       are no validators to move. The 94 web identifier inputs validate nothing beyond the browser: 5 carry an HTML `pattern`
       (Ireland IHI, France NIR, UK NHS number, Northern Ireland H&C number, US SSN), the rest none, and no catalog computes a check
       digit. `AGENTS/national-person-identifiers.tsv` describes one in prose for 63 identifiers (Modulus-11, Modulus-97, Luhn,
@@ -4392,6 +4392,20 @@ Kotlin UI is written. Order: T1 and T2 first (decisions), then T4 and T3 (logic)
       come first, as they cannot reject a valid number if they are only advisory.
       Verify: per identifier, vectors from its official source pass in TypeScript, C#, Swift and Kotlin; the source is cited in
       the TSV.
+      _(Decided 2026-11-22 by the maintainer: validate. Each input checks its format and, where the identifier has one, its
+      check digit; an invalid number is an error the input reports, never a silent fix. Per identifier: the official algorithm
+      source and test numbers first, then the validator with valid and invalid vectors.)_
+- [x] **P43-T6 Checked arithmetic in the shared modules: no fallback for invalid input (2026-11-22).** An input outside its valid
+      range is invalid data, so it is an error. `truncateMiddle` (an `end` or `maxWidth` out of range), `findTypeaheadMatch` (a
+      `from` that is not -1 or a row), the wheel-picker functions (`current`, `pageSize`, `middles`, `centre`) and
+      `ipsSectionId` / `ipsContents` (an empty key, id or prefix, a missing required heading) no longer clamp, wrap, skip or
+      default: each throws its module's `RangeError` subclass (`TruncateMiddleError`, `TypeaheadError`, `WheelPickerError`,
+      `IpsSectionsError`) with a `reason`, as `MeterScaleError` does. C# (`IpsSectionsException`, which also refuses an unknown
+      status), Swift (typed `throws`, `LilyRangeError`) and Kotlin (`LilyRangeException`) throw the same reasons, and
+      `InternationalPatientSummary` in `LilyUI` has a throwing initialiser. The vectors' `"throws"` names the reason and every
+      runner checks it.
+      Verify: `shared` vitest, `swift test`, `./gradlew build koverVerify` and the Blazor tests pass; each runner fails on a wrong
+      reason.
 - [ ] **P43-T5 Swift and Kotlin token output.** `bin/generate-theme-tokens --swift` and `--kotlin` write per-theme token files
       (colours in light, dark and high-contrast sets; `rem` to points and `dp`; type roles to text styles, never fixed
       sizes) for a first set of six themes: light, dark, NHS England, GOV.UK, USWDS and one non-Anglophone public-sector
@@ -4523,7 +4537,7 @@ Same order as Phase 44; the two can run side by side once P43 is done.
       on an emulator, ATF and the size sweep.)_
       _(2026-11-22: ATF runs. `AccessibilityChecksTest` (androidTest, `enableAccessibilityChecks()`) checks the catalog and every
       detail view on the `Pixel_10_API_37` emulator, and passes at font scale 1.0 and 2.0 (`adb shell settings put system
-    font_scale 2.0`). Its first run found the catalog's search field 44dp tall; it now has the 48dp minimum. Still to do: the
+  font_scale 2.0`). Its first run found the catalog's search field 44dp tall; it now has the 48dp minimum. Still to do: the
       320dp and large-window size sweep, and running ATF on each component's own composable in `lily-compose`.)_
 - [ ] **P45-T6 Publish to Maven Central.** Verify the `io.github.lilydesignsystem` namespace (or a domain the project owns),
       sign artifacts, add `bin/publish-kotlin` publishing from the monorepo like `bin/publish-helpers`, and extend

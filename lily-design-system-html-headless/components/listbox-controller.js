@@ -137,8 +137,19 @@ function nextTypeaheadState(
     return { prefix: (continuing ? previous.prefix : "") + key, at: now };
 }
 
+/** Thrown for a `from` that is neither -1 (no row) nor the index of a row: invalid data is an error, never wrapped round. */
+class TypeaheadError extends RangeError {
+             reason        ;
+    constructor(reason        , message        ) {
+        super(`findTypeaheadMatch: ${message}`);
+        this.name = "TypeaheadError";
+        this.reason = reason;
+    }
+}
+
 /**
- * The index of the row to move to, or -1. Searches from the row after `from` and wraps. A prefix of one repeated letter ("ss") is
+ * The index of the row to move to, or -1. Searches from the row after `from` (-1: from the top) and wraps; a `from` that is
+ * not -1 or a row's index throws a TypeaheadError. A prefix of one repeated letter ("ss") is
  * treated as that single letter, so pressing it again steps through the rows starting with it.
  */
 function findTypeaheadMatch(
@@ -146,6 +157,12 @@ function findTypeaheadMatch(
     from        ,
     prefix        ,
 )         {
+    if (!Number.isInteger(from) || from < -1 || from >= labels.length) {
+        throw new TypeaheadError(
+            "from",
+            `from ${String(from)} is not -1 or a row of ${labels.length}`,
+        );
+    }
     // Fold each initial separately: a Hangul syllable folds to several Jamo and a CJK ideograph can occupy two UTF-16 units.
     const initials = Array.from(prefix.normalize("NFC"), foldText).filter(Boolean);
     if (initials.length === 0) return -1;

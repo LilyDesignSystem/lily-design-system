@@ -704,7 +704,9 @@ function initSelectVariant(root, select, opts) {
     // Sorted alphabetically by the name shown, in the page's language, and again when it changes. The chosen option keeps
     // its `selected` state as it moves.
     sortOptions(root, select, optionEls, values, () => "");
-    const stopWatchingLanguage = watchLanguage(() => sortOptions(root, select, optionEls, values, () => ""));
+    const stopWatchingLanguage = watchLanguage(() =>
+        sortOptions(root, select, optionEls, values, () => ""),
+    );
     const storageKey = root.getAttribute("data-lily-theme-picker-storage-key") || "";
     const chooser = createChoiceApplier(root, opts, (choice) => {
         if (select.value !== choice) select.value = choice;

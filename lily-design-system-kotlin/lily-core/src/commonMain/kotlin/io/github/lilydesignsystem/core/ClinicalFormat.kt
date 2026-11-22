@@ -15,8 +15,9 @@ public class MeterReading(public val value: Double, public val scale: MeterScale
 
 /**
  * Two-sided range: half a range beyond each end. One-sided: from zero to half as far again as the bound. Always wide enough to
- * hold the value. `null` (draw no meter) when the value or a given end is not finite, when neither end is given, when a
- * two-sided range is reversed or has no width, when a one-sided bound is not above zero, or when the units differ.
+ * hold the value. `null` (draw no meter) only when there is nothing to draw: no value, or neither end given. Malformed input
+ * throws a [MeterScaleException], never a fallback: a value or a given end that is not finite, units that differ, a two-sided
+ * range that is reversed or has no width, or a one-sided bound that is not above zero.
  */
 public fun meterScale(
     value: Double?,
@@ -25,19 +26,24 @@ public fun meterScale(
     valueUnit: String? = null,
     rangeUnit: String? = null,
 ): MeterScale? {
-    if (value == null || !value.isFinite()) return null
-    if (!valueUnit.isNullOrEmpty() && !rangeUnit.isNullOrEmpty() && valueUnit != rangeUnit) return null
-    if ((low != null && !low.isFinite()) || (high != null && !high.isFinite())) return null
+    if (value == null || (low == null && high == null)) return null
+    if (!value.isFinite()) throw MeterScaleException("value", "the value is not a finite number: $value")
+    if ((low != null && !low.isFinite()) || (high != null && !high.isFinite())) {
+        throw MeterScaleException("range", "an end of the range is not a finite number: $low to $high")
+    }
+    if (!valueUnit.isNullOrEmpty() && !rangeUnit.isNullOrEmpty() && valueUnit != rangeUnit) {
+        throw MeterScaleException("units", "the value is in $valueUnit but the range is in $rangeUnit")
+    }
     val lower: Double
     val upper: Double
     if (low != null && high != null) {
-        if (low >= high) return null
+        if (low >= high) throw MeterScaleException("reversed", "the range is reversed or has no width: $low to $high")
         val half = (high - low) / 2
         lower = low - half
         upper = high + half
     } else {
-        val bound = high ?: low ?: return null
-        if (bound <= 0) return null
+        val bound = high ?: low!!
+        if (bound <= 0) throw MeterScaleException("bound", "a one-sided bound must be above zero: $bound")
         lower = 0.0
         upper = bound * 1.5
     }

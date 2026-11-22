@@ -3,6 +3,10 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the package follows [Semantic Versioning](https://semver.org/).
 
+## 0.2.0 — 2026-11-22
+
+- **Order change:** the themes are listed in one list sorted by the name shown (`sortThemes`, default on; turn it off to keep the order given), compared with the page's language from `<html lang>`, so "NHS England (patients)" is under N.
+
 ## 0.1.0 — unreleased
 
 - First release, for Solid 2.0 (`solid-js` and `@solidjs/web` ^2.0.0 as peers): theme picker: an icon button opening an APG listbox that swaps a theme stylesheet and sets data-theme. Headless, SSR-safe, no CSS.

@@ -7,12 +7,27 @@ import kotlin.test.assertFailsWith
 import kotlin.test.assertNull
 
 class EdgeTest {
-    @Test fun meterScaleRefusesNonFiniteNumbers() {
-        assertNull(meterScale(Double.NaN, 3.0, 5.0))
-        assertNull(meterScale(Double.POSITIVE_INFINITY, 3.0, 5.0))
-        assertNull(meterScale(4.0, Double.NaN, 5.0))
-        assertNull(meterScale(4.0, 3.0, Double.NEGATIVE_INFINITY))
-        assertNull(meterScale(null))
+    @Test fun meterScaleThrowsForNonFiniteNumbers() {
+        assertEquals("value", assertFailsWith<MeterScaleException> { meterScale(Double.NaN, 3.0, 5.0) }.reason)
+        assertEquals("value", assertFailsWith<MeterScaleException> { meterScale(Double.POSITIVE_INFINITY, 3.0, 5.0) }.reason)
+        assertEquals("range", assertFailsWith<MeterScaleException> { meterScale(4.0, Double.NaN, 5.0) }.reason)
+        assertEquals("range", assertFailsWith<MeterScaleException> { meterScale(4.0, 3.0, Double.NEGATIVE_INFINITY) }.reason)
+        assertNull(meterScale(null, 3.0, 5.0)) // no result yet: nothing to draw, not an error
+        assertNull(meterScale(4.0)) // no reference range: nothing to draw
+    }
+
+    @Test fun theCoreFunctionsThrowForInputTheVectorsCannotWrite() {
+        val one = listOf(WheelOption("a", "A"))
+        assertEquals("maxWidth", assertFailsWith<TruncateMiddleException> {
+            truncateMiddle("abc", "…", Double.POSITIVE_INFINITY) { it.length.toDouble() }
+        }.reason)
+        assertEquals("end", assertFailsWith<TruncateMiddleException> {
+            truncateMiddle("abc", "…", 1.0, TruncationStrategy.FixedEnd, end = -1) { it.length.toDouble() }
+        }.reason)
+        assertEquals("pageSize", assertFailsWith<WheelPickerException> {
+            nextWheelIndex(one, 0, WheelMoveKey.PageDown, pageSize = Double.NaN)
+        }.reason)
+        assertEquals("centre", assertFailsWith<WheelPickerException> { wheelIndexNearest(one, listOf(0.0), Double.NaN) }.reason)
     }
 
     @Test fun meterScaleDefaultsToNoRangeAndIgnoresAnEmptyUnit() {

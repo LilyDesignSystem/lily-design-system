@@ -193,37 +193,53 @@ public class ClinicalFormatTests
         => Assert.Equal(new MeterScaleResult(-5, -1, -4, -2), ClinicalFormat.MeterScale(-3, -4, -2));
 
     [Fact]
-    public void MeterScale_draws_nothing_for_a_value_that_is_not_a_finite_number()
+    public void MeterScale_draws_nothing_and_throws_nothing_when_there_is_nothing_to_draw()
     {
         Assert.Null(ClinicalFormat.MeterScale(null, 3.5, 5.5));
-        Assert.Null(ClinicalFormat.MeterScale(double.NaN, 3.5, 5.5));
-        Assert.Null(ClinicalFormat.MeterScale(double.PositiveInfinity, 3.5, 5.5));
-    }
-
-    [Fact]
-    public void MeterScale_draws_nothing_without_a_numeric_end_or_with_a_bad_one()
-    {
         Assert.Null(ClinicalFormat.MeterScale(5));
-        Assert.Null(ClinicalFormat.MeterScale(5, double.NaN, 5.5));
-        Assert.Null(ClinicalFormat.MeterScale(5, 3.5, double.PositiveInfinity));
-        Assert.Null(ClinicalFormat.MeterScale(5, null, double.NaN));
+        Assert.Null(ClinicalFormat.MeterScale(5, null, null));
+    }
+
+    private static string Reason(Action act) => Assert.Throws<MeterScaleException>(act).Reason;
+
+    [Fact]
+    public void MeterScale_throws_for_a_value_that_is_not_a_finite_number()
+    {
+        Assert.Equal("value", Reason(() => ClinicalFormat.MeterScale(double.NaN, 3.5, 5.5)));
+        Assert.Equal("value", Reason(() => ClinicalFormat.MeterScale(double.PositiveInfinity, 3.5, 5.5)));
     }
 
     [Fact]
-    public void MeterScale_draws_nothing_for_a_reversed_or_zero_width_range_or_a_bound_not_above_zero()
+    public void MeterScale_throws_for_an_end_that_is_given_but_not_a_finite_number()
     {
-        Assert.Null(ClinicalFormat.MeterScale(5, 5.5, 3.5));
-        Assert.Null(ClinicalFormat.MeterScale(5, 4, 4));
-        Assert.Null(ClinicalFormat.MeterScale(1, null, 0));
-        Assert.Null(ClinicalFormat.MeterScale(1, null, -3));
-        Assert.Null(ClinicalFormat.MeterScale(1, 0));
-        Assert.Null(ClinicalFormat.MeterScale(1, -3));
+        Assert.Equal("range", Reason(() => ClinicalFormat.MeterScale(5, double.NaN, 5.5)));
+        Assert.Equal("range", Reason(() => ClinicalFormat.MeterScale(5, 3.5, double.PositiveInfinity)));
+        Assert.Equal("range", Reason(() => ClinicalFormat.MeterScale(5, null, double.NaN)));
+    }
+
+    [Fact]
+    public void MeterScale_throws_for_a_reversed_or_zero_width_range_or_a_bound_not_above_zero()
+    {
+        Assert.Equal("reversed", Reason(() => ClinicalFormat.MeterScale(5, 5.5, 3.5)));
+        Assert.Equal("reversed", Reason(() => ClinicalFormat.MeterScale(5, 4, 4)));
+        Assert.Equal("bound", Reason(() => ClinicalFormat.MeterScale(1, null, 0)));
+        Assert.Equal("bound", Reason(() => ClinicalFormat.MeterScale(1, null, -3)));
+        Assert.Equal("bound", Reason(() => ClinicalFormat.MeterScale(1, 0)));
+        Assert.Equal("bound", Reason(() => ClinicalFormat.MeterScale(1, -3)));
+    }
+
+    [Fact]
+    public void MeterScale_exception_is_an_ArgumentOutOfRangeException_that_names_the_input()
+    {
+        var error = Assert.Throws<MeterScaleException>(() => ClinicalFormat.MeterScale(5, 5.5, 3.5));
+        Assert.IsAssignableFrom<ArgumentOutOfRangeException>(error);
+        Assert.Contains("5.5 to 3.5", error.Message);
     }
 
     [Fact]
     public void MeterScale_refuses_two_different_units_but_not_a_unit_left_out()
     {
-        Assert.Null(ClinicalFormat.MeterScale(5, 3.5, 5.5, "mmol/L", "mg/dL"));
+        Assert.Equal("units", Reason(() => ClinicalFormat.MeterScale(5, 3.5, 5.5, "mmol/L", "mg/dL")));
         var scale = new MeterScaleResult(2.5, 6.5, 3.5, 5.5);
         Assert.Equal(scale, ClinicalFormat.MeterScale(5, 3.5, 5.5, "mmol/L", "mmol/L"));
         Assert.Equal(scale, ClinicalFormat.MeterScale(5, 3.5, 5.5, "mmol/L"));

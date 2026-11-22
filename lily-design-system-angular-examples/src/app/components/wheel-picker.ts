@@ -44,20 +44,51 @@ export function wheelMoveKey(
     return key === "ArrowDown" || key === "ArrowUp" ? key : undefined;
 }
 
+export type WheelPickerReason = "current" | "pageSize" | "middles" | "centre";
+
+/** Thrown for an input that is malformed or out of range: invalid data is an error, never clamped or skipped. */
+export class WheelPickerError extends RangeError {
+    readonly reason: WheelPickerReason;
+    constructor(reason: WheelPickerReason, message: string) {
+        super(`wheel-picker: ${message}`);
+        this.name = "WheelPickerError";
+        this.reason = reason;
+    }
+}
+
+/** `current` must be -1 (none) or an option's index. */
+function checkCurrent(current: number, length: number): void {
+    if (!Number.isInteger(current) || current < -1 || current >= length) {
+        throw new WheelPickerError(
+            "current",
+            `current ${String(current)} is not -1 or an option of ${length}`,
+        );
+    }
+}
+
 /**
  * The enabled option nearest the middle of the list, for a wheel that has stopped scrolling, or -1 when none is enabled.
  * `middles` holds each option's middle along the scrolling axis and `centre` the list's, in the same coordinates (for
- * example from getBoundingClientRect). A tie goes to the earlier option.
+ * example from getBoundingClientRect). A tie goes to the earlier option. `middles` must have one finite number per option and
+ * `centre` must be finite, or it throws a WheelPickerError.
  */
 export function wheelIndexNearest(
     options: readonly WheelOption[],
     middles: readonly number[],
     centre: number,
 ): number {
+    if (!Number.isFinite(centre))
+        throw new WheelPickerError("centre", `centre ${String(centre)} is not a finite number`);
+    if (middles.length !== options.length || !middles.every(Number.isFinite)) {
+        throw new WheelPickerError(
+            "middles",
+            `middles must be ${options.length} finite numbers, one per option`,
+        );
+    }
     let best = -1;
     let bestDistance = Infinity;
     options.forEach((option, index) => {
-        if (option.disabled || middles[index] === undefined) return;
+        if (option.disabled) return;
         const distance = Math.abs(middles[index] - centre);
         if (distance < bestDistance) {
             best = index;
@@ -159,6 +190,8 @@ function enabledIndexes(options: readonly WheelOption[]): number[] {
 /**
  * The index to select after `key`, or -1 when no option can be selected. `current` is the selected index, or -1 for none.
  * With nothing selected, ArrowDown / PageDown / Home choose the first enabled option and ArrowUp / PageUp / End the last.
+ * `pageSize` is 5 when not given; a `current` out of range, or a `pageSize` that is not a positive whole number, throws a
+ * WheelPickerError.
  */
 export function nextWheelIndex(
     options: readonly WheelOption[],
@@ -166,12 +199,19 @@ export function nextWheelIndex(
     key: WheelMoveKey,
     move: WheelMoveOptions = {},
 ): number {
+    checkCurrent(current, options.length);
+    const pageSize = move.pageSize ?? 5;
+    if (!Number.isInteger(pageSize) || pageSize < 1) {
+        throw new WheelPickerError(
+            "pageSize",
+            `pageSize ${String(pageSize)} is not a positive whole number`,
+        );
+    }
     const enabled = enabledIndexes(options);
     if (enabled.length === 0) return -1;
     const first = enabled[0];
     const last = enabled[enabled.length - 1];
     const position = enabled.indexOf(current);
-    const pageSize = Math.max(1, Math.floor(move.pageSize ?? 5));
 
     if (key === "Home") return first;
     if (key === "End") return last;
@@ -237,20 +277,22 @@ export function isWheelTypeaheadKey(event: {
 
 /**
  * The enabled option to move to for the typed `prefix`, or -1. Searches from the option after `current` and wraps; a prefix of one
- * repeated letter ("ss") counts as that single letter, so pressing it again steps through the options that start with it.
+ * repeated letter ("ss") counts as that single letter, so pressing it again steps through the options that start with it. A
+ * `current` that is not -1 or an option's index throws a WheelPickerError.
  */
 export function wheelTypeaheadIndex(
     options: readonly WheelOption[],
     current: number,
     prefix: string,
 ): number {
+    checkCurrent(current, options.length);
     // Fold each initial separately so a Hangul syllable can cycle even when it folds to several Jamo.
     const initials = Array.from(prefix.normalize("NFC"), fold).filter(Boolean);
     if (initials.length === 0 || options.length === 0) return -1;
     const cycle = initials.every((initial) => initial === initials[0]);
     const needle = cycle ? initials[0] : fold(prefix);
     const startOffset = cycle ? 1 : 0;
-    const from = current < 0 ? -startOffset : current;
+    const from = current === -1 ? -startOffset : current;
     for (let step = 0; step < options.length; step++) {
         const index = (from + startOffset + step + options.length) % options.length;
         const option = options[index];

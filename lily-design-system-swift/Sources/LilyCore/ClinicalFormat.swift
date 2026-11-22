@@ -41,29 +41,35 @@ public struct MeterReading: Sendable, Equatable {
     }
 }
 
+/// Why `meterScale` refused its input; the raw value is the TypeScript `MeterScaleError.reason`.
+public enum MeterScaleError: String, LilyRangeError, Equatable {
+    case value, range, reversed, bound, units
+}
+
 /// Two-sided range: half a range beyond each end. One-sided: from zero to half as far again as the bound. Always wide enough to
-/// hold the value. `nil` (draw no meter) when the value or a given end is not finite, when neither end is given, when a
-/// two-sided range is reversed or has no width, when a one-sided bound is not above zero, or when the units differ.
+/// hold the value. `nil` (draw no meter) only when there is nothing to draw: no value, or neither end given. Malformed input
+/// throws a `MeterScaleError`, never a fallback: a value or a given end that is not finite, units that differ, a two-sided range
+/// that is reversed or has no width, or a one-sided bound that is not above zero.
 public func meterScale(
     _ value: Double?, low: Double? = nil, high: Double? = nil, valueUnit: String? = nil, rangeUnit: String? = nil
-) -> MeterScale? {
-    guard let value, value.isFinite else { return nil }
-    if let valueUnit, let rangeUnit, !valueUnit.isEmpty, !rangeUnit.isEmpty, valueUnit != rangeUnit { return nil }
-    if let low, !low.isFinite { return nil }
-    if let high, !high.isFinite { return nil }
+) throws(MeterScaleError) -> MeterScale? {
+    // No value, or no range: nothing to draw. `bound` is the one end of a one-sided range (high first, as in TypeScript).
+    guard let value, let bound = high ?? low else { return nil }
+    guard value.isFinite else { throw .value }
+    if let low, !low.isFinite { throw .range }
+    if let high, !high.isFinite { throw .range }
+    if let valueUnit, let rangeUnit, !valueUnit.isEmpty, !rangeUnit.isEmpty, valueUnit != rangeUnit { throw .units }
     let lower: Double
     let upper: Double
     if let low, let high {
-        if low >= high { return nil }
+        if low >= high { throw .reversed }
         let half = (high - low) / 2
         lower = low - half
         upper = high + half
-    } else if let bound = high ?? low {
-        if bound <= 0 { return nil }
+    } else {
+        if bound <= 0 { throw .bound }
         lower = 0
         upper = bound * 1.5
-    } else {
-        return nil
     }
     return MeterScale(min: Swift.min(lower, value), max: Swift.max(upper, value), low: low, high: high)
 }

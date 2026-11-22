@@ -141,7 +141,7 @@
           "end": 99
         }
       ],
-      "expected": "…abcdefghij"
+      "throws": "end"
     },
     {
       "fn": "truncateMiddleByClusters",
@@ -154,7 +154,7 @@
           "end": -3
         }
       ],
-      "expected": "ab…ij"
+      "throws": "end"
     },
     {
       "fn": "truncateMiddleByClusters",
@@ -179,6 +179,43 @@
         }
       ],
       "expected": "ab…ij"
+    },
+    {
+      "fn": "truncateMiddleByClusters",
+      "args": [
+        "abcdefghij",
+        {
+          "ellipsis": "…",
+          "maxWidth": -1
+        }
+      ],
+      "throws": "maxWidth"
+    },
+    {
+      "fn": "truncateMiddleByClusters",
+      "args": [
+        "abc",
+        {
+          "ellipsis": "…",
+          "maxWidth": 10,
+          "strategy": "even",
+          "end": 1.5
+        }
+      ],
+      "throws": "end"
+    },
+    {
+      "fn": "truncateMiddleByClusters",
+      "args": [
+        "abcdefghij",
+        {
+          "ellipsis": "…",
+          "maxWidth": 5,
+          "strategy": "fixed-end",
+          "end": 10
+        }
+      ],
+      "expected": "…abcdefghij"
     }
   ]
 }

@@ -74,9 +74,20 @@ public func ipsSectionCode(_ key: String) -> String? { ipsSections.first { $0.ke
 
 public func ipsSectionIsRequired(_ key: String) -> Bool { ipsRequiredSections.contains(key) }
 
-public func ipsSectionId(_ key: String, id: String? = nil, idPrefix: String = ipsIdPrefix) -> String {
-    if let id, !id.isEmpty { return id }
-    return "\(idPrefix.isEmpty ? ipsIdPrefix : idPrefix)-\(key)"
+/// Why an IPS function refused its input; the raw value is the TypeScript `IpsSectionsError.reason`.
+public enum IpsSectionsError: String, LilyRangeError, Equatable {
+    case key, id, idPrefix, heading
+}
+
+/// `id` when given, else `{idPrefix}-{key}`. An empty key, id or idPrefix throws.
+public func ipsSectionId(_ key: String, id: String? = nil, idPrefix: String = ipsIdPrefix) throws(IpsSectionsError) -> String {
+    if key.isEmpty { throw .key }
+    if let id {
+        if id.isEmpty { throw .id }
+        return id
+    }
+    if idPrefix.isEmpty { throw .idPrefix }
+    return "\(idPrefix)-\(key)"
 }
 
 /// The required section keys the app's list lacks, in registry order.
@@ -85,22 +96,27 @@ public func ipsMissingRequired(_ keys: [String]) -> [String] {
     return ipsRequiredSections.filter { !present.contains($0) }
 }
 
-/// The contents in the app's order, then an "omitted" entry for each missing required section, headed by the app's words.
+/// The contents in the app's order, then an "omitted" entry for each missing required section, headed by the app's words. A
+/// missing required section with no heading, or an empty key, id or idPrefix, throws.
 public func ipsContents(
     _ sections: [IpsSectionEntry], requiredHeadings: [String: String], idPrefix: String = ipsIdPrefix
-) -> [IpsContentsEntry] {
-    let given = sections.map {
-        IpsContentsEntry(
-            key: $0.key, heading: $0.heading, status: $0.status ?? .known,
-            id: ipsSectionId($0.key, id: $0.id, idPrefix: idPrefix), code: ipsSectionCode($0.key),
-            required: ipsSectionIsRequired($0.key), added: false)
+) throws(IpsSectionsError) -> [IpsContentsEntry] {
+    var entries: [IpsContentsEntry] = []
+    for section in sections {
+        entries.append(
+            IpsContentsEntry(
+                key: section.key, heading: section.heading, status: section.status ?? .known,
+                id: try ipsSectionId(section.key, id: section.id, idPrefix: idPrefix), code: ipsSectionCode(section.key),
+                required: ipsSectionIsRequired(section.key), added: false))
     }
-    let added = ipsMissingRequired(sections.map(\.key)).map {
-        IpsContentsEntry(
-            key: $0, heading: requiredHeadings[$0] ?? "", status: .omitted, id: ipsSectionId($0, idPrefix: idPrefix),
-            code: ipsSectionCode($0), required: true, added: true)
+    for key in ipsMissingRequired(sections.map(\.key)) {
+        guard let heading = requiredHeadings[key], !heading.isEmpty else { throw .heading }
+        entries.append(
+            IpsContentsEntry(
+                key: key, heading: heading, status: .omitted, id: try ipsSectionId(key, idPrefix: idPrefix),
+                code: ipsSectionCode(key), required: true, added: true))
     }
-    return given + added
+    return entries
 }
 
 /// Where a section says a status other than known in words: under its heading (default), or in the record list inside it,

@@ -43,7 +43,14 @@ public func nextTypeaheadState(
 /// The index of the label to move to, or -1. Searches from the one after `from` and wraps. A prefix of one repeated letter is
 /// that letter, so pressing it again steps through the labels starting with it. Compares Unicode scalars, as the TypeScript
 /// compares code units, so a Hangul initial matches the syllables that start with it.
-public func findTypeaheadMatch(_ labels: [String], from: Int, prefix: String) -> Int {
+/// Why `findTypeaheadMatch` refused its input; the raw value is the TypeScript `TypeaheadError.reason`.
+public enum TypeaheadError: String, LilyRangeError, Equatable {
+    case from
+}
+
+/// `from` must be -1 (no row) or a row's index, or it throws.
+public func findTypeaheadMatch(_ labels: [String], from: Int, prefix: String) throws(TypeaheadError) -> Int {
+    guard from >= -1, from < labels.count else { throw .from }
     let initials = prefix.precomposedStringWithCanonicalMapping.unicodeScalars.map { foldText(String($0)) }
         .filter { !$0.isEmpty }
     guard let first = initials.first else { return -1 }

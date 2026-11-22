@@ -19,14 +19,14 @@ license files, manifests, and documentation keep that statement consistent.
 
 ## Licenses
 
-| License | SPDX identifier |
-| --- | --- |
-| [MIT](https://opensource.org/license/mit) | [`MIT`](https://spdx.org/licenses/MIT.html) |
-| [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0) | [`Apache-2.0`](https://spdx.org/licenses/Apache-2.0.html) |
-| [BSD 3-Clause License](https://opensource.org/license/bsd-3-clause) | [`BSD-3-Clause`](https://spdx.org/licenses/BSD-3-Clause.html) |
-| [GNU General Public License v2.0](https://www.gnu.org/licenses/old-licenses/gpl-2.0-standalone.html) | [`GPL-2.0-only`](https://spdx.org/licenses/GPL-2.0-only.html) |
-| [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0-standalone.html) | [`GPL-3.0-only`](https://spdx.org/licenses/GPL-3.0-only.html) |
-| [UK Open Government Licence v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/) | [`OGL-UK-3.0`](https://spdx.org/licenses/OGL-UK-3.0.html) |
+| License                                                                                                                         | SPDX identifier                                                     |
+| ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| [MIT](https://opensource.org/license/mit)                                                                                       | [`MIT`](https://spdx.org/licenses/MIT.html)                         |
+| [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0)                                                               | [`Apache-2.0`](https://spdx.org/licenses/Apache-2.0.html)           |
+| [BSD 3-Clause License](https://opensource.org/license/bsd-3-clause)                                                             | [`BSD-3-Clause`](https://spdx.org/licenses/BSD-3-Clause.html)       |
+| [GNU General Public License v2.0](https://www.gnu.org/licenses/old-licenses/gpl-2.0-standalone.html)                            | [`GPL-2.0-only`](https://spdx.org/licenses/GPL-2.0-only.html)       |
+| [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0-standalone.html)                                         | [`GPL-3.0-only`](https://spdx.org/licenses/GPL-3.0-only.html)       |
+| [UK Open Government Licence v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)                   | [`OGL-UK-3.0`](https://spdx.org/licenses/OGL-UK-3.0.html)           |
 | [Creative Commons Attribution Non Commercial Share Alike 4.0 International](https://creativecommons.org/licenses/by-nc-sa/4.0/) | [`CC-BY-NC-SA-4.0`](https://spdx.org/licenses/CC-BY-NC-SA-4.0.html) |
 
 Custom license terms are available by arrangement.

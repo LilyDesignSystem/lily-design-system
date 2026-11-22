@@ -4,6 +4,10 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.5.0 — 2026-11-22
+
+- **Order change:** the themes are listed in one list sorted by the name shown (`sortThemes`, default on; turn it off to keep the order given), compared with the page's language from `<html lang>`, so "NHS England (patients)" is under N.
+
 ## 0.4.0 — 2026-11-16
 
 - **Behaviour change:** the choice is kept in both `localStorage` and the cookie by default, under `lily-{name}`

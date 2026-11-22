@@ -63,13 +63,24 @@ public fun ipsSectionCode(key: String): String? = IPS_SECTIONS.firstOrNull { it.
 
 public fun ipsSectionIsRequired(key: String): Boolean = key in IPS_REQUIRED_SECTIONS
 
-public fun ipsSectionId(key: String, id: String? = null, idPrefix: String = IPS_ID_PREFIX): String =
-    if (!id.isNullOrEmpty()) id else "${idPrefix.ifEmpty { IPS_ID_PREFIX }}-$key"
+/** [id] when given, else `{idPrefix}-{key}`. An empty key, id or idPrefix throws an [IpsSectionsException]. */
+public fun ipsSectionId(key: String, id: String? = null, idPrefix: String = IPS_ID_PREFIX): String {
+    if (key.isEmpty()) throw IpsSectionsException("key", "the section key is empty")
+    if (id != null) {
+        if (id.isEmpty()) throw IpsSectionsException("id", "the id of section $key is empty")
+        return id
+    }
+    if (idPrefix.isEmpty()) throw IpsSectionsException("idPrefix", "the id prefix is empty")
+    return "$idPrefix-$key"
+}
 
 /** The required section keys the app's list lacks, in registry order. */
 public fun ipsMissingRequired(keys: List<String>): List<String> = IPS_REQUIRED_SECTIONS.filter { it !in keys }
 
-/** The contents in the app's order, then an "omitted" entry for each missing required section, headed by the app's words. */
+/**
+ * The contents in the app's order, then an "omitted" entry for each missing required section, headed by the app's words. A
+ * missing required section with no heading, or an empty key, id or idPrefix, throws an [IpsSectionsException].
+ */
 public fun ipsContents(
     sections: List<IpsSectionEntry>,
     requiredHeadings: Map<String, String>,
@@ -80,7 +91,9 @@ public fun ipsContents(
             ipsSectionCode(it.key), ipsSectionIsRequired(it.key), added = false)
     }
     val added = ipsMissingRequired(sections.map { it.key }).map {
-        IpsContentsEntry(it, requiredHeadings[it] ?: "", IpsSectionStatus.Omitted, ipsSectionId(it, idPrefix = idPrefix),
+        val heading = requiredHeadings[it]
+        if (heading.isNullOrEmpty()) throw IpsSectionsException("heading", "the required section $it is missing and has no heading")
+        IpsContentsEntry(it, heading, IpsSectionStatus.Omitted, ipsSectionId(it, idPrefix = idPrefix),
             ipsSectionCode(it), required = true, added = true)
     }
     return given + added

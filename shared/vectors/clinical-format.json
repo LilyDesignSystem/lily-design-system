@@ -53,17 +53,17 @@
     {
       "fn": "meterScale",
       "args": [4, 5, 5, null],
-      "expected": null
+      "throws": "reversed"
     },
     {
       "fn": "meterScale",
       "args": [4, 6, 5, null],
-      "expected": null
+      "throws": "reversed"
     },
     {
       "fn": "meterScale",
       "args": [4, null, 0, null],
-      "expected": null
+      "throws": "bound"
     },
     {
       "fn": "meterScale",
@@ -86,7 +86,7 @@
           "range": "mg/dL"
         }
       ],
-      "expected": null
+      "throws": "units"
     },
     {
       "fn": "meterScale",

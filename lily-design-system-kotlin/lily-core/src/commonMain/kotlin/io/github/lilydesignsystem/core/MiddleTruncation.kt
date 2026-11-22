@@ -19,7 +19,11 @@ public enum class TruncationStrategy(public val key: String) {
 /** Split into user-perceived characters. */
 public fun splitGraphemes(text: String): List<String> = graphemeClusters(text)
 
-/** The text shortened to fit [maxWidth], or unchanged when it already fits. [ellipsis] is required: Lily has no default text. */
+/**
+ * The text shortened to fit [maxWidth], or unchanged when it already fits. [ellipsis] is required: Lily has no default text.
+ * [maxWidth] must be finite and at least 0, and [end] (0 when not given) a count from 0 to the text's clusters, or it throws a
+ * [TruncateMiddleException].
+ */
 public fun truncateMiddle(
     text: String,
     ellipsis: String,
@@ -28,15 +32,18 @@ public fun truncateMiddle(
     end: Int? = null,
     measure: (String) -> Double,
 ): String {
+    if (!maxWidth.isFinite() || maxWidth < 0) throw TruncateMiddleException("maxWidth", "maxWidth $maxWidth is not a finite number of at least 0")
+    if (end != null && end < 0) throw TruncateMiddleException("end", "end $end is not a whole number of at least 0")
     if (measure(text) <= maxWidth) return text
     val g = splitGraphemes(text)
     val n = g.size
     fun tail(count: Int) = if (count > 0) g.subList(n - count, n).joinToString("") else ""
     fun head(count: Int) = g.subList(0, count).joinToString("")
-    fun clampEnd() = (end ?: 0).coerceIn(0, n)
+    val checkedEnd = end ?: 0
+    if (checkedEnd > n) throw TruncateMiddleException("end", "end $checkedEnd is more than the text's $n clusters")
 
     if (strategy == TruncationStrategy.FixedEnd) {
-        val endCount = clampEnd()
+        val endCount = checkedEnd
         val endText = tail(endCount)
         val room = maxWidth - measure(ellipsis + endText)
         var low = 0
@@ -48,7 +55,7 @@ public fun truncateMiddle(
         return head(low) + ellipsis + endText
     }
 
-    val minEnd = if (strategy == TruncationStrategy.MinEnd) clampEnd() else 0
+    val minEnd = if (strategy == TruncationStrategy.MinEnd) checkedEnd else 0
     fun split(kept: Int): Pair<Int, Int> {
         val endCount = minOf(n, maxOf((kept + 1) / 2, minEnd))
         return maxOf(0, kept - endCount) to endCount

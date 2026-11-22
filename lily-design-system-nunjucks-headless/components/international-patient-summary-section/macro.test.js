@@ -97,4 +97,53 @@ describe("international-patient-summary-section", () => {
             ).not.toBeNull();
         });
     });
+    describe("meta, warning and level (P42-T6b)", () => {
+        const mount = (extra) => {
+            const { document } = render("international-patient-summary-section", {
+                section: "allergies",
+                heading: "Allergies",
+                ...extra,
+            });
+            return document.querySelector("section.international-patient-summary-section");
+        };
+
+        it("data-level is the section's level in the IPS, and level overrides it", () => {
+            expect(mount({}).getAttribute("data-level")).toBe("required");
+            expect(mount({ section: "immunizations" }).getAttribute("data-level")).toBe(
+                "recommended",
+            );
+            expect(mount({ section: "pregnancy" }).getAttribute("data-level")).toBe("optional");
+            expect(mount({ level: "recommended" }).getAttribute("data-level")).toBe("recommended");
+            expect(mount({ section: "made-up" }).hasAttribute("data-level")).toBe(false);
+        });
+
+        it("meta and warning render nothing when omitted", () => {
+            const section = mount({});
+            expect(section.querySelector(".international-patient-summary-section-meta")).toBeNull();
+            expect(
+                section.querySelector(".international-patient-summary-section-warning"),
+            ).toBeNull();
+        });
+
+        it("meta, then warning, sit after the heading and status and before the entries", () => {
+            const section = mount({
+                status: "unavailable",
+                statusLabel: "In words",
+                warning: "<span>Entries not found</span>",
+                meta: "<span>Required</span>",
+                html: '<ul class="entries"></ul>',
+            });
+            const order = [...section.children].map((c) => c.className.split(" ")[0]);
+            expect(order).toEqual([
+                "international-patient-summary-section-heading",
+                "international-patient-summary-section-status",
+                "international-patient-summary-section-meta",
+                "international-patient-summary-section-warning",
+                "entries",
+            ]);
+            expect(
+                section.querySelector(".international-patient-summary-section-meta").textContent,
+            ).toBe("Required");
+        });
+    });
 });

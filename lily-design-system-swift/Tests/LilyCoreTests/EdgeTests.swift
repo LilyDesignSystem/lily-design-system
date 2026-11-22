@@ -5,16 +5,33 @@ import Testing
 
 @testable import LilyCore
 
-@Test func meterScaleRefusesNonFiniteNumbers() {
-    #expect(meterScale(.nan, low: 3, high: 5) == nil)
-    #expect(meterScale(.infinity, low: 3, high: 5) == nil)
-    #expect(meterScale(4, low: .nan, high: 5) == nil)
-    #expect(meterScale(4, low: 3, high: .infinity) == nil)
-    #expect(meterScale(nil, low: 3, high: 5) == nil)
+@Test func meterScaleThrowsForNonFiniteNumbers() throws {
+    #expect(throws: MeterScaleError.value) { try meterScale(.nan, low: 3, high: 5) }
+    #expect(throws: MeterScaleError.value) { try meterScale(.infinity, low: 3, high: 5) }
+    #expect(throws: MeterScaleError.range) { try meterScale(4, low: .nan, high: 5) }
+    #expect(throws: MeterScaleError.range) { try meterScale(4, low: 3, high: .infinity) }
+    #expect(try meterScale(nil, low: 3, high: 5) == nil)  // no result yet: nothing to draw, not an error
+    #expect(try meterScale(4) == nil)  // no reference range: nothing to draw
+    #expect(MeterScaleError.units.reason == "units")
 }
 
-@Test func meterScaleIgnoresAnEmptyUnit() {
-    #expect(meterScale(4, low: 3, high: 5, valueUnit: "", rangeUnit: "mg") == MeterScale(min: 2, max: 6, low: 3, high: 5))
+@Test func meterScaleIgnoresAnEmptyUnit() throws {
+    #expect(try meterScale(4, low: 3, high: 5, valueUnit: "", rangeUnit: "mg") == MeterScale(min: 2, max: 6, low: 3, high: 5))
+}
+
+@Test func theCoreFunctionsThrowForInputTheVectorsCannotWrite() {
+    #expect(throws: TruncateMiddleError.maxWidth) {
+        try truncateMiddle("abc", ellipsis: "…", maxWidth: .infinity, measure: { Double($0.count) })
+    }
+    #expect(throws: TruncateMiddleError.end) {
+        try truncateMiddle("abc", ellipsis: "…", maxWidth: 1, strategy: .fixedEnd, end: -1, measure: { Double($0.count) })
+    }
+    #expect(throws: WheelPickerError.pageSize) {
+        try nextWheelIndex([WheelOption(value: "a", label: "A")], current: 0, key: .pageDown, pageSize: .nan)
+    }
+    #expect(throws: WheelPickerError.centre) {
+        try wheelIndexNearest([WheelOption(value: "a", label: "A")], middles: [0], centre: .infinity)
+    }
 }
 
 @Test func truncationStrategiesHaveTheTypeScriptKeys() {

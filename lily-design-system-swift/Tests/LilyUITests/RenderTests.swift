@@ -313,10 +313,10 @@ private struct CustomScoreStyle: EarlyWarningScoreViewStyle {
     #expect(render(RecordList(status: .noneKnown, statusLabel: "No immunisations recorded")))
 }
 
-@MainActor @Test func internationalPatientSummaryAddsMissingRequiredSections() {
+@MainActor @Test func internationalPatientSummaryAddsMissingRequiredSections() throws {
     var chosen: [String] = []
     let headings = ["medications": "Medicines", "allergies": "Allergies", "problems": "Problems"]
-    let summary = InternationalPatientSummary(
+    let summary = try InternationalPatientSummary(
         label: "Patient summary", sections: [.init(key: "allergies", heading: "Allergies", status: .noneKnown)],
         requiredHeadings: headings, omittedLabel: "Section missing from document", contentsLabel: "Contents",
         onSelectSection: { chosen.append($0) },
@@ -334,7 +334,7 @@ private struct CustomScoreStyle: EarlyWarningScoreViewStyle {
     #expect(summary.contents.filter(\.added).map(\.key) == ["medications", "problems"])
     summary.onSelectSection("medications")
     #expect(chosen == ["medications"])
-    let plain = InternationalPatientSummary(
+    let plain = try InternationalPatientSummary(
         label: "Summary", sections: [], requiredHeadings: headings, omittedLabel: "Missing") { EmptyView() }
     #expect(render(plain))
     let section = InternationalPatientSummarySection(
@@ -348,4 +348,13 @@ private struct CustomScoreStyle: EarlyWarningScoreViewStyle {
             InternationalPatientSummarySection(
                 section: "patient-story", heading: "Patient story", narrativeOpen: true, content: { EmptyView() },
                 narrative: { Text(verbatim: "Narrative") })))
+}
+
+@MainActor @Test func internationalPatientSummaryThrowsForAMissingRequiredHeading() {
+    // Checked arithmetic: an added section with no heading is invalid data, never an empty heading.
+    #expect(throws: IpsSectionsError.heading) {
+        try InternationalPatientSummary(
+            label: "Summary", sections: [], requiredHeadings: ["medications": "Medicines"], omittedLabel: "Missing"
+        ) { EmptyView() }
+    }
 }

@@ -1,9 +1,15 @@
 // <lily-international-patient-summary-section> — one section of an International Patient Summary (HL7 FHIR IPS, ISO 27269):
 // a <section> named by its heading, carrying the section's key, LOINC code, status and whether the IPS requires it, as data.
 // For any status but "known" the status words are shown under the heading. A child with slot="narrative" goes into a
-// <details> after the entries, summarised by narrative-label. See components/international-patient-summary-section.
+// <details> after the entries, summarised by narrative-label. Children with slot="meta" and slot="warning" sit between the
+// heading and the entries. See components/international-patient-summary-section.
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
-import { ipsSectionCode, ipsSectionId, ipsSectionIsRequired } from "../lib/ips-sections.js";
+import {
+    ipsSectionCode,
+    ipsSectionId,
+    ipsSectionIsRequired,
+    ipsSectionLevel,
+} from "../lib/ips-sections.js";
 
 const HANDLED = new Set([
     "section",
@@ -14,6 +20,7 @@ const HANDLED = new Set([
     "status-placement",
     "code",
     "required",
+    "level",
     "id",
     "narrative-label",
     "narrative-open",
@@ -30,6 +37,8 @@ export interface SectionOptions {
     statusPlacement?: string;
     code?: string;
     required?: boolean;
+    /** The section's level in the IPS: "required", "recommended" or "optional". Default the registry's level for the key; data-level. */
+    level?: string;
     id?: string;
     idPrefix?: string;
     className?: string;
@@ -49,6 +58,8 @@ export function buildIpsSection(o: SectionOptions): HTMLElement {
     section.setAttribute("data-status", status);
     if (o.required ?? ipsSectionIsRequired(o.section))
         section.setAttribute("data-required", "true");
+    const sectionLevel = o.level ?? ipsSectionLevel(o.section);
+    if (sectionLevel) section.setAttribute("data-level", sectionLevel);
     const level = [2, 3, 4, 5, 6].includes(o.headingLevel ?? 2) ? (o.headingLevel ?? 2) : 2;
     const heading = document.createElement(`h${level}`);
     heading.id = `${id}-heading`;
@@ -77,14 +88,29 @@ export class InternationalPatientSummarySection extends HTMLElement {
             statusPlacement: this.getAttribute("status-placement") ?? "heading",
             code: this.getAttribute("code") ?? undefined,
             required: required === null ? undefined : required !== "false",
+            level: this.getAttribute("level") ?? undefined,
             id: this.getAttribute("id") ?? undefined,
             idPrefix: this.getAttribute("id-prefix") ?? undefined,
             className: rootClassName(this, "international-patient-summary-section"),
         });
         this.removeAttribute("id");
         passThroughAttributes(this, section, HANDLED);
-        const narrative = [...this.children].filter((c) => c.getAttribute("slot") === "narrative");
+        const slotted = (name: string) =>
+            [...this.children].filter((c) => c.getAttribute("slot") === name);
+        const narrative = slotted("narrative");
         for (const n of narrative) n.remove();
+        // A child with slot="meta" or slot="warning" goes between the heading (and status) and the entries; nothing without one.
+        for (const name of ["meta", "warning"]) {
+            const parts = slotted(name);
+            if (!parts.length) continue;
+            const box = document.createElement("div");
+            box.className = `international-patient-summary-section-${name}`;
+            for (const part of parts) {
+                part.removeAttribute("slot");
+                box.append(part);
+            }
+            section.append(box);
+        }
         moveChildrenInto(this, section);
         if (narrative.length) {
             const details = document.createElement("details");

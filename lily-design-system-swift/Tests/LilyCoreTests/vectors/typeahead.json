@@ -581,7 +581,7 @@
     {
       "fn": "findTypeaheadMatch",
       "args": [[], 0, "a"],
-      "expected": -1
+      "throws": "from"
     },
     {
       "fn": "findTypeaheadMatch",
@@ -670,6 +670,26 @@
       "fn": "logicalKey",
       "args": ["Home", false],
       "expected": "Home"
+    },
+    {
+      "fn": "findTypeaheadMatch",
+      "args": [["Ant", "Bee", "Cat"], -1, "a"],
+      "expected": 0
+    },
+    {
+      "fn": "findTypeaheadMatch",
+      "args": [["Ant", "Bee", "Cat"], 3, "a"],
+      "throws": "from"
+    },
+    {
+      "fn": "findTypeaheadMatch",
+      "args": [["Ant", "Bee", "Cat"], -2, "a"],
+      "throws": "from"
+    },
+    {
+      "fn": "findTypeaheadMatch",
+      "args": [["Ant", "Bee", "Cat"], 1.5, "a"],
+      "throws": "from"
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "name": "@lilydesignsystem/solid-picker-bar",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "engines": {
     "node": ">=26"
   },
@@ -62,7 +62,7 @@
     "@lilydesignsystem/solid-search-picker": "^0.1.0",
     "@lilydesignsystem/solid-share-picker": "^0.1.0",
     "@lilydesignsystem/solid-text-size-picker": "^0.1.0",
-    "@lilydesignsystem/solid-theme-picker": "^0.1.0",
+    "@lilydesignsystem/solid-theme-picker": "^0.2.0",
     "@lilydesignsystem/solid-time-zone-picker": "^0.1.0"
   },
   "peerDependencies": {

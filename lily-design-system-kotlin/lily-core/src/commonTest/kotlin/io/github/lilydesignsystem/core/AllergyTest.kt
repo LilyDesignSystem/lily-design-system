@@ -3,6 +3,7 @@ package io.github.lilydesignsystem.core
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
 class AllergyTest {
@@ -105,7 +106,11 @@ class IpsSectionsTest {
         assertEquals("international-patient-summary-allergies", ipsSectionId("allergies"))
         assertEquals(16, IPS_SECTIONS.size)
         assertEquals(listOf("medications", "allergies", "problems"), IPS_REQUIRED_SECTIONS)
-        assertEquals(3, ipsContents(emptyList(), emptyMap()).size)
+        val headings = mapOf("medications" to "Medicines", "allergies" to "Allergies", "problems" to "Problems")
+        assertEquals(3, ipsContents(emptyList(), headings).size)
+        val missing = assertFailsWith<IpsSectionsException> { ipsContents(emptyList(), emptyMap()) }
+        assertEquals("heading", missing.reason)
+        assertEquals("idPrefix", assertFailsWith<IpsSectionsException> { ipsSectionId("allergies", idPrefix = "") }.reason)
         assertEquals(null, IpsSectionStatus.fromKey("unknown"))
     }
 }

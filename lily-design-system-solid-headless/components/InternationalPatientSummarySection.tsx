@@ -9,7 +9,12 @@ import { omit } from "solid-js";
 import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { warnMissingProp } from "./dev-warning";
-import { ipsSectionCode, ipsSectionId, ipsSectionIsRequired } from "./ips-sections";
+import {
+    ipsSectionCode,
+    ipsSectionId,
+    ipsSectionIsRequired,
+    ipsSectionLevel,
+} from "./ips-sections";
 import type { IpsSectionStatus } from "./ips-sections";
 
 export interface InternationalPatientSummarySectionProps {
@@ -27,6 +32,12 @@ export interface InternationalPatientSummarySectionProps {
     code?: string;
     /** Default whether the IPS requires the section. */
     required?: boolean;
+    /** The section's level in the IPS: "required", "recommended" or "optional". Default the registry's level for the key; data-level. */
+    level?: "required" | "recommended" | "optional";
+    /** What a viewer shows beside the heading, after the heading and status and before the entries. Nothing is rendered without it. */
+    meta?: JSX.Element;
+    /** A notice about the entries, after `meta` and before them. Nothing is rendered without it. */
+    warning?: JSX.Element;
     id?: string;
     /** The same as its summary's; ids are {idPrefix}-{section}. */
     idPrefix?: string;
@@ -56,6 +67,9 @@ export default function InternationalPatientSummarySection(
         "statusPlacement",
         "code",
         "required",
+        "level",
+        "meta",
+        "warning",
         "id",
         "idPrefix",
         "narrative",
@@ -98,6 +112,7 @@ export default function InternationalPatientSummarySection(
             data-code={attr(p.code ?? ipsSectionCode(p.section))}
             data-status={attr(p.status)}
             data-required={attr(isRequired() ? "true" : undefined)}
+            data-level={attr(p.level ?? ipsSectionLevel(p.section))}
             {...restProps}
         >
             <Heading
@@ -108,6 +123,10 @@ export default function InternationalPatientSummarySection(
             </Heading>
             {p.status !== "known" && p.statusLabel && p.statusPlacement !== "list" ? (
                 <p class="international-patient-summary-section-status">{p.statusLabel}</p>
+            ) : null}
+            {p.meta ? <div class="international-patient-summary-section-meta">{p.meta}</div> : null}
+            {p.warning ? (
+                <div class="international-patient-summary-section-warning">{p.warning}</div>
             ) : null}
             {p.children}
             {p.narrative ? (

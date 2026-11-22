@@ -15,14 +15,14 @@ A string shortened in the middle to fit the width its container gives it, keepin
 
 ## Props
 
-| Prop           | Type                                     | Default  | Description                                                                                                  |
-| -------------- | ---------------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------ |
-| `class`        | string                                   | `""`     | Appended to the base class                                                                                   |
-| `text`         | string (required)                        | —        | The full text                                                                                                |
-| `ellipsis`     | string (required)                        | —        | The cut marker. No default: the headless layer ships no text, and the marker differs by language and context |
-| `strategy`     | `"even"` \| `"fixed-end"` \| `"min-end"` | `"even"` | How the room is shared                                                                                       |
-| `end`          | number                                   | —        | Characters kept at the end for `fixed-end` and `min-end`                                                     |
-| `...restProps` | HTML attributes                          | —        | Spread onto the root `<span>`                                                                                |
+| Prop           | Type                                     | Default  | Description                                                                                                                      |
+| -------------- | ---------------------------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `class`        | string                                   | `""`     | Appended to the base class                                                                                                       |
+| `text`         | string (required)                        | —        | The full text                                                                                                                    |
+| `ellipsis`     | string (required)                        | —        | The cut marker. No default: the headless layer ships no text, and the marker differs by language and context                     |
+| `strategy`     | `"even"` \| `"fixed-end"` \| `"min-end"` | `"even"` | How the room is shared                                                                                                           |
+| `end`          | number                                   | —        | Characters kept at the end for `fixed-end` and `min-end`; a whole number, at most the text's length, or it throws a `RangeError` |
+| `...restProps` | HTML attributes                          | —        | Spread onto the root `<span>`                                                                                                    |
 
 ## Usage
 

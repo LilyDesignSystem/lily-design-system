@@ -5,7 +5,7 @@ The format is loosely based on [Keep a Changelog](https://keepachangelog.com/) a
 anything that can change how an existing page lays out. The monorepo's root
 [CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md) has the reasoning behind each change.
 
-## Unreleased
+## 0.8.0 — 2026-11-22
 
 - **Fixed:** a link inside `.hero` takes the hero's text colour (`color: inherit`, underlined), and so do the headings, so it is
   never the banner's own fill on the banner. `.hero` children with a `max-inline-size` are centred (`margin-inline: auto`).

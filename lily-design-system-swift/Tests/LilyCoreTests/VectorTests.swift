@@ -32,6 +32,17 @@ private func date(_ value: Any) throws -> Date {
 
 private func number(_ value: Any) -> Double? { (value as? NSNumber)?.doubleValue }
 
+/// A JSON number for an `Int` parameter. Swift's `Int` cannot hold 1.5, so the API rules a non-whole index out by its type;
+/// the runner stands in for that by throwing the module's error, so the shared "throws" vectors still apply.
+private func whole(_ value: Any, or error: some LilyRangeError) throws -> Int {
+    let n = (value as! NSNumber).doubleValue
+    guard n.rounded(.towardZero) == n, n.isFinite else { throw error }
+    return Int(n)
+}
+
+/// A JSON number for a `Double` parameter; JSON has no NaN, so the vectors write null for "not a finite number".
+private func double(_ value: Any) -> Double { number(value) ?? .nan }
+
 private func wheelOptions(_ value: Any) -> [WheelOption] {
     (value as! [[String: Any]]).map {
         WheelOption(value: $0["value"] as! String, label: $0["label"] as! String, disabled: $0["disabled"] as? Bool ?? false)
@@ -51,13 +62,14 @@ private func call(_ fn: String, _ args: [Any]) throws -> Any {
     case "truncateMiddleByClusters":
         let options = args[1] as! [String: Any]
         let strategy = (options["strategy"] as? String).flatMap(TruncationStrategy.init(rawValue:)) ?? .even
-        return truncateMiddle(
+        if let end = options["end"] { _ = try whole(end, or: TruncateMiddleError.end) }
+        return try truncateMiddle(
             string(0), ellipsis: options["ellipsis"] as! String, maxWidth: number(options["maxWidth"]!)!,
             strategy: strategy, end: (options["end"] as? NSNumber)?.intValue, measure: { Double($0.count) })
     case "meterScale":
         let units = args[3] as? [String: Any]
         guard
-            let scale = meterScale(
+            let scale = try meterScale(
                 number(args[0]), low: number(args[1]), high: number(args[2]),
                 valueUnit: units?["value"] as? String, rangeUnit: units?["range"] as? String)
         else { return NSNull() }
@@ -98,12 +110,13 @@ private func call(_ fn: String, _ args: [Any]) throws -> Any {
             key: string(1), now: (args[2] as! NSNumber).intValue, resetMilliseconds: (args[3] as! NSNumber).intValue)
         return ["prefix": state.prefix, "at": state.at] as [String: Any]
     case "findTypeaheadMatch":
-        return findTypeaheadMatch(args[0] as! [String], from: (args[1] as! NSNumber).intValue, prefix: string(2))
+        return try findTypeaheadMatch(
+            args[0] as! [String], from: whole(args[1], or: TypeaheadError.from), prefix: string(2))
     case "logicalKey": return logicalKey(string(0), rightToLeft: args[1] as! Bool)
     case "ipsSectionCode": return ipsSectionCode(string(0)) as Any? ?? NSNull()
     case "ipsSectionIsRequired": return ipsSectionIsRequired(string(0))
     case "ipsSectionId":
-        return ipsSectionId(
+        return try ipsSectionId(
             string(0), id: args.count > 1 ? args[1] as? String : nil,
             idPrefix: args.count > 2 ? args[2] as! String : ipsIdPrefix)
     case "ipsMissingRequired": return ipsMissingRequired((args[0] as! [[String: Any]]).map { $0["key"] as! String })
@@ -113,7 +126,7 @@ private func call(_ fn: String, _ args: [Any]) throws -> Any {
                 key: $0["key"] as! String, heading: $0["heading"] as! String,
                 status: ($0["status"] as? String).flatMap(IpsSectionStatus.init(rawValue:)), id: $0["id"] as? String)
         }
-        let entries = ipsContents(
+        let entries = try ipsContents(
             sections, requiredHeadings: args[1] as! [String: String],
             idPrefix: args.count > 2 ? args[2] as! String : ipsIdPrefix)
         return entries.map { e -> [String: Any] in
@@ -129,12 +142,12 @@ private func call(_ fn: String, _ args: [Any]) throws -> Any {
             string(0), orientation: args.count > 1 ? WheelOrientation(rawValue: args[1] as! String)! : .vertical,
             rightToLeft: args.count > 2 ? args[2] as! Bool : false)?.rawValue as Any? ?? NSNull()
     case "wheelIndexNearest":
-        return wheelIndexNearest(wheelOptions(args[0]), middles: (args[1] as! [NSNumber]).map(\.doubleValue),
-                                 centre: number(args[2])!)
+        return try wheelIndexNearest(
+            wheelOptions(args[0]), middles: (args[1] as! [Any]).map(double), centre: double(args[2]))
     case "nextWheelIndex":
         let move = args.count > 3 ? args[3] as! [String: Any] : [:]
-        return nextWheelIndex(
-            wheelOptions(args[0]), current: (args[1] as! NSNumber).intValue, key: WheelMoveKey(rawValue: string(2))!,
+        return try nextWheelIndex(
+            wheelOptions(args[0]), current: whole(args[1], or: WheelPickerError.current), key: WheelMoveKey(rawValue: string(2))!,
             loop: move["loop"] as? Bool ?? false, pageSize: (move["pageSize"] as? NSNumber)?.doubleValue ?? 5)
     case "nextWheelPrefix":
         let p = args[0] as! [String: Any]
@@ -143,7 +156,8 @@ private func call(_ fn: String, _ args: [Any]) throws -> Any {
             now: (args[2] as! NSNumber).intValue, resetMilliseconds: (args[3] as! NSNumber).intValue)
         return ["prefix": next.prefix, "at": next.at] as [String: Any]
     case "wheelTypeaheadIndex":
-        return wheelTypeaheadIndex(wheelOptions(args[0]), current: (args[1] as! NSNumber).intValue, prefix: string(2))
+        return try wheelTypeaheadIndex(
+            wheelOptions(args[0]), current: whole(args[1], or: WheelPickerError.current), prefix: string(2))
     default: throw Unknown(description: "unknown vector function \(fn)")
     }
 }
@@ -165,7 +179,15 @@ private func same(_ a: Any, _ b: Any) throws -> Bool {
             let fn = c["fn"] as! String
             let args = c["args"] as! [Any]
             let label = "\(file.name) #\(index) \(fn)(\(args))"
-            if c["throws"] as? Bool == true {
+            if let reason = c["throws"] as? String {
+                // The vector names the reason; the port's LilyRangeError must carry the same one.
+                do {
+                    _ = try call(fn, args)
+                    Issue.record("\(label) should throw \(reason)")
+                } catch let error as any LilyRangeError {
+                    #expect(error.reason == reason, "\(label): threw \(error.reason), expected \(reason)")
+                }
+            } else if c["throws"] as? Bool == true {
                 #expect(throws: (any Error).self, "\(label) should throw") { _ = try call(fn, args) }
             } else {
                 let result = try call(fn, args)

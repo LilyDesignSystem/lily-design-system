@@ -50,12 +50,12 @@
     {
       "fn": "ipsSectionId",
       "args": ["allergies", "", "summary-2"],
-      "expected": "summary-2-allergies"
+      "throws": "id"
     },
     {
       "fn": "ipsSectionId",
       "args": ["allergies", "", ""],
-      "expected": "international-patient-summary-allergies"
+      "throws": "id"
     },
     {
       "fn": "ipsMissingRequired",
@@ -259,35 +259,33 @@
         ],
         {}
       ],
-      "expected": [
+      "throws": "heading"
+    },
+    {
+      "fn": "ipsSectionId",
+      "args": ["", null, "summary"],
+      "throws": "key"
+    },
+    {
+      "fn": "ipsSectionId",
+      "args": ["allergies", null, ""],
+      "throws": "idPrefix"
+    },
+    {
+      "fn": "ipsContents",
+      "args": [
+        [
+          {
+            "key": "allergies",
+            "heading": "A"
+          }
+        ],
         {
-          "key": "allergies",
-          "heading": "A",
-          "status": "known",
-          "id": "international-patient-summary-allergies",
-          "code": "48765-2",
-          "required": true,
-          "added": false
-        },
-        {
-          "key": "medications",
-          "heading": "",
-          "status": "omitted",
-          "id": "international-patient-summary-medications",
-          "code": "10160-0",
-          "required": true,
-          "added": true
-        },
-        {
-          "key": "problems",
-          "heading": "",
-          "status": "omitted",
-          "id": "international-patient-summary-problems",
-          "code": "11450-4",
-          "required": true,
-          "added": true
+          "medications": "Medicines",
+          "problems": ""
         }
-      ]
+      ],
+      "throws": "heading"
     }
   ]
 }

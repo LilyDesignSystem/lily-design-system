@@ -6,6 +6,14 @@ public record IpsSectionEntry(string Key, string Heading, string Status = "known
 /// <summary>An entry in an International Patient Summary's contents; Added marks a missing required section the root added.</summary>
 public record IpsContentsEntry(string Key, string Heading, string Status, string Id, string? Code, bool Required, bool Added);
 
+/// <summary>Thrown by <see cref="IpsSections"/> for an empty key, id or id prefix, an unknown status, or a missing required heading;
+/// <see cref="Reason"/> is key, id, idPrefix, status or heading. Invalid data is an error, never a default.</summary>
+public sealed class IpsSectionsException(string reason, string paramName, object? actualValue, string message)
+    : ArgumentOutOfRangeException(paramName, actualValue, $"IpsSections: {message}")
+{
+    public string Reason { get; } = reason;
+}
+
 /// <summary>
 /// The International Patient Summary section registry (spec/healthcare-ui), a port of shared/ips-sections.ts: the sixteen IPS
 /// 2.0.1 Composition sections with their LOINC codes and levels, and the rule that adds an omitted entry for each missing
@@ -40,11 +48,24 @@ public static class IpsSections
 
     public static bool IsRequired(string key) => Required.Contains(key);
 
+    /// <summary>A section's level in the IPS ("required", "recommended" or "optional"), or null for a key that is not an IPS section.</summary>
+    public static string? Level(string key) => All.Where(s => s.Key == key).Select(s => s.Level).FirstOrDefault();
+
     /// <summary>The default id prefix; give each summary on a page its own.</summary>
     public const string IdPrefix = "international-patient-summary";
 
-    public static string Id(string key, string? id = null, string? idPrefix = null) =>
-        string.IsNullOrEmpty(id) ? $"{(string.IsNullOrEmpty(idPrefix) ? IdPrefix : idPrefix)}-{key}" : id;
+    /// <summary>The statuses a section may have.</summary>
+    public static readonly IReadOnlyList<string> Statuses = ["known", "none-known", "not-recorded", "unavailable", "omitted"];
+
+    /// <summary><paramref name="id"/> when given, else {idPrefix}-{key} (idPrefix <see cref="IdPrefix"/> when not given). An empty
+    /// key, id or idPrefix throws an <see cref="IpsSectionsException"/>.</summary>
+    public static string Id(string key, string? id = null, string? idPrefix = null)
+    {
+        if (key == "") throw new IpsSectionsException("key", nameof(key), key, "the section key is empty");
+        if (id == "") throw new IpsSectionsException("id", nameof(id), id, $"the id of section {key} is empty");
+        if (idPrefix == "") throw new IpsSectionsException("idPrefix", nameof(idPrefix), idPrefix, "the id prefix is empty");
+        return id ?? $"{idPrefix ?? IdPrefix}-{key}";
+    }
 
     public static IReadOnlyList<string> MissingRequired(IEnumerable<IpsSectionEntry> sections)
     {
@@ -57,9 +78,19 @@ public static class IpsSections
     {
         var list = sections.ToList();
         var given = list.Select(s => new IpsContentsEntry(
-            s.Key, s.Heading, string.IsNullOrEmpty(s.Status) ? "known" : s.Status, Id(s.Key, s.Id, idPrefix), Code(s.Key), IsRequired(s.Key), false));
+            s.Key, s.Heading, CheckedStatus(s), Id(s.Key, s.Id, idPrefix), Code(s.Key), IsRequired(s.Key), false));
         var added = MissingRequired(list).Select(k => new IpsContentsEntry(
-            k, requiredHeadings.TryGetValue(k, out var h) ? h : "", "omitted", Id(k, null, idPrefix), Code(k), true, true));
+            k, RequiredHeading(requiredHeadings, k), "omitted", Id(k, null, idPrefix), Code(k), true, true));
         return given.Concat(added).ToList();
+    }
+
+    private static string CheckedStatus(IpsSectionEntry s) => Statuses.Contains(s.Status)
+        ? s.Status
+        : throw new IpsSectionsException("status", nameof(s.Status), s.Status, $"section {s.Key} has no such status: {s.Status}");
+
+    private static string RequiredHeading(IReadOnlyDictionary<string, string> requiredHeadings, string key)
+    {
+        if (requiredHeadings.TryGetValue(key, out var heading) && heading != "") return heading;
+        throw new IpsSectionsException("heading", nameof(requiredHeadings), key, $"the required section {key} is missing and has no heading");
     }
 }

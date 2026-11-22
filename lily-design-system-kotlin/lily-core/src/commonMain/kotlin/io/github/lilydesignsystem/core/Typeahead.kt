@@ -39,9 +39,11 @@ public fun nextTypeaheadState(
 
 /**
  * The index of the label to move to, or -1. Searches from the one after [from] and wraps. A prefix of one repeated letter is
- * that letter, so pressing it again steps through the labels starting with it.
+ * that letter, so pressing it again steps through the labels starting with it. A [from] that is not -1 (no row) or a row's index
+ * throws a [TypeaheadException].
  */
 public fun findTypeaheadMatch(labels: List<String>, from: Int, prefix: String): Int {
+    if (from < -1 || from >= labels.size) throw TypeaheadException("from", "from $from is not -1 or a row of ${labels.size}")
     val composed = canonicalComposition(prefix)
     val initials = composed.codePointList().map { foldText(codePointToString(it)) }.filter { it.isNotEmpty() }
     if (initials.isEmpty()) return -1

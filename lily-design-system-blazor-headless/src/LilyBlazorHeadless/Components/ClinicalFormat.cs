@@ -17,6 +17,13 @@ public record HtmlDurationValue(string Datetime, bool Negative);
 /// <summary>The scale of an <c>ObservationView</c> meter: its <c>MeterMin</c> and <c>MeterMax</c>, and the range's <c>MeterLow</c> and <c>MeterHigh</c>.</summary>
 public record MeterScaleResult(double Min, double Max, double? Low, double? High);
 
+/// <summary>Thrown by <see cref="ClinicalFormat.MeterScale"/> for malformed or out-of-range input; <see cref="Reason"/> is value, range, reversed, bound or units.</summary>
+public sealed class MeterScaleException(string reason, string paramName, object? actualValue, string message)
+    : ArgumentOutOfRangeException(paramName, actualValue, $"MeterScale: {message}")
+{
+    public string Reason { get; } = reason;
+}
+
 /// <summary>openEHR PROPORTION_KIND: how a numerator and denominator are written.</summary>
 public enum ProportionKind { Ratio, Unitary, Percent, Fraction, IntegerFraction }
 
@@ -69,37 +76,38 @@ public static class ClinicalFormat
     /// A meter's scale for a value and its reference range, so every consumer draws the same one (the C# twin of <c>meterScale</c> in
     /// <c>shared/clinical-format.ts</c>). A drawing decision, never a clinical one. A two-sided range: half a range beyond each end. A
     /// one-sided range (only <paramref name="high"/> or only <paramref name="low"/>): from zero to half as far again as the bound.
-    /// Always wide enough to hold the value. <c>null</c> (draw no meter) when the value or an end is not a finite number, when neither
-    /// end is given, when a two-sided range is reversed or has no width, when a one-sided bound is not above zero, or when the two
-    /// units are both given and differ.
+    /// Always wide enough to hold the value. <c>null</c> (draw no meter) only when there is nothing to draw: no value, or neither end
+    /// of the range. Malformed input is an error, never a fallback: a <see cref="MeterScaleException"/> for a value or an end that is
+    /// not a finite number, a two-sided range that is reversed or has no width, a one-sided bound not above zero, or two units that
+    /// are both given and differ; its <see cref="MeterScaleException.Reason"/> says which.
     /// </summary>
     public static MeterScaleResult? MeterScale(
         double? value, double? low = null, double? high = null, string? valueUnit = null, string? rangeUnit = null)
     {
         static bool Finite(double? n) => n is { } d && double.IsFinite(d);
-        if (!Finite(value)) return null;
-        if (!string.IsNullOrEmpty(valueUnit) && !string.IsNullOrEmpty(rangeUnit) && valueUnit != rangeUnit) return null;
-        if ((low is not null && !Finite(low)) || (high is not null && !Finite(high))) return null;
+        if (value is null || (low is null && high is null)) return null;
+        if (!Finite(value)) throw new MeterScaleException("value", nameof(value), value, $"the value is not a finite number: {value}");
+        if (low is not null && !Finite(low)) throw new MeterScaleException("range", nameof(low), low, $"an end of the range is not a finite number: {low}");
+        if (high is not null && !Finite(high)) throw new MeterScaleException("range", nameof(high), high, $"an end of the range is not a finite number: {high}");
+        if (!string.IsNullOrEmpty(valueUnit) && !string.IsNullOrEmpty(rangeUnit) && valueUnit != rangeUnit)
+            throw new MeterScaleException("units", nameof(rangeUnit), rangeUnit, $"the value is in {valueUnit} but the range is in {rangeUnit}");
 
         double min, max;
         if (low is { } l && high is { } h)
         {
-            if (l >= h) return null;
+            if (l >= h) throw new MeterScaleException("reversed", nameof(low), low, $"the range is reversed or has no width: {l} to {h}");
             var half = (h - l) / 2;
             min = l - half;
             max = h + half;
         }
-        else if ((high ?? low) is { } bound)
+        else
         {
-            if (bound <= 0) return null;
+            var bound = (high ?? low)!.Value;
+            if (bound <= 0) throw new MeterScaleException("bound", high is null ? nameof(low) : nameof(high), bound, $"a one-sided bound must be above zero: {bound}");
             min = 0;
             max = bound * 1.5;
         }
-        else
-        {
-            return null;
-        }
-        return new MeterScaleResult(Math.Min(min, value!.Value), Math.Max(max, value.Value), low, high);
+        return new MeterScaleResult(Math.Min(min, value.Value), Math.Max(max, value.Value), low, high);
     }
 
     /// <summary>The age at <paramref name="at"/> of someone born at <paramref name="birth"/>, in the CUI unit bands.</summary>

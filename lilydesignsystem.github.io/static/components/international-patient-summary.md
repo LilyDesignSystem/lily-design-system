@@ -25,7 +25,7 @@ required section is never silently missing.
 
 - `label`: string (required) -- the article's accessible name
 - `sections`: `{ key, heading, status?, id? }[]` (default: `[]`) -- the sections you render, in document order
-- `requiredHeadings`: `{ medications, allergies, problems }` (required) -- headings for an added, missing required section
+- `requiredHeadings`: `{ medications, allergies, problems }` (required) -- headings for an added, missing required section. A missing required section with no heading here throws an `IpsSectionsError` (a `RangeError`, reason `heading`), never an empty heading
 - `omittedLabel`: string (required) -- the words an added section shows
 - `contentsLabel`: string (optional) -- names the contents navigation; without it there is none
 - `headingLevel`: 2 to 6 (default: 2) -- the heading level of an added section

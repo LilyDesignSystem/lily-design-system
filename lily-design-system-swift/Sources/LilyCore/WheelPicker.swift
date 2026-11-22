@@ -38,11 +38,23 @@ public func wheelMoveKey(_ key: String, orientation: WheelOrientation = .vertica
     return key == "ArrowDown" || key == "ArrowUp" ? WheelMoveKey(rawValue: key) : nil
 }
 
-/// The enabled option nearest the centre of a settled wheel, or -1. A tie goes to the earlier option.
-public func wheelIndexNearest(_ options: [WheelOption], middles: [Double], centre: Double) -> Int {
+/// Why a wheel-picker function refused its input; the raw value is the TypeScript `WheelPickerError.reason`.
+public enum WheelPickerError: String, LilyRangeError, Equatable {
+    case current, pageSize, middles, centre
+}
+
+private func checkCurrent(_ current: Int, _ count: Int) throws(WheelPickerError) {
+    guard current >= -1, current < count else { throw .current }
+}
+
+/// The enabled option nearest the centre of a settled wheel, or -1. A tie goes to the earlier option. `middles` must hold one
+/// finite number per option and `centre` must be finite, or it throws.
+public func wheelIndexNearest(_ options: [WheelOption], middles: [Double], centre: Double) throws(WheelPickerError) -> Int {
+    guard centre.isFinite else { throw .centre }
+    guard middles.count == options.count, middles.allSatisfy(\.isFinite) else { throw .middles }
     var best = -1
     var bestDistance = Double.infinity
-    for (index, option) in options.enumerated() where !option.disabled && index < middles.count {
+    for (index, option) in options.enumerated() where !option.disabled {
         let distance = abs(middles[index] - centre)
         if distance < bestDistance {
             best = index
@@ -52,14 +64,17 @@ public func wheelIndexNearest(_ options: [WheelOption], middles: [Double], centr
     return best
 }
 
-/// The index to select after `key`, or -1 when nothing can be selected. With nothing selected, a downward key or Home picks the
+/// The index to select after `key`, or -1 when nothing can be selected. A `current` that is not -1 or an option, or a
+/// `pageSize` that is not a positive whole number, throws. With nothing selected, a downward key or Home picks the
 /// first enabled option and an upward key or End the last.
 public func nextWheelIndex(
     _ options: [WheelOption], current: Int, key: WheelMoveKey, loop: Bool = false, pageSize: Double = 5
-) -> Int {
+) throws(WheelPickerError) -> Int {
+    try checkCurrent(current, options.count)
+    guard pageSize.isFinite, pageSize >= 1, pageSize.rounded(.down) == pageSize else { throw .pageSize }
+    let page = Int(pageSize)
     let enabled = options.indices.filter { !options[$0].disabled }
     guard let first = enabled.first, let last = enabled.last else { return -1 }
-    let page = max(1, Int(pageSize.rounded(.down)))
     if key == .home { return first }
     if key == .end { return last }
     guard let position = enabled.firstIndex(of: current) else {
@@ -98,14 +113,15 @@ private func wheelFold(_ text: String) -> String {
 }
 
 /// The enabled option for the typed `prefix`, or -1. Searches from the one after `current` and wraps; one repeated letter cycles.
-public func wheelTypeaheadIndex(_ options: [WheelOption], current: Int, prefix: String) -> Int {
+public func wheelTypeaheadIndex(_ options: [WheelOption], current: Int, prefix: String) throws(WheelPickerError) -> Int {
+    try checkCurrent(current, options.count)
     let initials = prefix.precomposedStringWithCanonicalMapping.unicodeScalars.map { wheelFold(String($0)) }
         .filter { !$0.isEmpty }
     guard let firstInitial = initials.first, !options.isEmpty else { return -1 }
     let cycle = initials.allSatisfy { $0 == firstInitial }
     let needle = Array((cycle ? firstInitial : wheelFold(prefix)).unicodeScalars)
     let startOffset = cycle ? 1 : 0
-    let from = current < 0 ? -startOffset : current
+    let from = current == -1 ? -startOffset : current
     let count = options.count
     for step in 0..<count {
         let index = ((from + startOffset + step) % count + count) % count

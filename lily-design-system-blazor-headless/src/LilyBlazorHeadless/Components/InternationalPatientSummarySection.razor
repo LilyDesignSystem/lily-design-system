@@ -8,7 +8,7 @@
     data. For any status but "known" the consumer's words are shown under the heading. Narrative, when given, sits in a
     <details> after the entries. See components/international-patient-summary-section/index.md.
 *@
-<section class="@($"international-patient-summary-section {CssClass}".Trim())" id="@SectionId" aria-labelledby="@HeadingId" data-section="@Section" data-code="@(Code ?? IpsSections.Code(Section))" data-status="@Status" data-required="@(IsRequired ? "true" : null)" @attributes="AdditionalAttributes">
+<section class="@($"international-patient-summary-section {CssClass}".Trim())" id="@SectionId" aria-labelledby="@HeadingId" data-section="@Section" data-code="@(Code ?? IpsSections.Code(Section))" data-status="@Status" data-required="@(IsRequired ? "true" : null)" data-level="@(Level ?? IpsSections.Level(Section))" @attributes="AdditionalAttributes">
     @switch (HeadingLevel)
     {
         case 3: <h3 id="@HeadingId" class="international-patient-summary-section-heading">@Heading</h3> break;
@@ -18,6 +18,8 @@
         default: <h2 id="@HeadingId" class="international-patient-summary-section-heading">@Heading</h2> break;
     }
     @if (Status != "known" && !string.IsNullOrEmpty(StatusLabel) && StatusPlacement != "list") {<p class="international-patient-summary-section-status">@StatusLabel</p>}
+    @if (Meta is not null) {<div class="international-patient-summary-section-meta">@Meta</div>}
+    @if (Warning is not null) {<div class="international-patient-summary-section-warning">@Warning</div>}
     @ChildContent
     @if (Narrative is not null) {<details class="international-patient-summary-section-narrative" open="@NarrativeOpen"><summary>@NarrativeLabel</summary>@Narrative</details>}
 </section>
@@ -37,6 +39,12 @@
     [Parameter] public string? Code { get; set; }
     /// <summary>Default whether the IPS requires the section.</summary>
     [Parameter] public bool? Required { get; set; }
+    /// <summary>"required", "recommended" or "optional"; default the section's level in the IPS.</summary>
+    [Parameter] public string? Level { get; set; }
+    /// <summary>What a viewer shows beside the heading, after the heading and status and before the entries. Nothing without it.</summary>
+    [Parameter] public RenderFragment? Meta { get; set; }
+    /// <summary>A notice about the entries, after Meta and before them. Nothing without it.</summary>
+    [Parameter] public RenderFragment? Warning { get; set; }
     [Parameter] public string? Id { get; set; }
     /// <summary>The same as its summary's; ids are {IdPrefix}-{Section}.</summary>
     [Parameter] public string? IdPrefix { get; set; }

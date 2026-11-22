@@ -32,7 +32,9 @@ import {
     wheelTypeaheadIndex,
 } from "./wheel-picker";
 
-type Case = { fn: string; args: unknown[]; expected?: unknown; throws?: boolean };
+// `throws` is the reason every platform's error must carry (the module's RangeError subclass, or its equivalent), or `true`
+// for a module whose error has no reason yet.
+type Case = { fn: string; args: unknown[]; expected?: unknown; throws?: string | true };
 type VectorFile = { module: string; description: string; cases: Case[] };
 
 const clusters = (text: string) => splitGraphemes(text).length;
@@ -88,8 +90,16 @@ describe("shared/vectors", () => {
                 it(`${index}: ${c.fn}(${JSON.stringify(c.args)})`, () => {
                     const fn = FUNCTIONS[c.fn];
                     expect(fn, `unknown function ${c.fn}`).toBeTypeOf("function");
-                    if (c.throws) {
-                        expect(() => fn(...c.args)).toThrow();
+                    if (c.throws !== undefined) {
+                        let thrown: unknown;
+                        try {
+                            fn(...c.args);
+                        } catch (error) {
+                            thrown = error;
+                        }
+                        expect(thrown, "should throw").toBeInstanceOf(RangeError);
+                        if (c.throws !== true)
+                            expect((thrown as { reason?: string }).reason).toBe(c.throws);
                     } else {
                         const result = fn(...c.args);
                         expect(result === undefined ? null : result).toEqual(c.expected);

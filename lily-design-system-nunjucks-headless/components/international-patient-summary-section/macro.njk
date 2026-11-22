@@ -3,7 +3,7 @@
   LOINC code and a status that is never blank (spec/healthcare-ui).
 
   HTML tag: <section>
-  CSS class: international-patient-summary-section (parts: -heading, -status, -narrative)
+  CSS class: international-patient-summary-section (parts: -heading, -status, -meta, -warning, -narrative)
 
   Params:
     section         the IPS section key, such as "allergies" (required); data-section
@@ -13,6 +13,9 @@
     statusLabel     the status in words; shown under the heading for any status but "known"
     statusPlacement "heading" (default) | "list": "list" leaves the words to the record list inside, whose own status item
                     says them, so they are not shown twice
+    level           "required" | "recommended" | "optional"; default the section's level in the IPS; data-level
+    meta            raw HTML the consumer has sanitised, between the heading (and status) and the entries, in a div; nothing without it
+    warning         raw HTML, a notice about the entries, after meta, in a div; nothing without it
     code            the LOINC code; default the IPS code for the key; data-code
     required        true / false; default whether the IPS requires the section; data-required
     id              default "{idPrefix}-{section}"
@@ -35,6 +38,7 @@
   "pregnancy": "10162-6", "advance-directives": "42348-3", "alerts": "104605-1", "patient-story": "81338-6"
 } -%}
 {%- set IPS_REQUIRED = ["medications", "allergies", "problems"] -%}
+{%- set IPS_RECOMMENDED = ["immunizations", "results", "procedures", "devices"] -%}
 {%- macro internationalPatientSummarySection(params) -%}
 {%- set p = params | default({}) -%}
 {%- set sectionId = p.id or ((p.idPrefix or "international-patient-summary") + "-" + p.section) -%}
@@ -42,6 +46,7 @@
 {%- set code = p.code or IPS_CODES[p.section] -%}
 {%- set required = p.required if (p.required === true or p.required === false) else (p.section in IPS_REQUIRED) -%}
 {%- set level = p.headingLevel or 2 -%}
+{%- set ipsLevel = p.level or ("required" if p.section in IPS_REQUIRED else ("recommended" if p.section in IPS_RECOMMENDED else ("optional" if IPS_CODES[p.section] else ""))) -%}
 <section
   class="international-patient-summary-section{% if p.classes %} {{ p.classes }}{% endif %}"
   id="{{ sectionId }}"
@@ -50,11 +55,18 @@
   {%- if code %} data-code="{{ code }}"{% endif %}
   data-status="{{ status }}"
   {%- if required %} data-required="true"{% endif %}
+  {%- if ipsLevel %} data-level="{{ ipsLevel }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
   <h{{ level }} id="{{ sectionId }}-heading" class="international-patient-summary-section-heading">{{ p.heading }}</h{{ level }}>
   {%- if status != "known" and p.statusLabel and p.statusPlacement != "list" %}
   <p class="international-patient-summary-section-status">{{ p.statusLabel }}</p>
+  {%- endif %}
+  {%- if p.meta %}
+  <div class="international-patient-summary-section-meta">{{ p.meta | safe }}</div>
+  {%- endif %}
+  {%- if p.warning %}
+  <div class="international-patient-summary-section-warning">{{ p.warning | safe }}</div>
   {%- endif %}
   {%- if p.html %}{{ p.html | safe }}{% elif caller %}{{ caller() }}{% endif %}
   {%- if p.narrative %}

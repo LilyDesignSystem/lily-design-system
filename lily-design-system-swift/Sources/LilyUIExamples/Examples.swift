@@ -294,7 +294,7 @@ public enum Examples {
             slug: "international-patient-summary", name: "InternationalPatientSummary",
             summary: "An IPS document's structure: missing required sections are shown as omitted, never left out.",
             code: """
-                InternationalPatientSummary(
+                try InternationalPatientSummary(
                     label: "Patient summary", sections: [.init(key: "allergies", heading: "Allergies", status: .noneKnown)],
                     requiredHeadings: ["medications": "Medicines", "allergies": "Allergies", "problems": "Problems"],
                     omittedLabel: "Section missing from document", contentsLabel: "Contents",
@@ -307,8 +307,9 @@ public enum Examples {
                 }
                 """,
             make: {
+                // Known-good headings: try! fails loudly if that ever stops being true.
                 AnyView(
-                    InternationalPatientSummary(
+                    try! InternationalPatientSummary(
                         label: "Patient summary",
                         sections: [.init(key: "allergies", heading: "Allergies", status: .noneKnown)],
                         requiredHeadings: ["medications": "Medicines", "allergies": "Allergies", "problems": "Problems"],

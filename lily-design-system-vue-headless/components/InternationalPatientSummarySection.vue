@@ -3,11 +3,16 @@
 //
 // One section of an International Patient Summary (HL7 FHIR IPS, ISO 27269): a <section> named by its heading, carrying the
 // section's key, LOINC code, status and whether the IPS requires it, as data. For any status but "known" the consumer's words
-// are shown under the heading. The "narrative" slot, when given, sits in a <details> after the entries.
+// are shown under the heading. The optional "meta" and "warning" slots sit between the heading and the entries. The "narrative" slot, when given, sits in a <details> after the entries.
 // See components/international-patient-summary-section/index.md.
 import { computed, useSlots } from "vue";
 import { warnMissingProp } from "./dev-warning";
-import { ipsSectionCode, ipsSectionId, ipsSectionIsRequired } from "./ips-sections";
+import {
+    ipsSectionCode,
+    ipsSectionId,
+    ipsSectionIsRequired,
+    ipsSectionLevel,
+} from "./ips-sections";
 import type { IpsSectionStatus } from "./ips-sections";
 
 const props = withDefaults(
@@ -21,6 +26,8 @@ const props = withDefaults(
         statusPlacement?: "heading" | "list";
         code?: string;
         required?: boolean;
+        /** The section's level in the IPS: "required", "recommended" or "optional". Default the registry's level for the key; data-level. */
+        level?: "required" | "recommended" | "optional";
         id?: string;
         idPrefix?: string;
         narrativeLabel?: string;
@@ -33,6 +40,7 @@ const props = withDefaults(
         statusPlacement: "heading",
         code: undefined,
         required: undefined,
+        level: undefined,
         id: undefined,
         idPrefix: undefined,
         narrativeLabel: undefined,
@@ -78,6 +86,7 @@ if (slots.narrative) {
         :data-code="code ?? ipsSectionCode(section)"
         :data-status="status"
         :data-required="isRequired ? 'true' : undefined"
+        :data-level="level ?? ipsSectionLevel(section)"
     >
         <component
             :is="`h${headingLevel}`"
@@ -91,6 +100,18 @@ if (slots.narrative) {
         >
             {{ statusLabel }}
         </p>
+        <div
+            v-if="$slots.meta"
+            class="international-patient-summary-section-meta"
+        >
+            <slot name="meta" />
+        </div>
+        <div
+            v-if="$slots.warning"
+            class="international-patient-summary-section-warning"
+        >
+            <slot name="warning" />
+        </div>
         <slot />
         <details
             v-if="$slots.narrative"

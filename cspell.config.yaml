@@ -26,6 +26,8 @@ ignorePaths:
   - "**/obj/**"
   - "**/storybook-static/**"
   - "**/coverage/**"
+  # Example pages full of invented patients, clinicians and clinical shorthand: their names are not words to add to a dictionary.
+  - "lilydesignsystem.github.io/src/routes/examples/epic-emr-*/**"
   - "**/*.min.js"
   - "**/pnpm-lock.yaml"
   - "**/package-lock.json"

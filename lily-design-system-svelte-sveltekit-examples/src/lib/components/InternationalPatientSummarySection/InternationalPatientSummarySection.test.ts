@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/svelte";
+import { cleanup, render, screen } from "@testing-library/svelte";
 import { createRawSnippet } from "svelte";
 import { afterEach, describe, expect, test, vi } from "vitest";
 
@@ -150,6 +150,60 @@ describe("InternationalPatientSummarySection", () => {
                 },
             });
             expect(warn).not.toHaveBeenCalled();
+        });
+    });
+    describe("meta, warning and level (P42-T6b)", () => {
+        const base = { section: "allergies", heading: "Allergies" };
+
+        test("data-level is the section's level in the IPS, and level overrides it", () => {
+            render(Subject, { props: base });
+            expect(screen.getByRole("region").getAttribute("data-level")).toBe("required");
+            cleanup();
+            render(Subject, { props: { section: "pregnancy", heading: "Pregnancy" } });
+            expect(screen.getByRole("region").getAttribute("data-level")).toBe("optional");
+            cleanup();
+            render(Subject, { props: { ...base, level: "recommended" } });
+            expect(screen.getByRole("region").getAttribute("data-level")).toBe("recommended");
+            cleanup();
+            render(Subject, { props: { section: "made-up", heading: "Other" } });
+            expect(screen.getByRole("region").hasAttribute("data-level")).toBe(false);
+        });
+
+        test("meta and warning render nothing when omitted", () => {
+            render(Subject, { props: base });
+            const region = screen.getByRole("region");
+            expect(region.querySelector(".international-patient-summary-section-meta")).toBeNull();
+            expect(
+                region.querySelector(".international-patient-summary-section-warning"),
+            ).toBeNull();
+        });
+
+        test("meta, then warning, sit after the heading and status and before the entries", () => {
+            render(Subject, {
+                props: {
+                    ...base,
+                    status: "unavailable",
+                    statusLabel: "In words",
+                    meta: html("<span>Required</span>"),
+                    warning: html("<span>Entries not found</span>"),
+                    children: html('<ul class="entries"></ul>'),
+                },
+            });
+            const region = screen.getByRole("region", { name: "Allergies" });
+            const order = [...region.children].map((c) => c.className.split(" ")[0]);
+            expect(order).toEqual([
+                "international-patient-summary-section-heading",
+                "international-patient-summary-section-status",
+                "international-patient-summary-section-meta",
+                "international-patient-summary-section-warning",
+                "entries",
+            ]);
+            expect(
+                region.querySelector(".international-patient-summary-section-meta")!.textContent,
+            ).toBe("Required");
+            expect(
+                region.querySelector(".international-patient-summary-section-warning")!.textContent,
+            ).toBe("Entries not found");
         });
     });
 });

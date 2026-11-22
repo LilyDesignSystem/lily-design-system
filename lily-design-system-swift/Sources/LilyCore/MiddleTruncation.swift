@@ -21,7 +21,13 @@ public func splitGraphemes(_ text: String) -> [String] {
     text.map(String.init)
 }
 
+/// Why `truncateMiddle` refused its input; the raw value is the TypeScript `TruncateMiddleError.reason`.
+public enum TruncateMiddleError: String, LilyRangeError, Equatable {
+    case end, maxWidth
+}
+
 /// The text shortened to fit `maxWidth`, or unchanged when it already fits. `ellipsis` is required: Lily has no default text.
+/// `maxWidth` must be finite and at least 0, and `end` (0 when not given) a count from 0 to the text's clusters, or it throws.
 public func truncateMiddle(
     _ text: String,
     ellipsis: String,
@@ -29,16 +35,19 @@ public func truncateMiddle(
     strategy: TruncationStrategy = .even,
     end: Int? = nil,
     measure: (String) -> Double
-) -> String {
+) throws(TruncateMiddleError) -> String {
+    guard maxWidth.isFinite, maxWidth >= 0 else { throw .maxWidth }
+    if let end, end < 0 { throw .end }
     if measure(text) <= maxWidth { return text }
     let g = splitGraphemes(text)
     let n = g.count
     func tail(_ count: Int) -> String { count > 0 ? g[(n - count)...].joined() : "" }
     func head(_ count: Int) -> String { g[..<count].joined() }
-    func clampEnd() -> Int { min(max(end ?? 0, 0), n) }
+    let checkedEnd = end ?? 0
+    if checkedEnd > n { throw .end }
 
     if strategy == .fixedEnd {
-        let endCount = clampEnd()
+        let endCount = checkedEnd
         let endText = tail(endCount)
         let room = maxWidth - measure(ellipsis + endText)
         var low = 0
@@ -50,7 +59,7 @@ public func truncateMiddle(
         return head(low) + ellipsis + endText
     }
 
-    let minEnd = strategy == .minEnd ? clampEnd() : 0
+    let minEnd = strategy == .minEnd ? checkedEnd : 0
     func split(_ kept: Int) -> (Int, Int) {
         let endCount = min(n, max((kept + 1) / 2, minEnd))
         return (max(0, kept - endCount), endCount)

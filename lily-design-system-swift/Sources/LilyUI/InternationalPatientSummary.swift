@@ -97,7 +97,7 @@ extension InternationalPatientSummarySection where Content == EmptyView, Narrati
 public struct InternationalPatientSummary<Banner: View, Sections: View, Details: View>: View {
     let label: String
     let sections: [IpsSectionEntry]
-    let requiredHeadings: [String: String]
+    let contents: [IpsContentsEntry]
     let omittedLabel: String
     let contentsLabel: String?
     let headingLevel: HeadingLevel
@@ -114,14 +114,15 @@ public struct InternationalPatientSummary<Banner: View, Sections: View, Details:
     ///   - contentsLabel: names the contents; without it there are none.
     ///   - headingLevel: the heading level of an added section (default `.h2`).
     ///   - onSelectSection: called with a section key when its contents entry is chosen; scroll to it in the app.
+    /// - Throws: `IpsSectionsError` for a missing required section with no heading, or an empty key or id.
     public init(
         label: String, sections: [IpsSectionEntry], requiredHeadings: [String: String], omittedLabel: String,
         contentsLabel: String? = nil, headingLevel: HeadingLevel = .h2, onSelectSection: @escaping @MainActor (String) -> Void = { _ in },
         @ViewBuilder banner: () -> Banner, @ViewBuilder content: () -> Sections, @ViewBuilder details: () -> Details
-    ) {
+    ) throws(IpsSectionsError) {
         self.label = label
         self.sections = sections
-        self.requiredHeadings = requiredHeadings
+        self.contents = try ipsContents(sections, requiredHeadings: requiredHeadings)
         self.omittedLabel = omittedLabel
         self.contentsLabel = contentsLabel
         self.headingLevel = headingLevel
@@ -132,8 +133,6 @@ public struct InternationalPatientSummary<Banner: View, Sections: View, Details:
         LilySemantics.warn(
             IpsRules.summaryWarnings(label: label, omittedLabel: omittedLabel, requiredHeadings: requiredHeadings))
     }
-
-    var contents: [IpsContentsEntry] { ipsContents(sections, requiredHeadings: requiredHeadings) }
 
     public var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -165,8 +164,8 @@ extension InternationalPatientSummary where Banner == EmptyView, Details == Empt
         label: String, sections: [IpsSectionEntry], requiredHeadings: [String: String], omittedLabel: String,
         contentsLabel: String? = nil, headingLevel: HeadingLevel = .h2, onSelectSection: @escaping @MainActor (String) -> Void = { _ in },
         @ViewBuilder content: () -> Sections
-    ) {
-        self.init(
+    ) throws(IpsSectionsError) {
+        try self.init(
             label: label, sections: sections, requiredHeadings: requiredHeadings, omittedLabel: omittedLabel,
             contentsLabel: contentsLabel, headingLevel: headingLevel, onSelectSection: onSelectSection,
             banner: { EmptyView() }, content: content, details: { EmptyView() })

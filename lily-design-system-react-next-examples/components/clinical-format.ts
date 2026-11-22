@@ -123,6 +123,19 @@ export interface MeterScale {
 
 const finite = (n: unknown): n is number => typeof n === "number" && Number.isFinite(n);
 
+/** Why `meterScale` refused its input. */
+export type MeterScaleReason = "value" | "range" | "reversed" | "bound" | "units";
+
+/** Thrown by `meterScale` for an input that is malformed or out of range: invalid data is an error, never a quiet "no meter". */
+export class MeterScaleError extends RangeError {
+    readonly reason: MeterScaleReason;
+    constructor(reason: MeterScaleReason, message: string) {
+        super(`meterScale: ${message}`);
+        this.name = "MeterScaleError";
+        this.reason = reason;
+    }
+}
+
 /**
  * A meter's scale for a value and its reference range, so every consumer draws the same one. It is a drawing decision, never a
  * clinical one: it says where the ends of the bar go, not whether the value is normal.
@@ -131,11 +144,14 @@ const finite = (n: unknown): n is number => typeof n === "number" && Number.isFi
  * - A one-sided range (only `high`, or only `low`, as in "< 5.0" or "> 60"): the bar runs from zero to half as far again as the
  *   bound.
  * - Always wide enough to hold the value, so a value far outside the range still sits on the bar.
- * - `undefined` (draw no meter) when the value is not a finite number, when neither end of the range is a finite number, when a
- *   two-sided range is reversed or has no width, when a one-sided bound is not above zero, or when `units` names two different
- *   units for the value and the range (a meter must never compare millimoles with milligrams).
+ * - `undefined` (draw no meter) only when there is nothing to draw: no value (`null` or `undefined`, a result not yet in) or no
+ *   reference range (neither end given).
+ * - A `MeterScaleError` for malformed input, never a fallback: a value that is not a finite number, an end of the range that is
+ *   given but not a finite number, a two-sided range that is reversed or has no width, a one-sided bound that is not above zero
+ *   (the scale would not be drawn from zero), or `units` that name two different units for the value and the range (a meter
+ *   must never compare millimoles with milligrams). Its `reason` says which.
  *
- * `units` is optional and only compared: pass the value's unit and the range's, as written, and a difference refuses the meter.
+ * `units` is optional and only compared: pass the value's unit and the range's, as written, and a difference is an error.
  */
 export function meterScale(
     value: number | null | undefined,
@@ -143,26 +159,39 @@ export function meterScale(
     high?: number | null,
     units?: { value?: string | null; range?: string | null },
 ): MeterScale | undefined {
-    if (!finite(value)) return undefined;
-    if (units?.value && units?.range && units.value !== units.range) return undefined;
     const hasLow = low !== undefined && low !== null;
     const hasHigh = high !== undefined && high !== null;
-    if ((hasLow && !finite(low)) || (hasHigh && !finite(high))) return undefined;
+    if (value === undefined || value === null || (!hasLow && !hasHigh)) return undefined;
+    if (!finite(value))
+        throw new MeterScaleError("value", `the value is not a finite number: ${String(value)}`);
+    if ((hasLow && !finite(low)) || (hasHigh && !finite(high)))
+        throw new MeterScaleError(
+            "range",
+            `an end of the range is not a finite number: ${String(low)} to ${String(high)}`,
+        );
+    if (units?.value && units?.range && units.value !== units.range)
+        throw new MeterScaleError(
+            "units",
+            `the value is in ${units.value} but the range is in ${units.range}`,
+        );
 
     let min: number;
     let max: number;
     if (finite(low) && finite(high)) {
-        if (low >= high) return undefined;
+        if (low >= high)
+            throw new MeterScaleError(
+                "reversed",
+                `the range is reversed or has no width: ${low} to ${high}`,
+            );
         const half = (high - low) / 2;
         min = low - half;
         max = high + half;
-    } else if (finite(high) || finite(low)) {
+    } else {
         const bound = (finite(high) ? high : low) as number;
-        if (bound <= 0) return undefined;
+        if (bound <= 0)
+            throw new MeterScaleError("bound", `a one-sided bound must be above zero: ${bound}`);
         min = 0;
         max = bound * 1.5;
-    } else {
-        return undefined;
     }
     const scale: MeterScale = { min: Math.min(min, value), max: Math.max(max, value) };
     if (finite(low)) scale.low = low;

@@ -32,6 +32,7 @@ class VectorTest {
     }
 
     private fun str(e: JsonElement) = e.jsonPrimitive.content
+    private fun optionalStr(e: JsonElement): String? = if (e is JsonNull) null else str(e)
     private fun num(e: JsonElement): Double? = if (e is JsonNull) null else e.jsonPrimitive.doubleOrNull
     private fun millis(e: JsonElement): Long = Instant.parse(str(e)).toEpochMilli()
     private fun json(vararg pairs: Pair<String, Any?>): Map<String, Any?> = mapOf(*pairs)
@@ -50,7 +51,7 @@ class VectorTest {
                 ellipsis = str(o["ellipsis"]!!),
                 maxWidth = o["maxWidth"]!!.jsonPrimitive.double,
                 strategy = o["strategy"]?.let { TruncationStrategy.fromKey(str(it)) } ?: TruncationStrategy.Even,
-                end = o["end"]?.jsonPrimitive?.int,
+                end = o["end"]?.let { whole(it) { TruncateMiddleException("end", "not whole") } },
                 measure = { splitGraphemes(it).size.toDouble() },
             )
         }
@@ -94,12 +95,13 @@ class VectorTest {
                 str(args[1]), args[2].jsonPrimitive.content.toLong(), args[3].jsonPrimitive.content.toLong(),
             ).let { json("prefix" to it.prefix, "at" to it.at) }
         }
-        "findTypeaheadMatch" -> findTypeaheadMatch(args[0].jsonArray.map(::str), args[1].jsonPrimitive.int, str(args[2]))
+        "findTypeaheadMatch" -> findTypeaheadMatch(
+            args[0].jsonArray.map(::str), whole(args[1]) { TypeaheadException("from", "not whole") }, str(args[2]))
         "logicalKey" -> logicalKey(str(args[0]), args[1].jsonPrimitive.boolean)
         "ipsSectionCode" -> ipsSectionCode(str(args[0]))
         "ipsSectionIsRequired" -> ipsSectionIsRequired(str(args[0]))
         "ipsSectionId" -> ipsSectionId(
-            str(args[0]), args.getOrNull(1)?.let(::str), args.getOrNull(2)?.let(::str) ?: IPS_ID_PREFIX,
+            str(args[0]), args.getOrNull(1)?.let(::optionalStr), args.getOrNull(2)?.let(::optionalStr) ?: IPS_ID_PREFIX,
         )
         "ipsMissingRequired" -> ipsMissingRequired(args[0].jsonArray.map { str(it.jsonObject["key"]!!) })
         "ipsContents" -> ipsContents(
@@ -123,11 +125,10 @@ class VectorTest {
                 ?: WheelOrientation.Vertical,
             args.getOrNull(2)?.jsonPrimitive?.boolean ?: false,
         )?.key
-        "wheelIndexNearest" -> wheelIndexNearest(wheelOptions(args[0]), args[1].jsonArray.map { it.jsonPrimitive.double },
-            args[2].jsonPrimitive.double)
+        "wheelIndexNearest" -> wheelIndexNearest(wheelOptions(args[0]), args[1].jsonArray.map(::double), double(args[2]))
         "nextWheelIndex" -> {
             val move = args.getOrNull(3)?.jsonObject
-            nextWheelIndex(wheelOptions(args[0]), args[1].jsonPrimitive.int, WheelMoveKey.fromKey(str(args[2]))!!,
+            nextWheelIndex(wheelOptions(args[0]), whole(args[1]) { WheelPickerException("current", "not whole") }, WheelMoveKey.fromKey(str(args[2]))!!,
                 move?.get("loop")?.jsonPrimitive?.boolean ?: false, move?.get("pageSize")?.jsonPrimitive?.double ?: 5.0)
         }
         "nextWheelPrefix" -> {
@@ -136,9 +137,21 @@ class VectorTest {
                 args[2].jsonPrimitive.content.toLong(), args[3].jsonPrimitive.content.toLong())
                 .let { json("prefix" to it.prefix, "at" to it.at) }
         }
-        "wheelTypeaheadIndex" -> wheelTypeaheadIndex(wheelOptions(args[0]), args[1].jsonPrimitive.int, str(args[2]))
+        "wheelTypeaheadIndex" -> wheelTypeaheadIndex(
+            wheelOptions(args[0]), whole(args[1]) { WheelPickerException("current", "not whole") }, str(args[2]))
         else -> fail("unknown vector function $fn")
     }
+
+    // A JSON number for an Int parameter. Kotlin's Int cannot hold 1.5, so the API rules a non-whole index out by its type; the
+    // runner stands in for that by throwing the module's exception, so the shared "throws" vectors still apply.
+    private fun whole(e: JsonElement, error: () -> LilyRangeException): Int {
+        val n = e.jsonPrimitive.double
+        if (!n.isFinite() || kotlin.math.floor(n) != n) throw error()
+        return n.toInt()
+    }
+
+    // A JSON number for a Double parameter; JSON has no NaN, so the vectors write null for "not a finite number".
+    private fun double(e: JsonElement): Double = (e as? JsonPrimitive)?.doubleOrNull ?: Double.NaN
 
     private fun wheelOptions(e: JsonElement): List<WheelOption> = e.jsonArray.map {
         val o = it.jsonObject
@@ -172,7 +185,18 @@ class VectorTest {
                 val fn = str(c["fn"]!!)
                 val args = c["args"]!!.jsonArray
                 val label = "$name #$index $fn($args)"
-                if (c["throws"]?.jsonPrimitive?.booleanOrNull == true) {
+                val reason = (c["throws"] as? JsonPrimitive)?.takeIf { it.isString }?.content
+                if (reason != null) {
+                    // The vector names the reason; the port's LilyRangeException must carry the same one.
+                    try {
+                        call(fn, args)
+                        failures += "$label should throw $reason"
+                    } catch (e: LilyRangeException) {
+                        if (e.reason != reason) failures += "$label: threw ${e.reason}, expected $reason"
+                    } catch (e: Exception) {
+                        failures += "$label threw $e, expected a LilyRangeException ($reason)"
+                    }
+                } else if (c["throws"]?.jsonPrimitive?.booleanOrNull == true) {
                     val threw = try { call(fn, args); false } catch (_: IllegalArgumentException) { true } catch (_: java.time.format.DateTimeParseException) { true }
                     if (!threw) failures += "$label should throw"
                 } else {

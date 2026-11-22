@@ -23,7 +23,7 @@
     "`text`: string (required) -- the full text",
     "`ellipsis`: string (required) -- the cut marker; no default, the headless layer ships no text",
     "`strategy`: `\"even\" | \"fixed-end\" | \"min-end\"` (default: `\"even\"`)",
-    "`end`: number (optional) -- characters kept at the end for `fixed-end` and `min-end`; ignored by `even`",
+    "`end`: number (optional) -- characters kept at the end for `fixed-end` and `min-end`; ignored by `even`. A whole number of at least 0, and no more than the text's characters when it is shortened, or `truncateMiddle` throws a `TruncateMiddleError` (a `RangeError`), never clamped; a `maxWidth` that is not finite or is below 0 throws too",
     "`...restProps`: HTML attributes -- spread onto the root `<span>`"
   ],
   "related": [

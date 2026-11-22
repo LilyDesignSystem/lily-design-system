@@ -96,7 +96,7 @@
       <li><code>text</code>: string (required) -- the full text</li>
       <li><code>ellipsis</code>: string (required) -- the cut marker; no default, the headless layer ships no text</li>
       <li><code>strategy</code>: <code>"even" | "fixed-end" | "min-end"</code> (default: <code>"even"</code>)</li>
-      <li><code>end</code>: number (optional) -- characters kept at the end for <code>fixed-end</code> and <code>min-end</code>; ignored by <code>even</code></li>
+      <li><code>end</code>: number (optional) -- characters kept at the end for <code>fixed-end</code> and <code>min-end</code>; ignored by <code>even</code>. A whole number of at least 0, and no more than the text's characters when it is shortened, or <code>truncateMiddle</code> throws a <code>TruncateMiddleError</code> (a <code>RangeError</code>), never clamped; a <code>maxWidth</code> that is not finite or is below 0 throws too</li>
       <li><code>...restProps</code>: HTML attributes -- spread onto the root <code>&lt;span&gt;</code></li>
     </ul>
 </section>

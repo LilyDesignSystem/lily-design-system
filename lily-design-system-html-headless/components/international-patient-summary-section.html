@@ -3,11 +3,14 @@
 <!--
   Description: one section of an International Patient Summary, with its LOINC code and a status that is never blank
   HTML tag: <section>
-  CSS class: international-patient-summary-section (parts: -heading, -status, -narrative)
+  CSS class: international-patient-summary-section (parts: -heading, -status, -meta, -warning, -narrative)
   Spec: spec/healthcare-ui; components/international-patient-summary-section
   Attributes: id (international-patient-summary-{key}), aria-labelledby (the heading), data-section (the IPS key), data-code
     (its LOINC code), data-status (known, none-known, not-recorded, unavailable, omitted), data-required="true" for medications,
-    allergies and problems. For any status but "known", p.international-patient-summary-section-status holds the words.
+    allergies and problems, data-level (required, recommended or optional: the section's level in the IPS). For any status but "known", p.international-patient-summary-section-status holds the words.
+    Optional div.international-patient-summary-section-meta (what a viewer shows beside the heading) and
+    div.international-patient-summary-section-warning (a notice about the entries) go after the heading and status and before
+    the entries; leave them out when there is nothing to say.
     The author's narrative, sanitised by the consumer, sits in details.international-patient-summary-section-narrative.
 -->
 
@@ -19,6 +22,7 @@
   data-code="11450-4"
   data-status="not-recorded"
   data-required="true"
+  data-level="required"
 >
   <h2
     id="international-patient-summary-problems-heading"
@@ -27,6 +31,10 @@
     Problem list
   </h2>
   <p class="international-patient-summary-section-status">Not recorded</p>
+  <div class="international-patient-summary-section-meta">Required by the summary</div>
+  <div class="international-patient-summary-section-warning">
+    No entries were found in the document.
+  </div>
   <details class="international-patient-summary-section-narrative">
     <summary>Narrative from the document</summary>
     <p>No problems were recorded at discharge.</p>

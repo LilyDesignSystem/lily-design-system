@@ -28,12 +28,23 @@ public fun wheelMoveKey(key: String, orientation: WheelOrientation = WheelOrient
         else -> null
     }
 
-/** The enabled option nearest the centre of a settled wheel, or -1. A tie goes to the earlier option. */
+private fun checkCurrent(current: Int, count: Int) {
+    if (current < -1 || current >= count) throw WheelPickerException("current", "current $current is not -1 or an option of $count")
+}
+
+/**
+ * The enabled option nearest the centre of a settled wheel, or -1. A tie goes to the earlier option. [middles] must hold one
+ * finite number per option and [centre] must be finite, or it throws a [WheelPickerException].
+ */
 public fun wheelIndexNearest(options: List<WheelOption>, middles: List<Double>, centre: Double): Int {
+    if (!centre.isFinite()) throw WheelPickerException("centre", "centre $centre is not a finite number")
+    if (middles.size != options.size || !middles.all { it.isFinite() }) {
+        throw WheelPickerException("middles", "middles must be ${options.size} finite numbers, one per option")
+    }
     var best = -1
     var bestDistance = Double.POSITIVE_INFINITY
     options.forEachIndexed { index, option ->
-        if (option.disabled || index >= middles.size) return@forEachIndexed
+        if (option.disabled) return@forEachIndexed
         val distance = kotlin.math.abs(middles[index] - centre)
         if (distance < bestDistance) {
             best = index
@@ -43,7 +54,10 @@ public fun wheelIndexNearest(options: List<WheelOption>, middles: List<Double>, 
     return best
 }
 
-/** The index to select after [key], or -1 when nothing can be selected. */
+/**
+ * The index to select after [key], or -1 when nothing can be selected. A [current] that is not -1 or an option, or a [pageSize]
+ * that is not a positive whole number, throws a [WheelPickerException].
+ */
 public fun nextWheelIndex(
     options: List<WheelOption>,
     current: Int,
@@ -51,11 +65,15 @@ public fun nextWheelIndex(
     loop: Boolean = false,
     pageSize: Double = 5.0,
 ): Int {
+    checkCurrent(current, options.size)
+    if (!pageSize.isFinite() || pageSize < 1 || kotlin.math.floor(pageSize) != pageSize) {
+        throw WheelPickerException("pageSize", "pageSize $pageSize is not a positive whole number")
+    }
+    val page = pageSize.toInt()
     val enabled = options.indices.filter { !options[it].disabled }
     if (enabled.isEmpty()) return -1
     val first = enabled.first()
     val last = enabled.last()
-    val page = maxOf(1, kotlin.math.floor(pageSize).toInt())
     if (key == WheelMoveKey.Home) return first
     if (key == WheelMoveKey.End) return last
     val position = enabled.indexOf(current)
@@ -76,12 +94,13 @@ public fun nextWheelPrefix(previous: WheelTypeahead, key: String, now: Long, res
 
 /** The enabled option for the typed [prefix], or -1. Searches from the one after [current] and wraps; one repeated letter cycles. */
 public fun wheelTypeaheadIndex(options: List<WheelOption>, current: Int, prefix: String): Int {
+    checkCurrent(current, options.size)
     val initials = initialsOf(prefix).map { foldText(it) }.filter { it.isNotEmpty() }
     if (initials.isEmpty() || options.isEmpty()) return -1
     val cycle = initials.all { it == initials[0] }
     val needle = if (cycle) initials[0] else foldText(prefix)
     val startOffset = if (cycle) 1 else 0
-    val from = if (current < 0) -startOffset else current
+    val from = if (current == -1) -startOffset else current
     val count = options.size
     for (step in 0 until count) {
         val index = ((from + startOffset + step) % count + count) % count

@@ -8,5 +8,6 @@ allowBuilds:
 minimumReleaseAgeExclude:
   - "@lilydesignsystem/web-components-time-zone-picker@0.1.0"
   - "@lilydesignsystem/web-components-theme-picker@0.4.0"
+  - "@lilydesignsystem/web-components-theme-picker@0.5.0"
 overrides:
   esbuild: "0.28.2"

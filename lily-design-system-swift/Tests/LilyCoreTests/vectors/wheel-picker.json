@@ -215,7 +215,7 @@
         [0, 40],
         300
       ],
-      "expected": 0
+      "throws": "middles"
     },
     {
       "fn": "wheelIndexNearest",
@@ -1007,7 +1007,7 @@
           "pageSize": 0
         }
       ],
-      "expected": 7
+      "throws": "pageSize"
     },
     {
       "fn": "nextWheelIndex",
@@ -1080,7 +1080,7 @@
           "pageSize": 2.9
         }
       ],
-      "expected": 8
+      "throws": "pageSize"
     },
     {
       "fn": "nextWheelIndex",
@@ -1554,7 +1554,7 @@
     {
       "fn": "wheelTypeaheadIndex",
       "args": [[], 0, "a"],
-      "expected": -1
+      "throws": "current"
     },
     {
       "fn": "wheelTypeaheadIndex",
@@ -1665,6 +1665,165 @@
         "1"
       ],
       "expected": 9
+    },
+    {
+      "fn": "wheelTypeaheadIndex",
+      "args": [
+        [
+          {
+            "value": "a",
+            "label": "Ant"
+          },
+          {
+            "value": "b",
+            "label": "Bee"
+          },
+          {
+            "value": "c",
+            "label": "Cat"
+          }
+        ],
+        3,
+        "a"
+      ],
+      "throws": "current"
+    },
+    {
+      "fn": "wheelTypeaheadIndex",
+      "args": [
+        [
+          {
+            "value": "a",
+            "label": "Ant"
+          },
+          {
+            "value": "b",
+            "label": "Bee"
+          },
+          {
+            "value": "c",
+            "label": "Cat"
+          }
+        ],
+        -1,
+        "b"
+      ],
+      "expected": 1
+    },
+    {
+      "fn": "nextWheelIndex",
+      "args": [
+        [
+          {
+            "value": "a",
+            "label": "Ant"
+          },
+          {
+            "value": "b",
+            "label": "Bee"
+          },
+          {
+            "value": "c",
+            "label": "Cat"
+          }
+        ],
+        7,
+        "ArrowDown",
+        {}
+      ],
+      "throws": "current"
+    },
+    {
+      "fn": "nextWheelIndex",
+      "args": [
+        [
+          {
+            "value": "a",
+            "label": "Ant"
+          },
+          {
+            "value": "b",
+            "label": "Bee"
+          },
+          {
+            "value": "c",
+            "label": "Cat"
+          }
+        ],
+        -2,
+        "Home",
+        {}
+      ],
+      "throws": "current"
+    },
+    {
+      "fn": "nextWheelIndex",
+      "args": [
+        [
+          {
+            "value": "a",
+            "label": "Ant"
+          },
+          {
+            "value": "b",
+            "label": "Bee"
+          },
+          {
+            "value": "c",
+            "label": "Cat"
+          }
+        ],
+        0,
+        "PageDown",
+        {
+          "pageSize": -1
+        }
+      ],
+      "throws": "pageSize"
+    },
+    {
+      "fn": "wheelIndexNearest",
+      "args": [
+        [
+          {
+            "value": "a",
+            "label": "Ant"
+          },
+          {
+            "value": "b",
+            "label": "Bee"
+          },
+          {
+            "value": "c",
+            "label": "Cat"
+          }
+        ],
+        [0, 40, 80],
+        null
+      ],
+      "throws": "centre"
+    },
+    {
+      "fn": "wheelIndexNearest",
+      "args": [
+        [
+          {
+            "value": "a",
+            "label": "Ant"
+          },
+          {
+            "value": "b",
+            "label": "Bee"
+          },
+          {
+            "value": "c",
+            "label": "Cat"
+          }
+        ],
+        [0, null, 80],
+        40
+      ],
+      "throws": "middles"
     }
   ]
 }

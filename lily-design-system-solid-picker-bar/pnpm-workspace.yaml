@@ -10,6 +10,7 @@ allowBuilds:
 # to one patched version is safe.
 minimumReleaseAgeExclude:
   - "@lilydesignsystem/react-time-zone-picker@0.1.0"
+  - "@lilydesignsystem/solid-theme-picker@0.2.0"
   - "@lilydesignsystem/react-theme-picker@0.4.0"
   - "@solidjs/babel-plugin@2.0.0"
   - "@solidjs/compiler-darwin-arm64@2.0.0"
