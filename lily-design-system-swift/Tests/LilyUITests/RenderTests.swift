@@ -257,3 +257,39 @@ private struct CustomScoreStyle: EarlyWarningScoreViewStyle {
     #expect(render(EarlyWarningScoreView(score: "2").earlyWarningScoreViewStyle(CustomScoreStyle())))
     #expect(render(EarlyWarningScoreView(score: "0").earlyWarningScoreViewStyle(.plain)))
 }
+
+@MainActor @Test func decisionSupportCardRendersAndDismisses() {
+    var dismissed: [String?] = []
+    var suggested: [String] = []
+    let url = URL(string: "https://example.org/guidance")!
+    let full = DecisionSupportCard(
+        summary: "Warfarin and aspirin together raise the risk of bleeding", indicator: .warning,
+        indicatorLabel: "Warning", sourceLabel: "Local formulary", sourceURL: url,
+        suggestions: [.init(id: "stop-aspirin", label: "Stop aspirin", isRecommended: true)],
+        links: [(label: "Read the guidance", url: url)], dismissLabel: "Dismiss",
+        overrideReasons: [.init(code: "patient-declined", display: "Patient declined")],
+        overrideReasonLabel: "Reason", overrideReasonPlaceholder: "Choose a reason",
+        overrideReasonError: "Choose a reason to dismiss", onSuggestion: { suggested.append($0) },
+        onDismiss: { dismissed.append($0) }
+    ) { Text(verbatim: "INR 3.4 on 20 Nov.") }
+    #expect(render(full))
+    full.dismiss()  // no reason chosen: refused
+    #expect(dismissed.isEmpty)
+    full.onSuggestion("stop-aspirin")
+    #expect(suggested == ["stop-aspirin"])
+    let simple = DecisionSupportCard(
+        summary: "Consider a flu vaccine", indicator: .info, indicatorLabel: "Information", sourceLabel: "Guideline",
+        dismissLabel: "Dismiss", onDismiss: { dismissed.append($0) })
+    #expect(render(simple))
+    simple.dismiss()
+    #expect(dismissed == [nil])
+    #expect(render(DecisionSupportCard(summary: "S", indicator: .critical, indicatorLabel: "Critical", sourceLabel: "Rule")))
+    // Reasons without a label or placeholder still render (and warn).
+    #expect(
+        render(
+            DecisionSupportCard(
+                summary: "S", indicator: .info, indicatorLabel: "I", sourceLabel: "R", dismissLabel: "Dismiss",
+                overrideReasons: [.init(code: "c", display: "Other")])))
+    DecisionSupportCard(summary: "S", indicator: .info, indicatorLabel: "I", sourceLabel: "R").onSuggestion("x")
+    DecisionSupportCard(summary: "S", indicator: .info, indicatorLabel: "I", sourceLabel: "R").onDismiss(nil)
+}

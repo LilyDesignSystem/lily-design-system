@@ -45,6 +45,13 @@
 - `onDismiss`: callback (optional) — called with the chosen reason's code, or none when no reasons are offered
 - `...restProps`: any — additional HTML attributes spread onto the root
 
+## Mobile
+
+Decisions: [mobile/components-mobile.tsv](../../mobile/components-mobile.tsv) (`lily` on both). The rules are `DecisionSupportRules` in `LilyCore` and `lily-core`.
+
+- Apple: `DecisionSupportCard(summary:indicator:indicatorLabel:sourceLabel:…:onSuggestion:onDismiss:detail:)` in `LilyUI`: a named container (summary, else `label`), the summary a header, the source a `Link`, suggestions and dismiss as `Button`s, reasons in a native `Picker`. A dismissal without a reason is refused: VoiceOver moves to the picker (`@AccessibilityFocusState`) and `overrideReasonError`, a mobile-only prop because there is no invalid state to set, is announced and becomes the picker's hint.
+- Android: `DecisionSupportCard(…)` in `lily-compose`: a traversal group; links are `LinkAnnotation`s opened by the platform; reasons are a radio group (`selectableGroup`, `Role.RadioButton`), since foundation has no picker; a refused dismissal sets `overrideReasonError` as the group's `error` semantics and focuses it.
+
 ## Acceptance Criteria
 
 - [x] Renders <div> with class="decision-support-card"

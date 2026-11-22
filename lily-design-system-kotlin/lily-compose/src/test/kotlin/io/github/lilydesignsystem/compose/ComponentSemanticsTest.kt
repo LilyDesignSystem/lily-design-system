@@ -18,8 +18,10 @@ import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performSemanticsAction
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -274,5 +276,51 @@ class ComponentSemanticsTest {
             "Early warning score\nNEWS2\n7\nHigh clinical risk\nCall the critical care outreach team",
         ).assertExists()
         rule.onNodeWithContentDescription("1").assertExists()
+    }
+
+    @Test fun decisionSupportCardRefusesADismissalWithoutAReason() {
+        val dismissed = mutableListOf<String?>()
+        val suggested = mutableListOf<String>()
+        rule.setContent {
+            androidx.compose.foundation.layout.Column {
+                DecisionSupportCard(
+                    summary = "Warfarin and aspirin together raise the risk of bleeding",
+                    indicator = io.github.lilydesignsystem.core.DecisionSupportIndicator.Warning,
+                    indicatorLabel = "Warning", sourceLabel = "Local formulary", sourceUrl = "https://example.org",
+                    suggestions = listOf(Suggestion("stop-aspirin", "Stop aspirin", isRecommended = true)),
+                    links = listOf(CardLink("Read the guidance", "https://example.org/guidance")),
+                    dismissLabel = "Dismiss", overrideReasons = listOf(OverrideReason("patient-declined", "Patient declined")),
+                    overrideReasonLabel = "Reason", overrideReasonError = "Choose a reason to dismiss",
+                    onSuggestion = { suggested += it }, onDismiss = { dismissed += it },
+                ) { BasicText("INR 3.4 on 20 Nov.") }
+                DecisionSupportCard(
+                    summary = "Consider a flu vaccine", indicator = io.github.lilydesignsystem.core.DecisionSupportIndicator.Info,
+                    indicatorLabel = "Information", sourceLabel = "Guideline", dismissLabel = "Not now",
+                    onDismiss = { dismissed += it },
+                )
+                DecisionSupportCard(
+                    summary = "S", indicator = io.github.lilydesignsystem.core.DecisionSupportIndicator.Critical,
+                    indicatorLabel = "Critical", sourceLabel = "Rule", dismissLabel = "Close",
+                    overrideReasons = listOf(OverrideReason("other", "Other")),
+                )
+            }
+        }
+        rule.onNodeWithContentDescription("Warfarin and aspirin together raise the risk of bleeding")
+            .assert(SemanticsMatcher.expectValue(SemanticsProperties.IsTraversalGroup, true))
+        rule.onNodeWithText("Warfarin and aspirin together raise the risk of bleeding").assert(isHeading)
+        rule.onNodeWithText("Stop aspirin").assert(hasRole(Role.Button)).performSemanticsAction(androidx.compose.ui.semantics.SemanticsActions.OnClick)
+        assertEquals(listOf("stop-aspirin"), suggested)
+        rule.onNodeWithText("Dismiss").performSemanticsAction(androidx.compose.ui.semantics.SemanticsActions.OnClick)
+        assertTrue(dismissed.isEmpty())
+        rule.onNodeWithContentDescription("Reason").assert(hasError("Choose a reason to dismiss")).assertIsFocused()
+        rule.onNodeWithText("Patient declined").assert(hasRole(Role.RadioButton)).performSemanticsAction(androidx.compose.ui.semantics.SemanticsActions.OnClick)
+        rule.onNodeWithContentDescription("Reason").assert(SemanticsMatcher.keyNotDefined(SemanticsProperties.Error))
+        rule.onNodeWithText("Dismiss").performSemanticsAction(androidx.compose.ui.semantics.SemanticsActions.OnClick)
+        assertEquals(listOf<String?>("patient-declined"), dismissed)
+        rule.onNodeWithText("Not now").performSemanticsAction(androidx.compose.ui.semantics.SemanticsActions.OnClick)
+        assertEquals(listOf<String?>("patient-declined", null), dismissed)
+        rule.onNodeWithText("Close").performSemanticsAction(androidx.compose.ui.semantics.SemanticsActions.OnClick)
+        rule.onNodeWithText("Other").performSemanticsAction(androidx.compose.ui.semantics.SemanticsActions.OnClick)
+        rule.onNodeWithText("Close").performSemanticsAction(androidx.compose.ui.semantics.SemanticsActions.OnClick)
     }
 }

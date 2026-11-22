@@ -238,6 +238,30 @@ public enum Examples {
                         score: "7", system: "NEWS2", band: "high", bandLabel: "High clinical risk",
                         escalation: "Call the critical care outreach team"))
             }),
+        Example(
+            slug: "decision-support-card", name: "DecisionSupportCard",
+            summary: "A CDS Hooks card: urgency in words, suggestions as buttons, a dismissal that asks for a reason.",
+            code: """
+                DecisionSupportCard(
+                    summary: "Warfarin and aspirin together raise the risk of bleeding", indicator: .warning,
+                    indicatorLabel: "Warning", sourceLabel: "Local formulary",
+                    suggestions: [.init(id: "stop-aspirin", label: "Stop aspirin")], dismissLabel: "Dismiss",
+                    overrideReasons: [.init(code: "patient-declined", display: "Patient declined")],
+                    overrideReasonLabel: "Reason", overrideReasonPlaceholder: "Choose a reason",
+                    overrideReasonError: "Choose a reason to dismiss",
+                    onSuggestion: apply, onDismiss: record)
+                """,
+            make: {
+                AnyView(
+                    DecisionSupportCard(
+                        summary: "Warfarin and aspirin together raise the risk of bleeding", indicator: .warning,
+                        indicatorLabel: "Warning", sourceLabel: "Local formulary",
+                        suggestions: [.init(id: "stop-aspirin", label: "Stop aspirin")], dismissLabel: "Dismiss",
+                        overrideReasons: [.init(code: "patient-declined", display: "Patient declined")],
+                        overrideReasonLabel: "Reason", overrideReasonPlaceholder: "Choose a reason",
+                        overrideReasonError: "Choose a reason to dismiss"
+                    ) { Text(verbatim: "INR 3.4 on 20 November.") })
+            }),
     ]
 
     /// The examples whose name, slug or summary match `query`, with Lily's own search folding (case and accents ignored).

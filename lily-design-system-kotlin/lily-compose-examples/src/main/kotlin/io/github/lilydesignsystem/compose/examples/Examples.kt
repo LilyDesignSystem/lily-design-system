@@ -38,7 +38,11 @@ import io.github.lilydesignsystem.core.AllergyWords
 import io.github.lilydesignsystem.compose.AlertKind
 import io.github.lilydesignsystem.compose.DurationView
 import io.github.lilydesignsystem.compose.BadgeKind
+import io.github.lilydesignsystem.compose.DecisionSupportCard
 import io.github.lilydesignsystem.compose.EarlyWarningScoreView
+import io.github.lilydesignsystem.compose.OverrideReason
+import io.github.lilydesignsystem.compose.Suggestion
+import io.github.lilydesignsystem.core.DecisionSupportIndicator
 import io.github.lilydesignsystem.compose.ErrorSummary
 import io.github.lilydesignsystem.compose.Field
 import io.github.lilydesignsystem.compose.InsetText
@@ -239,6 +243,28 @@ public object Examples {
                 "7", system = "NEWS2", band = "high", bandLabel = "High clinical risk",
                 escalation = "Call the critical care outreach team",
             )
+        },
+        Example(
+            "decision-support-card", "DecisionSupportCard",
+            "A CDS Hooks card: urgency in words, suggestions as buttons, a dismissal that asks for a reason.",
+            """
+            DecisionSupportCard(
+                summary = "Warfarin and aspirin together raise the risk of bleeding",
+                indicator = DecisionSupportIndicator.Warning, indicatorLabel = "Warning", sourceLabel = "Local formulary",
+                suggestions = listOf(Suggestion("stop-aspirin", "Stop aspirin")), dismissLabel = "Dismiss",
+                overrideReasons = listOf(OverrideReason("patient-declined", "Patient declined")),
+                overrideReasonLabel = "Reason", overrideReasonError = "Choose a reason to dismiss",
+                onSuggestion = ::apply, onDismiss = ::record,
+            )
+            """.trimIndent(),
+        ) {
+            DecisionSupportCard(
+                summary = "Warfarin and aspirin together raise the risk of bleeding",
+                indicator = DecisionSupportIndicator.Warning, indicatorLabel = "Warning", sourceLabel = "Local formulary",
+                suggestions = listOf(Suggestion("stop-aspirin", "Stop aspirin")), dismissLabel = "Dismiss",
+                overrideReasons = listOf(OverrideReason("patient-declined", "Patient declined")),
+                overrideReasonLabel = "Reason", overrideReasonError = "Choose a reason to dismiss",
+            ) { BasicText("INR 3.4 on 20 November.") }
         },
     )
 

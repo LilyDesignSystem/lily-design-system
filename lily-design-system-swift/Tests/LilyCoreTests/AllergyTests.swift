@@ -62,3 +62,30 @@ import Testing
             label: "Early warning score", system: "NEWS2", score: "7", bandLabel: "High clinical risk",
             escalation: "Call the critical care outreach team") == "Early warning score\nNEWS2\n7\nHigh clinical risk\nCall the critical care outreach team")
 }
+
+@Test func decisionSupportNamesItselfAndRefusesADismissalWithoutAReason() {
+    #expect(DecisionSupportRules.name(label: nil, summary: "Interaction: warfarin and aspirin") == "Interaction: warfarin and aspirin")
+    #expect(DecisionSupportRules.name(label: "", summary: "S") == "S")
+    #expect(DecisionSupportRules.name(label: "Alert", summary: "S") == "Alert")
+    #expect(DecisionSupportRules.dismiss(reasonsOffered: false, chosen: nil) == .dismissed(reason: nil))
+    #expect(DecisionSupportRules.dismiss(reasonsOffered: true, chosen: nil) == .refused)
+    #expect(DecisionSupportRules.dismiss(reasonsOffered: true, chosen: "") == .refused)
+    #expect(DecisionSupportRules.dismiss(reasonsOffered: true, chosen: "patient-declined") == .dismissed(reason: "patient-declined"))
+    #expect(DecisionSupportRules.warnings(summary: String(repeating: "a", count: 141), indicatorLabel: "", sourceLabel: "").count == 3)
+    #expect(DecisionSupportRules.warnings(summary: "Short", indicatorLabel: "Warning", sourceLabel: "Local formulary").isEmpty)
+    #expect(DecisionSupportIndicator.allCases.map(\.rawValue) == ["info", "warning", "critical"])
+}
+
+@Test func decisionSupportHintsAndReasonLabelWarnings() {
+    #expect(DecisionSupportRules.reasonHint(refused: true, error: "Choose a reason") == "Choose a reason")
+    #expect(DecisionSupportRules.reasonHint(refused: true, error: nil) == "")
+    #expect(DecisionSupportRules.reasonHint(refused: false, error: "Choose a reason") == "")
+    #expect(
+        DecisionSupportRules.warnings(
+            summary: "S", indicatorLabel: "I", sourceLabel: "R", reasonsOffered: true, overrideReasonLabel: nil
+        ).count == 1)
+    #expect(
+        DecisionSupportRules.warnings(
+            summary: "S", indicatorLabel: "I", sourceLabel: "R", reasonsOffered: true, overrideReasonLabel: "Reason"
+        ).isEmpty)
+}

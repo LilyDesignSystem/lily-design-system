@@ -30,7 +30,7 @@ class ExamplesTest {
             setOf(
                 "field", "error-summary", "summary-list", "warning-text", "alert", "badge", "tag", "card", "inset-text",
                 "observation-view", "age-view", "duration-view", "allergy-record-list",
-                "medication-view", "early-warning-score-view",
+                "medication-view", "early-warning-score-view", "decision-support-card",
             ),
             slugs.toSet(),
         )
