@@ -175,6 +175,31 @@
           "match": false
         }
       ]
+    },
+    {
+      "fn": "highlightSegments",
+      "args": ["😀 cafe", "cafe"],
+      "expected": [
+        {
+          "text": "😀 cafe",
+          "match": false
+        }
+      ]
+    },
+    {
+      "fn": "matchesSearch",
+      "args": ["😀 Café", "😀"],
+      "expected": true
+    },
+    {
+      "fn": "highlightSegments",
+      "args": ["aaa", "aa"],
+      "expected": [
+        {
+          "text": "aaa",
+          "match": true
+        }
+      ]
     }
   ]
 }

@@ -2,6 +2,19 @@ plugins {
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.kotlin.multiplatform) apply false
     alias(libs.plugins.kotlin.compose) apply false
+    alias(libs.plugins.kover)
+}
+
+// Test coverage of both modules (./gradlew koverLog, koverHtmlReport); koverVerify fails below the bound.
+dependencies {
+    kover(project(":lily-core"))
+    kover(project(":lily-compose"))
+}
+
+kover {
+    reports {
+        verify { rule { minBound(100) } }
+    }
 }
 
 // lily-compose is unstyled: it may depend on compose.foundation and compose.ui, never on a Material library

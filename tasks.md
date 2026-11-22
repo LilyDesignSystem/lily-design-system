@@ -4363,6 +4363,10 @@ Kotlin UI is written. Order: T1 and T2 first (decisions), then T4 and T3 (logic)
       the end of a short month (31 January to 1 March: 13 months and −2 days); fixed in `shared/clinical-format.ts` and the C#
       twin, with tests, and synced to every copy. Still to add: typeahead, edit-history, filter-model, calendar-system,
       wheel-picker, zones, direction, intl-labels.)_
+      _(2026-11-22, coverage: 93 cases now (truncation without `end`, emoji in search). They show that one astral character, such
+      as an emoji, anywhere in the text turns off `highlightSegments` for the whole text, because the per-code-point fold is
+      compared by UTF-16 length. It is the documented fallback, not a crash, but a search for "cafe" in "😀 cafe" marks nothing.
+      Candidate fix: compare folded code points, not UTF-16 lengths, in all three languages, with vectors first.)_
 - [ ] **P43-T4 Identifier validators in `shared/`.** Each national identifier's normalisation, check-digit validation and
       display grouping lives in every catalog's own component today. Move it to `shared/identifiers.ts` (synced by
       `bin/sync-shared-modules`), with vectors per identifier type, including invalid cases, and point the TypeScript catalogs

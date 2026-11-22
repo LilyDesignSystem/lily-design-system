@@ -1,0 +1,44 @@
+// Cases the shared JSON vectors cannot express (JSON has no NaN or infinity), and the Swift-only API surface.
+
+import Foundation
+import Testing
+
+@testable import LilyCore
+
+@Test func meterScaleRefusesNonFiniteNumbers() {
+    #expect(meterScale(.nan, low: 3, high: 5) == nil)
+    #expect(meterScale(.infinity, low: 3, high: 5) == nil)
+    #expect(meterScale(4, low: .nan, high: 5) == nil)
+    #expect(meterScale(4, low: 3, high: .infinity) == nil)
+    #expect(meterScale(nil, low: 3, high: 5) == nil)
+}
+
+@Test func meterScaleIgnoresAnEmptyUnit() {
+    #expect(meterScale(4, low: 3, high: 5, valueUnit: "", rangeUnit: "mg") == MeterScale(min: 2, max: 6, low: 3, high: 5))
+}
+
+@Test func truncationStrategiesHaveTheTypeScriptKeys() {
+    #expect(TruncationStrategy.allKeys == ["even", "fixed-end", "min-end"])
+}
+
+@Test func searchSegmentStoresItsText() {
+    let segment = SearchSegment(text: "café", match: true)
+    #expect(segment.text == "café" && segment.match)
+}
+
+@Test func ageUnitsHaveTheTypeScriptKeys() {
+    #expect(
+        [AgeUnit.minutes, .hours, .days, .weeks, .months, .years].map(\.rawValue)
+            == ["minutes", "hours", "days", "weeks", "months", "years"])
+}
+
+@Test func ageBeforeBirthThrowsItsOwnError() {
+    #expect(throws: ClinicalFormatError.atBeforeBirth) {
+        try ageParts(birth: Date(timeIntervalSince1970: 100), at: Date(timeIntervalSince1970: 0))
+    }
+}
+
+@Test func htmlDurationKeepsAnUnsignedValue() throws {
+    let d = try #require(htmlDuration("PT90M"))
+    #expect(d.datetime == "PT90M" && !d.negative)
+}

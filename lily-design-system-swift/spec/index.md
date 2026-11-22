@@ -11,6 +11,9 @@ Tasks: [tasks.md Phase 44](../../tasks.md#phase-44--apple-swift-2026-11-22).
       all 88 cases in `shared/vectors/`; a deliberately broken port fails the test (P44-T2, first modules).
 - [x] `LilyUI` has the style-protocol pattern and `Field`, `ErrorSummary`, `SummaryList`, `SummaryListItem`, `WarningText` and
       `LilyAlert`, with their accessibility decisions unit-tested in `LilySemantics` (P44-T3, first slice).
+- [x] Test coverage (`./coverage.sh`, 2026-11-22): `LilyCore` 100% of lines and regions, enforced; `LilyUI` 99.6% of lines,
+      every view rendered in every style with `ImageRenderer`. The two regions left are the `onChange` handler thunks SwiftUI
+      calls itself; a command-line test process cannot host a window (it crashes), so the example app covers them.
 - [ ] UI tests of the rendered accessibility tree, one per contract clause, in the example app (P44-T5).
 - [ ] `LilyIdentifiers` and `LilyThemes` (P43-T4, P43-T5, P44-T4).
 - [ ] An "Apple" section in each shipped component's `components/{slug}/AGENTS.md`.

@@ -159,6 +159,10 @@ swiftui
 nonspacing
 sdkmanager
 Hinnant
+kover
+profdata
+xcrun
+xctest
 Okoro
 toggleable
 xcstrings

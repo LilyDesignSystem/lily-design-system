@@ -155,6 +155,30 @@
         }
       ],
       "expected": "ab…ij"
+    },
+    {
+      "fn": "truncateMiddleByClusters",
+      "args": [
+        "abcdefghij",
+        {
+          "ellipsis": "…",
+          "maxWidth": 5,
+          "strategy": "fixed-end"
+        }
+      ],
+      "expected": "abcd…"
+    },
+    {
+      "fn": "truncateMiddleByClusters",
+      "args": [
+        "abcdefghij",
+        {
+          "ellipsis": "…",
+          "maxWidth": 5,
+          "strategy": "min-end"
+        }
+      ],
+      "expected": "ab…ij"
     }
   ]
 }

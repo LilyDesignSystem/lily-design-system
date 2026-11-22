@@ -36,6 +36,13 @@ public enum LilySemantics {
         return attributed
     }
 
+    /// A field's error changed: announce the new one assertively, as the web's role="alert" on the error does. A cleared
+    /// error is not announced.
+    @MainActor public static func errorChanged(from _: String?, to newError: String?) {
+        guard let newError else { return }
+        announce(announcement(heading: nil, message: newError, politeness: .assertive))
+    }
+
     /// Posts an announcement, if there is one.
     @MainActor public static func announce(_ text: AttributedString?) {
         guard let text else { return }

@@ -187,7 +187,7 @@ public func durationParts(_ iso: String) throws -> DurationParts {
 /// An ISO 8601 duration as an HTML-style datetime value (days, hours, minutes, seconds only; sign apart), or `nil`.
 public func htmlDuration(_ iso: String) -> (datetime: String, negative: Bool)? {
     guard let parts = try? durationParts(iso) else { return nil }
-    let datePart = iso.split(separator: "T", maxSplits: 1, omittingEmptySubsequences: false).first.map(String.init) ?? iso
+    let datePart = iso.prefix { $0 != "T" }
     if parts.years != 0 || parts.months != 0 || parts.weeks != 0
         || datePart.contains(/[YW]|P\d+M/)
     {

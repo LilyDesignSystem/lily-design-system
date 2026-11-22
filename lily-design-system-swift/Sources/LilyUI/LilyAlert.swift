@@ -85,11 +85,13 @@ public struct LilyAlert: View {
         )
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text(verbatim: LilySemantics.spoken(heading, message) ?? ""))
-        .onAppear { announce() }
-        .onChange(of: message) { announce() }
+        .onAppear(perform: announce)
+        .onChange(of: message, messageChanged)
     }
 
-    private func announce() {
+    func messageChanged(from _: String, to _: String) { announce() }
+
+    func announce() {
         LilySemantics.announce(LilySemantics.announcement(heading: heading, message: message, politeness: politeness))
     }
 }

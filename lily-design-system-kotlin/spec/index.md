@@ -11,6 +11,7 @@ criteria. Tasks: [tasks.md Phase 45](../../tasks.md#phase-45--android-kotlin-202
       88 cases in `shared/vectors/`; a deliberately broken port fails (P45-T2, first modules).
 - [x] `lily-compose` has `Field`, `ErrorSummary`, `SummaryList`, `SummaryListItem`, `WarningText` and `LilyAlert`, with eight
       Robolectric tests of their semantics; removing the title's `heading()` fails one (P45-T3, first slice).
+- [x] 100% line coverage of `lily-core` and `lily-compose`, enforced by `./gradlew koverVerify` (Kover 0.9.11), 2026-11-22.
 - [ ] Binary-compatibility validation, and native targets for `lily-core`.
 - [ ] ATF (`enableAccessibilityChecks()`) on an API 34+ emulator (P45-T4).
 - [ ] `lily-compose-identifiers`, `lily-compose-themes`, `lily-compose-material3`.

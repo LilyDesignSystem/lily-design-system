@@ -106,10 +106,6 @@ public struct Field<Control: View>: View {
             )
         )
         .accessibilityElement(children: .contain)
-        .onChange(of: error) { _, newError in
-            if let newError, !newError.isEmpty {
-                LilySemantics.announce(LilySemantics.announcement(heading: nil, message: newError, politeness: .assertive))
-            }
-        }
+        .onChange(of: error, LilySemantics.errorChanged)
     }
 }

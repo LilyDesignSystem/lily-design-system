@@ -69,8 +69,8 @@ public func highlightSegments(_ text: String, _ query: String) -> [SearchSegment
     return out
 }
 
+/// True when `needle` (never empty: search terms are non-empty) occurs in `haystack`.
 private func contains(_ haystack: [UInt16], _ needle: [UInt16]) -> Bool {
-    if needle.isEmpty { return true }
     if needle.count > haystack.count { return false }
     for at in 0...(haystack.count - needle.count) where Array(haystack[at..<(at + needle.count)]) == needle {
         return true

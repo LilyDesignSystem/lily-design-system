@@ -3,6 +3,7 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
+    alias(libs.plugins.kover)
     alias(libs.plugins.kotlin.multiplatform)
 }
 

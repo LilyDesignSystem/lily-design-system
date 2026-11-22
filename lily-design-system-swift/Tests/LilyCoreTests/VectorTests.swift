@@ -108,5 +108,6 @@ private func same(_ a: Any, _ b: Any) throws -> Bool {
             count += 1
         }
     }
-    #expect(count == 88)
+    #expect(count == files.reduce(0) { $0 + $1.cases.count })
+    #expect(count >= 93)
 }

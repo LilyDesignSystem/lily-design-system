@@ -117,6 +117,7 @@ class VectorTest {
             }
         }
         assertTrue(failures.isEmpty(), failures.joinToString("\n"))
-        assertEquals(88, count)
+        assertEquals(files.sumOf { it.second.size }, count)
+        assertTrue(count >= 93)
     }
 }

@@ -54,6 +54,7 @@ hint, traits and announcements outside the style, so no style can change what Vo
 
 ```sh
 swift build && swift test                       # macOS: LilyCore vectors and LilyUI semantics
+./coverage.sh                                   # coverage; fails if LilyCore is below 100%
 xcodebuild -scheme LilyDesignSystem-Package -destination 'generic/platform=iOS Simulator' build
 bin/sync-shared-modules                          # from the monorepo root: refresh Tests/LilyCoreTests/vectors
 ```

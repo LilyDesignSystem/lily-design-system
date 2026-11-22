@@ -11,6 +11,9 @@ public enum TruncationStrategy: String, Sendable {
     case fixedEnd = "fixed-end"
     /// An even split, but at least `end` clusters are kept at the end.
     case minEnd = "min-end"
+
+    /// The keys, in the order the TypeScript documents them.
+    public static var allKeys: [String] { [Self.even, .fixedEnd, .minEnd].map(\.rawValue) }
 }
 
 /// Split into user-perceived characters.

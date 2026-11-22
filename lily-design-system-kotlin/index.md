@@ -47,6 +47,7 @@ platform's text, so the user's font scale applies unchanged.
 
 ```sh
 ./gradlew build checkNoMaterial       # lily-core vectors, lily-compose Robolectric semantics tests, lint
+./gradlew koverLog koverVerify        # test coverage of both modules; fails below 100% of lines
 bin/sync-shared-modules               # from the monorepo root: refresh lily-core/src/jvmTest/resources/vectors
 ```
 
