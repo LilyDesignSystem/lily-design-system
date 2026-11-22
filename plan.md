@@ -557,6 +557,76 @@ Tasks: [tasks.md](tasks.md#phase-40--lessons-from-commercial-health-record-produ
 Status (2026-11-20): T1 to T9 done (T8 mapped, T9 decided and deferred); T10, the filter summary with the next label-pack
 round, remains.
 
+## Research findings (2026-11-22): mobile UI for Apple and Android
+
+Adopters asked for the same Lily semantics in their native mobile apps. This is a major upgrade: Lily's first targets that
+are not the web. Full research and advice: [spec/apple-swift](spec/apple-swift/index.md) and
+[spec/android-kotlin](spec/android-kotlin/index.md).
+
+### Assessment
+
+- **What carries over is the contracts, not the markup.** Native control first (the mobile form of "semantic element
+  first"), accessibility modifiers or semantics only where it falls short, no hardcoded strings, consumer-supplied locale,
+  RTL, keyboard contracts (iPad, Chromebooks, desktop windowing, Switch Control), target sizes, and the system's text size,
+  motion and contrast settings, never Lily's. The suffix table, the CSS template, landmarks, skip links, page shells and
+  HTML tables on phones do not carry over.
+- **Headless maps differently on each platform.** SwiftUI has no unstyled layer, so Lily's headless equivalent is a style
+  protocol per component with a plain default (as `ButtonStyle` works). Compose has one, `compose.foundation`, so Lily's
+  components can depend on it alone and keep Material 3 as an optional adapter.
+- **The catalog shrinks; the value concentrates.** Navigation, overlays and most form controls are the platform's own and
+  must stay so (VoiceOver and TalkBack behaviour, Liquid Glass, Material 3 Expressive, future OS changes). Lily's mobile
+  value is the 188 national identifier components (validation, formatting, keyboard, no autocorrect or autofill leak, a
+  spoken form), the healthcare components, and small semantic content components (summary list, error summary, warning
+  text). Estimate: about 120 Lily components plus the identifiers per platform; every slug gets a recorded decision.
+- **Logic is shared through test vectors.** The `shared/` modules and the identifier validators are ported by hand to Swift
+  and Kotlin and proved equal to the TypeScript with JSON vectors. A Kotlin Multiplatform core for Swift, JavaScriptCore,
+  and Swift on Android (Swift 6.3) were each assessed and declined as too heavy a runtime dependency for a design system.
+- **Publishing differs.** Maven Central publishes from the monorepo as npm does. SwiftPM needs `Package.swift` at a
+  repository root, so the Swift package needs a read-only export repository, pushed by subtree like the docs site: a
+  deliberate, recorded exception to the 2026-10-10 "no mirrors" decision. CocoaPods trunk goes read-only in December 2026.
+- **Helpers mostly become the platform's.** Text size and motion pickers are declined (system settings); locale, share,
+  search and date-time are native; brand theme and time-zone pickers are kept; a colour picker is a real gap on Compose only.
+- **Accessibility evidence is in demand.** The European Accessibility Act covers apps (EN 301 549 clause 11) and the App
+  Store's Accessibility Nutrition Labels ask apps to declare support; Lily Core needs VoiceOver and TalkBack evidence per
+  component before it makes a mobile claim.
+
+### Advice, in priority order
+
+1. Decide before building: the semantics map and a per-component mobile decision, checked in `bin/test` (P43-T1, T2).
+2. Make the logic portable: vectors for the shared modules and the identifier validators moved into `shared/` (P43-T3, T4).
+   This also removes the per-catalog copies of the validators on the web.
+3. Generate tokens and ship label packs for both platforms (P43-T5, T6).
+4. Build both platforms side by side on the same first slice (field, error summary, summary list, alert and friends), then
+   the healthcare and identifier components, then the example apps (Phases 44 and 45).
+5. Publish only after the example apps pass their accessibility audits and size sweeps; ask before the first push to the
+   Swift export repository and the first Maven Central release.
+
+## Phase 43 — Mobile foundations (2026-11-22)
+
+Shared by Apple and Android: the semantics map, a mobile decision per component, test vectors, identifier validators in
+`shared/`, Swift and Kotlin tokens, label packs as mobile resources.
+Tasks: [tasks.md](tasks.md#phase-43--mobile-foundations-2026-11-22).
+
+Status (2026-11-22): researched; nothing built. T1 and T2 first.
+
+## Phase 44 — Apple Swift (2026-11-22)
+
+One SwiftPM package, `lily-design-system-swift` (`LilyCore`, `LilyUI`, `LilyIdentifiers`, `LilyThemes`), SwiftUI-first with
+style protocols, Swift 6, iOS 18 and later; UIKit apps host it. An example app, a skill, and a subtree export repository for
+SwiftPM. Findings: [spec/apple-swift](spec/apple-swift/index.md).
+Tasks: [tasks.md](tasks.md#phase-44--apple-swift-2026-11-22).
+
+Status (2026-11-22): researched; nothing built. Depends on P43-T1 to T4.
+
+## Phase 45 — Android Kotlin (2026-11-22)
+
+One Gradle build, `lily-design-system-kotlin` (`lily-core` multiplatform, `lily-compose` on foundation only, identifiers,
+themes, an optional Material 3 adapter), Kotlin 2.4, published to Maven Central from the monorepo. An adaptive example app and
+a skill; Compose Multiplatform on iOS tested as a bonus, not the Apple product. Findings:
+[spec/android-kotlin](spec/android-kotlin/index.md). Tasks: [tasks.md](tasks.md#phase-45--android-kotlin-2026-11-22).
+
+Status (2026-11-22): researched; nothing built. Depends on P43-T1 to T4.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.

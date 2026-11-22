@@ -4330,6 +4330,120 @@ quick wins and are done; then T5, T6/T7, T9, T8, T10.
       releases under `next` first, then promote.
       Verify: the publish scripts take a `--tag`, and `docs/` says which releases go to `next`.
 
+## Phase 43 — Mobile foundations (2026-11-22)
+
+From adopter feedback asking for Lily's semantics in native mobile apps, and the research in
+[spec/apple-swift](spec/apple-swift/index.md) and [spec/android-kotlin](spec/android-kotlin/index.md). This phase is shared by
+both platforms and comes first: it decides what each component is on mobile and makes the logic portable before any Swift or
+Kotlin UI is written. Order: T1 and T2 first (decisions), then T4 and T3 (logic), then T5 and T6 (assets).
+
+- [ ] **P43-T1 A mobile semantics map.** `mobile/semantics.tsv`: every ARIA role, state and property used in
+      `components/*/AGENTS.md`, with its SwiftUI, UIKit and Jetpack Compose equivalent, or "none" and a reason (landmarks,
+      `aria-describedby`, `aria-invalid` on Apple). Add `mobile/index.md` explaining the columns, linked from both topics.
+      Verify: a script lists the ARIA names in the AGENTS files and fails when one has no row; `bin/check-links` passes.
+- [ ] **P43-T2 A mobile decision per component.** `mobile/components-mobile.tsv`: one row per `components.tsv` slug with an
+      Apple decision and an Android decision (`native`, `lily`, `pattern` or `none`), the platform type for `native`, the
+      Kotlin name where it differs (`NhsNumberInput`), and a reason. `bin/check-mobile-catalog` (in `bin/test`) fails on a
+      missing, extra or reasonless row. Start from the category estimate in the Apple topic.
+      Verify: `bin/check-mobile-catalog` passes; the counts per decision are printed and recorded in both topics.
+- [ ] **P43-T3 Test vectors for the shared modules.** For each module a mobile package uses (search-text, typeahead,
+      edit-history, filter-model, clinical-format, calendar-system, middle-truncation, wheel-picker, zones, direction,
+      intl-labels), export input/output cases to `shared/vectors/{module}.json` from the TypeScript tests, and have those
+      tests read the same file so the vectors cannot drift.
+      Verify: `cd shared && pnpm test` passes and reads every vector file; a `--check` fails when a vector is edited without
+      the tests agreeing.
+- [ ] **P43-T4 Identifier validators in `shared/`.** Each national identifier's normalisation, check-digit validation and
+      display grouping lives in every catalog's own component today. Move it to `shared/identifiers.ts` (synced by
+      `bin/sync-shared-modules`), with vectors per identifier type, including invalid cases, and point the TypeScript catalogs
+      at it. Blazor keeps its C# copy and reads the vectors.
+      Verify: every catalog's identifier tests pass; `bin/sync-shared-modules --check` passes; vectors cover all 94 types.
+- [ ] **P43-T5 Swift and Kotlin token output.** `bin/generate-theme-tokens --swift` and `--kotlin` write per-theme token files
+      (colours in light, dark and high-contrast sets; `rem` to points and `dp`; type roles to text styles, never fixed
+      sizes) for a first set of six themes: light, dark, NHS England, GOV.UK, USWDS and one non-Anglophone public-sector
+      theme. Add the outputs to the Generated files table.
+      Verify: `bin/generate-theme-tokens --check` covers the new outputs; `bin/check-generated-files` passes; the contrast gate
+      holds for the generated pairs.
+- [ ] **P43-T6 Label packs as mobile resources.** A copy of `shared/label-packs/*.json` in each mobile package's resources,
+      kept by `bin/sync-shared-modules`, with a loader in Swift and Kotlin; optionally generated `.xcstrings` and `strings.xml`.
+      A key a pack lacks stays unset, never another language.
+      Verify: `bin/sync-shared-modules --check` passes; `bin/check-label-packs` covers the mobile helpers' keys.
+
+## Phase 44 — Apple Swift (2026-11-22)
+
+A Swift package of SwiftUI components: [spec/apple-swift](spec/apple-swift/index.md). Depends on P43-T1 to T4. Order: T1, T2,
+T3, then T4 and T5 together, then T6 to T8.
+
+- [ ] **P44-T1 Scaffold `lily-design-system-swift`.** A SwiftPM package with `LilyCore`, `LilyUI`, `LilyIdentifiers` and
+      `LilyThemes` products, Swift 6 language mode, strict concurrency, iOS and iPadOS 18 minimum (check current adoption
+      first and record the figure), no third-party runtime dependency, and the required subproject files.
+      Verify: `swift build` and `swift test` pass on macOS; `xcodebuild` builds for an iOS simulator; `bin/test` passes.
+- [ ] **P44-T2 `LilyCore` from the vectors.** Port the P43-T3 modules and the P43-T4 identifier validators to Swift, with
+      Swift Testing reading every vector file.
+      Verify: `swift test` passes on macOS and Linux; every vector file is read.
+- [ ] **P44-T3 Style protocol pattern and a first slice.** Define the `{Name}Style` / configuration / `.plain` / `.lily`
+      pattern and ship it for a first slice of `lily` components: `field` (label, hint, error message), `error-summary`
+      (takes VoiceOver focus and lists links to fields), `summary-list`, `alert`, `warning-text`, `badge`, `tag`, `card`,
+      `empty-state`. Each gets an "Apple" section in its `AGENTS.md` with the accessibility and keyboard contract.
+      Verify: a UI test per contract clause; no hardcoded user-facing string (a Swift rule in `bin/check-worldwide` and
+      `bin/check-built-english`).
+- [ ] **P44-T4 Healthcare and identifier views.** `observation-view`, `allergy-record-list`, `medication-view`, `age-view`,
+      `duration-view`, `early-warning-score-view` in `LilyUI`; the identifier `-input` / `-view` pairs in `LilyIdentifiers`
+      (start with the types the first adopter needs, then all 94), each input with the right `keyboardType`, autocorrection
+      off and no autofill leak, each view with a grouped spoken form.
+      Verify: UI tests per clause; the input properties asserted for every identifier input.
+- [ ] **P44-T5 Example app.** `lily-design-system-swift-examples`: home, a searchable component list and a detail screen per
+      shipped component (demo, code, variants), plus patient banner, vaccination record and contact form screens.
+      Verify: `performAccessibilityAudit()` passes on every screen (ignores listed with reasons; the list may only shrink);
+      the Dynamic Type sweep (default, `accessibility3`, `accessibility5`) finds no clipped text or controls.
+- [ ] **P44-T6 Publish through an export repository.** `make publish-swift` pushes the package subtree to a read-only
+      `lily-design-system-swift` repository and tags it; record why in [monorepo-github-pages](spec/monorepo-github-pages/index.md)
+      (SwiftPM needs `Package.swift` at a repository root). Ask before the first push.
+      Verify: a fresh Xcode project adds the package from the tag and builds.
+- [ ] **P44-T7 Skill, docs and `bin/ci`.** `lily-design-system-swift-skill`; a Swift tab in shipped components' usage on the
+      docs site; `bin/ci --job swift`; Apple columns in `docs/screen-reader-matrix.md` (VoiceOver, Voice Control, Switch
+      Control, Full Keyboard Access).
+      Verify: `bin/ci --job swift` passes locally; the skill passes the skill checks in `bin/test`.
+- [ ] **P44-T8 Brand theme and time-zone helpers.** `ThemePicker` for an app's brand themes (`@AppStorage`) and
+      `TimeZonePicker` on Foundation names ordered by UTC offset. Text-size, motion, locale, share, search, date-time and
+      colour pickers are declined or native (see the topic).
+      Verify: tests per clause; the helpers' AGENTS files name the declined pickers and their native replacements.
+
+## Phase 45 — Android Kotlin (2026-11-22)
+
+Kotlin libraries of Jetpack Compose components: [spec/android-kotlin](spec/android-kotlin/index.md). Depends on P43-T1 to T4.
+Same order as Phase 44; the two can run side by side once P43 is done.
+
+- [ ] **P45-T1 Scaffold `lily-design-system-kotlin`.** One Gradle build (version catalog, Kotlin 2.4, explicit API mode,
+      binary-compatibility validation) with `lily-core` (Kotlin Multiplatform), `lily-compose`, `lily-compose-identifiers`,
+      `lily-compose-themes` and `lily-compose-material3`; `minSdk` 23 (confirm against current AndroidX) and
+      `compileSdk`/`targetSdk` 37.
+      Verify: `./gradlew build` passes; a dependency check fails if `lily-compose` depends on any Material artifact.
+- [ ] **P45-T2 `lily-core` from the vectors.** Port the P43-T3 modules and the P43-T4 validators to Kotlin `commonMain`, with
+      `kotlin.test` reading every vector file.
+      Verify: `./gradlew :lily-core:allTests` passes; every vector file is read.
+- [ ] **P45-T3 Composable pattern and the first slice.** The `{Name}Defaults` / colours / slots / `modifier` pattern on
+      foundation only, for the same first slice as P44-T3, with `error(...)`, `heading()`, `paneTitle`, `liveRegion` and
+      traversal semantics as the semantics map says, a 48dp minimum target, and an "Android" section in each `AGENTS.md`.
+      Verify: a Robolectric semantics test per clause; no hardcoded string or `stringResource` default.
+- [ ] **P45-T4 Healthcare and identifier composables.** As P44-T4, with `KeyboardOptions` asserted for every identifier input.
+      Verify: Robolectric tests per clause; ATF (`enableAccessibilityChecks()`) passes on an API 34+ emulator.
+- [ ] **P45-T5 Example app.** `lily-design-system-android-examples`, adaptive (list-detail on wide windows), with the same
+      screens as P44-T5.
+      Verify: every screen at 320dp, font scale 1.0, 1.5 and 2.0 and a large resizable window shows no clipped text or lost
+      control (`DeviceConfigurationOverride`); ATF passes with ignores listed and reasons.
+- [ ] **P45-T6 Publish to Maven Central.** Verify the `io.github.lilydesignsystem` namespace (or a domain the project owns),
+      sign artifacts, add `bin/publish-kotlin` publishing from the monorepo like `bin/publish-helpers`, and extend
+      `bin/check-package-metadata` and `bin/verify-published` to the POMs. Ask before the first publish.
+      Verify: a fresh Android Studio project resolves the release from Maven Central and builds.
+- [ ] **P45-T7 Skill, docs and `bin/ci`.** `lily-design-system-kotlin-skill`; a Kotlin tab on the docs site; `bin/ci --job
+    kotlin` (JVM) and `--job kotlin-emulator` (ATF); Android columns in the screen-reader matrix (TalkBack, Switch Access,
+      Voice Access, hardware keyboard).
+      Verify: both jobs pass locally.
+- [ ] **P45-T8 Helpers and Compose Multiplatform.** `ThemePicker` (DataStore), `TimeZonePicker`, a thin per-app language
+      helper over `LocaleManager`, and a `ColorPicker` (Compose has none). Run one `lily-compose` screen under Compose
+      Multiplatform on iOS with VoiceOver and record the result; it is a bonus, not the Apple product.
+      Verify: tests per clause; the CMP result recorded in the Android topic.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.

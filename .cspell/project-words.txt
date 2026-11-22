@@ -59,6 +59,9 @@ unrun
 untasked
 webstatus
 # Acronyms and initialisms
+OSSRH
+WWDC
+XCUI
 LOINC
 SNOMED
 AHRQ
@@ -90,6 +93,10 @@ DSFR
 ELFA
 SGDS
 # Tools, platforms, and brand names
+androidx
+kotlinx
+Robolectric
+Sharesheet
 Welltory
 govbr
 govtechsg
@@ -143,6 +150,13 @@ solidjs
 stephcraft
 Nastaliq
 # Web/CSS/tooling terms not in the base dictionaries
+# Mobile (Apple, Android) terms, 2026-11-22
+autocapitalization
+autocorrection
+gradlew
+resizability
+toggleable
+xcstrings
 yourusername
 fromdateiso
 dryrun
