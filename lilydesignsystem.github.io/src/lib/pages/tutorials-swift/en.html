@@ -1,0 +1,227 @@
+<!-- title: Swift tutorial — Lily Design System -->
+<!-- description: Build an accessible contact form in SwiftUI with Lily's Swift package: your words in, Lily's semantics and accessibility out, and a theme that never changes what VoiceOver says. -->
+<section class="page-intro">
+    <h1>Swift tutorial</h1>
+    <p class="page-intro-tagline">
+        Lily's semantics, accessibility contracts and worldwide rules for SwiftUI on iPhone and
+        iPad: every word is yours, every native control stays Apple's, and a style changes how a
+        component looks, never what VoiceOver reads.
+    </p>
+</section>
+
+<section
+    class="section prose"
+    style="margin: 0 auto;"
+>
+    <h2>What you'll build</h2>
+    <p>
+        A small contact form — a labelled field with a hint and an error, an error summary, a
+        warning — first plain, then themed, in about 15 minutes.
+    </p>
+    <div class="callout">
+        <p style="margin: 0;">
+            <strong>Early and unreleased.</strong> The Swift package is not on a registry yet, so you
+            add it from a copy of the monorepo. Its components are a first slice, not the whole catalog:
+            see the list in step 2.
+        </p>
+    </div>
+
+    <h2>Before you start</h2>
+    <p>
+        You need Xcode 16 or later, Swift 6 language mode, and an app that targets iOS 18 or iPadOS
+        18 or later. Lily has no third-party runtime dependency.
+    </p>
+
+    <h2>Step 1 — Add the package</h2>
+
+    <pre tabindex="0"><code
+            >git clone https://github.com/LilyDesignSystem/lily-design-system</code
+        ></pre>
+    <p>
+        In Xcode choose <strong>File ▸ Add Package Dependencies ▸ Add Local…</strong> and pick the
+        folder <code>lily-design-system/lily-design-system-swift</code>. Or, in a Swift package:
+    </p>
+
+    <pre tabindex="0"><code
+            >// Package.swift
+dependencies: [
+    .package(path: "../lily-design-system/lily-design-system-swift"),
+],
+targets: [
+    .target(name: "App", dependencies: [
+        .product(name: "LilyUI", package: "lily-design-system-swift"),
+        .product(name: "LilyThemes", package: "lily-design-system-swift"),
+    ]),
+],</code
+        ></pre>
+    <p>
+        The products are <code>LilyCore</code> (pure Swift: search folding, middle truncation,
+        clinical formatting), <code>LilyUI</code> (the SwiftUI components),
+        <code>LilyThemes</code> (generated tokens and the themed styles) and
+        <code>LilyUIExamples</code> (a worked example of every component).
+    </p>
+
+    <h2>Step 2 — Your first component</h2>
+
+    <pre tabindex="0"><code
+            >import SwiftUI
+import LilyUI
+
+struct Notice: View {
+    var body: some View {
+        WarningText(prefix: "Warning", text: "You can be fined up to £5,000 if you do not register.")
+    }
+}</code
+        ></pre>
+    <p>
+        <code>WarningText</code> keeps the prefix and the text together so VoiceOver reads them as
+        one sentence. The first slice has <code>Field</code>, <code>ErrorSummary</code>,
+        <code>SummaryList</code>, <code>WarningText</code>, <code>LilyAlert</code>,
+        <code>Badge</code>, <code>Tag</code>, <code>Card</code>, <code>InsetText</code>, the
+        clinical views (<code>ObservationView</code>, <code>AgeView</code>,
+        <code>MedicationView</code> and others) and the International Patient Summary. Lily ships no button,
+        toggle, picker, date picker, sheet, alert or navigation: those stay SwiftUI's.
+    </p>
+
+    <h2>Step 3 — Compose a small form</h2>
+
+    <pre tabindex="0"><code
+            >import SwiftUI
+import LilyUI
+
+struct ContactForm: View {
+    @State private var name = ""
+    @State private var nameError: String?
+
+    var body: some View {
+        Form {
+            if let nameError {
+                ErrorSummary(title: "There is a problem", problems: [.init(nameError) { /* focus the name field */ }])
+            }
+            Field(label: "Full name", description: "As it appears on your passport", error: nameError,
+                  required: true, requiredLabel: "required") {
+                TextField("", text: $name).textContentType(.name)
+            }
+            WarningText(prefix: "Warning", text: "You can be fined up to £5,000 if you do not register.")
+            Button("Save") {
+                nameError = name.isEmpty ? "Enter your full name" : nil
+            }
+        }
+    }
+}</code
+        ></pre>
+    <p>
+        <code>Field</code> draws the visible label, the hint and the error, and gives the control
+        one spoken name that joins them. The control inside is SwiftUI's own
+        <code>TextField</code>. <code>ErrorSummary</code> lists the problems and calls each one's closure
+        when it is activated, so you can move focus to the field.
+    </p>
+    <div class="callout">
+        <p style="margin: 0;">
+            <strong>Verified 2026-11-22:</strong> this form, the theme in step 5 and the catalog in
+            step 6 were compiled against the package with <code>swift build</code>, and the
+            package's own tests pass with <code>swift test</code>. The accessibility audit of the
+            example app runs in Xcode (see step 6).
+        </p>
+    </div>
+
+    <h2>Step 4 — The Swift idioms</h2>
+    <ul>
+        <li>
+            <strong>Every word is yours.</strong> Lily has no default text and looks nothing up in
+            its own bundle: the labels, hints and errors are <code>String</code> parameters shown
+            with
+            <code>Text(verbatim:)</code>, so the form speaks your app's language.
+        </li>
+        <li>
+            <strong>Change the look with a style, never by wrapping.</strong> A style receives a
+            configuration and draws it: <code>.fieldStyle(MyFieldStyle())</code>. The accessibility
+            label, hint, traits and announcements stay outside the style, so no style can change
+            what VoiceOver says.
+        </li>
+        <li>
+            <strong>The system owns the rest.</strong> Dynamic Type, Reduce Motion, contrast and language
+            are the system's; no component reads or overrides them except to adapt.
+        </li>
+        <li>
+            <strong>Spoken joins are line breaks.</strong> Where Lily joins two strings for VoiceOver
+            it uses a line break, never a word or punctuation of its own.
+        </li>
+    </ul>
+
+    <h2>Step 5 — Theme it</h2>
+    <p>
+        Add <code>LilyThemes</code> and set the tokens once, near the root:
+    </p>
+
+    <pre tabindex="0"><code
+            >import LilyThemes
+
+struct Root: View {
+    @Environment(\.colorScheme) private var colorScheme
+
+    var body: some View {
+        ContactForm()
+            .lilyTheme(colorScheme == .dark ? .dark : .govUk)
+    }
+}</code
+        ></pre>
+    <p>
+        The tokens are <code>.light</code>, <code>.dark</code>, <code>.nhsEnglandPatients</code>,
+        <code>.govUk</code>, <code>.uswds</code> and <code>.japanDigitalAgency</code>, generated
+        from the same token files as the web themes. The themed styles use only the colour pairs the
+        web themes gate at 4.5:1; a severity colour is a rail or a border, never text. Using a
+        public-sector theme does not make your app that body's service: supply your own name and
+        marks.
+    </p>
+
+    <h2>Step 6 — See it all working</h2>
+    <p>
+        <code>LilyUIExamples</code> is a worked example of every component and a searchable catalog you
+        can host in any app:
+    </p>
+
+    <pre tabindex="0"><code
+            >import LilyUIExamples
+
+@main struct CatalogApp: App {
+    var body: some Scene {
+        WindowGroup { ExampleCatalog(title: "Components", searchPrompt: "Search components") }
+    }
+}</code
+        ></pre>
+    <p>
+        Or run the iOS example app, which runs Apple's accessibility audit on the catalog and on
+        every component's screen at the default and the largest text size:
+    </p>
+
+    <pre tabindex="0"><code
+            >cd lily-design-system/lily-design-system-swift-examples
+xcodebuild -project LilyExamples.xcodeproj -scheme LilyExamples \
+    -destination 'generic/platform=iOS Simulator' build</code
+        ></pre>
+
+    <h2>Next steps</h2>
+    <ul>
+        <li>
+            <a href="/tutorials/kotlin/">Kotlin tutorial</a> — the same components for Jetpack Compose
+            on Android.
+        </li>
+        <li>
+            <a href="/components/">Component catalog</a> — the web contract each Swift component follows,
+            with ARIA and keyboard per component.
+        </li>
+        <li>
+            <a href="/tutorials/worldwide/">Worldwide</a> — why Lily ships no default text and no single-region
+            default.
+        </li>
+        <li>
+            <a href="/getting-started/">Getting started in five minutes</a> — the same start on the web.
+        </li>
+    </ul>
+    <p>
+        Questions along the way? The <a href="/help/#troubleshooting">help page</a> is full of
+        answers — and if a step could be clearer,
+        <a href="https://github.com/LilyDesignSystem">tell us</a> and we'll gladly improve the tutorial.
+    </p>
+</section>

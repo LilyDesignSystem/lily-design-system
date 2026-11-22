@@ -48,6 +48,8 @@
         { href: '/tutorials/nunjucks/', label: 'Nunjucks' },
         { href: '/tutorials/react/', label: 'React' },
         { href: '/tutorials/solid/', label: 'Solid' },
+        { href: '/tutorials/swift/', label: 'Swift' },
+        { href: '/tutorials/kotlin/', label: 'Kotlin' },
         { href: '/tutorials/svelte/', label: 'Svelte' },
         { href: '/tutorials/vue/', label: 'Vue' },
         { href: '/tutorials/web-components/', label: 'Web Components' },

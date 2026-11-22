@@ -45,6 +45,10 @@ highlights.
   change many components at once) and which go straight to `latest` (fixes, patches, additive releases). Holding `latest` two days behind, which one
   consumer asked for, was not adopted: it would delay every fix for every consumer. `bin/test-publish-tag` checks the option with a fake `npm`.
 
+## Swift and Kotlin tutorials (2026-11-22)
+
+- `/tutorials/swift/` and `/tutorials/kotlin/` (with `static/tutorials/swift.md` and `kotlin.md`): a contact form built with `Field`, `ErrorSummary` and `WarningText`, then themed with `LilyThemes` and `LilyTheme`, then the example catalog. Both say plainly that the packages are early and unreleased and are used from a copy of the monorepo; the code was compiled against the Swift package (`swift build`) and the Kotlin modules (`compileDebugKotlin`). Listed in the site map; `tests/mobile-tutorials.spec.ts` checks both.
+
 ## National identifier validation, third slice (2026-11-22, P43-T3)
 
 - Thirteen more validators in `shared/national-identifiers.ts` and the C# `NationalIdentifiers`: Portugal NIF, Chile RUT, Uruguay cedula, Ecuador cedula, Argentina CUIL and CUIT, Mexico CURP, South Africa ID, Singapore NRIC and FIN, Taiwan ID, Japan My Number, China resident ID, Latvia personal code (a code beginning 32 carries no check) and Lithuania asmens kodas. South Korea's resident registration number is not here: numbers issued since October 2020 have no valid check digit.
