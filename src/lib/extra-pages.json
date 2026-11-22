@@ -13,6 +13,8 @@
   { "slug": "tutorials-forms", "route": "tutorials/forms" },
   { "slug": "tutorials-shadcn", "route": "tutorials/shadcn" },
   { "slug": "tutorials-solid", "route": "tutorials/solid" },
+  { "slug": "tutorials-swift", "route": "tutorials/swift" },
+  { "slug": "tutorials-kotlin", "route": "tutorials/kotlin" },
   { "slug": "tutorials-worldwide", "route": "tutorials/worldwide" },
   { "slug": "getting-started", "route": "getting-started" },
   { "slug": "how-the-pieces-fit", "route": "how-the-pieces-fit" },
