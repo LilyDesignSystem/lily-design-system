@@ -33,3 +33,17 @@ import Testing
     #expect(Examples.matching("séverité").isEmpty)
     #expect(Examples.matching("heading level").map(\.slug) == ["card"])
 }
+
+@MainActor @Test func theContactFormShowsItsErrorOnlyAfterSubmit() {
+    #expect(ContactFormExample().nameError == nil)
+    #expect(ContactFormExample(submitted: true).nameError == "Enter your full name")
+    #expect(ContactFormExample(name: "Sam Okoro", submitted: true).nameError == nil)
+    ContactFormExample().submit()
+    Examples.demoAction()
+    #expect(ImageRenderer(content: ContactFormExample(submitted: true).frame(width: 320)).cgImage != nil)
+}
+
+@MainActor @Test func theCatalogDestinationShowsAKnownSlugAndNothingElse() {
+    #expect(ImageRenderer(content: ExampleCatalog.destination("card").frame(width: 320, height: 640)).cgImage != nil)
+    #expect(ImageRenderer(content: ExampleCatalog.destination("no-such-component").frame(width: 320, height: 64)).cgImage != nil)
+}

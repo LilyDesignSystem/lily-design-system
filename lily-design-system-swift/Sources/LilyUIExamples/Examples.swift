@@ -18,16 +18,23 @@ public struct Example: Identifiable, Sendable {
     @MainActor public var view: AnyView { make() }
 }
 
-private struct ContactFormExample: View {
-    @State private var name = ""
-    @State private var submitted = false
+struct ContactFormExample: View {
+    @State private var name: String
+    @State private var submitted: Bool
 
-    private var nameError: String? { submitted && name.isEmpty ? "Enter your full name" : nil }
+    init(name: String = "", submitted: Bool = false) {
+        _name = State(initialValue: name)
+        _submitted = State(initialValue: submitted)
+    }
+
+    var nameError: String? { submitted && name.isEmpty ? "Enter your full name" : nil }
+
+    func submit() { submitted = true }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             if let nameError {
-                ErrorSummary(title: "There is a problem", problems: [.init(nameError) {}])
+                ErrorSummary(title: "There is a problem", problems: [.init(nameError, action: Examples.demoAction)])
             }
             Field(
                 label: "Full name", description: "As it appears on your passport", error: nameError, required: true,
@@ -35,12 +42,15 @@ private struct ContactFormExample: View {
             ) {
                 TextField("", text: $name).textContentType(.name)
             }
-            Button("Continue") { submitted = true }
+            Button("Continue", action: submit)
         }
     }
 }
 
 public enum Examples {
+    /// The demos' stand-in for "focus the field": a real app moves focus here.
+    @MainActor static func demoAction() {}
+
     /// Every example, in catalog order.
     @MainActor public static let all: [Example] = [
         Example(
@@ -65,7 +75,10 @@ public enum Examples {
                 AnyView(
                     ErrorSummary(
                         title: "There is a problem",
-                        problems: [.init("Enter your full name") {}, .init("Enter a date of birth in the past") {}],
+                        problems: [
+                            .init("Enter your full name", action: demoAction),
+                            .init("Enter a date of birth in the past", action: demoAction),
+                        ],
                         focusOnAppear: false))
             }),
         Example(
@@ -178,11 +191,16 @@ public struct ExampleCatalog: View {
                 }
             }
             .navigationTitle(Text(verbatim: title))
-            .navigationDestination(for: String.self) { slug in
-                if let example = Examples.all.first(where: { $0.slug == slug }) { ExampleDetail(example: example) }
-            }
+            .navigationDestination(for: String.self, destination: Self.destination)
             .searchable(text: $query, prompt: Text(verbatim: searchPrompt))
         }
+    }
+}
+
+extension ExampleCatalog {
+    /// The detail screen for a slug, or nothing for an unknown one.
+    @ViewBuilder static func destination(_ slug: String) -> some View {
+        if let example = Examples.all.first(where: { $0.slug == slug }) { ExampleDetail(example: example) }
     }
 }
 

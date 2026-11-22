@@ -4389,8 +4389,9 @@ Kotlin UI is written. Order: T1 and T2 first (decisions), then T4 and T3 (logic)
       converted to sRGB (it reproduces daisyUI's `#422AD5` and GOV.UK's `#1D70B8`); rem is 16 points or dp; type stays with the
       platform's text styles. Tests in both languages check every light and dark pair at 4.5:1. Found: the NHS England
       themes' primary, `oklch(45% 0.17 251)`, is `#0054AE` in the browser too, not the NHS Blue `#005EB8` their comment
-      names; decide whether to re-baseline it (a web theme change, not a mobile one). Not yet: `.lily` styles that read the
-      tokens, and high-contrast variants.)_
+      names; decide whether to re-baseline it (a web theme change, not a mobile one). The same day, Swift's `LilyThemes` gained
+      the themed `.lily` styles (alert, badge, tag, card, inset text, warning text, summary list item) and `.lilyTheme(_:)`,
+      rendered in all six themes, at 100% of lines. Not yet: Compose's `LilyTheme`, and high-contrast variants.)_
 - [ ] **P43-T6 Label packs as mobile resources.** A copy of `shared/label-packs/*.json` in each mobile package's resources,
       kept by `bin/sync-shared-modules`, with a loader in Swift and Kotlin; optionally generated `.xcstrings` and `strings.xml`.
       A key a pack lacks stays unset, never another language.
