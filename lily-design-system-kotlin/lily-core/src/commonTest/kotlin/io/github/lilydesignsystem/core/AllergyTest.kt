@@ -52,3 +52,17 @@ class MedicationTest {
         )
     }
 }
+
+class EarlyWarningScoreTest {
+    @Test fun bandsNeedWordsAndSpeakInOrder() {
+        assertEquals(1, EarlyWarningScoreRules.warnings("high", null).size)
+        assertEquals(1, EarlyWarningScoreRules.warnings("high", "").size)
+        assertTrue(EarlyWarningScoreRules.warnings("high", "High clinical risk").isEmpty())
+        assertTrue(EarlyWarningScoreRules.warnings(null, null).isEmpty())
+        assertEquals(
+            "Early warning score\nNEWS2\n7\nHigh clinical risk\nCall the critical care outreach team",
+            EarlyWarningScoreRules.spoken("Early warning score", "NEWS2", "7", "High clinical risk",
+                "Call the critical care outreach team"),
+        )
+    }
+}

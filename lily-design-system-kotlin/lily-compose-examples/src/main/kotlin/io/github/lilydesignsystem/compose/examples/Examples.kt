@@ -38,6 +38,7 @@ import io.github.lilydesignsystem.core.AllergyWords
 import io.github.lilydesignsystem.compose.AlertKind
 import io.github.lilydesignsystem.compose.DurationView
 import io.github.lilydesignsystem.compose.BadgeKind
+import io.github.lilydesignsystem.compose.EarlyWarningScoreView
 import io.github.lilydesignsystem.compose.ErrorSummary
 import io.github.lilydesignsystem.compose.Field
 import io.github.lilydesignsystem.compose.InsetText
@@ -227,6 +228,16 @@ public object Examples {
                     MedicationNameSegment("hydr"), MedicationNameSegment("OXY", tallMan = true), MedicationNameSegment("zine"),
                 ),
                 strength = "25\u00A0mg", form = "tablet", route = "oral", frequency = "twice a day",
+            )
+        },
+        Example(
+            "early-warning-score-view", "EarlyWarningScoreView",
+            "A score the app computed, its band in words and what to do; Lily computes nothing.",
+            """EarlyWarningScoreView("7", system = "NEWS2", band = "high", bandLabel = "High clinical risk")""",
+        ) {
+            EarlyWarningScoreView(
+                "7", system = "NEWS2", band = "high", bandLabel = "High clinical risk",
+                escalation = "Call the critical care outreach team",
             )
         },
     )

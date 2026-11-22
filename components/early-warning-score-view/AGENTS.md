@@ -34,6 +34,13 @@
 - `label`: string (optional) — hidden text naming the value
 - `...restProps`: any — additional HTML attributes spread onto the root
 
+## Mobile
+
+Decisions: [mobile/components-mobile.tsv](../../mobile/components-mobile.tsv) (`lily` on both). The rules are `EarlyWarningScoreRules` in `LilyCore` and `lily-core`.
+
+- Apple: `EarlyWarningScoreView(score:system:band:bandLabel:escalation:label:)` in `LilyUI`: one element speaking label, system, score, band words and escalation; the band key goes to the style; a band without words prints a development warning; computes nothing. Style: `EarlyWarningScoreViewStyle`.
+- Android: `EarlyWarningScoreView(score, …)` in `lily-compose`: the same, one TalkBack stop.
+
 ## Acceptance Criteria
 
 - [x] Renders <span> with class="early-warning-score-view"

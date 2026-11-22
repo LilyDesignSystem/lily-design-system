@@ -241,3 +241,19 @@ private struct CustomMedicationStyle: MedicationViewStyle {
     #expect(render(MedicationView(name: "Ibuprofen").medicationViewStyle(.plain)))
     #expect(MedicationView().nameText == nil)
 }
+
+private struct CustomScoreStyle: EarlyWarningScoreViewStyle {
+    func makeBody(configuration: EarlyWarningScoreViewStyleConfiguration) -> some View {
+        HStack { configuration.score; Text(verbatim: configuration.band ?? "-") }
+    }
+}
+
+@MainActor @Test func earlyWarningScoreViewRenders() {
+    #expect(
+        render(
+            EarlyWarningScoreView(
+                score: "7", system: "NEWS2", band: "high", bandLabel: "High clinical risk",
+                escalation: "Call the critical care outreach team", label: "Early warning score")))
+    #expect(render(EarlyWarningScoreView(score: "2").earlyWarningScoreViewStyle(CustomScoreStyle())))
+    #expect(render(EarlyWarningScoreView(score: "0").earlyWarningScoreViewStyle(.plain)))
+}

@@ -225,6 +225,19 @@ public enum Examples {
                         nameSegments: [.init("hydr"), .init("OXY", tallMan: true), .init("zine")], strength: "25\u{00A0}mg",
                         form: "tablet", route: "oral", frequency: "twice a day"))
             }),
+        Example(
+            slug: "early-warning-score-view", name: "EarlyWarningScoreView",
+            summary: "A score the app computed, its band in words and what to do; Lily computes nothing.",
+            code: """
+                EarlyWarningScoreView(score: "7", system: "NEWS2", band: "high", bandLabel: "High clinical risk",
+                                      escalation: "Call the critical care outreach team")
+                """,
+            make: {
+                AnyView(
+                    EarlyWarningScoreView(
+                        score: "7", system: "NEWS2", band: "high", bandLabel: "High clinical risk",
+                        escalation: "Call the critical care outreach team"))
+            }),
     ]
 
     /// The examples whose name, slug or summary match `query`, with Lily's own search folding (case and accents ignored).

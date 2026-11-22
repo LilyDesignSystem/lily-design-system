@@ -50,3 +50,15 @@ import Testing
             label: "Medication", name: nil, segments: segments, strength: "25\u{00A0}mg", form: "tablet", route: "oral",
             frequency: "twice a day", dosageText: "") == "Medication\nhydrOXYzine\n25\u{00A0}mg\ntablet\noral\ntwice a day")
 }
+
+@Test func earlyWarningBandsNeedWordsAndSpeakInOrder() {
+    #expect(EarlyWarningScoreRules.warnings(band: "high", bandLabel: nil).count == 1)
+    #expect(EarlyWarningScoreRules.warnings(band: "high", bandLabel: "").count == 1)
+    #expect(EarlyWarningScoreRules.warnings(band: "high", bandLabel: "High clinical risk").isEmpty)
+    #expect(EarlyWarningScoreRules.warnings(band: nil, bandLabel: nil).isEmpty)
+    #expect(EarlyWarningScoreRules.warnings(band: "", bandLabel: nil).isEmpty)
+    #expect(
+        EarlyWarningScoreRules.spoken(
+            label: "Early warning score", system: "NEWS2", score: "7", bandLabel: "High clinical risk",
+            escalation: "Call the critical care outreach team") == "Early warning score\nNEWS2\n7\nHigh clinical risk\nCall the critical care outreach team")
+}

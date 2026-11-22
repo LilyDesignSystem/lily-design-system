@@ -259,4 +259,20 @@ class ComponentSemanticsTest {
         assertNull(medicationName(null, emptyList()))
         assertEquals("Ibuprofen", medicationName("Ibuprofen", emptyList())!!.text)
     }
+
+    @Test fun earlyWarningScoreViewSpeaksInOrder() {
+        rule.setContent {
+            androidx.compose.foundation.layout.Column {
+                EarlyWarningScoreView(
+                    "7", system = "NEWS2", band = "high", bandLabel = "High clinical risk",
+                    escalation = "Call the critical care outreach team", label = "Early warning score",
+                )
+                EarlyWarningScoreView("1", band = "low")
+            }
+        }
+        rule.onNodeWithContentDescription(
+            "Early warning score\nNEWS2\n7\nHigh clinical risk\nCall the critical care outreach team",
+        ).assertExists()
+        rule.onNodeWithContentDescription("1").assertExists()
+    }
 }
