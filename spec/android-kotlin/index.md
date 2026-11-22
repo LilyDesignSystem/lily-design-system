@@ -139,11 +139,12 @@ Swift package is the Apple product.
 
 ## Naming
 
-- Composables keep the catalog's PascalCase (`ObservationView`, `NhsNumberInput`): Kotlin's convention is
-  `Nhs`, not `NHS`, for acronyms in names; record the mapping in `mobile/components-mobile.tsv` so the docs site can show
-  both.
+- Composables keep the catalog's PascalCase (`ObservationView`, `IbanInput`); the catalog already writes acronyms as
+  words, which is also Kotlin's convention. A `lily` composable whose name clashes with a type apps commonly import gets a
+  `Lily` prefix: `LilyCard` and `LilyBadge` (Material 3), `LilyNotification` (`android.app.Notification`); recorded in
+  `mobile/components-mobile.tsv`.
 - Where the catalog name is also a Material 3 or foundation composable (`Button`, `Checkbox`, `Switch`, `Slider`,
-  `Card`, `Badge`, `Text`, `Image`), Lily ships no composable of that name; the decision is `native`, with tokens via
+  `Text`, `Image`) and the platform control does the job, Lily ships no composable of that name; the decision is `native`, with tokens via
   the Material adapter.
 - Package names: `io.github.lilydesignsystem.core`, `.compose`, `.compose.identifiers`, `.compose.themes`,
   `.compose.material3`.

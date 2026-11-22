@@ -155,6 +155,7 @@ autocapitalization
 autocorrection
 gradlew
 resizability
+swiftui
 toggleable
 xcstrings
 yourusername

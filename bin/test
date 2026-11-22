@@ -481,6 +481,9 @@ fi
 # Every Svelte overlay or popup component records its native-platform decision (spec/competitive-position, P16-T4).
 "$top/bin/check-native-primitives" >/dev/null 2>&1 \
     || err "a native-platform decision is missing or out of step with spec/competitive-position/native-primitives.tsv; run bin/check-native-primitives"
+# Every component has an Apple and an Android decision, and every ARIA name has a mobile mapping (spec/apple-swift, P43-T1, T2).
+"$top/bin/check-mobile-catalog" >/dev/null 2>&1 \
+    || err "a mobile decision or semantics mapping is missing; run bin/check-mobile-catalog"
 "$top/bin/generate-page-markdown" --check >/dev/null 2>&1 \
     || err "a site page's .md twin is missing or stale; run bin/generate-page-markdown"
 "$top/bin/extract-site-pages" --check >/dev/null 2>&1 \

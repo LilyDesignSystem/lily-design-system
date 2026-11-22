@@ -97,7 +97,8 @@ In priority order. Each step is useful on its own.
    - **39 tables**: `none` on iPhone; `data-table` as `native` (`Table`) on iPad. Mobile tables become lists.
    - **19 data-viz**: `native` on Swift Charts, which has accessibility and Audio Graphs built in; Lily supplies the
      figure-plus-data-table pattern and the chart's summary text contract.
-   - Expect roughly 120 `lily` components plus the 188 identifiers, and most of the rest `native` or `none`.
+   - Result (2026-11-22, [mobile/components-mobile.tsv](../../mobile/components-mobile.tsv)): on Apple 343 `lily` (155
+     plus the 188 identifiers), 146 `native`, 34 `pattern`, 138 `none`.
 3. **Shared logic through test vectors, not a shared runtime.** The pure modules in `shared/` (search, type-ahead, edit
    history, filter model, clinical format, calendar system, middle truncation, wheel picker, zones) and the identifier
    validators are what make a Lily component correct. Port them to Swift by hand and prove them equal with JSON vectors
@@ -169,12 +170,15 @@ In priority order. Each step is useful on its own.
 
 ## Naming
 
-- Types keep the catalog's PascalCase (`ObservationView`, `NHSNumberInput`, `SummaryList`), namespaced by the module.
+- Types keep the catalog's PascalCase (`ObservationView`, `IbanInput`, `SummaryList`), namespaced by the module. The
+  catalog already writes acronyms as words (`EnglandNationalHealthServiceNumberInput`, `IbanInput`), so Swift and Kotlin
+  names match. A `lily` type whose name clashes with a platform type apps commonly import gets a `Lily` prefix: `LilyAlert`
+  (`SwiftUI.Alert`), `LilyTimer` and `LilyNotification` (Foundation); recorded in `mobile/components-mobile.tsv`.
 - Where the catalog name is also a SwiftUI type (`Button`, `Toggle`, `Picker`, `Menu`, `Label`, `Link`, `Form`, `List`,
   `Section`, `Gauge`, `Table`, `Divider`, `Image`, `ProgressView`), Lily ships **no type**: the decision is `native`, and
   Lily offers a style (`.buttonStyle(.lily)`) and documentation. Shadowing a SwiftUI name breaks every file that imports
   both modules.
-- A `-view` suffix stays (`NHSNumberView`): in SwiftUI every component is a view, but the suffix names the read-only half
+- A `-view` suffix stays (`IbanView`): in SwiftUI every component is a view, but the suffix names the read-only half
   of an `-input` / `-view` pair, so it is kept for the pair families only.
 - Style protocols: `{Name}Style`, a `{Name}StyleConfiguration`, `.{name}Style(_:)`, built-in `.plain` and `.lily`.
 

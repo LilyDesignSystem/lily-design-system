@@ -204,6 +204,7 @@ Also copied rather than generated: `bin/sync` rsyncs the root `AGENTS/` and `the
 - [generate-registries](../bin/generate-registries): Regenerate example-app catalog registries from components.tsv
 - [check-links](../bin/check-links): Verify relative markdown links resolve
 - [check-dtcg-tokens](../bin/check-dtcg-tokens): `themes/tokens/*.json` and `lily.resolver.json` are strict DTCG 2025.10 (in bin/test)
+- [check-mobile-catalog](../bin/check-mobile-catalog): Every `components.tsv` slug has an Apple and an Android decision in `mobile/components-mobile.tsv` (`native`, `lily`, `pattern`, `none`, with a reason), and every ARIA name and HTML tag in the component AGENTS files has a SwiftUI, UIKit and Compose mapping in `mobile/semantics.tsv`; `--counts` prints the decisions (in bin/test)
 - [check-native-primitives](../bin/check-native-primitives): Every Svelte overlay or popup component records its native-platform decision, in step with `spec/competitive-position/native-primitives.tsv` (in bin/test; `--write` regenerates the AGENTS.md sections)
 - [check-dev-warnings](../bin/check-dev-warnings): Every interactive component with a required `label` warns when it is missing, in Svelte, React, Vue and Angular, unless allow-listed (in bin/test)
 - [check-lifecycle](../bin/check-lifecycle): A `deprecated` or `discouraged` component names its replacement or its cited alternative, and `docs/adopters.md` names real components (in bin/test)

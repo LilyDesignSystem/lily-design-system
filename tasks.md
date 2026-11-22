@@ -4337,15 +4337,20 @@ From adopter feedback asking for Lily's semantics in native mobile apps, and the
 both platforms and comes first: it decides what each component is on mobile and makes the logic portable before any Swift or
 Kotlin UI is written. Order: T1 and T2 first (decisions), then T4 and T3 (logic), then T5 and T6 (assets).
 
-- [ ] **P43-T1 A mobile semantics map.** `mobile/semantics.tsv`: every ARIA role, state and property used in
+- [x] **P43-T1 A mobile semantics map.** `mobile/semantics.tsv`: every ARIA role, state and property used in
       `components/*/AGENTS.md`, with its SwiftUI, UIKit and Jetpack Compose equivalent, or "none" and a reason (landmarks,
       `aria-describedby`, `aria-invalid` on Apple). Add `mobile/index.md` explaining the columns, linked from both topics.
       Verify: a script lists the ARIA names in the AGENTS files and fails when one has no row; `bin/check-links` passes.
-- [ ] **P43-T2 A mobile decision per component.** `mobile/components-mobile.tsv`: one row per `components.tsv` slug with an
+      _(2026-11-22: done. 119 rows: 28 attributes, 43 roles and 48 elements, every one used in the AGENTS files;
+      `bin/check-mobile-catalog` fails on a missing row or an empty platform column, and was seen to fail when a row was removed.)_
+- [x] **P43-T2 A mobile decision per component.** `mobile/components-mobile.tsv`: one row per `components.tsv` slug with an
       Apple decision and an Android decision (`native`, `lily`, `pattern` or `none`), the platform type for `native`, the
-      Kotlin name where it differs (`NhsNumberInput`), and a reason. `bin/check-mobile-catalog` (in `bin/test`) fails on a
+      Swift or Kotlin name where it differs (a `Lily` prefix on a clash), and a reason. `bin/check-mobile-catalog` (in `bin/test`) fails on a
       missing, extra or reasonless row. Start from the category estimate in the Apple topic.
       Verify: `bin/check-mobile-catalog` passes; the counts per decision are printed and recorded in both topics.
+      _(2026-11-22: done, 661 rows. Apple: 343 `lily` (155 plus the 188 identifiers), 146 `native`, 34 `pattern`, 138 `none`.
+      Android: 355 `lily` (167 plus the identifiers), 100, 53, 153. Six names get a `Lily` prefix to avoid platform clashes.
+      The first-pass decisions are one maintainer review away from final; change a row and its reason together.)_
 - [ ] **P43-T3 Test vectors for the shared modules.** For each module a mobile package uses (search-text, typeahead,
       edit-history, filter-model, clinical-format, calendar-system, middle-truncation, wheel-picker, zones, direction,
       intl-labels), export input/output cases to `shared/vectors/{module}.json` from the TypeScript tests, and have those
@@ -4436,7 +4441,7 @@ Same order as Phase 44; the two can run side by side once P43 is done.
       `bin/check-package-metadata` and `bin/verify-published` to the POMs. Ask before the first publish.
       Verify: a fresh Android Studio project resolves the release from Maven Central and builds.
 - [ ] **P45-T7 Skill, docs and `bin/ci`.** `lily-design-system-kotlin-skill`; a Kotlin tab on the docs site; `bin/ci --job
-    kotlin` (JVM) and `--job kotlin-emulator` (ATF); Android columns in the screen-reader matrix (TalkBack, Switch Access,
+  kotlin` (JVM) and `--job kotlin-emulator` (ATF); Android columns in the screen-reader matrix (TalkBack, Switch Access,
       Voice Access, hardware keyboard).
       Verify: both jobs pass locally.
 - [ ] **P45-T8 Helpers and Compose Multiplatform.** `ThemePicker` (DataStore), `TimeZonePicker`, a thin per-app language

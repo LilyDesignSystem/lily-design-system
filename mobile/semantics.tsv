@@ -1,0 +1,120 @@
+kind	name	swiftui	uikit	compose	notes
+attribute	aria-label	accessibilityLabel(_:)	accessibilityLabel	Modifier.semantics { contentDescription }	Start with the visible text (Voice Control, Voice Access).
+attribute	aria-labelledby	accessibilityLabeledPair(role:id:in:)	accessibilityLabel from the labelling view	Modifier.semantics(mergeDescendants = true)	Mobile has no id reference; merge label and control into one element.
+attribute	aria-describedby	accessibilityHint(_:)	accessibilityHint	merge the description into the element (mergeDescendants)	A hint is read after a pause; never make the description a second focus stop.
+attribute	aria-hidden	accessibilityHidden(true)	isAccessibilityElement = false / accessibilityElementsHidden	Modifier.clearAndSetSemantics {} or semantics { hideFromAccessibility() }	
+attribute	aria-live	AccessibilityNotification.Announcement(_:).post()	UIAccessibility.post(notification: .announcement, argument:)	semantics { liveRegion = LiveRegionMode.Polite }	Deliberate only, as on the web.
+attribute	aria-atomic	none	none	none	Mobile announces the whole live element; nothing to set.
+attribute	aria-busy	accessibilityValue with consumer words while busy; announce once on settle	same	stateDescription while busy; announce once on settle	No busy trait; do not announce intermediate values.
+attribute	aria-expanded	accessibilityValue(consumer words) + accessibilityAction for toggle	accessibilityValue	stateDescription + SemanticsActions expand / collapse	The words for expanded and collapsed come from the consumer.
+attribute	aria-controls	none	none	none	No relationship API; keep the controlled content next in reading order.
+attribute	aria-haspopup	accessibilityHint(consumer words) or native Menu	accessibilityHint	Role.DropdownList or stateDescription	Native Menu and Picker announce it themselves.
+attribute	aria-modal	native .sheet / .alert / .fullScreenCover	accessibilityViewIsModal = true	Dialog / ModalBottomSheet (Material) or semantics { paneTitle } with focus trapped by the window	Never a hand-rolled modal.
+attribute	aria-selected	accessibilityAddTraits(.isSelected)	accessibilityTraits.selected	semantics { selected = true }	
+attribute	aria-checked	Toggle (native) or accessibilityAddTraits(.isToggle) + accessibilityValue	UISwitch / accessibilityValue	Modifier.toggleable / triStateToggleable (toggleableState)	Mixed state: triStateToggleable on Android; accessibilityValue words on Apple.
+attribute	aria-pressed	accessibilityAddTraits(.isToggle) + .isSelected when on	accessibilityTraits.button + .selected	Modifier.toggleable(role = Role.Button)	
+attribute	aria-disabled	disabled(true)	isEnabled = false / accessibilityTraits.notEnabled	Modifier.semantics { disabled() } or enabled = false	Keep it focusable where the web keeps it focusable.
+attribute	aria-current	accessibilityAddTraits(.isSelected) + accessibilityValue(consumer words)	accessibilityTraits.selected	semantics { selected = true } + stateDescription	
+attribute	aria-invalid	accessibilityValue or hint with the consumer's error text; announce on submit	same	semantics { error(message) }	Apple has no invalid trait; the error is always visible text too.
+attribute	aria-errormessage	accessibilityHint(error text)	accessibilityHint	semantics { error(message) }	
+attribute	aria-valuenow	accessibilityValue(_:) (Slider, Gauge, ProgressView native)	accessibilityValue	semantics { progressBarRangeInfo } / setProgress action	
+attribute	aria-valuemin	Slider / Gauge range (native)	accessibilityValue words	ProgressBarRangeInfo(range = min..max)	
+attribute	aria-valuemax	Slider / Gauge range (native)	accessibilityValue words	ProgressBarRangeInfo(range = min..max)	
+attribute	aria-valuetext	accessibilityValue(consumer text)	accessibilityValue	stateDescription	
+attribute	aria-orientation	none	none	none	Implied by the layout; adjustable actions use up and down.
+attribute	aria-activedescendant	@AccessibilityFocusState	UIAccessibility.post(.layoutChanged, argument: element)	FocusRequester / semantics { focused }	Move real accessibility focus; there is no active-descendant model.
+attribute	aria-roledescription	none (no public API); use the native role	none (no public API)	semantics { role } nearest, or stateDescription	Avoid; prefer the platform's own role names.
+attribute	aria-autocomplete	none (native TextField suggestions)	none	none	
+attribute	aria-multiselectable	List(selection: Set) (native)	allowsMultipleSelection	semantics { collectionInfo } + selectable items	
+attribute	aria-keyshortcuts	keyboardShortcut(_:modifiers:)	UIKeyCommand	Modifier.onPreviewKeyEvent	Shown in the iPad keyboard shortcut overlay.
+role	alert	AccessibilityNotification.Announcement + visible text	UIAccessibility.post(.announcement)	liveRegion = Assertive	Assertive only where the web uses role=alert.
+role	alertdialog	.alert / .confirmationDialog (native)	UIAlertController	AlertDialog (Material) with paneTitle	
+role	application	none	none	none	Not used on mobile.
+role	article	accessibilityElement(children: .contain)	accessibilityContainerType = .semanticGroup	isTraversalGroup = true	
+role	banner	none (no landmarks)	none	none	Mobile has no landmarks; the navigation bar is the platform's.
+role	button	Button (native) or accessibilityAddTraits(.isButton)	accessibilityTraits.button	Role.Button	
+role	combobox	Picker / Menu / .searchable (native)	UIMenu, UISearchController	ExposedDropdownMenuBox (Material) / Role.DropdownList	
+role	complementary	none (no landmarks)	none	none	
+role	dialog	.sheet / .popover / .fullScreenCover (native)	UIViewController presentation	Dialog / ModalBottomSheet with paneTitle	
+role	grid	Grid / LazyVGrid with accessibility children; Table on iPad	UICollectionView	LazyVerticalGrid + collectionInfo / collectionItemInfo	
+role	gridcell	accessibilityElement in a Grid	UICollectionViewCell	collectionItemInfo	
+role	group	accessibilityElement(children: .combine or .contain)	accessibilityContainerType = .semanticGroup	isTraversalGroup = true or mergeDescendants	
+role	img	Image with accessibilityLabel; decorative: accessibilityHidden	accessibilityTraits.image	Image(contentDescription = …); decorative: null	
+role	link	Link / ShareLink (native) or accessibilityAddTraits(.isLink)	accessibilityTraits.link	LinkAnnotation in text / Role.Button with link words	
+role	list	List / LazyVStack (native)	UITableView	LazyColumn + collectionInfo	
+role	listbox	Picker / List(selection:) (native)	UITableView with selection	LazyColumn of selectable items + collectionInfo	
+role	listitem	row in a List	UITableViewCell	collectionItemInfo	
+role	menu	Menu (native)	UIMenu	DropdownMenu (Material)	
+role	menubar	toolbar / commands	UIToolbar / UIMenuBuilder	none	iPad menu bar is the system's.
+role	menuitem	Button in a Menu	UIAction	DropdownMenuItem (Material)	
+role	navigation	NavigationStack / TabView (native)	UINavigationController / UITabBarController	NavigationBar / NavigationRail (Material)	No landmark; navigation is the system's chrome.
+role	none	accessibilityHidden(true) or no modifier	isAccessibilityElement = false	clearAndSetSemantics {}	
+role	note	accessibilityElement(children: .combine)	accessibilityContainerType = .semanticGroup	mergeDescendants	
+role	option	Picker tag / List row	cell	selectable item	
+role	presentation	accessibilityHidden(true)	isAccessibilityElement = false	clearAndSetSemantics {}	
+role	progressbar	ProgressView (native)	UIProgressView	ProgressIndicator (Material) or progressBarRangeInfo	
+role	radio	Picker option (native) or .isSelected on a Button	accessibilityTraits.button + .selected	Modifier.selectable(role = Role.RadioButton)	
+role	radiogroup	Picker (native) or accessibilityElement(children: .contain) with a label	accessibilityContainerType = .semanticGroup	Modifier.selectableGroup()	
+role	region	accessibilityElement(children: .contain) + accessibilityLabel	accessibilityContainerType = .semanticGroup	isTraversalGroup + paneTitle for a pane	
+role	scrollbar	none (system)	none	none	
+role	search	.searchable (native)	UISearchController	SearchBar (Material)	
+role	separator	Divider (native), hidden from accessibility	none	HorizontalDivider, hidden	
+role	slider	Slider (native)	UISlider	Modifier.semantics { setProgress } / Slider (Material)	
+role	status	accessibilityValue + announcement on change	UIAccessibility.post(.announcement)	liveRegion = Polite	
+role	switch	Toggle (native)	UISwitch	Modifier.toggleable(role = Role.Switch) / Switch (Material)	
+role	tab	TabView item / segmented Picker (native)	UITabBarItem / UISegmentedControl	Tab (Material) / Role.Tab	
+role	tablist	TabView / Picker(.segmented) (native)	UITabBar / UISegmentedControl	TabRow (Material) / selectableGroup	
+role	tabpanel	the TabView page	the tab's view controller	the selected tab's content	
+role	timer	Text(timerInterval:) / accessibilityValue, not live	accessibilityValue	stateDescription, not liveRegion	Never made live, as on the web.
+role	toolbar	.toolbar (native)	UIToolbar	Row with isTraversalGroup / BottomAppBar (Material)	
+role	tooltip	help(_:) on iPad pointer; no touch tooltip	UIToolTipInteraction	TooltipBox (Material)	Never the only place information appears.
+role	tree	OutlineGroup / List(children:) (native)	UICollectionView outline	LazyColumn with expand/collapse semantics	
+role	treeitem	OutlineGroup row / DisclosureGroup	outline cell	item with stateDescription + expand / collapse	
+element	a	Link (native)	UIButton / text link	LinkAnnotation / clickable text	
+element	article	accessibilityElement(children: .contain)	semanticGroup	isTraversalGroup	
+element	aside	none (no landmarks)	none	none	
+element	blockquote	Text in a group	UILabel	BasicText in a group	
+element	button	Button (native)	UIButton	Modifier.clickable(role = Role.Button) / Button (Material)	
+element	cite	Text	UILabel	BasicText	
+element	code	Text with .monospaced()	UILabel	BasicText with FontFamily.Monospace	
+element	details	DisclosureGroup (native)	custom with accessibilityValue	expand / collapse semantics	
+element	dialog	.sheet / .alert (native)	presentation	Dialog / ModalBottomSheet	
+element	div	VStack / HStack / Group	UIView	Box / Column / Row	Generic; no semantics.
+element	dl	Grid or VStack of combined pairs	UIStackView	Column of mergeDescendants pairs	Each term and its value read as one element.
+element	figcaption	Text combined with its figure	UILabel	BasicText merged with the figure	
+element	figure	accessibilityElement(children: .contain)	semanticGroup	isTraversalGroup	
+element	fieldset	Section / accessibilityElement(children: .contain) + label	semanticGroup	isTraversalGroup + heading for the legend	
+element	footer	none (no landmarks)	none	none	
+element	form	Form (native)	UIScrollView of fields	Column of fields	Form submission is the app's; Lily owns the error summary.
+element	h1	Text + accessibilityAddTraits(.isHeader)	accessibilityTraits.header	semantics { heading() }	
+element	header	none (no landmarks)	none	none	
+element	hr	Divider	none	HorizontalDivider	
+element	img	Image	UIImageView	Image	
+element	input	TextField / SecureField / Toggle / DatePicker (native)	UITextField	BasicTextField	
+element	kbd	Text with .monospaced()	UILabel	BasicText	
+element	label	LabeledContent / TextField label	UILabel + accessibilityLabel	merged label	
+element	li	row	cell	collectionItemInfo	
+element	main	the screen's content	the view controller's view	the screen's content	
+element	mark	Text with highlight + accessibility words from the consumer	attributed string	AnnotatedString + consumer words	A highlight is not announced; supply words.
+element	meter	Gauge (native)	custom with accessibilityValue	progressBarRangeInfo + stateDescription	
+element	nav	none (no landmarks)	none	none	
+element	ol	List / VStack	UITableView	LazyColumn + collectionInfo	
+element	option	Picker tag	cell	selectable item	
+element	p	Text	UILabel	BasicText	
+element	picture	Image with size classes	UIImage traits	Image chosen by window size	
+element	pre	ScrollView(.horizontal) of monospaced Text	UITextView	horizontalScroll BasicText	
+element	progress	ProgressView (native)	UIProgressView	progressBarRangeInfo	
+element	section	Section / accessibilityElement(children: .contain)	semanticGroup	isTraversalGroup	
+element	select	Picker (native)	UIMenu / UIPickerView	ExposedDropdownMenuBox (Material)	
+element	span	Text	UILabel	BasicText	
+element	table	Table on iPad regular width; List on iPhone	UICollectionView	LazyColumn	Phone tables become lists.
+element	tbody	Table rows	sections	items	
+element	td	Table cell	cell	item	
+element	textarea	TextEditor / TextField(axis: .vertical) (native)	UITextView	BasicTextField (multi-line)	
+element	tfoot	Table footer	section footer	footer item	
+element	th	Table column header	header	heading() in a header row	
+element	thead	Table columns	section header	header item	
+element	time	Text(date, style:) with a full spoken form	UILabel + accessibilityLabel	BasicText + contentDescription spoken form	Format with Foundation or java.time, from the consumer's locale.
+element	tr	Table row	cell	item	
+element	ul	List / VStack	UITableView	LazyColumn + collectionInfo	
+element	video	VideoPlayer (AVKit)	AVPlayerViewController	Media3 PlayerView	Captions and audio description from the consumer.
