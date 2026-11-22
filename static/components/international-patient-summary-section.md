@@ -25,10 +25,12 @@ record list; the status is never blank; the document author's narrative can foll
 - `status`: `known` | `none-known` | `not-recorded` | `unavailable` | `omitted` (default: `known`)
 - `statusLabel`: string -- the status in words; required for any status but `known`
 - `statusPlacement`: `"heading"` (default) | `"list"` -- where a status other than `known` is said in words. `"list"` prints no status line under the heading and needs no `statusLabel`: the record list inside has its own never-blank status item, so the words appear once (Svelte, React, Solid, Vue, Angular, Web Components `status-placement`, Nunjucks, Blazor `StatusPlacement`; in the HTML and Alpine snippets leave the `p` out). `data-status` stays on the section either way (2026-11-22, P42-T6)
+- `level`: `"required"` | `"recommended"` | `"optional"` -- the section's level in the IPS, as `data-level` beside `data-required`; default the registry's level for the key (none for a key that is not an IPS section), so a theme styles it without a consumer class (all catalogs).
+- `meta` and `warning`: optional slots (a Svelte snippet, a React or Solid element prop, a Vue slot, `slot="meta"` in Web Components, `meta`/`warning` strings in Nunjucks, a Blazor `RenderFragment`), rendered in that order after the heading and status and before the entries, each in `div.international-patient-summary-section-meta` / `-warning`, and nothing at all when omitted. In Angular, project an element with a `meta` or `warning` attribute; Angular cannot tell whether anything was projected, so it has no wrapper and the element carries its own class. In the HTML and Alpine snippets the two divs are markup to keep or delete.
 - `code`: string (optional) -- the LOINC code
 - `required`: boolean (optional) -- override whether the IPS requires the section
 - `id`: string (optional) -- the element id
-- `idPrefix`: string (default: "international-patient-summary") -- the same as its summary's; the default `id` is `{idPrefix}-{section}`
+- `idPrefix`: string (default: "international-patient-summary") -- the same as its summary's; the default `id` is `{idPrefix}-{section}`. An empty `idPrefix`, `id` or `section` throws an `IpsSectionsError` (a `RangeError`), never the default
 - `narrative`: slot (optional), `narrativeLabel`: string, `narrativeOpen`: boolean (default: false) -- the author's narrative
 - `children`: slot (optional) -- the entries
 - `...restProps`: any additional HTML attributes spread onto the section

@@ -18,20 +18,20 @@ A single-select listbox, vertical by default, where the selection follows the cu
 
 ## Props
 
-| Prop           | Type                                       | Default      | Description                                                           |
-| -------------- | ------------------------------------------ | ------------ | --------------------------------------------------------------------- |
-| `class`        | string                                     | `""`         | Appended to the base class                                            |
-| `label`        | string (required)                          | —            | Accessible name                                                       |
-| `options`      | `{ value, label, disabled? }[]` (required) | —            | The choices                                                           |
-| `value`        | string                                     | `""`         | The chosen option's value. Bindable; empty or unknown chooses nothing |
-| `loop`         | boolean                                    | `false`      | Arrow keys wrap from the last enabled option to the first and back    |
-| `pageSize`     | number                                     | `5`          | Enabled options PageUp / PageDown move by                             |
-| `disabled`     | boolean                                    | `false`      | Not focusable; ignores keys and clicks; the hidden input is disabled  |
-| `orientation`  | `"vertical"` \| `"horizontal"`             | `"vertical"` | The axis the options run along, and which arrows move                 |
-| `name`         | string                                     | —            | Adds a hidden input carrying the value                                |
-| `form`         | string                                     | —            | The id of the form the hidden input belongs to                        |
-| `onChange`     | `(value) => void`                          | —            | Once per change                                                       |
-| `...restProps` | HTML attributes                            | —            | Spread onto the root `<div>`                                          |
+| Prop           | Type                                       | Default      | Description                                                                                     |
+| -------------- | ------------------------------------------ | ------------ | ----------------------------------------------------------------------------------------------- |
+| `class`        | string                                     | `""`         | Appended to the base class                                                                      |
+| `label`        | string (required)                          | —            | Accessible name                                                                                 |
+| `options`      | `{ value, label, disabled? }[]` (required) | —            | The choices                                                                                     |
+| `value`        | string                                     | `""`         | The chosen option's value. Bindable; empty or unknown chooses nothing                           |
+| `loop`         | boolean                                    | `false`      | Arrow keys wrap from the last enabled option to the first and back                              |
+| `pageSize`     | number                                     | `5`          | Enabled options PageUp / PageDown move by; a positive whole number, or it throws a `RangeError` |
+| `disabled`     | boolean                                    | `false`      | Not focusable; ignores keys and clicks; the hidden input is disabled                            |
+| `orientation`  | `"vertical"` \| `"horizontal"`             | `"vertical"` | The axis the options run along, and which arrows move                                           |
+| `name`         | string                                     | —            | Adds a hidden input carrying the value                                                          |
+| `form`         | string                                     | —            | The id of the form the hidden input belongs to                                                  |
+| `onChange`     | `(value) => void`                          | —            | Once per change                                                                                 |
+| `...restProps` | HTML attributes                            | —            | Spread onto the root `<div>`                                                                    |
 
 ## Usage
 

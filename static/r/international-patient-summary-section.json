@@ -7,8 +7,10 @@
   "baseClass": ".international-patient-summary-section",
   "subClasses": [
     "international-patient-summary-section-heading",
+    "international-patient-summary-section-meta",
     "international-patient-summary-section-narrative",
-    "international-patient-summary-section-status"
+    "international-patient-summary-section-status",
+    "international-patient-summary-section-warning"
   ],
   "interactive": false,
   "status": "experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow",
@@ -26,10 +28,12 @@
     "`status`: \"known\" | \"none-known\" | \"not-recorded\" | \"unavailable\" | \"omitted\" (default: \"known\")",
     "`statusLabel`: string -- the status in words; required for any status but `known`",
     "`statusPlacement`: `\"heading\"` (default) | `\"list\"` -- where a status other than `known` is said in words. `\"list\"` prints no status line under the heading and needs no `statusLabel`: the record list inside has its own never-blank status item, so the words appear once (Svelte, React, Solid, Vue, Angular, Web Components `status-placement`, Nunjucks, Blazor `StatusPlacement`; in the HTML and Alpine snippets leave the `p` out). `data-status` stays on the section either way (2026-11-22, P42-T6)",
+    "`level`: `\"required\"` | `\"recommended\"` | `\"optional\"` -- the section's level in the IPS, as `data-level` beside `data-required`; default the registry's level for the key (none for a key that is not an IPS section), so a theme styles it without a consumer class (all catalogs).",
+    "`meta` and `warning`: optional slots (a Svelte snippet, a React or Solid element prop, a Vue slot, `slot=\"meta\"` in Web Components, `meta`/`warning` strings in Nunjucks, a Blazor `RenderFragment`), rendered in that order after the heading and status and before the entries, each in `div.international-patient-summary-section-meta` / `-warning`, and nothing at all when omitted. In Angular, project an element with a `meta` or `warning` attribute; Angular cannot tell whether anything was projected, so it has no wrapper and the element carries its own class. In the HTML and Alpine snippets the two divs are markup to keep or delete.",
     "`code`: string (optional) -- the LOINC code; default the IPS code for the key",
     "`required`: boolean (optional) -- default whether the IPS requires the section",
     "`id`: string (optional) -- default `international-patient-summary-{section}`",
-    "`idPrefix`: string (default: \"international-patient-summary\") -- the same as its summary's; the default `id` is `{idPrefix}-{section}`",
+    "`idPrefix`: string (default: \"international-patient-summary\") -- the same as its summary's; the default `id` is `{idPrefix}-{section}`. An empty `idPrefix`, `id` or `section` throws an `IpsSectionsError` (a `RangeError`), never the default",
     "`narrative`: slot (optional) -- the author's narrative",
     "`narrativeLabel`: string -- the narrative's summary; required with `narrative`",
     "`narrativeOpen`: boolean (default: false) -- open the narrative, as when the section has no structured entries",
