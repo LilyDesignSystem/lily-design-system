@@ -37,6 +37,7 @@
         headingLevel = 2,
         status = "known",
         statusLabel = undefined,
+        statusPlacement = "heading",
         code = undefined,
         required = undefined,
         id = undefined,
@@ -52,6 +53,8 @@
         headingLevel?: 2 | 3 | 4 | 5 | 6;
         status?: IpsSectionStatus;
         statusLabel?: string;
+        /** Where a status other than "known" is said in words: "heading" (default) prints `statusLabel` under the heading; "list" leaves the words to the record list inside, whose own status item says them, so they are not shown twice. */
+        statusPlacement?: "heading" | "list";
         code?: string;
         required?: boolean;
         id?: string;
@@ -75,7 +78,7 @@
             heading,
             "A section needs a heading.",
         );
-        if (status !== "known")
+        if (status !== "known" && statusPlacement !== "list")
             warnMissingProp(
                 "InternationalPatientSummarySection",
                 "statusLabel",
@@ -108,7 +111,7 @@
         id={headingId}
         class="international-patient-summary-section-heading">{heading}</svelte:element
     >
-    {#if status !== "known" && statusLabel}
+    {#if status !== "known" && statusLabel && statusPlacement !== "list"}
         <p class="international-patient-summary-section-status">{statusLabel}</p>
     {/if}
     {@render children?.()}

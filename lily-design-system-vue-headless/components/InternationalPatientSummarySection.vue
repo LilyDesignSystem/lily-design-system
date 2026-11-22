@@ -17,6 +17,8 @@ const props = withDefaults(
         headingLevel?: 2 | 3 | 4 | 5 | 6;
         status?: IpsSectionStatus;
         statusLabel?: string;
+        /** Where a status other than "known" is said in words: "heading" (default) prints `statusLabel` under the heading; "list" leaves the words to the record list inside, whose own status item says them, so they are not shown twice. */
+        statusPlacement?: "heading" | "list";
         code?: string;
         required?: boolean;
         id?: string;
@@ -28,6 +30,7 @@ const props = withDefaults(
         headingLevel: 2,
         status: "known",
         statusLabel: undefined,
+        statusPlacement: "heading",
         code: undefined,
         required: undefined,
         id: undefined,
@@ -47,7 +50,7 @@ warnMissingProp(
     props.heading,
     "A section needs a heading.",
 );
-if (props.status !== "known") {
+if (props.status !== "known" && props.statusPlacement !== "list") {
     warnMissingProp(
         "InternationalPatientSummarySection",
         "statusLabel",
@@ -83,7 +86,7 @@ if (slots.narrative) {
             >{{ heading }}</component
         >
         <p
-            v-if="status !== 'known' && statusLabel"
+            v-if="status !== 'known' && statusLabel && statusPlacement !== 'list'"
             class="international-patient-summary-section-status"
         >
             {{ statusLabel }}

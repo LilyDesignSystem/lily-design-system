@@ -8,7 +8,7 @@ import { InternationalPatientSummarySection } from "./InternationalPatientSummar
 @Component({
     standalone: true,
     imports: [InternationalPatientSummarySection],
-    template: `<lily-international-patient-summary-section [section]="section()" [heading]="heading()" [status]="status()" [statusLabel]="statusLabel()" [headingLevel]="level()" [narrativeLabel]="narrativeLabel()" [narrativeOpen]="true"><p>Peanut</p><p narrative>Lives alone.</p></lily-international-patient-summary-section>`,
+    template: `<lily-international-patient-summary-section [section]="section()" [heading]="heading()" [status]="status()" [statusLabel]="statusLabel()" [statusPlacement]="statusPlacement()" [headingLevel]="level()" [narrativeLabel]="narrativeLabel()" [narrativeOpen]="true"><p>Peanut</p><ul class="record-list"><li class="record-list-status">In words</li></ul><p narrative>Lives alone.</p></lily-international-patient-summary-section>`,
 })
 class Host {
     readonly section = input<string>("allergies");
@@ -17,6 +17,7 @@ class Host {
         "known",
     );
     readonly statusLabel = input<string>("");
+    readonly statusPlacement = input<"heading" | "list">("heading");
     readonly level = input<2 | 3>(2);
     readonly narrativeLabel = input<string>("");
 }
@@ -79,5 +80,36 @@ describe("InternationalPatientSummarySection", () => {
         const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
         mount({ status: "unavailable" });
         expect(warn).toHaveBeenCalled();
+    });
+
+    describe("statusPlacement (P42-T6)", () => {
+        const words = (region: HTMLElement) =>
+            (region.textContent ?? "").split("In words").length - 1;
+
+        test('"list" leaves the words to the record list: they appear once', () => {
+            const section = mount({
+                status: "unavailable",
+                statusLabel: "In words",
+                statusPlacement: "list",
+            });
+            expect(words(section)).toBe(1);
+            expect(
+                section.querySelector(".international-patient-summary-section-status"),
+            ).toBeNull();
+            expect(section.getAttribute("data-status")).toBe("unavailable");
+        });
+
+        test('"heading", the default, still prints the status line', () => {
+            const section = mount({ status: "unavailable", statusLabel: "In words" });
+            expect(
+                section.querySelector(".international-patient-summary-section-status")!.textContent,
+            ).toBe("In words");
+        });
+
+        test('"list" needs no statusLabel, so there is no development warning', () => {
+            const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+            mount({ status: "unavailable", statusPlacement: "list" });
+            expect(warn).not.toHaveBeenCalled();
+        });
     });
 });

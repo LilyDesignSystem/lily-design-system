@@ -17,7 +17,7 @@
         case 6: <h6 id="@HeadingId" class="international-patient-summary-section-heading">@Heading</h6> break;
         default: <h2 id="@HeadingId" class="international-patient-summary-section-heading">@Heading</h2> break;
     }
-    @if (Status != "known" && !string.IsNullOrEmpty(StatusLabel)) {<p class="international-patient-summary-section-status">@StatusLabel</p>}
+    @if (Status != "known" && !string.IsNullOrEmpty(StatusLabel) && StatusPlacement != "list") {<p class="international-patient-summary-section-status">@StatusLabel</p>}
     @ChildContent
     @if (Narrative is not null) {<details class="international-patient-summary-section-narrative" open="@NarrativeOpen"><summary>@NarrativeLabel</summary>@Narrative</details>}
 </section>
@@ -31,6 +31,8 @@
     [Parameter] public string Status { get; set; } = "known";
     /// <summary>The status in words; required for any status but known.</summary>
     [Parameter] public string? StatusLabel { get; set; }
+    /// <summary>Where a status other than "known" is said in words: "heading" (default) prints the status label under the heading; "list" leaves the words to the record list inside, whose own status item says them, so they are not shown twice.</summary>
+    [Parameter] public string StatusPlacement { get; set; } = "heading";
     /// <summary>The LOINC code; default the IPS code for the key.</summary>
     [Parameter] public string? Code { get; set; }
     /// <summary>Default whether the IPS requires the section.</summary>

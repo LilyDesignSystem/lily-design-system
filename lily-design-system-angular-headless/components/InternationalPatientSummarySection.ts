@@ -27,7 +27,7 @@ import type { IpsSectionStatus } from "./ips-sections";
       @case (5) {<h5 [attr.id]="headingId()" class="international-patient-summary-section-heading">{{ heading() }}</h5>}
       @case (6) {<h6 [attr.id]="headingId()" class="international-patient-summary-section-heading">{{ heading() }}</h6>}
       @default {<h2 [attr.id]="headingId()" class="international-patient-summary-section-heading">{{ heading() }}</h2>}
-    }@if (status() !== "known" && statusLabel()) {<p class="international-patient-summary-section-status">{{ statusLabel() }}</p>}<ng-content />@if (narrativeLabel()) {<details class="international-patient-summary-section-narrative" [open]="narrativeOpen()"><summary>{{ narrativeLabel() }}</summary><ng-content select="[narrative]" /></details>}</section>`,
+    }@if (status() !== "known" && statusLabel() && statusPlacement() !== "list") {<p class="international-patient-summary-section-status">{{ statusLabel() }}</p>}<ng-content />@if (narrativeLabel()) {<details class="international-patient-summary-section-narrative" [open]="narrativeOpen()"><summary>{{ narrativeLabel() }}</summary><ng-content select="[narrative]" /></details>}</section>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InternationalPatientSummarySection implements OnInit {
@@ -39,6 +39,8 @@ export class InternationalPatientSummarySection implements OnInit {
     readonly status = input<IpsSectionStatus>("known");
     /** The status in words; required for any status but "known". */
     readonly statusLabel = input<string>("");
+    /** Where a status other than "known" is said in words: "heading" (default) prints `statusLabel` under the heading; "list" leaves the words to the record list inside, whose own status item says them, so they are not shown twice. */
+    readonly statusPlacement = input<"heading" | "list">("heading");
     /** The LOINC code; default the IPS code for the key. */
     readonly code = input<string | undefined>(undefined);
     /** Default whether the IPS requires the section. */
@@ -66,7 +68,7 @@ export class InternationalPatientSummarySection implements OnInit {
             this.heading(),
             "A section needs a heading.",
         );
-        if (this.status() !== "known") {
+        if (this.status() !== "known" && this.statusPlacement() !== "list") {
             warnMissingProp(
                 "InternationalPatientSummarySection",
                 "statusLabel",

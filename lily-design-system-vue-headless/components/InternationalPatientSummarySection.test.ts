@@ -74,4 +74,42 @@ describe("InternationalPatientSummarySection", () => {
         });
         expect(warn).toHaveBeenCalled();
     });
+
+    describe("statusPlacement (P42-T6)", () => {
+        const words = (region: HTMLElement) =>
+            (region.textContent ?? "").split("In words").length - 1;
+        const base = { section: "problems", heading: "Problem list", status: "unavailable" };
+
+        test('"list" leaves the words to the record list: they appear once', () => {
+            render(Subject, {
+                props: { ...base, statusLabel: "In words", statusPlacement: "list" },
+                slots: {
+                    default:
+                        '<ul class="record-list"><li class="record-list-status">In words</li></ul>',
+                },
+            });
+            const region = screen.getByRole("region", { name: "Problem list" });
+            expect(words(region)).toBe(1);
+            expect(
+                region.querySelector(".international-patient-summary-section-status"),
+            ).toBeNull();
+            expect(region.getAttribute("data-status")).toBe("unavailable");
+        });
+
+        test('"heading", the default, still prints the status line', () => {
+            render(Subject, { props: { ...base, statusLabel: "In words" } });
+            const region = screen.getByRole("region", { name: "Problem list" });
+            expect(
+                region
+                    .querySelector(".international-patient-summary-section-status")!
+                    .textContent!.trim(),
+            ).toBe("In words");
+        });
+
+        test('"list" needs no statusLabel, so there is no development warning', () => {
+            const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+            render(Subject, { props: { ...base, statusPlacement: "list" } });
+            expect(warn).not.toHaveBeenCalled();
+        });
+    });
 });

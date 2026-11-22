@@ -24,6 +24,7 @@ record list; the status is never blank; the document author's narrative can foll
 - `headingLevel`: 2 to 6 (default: 2)
 - `status`: `known` | `none-known` | `not-recorded` | `unavailable` | `omitted` (default: `known`)
 - `statusLabel`: string -- the status in words; required for any status but `known`
+- `statusPlacement`: `"heading"` (default) | `"list"` -- where a status other than `known` is said in words. `"list"` prints no status line under the heading and needs no `statusLabel`: the record list inside has its own never-blank status item, so the words appear once (Svelte, React, Solid, Vue, Angular, Web Components `status-placement`, Nunjucks, Blazor `StatusPlacement`; in the HTML and Alpine snippets leave the `p` out). `data-status` stays on the section either way (2026-11-22, P42-T6)
 - `code`: string (optional) -- the LOINC code
 - `required`: boolean (optional) -- override whether the IPS requires the section
 - `id`: string (optional) -- the element id

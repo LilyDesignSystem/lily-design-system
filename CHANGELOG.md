@@ -9,6 +9,14 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## One owner for a section's status words (2026-11-22, P42-T6; eight catalogs)
+
+- `international-patient-summary-section` takes `statusPlacement`: `"heading"` (the default, as before) prints the status label under the heading;
+  `"list"` leaves the words to the record list inside, whose own status item already says them, so they appear once, and no `statusLabel` is
+  needed (no development warning). `data-status` stays on the section. Before, a consumer using both showed "Information unavailable" twice and could
+  not avoid it, since omitting `statusLabel` raised a warning. In Svelte, React, Solid, Vue, Angular, Web Components (`status-placement`), Nunjucks and
+  Blazor (`StatusPlacement`); in the HTML and Alpine snippets leave the `p` out.
+
 ## A `next` dist-tag for risky releases (2026-11-22, P42-T10)
 
 - `bin/publish-helpers` and `bin/publish-headless` take `--tag <name>`, publishing every npm package under that dist-tag instead of `latest`

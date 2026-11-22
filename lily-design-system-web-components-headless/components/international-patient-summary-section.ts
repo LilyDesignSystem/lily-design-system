@@ -11,6 +11,7 @@ const HANDLED = new Set([
     "heading-level",
     "status",
     "status-label",
+    "status-placement",
     "code",
     "required",
     "id",
@@ -25,6 +26,8 @@ export interface SectionOptions {
     headingLevel?: number;
     status?: string;
     statusLabel?: string;
+    /** Where a status other than "known" is said in words: "heading" (default) prints the status label under the heading; "list" leaves the words to the record list inside, whose own status item says them, so they are not shown twice. */
+    statusPlacement?: string;
     code?: string;
     required?: boolean;
     id?: string;
@@ -52,7 +55,7 @@ export function buildIpsSection(o: SectionOptions): HTMLElement {
     heading.className = "international-patient-summary-section-heading";
     heading.textContent = o.heading;
     section.append(heading);
-    if (status !== "known" && o.statusLabel) {
+    if (status !== "known" && o.statusLabel && o.statusPlacement !== "list") {
         const p = document.createElement("p");
         p.className = "international-patient-summary-section-status";
         p.textContent = o.statusLabel;
@@ -71,6 +74,7 @@ export class InternationalPatientSummarySection extends HTMLElement {
             headingLevel: Number(this.getAttribute("heading-level") ?? 2),
             status: this.getAttribute("status") ?? "known",
             statusLabel: this.getAttribute("status-label") ?? "",
+            statusPlacement: this.getAttribute("status-placement") ?? "heading",
             code: this.getAttribute("code") ?? undefined,
             required: required === null ? undefined : required !== "false",
             id: this.getAttribute("id") ?? undefined,

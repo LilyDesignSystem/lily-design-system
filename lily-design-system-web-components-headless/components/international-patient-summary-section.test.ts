@@ -54,4 +54,32 @@ describe("InternationalPatientSummarySection", () => {
         expect(details.textContent).toContain("Lives alone.");
         expect(document.querySelector("section > p")!.textContent).toBe("Entry");
     });
+
+    describe("status-placement (P42-T6)", () => {
+        const mount = (attrs: string) => {
+            document.body.innerHTML = `<lily-international-patient-summary-section section="problems" heading="Problem list" status="unavailable" ${attrs}><ul class="record-list"><li class="record-list-status">In words</li></ul></lily-international-patient-summary-section>`;
+            return document.querySelector(
+                "section.international-patient-summary-section",
+            ) as HTMLElement;
+        };
+        const words = (el: HTMLElement) => (el.textContent ?? "").split("In words").length - 1;
+
+        test('"list" leaves the words to the record list: they appear once', () => {
+            const section = mount('status-label="In words" status-placement="list"');
+            expect(words(section)).toBe(1);
+            expect(
+                section.querySelector(".international-patient-summary-section-status"),
+            ).toBeNull();
+            expect(section.getAttribute("data-status")).toBe("unavailable");
+            expect(section.hasAttribute("status-placement")).toBe(false);
+        });
+
+        test('"heading", the default, still prints the status line (and so repeats the words)', () => {
+            const section = mount('status-label="In words"');
+            expect(
+                section.querySelector(".international-patient-summary-section-status")!.textContent,
+            ).toBe("In words");
+            expect(words(section)).toBe(2);
+        });
+    });
 });

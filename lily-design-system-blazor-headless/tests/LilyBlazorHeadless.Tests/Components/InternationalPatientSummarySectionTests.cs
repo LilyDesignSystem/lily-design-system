@@ -57,4 +57,29 @@ public class InternationalPatientSummarySectionTests : TestContext
         Assert.Equal("Narrative from the document", details.QuerySelector("summary")!.TextContent);
         Assert.Contains("Lives alone.", details.TextContent);
     }
+
+    private IRenderedComponent<InternationalPatientSummarySection> Unavailable(string? placement)
+        => RenderComponent<InternationalPatientSummarySection>(p =>
+        {
+            p.Add(x => x.Section, "problems").Add(x => x.Heading, "Problem list")
+                .Add(x => x.Status, "unavailable").Add(x => x.StatusLabel, "In words")
+                .AddChildContent("<ul class=\"record-list\"><li class=\"record-list-status\">In words</li></ul>");
+            if (placement is not null) p.Add(x => x.StatusPlacement, placement);
+        });
+
+    [Fact]
+    public void StatusPlacement_list_leaves_the_words_to_the_record_list_so_they_appear_once()
+    {
+        var section = Unavailable("list").Find("section.international-patient-summary-section");
+        Assert.Equal(1, section.TextContent.Split("In words").Length - 1);
+        Assert.Empty(section.QuerySelectorAll(".international-patient-summary-section-status"));
+        Assert.Equal("unavailable", section.GetAttribute("data-status"));
+    }
+
+    [Fact]
+    public void StatusPlacement_heading_the_default_still_prints_the_status_line()
+    {
+        foreach (var placement in new string?[] { null, "heading" })
+            Assert.Equal("In words", Unavailable(placement).Find(".international-patient-summary-section-status").TextContent);
+    }
 }

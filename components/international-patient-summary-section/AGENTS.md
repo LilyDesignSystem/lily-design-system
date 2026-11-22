@@ -25,7 +25,7 @@
 - The entries are the consumer's children
 - When `narrative` is given, it follows the entries in `details.international-patient-summary-section-narrative` with `narrativeLabel` as its summary, open when `narrativeOpen`. The narrative is the document author's HTML: the consumer sanitises it
 - `id` defaults to `international-patient-summary-{section}`, the id the root's contents link to
-- A missing `heading`, a status other than `known` without `statusLabel`, or a narrative without `narrativeLabel` raises a development warning (Svelte, React, Vue, Angular)
+- A missing `heading`, a status other than `known` without `statusLabel` (unless `statusPlacement` is `list`), or a narrative without `narrativeLabel` raises a development warning (Svelte, React, Vue, Angular)
 
 ## ARIA
 
@@ -43,6 +43,7 @@
 - `headingLevel`: 2 to 6 (default: 2)
 - `status`: "known" | "none-known" | "not-recorded" | "unavailable" | "omitted" (default: "known")
 - `statusLabel`: string -- the status in words; required for any status but `known`
+- `statusPlacement`: `"heading"` (default) | `"list"` -- where a status other than `known` is said in words. `"list"` prints no status line under the heading and needs no `statusLabel`: the record list inside has its own never-blank status item, so the words appear once (Svelte, React, Solid, Vue, Angular, Web Components `status-placement`, Nunjucks, Blazor `StatusPlacement`; in the HTML and Alpine snippets leave the `p` out). `data-status` stays on the section either way (2026-11-22, P42-T6)
 - `code`: string (optional) -- the LOINC code; default the IPS code for the key
 - `required`: boolean (optional) -- default whether the IPS requires the section
 - `id`: string (optional) -- default `international-patient-summary-{section}`

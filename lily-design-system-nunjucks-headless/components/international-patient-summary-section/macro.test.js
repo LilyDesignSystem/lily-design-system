@@ -60,4 +60,41 @@ describe("international-patient-summary-section", () => {
         expect(details.querySelector("summary").textContent).toBe("Narrative from the document");
         expect(details.textContent).toContain("Lives alone.");
     });
+
+    describe("statusPlacement (P42-T6)", () => {
+        const list = '<ul class="record-list"><li class="record-list-status">In words</li></ul>';
+        const mount = (extra) => {
+            const { document } = render("international-patient-summary-section", {
+                section: "problems",
+                heading: "Problem list",
+                status: "unavailable",
+                statusLabel: "In words",
+                html: list,
+                ...extra,
+            });
+            return document.querySelector("section.international-patient-summary-section");
+        };
+        const words = (el) => el.textContent.split("In words").length - 1;
+
+        it('"list" leaves the words to the record list: they appear once', () => {
+            const section = mount({ statusPlacement: "list" });
+            expect(words(section)).toBe(1);
+            expect(
+                section.querySelector(".international-patient-summary-section-status"),
+            ).toBeNull();
+            expect(section.getAttribute("data-status")).toBe("unavailable");
+        });
+
+        it('"heading", the default, still prints the status line', () => {
+            const section = mount({});
+            expect(
+                section.querySelector(".international-patient-summary-section-status").textContent,
+            ).toBe("In words");
+            expect(
+                mount({ statusPlacement: "heading" }).querySelector(
+                    ".international-patient-summary-section-status",
+                ),
+            ).not.toBeNull();
+        });
+    });
 });

@@ -21,6 +21,8 @@ export interface InternationalPatientSummarySectionProps {
     status?: IpsSectionStatus;
     /** The status in words; required for any status but "known". */
     statusLabel?: string;
+    /** Where a status other than "known" is said in words: "heading" (default) prints `statusLabel` under the heading; "list" leaves the words to the record list inside, whose own status item says them, so they are not shown twice. */
+    statusPlacement?: "heading" | "list";
     /** The LOINC code; default the IPS code for the key. */
     code?: string;
     /** Default whether the IPS requires the section. */
@@ -51,6 +53,7 @@ export default function InternationalPatientSummarySection(
         "headingLevel",
         "status",
         "statusLabel",
+        "statusPlacement",
         "code",
         "required",
         "id",
@@ -66,7 +69,7 @@ export default function InternationalPatientSummarySection(
         p.heading,
         "A section needs a heading.",
     );
-    if (p.status !== "known") {
+    if (p.status !== "known" && p.statusPlacement !== "list") {
         warnMissingProp(
             "InternationalPatientSummarySection",
             "statusLabel",
@@ -103,7 +106,7 @@ export default function InternationalPatientSummarySection(
             >
                 {p.heading}
             </Heading>
-            {p.status !== "known" && p.statusLabel ? (
+            {p.status !== "known" && p.statusLabel && p.statusPlacement !== "list" ? (
                 <p class="international-patient-summary-section-status">{p.statusLabel}</p>
             ) : null}
             {p.children}
