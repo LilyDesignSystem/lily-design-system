@@ -37,6 +37,15 @@ class TokensTest {
         }
     }
 
+    @Test fun theLinkColourReachesAAOnTheBaseSurfacesInEveryTheme() {
+        for (theme in LilyTokens.all) {
+            for (surface in listOf(theme.base100, theme.base200)) {
+                val ratio = contrast(theme.link, surface)
+                assertTrue("${theme.slug} link: $ratio", ratio >= 4.5)
+            }
+        }
+    }
+
     @Test fun everyThemeIsGeneratedOnceWithItsSlug() {
         val slugs = LilyTokens.all.map { it.slug }
         assertEquals(slugs.toSet().size, slugs.size)

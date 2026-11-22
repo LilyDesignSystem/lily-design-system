@@ -79,6 +79,7 @@ public struct WarningText<Icon: View>: View {
                 icon: icon.map { AnyView($0.accessibilityHidden(true)) }, message: Text(verbatim: text), prefix: prefix)
         )
         .accessibilityElement(children: .ignore)
+        .accessibilityAddTraits(.isStaticText)
         .accessibilityLabel(Text(verbatim: prefix))
         .accessibilityValue(Text(verbatim: text))
     }

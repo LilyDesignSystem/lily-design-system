@@ -71,6 +71,7 @@ public struct Badge: View {
     public var body: some View {
         style.anyBody(BadgeStyleConfiguration(kind: kind, text: Text(verbatim: text)))
             .accessibilityElement(children: .ignore)
+            .accessibilityAddTraits(.isStaticText)
             .accessibilityLabel(Text(verbatim: LilySemantics.badgeLabel(text: text, label: label)))
             .onChange(of: text, textChanged)
     }

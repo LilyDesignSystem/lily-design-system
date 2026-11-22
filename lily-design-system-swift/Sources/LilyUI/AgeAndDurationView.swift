@@ -24,6 +24,7 @@ public struct AgeView: View {
     public var body: some View {
         Text(verbatim: value)
             .accessibilityElement(children: .ignore)
+            .accessibilityAddTraits(.isStaticText)
             .accessibilityLabel(Text(verbatim: LilySemantics.spoken(label, value) ?? value))
     }
 }
@@ -55,6 +56,7 @@ public struct DurationView: View {
     public var body: some View {
         Text(verbatim: value)
             .accessibilityElement(children: .ignore)
+            .accessibilityAddTraits(.isStaticText)
             .accessibilityLabel(Text(verbatim: LilySemantics.spoken(label, value) ?? value))
     }
 }

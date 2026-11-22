@@ -130,6 +130,7 @@ public struct AllergyRecordListItem<Extra: View>: View {
                     substance: Text(verbatim: words.substance), details: details)
             )
             .accessibilityElement(children: .ignore)
+            .accessibilityAddTraits(.isStaticText)
             .accessibilityLabel(Text(verbatim: AllergyRules.spoken(words)))
             extra
         }

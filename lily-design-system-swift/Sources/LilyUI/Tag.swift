@@ -67,6 +67,7 @@ public struct Tag: View {
     public var body: some View {
         style.anyBody(TagStyleConfiguration(text: Text(verbatim: text)))
             .accessibilityElement(children: .ignore)
+            .accessibilityAddTraits(.isStaticText)
             .accessibilityLabel(Text(verbatim: LilySemantics.tagLabel(text: text, label: label, live: live)))
             .accessibilityValue(Text(verbatim: live ? text : ""))
             .onChange(of: text, textChanged)

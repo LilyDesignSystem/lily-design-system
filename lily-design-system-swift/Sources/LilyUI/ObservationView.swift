@@ -164,6 +164,7 @@ public struct ObservationView: View {
                 previousLabel: previousLabel.map { Text(verbatim: $0) },
                 meter: meterView(replaced: replaced)))
             .accessibilityElement(children: .ignore)
+            .accessibilityAddTraits(.isStaticText)
             .accessibilityLabel(Text(verbatim: spoken))
     }
 

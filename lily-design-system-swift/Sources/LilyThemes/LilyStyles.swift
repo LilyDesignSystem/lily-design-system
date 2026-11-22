@@ -18,11 +18,13 @@ extension EnvironmentValues {
 }
 
 extension View {
-    /// Draws every LilyUI component inside this view with `tokens`. Light and dark are the app's choice: pass `.dark` when
+    /// Draws every LilyUI component inside this view with `tokens`, and tints buttons and links with the theme's link colour
+    /// (the system blue is about 4:1 on white, and a dark theme's primary can be lower, both below 4.5:1). Light and dark are the app's choice: pass `.dark` when
     /// `colorScheme` is dark, for example.
     public func lilyTheme(_ tokens: LilyTokens) -> some View {
         self
             .environment(\.lilyTokens, tokens)
+            .tint(tokens.link)
             .lilyAlertStyle(LilyThemedAlertStyle())
             .badgeStyle(LilyThemedBadgeStyle())
             .tagStyle(LilyThemedTagStyle())

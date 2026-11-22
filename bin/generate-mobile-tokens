@@ -83,6 +83,37 @@ def to_srgb(value):
     raise SystemExit(f"generate-mobile-tokens: unsupported colour space {space}")
 
 
+def oklch_of(value):
+    """A DTCG colour as OKLCH (L, C, H), converting sRGB through linear sRGB and OKLab."""
+    if value["colorSpace"] == "oklch":
+        l, c, h = (float(x) for x in value["components"])
+        return l, c, 0.0 if math.isnan(h) else h
+
+    def linear(x):
+        return x / 12.92 if x <= 0.04045 else ((x + 0.055) / 1.055) ** 2.4
+
+    r, g, b = (linear(float(x)) for x in value["components"])
+    l_ = (0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b) ** (1 / 3)
+    m_ = (0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b) ** (1 / 3)
+    s_ = (0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b) ** (1 / 3)
+    L = 0.2104542553 * l_ + 0.7936177850 * m_ - 0.0040720468 * s_
+    A = 1.9779984951 * l_ - 2.4285922050 * m_ + 0.4505937099 * s_
+    B = 0.0259040371 * l_ + 0.7827717662 * m_ - 0.8086757660 * s_
+    return L, math.hypot(A, B), math.degrees(math.atan2(B, A)) % 360
+
+
+def mix_oklch(a, b, weight_a):
+    """CSS color-mix(in oklch, a weight_a, b): hue by the shorter arc; an achromatic side takes the other's hue."""
+    (la, ca, ha), (lb, cb, hb) = a, b
+    if ca < 1e-4:
+        ha = hb
+    if cb < 1e-4:
+        hb = ha
+    dh = ((hb - ha + 180) % 360) - 180
+    w = 1 - weight_a
+    return la + (lb - la) * w, ca + (cb - ca) * w, (ha + dh * w) % 360
+
+
 def hex_of(rgb):
     return "".join(f"{round(min(max(x, 0.0), 1.0) * 255):02X}" for x in rgb)
 
@@ -109,6 +140,9 @@ def load(slug):
     with open(os.path.join(TOKENS, slug + ".json"), encoding="utf-8") as f:
         data = json.load(f)
     colors = {role: hex_of(to_srgb(data["color"][role]["$value"])) for role in COLOR_ROLES}
+    # --lily-link: color-mix(in oklch, var(--color-primary) 20%, var(--color-base-content)), as every theme declares it.
+    link = mix_oklch(oklch_of(data["color"]["primary"]["$value"]), oklch_of(data["color"]["base-content"]["$value"]), 0.2)
+    colors["link"] = hex_of(srgb_from_oklch(*link))
     dims = {f"{group}-{name}": points(data[group][name]["$value"]) for group, name in DIMENSIONS}
     return colors, dims
 
@@ -123,6 +157,8 @@ def swift(themes):
     out.append("    public let slug: String")
     for r in roles:
         out.append(f"    public let {r}: Color")
+    out.append("    /// The link colour (--lily-link): primary mixed 20% into the body text, readable on the base surfaces.")
+    out.append("    public let link: Color")
     for d in dims:
         out.append(f"    public let {d}: CGFloat")
     out.append("}")
@@ -142,6 +178,7 @@ def swift(themes):
         out.append(f"    public static let {name} = LilyTokens(")
         args = [f'slug: "{slug}"']
         args += [f"{camel(r)}: Color(lilyHex: 0x{colors[r]})" for r in COLOR_ROLES]
+        args += [f"link: Color(lilyHex: 0x{colors['link']})"]
         args += [f"{camel(k)}: {number(v)}" for k, v in sizes.items()]
         out.append("        " + ",\n        ".join(args) + ")")
     out.append("")
@@ -162,6 +199,8 @@ def kotlin(themes):
     out.append("    val slug: String,")
     for r in COLOR_ROLES:
         out.append(f"    val {camel(r)}: Color,")
+    out.append("    /** The link colour (--lily-link): primary mixed 20% into the body text, readable on the base surfaces. */")
+    out.append("    val link: Color,")
     for g, n in DIMENSIONS:
         out.append(f"    val {camel(g + '-' + n)}: Dp,")
     out.append(") {")
@@ -171,6 +210,7 @@ def kotlin(themes):
         out.append(f"        public val {name}: LilyTokens = LilyTokens(")
         args = [f'slug = "{slug}"']
         args += [f"{camel(r)} = Color(0xFF{colors[r]})" for r in COLOR_ROLES]
+        args += [f"link = Color(0xFF{colors['link']})"]
         args += [f"{camel(k)} = {number(v)}.dp" for k, v in sizes.items()]
         out.append("            " + ",\n            ".join(args) + ",")
         out.append("        )")

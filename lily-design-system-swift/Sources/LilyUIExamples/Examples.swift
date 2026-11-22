@@ -380,6 +380,7 @@ public struct ExampleDetail: View {
                 ScrollView(.horizontal) {
                     Text(verbatim: example.code).font(.system(.footnote, design: .monospaced)).textSelection(.enabled)
                 }
+                .frame(minHeight: 44)
             }
             .padding()
         }

@@ -26,6 +26,8 @@ public struct LilyTokens: Sendable, Equatable {
     public let warningContent: Color
     public let error: Color
     public let errorContent: Color
+    /// The link colour (--lily-link): primary mixed 20% into the body text, readable on the base surfaces.
+    public let link: Color
     public let radiusSelector: CGFloat
     public let radiusField: CGFloat
     public let radiusBox: CGFloat
@@ -65,6 +67,7 @@ extension LilyTokens {
         warningContent: Color(lilyHex: 0x793205),
         error: Color(lilyHex: 0xFF627D),
         errorContent: Color(lilyHex: 0x4D0218),
+        link: Color(lilyHex: 0x211F3C),
         radiusSelector: 8.0,
         radiusField: 4.0,
         radiusBox: 8.0,
@@ -92,6 +95,7 @@ extension LilyTokens {
         warningContent: Color(lilyHex: 0x793205),
         error: Color(lilyHex: 0xFF627D),
         errorContent: Color(lilyHex: 0x4D0218),
+        link: Color(lilyHex: 0xC4DFFF),
         radiusSelector: 8.0,
         radiusField: 4.0,
         radiusBox: 8.0,
@@ -119,6 +123,7 @@ extension LilyTokens {
         warningContent: Color(lilyHex: 0x212A2F),
         error: Color(lilyHex: 0xD40E14),
         errorContent: Color(lilyHex: 0xFFFFFF),
+        link: Color(lilyHex: 0x173545),
         radiusSelector: 0.0,
         radiusField: 4.0,
         radiusBox: 4.0,
@@ -146,6 +151,7 @@ extension LilyTokens {
         warningContent: Color(lilyHex: 0x0B0C0C),
         error: Color(lilyHex: 0xCA3535),
         errorContent: Color(lilyHex: 0xFFFFFF),
+        link: Color(lilyHex: 0x0A2124),
         radiusSelector: 0.0,
         radiusField: 0.0,
         radiusBox: 0.0,
@@ -173,6 +179,7 @@ extension LilyTokens {
         warningContent: Color(lilyHex: 0x1B1B1B),
         error: Color(lilyHex: 0xD83933),
         errorContent: Color(lilyHex: 0xFFFFFF),
+        link: Color(lilyHex: 0x1D2834),
         radiusSelector: 4.0,
         radiusField: 2.0,
         radiusBox: 4.0,
@@ -200,6 +207,7 @@ extension LilyTokens {
         warningContent: Color(lilyHex: 0x1A1A1A),
         error: Color(lilyHex: 0xCE0000),
         errorContent: Color(lilyHex: 0xFFFFFF),
+        link: Color(lilyHex: 0x162139),
         radiusSelector: 8.0,
         radiusField: 8.0,
         radiusBox: 8.0,

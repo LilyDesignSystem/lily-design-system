@@ -84,6 +84,7 @@ public struct LilyAlert: View {
                 kind: kind, heading: heading.map { Text(verbatim: $0) }, message: Text(verbatim: message))
         )
         .accessibilityElement(children: .ignore)
+        .accessibilityAddTraits(.isStaticText)
         .accessibilityLabel(Text(verbatim: LilySemantics.spoken(heading, message) ?? ""))
         .onAppear(perform: announce)
         .onChange(of: message, messageChanged)

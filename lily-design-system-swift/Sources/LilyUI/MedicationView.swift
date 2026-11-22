@@ -98,6 +98,7 @@ public struct MedicationView: View {
         let details = [strength, form, route, frequency, dosageText].compactMap { $0 }.filter { !$0.isEmpty }
         style.anyBody(MedicationViewStyleConfiguration(name: nameText, details: details.map { Text(verbatim: $0) }))
             .accessibilityElement(children: .ignore)
+            .accessibilityAddTraits(.isStaticText)
             .accessibilityLabel(
                 Text(
                     verbatim: MedicationRules.spoken(

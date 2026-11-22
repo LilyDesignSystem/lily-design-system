@@ -43,6 +43,15 @@ private func pairs(_ t: LilyTokens) -> [(String, Color, Color)] {
     }
 }
 
+@Test func theLinkTintReachesAAOnTheBaseSurfacesInEveryTheme() {
+    // lilyTheme tints buttons and links with the link colour, drawn as text on base-100 and base-200 (the web's gate).
+    for theme in LilyTokens.all {
+        for surface in [theme.base100, theme.base200] {
+            #expect(contrast(theme.link, surface) >= 4.5, "\(theme.slug): \(contrast(theme.link, surface))")
+        }
+    }
+}
+
 @Test func everyThemeIsGeneratedOnceWithItsSlug() {
     let slugs = LilyTokens.all.map(\.slug)
     #expect(Set(slugs).count == slugs.count)

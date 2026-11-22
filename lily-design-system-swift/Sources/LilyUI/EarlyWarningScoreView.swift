@@ -94,6 +94,7 @@ public struct EarlyWarningScoreView: View {
                 bandLabel: bandLabel.map { Text(verbatim: $0) }, escalation: escalation.map { Text(verbatim: $0) })
         )
         .accessibilityElement(children: .ignore)
+        .accessibilityAddTraits(.isStaticText)
         .accessibilityLabel(
             Text(
                 verbatim: EarlyWarningScoreRules.spoken(
