@@ -163,6 +163,7 @@ kover
 profdata
 xcrun
 xctest
+precomposed
 Okoro
 toggleable
 xcstrings

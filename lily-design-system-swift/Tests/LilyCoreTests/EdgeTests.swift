@@ -42,3 +42,10 @@ import Testing
     let d = try #require(htmlDuration("PT90M"))
     #expect(d.datetime == "PT90M" && !d.negative)
 }
+
+@Test func typeaheadDefaults() {
+    #expect(isTypeaheadKey("a"))
+    #expect(nextTypeaheadState(TypeaheadState(prefix: "a"), key: "b", now: 700) == TypeaheadState(prefix: "ab", at: 700))
+    #expect(nextTypeaheadState(TypeaheadState(prefix: "a"), key: "b", now: 701) == TypeaheadState(prefix: "b", at: 701))
+    #expect(typeaheadResetMilliseconds == 700)
+}

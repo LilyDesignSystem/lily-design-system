@@ -78,6 +78,22 @@ private func call(_ fn: String, _ args: [Any]) throws -> Any {
     case "htmlDuration":
         guard let d = htmlDuration(string(0)) else { return NSNull() }
         return ["datetime": d.datetime, "negative": d.negative] as [String: Any]
+    case "isTypeaheadKey":
+        let event = args[0] as! [String: Any]
+        let native = event["nativeEvent"] as? [String: Any]
+        return isTypeaheadKey(
+            event["key"] as! String, control: event["ctrlKey"] as? Bool ?? false, option: event["altKey"] as? Bool ?? false,
+            command: event["metaKey"] as? Bool ?? false,
+            composing: (event["isComposing"] as? Bool ?? false) || (native?["isComposing"] as? Bool ?? false))
+    case "nextTypeaheadState":
+        let previous = args[0] as! [String: Any]
+        let state = nextTypeaheadState(
+            TypeaheadState(prefix: previous["prefix"] as! String, at: (previous["at"] as! NSNumber).intValue),
+            key: string(1), now: (args[2] as! NSNumber).intValue, resetMilliseconds: (args[3] as! NSNumber).intValue)
+        return ["prefix": state.prefix, "at": state.at] as [String: Any]
+    case "findTypeaheadMatch":
+        return findTypeaheadMatch(args[0] as! [String], from: (args[1] as! NSNumber).intValue, prefix: string(2))
+    case "logicalKey": return logicalKey(string(0), rightToLeft: args[1] as! Bool)
     default: throw Unknown(description: "unknown vector function \(fn)")
     }
 }
@@ -92,7 +108,7 @@ private func same(_ a: Any, _ b: Any) throws -> Bool {
 
 @Test func everyVectorFileIsReadAndPasses() throws {
     let files = try loadVectorFiles()
-    #expect(Set(files.map(\.name)) == ["clinical-format.json", "middle-truncation.json", "search-text.json"])
+    #expect(Set(files.map(\.name)) == ["clinical-format.json", "middle-truncation.json", "search-text.json", "typeahead.json"])
     var count = 0
     for file in files {
         for (index, c) in file.cases.enumerated() {
@@ -109,5 +125,5 @@ private func same(_ a: Any, _ b: Any) throws -> Bool {
         }
     }
     #expect(count == files.reduce(0) { $0 + $1.cases.count })
-    #expect(count >= 93)
+    #expect(count >= 142)
 }

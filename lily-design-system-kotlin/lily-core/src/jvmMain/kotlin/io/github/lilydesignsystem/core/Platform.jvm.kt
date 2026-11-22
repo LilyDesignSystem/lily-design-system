@@ -5,6 +5,14 @@ import java.text.Normalizer
 
 internal actual fun canonicalDecomposition(text: String): String = Normalizer.normalize(text, Normalizer.Form.NFD)
 
+internal actual fun canonicalComposition(text: String): String = Normalizer.normalize(text, Normalizer.Form.NFC)
+
+internal actual fun isControlFormatOrSurrogate(codePoint: Int): Boolean =
+    when (Character.getType(codePoint).toByte()) {
+        Character.CONTROL, Character.FORMAT, Character.SURROGATE -> true
+        else -> false
+    }
+
 internal actual fun isCombiningMark(codePoint: Int): Boolean =
     when (Character.getType(codePoint).toByte()) {
         Character.NON_SPACING_MARK, Character.COMBINING_SPACING_MARK, Character.ENCLOSING_MARK -> true

@@ -1,0 +1,675 @@
+{
+  "module": "typeahead",
+  "description": "isTypeaheadKey, nextTypeaheadState and findTypeaheadMatch from shared/typeahead.ts, and logicalKey from shared/direction.ts. Times are milliseconds; nextTypeaheadState is always called with an explicit resetMs.",
+  "cases": [
+    {
+      "fn": "isTypeaheadKey",
+      "args": [
+        {
+          "key": "a"
+        }
+      ],
+      "expected": true
+    },
+    {
+      "fn": "isTypeaheadKey",
+      "args": [
+        {
+          "key": "É"
+        }
+      ],
+      "expected": true
+    },
+    {
+      "fn": "isTypeaheadKey",
+      "args": [
+        {
+          "key": "가"
+        }
+      ],
+      "expected": true
+    },
+    {
+      "fn": "isTypeaheadKey",
+      "args": [
+        {
+          "key": "𠮷"
+        }
+      ],
+      "expected": true
+    },
+    {
+      "fn": "isTypeaheadKey",
+      "args": [
+        {
+          "key": "é"
+        }
+      ],
+      "expected": true
+    },
+    {
+      "fn": "isTypeaheadKey",
+      "args": [
+        {
+          "key": " "
+        }
+      ],
+      "expected": false
+    },
+    {
+      "fn": "isTypeaheadKey",
+      "args": [
+        {
+          "key": "Enter"
+        }
+      ],
+      "expected": false
+    },
+    {
+      "fn": "isTypeaheadKey",
+      "args": [
+        {
+          "key": "ArrowDown"
+        }
+      ],
+      "expected": false
+    },
+    {
+      "fn": "isTypeaheadKey",
+      "args": [
+        {
+          "key": "\u0007"
+        }
+      ],
+      "expected": false
+    },
+    {
+      "fn": "isTypeaheadKey",
+      "args": [
+        {
+          "key": "​"
+        }
+      ],
+      "expected": false
+    },
+    {
+      "fn": "isTypeaheadKey",
+      "args": [
+        {
+          "key": "a",
+          "ctrlKey": true
+        }
+      ],
+      "expected": false
+    },
+    {
+      "fn": "isTypeaheadKey",
+      "args": [
+        {
+          "key": "a",
+          "altKey": true
+        }
+      ],
+      "expected": false
+    },
+    {
+      "fn": "isTypeaheadKey",
+      "args": [
+        {
+          "key": "a",
+          "metaKey": true
+        }
+      ],
+      "expected": false
+    },
+    {
+      "fn": "isTypeaheadKey",
+      "args": [
+        {
+          "key": "a",
+          "isComposing": true
+        }
+      ],
+      "expected": false
+    },
+    {
+      "fn": "isTypeaheadKey",
+      "args": [
+        {
+          "key": "a",
+          "nativeEvent": {
+            "isComposing": true
+          }
+        }
+      ],
+      "expected": false
+    },
+    {
+      "fn": "isTypeaheadKey",
+      "args": [
+        {
+          "key": "7"
+        }
+      ],
+      "expected": true
+    },
+    {
+      "fn": "isTypeaheadKey",
+      "args": [
+        {
+          "key": " "
+        }
+      ],
+      "expected": true
+    },
+    {
+      "fn": "nextTypeaheadState",
+      "args": [
+        {
+          "prefix": "",
+          "at": 0
+        },
+        "a",
+        100,
+        700
+      ],
+      "expected": {
+        "prefix": "a",
+        "at": 100
+      }
+    },
+    {
+      "fn": "nextTypeaheadState",
+      "args": [
+        {
+          "prefix": "a",
+          "at": 100
+        },
+        "p",
+        500,
+        700
+      ],
+      "expected": {
+        "prefix": "ap",
+        "at": 500
+      }
+    },
+    {
+      "fn": "nextTypeaheadState",
+      "args": [
+        {
+          "prefix": "a",
+          "at": 100
+        },
+        "p",
+        800,
+        700
+      ],
+      "expected": {
+        "prefix": "ap",
+        "at": 800
+      }
+    },
+    {
+      "fn": "nextTypeaheadState",
+      "args": [
+        {
+          "prefix": "a",
+          "at": 100
+        },
+        "p",
+        801,
+        700
+      ],
+      "expected": {
+        "prefix": "p",
+        "at": 801
+      }
+    },
+    {
+      "fn": "nextTypeaheadState",
+      "args": [
+        {
+          "prefix": "ab",
+          "at": 0
+        },
+        "c",
+        50,
+        0
+      ],
+      "expected": {
+        "prefix": "c",
+        "at": 50
+      }
+    },
+    {
+      "fn": "findTypeaheadMatch",
+      "args": [
+        [
+          "Apple",
+          "apricot",
+          "Banana",
+          "Ångström",
+          "Éclair",
+          "cherry",
+          "가나다",
+          "각주",
+          "𠮷野家",
+          "Δέλτα",
+          "blueberry"
+        ],
+        0,
+        "a"
+      ],
+      "expected": 1
+    },
+    {
+      "fn": "findTypeaheadMatch",
+      "args": [
+        [
+          "Apple",
+          "apricot",
+          "Banana",
+          "Ångström",
+          "Éclair",
+          "cherry",
+          "가나다",
+          "각주",
+          "𠮷野家",
+          "Δέλτα",
+          "blueberry"
+        ],
+        1,
+        "a"
+      ],
+      "expected": 3
+    },
+    {
+      "fn": "findTypeaheadMatch",
+      "args": [
+        [
+          "Apple",
+          "apricot",
+          "Banana",
+          "Ångström",
+          "Éclair",
+          "cherry",
+          "가나다",
+          "각주",
+          "𠮷野家",
+          "Δέλτα",
+          "blueberry"
+        ],
+        0,
+        "ap"
+      ],
+      "expected": 0
+    },
+    {
+      "fn": "findTypeaheadMatch",
+      "args": [
+        [
+          "Apple",
+          "apricot",
+          "Banana",
+          "Ångström",
+          "Éclair",
+          "cherry",
+          "가나다",
+          "각주",
+          "𠮷野家",
+          "Δέλτα",
+          "blueberry"
+        ],
+        0,
+        "apr"
+      ],
+      "expected": 1
+    },
+    {
+      "fn": "findTypeaheadMatch",
+      "args": [
+        [
+          "Apple",
+          "apricot",
+          "Banana",
+          "Ångström",
+          "Éclair",
+          "cherry",
+          "가나다",
+          "각주",
+          "𠮷野家",
+          "Δέλτα",
+          "blueberry"
+        ],
+        0,
+        "aa"
+      ],
+      "expected": 1
+    },
+    {
+      "fn": "findTypeaheadMatch",
+      "args": [
+        [
+          "Apple",
+          "apricot",
+          "Banana",
+          "Ångström",
+          "Éclair",
+          "cherry",
+          "가나다",
+          "각주",
+          "𠮷野家",
+          "Δέλτα",
+          "blueberry"
+        ],
+        3,
+        "a"
+      ],
+      "expected": 0
+    },
+    {
+      "fn": "findTypeaheadMatch",
+      "args": [
+        [
+          "Apple",
+          "apricot",
+          "Banana",
+          "Ångström",
+          "Éclair",
+          "cherry",
+          "가나다",
+          "각주",
+          "𠮷野家",
+          "Δέλτα",
+          "blueberry"
+        ],
+        0,
+        "b"
+      ],
+      "expected": 2
+    },
+    {
+      "fn": "findTypeaheadMatch",
+      "args": [
+        [
+          "Apple",
+          "apricot",
+          "Banana",
+          "Ångström",
+          "Éclair",
+          "cherry",
+          "가나다",
+          "각주",
+          "𠮷野家",
+          "Δέλτα",
+          "blueberry"
+        ],
+        2,
+        "b"
+      ],
+      "expected": 10
+    },
+    {
+      "fn": "findTypeaheadMatch",
+      "args": [
+        [
+          "Apple",
+          "apricot",
+          "Banana",
+          "Ångström",
+          "Éclair",
+          "cherry",
+          "가나다",
+          "각주",
+          "𠮷野家",
+          "Δέλτα",
+          "blueberry"
+        ],
+        0,
+        "e"
+      ],
+      "expected": 4
+    },
+    {
+      "fn": "findTypeaheadMatch",
+      "args": [
+        [
+          "Apple",
+          "apricot",
+          "Banana",
+          "Ångström",
+          "Éclair",
+          "cherry",
+          "가나다",
+          "각주",
+          "𠮷野家",
+          "Δέλτα",
+          "blueberry"
+        ],
+        0,
+        "É"
+      ],
+      "expected": 4
+    },
+    {
+      "fn": "findTypeaheadMatch",
+      "args": [
+        [
+          "Apple",
+          "apricot",
+          "Banana",
+          "Ångström",
+          "Éclair",
+          "cherry",
+          "가나다",
+          "각주",
+          "𠮷野家",
+          "Δέλτα",
+          "blueberry"
+        ],
+        0,
+        "가"
+      ],
+      "expected": 6
+    },
+    {
+      "fn": "findTypeaheadMatch",
+      "args": [
+        [
+          "Apple",
+          "apricot",
+          "Banana",
+          "Ångström",
+          "Éclair",
+          "cherry",
+          "가나다",
+          "각주",
+          "𠮷野家",
+          "Δέλτα",
+          "blueberry"
+        ],
+        6,
+        "가"
+      ],
+      "expected": 7
+    },
+    {
+      "fn": "findTypeaheadMatch",
+      "args": [
+        [
+          "Apple",
+          "apricot",
+          "Banana",
+          "Ångström",
+          "Éclair",
+          "cherry",
+          "가나다",
+          "각주",
+          "𠮷野家",
+          "Δέλτα",
+          "blueberry"
+        ],
+        0,
+        "𠮷"
+      ],
+      "expected": 8
+    },
+    {
+      "fn": "findTypeaheadMatch",
+      "args": [
+        [
+          "Apple",
+          "apricot",
+          "Banana",
+          "Ångström",
+          "Éclair",
+          "cherry",
+          "가나다",
+          "각주",
+          "𠮷野家",
+          "Δέλτα",
+          "blueberry"
+        ],
+        0,
+        "δ"
+      ],
+      "expected": 9
+    },
+    {
+      "fn": "findTypeaheadMatch",
+      "args": [
+        [
+          "Apple",
+          "apricot",
+          "Banana",
+          "Ångström",
+          "Éclair",
+          "cherry",
+          "가나다",
+          "각주",
+          "𠮷野家",
+          "Δέλτα",
+          "blueberry"
+        ],
+        0,
+        "z"
+      ],
+      "expected": -1
+    },
+    {
+      "fn": "findTypeaheadMatch",
+      "args": [
+        [
+          "Apple",
+          "apricot",
+          "Banana",
+          "Ångström",
+          "Éclair",
+          "cherry",
+          "가나다",
+          "각주",
+          "𠮷野家",
+          "Δέλτα",
+          "blueberry"
+        ],
+        0,
+        ""
+      ],
+      "expected": -1
+    },
+    {
+      "fn": "findTypeaheadMatch",
+      "args": [[], 0, "a"],
+      "expected": -1
+    },
+    {
+      "fn": "findTypeaheadMatch",
+      "args": [
+        [
+          "Apple",
+          "apricot",
+          "Banana",
+          "Ångström",
+          "Éclair",
+          "cherry",
+          "가나다",
+          "각주",
+          "𠮷野家",
+          "Δέλτα",
+          "blueberry"
+        ],
+        -1,
+        "c"
+      ],
+      "expected": 5
+    },
+    {
+      "fn": "findTypeaheadMatch",
+      "args": [
+        [
+          "Apple",
+          "apricot",
+          "Banana",
+          "Ångström",
+          "Éclair",
+          "cherry",
+          "가나다",
+          "각주",
+          "𠮷野家",
+          "Δέλτα",
+          "blueberry"
+        ],
+        0,
+        "́"
+      ],
+      "expected": -1
+    },
+    {
+      "fn": "findTypeaheadMatch",
+      "args": [
+        [
+          "Apple",
+          "apricot",
+          "Banana",
+          "Ångström",
+          "Éclair",
+          "cherry",
+          "가나다",
+          "각주",
+          "𠮷野家",
+          "Δέλτα",
+          "blueberry"
+        ],
+        0,
+        "ch"
+      ],
+      "expected": 5
+    },
+    {
+      "fn": "logicalKey",
+      "args": ["ArrowLeft", false],
+      "expected": "ArrowLeft"
+    },
+    {
+      "fn": "logicalKey",
+      "args": ["ArrowLeft", true],
+      "expected": "ArrowRight"
+    },
+    {
+      "fn": "logicalKey",
+      "args": ["ArrowRight", true],
+      "expected": "ArrowLeft"
+    },
+    {
+      "fn": "logicalKey",
+      "args": ["ArrowUp", true],
+      "expected": "ArrowUp"
+    },
+    {
+      "fn": "logicalKey",
+      "args": ["Home", false],
+      "expected": "Home"
+    }
+  ]
+}

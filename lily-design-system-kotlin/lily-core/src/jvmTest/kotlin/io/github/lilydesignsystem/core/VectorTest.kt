@@ -79,6 +79,23 @@ class VectorTest {
             )
         }
         "htmlDuration" -> htmlDuration(str(args[0]))?.let { json("datetime" to it.datetime, "negative" to it.negative) }
+        "isTypeaheadKey" -> {
+            val e = args[0].jsonObject
+            fun flag(o: JsonObject?, k: String) = o?.get(k)?.jsonPrimitive?.booleanOrNull ?: false
+            isTypeaheadKey(
+                str(e["key"]!!), ctrl = flag(e, "ctrlKey"), alt = flag(e, "altKey"), meta = flag(e, "metaKey"),
+                composing = flag(e, "isComposing") || flag(e["nativeEvent"] as? JsonObject, "isComposing"),
+            )
+        }
+        "nextTypeaheadState" -> {
+            val p = args[0].jsonObject
+            nextTypeaheadState(
+                TypeaheadState(str(p["prefix"]!!), p["at"]!!.jsonPrimitive.content.toLong()),
+                str(args[1]), args[2].jsonPrimitive.content.toLong(), args[3].jsonPrimitive.content.toLong(),
+            ).let { json("prefix" to it.prefix, "at" to it.at) }
+        }
+        "findTypeaheadMatch" -> findTypeaheadMatch(args[0].jsonArray.map(::str), args[1].jsonPrimitive.int, str(args[2]))
+        "logicalKey" -> logicalKey(str(args[0]), args[1].jsonPrimitive.boolean)
         else -> fail("unknown vector function $fn")
     }
 
@@ -97,7 +114,7 @@ class VectorTest {
     @Test
     fun everyVectorFileIsReadAndPasses() {
         val files = files()
-        assertEquals(listOf("clinical-format.json", "middle-truncation.json", "search-text.json"), files.map { it.first })
+        assertEquals(listOf("clinical-format.json", "middle-truncation.json", "search-text.json", "typeahead.json"), files.map { it.first })
         val failures = mutableListOf<String>()
         var count = 0
         for ((name, cases) in files) {
@@ -118,6 +135,6 @@ class VectorTest {
         }
         assertTrue(failures.isEmpty(), failures.joinToString("\n"))
         assertEquals(files.sumOf { it.second.size }, count)
-        assertTrue(count >= 93)
+        assertTrue(count >= 142)
     }
 }

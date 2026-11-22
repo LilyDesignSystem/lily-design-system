@@ -41,4 +41,11 @@ class EdgeTest {
     @Test fun durationPartsDefaultsToZero() {
         assertEquals(DurationParts(), DurationParts(0, 0, 0, 0, 0, 0, 0.0, false))
     }
+
+    @Test fun typeaheadDefaults() {
+        assertEquals(true, isTypeaheadKey("a"))
+        assertEquals(TypeaheadState("ab", 700), nextTypeaheadState(TypeaheadState("a", 0), "b", 700))
+        assertEquals(TypeaheadState("b", 701), nextTypeaheadState(TypeaheadState("a", 0), "b", 701))
+        assertEquals(TypeaheadState(), TypeaheadState("", 0))
+    }
 }

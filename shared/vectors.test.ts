@@ -14,7 +14,9 @@ import {
     toIsoDuration,
 } from "./clinical-format";
 import { splitGraphemes, truncateMiddle, type TruncateMiddleOptions } from "./middle-truncation";
+import { logicalKey } from "./direction";
 import { foldText, highlightSegments, matchesSearch, searchTerms } from "./search-text";
+import { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState } from "./typeahead";
 
 type Case = { fn: string; args: unknown[]; expected?: unknown; throws?: boolean };
 type VectorFile = { module: string; description: string; cases: Case[] };
@@ -37,6 +39,10 @@ const FUNCTIONS: Record<string, (...args: any[]) => unknown> = {
     partialDatePrecision,
     durationParts,
     htmlDuration,
+    isTypeaheadKey,
+    nextTypeaheadState,
+    findTypeaheadMatch,
+    logicalKey,
 };
 /* eslint-enable @typescript-eslint/no-explicit-any */
 
