@@ -4357,6 +4357,12 @@ Kotlin UI is written. Order: T1 and T2 first (decisions), then T4 and T3 (logic)
       tests read the same file so the vectors cannot drift.
       Verify: `cd shared && pnpm test` passes and reads every vector file; a `--check` fails when a vector is edited without
       the tests agreeing.
+      _(2026-11-22, progress: `shared/vectors/` holds 88 cases for `search-text`, `middle-truncation` and the locale-independent
+      half of `clinical-format`, and `shared/vectors.test.ts` replays them, so a vector that disagrees with the module fails
+      `pnpm test` (no separate `--check` is needed). The first run found that `ageParts` returned a negative day count after
+      the end of a short month (31 January to 1 March: 13 months and −2 days); fixed in `shared/clinical-format.ts` and the C#
+      twin, with tests, and synced to every copy. Still to add: typeahead, edit-history, filter-model, calendar-system,
+      wheel-picker, zones, direction, intl-labels.)_
 - [ ] **P43-T4 Identifier validators in `shared/`.** Each national identifier's normalisation, check-digit validation and
       display grouping lives in every catalog's own component today. Move it to `shared/identifiers.ts` (synced by
       `bin/sync-shared-modules`), with vectors per identifier type, including invalid cases, and point the TypeScript catalogs
@@ -4441,7 +4447,7 @@ Same order as Phase 44; the two can run side by side once P43 is done.
       `bin/check-package-metadata` and `bin/verify-published` to the POMs. Ask before the first publish.
       Verify: a fresh Android Studio project resolves the release from Maven Central and builds.
 - [ ] **P45-T7 Skill, docs and `bin/ci`.** `lily-design-system-kotlin-skill`; a Kotlin tab on the docs site; `bin/ci --job
-  kotlin` (JVM) and `--job kotlin-emulator` (ATF); Android columns in the screen-reader matrix (TalkBack, Switch Access,
+kotlin` (JVM) and `--job kotlin-emulator` (ATF); Android columns in the screen-reader matrix (TalkBack, Switch Access,
       Voice Access, hardware keyboard).
       Verify: both jobs pass locally.
 - [ ] **P45-T8 Helpers and Compose Multiplatform.** `ThemePicker` (DataStore), `TimeZonePicker`, a thin per-app language

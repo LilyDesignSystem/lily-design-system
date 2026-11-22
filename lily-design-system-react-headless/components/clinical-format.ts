@@ -181,36 +181,40 @@ function daysInMonth(year: number, monthIndex: number): number {
     return new Date(Date.UTC(year, monthIndex + 1, 0)).getUTCDate();
 }
 
-/** Whole calendar years, months and days from `birth` to `at`, in UTC. */
+/**
+ * Whole calendar years, months and days from `birth` to `at`, in UTC. Whole months are counted from `birth`, a day past the end
+ * of a shorter month landing on its last day (31 January plus one month is 28 or 29 February); the days are those left after
+ * the last whole month, so they are never negative. A time of day earlier than the time of birth has not completed its day.
+ */
 function calendarDifference(
     birth: Date,
     at: Date,
 ): { years: number; months: number; days: number } {
-    let years = at.getUTCFullYear() - birth.getUTCFullYear();
-    let months = at.getUTCMonth() - birth.getUTCMonth();
-    let days = at.getUTCDate() - birth.getUTCDate();
-    const atTime =
-        at.getUTCHours() * HOUR +
-        at.getUTCMinutes() * MINUTE +
-        at.getUTCSeconds() * 1000 +
-        at.getUTCMilliseconds();
-    const birthTime =
-        birth.getUTCHours() * HOUR +
-        birth.getUTCMinutes() * MINUTE +
-        birth.getUTCSeconds() * 1000 +
-        birth.getUTCMilliseconds();
-    if (atTime < birthTime) days -= 1;
-    if (days < 0) {
-        months -= 1;
-        const previousMonth = (at.getUTCMonth() + 11) % 12;
-        const previousYear = previousMonth === 11 ? at.getUTCFullYear() - 1 : at.getUTCFullYear();
-        days += daysInMonth(previousYear, previousMonth);
+    const timeOfDay = (d: Date) =>
+        d.getUTCHours() * HOUR +
+        d.getUTCMinutes() * MINUTE +
+        d.getUTCSeconds() * 1000 +
+        d.getUTCMilliseconds();
+    const earlier = timeOfDay(at) < timeOfDay(birth) ? 1 : 0;
+    let totalMonths =
+        (at.getUTCFullYear() - birth.getUTCFullYear()) * 12 +
+        at.getUTCMonth() -
+        birth.getUTCMonth();
+    let days = at.getUTCDate() - birth.getUTCDate() - earlier;
+    if (totalMonths > 0 && days < 0) {
+        totalMonths -= 1;
+        const monthIndex = birth.getUTCMonth() + totalMonths;
+        const year = birth.getUTCFullYear() + Math.floor(monthIndex / 12);
+        const month = monthIndex % 12;
+        const anchor = Date.UTC(
+            year,
+            month,
+            Math.min(birth.getUTCDate(), daysInMonth(year, month)),
+        );
+        const atDay = Date.UTC(at.getUTCFullYear(), at.getUTCMonth(), at.getUTCDate());
+        days = Math.round((atDay - anchor) / DAY) - earlier;
     }
-    if (months < 0) {
-        years -= 1;
-        months += 12;
-    }
-    return { years, months, days };
+    return { years: Math.floor(totalMonths / 12), months: totalMonths % 12, days };
 }
 
 /** The age at `at` of someone born at `birth`, in the Common User Interface's unit bands. */

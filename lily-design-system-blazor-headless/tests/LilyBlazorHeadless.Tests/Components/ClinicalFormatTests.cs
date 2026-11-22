@@ -28,6 +28,8 @@ public class ClinicalFormatTests
     [InlineData("2024-03-15T00:00:00Z", "2026-03-14T00:00:00Z", "23 Months 27 Days")]
     [InlineData("2008-11-20T00:00:00Z", "2026-11-19T00:00:00Z", "17 Years 11 Months")]
     [InlineData("2008-11-20T00:00:00Z", "2026-11-20T00:00:00Z", "18 Years")]
+    [InlineData("2025-01-31T00:00:00Z", "2026-03-01T00:00:00Z", "13 Months 1 Days")]
+    [InlineData("2025-01-31T10:00:00Z", "2026-02-28T09:00:00Z", "12 Months 27 Days")]
     public void AgeParts_uses_the_cui_bands(string birth, string at, string expected)
     {
         var parts = ClinicalFormat.AgeParts(DateTimeOffset.Parse(birth, CultureInfo.InvariantCulture), DateTimeOffset.Parse(at, CultureInfo.InvariantCulture));

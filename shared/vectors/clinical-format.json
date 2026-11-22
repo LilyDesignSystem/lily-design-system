@@ -1,0 +1,431 @@
+{
+  "module": "clinical-format",
+  "description": "The locale-independent functions of shared/clinical-format.ts: meterScale, ageParts, toIsoDuration, partialDatePrecision, durationParts and htmlDuration. Locale-formatted output (formatQuantity, formatRange, formatPartialDate, formatProportion) is not here, because each platform's ICU data may write it differently.",
+  "cases": [
+    {
+      "fn": "meterScale",
+      "args": [5.2, 3.5, 5.5, null],
+      "expected": {
+        "min": 2.5,
+        "max": 6.5,
+        "low": 3.5,
+        "high": 5.5
+      }
+    },
+    {
+      "fn": "meterScale",
+      "args": [9, 3.5, 5.5, null],
+      "expected": {
+        "min": 2.5,
+        "max": 9,
+        "low": 3.5,
+        "high": 5.5
+      }
+    },
+    {
+      "fn": "meterScale",
+      "args": [1, 3.5, 5.5, null],
+      "expected": {
+        "min": 1,
+        "max": 6.5,
+        "low": 3.5,
+        "high": 5.5
+      }
+    },
+    {
+      "fn": "meterScale",
+      "args": [4, null, 5, null],
+      "expected": {
+        "min": 0,
+        "max": 7.5,
+        "high": 5
+      }
+    },
+    {
+      "fn": "meterScale",
+      "args": [70, 60, null, null],
+      "expected": {
+        "min": 0,
+        "max": 90,
+        "low": 60
+      }
+    },
+    {
+      "fn": "meterScale",
+      "args": [4, 5, 5, null],
+      "expected": null
+    },
+    {
+      "fn": "meterScale",
+      "args": [4, 6, 5, null],
+      "expected": null
+    },
+    {
+      "fn": "meterScale",
+      "args": [4, null, 0, null],
+      "expected": null
+    },
+    {
+      "fn": "meterScale",
+      "args": [null, 3, 5, null],
+      "expected": null
+    },
+    {
+      "fn": "meterScale",
+      "args": [4, null, null, null],
+      "expected": null
+    },
+    {
+      "fn": "meterScale",
+      "args": [
+        4,
+        3,
+        5,
+        {
+          "value": "mmol/L",
+          "range": "mg/dL"
+        }
+      ],
+      "expected": null
+    },
+    {
+      "fn": "meterScale",
+      "args": [
+        4,
+        3,
+        5,
+        {
+          "value": "mmol/L",
+          "range": "mmol/L"
+        }
+      ],
+      "expected": {
+        "min": 2,
+        "max": 6,
+        "low": 3,
+        "high": 5
+      }
+    },
+    {
+      "fn": "ageParts",
+      "args": ["2026-01-01T00:00:00Z", "2026-01-01T01:30:00Z"],
+      "expected": [
+        {
+          "value": 90,
+          "unit": "minutes"
+        }
+      ]
+    },
+    {
+      "fn": "ageParts",
+      "args": ["2026-01-01T00:00:00Z", "2026-01-02T12:00:00Z"],
+      "expected": [
+        {
+          "value": 36,
+          "unit": "hours"
+        }
+      ]
+    },
+    {
+      "fn": "ageParts",
+      "args": ["2026-01-01T00:00:00Z", "2026-01-20T00:00:00Z"],
+      "expected": [
+        {
+          "value": 19,
+          "unit": "days"
+        }
+      ]
+    },
+    {
+      "fn": "ageParts",
+      "args": ["2026-01-01T00:00:00Z", "2026-05-10T00:00:00Z"],
+      "expected": [
+        {
+          "value": 18,
+          "unit": "weeks"
+        },
+        {
+          "value": 3,
+          "unit": "days"
+        }
+      ]
+    },
+    {
+      "fn": "ageParts",
+      "args": ["2025-01-31T00:00:00Z", "2026-03-01T00:00:00Z"],
+      "expected": [
+        {
+          "value": 13,
+          "unit": "months"
+        },
+        {
+          "value": 1,
+          "unit": "days"
+        }
+      ]
+    },
+    {
+      "fn": "ageParts",
+      "args": ["2014-02-28T00:00:00Z", "2026-11-22T00:00:00Z"],
+      "expected": [
+        {
+          "value": 12,
+          "unit": "years"
+        },
+        {
+          "value": 8,
+          "unit": "months"
+        }
+      ]
+    },
+    {
+      "fn": "ageParts",
+      "args": ["1960-02-29T00:00:00Z", "2026-02-28T00:00:00Z"],
+      "expected": [
+        {
+          "value": 65,
+          "unit": "years"
+        }
+      ]
+    },
+    {
+      "fn": "ageParts",
+      "args": ["2026-01-02T00:00:00Z", "2026-01-01T00:00:00Z"],
+      "throws": true
+    },
+    {
+      "fn": "ageParts",
+      "args": ["not a date", "2026-01-01T00:00:00Z"],
+      "throws": true
+    },
+    {
+      "fn": "ageParts",
+      "args": ["2008-11-22T10:00:00Z", "2026-11-22T09:00:00Z"],
+      "expected": [
+        {
+          "value": 17,
+          "unit": "years"
+        },
+        {
+          "value": 11,
+          "unit": "months"
+        }
+      ]
+    },
+    {
+      "fn": "toIsoDuration",
+      "args": [
+        [
+          {
+            "value": 5,
+            "unit": "years"
+          },
+          {
+            "value": 2,
+            "unit": "months"
+          }
+        ]
+      ],
+      "expected": "P5Y2M"
+    },
+    {
+      "fn": "toIsoDuration",
+      "args": [
+        [
+          {
+            "value": 3,
+            "unit": "weeks"
+          },
+          {
+            "value": 2,
+            "unit": "days"
+          }
+        ]
+      ],
+      "expected": "P23D"
+    },
+    {
+      "fn": "toIsoDuration",
+      "args": [
+        [
+          {
+            "value": 90,
+            "unit": "minutes"
+          }
+        ]
+      ],
+      "expected": "PT90M"
+    },
+    {
+      "fn": "toIsoDuration",
+      "args": [[]],
+      "expected": "PT0M"
+    },
+    {
+      "fn": "toIsoDuration",
+      "args": [
+        [
+          {
+            "value": 1,
+            "unit": "days"
+          },
+          {
+            "value": 4,
+            "unit": "hours"
+          }
+        ]
+      ],
+      "expected": "P1DT4H"
+    },
+    {
+      "fn": "partialDatePrecision",
+      "args": ["2019"],
+      "expected": "year"
+    },
+    {
+      "fn": "partialDatePrecision",
+      "args": ["2019-03"],
+      "expected": "month"
+    },
+    {
+      "fn": "partialDatePrecision",
+      "args": ["2019-03-14"],
+      "expected": "day"
+    },
+    {
+      "fn": "partialDatePrecision",
+      "args": ["2019-13"],
+      "throws": true
+    },
+    {
+      "fn": "partialDatePrecision",
+      "args": ["2019-02-29"],
+      "throws": true
+    },
+    {
+      "fn": "partialDatePrecision",
+      "args": ["2020-02-29"],
+      "expected": "day"
+    },
+    {
+      "fn": "partialDatePrecision",
+      "args": ["19"],
+      "throws": true
+    },
+    {
+      "fn": "durationParts",
+      "args": ["P1Y2M3DT4H5M6S"],
+      "expected": {
+        "years": 1,
+        "months": 2,
+        "weeks": 0,
+        "days": 3,
+        "hours": 4,
+        "minutes": 5,
+        "seconds": 6,
+        "negative": false
+      }
+    },
+    {
+      "fn": "durationParts",
+      "args": ["-PT90M"],
+      "expected": {
+        "years": 0,
+        "months": 0,
+        "weeks": 0,
+        "days": 0,
+        "hours": 0,
+        "minutes": 90,
+        "seconds": 0,
+        "negative": true
+      }
+    },
+    {
+      "fn": "durationParts",
+      "args": ["P2W"],
+      "expected": {
+        "years": 0,
+        "months": 0,
+        "weeks": 2,
+        "days": 0,
+        "hours": 0,
+        "minutes": 0,
+        "seconds": 0,
+        "negative": false
+      }
+    },
+    {
+      "fn": "durationParts",
+      "args": ["PT1.5S"],
+      "expected": {
+        "years": 0,
+        "months": 0,
+        "weeks": 0,
+        "days": 0,
+        "hours": 0,
+        "minutes": 0,
+        "seconds": 1.5,
+        "negative": false
+      }
+    },
+    {
+      "fn": "durationParts",
+      "args": ["P"],
+      "throws": true
+    },
+    {
+      "fn": "durationParts",
+      "args": ["PT"],
+      "throws": true
+    },
+    {
+      "fn": "durationParts",
+      "args": ["1Y"],
+      "throws": true
+    },
+    {
+      "fn": "htmlDuration",
+      "args": ["P3DT4H"],
+      "expected": {
+        "datetime": "P3DT4H",
+        "negative": false
+      }
+    },
+    {
+      "fn": "htmlDuration",
+      "args": ["-P3DT4H"],
+      "expected": {
+        "datetime": "P3DT4H",
+        "negative": true
+      }
+    },
+    {
+      "fn": "htmlDuration",
+      "args": ["P1Y"],
+      "expected": null
+    },
+    {
+      "fn": "htmlDuration",
+      "args": ["P2M"],
+      "expected": null
+    },
+    {
+      "fn": "htmlDuration",
+      "args": ["PT2M"],
+      "expected": {
+        "datetime": "PT2M",
+        "negative": false
+      }
+    },
+    {
+      "fn": "htmlDuration",
+      "args": ["P1W"],
+      "expected": null
+    },
+    {
+      "fn": "htmlDuration",
+      "args": ["nonsense"],
+      "expected": null
+    }
+  ]
+}
