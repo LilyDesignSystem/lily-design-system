@@ -323,4 +323,35 @@ class ComponentSemanticsTest {
         rule.onNodeWithText("Other").performSemanticsAction(androidx.compose.ui.semantics.SemanticsActions.OnClick)
         rule.onNodeWithText("Close").performSemanticsAction(androidx.compose.ui.semantics.SemanticsActions.OnClick)
     }
+
+    @Test fun recordListNeverHidesARecordSilently() {
+        val st = io.github.lilydesignsystem.core.RecordListStatus.Known
+        rule.setContent {
+            androidx.compose.foundation.layout.Column {
+                RecordList(st, "Known", label = "Immunisations", coverageLabel = "Last 5 years") {
+                    RecordListItem(subjectLabel = "Mother", status = "completed", statusLabel = "Given", updatedLabel = "3 Nov 2026") {
+                        BasicText("Influenza vaccine")
+                    }
+                    RecordListItem(
+                        entryState = io.github.lilydesignsystem.core.RecordEntryState.Withheld,
+                        entryStateLabel = "Withheld at the patient's request",
+                    ) { BasicText("Hidden content") }
+                    RecordListItem(
+                        entryState = io.github.lilydesignsystem.core.RecordEntryState.EnteredInError,
+                        entryStateLabel = "Entered in error",
+                    ) { MedicationView(name = "Measles vaccine") }
+                }
+                RecordList(io.github.lilydesignsystem.core.RecordListStatus.NoneKnown, "No immunisations recorded")
+            }
+        }
+        rule.onNodeWithContentDescription("Immunisations")
+            .assert(SemanticsMatcher.expectValue(SemanticsProperties.IsTraversalGroup, true))
+        rule.onNodeWithText("Last 5 years").assertExists()
+        rule.onNode(hasText("Mother") and hasText("Influenza vaccine") and hasText("Given")).assertExists()
+        rule.onAllNodesWithText("Hidden content").assertCountEquals(0)
+        rule.onNodeWithText("Withheld at the patient's request").assertExists()
+        rule.onNode(hasText("Entered in error")).assertExists()
+        rule.onNodeWithContentDescription("Measles vaccine", useUnmergedTree = true).assertExists()
+        rule.onNodeWithText("No immunisations recorded").assertExists()
+    }
 }

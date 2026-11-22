@@ -54,6 +54,10 @@ import io.github.lilydesignsystem.compose.MedicationView
 import io.github.lilydesignsystem.core.MedicationNameSegment
 import io.github.lilydesignsystem.compose.Politeness
 import io.github.lilydesignsystem.compose.Problem
+import io.github.lilydesignsystem.compose.RecordList
+import io.github.lilydesignsystem.compose.RecordListItem
+import io.github.lilydesignsystem.core.RecordEntryState
+import io.github.lilydesignsystem.core.RecordListStatus
 import io.github.lilydesignsystem.compose.SummaryList
 import io.github.lilydesignsystem.compose.SummaryListItem
 import io.github.lilydesignsystem.compose.Tag
@@ -265,6 +269,28 @@ public object Examples {
                 overrideReasons = listOf(OverrideReason("patient-declined", "Patient declined")),
                 overrideReasonLabel = "Reason", overrideReasonError = "Choose a reason to dismiss",
             ) { BasicText("INR 3.4 on 20 November.") }
+        },
+        Example(
+            "record-list", "RecordList",
+            "Any clinical list: never blank; withheld and entered-in-error records are never silently removed.",
+            """
+            RecordList(RecordListStatus.Known, "Known", label = "Medications") {
+                RecordListItem(status = "active", statusLabel = "Taking") { MedicationView(name = "Metformin") }
+                RecordListItem(entryState = RecordEntryState.EnteredInError, entryStateLabel = "Entered in error") {
+                    MedicationView(name = "Warfarin")
+                }
+            }
+            """.trimIndent(),
+        ) {
+            RecordList(RecordListStatus.Known, "Known", label = "Medications", coverageLabel = "Current medicines") {
+                RecordListItem(status = "active", statusLabel = "Taking", updatedLabel = "Updated 3 November 2026") {
+                    MedicationView(name = "Metformin", strength = "500\u00A0mg", frequency = "twice a day")
+                }
+                RecordListItem(entryState = RecordEntryState.EnteredInError, entryStateLabel = "Entered in error") {
+                    MedicationView(name = "Warfarin", strength = "5\u00A0mg")
+                }
+                RecordListItem(entryState = RecordEntryState.Withheld, entryStateLabel = "Withheld at the patient's request") {}
+            }
         },
     )
 

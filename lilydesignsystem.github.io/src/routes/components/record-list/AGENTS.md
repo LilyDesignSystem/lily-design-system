@@ -35,6 +35,13 @@
 - `children`: slot (optional) — `record-list-item` items
 - `...restProps`: any — additional HTML attributes spread onto the root
 
+## Mobile
+
+Decisions: [mobile/components-mobile.tsv](../../mobile/components-mobile.tsv) (`lily` on both). The rules are `RecordRules` in `LilyCore` and `lily-core`.
+
+- Apple: `RecordList(status:statusLabel:label:coverageLabel:content:)` in `LilyUI`: a labelled container, never blank; the coverage words come first.
+- Android: `RecordList(status, statusLabel, label, coverageLabel) { … }` in `lily-compose`: a traversal group with the same rules.
+
 ## Acceptance Criteria
 
 - [x] Renders <ul> with class="record-list"

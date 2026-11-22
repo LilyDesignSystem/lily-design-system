@@ -577,8 +577,8 @@ are not the web. Full research and advice: [spec/apple-swift](spec/apple-swift/i
   must stay so (VoiceOver and TalkBack behaviour, Liquid Glass, Material 3 Expressive, future OS changes). Lily's mobile
   value is the 188 national identifier components (validation, formatting, keyboard, no autocorrect or autofill leak, a
   spoken form), the healthcare components, and small semantic content components (summary list, error summary, warning
-  text). Every slug has a recorded decision ([mobile/components-mobile.tsv](mobile/components-mobile.tsv)): 155 Lily components plus
-  the 188 identifiers on Apple, 167 plus the identifiers on Android.
+  text). Every slug has a recorded decision ([mobile/components-mobile.tsv](mobile/components-mobile.tsv)): 145 Lily components plus
+  the 188 identifiers on Apple, 157 plus the identifiers on Android.
 - **Logic is shared through test vectors.** The `shared/` modules and the identifier validators are ported by hand to Swift
   and Kotlin and proved equal to the TypeScript with JSON vectors. A Kotlin Multiplatform core for Swift, JavaScriptCore,
   and Swift on Android (Swift 6.3) were each assessed and declined as too heavy a runtime dependency for a design system.

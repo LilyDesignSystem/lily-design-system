@@ -4349,7 +4349,8 @@ Kotlin UI is written. Order: T1 and T2 first (decisions), then T4 and T3 (logic)
       missing, extra or reasonless row. Start from the category estimate in the Apple topic.
       Verify: `bin/check-mobile-catalog` passes; the counts per decision are printed and recorded in both topics.
       _(2026-11-22: done, 661 rows. Apple: 343 `lily` (155 plus the 188 identifiers), 146 `native`, 34 `pattern`, 138 `none`.
-      Android: 355 `lily` (167 plus the identifiers), 100, 53, 153. Six names get a `Lily` prefix to avoid platform clashes.
+      Android: 355 `lily` (167 plus the identifiers), 100, 53, 153. Later the same day the five specialised record lists and
+      their items became `pattern` (the generic `RecordList`): Apple 333 / 146 / 44 / 138, Android 345 / 100 / 63 / 153. Six names get a `Lily` prefix to avoid platform clashes.
       The first-pass decisions are one maintainer review away from final; change a row and its reason together.)_
 - [ ] **P43-T3 Test vectors for the shared modules.** For each module a mobile package uses (search-text, typeahead,
       edit-history, filter-model, clinical-format, calendar-system, middle-truncation, wheel-picker, zones, direction,
@@ -4436,8 +4437,8 @@ T3, then T4 and T5 together, then T6 to T8.
       result speaks its status words, any status but final is shown, no flag is inferred from a range, value and unit are
       joined by a no-break space, missing words warn in debug builds. In the example catalog. `AgeView` and `DurationView`
       followed the same day, then `AllergyRecordList` and its item on `AllergyRules`, then `MedicationView` (tall man segments), then `EarlyWarningScoreView`, then `DecisionSupportCard`
-      (a refused dismissal moves VoiceOver to the reasons). Still to do: the other record lists, `international-patient-summary`,
-      the identifiers.)_
+      (a refused dismissal moves VoiceOver to the reasons), then `RecordList` and `RecordListItem` on `RecordRules`; the five
+      specialised record lists are a pattern of these on mobile. Still to do: `international-patient-summary`, the identifiers.)_
 - [ ] **P44-T5 Example app.** `lily-design-system-swift-examples`: home, a searchable component list and a detail screen per
       shipped component (demo, code, variants), plus patient banner, vaccination record and contact form screens.
       Verify: `performAccessibilityAudit()` passes on every screen (ignores listed with reasons; the list may only shrink);
@@ -4488,8 +4489,8 @@ Same order as Phase 44; the two can run side by side once P43 is done.
 - [ ] **P45-T4 Healthcare and identifier composables.** As P44-T4, with `KeyboardOptions` asserted for every identifier input.
       Verify: Robolectric tests per clause; ATF (`enableAccessibilityChecks()`) passes on an API 34+ emulator.
       _(2026-11-22, progress: `ObservationView` done on the same `ObservationRules` (in `lily-core`, six tests), with a hidden
-      `Canvas` meter and `LilyWarnings`; in the example catalog. `AgeView`, `DurationView`, `AllergyRecordList`, `MedicationView`, `EarlyWarningScoreView` and `DecisionSupportCard` (reasons as a radio group) followed.
-      ATF not run yet.)_
+      `Canvas` meter and `LilyWarnings`; in the example catalog. `AgeView`, `DurationView`, `AllergyRecordList`, `MedicationView`, `EarlyWarningScoreView` and `DecisionSupportCard` (reasons as a radio group) and `RecordList` (a struck-through
+      text style for records entered in error) followed. ATF not run yet.)_
 - [ ] **P45-T5 Example app.** `lily-design-system-android-examples`, adaptive (list-detail on wide windows), with the same
       screens as P44-T5.
       Verify: every screen at 320dp, font scale 1.0, 1.5 and 2.0 and a large resizable window shows no clipped text or lost

@@ -293,3 +293,22 @@ private struct CustomScoreStyle: EarlyWarningScoreViewStyle {
     DecisionSupportCard(summary: "S", indicator: .info, indicatorLabel: "I", sourceLabel: "R").onSuggestion("x")
     DecisionSupportCard(summary: "S", indicator: .info, indicatorLabel: "I", sourceLabel: "R").onDismiss(nil)
 }
+
+@MainActor @Test func recordListRendersEveryStatusAndEntryState() {
+    for status in RecordListStatus.allCases {
+        #expect(
+            render(
+                RecordList(status: status, statusLabel: "Status words", label: "Immunisations", coverageLabel: "Last 5 years") {
+                    RecordListItem(subjectLabel: "Mother", status: "completed", statusLabel: "Given", updatedLabel: "3 Nov 2026") {
+                        Text(verbatim: "Influenza vaccine")
+                    }
+                    RecordListItem(entryState: .withheld, entryStateLabel: "Withheld at the patient's request") {
+                        Text(verbatim: "Hidden")
+                    }
+                    RecordListItem(entryState: .enteredInError, entryStateLabel: "Entered in error") {
+                        Text(verbatim: "Measles vaccine")
+                    }
+                }))
+    }
+    #expect(render(RecordList(status: .noneKnown, statusLabel: "No immunisations recorded")))
+}

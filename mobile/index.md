@@ -29,10 +29,12 @@ Counts on 2026-11-22 (`bin/check-mobile-catalog --counts`), of 661 components:
 
 | Platform | lily | native | pattern | none |
 | -------- | ---- | ------ | ------- | ---- |
-| Apple    | 343  | 146    | 34      | 138  |
-| Android  | 355  | 100    | 53      | 153  |
+| Apple    | 333  | 146    | 44      | 138  |
+| Android  | 345  | 100    | 63      | 153  |
 
-The `lily` counts include the 188 national identifier components; without them, 155 on Apple and 167 on Android. Android
+The `lily` counts include the 188 national identifier components; without them, 145 on Apple and 157 on Android. The
+medication, problem, immunisation, procedure and device record lists and their items are `pattern`: the generic
+`RecordList` and `RecordListItem` with a Lily view as each record (changed 2026-11-22, when the record lists were ported). Android
 has more because Compose's unstyled layer lacks some controls Apple ships (a disclosure, an outline tree, a wheel, a gauge,
 an empty state, a colour picker).
 

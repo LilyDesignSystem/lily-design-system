@@ -97,8 +97,9 @@ In priority order. Each step is useful on its own.
    - **39 tables**: `none` on iPhone; `data-table` as `native` (`Table`) on iPad. Mobile tables become lists.
    - **19 data-viz**: `native` on Swift Charts, which has accessibility and Audio Graphs built in; Lily supplies the
      figure-plus-data-table pattern and the chart's summary text contract.
-   - Result (2026-11-22, [mobile/components-mobile.tsv](../../mobile/components-mobile.tsv)): on Apple 343 `lily` (155
-     plus the 188 identifiers), 146 `native`, 34 `pattern`, 138 `none`.
+   - Result (2026-11-22, [mobile/components-mobile.tsv](../../mobile/components-mobile.tsv)): on Apple 333 `lily` (145
+     plus the 188 identifiers), 146 `native`, 44 `pattern`, 138 `none`. The five specialised record lists are `pattern`: the
+     generic `RecordList` with a Lily view as each record.
 3. **Shared logic through test vectors, not a shared runtime.** The pure modules in `shared/` (search, type-ahead, edit
    history, filter model, clinical format, calendar system, middle truncation, wheel picker, zones) and the identifier
    validators are what make a Lily component correct. Port them to Swift by hand and prove them equal with JSON vectors

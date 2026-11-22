@@ -262,6 +262,33 @@ public enum Examples {
                         overrideReasonError: "Choose a reason to dismiss"
                     ) { Text(verbatim: "INR 3.4 on 20 November.") })
             }),
+        Example(
+            slug: "record-list", name: "RecordList",
+            summary: "Any clinical list: never blank; withheld and entered-in-error records are never silently removed.",
+            code: """
+                RecordList(status: .known, statusLabel: "Known", label: "Medications") {
+                    RecordListItem(status: "active", statusLabel: "Taking") {
+                        MedicationView(name: "Metformin", strength: "500 mg", frequency: "twice a day")
+                    }
+                    RecordListItem(entryState: .enteredInError, entryStateLabel: "Entered in error") {
+                        MedicationView(name: "Warfarin", strength: "5 mg")
+                    }
+                }
+                """,
+            make: {
+                AnyView(
+                    RecordList(status: .known, statusLabel: "Known", label: "Medications", coverageLabel: "Current medicines") {
+                        RecordListItem(status: "active", statusLabel: "Taking", updatedLabel: "Updated 3 November 2026") {
+                            MedicationView(name: "Metformin", strength: "500\u{00A0}mg", frequency: "twice a day")
+                        }
+                        RecordListItem(entryState: .enteredInError, entryStateLabel: "Entered in error") {
+                            MedicationView(name: "Warfarin", strength: "5\u{00A0}mg")
+                        }
+                        RecordListItem(entryState: .withheld, entryStateLabel: "Withheld at the patient's request") {
+                            EmptyView()
+                        }
+                    })
+            }),
     ]
 
     /// The examples whose name, slug or summary match `query`, with Lily's own search folding (case and accents ignored).

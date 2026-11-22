@@ -89,3 +89,22 @@ import Testing
             summary: "S", indicatorLabel: "I", sourceLabel: "R", reasonsOffered: true, overrideReasonLabel: "Reason"
         ).isEmpty)
 }
+
+@Test func recordListRulesNeverHideARecordSilently() {
+    for status in RecordListStatus.allCases { #expect(RecordRules.showsStatusItem(status) == (status != .known)) }
+    #expect(RecordRules.listName(label: "Immunisations", statusLabel: "Known") == "Immunisations")
+    #expect(RecordRules.listName(label: nil, statusLabel: "None recorded") == "None recorded")
+    #expect(RecordRules.listName(label: "", statusLabel: "None recorded") == "None recorded")
+    #expect(RecordRules.showsContent(nil) && RecordRules.showsContent(.enteredInError) && !RecordRules.showsContent(.withheld))
+    #expect(RecordRules.strikesContent(.enteredInError) && !RecordRules.strikesContent(.withheld) && !RecordRules.strikesContent(nil))
+    #expect(RecordRules.listWarnings(statusLabel: nil).count == 1 && RecordRules.listWarnings(statusLabel: "Known").isEmpty)
+    #expect(RecordRules.itemWarnings(status: "active", statusLabel: nil, entryState: .withheld, entryStateLabel: "").count == 2)
+    #expect(RecordRules.itemWarnings(status: "", statusLabel: nil, entryState: nil, entryStateLabel: nil).isEmpty)
+    #expect(
+        RecordRules.itemWarnings(status: "active", statusLabel: "Active", entryState: .withheld, entryStateLabel: "Withheld")
+            .isEmpty)
+    #expect(RecordEntryState.allCases.map(\.rawValue) == ["withheld", "entered-in-error"])
+    #expect(
+        RecordRules.itemWarnings(status: nil, statusLabel: nil, entryState: .enteredInError, entryStateLabel: nil)
+            == ["RecordListItem: entryState entered-in-error needs an entryStateLabel"])
+}

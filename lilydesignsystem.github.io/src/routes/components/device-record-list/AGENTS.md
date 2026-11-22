@@ -34,6 +34,11 @@
 - `children`: slot (optional) — `device-record-list-item` items
 - `...restProps`: any — additional HTML attributes spread onto the root
 
+## Mobile
+
+- Apple: A pattern: the generic `RecordList` and `RecordListItem` hold the rules (never blank, withheld and entered-in-error never silent, whose record first) and the record itself is a Lily view, so mobile ships no type of its own for this list (`pattern` in [mobile/components-mobile.tsv](../../mobile/components-mobile.tsv)).
+- Android: The same pattern in `lily-compose`.
+
 ## Acceptance Criteria
 
 - [x] Renders <ul> with class="device-record-list"

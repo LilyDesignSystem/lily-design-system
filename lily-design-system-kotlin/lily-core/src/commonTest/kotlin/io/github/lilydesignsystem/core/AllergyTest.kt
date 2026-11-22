@@ -82,3 +82,20 @@ class DecisionSupportTest {
         assertEquals(listOf("info", "warning", "critical"), DecisionSupportIndicator.entries.map { it.key })
     }
 }
+
+class RecordListTest {
+    @Test fun rulesNeverHideARecordSilently() {
+        RecordListStatus.entries.forEach { assertEquals(it != RecordListStatus.Known, RecordRules.showsStatusItem(it)) }
+        assertEquals("Immunisations", RecordRules.listName("Immunisations", "Known"))
+        assertEquals("None recorded", RecordRules.listName(null, "None recorded"))
+        assertTrue(RecordRules.showsContent(null) && RecordRules.showsContent(RecordEntryState.EnteredInError))
+        assertTrue(!RecordRules.showsContent(RecordEntryState.Withheld))
+        assertTrue(RecordRules.strikesContent(RecordEntryState.EnteredInError) && !RecordRules.strikesContent(null))
+        assertEquals(1, RecordRules.listWarnings(null).size)
+        assertTrue(RecordRules.listWarnings("Known").isEmpty())
+        assertEquals(2, RecordRules.itemWarnings("active", null, RecordEntryState.Withheld, "").size)
+        assertTrue(RecordRules.itemWarnings("", null, null, null).isEmpty())
+        assertTrue(RecordRules.itemWarnings("active", "Active", RecordEntryState.Withheld, "Withheld").isEmpty())
+        assertEquals(listOf("withheld", "entered-in-error"), RecordEntryState.entries.map { it.key })
+    }
+}

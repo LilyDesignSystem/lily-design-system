@@ -31,6 +31,7 @@ class ExamplesTest {
                 "field", "error-summary", "summary-list", "warning-text", "alert", "badge", "tag", "card", "inset-text",
                 "observation-view", "age-view", "duration-view", "allergy-record-list",
                 "medication-view", "early-warning-score-view", "decision-support-card",
+                "record-list",
             ),
             slugs.toSet(),
         )
