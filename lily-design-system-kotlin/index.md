@@ -11,6 +11,8 @@ Phase 45).
 | `lily-core`    | Kotlin Multiplatform, no Android dependency: search folding and highlighting, middle truncation, clinical formatting.                                                                                  | JVM target; ported from `shared/` and proved equal by `shared/vectors/`. |
 | `lily-compose` | Compose components on `compose.foundation` and `compose.ui` only: `Field`, `ErrorSummary`, `SummaryList` / `SummaryListItem`, `WarningText`, `LilyAlert`, `LilyBadge`, `Tag`, `LilyCard`, `InsetText`. | First slice (P45-T3).                                                    |
 
+| `lily-compose-examples` | A worked example of every `lily-compose` component (real words, its code beside it) and `ExampleCatalog`, a searchable list with a detail view: the mobile form of the web apps' `/components` routes. | Six Robolectric tests; every example composes. |
+
 Planned: `lily-compose-identifiers` (P43-T4, P45-T4), `lily-compose-themes` (P43-T5) and the optional `lily-compose-material3`
 adapter. Requirements: Kotlin 2.4, `minSdk` 23, compileSdk 37.2 (Compose 1.13 requires 37.1 or later), JVM bytecode 17.
 
@@ -35,6 +37,16 @@ fun ContactForm() {
 Every word is the app's: Lily has no default text and no string resources. `Field` passes its control a `Modifier` carrying
 the spoken name and the error; apply it to the control. Text styles come from `LocalLilyTextStyles`, which defaults to the
 platform's text, so the user's font scale applies unchanged.
+
+To browse every component on a device, host the catalog in any activity; navigation stays the app's:
+
+```kotlin
+setContent {
+    var selected by rememberSaveable { mutableStateOf<String?>(null) }
+    BackHandler(enabled = selected != null) { selected = null }
+    ExampleCatalog(title = "Components", searchLabel = "Search components", selected = selected, onSelect = { selected = it })
+}
+```
 
 ## Rules
 

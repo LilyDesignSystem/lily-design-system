@@ -4474,6 +4474,9 @@ Same order as Phase 44; the two can run side by side once P43 is done.
       screens as P44-T5.
       Verify: every screen at 320dp, font scale 1.0, 1.5 and 2.0 and a large resizable window shows no clipped text or lost
       control (`DeviceConfigurationOverride`); ATF passes with ignores listed and reasons.
+      _(2026-11-22, progress: `lily-compose-examples` holds a worked example of each of the nine `lily-compose` components, with
+      its code, and `ExampleCatalog`, a searchable list and detail view (navigation left to the app). Six Robolectric tests,
+      100% of lines. Still to do: the Android app that hosts it, ATF and the size sweep.)_
 - [ ] **P45-T6 Publish to Maven Central.** Verify the `io.github.lilydesignsystem` namespace (or a domain the project owns),
       sign artifacts, add `bin/publish-kotlin` publishing from the monorepo like `bin/publish-helpers`, and extend
       `bin/check-package-metadata` and `bin/verify-published` to the POMs. Ask before the first publish.

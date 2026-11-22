@@ -14,4 +14,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "lily-design-system-kotlin"
-include(":lily-core", ":lily-compose")
+include(":lily-core", ":lily-compose", ":lily-compose-examples")
