@@ -39,6 +39,25 @@ Every pack also has a `date-time-now-input` section: the headless `date-time-now
 `NowLabel`). A name a pack lacks is omitted, so that control stays unnamed rather than in another language. Unreviewed
 machine drafts like the rest (English excepted).
 
+## Picker names (added 2026-11-21)
+
+Every pack has a `pickers` section: the page-header pickers' accessible names and the share messages, in that language (64 languages; 63 are
+unreviewed machine drafts). The names are plural nouns on purpose ("Themes", "Locales", "Text Sizes"). The picker components ship no default,
+so an app opts in. The package re-exports `pickerBarLabels` and `shareLabels`, which return plain objects with the keys the Nunjucks `pickerBar`
+macro and `sharePicker` macro take, so no Nunjucks-specific helper is needed:
+
+```js
+import { pickerBarLabels, shareLabels } from "@lilydesignsystem/nunjucks-locale-translations";
+import cy from "@lilydesignsystem/nunjucks-locale-translations/label-packs/cy-001.json" with { type: "json" };
+
+// {{ pickerBar({ labels: pickerNames, themesUrl: "/assets/themes/", locales: [...] }) }}
+const pickerNames = pickerBarLabels(cy); // { link, search, searchInput, searchSubmit, theme, locale, timeZone, textSize, share }
+const shareMessages = shareLabels(cy); // { copyLabel, copiedLabel, copyFailedLabel }, for the share picker's own props
+```
+
+A name the pack lacks is left out, so that control stays unnamed rather than showing another language's text.
+`lily-design-system-nunjucks-picker-bar/picker-bar.packs.test.ts` renders the real macro with the names of six packs.
+
 ## Time zone names (Unicode CLDR)
 
 The localized display names of IANA time zones, one pack per locale (all 64), for the time zone pickers:
