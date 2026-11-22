@@ -4432,18 +4432,26 @@ T3, then T4 and T5 together, then T6 to T8.
 Kotlin libraries of Jetpack Compose components: [spec/android-kotlin](spec/android-kotlin/index.md). Depends on P43-T1 to T4.
 Same order as Phase 44; the two can run side by side once P43 is done.
 
-- [ ] **P45-T1 Scaffold `lily-design-system-kotlin`.** One Gradle build (version catalog, Kotlin 2.4, explicit API mode,
+- [x] **P45-T1 Scaffold `lily-design-system-kotlin`.** One Gradle build (version catalog, Kotlin 2.4, explicit API mode,
       binary-compatibility validation) with `lily-core` (Kotlin Multiplatform), `lily-compose`, `lily-compose-identifiers`,
       `lily-compose-themes` and `lily-compose-material3`; `minSdk` 23 (confirm against current AndroidX) and
       `compileSdk`/`targetSdk` 37.
       Verify: `./gradlew build` passes; a dependency check fails if `lily-compose` depends on any Material artifact.
+      _(2026-11-22: done with `lily-core` and `lily-compose`; the identifiers, themes and Material 3 modules wait for P43-T4 and
+      T5. `compileSdk` is 37.2, because Compose 1.13 requires 37.1 or later. Binary-compatibility validation is not set up yet.
+      `checkNoMaterial` was seen to fail when Material 3 was added.)_
 - [ ] **P45-T2 `lily-core` from the vectors.** Port the P43-T3 modules and the P43-T4 validators to Kotlin `commonMain`, with
       `kotlin.test` reading every vector file.
       Verify: `./gradlew :lily-core:allTests` passes; every vector file is read.
+      _(2026-11-22, progress: JVM target only; the same three modules as P44-T2 pass all 88 vectors, and a broken `foldText`
+      fails them. Dates are UTC epoch milliseconds, with a civil-date algorithm, so no date library is needed.)_
 - [ ] **P45-T3 Composable pattern and the first slice.** The `{Name}Defaults` / colours / slots / `modifier` pattern on
       foundation only, for the same first slice as P44-T3, with `error(...)`, `heading()`, `paneTitle`, `liveRegion` and
       traversal semantics as the semantics map says, a 48dp minimum target, and an "Android" section in each `AGENTS.md`.
       Verify: a Robolectric semantics test per clause; no hardcoded string or `stringResource` default.
+      _(2026-11-22, progress: `Field`, `ErrorSummary`, `SummaryList`, `SummaryListItem`, `WarningText` and `LilyAlert` on
+      foundation only, with eight Robolectric tests of the semantics tree; removing `heading()` from the error summary's title
+      fails one. Not yet: `badge`, `tag`, `card`, `inset-text`; the AGENTS "Android" sections.)_
 - [ ] **P45-T4 Healthcare and identifier composables.** As P44-T4, with `KeyboardOptions` asserted for every identifier input.
       Verify: Robolectric tests per clause; ATF (`enableAccessibilityChecks()`) passes on an API 34+ emulator.
 - [ ] **P45-T5 Example app.** `lily-design-system-android-examples`, adaptive (list-detail on wide windows), with the same

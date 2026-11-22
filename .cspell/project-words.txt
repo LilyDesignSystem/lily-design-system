@@ -157,6 +157,8 @@ gradlew
 resizability
 swiftui
 nonspacing
+sdkmanager
+Hinnant
 Okoro
 toggleable
 xcstrings

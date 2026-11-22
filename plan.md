@@ -628,7 +628,8 @@ themes, an optional Material 3 adapter), Kotlin 2.4, published to Maven Central 
 a skill; Compose Multiplatform on iOS tested as a bonus, not the Apple product. Findings:
 [spec/android-kotlin](spec/android-kotlin/index.md). Tasks: [tasks.md](tasks.md#phase-45--android-kotlin-2026-11-22).
 
-Status (2026-11-22): researched; nothing built. Depends on P43-T1 to T4.
+Status (2026-11-22): `lily-design-system-kotlin` exists, unreleased: `lily-core` passes the shared vectors and `lily-compose` has the
+same first slice as Swift, on foundation only (P45-T1 done, T2 and T3 in progress).
 
 ---
 
