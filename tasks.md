@@ -4374,6 +4374,8 @@ Kotlin UI is written. Order: T1 and T2 first (decisions), then T4 and T3 (logic)
       added, 47 cases including Hangul, a supplementary ideograph, Greek and IME composition; ported to Swift (scalar comparison,
       so a Hangul initial matches as the TypeScript's code-unit comparison does) and Kotlin. 142 vectors, all three languages,
       100% of lines. Still to add: edit-history, filter-model, calendar-system, wheel-picker, zones, intl-labels.)_
+      _(2026-11-22: `ips-sections` added (18 cases: the registry, required sections, ids, the contents with missing required
+      sections appended), ported to Swift and Kotlin; 160 vectors in all.)_
 - [ ] **P43-T4 Identifier validators in `shared/`.** Each national identifier's normalisation, check-digit validation and
       display grouping lives in every catalog's own component today. Move it to `shared/identifiers.ts` (synced by
       `bin/sync-shared-modules`), with vectors per identifier type, including invalid cases, and point the TypeScript catalogs

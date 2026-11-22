@@ -1,0 +1,293 @@
+{
+  "module": "ips-sections",
+  "description": "ipsSectionCode, ipsSectionIsRequired, ipsSectionId, ipsMissingRequired and ipsContents from shared/ips-sections.ts. A code for a key that is not an IPS section is left out of a contents entry (JSON has no undefined).",
+  "cases": [
+    {
+      "fn": "ipsSectionCode",
+      "args": ["medications"],
+      "expected": "10160-0"
+    },
+    {
+      "fn": "ipsSectionCode",
+      "args": ["alerts"],
+      "expected": "104605-1"
+    },
+    {
+      "fn": "ipsSectionCode",
+      "args": ["patient-story"],
+      "expected": "81338-6"
+    },
+    {
+      "fn": "ipsSectionCode",
+      "args": ["not-a-section"],
+      "expected": null
+    },
+    {
+      "fn": "ipsSectionIsRequired",
+      "args": ["allergies"],
+      "expected": true
+    },
+    {
+      "fn": "ipsSectionIsRequired",
+      "args": ["results"],
+      "expected": false
+    },
+    {
+      "fn": "ipsSectionIsRequired",
+      "args": ["nonsense"],
+      "expected": false
+    },
+    {
+      "fn": "ipsSectionId",
+      "args": ["allergies"],
+      "expected": "international-patient-summary-allergies"
+    },
+    {
+      "fn": "ipsSectionId",
+      "args": ["allergies", "my-id"],
+      "expected": "my-id"
+    },
+    {
+      "fn": "ipsSectionId",
+      "args": ["allergies", "", "summary-2"],
+      "expected": "summary-2-allergies"
+    },
+    {
+      "fn": "ipsSectionId",
+      "args": ["allergies", "", ""],
+      "expected": "international-patient-summary-allergies"
+    },
+    {
+      "fn": "ipsMissingRequired",
+      "args": [[]],
+      "expected": ["medications", "allergies", "problems"]
+    },
+    {
+      "fn": "ipsMissingRequired",
+      "args": [
+        [
+          {
+            "key": "allergies"
+          }
+        ]
+      ],
+      "expected": ["medications", "problems"]
+    },
+    {
+      "fn": "ipsMissingRequired",
+      "args": [
+        [
+          {
+            "key": "problems"
+          },
+          {
+            "key": "medications"
+          },
+          {
+            "key": "allergies"
+          }
+        ]
+      ],
+      "expected": []
+    },
+    {
+      "fn": "ipsContents",
+      "args": [
+        [],
+        {
+          "medications": "Medicines",
+          "allergies": "Allergies",
+          "problems": "Problems"
+        }
+      ],
+      "expected": [
+        {
+          "key": "medications",
+          "heading": "Medicines",
+          "status": "omitted",
+          "id": "international-patient-summary-medications",
+          "code": "10160-0",
+          "required": true,
+          "added": true
+        },
+        {
+          "key": "allergies",
+          "heading": "Allergies",
+          "status": "omitted",
+          "id": "international-patient-summary-allergies",
+          "code": "48765-2",
+          "required": true,
+          "added": true
+        },
+        {
+          "key": "problems",
+          "heading": "Problems",
+          "status": "omitted",
+          "id": "international-patient-summary-problems",
+          "code": "11450-4",
+          "required": true,
+          "added": true
+        }
+      ]
+    },
+    {
+      "fn": "ipsContents",
+      "args": [
+        [
+          {
+            "key": "allergies",
+            "heading": "Allergies and intolerances",
+            "status": "none-known"
+          },
+          {
+            "key": "results",
+            "heading": "Results"
+          }
+        ],
+        {
+          "medications": "Medicines",
+          "allergies": "Allergies",
+          "problems": "Problems"
+        }
+      ],
+      "expected": [
+        {
+          "key": "allergies",
+          "heading": "Allergies and intolerances",
+          "status": "none-known",
+          "id": "international-patient-summary-allergies",
+          "code": "48765-2",
+          "required": true,
+          "added": false
+        },
+        {
+          "key": "results",
+          "heading": "Results",
+          "status": "known",
+          "id": "international-patient-summary-results",
+          "code": "30954-2",
+          "required": false,
+          "added": false
+        },
+        {
+          "key": "medications",
+          "heading": "Medicines",
+          "status": "omitted",
+          "id": "international-patient-summary-medications",
+          "code": "10160-0",
+          "required": true,
+          "added": true
+        },
+        {
+          "key": "problems",
+          "heading": "Problems",
+          "status": "omitted",
+          "id": "international-patient-summary-problems",
+          "code": "11450-4",
+          "required": true,
+          "added": true
+        }
+      ]
+    },
+    {
+      "fn": "ipsContents",
+      "args": [
+        [
+          {
+            "key": "medications",
+            "heading": "Medicines",
+            "id": "meds"
+          },
+          {
+            "key": "custom",
+            "heading": "Notes"
+          }
+        ],
+        {
+          "medications": "Medicines",
+          "allergies": "Allergies",
+          "problems": "Problems"
+        },
+        "summary-2"
+      ],
+      "expected": [
+        {
+          "key": "medications",
+          "heading": "Medicines",
+          "status": "known",
+          "id": "meds",
+          "code": "10160-0",
+          "required": true,
+          "added": false
+        },
+        {
+          "key": "custom",
+          "heading": "Notes",
+          "status": "known",
+          "id": "summary-2-custom",
+          "required": false,
+          "added": false
+        },
+        {
+          "key": "allergies",
+          "heading": "Allergies",
+          "status": "omitted",
+          "id": "summary-2-allergies",
+          "code": "48765-2",
+          "required": true,
+          "added": true
+        },
+        {
+          "key": "problems",
+          "heading": "Problems",
+          "status": "omitted",
+          "id": "summary-2-problems",
+          "code": "11450-4",
+          "required": true,
+          "added": true
+        }
+      ]
+    },
+    {
+      "fn": "ipsContents",
+      "args": [
+        [
+          {
+            "key": "allergies",
+            "heading": "A"
+          }
+        ],
+        {}
+      ],
+      "expected": [
+        {
+          "key": "allergies",
+          "heading": "A",
+          "status": "known",
+          "id": "international-patient-summary-allergies",
+          "code": "48765-2",
+          "required": true,
+          "added": false
+        },
+        {
+          "key": "medications",
+          "heading": "",
+          "status": "omitted",
+          "id": "international-patient-summary-medications",
+          "code": "10160-0",
+          "required": true,
+          "added": true
+        },
+        {
+          "key": "problems",
+          "heading": "",
+          "status": "omitted",
+          "id": "international-patient-summary-problems",
+          "code": "11450-4",
+          "required": true,
+          "added": true
+        }
+      ]
+    }
+  ]
+}

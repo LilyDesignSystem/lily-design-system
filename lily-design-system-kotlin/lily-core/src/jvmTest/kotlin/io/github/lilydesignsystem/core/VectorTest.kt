@@ -96,6 +96,27 @@ class VectorTest {
         }
         "findTypeaheadMatch" -> findTypeaheadMatch(args[0].jsonArray.map(::str), args[1].jsonPrimitive.int, str(args[2]))
         "logicalKey" -> logicalKey(str(args[0]), args[1].jsonPrimitive.boolean)
+        "ipsSectionCode" -> ipsSectionCode(str(args[0]))
+        "ipsSectionIsRequired" -> ipsSectionIsRequired(str(args[0]))
+        "ipsSectionId" -> ipsSectionId(
+            str(args[0]), args.getOrNull(1)?.let(::str), args.getOrNull(2)?.let(::str) ?: IPS_ID_PREFIX,
+        )
+        "ipsMissingRequired" -> ipsMissingRequired(args[0].jsonArray.map { str(it.jsonObject["key"]!!) })
+        "ipsContents" -> ipsContents(
+            args[0].jsonArray.map {
+                val o = it.jsonObject
+                IpsSectionEntry(str(o["key"]!!), str(o["heading"]!!), o["status"]?.let { s -> IpsSectionStatus.fromKey(str(s)) },
+                    o["id"]?.let(::str))
+            },
+            args[1].jsonObject.mapValues { str(it.value) },
+            args.getOrNull(2)?.let(::str) ?: IPS_ID_PREFIX,
+        ).map { e ->
+            buildMap<String, Any?> {
+                put("key", e.key); put("heading", e.heading); put("status", e.status.key); put("id", e.id)
+                e.code?.let { put("code", it) }
+                put("required", e.required); put("added", e.added)
+            }
+        }
         else -> fail("unknown vector function $fn")
     }
 
@@ -114,7 +135,10 @@ class VectorTest {
     @Test
     fun everyVectorFileIsReadAndPasses() {
         val files = files()
-        assertEquals(listOf("clinical-format.json", "middle-truncation.json", "search-text.json", "typeahead.json"), files.map { it.first })
+        assertEquals(
+            listOf("clinical-format.json", "ips-sections.json", "middle-truncation.json", "search-text.json", "typeahead.json"),
+            files.map { it.first },
+        )
         val failures = mutableListOf<String>()
         var count = 0
         for ((name, cases) in files) {
@@ -135,6 +159,6 @@ class VectorTest {
         }
         assertTrue(failures.isEmpty(), failures.joinToString("\n"))
         assertEquals(files.sumOf { it.second.size }, count)
-        assertTrue(count >= 142)
+        assertTrue(count >= 160)
     }
 }

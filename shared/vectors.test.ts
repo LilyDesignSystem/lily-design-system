@@ -15,6 +15,13 @@ import {
 } from "./clinical-format";
 import { splitGraphemes, truncateMiddle, type TruncateMiddleOptions } from "./middle-truncation";
 import { logicalKey } from "./direction";
+import {
+    ipsContents,
+    ipsMissingRequired,
+    ipsSectionCode,
+    ipsSectionId,
+    ipsSectionIsRequired,
+} from "./ips-sections";
 import { foldText, highlightSegments, matchesSearch, searchTerms } from "./search-text";
 import { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState } from "./typeahead";
 
@@ -43,6 +50,11 @@ const FUNCTIONS: Record<string, (...args: any[]) => unknown> = {
     nextTypeaheadState,
     findTypeaheadMatch,
     logicalKey,
+    ipsSectionCode,
+    ipsSectionIsRequired,
+    ipsSectionId,
+    ipsMissingRequired,
+    ipsContents,
 };
 /* eslint-enable @typescript-eslint/no-explicit-any */
 

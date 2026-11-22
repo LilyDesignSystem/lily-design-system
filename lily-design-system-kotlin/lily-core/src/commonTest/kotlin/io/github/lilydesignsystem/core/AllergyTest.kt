@@ -99,3 +99,13 @@ class RecordListTest {
         assertEquals(listOf("withheld", "entered-in-error"), RecordEntryState.entries.map { it.key })
     }
 }
+
+class IpsSectionsTest {
+    @Test fun defaultsAndTheRegistry() {
+        assertEquals("international-patient-summary-allergies", ipsSectionId("allergies"))
+        assertEquals(16, IPS_SECTIONS.size)
+        assertEquals(listOf("medications", "allergies", "problems"), IPS_REQUIRED_SECTIONS)
+        assertEquals(3, ipsContents(emptyList(), emptyMap()).size)
+        assertEquals(null, IpsSectionStatus.fromKey("unknown"))
+    }
+}

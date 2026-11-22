@@ -94,6 +94,30 @@ private func call(_ fn: String, _ args: [Any]) throws -> Any {
     case "findTypeaheadMatch":
         return findTypeaheadMatch(args[0] as! [String], from: (args[1] as! NSNumber).intValue, prefix: string(2))
     case "logicalKey": return logicalKey(string(0), rightToLeft: args[1] as! Bool)
+    case "ipsSectionCode": return ipsSectionCode(string(0)) as Any? ?? NSNull()
+    case "ipsSectionIsRequired": return ipsSectionIsRequired(string(0))
+    case "ipsSectionId":
+        return ipsSectionId(
+            string(0), id: args.count > 1 ? args[1] as? String : nil,
+            idPrefix: args.count > 2 ? args[2] as! String : ipsIdPrefix)
+    case "ipsMissingRequired": return ipsMissingRequired((args[0] as! [[String: Any]]).map { $0["key"] as! String })
+    case "ipsContents":
+        let sections = (args[0] as! [[String: Any]]).map {
+            IpsSectionEntry(
+                key: $0["key"] as! String, heading: $0["heading"] as! String,
+                status: ($0["status"] as? String).flatMap(IpsSectionStatus.init(rawValue:)), id: $0["id"] as? String)
+        }
+        let entries = ipsContents(
+            sections, requiredHeadings: args[1] as! [String: String],
+            idPrefix: args.count > 2 ? args[2] as! String : ipsIdPrefix)
+        return entries.map { e -> [String: Any] in
+            var out: [String: Any] = [
+                "key": e.key, "heading": e.heading, "status": e.status.rawValue, "id": e.id, "required": e.required,
+                "added": e.added,
+            ]
+            if let code = e.code { out["code"] = code }
+            return out
+        }
     default: throw Unknown(description: "unknown vector function \(fn)")
     }
 }
@@ -108,7 +132,7 @@ private func same(_ a: Any, _ b: Any) throws -> Bool {
 
 @Test func everyVectorFileIsReadAndPasses() throws {
     let files = try loadVectorFiles()
-    #expect(Set(files.map(\.name)) == ["clinical-format.json", "middle-truncation.json", "search-text.json", "typeahead.json"])
+    #expect(Set(files.map(\.name)) == ["clinical-format.json", "ips-sections.json", "middle-truncation.json", "search-text.json", "typeahead.json"])
     var count = 0
     for file in files {
         for (index, c) in file.cases.enumerated() {
@@ -125,5 +149,5 @@ private func same(_ a: Any, _ b: Any) throws -> Bool {
         }
     }
     #expect(count == files.reduce(0) { $0 + $1.cases.count })
-    #expect(count >= 142)
+    #expect(count >= 160)
 }
