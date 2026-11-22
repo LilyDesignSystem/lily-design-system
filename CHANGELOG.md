@@ -45,12 +45,16 @@ highlights.
   change many components at once) and which go straight to `latest` (fixes, patches, additive releases). Holding `latest` two days behind, which one
   consumer asked for, was not adopted: it would delay every fix for every consumer. `bin/test-publish-tag` checks the option with a fake `npm`.
 
+## `meterScale` throws on malformed input (2026-11-22, checked arithmetic)
+
+- A declaration must not name a fallback for input that is out of range or malformed, so `meterScale` no longer returns `undefined` for it. A value or an end that is not a finite number, a reversed or zero-width range, a one-sided bound not above zero, and two different units now throw a `MeterScaleError` (a `RangeError` with a `reason`: `value`, `range`, `reversed`, `bound` or `units`); C# throws `MeterScaleException`, an `ArgumentOutOfRangeException`. `undefined` stays for "nothing to draw": no value or no range. `meterScale`, `MeterScaleError`, `formatRange` and their types are now exported from the headless packages' root, which had left them out. Callers that relied on `undefined` for bad data must catch the error or check their data first.
+
 ## `meterScale` for the observation meter (2026-11-21, P42-T8)
 
 - `meterScale(value, low?, high?, units?)` in the `clinical-format` module (C# `ClinicalFormat.MeterScale`) returns the `observation-view` meter's
   `min`, `max`, `low` and `high` from a value and its reference range, so consumers stop writing their own and writing it differently: half a
   range beyond each end of a two-sided range, zero to half as far again for a one-sided one, always wide enough to hold the value, and
-  `undefined` (no meter) for a non-numeric value or range, a reversed or zero-width range, a bound not above zero, or two different units.
+  `undefined` (no meter) only when there is no value or no range.
 
 ## Print opens closed disclosures (2026-11-21, P42-T9; Svelte, React, Solid, Vue, Angular, Web Components and Blazor)
 

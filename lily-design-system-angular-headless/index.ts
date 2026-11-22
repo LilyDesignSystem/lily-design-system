@@ -482,7 +482,7 @@ export { TypeaheadState } from "./components/typeahead";
 export { WheelOption, WheelMoveKey, WheelOrientation, WheelScrollWatch, WheelMoveOptions, WheelTypeahead } from "./components/wheel-picker";
 export { ToolbarOptions, SplitterOptions, TreeSelection, TreePopupOptions, MentionsOptions, CropRect, CropperOptions, GridOptions } from "./components/widget-keys";
 
-export { ageParts, durationParts, formatPartialDate, formatProportion, formatQuantity, htmlDuration, partialDatePrecision, toIsoDuration } from "./components/clinical-format";
-export type { AgePart, AgeUnit, DatePrecision, DurationParts, ProportionKind, QuantityComparator } from "./components/clinical-format";
+export { ageParts, durationParts, formatPartialDate, formatProportion, formatQuantity, formatRange, htmlDuration, MeterScaleError, meterScale, partialDatePrecision, toIsoDuration } from "./components/clinical-format";
+export type { AgePart, AgeUnit, DatePrecision, DurationParts, MeterScale, MeterScaleReason, ProportionKind, QuantityComparator } from "./components/clinical-format";
 export { IPS_REQUIRED_SECTIONS, IPS_SECTIONS, ipsContents, ipsMissingRequired, ipsSectionCode, ipsSectionId, ipsSectionIsRequired, ipsSectionLevel } from "./components/ips-sections";
 export type { IpsContentsEntry, IpsSectionDefinition, IpsSectionEntry, IpsSectionLevel, IpsSectionStatus } from "./components/ips-sections";

@@ -5,6 +5,10 @@ and the package follows [Semantic Versioning](https://semver.org/).
 The canonical monorepo history is in the root
 [CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md).
 
+## 0.15.1 — 2026-11-22
+
+- `meterScale` throws a `MeterScaleError` (a `RangeError` with a `reason`) for a non-finite value or range end, a reversed range, a bound not above zero and two different units, instead of returning `undefined`; `undefined` stays for no value or no range. `meterScale`, `MeterScaleError` and `formatRange` are exported from the package root.
+
 ## 0.15.0 — 2026-11-22
 
 - `international-patient-summary-section` takes `level` (rendered as `data-level`) and optional `meta` and `warning` slots between the heading and status and the entries, and `statusPlacement` (`"list"` leaves the status words to the record list inside); nothing renders for a slot left out.

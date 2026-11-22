@@ -7,6 +7,7 @@ import {
     formatQuantity,
     formatRange,
     htmlDuration,
+    MeterScaleError,
     meterScale,
     partialDatePrecision,
     toIsoDuration,
@@ -380,39 +381,62 @@ describe("meterScale", () => {
         expect(meterScale(-3, -4, -2)).toEqual({ min: -5, max: -1, low: -4, high: -2 });
     });
 
-    test("no meter when the value is not a finite number", () => {
-        for (const value of [NaN, Infinity, -Infinity, undefined, null, "5" as unknown as number]) {
-            expect(meterScale(value, 3.5, 5.5)).toBeUndefined();
+    const reason = (fn: () => unknown) => {
+        try {
+            fn();
+        } catch (error) {
+            expect(error).toBeInstanceOf(MeterScaleError);
+            expect(error).toBeInstanceOf(RangeError);
+            return (error as MeterScaleError).reason;
         }
-    });
+        throw new Error("did not throw");
+    };
 
-    test("no meter when the range has no numeric end", () => {
+    test("no meter, and no error, when there is nothing to draw: no value or no range", () => {
+        expect(meterScale(undefined, 3.5, 5.5)).toBeUndefined();
+        expect(meterScale(null, 3.5, 5.5)).toBeUndefined();
         expect(meterScale(5)).toBeUndefined();
         expect(meterScale(5, undefined, undefined)).toBeUndefined();
         expect(meterScale(5, null, null)).toBeUndefined();
     });
 
-    test("no meter when an end is present but not numeric", () => {
-        expect(meterScale(5, NaN, 5.5)).toBeUndefined();
-        expect(meterScale(5, 3.5, Infinity)).toBeUndefined();
-        expect(meterScale(5, "3.5" as unknown as number, 5.5)).toBeUndefined();
-        expect(meterScale(5, undefined, NaN)).toBeUndefined();
+    test("a value that is not a finite number is an error", () => {
+        for (const value of [NaN, Infinity, -Infinity, "5" as unknown as number]) {
+            expect(reason(() => meterScale(value, 3.5, 5.5))).toBe("value");
+        }
     });
 
-    test("no meter when a two-sided range is reversed or has no width", () => {
-        expect(meterScale(5, 5.5, 3.5)).toBeUndefined();
-        expect(meterScale(5, 4, 4)).toBeUndefined();
+    test("an end of the range that is given but not a finite number is an error", () => {
+        expect(reason(() => meterScale(5, NaN, 5.5))).toBe("range");
+        expect(reason(() => meterScale(5, 3.5, Infinity))).toBe("range");
+        expect(reason(() => meterScale(5, "3.5" as unknown as number, 5.5))).toBe("range");
+        expect(reason(() => meterScale(5, undefined, NaN))).toBe("range");
     });
 
-    test("no meter when a one-sided bound is not above zero", () => {
-        expect(meterScale(1, undefined, 0)).toBeUndefined();
-        expect(meterScale(1, undefined, -3)).toBeUndefined();
-        expect(meterScale(1, 0)).toBeUndefined();
-        expect(meterScale(1, -3)).toBeUndefined();
+    test("a two-sided range that is reversed or has no width is an error", () => {
+        expect(reason(() => meterScale(5, 5.5, 3.5))).toBe("reversed");
+        expect(reason(() => meterScale(5, 4, 4))).toBe("reversed");
     });
 
-    test("no meter when the value and the range are in different units", () => {
-        expect(meterScale(5, 3.5, 5.5, { value: "mmol/L", range: "mg/dL" })).toBeUndefined();
+    test("a one-sided bound that is not above zero is an error", () => {
+        expect(reason(() => meterScale(1, undefined, 0))).toBe("bound");
+        expect(reason(() => meterScale(1, undefined, -3))).toBe("bound");
+        expect(reason(() => meterScale(1, 0))).toBe("bound");
+        expect(reason(() => meterScale(1, -3))).toBe("bound");
+    });
+
+    test("the message names the bad input", () => {
+        expect(() => meterScale(5, 5.5, 3.5)).toThrow(/reversed.*5\.5 to 3\.5/);
+        expect(() => meterScale(NaN, 1, 2)).toThrow(
+            /^meterScale: the value is not a finite number/,
+        );
+        expect(new MeterScaleError("units", "x").name).toBe("MeterScaleError");
+    });
+
+    test("two different units for the value and the range are an error", () => {
+        expect(() => meterScale(5, 3.5, 5.5, { value: "mmol/L", range: "mg/dL" })).toThrow(
+            MeterScaleError,
+        );
     });
 
     test("the same unit, or a unit left out on either side, is not a difference", () => {
