@@ -4376,6 +4376,11 @@ Kotlin UI is written. Order: T1 and T2 first (decisions), then T4 and T3 (logic)
       100% of lines. Still to add: edit-history, filter-model, calendar-system, wheel-picker, zones, intl-labels.)_
       _(2026-11-22: `ips-sections` added (18 cases: the registry, required sections, ids, the contents with missing required
       sections appended), ported to Swift and Kotlin; 160 vectors in all.)_
+      _(2026-11-22: `wheel-picker`'s pure functions added (51 cases: move keys by orientation and direction, the option nearest
+      the centre, next index with disabled options, loop and page size, type-ahead), ported to Swift and Kotlin, the base for
+      Android's `WheelPicker`; 211 vectors. The module folds with `toLocaleLowerCase`, so labels whose lower case depends on the
+      locale (Turkish İ) are kept out of the vectors. Still to add: edit-history, filter-model, calendar-system, zones,
+      intl-labels.)_
 - [ ] **P43-T4 Identifier validation, written for the first time (needs a maintainer decision).** Corrected 2026-11-22: there
       are no validators to move. The 94 web identifier inputs validate nothing beyond the browser: 5 carry an HTML `pattern`
       (Ireland IHI, France NIR, UK NHS number, Northern Ireland H&C number, US SSN), the rest none, and no catalog computes a check

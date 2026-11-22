@@ -117,7 +117,32 @@ class VectorTest {
                 put("required", e.required); put("added", e.added)
             }
         }
+        "wheelMoveKey" -> wheelMoveKey(
+            str(args[0]),
+            args.getOrNull(1)?.let { if (str(it) == "horizontal") WheelOrientation.Horizontal else WheelOrientation.Vertical }
+                ?: WheelOrientation.Vertical,
+            args.getOrNull(2)?.jsonPrimitive?.boolean ?: false,
+        )?.key
+        "wheelIndexNearest" -> wheelIndexNearest(wheelOptions(args[0]), args[1].jsonArray.map { it.jsonPrimitive.double },
+            args[2].jsonPrimitive.double)
+        "nextWheelIndex" -> {
+            val move = args.getOrNull(3)?.jsonObject
+            nextWheelIndex(wheelOptions(args[0]), args[1].jsonPrimitive.int, WheelMoveKey.fromKey(str(args[2]))!!,
+                move?.get("loop")?.jsonPrimitive?.boolean ?: false, move?.get("pageSize")?.jsonPrimitive?.double ?: 5.0)
+        }
+        "nextWheelPrefix" -> {
+            val p = args[0].jsonObject
+            nextWheelPrefix(WheelTypeahead(str(p["prefix"]!!), p["at"]!!.jsonPrimitive.content.toLong()), str(args[1]),
+                args[2].jsonPrimitive.content.toLong(), args[3].jsonPrimitive.content.toLong())
+                .let { json("prefix" to it.prefix, "at" to it.at) }
+        }
+        "wheelTypeaheadIndex" -> wheelTypeaheadIndex(wheelOptions(args[0]), args[1].jsonPrimitive.int, str(args[2]))
         else -> fail("unknown vector function $fn")
+    }
+
+    private fun wheelOptions(e: JsonElement): List<WheelOption> = e.jsonArray.map {
+        val o = it.jsonObject
+        WheelOption(str(o["value"]!!), str(o["label"]!!), o["disabled"]?.jsonPrimitive?.boolean ?: false)
     }
 
     /** JSON equality: numbers by value (2 and 2.0 alike), objects ignoring order. */
@@ -136,7 +161,7 @@ class VectorTest {
     fun everyVectorFileIsReadAndPasses() {
         val files = files()
         assertEquals(
-            listOf("clinical-format.json", "ips-sections.json", "middle-truncation.json", "search-text.json", "typeahead.json"),
+            listOf("clinical-format.json", "ips-sections.json", "middle-truncation.json", "search-text.json", "typeahead.json", "wheel-picker.json"),
             files.map { it.first },
         )
         val failures = mutableListOf<String>()
@@ -159,6 +184,6 @@ class VectorTest {
         }
         assertTrue(failures.isEmpty(), failures.joinToString("\n"))
         assertEquals(files.sumOf { it.second.size }, count)
-        assertTrue(count >= 160)
+        assertTrue(count >= 211)
     }
 }

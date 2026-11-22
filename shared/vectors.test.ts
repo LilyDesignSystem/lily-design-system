@@ -24,6 +24,13 @@ import {
 } from "./ips-sections";
 import { foldText, highlightSegments, matchesSearch, searchTerms } from "./search-text";
 import { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState } from "./typeahead";
+import {
+    nextWheelIndex,
+    nextWheelPrefix,
+    wheelIndexNearest,
+    wheelMoveKey,
+    wheelTypeaheadIndex,
+} from "./wheel-picker";
 
 type Case = { fn: string; args: unknown[]; expected?: unknown; throws?: boolean };
 type VectorFile = { module: string; description: string; cases: Case[] };
@@ -55,6 +62,11 @@ const FUNCTIONS: Record<string, (...args: any[]) => unknown> = {
     ipsSectionId,
     ipsMissingRequired,
     ipsContents,
+    wheelMoveKey,
+    wheelIndexNearest,
+    nextWheelIndex,
+    nextWheelPrefix,
+    wheelTypeaheadIndex,
 };
 /* eslint-enable @typescript-eslint/no-explicit-any */
 

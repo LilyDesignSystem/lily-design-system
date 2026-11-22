@@ -32,6 +32,12 @@ private func date(_ value: Any) throws -> Date {
 
 private func number(_ value: Any) -> Double? { (value as? NSNumber)?.doubleValue }
 
+private func wheelOptions(_ value: Any) -> [WheelOption] {
+    (value as! [[String: Any]]).map {
+        WheelOption(value: $0["value"] as! String, label: $0["label"] as! String, disabled: $0["disabled"] as? Bool ?? false)
+    }
+}
+
 /// Calls the named function with JSON arguments and returns a JSON-shaped result (NSNull for nil).
 private func call(_ fn: String, _ args: [Any]) throws -> Any {
     func string(_ i: Int) -> String { args[i] as! String }
@@ -118,6 +124,26 @@ private func call(_ fn: String, _ args: [Any]) throws -> Any {
             if let code = e.code { out["code"] = code }
             return out
         }
+    case "wheelMoveKey":
+        return wheelMoveKey(
+            string(0), orientation: args.count > 1 ? WheelOrientation(rawValue: args[1] as! String)! : .vertical,
+            rightToLeft: args.count > 2 ? args[2] as! Bool : false)?.rawValue as Any? ?? NSNull()
+    case "wheelIndexNearest":
+        return wheelIndexNearest(wheelOptions(args[0]), middles: (args[1] as! [NSNumber]).map(\.doubleValue),
+                                 centre: number(args[2])!)
+    case "nextWheelIndex":
+        let move = args.count > 3 ? args[3] as! [String: Any] : [:]
+        return nextWheelIndex(
+            wheelOptions(args[0]), current: (args[1] as! NSNumber).intValue, key: WheelMoveKey(rawValue: string(2))!,
+            loop: move["loop"] as? Bool ?? false, pageSize: (move["pageSize"] as? NSNumber)?.doubleValue ?? 5)
+    case "nextWheelPrefix":
+        let p = args[0] as! [String: Any]
+        let next = nextWheelPrefix(
+            WheelTypeahead(prefix: p["prefix"] as! String, at: (p["at"] as! NSNumber).intValue), key: string(1),
+            now: (args[2] as! NSNumber).intValue, resetMilliseconds: (args[3] as! NSNumber).intValue)
+        return ["prefix": next.prefix, "at": next.at] as [String: Any]
+    case "wheelTypeaheadIndex":
+        return wheelTypeaheadIndex(wheelOptions(args[0]), current: (args[1] as! NSNumber).intValue, prefix: string(2))
     default: throw Unknown(description: "unknown vector function \(fn)")
     }
 }
@@ -132,7 +158,7 @@ private func same(_ a: Any, _ b: Any) throws -> Bool {
 
 @Test func everyVectorFileIsReadAndPasses() throws {
     let files = try loadVectorFiles()
-    #expect(Set(files.map(\.name)) == ["clinical-format.json", "ips-sections.json", "middle-truncation.json", "search-text.json", "typeahead.json"])
+    #expect(Set(files.map(\.name)) == ["clinical-format.json", "ips-sections.json", "middle-truncation.json", "search-text.json", "typeahead.json", "wheel-picker.json"])
     var count = 0
     for file in files {
         for (index, c) in file.cases.enumerated() {
@@ -149,5 +175,5 @@ private func same(_ a: Any, _ b: Any) throws -> Bool {
         }
     }
     #expect(count == files.reduce(0) { $0 + $1.cases.count })
-    #expect(count >= 160)
+    #expect(count >= 211)
 }

@@ -122,3 +122,14 @@ class IpsRulesTest {
         assertTrue(IpsRules.summaryWarnings("S", "M", mapOf("medications" to "M", "allergies" to "A", "problems" to "P")).isEmpty())
     }
 }
+
+class WheelPickerDefaultsTest {
+    @Test fun defaults() {
+        val options = listOf(WheelOption("a", "Ålesund"), WheelOption("b", "Bergen"))
+        assertEquals(WheelMoveKey.ArrowDown, wheelMoveKey("ArrowDown"))
+        assertEquals(1, nextWheelIndex(options, 0, WheelMoveKey.ArrowDown))
+        assertEquals(WheelTypeahead("ab", 700), nextWheelPrefix(WheelTypeahead("a", 0), "b", 700))
+        assertEquals(WheelTypeahead(), WheelTypeahead("", 0))
+        assertEquals(null, WheelMoveKey.fromKey("Enter"))
+    }
+}
