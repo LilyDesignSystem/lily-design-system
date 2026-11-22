@@ -429,3 +429,30 @@ describe("meterScale", () => {
         expect(Object.keys(meterScale(70, 60)!)).toEqual(["min", "max", "low"]);
     });
 });
+
+describe("clinical-format edge cases (coverage)", () => {
+    test("ageParts refuses a date that is not a date", () => {
+        expect(() => ageParts("not a date", "2026-01-01")).toThrow(RangeError);
+        expect(() => ageParts("2020-01-01", new Date(NaN))).toThrow(/not a date/);
+    });
+
+    test("an age whose time of day is earlier than the birth time borrows a day, then a month", () => {
+        // Born 12:00 on the 15th, asked at 08:00 on the 15th: not yet a whole month, so the months step back and the days borrow.
+        expect(ageParts("2020-01-15T12:00:00Z", "2026-03-15T08:00:00Z")).toEqual([
+            { value: 6, unit: "years" },
+            { value: 1, unit: "months" },
+        ]);
+        // The same across a year boundary (previous month is December).
+        expect(ageParts("2020-12-15T12:00:00Z", "2027-01-15T08:00:00Z")).toEqual([
+            { value: 6, unit: "years" },
+            { value: 0, unit: "months" },
+        ]);
+    });
+
+    test("durationParts refuses an empty duration, a missing one, and a bare designator", () => {
+        for (const bad of ["", "P", "PT", "-P", "-PT", "5 days"]) {
+            expect(() => durationParts(bad)).toThrow(RangeError);
+        }
+        expect(() => durationParts(undefined as unknown as string)).toThrow(RangeError);
+    });
+});

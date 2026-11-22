@@ -74,3 +74,11 @@ describe("calendar-system", () => {
         expect(calendarLocale(undefined, "persian")).toBeUndefined();
     });
 });
+
+describe("calendarLocale with an invalid tag (coverage)", () => {
+    test("returns the locale as given when it cannot be parsed, rather than throwing", async () => {
+        const { calendarLocale } = await import("./calendar-system");
+        expect(calendarLocale("not a locale!!", "buddhist")).toBe("not a locale!!");
+        expect(calendarLocale(undefined)).toBeUndefined();
+    });
+});

@@ -43,3 +43,12 @@ describe("search text", () => {
         expect(highlightSegments("", "abc")).toEqual([{ text: "", match: false }]);
     });
 });
+
+describe("highlightSegments when folding changes a character's length (coverage)", () => {
+    it("falls back to one unmarked segment", () => {
+        // A Hangul syllable decomposes (NFD) into two or three jamo, none of them combining marks, so the per-character fold no
+        // longer lines up with the text: the fallback is one unmarked segment, never a wrongly placed mark.
+        expect(foldText("한").length).toBeGreaterThan(1);
+        expect(highlightSegments("한글", "한")).toEqual([{ text: "한글", match: false }]);
+    });
+});

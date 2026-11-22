@@ -9,10 +9,10 @@ import {
     readThemeCookie,
     resolveTheme,
     sortThemes,
+    writeDocumentThemeCookie,
     themeChoices,
     themeCookie,
     watchColorScheme,
-    writeDocumentThemeCookie,
 } from "./theme-choice";
 
 // The theme-picker's "Follow this device" choice and its cookie (spec/theme-picker, 2026-11-16).
@@ -268,5 +268,47 @@ describe("pageLanguage", () => {
         expect(pageLanguage()).toBe("cy");
         if (before === null) html.removeAttribute("lang");
         else html.setAttribute("lang", before);
+    });
+});
+
+describe("theme choice edge cases (coverage)", () => {
+    const labelOf = (slug: string) => slug.toUpperCase();
+
+    test("sortThemes falls back to the platform language when the language is not a valid tag", () => {
+        expect(sortThemes(["b", "a"], labelOf, "not a locale!!")).toEqual(["a", "b"]);
+    });
+
+    test("the document cookie helpers are silent where there is no document", () => {
+        try {
+            vi.stubGlobal("document", undefined);
+        } catch {
+            return; // an environment (Angular's) that will not let `document` be hidden: this runs where it can
+        }
+        try {
+            expect(readDocumentThemeCookie("lily-theme", ["light"])).toBe("");
+            expect(() => writeDocumentThemeCookie("lily-theme", "light")).not.toThrow();
+        } finally {
+            vi.unstubAllGlobals();
+        }
+    });
+
+    test("a document that refuses cookies is ignored, reading and writing", () => {
+        const original = Object.getOwnPropertyDescriptor(Document.prototype, "cookie");
+        Object.defineProperty(document, "cookie", {
+            configurable: true,
+            get() {
+                throw new Error("cookies refused");
+            },
+            set() {
+                throw new Error("cookies refused");
+            },
+        });
+        try {
+            expect(readDocumentThemeCookie("lily-theme", ["light"])).toBe("");
+            expect(() => writeDocumentThemeCookie("lily-theme", "light")).not.toThrow();
+        } finally {
+            delete (document as { cookie?: string }).cookie;
+            if (original) Object.defineProperty(Document.prototype, "cookie", original);
+        }
     });
 });

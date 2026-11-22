@@ -102,3 +102,16 @@ describe("development warnings", () => {
         expect(spy).toHaveBeenCalledTimes(2);
     });
 });
+
+describe("development warnings without a process (coverage)", () => {
+    test("with no `process` to read, the module is silent rather than throwing", () => {
+        const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
+        vi.stubGlobal("process", undefined);
+        try {
+            expect(() => warnMissingName("Thing")).not.toThrow();
+            expect(spy).not.toHaveBeenCalled();
+        } finally {
+            vi.unstubAllGlobals();
+        }
+    });
+});

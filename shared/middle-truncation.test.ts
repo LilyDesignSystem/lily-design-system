@@ -98,3 +98,21 @@ describe("splitGraphemes without Intl.Segmenter", () => {
         expect(splitGraphemes("a😀b")).toEqual(["a", "😀", "b"]);
     });
 });
+
+describe("min-end without a usable end (coverage)", () => {
+    const measure = (s: string) => s.length;
+    test("a missing, infinite or NaN end keeps no tail beyond the even split", () => {
+        const even = truncateMiddle("abcdefghijklmnop", { ellipsis: "…", maxWidth: 9, measure });
+        for (const end of [undefined, Infinity, NaN]) {
+            expect(
+                truncateMiddle("abcdefghijklmnop", {
+                    ellipsis: "…",
+                    maxWidth: 9,
+                    measure,
+                    strategy: "min-end",
+                    end,
+                }),
+            ).toBe(even);
+        }
+    });
+});

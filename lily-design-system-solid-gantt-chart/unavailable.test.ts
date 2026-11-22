@@ -62,3 +62,12 @@ describe("unavailable", () => {
         expect(unavailableOn([{ start: "bad" }], "2026-01-01")).toEqual([]);
     });
 });
+
+describe("unavailableIn with a column that is not a date (coverage)", () => {
+    it("holds nothing and covers nothing when either end of the column is not a date", async () => {
+        const { unavailableIn } = await import("./unavailable");
+        const items = [{ start: "2026-01-01", end: "2026-01-31" }];
+        expect(unavailableIn(items, "not a date", "2026-01-02")).toEqual({ items: [], all: false });
+        expect(unavailableIn(items, "2026-01-02", "not a date")).toEqual({ items: [], all: false });
+    });
+});
