@@ -27,8 +27,8 @@ importers:
         specifier: ^0.3.2
         version: 0.3.2
       '@lilydesignsystem/html-theme-picker':
-        specifier: ^0.4.0
-        version: 0.4.0
+        specifier: ^0.5.0
+        version: 0.5.0
       '@lilydesignsystem/html-time-zone-picker':
         specifier: ^0.1.2
         version: 0.1.2
@@ -259,8 +259,8 @@ packages:
     resolution: {integrity: sha512-9/PkJrUZNvStSg2gP4/m7f2yYM+r5AiLqgpBUe70MMxmHcEy/8OZlkrB9lVlrvwFbaW01y5wWdA0u9cMSr7Ufg==}
     engines: {node: '>=26'}
 
-  '@lilydesignsystem/html-theme-picker@0.4.0':
-    resolution: {integrity: sha512-Le41PmhUSJTCEbBbDGNuYAUuTtoVg7kB0yF3uyoBLhSUGxar7ndCqu/OiK4dyc1JRb2osp/kJrBOCFoETHU2QA==}
+  '@lilydesignsystem/html-theme-picker@0.5.0':
+    resolution: {integrity: sha512-QaFxapACnbq3aCPKb3Y1qwBnLKKEMNhdxiLu/AcrTctoEt4n2hpVQLAgbdRnpuN3SYqD1fmcRLJVzAnqTUWr8Q==}
     engines: {node: '>=26'}
 
   '@lilydesignsystem/html-time-zone-picker@0.1.2':
@@ -1185,7 +1185,7 @@ snapshots:
     dependencies:
       '@lilydesignsystem/html-headless': 0.10.0
 
-  '@lilydesignsystem/html-theme-picker@0.4.0':
+  '@lilydesignsystem/html-theme-picker@0.5.0':
     dependencies:
       '@lilydesignsystem/html-headless': 0.10.0
 

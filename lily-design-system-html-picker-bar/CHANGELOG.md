@@ -4,6 +4,10 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.9.0 — 2026-11-22
+
+- **Order change:** the default `themes` are one list sorted by the name shown, not the 36 generic themes first and then the 27 company and public-sector ones; the theme picker inside sorts the same way whatever order it is given (`sortThemes`, default on). Depends on the theme picker's new release.
+
 ## 0.8.0 — 2026-11-21
 
 - **Order change:** the default themes list the 36 generic themes first, alphabetically, then the 27 company and

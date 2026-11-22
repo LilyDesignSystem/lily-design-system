@@ -5,11 +5,12 @@ The format is loosely based on [Keep a Changelog](https://keepachangelog.com/) a
 change what a page shows. The monorepo's root
 [CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md) has the reasoning behind each change.
 
-## Unreleased
+## 0.9.0 — 2026-11-22
 
 - **Changed (order):** the default `themes` are one list sorted alphabetically by the name shown, not the 36 generic themes first
   and then the 27 company and public-sector ones. The theme picker inside sorts the same way whatever order it is given
   (`sortThemes`, default on; `sortThemes={false}` keeps the order of `themes`). Pickers: `theme-picker`.
+- **Order change:** the default `themes` are one list sorted by the name shown, not the 36 generic themes first and then the 27 company and public-sector ones; the theme picker inside sorts the same way whatever order it is given (`sortThemes`, default on). Depends on the theme picker's new release.
 
 ## 0.8.0 — 2026-11-21
 
