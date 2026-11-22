@@ -6,6 +6,13 @@ package io.github.lilydesignsystem.core
 /** A meter's scale for a value and its reference range (observation-view). A drawing decision, never a clinical one. */
 public data class MeterScale(val min: Double, val max: Double, val low: Double? = null, val high: Double? = null)
 
+/** A value on its meter scale, checked: a value that is not finite or lies outside the scale is an error, never clamped. */
+public class MeterReading(public val value: Double, public val scale: MeterScale) {
+    init {
+        require(value.isFinite() && value >= scale.min && value <= scale.max) { "meter value $value is off its scale" }
+    }
+}
+
 /**
  * Two-sided range: half a range beyond each end. One-sided: from zero to half as far again as the bound. Always wide enough to
  * hold the value. `null` (draw no meter) when the value or a given end is not finite, when neither end is given, when a

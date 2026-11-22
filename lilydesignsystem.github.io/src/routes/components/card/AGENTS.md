@@ -55,7 +55,7 @@ card components keep their own theme rules.
 
 Decisions: [mobile/components-mobile.tsv](../../mobile/components-mobile.tsv) (`lily` on both). Tests: `lily-design-system-swift/Tests/LilyUITests`, `lily-design-system-kotlin/lily-compose/src/test`.
 
-- Apple: `Card(heading:headingLevel:label:content:)` in `LilyUI`: the heading is a header at levels 2 to 6 (`accessibilityHeading`); a `label` makes a named group. A linked card is not yet ported. Style: `CardStyle`.
+- Apple: `Card(heading:headingLevel:label:content:)` in `LilyUI`: the heading is a header at a `HeadingLevel` (`.h2` to `.h6`, a type, so a level out of range cannot be written); a `label` makes a named group. A linked card is not yet ported. Style: `CardStyle`.
 - Android: `LilyCard(heading, label) { … }` in `lily-compose` (named for Material 3's `Card`): the heading is a `heading()` (Compose has no levels); a `label` makes a named traversal group.
 
 ## Acceptance Criteria

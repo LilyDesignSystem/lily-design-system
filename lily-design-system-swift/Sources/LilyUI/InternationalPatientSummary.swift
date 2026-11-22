@@ -10,7 +10,7 @@ import SwiftUI
 public struct InternationalPatientSummarySection<Content: View, Narrative: View>: View {
     let section: String
     let heading: String
-    let headingLevel: Int
+    let headingLevel: HeadingLevel
     let status: IpsSectionStatus
     let statusLabel: String?
     let statusPlacement: IpsStatusPlacement
@@ -23,13 +23,13 @@ public struct InternationalPatientSummarySection<Content: View, Narrative: View>
     /// - Parameters:
     ///   - section: the IPS section key ("allergies").
     ///   - heading: the heading, in the app's words. Required.
-    ///   - headingLevel: 2 to 6, as on the web (default 2).
+    ///   - headingLevel: 2 to 6, as on the web (default `.h2`).
     ///   - status, statusLabel: the section's status and its words (required for any but known, unless `statusPlacement`
     ///     is `.list`, where the record list inside says it).
     ///   - narrativeLabel, narrativeOpen, narrative: the author's narrative, behind a disclosure named by `narrativeLabel`.
     ///   - content: the entries, usually a record list.
     public init(
-        section: String, heading: String, headingLevel: Int = 2, status: IpsSectionStatus = .known,
+        section: String, heading: String, headingLevel: HeadingLevel = .h2, status: IpsSectionStatus = .known,
         statusLabel: String? = nil, statusPlacement: IpsStatusPlacement = .heading, narrativeLabel: String? = nil,
         narrativeOpen: Bool = false, @ViewBuilder content: () -> Content, @ViewBuilder narrative: () -> Narrative
     ) {
@@ -76,7 +76,7 @@ public struct InternationalPatientSummarySection<Content: View, Narrative: View>
 
 extension InternationalPatientSummarySection where Narrative == EmptyView {
     public init(
-        section: String, heading: String, headingLevel: Int = 2, status: IpsSectionStatus = .known,
+        section: String, heading: String, headingLevel: HeadingLevel = .h2, status: IpsSectionStatus = .known,
         statusLabel: String? = nil, statusPlacement: IpsStatusPlacement = .heading, @ViewBuilder content: () -> Content
     ) {
         self.init(
@@ -87,7 +87,7 @@ extension InternationalPatientSummarySection where Narrative == EmptyView {
 
 extension InternationalPatientSummarySection where Content == EmptyView, Narrative == EmptyView {
     /// A section with no entries: its status words are all it says.
-    public init(section: String, heading: String, headingLevel: Int = 2, status: IpsSectionStatus, statusLabel: String) {
+    public init(section: String, heading: String, headingLevel: HeadingLevel = .h2, status: IpsSectionStatus, statusLabel: String) {
         self.init(
             section: section, heading: heading, headingLevel: headingLevel, status: status, statusLabel: statusLabel,
             content: { EmptyView() }, narrative: { EmptyView() })
@@ -100,7 +100,7 @@ public struct InternationalPatientSummary<Banner: View, Sections: View, Details:
     let requiredHeadings: [String: String]
     let omittedLabel: String
     let contentsLabel: String?
-    let headingLevel: Int
+    let headingLevel: HeadingLevel
     let onSelectSection: @MainActor (String) -> Void
     let banner: Banner
     let content: Sections
@@ -112,11 +112,11 @@ public struct InternationalPatientSummary<Banner: View, Sections: View, Details:
     ///   - requiredHeadings: headings for an added, missing required section (medications, allergies, problems).
     ///   - omittedLabel: the words an added section shows ("Section missing from document").
     ///   - contentsLabel: names the contents; without it there are none.
-    ///   - headingLevel: the heading level of an added section (default 2).
+    ///   - headingLevel: the heading level of an added section (default `.h2`).
     ///   - onSelectSection: called with a section key when its contents entry is chosen; scroll to it in the app.
     public init(
         label: String, sections: [IpsSectionEntry], requiredHeadings: [String: String], omittedLabel: String,
-        contentsLabel: String? = nil, headingLevel: Int = 2, onSelectSection: @escaping @MainActor (String) -> Void = { _ in },
+        contentsLabel: String? = nil, headingLevel: HeadingLevel = .h2, onSelectSection: @escaping @MainActor (String) -> Void = { _ in },
         @ViewBuilder banner: () -> Banner, @ViewBuilder content: () -> Sections, @ViewBuilder details: () -> Details
     ) {
         self.label = label
@@ -163,7 +163,7 @@ public struct InternationalPatientSummary<Banner: View, Sections: View, Details:
 extension InternationalPatientSummary where Banner == EmptyView, Details == EmptyView {
     public init(
         label: String, sections: [IpsSectionEntry], requiredHeadings: [String: String], omittedLabel: String,
-        contentsLabel: String? = nil, headingLevel: Int = 2, onSelectSection: @escaping @MainActor (String) -> Void = { _ in },
+        contentsLabel: String? = nil, headingLevel: HeadingLevel = .h2, onSelectSection: @escaping @MainActor (String) -> Void = { _ in },
         @ViewBuilder content: () -> Sections
     ) {
         self.init(

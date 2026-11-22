@@ -55,12 +55,8 @@ import Testing
     #expect(LilySemantics.tagLabel(text: "Running", label: "Job status", live: true) == "Job status")
 }
 
-@Test func headingLevelsFollowTheWebAndClamp() {
-    #expect(LilySemantics.headingLevel(2) == .h2)
-    #expect(LilySemantics.headingLevel(3) == .h3)
-    #expect(LilySemantics.headingLevel(4) == .h4)
-    #expect(LilySemantics.headingLevel(5) == .h5)
-    #expect(LilySemantics.headingLevel(6) == .h6)
-    #expect(LilySemantics.headingLevel(1) == .h2)
-    #expect(LilySemantics.headingLevel(9) == .h6)
+@Test func headingLevelsMapOneToOne() {
+    #expect(HeadingLevel.allCases.map(LilySemantics.headingLevel) == [.h2, .h3, .h4, .h5, .h6])
+    #expect(HeadingLevel(rawValue: 1) == nil)  // out of range is not representable, never clamped
+    #expect(HeadingLevel(rawValue: 7) == nil)
 }

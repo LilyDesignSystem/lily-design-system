@@ -140,13 +140,13 @@ public enum Examples {
         Example(
             slug: "card", name: "Card", summary: "A heading at a level and its content; a label makes a named group.",
             code: """
-                Card(heading: "Physiotherapy, 24 November", headingLevel: 3) {
+                Card(heading: "Physiotherapy, 24 November", headingLevel: .h3) {
                     Text(verbatim: "10:30 at Riverside Health Centre, with Sam Okoro.")
                 }
                 """,
             make: {
                 AnyView(
-                    Card(heading: "Physiotherapy, 24 November", headingLevel: 3) {
+                    Card(heading: "Physiotherapy, 24 November", headingLevel: .h3) {
                         Text(verbatim: "10:30 at Riverside Health Centre, with Sam Okoro.")
                     })
             }),
@@ -165,15 +165,16 @@ public enum Examples {
             code: """
                 ObservationView(value: "6.1", unit: "mmol/L", interpretation: "H", flagLabel: "High",
                                 range: "3.5 to 5.5 mmol/L", label: "Potassium",
-                                meterValue: 6.1, meter: meterScale(6.1, low: 3.5, high: 5.5))
+                                meter: try MeterReading(value: 6.1, scale: scale))
                 """,
             make: {
                 AnyView(
                     VStack(alignment: .leading, spacing: 16) {
                         ObservationView(
                             value: "6.1", unit: "mmol/L", interpretation: "H", flagLabel: "High",
-                            range: "3.5 to 5.5 mmol/L", label: "Potassium", meterValue: 6.1,
-                            meter: meterScale(6.1, low: 3.5, high: 5.5))
+                            range: "3.5 to 5.5 mmol/L", label: "Potassium",
+                            // A known-good scale and value: try! fails loudly if that ever stops being true.
+                            meter: try! MeterReading(value: 6.1, scale: MeterScale(min: 2.5, max: 6.5, low: 3.5, high: 5.5)))
                         ObservationView(
                             value: "138", unit: "mmol/L", status: .unavailable, statusLabel: "Result not available yet",
                             label: "Sodium")

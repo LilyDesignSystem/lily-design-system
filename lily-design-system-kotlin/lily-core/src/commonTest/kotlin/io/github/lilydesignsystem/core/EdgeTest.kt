@@ -48,4 +48,13 @@ class EdgeTest {
         assertEquals(TypeaheadState("b", 701), nextTypeaheadState(TypeaheadState("a", 0), "b", 701))
         assertEquals(TypeaheadState(), TypeaheadState("", 0))
     }
+
+    @Test fun aMeterReadingRefusesAValueOffItsScale() {
+        val scale = MeterScale(2.5, 6.5, 3.5, 5.5)
+        assertEquals(6.1, MeterReading(6.1, scale).value)
+        assertEquals(scale, MeterReading(2.5, scale).scale)
+        assertFailsWith<IllegalArgumentException> { MeterReading(9.0, scale) }
+        assertFailsWith<IllegalArgumentException> { MeterReading(2.0, scale) }
+        assertFailsWith<IllegalArgumentException> { MeterReading(Double.NaN, scale) }
+    }
 }

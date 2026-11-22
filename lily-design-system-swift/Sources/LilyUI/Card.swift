@@ -55,17 +55,17 @@ extension View {
 
 public struct Card<Content: View>: View {
     private let heading: String?
-    private let headingLevel: Int
+    private let headingLevel: HeadingLevel
     private let label: String?
     private let content: Content
     @Environment(\.cardStyle) private var style
 
     /// - Parameters:
     ///   - heading: the heading, in the app's language.
-    ///   - headingLevel: 2 to 6, as on the web (default 3); other values are clamped.
+    ///   - headingLevel: 2 to 6, as on the web (default `.h3`).
     ///   - label: names the card as a group.
     ///   - content: the card's body.
-    public init(heading: String? = nil, headingLevel: Int = 3, label: String? = nil, @ViewBuilder content: () -> Content) {
+    public init(heading: String? = nil, headingLevel: HeadingLevel = .h3, label: String? = nil, @ViewBuilder content: () -> Content) {
         self.heading = heading
         self.headingLevel = headingLevel
         self.label = label

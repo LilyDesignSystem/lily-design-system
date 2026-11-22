@@ -5,6 +5,8 @@
 import Foundation
 
 public enum ClinicalFormatError: Error, Equatable, Sendable {
+    /// A meter value that is not a finite number, or that lies outside its scale.
+    case meterValueOffScale(Double)
     case atBeforeBirth
     case notAPartialDate(String)
     case notADuration(String)
@@ -22,6 +24,20 @@ public struct MeterScale: Equatable, Sendable {
         self.max = max
         self.low = low
         self.high = high
+    }
+}
+
+/// A value on its meter scale, checked: a value that is not finite or lies outside the scale is an error, never clamped.
+public struct MeterReading: Sendable, Equatable {
+    public let value: Double
+    public let scale: MeterScale
+
+    public init(value: Double, scale: MeterScale) throws {
+        guard value.isFinite, value >= scale.min, value <= scale.max else {
+            throw ClinicalFormatError.meterValueOffScale(value)
+        }
+        self.value = value
+        self.scale = scale
     }
 }
 

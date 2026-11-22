@@ -149,7 +149,7 @@ private struct CustomInsetStyle: InsetTextStyle {
 
 @MainActor @Test func cardRendersWithAndWithoutHeadingAndLabel() {
     #expect(render(Card { Text(verbatim: "Body") }))
-    #expect(render(Card(heading: "Appointment", headingLevel: 2, label: "Next appointment") { Text(verbatim: "Body") }))
+    #expect(render(Card(heading: "Appointment", headingLevel: .h2, label: "Next appointment") { Text(verbatim: "Body") }))
     #expect(render(Card(heading: "Custom") { Text(verbatim: "Body") }.cardStyle(CustomCardStyle())))
     #expect(render(Card(heading: "Plain") { Text(verbatim: "Body") }.cardStyle(.plain)))
 }
@@ -178,8 +178,8 @@ private struct CustomObservationStyle: ObservationViewStyle {
                 ObservationView(
                     value: "6.1", unit: "mmol/L", interpretation: "H", flagLabel: "High", range: "3.5 to 5.5 mmol/L",
                     ranges: [.init(label: "Critical", text: "above 6.5")], status: status, statusLabel: "Status words",
-                    previousValue: "5.1", previousLabel: "was 5.1 until 3 Nov", label: "Potassium", meterValue: 6.1,
-                    meter: MeterScale(min: 2.5, max: 6.5, low: 3.5, high: 5.5))))
+                    previousValue: "5.1", previousLabel: "was 5.1 until 3 Nov", label: "Potassium",
+                    meter: try! MeterReading(value: 6.1, scale: MeterScale(min: 2.5, max: 6.5, low: 3.5, high: 5.5)))))
     }
     #expect(render(ObservationView(value: "4.2").observationViewStyle(CustomObservationStyle())))
     #expect(render(ObservationView(value: "4.2", interpretation: "N").observationViewStyle(.plain)))

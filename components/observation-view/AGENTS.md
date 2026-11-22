@@ -48,8 +48,8 @@
 
 Decisions: [mobile/components-mobile.tsv](../../mobile/components-mobile.tsv) (`lily` on both). The rules are shared as `ObservationRules` in `LilyCore` and `lily-core`, one test each.
 
-- Apple: `ObservationView(value:unit:interpretation:flagLabel:range:ranges:status:statusLabel:previousValue:previousLabel:label:meterValue:meter:)` in `LilyUI`: one VoiceOver element speaking the label, value and unit (no-break space), flag, ranges, status and previous value in order; a missing result speaks its status words; the meter is a `Gauge` hidden from VoiceOver. Missing words print a development warning in debug builds. Style: `ObservationViewStyle`.
-- Android: `ObservationView(…)` in `lily-compose`: the same rules as one TalkBack stop; the meter is a `Canvas` bar hidden from TalkBack; warnings go to `Log.w` unless `LilyWarnings.enabled = false`.
+- Apple: `ObservationView(value:unit:interpretation:flagLabel:range:ranges:status:statusLabel:previousValue:previousLabel:label:meter:)` in `LilyUI`: one VoiceOver element speaking the label, value and unit (no-break space), flag, ranges, status and previous value in order; a missing result speaks its status words; the meter is a `Gauge` hidden from VoiceOver, given as a `MeterReading`, which throws for a value off its scale (never clamped). Missing words print a development warning in debug builds. Style: `ObservationViewStyle`.
+- Android: `ObservationView(…)` in `lily-compose`: the same rules as one TalkBack stop; the meter is a `Canvas` bar hidden from TalkBack, given as a `MeterReading` that `require`s a value on its scale; warnings go to `Log.w` unless `LilyWarnings.enabled = false`.
 
 ## Acceptance Criteria
 

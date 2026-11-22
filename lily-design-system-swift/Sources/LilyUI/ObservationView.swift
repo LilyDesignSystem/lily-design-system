@@ -102,8 +102,7 @@ public struct ObservationView: View {
     let previousValue: String?
     let previousLabel: String?
     let label: String?
-    let meterValue: Double?
-    let meter: MeterScale?
+    let meter: MeterReading?
     @Environment(\.observationViewStyle) private var style
 
     /// - Parameters:
@@ -116,12 +115,11 @@ public struct ObservationView: View {
     ///   - statusLabel: the status in words; required for any status but final, and shown instead of a missing value.
     ///   - previousValue, previousLabel: a superseded value and the words for it ("was 5.1 until 3 Nov").
     ///   - label: spoken first, when no visible caption names the observation.
-    ///   - meterValue, meter: the value as a number and its scale (`meterScale` in LilyCore) for a hidden Gauge.
+    ///   - meter: the value on its scale (`MeterReading`, which refuses a value off the scale), for a hidden Gauge.
     public init(
         value: String? = nil, unit: String? = nil, interpretation: String? = nil, flagLabel: String? = nil,
         range: String? = nil, ranges: [NamedRange] = [], status: ObservationStatus = .final, statusLabel: String? = nil,
-        previousValue: String? = nil, previousLabel: String? = nil, label: String? = nil, meterValue: Double? = nil,
-        meter: MeterScale? = nil
+        previousValue: String? = nil, previousLabel: String? = nil, label: String? = nil, meter: MeterReading? = nil
     ) {
         self.value = value
         self.unit = unit
@@ -134,7 +132,6 @@ public struct ObservationView: View {
         self.previousValue = previousValue
         self.previousLabel = previousLabel
         self.label = label
-        self.meterValue = meterValue
         self.meter = meter
         LilySemantics.warn(
             ObservationRules.warnings(
@@ -169,9 +166,9 @@ public struct ObservationView: View {
     }
 
     private func meterView(replaced: Bool) -> AnyView? {
-        guard !replaced, let meterValue, let meter else { return nil }
+        guard !replaced, let meter else { return nil }
         return AnyView(
-            Gauge(value: min(max(meterValue, meter.min), meter.max), in: meter.min...meter.max) { EmptyView() }
+            Gauge(value: meter.value, in: meter.scale.min...meter.scale.max) { EmptyView() }
                 .accessibilityHidden(true))
     }
 }

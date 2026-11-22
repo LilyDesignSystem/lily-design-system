@@ -14,6 +14,11 @@ public enum Politeness: String, Sendable, CaseIterable {
     case off
 }
 
+/// A heading level, 2 to 6 as on the web. A type rather than an Int, so a level out of range cannot be written (no clamp).
+public enum HeadingLevel: Int, Sendable, CaseIterable {
+    case h2 = 2, h3, h4, h5, h6
+}
+
 public enum LilySemantics {
     /// Joins consumer-supplied pieces of spoken text with a line break, which VoiceOver reads as a pause in every language.
     /// Lily adds no words or punctuation of its own. Empty pieces are dropped; nothing left is `nil`.
@@ -54,14 +59,14 @@ public enum LilySemantics {
         live ? label : (spoken(text, label) ?? text)
     }
 
-    /// The accessibility heading level for a web heading level, clamped to 2...6 as the web's `headingLevel` is.
-    public static func headingLevel(_ level: Int) -> AccessibilityHeadingLevel {
-        switch min(max(level, 2), 6) {
-        case 2: .h2
-        case 3: .h3
-        case 4: .h4
-        case 5: .h5
-        default: .h6
+    /// The accessibility heading level for a Lily heading level.
+    public static func headingLevel(_ level: HeadingLevel) -> AccessibilityHeadingLevel {
+        switch level {
+        case .h2: .h2
+        case .h3: .h3
+        case .h4: .h4
+        case .h5: .h5
+        case .h6: .h6
         }
     }
 

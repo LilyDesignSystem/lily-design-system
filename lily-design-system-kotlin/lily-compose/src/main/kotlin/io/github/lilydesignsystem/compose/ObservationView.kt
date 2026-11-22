@@ -21,7 +21,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import io.github.lilydesignsystem.core.MeterScale
+import io.github.lilydesignsystem.core.MeterReading
 import io.github.lilydesignsystem.core.NamedRange
 import io.github.lilydesignsystem.core.ObservationRules
 import io.github.lilydesignsystem.core.ObservationStatus
@@ -36,7 +36,7 @@ import io.github.lilydesignsystem.core.ObservationStatus
  * @param statusLabel the status in words; required for any status but final, and shown instead of a missing value.
  * @param previousValue a superseded value, struck through; [previousLabel] is the words for it ("was 5.1 until 3 Nov").
  * @param label spoken first, when no visible caption names the observation.
- * @param meterValue the value as a number, with [meter] (lily-core's meterScale) for a bar hidden from TalkBack.
+ * @param meter the value on its scale ([MeterReading], which refuses a value off the scale), for a bar hidden from TalkBack.
  * @param meterColor the bar's colour; the track is drawn in the same colour at a lower alpha.
  */
 @Composable
@@ -53,8 +53,7 @@ public fun ObservationView(
     previousValue: String? = null,
     previousLabel: String? = null,
     label: String? = null,
-    meterValue: Double? = null,
-    meter: MeterScale? = null,
+    meter: MeterReading? = null,
     meterColor: Color = Color.Gray,
 ) {
     ObservationRules.warnings(interpretation, flagLabel, status, statusLabel, previousValue, previousLabel)
@@ -82,8 +81,8 @@ public fun ObservationView(
         }
         range?.let { BasicText(it, style = styles.small) }
         ranges.forEach { BasicText(it.label + " " + it.text, style = styles.small) }
-        if (!replaced && meterValue != null && meter != null) {
-            val fraction = ((meterValue.coerceIn(meter.min, meter.max) - meter.min) / (meter.max - meter.min)).toFloat()
+        if (!replaced && meter != null) {
+            val fraction = ((meter.value - meter.scale.min) / (meter.scale.max - meter.scale.min)).toFloat()
             Canvas(Modifier.fillMaxWidth().height(8.dp)) {
                 drawRect(meterColor.copy(alpha = 0.25f), Offset.Zero, size)
                 drawRect(meterColor, Offset.Zero, Size(size.width * fraction, size.height))

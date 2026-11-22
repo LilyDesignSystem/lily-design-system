@@ -70,7 +70,8 @@ import io.github.lilydesignsystem.compose.WarningText
 import io.github.lilydesignsystem.compose.ObservationView
 import io.github.lilydesignsystem.core.ObservationStatus
 import io.github.lilydesignsystem.core.matchesSearch
-import io.github.lilydesignsystem.core.meterScale
+import io.github.lilydesignsystem.core.MeterReading
+import io.github.lilydesignsystem.core.MeterScale
 
 /** One worked example: the catalog slug, the composable's name, a one-line summary, its code and the composable itself. */
 public class Example(
@@ -184,13 +185,15 @@ public object Examples {
             """
             ObservationView(value = "6.1", unit = "mmol/L", interpretation = "H", flagLabel = "High",
                             range = "3.5 to 5.5 mmol/L", label = "Potassium",
-                            meterValue = 6.1, meter = meterScale(6.1, 3.5, 5.5))
+                            meter = MeterReading(6.1, scale))
             """.trimIndent(),
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 ObservationView(
                     value = "6.1", unit = "mmol/L", interpretation = "H", flagLabel = "High", range = "3.5 to 5.5 mmol/L",
-                    label = "Potassium", meterValue = 6.1, meter = meterScale(6.1, 3.5, 5.5),
+                    label = "Potassium",
+                    // A known-good scale and value: MeterReading throws if that ever stops being true.
+                    meter = MeterReading(6.1, MeterScale(2.5, 6.5, 3.5, 5.5)),
                 )
                 ObservationView(
                     value = "138", unit = "mmol/L", status = ObservationStatus.Unavailable,

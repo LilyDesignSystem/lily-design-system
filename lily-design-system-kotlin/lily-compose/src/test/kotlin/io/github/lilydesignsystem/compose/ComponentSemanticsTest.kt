@@ -161,12 +161,12 @@ class ComponentSemanticsTest {
                     ranges = listOf(io.github.lilydesignsystem.core.NamedRange("Critical", "above 6.5")),
                     status = io.github.lilydesignsystem.core.ObservationStatus.Amended, statusLabel = "Amended",
                     previousValue = "5.1", previousLabel = "was 5.1 until 3 Nov", label = "Potassium",
-                    meterValue = 6.1, meter = io.github.lilydesignsystem.core.MeterScale(2.5, 6.5, 3.5, 5.5),
+                    meter = io.github.lilydesignsystem.core.MeterReading(6.1, io.github.lilydesignsystem.core.MeterScale(2.5, 6.5, 3.5, 5.5)),
                 )
                 ObservationView(
                     value = "5.2", status = io.github.lilydesignsystem.core.ObservationStatus.Masked,
                     statusLabel = "Hidden at the patient's request", label = "Sodium",
-                    meterValue = 5.2, meter = io.github.lilydesignsystem.core.MeterScale(0.0, 10.0),
+                    meter = io.github.lilydesignsystem.core.MeterReading(5.2, io.github.lilydesignsystem.core.MeterScale(0.0, 10.0)),
                 )
                 ObservationView(value = "4.2", interpretation = "N", flagLabel = "Normal")
             }
