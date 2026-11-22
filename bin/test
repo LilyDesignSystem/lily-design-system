@@ -484,6 +484,8 @@ fi
 # Every component has an Apple and an Android decision, and every ARIA name has a mobile mapping (spec/apple-swift, P43-T1, T2).
 "$top/bin/check-mobile-catalog" >/dev/null 2>&1 \
     || err "a mobile decision or semantics mapping is missing; run bin/check-mobile-catalog"
+"$top/bin/generate-mobile-tokens" --check >/dev/null 2>&1 \
+    || err "the Swift or Kotlin theme tokens are stale; run bin/generate-mobile-tokens"
 "$top/bin/generate-page-markdown" --check >/dev/null 2>&1 \
     || err "a site page's .md twin is missing or stale; run bin/generate-page-markdown"
 "$top/bin/extract-site-pages" --check >/dev/null 2>&1 \

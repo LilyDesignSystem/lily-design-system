@@ -4384,6 +4384,13 @@ Kotlin UI is written. Order: T1 and T2 first (decisions), then T4 and T3 (logic)
       theme. Add the outputs to the Generated files table.
       Verify: `bin/generate-theme-tokens --check` covers the new outputs; `bin/check-generated-files` passes; the contrast gate
       holds for the generated pairs.
+      _(2026-11-22, progress: done as `bin/generate-mobile-tokens` (a separate script; `--check` in `bin/test`, in the Generated
+      files table) for the six themes, writing `LilyThemes/LilyTokens.swift` and the `lily-compose-themes` module. OKLCH is
+      converted to sRGB (it reproduces daisyUI's `#422AD5` and GOV.UK's `#1D70B8`); rem is 16 points or dp; type stays with the
+      platform's text styles. Tests in both languages check every light and dark pair at 4.5:1. Found: the NHS England
+      themes' primary, `oklch(45% 0.17 251)`, is `#0054AE` in the browser too, not the NHS Blue `#005EB8` their comment
+      names; decide whether to re-baseline it (a web theme change, not a mobile one). Not yet: `.lily` styles that read the
+      tokens, and high-contrast variants.)_
 - [ ] **P43-T6 Label packs as mobile resources.** A copy of `shared/label-packs/*.json` in each mobile package's resources,
       kept by `bin/sync-shared-modules`, with a loader in Swift and Kotlin; optionally generated `.xcstrings` and `strings.xml`.
       A key a pack lacks stays unset, never another language.

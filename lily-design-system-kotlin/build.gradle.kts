@@ -10,6 +10,7 @@ dependencies {
     kover(project(":lily-core"))
     kover(project(":lily-compose"))
     kover(project(":lily-compose-examples"))
+    kover(project(":lily-compose-themes"))
 }
 
 kover {

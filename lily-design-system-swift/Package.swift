@@ -11,14 +11,17 @@ let package = Package(
         .library(name: "LilyCore", targets: ["LilyCore"]),
         .library(name: "LilyUI", targets: ["LilyUI"]),
         .library(name: "LilyUIExamples", targets: ["LilyUIExamples"]),
+        .library(name: "LilyThemes", targets: ["LilyThemes"]),
     ],
     targets: [
         .target(name: "LilyCore"),
         .target(name: "LilyUI", dependencies: ["LilyCore"]),
         .target(name: "LilyUIExamples", dependencies: ["LilyUI", "LilyCore"]),
+        .target(name: "LilyThemes"),
         .testTarget(name: "LilyCoreTests", dependencies: ["LilyCore"], resources: [.copy("vectors")]),
         .testTarget(name: "LilyUITests", dependencies: ["LilyUI"]),
         .testTarget(name: "LilyUIExamplesTests", dependencies: ["LilyUIExamples"]),
+        .testTarget(name: "LilyThemesTests", dependencies: ["LilyThemes"]),
     ],
     swiftLanguageModes: [.v6]
 )
