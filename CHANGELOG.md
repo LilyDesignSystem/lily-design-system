@@ -9,6 +9,10 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Release: themes 0.8.0, locale-translations 0.6.0, theme-pickers 0.5.0 and the headless libraries (2026-11-22)
+
+- `@lilydesignsystem/themes` 0.8.0 (link colour, hero content, 320px sweep), `locale-translations` 0.6.0 in every catalog (the `pickers` section of the 64 label packs and the `pickerLabels`, `pickerBarLabels` and `shareLabels` loaders; Solid 0.2.0), theme-pickers 0.5.0 (themes sorted by the name shown; Solid 0.2.0) in Svelte, React, Vue, Angular, HTML and Web Components, and the headless libraries (Svelte, React, Vue, Web Components 0.13 to 0.15; Angular 0.15.0; HTML 0.14.0; Nunjucks 0.12.0; Solid 0.4.0; Alpine 0.4.0) with the IPS section's `level`, `meta` and `warning` and `statusPlacement`, print-open `Details`, `meterScale` and per-component development warnings. The picker-bars follow once the theme-pickers are on the registry. Blazor packages are unchanged: NuGet publishes through the `nuget_only` workflow.
+
 ## IPS section: `level`, `meta` and `warning` (2026-11-22, P42-T6b)
 
 - `international-patient-summary-section` renders `data-level` (`required`, `recommended` or `optional`, from the IPS registry, or the new `level` prop), and takes optional `meta` and `warning` slots between the heading and status and the entries, so a viewer's section markup needs no extra wrapper. Nothing is rendered when they are omitted. Svelte, React, Solid, Vue, Angular (projected `meta` / `warning` elements, no wrapper), Web Components (`slot="meta"`), Nunjucks, Blazor and the HTML and Alpine snippets; `ipsSectionLevel` in `shared/ips-sections.ts` and `IpsSections.Level` in Blazor.

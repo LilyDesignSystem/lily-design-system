@@ -5,6 +5,11 @@ and the package follows [Semantic Versioning](https://semver.org/).
 The canonical monorepo history is in the root
 [CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md).
 
+## 0.15.0 — 2026-11-22
+
+- `international-patient-summary-section` takes `level` (rendered as `data-level`) and optional `meta` and `warning` slots between the heading and status and the entries, and `statusPlacement` (`"list"` leaves the status words to the record list inside); nothing renders for a slot left out.
+- `Details` opens a closed disclosure for print and restores it afterwards (`printOpen`, default true), and the clinical-format module gains `meterScale`; `dev-warning` accepts `globalThis.lilyWarnings = { ComponentName: false }`.
+
 ## 0.14.0 — 2026-11-21
 
 - **Added:** `wholeCardLink` on `card`: with `href`, the heading link carries `data-lily-card-link`, so the themes' shared "Whole-card link"

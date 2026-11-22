@@ -5,6 +5,10 @@ and the package follows [Semantic Versioning](https://semver.org/).
 The canonical monorepo history is in the root
 [CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md).
 
+## 0.14.0 — 2026-11-22
+
+- `international-patient-summary-section` takes `level` (rendered as `data-level`) and optional `meta` and `warning` slots between the heading and status and the entries, and `statusPlacement` (`"list"` leaves the status words to the record list inside); nothing renders for a slot left out.
+
 ## 0.13.0 — 2026-11-18 (breaking)
 
 - **Breaking:** the 164 national personal identifier components (an `-input` and a `-view` for each of 82 identifier
