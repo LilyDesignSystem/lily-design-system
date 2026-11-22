@@ -40,6 +40,13 @@
 - `children`: slot (required) -- the value/description content rendered in the `<dd>` element
 - `...restProps`: unknown -- additional attributes spread onto the wrapper `<div>` element
 
+## Mobile
+
+Decisions: [mobile/components-mobile.tsv](../../mobile/components-mobile.tsv) (`lily` on both). Tests: `lily-design-system-swift/Tests/LilyUITests`, `lily-design-system-kotlin/lily-compose/src/test`.
+
+- Apple: `SummaryListItem(term:value:)` in `LilyUI`: term and value combined into one VoiceOver element; the plain style stacks them so nothing truncates at the largest Dynamic Type sizes. Style: `SummaryListItemStyle`.
+- Android: `SummaryListItem(term) { value }` in `lily-compose`: merged into one TalkBack stop (`mergeDescendants`).
+
 ## Acceptance Criteria
 
 - [ ] Renders <div> element with class="summary-list-item"

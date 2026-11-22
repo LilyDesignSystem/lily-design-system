@@ -37,6 +37,13 @@
 - `children`: slot (required) -- error list content, typically a `<ul>` with `<li>` items containing anchor links to error fields
 - `...restProps`: any additional HTML attributes spread onto the outer `<div>`
 
+## Mobile
+
+Decisions: [mobile/components-mobile.tsv](../../mobile/components-mobile.tsv) (`lily` on both). Tests: `lily-design-system-swift/Tests/LilyUITests`, `lily-design-system-kotlin/lily-compose/src/test`.
+
+- Apple: `ErrorSummary(title:problems:focusOnAppear:)` in `LilyUI`. The title is a header and takes VoiceOver focus on appear (`@AccessibilityFocusState`); each `Problem` is a button running the app's action, which should focus the field.
+- Android: `ErrorSummary(title, problems, focusOnAppear)` in `lily-compose`. The title is a `heading()` and takes focus on appear; each `Problem` is a 48dp `Role.Button`.
+
 ## Acceptance Criteria
 
 - [ ] Renders <div> element with class="error-summary"
