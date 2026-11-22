@@ -45,6 +45,10 @@ highlights.
   change many components at once) and which go straight to `latest` (fixes, patches, additive releases). Holding `latest` two days behind, which one
   consumer asked for, was not adopted: it would delay every fix for every consumer. `bin/test-publish-tag` checks the option with a fake `npm`.
 
+## National identifier validation, fourth slice (2026-11-22, P43-T3)
+
+- Ten more validators in `shared/national-identifiers.ts` and the C# `NationalIdentifiers`: Croatia OIB (ISO 7064 MOD 11,10), Slovenia EMSO, Romania CNP, Austria social security number, Iceland kennitala (a company's day has 40 added), Israel teudat zehut (nine digits, not padded), Iran kod-e melli, the UAE Emirates ID, the Hong Kong identity card (one or two letters, brackets ignored) and the Thai national ID. 46 of the 94 types are now validated (`shared/national-identifiers.tsv`).
+
 ## Swift and Kotlin tutorials (2026-11-22)
 
 - `/tutorials/swift/` and `/tutorials/kotlin/` (with `static/tutorials/swift.md` and `kotlin.md`): a contact form built with `Field`, `ErrorSummary` and `WarningText`, then themed with `LilyThemes` and `LilyTheme`, then the example catalog. Both say plainly that the packages are early and unreleased and are used from a copy of the monorepo; the code was compiled against the Swift package (`swift build`) and the Kotlin modules (`compileDebugKotlin`). Listed in the site map; `tests/mobile-tutorials.spec.ts` checks both.

@@ -5,6 +5,16 @@ import {
     luhnValid,
     stripSeparators,
     validateAustraliaTaxFileNumber,
+    validateAlImaratRaqmAlHuwiyah,
+    validateHongKongIdentityCard,
+    validateHrvatskaOsobniIdentifikacijskiBroj,
+    validateIranKodEMelli,
+    validateIslandKennitala,
+    validateOsterreichSozialversicherungsnummer,
+    validatePrathetThaiLekPrajamTuaPrachachon,
+    validateRomaniaCodNumericPersonal,
+    validateSlovenijaEmso,
+    validateYisraelTeudatZehut,
     validateArgentinaCodigoUnicoDeIdentificacionLaboral,
     validateChileRolUnicoNacional,
     validateEcuadorCedulaDeIdentidad,
@@ -740,5 +750,199 @@ describe("validateLietuvaAsmensKodas", () => {
         expect(validateLietuvaAsmensKodas(withCheck("3901301000"))).toEqual(bad("date"));
         expect(validateLietuvaAsmensKodas("3900101000")).toEqual(bad("length"));
         expect(validateLietuvaAsmensKodas("3900101000x")).toEqual(bad("characters"));
+    });
+});
+
+describe("validateHrvatskaOsobniIdentifikacijskiBroj", () => {
+    test("a worked example", () => {
+        expect(validateHrvatskaOsobniIdentifikacijskiBroj("69435151530")).toEqual(ok);
+    });
+    test("a failed check, length and characters", () => {
+        expect(validateHrvatskaOsobniIdentifikacijskiBroj("69435151531")).toEqual(bad("checksum"));
+        expect(validateHrvatskaOsobniIdentifikacijskiBroj("6943515153")).toEqual(bad("length"));
+        expect(validateHrvatskaOsobniIdentifikacijskiBroj("6943515153x")).toEqual(
+            bad("characters"),
+        );
+    });
+});
+
+describe("validateSlovenijaEmso", () => {
+    test("a worked example", () => {
+        expect(validateSlovenijaEmso("0101006500006")).toEqual(ok);
+    });
+    test("a failed check, an unreal date, length and characters", () => {
+        expect(validateSlovenijaEmso("0101006500007")).toEqual(bad("checksum"));
+        expect(validateSlovenijaEmso("3102006500006")).toEqual(bad("date"));
+        expect(validateSlovenijaEmso("010100650000")).toEqual(bad("length"));
+        expect(validateSlovenijaEmso("010100650000x")).toEqual(bad("characters"));
+    });
+    test("a check that would be 10 is never issued", () => {
+        const weights = [7, 6, 5, 4, 3, 2, 7, 6, 5, 4, 3, 2];
+        const stem = [...Array(100).keys()]
+            .map((n) => "01010065" + String(n).padStart(2, "0") + "00")
+            .find(
+                (t) =>
+                    11 - ([...t].reduce((sum, c, i) => sum + Number(c) * weights[i], 0) % 11) ===
+                    10,
+            )!;
+        expect(validateSlovenijaEmso(stem + "0")).toEqual(bad("checksum"));
+    });
+});
+
+describe("validateRomaniaCodNumericPersonal", () => {
+    test("a worked example", () => {
+        expect(validateRomaniaCodNumericPersonal("1800101221144")).toEqual(ok);
+    });
+    test("a failed check, an unknown county, an unreal date, length and characters", () => {
+        expect(validateRomaniaCodNumericPersonal("1800101221145")).toEqual(bad("checksum"));
+        expect(validateRomaniaCodNumericPersonal("1800101991144")).toEqual(bad("structure"));
+        expect(validateRomaniaCodNumericPersonal("1800231221144")).toEqual(bad("date"));
+        expect(validateRomaniaCodNumericPersonal("180010122114")).toEqual(bad("length"));
+        expect(validateRomaniaCodNumericPersonal("180010122114x")).toEqual(bad("characters"));
+    });
+});
+
+describe("validateOsterreichSozialversicherungsnummer", () => {
+    test("a worked example", () => {
+        expect(validateOsterreichSozialversicherungsnummer("1237 010180")).toEqual(ok);
+    });
+    test("a failed check, an unreal date, a leading zero, length and characters", () => {
+        expect(validateOsterreichSozialversicherungsnummer("1238 010180")).toEqual(bad("checksum"));
+        expect(validateOsterreichSozialversicherungsnummer("1237 320180")).toEqual(bad("date"));
+        expect(validateOsterreichSozialversicherungsnummer("0237 010180")).toEqual(
+            bad("structure"),
+        );
+        expect(validateOsterreichSozialversicherungsnummer("1237 01018")).toEqual(bad("length"));
+        expect(validateOsterreichSozialversicherungsnummer("1237 01018x")).toEqual(
+            bad("characters"),
+        );
+    });
+});
+
+describe("validateIslandKennitala", () => {
+    test("a worked example, and a company's day with 40 added", () => {
+        expect(validateIslandKennitala("010130-2989")).toEqual(ok);
+        const weights = [3, 2, 7, 6, 5, 4, 3, 2];
+        const stem = [...Array(100).keys()]
+            .map((n) => "410130" + String(n).padStart(2, "0"))
+            .find(
+                (t) =>
+                    ![10].includes(
+                        11 - ([...t].reduce((sum, c, i) => sum + Number(c) * weights[i], 0) % 11),
+                    ),
+            )!;
+        const sum = [...stem].reduce((t, c, i) => t + Number(c) * weights[i], 0);
+        const check = 11 - (sum % 11) === 11 ? 0 : 11 - (sum % 11);
+        expect(validateIslandKennitala(`${stem}${check}9`)).toEqual(ok);
+    });
+    test("a failed check, a century digit of 5, an unreal date, length and characters", () => {
+        expect(validateIslandKennitala("010130-2999")).toEqual(bad("checksum"));
+        expect(validateIslandKennitala("010130-2985")).toEqual(bad("structure"));
+        expect(validateIslandKennitala("320130-2989")).toEqual(bad("date"));
+        expect(validateIslandKennitala("010130-298")).toEqual(bad("length"));
+        expect(validateIslandKennitala("010130-298x")).toEqual(bad("characters"));
+    });
+});
+
+describe("validateYisraelTeudatZehut", () => {
+    test("a worked example, and an all-but-zero number", () => {
+        expect(validateYisraelTeudatZehut("123456782")).toEqual(ok);
+        expect(validateYisraelTeudatZehut("000000018")).toEqual(ok);
+    });
+    test("a failed check, a number that is not padded, length and characters", () => {
+        expect(validateYisraelTeudatZehut("123456783")).toEqual(bad("checksum"));
+        expect(validateYisraelTeudatZehut("18")).toEqual(bad("length"));
+        expect(validateYisraelTeudatZehut("12345678x")).toEqual(bad("characters"));
+    });
+});
+
+describe("validateIranKodEMelli", () => {
+    test("a worked example, and a remainder under 2", () => {
+        expect(validateIranKodEMelli("0499370899")).toEqual(ok);
+        const weights = [10, 9, 8, 7, 6, 5, 4, 3, 2];
+        const stem = [...Array(1000).keys()]
+            .map((n) => "123456" + String(n).padStart(3, "0"))
+            .find((t) => [...t].reduce((sum, c, i) => sum + Number(c) * weights[i], 0) % 11 < 2)!;
+        const remainder = [...stem].reduce((sum, c, i) => sum + Number(c) * weights[i], 0) % 11;
+        expect(validateIranKodEMelli(stem + remainder)).toEqual(ok);
+    });
+    test("a failed check, one repeated digit, length and characters", () => {
+        expect(validateIranKodEMelli("0499370898")).toEqual(bad("checksum"));
+        expect(validateIranKodEMelli("1111111111")).toEqual(bad("structure"));
+        expect(validateIranKodEMelli("049937089")).toEqual(bad("length"));
+        expect(validateIranKodEMelli("049937089x")).toEqual(bad("characters"));
+    });
+});
+
+describe("validateAlImaratRaqmAlHuwiyah", () => {
+    const withCheck = (stem: string) =>
+        stem + [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].find((c) => luhnValid(stem + c));
+    test("a number with a valid Luhn check, with dashes", () => {
+        const id = withCheck("78419851234567");
+        expect(validateAlImaratRaqmAlHuwiyah(id)).toEqual(ok);
+        expect(
+            validateAlImaratRaqmAlHuwiyah(
+                `${id.slice(0, 3)}-${id.slice(3, 7)}-${id.slice(7, 14)}-${id.slice(14)}`,
+            ),
+        ).toEqual(ok);
+    });
+    test("a failed check, another country code, length and characters", () => {
+        const id = withCheck("78419851234567");
+        expect(
+            validateAlImaratRaqmAlHuwiyah(id.slice(0, 14) + String((Number(id[14]) + 1) % 10)),
+        ).toEqual(bad("checksum"));
+        expect(validateAlImaratRaqmAlHuwiyah(withCheck("78519851234567"))).toEqual(
+            bad("structure"),
+        );
+        expect(validateAlImaratRaqmAlHuwiyah("78419851234567")).toEqual(bad("length"));
+        expect(validateAlImaratRaqmAlHuwiyah("78419851234567x")).toEqual(bad("characters"));
+    });
+});
+
+describe("validateHongKongIdentityCard", () => {
+    test("a worked example, with and without brackets", () => {
+        expect(validateHongKongIdentityCard("A123456(3)")).toEqual(ok);
+        expect(validateHongKongIdentityCard("A1234563")).toEqual(ok);
+    });
+    test("a two-letter prefix, and checks of A and 0", () => {
+        const check = (letters: string, digits: string) => {
+            const values = [
+                letters.length === 1 ? 36 : letters.charCodeAt(0) - 55,
+                letters.charCodeAt(letters.length - 1) - 55,
+                ...[...digits].map(Number),
+            ];
+            const r = 11 - (values.reduce((t, n, i) => t + n * (9 - i), 0) % 11);
+            return r === 11 ? "0" : r === 10 ? "A" : String(r);
+        };
+        expect(validateHongKongIdentityCard(`XY987654(${check("XY", "987654")})`)).toEqual(ok);
+        const withA = [...Array(1000).keys()]
+            .map((n) => String(n).padStart(6, "0"))
+            .find((d) => check("Z", d) === "A")!;
+        const withZero = [...Array(1000).keys()]
+            .map((n) => String(n).padStart(6, "0"))
+            .find((d) => check("Z", d) === "0")!;
+        expect(validateHongKongIdentityCard(`Z${withA}(A)`)).toEqual(ok);
+        expect(validateHongKongIdentityCard(`Z${withZero}(0)`)).toEqual(ok);
+    });
+    test("a failed check, structure, length and characters", () => {
+        expect(validateHongKongIdentityCard("A123456(4)")).toEqual(bad("checksum"));
+        expect(validateHongKongIdentityCard("123456AB(3)")).toEqual(bad("structure"));
+        expect(validateHongKongIdentityCard("A12345(3)")).toEqual(bad("length"));
+        expect(validateHongKongIdentityCard("a123456(3)")).toEqual(bad("characters"));
+    });
+});
+
+describe("validatePrathetThaiLekPrajamTuaPrachachon", () => {
+    test("a worked example", () => {
+        expect(validatePrathetThaiLekPrajamTuaPrachachon("1-1017-00207-03-0")).toEqual(ok);
+    });
+    test("a failed check, length and characters", () => {
+        expect(validatePrathetThaiLekPrajamTuaPrachachon("1-1017-00207-03-1")).toEqual(
+            bad("checksum"),
+        );
+        expect(validatePrathetThaiLekPrajamTuaPrachachon("1-1017-00207-03")).toEqual(bad("length"));
+        expect(validatePrathetThaiLekPrajamTuaPrachachon("1-1017-00207-03-x")).toEqual(
+            bad("characters"),
+        );
     });
 });

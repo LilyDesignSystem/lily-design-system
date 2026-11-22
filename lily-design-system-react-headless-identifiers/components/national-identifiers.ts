@@ -671,3 +671,170 @@ export function validateLietuvaAsmensKodas(value: string): IdentifierResult {
     }
     return check === d[10] ? OK : no("checksum");
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Further identifiers (P43-T3, third family)
+
+/** The Croatian personal identification number (OIB): eleven digits, the last the ISO 7064 MOD 11,10 check of the first ten. */
+export function validateHrvatskaOsobniIdentifikacijskiBroj(value: string): IdentifierResult {
+    const s = stripSeparators(text(value, "validateHrvatskaOsobniIdentifikacijskiBroj"));
+    if (!isDigits(s)) return no("characters");
+    if (s.length !== 11) return no("length");
+    let a = 10;
+    for (const n of digitsOf(s.slice(0, 10))) {
+        a = (a + n) % 10;
+        if (a === 0) a = 10;
+        a = (a * 2) % 11;
+    }
+    const check = 11 - a === 10 ? 0 : 11 - a;
+    return check === Number(s[10]) ? OK : no("checksum");
+}
+
+/**
+ * The Slovenian unique master citizen number (EMSO): thirteen digits, DDMMYYY (a three-digit year, 000 to 999 meaning 2000 to
+ * 2099 below 100 and 1000 to 1999 above), a two-digit region, a serial, and a check from weights 7 6 5 4 3 2 7 6 5 4 3 2 modulo
+ * 11 (11 minus the remainder; 11 gives 0, and 10 is never issued).
+ */
+export function validateSlovenijaEmso(value: string): IdentifierResult {
+    const s = stripSeparators(text(value, "validateSlovenijaEmso"));
+    if (!isDigits(s)) return no("characters");
+    if (s.length !== 13) return no("length");
+    const d = digitsOf(s);
+    const yyy = Number(s.slice(4, 7));
+    if (
+        !isCalendarDate(
+            yyy < 100 ? 2000 + yyy : 1000 + yyy,
+            Number(s.slice(2, 4)),
+            Number(s.slice(0, 2)),
+        )
+    )
+        return no("date");
+    const check = 11 - (weightedSum(d, [7, 6, 5, 4, 3, 2, 7, 6, 5, 4, 3, 2]) % 11);
+    const expected = check === 11 ? 0 : check;
+    return expected !== 10 && expected === d[12] ? OK : no("checksum");
+}
+
+/**
+ * The Romanian personal numeric code (CNP): thirteen digits, a sex-and-century digit (1 to 9), YYMMDD, a county code (01 to 46,
+ * 51 or 52) and a serial, and a check from weights 2 7 9 1 4 6 3 5 8 2 7 9 modulo 11 (10 gives 1). A resident's century comes from
+ * the first digit (1 and 2 the 1900s, 3 and 4 the 1800s, 5 and 6 the 2000s); a foreign resident's (7, 8, 9) is not encoded.
+ */
+export function validateRomaniaCodNumericPersonal(value: string): IdentifierResult {
+    const s = stripSeparators(text(value, "validateRomaniaCodNumericPersonal"));
+    if (!isDigits(s)) return no("characters");
+    if (s.length !== 13) return no("length");
+    const d = digitsOf(s);
+    if (d[0] === 0) return no("structure");
+    const county = Number(s.slice(7, 9));
+    if (!((county >= 1 && county <= 46) || county === 51 || county === 52)) return no("structure");
+    const month = Number(s.slice(3, 5));
+    const day = Number(s.slice(5, 7));
+    const century = [0, 1900, 1900, 1800, 1800, 2000, 2000][d[0]];
+    const dateOk = century
+        ? isCalendarDate(century + Number(s.slice(1, 3)), month, day)
+        : month >= 1 && month <= 12 && day >= 1 && day <= maxDay(month);
+    if (!dateOk) return no("date");
+    const remainder = weightedSum(d, [2, 7, 9, 1, 4, 6, 3, 5, 8, 2, 7, 9]) % 11;
+    return (remainder === 10 ? 1 : remainder) === d[12] ? OK : no("checksum");
+}
+
+/**
+ * The Austrian social security number (Sozialversicherungsnummer): ten digits, a three-digit serial, a check digit, and the date
+ * of birth DDMMYY. The check is the sum of the other nine digits times 3 7 9 5 8 4 2 1 6 modulo 11; a remainder of 10 is never issued.
+ */
+export function validateOsterreichSozialversicherungsnummer(value: string): IdentifierResult {
+    const s = stripSeparators(text(value, "validateOsterreichSozialversicherungsnummer"));
+    if (!isDigits(s)) return no("characters");
+    if (s.length !== 10) return no("length");
+    const d = digitsOf(s);
+    if (d[0] === 0) return no("structure");
+    const day = Number(s.slice(4, 6));
+    const month = Number(s.slice(6, 8));
+    if (month < 1 || month > 12 || day < 1 || day > maxDay(month)) return no("date");
+    const remainder = weightedSum(d, [3, 7, 9, 0, 5, 8, 4, 2, 1, 6]) % 11;
+    return remainder !== 10 && remainder === d[3] ? OK : no("checksum");
+}
+
+/**
+ * The Icelandic identity number (kennitala): ten digits, DDMMYY (a company's day has 40 added), two random digits, a check
+ * digit, and a century digit (8 for the 1800s, 9 for the 1900s, 0 for the 2000s). The check is 11 minus the first eight digits
+ * times 3 2 7 6 5 4 3 2 modulo 11 (11 gives 0; 10 is never issued).
+ */
+export function validateIslandKennitala(value: string): IdentifierResult {
+    const s = stripSeparators(text(value, "validateIslandKennitala"));
+    if (!isDigits(s)) return no("characters");
+    if (s.length !== 10) return no("length");
+    const d = digitsOf(s);
+    if (![8, 9, 0].includes(d[9])) return no("structure");
+    let day = Number(s.slice(0, 2));
+    if (day > 40) day -= 40;
+    const year = (d[9] === 8 ? 1800 : d[9] === 9 ? 1900 : 2000) + Number(s.slice(4, 6));
+    if (!isCalendarDate(year, Number(s.slice(2, 4)), day)) return no("date");
+    const check = 11 - (weightedSum(d, [3, 2, 7, 6, 5, 4, 3, 2]) % 11);
+    const expected = check === 11 ? 0 : check;
+    return expected !== 10 && expected === d[8] ? OK : no("checksum");
+}
+
+/** The Israeli identity number (teudat zehut): nine digits (a shorter number is not padded), the digits times 1 2 1 2 ... with each product's digits added, the total divisible by 10. */
+export function validateYisraelTeudatZehut(value: string): IdentifierResult {
+    const s = stripSeparators(text(value, "validateYisraelTeudatZehut"));
+    if (!isDigits(s)) return no("characters");
+    if (s.length !== 9) return no("length");
+    const total = digitsOf(s).reduce((t, n, i) => {
+        const product = n * (i % 2 === 0 ? 1 : 2);
+        return t + (product > 9 ? product - 9 : product);
+    }, 0);
+    return total % 10 === 0 ? OK : no("checksum");
+}
+
+/** The Iranian national code (kod-e melli): ten digits, not one digit repeated, a check from the first nine times 10 down to 2 modulo 11 (a remainder under 2 is the check itself, else 11 minus it). */
+export function validateIranKodEMelli(value: string): IdentifierResult {
+    const s = stripSeparators(text(value, "validateIranKodEMelli"));
+    if (!isDigits(s)) return no("characters");
+    if (s.length !== 10) return no("length");
+    if (/^(.)\1{9}$/.test(s)) return no("structure");
+    const d = digitsOf(s);
+    const remainder = weightedSum(d, [10, 9, 8, 7, 6, 5, 4, 3, 2]) % 11;
+    return (remainder < 2 ? remainder : 11 - remainder) === d[9] ? OK : no("checksum");
+}
+
+/** The Emirates ID of the United Arab Emirates: fifteen digits beginning 784 (the country code) and a Luhn check. */
+export function validateAlImaratRaqmAlHuwiyah(value: string): IdentifierResult {
+    const s = stripSeparators(text(value, "validateAlImaratRaqmAlHuwiyah"));
+    if (!isDigits(s)) return no("characters");
+    if (s.length !== 15) return no("length");
+    if (!s.startsWith("784")) return no("structure");
+    return luhnValid(s) ? OK : no("checksum");
+}
+
+/**
+ * The Hong Kong identity card number: one or two letters, six digits and a check digit or A (written in brackets, which are
+ * ignored). Each letter is 10 (A) to 35 (Z), a single letter is preceded by a 36 in place of a first letter, and the weights
+ * run 9 down to 2 over the eight values and six digits; the check is 11 minus the sum modulo 11 (10 is A, 11 is 0).
+ */
+export function validateHongKongIdentityCard(value: string): IdentifierResult {
+    const s = stripSeparators(text(value, "validateHongKongIdentityCard")).replace(/[()]/g, "");
+    if (!/^[A-Z0-9]+$/.test(s)) return no("characters");
+    if (!/^[A-Z]{1,2}[0-9]{6}[0-9A]$/.test(s))
+        return s.length < 8 || s.length > 9 ? no("length") : no("structure");
+    const letters = s.match(/^[A-Z]+/)![0];
+    const values = [
+        letters.length === 1 ? 36 : letters.charCodeAt(0) - 55,
+        letters.charCodeAt(letters.length - 1) - 55,
+        ...digitsOf(s.slice(letters.length, letters.length + 6)),
+    ];
+    const sum = values.reduce((t, n, i) => t + n * (9 - i), 0);
+    const check = 11 - (sum % 11);
+    const expected = check === 11 ? "0" : check === 10 ? "A" : String(check);
+    return expected === s[s.length - 1] ? OK : no("checksum");
+}
+
+/** The Thai national identification number: thirteen digits, the last (11 minus the first twelve times 13 down to 2, modulo 11) modulo 10. */
+export function validatePrathetThaiLekPrajamTuaPrachachon(value: string): IdentifierResult {
+    const s = stripSeparators(text(value, "validatePrathetThaiLekPrajamTuaPrachachon"));
+    if (!isDigits(s)) return no("characters");
+    if (s.length !== 13) return no("length");
+    const d = digitsOf(s);
+    const sum = d.slice(0, 12).reduce((t, n, i) => t + n * (13 - i), 0);
+    return (11 - (sum % 11)) % 10 === d[12] ? OK : no("checksum");
+}

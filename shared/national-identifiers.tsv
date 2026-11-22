@@ -17,9 +17,9 @@ england-national-health-service-number	validated	validateNhsNumber
 espana-codigo-de-identificacion-fiscal	open	no validator yet (tasks.md P43-T3)
 espana-tarjeta-sanitaria-individual	open	no validator yet (tasks.md P43-T3)
 france-numero-d-identification-au-repertoire	validated	validateFranceNir
-hrvatska-osobni-identifikacijski-broj	open	no validator yet (tasks.md P43-T3)
+hrvatska-osobni-identifikacijski-broj	validated	validateHrvatskaOsobniIdentifikacijskiBroj
 eire-individual-health-identifier	open	no validator yet (tasks.md P43-T3)
-island-kennitala	open	no validator yet (tasks.md P43-T3)
+island-kennitala	validated	validateIslandKennitala
 italia-codice-fiscale	validated	validateItaliaCodiceFiscale
 latvija-personas-kods	validated	validateLatvijaPersonasKods
 liechtenstein-national-identity-card-number	open	no validator yet (tasks.md P43-T3)
@@ -37,9 +37,9 @@ polska-numer-identyfikacji-podatkowej	open	no validator yet (tasks.md P43-T3)
 polska-pesel	validated	validatePolskaPesel
 portugal-numero-de-identificacao-fiscal	validated	validatePortugalNumeroDeIdentificacaoFiscal
 portugal-passaporte	open	no validator yet (tasks.md P43-T3)
-romania-cod-numeric-personal	open	no validator yet (tasks.md P43-T3)
+romania-cod-numeric-personal	validated	validateRomaniaCodNumericPersonal
 romania-pasaport	open	no validator yet (tasks.md P43-T3)
-slovenija-emso	open	no validator yet (tasks.md P43-T3)
+slovenija-emso	validated	validateSlovenijaEmso
 slovensko-pas	open	no validator yet (tasks.md P43-T3)
 slovensko-rodne-cislo	validated	validateRodneCislo
 suomi-henkilotunnus	validated	validateSuomiHenkilotunnus
@@ -55,11 +55,11 @@ canada-social-insurance-number	validated	validateCanadaSocialInsuranceNumber
 hanguk-jumin-deungnok-beonho	no-check	Numbers issued since October 2020 carry no valid check digit, so the old check would flag genuine numbers.
 nihon-kojin-bango	validated	validateNihonKojinBango
 bharat-aadhaar	validated	validateBharatAadhaar
-yisrael-teudat-zehut	open	no validator yet (tasks.md P43-T3)
+yisrael-teudat-zehut	validated	validateYisraelTeudatZehut
 south-africa-identity-number	validated	validateSouthAfricaIdentityNumber
 mexico-clave-unica-de-registro-de-poblacion	validated	validateMexicoClaveUnicaDeRegistroDePoblacion
 singapore-national-registration-identity-card	validated	validateSingaporeNationalRegistrationIdentityCard
-osterreich-sozialversicherungsnummer	open	no validator yet (tasks.md P43-T3)
+osterreich-sozialversicherungsnummer	validated	validateOsterreichSozialversicherungsnummer
 magyarorszag-taj-szam	validated	validateMagyarorszagTajSzam
 luxembourg-matricule	open	no validator yet (tasks.md P43-T3)
 zhongguo-jumin-shenfenzheng-haoma	validated	validateZhongguoJuminShenfenzhengHaoma
@@ -68,12 +68,12 @@ turkiye-tc-kimlik-numarasi	validated	validateTurkiyeTcKimlikNumarasi
 argentina-codigo-unico-de-identificacion-laboral	validated	validateArgentinaCodigoUnicoDeIdentificacionLaboral
 ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv	open	no validator yet (tasks.md P43-T3)
 indonesia-nomor-induk-kependudukan	open	no validator yet (tasks.md P43-T3)
-prathet-thai-lek-prajam-tua-prachachon	open	no validator yet (tasks.md P43-T3)
+prathet-thai-lek-prajam-tua-prachachon	validated	validatePrathetThaiLekPrajamTuaPrachachon
 chile-rol-unico-nacional	validated	validateChileRolUnicoNacional
 misr-al-raqm-al-qawmi	open	no validator yet (tasks.md P43-T3)
 taiwan-guomin-shenfenzheng-tongyi-bianhao	validated	validateTaiwanGuominShenfenzhengTongyiBianhao
-hong-kong-identity-card	open	no validator yet (tasks.md P43-T3)
-iran-kod-e-melli	open	no validator yet (tasks.md P43-T3)
+hong-kong-identity-card	validated	validateHongKongIdentityCard
+iran-kod-e-melli	validated	validateIranKodEMelli
 as-saudiyah-raqm-al-huwiyah-al-wataniyah	open	no validator yet (tasks.md P43-T3)
 malaysia-kad-pengenalan	open	no validator yet (tasks.md P43-T3)
 viet-nam-can-cuoc-cong-dan	open	no validator yet (tasks.md P43-T3)
@@ -94,4 +94,4 @@ sri-lanka-national-identity-card	open	no validator yet (tasks.md P43-T3)
 bangladesh-national-identity-card	open	no validator yet (tasks.md P43-T3)
 qazaqstan-zheke-saikestendiru-nomiri	open	no validator yet (tasks.md P43-T3)
 ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami	open	no validator yet (tasks.md P43-T3)
-al-imarat-raqm-al-huwiyah	open	no validator yet (tasks.md P43-T3)
+al-imarat-raqm-al-huwiyah	validated	validateAlImaratRaqmAlHuwiyah

@@ -463,4 +463,111 @@ public class NationalIdentifiersTests
         Assert.Equal(Bad(IdentifierReason.Date), NationalIdentifiers.ValidateLietuvaAsmensKodas(WithLithuaniaCheck("3901301000")));
         Assert.Equal(Bad(IdentifierReason.Length), NationalIdentifiers.ValidateLietuvaAsmensKodas("3900101000"));
     }
+
+    [Fact]
+    public void HrvatskaOsobniIdentifikacijskiBroj()
+    {
+        Assert.Equal(Ok, NationalIdentifiers.ValidateHrvatskaOsobniIdentifikacijskiBroj("69435151530"));
+        Assert.Equal(Bad(IdentifierReason.Checksum), NationalIdentifiers.ValidateHrvatskaOsobniIdentifikacijskiBroj("69435151531"));
+        Assert.Equal(Bad(IdentifierReason.Length), NationalIdentifiers.ValidateHrvatskaOsobniIdentifikacijskiBroj("6943515153"));
+    }
+
+    [Fact]
+    public void SlovenijaEmso()
+    {
+        Assert.Equal(Ok, NationalIdentifiers.ValidateSlovenijaEmso("0101006500006"));
+        Assert.Equal(Bad(IdentifierReason.Checksum), NationalIdentifiers.ValidateSlovenijaEmso("0101006500007"));
+        Assert.Equal(Bad(IdentifierReason.Date), NationalIdentifiers.ValidateSlovenijaEmso("3102006500006"));
+        Assert.Equal(Bad(IdentifierReason.Length), NationalIdentifiers.ValidateSlovenijaEmso("010100650000"));
+    }
+
+    [Fact]
+    public void RomaniaCodNumericPersonal()
+    {
+        Assert.Equal(Ok, NationalIdentifiers.ValidateRomaniaCodNumericPersonal("1800101221144"));
+        Assert.Equal(Bad(IdentifierReason.Checksum), NationalIdentifiers.ValidateRomaniaCodNumericPersonal("1800101221145"));
+        Assert.Equal(Bad(IdentifierReason.Structure), NationalIdentifiers.ValidateRomaniaCodNumericPersonal("1800101991144"));
+        Assert.Equal(Bad(IdentifierReason.Date), NationalIdentifiers.ValidateRomaniaCodNumericPersonal("1800231221144"));
+        Assert.Equal(Bad(IdentifierReason.Length), NationalIdentifiers.ValidateRomaniaCodNumericPersonal("180010122114"));
+    }
+
+    [Fact]
+    public void OsterreichSozialversicherungsnummer()
+    {
+        Assert.Equal(Ok, NationalIdentifiers.ValidateOsterreichSozialversicherungsnummer("1237 010180"));
+        Assert.Equal(Bad(IdentifierReason.Checksum), NationalIdentifiers.ValidateOsterreichSozialversicherungsnummer("1238 010180"));
+        Assert.Equal(Bad(IdentifierReason.Date), NationalIdentifiers.ValidateOsterreichSozialversicherungsnummer("1237 320180"));
+        Assert.Equal(Bad(IdentifierReason.Structure), NationalIdentifiers.ValidateOsterreichSozialversicherungsnummer("0237 010180"));
+        Assert.Equal(Bad(IdentifierReason.Length), NationalIdentifiers.ValidateOsterreichSozialversicherungsnummer("1237 01018"));
+    }
+
+    [Fact]
+    public void IslandKennitala()
+    {
+        Assert.Equal(Ok, NationalIdentifiers.ValidateIslandKennitala("010130-2989"));
+        Assert.Equal(Bad(IdentifierReason.Checksum), NationalIdentifiers.ValidateIslandKennitala("010130-2999"));
+        Assert.Equal(Bad(IdentifierReason.Structure), NationalIdentifiers.ValidateIslandKennitala("010130-2985"));
+        Assert.Equal(Bad(IdentifierReason.Date), NationalIdentifiers.ValidateIslandKennitala("320130-2989"));
+        Assert.Equal(Bad(IdentifierReason.Length), NationalIdentifiers.ValidateIslandKennitala("010130-298"));
+    }
+
+    [Fact]
+    public void YisraelTeudatZehut()
+    {
+        Assert.Equal(Ok, NationalIdentifiers.ValidateYisraelTeudatZehut("123456782"));
+        Assert.Equal(Ok, NationalIdentifiers.ValidateYisraelTeudatZehut("000000018"));
+        Assert.Equal(Bad(IdentifierReason.Checksum), NationalIdentifiers.ValidateYisraelTeudatZehut("123456783"));
+        Assert.Equal(Bad(IdentifierReason.Length), NationalIdentifiers.ValidateYisraelTeudatZehut("18"));
+    }
+
+    [Fact]
+    public void IranKodEMelli()
+    {
+        Assert.Equal(Ok, NationalIdentifiers.ValidateIranKodEMelli("0499370899"));
+        Assert.Equal(Bad(IdentifierReason.Checksum), NationalIdentifiers.ValidateIranKodEMelli("0499370898"));
+        Assert.Equal(Bad(IdentifierReason.Structure), NationalIdentifiers.ValidateIranKodEMelli("1111111111"));
+        Assert.Equal(Bad(IdentifierReason.Length), NationalIdentifiers.ValidateIranKodEMelli("049937089"));
+    }
+
+    [Fact]
+    public void AlImaratRaqmAlHuwiyah()
+    {
+        const string stem = "78419851234567";
+        var id = stem + Enumerable.Range(0, 10).First(c => NationalIdentifiers.LuhnValid(stem + c));
+        Assert.Equal(Ok, NationalIdentifiers.ValidateAlImaratRaqmAlHuwiyah(id));
+        Assert.Equal(Bad(IdentifierReason.Checksum), NationalIdentifiers.ValidateAlImaratRaqmAlHuwiyah(id[..14] + (id[14] - '0' + 1) % 10));
+        const string other = "78519851234567";
+        var otherId = other + Enumerable.Range(0, 10).First(c => NationalIdentifiers.LuhnValid(other + c));
+        Assert.Equal(Bad(IdentifierReason.Structure), NationalIdentifiers.ValidateAlImaratRaqmAlHuwiyah(otherId));
+        Assert.Equal(Bad(IdentifierReason.Length), NationalIdentifiers.ValidateAlImaratRaqmAlHuwiyah(stem));
+    }
+
+    [Fact]
+    public void HongKongIdentityCard()
+    {
+        Assert.Equal(Ok, NationalIdentifiers.ValidateHongKongIdentityCard("A123456(3)"));
+        Assert.Equal(Ok, NationalIdentifiers.ValidateHongKongIdentityCard("A1234563"));
+        Assert.Equal(Bad(IdentifierReason.Checksum), NationalIdentifiers.ValidateHongKongIdentityCard("A123456(4)"));
+        Assert.Equal(Bad(IdentifierReason.Structure), NationalIdentifiers.ValidateHongKongIdentityCard("123456AB(3)"));
+        Assert.Equal(Bad(IdentifierReason.Length), NationalIdentifiers.ValidateHongKongIdentityCard("A12345(3)"));
+        Assert.Equal(Bad(IdentifierReason.Characters), NationalIdentifiers.ValidateHongKongIdentityCard("a123456(3)"));
+        static string Check(string letters, string digits)
+        {
+            var values = new List<int> { letters.Length == 1 ? 36 : letters[0] - 55, letters[^1] - 55 };
+            values.AddRange(digits.Select(c => c - '0'));
+            var r = 11 - values.Select((n, i) => n * (9 - i)).Sum() % 11;
+            return r == 11 ? "0" : r == 10 ? "A" : r.ToString();
+        }
+        Assert.Equal(Ok, NationalIdentifiers.ValidateHongKongIdentityCard($"XY987654({Check("XY", "987654")})"));
+        var withA = Enumerable.Range(0, 1000).Select(n => n.ToString("D6")).First(d => Check("Z", d) == "A");
+        Assert.Equal(Ok, NationalIdentifiers.ValidateHongKongIdentityCard($"Z{withA}(A)"));
+    }
+
+    [Fact]
+    public void PrathetThaiLekPrajamTuaPrachachon()
+    {
+        Assert.Equal(Ok, NationalIdentifiers.ValidatePrathetThaiLekPrajamTuaPrachachon("1-1017-00207-03-0"));
+        Assert.Equal(Bad(IdentifierReason.Checksum), NationalIdentifiers.ValidatePrathetThaiLekPrajamTuaPrachachon("1-1017-00207-03-1"));
+        Assert.Equal(Bad(IdentifierReason.Length), NationalIdentifiers.ValidatePrathetThaiLekPrajamTuaPrachachon("1-1017-00207-03"));
+    }
 }

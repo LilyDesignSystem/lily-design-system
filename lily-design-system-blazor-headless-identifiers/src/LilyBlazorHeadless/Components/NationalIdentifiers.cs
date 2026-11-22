@@ -553,4 +553,148 @@ public static class NationalIdentifiers
         }
         return check == d[10] ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
     }
+
+    // Further identifiers (P43-T3, third family)
+
+    /// <summary>Croatian OIB: eleven digits, the last the ISO 7064 MOD 11,10 check of the first ten.</summary>
+    public static IdentifierResult ValidateHrvatskaOsobniIdentifikacijskiBroj(string value)
+    {
+        var s = StripSeparators(value);
+        if (!IsDigits(s)) return Fail(IdentifierReason.Characters);
+        if (s.Length != 11) return Fail(IdentifierReason.Length);
+        var a = 10;
+        foreach (var n in DigitsOf(s[..10]))
+        {
+            a = (a + n) % 10;
+            if (a == 0) a = 10;
+            a = a * 2 % 11;
+        }
+        var check = 11 - a == 10 ? 0 : 11 - a;
+        return check == s[10] - '0' ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
+    }
+
+    /// <summary>Slovenian EMSO: thirteen digits, DDMMYYY, a region and serial, a check from weights 7 6 5 4 3 2 7 6 5 4 3 2 (10 is never issued).</summary>
+    public static IdentifierResult ValidateSlovenijaEmso(string value)
+    {
+        var s = StripSeparators(value);
+        if (!IsDigits(s)) return Fail(IdentifierReason.Characters);
+        if (s.Length != 13) return Fail(IdentifierReason.Length);
+        var d = DigitsOf(s);
+        var yyy = int.Parse(s[4..7]);
+        if (!IsCalendarDate(yyy < 100 ? 2000 + yyy : 1000 + yyy, int.Parse(s[2..4]), int.Parse(s[..2]))) return Fail(IdentifierReason.Date);
+        var check = 11 - WeightedSum(d, [7, 6, 5, 4, 3, 2, 7, 6, 5, 4, 3, 2]) % 11;
+        var expected = check == 11 ? 0 : check;
+        return expected != 10 && expected == d[12] ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
+    }
+
+    /// <summary>Romanian CNP: thirteen digits, sex-and-century digit, YYMMDD, county 01 to 46, 51 or 52, and a check from weights 2 7 9 1 4 6 3 5 8 2 7 9 (10 gives 1).</summary>
+    public static IdentifierResult ValidateRomaniaCodNumericPersonal(string value)
+    {
+        var s = StripSeparators(value);
+        if (!IsDigits(s)) return Fail(IdentifierReason.Characters);
+        if (s.Length != 13) return Fail(IdentifierReason.Length);
+        var d = DigitsOf(s);
+        if (d[0] == 0) return Fail(IdentifierReason.Structure);
+        var county = int.Parse(s[7..9]);
+        if (!(county is >= 1 and <= 46 || county is 51 or 52)) return Fail(IdentifierReason.Structure);
+        var month = int.Parse(s[3..5]);
+        var day = int.Parse(s[5..7]);
+        var century = new[] { 0, 1900, 1900, 1800, 1800, 2000, 2000 }.ElementAtOrDefault(d[0]);
+        var dateOk = century != 0
+            ? IsCalendarDate(century + int.Parse(s[1..3]), month, day)
+            : month is >= 1 and <= 12 && day >= 1 && day <= MaxDay(month);
+        if (!dateOk) return Fail(IdentifierReason.Date);
+        var remainder = WeightedSum(d, [2, 7, 9, 1, 4, 6, 3, 5, 8, 2, 7, 9]) % 11;
+        return (remainder == 10 ? 1 : remainder) == d[12] ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
+    }
+
+    /// <summary>Austrian social security number: ten digits, a serial, a check digit (weights 3 7 9 5 8 4 2 1 6 over the other nine, modulo 11) and DDMMYY.</summary>
+    public static IdentifierResult ValidateOsterreichSozialversicherungsnummer(string value)
+    {
+        var s = StripSeparators(value);
+        if (!IsDigits(s)) return Fail(IdentifierReason.Characters);
+        if (s.Length != 10) return Fail(IdentifierReason.Length);
+        var d = DigitsOf(s);
+        if (d[0] == 0) return Fail(IdentifierReason.Structure);
+        var day = int.Parse(s[4..6]);
+        var month = int.Parse(s[6..8]);
+        if (month is < 1 or > 12 || day < 1 || day > MaxDay(month)) return Fail(IdentifierReason.Date);
+        var remainder = WeightedSum(d, [3, 7, 9, 0, 5, 8, 4, 2, 1, 6]) % 11;
+        return remainder != 10 && remainder == d[3] ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
+    }
+
+    /// <summary>Icelandic kennitala: ten digits, DDMMYY (a company's day has 40 added), two random digits, a check digit, a century digit 8, 9 or 0.</summary>
+    public static IdentifierResult ValidateIslandKennitala(string value)
+    {
+        var s = StripSeparators(value);
+        if (!IsDigits(s)) return Fail(IdentifierReason.Characters);
+        if (s.Length != 10) return Fail(IdentifierReason.Length);
+        var d = DigitsOf(s);
+        if (d[9] is not (8 or 9 or 0)) return Fail(IdentifierReason.Structure);
+        var day = int.Parse(s[..2]);
+        if (day > 40) day -= 40;
+        var year = (d[9] == 8 ? 1800 : d[9] == 9 ? 1900 : 2000) + int.Parse(s[4..6]);
+        if (!IsCalendarDate(year, int.Parse(s[2..4]), day)) return Fail(IdentifierReason.Date);
+        var check = 11 - WeightedSum(d, [3, 2, 7, 6, 5, 4, 3, 2]) % 11;
+        var expected = check == 11 ? 0 : check;
+        return expected != 10 && expected == d[8] ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
+    }
+
+    /// <summary>Israeli teudat zehut: nine digits (not padded), alternately times 1 and 2 with each product's digits added, total divisible by 10.</summary>
+    public static IdentifierResult ValidateYisraelTeudatZehut(string value)
+    {
+        var s = StripSeparators(value);
+        if (!IsDigits(s)) return Fail(IdentifierReason.Characters);
+        if (s.Length != 9) return Fail(IdentifierReason.Length);
+        var total = DigitsOf(s).Select((n, i) => { var p = n * (i % 2 == 0 ? 1 : 2); return p > 9 ? p - 9 : p; }).Sum();
+        return total % 10 == 0 ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
+    }
+
+    /// <summary>Iranian kod-e melli: ten digits, not one digit repeated, a check from the first nine times 10 down to 2 modulo 11.</summary>
+    public static IdentifierResult ValidateIranKodEMelli(string value)
+    {
+        var s = StripSeparators(value);
+        if (!IsDigits(s)) return Fail(IdentifierReason.Characters);
+        if (s.Length != 10) return Fail(IdentifierReason.Length);
+        if (s.Distinct().Count() == 1) return Fail(IdentifierReason.Structure);
+        var d = DigitsOf(s);
+        var remainder = WeightedSum(d, [10, 9, 8, 7, 6, 5, 4, 3, 2]) % 11;
+        return (remainder < 2 ? remainder : 11 - remainder) == d[9] ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
+    }
+
+    /// <summary>United Arab Emirates Emirates ID: fifteen digits beginning 784 and a Luhn check.</summary>
+    public static IdentifierResult ValidateAlImaratRaqmAlHuwiyah(string value)
+    {
+        var s = StripSeparators(value);
+        if (!IsDigits(s)) return Fail(IdentifierReason.Characters);
+        if (s.Length != 15) return Fail(IdentifierReason.Length);
+        if (!s.StartsWith("784", StringComparison.Ordinal)) return Fail(IdentifierReason.Structure);
+        return LuhnValid(s) ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
+    }
+
+    /// <summary>Hong Kong identity card number: one or two letters, six digits and a check digit or A (brackets ignored).</summary>
+    public static IdentifierResult ValidateHongKongIdentityCard(string value)
+    {
+        var s = StripSeparators(value).Replace("(", "").Replace(")", "");
+        if (s.Length == 0 || !s.All(c => c is (>= '0' and <= '9') or (>= 'A' and <= 'Z'))) return Fail(IdentifierReason.Characters);
+        if (!System.Text.RegularExpressions.Regex.IsMatch(s, "^[A-Z]{1,2}[0-9]{6}[0-9A]$")) return Fail(s.Length is < 8 or > 9 ? IdentifierReason.Length : IdentifierReason.Structure);
+        var letters = s.TakeWhile(char.IsAsciiLetter).ToArray();
+        var values = new List<int> { letters.Length == 1 ? 36 : letters[0] - 55, letters[^1] - 55 };
+        values.AddRange(s.Skip(letters.Length).Take(6).Select(c => c - '0'));
+        var sum = values.Select((n, i) => n * (9 - i)).Sum();
+        var check = 11 - sum % 11;
+        var expected = check == 11 ? '0' : check == 10 ? 'A' : (char)('0' + check);
+        return expected == s[^1] ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
+    }
+
+    /// <summary>Thai national identification number: thirteen digits, the last (11 minus the first twelve times 13 down to 2, modulo 11) modulo 10.</summary>
+    public static IdentifierResult ValidatePrathetThaiLekPrajamTuaPrachachon(string value)
+    {
+        var s = StripSeparators(value);
+        if (!IsDigits(s)) return Fail(IdentifierReason.Characters);
+        if (s.Length != 13) return Fail(IdentifierReason.Length);
+        var d = DigitsOf(s);
+        var sum = d.Take(12).Select((n, i) => n * (13 - i)).Sum();
+        return (11 - sum % 11) % 10 == d[12] ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
+    }
 }
