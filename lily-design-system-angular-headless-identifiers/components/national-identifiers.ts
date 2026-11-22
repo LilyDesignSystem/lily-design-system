@@ -469,3 +469,205 @@ export function validateItaliaCodiceFiscale(value: string): IdentifierResult {
     }
     return String.fromCharCode(65 + (sum % 26)) === s[15] ? OK : no("checksum");
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Latin American, Asian, African and further European identifiers (P43-T3, second family)
+
+/** The Portuguese tax number (NIF): nine digits, the ninth 11 minus the first eight (weights 9 to 2) modulo 11, 0 when that is 10 or 11. */
+export function validatePortugalNumeroDeIdentificacaoFiscal(value: string): IdentifierResult {
+    const s = stripSeparators(text(value, "validatePortugalNumeroDeIdentificacaoFiscal"));
+    if (!isDigits(s)) return no("characters");
+    if (s.length !== 9) return no("length");
+    const d = digitsOf(s);
+    const check = 11 - (weightedSum(d, [9, 8, 7, 6, 5, 4, 3, 2]) % 11);
+    return (check >= 10 ? 0 : check) === d[8] ? OK : no("checksum");
+}
+
+/** The Chilean RUT (rol unico nacional): one to eight digits and a check digit or K, weights 2 to 7 from the right, 11 minus the sum modulo 11 (11 is 0, 10 is K). */
+export function validateChileRolUnicoNacional(value: string): IdentifierResult {
+    const s = stripSeparators(text(value, "validateChileRolUnicoNacional"));
+    if (!/^[0-9]*[0-9K]$/.test(s)) return no("characters");
+    if (s.length < 2 || s.length > 9) return no("length");
+    const body = digitsOf(s.slice(0, -1)).reverse();
+    const sum = body.reduce((t, n, i) => t + n * (2 + (i % 6)), 0);
+    const check = 11 - (sum % 11);
+    const expected = check === 11 ? "0" : check === 10 ? "K" : String(check);
+    return expected === s[s.length - 1] ? OK : no("checksum");
+}
+
+/** The Uruguayan cedula de identidad: six or seven digits and a check digit, the digits (left-padded to seven) times 2 9 8 7 6 3 4, 10 minus the sum modulo 10. */
+export function validateUruguayCedulaDeIdentidad(value: string): IdentifierResult {
+    const s = stripSeparators(text(value, "validateUruguayCedulaDeIdentidad"));
+    if (!isDigits(s)) return no("characters");
+    if (s.length !== 7 && s.length !== 8) return no("length");
+    const body = digitsOf(s.slice(0, -1).padStart(7, "0"));
+    const check = (10 - (weightedSum(body, [2, 9, 8, 7, 6, 3, 4]) % 10)) % 10;
+    return check === Number(s[s.length - 1]) ? OK : no("checksum");
+}
+
+/** The Ecuadorian cedula de identidad: ten digits, a province 01 to 24 or 30, a third digit under 6, and a check from weights 2 1 2 1 2 1 2 1 2 (a product over 9 loses 9). */
+export function validateEcuadorCedulaDeIdentidad(value: string): IdentifierResult {
+    const s = stripSeparators(text(value, "validateEcuadorCedulaDeIdentidad"));
+    if (!isDigits(s)) return no("characters");
+    if (s.length !== 10) return no("length");
+    const d = digitsOf(s);
+    const province = Number(s.slice(0, 2));
+    if (!((province >= 1 && province <= 24) || province === 30) || d[2] > 5) return no("structure");
+    const sum = d.slice(0, 9).reduce((t, n, i) => {
+        const product = n * (i % 2 === 0 ? 2 : 1);
+        return t + (product > 9 ? product - 9 : product);
+    }, 0);
+    return (10 - (sum % 10)) % 10 === d[9] ? OK : no("checksum");
+}
+
+/** The Argentine CUIL or CUIT: eleven digits, a type prefix (20, 23, 24, 27, 30, 33, 34), weights 5 4 3 2 7 6 5 4 3 2, 11 minus the sum modulo 11 (11 is 0; a 10 is never issued). */
+export function validateArgentinaCodigoUnicoDeIdentificacionLaboral(
+    value: string,
+): IdentifierResult {
+    const s = stripSeparators(text(value, "validateArgentinaCodigoUnicoDeIdentificacionLaboral"));
+    if (!isDigits(s)) return no("characters");
+    if (s.length !== 11) return no("length");
+    if (!["20", "23", "24", "27", "30", "33", "34"].includes(s.slice(0, 2))) return no("structure");
+    const d = digitsOf(s);
+    const check = 11 - (weightedSum(d, [5, 4, 3, 2, 7, 6, 5, 4, 3, 2]) % 11);
+    const expected = check === 11 ? 0 : check;
+    return expected !== 10 && expected === d[10] ? OK : no("checksum");
+}
+
+const CURP_ALPHABET = "0123456789ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
+
+/** The Mexican CURP: eighteen characters, YYMMDD, a sex letter (H, M or X), a state code, and a check digit from the position-weighted (18 down to 2) alphabet values, 10 minus the sum modulo 10. */
+export function validateMexicoClaveUnicaDeRegistroDePoblacion(value: string): IdentifierResult {
+    const s = text(value, "validateMexicoClaveUnicaDeRegistroDePoblacion");
+    if (!/^[0-9A-ZÑ]+$/.test(s)) return no("characters");
+    if (s.length !== 18) return no("length");
+    if (!/^[A-Z]{4}[0-9]{6}[HMX][A-Z]{5}[0-9A-Z][0-9]$/.test(s)) return no("structure");
+    if (
+        Number(s.slice(6, 8)) < 1 ||
+        Number(s.slice(6, 8)) > 12 ||
+        Number(s.slice(8, 10)) < 1 ||
+        Number(s.slice(8, 10)) > maxDay(Number(s.slice(6, 8)))
+    )
+        return no("date");
+    let sum = 0;
+    for (let i = 0; i < 17; i++) sum += CURP_ALPHABET.indexOf(s[i]) * (18 - i);
+    return (10 - (sum % 10)) % 10 === Number(s[17]) ? OK : no("checksum");
+}
+
+/** The South African identity number: thirteen digits, YYMMDD, a sequence, a citizenship digit (0 or 1), and a Luhn check. */
+export function validateSouthAfricaIdentityNumber(value: string): IdentifierResult {
+    const s = stripSeparators(text(value, "validateSouthAfricaIdentityNumber"));
+    if (!isDigits(s)) return no("characters");
+    if (s.length !== 13) return no("length");
+    const month = Number(s.slice(2, 4));
+    const day = Number(s.slice(4, 6));
+    if (month < 1 || month > 12 || day < 1 || day > maxDay(month)) return no("date");
+    if (s[10] !== "0" && s[10] !== "1") return no("structure");
+    return luhnValid(s) ? OK : no("checksum");
+}
+
+/**
+ * The Singapore NRIC or FIN: a prefix letter (S or T for citizens and permanent residents, F or G for foreigners), seven digits
+ * and a check letter, from the weights 2 7 6 5 4 3 2 (plus 4 for T and G) modulo 11 looked up in JZIHGFEDCBA (S, T) or XWUTRQPNMLK (F, G).
+ */
+export function validateSingaporeNationalRegistrationIdentityCard(value: string): IdentifierResult {
+    const s = stripSeparators(text(value, "validateSingaporeNationalRegistrationIdentityCard"));
+    if (!/^[A-Z0-9]+$/.test(s)) return no("characters");
+    if (s.length !== 9) return no("length");
+    if (!/^[STFG][0-9]{7}[A-Z]$/.test(s)) return no("structure");
+    const sum =
+        weightedSum(digitsOf(s.slice(1, 8)), [2, 7, 6, 5, 4, 3, 2]) +
+        (s[0] === "T" || s[0] === "G" ? 4 : 0);
+    const table = s[0] === "S" || s[0] === "T" ? "JZIHGFEDCBA" : "XWUTRQPNMLK";
+    return table[sum % 11] === s[8] ? OK : no("checksum");
+}
+
+const TAIWAN_LETTERS = "ABCDEFGHJKLMNPQRSTUVXYWZIO";
+
+/** The Taiwanese national identification number: a letter (the issuing county, A to Z), a digit 1, 2, 8 or 9, eight digits, and a check making the weighted sum divisible by 10. */
+export function validateTaiwanGuominShenfenzhengTongyiBianhao(value: string): IdentifierResult {
+    const s = stripSeparators(text(value, "validateTaiwanGuominShenfenzhengTongyiBianhao"));
+    if (!/^[A-Z0-9]+$/.test(s)) return no("characters");
+    if (s.length !== 10) return no("length");
+    if (!/^[A-Z][1289][0-9]{8}$/.test(s)) return no("structure");
+    const code = TAIWAN_LETTERS.indexOf(s[0]) + 10;
+    const d = digitsOf(s.slice(1));
+    const sum =
+        Math.floor(code / 10) + (code % 10) * 9 + weightedSum(d, [8, 7, 6, 5, 4, 3, 2, 1]) + d[8];
+    return sum % 10 === 0 ? OK : no("checksum");
+}
+
+/** The Japanese Individual Number (My Number): twelve digits, the last a check of the first eleven weighted 2 to 7 then 2 to 6 from the right, 11 minus the sum modulo 11 (0 when that is under 2). */
+export function validateNihonKojinBango(value: string): IdentifierResult {
+    const s = stripSeparators(text(value, "validateNihonKojinBango"));
+    if (!isDigits(s)) return no("characters");
+    if (s.length !== 12) return no("length");
+    const body = digitsOf(s.slice(0, 11)).reverse();
+    const sum = body.reduce((t, n, i) => t + n * (i < 6 ? i + 2 : i - 4), 0);
+    const remainder = sum % 11;
+    return (remainder <= 1 ? 0 : 11 - remainder) === Number(s[11]) ? OK : no("checksum");
+}
+
+/** The Chinese resident identity card number: eighteen characters, a six-digit region, a birth date YYYYMMDD, a three-digit sequence and a check (digit or X) from weights 7 9 10 5 8 4 2 1 6 3 7 9 10 5 8 4 2 modulo 11 looked up in 10X98765432. */
+export function validateZhongguoJuminShenfenzhengHaoma(value: string): IdentifierResult {
+    const s = text(value, "validateZhongguoJuminShenfenzhengHaoma");
+    if (!/^[0-9]+[0-9X]$/.test(s)) return no("characters");
+    if (s.length !== 18) return no("length");
+    if (!isCalendarDate(Number(s.slice(6, 10)), Number(s.slice(10, 12)), Number(s.slice(12, 14))))
+        return no("date");
+    const weights = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
+    return "10X98765432"[weightedSum(digitsOf(s.slice(0, 17)), weights) % 11] === s[17]
+        ? OK
+        : no("checksum");
+}
+
+/**
+ * The Latvian personal code: eleven digits. A code beginning 32 (issued since July 2017) carries no date or check. An older
+ * code is DDMMYY, a century digit (0 for the 1800s, 1 for the 1900s, 2 for the 2000s), a serial, and a check digit equal to
+ * (1101 minus the weighted sum 1 6 3 7 9 10 5 8 4 2 over the first ten digits) modulo 11 modulo 10.
+ */
+export function validateLatvijaPersonasKods(value: string): IdentifierResult {
+    const s = stripSeparators(text(value, "validateLatvijaPersonasKods"));
+    if (!isDigits(s)) return no("characters");
+    if (s.length !== 11) return no("length");
+    if (s.startsWith("32")) return OK;
+    const d = digitsOf(s);
+    if (d[6] > 2) return no("structure");
+    const century = 1800 + d[6] * 100;
+    if (
+        !isCalendarDate(
+            century + Number(s.slice(4, 6)),
+            Number(s.slice(2, 4)),
+            Number(s.slice(0, 2)),
+        )
+    )
+        return no("date");
+    const check = ((1101 - weightedSum(d, [1, 6, 3, 7, 9, 10, 5, 8, 4, 2])) % 11) % 10;
+    return check === d[10] ? OK : no("checksum");
+}
+
+/**
+ * The Lithuanian personal code (asmens kodas): eleven digits with the Estonian layout and check: a century-and-sex digit 1 to 6
+ * (1 and 2 for the 1800s, 3 and 4 for the 1900s, 5 and 6 for the 2000s), YYMMDD, a serial, and the same two-pass Modulus-11 check.
+ */
+export function validateLietuvaAsmensKodas(value: string): IdentifierResult {
+    const s = stripSeparators(text(value, "validateLietuvaAsmensKodas"));
+    if (!isDigits(s)) return no("characters");
+    if (s.length !== 11) return no("length");
+    const d = digitsOf(s);
+    if (d[0] < 1 || d[0] > 6) return no("structure");
+    if (
+        !isCalendarDate(
+            1800 + Math.floor((d[0] - 1) / 2) * 100 + Number(s.slice(1, 3)),
+            Number(s.slice(3, 5)),
+            Number(s.slice(5, 7)),
+        )
+    )
+        return no("date");
+    let check = weightedSum(d, [1, 2, 3, 4, 5, 6, 7, 8, 9, 1]) % 11;
+    if (check === 10) {
+        check = weightedSum(d, [3, 4, 5, 6, 7, 8, 9, 1, 2, 3]) % 11;
+        if (check === 10) check = 0;
+    }
+    return check === d[10] ? OK : no("checksum");
+}

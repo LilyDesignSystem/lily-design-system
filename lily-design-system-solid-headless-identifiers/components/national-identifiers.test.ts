@@ -5,6 +5,19 @@ import {
     luhnValid,
     stripSeparators,
     validateAustraliaTaxFileNumber,
+    validateArgentinaCodigoUnicoDeIdentificacionLaboral,
+    validateChileRolUnicoNacional,
+    validateEcuadorCedulaDeIdentidad,
+    validateLatvijaPersonasKods,
+    validateLietuvaAsmensKodas,
+    validateMexicoClaveUnicaDeRegistroDePoblacion,
+    validateNihonKojinBango,
+    validatePortugalNumeroDeIdentificacaoFiscal,
+    validateSingaporeNationalRegistrationIdentityCard,
+    validateSouthAfricaIdentityNumber,
+    validateTaiwanGuominShenfenzhengTongyiBianhao,
+    validateUruguayCedulaDeIdentidad,
+    validateZhongguoJuminShenfenzhengHaoma,
     validateBulgariaEdinenGrazhdanskiNomer,
     validateEestiIsikukood,
     validateItaliaCodiceFiscale,
@@ -461,5 +474,271 @@ describe("validateItaliaCodiceFiscale", () => {
         expect(validateItaliaCodiceFiscale("1SSMRA85T10A562S")).toEqual(bad("structure"));
         expect(validateItaliaCodiceFiscale("RSSMRA85T10A562")).toEqual(bad("length"));
         expect(validateItaliaCodiceFiscale("rssmra85t10a562s")).toEqual(bad("characters"));
+    });
+});
+
+describe("validatePortugalNumeroDeIdentificacaoFiscal", () => {
+    test("a worked example, and a check of 0 where 11 minus the remainder is 10 or 11", () => {
+        expect(validatePortugalNumeroDeIdentificacaoFiscal("123456789")).toEqual(ok);
+        const weights = [9, 8, 7, 6, 5, 4, 3, 2];
+        const stem = [...Array(1000).keys()]
+            .map((n) => "50000" + String(n).padStart(3, "0"))
+            .find(
+                (t) =>
+                    11 - ([...t].reduce((sum, c, k) => sum + Number(c) * weights[k], 0) % 11) >= 10,
+            )!;
+        expect(validatePortugalNumeroDeIdentificacaoFiscal(stem + "0")).toEqual(ok);
+        expect(validatePortugalNumeroDeIdentificacaoFiscal(stem + "1")).toEqual(bad("checksum"));
+    });
+    test("a failed check, length and characters", () => {
+        expect(validatePortugalNumeroDeIdentificacaoFiscal("123456788")).toEqual(bad("checksum"));
+        expect(validatePortugalNumeroDeIdentificacaoFiscal("12345678")).toEqual(bad("length"));
+        expect(validatePortugalNumeroDeIdentificacaoFiscal("12345678x")).toEqual(bad("characters"));
+    });
+});
+
+describe("validateChileRolUnicoNacional", () => {
+    const dv = (body: string) => {
+        const sum = [...body].reverse().reduce((t, c, i) => t + Number(c) * (2 + (i % 6)), 0);
+        const check = 11 - (sum % 11);
+        return check === 11 ? "0" : check === 10 ? "K" : String(check);
+    };
+    test("a worked example, a check of K and a check of 0", () => {
+        expect(validateChileRolUnicoNacional("12.345.678-5")).toEqual(ok);
+        const k = [...Array(1000).keys()]
+            .map((n) => String(10000000 + n))
+            .find((b) => dv(b) === "K")!;
+        const zero = [...Array(1000).keys()]
+            .map((n) => String(10000000 + n))
+            .find((b) => dv(b) === "0")!;
+        expect(validateChileRolUnicoNacional(`${k}-K`)).toEqual(ok);
+        expect(validateChileRolUnicoNacional(`${zero}-0`)).toEqual(ok);
+        expect(validateChileRolUnicoNacional(`${k}-0`)).toEqual(bad("checksum"));
+    });
+    test("a failed check, length and characters", () => {
+        expect(validateChileRolUnicoNacional("12.345.678-4")).toEqual(bad("checksum"));
+        expect(validateChileRolUnicoNacional("5")).toEqual(bad("length"));
+        expect(validateChileRolUnicoNacional("12.345.678-k")).toEqual(bad("characters"));
+    });
+});
+
+describe("validateUruguayCedulaDeIdentidad", () => {
+    test("a worked example, and a six digit body", () => {
+        expect(validateUruguayCedulaDeIdentidad("1.234.567-2")).toEqual(ok);
+        const weights = [2, 9, 8, 7, 6, 3, 4];
+        const body = "0123456";
+        const check =
+            (10 - ([...body].reduce((t, c, k) => t + Number(c) * weights[k], 0) % 10)) % 10;
+        expect(validateUruguayCedulaDeIdentidad(`${body.slice(1)}-${check}`)).toEqual(ok);
+    });
+    test("a failed check, length and characters", () => {
+        expect(validateUruguayCedulaDeIdentidad("1.234.567-3")).toEqual(bad("checksum"));
+        expect(validateUruguayCedulaDeIdentidad("1.234.56")).toEqual(bad("length"));
+        expect(validateUruguayCedulaDeIdentidad("1.234.56x-2")).toEqual(bad("characters"));
+    });
+});
+
+describe("validateEcuadorCedulaDeIdentidad", () => {
+    test("a worked example", () => {
+        expect(validateEcuadorCedulaDeIdentidad("1710034065")).toEqual(ok);
+    });
+    test("a failed check, an unknown province, a third digit of 6, length and characters", () => {
+        expect(validateEcuadorCedulaDeIdentidad("1710034066")).toEqual(bad("checksum"));
+        expect(validateEcuadorCedulaDeIdentidad("9910034065")).toEqual(bad("structure"));
+        expect(validateEcuadorCedulaDeIdentidad("1760034065")).toEqual(bad("structure"));
+        expect(validateEcuadorCedulaDeIdentidad("171003406")).toEqual(bad("length"));
+        expect(validateEcuadorCedulaDeIdentidad("171003406x")).toEqual(bad("characters"));
+    });
+});
+
+describe("validateArgentinaCodigoUnicoDeIdentificacionLaboral", () => {
+    const remainderOf = (body: string) =>
+        [...body].reduce((t, c, i) => t + Number(c) * [5, 4, 3, 2, 7, 6, 5, 4, 3, 2][i], 0) % 11;
+    test("a worked example, and a remainder of 0 giving a check of 0", () => {
+        expect(validateArgentinaCodigoUnicoDeIdentificacionLaboral("20-12345678-6")).toEqual(ok);
+        const stem = [...Array(1000).keys()]
+            .map((n) => "2000000" + String(n).padStart(3, "0"))
+            .find((b) => remainderOf(b) === 0)!;
+        expect(validateArgentinaCodigoUnicoDeIdentificacionLaboral(stem + "0")).toEqual(ok);
+    });
+    test("a check that would be 10 is never issued", () => {
+        const stem = [...Array(1000).keys()]
+            .map((n) => "2000000" + String(n).padStart(3, "0"))
+            .find((b) => remainderOf(b) === 1)!;
+        expect(validateArgentinaCodigoUnicoDeIdentificacionLaboral(stem + "0")).toEqual(
+            bad("checksum"),
+        );
+        expect(validateArgentinaCodigoUnicoDeIdentificacionLaboral(stem + "9")).toEqual(
+            bad("checksum"),
+        );
+    });
+    test("a failed check, an unknown prefix, length and characters", () => {
+        expect(validateArgentinaCodigoUnicoDeIdentificacionLaboral("20-12345678-7")).toEqual(
+            bad("checksum"),
+        );
+        expect(validateArgentinaCodigoUnicoDeIdentificacionLaboral("21-12345678-6")).toEqual(
+            bad("structure"),
+        );
+        expect(validateArgentinaCodigoUnicoDeIdentificacionLaboral("20-12345678")).toEqual(
+            bad("length"),
+        );
+        expect(validateArgentinaCodigoUnicoDeIdentificacionLaboral("20-12345678-x")).toEqual(
+            bad("characters"),
+        );
+    });
+});
+
+describe("validateMexicoClaveUnicaDeRegistroDePoblacion", () => {
+    test("a worked example", () => {
+        expect(validateMexicoClaveUnicaDeRegistroDePoblacion("HEGG560427MVZRRL04")).toEqual(ok);
+    });
+    test("a failed check, an unreal date, structure, length and characters", () => {
+        expect(validateMexicoClaveUnicaDeRegistroDePoblacion("HEGG560427MVZRRL05")).toEqual(
+            bad("checksum"),
+        );
+        expect(validateMexicoClaveUnicaDeRegistroDePoblacion("HEGG561327MVZRRL04")).toEqual(
+            bad("date"),
+        );
+        expect(validateMexicoClaveUnicaDeRegistroDePoblacion("HEGG560432MVZRRL04")).toEqual(
+            bad("date"),
+        );
+        expect(validateMexicoClaveUnicaDeRegistroDePoblacion("HEGG560427QVZRRL04")).toEqual(
+            bad("structure"),
+        );
+        expect(validateMexicoClaveUnicaDeRegistroDePoblacion("HEGG560427MVZRRL0")).toEqual(
+            bad("length"),
+        );
+        expect(validateMexicoClaveUnicaDeRegistroDePoblacion("hegg560427mvzrrl04")).toEqual(
+            bad("characters"),
+        );
+    });
+});
+
+describe("validateSouthAfricaIdentityNumber", () => {
+    test("a worked example", () => {
+        expect(validateSouthAfricaIdentityNumber("8001015009087")).toEqual(ok);
+    });
+    test("a failed Luhn check, an unreal date, a citizenship digit of 2, length and characters", () => {
+        expect(validateSouthAfricaIdentityNumber("8001015009086")).toEqual(bad("checksum"));
+        expect(validateSouthAfricaIdentityNumber("8013015009087")).toEqual(bad("date"));
+        const stem = "800101500920";
+        const withCheck = stem + [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].find((c) => luhnValid(stem + c));
+        expect(validateSouthAfricaIdentityNumber(withCheck)).toEqual(bad("structure"));
+        expect(validateSouthAfricaIdentityNumber("800101500908")).toEqual(bad("length"));
+        expect(validateSouthAfricaIdentityNumber("800101500908x")).toEqual(bad("characters"));
+    });
+});
+
+describe("validateSingaporeNationalRegistrationIdentityCard", () => {
+    test("each prefix", () => {
+        expect(validateSingaporeNationalRegistrationIdentityCard("S1234567D")).toEqual(ok);
+        expect(validateSingaporeNationalRegistrationIdentityCard("T1234567J")).toEqual(ok);
+        expect(validateSingaporeNationalRegistrationIdentityCard("F1234567N")).toEqual(ok);
+        expect(validateSingaporeNationalRegistrationIdentityCard("G1234567X")).toEqual(ok);
+    });
+    test("a failed check, an unknown prefix, length and characters", () => {
+        expect(validateSingaporeNationalRegistrationIdentityCard("S1234567E")).toEqual(
+            bad("checksum"),
+        );
+        expect(validateSingaporeNationalRegistrationIdentityCard("A1234567D")).toEqual(
+            bad("structure"),
+        );
+        expect(validateSingaporeNationalRegistrationIdentityCard("S123456D")).toEqual(
+            bad("length"),
+        );
+        expect(validateSingaporeNationalRegistrationIdentityCard("S123456?D")).toEqual(
+            bad("characters"),
+        );
+    });
+});
+
+describe("validateTaiwanGuominShenfenzhengTongyiBianhao", () => {
+    test("a worked example", () => {
+        expect(validateTaiwanGuominShenfenzhengTongyiBianhao("A123456789")).toEqual(ok);
+    });
+    test("a failed check, a second digit of 3, length and characters", () => {
+        expect(validateTaiwanGuominShenfenzhengTongyiBianhao("A123456788")).toEqual(
+            bad("checksum"),
+        );
+        expect(validateTaiwanGuominShenfenzhengTongyiBianhao("A323456789")).toEqual(
+            bad("structure"),
+        );
+        expect(validateTaiwanGuominShenfenzhengTongyiBianhao("A12345678")).toEqual(bad("length"));
+        expect(validateTaiwanGuominShenfenzhengTongyiBianhao("A12345678?")).toEqual(
+            bad("characters"),
+        );
+    });
+});
+
+describe("validateNihonKojinBango", () => {
+    test("a worked example", () => {
+        expect(validateNihonKojinBango("123456789018")).toEqual(ok);
+        expect(validateNihonKojinBango("1234 5678 9018")).toEqual(ok);
+    });
+    test("a failed check, length and characters", () => {
+        expect(validateNihonKojinBango("123456789019")).toEqual(bad("checksum"));
+        expect(validateNihonKojinBango("12345678901")).toEqual(bad("length"));
+        expect(validateNihonKojinBango("12345678901x")).toEqual(bad("characters"));
+    });
+});
+
+describe("validateZhongguoJuminShenfenzhengHaoma", () => {
+    test("a worked example with a check of X, and one with a digit", () => {
+        expect(validateZhongguoJuminShenfenzhengHaoma("11010519491231002X")).toEqual(ok);
+        const weights = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
+        const stem = "11010519491231000";
+        const sum = [...stem].reduce((t, c, k) => t + Number(c) * weights[k], 0);
+        expect(validateZhongguoJuminShenfenzhengHaoma(stem + "10X98765432"[sum % 11])).toEqual(ok);
+    });
+    test("a failed check, an unreal date, length and characters", () => {
+        expect(validateZhongguoJuminShenfenzhengHaoma("110105194912310021")).toEqual(
+            bad("checksum"),
+        );
+        expect(validateZhongguoJuminShenfenzhengHaoma("11010519491331002X")).toEqual(bad("date"));
+        expect(validateZhongguoJuminShenfenzhengHaoma("11010519491231002")).toEqual(bad("length"));
+        expect(validateZhongguoJuminShenfenzhengHaoma("11010519491231002x")).toEqual(
+            bad("characters"),
+        );
+    });
+});
+
+describe("validateLatvijaPersonasKods", () => {
+    test("an old code with a date and check, and a new code beginning 32", () => {
+        expect(validateLatvijaPersonasKods("161175-19997")).toEqual(ok);
+        expect(validateLatvijaPersonasKods("32123456789")).toEqual(ok);
+    });
+    test("a failed check, an unreal date, a century digit of 3, length and characters", () => {
+        expect(validateLatvijaPersonasKods("161175-19998")).toEqual(bad("checksum"));
+        expect(validateLatvijaPersonasKods("311175-19997")).toEqual(bad("date"));
+        expect(validateLatvijaPersonasKods("161175-39997")).toEqual(bad("structure"));
+        expect(validateLatvijaPersonasKods("161175-1999")).toEqual(bad("length"));
+        expect(validateLatvijaPersonasKods("161175-1999x")).toEqual(bad("characters"));
+    });
+});
+
+describe("validateLietuvaAsmensKodas", () => {
+    const withCheck = (body: string) => {
+        const d = [...body].map(Number);
+        let c = d.reduce((t, n, i) => t + n * [1, 2, 3, 4, 5, 6, 7, 8, 9, 1][i], 0) % 11;
+        if (c === 10) {
+            c = d.reduce((t, n, i) => t + n * [3, 4, 5, 6, 7, 8, 9, 1, 2, 3][i], 0) % 11;
+            if (c === 10) c = 0;
+        }
+        return body + c;
+    };
+    test("numbers of each century", () => {
+        expect(validateLietuvaAsmensKodas(withCheck("3900101000"))).toEqual(ok);
+        expect(validateLietuvaAsmensKodas(withCheck("5050505000"))).toEqual(ok);
+        expect(validateLietuvaAsmensKodas(withCheck("1900101000"))).toEqual(ok);
+    });
+    test("a failed check, a century digit of 7, an unreal date, length and characters", () => {
+        const good = withCheck("3900101000");
+        expect(
+            validateLietuvaAsmensKodas(good.slice(0, 10) + String((Number(good[10]) + 1) % 10)),
+        ).toEqual(bad("checksum"));
+        expect(validateLietuvaAsmensKodas(withCheck("7900101000"))).toEqual(bad("structure"));
+        expect(validateLietuvaAsmensKodas(withCheck("3901301000"))).toEqual(bad("date"));
+        expect(validateLietuvaAsmensKodas("3900101000")).toEqual(bad("length"));
+        expect(validateLietuvaAsmensKodas("3900101000x")).toEqual(bad("characters"));
     });
 });

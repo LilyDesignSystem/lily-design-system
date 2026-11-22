@@ -45,6 +45,10 @@ highlights.
   change many components at once) and which go straight to `latest` (fixes, patches, additive releases). Holding `latest` two days behind, which one
   consumer asked for, was not adopted: it would delay every fix for every consumer. `bin/test-publish-tag` checks the option with a fake `npm`.
 
+## National identifier validation, third slice (2026-11-22, P43-T3)
+
+- Thirteen more validators in `shared/national-identifiers.ts` and the C# `NationalIdentifiers`: Portugal NIF, Chile RUT, Uruguay cedula, Ecuador cedula, Argentina CUIL and CUIT, Mexico CURP, South Africa ID, Singapore NRIC and FIN, Taiwan ID, Japan My Number, China resident ID, Latvia personal code (a code beginning 32 carries no check) and Lithuania asmens kodas. South Korea's resident registration number is not here: numbers issued since October 2020 have no valid check digit.
+
 ## National identifier validation, second slice (2026-11-22, P43-T3)
 
 - Eight more validators in `shared/national-identifiers.ts` and the C# `NationalIdentifiers`: Bulgaria EGN, Norway fodselsnummer, Estonia isikukood, the Czech and Slovak rodne cislo, Hungary TAJ, Russia SNILS, Finland henkilotunnus and Italy codice fiscale (the last two take upper case only and do not re-case). Same result type and rules as the first slice.

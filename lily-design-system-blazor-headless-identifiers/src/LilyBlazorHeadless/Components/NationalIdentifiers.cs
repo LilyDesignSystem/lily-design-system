@@ -377,4 +377,180 @@ public static class NationalIdentifiers
         }
         return (char)('A' + sum % 26) == s[15] ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
     }
+
+    // Latin American, Asian, African and further European identifiers (P43-T3, second family)
+
+    /// <summary>Portuguese NIF: nine digits, the ninth 11 minus the first eight (weights 9 to 2) modulo 11, 0 when that is 10 or 11.</summary>
+    public static IdentifierResult ValidatePortugalNumeroDeIdentificacaoFiscal(string value)
+    {
+        var s = StripSeparators(value);
+        if (!IsDigits(s)) return Fail(IdentifierReason.Characters);
+        if (s.Length != 9) return Fail(IdentifierReason.Length);
+        var d = DigitsOf(s);
+        var check = 11 - WeightedSum(d, [9, 8, 7, 6, 5, 4, 3, 2]) % 11;
+        return (check >= 10 ? 0 : check) == d[8] ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
+    }
+
+    /// <summary>Chilean RUT: one to eight digits and a check digit or K, weights 2 to 7 from the right.</summary>
+    public static IdentifierResult ValidateChileRolUnicoNacional(string value)
+    {
+        var s = StripSeparators(value);
+        if (s.Length == 0 || !s.All(c => c is (>= '0' and <= '9') or 'K') || s[..^1].Contains('K')) return Fail(IdentifierReason.Characters);
+        if (s.Length is < 2 or > 9) return Fail(IdentifierReason.Length);
+        var body = DigitsOf(s[..^1]).Reverse().ToArray();
+        var sum = body.Select((n, i) => n * (2 + i % 6)).Sum();
+        var check = 11 - sum % 11;
+        var expected = check == 11 ? '0' : check == 10 ? 'K' : (char)('0' + check);
+        return expected == s[^1] ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
+    }
+
+    /// <summary>Uruguayan cedula: six or seven digits and a check digit, the digits (left-padded to seven) times 2 9 8 7 6 3 4.</summary>
+    public static IdentifierResult ValidateUruguayCedulaDeIdentidad(string value)
+    {
+        var s = StripSeparators(value);
+        if (!IsDigits(s)) return Fail(IdentifierReason.Characters);
+        if (s.Length is not (7 or 8)) return Fail(IdentifierReason.Length);
+        var body = DigitsOf(s[..^1].PadLeft(7, '0'));
+        return (10 - WeightedSum(body, [2, 9, 8, 7, 6, 3, 4]) % 10) % 10 == s[^1] - '0' ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
+    }
+
+    /// <summary>Ecuadorian cedula: ten digits, a province 01 to 24 or 30, a third digit under 6, a check from weights 2 1 2 1 2 1 2 1 2.</summary>
+    public static IdentifierResult ValidateEcuadorCedulaDeIdentidad(string value)
+    {
+        var s = StripSeparators(value);
+        if (!IsDigits(s)) return Fail(IdentifierReason.Characters);
+        if (s.Length != 10) return Fail(IdentifierReason.Length);
+        var d = DigitsOf(s);
+        var province = int.Parse(s[..2]);
+        if (!(province is >= 1 and <= 24 || province == 30) || d[2] > 5) return Fail(IdentifierReason.Structure);
+        var sum = d.Take(9).Select((n, i) => { var p = n * (i % 2 == 0 ? 2 : 1); return p > 9 ? p - 9 : p; }).Sum();
+        return (10 - sum % 10) % 10 == d[9] ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
+    }
+
+    /// <summary>Argentine CUIL or CUIT: eleven digits, a prefix 20, 23, 24, 27, 30, 33 or 34, weights 5 4 3 2 7 6 5 4 3 2; a check of 10 is never issued.</summary>
+    public static IdentifierResult ValidateArgentinaCodigoUnicoDeIdentificacionLaboral(string value)
+    {
+        var s = StripSeparators(value);
+        if (!IsDigits(s)) return Fail(IdentifierReason.Characters);
+        if (s.Length != 11) return Fail(IdentifierReason.Length);
+        if (!new[] { "20", "23", "24", "27", "30", "33", "34" }.Contains(s[..2])) return Fail(IdentifierReason.Structure);
+        var d = DigitsOf(s);
+        var check = 11 - WeightedSum(d, [5, 4, 3, 2, 7, 6, 5, 4, 3, 2]) % 11;
+        var expected = check == 11 ? 0 : check;
+        return expected != 10 && expected == d[10] ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
+    }
+
+    private const string CurpAlphabet = "0123456789ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
+
+    /// <summary>Mexican CURP: eighteen characters, YYMMDD, a sex letter H, M or X, and a check digit from the position-weighted alphabet values.</summary>
+    public static IdentifierResult ValidateMexicoClaveUnicaDeRegistroDePoblacion(string value)
+    {
+        ArgumentNullException.ThrowIfNull(value);
+        var s = value;
+        if (s.Length == 0 || !s.All(c => CurpAlphabet.Contains(c))) return Fail(IdentifierReason.Characters);
+        if (s.Length != 18) return Fail(IdentifierReason.Length);
+        if (!System.Text.RegularExpressions.Regex.IsMatch(s, "^[A-Z]{4}[0-9]{6}[HMX][A-Z]{5}[0-9A-Z][0-9]$")) return Fail(IdentifierReason.Structure);
+        var month = int.Parse(s[6..8]);
+        var day = int.Parse(s[8..10]);
+        if (month is < 1 or > 12 || day < 1 || day > MaxDay(month)) return Fail(IdentifierReason.Date);
+        var sum = 0;
+        for (var i = 0; i < 17; i++) sum += CurpAlphabet.IndexOf(s[i]) * (18 - i);
+        return (10 - sum % 10) % 10 == s[17] - '0' ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
+    }
+
+    /// <summary>South African identity number: thirteen digits, YYMMDD, a citizenship digit 0 or 1, a Luhn check.</summary>
+    public static IdentifierResult ValidateSouthAfricaIdentityNumber(string value)
+    {
+        var s = StripSeparators(value);
+        if (!IsDigits(s)) return Fail(IdentifierReason.Characters);
+        if (s.Length != 13) return Fail(IdentifierReason.Length);
+        var month = int.Parse(s[2..4]);
+        var day = int.Parse(s[4..6]);
+        if (month is < 1 or > 12 || day < 1 || day > MaxDay(month)) return Fail(IdentifierReason.Date);
+        if (s[10] is not ('0' or '1')) return Fail(IdentifierReason.Structure);
+        return LuhnValid(s) ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
+    }
+
+    /// <summary>Singapore NRIC or FIN: a prefix S, T, F or G, seven digits and a check letter.</summary>
+    public static IdentifierResult ValidateSingaporeNationalRegistrationIdentityCard(string value)
+    {
+        var s = StripSeparators(value);
+        if (s.Length == 0 || !s.All(c => c is (>= '0' and <= '9') or (>= 'A' and <= 'Z'))) return Fail(IdentifierReason.Characters);
+        if (s.Length != 9) return Fail(IdentifierReason.Length);
+        if (!System.Text.RegularExpressions.Regex.IsMatch(s, "^[STFG][0-9]{7}[A-Z]$")) return Fail(IdentifierReason.Structure);
+        var sum = WeightedSum(DigitsOf(s[1..8]), [2, 7, 6, 5, 4, 3, 2]) + (s[0] is 'T' or 'G' ? 4 : 0);
+        var table = s[0] is 'S' or 'T' ? "JZIHGFEDCBA" : "XWUTRQPNMLK";
+        return table[sum % 11] == s[8] ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
+    }
+
+    private const string TaiwanLetters = "ABCDEFGHJKLMNPQRSTUVXYWZIO";
+
+    /// <summary>Taiwanese national identification number: a letter, a digit 1, 2, 8 or 9, eight digits; the weighted sum is divisible by 10.</summary>
+    public static IdentifierResult ValidateTaiwanGuominShenfenzhengTongyiBianhao(string value)
+    {
+        var s = StripSeparators(value);
+        if (s.Length == 0 || !s.All(c => c is (>= '0' and <= '9') or (>= 'A' and <= 'Z'))) return Fail(IdentifierReason.Characters);
+        if (s.Length != 10) return Fail(IdentifierReason.Length);
+        if (!System.Text.RegularExpressions.Regex.IsMatch(s, "^[A-Z][1289][0-9]{8}$")) return Fail(IdentifierReason.Structure);
+        var code = TaiwanLetters.IndexOf(s[0]) + 10;
+        var d = DigitsOf(s[1..]);
+        var sum = code / 10 + code % 10 * 9 + WeightedSum(d, [8, 7, 6, 5, 4, 3, 2, 1]) + d[8];
+        return sum % 10 == 0 ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
+    }
+
+    /// <summary>Japanese Individual Number (My Number): twelve digits, the last a check of the first eleven weighted 2 to 7 then 2 to 6 from the right.</summary>
+    public static IdentifierResult ValidateNihonKojinBango(string value)
+    {
+        var s = StripSeparators(value);
+        if (!IsDigits(s)) return Fail(IdentifierReason.Characters);
+        if (s.Length != 12) return Fail(IdentifierReason.Length);
+        var body = DigitsOf(s[..11]).Reverse().ToArray();
+        var sum = body.Select((n, i) => n * (i < 6 ? i + 2 : i - 4)).Sum();
+        var remainder = sum % 11;
+        return (remainder <= 1 ? 0 : 11 - remainder) == s[11] - '0' ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
+    }
+
+    /// <summary>Chinese resident identity card number: eighteen characters, a birth date, and a check digit or X.</summary>
+    public static IdentifierResult ValidateZhongguoJuminShenfenzhengHaoma(string value)
+    {
+        ArgumentNullException.ThrowIfNull(value);
+        var s = value;
+        if (s.Length == 0 || !s[..^1].All(char.IsAsciiDigit) || !(char.IsAsciiDigit(s[^1]) || s[^1] == 'X')) return Fail(IdentifierReason.Characters);
+        if (s.Length != 18) return Fail(IdentifierReason.Length);
+        if (!IsCalendarDate(int.Parse(s[6..10]), int.Parse(s[10..12]), int.Parse(s[12..14]))) return Fail(IdentifierReason.Date);
+        var sum = WeightedSum(DigitsOf(s[..17]), [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2]);
+        return "10X98765432"[sum % 11] == s[17] ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
+    }
+
+    /// <summary>Latvian personal code: eleven digits; a code beginning 32 carries no date or check; an older one has a date, a century digit 0 to 2 and a check.</summary>
+    public static IdentifierResult ValidateLatvijaPersonasKods(string value)
+    {
+        var s = StripSeparators(value);
+        if (!IsDigits(s)) return Fail(IdentifierReason.Characters);
+        if (s.Length != 11) return Fail(IdentifierReason.Length);
+        if (s.StartsWith("32", StringComparison.Ordinal)) return IdentifierResult.Ok;
+        var d = DigitsOf(s);
+        if (d[6] > 2) return Fail(IdentifierReason.Structure);
+        if (!IsCalendarDate(1800 + d[6] * 100 + int.Parse(s[4..6]), int.Parse(s[2..4]), int.Parse(s[..2]))) return Fail(IdentifierReason.Date);
+        var check = (1101 - WeightedSum(d, [1, 6, 3, 7, 9, 10, 5, 8, 4, 2])) % 11 % 10;
+        return check == d[10] ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
+    }
+
+    /// <summary>Lithuanian asmens kodas: eleven digits with the Estonian layout (century-and-sex digit 1 to 6) and the same two-pass Modulus-11 check.</summary>
+    public static IdentifierResult ValidateLietuvaAsmensKodas(string value)
+    {
+        var s = StripSeparators(value);
+        if (!IsDigits(s)) return Fail(IdentifierReason.Characters);
+        if (s.Length != 11) return Fail(IdentifierReason.Length);
+        var d = DigitsOf(s);
+        if (d[0] is < 1 or > 6) return Fail(IdentifierReason.Structure);
+        if (!IsCalendarDate(1800 + (d[0] - 1) / 2 * 100 + int.Parse(s[1..3]), int.Parse(s[3..5]), int.Parse(s[5..7]))) return Fail(IdentifierReason.Date);
+        var check = WeightedSum(d, [1, 2, 3, 4, 5, 6, 7, 8, 9, 1]) % 11;
+        if (check == 10)
+        {
+            check = WeightedSum(d, [3, 4, 5, 6, 7, 8, 9, 1, 2, 3]) % 11;
+            if (check == 10) check = 0;
+        }
+        return check == d[10] ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
+    }
 }
