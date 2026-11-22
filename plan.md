@@ -608,7 +608,8 @@ Shared by Apple and Android: the semantics map, a mobile decision per component,
 `shared/`, Swift and Kotlin tokens, label packs as mobile resources.
 Tasks: [tasks.md](tasks.md#phase-43--mobile-foundations-2026-11-22).
 
-Status (2026-11-22): researched; nothing built. T1 and T2 first.
+Status (2026-11-22): T1 and T2 done (`mobile/`, `bin/check-mobile-catalog`); T3 started (88 vectors, which found and fixed an
+`ageParts` bug).
 
 ## Phase 44 — Apple Swift (2026-11-22)
 
@@ -617,7 +618,8 @@ style protocols, Swift 6, iOS 18 and later; UIKit apps host it. An example app, 
 SwiftPM. Findings: [spec/apple-swift](spec/apple-swift/index.md).
 Tasks: [tasks.md](tasks.md#phase-44--apple-swift-2026-11-22).
 
-Status (2026-11-22): researched; nothing built. Depends on P43-T1 to T4.
+Status (2026-11-22): `lily-design-system-swift` exists, unreleased: `LilyCore` passes the shared vectors and `LilyUI` has a
+first slice of six components (P44-T1 done, T2 and T3 in progress).
 
 ## Phase 45 — Android Kotlin (2026-11-22)
 

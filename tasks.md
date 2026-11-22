@@ -4384,19 +4384,27 @@ Kotlin UI is written. Order: T1 and T2 first (decisions), then T4 and T3 (logic)
 A Swift package of SwiftUI components: [spec/apple-swift](spec/apple-swift/index.md). Depends on P43-T1 to T4. Order: T1, T2,
 T3, then T4 and T5 together, then T6 to T8.
 
-- [ ] **P44-T1 Scaffold `lily-design-system-swift`.** A SwiftPM package with `LilyCore`, `LilyUI`, `LilyIdentifiers` and
+- [x] **P44-T1 Scaffold `lily-design-system-swift`.** A SwiftPM package with `LilyCore`, `LilyUI`, `LilyIdentifiers` and
       `LilyThemes` products, Swift 6 language mode, strict concurrency, iOS and iPadOS 18 minimum (check current adoption
       first and record the figure), no third-party runtime dependency, and the required subproject files.
       Verify: `swift build` and `swift test` pass on macOS; `xcodebuild` builds for an iOS simulator; `bin/test` passes.
+      _(2026-11-22: done with `LilyCore` and `LilyUI`; `LilyIdentifiers` and `LilyThemes` wait for P43-T4 and P43-T5. iOS 18 is
+      the current and two previous majors; adoption figures not checked. Builds with no warnings for macOS and the iOS Simulator.)_
 - [ ] **P44-T2 `LilyCore` from the vectors.** Port the P43-T3 modules and the P43-T4 identifier validators to Swift, with
       Swift Testing reading every vector file.
       Verify: `swift test` passes on macOS and Linux; every vector file is read.
+      _(2026-11-22, progress: `search-text`, `middle-truncation` and the locale-independent `clinical-format` functions pass all
+      88 vectors on macOS; breaking `foldText` makes 12 cases fail. Linux not run yet. The rest follow P43-T3 and T4.)_
 - [ ] **P44-T3 Style protocol pattern and a first slice.** Define the `{Name}Style` / configuration / `.plain` / `.lily`
       pattern and ship it for a first slice of `lily` components: `field` (label, hint, error message), `error-summary`
       (takes VoiceOver focus and lists links to fields), `summary-list`, `alert`, `warning-text`, `badge`, `tag`, `card`,
       `empty-state`. Each gets an "Apple" section in its `AGENTS.md` with the accessibility and keyboard contract.
       Verify: a UI test per contract clause; no hardcoded user-facing string (a Swift rule in `bin/check-worldwide` and
       `bin/check-built-english`).
+      _(2026-11-22, progress: the pattern and `Field`, `ErrorSummary`, `SummaryList`, `SummaryListItem`, `WarningText` and
+      `LilyAlert` are in `LilyUI`; each keeps its accessibility outside the style, and the decisions that can be computed are in
+      `LilySemantics` with five Swift Testing tests. Not yet: `badge`, `tag`, `card`, `inset-text`; the per-clause UI tests (they
+      need the example app, P44-T5); the "Apple" sections in the AGENTS files; the Swift rule in the string checks.)_
 - [ ] **P44-T4 Healthcare and identifier views.** `observation-view`, `allergy-record-list`, `medication-view`, `age-view`,
       `duration-view`, `early-warning-score-view` in `LilyUI`; the identifier `-input` / `-view` pairs in `LilyIdentifiers`
       (start with the types the first adopter needs, then all 94), each input with the right `keyboardType`, autocorrection

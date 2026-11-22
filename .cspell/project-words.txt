@@ -156,6 +156,8 @@ autocorrection
 gradlew
 resizability
 swiftui
+nonspacing
+Okoro
 toggleable
 xcstrings
 yourusername
