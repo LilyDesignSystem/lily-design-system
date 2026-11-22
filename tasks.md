@@ -4391,7 +4391,10 @@ Kotlin UI is written. Order: T1 and T2 first (decisions), then T4 and T3 (logic)
       themes' primary, `oklch(45% 0.17 251)`, is `#0054AE` in the browser too, not the NHS Blue `#005EB8` their comment
       names; decide whether to re-baseline it (a web theme change, not a mobile one). The same day, Swift's `LilyThemes` gained
       the themed `.lily` styles (alert, badge, tag, card, inset text, warning text, summary list item) and `.lilyTheme(_:)`,
-      rendered in all six themes, at 100% of lines. Not yet: Compose's `LilyTheme`, and high-contrast variants.)_
+      rendered in all six themes, at 100% of lines. Compose followed: `LilyDecoration` in `lily-compose` (applied after each
+      component's semantics; `PlainDecoration` by default) and `LilyTheme(tokens) { }` in `lily-compose-themes`, tested to keep
+      every component's semantics in every theme, with the rails drawn under Robolectric's native graphics. Not yet:
+      high-contrast variants.)_
 - [ ] **P43-T6 Label packs as mobile resources.** A copy of `shared/label-packs/*.json` in each mobile package's resources,
       kept by `bin/sync-shared-modules`, with a loader in Swift and Kotlin; optionally generated `.xcstrings` and `strings.xml`.
       A key a pack lacks stays unset, never another language.

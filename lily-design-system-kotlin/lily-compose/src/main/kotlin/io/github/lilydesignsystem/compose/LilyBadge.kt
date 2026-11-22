@@ -9,6 +9,7 @@ import androidx.compose.ui.semantics.LiveRegionMode
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.liveRegion
+import androidx.compose.ui.text.TextStyle
 
 public enum class BadgeKind { Default, Info, Success, Warning, Error }
 
@@ -21,15 +22,16 @@ public enum class BadgeKind { Default, Info, Success, Warning, Error }
 public fun LilyBadge(
     text: String,
     modifier: Modifier = Modifier,
-    @Suppress("UNUSED_PARAMETER") kind: BadgeKind = BadgeKind.Default,
+    kind: BadgeKind = BadgeKind.Default,
     label: String? = null,
 ) {
+    val decoration = LocalLilyDecoration.current
     BasicText(
         text,
-        style = LocalLilyTextStyles.current.strong,
+        style = LocalLilyTextStyles.current.strong.merge(TextStyle(color = decoration.badgeText(kind))),
         modifier = modifier.clearAndSetSemantics {
             contentDescription = LilySemantics.badgeLabel(text, label)
             liveRegion = LiveRegionMode.Polite
-        },
+        }.then(decoration.badge(kind)),
     )
 }

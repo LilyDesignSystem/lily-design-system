@@ -33,7 +33,7 @@ public fun LilyAlert(
         modifier = modifier.clearAndSetSemantics {
             contentDescription = LilySemantics.spoken(heading, message) ?: message
             LilySemantics.liveRegion(politeness)?.let { liveRegion = it }
-        },
+        }.then(LocalLilyDecoration.current.alert(kind)),
         verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         heading?.let { BasicText(it, style = styles.strong) }

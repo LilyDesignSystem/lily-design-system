@@ -11,7 +11,7 @@ Phase 45).
 | `lily-core`    | Kotlin Multiplatform, no Android dependency: search folding and highlighting, middle truncation, clinical formatting.                                                                                  | JVM target; ported from `shared/` and proved equal by `shared/vectors/`. |
 | `lily-compose` | Compose components on `compose.foundation` and `compose.ui` only: `Field`, `ErrorSummary`, `SummaryList` / `SummaryListItem`, `WarningText`, `LilyAlert`, `LilyBadge`, `Tag`, `LilyCard`, `InsetText`. | First slice (P45-T3).                                                    |
 
-| `lily-compose-themes` | Generated tokens (`bin/generate-mobile-tokens`): `LilyTokens.light`, `dark`, `nhsEnglandPatients`, `govUk`, `uswds`, `japanDigitalAgency`, with the 20 colour roles and the radii and border in dp. | Light and dark pairs tested at 4.5:1; 100% of lines. |
+| `lily-compose-themes` | Generated tokens (`bin/generate-mobile-tokens`): `LilyTokens.light`, `dark`, `nhsEnglandPatients`, `govUk`, `uswds`, `japanDigitalAgency`, with the 20 colour roles and the radii and border in dp; and `LilyTheme(tokens) { … }`, which draws the components through `LocalLilyDecoration`. | Light and dark pairs tested at 4.5:1; semantics unchanged in every theme; 100% of lines. |
 | `lily-compose-examples` | A worked example of every `lily-compose` component (real words, its code beside it) and `ExampleCatalog`, a searchable list with a detail view: the mobile form of the web apps' `/components` routes. | Six Robolectric tests; every example composes. |
 
 Planned: `lily-compose-identifiers` (P43-T4, P45-T4), `lily-compose-themes` (P43-T5) and the optional `lily-compose-material3`
@@ -48,6 +48,15 @@ setContent {
     ExampleCatalog(title = "Components", searchLabel = "Search components", selected = selected, onSelect = { selected = it })
 }
 ```
+
+To draw the components with a theme, add `lily-compose-themes` and wrap the content once:
+
+```kotlin
+LilyTheme(if (isSystemInDarkTheme()) LilyTokens.dark else LilyTokens.govUk) { App() }
+```
+
+A theme decorates through `LocalLilyDecoration`, applied after each component's semantics, so it can change how a component
+looks but never what TalkBack reads. Text uses only the gated colour pairs; a severity colour is a rail or a border.
 
 ## Rules
 

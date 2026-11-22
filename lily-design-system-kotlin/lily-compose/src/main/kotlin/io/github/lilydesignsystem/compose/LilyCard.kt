@@ -32,7 +32,7 @@ public fun LilyCard(
                 isTraversalGroup = true
                 contentDescription = label
             }
-        },
+        }.then(LocalLilyDecoration.current.card()),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         heading?.let { BasicText(it, style = LocalLilyTextStyles.current.heading, modifier = Modifier.semantics { heading() }) }

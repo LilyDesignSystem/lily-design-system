@@ -10,5 +10,9 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 public fun InsetText(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
-    Box(modifier = modifier.semantics(mergeDescendants = true) {}.padding(start = 12.dp)) { content() }
+    Box(
+        modifier = modifier.semantics(mergeDescendants = true) {}
+            .then(LocalLilyDecoration.current.insetText())
+            .padding(start = 12.dp),
+    ) { content() }
 }

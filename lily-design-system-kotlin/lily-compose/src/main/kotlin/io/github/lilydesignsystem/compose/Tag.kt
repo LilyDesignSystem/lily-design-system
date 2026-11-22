@@ -27,6 +27,6 @@ public fun Tag(text: String, label: String, modifier: Modifier = Modifier, live:
                 stateDescription = text
                 liveRegion = LiveRegionMode.Polite
             }
-        },
+        }.then(LocalLilyDecoration.current.tag()),
     )
 }
