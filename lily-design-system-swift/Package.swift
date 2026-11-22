@@ -10,12 +10,15 @@ let package = Package(
     products: [
         .library(name: "LilyCore", targets: ["LilyCore"]),
         .library(name: "LilyUI", targets: ["LilyUI"]),
+        .library(name: "LilyUIExamples", targets: ["LilyUIExamples"]),
     ],
     targets: [
         .target(name: "LilyCore"),
         .target(name: "LilyUI", dependencies: ["LilyCore"]),
+        .target(name: "LilyUIExamples", dependencies: ["LilyUI", "LilyCore"]),
         .testTarget(name: "LilyCoreTests", dependencies: ["LilyCore"], resources: [.copy("vectors")]),
         .testTarget(name: "LilyUITests", dependencies: ["LilyUI"]),
+        .testTarget(name: "LilyUIExamplesTests", dependencies: ["LilyUIExamples"]),
     ],
     swiftLanguageModes: [.v6]
 )

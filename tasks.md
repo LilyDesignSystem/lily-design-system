@@ -4425,6 +4425,10 @@ T3, then T4 and T5 together, then T6 to T8.
       shipped component (demo, code, variants), plus patient banner, vaccination record and contact form screens.
       Verify: `performAccessibilityAudit()` passes on every screen (ignores listed with reasons; the list may only shrink);
       the Dynamic Type sweep (default, `accessibility3`, `accessibility5`) finds no clipped text or controls.
+      _(2026-11-22, progress: `LilyUIExamples` in the package holds a worked example of each of the nine `LilyUI` components,
+      with its code, and `ExampleCatalog`, a searchable list and detail screen (search through `LilyCore`'s folding). Tests
+      render every example and the catalog. Still to do: the Xcode app that hosts it, its UI tests, the audit and the Dynamic
+      Type sweep.)_
 - [ ] **P44-T6 Publish through an export repository.** `make publish-swift` pushes the package subtree to a read-only
       `lily-design-system-swift` repository and tags it; record why in [monorepo-github-pages](spec/monorepo-github-pages/index.md)
       (SwiftPM needs `Package.swift` at a repository root). Ask before the first push.
