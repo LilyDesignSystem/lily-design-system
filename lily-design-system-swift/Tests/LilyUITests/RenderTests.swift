@@ -5,6 +5,7 @@
 import SwiftUI
 import Testing
 
+import LilyCore
 @testable import LilyUI
 
 @MainActor private func render(_ view: some View) -> Bool {
@@ -157,4 +158,30 @@ private struct CustomInsetStyle: InsetTextStyle {
     #expect(render(InsetText { Text(verbatim: "It can take up to 8 weeks.") }))
     #expect(render(InsetText { Text(verbatim: "Custom") }.insetTextStyle(CustomInsetStyle())))
     #expect(render(InsetText { Text(verbatim: "Plain") }.insetTextStyle(.plain)))
+}
+
+private struct CustomObservationStyle: ObservationViewStyle {
+    func makeBody(configuration: ObservationViewStyleConfiguration) -> some View {
+        VStack {
+            configuration.value
+            configuration.flag
+            Text(verbatim: configuration.interpretation ?? "-")
+            Text(verbatim: configuration.observationStatus.rawValue)
+        }
+    }
+}
+
+@MainActor @Test func observationViewRendersEveryStatusAndPart() {
+    for status in ObservationStatus.allCases {
+        #expect(
+            render(
+                ObservationView(
+                    value: "6.1", unit: "mmol/L", interpretation: "H", flagLabel: "High", range: "3.5 to 5.5 mmol/L",
+                    ranges: [.init(label: "Critical", text: "above 6.5")], status: status, statusLabel: "Status words",
+                    previousValue: "5.1", previousLabel: "was 5.1 until 3 Nov", label: "Potassium", meterValue: 6.1,
+                    meter: MeterScale(min: 2.5, max: 6.5, low: 3.5, high: 5.5))))
+    }
+    #expect(render(ObservationView(value: "4.2").observationViewStyle(CustomObservationStyle())))
+    #expect(render(ObservationView(value: "4.2", interpretation: "N").observationViewStyle(.plain)))
+    #expect(ObservationView(value: "4.2", unit: "mmol/L", label: "Potassium").spoken == "Potassium\n4.2\u{00A0}mmol/L")
 }

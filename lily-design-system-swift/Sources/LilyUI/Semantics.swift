@@ -65,6 +65,13 @@ public enum LilySemantics {
         }
     }
 
+    /// Development warnings: printed in debug builds, for the developer, never shown to the user (the web's dev-warning).
+    public static func warn(_ messages: [String]) {
+        #if DEBUG
+            for message in messages { print("Lily: " + message) }
+        #endif
+    }
+
     /// Posts an announcement, if there is one.
     @MainActor public static func announce(_ text: AttributedString?) {
         guard let text else { return }

@@ -19,7 +19,7 @@ let package = Package(
         .target(name: "LilyUIExamples", dependencies: ["LilyUI", "LilyCore"]),
         .target(name: "LilyThemes", dependencies: ["LilyUI"]),
         .testTarget(name: "LilyCoreTests", dependencies: ["LilyCore"], resources: [.copy("vectors")]),
-        .testTarget(name: "LilyUITests", dependencies: ["LilyUI"]),
+        .testTarget(name: "LilyUITests", dependencies: ["LilyUI", "LilyCore"]),
         .testTarget(name: "LilyUIExamplesTests", dependencies: ["LilyUIExamples"]),
         .testTarget(name: "LilyThemesTests", dependencies: ["LilyThemes", "LilyUI"]),
     ],

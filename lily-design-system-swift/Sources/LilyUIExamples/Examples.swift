@@ -2,6 +2,7 @@
 // web examples' "real usage example" rule asks; the words are English demo content passed through the same parameters an app
 // localises. ExampleCatalog is the mobile form of the web apps' /components and /components/{slug} routes.
 
+import LilyCore
 import LilyUI
 import SwiftUI
 
@@ -157,6 +158,26 @@ public enum Examples {
             make: {
                 AnyView(
                     InsetText { Text(verbatim: "It can take up to 8 weeks to register a lasting power of attorney.") })
+            }),
+        Example(
+            slug: "observation-view", name: "ObservationView",
+            summary: "A clinical result with its unit, flag in words, reference range, status and a hidden meter.",
+            code: """
+                ObservationView(value: "6.1", unit: "mmol/L", interpretation: "H", flagLabel: "High",
+                                range: "3.5 to 5.5 mmol/L", label: "Potassium",
+                                meterValue: 6.1, meter: meterScale(6.1, low: 3.5, high: 5.5))
+                """,
+            make: {
+                AnyView(
+                    VStack(alignment: .leading, spacing: 16) {
+                        ObservationView(
+                            value: "6.1", unit: "mmol/L", interpretation: "H", flagLabel: "High",
+                            range: "3.5 to 5.5 mmol/L", label: "Potassium", meterValue: 6.1,
+                            meter: meterScale(6.1, low: 3.5, high: 5.5))
+                        ObservationView(
+                            value: "138", unit: "mmol/L", status: .unavailable, statusLabel: "Result not available yet",
+                            label: "Sodium")
+                    })
             }),
     ]
 

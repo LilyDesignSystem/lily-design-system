@@ -12,6 +12,7 @@ import Testing
     #expect(
         Set(slugs) == [
             "field", "error-summary", "summary-list", "warning-text", "alert", "badge", "tag", "card", "inset-text",
+            "observation-view",
         ])
     #expect(Examples.all.allSatisfy { !$0.code.isEmpty && !$0.summary.isEmpty && $0.id == $0.slug })
 }

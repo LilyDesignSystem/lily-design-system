@@ -27,7 +27,10 @@ class ExamplesTest {
         val slugs = Examples.all.map { it.slug }
         assertEquals(slugs.toSet().size, slugs.size)
         assertEquals(
-            setOf("field", "error-summary", "summary-list", "warning-text", "alert", "badge", "tag", "card", "inset-text"),
+            setOf(
+                "field", "error-summary", "summary-list", "warning-text", "alert", "badge", "tag", "card", "inset-text",
+                "observation-view",
+            ),
             slugs.toSet(),
         )
         assertTrue(Examples.all.all { it.code.isNotEmpty() && it.summary.isNotEmpty() })

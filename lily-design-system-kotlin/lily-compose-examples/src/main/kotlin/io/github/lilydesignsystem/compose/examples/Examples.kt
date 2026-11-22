@@ -44,7 +44,10 @@ import io.github.lilydesignsystem.compose.SummaryList
 import io.github.lilydesignsystem.compose.SummaryListItem
 import io.github.lilydesignsystem.compose.Tag
 import io.github.lilydesignsystem.compose.WarningText
+import io.github.lilydesignsystem.compose.ObservationView
+import io.github.lilydesignsystem.core.ObservationStatus
 import io.github.lilydesignsystem.core.matchesSearch
+import io.github.lilydesignsystem.core.meterScale
 
 /** One worked example: the catalog slug, the composable's name, a one-line summary, its code and the composable itself. */
 public class Example(
@@ -152,6 +155,26 @@ public object Examples {
             "inset-text", "InsetText", "Supplementary text set apart, one TalkBack stop.",
             """InsetText { BasicText("It can take up to 8 weeks to register a lasting power of attorney.") }""",
         ) { InsetText { BasicText("It can take up to 8 weeks to register a lasting power of attorney.") } },
+        Example(
+            "observation-view", "ObservationView",
+            "A clinical result with its unit, flag in words, reference range, status and a hidden meter.",
+            """
+            ObservationView(value = "6.1", unit = "mmol/L", interpretation = "H", flagLabel = "High",
+                            range = "3.5 to 5.5 mmol/L", label = "Potassium",
+                            meterValue = 6.1, meter = meterScale(6.1, 3.5, 5.5))
+            """.trimIndent(),
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                ObservationView(
+                    value = "6.1", unit = "mmol/L", interpretation = "H", flagLabel = "High", range = "3.5 to 5.5 mmol/L",
+                    label = "Potassium", meterValue = 6.1, meter = meterScale(6.1, 3.5, 5.5),
+                )
+                ObservationView(
+                    value = "138", unit = "mmol/L", status = ObservationStatus.Unavailable,
+                    statusLabel = "Result not available yet", label = "Sodium",
+                )
+            }
+        },
     )
 
     /** The examples whose name, slug or summary match [query], with Lily's search folding (case and accents ignored). */

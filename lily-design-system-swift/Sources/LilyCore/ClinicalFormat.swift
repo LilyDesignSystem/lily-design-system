@@ -16,6 +16,13 @@ public struct MeterScale: Equatable, Sendable {
     public var max: Double
     public var low: Double?
     public var high: Double?
+
+    public init(min: Double, max: Double, low: Double? = nil, high: Double? = nil) {
+        self.min = min
+        self.max = max
+        self.low = low
+        self.high = high
+    }
 }
 
 /// Two-sided range: half a range beyond each end. One-sided: from zero to half as far again as the bound. Always wide enough to

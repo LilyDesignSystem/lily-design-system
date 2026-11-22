@@ -25,9 +25,13 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
+import org.robolectric.annotation.GraphicsMode
+import androidx.compose.ui.test.captureToImage
+import androidx.compose.ui.test.onRoot
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [36])
+@GraphicsMode(GraphicsMode.Mode.NATIVE)
 class ComponentSemanticsTest {
     @get:Rule val rule = createComposeRule()
 
@@ -145,5 +149,39 @@ class ComponentSemanticsTest {
         rule.setContent { InsetText { BasicText("It can take up to 8 weeks.") } }
         val merges = SemanticsMatcher("merges its descendants") { it.config.isMergingSemanticsOfDescendants }
         rule.onNode(hasText("It can take up to 8 weeks.") and merges).assertExists()
+    }
+
+    @Test fun observationViewIsOneStopSpeakingTheRulesInOrder() {
+        rule.setContent {
+            androidx.compose.foundation.layout.Column {
+                ObservationView(
+                    value = "6.1", unit = "mmol/L", interpretation = "H", flagLabel = "High", range = "3.5 to 5.5 mmol/L",
+                    ranges = listOf(io.github.lilydesignsystem.core.NamedRange("Critical", "above 6.5")),
+                    status = io.github.lilydesignsystem.core.ObservationStatus.Amended, statusLabel = "Amended",
+                    previousValue = "5.1", previousLabel = "was 5.1 until 3 Nov", label = "Potassium",
+                    meterValue = 6.1, meter = io.github.lilydesignsystem.core.MeterScale(2.5, 6.5, 3.5, 5.5),
+                )
+                ObservationView(
+                    value = "5.2", status = io.github.lilydesignsystem.core.ObservationStatus.Masked,
+                    statusLabel = "Hidden at the patient's request", label = "Sodium",
+                    meterValue = 5.2, meter = io.github.lilydesignsystem.core.MeterScale(0.0, 10.0),
+                )
+                ObservationView(value = "4.2", interpretation = "N", flagLabel = "Normal")
+            }
+        }
+        rule.onNodeWithContentDescription(
+            "Potassium\n6.1\u00A0mmol/L\nHigh\n3.5 to 5.5 mmol/L\nCritical\u00A0above 6.5\nAmended\nwas 5.1 until 3 Nov",
+        ).assertExists()
+        rule.onNodeWithContentDescription("Sodium\nHidden at the patient's request").assertExists()
+        rule.onNodeWithContentDescription("4.2").assertExists()
+        rule.onAllNodesWithText("Normal").assertCountEquals(0)
+        rule.onRoot().captureToImage() // draws the meter
+    }
+
+    @Test fun observationWarningsCanBeSilenced() {
+        LilyWarnings.enabled = false
+        rule.setContent { ObservationView(value = "9", interpretation = "H") }
+        rule.onNodeWithContentDescription("9").assertExists()
+        LilyWarnings.enabled = true
     }
 }
