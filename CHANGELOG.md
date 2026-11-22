@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## The home page's newer tiles in 51 languages (2026-11-22, P41-T8a)
+
+- The Styles, Compare and Accessibility tiles have words in 51 of the site's 59 languages (unreviewed drafts: the headings of Compare and Accessibility are the
+  titles of each language's own translated page, the rest are machine drafts for a native speaker to check). Twelve languages show the English words until
+  someone supplies them. Also fixed: four type errors in the style-guide and Welsh portal example pages (`svelte-check` is at 0 errors).
+
 ## The docs site reflows at the largest text size (2026-11-22, P41-T8b)
 
 - At 320px and the largest text size no home page scrolls sideways, in any of its 117 routes (`tests/home-tiles.spec.ts`). The causes were the header's

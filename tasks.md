@@ -4272,7 +4272,7 @@ current design system. No person or organisation is named. Order: T1 first (a tr
       [spec/homepage](spec/homepage/index.md)); the rule is in the site's `AGENTS.md`; `tests/home-tiles.spec.ts` covers every
       locale home. Also fixed: the hero's framework icon row overflowed to the left at 320px in right-to-left languages
       (`:dir(rtl)` mirror). Still open: P41-T8a (the three new tiles' strings in every language) and P41-T8b.
-- [ ] **P41-T8a Translate the three new tile strings.** `styles`, `compare` and `accessibility` have English words only; every other
+- [ ] **P41-T8a Translate the three new tile strings.** 51 of 59 languages done 2026-11-22 (unreviewed drafts; the Compare and Accessibility headings are the titles of each language's own pages). Open: Luxembourgish, Javanese, Hausa, Bhojpuri, Scottish Gaelic, Nigerian Pidgin, Khmer, Lao, Wu Chinese, Scots, Cornish and Maltese (English until a speaker supplies them), and a native-speaker review of the 51, as for the label packs. Original description: `styles`, `compare` and `accessibility` have English words only; every other
       language shows them (`homeTile` falls back). Add them to each language in `src/lib/i18n.ts`.
       Verify: `tests/home-tiles.spec.ts` no longer needs the English fallback for a language it lists; a check that every language
       in `i18n.ts` has all six tiles.

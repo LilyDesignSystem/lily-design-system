@@ -63,8 +63,7 @@ Accessibility. `/` is its own page, not `LocaleHome`, so it renders `HomeTiles` 
   `--lily-content-max` (72rem), so a container is the same width at 1280 and at 1920 pixels and cannot tell 3 from 6. This
   is a page-shell decision, which [responsive](../responsive/index.md) allows for the window. At 6 columns the tiles are about
   10rem wide, so the minimum of 14rem above holds for 1 to 3 columns only.
-- **Words.** The three older tiles' strings are in every language; `styles`, `compare` and `accessibility` are optional in
-  `UiStrings`, and `homeTile(locale, tile)` returns the English words for a language without them. Translating them is open.
+- **Words.** The three older tiles' strings are in every language. `styles`, `compare` and `accessibility` are optional in `UiStrings`, and `homeTile(locale, tile)` returns the English words for a language without them. They are written for 51 of the 59 languages (2026-11-22, unreviewed drafts): the Compare and Accessibility headings are the titles of that language's own translated pages, the rest are machine drafts. Luxembourgish, Javanese, Hausa, Bhojpuri, Scottish Gaelic, Nigerian Pidgin, Khmer, Lao, Wu Chinese, Scots, Cornish and Maltese show the English words until a speaker supplies them.
 - **Whole-tile link.** The link is in the heading, carries `data-lily-card-link`, and `style.css` stretches it over the tile itself
   (the themes' rule does the same once a theme has loaded).
 - **Test.** `tests/home-tiles.spec.ts`: every locale home plus `/` has six tiles directly after the hero, each one link with a heading
