@@ -185,3 +185,17 @@ private struct CustomObservationStyle: ObservationViewStyle {
     #expect(render(ObservationView(value: "4.2", interpretation: "N").observationViewStyle(.plain)))
     #expect(ObservationView(value: "4.2", unit: "mmol/L", label: "Potassium").spoken == "Potassium\n4.2\u{00A0}mmol/L")
 }
+
+@MainActor @Test func ageAndDurationViewsRenderAndParse() {
+    #expect(render(AgeView("5 years 2 months", duration: "P5Y2M", label: "Age")))
+    #expect(render(AgeView("3 weeks")))
+    #expect(render(DurationView("3 days early", duration: "-P3D", label: "Delivery")))
+    #expect(DurationView("3 days early", duration: "-P3D").parsed! == ("P3D", true))
+    #expect(DurationView("1 year", duration: "P1Y").parsed == nil)
+    #expect(DurationView.warnings("P1Y").count == 1)
+    #expect(DurationView.warnings("PT90M").isEmpty)
+    #expect(render(DurationView("90 minutes", duration: "PT90M")))
+    // An empty value with no label still renders (and speaks nothing rather than crashing).
+    #expect(render(AgeView("")))
+    #expect(render(DurationView("", duration: "PT0S")))
+}

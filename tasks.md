@@ -4434,8 +4434,8 @@ T3, then T4 and T5 together, then T6 to T8.
       Verify: UI tests per clause; the input properties asserted for every identifier input.
       _(2026-11-22, progress: `ObservationView` done, with its rules as `ObservationRules` in `LilyCore` (seven tests): a missing
       result speaks its status words, any status but final is shown, no flag is inferred from a range, value and unit are
-      joined by a no-break space, missing words warn in debug builds. In the example catalog. The other views and the
-      identifiers follow.)_
+      joined by a no-break space, missing words warn in debug builds. In the example catalog. `AgeView` and `DurationView`
+      followed the same day. Still to do: `allergy-record-list`, `medication-view`, `early-warning-score-view`, the identifiers.)_
 - [ ] **P44-T5 Example app.** `lily-design-system-swift-examples`: home, a searchable component list and a detail screen per
       shipped component (demo, code, variants), plus patient banner, vaccination record and contact form screens.
       Verify: `performAccessibilityAudit()` passes on every screen (ignores listed with reasons; the list may only shrink);
@@ -4486,7 +4486,7 @@ Same order as Phase 44; the two can run side by side once P43 is done.
 - [ ] **P45-T4 Healthcare and identifier composables.** As P44-T4, with `KeyboardOptions` asserted for every identifier input.
       Verify: Robolectric tests per clause; ATF (`enableAccessibilityChecks()`) passes on an API 34+ emulator.
       _(2026-11-22, progress: `ObservationView` done on the same `ObservationRules` (in `lily-core`, six tests), with a hidden
-      `Canvas` meter and `LilyWarnings`; in the example catalog. ATF not run yet.)_
+      `Canvas` meter and `LilyWarnings`; in the example catalog. `AgeView` and `DurationView` followed. ATF not run yet.)_
 - [ ] **P45-T5 Example app.** `lily-design-system-android-examples`, adaptive (list-detail on wide windows), with the same
       screens as P44-T5.
       Verify: every screen at 320dp, font scale 1.0, 1.5 and 2.0 and a large resizable window shows no clipped text or lost

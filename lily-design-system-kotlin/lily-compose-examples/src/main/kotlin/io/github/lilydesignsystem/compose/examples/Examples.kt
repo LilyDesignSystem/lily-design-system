@@ -29,7 +29,9 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
+import io.github.lilydesignsystem.compose.AgeView
 import io.github.lilydesignsystem.compose.AlertKind
+import io.github.lilydesignsystem.compose.DurationView
 import io.github.lilydesignsystem.compose.BadgeKind
 import io.github.lilydesignsystem.compose.ErrorSummary
 import io.github.lilydesignsystem.compose.Field
@@ -175,6 +177,14 @@ public object Examples {
                 )
             }
         },
+        Example(
+            "age-view", "AgeView", "An age in the app's words, with its ISO 8601 duration.",
+            """AgeView("5 years 2 months", duration = toIsoDuration(parts), label = "Age")""",
+        ) { AgeView("5 years 2 months", duration = "P5Y2M", label = "Age") },
+        Example(
+            "duration-view", "DurationView", "A length of time in the app's words; the direction is in the words.",
+            """DurationView("3 days early", duration = "-P3D", label = "Delivery")""",
+        ) { DurationView("3 days early", duration = "-P3D", label = "Delivery") },
     )
 
     /** The examples whose name, slug or summary match [query], with Lily's search folding (case and accents ignored). */

@@ -184,4 +184,22 @@ class ComponentSemanticsTest {
         rule.onNodeWithContentDescription("9").assertExists()
         LilyWarnings.enabled = true
     }
+
+    @Test fun ageAndDurationViewsSpeakLabelThenValue() {
+        rule.setContent {
+            androidx.compose.foundation.layout.Column {
+                AgeView("5 years 2 months", duration = "P5Y2M", label = "Age")
+                AgeView("")
+                DurationView("3 days early", duration = "-P3D", label = "Delivery")
+                DurationView("1 year", duration = "P1Y")
+            }
+        }
+        rule.onNodeWithContentDescription("Age\n5 years 2 months").assertExists()
+        rule.onNodeWithContentDescription("Delivery\n3 days early").assertExists()
+        rule.onNodeWithContentDescription("1 year").assertExists()
+        assertEquals(io.github.lilydesignsystem.core.HtmlDuration("P3D", true), parsedDuration("-P3D"))
+        assertNull(parsedDuration("P1Y"))
+        assertEquals(1, durationWarnings("P1Y").size)
+        assertEquals(0, durationWarnings("PT90M").size)
+    }
 }

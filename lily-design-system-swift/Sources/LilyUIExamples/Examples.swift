@@ -179,6 +179,15 @@ public enum Examples {
                             label: "Sodium")
                     })
             }),
+        Example(
+            slug: "age-view", name: "AgeView", summary: "An age in the app's words, with its ISO 8601 duration.",
+            code: #"AgeView("5 years 2 months", duration: toIsoDuration(parts), label: "Age")"#,
+            make: { AnyView(AgeView("5 years 2 months", duration: "P5Y2M", label: "Age")) }),
+        Example(
+            slug: "duration-view", name: "DurationView",
+            summary: "A length of time in the app's words; the direction is in the words.",
+            code: #"DurationView("3 days early", duration: "-P3D", label: "Delivery")"#,
+            make: { AnyView(DurationView("3 days early", duration: "-P3D", label: "Delivery")) }),
     ]
 
     /// The examples whose name, slug or summary match `query`, with Lily's own search folding (case and accents ignored).
