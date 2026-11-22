@@ -9,6 +9,13 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## The docs site reflows at the largest text size (2026-11-22, P41-T8b)
+
+- At 320px and the largest text size no home page scrolls sideways, in any of its 117 routes (`tests/home-tiles.spec.ts`). The causes were the header's
+  picker bar (`flex-shrink: 0`, six pickers that could not wrap), a long word in a heading or the hero's tagline (Welsh, Finnish, Tamil), the English home's
+  `minmax(16rem, 1fr)` grids and component list, and the framework icon row, which needed 904px for ten icons (a link is now 4.5rem). The icon-row spec still
+  expected nine icons (Solid joined 2026-11-18); it expects ten.
+
 ## One owner for a section's status words (2026-11-22, P42-T6; eight catalogs)
 
 - `international-patient-summary-section` takes `statusPlacement`: `"heading"` (the default, as before) prints the status label under the heading;

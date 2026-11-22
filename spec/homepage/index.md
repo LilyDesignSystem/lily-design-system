@@ -70,7 +70,7 @@ Accessibility. `/` is its own page, not `LocaleHome`, so it renders `HomeTiles` 
 - **Test.** `tests/home-tiles.spec.ts`: every locale home plus `/` has six tiles directly after the hero, each one link with a heading
   and a description, no raw key; the column counts at 320, 768, 1280 and 1920 pixels on five homes; the tiles do not scroll sideways at
   the largest text size.
-- **Known gap.** At the largest text size the hero's framework icon row still overflows the page at 320 pixels (task P41-T8b).
+- **Reflow.** Every home, in every language, does not scroll sideways at 320 pixels at the largest text size (`tests/home-tiles.spec.ts`, 117 routes). Found and fixed on the way (P41-T8b): the header's picker bar had `flex-shrink: 0` and could not wrap its six pickers; a long word in a heading or the hero's tagline (Welsh, Finnish, Tamil) had no break; the English home's card grid and component list asked for `16rem` tracks; and ten framework icons (Solid joined) needed 904px for one row, so a link is now 4.5rem.
 
 ## Acceptance criteria
 

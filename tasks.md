@@ -4276,7 +4276,7 @@ current design system. No person or organisation is named. Order: T1 first (a tr
       language shows them (`homeTile` falls back). Add them to each language in `src/lib/i18n.ts`.
       Verify: `tests/home-tiles.spec.ts` no longer needs the English fallback for a language it lists; a check that every language
       in `i18n.ts` has all six tiles.
-- [ ] **P41-T8b The hero's icon row overflows at the largest text size.** At 320px with `data-text-size="largest"` the page scrolls
+- [x] **P41-T8b The home page overflows at the largest text size.** Done 2026-11-22; the cause was not the hero's icon row but the header's picker bar (`flex-shrink: 0`), headings and the tagline with no break for a long word, the English home's grids with `minmax(16rem, 1fr)`, and ten icons needing 904px. `tests/home-tiles.spec.ts` now checks every locale home page-wide at 320px and the largest size, and `tests/framework-icons.spec.ts` expects the ten icons. Original description: At 320px with `data-text-size="largest"` the page scrolls
       sideways (the row is `width: min(calc(100vw - 2rem), …)` with `rem` gaps and 5rem links, which grow with the text).
       Verify: `tests/home-tiles.spec.ts` asserts the whole page, not only the tiles, at the largest size.
 - [ ] **P41-T9 Use the picker names in the apps.** The `pickers` section is in all 64 packs and loaded in TypeScript and Blazor
