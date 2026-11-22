@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The app's own words. Lily's components have none; an app supplies them, in strings.xml or a label pack. -->
+<resources>
+    <string name="app_name">Lily examples</string>
+    <string name="catalog_title">Components</string>
+    <string name="catalog_search">Search components</string>
+</resources>

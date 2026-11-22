@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The example app stores nothing worth backing up (Android 11 and earlier). -->
+<full-backup-content>
+    <exclude domain="root" path="." />
+</full-backup-content>

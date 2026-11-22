@@ -99,8 +99,7 @@ packs shipped as resources. On Android:
    - `lily-compose-material3`: an optional adapter: `LilyMaterialTheme` maps Lily tokens to a Material 3
      `ColorScheme`, `Typography` and `Shapes`, so the `native` controls (Material's `Switch`, `DatePicker`, sheets) wear
      the same theme. Material 3 1.5 or later.
-     Requirements: Kotlin 2.4, explicit API mode (`explicitApi()`), binary-compatibility validation, `minSdk` 23 (the floor
-     current AndroidX libraries set; confirm at P45-T1), `compileSdk` and `targetSdk` 37, no runtime dependency beyond
+     Requirements: Kotlin 2.4, explicit API mode (`explicitApi()`), binary-compatibility validation, `minSdk` 24 (Compose 1.13's floor; an app's manifest merge refuses 23), `compileSdk` and `targetSdk` 37, no runtime dependency beyond
      AndroidX and kotlinx.
 4. **Publishing from the monorepo.** Maven Central does not care where the source lives, so the Gradle build publishes
    from its subproject directory, from the maintainer's machine, like the npm packages

@@ -15,7 +15,7 @@ Phase 45).
 | `lily-compose-examples` | A worked example of every `lily-compose` component (real words, its code beside it) and `ExampleCatalog`, a searchable list with a detail view: the mobile form of the web apps' `/components` routes. | Six Robolectric tests; every example composes. |
 
 Planned: `lily-compose-identifiers` (P43-T4, P45-T4), `lily-compose-themes` (P43-T5) and the optional `lily-compose-material3`
-adapter. Requirements: Kotlin 2.4, `minSdk` 23, compileSdk 37.2 (Compose 1.13 requires 37.1 or later), JVM bytecode 17.
+adapter. Requirements: Kotlin 2.4, `minSdk` 24 and compileSdk 37.2 (Compose 1.13 requires both), JVM bytecode 17.
 
 ## Use
 
@@ -39,7 +39,9 @@ Every word is the app's: Lily has no default text and no string resources. `Fiel
 the spoken name and the error; apply it to the control. Text styles come from `LocalLilyTextStyles`, which defaults to the
 platform's text, so the user's font scale applies unchanged.
 
-To browse every component on a device, host the catalog in any activity; navigation stays the app's:
+`lily-compose-examples-app` is a ready app that does this (`./gradlew :lily-compose-examples-app:installDebug` on a device or
+emulator): the catalog in `LilyTheme`, light or dark with the system, edge to edge, system back to leave a detail, every word
+in its `strings.xml`. To host the catalog in your own activity, navigation stays the app's:
 
 ```kotlin
 setContent {

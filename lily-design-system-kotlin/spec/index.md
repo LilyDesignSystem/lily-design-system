@@ -5,7 +5,7 @@ criteria. Tasks: [tasks.md Phase 45](../../tasks.md#phase-45--android-kotlin-202
 
 ## Acceptance criteria
 
-- [x] One Gradle build with `lily-core` (multiplatform) and `lily-compose`, Kotlin 2.4, explicit API mode, `minSdk` 23 (P45-T1).
+- [x] One Gradle build with `lily-core` (multiplatform) and `lily-compose`, Kotlin 2.4, explicit API mode, `minSdk` 24 (Compose 1.13's floor, found 2026-11-22 when the example app merged manifests; 23 was wrong) (P45-T1).
 - [x] `lily-compose` has no Material dependency, enforced by `checkNoMaterial`, which was seen to fail when Material 3 was added.
 - [x] `lily-core` ports `search-text`, `middle-truncation` and the locale-independent `clinical-format` functions and passes all
       88 cases in `shared/vectors/`; a deliberately broken port fails (P45-T2, first modules).

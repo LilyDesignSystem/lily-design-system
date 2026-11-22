@@ -8,7 +8,7 @@ plugins {
 android {
     namespace = "io.github.lilydesignsystem.compose.themes"
     compileSdk { version = release(37) { minorApiLevel = 2 } }
-    defaultConfig { minSdk = 23 }
+    defaultConfig { minSdk = 24 }
     testOptions { unitTests { isIncludeAndroidResources = true } }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

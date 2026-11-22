@@ -4476,7 +4476,7 @@ Same order as Phase 44; the two can run side by side once P43 is done.
 
 - [x] **P45-T1 Scaffold `lily-design-system-kotlin`.** One Gradle build (version catalog, Kotlin 2.4, explicit API mode,
       binary-compatibility validation) with `lily-core` (Kotlin Multiplatform), `lily-compose`, `lily-compose-identifiers`,
-      `lily-compose-themes` and `lily-compose-material3`; `minSdk` 23 (confirm against current AndroidX) and
+      `lily-compose-themes` and `lily-compose-material3`; `minSdk` 24 (confirmed 2026-11-22: Compose 1.13 requires it; 23 fails the app's manifest merge) and
       `compileSdk`/`targetSdk` 37.
       Verify: `./gradlew build` passes; a dependency check fails if `lily-compose` depends on any Material artifact.
       _(2026-11-22: done with `lily-core` and `lily-compose`; the identifiers, themes and Material 3 modules wait for P43-T4 and
@@ -4507,7 +4507,10 @@ Same order as Phase 44; the two can run side by side once P43 is done.
       control (`DeviceConfigurationOverride`); ATF passes with ignores listed and reasons.
       _(2026-11-22, progress: `lily-compose-examples` holds a worked example of each of the nine `lily-compose` components, with
       its code, and `ExampleCatalog`, a searchable list and detail view (navigation left to the app). Six Robolectric tests,
-      100% of lines. Still to do: the Android app that hosts it, ATF and the size sweep.)_
+      100% of lines. Then `lily-compose-examples-app`, an application module hosting the catalog in `LilyTheme`, light or dark
+      with the system, edge to edge, system back closing a detail, its words in `strings.xml`: `assembleDebug` builds an APK,
+      lint is clean. Building it found that Compose 1.13 needs `minSdk` 24, so every module moved from 23. Still to do: run it
+      on an emulator, ATF and the size sweep.)_
 - [ ] **P45-T6 Publish to Maven Central.** Verify the `io.github.lilydesignsystem` namespace (or a domain the project owns),
       sign artifacts, add `bin/publish-kotlin` publishing from the monorepo like `bin/publish-helpers`, and extend
       `bin/check-package-metadata` and `bin/verify-published` to the POMs. Ask before the first publish.
