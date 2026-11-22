@@ -1,0 +1,59 @@
+#!/usr/bin/env node
+// Every national identifier type is either validated, recorded as having no usable check (with the reason), or open
+// (tasks.md P43-T3, P43-T4). `shared/national-identifiers.tsv` is the list; this checks it against the catalog and the module.
+
+const fs = require("fs");
+const path = require("path");
+
+const top = path.join(__dirname, "..");
+const read = (file) => fs.readFileSync(path.join(top, file), "utf8");
+const errors = [];
+
+const slugs = read("components-categories.tsv")
+    .trim()
+    .split("\n")
+    .map((line) => line.split("\t"))
+    .filter((c) => c[2] === "national" && c[0].endsWith("-input"))
+    .map((c) => c[0].slice(0, -"-input".length));
+
+const exported = new Set(
+    [...read("shared/national-identifiers.ts").matchAll(/^export function (validate[A-Za-z0-9]+)\(/gm)].map(
+        (m) => m[1],
+    ),
+);
+
+const rows = new Map();
+for (const line of read("shared/national-identifiers.tsv").split("\n")) {
+    if (!line || line.startsWith("#") || line.startsWith("slug\t")) continue;
+    const [slug, status, detail] = line.split("\t");
+    if (rows.has(slug)) errors.push(`${slug}: listed twice`);
+    rows.set(slug, { status, detail });
+}
+
+const claimed = new Set();
+for (const slug of slugs) {
+    const row = rows.get(slug);
+    if (!row) {
+        errors.push(`${slug}: not in shared/national-identifiers.tsv`);
+        continue;
+    }
+    if (row.status === "validated") {
+        if (!exported.has(row.detail)) errors.push(`${slug}: ${row.detail} is not exported by shared/national-identifiers.ts`);
+        claimed.add(row.detail);
+    } else if (row.status === "no-check") {
+        if (!row.detail || row.detail.length < 20) errors.push(`${slug}: a no-check row needs its reason`);
+    } else if (row.status !== "open") {
+        errors.push(`${slug}: unknown status "${row.status}"`);
+    }
+}
+for (const slug of rows.keys()) if (!slugs.includes(slug)) errors.push(`${slug}: not a national identifier input in the catalog`);
+for (const name of exported) if (!claimed.has(name)) errors.push(`${name}: exported but no type claims it`);
+
+const count = (status) => [...rows.values()].filter((r) => r.status === status).length;
+if (errors.length) {
+    console.error(errors.join("\n"));
+    process.exit(1);
+}
+console.log(
+    `check-identifier-validation: ${slugs.length} types: ${count("validated")} validated, ${count("no-check")} no usable check, ${count("open")} open`,
+);

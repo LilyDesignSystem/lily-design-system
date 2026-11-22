@@ -1,0 +1,97 @@
+# One row per national identifier type (the -input slug without its suffix): validated (a function in shared/national-identifiers.ts), no-check (the scheme has no usable check, with the reason) or open (not done yet).
+# bin/check-identifier-validation fails when a type is missing or listed twice, a validator is not exported or claimed, or a no-check row has no reason.
+slug	status	validator or reason
+alba-community-health-index	open	no validator yet (tasks.md P43-T3)
+australia-individual-healthcare-identifier	open	no validator yet (tasks.md P43-T3)
+belgique-numero-de-registre-national	validated	validateBelgiqueRegistreNational
+bulgaria-edinen-grazhdanski-nomer	validated	validateBulgariaEdinenGrazhdanskiNomer
+cesko-cestovni-pas	open	no validator yet (tasks.md P43-T3)
+cesko-rodne-cislo	validated	validateRodneCislo
+cymru-rhif-y-gwasanaeth-iechyd-gwladol	validated	validateNhsNumber
+kypros-national-passport-number	open	no validator yet (tasks.md P43-T3)
+danmark-personnummer	open	no validator yet (tasks.md P43-T3)
+deutschland-krankenversichertennummer	open	no validator yet (tasks.md P43-T3)
+eesti-isikukood	validated	validateEestiIsikukood
+ellada-dematerialised-securities-system	open	no validator yet (tasks.md P43-T3)
+england-national-health-service-number	validated	validateNhsNumber
+espana-codigo-de-identificacion-fiscal	open	no validator yet (tasks.md P43-T3)
+espana-tarjeta-sanitaria-individual	open	no validator yet (tasks.md P43-T3)
+france-numero-d-identification-au-repertoire	validated	validateFranceNir
+hrvatska-osobni-identifikacijski-broj	open	no validator yet (tasks.md P43-T3)
+eire-individual-health-identifier	open	no validator yet (tasks.md P43-T3)
+island-kennitala	open	no validator yet (tasks.md P43-T3)
+italia-codice-fiscale	validated	validateItaliaCodiceFiscale
+latvija-personas-kods	validated	validateLatvijaPersonasKods
+liechtenstein-national-identity-card-number	open	no validator yet (tasks.md P43-T3)
+liechtenstein-passport-number	open	no validator yet (tasks.md P43-T3)
+lietuva-asmens-kodas	validated	validateLietuvaAsmensKodas
+lietuva-pasas	open	no validator yet (tasks.md P43-T3)
+malta-national-identification-number	open	no validator yet (tasks.md P43-T3)
+malta-passport-number	open	no validator yet (tasks.md P43-T3)
+nederland-burgerservice-nummer	validated	validateNederlandBurgerservicenummer
+nederland-identiteitskaart-nummer	open	no validator yet (tasks.md P43-T3)
+nederland-paspoort-nummer	open	no validator yet (tasks.md P43-T3)
+norge-fodselsnummer	validated	validateNorgeFodselsnummer
+tuaisceart-eireann-health-and-care-number	validated	validateNhsNumber
+polska-numer-identyfikacji-podatkowej	open	no validator yet (tasks.md P43-T3)
+polska-pesel	validated	validatePolskaPesel
+portugal-numero-de-identificacao-fiscal	validated	validatePortugalNumeroDeIdentificacaoFiscal
+portugal-passaporte	open	no validator yet (tasks.md P43-T3)
+romania-cod-numeric-personal	open	no validator yet (tasks.md P43-T3)
+romania-pasaport	open	no validator yet (tasks.md P43-T3)
+slovenija-emso	open	no validator yet (tasks.md P43-T3)
+slovensko-pas	open	no validator yet (tasks.md P43-T3)
+slovensko-rodne-cislo	validated	validateRodneCislo
+suomi-henkilotunnus	validated	validateSuomiHenkilotunnus
+sverige-personnummer	validated	validateSverigePersonnummer
+united-kingdom-national-health-service-number	validated	validateNhsNumber
+united-kingdom-national-insurance-number	open	no validator yet (tasks.md P43-T3)
+united-states-social-security-number	open	no validator yet (tasks.md P43-T3)
+aotearoa-national-health-index	open	no validator yet (tasks.md P43-T3)
+pilipinas-philhealth-identification-number	open	no validator yet (tasks.md P43-T3)
+brasil-cartao-nacional-de-saude	open	no validator yet (tasks.md P43-T3)
+schweiz-ahv-nummer	validated	validateSchweizAhvNummer
+canada-social-insurance-number	validated	validateCanadaSocialInsuranceNumber
+hanguk-jumin-deungnok-beonho	no-check	Numbers issued since October 2020 carry no valid check digit, so the old check would flag genuine numbers.
+nihon-kojin-bango	validated	validateNihonKojinBango
+bharat-aadhaar	validated	validateBharatAadhaar
+yisrael-teudat-zehut	open	no validator yet (tasks.md P43-T3)
+south-africa-identity-number	validated	validateSouthAfricaIdentityNumber
+mexico-clave-unica-de-registro-de-poblacion	validated	validateMexicoClaveUnicaDeRegistroDePoblacion
+singapore-national-registration-identity-card	validated	validateSingaporeNationalRegistrationIdentityCard
+osterreich-sozialversicherungsnummer	open	no validator yet (tasks.md P43-T3)
+magyarorszag-taj-szam	validated	validateMagyarorszagTajSzam
+luxembourg-matricule	open	no validator yet (tasks.md P43-T3)
+zhongguo-jumin-shenfenzheng-haoma	validated	validateZhongguoJuminShenfenzhengHaoma
+rossiya-snils	validated	validateRossiyaSnils
+turkiye-tc-kimlik-numarasi	validated	validateTurkiyeTcKimlikNumarasi
+argentina-codigo-unico-de-identificacion-laboral	validated	validateArgentinaCodigoUnicoDeIdentificacionLaboral
+ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv	open	no validator yet (tasks.md P43-T3)
+indonesia-nomor-induk-kependudukan	open	no validator yet (tasks.md P43-T3)
+prathet-thai-lek-prajam-tua-prachachon	open	no validator yet (tasks.md P43-T3)
+chile-rol-unico-nacional	validated	validateChileRolUnicoNacional
+misr-al-raqm-al-qawmi	open	no validator yet (tasks.md P43-T3)
+taiwan-guomin-shenfenzheng-tongyi-bianhao	validated	validateTaiwanGuominShenfenzhengTongyiBianhao
+hong-kong-identity-card	open	no validator yet (tasks.md P43-T3)
+iran-kod-e-melli	open	no validator yet (tasks.md P43-T3)
+as-saudiyah-raqm-al-huwiyah-al-wataniyah	open	no validator yet (tasks.md P43-T3)
+malaysia-kad-pengenalan	open	no validator yet (tasks.md P43-T3)
+viet-nam-can-cuoc-cong-dan	open	no validator yet (tasks.md P43-T3)
+pakistan-computerized-national-identity-card	open	no validator yet (tasks.md P43-T3)
+uruguay-cedula-de-identidad	validated	validateUruguayCedulaDeIdentidad
+ecuador-cedula-de-identidad	validated	validateEcuadorCedulaDeIdentidad
+colombia-cedula-de-ciudadania	open	no validator yet (tasks.md P43-T3)
+australia-tax-file-number	validated	validateAustraliaTaxFileNumber
+nigeria-national-identification-number	open	no validator yet (tasks.md P43-T3)
+peru-documento-nacional-de-identidad	open	no validator yet (tasks.md P43-T3)
+republica-dominicana-cedula-de-identidad-y-electoral	open	no validator yet (tasks.md P43-T3)
+costa-rica-cedula-de-identidad	open	no validator yet (tasks.md P43-T3)
+guatemala-codigo-unico-de-identificacion	open	no validator yet (tasks.md P43-T3)
+mauritius-national-identity-card-number	open	no validator yet (tasks.md P43-T3)
+ghana-card-personal-identification-number	open	no validator yet (tasks.md P43-T3)
+ityopya-fayda-identification-number	open	no validator yet (tasks.md P43-T3)
+sri-lanka-national-identity-card	open	no validator yet (tasks.md P43-T3)
+bangladesh-national-identity-card	open	no validator yet (tasks.md P43-T3)
+qazaqstan-zheke-saikestendiru-nomiri	open	no validator yet (tasks.md P43-T3)
+ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami	open	no validator yet (tasks.md P43-T3)
+al-imarat-raqm-al-huwiyah	open	no validator yet (tasks.md P43-T3)

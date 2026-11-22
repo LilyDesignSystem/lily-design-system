@@ -217,6 +217,7 @@ Also copied rather than generated: `bin/sync` rsyncs the root `AGENTS/` and `the
 - [check-theme](../bin/check-theme): Verify the 63 reference themes honour their conformance contracts; `--contrast` reports each theme's token-pair contrast against WCAG AA/AAA (report only)
 - [check-class-names](../bin/check-class-names): Every headless implementation carries its kebab-case base class (first in a class list)
 - [check-html-tags](../bin/check-html-tags): Every headless implementation's root element is the contract's HTML tag, or is listed with a reason in `bin/check-html-tags.allow.json` (which may only shrink; in bin/test)
+- [check-identifier-validation](../bin/check-identifier-validation): Every national identifier type is validated by a function in `shared/national-identifiers.ts`, recorded as having no usable check with its reason, or listed open, in `shared/national-identifiers.tsv` (in bin/test)
 - [check-known-limitations](../bin/check-known-limitations): Every canonical component `AGENTS.md` and `index.md` has one non-empty Known limitations section; also pins the disabled-link and look-alike guidance (in bin/test)
 - [check-helper-docs](../bin/check-helper-docs): The Svelte grid-like helpers document every prop they have and list no shipped feature as a non-goal
 - [check-label-packs](../bin/check-label-packs): Every label pack in `shared/label-packs` has the English pack's keys and placeholders, and the Svelte and TypeScript-port helpers still have every key the packs hold

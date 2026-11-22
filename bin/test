@@ -419,6 +419,10 @@ implemented_everywhere_or_err
     || err "a headless root element differs from its contract's HTML tag (and is not listed); run bin/check-html-tags"
 "$top/bin/check-known-limitations" >/dev/null 2>&1 \
     || err "a component document lacks its Known limitations section or required disabled-control guidance; run bin/check-known-limitations"
+
+# Every national identifier type is validated, recorded as having no usable check (with the reason), or open (tasks.md P43-T4).
+"$top/bin/check-identifier-validation" >/dev/null 2>&1 \
+    || err "shared/national-identifiers.tsv disagrees with the catalog or the validators; run bin/check-identifier-validation"
 # The SvelteKit, Next.js, Nuxt and Angular examples keep copies of their
 # headless library's components; the library is the source (P10-T13).
 "$top/bin/sync-example-components" --check >/dev/null 2>&1 \
