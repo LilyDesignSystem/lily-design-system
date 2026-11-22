@@ -272,3 +272,200 @@ export function validateTurkiyeTcKimlikNumarasi(value: string): IdentifierResult
     const eleventh = d.slice(0, 10).reduce((a, b) => a + b, 0) % 10;
     return eleventh === d[10] ? OK : no("checksum");
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Modulus-11 and date-encoded identifiers (P43-T3, first family)
+
+/** The largest day any year gives `month`: February is 29, because the century of a two-digit year is not always known. */
+function maxDay(month: number): number {
+    return month === 2 ? 29 : [4, 6, 9, 11].includes(month) ? 30 : 31;
+}
+
+/**
+ * The Bulgarian Uniform Civil Number (EGN): ten digits, YYMMDD with the century in the month (+20 for the 1800s, +40 for the
+ * 2000s), a three-digit serial and a check digit, the weighted sum 2 4 8 5 10 9 7 3 6 modulo 11 (a remainder of 10 gives 0).
+ */
+export function validateBulgariaEdinenGrazhdanskiNomer(value: string): IdentifierResult {
+    const s = stripSeparators(text(value, "validateBulgariaEdinenGrazhdanskiNomer"));
+    if (!isDigits(s)) return no("characters");
+    if (s.length !== 10) return no("length");
+    const d = digitsOf(s);
+    const yy = Number(s.slice(0, 2));
+    const monthField = Number(s.slice(2, 4));
+    const century = monthField > 40 ? 2000 : monthField > 20 ? 1800 : 1900;
+    const month = monthField - (century === 2000 ? 40 : century === 1800 ? 20 : 0);
+    const day = Number(s.slice(4, 6));
+    if (month < 1 || month > 12 || day < 1 || !isCalendarDate(century + yy, month, day))
+        return no("date");
+    const check = (weightedSum(d, [2, 4, 8, 5, 10, 9, 7, 3, 6]) % 11) % 10;
+    return check === d[9] ? OK : no("checksum");
+}
+
+/**
+ * The Norwegian national identity number (fodselsnummer): eleven digits, DDMMYY, a three-digit individual number and two
+ * Modulus-11 check digits (weights 3 7 6 1 8 9 4 5 2, then 5 4 3 2 7 6 5 4 3 2 over the ten digits so far); a check that would
+ * be 10 is never issued. A D-number adds 4 to the first digit of the day, an H-number adds 4 to the first digit of the month.
+ */
+export function validateNorgeFodselsnummer(value: string): IdentifierResult {
+    const s = stripSeparators(text(value, "validateNorgeFodselsnummer"));
+    if (!isDigits(s)) return no("characters");
+    if (s.length !== 11) return no("length");
+    const d = digitsOf(s);
+    let day = Number(s.slice(0, 2));
+    let month = Number(s.slice(2, 4));
+    if (day > 40) day -= 40;
+    if (month > 40) month -= 40;
+    const yy = Number(s.slice(4, 6));
+    const serial = Number(s.slice(6, 9));
+    const century =
+        serial < 500
+            ? 1900
+            : serial < 750 && yy >= 54
+              ? 1800
+              : serial >= 900 && yy >= 40
+                ? 1900
+                : yy < 40
+                  ? 2000
+                  : 0;
+    if (century === 0 || !isCalendarDate(century + yy, month, day)) return no("date");
+    const first = 11 - (weightedSum(d, [3, 7, 6, 1, 8, 9, 4, 5, 2]) % 11);
+    const k1 = first === 11 ? 0 : first;
+    const second = 11 - (weightedSum(d, [5, 4, 3, 2, 7, 6, 5, 4, 3, 2]) % 11);
+    const k2 = second === 11 ? 0 : second;
+    return k1 === d[9] && k2 === d[10] && k1 !== 10 && k2 !== 10 ? OK : no("checksum");
+}
+
+/**
+ * The Estonian personal identification code (isikukood): eleven digits, a century-and-sex digit (1 to 8), YYMMDD, a serial and a
+ * check digit from weights 1 2 3 4 5 6 7 8 9 1 modulo 11, or, when that is 10, weights 3 4 5 6 7 8 9 1 2 3 (and 0 if that is 10 too).
+ */
+export function validateEestiIsikukood(value: string): IdentifierResult {
+    const s = stripSeparators(text(value, "validateEestiIsikukood"));
+    if (!isDigits(s)) return no("characters");
+    if (s.length !== 11) return no("length");
+    const d = digitsOf(s);
+    if (d[0] < 1 || d[0] > 8) return no("structure");
+    const century = 1800 + Math.floor((d[0] - 1) / 2) * 100;
+    if (
+        !isCalendarDate(
+            century + Number(s.slice(1, 3)),
+            Number(s.slice(3, 5)),
+            Number(s.slice(5, 7)),
+        )
+    )
+        return no("date");
+    let check = weightedSum(d, [1, 2, 3, 4, 5, 6, 7, 8, 9, 1]) % 11;
+    if (check === 10) {
+        check = weightedSum(d, [3, 4, 5, 6, 7, 8, 9, 1, 2, 3]) % 11;
+        if (check === 10) check = 0;
+    }
+    return check === d[10] ? OK : no("checksum");
+}
+
+/**
+ * The Czech and Slovak birth number (rodne cislo), YYMMDD/SSSC: nine digits for someone born before 1954 (no check), or ten
+ * with the whole number divisible by 11 (a check of 0 stands for a remainder of 10 in the first nine, used up to 1985). The
+ * month carries the sex (+50 for women) and, from 2004, +20 when the serials of a day ran out.
+ */
+export function validateRodneCislo(value: string): IdentifierResult {
+    const s = stripSeparators(text(value, "validateRodneCislo"));
+    if (!isDigits(s)) return no("characters");
+    if (s.length !== 9 && s.length !== 10) return no("length");
+    const yy = Number(s.slice(0, 2));
+    let month = Number(s.slice(2, 4));
+    const day = Number(s.slice(4, 6));
+    if (s.length === 9 && yy >= 54) return no("structure");
+    if (month > 50) month -= 50;
+    if (month > 20) month -= 20;
+    const year = s.length === 9 ? 1900 + yy : yy < 54 ? 2000 + yy : 1900 + yy;
+    if (!isCalendarDate(year, month, day)) return no("date");
+    if (s.length === 9) return OK;
+    const first9 = Number(s.slice(0, 9));
+    const check = Number(s[9]);
+    return Number(s) % 11 === 0 || (first9 % 11 === 10 && check === 0) ? OK : no("checksum");
+}
+
+/** The Hungarian social security (TAJ) number: nine digits, the ninth the sum of the first eight times 3 and 7 alternately, modulo 10. */
+export function validateMagyarorszagTajSzam(value: string): IdentifierResult {
+    const s = stripSeparators(text(value, "validateMagyarorszagTajSzam"));
+    if (!isDigits(s)) return no("characters");
+    if (s.length !== 9) return no("length");
+    const d = digitsOf(s);
+    return weightedSum(d, [3, 7, 3, 7, 3, 7, 3, 7]) % 10 === d[8] ? OK : no("checksum");
+}
+
+/**
+ * The Russian insurance number of individual ledger account (SNILS): eleven digits, the last two a check of the first nine
+ * times 9 down to 1: the sum itself under 100, 0 for 100 or 101, otherwise the sum modulo 101 (with 100 again giving 0).
+ */
+export function validateRossiyaSnils(value: string): IdentifierResult {
+    const s = stripSeparators(text(value, "validateRossiyaSnils").replace(/ /g, ""));
+    if (!isDigits(s)) return no("characters");
+    if (s.length !== 11) return no("length");
+    const sum = weightedSum(digitsOf(s), [9, 8, 7, 6, 5, 4, 3, 2, 1]);
+    const check = sum < 100 ? sum : sum % 101 === 100 ? 0 : sum % 101;
+    return check === Number(s.slice(9)) ? OK : no("checksum");
+}
+
+const FINNISH_CHECK = "0123456789ABCDEFHJKLMNPRSTUVWXY";
+
+/**
+ * The Finnish personal identity code (henkilotunnus): DDMMYY, a century sign (+ for the 1800s; - and U to Y for the 1900s; A to
+ * F for the 2000s), a three-digit individual number (002 to 899) and a check character, the nine digits DDMMYYZZZ as a number
+ * modulo 31 looked up in 0123456789ABCDEFHJKLMNPRSTUVWXY. Letters are upper case; nothing is re-cased.
+ */
+export function validateSuomiHenkilotunnus(value: string): IdentifierResult {
+    const s = text(value, "validateSuomiHenkilotunnus").replace(/ /g, "");
+    if (!/^[0-9]{6}[+\-A-FU-Y][0-9]{3}[0-9A-Z]$/.test(s))
+        return s.length !== 11 ? no("length") : no("characters");
+    const sign = s[6];
+    const century = sign === "+" ? 1800 : sign >= "A" && sign <= "F" ? 2000 : 1900;
+    if (
+        !isCalendarDate(
+            century + Number(s.slice(4, 6)),
+            Number(s.slice(2, 4)),
+            Number(s.slice(0, 2)),
+        )
+    )
+        return no("date");
+    const serial = Number(s.slice(7, 10));
+    if (serial < 2 || serial > 899) return no("structure");
+    const n = Number(s.slice(0, 6) + s.slice(7, 10));
+    return FINNISH_CHECK[n % 31] === s[10] ? OK : no("checksum");
+}
+
+const CF_ODD: Record<string, number> = {};
+{
+    const odd = [
+        1, 0, 5, 7, 9, 13, 15, 17, 19, 21, 2, 4, 18, 20, 11, 3, 6, 8, 12, 14, 16, 10, 22, 25, 24,
+        23,
+    ];
+    for (let i = 0; i < 10; i++) CF_ODD[String(i)] = odd[i];
+    for (let i = 0; i < 26; i++) CF_ODD[String.fromCharCode(65 + i)] = odd[i];
+}
+const CF_OMOCODIA = "LMNPQRSTUV";
+const CF_MONTHS = "ABCDEHLMPRST";
+
+/**
+ * The Italian tax code (codice fiscale) of a person: sixteen upper-case characters, surname and name letters, year, a month
+ * letter (ABCDEHLMPRST), the day (plus 40 for a woman), the place code, and a check letter from the odd and even position
+ * tables modulo 26. In a case of omocodia a digit is replaced by one of LMNPQRSTUV; it is read back before the date is checked.
+ */
+export function validateItaliaCodiceFiscale(value: string): IdentifierResult {
+    const s = text(value, "validateItaliaCodiceFiscale").replace(/ /g, "");
+    if (!/^[0-9A-Z]+$/.test(s)) return no("characters");
+    if (s.length !== 16) return no("length");
+    if (!/^[A-Z]{6}[0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{3}[A-Z]$/.test(s))
+        return no("structure");
+    const digit = (c: string) => (CF_OMOCODIA.includes(c) ? CF_OMOCODIA.indexOf(c) : Number(c));
+    const month = CF_MONTHS.indexOf(s[8]) + 1;
+    let day = digit(s[9]) * 10 + digit(s[10]);
+    if (day > 40) day -= 40;
+    if (month < 1 || day < 1 || day > maxDay(month)) return no("date");
+    let sum = 0;
+    for (let i = 0; i < 15; i++) {
+        const c = s[i];
+        sum += i % 2 === 0 ? CF_ODD[c] : /[0-9]/.test(c) ? Number(c) : c.charCodeAt(0) - 65;
+    }
+    return String.fromCharCode(65 + (sum % 26)) === s[15] ? OK : no("checksum");
+}

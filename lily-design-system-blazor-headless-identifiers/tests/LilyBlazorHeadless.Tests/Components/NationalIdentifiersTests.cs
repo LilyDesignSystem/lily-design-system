@@ -174,4 +174,125 @@ public class NationalIdentifiersTests
         Assert.Equal(Bad(IdentifierReason.Structure), NationalIdentifiers.ValidateTurkiyeTcKimlikNumarasi(WithTcKimlik("023456789")));
         Assert.Equal(Bad(IdentifierReason.Length), NationalIdentifiers.ValidateTurkiyeTcKimlikNumarasi("1234567890"));
     }
+
+    [Fact]
+    public void BulgariaEdinenGrazhdanskiNomer()
+    {
+        Assert.Equal(Ok, NationalIdentifiers.ValidateBulgariaEdinenGrazhdanskiNomer("8032056031"));
+        var weights = new[] { 2, 4, 8, 5, 10, 9, 7, 3, 6 };
+        var stem = Enumerable.Range(0, 1000).Select(n => "803205" + n.ToString("D3"))
+            .First(t => t.Select((c, k) => (c - '0') * weights[k]).Sum() % 11 == 10);
+        Assert.Equal(Ok, NationalIdentifiers.ValidateBulgariaEdinenGrazhdanskiNomer(stem + "0"));
+        Assert.Equal(Bad(IdentifierReason.Checksum), NationalIdentifiers.ValidateBulgariaEdinenGrazhdanskiNomer(stem + "1"));
+        Assert.Equal(Bad(IdentifierReason.Checksum), NationalIdentifiers.ValidateBulgariaEdinenGrazhdanskiNomer("8032056032"));
+        Assert.Equal(Bad(IdentifierReason.Date), NationalIdentifiers.ValidateBulgariaEdinenGrazhdanskiNomer("8013326031"));
+        Assert.Equal(Bad(IdentifierReason.Length), NationalIdentifiers.ValidateBulgariaEdinenGrazhdanskiNomer("803205603"));
+    }
+
+    private static string WithNorwayChecks(string nine)
+    {
+        var d = nine.Select(c => c - '0').ToList();
+        static int K(int[] w, List<int> digits) { var r = 11 - digits.Select((n, i) => n * w[i]).Sum() % 11; return r == 11 ? 0 : r; }
+        var k1 = K([3, 7, 6, 1, 8, 9, 4, 5, 2], d);
+        d.Add(k1);
+        var k2 = K([5, 4, 3, 2, 7, 6, 5, 4, 3, 2], d);
+        return k1 == 10 || k2 == 10 ? "" : nine + k1 + k2;
+    }
+
+    private static string NorwayFrom(string ddmmyy, int from)
+        => Enumerable.Range(from, 50).Select(n => WithNorwayChecks(ddmmyy + n.ToString("D3"))).First(v => v != "");
+
+    [Fact]
+    public void NorgeFodselsnummer()
+    {
+        Assert.Equal(Ok, NationalIdentifiers.ValidateNorgeFodselsnummer(NorwayFrom("010185", 100)));
+        Assert.Equal(Ok, NationalIdentifiers.ValidateNorgeFodselsnummer(NorwayFrom("010100", 500)));
+        Assert.Equal(Ok, NationalIdentifiers.ValidateNorgeFodselsnummer(NorwayFrom("010160", 500)));
+        Assert.Equal(Ok, NationalIdentifiers.ValidateNorgeFodselsnummer(NorwayFrom("410185", 100)));
+        Assert.Equal(Ok, NationalIdentifiers.ValidateNorgeFodselsnummer(NorwayFrom("014185", 100)));
+        var good = NorwayFrom("010185", 100);
+        Assert.Equal(Bad(IdentifierReason.Checksum), NationalIdentifiers.ValidateNorgeFodselsnummer(good[..10] + (good[10] - '0' + 1) % 10));
+        Assert.Equal(Bad(IdentifierReason.Date), NationalIdentifiers.ValidateNorgeFodselsnummer("31028510000"));
+        Assert.Equal(Bad(IdentifierReason.Length), NationalIdentifiers.ValidateNorgeFodselsnummer("0101851000"));
+    }
+
+    [Fact]
+    public void EestiIsikukood()
+    {
+        Assert.Equal(Ok, NationalIdentifiers.ValidateEestiIsikukood("37605030299"));
+        Assert.Equal(Bad(IdentifierReason.Checksum), NationalIdentifiers.ValidateEestiIsikukood("37605030298"));
+        Assert.Equal(Bad(IdentifierReason.Structure), NationalIdentifiers.ValidateEestiIsikukood("07605030299"));
+        Assert.Equal(Bad(IdentifierReason.Structure), NationalIdentifiers.ValidateEestiIsikukood("97605030299"));
+        Assert.Equal(Bad(IdentifierReason.Date), NationalIdentifiers.ValidateEestiIsikukood("37613030299"));
+        Assert.Equal(Bad(IdentifierReason.Length), NationalIdentifiers.ValidateEestiIsikukood("3760503029"));
+        var body = Enumerable.Range(0, 1000).Select(n => "3760503" + n.ToString("D3"))
+            .First(b => b.Select((c, k) => (c - '0') * new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 1 }[k]).Sum() % 11 == 10);
+        var second = body.Select((c, k) => (c - '0') * new[] { 3, 4, 5, 6, 7, 8, 9, 1, 2, 3 }[k]).Sum() % 11;
+        Assert.Equal(Ok, NationalIdentifiers.ValidateEestiIsikukood(body + (second == 10 ? 0 : second)));
+    }
+
+    [Fact]
+    public void RodneCislo()
+    {
+        Assert.Equal(Ok, NationalIdentifiers.ValidateRodneCislo("710319/2745"));
+        Assert.Equal(Ok, NationalIdentifiers.ValidateRodneCislo("535319/123"));
+        var n = Enumerable.Range(700101000, 1000).First(v => v % 11 == 10);
+        Assert.Equal(Ok, NationalIdentifiers.ValidateRodneCislo($"{n}0"));
+        Assert.Equal(Bad(IdentifierReason.Checksum), NationalIdentifiers.ValidateRodneCislo($"{n}1"));
+        Assert.Equal(Bad(IdentifierReason.Checksum), NationalIdentifiers.ValidateRodneCislo("710319/2746"));
+        Assert.Equal(Bad(IdentifierReason.Date), NationalIdentifiers.ValidateRodneCislo("711319/2745"));
+        Assert.Equal(Bad(IdentifierReason.Structure), NationalIdentifiers.ValidateRodneCislo("710319/123"));
+        Assert.Equal(Bad(IdentifierReason.Length), NationalIdentifiers.ValidateRodneCislo("71031927"));
+    }
+
+    [Fact]
+    public void MagyarorszagTajSzam()
+    {
+        Assert.Equal(Ok, NationalIdentifiers.ValidateMagyarorszagTajSzam("123 456 788"));
+        Assert.Equal(Bad(IdentifierReason.Checksum), NationalIdentifiers.ValidateMagyarorszagTajSzam("123 456 789"));
+        Assert.Equal(Bad(IdentifierReason.Length), NationalIdentifiers.ValidateMagyarorszagTajSzam("123 456 78"));
+    }
+
+    [Fact]
+    public void RossiyaSnils()
+    {
+        Assert.Equal(Ok, NationalIdentifiers.ValidateRossiyaSnils("112-233-445 95"));
+        Assert.Equal(Bad(IdentifierReason.Checksum), NationalIdentifiers.ValidateRossiyaSnils("112-233-445 96"));
+        Assert.Equal(Bad(IdentifierReason.Length), NationalIdentifiers.ValidateRossiyaSnils("112-233-445 9"));
+        static int Sum(string stem) => stem.Select((c, k) => (c - '0') * (9 - k)).Sum();
+        string Stem(Func<int, bool> wanted, string prefix)
+            => Enumerable.Range(0, 100000).Select(i => prefix + i.ToString("D" + (9 - prefix.Length))).First(t => wanted(Sum(t)));
+        var over = Stem(sum => sum > 101 && sum % 101 != 100 && sum % 101 != 0, "9999");
+        Assert.Equal(Ok, NationalIdentifiers.ValidateRossiyaSnils(over + (Sum(over) % 101).ToString("D2")));
+        Assert.Equal(Ok, NationalIdentifiers.ValidateRossiyaSnils(Stem(sum => sum == 100, "0000") + "00"));
+        Assert.Equal(Ok, NationalIdentifiers.ValidateRossiyaSnils(Stem(sum => sum == 101, "0000") + "00"));
+        Assert.Equal(Ok, NationalIdentifiers.ValidateRossiyaSnils(Stem(sum => sum > 101 && sum % 101 == 100, "9999") + "00"));
+    }
+
+    [Fact]
+    public void SuomiHenkilotunnus()
+    {
+        const string table = "0123456789ABCDEFHJKLMNPRSTUVWXY";
+        Assert.Equal(Ok, NationalIdentifiers.ValidateSuomiHenkilotunnus("131052-308T"));
+        Assert.Equal(Ok, NationalIdentifiers.ValidateSuomiHenkilotunnus($"010106A123{table[10106123 % 31]}"));
+        Assert.Equal(Ok, NationalIdentifiers.ValidateSuomiHenkilotunnus($"010180+123{table[10180123 % 31]}"));
+        Assert.Equal(Bad(IdentifierReason.Checksum), NationalIdentifiers.ValidateSuomiHenkilotunnus("131052-308U"));
+        Assert.Equal(Bad(IdentifierReason.Date), NationalIdentifiers.ValidateSuomiHenkilotunnus("311152-308T"));
+        Assert.Equal(Bad(IdentifierReason.Structure), NationalIdentifiers.ValidateSuomiHenkilotunnus("131052-001T"));
+        Assert.Equal(Bad(IdentifierReason.Length), NationalIdentifiers.ValidateSuomiHenkilotunnus("131052-308"));
+        Assert.Equal(Bad(IdentifierReason.Characters), NationalIdentifiers.ValidateSuomiHenkilotunnus("131052x308T"));
+        Assert.Equal(Bad(IdentifierReason.Characters), NationalIdentifiers.ValidateSuomiHenkilotunnus("131052-308t"));
+    }
+
+    [Fact]
+    public void ItaliaCodiceFiscale()
+    {
+        Assert.Equal(Ok, NationalIdentifiers.ValidateItaliaCodiceFiscale("RSSMRA85T10A562S"));
+        Assert.Equal(Bad(IdentifierReason.Checksum), NationalIdentifiers.ValidateItaliaCodiceFiscale("RSSMRA85T10A562T"));
+        Assert.Equal(Bad(IdentifierReason.Date), NationalIdentifiers.ValidateItaliaCodiceFiscale("RSSMRA85F10A562S"));
+        Assert.Equal(Bad(IdentifierReason.Date), NationalIdentifiers.ValidateItaliaCodiceFiscale("RSSMRA85T32A562S"));
+        Assert.Equal(Bad(IdentifierReason.Structure), NationalIdentifiers.ValidateItaliaCodiceFiscale("1SSMRA85T10A562S"));
+        Assert.Equal(Bad(IdentifierReason.Length), NationalIdentifiers.ValidateItaliaCodiceFiscale("RSSMRA85T10A562"));
+        Assert.Equal(Bad(IdentifierReason.Characters), NationalIdentifiers.ValidateItaliaCodiceFiscale("rssmra85t10a562s"));
+    }
 }

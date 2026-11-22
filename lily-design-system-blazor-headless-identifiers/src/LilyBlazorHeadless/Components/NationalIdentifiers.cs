@@ -234,4 +234,147 @@ public static class NationalIdentifiers
         if (((odd * 7 - even) % 10 + 10) % 10 != d[9]) return Fail(IdentifierReason.Checksum);
         return d.Take(10).Sum() % 10 == d[10] ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
     }
+
+    // Modulus-11 and date-encoded identifiers (P43-T3, first family)
+
+    private static int MaxDay(int month) => month == 2 ? 29 : month is 4 or 6 or 9 or 11 ? 30 : 31;
+
+    /// <summary>Bulgarian EGN: ten digits, YYMMDD with the century in the month (+20 for the 1800s, +40 for the 2000s), weights 2 4 8 5 10 9 7 3 6 modulo 11 (10 gives 0).</summary>
+    public static IdentifierResult ValidateBulgariaEdinenGrazhdanskiNomer(string value)
+    {
+        var s = StripSeparators(value);
+        if (!IsDigits(s)) return Fail(IdentifierReason.Characters);
+        if (s.Length != 10) return Fail(IdentifierReason.Length);
+        var d = DigitsOf(s);
+        var monthField = int.Parse(s[2..4]);
+        var century = monthField > 40 ? 2000 : monthField > 20 ? 1800 : 1900;
+        var month = monthField - (century == 2000 ? 40 : century == 1800 ? 20 : 0);
+        var day = int.Parse(s[4..6]);
+        if (month is < 1 or > 12 || day < 1 || !IsCalendarDate(century + int.Parse(s[..2]), month, day)) return Fail(IdentifierReason.Date);
+        return WeightedSum(d, [2, 4, 8, 5, 10, 9, 7, 3, 6]) % 11 % 10 == d[9] ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
+    }
+
+    /// <summary>Norwegian fodselsnummer: eleven digits, DDMMYY, an individual number and two Modulus-11 checks (a check of 10 is never issued; a D-number adds 40 to the day, an H-number 40 to the month).</summary>
+    public static IdentifierResult ValidateNorgeFodselsnummer(string value)
+    {
+        var s = StripSeparators(value);
+        if (!IsDigits(s)) return Fail(IdentifierReason.Characters);
+        if (s.Length != 11) return Fail(IdentifierReason.Length);
+        var d = DigitsOf(s);
+        var day = int.Parse(s[..2]);
+        var month = int.Parse(s[2..4]);
+        if (day > 40) day -= 40;
+        if (month > 40) month -= 40;
+        var yy = int.Parse(s[4..6]);
+        var serial = int.Parse(s[6..9]);
+        var century = serial < 500 ? 1900 : serial < 750 && yy >= 54 ? 1800 : serial >= 900 && yy >= 40 ? 1900 : yy < 40 ? 2000 : 0;
+        if (century == 0 || !IsCalendarDate(century + yy, month, day)) return Fail(IdentifierReason.Date);
+        var first = 11 - WeightedSum(d, [3, 7, 6, 1, 8, 9, 4, 5, 2]) % 11;
+        var k1 = first == 11 ? 0 : first;
+        var second = 11 - WeightedSum(d, [5, 4, 3, 2, 7, 6, 5, 4, 3, 2]) % 11;
+        var k2 = second == 11 ? 0 : second;
+        return k1 == d[9] && k2 == d[10] && k1 != 10 && k2 != 10 ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
+    }
+
+    /// <summary>Estonian isikukood: eleven digits, century-and-sex digit 1 to 8, YYMMDD, serial, a check from weights 1 2 3 4 5 6 7 8 9 1 modulo 11, else 3 4 5 6 7 8 9 1 2 3 (else 0).</summary>
+    public static IdentifierResult ValidateEestiIsikukood(string value)
+    {
+        var s = StripSeparators(value);
+        if (!IsDigits(s)) return Fail(IdentifierReason.Characters);
+        if (s.Length != 11) return Fail(IdentifierReason.Length);
+        var d = DigitsOf(s);
+        if (d[0] is < 1 or > 8) return Fail(IdentifierReason.Structure);
+        var century = 1800 + (d[0] - 1) / 2 * 100;
+        if (!IsCalendarDate(century + int.Parse(s[1..3]), int.Parse(s[3..5]), int.Parse(s[5..7]))) return Fail(IdentifierReason.Date);
+        var check = WeightedSum(d, [1, 2, 3, 4, 5, 6, 7, 8, 9, 1]) % 11;
+        if (check == 10)
+        {
+            check = WeightedSum(d, [3, 4, 5, 6, 7, 8, 9, 1, 2, 3]) % 11;
+            if (check == 10) check = 0;
+        }
+        return check == d[10] ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
+    }
+
+    /// <summary>Czech and Slovak rodne cislo: nine digits before 1954 (no check) or ten with the whole number divisible by 11 (a check of 0 for a remainder of 10 in the first nine); month +50 for women, +20 when serials ran out.</summary>
+    public static IdentifierResult ValidateRodneCislo(string value)
+    {
+        var s = StripSeparators(value);
+        if (!IsDigits(s)) return Fail(IdentifierReason.Characters);
+        if (s.Length is not (9 or 10)) return Fail(IdentifierReason.Length);
+        var yy = int.Parse(s[..2]);
+        var month = int.Parse(s[2..4]);
+        var day = int.Parse(s[4..6]);
+        if (s.Length == 9 && yy >= 54) return Fail(IdentifierReason.Structure);
+        if (month > 50) month -= 50;
+        if (month > 20) month -= 20;
+        var year = s.Length == 9 ? 1900 + yy : yy < 54 ? 2000 + yy : 1900 + yy;
+        if (!IsCalendarDate(year, month, day)) return Fail(IdentifierReason.Date);
+        if (s.Length == 9) return IdentifierResult.Ok;
+        var first9 = long.Parse(s[..9]);
+        return long.Parse(s) % 11 == 0 || (first9 % 11 == 10 && s[9] == '0') ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
+    }
+
+    /// <summary>Hungarian TAJ number: nine digits, the ninth the first eight times 3 and 7 alternately, modulo 10.</summary>
+    public static IdentifierResult ValidateMagyarorszagTajSzam(string value)
+    {
+        var s = StripSeparators(value);
+        if (!IsDigits(s)) return Fail(IdentifierReason.Characters);
+        if (s.Length != 9) return Fail(IdentifierReason.Length);
+        var d = DigitsOf(s);
+        return WeightedSum(d, [3, 7, 3, 7, 3, 7, 3, 7]) % 10 == d[8] ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
+    }
+
+    /// <summary>Russian SNILS: eleven digits, the last two a check of the first nine times 9 down to 1 (under 100 as is, 100 or 101 as 00, else modulo 101 with 100 as 00).</summary>
+    public static IdentifierResult ValidateRossiyaSnils(string value)
+    {
+        var s = StripSeparators(value.Replace(" ", ""));
+        if (!IsDigits(s)) return Fail(IdentifierReason.Characters);
+        if (s.Length != 11) return Fail(IdentifierReason.Length);
+        var sum = WeightedSum(DigitsOf(s), [9, 8, 7, 6, 5, 4, 3, 2, 1]);
+        var check = sum < 100 ? sum : sum % 101 == 100 ? 0 : sum % 101;
+        return check == int.Parse(s[9..]) ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
+    }
+
+    private const string FinnishCheck = "0123456789ABCDEFHJKLMNPRSTUVWXY";
+
+    /// <summary>Finnish henkilotunnus: DDMMYY, a century sign (+, -, U to Y, A to F), a serial 002 to 899, and a check character (the nine digits modulo 31); upper case only.</summary>
+    public static IdentifierResult ValidateSuomiHenkilotunnus(string value)
+    {
+        ArgumentNullException.ThrowIfNull(value);
+        var s = value.Replace(" ", "");
+        var shape = System.Text.RegularExpressions.Regex.IsMatch(s, "^[0-9]{6}[+\\-A-FU-Y][0-9]{3}[0-9A-Z]$");
+        if (!shape) return Fail(s.Length != 11 ? IdentifierReason.Length : IdentifierReason.Characters);
+        var century = s[6] == '+' ? 1800 : s[6] is >= 'A' and <= 'F' ? 2000 : 1900;
+        if (!IsCalendarDate(century + int.Parse(s[4..6]), int.Parse(s[2..4]), int.Parse(s[..2]))) return Fail(IdentifierReason.Date);
+        var serial = int.Parse(s[7..10]);
+        if (serial is < 2 or > 899) return Fail(IdentifierReason.Structure);
+        var n = long.Parse(s[..6] + s[7..10]);
+        return FinnishCheck[(int)(n % 31)] == s[10] ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
+    }
+
+    private static readonly int[] CfOdd = [1, 0, 5, 7, 9, 13, 15, 17, 19, 21, 2, 4, 18, 20, 11, 3, 6, 8, 12, 14, 16, 10, 22, 25, 24, 23];
+
+    /// <summary>Italian codice fiscale of a person: sixteen upper-case characters, a month letter (ABCDEHLMPRST), a day (+40 for women), omocodia letters LMNPQRSTUV for digits, a check letter from the odd and even tables modulo 26.</summary>
+    public static IdentifierResult ValidateItaliaCodiceFiscale(string value)
+    {
+        ArgumentNullException.ThrowIfNull(value);
+        var s = value.Replace(" ", "");
+        if (s.Length == 0 || !s.All(c => c is (>= '0' and <= '9') or (>= 'A' and <= 'Z'))) return Fail(IdentifierReason.Characters);
+        if (s.Length != 16) return Fail(IdentifierReason.Length);
+        if (!System.Text.RegularExpressions.Regex.IsMatch(s, "^[A-Z]{6}[0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{3}[A-Z]$"))
+            return Fail(IdentifierReason.Structure);
+        const string omocodia = "LMNPQRSTUV";
+        static int Digit(char c) => omocodia.Contains(c) ? omocodia.IndexOf(c) : c - '0';
+        var month = "ABCDEHLMPRST".IndexOf(s[8]) + 1;
+        var day = Digit(s[9]) * 10 + Digit(s[10]);
+        if (day > 40) day -= 40;
+        if (month < 1 || day < 1 || day > MaxDay(month)) return Fail(IdentifierReason.Date);
+        var sum = 0;
+        for (var i = 0; i < 15; i++)
+        {
+            var c = s[i];
+            sum += i % 2 == 0 ? CfOdd[char.IsAsciiDigit(c) ? c - '0' : c - 'A'] : char.IsAsciiDigit(c) ? c - '0' : c - 'A';
+        }
+        return (char)('A' + sum % 26) == s[15] ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
+    }
 }

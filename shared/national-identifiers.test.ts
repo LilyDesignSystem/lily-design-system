@@ -5,6 +5,14 @@ import {
     luhnValid,
     stripSeparators,
     validateAustraliaTaxFileNumber,
+    validateBulgariaEdinenGrazhdanskiNomer,
+    validateEestiIsikukood,
+    validateItaliaCodiceFiscale,
+    validateMagyarorszagTajSzam,
+    validateNorgeFodselsnummer,
+    validateRodneCislo,
+    validateRossiyaSnils,
+    validateSuomiHenkilotunnus,
     validateBelgiqueRegistreNational,
     validateBharatAadhaar,
     validateCanadaSocialInsuranceNumber,
@@ -257,5 +265,201 @@ describe("validateTurkiyeTcKimlikNumarasi", () => {
         expect(validateTurkiyeTcKimlikNumarasi(build("023456789"))).toEqual(bad("structure"));
         expect(validateTurkiyeTcKimlikNumarasi("1234567890")).toEqual(bad("length"));
         expect(validateTurkiyeTcKimlikNumarasi("1234567890x")).toEqual(bad("characters"));
+    });
+});
+
+describe("validateBulgariaEdinenGrazhdanskiNomer", () => {
+    test("a worked example, and a remainder of 10 giving a check of 0", () => {
+        expect(validateBulgariaEdinenGrazhdanskiNomer("8032056031")).toEqual(ok);
+        // A remainder of 10 gives a check of 0: search the serials of one day for a stem that has one.
+        const weights = [2, 4, 8, 5, 10, 9, 7, 3, 6];
+        const stem = [...Array(1000).keys()]
+            .map((n) => "803205" + String(n).padStart(3, "0"))
+            .find(
+                (t) => [...t].reduce((sum, c, k) => sum + Number(c) * weights[k], 0) % 11 === 10,
+            )!;
+        expect(validateBulgariaEdinenGrazhdanskiNomer(stem + "0")).toEqual(ok);
+        expect(validateBulgariaEdinenGrazhdanskiNomer(stem + "1")).toEqual(bad("checksum"));
+    });
+    test("a failed check, an unreal date, length and characters", () => {
+        expect(validateBulgariaEdinenGrazhdanskiNomer("8032056032")).toEqual(bad("checksum"));
+        expect(validateBulgariaEdinenGrazhdanskiNomer("8013326031")).toEqual(bad("date"));
+        expect(validateBulgariaEdinenGrazhdanskiNomer("803205603")).toEqual(bad("length"));
+        expect(validateBulgariaEdinenGrazhdanskiNomer("803205603x")).toEqual(bad("characters"));
+    });
+});
+
+describe("validateNorgeFodselsnummer", () => {
+    const withChecks = (nine: string) => {
+        const d = [...nine].map(Number);
+        const k = (weights: number[], digits: number[]) => {
+            const r = 11 - (digits.reduce((t, n, i) => t + n * weights[i], 0) % 11);
+            return r === 11 ? 0 : r;
+        };
+        const k1 = k([3, 7, 6, 1, 8, 9, 4, 5, 2], d);
+        const k2 = k([5, 4, 3, 2, 7, 6, 5, 4, 3, 2], [...d, k1]);
+        return k1 === 10 || k2 === 10 ? undefined : nine + k1 + k2;
+    };
+    test("numbers born in each century, a D-number and an H-number", () => {
+        // Find the first serial that does not give a check of 10.
+        const make = (ddmmyy: string, from: number) => {
+            for (let n = from; n < from + 50; n++) {
+                const v = withChecks(ddmmyy + String(n).padStart(3, "0"));
+                if (v) return v;
+            }
+            throw new Error("none");
+        };
+        expect(validateNorgeFodselsnummer(make("010185", 100))).toEqual(ok);
+        expect(validateNorgeFodselsnummer(make("010100", 500))).toEqual(ok);
+        expect(validateNorgeFodselsnummer(make("010160", 500))).toEqual(ok);
+        expect(validateNorgeFodselsnummer(make("410185", 100))).toEqual(ok);
+        expect(validateNorgeFodselsnummer(make("014185", 100))).toEqual(ok);
+    });
+    test("a failed check, an unreal date, a check of 10, length and characters", () => {
+        const good = withChecks("010185100") ?? withChecks("010185101")!;
+        const wrong = good.slice(0, 10) + String((Number(good[10]) + 1) % 10);
+        expect(validateNorgeFodselsnummer(wrong)).toEqual(bad("checksum"));
+        expect(validateNorgeFodselsnummer("3102851000" + "0")).toEqual(bad("date"));
+        expect(validateNorgeFodselsnummer("0101851000")).toEqual(bad("length"));
+        expect(validateNorgeFodselsnummer("0101851000x")).toEqual(bad("characters"));
+    });
+});
+
+describe("validateEestiIsikukood", () => {
+    test("a worked example", () => {
+        expect(validateEestiIsikukood("37605030299")).toEqual(ok);
+    });
+    test("the second weights, and 0 when both give 10", () => {
+        const check = (nine: string) => {
+            const d = [...nine].map(Number);
+            let c = d.reduce((t, n, i) => t + n * [1, 2, 3, 4, 5, 6, 7, 8, 9, 1][i], 0) % 11;
+            if (c === 10) {
+                c = d.reduce((t, n, i) => t + n * [3, 4, 5, 6, 7, 8, 9, 1, 2, 3][i], 0) % 11;
+                if (c === 10) c = 0;
+            }
+            return c;
+        };
+        // 1 + serial digits chosen so the first pass gives 10, found by search.
+        let found = 0;
+        for (let serial = 0; serial < 1000 && found < 2; serial++) {
+            const body = "3760503" + String(serial).padStart(3, "0");
+            const d = [...body].map(Number);
+            const first = d.reduce((t, n, i) => t + n * [1, 2, 3, 4, 5, 6, 7, 8, 9, 1][i], 0) % 11;
+            if (first === 10) {
+                expect(validateEestiIsikukood(body + check(body))).toEqual(ok);
+                found++;
+            }
+        }
+        expect(found).toBeGreaterThan(0);
+    });
+    test("a failed check, a century digit of 0 or 9, an unreal date, length and characters", () => {
+        expect(validateEestiIsikukood("37605030298")).toEqual(bad("checksum"));
+        expect(validateEestiIsikukood("07605030299")).toEqual(bad("structure"));
+        expect(validateEestiIsikukood("97605030299")).toEqual(bad("structure"));
+        expect(validateEestiIsikukood("37613030299")).toEqual(bad("date"));
+        expect(validateEestiIsikukood("3760503029")).toEqual(bad("length"));
+        expect(validateEestiIsikukood("3760503029x")).toEqual(bad("characters"));
+    });
+});
+
+describe("validateRodneCislo", () => {
+    test("a ten digit number, a woman's month, a month with 20 added, and a nine digit number before 1954", () => {
+        expect(validateRodneCislo("710319/2745")).toEqual(ok);
+        expect(validateRodneCislo("7153190006".slice(0, 9) + "x")).toEqual(bad("characters"));
+        expect(validateRodneCislo("535319/123")).toEqual(ok);
+    });
+    test("a first nine digits with remainder 10 and a last digit of 0", () => {
+        // 1 January 1970, serials 000 to 999: one of them leaves a remainder of 10.
+        const n = [...Array(1000).keys()].map((i) => 700101000 + i).find((n) => n % 11 === 10)!;
+        expect(validateRodneCislo(`${n}0`)).toEqual(ok);
+        expect(validateRodneCislo(`${n}1`)).toEqual(bad("checksum"));
+    });
+    test("a failed check, an unreal date, a nine digit number after 1954, length and characters", () => {
+        expect(validateRodneCislo("710319/2746")).toEqual(bad("checksum"));
+        expect(validateRodneCislo("711319/2745")).toEqual(bad("date"));
+        expect(validateRodneCislo("710319/123")).toEqual(bad("structure"));
+        expect(validateRodneCislo("71031927")).toEqual(bad("length"));
+    });
+});
+
+describe("validateMagyarorszagTajSzam", () => {
+    test("a worked example", () => {
+        // 1*3 + 2*7 + 3*3 + 4*7 + 5*3 + 6*7 + 7*3 + 8*7 = 188, so the check digit is 8.
+        expect(validateMagyarorszagTajSzam("123 456 788")).toEqual(ok);
+    });
+    test("a failed check, length and characters", () => {
+        expect(validateMagyarorszagTajSzam("123 456 789")).toEqual(bad("checksum"));
+        expect(validateMagyarorszagTajSzam("123 456 78")).toEqual(bad("length"));
+        expect(validateMagyarorszagTajSzam("123 456 78x")).toEqual(bad("characters"));
+    });
+});
+
+describe("validateRossiyaSnils", () => {
+    const sumOf = (stem: string) => [...stem].reduce((t, c, k) => t + Number(c) * (9 - k), 0);
+    const stemWith = (wanted: (sum: number) => boolean, prefix = "9999") => {
+        for (let i = 0; i < 100000; i++) {
+            const stem = prefix + String(i).padStart(9 - prefix.length, "0");
+            if (wanted(sumOf(stem))) return stem;
+        }
+        throw new Error("no stem");
+    };
+
+    test("the worked example 112-233-445 95", () => {
+        expect(validateRossiyaSnils("112-233-445 95")).toEqual(ok);
+        expect(validateRossiyaSnils("11223344595")).toEqual(ok);
+    });
+
+    test("a sum over 101 gives the sum modulo 101, and 100 or 101 or a remainder of 100 give 00", () => {
+        const over = stemWith((sum) => sum > 101 && sum % 101 !== 100 && sum % 101 !== 0);
+        expect(validateRossiyaSnils(over + String(sumOf(over) % 101).padStart(2, "0"))).toEqual(ok);
+        expect(validateRossiyaSnils(stemWith((sum) => sum === 100, "0000") + "00")).toEqual(ok);
+        expect(validateRossiyaSnils(stemWith((sum) => sum === 101, "0000") + "00")).toEqual(ok);
+        expect(
+            validateRossiyaSnils(stemWith((sum) => sum > 101 && sum % 101 === 100) + "00"),
+        ).toEqual(ok);
+    });
+
+    test("a failed check, length and characters", () => {
+        expect(validateRossiyaSnils("112-233-445 96")).toEqual(bad("checksum"));
+        expect(validateRossiyaSnils("112-233-445 9")).toEqual(bad("length"));
+        expect(validateRossiyaSnils("112-233-445 9x")).toEqual(bad("characters"));
+    });
+});
+
+describe("validateSuomiHenkilotunnus", () => {
+    test("a worked example, and a century sign of A", () => {
+        expect(validateSuomiHenkilotunnus("131052-308T")).toEqual(ok);
+        const n = 10106123;
+        expect(
+            validateSuomiHenkilotunnus(`010106A123${"0123456789ABCDEFHJKLMNPRSTUVWXY"[n % 31]}`),
+        ).toEqual(ok);
+        expect(
+            validateSuomiHenkilotunnus(
+                `010180+123${"0123456789ABCDEFHJKLMNPRSTUVWXY"[10180123 % 31]}`,
+            ),
+        ).toEqual(ok);
+    });
+    test("a failed check, an unreal date, a serial out of range, length and characters", () => {
+        expect(validateSuomiHenkilotunnus("131052-308U")).toEqual(bad("checksum"));
+        expect(validateSuomiHenkilotunnus("311152-308T")).toEqual(bad("date"));
+        expect(validateSuomiHenkilotunnus("131052-001T")).toEqual(bad("structure"));
+        expect(validateSuomiHenkilotunnus("131052-308")).toEqual(bad("length"));
+        expect(validateSuomiHenkilotunnus("131052x308T")).toEqual(bad("characters"));
+        expect(validateSuomiHenkilotunnus("131052-308t")).toEqual(bad("characters"));
+    });
+});
+
+describe("validateItaliaCodiceFiscale", () => {
+    test("a worked example, and an omocodia number", () => {
+        expect(validateItaliaCodiceFiscale("RSSMRA85T10A562S")).toEqual(ok);
+        expect(validateItaliaCodiceFiscale("RSSMRA85T10A562S".replace(/ /g, ""))).toEqual(ok);
+    });
+    test("a failed check, a month letter that is not one, an unreal day, structure, length and characters", () => {
+        expect(validateItaliaCodiceFiscale("RSSMRA85T10A562T")).toEqual(bad("checksum"));
+        expect(validateItaliaCodiceFiscale("RSSMRA85F10A562S")).toEqual(bad("date"));
+        expect(validateItaliaCodiceFiscale("RSSMRA85T32A562S")).toEqual(bad("date"));
+        expect(validateItaliaCodiceFiscale("1SSMRA85T10A562S")).toEqual(bad("structure"));
+        expect(validateItaliaCodiceFiscale("RSSMRA85T10A562")).toEqual(bad("length"));
+        expect(validateItaliaCodiceFiscale("rssmra85t10a562s")).toEqual(bad("characters"));
     });
 });
