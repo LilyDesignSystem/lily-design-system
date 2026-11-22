@@ -8,5 +8,6 @@ allowBuilds:
 minimumReleaseAgeExclude:
   - "@lilydesignsystem/nunjucks-time-zone-picker@0.1.0"
   - "@lilydesignsystem/nunjucks-theme-picker@0.4.0"
+  - "@lilydesignsystem/nunjucks-theme-picker@0.5.0"
 overrides:
   esbuild: "0.28.2"
