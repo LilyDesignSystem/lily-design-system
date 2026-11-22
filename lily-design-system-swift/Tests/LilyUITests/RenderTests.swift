@@ -112,3 +112,49 @@ private struct CustomItemStyle: SummaryListItemStyle {
 @Test func politenessHasThreeCases() {
     #expect(Politeness.allCases == [.assertive, .polite, .off])
 }
+
+private struct CustomBadgeStyle: BadgeStyle {
+    func makeBody(configuration: BadgeStyleConfiguration) -> some View {
+        HStack { Text(verbatim: configuration.kind.rawValue); configuration.text }
+    }
+}
+
+private struct CustomTagStyle: TagStyle {
+    func makeBody(configuration: TagStyleConfiguration) -> some View { configuration.text.italic() }
+}
+
+private struct CustomCardStyle: CardStyle {
+    func makeBody(configuration: CardStyleConfiguration) -> some View { VStack { configuration.heading; configuration.content } }
+}
+
+private struct CustomInsetStyle: InsetTextStyle {
+    func makeBody(configuration: InsetTextStyleConfiguration) -> some View { configuration.content.border(.secondary) }
+}
+
+@MainActor @Test func badgeRendersEveryKindInBothStyles() {
+    for kind in BadgeKind.allCases { #expect(render(Badge("3", kind: kind, label: "3 unread messages"))) }
+    #expect(render(Badge("New").badgeStyle(CustomBadgeStyle())))
+    #expect(render(Badge("New").badgeStyle(.plain)))
+    Badge("3", label: "3 unread").textChanged(from: "2", to: "3")
+}
+
+@MainActor @Test func tagRendersStaticAndLiveInBothStyles() {
+    #expect(render(Tag("High", label: "priority")))
+    #expect(render(Tag("Running", label: "Job status", live: true).tagStyle(CustomTagStyle())))
+    #expect(render(Tag("Draft", label: "status").tagStyle(.plain)))
+    Tag("Done", label: "Job status", live: true).textChanged(from: "Running", to: "Done")
+    Tag("Done", label: "status").textChanged(from: "Draft", to: "Done")
+}
+
+@MainActor @Test func cardRendersWithAndWithoutHeadingAndLabel() {
+    #expect(render(Card { Text(verbatim: "Body") }))
+    #expect(render(Card(heading: "Appointment", headingLevel: 2, label: "Next appointment") { Text(verbatim: "Body") }))
+    #expect(render(Card(heading: "Custom") { Text(verbatim: "Body") }.cardStyle(CustomCardStyle())))
+    #expect(render(Card(heading: "Plain") { Text(verbatim: "Body") }.cardStyle(.plain)))
+}
+
+@MainActor @Test func insetTextRendersInBothStyles() {
+    #expect(render(InsetText { Text(verbatim: "It can take up to 8 weeks.") }))
+    #expect(render(InsetText { Text(verbatim: "Custom") }.insetTextStyle(CustomInsetStyle())))
+    #expect(render(InsetText { Text(verbatim: "Plain") }.insetTextStyle(.plain)))
+}

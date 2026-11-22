@@ -31,6 +31,13 @@
 - `children`: slot (required) -- content to display inside the inset text block.
 - `...restProps`: unknown -- additional attributes spread onto the container `<div>`.
 
+## Mobile
+
+Decisions: [mobile/components-mobile.tsv](../../mobile/components-mobile.tsv) (`lily` on both). Tests: `lily-design-system-swift/Tests/LilyUITests`, `lily-design-system-kotlin/lily-compose/src/test`.
+
+- Apple: `InsetText { … }` in `LilyUI`: one combined element (the web's role="note"). Style: `InsetTextStyle`.
+- Android: `InsetText { … }` in `lily-compose`: one merged TalkBack stop.
+
 ## Acceptance Criteria
 
 - [ ] Renders <div> element with class="inset-text"

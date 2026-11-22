@@ -4407,7 +4407,7 @@ T3, then T4 and T5 together, then T6 to T8.
       `bin/check-built-english`).
       _(2026-11-22, progress: the pattern and `Field`, `ErrorSummary`, `SummaryList`, `SummaryListItem`, `WarningText` and
       `LilyAlert` are in `LilyUI`; each keeps its accessibility outside the style, and the decisions that can be computed are in
-      `LilySemantics` with five Swift Testing tests. Not yet: `badge`, `tag`, `card`, `inset-text`; the per-clause UI tests (they
+      `LilySemantics` with five Swift Testing tests. `Badge`, `Tag`, `Card` (with heading levels) and `InsetText` followed the same day. Not yet: a linked card; the per-clause UI tests (they
       need the example app, P44-T5); the Swift rule in the string checks. The six AGENTS files gained a "Mobile" section,
       Apple and Android together, on 2026-11-22.)_
 - [ ] **P44-T4 Healthcare and identifier views.** `observation-view`, `allergy-record-list`, `medication-view`, `age-view`,
@@ -4456,7 +4456,8 @@ Same order as Phase 44; the two can run side by side once P43 is done.
       Verify: a Robolectric semantics test per clause; no hardcoded string or `stringResource` default.
       _(2026-11-22, progress: `Field`, `ErrorSummary`, `SummaryList`, `SummaryListItem`, `WarningText` and `LilyAlert` on
       foundation only, with eight Robolectric tests of the semantics tree; removing `heading()` from the error summary's title
-      fails one. Not yet: `badge`, `tag`, `card`, `inset-text`. The AGENTS files have a "Mobile" section.)_
+      fails one. `LilyBadge`, `Tag`, `LilyCard` and `InsetText` followed the same day (12 tests, 100% of lines). Not yet: a linked
+      card. The AGENTS files have a "Mobile" section.)_
 - [ ] **P45-T4 Healthcare and identifier composables.** As P44-T4, with `KeyboardOptions` asserted for every identifier input.
       Verify: Robolectric tests per clause; ATF (`enableAccessibilityChecks()`) passes on an API 34+ emulator.
 - [ ] **P45-T5 Example app.** `lily-design-system-android-examples`, adaptive (list-detail on wide windows), with the same

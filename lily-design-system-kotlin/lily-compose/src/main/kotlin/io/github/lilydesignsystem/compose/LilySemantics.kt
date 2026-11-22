@@ -28,6 +28,12 @@ public object LilySemantics {
     public fun fieldDescription(label: String, description: String?, required: Boolean, requiredLabel: String?): String =
         spoken(label, description, if (required) requiredLabel else null) ?: label
 
+    /** A badge's spoken name: the label when given, else the visible text. */
+    public fun badgeLabel(text: String, label: String?): String = if (label.isNullOrEmpty()) text else label
+
+    /** A tag's spoken name: the text then the label, or, when live, the label alone (its text is the state). */
+    public fun tagLabel(text: String, label: String, live: Boolean): String = if (live) label else spoken(text, label) ?: text
+
     /** The live region for a politeness, or `null` for [Politeness.Off]. */
     public fun liveRegion(politeness: Politeness): LiveRegionMode? = when (politeness) {
         Politeness.Assertive -> LiveRegionMode.Assertive

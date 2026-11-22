@@ -5,10 +5,10 @@ Research, decisions and plan: [spec/apple-swift](../spec/apple-swift/index.md). 
 
 ## Products
 
-| Product    | What it is                                                                                                                                 | State                                                                          |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
-| `LilyCore` | Pure Swift, no UI: search folding and highlighting, middle truncation, clinical formatting (ages, durations, partial dates, meter scales). | Ported from `shared/` and proved equal to the TypeScript by `shared/vectors/`. |
-| `LilyUI`   | SwiftUI components with style protocols: `Field`, `ErrorSummary`, `SummaryList` / `SummaryListItem`, `WarningText`, `LilyAlert`.           | First slice (P44-T3).                                                          |
+| Product    | What it is                                                                                                                                                            | State                                                                          |
+| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| `LilyCore` | Pure Swift, no UI: search folding and highlighting, middle truncation, clinical formatting (ages, durations, partial dates, meter scales).                            | Ported from `shared/` and proved equal to the TypeScript by `shared/vectors/`. |
+| `LilyUI`   | SwiftUI components with style protocols: `Field`, `ErrorSummary`, `SummaryList` / `SummaryListItem`, `WarningText`, `LilyAlert`, `Badge`, `Tag`, `Card`, `InsetText`. | First slice (P44-T3).                                                          |
 
 Planned: `LilyIdentifiers` (the national identifier inputs and views, after their validators move to `shared/`, P43-T4) and
 `LilyThemes` (generated tokens, P43-T5). Requirements: Swift 6 language mode, iOS 18 / iPadOS 18 or later (macOS 15 for

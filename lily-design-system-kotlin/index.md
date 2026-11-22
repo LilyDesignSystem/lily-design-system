@@ -6,10 +6,10 @@ Phase 45).
 
 ## Modules
 
-| Module         | What it is                                                                                                                                                | State                                                                    |
-| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| `lily-core`    | Kotlin Multiplatform, no Android dependency: search folding and highlighting, middle truncation, clinical formatting.                                     | JVM target; ported from `shared/` and proved equal by `shared/vectors/`. |
-| `lily-compose` | Compose components on `compose.foundation` and `compose.ui` only: `Field`, `ErrorSummary`, `SummaryList` / `SummaryListItem`, `WarningText`, `LilyAlert`. | First slice (P45-T3).                                                    |
+| Module         | What it is                                                                                                                                                                                             | State                                                                    |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------ |
+| `lily-core`    | Kotlin Multiplatform, no Android dependency: search folding and highlighting, middle truncation, clinical formatting.                                                                                  | JVM target; ported from `shared/` and proved equal by `shared/vectors/`. |
+| `lily-compose` | Compose components on `compose.foundation` and `compose.ui` only: `Field`, `ErrorSummary`, `SummaryList` / `SummaryListItem`, `WarningText`, `LilyAlert`, `LilyBadge`, `Tag`, `LilyCard`, `InsetText`. | First slice (P45-T3).                                                    |
 
 Planned: `lily-compose-identifiers` (P43-T4, P45-T4), `lily-compose-themes` (P43-T5) and the optional `lily-compose-material3`
 adapter. Requirements: Kotlin 2.4, `minSdk` 23, compileSdk 37.2 (Compose 1.13 requires 37.1 or later), JVM bytecode 17.

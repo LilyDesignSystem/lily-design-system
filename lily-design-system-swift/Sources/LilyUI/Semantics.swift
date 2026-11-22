@@ -43,6 +43,28 @@ public enum LilySemantics {
         announce(announcement(heading: nil, message: newError, politeness: .assertive))
     }
 
+    /// A badge's spoken name: the label when given, else the visible text.
+    public static func badgeLabel(text: String, label: String?) -> String {
+        if let label, !label.isEmpty { return label }
+        return text
+    }
+
+    /// A tag's spoken name: the text then the label, or, when live, the label alone (its text is the value).
+    public static func tagLabel(text: String, label: String, live: Bool) -> String {
+        live ? label : (spoken(text, label) ?? text)
+    }
+
+    /// The accessibility heading level for a web heading level, clamped to 2...6 as the web's `headingLevel` is.
+    public static func headingLevel(_ level: Int) -> AccessibilityHeadingLevel {
+        switch min(max(level, 2), 6) {
+        case 2: .h2
+        case 3: .h3
+        case 4: .h4
+        case 5: .h5
+        default: .h6
+        }
+    }
+
     /// Posts an announcement, if there is one.
     @MainActor public static func announce(_ text: AttributedString?) {
         guard let text else { return }

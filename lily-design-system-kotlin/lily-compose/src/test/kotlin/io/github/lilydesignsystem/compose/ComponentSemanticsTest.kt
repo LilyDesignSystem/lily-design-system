@@ -108,4 +108,42 @@ class ComponentSemanticsTest {
             .assert(SemanticsMatcher.expectValue(SemanticsProperties.IsTraversalGroup, true))
         rule.onNode(hasText("Name") and hasText("Sam Okoro"), useUnmergedTree = false).assertExists()
     }
+
+    @Test fun badgeIsPoliteAndSpeaksItsLabelOrText() {
+        rule.setContent {
+            LilyBadge("3", label = "3 unread messages", kind = BadgeKind.Info)
+            LilyBadge("New")
+        }
+        rule.onNodeWithContentDescription("3 unread messages").assert(hasLiveRegion(LiveRegionMode.Polite))
+        rule.onNodeWithContentDescription("New").assert(hasLiveRegion(LiveRegionMode.Polite))
+        assertEquals("New", LilySemantics.badgeLabel("New", ""))
+    }
+
+    @Test fun tagSpeaksTextThenLabelAndIsLiveOnlyWhenAsked() {
+        rule.setContent {
+            Tag("High", label = "priority")
+            Tag("Running", label = "Job status", live = true)
+        }
+        rule.onNodeWithContentDescription("High\npriority").assert(hasNoLiveRegion)
+        rule.onNodeWithContentDescription("Job status")
+            .assert(hasLiveRegion(LiveRegionMode.Polite))
+            .assert(SemanticsMatcher.expectValue(SemanticsProperties.StateDescription, "Running"))
+    }
+
+    @Test fun cardHeadingIsAHeadingAndALabelNamesTheGroup() {
+        rule.setContent {
+            LilyCard(heading = "Appointment", label = "Next appointment") { BasicText("Tuesday") }
+            LilyCard { BasicText("No heading") }
+        }
+        rule.onNodeWithText("Appointment").assert(isHeading)
+        rule.onNodeWithContentDescription("Next appointment")
+            .assert(SemanticsMatcher.expectValue(SemanticsProperties.IsTraversalGroup, true))
+        rule.onNodeWithText("No heading").assertExists()
+    }
+
+    @Test fun insetTextIsOneStop() {
+        rule.setContent { InsetText { BasicText("It can take up to 8 weeks.") } }
+        val merges = SemanticsMatcher("merges its descendants") { it.config.isMergingSemanticsOfDescendants }
+        rule.onNode(hasText("It can take up to 8 weeks.") and merges).assertExists()
+    }
 }

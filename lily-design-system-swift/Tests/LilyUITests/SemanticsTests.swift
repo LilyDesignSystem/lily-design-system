@@ -43,3 +43,24 @@ import Testing
     _ = Field(label: "Name", error: "Enter your name", required: true, requiredLabel: "required") { TextField("", text: .constant("")) }
     _ = SummaryList(label: "Personal details") { SummaryListItem(term: "Name") { Text(verbatim: "Sam Okoro") } }
 }
+
+@Test func badgeSpeaksItsLabelOrElseItsText() {
+    #expect(LilySemantics.badgeLabel(text: "3", label: "3 unread messages") == "3 unread messages")
+    #expect(LilySemantics.badgeLabel(text: "New", label: nil) == "New")
+    #expect(LilySemantics.badgeLabel(text: "New", label: "") == "New")
+}
+
+@Test func tagSpeaksTextThenLabelOrTheLabelAloneWhenLive() {
+    #expect(LilySemantics.tagLabel(text: "High", label: "priority", live: false) == "High\npriority")
+    #expect(LilySemantics.tagLabel(text: "Running", label: "Job status", live: true) == "Job status")
+}
+
+@Test func headingLevelsFollowTheWebAndClamp() {
+    #expect(LilySemantics.headingLevel(2) == .h2)
+    #expect(LilySemantics.headingLevel(3) == .h3)
+    #expect(LilySemantics.headingLevel(4) == .h4)
+    #expect(LilySemantics.headingLevel(5) == .h5)
+    #expect(LilySemantics.headingLevel(6) == .h6)
+    #expect(LilySemantics.headingLevel(1) == .h2)
+    #expect(LilySemantics.headingLevel(9) == .h6)
+}
