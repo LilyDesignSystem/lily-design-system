@@ -13,7 +13,6 @@ anything that can change how an existing page lays out. The monorepo's root
 - **Added:** `--lily-link`, a link colour with at least 4.5:1 against the page and the card surface in every theme, checked by
   `bin/check-theme`; use it for links in your own CSS instead of `--color-primary`, which is a fill. Tokens: `--lily-link`.
 
-
 ## 0.7.0 — 2026-11-21
 
 - **Changed (layout):** table header cells, and links and code inside them, use `overflow-wrap: break-word` instead of `anywhere`,

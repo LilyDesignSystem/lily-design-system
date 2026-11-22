@@ -143,13 +143,13 @@ describe("InternationalPatientSummarySection", () => {
     describe("meta, warning and level (P42-T6b)", () => {
         test("data-level is the section's level in the IPS, and level overrides it", () => {
             const level = (props: Record<string, unknown>) => {
-                const { unmount } = render(
+                const { unmount } = render(() => (
                     <Subject
                         section="allergies"
                         heading="Allergies"
                         {...props}
-                    />,
-                );
+                    />
+                ));
                 const value = screen.getByRole("region").getAttribute("data-level");
                 unmount();
                 return value;
@@ -161,12 +161,12 @@ describe("InternationalPatientSummarySection", () => {
         });
 
         test("meta and warning render nothing when omitted", () => {
-            render(
+            render(() => (
                 <Subject
                     section="allergies"
                     heading="Allergies"
-                />,
-            );
+                />
+            ));
             const region = screen.getByRole("region");
             expect(region.querySelector(".international-patient-summary-section-meta")).toBeNull();
             expect(
@@ -175,7 +175,7 @@ describe("InternationalPatientSummarySection", () => {
         });
 
         test("meta, then warning, sit after the heading and status and before the entries", () => {
-            render(
+            render(() => (
                 <Subject
                     section="allergies"
                     heading="Allergies"
@@ -185,8 +185,8 @@ describe("InternationalPatientSummarySection", () => {
                     warning={<span>Entries not found</span>}
                 >
                     <ul class="entries" />
-                </Subject>,
-            );
+                </Subject>
+            ));
             const region = screen.getByRole("region", { name: "Allergies" });
             const order = [...region.children].map((c) => c.className.split(" ")[0]);
             expect(order).toEqual([
