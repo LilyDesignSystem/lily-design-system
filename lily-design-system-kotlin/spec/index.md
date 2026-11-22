@@ -13,7 +13,8 @@ criteria. Tasks: [tasks.md Phase 45](../../tasks.md#phase-45--android-kotlin-202
       Robolectric tests of their semantics; removing the title's `heading()` fails one (P45-T3, first slice).
 - [x] 100% line coverage of `lily-core` and `lily-compose`, enforced by `./gradlew koverVerify` (Kover 0.9.11), 2026-11-22.
 - [ ] Binary-compatibility validation, and native targets for `lily-core`.
-- [ ] ATF (`enableAccessibilityChecks()`) on an API 34+ emulator (P45-T4).
+- [x] ATF (`enableAccessibilityChecks()`) passes on the example app's catalog and every detail view, on an API 37 emulator,
+      at font scale 1.0 and 2.0 (2026-11-22). It found the catalog's search field 44dp tall; fixed.
 - [ ] `lily-compose-identifiers`, `lily-compose-themes`, `lily-compose-material3`.
 - [ ] An "Android" section in each shipped component's `components/{slug}/AGENTS.md`.
 - [ ] Published to Maven Central (P45-T6; needs approval).

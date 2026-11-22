@@ -39,7 +39,9 @@ Every word is the app's: Lily has no default text and no string resources. `Fiel
 the spoken name and the error; apply it to the control. Text styles come from `LocalLilyTextStyles`, which defaults to the
 platform's text, so the user's font scale applies unchanged.
 
-`lily-compose-examples-app` is a ready app that does this (`./gradlew :lily-compose-examples-app:installDebug` on a device or
+`lily-compose-examples-app` is a ready app that does this (and its `AccessibilityChecksTest` runs Google's Accessibility Test
+Framework over the catalog and every detail view: `./gradlew :lily-compose-examples-app:connectedDebugAndroidTest` on an API 34+
+emulator, at font scale 1.0 and 2.0) (`./gradlew :lily-compose-examples-app:installDebug` on a device or
 emulator): the catalog in `LilyTheme`, light or dark with the system, edge to edge, system back to leave a detail, every word
 in its `strings.xml`. To host the catalog in your own activity, navigation stays the app's:
 

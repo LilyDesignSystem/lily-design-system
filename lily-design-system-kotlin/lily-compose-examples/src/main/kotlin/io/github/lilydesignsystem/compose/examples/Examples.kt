@@ -356,7 +356,10 @@ public fun ExampleCatalog(
         BasicTextField(
             value = query,
             onValueChange = { query = it },
-            modifier = Modifier.fillMaxWidth().semantics { contentDescription = searchLabel },
+            modifier = Modifier
+                .fillMaxWidth()
+                .defaultMinSize(minHeight = LilyMinimumTouchTarget) // 48dp, found by ATF on an emulator
+                .semantics { contentDescription = searchLabel },
         )
         LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             items(Examples.matching(query), key = { it.slug }) { item ->

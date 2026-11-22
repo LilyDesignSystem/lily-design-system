@@ -4521,6 +4521,10 @@ Same order as Phase 44; the two can run side by side once P43 is done.
       with the system, edge to edge, system back closing a detail, its words in `strings.xml`: `assembleDebug` builds an APK,
       lint is clean. Building it found that Compose 1.13 needs `minSdk` 24, so every module moved from 23. Still to do: run it
       on an emulator, ATF and the size sweep.)_
+      _(2026-11-22: ATF runs. `AccessibilityChecksTest` (androidTest, `enableAccessibilityChecks()`) checks the catalog and every
+      detail view on the `Pixel_10_API_37` emulator, and passes at font scale 1.0 and 2.0 (`adb shell settings put system
+    font_scale 2.0`). Its first run found the catalog's search field 44dp tall; it now has the 48dp minimum. Still to do: the
+      320dp and large-window size sweep, and running ATF on each component's own composable in `lily-compose`.)_
 - [ ] **P45-T6 Publish to Maven Central.** Verify the `io.github.lilydesignsystem` namespace (or a domain the project owns),
       sign artifacts, add `bin/publish-kotlin` publishing from the monorepo like `bin/publish-helpers`, and extend
       `bin/check-package-metadata` and `bin/verify-published` to the POMs. Ask before the first publish.
