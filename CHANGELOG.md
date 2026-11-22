@@ -45,6 +45,10 @@ highlights.
   change many components at once) and which go straight to `latest` (fixes, patches, additive releases). Holding `latest` two days behind, which one
   consumer asked for, was not adopted: it would delay every fix for every consumer. `bin/test-publish-tag` checks the option with a fake `npm`.
 
+## National identifier validation, first slice (2026-11-22, P43-T1)
+
+- `shared/national-identifiers.ts`: pure validators with check-digit logic for the NHS number, Canada SIN, Netherlands BSN, Belgium NRN, Sweden personnummer, Poland PESEL, Australia TFN, India Aadhaar (Verhoeff), Switzerland AHV, France NIR and Turkey TC Kimlik, plus `luhnValid`, `verhoeffValid` and `isCalendarDate`. A result is `{ valid: true }` or `{ valid: false, reason }`; nothing is repaired. Not yet exported from the packages (P43-T2). Phase 43 in `tasks.md` lists the rest.
+
 ## `meterScale` throws on malformed input (2026-11-22, checked arithmetic)
 
 - A declaration must not name a fallback for input that is out of range or malformed, so `meterScale` no longer returns `undefined` for it. A value or an end that is not a finite number, a reversed or zero-width range, a one-sided bound not above zero, and two different units now throw a `MeterScaleError` (a `RangeError` with a `reason`: `value`, `range`, `reversed`, `bound` or `units`); C# throws `MeterScaleException`, an `ArgumentOutOfRangeException`. `undefined` stays for "nothing to draw": no value or no range. `meterScale`, `MeterScaleError`, `formatRange` and their types are now exported from the headless packages' root, which had left them out. Callers that relied on `undefined` for bad data must catch the error or check their data first.

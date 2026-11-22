@@ -4537,7 +4537,7 @@ Same order as Phase 44; the two can run side by side once P43 is done.
       on an emulator, ATF and the size sweep.)_
       _(2026-11-22: ATF runs. `AccessibilityChecksTest` (androidTest, `enableAccessibilityChecks()`) checks the catalog and every
       detail view on the `Pixel_10_API_37` emulator, and passes at font scale 1.0 and 2.0 (`adb shell settings put system
-  font_scale 2.0`). Its first run found the catalog's search field 44dp tall; it now has the 48dp minimum. Still to do: the
+font_scale 2.0`). Its first run found the catalog's search field 44dp tall; it now has the 48dp minimum. Still to do: the
       320dp and large-window size sweep, and running ATF on each component's own composable in `lily-compose`.)_
 - [ ] **P45-T6 Publish to Maven Central.** Verify the `io.github.lilydesignsystem` namespace (or a domain the project owns),
       sign artifacts, add `bin/publish-kotlin` publishing from the monorepo like `bin/publish-helpers`, and extend
@@ -4551,6 +4551,19 @@ kotlin` (JVM) and `--job kotlin-emulator` (ATF); Android columns in the screen-r
       helper over `LocaleManager`, and a `ColorPicker` (Compose has none). Run one `lily-compose` screen under Compose
       Multiplatform on iOS with VoiceOver and record the result; it is a bonus, not the Apple product.
       Verify: tests per clause; the CMP result recorded in the Android topic.
+
+## Phase 43 — Validation and check-digit logic for national identifiers (2026-11-22)
+
+Decision (2026-11-22): pure shared functions, documented algorithms only. Components stay headless and never validate; a consumer calls a validator. A validator returns `{ valid: true }` or `{ valid: false, reason }` (`characters`, `length`, `checksum`, `date`, `structure`); a value that is not a string throws a `TypeError`; nothing is trimmed, padded, re-cased or defaulted (checked arithmetic: invalid input is reported, never repaired). Only an algorithm with a published worked example is added; a type whose algorithm is not documented stays format-only and is listed under P43-T4.
+
+- [x] **P43-T1 The module and the first eleven validators.** Done 2026-11-22 in `shared/national-identifiers.ts` (39 tests): the primitives `luhnValid`, `verhoeffValid`, `weightedSum`, `stripSeparators`, `isCalendarDate`, and NHS number (England, Wales, Northern Ireland), Canada SIN, Netherlands BSN, Belgium NRN, Sweden personnummer, Poland PESEL, Australia TFN, India Aadhaar, Switzerland AHV, France NIR, Turkey TC Kimlik.
+      Verify: a worked example, a wrong check, length, characters and the rule's own structure per validator.
+- [ ] **P43-T2 Wire the module into the packages.** Add it to `bin/sync-shared-modules` for the six TypeScript `-headless-identifiers` packages, export it from each barrel generator (`build.mjs`, Angular `generate-index.mjs`), and give the C# twin to the Blazor identifiers package.
+      Verify: `bin/sync-shared-modules --check`, each package's barrel exports every validator, and the Blazor tests match the shared vectors.
+- [ ] **P43-T3 More validators.** One family at a time, each from a published algorithm with a worked example: Modulus-11 (Bulgaria EGN, Norway fodselsnummer, Scotland CHI, Czech and Slovak rodne cislo, Hungary TAJ, Russia SNILS), Luhn (Israel, Finland check letter, Italy codice fiscale), date-encoded numbers (Denmark, Estonia, Lithuania, Latvia), Spanish and Portuguese tax numbers, the ID numbers of China, Korea, Taiwan, Japan and Singapore, and the Latin American cedulas.
+      Verify: as P43-T1.
+- [ ] **P43-T4 The format-only list.** Every identifier type with no check digit documented gets its format rule only and is listed with the reason in `spec/national-identifiers/index.md`; a check that its list matches what is implemented runs in `bin/test`.
+      Verify: the check fails when a type is in neither list.
 
 ---
 
