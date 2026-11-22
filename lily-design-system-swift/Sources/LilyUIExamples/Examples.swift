@@ -344,13 +344,15 @@ public struct ExampleCatalog: View {
 
     public var body: some View {
         NavigationStack {
-            List(Examples.matching(query)) { example in
+            List(Array(Examples.matching(query).enumerated()), id: \.element.slug) { offset, example in
                 NavigationLink(value: example.slug) {
                     VStack(alignment: .leading) {
                         Text(verbatim: example.name).font(.headline)
                         Text(verbatim: example.summary).font(.subheadline)
                     }
                 }
+                // A stable handle for UI tests; never spoken.
+                .accessibilityIdentifier("example-row-\(offset)")
             }
             .navigationTitle(Text(verbatim: title))
             .navigationDestination(for: String.self, destination: Self.destination)
@@ -378,9 +380,9 @@ public struct ExampleDetail: View {
                 Text(verbatim: example.summary)
                 example.view
                 ScrollView(.horizontal) {
-                    Text(verbatim: example.code).font(.system(.footnote, design: .monospaced)).textSelection(.enabled)
+                    // Static text: selectable text is an interactive element one line high, below the 44-point target.
+                    Text(verbatim: example.code).font(.system(.footnote, design: .monospaced))
                 }
-                .frame(minHeight: 44)
             }
             .padding()
         }

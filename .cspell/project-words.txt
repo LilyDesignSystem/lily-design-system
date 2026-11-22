@@ -166,6 +166,9 @@ xctest
 precomposed
 exclamationmark
 subheadline
+pbxproj
+xcodeproj
+UICT
 hydr
 Okoro
 toggleable

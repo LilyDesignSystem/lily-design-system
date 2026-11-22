@@ -4459,8 +4459,13 @@ T3, then T4 and T5 together, then T6 to T8.
       the Dynamic Type sweep (default, `accessibility3`, `accessibility5`) finds no clipped text or controls.
       _(2026-11-22, progress: `LilyUIExamples` in the package holds a worked example of each of the nine `LilyUI` components,
       with its code, and `ExampleCatalog`, a searchable list and detail screen (search through `LilyCore`'s folding). Tests
-      render every example and the catalog. Still to do: the Xcode app that hosts it, its UI tests, the audit and the Dynamic
-      Type sweep.)_
+      render every example and the catalog. Then `lily-design-system-swift-examples`: a hand-written Xcode project (synchronized
+      folders) with the app and a UI-test target, depending on the package locally. `performAccessibilityAudit` passes on the
+      catalog and every detail screen at the default and largest text sizes (iPhone 17 Pro simulator). Getting there found and
+      fixed, in Lily: ten views that dropped the static-text trait (the audit took them for undersized controls), and button
+      and link tint below 4.5:1 (now the generated `link` token); in the app: code samples as selectable text (one line high).
+      Exclusions are in `isIgnored` with reasons (system search field and bars, the scroll-edge effect). Still to do: UI tests of
+      each component's accessibility tree, the Dynamic Type clipping sweep, composed screens.)_
 - [ ] **P44-T6 Publish through an export repository.** `make publish-swift` pushes the package subtree to a read-only
       `lily-design-system-swift` repository and tags it; record why in [monorepo-github-pages](spec/monorepo-github-pages/index.md)
       (SwiftPM needs `Package.swift` at a repository root). Ask before the first push.
