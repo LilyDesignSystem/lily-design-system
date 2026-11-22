@@ -99,8 +99,8 @@ describe("InternationalPatientSummarySection", () => {
                     statusLabel="In words"
                     statusPlacement="list"
                 >
-                    <ul class="record-list">
-                        <li class="record-list-status">In words</li>
+                    <ul className="record-list">
+                        <li className="record-list-status">In words</li>
                     </ul>
                 </Subject>,
             );

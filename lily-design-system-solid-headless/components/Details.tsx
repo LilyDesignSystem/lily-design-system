@@ -92,7 +92,7 @@ export default function Details(props: DetailsProps) {
 
     return (
         <details
-            ref={element}
+            ref={(el) => (element = el)}
             class={`details ${p.class}`}
             open={open()}
             onToggle={handleToggle}

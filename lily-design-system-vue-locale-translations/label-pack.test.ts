@@ -242,9 +242,14 @@ describe("mergedLabels and packKeys", () => {
     });
 
     it("the helper's own section wins over a common label of the same name", () => {
-        const pack = { common: { search: "COMMON" }, "data-grid": { search: "OWN" } } as LabelPack;
+        const pack = {
+            common: { search: "COMMON" },
+            "data-grid": { search: "OWN" },
+        } as unknown as LabelPack;
         expect(mergedLabels("data-grid", pack)).toEqual({ search: "OWN" });
-        expect(mergedLabels("data-grid", { common: { search: "COMMON" } } as LabelPack)).toEqual({
+        expect(
+            mergedLabels("data-grid", { common: { search: "COMMON" } } as unknown as LabelPack),
+        ).toEqual({
             search: "COMMON",
         });
     });
@@ -310,12 +315,14 @@ describe("picker labels", () => {
     });
 
     it("a key a pack lacks or leaves empty is omitted, never filled from another language", () => {
-        const pack: LabelPack = { pickers: { theme: "Themes", locale: "", share: 4 as never } };
+        const pack = { pickers: { theme: "Themes", locale: "", share: 4 } } as unknown as LabelPack;
         expect(pickerLabels(pack)).toEqual({ theme: "Themes" });
         expect(pickerBarLabels(pack)).toEqual({ theme: "Themes" });
         expect(shareLabels(pack)).toEqual({});
-        expect(pickerLabels({})).toEqual({});
-        expect(shareLabels({ pickers: { copyLink: "Copy" } })).toEqual({ copyLabel: "Copy" });
+        expect(pickerLabels({} as unknown as LabelPack)).toEqual({});
+        expect(shareLabels({ pickers: { copyLink: "Copy" } } as unknown as LabelPack)).toEqual({
+            copyLabel: "Copy",
+        });
     });
 
     it("right-to-left packs name the pickers in their own script", () => {

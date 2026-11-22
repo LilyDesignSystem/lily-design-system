@@ -439,3 +439,15 @@ Wagonjwa
 SonarQube
 Hauptnavigation
 Patie
+meds
+Flowsheet
+Flowsheets
+demog
+Unresulted
+unresulted
+Poct
+POCT
+ESBL
+cyclonedx
+DTAC
+NICU

@@ -15,6 +15,8 @@ const { JSDOM } = process.env.JSDOM_PATH
 
 const dom = new JSDOM("<!doctype html><body></body>", { pretendToBeVisual: true });
 const { document, KeyboardEvent, Event } = dom.window;
+// Details.razor.js listens for beforeprint and afterprint on the window.
+globalThis.window = dom.window;
 const modules = "../../src/LilyBlazorHeadless/Components/";
 const tagInputDiv = await import(`${modules}TagInputDiv.razor.js`);
 const scroller = await import(`${modules}HorizontalScroller.razor.js`);
@@ -154,6 +156,19 @@ test("Details: a reader who opened it before the module loaded is reported", () 
     const dotnet = recorder();
     details.attach(node, dotnet, false);
     assert.deepEqual(dotnet.calls, [["OnDetailsToggle", true]]);
+});
+
+test("Details: a closed one is opened for print and closed again; one the reader had open stays open", () => {
+    const closed = document.createElement("details");
+    const kept = document.createElement("details");
+    kept.open = true;
+    const handles = [closed, kept].map((node) => details.attach(node, recorder(), node.open));
+    dom.window.dispatchEvent(new Event("beforeprint"));
+    assert.equal(closed.open, true);
+    dom.window.dispatchEvent(new Event("afterprint"));
+    assert.equal(closed.open, false);
+    assert.equal(kept.open, true);
+    handles.forEach((h) => h.dispose());
 });
 
 const search = await import(`${modules}TextInputWithSearch.razor.js`);

@@ -460,7 +460,10 @@ export const trailingSlash = "always";
 
 <footer class="site-footer">
   <div class="site-footer-inner">
-    <p>© Lily Design System. Free open source — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0, or GPL-3.0.</p>
+    <p>
+      © Lily Design System. Free open source — BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0,
+      GPL-2.0, or GPL-3.0.
+    </p>
     <div class="site-footer-links">
       <a href="https://github.com/LilyDesignSystem">GitHub</a>
       <a href="/about/">About</a>
@@ -728,8 +731,9 @@ git commit -m "Add home route with hero, quick-start, and component catalog list
 
   <h2>License</h2>
   <p>
-    Lily is multi-licensed under <strong>BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0, or GPL-3.0</strong>. Pick
-    whichever license fits your project. If none of those work, get in touch.
+    Lily is multi-licensed under <strong
+      >BSD, MIT, Apache-2.0, OGL-UK-3.0, CC-BY-NC-SA-4.0, GPL-2.0, or GPL-3.0</strong
+    >. Pick whichever license fits your project. If none of those work, get in touch.
   </p>
 
   <h2>Contact</h2>

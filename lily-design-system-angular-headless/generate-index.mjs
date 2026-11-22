@@ -40,6 +40,7 @@ function isComponentSource(name) {
             "command-keys.ts",
             "dev-warning.ts",
             "menu-keys.ts",
+            "print-open.ts",
         ].includes(name)
     )
         return false;
