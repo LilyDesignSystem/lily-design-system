@@ -165,4 +165,67 @@ public class ClinicalFormatTests
             () => ClinicalFormat.FormatProportion(1, 2, (ProportionKind)99, CultureInfo.InvariantCulture));
         Assert.Equal("kind", error.ParamName);
     }
+
+    [Fact]
+    public void MeterScale_a_two_sided_range_runs_half_a_range_beyond_each_end()
+        => Assert.Equal(new MeterScaleResult(2.5, 6.5, 3.5, 5.5), ClinicalFormat.MeterScale(5.2, 3.5, 5.5));
+
+    [Fact]
+    public void MeterScale_a_one_sided_range_runs_from_zero_to_half_as_far_again()
+    {
+        Assert.Equal(new MeterScaleResult(0, 7.5, null, 5), ClinicalFormat.MeterScale(3, null, 5));
+        Assert.Equal(new MeterScaleResult(0, 90, 60, null), ClinicalFormat.MeterScale(70, 60));
+    }
+
+    [Fact]
+    public void MeterScale_is_always_wide_enough_to_hold_the_value()
+    {
+        Assert.Equal(new MeterScaleResult(2.5, 9, 3.5, 5.5), ClinicalFormat.MeterScale(9, 3.5, 5.5));
+        Assert.Equal(new MeterScaleResult(-1, 6.5, 3.5, 5.5), ClinicalFormat.MeterScale(-1, 3.5, 5.5));
+        Assert.Equal(new MeterScaleResult(0, 20, null, 5), ClinicalFormat.MeterScale(20, null, 5));
+        Assert.Equal(new MeterScaleResult(-2, 7.5, null, 5), ClinicalFormat.MeterScale(-2, null, 5));
+    }
+
+    [Fact]
+    public void MeterScale_scales_a_negative_two_sided_range_the_same_way()
+        => Assert.Equal(new MeterScaleResult(-5, -1, -4, -2), ClinicalFormat.MeterScale(-3, -4, -2));
+
+    [Fact]
+    public void MeterScale_draws_nothing_for_a_value_that_is_not_a_finite_number()
+    {
+        Assert.Null(ClinicalFormat.MeterScale(null, 3.5, 5.5));
+        Assert.Null(ClinicalFormat.MeterScale(double.NaN, 3.5, 5.5));
+        Assert.Null(ClinicalFormat.MeterScale(double.PositiveInfinity, 3.5, 5.5));
+    }
+
+    [Fact]
+    public void MeterScale_draws_nothing_without_a_numeric_end_or_with_a_bad_one()
+    {
+        Assert.Null(ClinicalFormat.MeterScale(5));
+        Assert.Null(ClinicalFormat.MeterScale(5, double.NaN, 5.5));
+        Assert.Null(ClinicalFormat.MeterScale(5, 3.5, double.PositiveInfinity));
+        Assert.Null(ClinicalFormat.MeterScale(5, null, double.NaN));
+    }
+
+    [Fact]
+    public void MeterScale_draws_nothing_for_a_reversed_or_zero_width_range_or_a_bound_not_above_zero()
+    {
+        Assert.Null(ClinicalFormat.MeterScale(5, 5.5, 3.5));
+        Assert.Null(ClinicalFormat.MeterScale(5, 4, 4));
+        Assert.Null(ClinicalFormat.MeterScale(1, null, 0));
+        Assert.Null(ClinicalFormat.MeterScale(1, null, -3));
+        Assert.Null(ClinicalFormat.MeterScale(1, 0));
+        Assert.Null(ClinicalFormat.MeterScale(1, -3));
+    }
+
+    [Fact]
+    public void MeterScale_refuses_two_different_units_but_not_a_unit_left_out()
+    {
+        Assert.Null(ClinicalFormat.MeterScale(5, 3.5, 5.5, "mmol/L", "mg/dL"));
+        var scale = new MeterScaleResult(2.5, 6.5, 3.5, 5.5);
+        Assert.Equal(scale, ClinicalFormat.MeterScale(5, 3.5, 5.5, "mmol/L", "mmol/L"));
+        Assert.Equal(scale, ClinicalFormat.MeterScale(5, 3.5, 5.5, "mmol/L"));
+        Assert.Equal(scale, ClinicalFormat.MeterScale(5, 3.5, 5.5, null, "mg/dL"));
+        Assert.Equal(scale, ClinicalFormat.MeterScale(5, 3.5, 5.5, "", "mg/dL"));
+    }
 }

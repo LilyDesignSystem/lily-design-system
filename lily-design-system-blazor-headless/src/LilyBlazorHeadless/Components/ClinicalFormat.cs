@@ -14,6 +14,9 @@ public enum DatePrecision { Year, Month, Day }
 /// <summary>An ISO 8601 duration as an HTML datetime value, its sign apart.</summary>
 public record HtmlDurationValue(string Datetime, bool Negative);
 
+/// <summary>The scale of an <c>ObservationView</c> meter: its <c>MeterMin</c> and <c>MeterMax</c>, and the range's <c>MeterLow</c> and <c>MeterHigh</c>.</summary>
+public record MeterScaleResult(double Min, double Max, double? Low, double? High);
+
 /// <summary>openEHR PROPORTION_KIND: how a numerator and denominator are written.</summary>
 public enum ProportionKind { Ratio, Unitary, Percent, Fraction, IntegerFraction }
 
@@ -60,6 +63,43 @@ public static class ClinicalFormat
             ? lowText
             : lowText + (low < 0 || high < 0 ? " \u2013 " : "\u2013") + FormatQuantity(high, "", culture);
         return string.IsNullOrEmpty(unit) ? written : $"{written}{NoBreakSpace}{unit}";
+    }
+
+    /// <summary>
+    /// A meter's scale for a value and its reference range, so every consumer draws the same one (the C# twin of <c>meterScale</c> in
+    /// <c>shared/clinical-format.ts</c>). A drawing decision, never a clinical one. A two-sided range: half a range beyond each end. A
+    /// one-sided range (only <paramref name="high"/> or only <paramref name="low"/>): from zero to half as far again as the bound.
+    /// Always wide enough to hold the value. <c>null</c> (draw no meter) when the value or an end is not a finite number, when neither
+    /// end is given, when a two-sided range is reversed or has no width, when a one-sided bound is not above zero, or when the two
+    /// units are both given and differ.
+    /// </summary>
+    public static MeterScaleResult? MeterScale(
+        double? value, double? low = null, double? high = null, string? valueUnit = null, string? rangeUnit = null)
+    {
+        static bool Finite(double? n) => n is { } d && double.IsFinite(d);
+        if (!Finite(value)) return null;
+        if (!string.IsNullOrEmpty(valueUnit) && !string.IsNullOrEmpty(rangeUnit) && valueUnit != rangeUnit) return null;
+        if ((low is not null && !Finite(low)) || (high is not null && !Finite(high))) return null;
+
+        double min, max;
+        if (low is { } l && high is { } h)
+        {
+            if (l >= h) return null;
+            var half = (h - l) / 2;
+            min = l - half;
+            max = h + half;
+        }
+        else if ((high ?? low) is { } bound)
+        {
+            if (bound <= 0) return null;
+            min = 0;
+            max = bound * 1.5;
+        }
+        else
+        {
+            return null;
+        }
+        return new MeterScaleResult(Math.Min(min, value!.Value), Math.Max(max, value.Value), low, high);
     }
 
     /// <summary>The age at <paramref name="at"/> of someone born at <paramref name="birth"/>, in the CUI unit bands.</summary>

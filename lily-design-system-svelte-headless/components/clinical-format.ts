@@ -34,6 +34,9 @@
  *   durationParts("P1Y2M3D")  { years: 1, months: 2, days: 3, … }   (for Intl.DurationFormat, which writes the words)
  *
  *   formatProportion(45, 100, "percent", "fr-FR")         "45 %" (the locale's own space)
+ *
+ *   meterScale(5.2, 3.5, 5.5)  { min: 2.5, max: 6.5, low: 3.5, high: 5.5 }  (the scale for observation-view's meter: half a range
+ *                                                                          beyond each end of a two-sided range)
  */
 
 /**
@@ -106,6 +109,65 @@ export function formatRange(low: number, high: number, unit: string, locale: str
     };
     const written = low === high ? format.format(low) : ranged.formatRange(low, high);
     return unit ? `${written}${NO_BREAK_SPACE}${unit}` : written;
+}
+
+/** The scale of an `observation-view` meter: its `meterMin` and `meterMax`, and the range's `meterLow` and `meterHigh`. */
+export interface MeterScale {
+    min: number;
+    max: number;
+    /** The low end of the range, when the range has one. */
+    low?: number;
+    /** The high end of the range, when the range has one. */
+    high?: number;
+}
+
+const finite = (n: unknown): n is number => typeof n === "number" && Number.isFinite(n);
+
+/**
+ * A meter's scale for a value and its reference range, so every consumer draws the same one. It is a drawing decision, never a
+ * clinical one: it says where the ends of the bar go, not whether the value is normal.
+ *
+ * - A two-sided range (`low` and `high`): the bar runs half a range beyond each end, so the range is the middle half of the bar.
+ * - A one-sided range (only `high`, or only `low`, as in "< 5.0" or "> 60"): the bar runs from zero to half as far again as the
+ *   bound.
+ * - Always wide enough to hold the value, so a value far outside the range still sits on the bar.
+ * - `undefined` (draw no meter) when the value is not a finite number, when neither end of the range is a finite number, when a
+ *   two-sided range is reversed or has no width, when a one-sided bound is not above zero, or when `units` names two different
+ *   units for the value and the range (a meter must never compare millimoles with milligrams).
+ *
+ * `units` is optional and only compared: pass the value's unit and the range's, as written, and a difference refuses the meter.
+ */
+export function meterScale(
+    value: number | null | undefined,
+    low?: number | null,
+    high?: number | null,
+    units?: { value?: string | null; range?: string | null },
+): MeterScale | undefined {
+    if (!finite(value)) return undefined;
+    if (units?.value && units?.range && units.value !== units.range) return undefined;
+    const hasLow = low !== undefined && low !== null;
+    const hasHigh = high !== undefined && high !== null;
+    if ((hasLow && !finite(low)) || (hasHigh && !finite(high))) return undefined;
+
+    let min: number;
+    let max: number;
+    if (finite(low) && finite(high)) {
+        if (low >= high) return undefined;
+        const half = (high - low) / 2;
+        min = low - half;
+        max = high + half;
+    } else if (finite(high) || finite(low)) {
+        const bound = (finite(high) ? high : low) as number;
+        if (bound <= 0) return undefined;
+        min = 0;
+        max = bound * 1.5;
+    } else {
+        return undefined;
+    }
+    const scale: MeterScale = { min: Math.min(min, value), max: Math.max(max, value) };
+    if (finite(low)) scale.low = low;
+    if (finite(high)) scale.high = high;
+    return scale;
 }
 
 function toDate(value: Date | string): Date {

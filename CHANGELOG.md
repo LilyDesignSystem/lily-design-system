@@ -9,6 +9,13 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## `meterScale` for the observation meter (2026-11-21, P42-T8)
+
+- `meterScale(value, low?, high?, units?)` in the `clinical-format` module (C# `ClinicalFormat.MeterScale`) returns the `observation-view` meter's
+  `min`, `max`, `low` and `high` from a value and its reference range, so consumers stop writing their own and writing it differently: half a
+  range beyond each end of a two-sided range, zero to half as far again for a one-sided one, always wide enough to hold the value, and
+  `undefined` (no meter) for a non-numeric value or range, a reversed or zero-width range, a bound not above zero, or two different units.
+
 ## Print opens closed disclosures (2026-11-21, P42-T9; Svelte, React, Solid, Vue, Angular, Web Components and Blazor)
 
 - A printed page cannot open a closed `<details>`, so clinical text inside one was lost on paper. `details` now opens on `beforeprint` and

@@ -7,6 +7,7 @@ import {
     formatQuantity,
     formatRange,
     htmlDuration,
+    meterScale,
     partialDatePrecision,
     toIsoDuration,
 } from "./clinical-format";
@@ -345,5 +346,86 @@ describe("htmlDuration", () => {
         expect(htmlDuration("P1W")).toBeNull();
         expect(htmlDuration("PT2M")).not.toBeNull();
         expect(htmlDuration("nonsense")).toBeNull();
+    });
+});
+
+describe("meterScale", () => {
+    test("a two-sided range: half a range beyond each end", () => {
+        expect(meterScale(5.2, 3.5, 5.5)).toEqual({ min: 2.5, max: 6.5, low: 3.5, high: 5.5 });
+    });
+
+    test("a one-sided range: from zero to half as far again", () => {
+        expect(meterScale(3, undefined, 5)).toEqual({ min: 0, max: 7.5, high: 5 });
+        expect(meterScale(70, 60)).toEqual({ min: 0, max: 90, low: 60 });
+    });
+
+    test("null is the same as absent", () => {
+        expect(meterScale(3, null, 5)).toEqual({ min: 0, max: 7.5, high: 5 });
+        expect(meterScale(70, 60, null)).toEqual({ min: 0, max: 90, low: 60 });
+    });
+
+    test("always wide enough to hold the value", () => {
+        expect(meterScale(9, 3.5, 5.5)).toEqual({ min: 2.5, max: 9, low: 3.5, high: 5.5 });
+        expect(meterScale(-1, 3.5, 5.5)).toEqual({ min: -1, max: 6.5, low: 3.5, high: 5.5 });
+        expect(meterScale(20, undefined, 5)).toEqual({ min: 0, max: 20, high: 5 });
+        expect(meterScale(-2, undefined, 5)).toEqual({ min: -2, max: 7.5, high: 5 });
+    });
+
+    test("a value on an end of the range, or in the middle, changes nothing", () => {
+        expect(meterScale(3.5, 3.5, 5.5)).toEqual({ min: 2.5, max: 6.5, low: 3.5, high: 5.5 });
+        expect(meterScale(4.5, 3.5, 5.5)).toEqual({ min: 2.5, max: 6.5, low: 3.5, high: 5.5 });
+    });
+
+    test("a negative two-sided range is scaled the same way", () => {
+        expect(meterScale(-3, -4, -2)).toEqual({ min: -5, max: -1, low: -4, high: -2 });
+    });
+
+    test("no meter when the value is not a finite number", () => {
+        for (const value of [NaN, Infinity, -Infinity, undefined, null, "5" as unknown as number]) {
+            expect(meterScale(value, 3.5, 5.5)).toBeUndefined();
+        }
+    });
+
+    test("no meter when the range has no numeric end", () => {
+        expect(meterScale(5)).toBeUndefined();
+        expect(meterScale(5, undefined, undefined)).toBeUndefined();
+        expect(meterScale(5, null, null)).toBeUndefined();
+    });
+
+    test("no meter when an end is present but not numeric", () => {
+        expect(meterScale(5, NaN, 5.5)).toBeUndefined();
+        expect(meterScale(5, 3.5, Infinity)).toBeUndefined();
+        expect(meterScale(5, "3.5" as unknown as number, 5.5)).toBeUndefined();
+        expect(meterScale(5, undefined, NaN)).toBeUndefined();
+    });
+
+    test("no meter when a two-sided range is reversed or has no width", () => {
+        expect(meterScale(5, 5.5, 3.5)).toBeUndefined();
+        expect(meterScale(5, 4, 4)).toBeUndefined();
+    });
+
+    test("no meter when a one-sided bound is not above zero", () => {
+        expect(meterScale(1, undefined, 0)).toBeUndefined();
+        expect(meterScale(1, undefined, -3)).toBeUndefined();
+        expect(meterScale(1, 0)).toBeUndefined();
+        expect(meterScale(1, -3)).toBeUndefined();
+    });
+
+    test("no meter when the value and the range are in different units", () => {
+        expect(meterScale(5, 3.5, 5.5, { value: "mmol/L", range: "mg/dL" })).toBeUndefined();
+    });
+
+    test("the same unit, or a unit left out on either side, is not a difference", () => {
+        const scale = { min: 2.5, max: 6.5, low: 3.5, high: 5.5 };
+        expect(meterScale(5, 3.5, 5.5, { value: "mmol/L", range: "mmol/L" })).toEqual(scale);
+        expect(meterScale(5, 3.5, 5.5, { value: "mmol/L" })).toEqual(scale);
+        expect(meterScale(5, 3.5, 5.5, { range: "mmol/L" })).toEqual(scale);
+        expect(meterScale(5, 3.5, 5.5, { value: null, range: "mg/dL" })).toEqual(scale);
+        expect(meterScale(5, 3.5, 5.5, {})).toEqual(scale);
+    });
+
+    test("does not write a low or high the range did not have", () => {
+        expect(Object.keys(meterScale(3, undefined, 5)!)).toEqual(["min", "max", "high"]);
+        expect(Object.keys(meterScale(70, 60)!)).toEqual(["min", "max", "low"]);
     });
 });

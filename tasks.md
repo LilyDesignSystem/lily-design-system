@@ -4317,7 +4317,7 @@ quick wins and are done; then T5, T6/T7, T9, T8, T10.
 - [x] **P42-T7 Silence one component's development warning (item 4).** Done 2026-11-21 in `shared/dev-warning.ts` (synced to the 14 copies: Svelte, React, Solid, Vue and Angular, headless, identifiers and examples). Accept `globalThis.lilyWarnings = { Name: false }` as well as a
       boolean, in the four catalogs that warn.
       Verify: a test silences one component and still sees another's warning.
-- [ ] **P42-T8 `meterScale` in `clinical-format` (item 3).** `meterScale(value, low?, high?)` returns `{ min, max, low, high }` or
+- [x] **P42-T8 `meterScale` in `clinical-format` (item 3).** Done 2026-11-21 in `shared/clinical-format.ts` (13 tests; synced to the TypeScript catalogs and Alpine) and `ClinicalFormat.MeterScale` in Blazor (8 tests); an optional `units` argument refuses two different units. `meterScale(value, low?, high?)` returns `{ min, max, low, high }` or
       `undefined`: two-sided range, half a range beyond each end; one-sided, from zero to half as far again; wide enough to hold the
       value; nothing for a non-numeric value, a non-numeric or reversed range, or differing units.
       Verify: a unit test for each rule, in every catalog that has the module.
