@@ -96,7 +96,7 @@
     <ul>
       <li><code>label</code>: string (required) -- the article's accessible name</li>
       <li><code>sections</code>: &#123; key, heading, status?, id? &#125;[] (default: []) -- the sections the consumer renders, in document order</li>
-      <li><code>requiredHeadings</code>: &#123; medications, allergies, problems &#125; (required) -- headings for an added, missing required section</li>
+      <li><code>requiredHeadings</code>: &#123; medications, allergies, problems &#125; (required) -- headings for an added, missing required section. A missing required section with no heading here throws an <code>IpsSectionsError</code> (a <code>RangeError</code>, reason <code>heading</code>; <code>IpsSectionsException</code> in Blazor), never an empty heading</li>
       <li><code>omittedLabel</code>: string (required) -- the words an added section shows, such as "Section missing from document"</li>
       <li><code>contentsLabel</code>: string (optional) -- names the contents navigation; without it there is none</li>
       <li><code>headingLevel</code>: 2 to 6 (default: 2) -- the heading level of an added section</li>

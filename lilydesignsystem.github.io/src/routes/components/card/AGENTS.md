@@ -51,6 +51,13 @@ card components keep their own theme rules.
 | `--lily-card-border-color`  | `var(--lily-border)`    |
 | `--lily-card-border-radius` | `var(--lily-radius-lg)` |
 
+## Mobile
+
+Decisions: [mobile/components-mobile.tsv](../../mobile/components-mobile.tsv) (`lily` on both). Tests: `lily-design-system-swift/Tests/LilyUITests`, `lily-design-system-kotlin/lily-compose/src/test`.
+
+- Apple: `Card(heading:headingLevel:label:content:)` in `LilyUI`: the heading is a header at a `HeadingLevel` (`.h2` to `.h6`, a type, so a level out of range cannot be written); a `label` makes a named group. A linked card is not yet ported. Style: `CardStyle`.
+- Android: `LilyCard(heading, label) { … }` in `lily-compose` (named for Material 3's `Card`): the heading is a `heading()` (Compose has no levels); a `label` makes a named traversal group.
+
 ## Acceptance Criteria
 
 - [ ] Renders <div> element with class="card"

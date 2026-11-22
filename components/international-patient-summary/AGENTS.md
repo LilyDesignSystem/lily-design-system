@@ -41,7 +41,7 @@
 
 - `label`: string (required) -- the article's accessible name
 - `sections`: { key, heading, status?, id? }[] (default: []) -- the sections the consumer renders, in document order
-- `requiredHeadings`: { medications, allergies, problems } (required) -- headings for an added, missing required section
+- `requiredHeadings`: { medications, allergies, problems } (required) -- headings for an added, missing required section. A missing required section with no heading here throws an `IpsSectionsError` (a `RangeError`, reason `heading`; `IpsSectionsException` in Blazor), never an empty heading
 - `omittedLabel`: string (required) -- the words an added section shows, such as "Section missing from document"
 - `contentsLabel`: string (optional) -- names the contents navigation; without it there is none
 - `headingLevel`: 2 to 6 (default: 2) -- the heading level of an added section
@@ -50,6 +50,13 @@
 - `details`: slot (optional) -- the document's details
 - `children`: slot (optional) -- the `international-patient-summary-section` elements
 - `...restProps`: any additional HTML attributes spread onto the article
+
+## Mobile
+
+Decisions: [mobile/components-mobile.tsv](../../mobile/components-mobile.tsv) (`lily` on both). The rules are `IpsRules` in `LilyCore` and `lily-core`.
+
+- Apple: `InternationalPatientSummary(label:sections:requiredHeadings:omittedLabel:contentsLabel:headingLevel:onSelectSection:banner:content:details:)` in `LilyUI`: a labelled container; the contents are buttons that call `onSelectSection` with a section key (the app scrolls, for example with `ScrollViewReader`), since mobile has no in-page links; every missing required section is added as an omitted section with the app's heading and `omittedLabel`. The registry and the adding rule are `ipsContents` in `LilyCore`, proved equal to `shared/ips-sections.ts` by its vectors.
+- Android: `InternationalPatientSummary(…)` in `lily-compose`: a traversal group with the same contents callback and added sections, on `ipsContents` in `lily-core`.
 
 ## Acceptance Criteria
 

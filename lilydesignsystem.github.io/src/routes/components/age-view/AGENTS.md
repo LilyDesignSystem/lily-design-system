@@ -31,6 +31,13 @@
 - `label`: string (optional) — hidden text naming the value
 - `...restProps`: any — additional HTML attributes spread onto the root
 
+## Mobile
+
+Decisions: [mobile/components-mobile.tsv](../../mobile/components-mobile.tsv) (`lily` on both).
+
+- Apple: `AgeView(_:duration:label:)` in `LilyUI`: one element, the label then the app's words. Lily writes no unit words: format `LilyCore`'s `ageParts` with the platform or the app's labels; `toIsoDuration` gives the duration.
+- Android: `AgeView(value, duration, label)` in `lily-compose`: one TalkBack stop, the label then the value; format `lily-core`'s `ageParts` with the platform's `MeasureFormat`.
+
 ## Acceptance Criteria
 
 - [x] Renders <span> with class="age-view"

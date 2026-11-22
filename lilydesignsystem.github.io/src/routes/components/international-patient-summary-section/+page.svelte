@@ -104,7 +104,7 @@
       <li><code>code</code>: string (optional) -- the LOINC code; default the IPS code for the key</li>
       <li><code>required</code>: boolean (optional) -- default whether the IPS requires the section</li>
       <li><code>id</code>: string (optional) -- default <code>international-patient-summary-&#123;section&#125;</code></li>
-      <li><code>idPrefix</code>: string (default: "international-patient-summary") -- the same as its summary's; the default <code>id</code> is <code>&#123;idPrefix&#125;-&#123;section&#125;</code></li>
+      <li><code>idPrefix</code>: string (default: "international-patient-summary") -- the same as its summary's; the default <code>id</code> is <code>&#123;idPrefix&#125;-&#123;section&#125;</code>. An empty <code>idPrefix</code>, <code>id</code> or <code>section</code> throws an <code>IpsSectionsError</code> (a <code>RangeError</code>), never the default</li>
       <li><code>narrative</code>: slot (optional) -- the author's narrative</li>
       <li><code>narrativeLabel</code>: string -- the narrative's summary; required with <code>narrative</code></li>
       <li><code>narrativeOpen</code>: boolean (default: false) -- open the narrative, as when the section has no structured entries</li>

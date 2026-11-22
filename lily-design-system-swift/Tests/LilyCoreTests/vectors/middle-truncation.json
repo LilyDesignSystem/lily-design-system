@@ -1,0 +1,221 @@
+{
+  "module": "middle-truncation",
+  "description": "splitGraphemes and truncateMiddle from shared/middle-truncation.ts. truncateMiddleByClusters is truncateMiddle with measure = the number of grapheme clusters, so every platform measures the same way.",
+  "cases": [
+    {
+      "fn": "splitGraphemes",
+      "args": ["abc"],
+      "expected": ["a", "b", "c"]
+    },
+    {
+      "fn": "splitGraphemes",
+      "args": ["été"],
+      "expected": ["é", "t", "é"]
+    },
+    {
+      "fn": "splitGraphemes",
+      "args": ["👩‍👩‍👧 family"],
+      "expected": ["👩‍👩‍👧", " ", "f", "a", "m", "i", "l", "y"]
+    },
+    {
+      "fn": "splitGraphemes",
+      "args": ["🇬🇧🇫🇷"],
+      "expected": ["🇬🇧", "🇫🇷"]
+    },
+    {
+      "fn": "splitGraphemes",
+      "args": [""],
+      "expected": []
+    },
+    {
+      "fn": "truncateMiddleByClusters",
+      "args": [
+        "report-final-q3.pdf",
+        {
+          "ellipsis": "…",
+          "maxWidth": 30
+        }
+      ],
+      "expected": "report-final-q3.pdf"
+    },
+    {
+      "fn": "truncateMiddleByClusters",
+      "args": [
+        "report-final-q3.pdf",
+        {
+          "ellipsis": "…",
+          "maxWidth": 10
+        }
+      ],
+      "expected": "repo…3.pdf"
+    },
+    {
+      "fn": "truncateMiddleByClusters",
+      "args": [
+        "report-final-q3.pdf",
+        {
+          "ellipsis": "…",
+          "maxWidth": 11
+        }
+      ],
+      "expected": "repor…3.pdf"
+    },
+    {
+      "fn": "truncateMiddleByClusters",
+      "args": [
+        "report-final-q3.pdf",
+        {
+          "ellipsis": "…",
+          "maxWidth": 10,
+          "strategy": "fixed-end",
+          "end": 4
+        }
+      ],
+      "expected": "repor….pdf"
+    },
+    {
+      "fn": "truncateMiddleByClusters",
+      "args": [
+        "report-final-q3.pdf",
+        {
+          "ellipsis": "…",
+          "maxWidth": 10,
+          "strategy": "min-end",
+          "end": 6
+        }
+      ],
+      "expected": "rep…q3.pdf"
+    },
+    {
+      "fn": "truncateMiddleByClusters",
+      "args": [
+        "report-final-q3.pdf",
+        {
+          "ellipsis": "...",
+          "maxWidth": 9
+        }
+      ],
+      "expected": "rep...pdf"
+    },
+    {
+      "fn": "truncateMiddleByClusters",
+      "args": [
+        "abcdef",
+        {
+          "ellipsis": "…",
+          "maxWidth": 1
+        }
+      ],
+      "expected": "…"
+    },
+    {
+      "fn": "truncateMiddleByClusters",
+      "args": [
+        "abcdef",
+        {
+          "ellipsis": "…",
+          "maxWidth": 0
+        }
+      ],
+      "expected": "…"
+    },
+    {
+      "fn": "truncateMiddleByClusters",
+      "args": [
+        "👩‍👩‍👧👩‍👩‍👧👩‍👩‍👧👩‍👩‍👧",
+        {
+          "ellipsis": "…",
+          "maxWidth": 3
+        }
+      ],
+      "expected": "👩‍👩‍👧…👩‍👩‍👧"
+    },
+    {
+      "fn": "truncateMiddleByClusters",
+      "args": [
+        "abcdefghij",
+        {
+          "ellipsis": "…",
+          "maxWidth": 5,
+          "strategy": "fixed-end",
+          "end": 99
+        }
+      ],
+      "throws": "end"
+    },
+    {
+      "fn": "truncateMiddleByClusters",
+      "args": [
+        "abcdefghij",
+        {
+          "ellipsis": "…",
+          "maxWidth": 5,
+          "strategy": "min-end",
+          "end": -3
+        }
+      ],
+      "throws": "end"
+    },
+    {
+      "fn": "truncateMiddleByClusters",
+      "args": [
+        "abcdefghij",
+        {
+          "ellipsis": "…",
+          "maxWidth": 5,
+          "strategy": "fixed-end"
+        }
+      ],
+      "expected": "abcd…"
+    },
+    {
+      "fn": "truncateMiddleByClusters",
+      "args": [
+        "abcdefghij",
+        {
+          "ellipsis": "…",
+          "maxWidth": 5,
+          "strategy": "min-end"
+        }
+      ],
+      "expected": "ab…ij"
+    },
+    {
+      "fn": "truncateMiddleByClusters",
+      "args": [
+        "abcdefghij",
+        {
+          "ellipsis": "…",
+          "maxWidth": -1
+        }
+      ],
+      "throws": "maxWidth"
+    },
+    {
+      "fn": "truncateMiddleByClusters",
+      "args": [
+        "abc",
+        {
+          "ellipsis": "…",
+          "maxWidth": 10,
+          "strategy": "even",
+          "end": 1.5
+        }
+      ],
+      "throws": "end"
+    },
+    {
+      "fn": "truncateMiddleByClusters",
+      "args": [
+        "abcdefghij",
+        {
+          "ellipsis": "…",
+          "maxWidth": 5,
+          "strategy": "fixed-end",
+          "end": 10
+        }
+      ],
+      "expected": "…abcdefghij"
+    }
+  ]
+}

@@ -36,6 +36,13 @@
 - `children`: slot (required) -- the tag's visible content (text, etc.)
 - `...restProps`: any -- additional HTML attributes spread onto the `<span>` element
 
+## Mobile
+
+Decisions: [mobile/components-mobile.tsv](../../mobile/components-mobile.tsv) (`lily` on both). Tests: `lily-design-system-swift/Tests/LilyUITests`, `lily-design-system-kotlin/lily-compose/src/test`.
+
+- Apple: `Tag(_:label:live:)` in `LilyUI`: spoken as the text then the required label; with `live`, the label is the name, the text the value, and changes are announced politely. Style: `TagStyle`.
+- Android: `Tag(text, label, live)` in `lily-compose`: content description text then label; with `live`, the label, the text as `stateDescription`, and a polite live region.
+
 ## Acceptance Criteria
 
 - [ ] Renders <span> element with class="tag"

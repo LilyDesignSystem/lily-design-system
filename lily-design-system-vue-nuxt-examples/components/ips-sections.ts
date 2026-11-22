@@ -80,12 +80,30 @@ export function ipsSectionIsRequired(key: string): boolean {
     return IPS_REQUIRED_SECTIONS.includes(key);
 }
 
+export type IpsSectionsReason = "key" | "id" | "idPrefix" | "heading";
+
+/** Thrown for an empty key, id or id prefix, or a missing required heading: invalid data is an error, never a default. */
+export class IpsSectionsError extends RangeError {
+    readonly reason: IpsSectionsReason;
+    constructor(reason: IpsSectionsReason, message: string) {
+        super(`ips-sections: ${message}`);
+        this.name = "IpsSectionsError";
+        this.reason = reason;
+    }
+}
+
 /** The default id prefix; give each summary on a page its own, so their section ids differ. */
 export const IPS_ID_PREFIX = "international-patient-summary";
 
-/** The element id a section uses, so a contents link and its section agree without the consumer wiring them. */
+/**
+ * The element id a section uses, so a contents link and its section agree without the consumer wiring them: `id` when given,
+ * else `{idPrefix}-{key}`. An empty key, id or idPrefix throws an IpsSectionsError.
+ */
 export function ipsSectionId(key: string, id?: string, idPrefix: string = IPS_ID_PREFIX): string {
-    return id || `${idPrefix || IPS_ID_PREFIX}-${key}`;
+    if (key === "") throw new IpsSectionsError("key", "the section key is empty");
+    if (id === "") throw new IpsSectionsError("id", `the id of section ${key} is empty`);
+    if (idPrefix === "") throw new IpsSectionsError("idPrefix", "the id prefix is empty");
+    return id ?? `${idPrefix}-${key}`;
 }
 
 /** The required section keys the consumer's list lacks, in registry order. */
@@ -96,7 +114,7 @@ export function ipsMissingRequired(sections: readonly Pick<IpsSectionEntry, "key
 
 /**
  * The contents, in the consumer's order, followed by an "omitted" entry for each missing required section. A missing
- * required section is headed by requiredHeadings[key], the consumer's words. Ids use idPrefix, so two summaries on one page
+ * required section is headed by requiredHeadings[key], the consumer's words; a missing or empty one throws an IpsSectionsError. Ids use idPrefix, so two summaries on one page
  * can have different ones.
  */
 export function ipsContents(
@@ -115,7 +133,7 @@ export function ipsContents(
     }));
     const added = ipsMissingRequired(sections).map((key) => ({
         key,
-        heading: requiredHeadings[key] ?? "",
+        heading: requiredHeading(requiredHeadings, key),
         status: "omitted" as const,
         id: ipsSectionId(key, undefined, idPrefix),
         code: ipsSectionCode(key),
@@ -123,4 +141,14 @@ export function ipsContents(
         added: true,
     }));
     return [...given, ...added];
+}
+
+function requiredHeading(requiredHeadings: Readonly<Record<string, string>>, key: string): string {
+    const heading = requiredHeadings[key];
+    if (!heading)
+        throw new IpsSectionsError(
+            "heading",
+            `the required section ${key} is missing and has no heading`,
+        );
+    return heading;
 }

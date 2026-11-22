@@ -44,6 +44,13 @@ in order; see `warning-callout` and `alert` for announced messages).
 - `children`: slot (required) -- the visually hidden prefix, then the warning text
 - `...restProps`: HTML attributes -- spread onto the root `<div>`
 
+## Mobile
+
+Decisions: [mobile/components-mobile.tsv](../../mobile/components-mobile.tsv) (`lily` on both). Tests: `lily-design-system-swift/Tests/LilyUITests`, `lily-design-system-kotlin/lily-compose/src/test`.
+
+- Apple: `WarningText(prefix:text:icon:)` in `LilyUI`. iOS has no visually hidden text, so the web's hidden prefix is the required `prefix`, spoken as the label with the warning as the value; the icon is hidden. Style: `WarningTextStyle`.
+- Android: `WarningText(prefix, text, icon)` in `lily-compose`: one TalkBack stop whose content description is the prefix, a line break, then the text; the icon is hidden.
+
 ## Acceptance Criteria
 
 - [x] Renders <div> with class="warning-text"; consumer class appended; rest props spread

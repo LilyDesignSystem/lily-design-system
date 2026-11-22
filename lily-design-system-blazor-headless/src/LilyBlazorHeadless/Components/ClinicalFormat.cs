@@ -246,23 +246,21 @@ public static class ClinicalFormat
         return new HtmlDurationValue(iso.TrimStart('-'), match.Groups[1].Success);
     }
 
+    // Whole months are counted from birth, a day past the end of a shorter month landing on its last day; the days are those left
+    // after the last whole month, so they are never negative (the twin of calendarDifference in shared/clinical-format.ts).
     private static (int Years, int Months, int Days) CalendarDifference(DateTime birth, DateTime at)
     {
-        var years = at.Year - birth.Year;
-        var months = at.Month - birth.Month;
-        var days = at.Day - birth.Day;
-        if (at.TimeOfDay < birth.TimeOfDay) days -= 1;
-        if (days < 0)
+        var earlier = at.TimeOfDay < birth.TimeOfDay ? 1 : 0;
+        var totalMonths = (at.Year - birth.Year) * 12 + at.Month - birth.Month;
+        var days = at.Day - birth.Day - earlier;
+        if (totalMonths > 0 && days < 0)
         {
-            months -= 1;
-            var previous = new DateTime(at.Year, at.Month, 1).AddMonths(-1);
-            days += DateTime.DaysInMonth(previous.Year, previous.Month);
+            totalMonths -= 1;
+            var anchorMonth = new DateTime(birth.Year, birth.Month, 1).AddMonths(totalMonths);
+            var anchor = new DateTime(
+                anchorMonth.Year, anchorMonth.Month, Math.Min(birth.Day, DateTime.DaysInMonth(anchorMonth.Year, anchorMonth.Month)));
+            days = (int)(at.Date - anchor).TotalDays - earlier;
         }
-        if (months < 0)
-        {
-            years -= 1;
-            months += 12;
-        }
-        return (years, months, days);
+        return (totalMonths / 12, totalMonths % 12, days);
     }
 }

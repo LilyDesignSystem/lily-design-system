@@ -103,7 +103,7 @@
       <li><code>options</code>: <code>&#123; value: string, label: string, disabled?: boolean &#125;[]</code> (required)</li>
       <li><code>value</code>: string (default: <code>""</code>) -- the chosen option's value; bindable (Svelte <code>bind:value</code>, Vue <code>v-model</code>, Angular <code>[(value)]</code>, Blazor <code>@bind-Value</code>, React controlled with <code>onChange</code>)</li>
       <li><code>loop</code>: boolean (default: false)</li>
-      <li><code>pageSize</code>: number (default: 5)</li>
+      <li><code>pageSize</code>: number (default: 5) -- a positive whole number; anything else throws a <code>WheelPickerError</code> (a <code>RangeError</code>), never rounded or raised to 1</li>
       <li><code>disabled</code>: boolean (default: false) -- not focusable; ignores keys and clicks</li>
       <li><code>orientation</code>: <code>"vertical"</code> | <code>"horizontal"</code> (default: <code>"vertical"</code>)</li>
       <li><code>name</code>: string -- adds a hidden input</li>

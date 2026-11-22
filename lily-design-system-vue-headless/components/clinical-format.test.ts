@@ -110,6 +110,16 @@ describe("formatRange", () => {
 });
 
 describe("ageParts", () => {
+    test("never counts negative days after the end of a short month (found by the mobile vectors, 2026-11-22)", () => {
+        expect(ageParts("2025-01-31T00:00:00Z", "2026-03-01T00:00:00Z")).toEqual([
+            { value: 13, unit: "months" },
+            { value: 1, unit: "days" },
+        ]);
+        expect(ageParts("2025-01-31T10:00:00Z", "2026-02-28T09:00:00Z")).toEqual([
+            { value: 12, unit: "months" },
+            { value: 27, unit: "days" },
+        ]);
+    });
     const birth = "2026-01-10T08:00:00Z";
     const after = (ms: number) => new Date(Date.parse(birth) + ms).toISOString();
     const MIN = 60_000;

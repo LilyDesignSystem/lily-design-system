@@ -1,0 +1,662 @@
+slug	apple	apple_type	android	android_type	reason
+accordion-checkbox	native	DisclosureGroup	lily	Disclosure (lily-compose)	Apple has a disclosure group; Compose foundation has none.
+accordion-link	none		none		Mobile has no landmarks or page navigation of this kind; the system's navigation chrome replaces it.
+accordion-list	none		none		Mobile has no landmarks or page navigation of this kind; the system's navigation chrome replaces it.
+accordion-list-item	none		none		Mobile has no landmarks or page navigation of this kind; the system's navigation chrome replaces it.
+accordion-nav	none		none		Mobile has no landmarks or page navigation of this kind; the system's navigation chrome replaces it.
+action-bar	native	.toolbar	native	BottomAppBar / Row of IconButtons (Material 3)	Use the platform toolbar.
+action-bar-button	native	.toolbar	native	BottomAppBar / Row of IconButtons (Material 3)	Use the platform toolbar.
+action-group	native	Menu	native	DropdownMenu (Material 3)	Use the platform menu.
+action-link	pattern	Link with a chevron	pattern	clickable text with Role.Button	A styled native link.
+address-input	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+addressograph-box	lily		lily		Clinical display contract (status in words, ranges, provenance); see spec/healthcare-ui.
+affix	none		none		Web layout, editorial or desktop-only component.
+ai-label	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+alba-community-health-index-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+alba-community-health-index-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+alert	lily	LilyAlert	lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent. Named LilyAlert in Swift to avoid a clash with a platform type.
+alert-dialog	native	.alert / .confirmationDialog	native	AlertDialog (Material 3)	Use the platform alert.
+angle-slider-range-input	none		none		No mobile convention; use a Slider.
+announcement-banner	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+answer	pattern	composition	pattern	composition	A small composition of text and native controls; no type needed.
+area-chart	native	Swift Charts (Chart)	pattern	Canvas inside a figure with semantics and a data table	Swift Charts has accessibility and Audio Graphs; Compose has no chart library.
+article-layout	none		none		Web page layout; SwiftUI and Compose stacks, safe areas and adaptive scaffolds replace it.
+aspect-ratio-container	native	.aspectRatio	native	Modifier.aspectRatio	A layout modifier.
+australia-individual-healthcare-identifier-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+australia-individual-healthcare-identifier-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+autosuggest	native	.searchable	native	SearchBar (Material 3)	Use the platform search.
+avatar	lily		lily		Image with an initials fallback and a consumer name.
+avatar-group	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+avatar-image	lily		lily		Image with an initials fallback and a consumer name.
+avatar-text	lily		lily		Image with an initials fallback and a consumer name.
+back-link	native	NavigationStack back button	native	system back / predictive back	The system owns back.
+badge	lily		lily	LilyBadge	Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent. Named LilyBadge on Android to avoid a clash with a platform type.
+banner	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+banner-box	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+bar-chart	native	Swift Charts (Chart)	pattern	Canvas inside a figure with semantics and a data table	Swift Charts has accessibility and Audio Graphs; Compose has no chart library.
+barcode-image	pattern	Image from CoreImage generator	pattern	Image from a generator library	Lily ships no generator; the consumer supplies the image and its text.
+beach-ball	none		none		Web layout, editorial or desktop-only component.
+belgique-numero-de-registre-national-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+belgique-numero-de-registre-national-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+blockquote	none		none		Web layout, editorial or desktop-only component.
+body-text	none		none		Web layout, editorial or desktop-only component.
+breadcrumb-link	none		none		Mobile has no landmarks or page navigation of this kind; the system's navigation chrome replaces it.
+breadcrumb-list	none		none		Mobile has no landmarks or page navigation of this kind; the system's navigation chrome replaces it.
+breadcrumb-list-item	none		none		Mobile has no landmarks or page navigation of this kind; the system's navigation chrome replaces it.
+breadcrumb-nav	none		none		Mobile has no landmarks or page navigation of this kind; the system's navigation chrome replaces it.
+bulgaria-edinen-grazhdanski-nomer-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+bulgaria-edinen-grazhdanski-nomer-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+button	native	Button	native	Button (Material 3)	Use the platform button; Lily supplies a style.
+button-group	pattern	HStack of Toggles or Buttons	pattern	Row of toggleable items in a selectableGroup	A labelled group of native controls.
+button-input	native	Button	native	Button (Material 3)	Use the platform button; Lily supplies a style.
+byline	none		none		Web layout, editorial or desktop-only component.
+calendar-range-picker	lily		native	DateRangePicker (Material 3)	iOS has no date range picker.
+calendar-table	none		none		Phone screens have no tables; a table becomes a list. Calendar, Gantt and kanban grids are deferred mobile helpers.
+calendar-table-body	none		none		Phone screens have no tables; a table becomes a list. Calendar, Gantt and kanban grids are deferred mobile helpers.
+calendar-table-foot	none		none		Phone screens have no tables; a table becomes a list. Calendar, Gantt and kanban grids are deferred mobile helpers.
+calendar-table-head	none		none		Phone screens have no tables; a table becomes a list. Calendar, Gantt and kanban grids are deferred mobile helpers.
+calendar-table-row	none		none		Phone screens have no tables; a table becomes a list. Calendar, Gantt and kanban grids are deferred mobile helpers.
+calendar-table-td	none		none		Phone screens have no tables; a table becomes a list. Calendar, Gantt and kanban grids are deferred mobile helpers.
+calendar-table-th	none		none		Phone screens have no tables; a table becomes a list. Calendar, Gantt and kanban grids are deferred mobile helpers.
+call-to-action	pattern	Link with a chevron	pattern	clickable text with Role.Button	A styled native link.
+caption	pattern	composition	pattern	composition	A small composition of text and native controls; no type needed.
+card	lily		lily	LilyCard	Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent. Named LilyCard on Android to avoid a clash with a platform type.
+care-card	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+carousel	native	TabView(.page)	native	HorizontalPager (foundation)	Use the platform pager.
+cascader	none		none		Web layout, editorial or desktop-only component.
+cesko-cestovni-pas-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+cesko-cestovni-pas-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+cesko-rodne-cislo-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+cesko-rodne-cislo-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+character	none		none		Plain text.
+character-counter	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+chat-list	lily		lily		Conversation parts with consumer words and deliberate announcements.
+chat-list-item	lily		lily		Conversation parts with consumer words and deliberate announcements.
+chat-message	lily		lily		Conversation parts with consumer words and deliberate announcements.
+chat-nav	none		none		Mobile has no landmarks or page navigation of this kind; the system's navigation chrome replaces it.
+check-list	lily		lily		A semantic list whose items say their state in words.
+check-list-item	lily		lily		A semantic list whose items say their state in words.
+checkbox-group	pattern	Section of Toggles	pattern	Column of Checkboxes in a labelled group	A labelled group of native controls.
+checkbox-input	native	Toggle	native	Checkbox (Material 3)	Use the platform control; iOS has no checkbox, a Toggle is the convention.
+citation	none		none		Web layout, editorial or desktop-only component.
+clamp-text	native	.lineLimit	native	maxLines	A text modifier.
+clipboard-copy-button	lily		lily		Copies and announces the consumer's outcome words.
+coachmark	native	TipKit	none		TipKit on Apple; no Android equivalent and tours are discouraged.
+code	pattern	Text with .monospaced() in a horizontal ScrollView	pattern	BasicText with a monospace family in horizontalScroll	A composition.
+code-block	pattern	Text with .monospaced() in a horizontal ScrollView	pattern	BasicText with a monospace family in horizontalScroll	A composition.
+collapsible	native	DisclosureGroup	lily	Disclosure (lily-compose)	Apple has a disclosure group; Compose foundation has none.
+collection-list	lily		lily		A semantic list whose items say their state in words.
+collection-list-item	lily		lily		A semantic list whose items say their state in words.
+color-input	native	ColorPicker	lily	ColorPicker (lily-compose)	iOS has a colour picker; Compose has none.
+color-radio-group	lily		lily		A rating or status scale with each choice named in words; built on native selection.
+color-radio-input	lily		lily		A rating or status scale with each choice named in words; built on native selection.
+column-chart	native	Swift Charts (Chart)	pattern	Canvas inside a figure with semantics and a data table	Swift Charts has accessibility and Audio Graphs; Compose has no chart library.
+combobox	native	Picker / Menu	native	ExposedDropdownMenuBox (Material 3)	Use the platform control.
+command	none		none		Web layout, editorial or desktop-only component.
+comment	pattern	composition	pattern	composition	A small composition of text and native controls; no type needed.
+container	none		none		Web layout, editorial or desktop-only component.
+container-with-fixed-width	none		none		Web layout, editorial or desktop-only component.
+container-with-fluid-width	none		none		Web layout, editorial or desktop-only component.
+content-block	none		none		Web layout, editorial or desktop-only component.
+contents-link	none		none		Mobile has no landmarks or page navigation of this kind; the system's navigation chrome replaces it.
+contents-list	none		none		Mobile has no landmarks or page navigation of this kind; the system's navigation chrome replaces it.
+contents-list-item	none		none		Mobile has no landmarks or page navigation of this kind; the system's navigation chrome replaces it.
+contents-nav	none		none		Mobile has no landmarks or page navigation of this kind; the system's navigation chrome replaces it.
+context-menu	native	.contextMenu	native	DropdownMenu on long press (Material 3)	Use the platform menu.
+context-menu-item	native	.contextMenu	native	DropdownMenu on long press (Material 3)	Use the platform menu.
+contextual-help	native	TipKit popover tip	native	TooltipBox (Material 3)	Use the platform's tips.
+currency-input	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+cymru-rhif-y-gwasanaeth-iechyd-gwladol-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+cymru-rhif-y-gwasanaeth-iechyd-gwladol-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+kypros-national-passport-number-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+kypros-national-passport-number-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+danmark-personnummer-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+danmark-personnummer-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+data-filter-form	pattern	Form	pattern	Column of fields	A composition: fields, an error summary and a submit button.
+data-table	native	Table (iPad regular width); List on iPhone	none		Phone screens have no tables; a table becomes a list. iPad has Table; Compose has none (use a list).
+data-table-body	native	Table (iPad regular width); List on iPhone	none		Phone screens have no tables; a table becomes a list. iPad has Table; Compose has none (use a list).
+data-table-foot	native	Table (iPad regular width); List on iPhone	none		Phone screens have no tables; a table becomes a list. iPad has Table; Compose has none (use a list).
+data-table-head	native	Table (iPad regular width); List on iPhone	none		Phone screens have no tables; a table becomes a list. iPad has Table; Compose has none (use a list).
+data-table-row	native	Table (iPad regular width); List on iPhone	none		Phone screens have no tables; a table becomes a list. iPad has Table; Compose has none (use a list).
+data-table-td	native	Table (iPad regular width); List on iPhone	none		Phone screens have no tables; a table becomes a list. iPad has Table; Compose has none (use a list).
+data-table-th	native	Table (iPad regular width); List on iPhone	none		Phone screens have no tables; a table becomes a list. iPad has Table; Compose has none (use a list).
+date-field	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+date-input	native	DatePicker	native	DatePicker / TimePicker (Material 3)	Use the platform picker.
+date-range	pattern	Section with a header	pattern	Column with a heading() legend in a traversal group	A labelled group of native controls.
+date-time-local-input	native	DatePicker	native	DatePicker / TimePicker (Material 3)	Use the platform picker.
+date-time-now-input	none		none		Web layout, editorial or desktop-only component.
+date-time-view	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+description-list	lily		lily		A semantic list whose items say their state in words.
+description-list-item	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+details	native	DisclosureGroup	lily	Disclosure (lily-compose)	Apple has a disclosure group; Compose foundation has none.
+deutschland-krankenversichertennummer-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+deutschland-krankenversichertennummer-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+dial	none		none		Web layout, editorial or desktop-only component.
+dial-group	none		none		No mobile convention; use a Slider.
+dialog	native	.sheet	native	ModalBottomSheet / ModalNavigationDrawer (Material 3)	Use the platform presentation; never a hand-rolled modal.
+diff	none		none		Web layout, editorial or desktop-only component.
+digital-object-identifier-link	lily		lily		Validates and formats a DOI; the link is native.
+do-list	lily		lily		A semantic list whose items say their state in words.
+do-list-item	lily		lily		A semantic list whose items say their state in words.
+document-list	lily		lily		A semantic list whose items say their state in words.
+document-list-item	lily		lily		A semantic list whose items say their state in words.
+dont-list	lily		lily		A semantic list whose items say their state in words.
+dont-list-item	lily		lily		A semantic list whose items say their state in words.
+download-button	native	.fileExporter / ShareLink	native	ActivityResultContracts.CreateDocument	Use the system export.
+draft	none		none		Web layout, editorial or desktop-only component.
+drawer	native	.sheet	native	ModalBottomSheet / ModalNavigationDrawer (Material 3)	Use the platform presentation; never a hand-rolled modal.
+dropdown-menu	native	Menu	native	DropdownMenu (Material 3)	Use the platform menu.
+editable	none		none		Web layout, editorial or desktop-only component.
+editable-form	pattern	Form	pattern	Column of fields	A composition: fields, an error summary and a submit button.
+eesti-isikukood-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+eesti-isikukood-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+ellada-dematerialised-securities-system-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+ellada-dematerialised-securities-system-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+email-input	native	TextField + .keyboardType(.emailAddress) + .textContentType(.emailAddress)	native	TextField + KeyboardType.Email	Use the platform field with the right keyboard.
+email-link	native	Link(destination: mailto/tel URL)	native	Intent ACTION_SENDTO / ACTION_DIAL	Use the platform link.
+emoji	none		none		Plain text.
+emoji-character-radio-group	lily		lily		A rating or status scale with each choice named in words; built on native selection.
+emoji-character-radio-input	lily		lily		A rating or status scale with each choice named in words; built on native selection.
+end-notes	none		none		Web page layout; SwiftUI and Compose stacks, safe areas and adaptive scaffolds replace it.
+england-national-health-service-number-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+england-national-health-service-number-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+error-message	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+error-summary	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+espana-codigo-de-identificacion-fiscal-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+espana-codigo-de-identificacion-fiscal-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+espana-tarjeta-sanitaria-individual-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+espana-tarjeta-sanitaria-individual-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+event	pattern	card composition	pattern	card composition	Structured web entities; on mobile a card.
+expander	native	DisclosureGroup	lily	Disclosure (lily-compose)	Apple has a disclosure group; Compose foundation has none.
+feature-card	pattern	card composition	pattern	card composition	Structured web entities; on mobile a card.
+feature-photo	none		none		Editorial web media.
+field	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+fieldset	pattern	Section with a header	pattern	Column with a heading() legend in a traversal group	A labelled group of native controls.
+figure	pattern	VStack image + caption combined	pattern	Column image + caption merged	A composition.
+file-dialog	native	.fileImporter	native	ActivityResultContracts.OpenDocument	Use the system document picker.
+file-input	native	.fileImporter	native	ActivityResultContracts.OpenDocument	Use the system document picker.
+file-manager	none		none		Web layout, editorial or desktop-only component.
+file-upload	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+five-face-rating-radio-group	lily		lily		A rating or status scale with each choice named in words; built on native selection.
+five-face-rating-radio-input	lily		lily		A rating or status scale with each choice named in words; built on native selection.
+five-face-rating-view	lily		lily		Read-only view of a Lily value, in words.
+five-star-rating-radio-group	lily		lily		A rating or status scale with each choice named in words; built on native selection.
+five-star-rating-radio-input	lily		lily		A rating or status scale with each choice named in words; built on native selection.
+five-star-rating-view	lily		lily		Read-only view of a Lily value, in words.
+flair	none		none		Web layout, editorial or desktop-only component.
+flex-stack	native	Grid / Stack	native	Grid / FlexBox / Row / Column	Platform layout.
+float-button	none		native	FloatingActionButton (Material 3)	A floating action button is Android's convention, not Apple's.
+floating-panel	none		none		Web layout, editorial or desktop-only component.
+footer	none		none		Web page layout; SwiftUI and Compose stacks, safe areas and adaptive scaffolds replace it.
+footnote	none		none		Web layout, editorial or desktop-only component.
+form	pattern	Form	pattern	Column of fields	A composition: fields, an error summary and a submit button.
+framer	none		none		Web layout, editorial or desktop-only component.
+france-numero-d-identification-au-repertoire-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+france-numero-d-identification-au-repertoire-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+gantt-table	none		none		Phone screens have no tables; a table becomes a list. Calendar, Gantt and kanban grids are deferred mobile helpers.
+gantt-table-tbody	none		none		Phone screens have no tables; a table becomes a list. Calendar, Gantt and kanban grids are deferred mobile helpers.
+gantt-table-td	none		none		Phone screens have no tables; a table becomes a list. Calendar, Gantt and kanban grids are deferred mobile helpers.
+gantt-table-tfoot	none		none		Phone screens have no tables; a table becomes a list. Calendar, Gantt and kanban grids are deferred mobile helpers.
+gantt-table-th	none		none		Phone screens have no tables; a table becomes a list. Calendar, Gantt and kanban grids are deferred mobile helpers.
+gantt-table-thead	none		none		Phone screens have no tables; a table becomes a list. Calendar, Gantt and kanban grids are deferred mobile helpers.
+gantt-table-tr	none		none		Phone screens have no tables; a table becomes a list. Calendar, Gantt and kanban grids are deferred mobile helpers.
+go-to-next-section	none		none		Mobile has no landmarks or page navigation of this kind; the system's navigation chrome replaces it.
+go-to-previous-section	none		none		Mobile has no landmarks or page navigation of this kind; the system's navigation chrome replaces it.
+go-to-top	none		none		Mobile has no landmarks or page navigation of this kind; the system's navigation chrome replaces it.
+government-banner	none		none		Web site banners; an app shows these in its own release notes or settings.
+government-identifier	none		none		Mobile has no landmarks or page navigation of this kind; the system's navigation chrome replaces it.
+grail-layout	none		none		Web layout, editorial or desktop-only component.
+grail-layout-bottom-footer	none		none		Web page layout; SwiftUI and Compose stacks, safe areas and adaptive scaffolds replace it.
+grail-layout-center-main	none		none		Web page layout; SwiftUI and Compose stacks, safe areas and adaptive scaffolds replace it.
+grail-layout-left-aside	none		none		Web page layout; SwiftUI and Compose stacks, safe areas and adaptive scaffolds replace it.
+grail-layout-right-aside	none		none		Web page layout; SwiftUI and Compose stacks, safe areas and adaptive scaffolds replace it.
+grail-layout-top-header	none		none		Web page layout; SwiftUI and Compose stacks, safe areas and adaptive scaffolds replace it.
+graphic-block	none		none		Editorial web media.
+grid	native	Grid / Stack	native	Grid / FlexBox / Row / Column	Platform layout.
+hamburger-menu	none		none		Mobile has no landmarks or page navigation of this kind; the system's navigation chrome replaces it.
+header	none		none		Web page layout; SwiftUI and Compose stacks, safe areas and adaptive scaffolds replace it.
+headline	none		none		Web layout, editorial or desktop-only component.
+hero	none		none		Web page layout; SwiftUI and Compose stacks, safe areas and adaptive scaffolds replace it.
+hero-headline	none		none		Web layout, editorial or desktop-only component.
+hidden-input	none		none		Web-only concern. Form state lives in the app's model.
+hint	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+horizontal-scroller	native	ScrollView	native	horizontalScroll / verticalScroll	Platform scrolling.
+hover-card	native	.popover / .help	native	Popup / TooltipBox (Material 3)	Use the platform popover; never the only place information appears.
+hrvatska-osobni-identifikacijski-broj-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+hrvatska-osobni-identifikacijski-broj-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+iban-input	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+iban-view	lily		lily		Read-only view of a Lily value, in words.
+icon	pattern	composition	pattern	composition	A small composition of text and native controls; no type needed.
+icon-button	native	Button + Label(.iconOnly)	native	IconButton (Material 3)	Use the platform control; the label is required.
+icon-list	lily		lily		A semantic list whose items say their state in words.
+icon-list-item	lily		lily		A semantic list whose items say their state in words.
+image	native	Image	native	Image	Use the platform image with a consumer description.
+image-cropper	none		none		Web layout, editorial or desktop-only component.
+image-file-input	native	PhotosPicker	native	ActivityResultContracts.PickVisualMedia	Use the system photo picker (no permission needed).
+image-input	native	PhotosPicker	native	ActivityResultContracts.PickVisualMedia	Use the system photo picker (no permission needed).
+info-state	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+information-callout	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+input	native	TextField	native	TextField (Material 3) / BasicTextField	Use the platform field; Lily's field supplies label, hint and error.
+input-group	pattern	Form	pattern	Column of fields	A composition: fields, an error summary and a submit button.
+input-with-mask	pattern	composition	pattern	composition	A small composition of text and native controls; no type needed.
+inset-text	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+international-patient-summary	lily		lily		Clinical display contract (status in words, ranges, provenance); see spec/healthcare-ui.
+international-patient-summary-section	lily		lily		Clinical display contract (status in words, ranges, provenance); see spec/healthcare-ui.
+eire-individual-health-identifier-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+eire-individual-health-identifier-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+island-kennitala-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+island-kennitala-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+italia-codice-fiscale-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+italia-codice-fiscale-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+kanban-table	none		none		Phone screens have no tables; a table becomes a list. Calendar, Gantt and kanban grids are deferred mobile helpers.
+kanban-table-body	none		none		Phone screens have no tables; a table becomes a list. Calendar, Gantt and kanban grids are deferred mobile helpers.
+kanban-table-foot	none		none		Phone screens have no tables; a table becomes a list. Calendar, Gantt and kanban grids are deferred mobile helpers.
+kanban-table-head	none		none		Phone screens have no tables; a table becomes a list. Calendar, Gantt and kanban grids are deferred mobile helpers.
+kanban-table-row	none		none		Phone screens have no tables; a table becomes a list. Calendar, Gantt and kanban grids are deferred mobile helpers.
+kanban-table-td	none		none		Phone screens have no tables; a table becomes a list. Calendar, Gantt and kanban grids are deferred mobile helpers.
+kanban-table-th	none		none		Phone screens have no tables; a table becomes a list. Calendar, Gantt and kanban grids are deferred mobile helpers.
+kbd	native	.keyboardShortcut	native	onPreviewKeyEvent	Hardware keyboard shortcuts; shown by the system on iPad.
+label	native	LabeledContent / the field's label	native	the field's label slot	The label is part of the field.
+latvija-personas-kods-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+latvija-personas-kods-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+liechtenstein-national-identity-card-number-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+liechtenstein-national-identity-card-number-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+liechtenstein-passport-number-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+liechtenstein-passport-number-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+lietuva-asmens-kodas-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+lietuva-asmens-kodas-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+lietuva-pasas-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+lietuva-pasas-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+line-chart	native	Swift Charts (Chart)	pattern	Canvas inside a figure with semantics and a data table	Swift Charts has accessibility and Audio Graphs; Compose has no chart library.
+listbox	native	Picker / Menu	native	ExposedDropdownMenuBox (Material 3)	Use the platform control.
+loading	native	ProgressView	native	LinearProgressIndicator / CircularProgressIndicator (Material 3)	Use the platform indicator.
+malta-national-identification-number-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+malta-national-identification-number-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+malta-passport-number-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+malta-passport-number-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+masonry	none		none		Web layout, editorial or desktop-only component.
+measurement-instance-input	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+measurement-instance-view	lily		lily		Read-only view of a Lily value, in words.
+measurement-system-input	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+measurement-system-view	lily		lily		Read-only view of a Lily value, in words.
+measurement-unit-input	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+measurement-unit-view	lily		lily		Read-only view of a Lily value, in words.
+medical-banner	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+medical-banner-box	lily		lily		Clinical display contract (status in words, ranges, provenance); see spec/healthcare-ui.
+medical-banner-box-for-advice	lily		lily		Clinical display contract (status in words, ranges, provenance); see spec/healthcare-ui.
+medical-banner-box-for-danger	lily		lily		Clinical display contract (status in words, ranges, provenance); see spec/healthcare-ui.
+mentions-input	none		none		Web layout, editorial or desktop-only component.
+menu	native	Menu	native	DropdownMenu (Material 3)	Use the platform menu.
+menu-bar	none		none		Mobile has no landmarks or page navigation of this kind; the system's navigation chrome replaces it.
+menu-bar-button	none		none		Mobile has no landmarks or page navigation of this kind; the system's navigation chrome replaces it.
+menu-group	native	Menu	native	DropdownMenu (Material 3)	Use the platform menu.
+menu-item	native	Menu	native	DropdownMenu (Material 3)	Use the platform menu.
+meter	native	Gauge	lily	Meter (lily-compose)	Apple has Gauge; Compose foundation has none.
+mockup-browser	none		none		Web layout, editorial or desktop-only component.
+mockup-laptop	none		none		Web layout, editorial or desktop-only component.
+mockup-phone-landscape	none		none		Web layout, editorial or desktop-only component.
+mockup-phone-portrait	none		none		Web layout, editorial or desktop-only component.
+mockup-shell	none		none		Web layout, editorial or desktop-only component.
+mockup-tablet-landscape	none		none		Web layout, editorial or desktop-only component.
+mockup-tablet-portrait	none		none		Web layout, editorial or desktop-only component.
+mockup-watch	none		none		Web layout, editorial or desktop-only component.
+mockup-window	none		none		Web layout, editorial or desktop-only component.
+month-input	pattern	Picker of months or weeks	pattern	ExposedDropdownMenuBox of months or weeks	No platform month or week control; a list of choices from the calendar in use.
+navigation-menu	native	Menu	native	DropdownMenu (Material 3)	Use the platform menu.
+nederland-burgerservice-nummer-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+nederland-burgerservice-nummer-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+nederland-identiteitskaart-nummer-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+nederland-identiteitskaart-nummer-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+nederland-paspoort-nummer-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+nederland-paspoort-nummer-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+net-promoter-score-radio-group	lily		lily		A rating or status scale with each choice named in words; built on native selection.
+net-promoter-score-radio-input	lily		lily		A rating or status scale with each choice named in words; built on native selection.
+net-promoter-score-view	lily		lily		Read-only view of a Lily value, in words.
+newsletter-signup	pattern	Form	pattern	Column of fields	A composition: fields, an error summary and a submit button.
+norge-fodselsnummer-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+norge-fodselsnummer-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+tuaisceart-eireann-health-and-care-number-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+tuaisceart-eireann-health-and-care-number-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+notification	lily	LilyNotification	lily	LilyNotification	Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent. Named LilyNotification in Swift and on Android to avoid a clash with a platform type.
+number-input	native	TextField(value:format:) + .keyboardType(.decimalPad)	native	TextField + KeyboardType.Decimal	Use the platform field; format with the consumer's locale.
+option	native	Picker	native	ExposedDropdownMenuBox (Material 3)	Use the platform control.
+organization	pattern	card composition	pattern	card composition	Structured web entities; on mobile a card.
+overlay-container	none		none		Web layout, editorial or desktop-only component.
+padding-reset	none		none		Web layout, editorial or desktop-only component.
+pagination-link	none		none		Mobile has no landmarks or page navigation of this kind; the system's navigation chrome replaces it.
+pagination-list	none		none		Mobile has no landmarks or page navigation of this kind; the system's navigation chrome replaces it.
+pagination-list-item	none		none		Mobile has no landmarks or page navigation of this kind; the system's navigation chrome replaces it.
+pagination-nav	none		none		Mobile has no landmarks or page navigation of this kind; the system's navigation chrome replaces it.
+panel	pattern	composition	pattern	composition	A small composition of text and native controls; no type needed.
+password-input	native	SecureField	native	SecureTextField (foundation)	Use the platform field so password managers work.
+password-input-or-text-input-div	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+person	pattern	card composition	pattern	card composition	Structured web entities; on mobile a card.
+phase-banner	none		none		Web site banners; an app shows these in its own release notes or settings.
+photo-pack	none		none		Editorial web media.
+pictogram	none		none		Editorial web media.
+pin-input-div	native	TextField + .textContentType(.oneTimeCode)	native	TextField + ContentType.SmsOtpCode	One field, so autofill from messages works; never one box per digit.
+place	pattern	card composition	pattern	card composition	Structured web entities; on mobile a card.
+polska-numer-identyfikacji-podatkowej-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+polska-numer-identyfikacji-podatkowej-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+polska-pesel-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+polska-pesel-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+popconfirm-dialog	native	.alert / .confirmationDialog	native	AlertDialog (Material 3)	Use the platform alert.
+popover	native	.popover / .help	native	Popup / TooltipBox (Material 3)	Use the platform popover; never the only place information appears.
+popup	native	.popover / .help	native	Popup / TooltipBox (Material 3)	Use the platform popover; never the only place information appears.
+portugal-numero-de-identificacao-fiscal-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+portugal-numero-de-identificacao-fiscal-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+portugal-passaporte-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+portugal-passaporte-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+postal-code-input	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+postal-code-view	lily		lily		Read-only view of a Lily value, in words.
+product-card	pattern	card composition	pattern	card composition	Structured web entities; on mobile a card.
+progress	native	ProgressView	native	LinearProgressIndicator / CircularProgressIndicator (Material 3)	Use the platform indicator.
+progress-bar	native	ProgressView	native	LinearProgressIndicator / CircularProgressIndicator (Material 3)	Use the platform indicator.
+progress-circle	native	ProgressView	native	LinearProgressIndicator / CircularProgressIndicator (Material 3)	Use the platform indicator.
+progress-spinner	native	ProgressView	native	LinearProgressIndicator / CircularProgressIndicator (Material 3)	Use the platform indicator.
+qr-code-image	pattern	Image from CoreImage generator	pattern	Image from a generator library	Lily ships no generator; the consumer supplies the image and its text.
+question	pattern	composition	pattern	composition	A small composition of text and native controls; no type needed.
+radio-group	native	Picker(.inline)	native	selectableGroup + RadioButton (Material 3)	Use the platform control.
+radio-input	native	Picker(.inline)	native	selectableGroup + RadioButton (Material 3)	Use the platform control.
+range-input	native	Slider	native	Slider (Material 3)	Use the platform control.
+red-amber-green-radio-group	lily		lily		A rating or status scale with each choice named in words; built on native selection.
+red-amber-green-radio-input	lily		lily		A rating or status scale with each choice named in words; built on native selection.
+red-amber-green-view	lily		lily		Read-only view of a Lily value, in words.
+red-orange-yellow-green-blue-radio-group	lily		lily		A rating or status scale with each choice named in words; built on native selection.
+red-orange-yellow-green-blue-radio-input	lily		lily		A rating or status scale with each choice named in words; built on native selection.
+red-orange-yellow-green-blue-view	lily		lily		Read-only view of a Lily value, in words.
+related-content	none		none		Web page layout; SwiftUI and Compose stacks, safe areas and adaptive scaffolds replace it.
+reset-input	none		none		Web-only concern. Form state lives in the app's model.
+resizable	none		none		Web layout, editorial or desktop-only component.
+review-date	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+romania-cod-numeric-personal-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+romania-cod-numeric-personal-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+romania-pasaport-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+romania-pasaport-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+scatter-chart	native	Swift Charts (Chart)	pattern	Canvas inside a figure with semantics and a data table	Swift Charts has accessibility and Audio Graphs; Compose has no chart library.
+screen-reader-span	native	.accessibilityLabel	native	contentDescription	Spoken-only text is an accessibility label.
+scroll-area	native	ScrollView	native	horizontalScroll / verticalScroll	Platform scrolling.
+scroll-bar	none		none		Web page layout; SwiftUI and Compose stacks, safe areas and adaptive scaffolds replace it.
+scroller	none		none		Web layout, editorial or desktop-only component.
+scroller-base	none		none		Web layout, editorial or desktop-only component.
+scroller-video	none		none		Web layout, editorial or desktop-only component.
+search-input	native	.searchable	native	SearchBar (Material 3)	Use the platform search.
+section-heading	pattern	Text + .isHeader	pattern	BasicText + heading()	A heading trait on text.
+section-link	none		none		Mobile has no landmarks or page navigation of this kind; the system's navigation chrome replaces it.
+section-list	none		none		Mobile has no landmarks or page navigation of this kind; the system's navigation chrome replaces it.
+section-list-item	none		none		Mobile has no landmarks or page navigation of this kind; the system's navigation chrome replaces it.
+section-nav	none		none		Mobile has no landmarks or page navigation of this kind; the system's navigation chrome replaces it.
+segment-group	native	Picker(.segmented)	native	SingleChoiceSegmentedButtonRow (Material 3)	Use the platform control.
+segment-group-item	native	Picker(.segmented)	native	SingleChoiceSegmentedButtonRow (Material 3)	Use the platform control.
+select	native	Picker	native	ExposedDropdownMenuBox (Material 3)	Use the platform control.
+select-with-extras	none		none		Web layout, editorial or desktop-only component.
+separator	native	Divider	native	HorizontalDivider	Decorative; hidden from accessibility.
+share-page	native	ShareLink	native	Android Sharesheet (ACTION_SEND)	Use the system share sheet.
+sheet	native	.sheet	native	ModalBottomSheet / ModalNavigationDrawer (Material 3)	Use the platform presentation; never a hand-rolled modal.
+sidebar	native	NavigationSplitView	native	ListDetailPaneScaffold (Material 3 adaptive)	Use the adaptive platform scaffold.
+signature-pad	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+skeleton	native	.redacted(reason: .placeholder)	pattern	placeholder boxes hidden from accessibility	A loading placeholder; announce loading once.
+skip-link	none		none		Mobile has no landmarks or page navigation of this kind; the system's navigation chrome replaces it.
+slide-out-drawer	native	.sheet	native	ModalBottomSheet / ModalNavigationDrawer (Material 3)	Use the platform presentation; never a hand-rolled modal.
+slider	native	Slider	native	Slider (Material 3)	Use the platform control.
+slider-button	none		none		No mobile convention.
+slovenija-emso-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+slovenija-emso-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+slovensko-pas-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+slovensko-pas-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+slovensko-rodne-cislo-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+slovensko-rodne-cislo-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+sonner	lily		native	Snackbar (Material 3)	iOS has no toast; Android has Snackbar.
+sparkline	native	Swift Charts (Chart)	pattern	Canvas with a text summary	A small chart with a text summary.
+split-button	native	Menu(primaryAction:)	native	SplitButtonLayout (Material 3)	Use the platform control.
+split-view	native	NavigationSplitView	native	ListDetailPaneScaffold (Material 3 adaptive)	Use the adaptive platform scaffold.
+splitter	none		none		Web layout, editorial or desktop-only component.
+statistic	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+status-light	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+status-tag	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+step-list	lily		lily		A semantic list whose items say their state in words.
+step-list-item	lily		lily		A semantic list whose items say their state in words.
+sticky-promo-banner	none		none		Web site banners; an app shows these in its own release notes or settings.
+submit-input	native	Button	native	Button (Material 3)	Use the platform button; Lily supplies a style.
+success-panel	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+summary-box	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+summary-list	lily		lily		A semantic list whose items say their state in words.
+summary-list-item	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+suomi-henkilotunnus-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+suomi-henkilotunnus-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+super-banner	none		none		Web site banners; an app shows these in its own release notes or settings.
+sverige-personnummer-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+sverige-personnummer-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+switch-button	native	Toggle	native	Switch (Material 3)	Use the platform control.
+tab-bar	native	TabView	native	NavigationBar (Material 3)	Use the platform tabs.
+tab-bar-button	native	TabView	native	NavigationBar (Material 3)	Use the platform tabs.
+tab-panel	native	TabView page	native	the selected tab's content	Part of the platform tabs.
+table	native	Table (iPad regular width); List on iPhone	none		Phone screens have no tables; a table becomes a list. iPad has Table; Compose has none (use a list).
+table-body	native	Table (iPad regular width); List on iPhone	none		Phone screens have no tables; a table becomes a list. iPad has Table; Compose has none (use a list).
+table-foot	native	Table (iPad regular width); List on iPhone	none		Phone screens have no tables; a table becomes a list. iPad has Table; Compose has none (use a list).
+table-head	native	Table (iPad regular width); List on iPhone	none		Phone screens have no tables; a table becomes a list. iPad has Table; Compose has none (use a list).
+table-row	native	Table (iPad regular width); List on iPhone	none		Phone screens have no tables; a table becomes a list. iPad has Table; Compose has none (use a list).
+table-td	native	Table (iPad regular width); List on iPhone	none		Phone screens have no tables; a table becomes a list. iPad has Table; Compose has none (use a list).
+table-th	native	Table (iPad regular width); List on iPhone	none		Phone screens have no tables; a table becomes a list. iPad has Table; Compose has none (use a list).
+tag	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+tag-group	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+tag-input-div	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+task-bar	native	.toolbar	native	BottomAppBar / Row of IconButtons (Material 3)	Use the platform toolbar.
+task-bar-button	native	.toolbar	native	BottomAppBar / Row of IconButtons (Material 3)	Use the platform toolbar.
+task-list	lily		lily		A semantic list whose items say their state in words.
+task-list-item	lily		lily		A semantic list whose items say their state in words.
+tel-input	native	TextField + .keyboardType(.phonePad)	native	TextField + KeyboardType.Phone	Use the platform field with the right keyboard.
+tel-link	native	Link(destination: mailto/tel URL)	native	Intent ACTION_SENDTO / ACTION_DIAL	Use the platform link.
+text-area-input	native	TextField(axis: .vertical)	native	TextField (multi-line)	Use the platform field.
+text-area-input-with-character-counter	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+text-input	native	TextField	native	TextField (Material 3) / BasicTextField	Use the platform field; Lily's field supplies label, hint and error.
+text-input-with-search	native	.searchable	native	SearchBar (Material 3)	Use the platform search.
+theme-provider	lily	LilyTheme environment	lily	LilyTheme composition local	Provides tokens to Lily styles.
+theme-select	native	Picker	native	ExposedDropdownMenuBox (Material 3)	Use the platform control.
+theme-select-option	native	Picker	native	ExposedDropdownMenuBox (Material 3)	Use the platform control.
+theme-view	none		none		Web layout, editorial or desktop-only component.
+tile	pattern	composition	pattern	composition	A small composition of text and native controls; no type needed.
+tile-map	none		none		Web layout, editorial or desktop-only component.
+time-input	native	DatePicker	native	DatePicker / TimePicker (Material 3)	Use the platform picker.
+time-picker-input	native	DatePicker	native	DatePicker / TimePicker (Material 3)	Use the platform picker.
+timeline-list	lily		lily		A semantic list whose items say their state in words.
+timeline-list-item	lily		lily		A semantic list whose items say their state in words.
+timeout-dialog	lily		lily		Session-timeout warning with consumer words and time left, shown in a native alert.
+timer	lily	LilyTimer	lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent. Named LilyTimer in Swift to avoid a clash with a platform type.
+timer-button	none		none		No mobile convention.
+toast	lily		native	Snackbar (Material 3)	iOS has no toast; Android has Snackbar.
+toggle-button	native	Toggle(.button)	native	IconToggleButton (Material 3)	Use the platform control.
+toggle-group	pattern	HStack of Toggles or Buttons	pattern	Row of toggleable items in a selectableGroup	A labelled group of native controls.
+tool-bar	native	.toolbar	native	BottomAppBar / Row of IconButtons (Material 3)	Use the platform toolbar.
+tool-bar-button	native	.toolbar	native	BottomAppBar / Row of IconButtons (Material 3)	Use the platform toolbar.
+tooltip	native	.popover / .help	native	Popup / TooltipBox (Material 3)	Use the platform popover; never the only place information appears.
+tour	native	TipKit	none		TipKit on Apple; no Android equivalent and tours are discouraged.
+tour-list	none		none		Mobile has no landmarks or page navigation of this kind; the system's navigation chrome replaces it.
+tour-list-item	none		none		Mobile has no landmarks or page navigation of this kind; the system's navigation chrome replaces it.
+transfer-list	none		none		Web layout, editorial or desktop-only component.
+tree-link	none		none		Mobile has no landmarks or page navigation of this kind; the system's navigation chrome replaces it.
+tree-list	native	OutlineGroup	lily	Tree (lily-compose)	Apple has outline lists; Compose foundation has none.
+tree-list-item	native	OutlineGroup	lily	Tree (lily-compose)	Apple has outline lists; Compose foundation has none.
+tree-menu	native	OutlineGroup	lily	Tree (lily-compose)	Apple has outline lists; Compose foundation has none.
+tree-nav	native	OutlineGroup	lily	Tree (lily-compose)	Apple has outline lists; Compose foundation has none.
+tree-select	none		none		Web layout, editorial or desktop-only component.
+united-kingdom-national-health-service-number-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+united-kingdom-national-health-service-number-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+united-kingdom-national-insurance-number-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+united-kingdom-national-insurance-number-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+united-states-social-security-number-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+united-states-social-security-number-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+url-input	native	TextField + .keyboardType(.URL)	native	TextField + KeyboardType.Uri	Use the platform field with the right keyboard.
+validation-list	lily		lily		A semantic list whose items say their state in words.
+validation-list-item	lily		lily		A semantic list whose items say their state in words.
+video-player	native	VideoPlayer (AVKit)	native	Media3 PlayerView	Use the platform player; captions from the consumer.
+visible	none		none		Web layout, editorial or desktop-only component.
+warning-callout	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+watermark	none		none		Web layout, editorial or desktop-only component.
+week-input	pattern	Picker of months or weeks	pattern	ExposedDropdownMenuBox of months or weeks	No platform month or week control; a list of choices from the calendar in use.
+aotearoa-national-health-index-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+aotearoa-national-health-index-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+pilipinas-philhealth-identification-number-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+pilipinas-philhealth-identification-number-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+brasil-cartao-nacional-de-saude-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+brasil-cartao-nacional-de-saude-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+schweiz-ahv-nummer-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+schweiz-ahv-nummer-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+canada-social-insurance-number-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+canada-social-insurance-number-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+hanguk-jumin-deungnok-beonho-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+hanguk-jumin-deungnok-beonho-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+nihon-kojin-bango-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+nihon-kojin-bango-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+bharat-aadhaar-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+bharat-aadhaar-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+yisrael-teudat-zehut-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+yisrael-teudat-zehut-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+south-africa-identity-number-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+south-africa-identity-number-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+mexico-clave-unica-de-registro-de-poblacion-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+mexico-clave-unica-de-registro-de-poblacion-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+singapore-national-registration-identity-card-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+singapore-national-registration-identity-card-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+osterreich-sozialversicherungsnummer-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+osterreich-sozialversicherungsnummer-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+magyarorszag-taj-szam-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+magyarorszag-taj-szam-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+luxembourg-matricule-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+luxembourg-matricule-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+zhongguo-jumin-shenfenzheng-haoma-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+zhongguo-jumin-shenfenzheng-haoma-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+rossiya-snils-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+rossiya-snils-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+turkiye-tc-kimlik-numarasi-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+turkiye-tc-kimlik-numarasi-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+argentina-codigo-unico-de-identificacion-laboral-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+argentina-codigo-unico-de-identificacion-laboral-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+indonesia-nomor-induk-kependudukan-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+indonesia-nomor-induk-kependudukan-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+prathet-thai-lek-prajam-tua-prachachon-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+prathet-thai-lek-prajam-tua-prachachon-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+chile-rol-unico-nacional-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+chile-rol-unico-nacional-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+misr-al-raqm-al-qawmi-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+misr-al-raqm-al-qawmi-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+taiwan-guomin-shenfenzheng-tongyi-bianhao-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+taiwan-guomin-shenfenzheng-tongyi-bianhao-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+hong-kong-identity-card-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+hong-kong-identity-card-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+iran-kod-e-melli-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+iran-kod-e-melli-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+as-saudiyah-raqm-al-huwiyah-al-wataniyah-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+as-saudiyah-raqm-al-huwiyah-al-wataniyah-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+malaysia-kad-pengenalan-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+malaysia-kad-pengenalan-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+viet-nam-can-cuoc-cong-dan-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+viet-nam-can-cuoc-cong-dan-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+pakistan-computerized-national-identity-card-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+pakistan-computerized-national-identity-card-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+uruguay-cedula-de-identidad-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+uruguay-cedula-de-identidad-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+ecuador-cedula-de-identidad-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+ecuador-cedula-de-identidad-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+colombia-cedula-de-ciudadania-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+colombia-cedula-de-ciudadania-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+australia-tax-file-number-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+australia-tax-file-number-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+nigeria-national-identification-number-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+nigeria-national-identification-number-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+peru-documento-nacional-de-identidad-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+peru-documento-nacional-de-identidad-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+republica-dominicana-cedula-de-identidad-y-electoral-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+republica-dominicana-cedula-de-identidad-y-electoral-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+costa-rica-cedula-de-identidad-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+costa-rica-cedula-de-identidad-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+guatemala-codigo-unico-de-identificacion-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+guatemala-codigo-unico-de-identificacion-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+mauritius-national-identity-card-number-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+mauritius-national-identity-card-number-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+ghana-card-personal-identification-number-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+ghana-card-personal-identification-number-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+ityopya-fayda-identification-number-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+ityopya-fayda-identification-number-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+sri-lanka-national-identity-card-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+sri-lanka-national-identity-card-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+bangladesh-national-identity-card-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+bangladesh-national-identity-card-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+qazaqstan-zheke-saikestendiru-nomiri-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+qazaqstan-zheke-saikestendiru-nomiri-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+al-imarat-raqm-al-huwiyah-input	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+al-imarat-raqm-al-huwiyah-view	lily		lily		Validation, normalisation, grouping, keyboard type and spoken form are Lily's; the platform has none.
+one-time-password-input	native	TextField + .textContentType(.oneTimeCode)	native	TextField + ContentType.SmsOtpCode	One field, so autofill from messages works; never one box per digit.
+multi-select	native	List(selection:) in edit mode	lily	MultiSelect (lily-compose)	iOS has multi-selection lists; Compose foundation has none.
+multi-select-with-extras	native	List(selection:) in edit mode	lily	MultiSelect (lily-compose)	iOS has multi-selection lists; Compose foundation has none.
+empty-state	native	ContentUnavailableView	lily	EmptyState (lily-compose)	Apple has a content-unavailable view; Compose has none.
+show-more	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+kbd-shortcut	native	.keyboardShortcut	native	onPreviewKeyEvent	Hardware keyboard shortcuts; shown by the system on iPad.
+calendar-year-table	none		none		Phone screens have no tables; a table becomes a list. Calendar, Gantt and kanban grids are deferred mobile helpers.
+calendar-month-table	none		none		Phone screens have no tables; a table becomes a list. Calendar, Gantt and kanban grids are deferred mobile helpers.
+calendar-week-table	none		none		Phone screens have no tables; a table becomes a list. Calendar, Gantt and kanban grids are deferred mobile helpers.
+calendar-day-table	none		none		Phone screens have no tables; a table becomes a list. Calendar, Gantt and kanban grids are deferred mobile helpers.
+thinking	lily		lily		Conversation parts with consumer words and deliberate announcements.
+gauge-chart	native	Swift Charts (Chart)	pattern	Canvas inside a figure with semantics and a data table	Swift Charts has accessibility and Audio Graphs; Compose has no chart library.
+heatmap-chart	native	Swift Charts (Chart)	pattern	Canvas inside a figure with semantics and a data table	Swift Charts has accessibility and Audio Graphs; Compose has no chart library.
+radar-chart	native	Swift Charts (Chart)	pattern	Canvas inside a figure with semantics and a data table	Swift Charts has accessibility and Audio Graphs; Compose has no chart library.
+sankey-chart	native	Swift Charts (Chart)	pattern	Canvas inside a figure with semantics and a data table	Swift Charts has accessibility and Audio Graphs; Compose has no chart library.
+file-tree	native	OutlineGroup	lily	Tree (lily-compose)	Apple has outline lists; Compose foundation has none.
+pie-chart	native	Swift Charts (Chart)	pattern	Canvas inside a figure with semantics and a data table	Swift Charts has accessibility and Audio Graphs; Compose has no chart library.
+ring-chart	native	Swift Charts (Chart)	pattern	Canvas inside a figure with semantics and a data table	Swift Charts has accessibility and Audio Graphs; Compose has no chart library.
+funnel-chart	native	Swift Charts (Chart)	pattern	Canvas inside a figure with semantics and a data table	Swift Charts has accessibility and Audio Graphs; Compose has no chart library.
+candlestick-chart	native	Swift Charts (Chart)	pattern	Canvas inside a figure with semantics and a data table	Swift Charts has accessibility and Audio Graphs; Compose has no chart library.
+composed-chart	native	Swift Charts (Chart)	pattern	Canvas inside a figure with semantics and a data table	Swift Charts has accessibility and Audio Graphs; Compose has no chart library.
+choropleth-chart	native	Swift Charts (Chart)	pattern	Canvas inside a figure with semantics and a data table	Swift Charts has accessibility and Audio Graphs; Compose has no chart library.
+sunburst-chart	native	Swift Charts (Chart)	pattern	Canvas inside a figure with semantics and a data table	Swift Charts has accessibility and Audio Graphs; Compose has no chart library.
+streaming-text	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+tool-call	lily		lily		Conversation parts with consumer words and deliberate announcements.
+tool-call-name	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+tool-call-status	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+tool-call-input	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+tool-call-output	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+tool-call-error	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+mark	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+chat-composer	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+heatmap-chart-with-year-of-days	native	Swift Charts (Chart)	pattern	Canvas inside a figure with semantics and a data table	Swift Charts has accessibility and Audio Graphs; Compose has no chart library.
+middle-truncation	native	.truncationMode(.middle)	native	TextOverflow.MiddleEllipsis	A text modifier; keep the full text as the accessibility label.
+wheel-picker	native	Picker(.wheel)	lily	WheelPicker (lily-compose)	iOS has a wheel; Compose has none.
+convert-div	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+convert-from-div	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+convert-from-value-div	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+convert-from-unit-div	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+convert-into-div	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+convert-into-value-div	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+convert-into-unit-div	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+picture	none		none		Editorial web media.
+warning-text	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+observation-view	lily		lily		Clinical display contract (status in words, ranges, provenance); see spec/healthcare-ui.
+allergy-record-list	lily		lily		Clinical display contract (status in words, ranges, provenance); see spec/healthcare-ui.
+allergy-record-list-item	lily		lily		Clinical display contract (status in words, ranges, provenance); see spec/healthcare-ui.
+medication-view	lily		lily		Clinical display contract (status in words, ranges, provenance); see spec/healthcare-ui.
+decision-support-card	lily		lily		Clinical display contract (status in words, ranges, provenance); see spec/healthcare-ui.
+early-warning-score-view	lily		lily		Clinical display contract (status in words, ranges, provenance); see spec/healthcare-ui.
+age-view	lily		lily		Clinical display contract (status in words, ranges, provenance); see spec/healthcare-ui.
+numeric-rating-scale-picker	lily		lily		Clinical display contract (status in words, ranges, provenance); see spec/healthcare-ui.
+body-map	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+record-list	lily		lily		Clinical display contract (status in words, ranges, provenance); see spec/healthcare-ui.
+medication-record-list	pattern	RecordList with a Lily view as each item	pattern	RecordList with a Lily view as each item	The generic record list carries the rules (never blank, withheld and entered-in-error never silent, whose record first); the record itself is a Lily view, so a type per kind adds API, not safety.
+problem-record-list	pattern	RecordList with a Lily view as each item	pattern	RecordList with a Lily view as each item	The generic record list carries the rules (never blank, withheld and entered-in-error never silent, whose record first); the record itself is a Lily view, so a type per kind adds API, not safety.
+immunization-record-list	pattern	RecordList with a Lily view as each item	pattern	RecordList with a Lily view as each item	The generic record list carries the rules (never blank, withheld and entered-in-error never silent, whose record first); the record itself is a Lily view, so a type per kind adds API, not safety.
+procedure-record-list	pattern	RecordList with a Lily view as each item	pattern	RecordList with a Lily view as each item	The generic record list carries the rules (never blank, withheld and entered-in-error never silent, whose record first); the record itself is a Lily view, so a type per kind adds API, not safety.
+device-record-list	pattern	RecordList with a Lily view as each item	pattern	RecordList with a Lily view as each item	The generic record list carries the rules (never blank, withheld and entered-in-error never silent, whose record first); the record itself is a Lily view, so a type per kind adds API, not safety.
+record-list-item	lily		lily		Clinical display contract (status in words, ranges, provenance); see spec/healthcare-ui.
+medication-record-list-item	pattern	RecordListItem holding the record (MedicationView, ObservationView, text)	pattern	RecordListItem holding the record (MedicationView, ObservationView, text)	The generic record list carries the rules (never blank, withheld and entered-in-error never silent, whose record first); the record itself is a Lily view, so a type per kind adds API, not safety.
+problem-record-list-item	pattern	RecordListItem holding the record (MedicationView, ObservationView, text)	pattern	RecordListItem holding the record (MedicationView, ObservationView, text)	The generic record list carries the rules (never blank, withheld and entered-in-error never silent, whose record first); the record itself is a Lily view, so a type per kind adds API, not safety.
+immunization-record-list-item	pattern	RecordListItem holding the record (MedicationView, ObservationView, text)	pattern	RecordListItem holding the record (MedicationView, ObservationView, text)	The generic record list carries the rules (never blank, withheld and entered-in-error never silent, whose record first); the record itself is a Lily view, so a type per kind adds API, not safety.
+procedure-record-list-item	pattern	RecordListItem holding the record (MedicationView, ObservationView, text)	pattern	RecordListItem holding the record (MedicationView, ObservationView, text)	The generic record list carries the rules (never blank, withheld and entered-in-error never silent, whose record first); the record itself is a Lily view, so a type per kind adds API, not safety.
+device-record-list-item	pattern	RecordListItem holding the record (MedicationView, ObservationView, text)	pattern	RecordListItem holding the record (MedicationView, ObservationView, text)	The generic record list carries the rules (never blank, withheld and entered-in-error never silent, whose record first); the record itself is a Lily view, so a type per kind adds API, not safety.
+duration-view	lily		lily		Clinical display contract (status in words, ranges, provenance); see spec/healthcare-ui.
+quantity-input-div	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+record-provenance-view	lily		lily		Clinical display contract (status in words, ranges, provenance); see spec/healthcare-ui.
+repeatable-fieldset	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+range-fieldset	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.

@@ -73,6 +73,29 @@ public class InternationalPatientSummaryTests : TestContext
         Assert.Null(IpsSections.Code("not-a-section"));
     }
 
+    [Theory]
+    [InlineData("", null, "summary", "key")]
+    [InlineData("allergies", "", "summary", "id")]
+    [InlineData("allergies", null, "", "idPrefix")]
+    public void An_empty_key_id_or_prefix_is_an_error_never_the_default(string key, string? id, string prefix, string reason)
+    {
+        var error = Assert.Throws<IpsSectionsException>(() => IpsSections.Id(key, id, prefix));
+        Assert.Equal(reason, error.Reason);
+        Assert.IsAssignableFrom<ArgumentOutOfRangeException>(error);
+        Assert.Equal("international-patient-summary-allergies", IpsSections.Id("allergies"));
+    }
+
+    [Fact]
+    public void A_missing_required_heading_or_an_unknown_status_is_an_error()
+    {
+        var missing = Assert.Throws<IpsSectionsException>(() =>
+            IpsSections.Contents([new IpsSectionEntry("allergies", "Allergies")], new Dictionary<string, string> { ["medications"] = "Medicines" }));
+        Assert.Equal("heading", missing.Reason);
+        var status = Assert.Throws<IpsSectionsException>(() =>
+            IpsSections.Contents([new IpsSectionEntry("allergies", "Allergies", "")], Headings));
+        Assert.Equal("status", status.Reason);
+    }
+
     [Fact]
     public void IdPrefix_gives_the_added_sections_and_the_contents_links_their_own_ids()
     {

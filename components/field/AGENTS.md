@@ -40,6 +40,13 @@
 - `inputId`: string (default: undefined) -- ID of the input to link the label to; auto-generated if omitted
 - `children`: slot (required) -- form control (input, select, text-area-input, etc.)
 
+## Mobile
+
+Decisions: [mobile/components-mobile.tsv](../../mobile/components-mobile.tsv) (`lily` on both). Tests: `lily-design-system-swift/Tests/LilyUITests`, `lily-design-system-kotlin/lily-compose/src/test`.
+
+- Apple: `Field(label:description:error:required:requiredLabel:control:)` in `LilyUI`. The label becomes the control's accessibility label and the error, description and `requiredLabel` its hint (joined by line breaks); the visible copies are hidden, so VoiceOver stops once. A new error is announced assertively. Style: `FieldStyle`, `.fieldStyle(_:)`.
+- Android: `Field(label, description, error, required, requiredLabel) { modifier -> … }` in `lily-compose`. The control receives a `Modifier` carrying its spoken name and `error(...)` semantics; apply it to the control. The visible copies are hidden from TalkBack.
+
 ## Acceptance Criteria
 
 - [ ] Renders <div> element with class="field"

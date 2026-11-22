@@ -1,0 +1,1829 @@
+{
+  "module": "wheel-picker",
+  "description": "wheelMoveKey, wheelIndexNearest, nextWheelIndex, nextWheelPrefix and wheelTypeaheadIndex from shared/wheel-picker.ts. Labels avoid characters whose lower case depends on the locale (the module uses toLocaleLowerCase).",
+  "cases": [
+    {
+      "fn": "wheelMoveKey",
+      "args": ["ArrowDown"],
+      "expected": "ArrowDown"
+    },
+    {
+      "fn": "wheelMoveKey",
+      "args": ["ArrowUp", "vertical", false],
+      "expected": "ArrowUp"
+    },
+    {
+      "fn": "wheelMoveKey",
+      "args": ["ArrowLeft", "vertical", false],
+      "expected": null
+    },
+    {
+      "fn": "wheelMoveKey",
+      "args": ["Home"],
+      "expected": "Home"
+    },
+    {
+      "fn": "wheelMoveKey",
+      "args": ["PageDown", "horizontal", true],
+      "expected": "PageDown"
+    },
+    {
+      "fn": "wheelMoveKey",
+      "args": ["ArrowRight", "horizontal", false],
+      "expected": "ArrowDown"
+    },
+    {
+      "fn": "wheelMoveKey",
+      "args": ["ArrowRight", "horizontal", true],
+      "expected": "ArrowUp"
+    },
+    {
+      "fn": "wheelMoveKey",
+      "args": ["ArrowLeft", "horizontal", false],
+      "expected": "ArrowUp"
+    },
+    {
+      "fn": "wheelMoveKey",
+      "args": ["ArrowLeft", "horizontal", true],
+      "expected": "ArrowDown"
+    },
+    {
+      "fn": "wheelMoveKey",
+      "args": ["ArrowDown", "horizontal", false],
+      "expected": null
+    },
+    {
+      "fn": "wheelMoveKey",
+      "args": ["Enter"],
+      "expected": null
+    },
+    {
+      "fn": "wheelIndexNearest",
+      "args": [
+        [
+          {
+            "value": "a",
+            "label": "Ålesund"
+          },
+          {
+            "value": "b",
+            "label": "Bergen",
+            "disabled": true
+          },
+          {
+            "value": "c",
+            "label": "Bodø"
+          },
+          {
+            "value": "d",
+            "label": "Drammen"
+          },
+          {
+            "value": "e",
+            "label": "Écrins"
+          },
+          {
+            "value": "f",
+            "label": "가평"
+          },
+          {
+            "value": "g",
+            "label": "Bø",
+            "disabled": true
+          }
+        ],
+        [0, 40, 80, 120, 160, 200, 240],
+        85
+      ],
+      "expected": 2
+    },
+    {
+      "fn": "wheelIndexNearest",
+      "args": [
+        [
+          {
+            "value": "a",
+            "label": "Ålesund"
+          },
+          {
+            "value": "b",
+            "label": "Bergen",
+            "disabled": true
+          },
+          {
+            "value": "c",
+            "label": "Bodø"
+          },
+          {
+            "value": "d",
+            "label": "Drammen"
+          },
+          {
+            "value": "e",
+            "label": "Écrins"
+          },
+          {
+            "value": "f",
+            "label": "가평"
+          },
+          {
+            "value": "g",
+            "label": "Bø",
+            "disabled": true
+          }
+        ],
+        [0, 40, 80, 120, 160, 200, 240],
+        40
+      ],
+      "expected": 0
+    },
+    {
+      "fn": "wheelIndexNearest",
+      "args": [
+        [
+          {
+            "value": "a",
+            "label": "Ålesund"
+          },
+          {
+            "value": "b",
+            "label": "Bergen",
+            "disabled": true
+          },
+          {
+            "value": "c",
+            "label": "Bodø"
+          },
+          {
+            "value": "d",
+            "label": "Drammen"
+          },
+          {
+            "value": "e",
+            "label": "Écrins"
+          },
+          {
+            "value": "f",
+            "label": "가평"
+          },
+          {
+            "value": "g",
+            "label": "Bø",
+            "disabled": true
+          }
+        ],
+        [0, 40, 80, 120, 160, 200, 240],
+        100
+      ],
+      "expected": 2
+    },
+    {
+      "fn": "wheelIndexNearest",
+      "args": [
+        [
+          {
+            "value": "a",
+            "label": "Ålesund"
+          },
+          {
+            "value": "b",
+            "label": "Bergen",
+            "disabled": true
+          },
+          {
+            "value": "c",
+            "label": "Bodø"
+          },
+          {
+            "value": "d",
+            "label": "Drammen"
+          },
+          {
+            "value": "e",
+            "label": "Écrins"
+          },
+          {
+            "value": "f",
+            "label": "가평"
+          },
+          {
+            "value": "g",
+            "label": "Bø",
+            "disabled": true
+          }
+        ],
+        [0, 40],
+        300
+      ],
+      "throws": "middles"
+    },
+    {
+      "fn": "wheelIndexNearest",
+      "args": [
+        [
+          {
+            "value": "x",
+            "label": "X",
+            "disabled": true
+          }
+        ],
+        [0],
+        0
+      ],
+      "expected": -1
+    },
+    {
+      "fn": "wheelIndexNearest",
+      "args": [[], [], 0],
+      "expected": -1
+    },
+    {
+      "fn": "nextWheelIndex",
+      "args": [
+        [
+          {
+            "value": "a",
+            "label": "Ålesund"
+          },
+          {
+            "value": "b",
+            "label": "Bergen",
+            "disabled": true
+          },
+          {
+            "value": "c",
+            "label": "Bodø"
+          },
+          {
+            "value": "d",
+            "label": "Drammen"
+          },
+          {
+            "value": "e",
+            "label": "Écrins"
+          },
+          {
+            "value": "f",
+            "label": "가평"
+          },
+          {
+            "value": "g",
+            "label": "Bø",
+            "disabled": true
+          }
+        ],
+        0,
+        "ArrowDown"
+      ],
+      "expected": 2
+    },
+    {
+      "fn": "nextWheelIndex",
+      "args": [
+        [
+          {
+            "value": "a",
+            "label": "Ålesund"
+          },
+          {
+            "value": "b",
+            "label": "Bergen",
+            "disabled": true
+          },
+          {
+            "value": "c",
+            "label": "Bodø"
+          },
+          {
+            "value": "d",
+            "label": "Drammen"
+          },
+          {
+            "value": "e",
+            "label": "Écrins"
+          },
+          {
+            "value": "f",
+            "label": "가평"
+          },
+          {
+            "value": "g",
+            "label": "Bø",
+            "disabled": true
+          }
+        ],
+        2,
+        "ArrowUp"
+      ],
+      "expected": 0
+    },
+    {
+      "fn": "nextWheelIndex",
+      "args": [
+        [
+          {
+            "value": "a",
+            "label": "Ålesund"
+          },
+          {
+            "value": "b",
+            "label": "Bergen",
+            "disabled": true
+          },
+          {
+            "value": "c",
+            "label": "Bodø"
+          },
+          {
+            "value": "d",
+            "label": "Drammen"
+          },
+          {
+            "value": "e",
+            "label": "Écrins"
+          },
+          {
+            "value": "f",
+            "label": "가평"
+          },
+          {
+            "value": "g",
+            "label": "Bø",
+            "disabled": true
+          }
+        ],
+        5,
+        "ArrowDown"
+      ],
+      "expected": 5
+    },
+    {
+      "fn": "nextWheelIndex",
+      "args": [
+        [
+          {
+            "value": "a",
+            "label": "Ålesund"
+          },
+          {
+            "value": "b",
+            "label": "Bergen",
+            "disabled": true
+          },
+          {
+            "value": "c",
+            "label": "Bodø"
+          },
+          {
+            "value": "d",
+            "label": "Drammen"
+          },
+          {
+            "value": "e",
+            "label": "Écrins"
+          },
+          {
+            "value": "f",
+            "label": "가평"
+          },
+          {
+            "value": "g",
+            "label": "Bø",
+            "disabled": true
+          }
+        ],
+        5,
+        "ArrowDown",
+        {
+          "loop": true
+        }
+      ],
+      "expected": 0
+    },
+    {
+      "fn": "nextWheelIndex",
+      "args": [
+        [
+          {
+            "value": "a",
+            "label": "Ålesund"
+          },
+          {
+            "value": "b",
+            "label": "Bergen",
+            "disabled": true
+          },
+          {
+            "value": "c",
+            "label": "Bodø"
+          },
+          {
+            "value": "d",
+            "label": "Drammen"
+          },
+          {
+            "value": "e",
+            "label": "Écrins"
+          },
+          {
+            "value": "f",
+            "label": "가평"
+          },
+          {
+            "value": "g",
+            "label": "Bø",
+            "disabled": true
+          }
+        ],
+        0,
+        "ArrowUp",
+        {
+          "loop": true
+        }
+      ],
+      "expected": 5
+    },
+    {
+      "fn": "nextWheelIndex",
+      "args": [
+        [
+          {
+            "value": "a",
+            "label": "Ålesund"
+          },
+          {
+            "value": "b",
+            "label": "Bergen",
+            "disabled": true
+          },
+          {
+            "value": "c",
+            "label": "Bodø"
+          },
+          {
+            "value": "d",
+            "label": "Drammen"
+          },
+          {
+            "value": "e",
+            "label": "Écrins"
+          },
+          {
+            "value": "f",
+            "label": "가평"
+          },
+          {
+            "value": "g",
+            "label": "Bø",
+            "disabled": true
+          }
+        ],
+        0,
+        "ArrowUp"
+      ],
+      "expected": 0
+    },
+    {
+      "fn": "nextWheelIndex",
+      "args": [
+        [
+          {
+            "value": "a",
+            "label": "Ålesund"
+          },
+          {
+            "value": "b",
+            "label": "Bergen",
+            "disabled": true
+          },
+          {
+            "value": "c",
+            "label": "Bodø"
+          },
+          {
+            "value": "d",
+            "label": "Drammen"
+          },
+          {
+            "value": "e",
+            "label": "Écrins"
+          },
+          {
+            "value": "f",
+            "label": "가평"
+          },
+          {
+            "value": "g",
+            "label": "Bø",
+            "disabled": true
+          }
+        ],
+        3,
+        "Home"
+      ],
+      "expected": 0
+    },
+    {
+      "fn": "nextWheelIndex",
+      "args": [
+        [
+          {
+            "value": "a",
+            "label": "Ålesund"
+          },
+          {
+            "value": "b",
+            "label": "Bergen",
+            "disabled": true
+          },
+          {
+            "value": "c",
+            "label": "Bodø"
+          },
+          {
+            "value": "d",
+            "label": "Drammen"
+          },
+          {
+            "value": "e",
+            "label": "Écrins"
+          },
+          {
+            "value": "f",
+            "label": "가평"
+          },
+          {
+            "value": "g",
+            "label": "Bø",
+            "disabled": true
+          }
+        ],
+        0,
+        "End"
+      ],
+      "expected": 5
+    },
+    {
+      "fn": "nextWheelIndex",
+      "args": [
+        [
+          {
+            "value": "a",
+            "label": "Ålesund"
+          },
+          {
+            "value": "b",
+            "label": "Bergen",
+            "disabled": true
+          },
+          {
+            "value": "c",
+            "label": "Bodø"
+          },
+          {
+            "value": "d",
+            "label": "Drammen"
+          },
+          {
+            "value": "e",
+            "label": "Écrins"
+          },
+          {
+            "value": "f",
+            "label": "가평"
+          },
+          {
+            "value": "g",
+            "label": "Bø",
+            "disabled": true
+          }
+        ],
+        -1,
+        "ArrowDown"
+      ],
+      "expected": 0
+    },
+    {
+      "fn": "nextWheelIndex",
+      "args": [
+        [
+          {
+            "value": "a",
+            "label": "Ålesund"
+          },
+          {
+            "value": "b",
+            "label": "Bergen",
+            "disabled": true
+          },
+          {
+            "value": "c",
+            "label": "Bodø"
+          },
+          {
+            "value": "d",
+            "label": "Drammen"
+          },
+          {
+            "value": "e",
+            "label": "Écrins"
+          },
+          {
+            "value": "f",
+            "label": "가평"
+          },
+          {
+            "value": "g",
+            "label": "Bø",
+            "disabled": true
+          }
+        ],
+        -1,
+        "ArrowUp"
+      ],
+      "expected": 5
+    },
+    {
+      "fn": "nextWheelIndex",
+      "args": [
+        [
+          {
+            "value": "a",
+            "label": "Ålesund"
+          },
+          {
+            "value": "b",
+            "label": "Bergen",
+            "disabled": true
+          },
+          {
+            "value": "c",
+            "label": "Bodø"
+          },
+          {
+            "value": "d",
+            "label": "Drammen"
+          },
+          {
+            "value": "e",
+            "label": "Écrins"
+          },
+          {
+            "value": "f",
+            "label": "가평"
+          },
+          {
+            "value": "g",
+            "label": "Bø",
+            "disabled": true
+          }
+        ],
+        -1,
+        "PageDown"
+      ],
+      "expected": 0
+    },
+    {
+      "fn": "nextWheelIndex",
+      "args": [
+        [
+          {
+            "value": "a",
+            "label": "Ålesund"
+          },
+          {
+            "value": "b",
+            "label": "Bergen",
+            "disabled": true
+          },
+          {
+            "value": "c",
+            "label": "Bodø"
+          },
+          {
+            "value": "d",
+            "label": "Drammen"
+          },
+          {
+            "value": "e",
+            "label": "Écrins"
+          },
+          {
+            "value": "f",
+            "label": "가평"
+          },
+          {
+            "value": "g",
+            "label": "Bø",
+            "disabled": true
+          }
+        ],
+        -1,
+        "PageUp"
+      ],
+      "expected": 5
+    },
+    {
+      "fn": "nextWheelIndex",
+      "args": [
+        [
+          {
+            "value": "0",
+            "label": "1:00",
+            "disabled": false
+          },
+          {
+            "value": "1",
+            "label": "2:00",
+            "disabled": false
+          },
+          {
+            "value": "2",
+            "label": "3:00",
+            "disabled": false
+          },
+          {
+            "value": "3",
+            "label": "4:00",
+            "disabled": false
+          },
+          {
+            "value": "4",
+            "label": "5:00",
+            "disabled": false
+          },
+          {
+            "value": "5",
+            "label": "6:00",
+            "disabled": false
+          },
+          {
+            "value": "6",
+            "label": "7:00",
+            "disabled": true
+          },
+          {
+            "value": "7",
+            "label": "8:00",
+            "disabled": false
+          },
+          {
+            "value": "8",
+            "label": "9:00",
+            "disabled": false
+          },
+          {
+            "value": "9",
+            "label": "10:00",
+            "disabled": false
+          },
+          {
+            "value": "10",
+            "label": "11:00",
+            "disabled": false
+          },
+          {
+            "value": "11",
+            "label": "12:00",
+            "disabled": false
+          }
+        ],
+        0,
+        "PageDown"
+      ],
+      "expected": 5
+    },
+    {
+      "fn": "nextWheelIndex",
+      "args": [
+        [
+          {
+            "value": "0",
+            "label": "1:00",
+            "disabled": false
+          },
+          {
+            "value": "1",
+            "label": "2:00",
+            "disabled": false
+          },
+          {
+            "value": "2",
+            "label": "3:00",
+            "disabled": false
+          },
+          {
+            "value": "3",
+            "label": "4:00",
+            "disabled": false
+          },
+          {
+            "value": "4",
+            "label": "5:00",
+            "disabled": false
+          },
+          {
+            "value": "5",
+            "label": "6:00",
+            "disabled": false
+          },
+          {
+            "value": "6",
+            "label": "7:00",
+            "disabled": true
+          },
+          {
+            "value": "7",
+            "label": "8:00",
+            "disabled": false
+          },
+          {
+            "value": "8",
+            "label": "9:00",
+            "disabled": false
+          },
+          {
+            "value": "9",
+            "label": "10:00",
+            "disabled": false
+          },
+          {
+            "value": "10",
+            "label": "11:00",
+            "disabled": false
+          },
+          {
+            "value": "11",
+            "label": "12:00",
+            "disabled": false
+          }
+        ],
+        0,
+        "PageDown",
+        {
+          "pageSize": 3
+        }
+      ],
+      "expected": 3
+    },
+    {
+      "fn": "nextWheelIndex",
+      "args": [
+        [
+          {
+            "value": "0",
+            "label": "1:00",
+            "disabled": false
+          },
+          {
+            "value": "1",
+            "label": "2:00",
+            "disabled": false
+          },
+          {
+            "value": "2",
+            "label": "3:00",
+            "disabled": false
+          },
+          {
+            "value": "3",
+            "label": "4:00",
+            "disabled": false
+          },
+          {
+            "value": "4",
+            "label": "5:00",
+            "disabled": false
+          },
+          {
+            "value": "5",
+            "label": "6:00",
+            "disabled": false
+          },
+          {
+            "value": "6",
+            "label": "7:00",
+            "disabled": true
+          },
+          {
+            "value": "7",
+            "label": "8:00",
+            "disabled": false
+          },
+          {
+            "value": "8",
+            "label": "9:00",
+            "disabled": false
+          },
+          {
+            "value": "9",
+            "label": "10:00",
+            "disabled": false
+          },
+          {
+            "value": "10",
+            "label": "11:00",
+            "disabled": false
+          },
+          {
+            "value": "11",
+            "label": "12:00",
+            "disabled": false
+          }
+        ],
+        11,
+        "PageUp"
+      ],
+      "expected": 5
+    },
+    {
+      "fn": "nextWheelIndex",
+      "args": [
+        [
+          {
+            "value": "0",
+            "label": "1:00",
+            "disabled": false
+          },
+          {
+            "value": "1",
+            "label": "2:00",
+            "disabled": false
+          },
+          {
+            "value": "2",
+            "label": "3:00",
+            "disabled": false
+          },
+          {
+            "value": "3",
+            "label": "4:00",
+            "disabled": false
+          },
+          {
+            "value": "4",
+            "label": "5:00",
+            "disabled": false
+          },
+          {
+            "value": "5",
+            "label": "6:00",
+            "disabled": false
+          },
+          {
+            "value": "6",
+            "label": "7:00",
+            "disabled": true
+          },
+          {
+            "value": "7",
+            "label": "8:00",
+            "disabled": false
+          },
+          {
+            "value": "8",
+            "label": "9:00",
+            "disabled": false
+          },
+          {
+            "value": "9",
+            "label": "10:00",
+            "disabled": false
+          },
+          {
+            "value": "10",
+            "label": "11:00",
+            "disabled": false
+          },
+          {
+            "value": "11",
+            "label": "12:00",
+            "disabled": false
+          }
+        ],
+        5,
+        "PageDown",
+        {
+          "pageSize": 0
+        }
+      ],
+      "throws": "pageSize"
+    },
+    {
+      "fn": "nextWheelIndex",
+      "args": [
+        [
+          {
+            "value": "0",
+            "label": "1:00",
+            "disabled": false
+          },
+          {
+            "value": "1",
+            "label": "2:00",
+            "disabled": false
+          },
+          {
+            "value": "2",
+            "label": "3:00",
+            "disabled": false
+          },
+          {
+            "value": "3",
+            "label": "4:00",
+            "disabled": false
+          },
+          {
+            "value": "4",
+            "label": "5:00",
+            "disabled": false
+          },
+          {
+            "value": "5",
+            "label": "6:00",
+            "disabled": false
+          },
+          {
+            "value": "6",
+            "label": "7:00",
+            "disabled": true
+          },
+          {
+            "value": "7",
+            "label": "8:00",
+            "disabled": false
+          },
+          {
+            "value": "8",
+            "label": "9:00",
+            "disabled": false
+          },
+          {
+            "value": "9",
+            "label": "10:00",
+            "disabled": false
+          },
+          {
+            "value": "10",
+            "label": "11:00",
+            "disabled": false
+          },
+          {
+            "value": "11",
+            "label": "12:00",
+            "disabled": false
+          }
+        ],
+        5,
+        "PageDown",
+        {
+          "pageSize": 2.9
+        }
+      ],
+      "throws": "pageSize"
+    },
+    {
+      "fn": "nextWheelIndex",
+      "args": [
+        [
+          {
+            "value": "0",
+            "label": "1:00",
+            "disabled": false
+          },
+          {
+            "value": "1",
+            "label": "2:00",
+            "disabled": false
+          },
+          {
+            "value": "2",
+            "label": "3:00",
+            "disabled": false
+          },
+          {
+            "value": "3",
+            "label": "4:00",
+            "disabled": false
+          },
+          {
+            "value": "4",
+            "label": "5:00",
+            "disabled": false
+          },
+          {
+            "value": "5",
+            "label": "6:00",
+            "disabled": false
+          },
+          {
+            "value": "6",
+            "label": "7:00",
+            "disabled": true
+          },
+          {
+            "value": "7",
+            "label": "8:00",
+            "disabled": false
+          },
+          {
+            "value": "8",
+            "label": "9:00",
+            "disabled": false
+          },
+          {
+            "value": "9",
+            "label": "10:00",
+            "disabled": false
+          },
+          {
+            "value": "10",
+            "label": "11:00",
+            "disabled": false
+          },
+          {
+            "value": "11",
+            "label": "12:00",
+            "disabled": false
+          }
+        ],
+        10,
+        "PageDown"
+      ],
+      "expected": 11
+    },
+    {
+      "fn": "nextWheelIndex",
+      "args": [
+        [
+          {
+            "value": "x",
+            "label": "X",
+            "disabled": true
+          }
+        ],
+        0,
+        "Home"
+      ],
+      "expected": -1
+    },
+    {
+      "fn": "nextWheelPrefix",
+      "args": [
+        {
+          "prefix": "",
+          "at": 0
+        },
+        "a",
+        100,
+        700
+      ],
+      "expected": {
+        "prefix": "a",
+        "at": 100
+      }
+    },
+    {
+      "fn": "nextWheelPrefix",
+      "args": [
+        {
+          "prefix": "a",
+          "at": 100
+        },
+        "b",
+        800,
+        700
+      ],
+      "expected": {
+        "prefix": "ab",
+        "at": 800
+      }
+    },
+    {
+      "fn": "nextWheelPrefix",
+      "args": [
+        {
+          "prefix": "a",
+          "at": 100
+        },
+        "b",
+        801,
+        700
+      ],
+      "expected": {
+        "prefix": "b",
+        "at": 801
+      }
+    },
+    {
+      "fn": "nextWheelPrefix",
+      "args": [
+        {
+          "prefix": "",
+          "at": 100
+        },
+        "b",
+        200,
+        700
+      ],
+      "expected": {
+        "prefix": "b",
+        "at": 200
+      }
+    },
+    {
+      "fn": "wheelTypeaheadIndex",
+      "args": [
+        [
+          {
+            "value": "a",
+            "label": "Ålesund"
+          },
+          {
+            "value": "b",
+            "label": "Bergen",
+            "disabled": true
+          },
+          {
+            "value": "c",
+            "label": "Bodø"
+          },
+          {
+            "value": "d",
+            "label": "Drammen"
+          },
+          {
+            "value": "e",
+            "label": "Écrins"
+          },
+          {
+            "value": "f",
+            "label": "가평"
+          },
+          {
+            "value": "g",
+            "label": "Bø",
+            "disabled": true
+          }
+        ],
+        0,
+        "b"
+      ],
+      "expected": 2
+    },
+    {
+      "fn": "wheelTypeaheadIndex",
+      "args": [
+        [
+          {
+            "value": "a",
+            "label": "Ålesund"
+          },
+          {
+            "value": "b",
+            "label": "Bergen",
+            "disabled": true
+          },
+          {
+            "value": "c",
+            "label": "Bodø"
+          },
+          {
+            "value": "d",
+            "label": "Drammen"
+          },
+          {
+            "value": "e",
+            "label": "Écrins"
+          },
+          {
+            "value": "f",
+            "label": "가평"
+          },
+          {
+            "value": "g",
+            "label": "Bø",
+            "disabled": true
+          }
+        ],
+        2,
+        "b"
+      ],
+      "expected": 2
+    },
+    {
+      "fn": "wheelTypeaheadIndex",
+      "args": [
+        [
+          {
+            "value": "a",
+            "label": "Ålesund"
+          },
+          {
+            "value": "b",
+            "label": "Bergen",
+            "disabled": true
+          },
+          {
+            "value": "c",
+            "label": "Bodø"
+          },
+          {
+            "value": "d",
+            "label": "Drammen"
+          },
+          {
+            "value": "e",
+            "label": "Écrins"
+          },
+          {
+            "value": "f",
+            "label": "가평"
+          },
+          {
+            "value": "g",
+            "label": "Bø",
+            "disabled": true
+          }
+        ],
+        -1,
+        "a"
+      ],
+      "expected": 0
+    },
+    {
+      "fn": "wheelTypeaheadIndex",
+      "args": [
+        [
+          {
+            "value": "a",
+            "label": "Ålesund"
+          },
+          {
+            "value": "b",
+            "label": "Bergen",
+            "disabled": true
+          },
+          {
+            "value": "c",
+            "label": "Bodø"
+          },
+          {
+            "value": "d",
+            "label": "Drammen"
+          },
+          {
+            "value": "e",
+            "label": "Écrins"
+          },
+          {
+            "value": "f",
+            "label": "가평"
+          },
+          {
+            "value": "g",
+            "label": "Bø",
+            "disabled": true
+          }
+        ],
+        0,
+        "bo"
+      ],
+      "expected": 2
+    },
+    {
+      "fn": "wheelTypeaheadIndex",
+      "args": [
+        [
+          {
+            "value": "a",
+            "label": "Ålesund"
+          },
+          {
+            "value": "b",
+            "label": "Bergen",
+            "disabled": true
+          },
+          {
+            "value": "c",
+            "label": "Bodø"
+          },
+          {
+            "value": "d",
+            "label": "Drammen"
+          },
+          {
+            "value": "e",
+            "label": "Écrins"
+          },
+          {
+            "value": "f",
+            "label": "가평"
+          },
+          {
+            "value": "g",
+            "label": "Bø",
+            "disabled": true
+          }
+        ],
+        0,
+        "e"
+      ],
+      "expected": 4
+    },
+    {
+      "fn": "wheelTypeaheadIndex",
+      "args": [
+        [
+          {
+            "value": "a",
+            "label": "Ålesund"
+          },
+          {
+            "value": "b",
+            "label": "Bergen",
+            "disabled": true
+          },
+          {
+            "value": "c",
+            "label": "Bodø"
+          },
+          {
+            "value": "d",
+            "label": "Drammen"
+          },
+          {
+            "value": "e",
+            "label": "Écrins"
+          },
+          {
+            "value": "f",
+            "label": "가평"
+          },
+          {
+            "value": "g",
+            "label": "Bø",
+            "disabled": true
+          }
+        ],
+        0,
+        "가"
+      ],
+      "expected": 5
+    },
+    {
+      "fn": "wheelTypeaheadIndex",
+      "args": [
+        [
+          {
+            "value": "a",
+            "label": "Ålesund"
+          },
+          {
+            "value": "b",
+            "label": "Bergen",
+            "disabled": true
+          },
+          {
+            "value": "c",
+            "label": "Bodø"
+          },
+          {
+            "value": "d",
+            "label": "Drammen"
+          },
+          {
+            "value": "e",
+            "label": "Écrins"
+          },
+          {
+            "value": "f",
+            "label": "가평"
+          },
+          {
+            "value": "g",
+            "label": "Bø",
+            "disabled": true
+          }
+        ],
+        0,
+        "z"
+      ],
+      "expected": -1
+    },
+    {
+      "fn": "wheelTypeaheadIndex",
+      "args": [
+        [
+          {
+            "value": "a",
+            "label": "Ålesund"
+          },
+          {
+            "value": "b",
+            "label": "Bergen",
+            "disabled": true
+          },
+          {
+            "value": "c",
+            "label": "Bodø"
+          },
+          {
+            "value": "d",
+            "label": "Drammen"
+          },
+          {
+            "value": "e",
+            "label": "Écrins"
+          },
+          {
+            "value": "f",
+            "label": "가평"
+          },
+          {
+            "value": "g",
+            "label": "Bø",
+            "disabled": true
+          }
+        ],
+        0,
+        ""
+      ],
+      "expected": -1
+    },
+    {
+      "fn": "wheelTypeaheadIndex",
+      "args": [[], 0, "a"],
+      "throws": "current"
+    },
+    {
+      "fn": "wheelTypeaheadIndex",
+      "args": [
+        [
+          {
+            "value": "a",
+            "label": "Ålesund"
+          },
+          {
+            "value": "b",
+            "label": "Bergen",
+            "disabled": true
+          },
+          {
+            "value": "c",
+            "label": "Bodø"
+          },
+          {
+            "value": "d",
+            "label": "Drammen"
+          },
+          {
+            "value": "e",
+            "label": "Écrins"
+          },
+          {
+            "value": "f",
+            "label": "가평"
+          },
+          {
+            "value": "g",
+            "label": "Bø",
+            "disabled": true
+          }
+        ],
+        0,
+        "bb"
+      ],
+      "expected": 2
+    },
+    {
+      "fn": "wheelTypeaheadIndex",
+      "args": [
+        [
+          {
+            "value": "0",
+            "label": "1:00",
+            "disabled": false
+          },
+          {
+            "value": "1",
+            "label": "2:00",
+            "disabled": false
+          },
+          {
+            "value": "2",
+            "label": "3:00",
+            "disabled": false
+          },
+          {
+            "value": "3",
+            "label": "4:00",
+            "disabled": false
+          },
+          {
+            "value": "4",
+            "label": "5:00",
+            "disabled": false
+          },
+          {
+            "value": "5",
+            "label": "6:00",
+            "disabled": false
+          },
+          {
+            "value": "6",
+            "label": "7:00",
+            "disabled": true
+          },
+          {
+            "value": "7",
+            "label": "8:00",
+            "disabled": false
+          },
+          {
+            "value": "8",
+            "label": "9:00",
+            "disabled": false
+          },
+          {
+            "value": "9",
+            "label": "10:00",
+            "disabled": false
+          },
+          {
+            "value": "10",
+            "label": "11:00",
+            "disabled": false
+          },
+          {
+            "value": "11",
+            "label": "12:00",
+            "disabled": false
+          }
+        ],
+        0,
+        "1"
+      ],
+      "expected": 9
+    },
+    {
+      "fn": "wheelTypeaheadIndex",
+      "args": [
+        [
+          {
+            "value": "a",
+            "label": "Ant"
+          },
+          {
+            "value": "b",
+            "label": "Bee"
+          },
+          {
+            "value": "c",
+            "label": "Cat"
+          }
+        ],
+        3,
+        "a"
+      ],
+      "throws": "current"
+    },
+    {
+      "fn": "wheelTypeaheadIndex",
+      "args": [
+        [
+          {
+            "value": "a",
+            "label": "Ant"
+          },
+          {
+            "value": "b",
+            "label": "Bee"
+          },
+          {
+            "value": "c",
+            "label": "Cat"
+          }
+        ],
+        -1,
+        "b"
+      ],
+      "expected": 1
+    },
+    {
+      "fn": "nextWheelIndex",
+      "args": [
+        [
+          {
+            "value": "a",
+            "label": "Ant"
+          },
+          {
+            "value": "b",
+            "label": "Bee"
+          },
+          {
+            "value": "c",
+            "label": "Cat"
+          }
+        ],
+        7,
+        "ArrowDown",
+        {}
+      ],
+      "throws": "current"
+    },
+    {
+      "fn": "nextWheelIndex",
+      "args": [
+        [
+          {
+            "value": "a",
+            "label": "Ant"
+          },
+          {
+            "value": "b",
+            "label": "Bee"
+          },
+          {
+            "value": "c",
+            "label": "Cat"
+          }
+        ],
+        -2,
+        "Home",
+        {}
+      ],
+      "throws": "current"
+    },
+    {
+      "fn": "nextWheelIndex",
+      "args": [
+        [
+          {
+            "value": "a",
+            "label": "Ant"
+          },
+          {
+            "value": "b",
+            "label": "Bee"
+          },
+          {
+            "value": "c",
+            "label": "Cat"
+          }
+        ],
+        0,
+        "PageDown",
+        {
+          "pageSize": -1
+        }
+      ],
+      "throws": "pageSize"
+    },
+    {
+      "fn": "wheelIndexNearest",
+      "args": [
+        [
+          {
+            "value": "a",
+            "label": "Ant"
+          },
+          {
+            "value": "b",
+            "label": "Bee"
+          },
+          {
+            "value": "c",
+            "label": "Cat"
+          }
+        ],
+        [0, 40, 80],
+        null
+      ],
+      "throws": "centre"
+    },
+    {
+      "fn": "wheelIndexNearest",
+      "args": [
+        [
+          {
+            "value": "a",
+            "label": "Ant"
+          },
+          {
+            "value": "b",
+            "label": "Bee"
+          },
+          {
+            "value": "c",
+            "label": "Cat"
+          }
+        ],
+        [0, null, 80],
+        40
+      ],
+      "throws": "middles"
+    }
+  ]
+}

@@ -48,6 +48,13 @@
 - `children`: slot (optional) — anything else, such as a link to the full record
 - `...restProps`: any — additional HTML attributes spread onto the root
 
+## Mobile
+
+Decisions: [mobile/components-mobile.tsv](../../mobile/components-mobile.tsv) (`lily` on both). The rules are `AllergyRules` in `LilyCore` and `lily-core`, one test each.
+
+- Apple: `AllergyRecordListItem(_:codes:extra:)` in `LilyUI`: the record is one element speaking `AllergyRules.spoken` (whose record, substance, reaction, severity, criticality, clinical and verification status, type, category, updated), the substance never truncated; extra content is its own element; a code without its words warns. Style: `AllergyRecordListItemStyle`, which gets the codes for colour.
+- Android: `AllergyRecordListItem(words, codes, extra)` in `lily-compose`: the record is one TalkBack stop in the same order; extra content follows as its own stops.
+
 ## Acceptance Criteria
 
 - [x] Renders <li> with class="allergy-record-list-item"

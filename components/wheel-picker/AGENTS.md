@@ -46,7 +46,7 @@
 - `options`: `{ value: string, label: string, disabled?: boolean }[]` (required)
 - `value`: string (default: `""`) -- the chosen option's value; bindable (Svelte `bind:value`, Vue `v-model`, Angular `[(value)]`, Blazor `@bind-Value`, React controlled with `onChange`)
 - `loop`: boolean (default: false)
-- `pageSize`: number (default: 5)
+- `pageSize`: number (default: 5) -- a positive whole number; anything else throws a `WheelPickerError` (a `RangeError`), never rounded or raised to 1
 - `disabled`: boolean (default: false) -- not focusable; ignores keys and clicks
 - `orientation`: `"vertical"` | `"horizontal"` (default: `"vertical"`)
 - `name`: string -- adds a hidden input

@@ -1,0 +1,237 @@
+{
+  "module": "search-text",
+  "description": "foldText, searchTerms, matchesSearch and highlightSegments from shared/search-text.ts.",
+  "cases": [
+    {
+      "fn": "foldText",
+      "args": ["Café"],
+      "expected": "cafe"
+    },
+    {
+      "fn": "foldText",
+      "args": ["ÅNGSTRÖM"],
+      "expected": "angstrom"
+    },
+    {
+      "fn": "foldText",
+      "args": ["Łódź"],
+      "expected": "łodz"
+    },
+    {
+      "fn": "foldText",
+      "args": ["naïve résumé"],
+      "expected": "naive resume"
+    },
+    {
+      "fn": "foldText",
+      "args": [""],
+      "expected": ""
+    },
+    {
+      "fn": "foldText",
+      "args": ["İstanbul"],
+      "expected": "istanbul"
+    },
+    {
+      "fn": "foldText",
+      "args": ["Ελληνικά"],
+      "expected": "ελληνικα"
+    },
+    {
+      "fn": "foldText",
+      "args": ["日本語"],
+      "expected": "日本語"
+    },
+    {
+      "fn": "searchTerms",
+      "args": ["  Café   au  lait "],
+      "expected": ["cafe", "au", "lait"]
+    },
+    {
+      "fn": "searchTerms",
+      "args": [""],
+      "expected": []
+    },
+    {
+      "fn": "searchTerms",
+      "args": ["   "],
+      "expected": []
+    },
+    {
+      "fn": "searchTerms",
+      "args": ["NHS\tnumber\nsearch"],
+      "expected": ["nhs", "number", "search"]
+    },
+    {
+      "fn": "matchesSearch",
+      "args": ["Café au lait", "cafe"],
+      "expected": true
+    },
+    {
+      "fn": "matchesSearch",
+      "args": ["Café au lait", "lait CAFE"],
+      "expected": true
+    },
+    {
+      "fn": "matchesSearch",
+      "args": ["Café au lait", "tea"],
+      "expected": false
+    },
+    {
+      "fn": "matchesSearch",
+      "args": ["anything", ""],
+      "expected": true
+    },
+    {
+      "fn": "matchesSearch",
+      "args": ["", "a"],
+      "expected": false
+    },
+    {
+      "fn": "matchesSearch",
+      "args": ["São Paulo", "sao paulo"],
+      "expected": true
+    },
+    {
+      "fn": "highlightSegments",
+      "args": ["Café au lait", "cafe"],
+      "expected": [
+        {
+          "text": "Café",
+          "match": true
+        },
+        {
+          "text": " au lait",
+          "match": false
+        }
+      ]
+    },
+    {
+      "fn": "highlightSegments",
+      "args": ["banana", "an"],
+      "expected": [
+        {
+          "text": "b",
+          "match": false
+        },
+        {
+          "text": "anan",
+          "match": true
+        },
+        {
+          "text": "a",
+          "match": false
+        }
+      ]
+    },
+    {
+      "fn": "highlightSegments",
+      "args": ["text", ""],
+      "expected": [
+        {
+          "text": "text",
+          "match": false
+        }
+      ]
+    },
+    {
+      "fn": "highlightSegments",
+      "args": ["", "a"],
+      "expected": [
+        {
+          "text": "",
+          "match": false
+        }
+      ]
+    },
+    {
+      "fn": "highlightSegments",
+      "args": ["Blood pressure", "press blood"],
+      "expected": [
+        {
+          "text": "Blood",
+          "match": true
+        },
+        {
+          "text": " ",
+          "match": false
+        },
+        {
+          "text": "press",
+          "match": true
+        },
+        {
+          "text": "ure",
+          "match": false
+        }
+      ]
+    },
+    {
+      "fn": "highlightSegments",
+      "args": ["ﬁle", "file"],
+      "expected": [
+        {
+          "text": "ﬁle",
+          "match": false
+        }
+      ]
+    },
+    {
+      "fn": "highlightSegments",
+      "args": ["😀 cafe", "cafe"],
+      "expected": [
+        {
+          "text": "😀 ",
+          "match": false
+        },
+        {
+          "text": "cafe",
+          "match": true
+        }
+      ]
+    },
+    {
+      "fn": "highlightSegments",
+      "args": ["𠮷野家", "野"],
+      "expected": [
+        {
+          "text": "𠮷",
+          "match": false
+        },
+        {
+          "text": "野",
+          "match": true
+        },
+        {
+          "text": "家",
+          "match": false
+        }
+      ]
+    },
+    {
+      "fn": "highlightSegments",
+      "args": ["éte", "ete"],
+      "expected": [
+        {
+          "text": "éte",
+          "match": false
+        }
+      ]
+    },
+    {
+      "fn": "matchesSearch",
+      "args": ["😀 Café", "😀"],
+      "expected": true
+    },
+    {
+      "fn": "highlightSegments",
+      "args": ["aaa", "aa"],
+      "expected": [
+        {
+          "text": "aaa",
+          "match": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,201 @@
+// Replays shared/vectors/*.json (copied here by bin/sync-shared-modules) against LilyCore, so the Swift port behaves as the
+// TypeScript does (tasks.md P43-T3, P44-T2). A vector file this runner does not know, or a function it cannot call, fails.
+
+import Foundation
+import Testing
+
+@testable import LilyCore
+
+private struct Unknown: Error, CustomStringConvertible {
+    let description: String
+}
+
+private func loadVectorFiles() throws -> [(name: String, cases: [[String: Any]])] {
+    let dir = try #require(Bundle.module.url(forResource: "vectors", withExtension: nil))
+    let names = try FileManager.default.contentsOfDirectory(atPath: dir.path).filter { $0.hasSuffix(".json") }.sorted()
+    return try names.map { name in
+        let data = try Data(contentsOf: dir.appendingPathComponent(name))
+        let file = try #require(try JSONSerialization.jsonObject(with: data) as? [String: Any])
+        return (name, try #require(file["cases"] as? [[String: Any]]))
+    }
+}
+
+private func date(_ value: Any) throws -> Date {
+    let formatter = ISO8601DateFormatter()
+    formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+    let plain = ISO8601DateFormatter()
+    guard let text = value as? String, let date = formatter.date(from: text) ?? plain.date(from: text) else {
+        throw ClinicalFormatError.notAPartialDate(String(describing: value))
+    }
+    return date
+}
+
+private func number(_ value: Any) -> Double? { (value as? NSNumber)?.doubleValue }
+
+/// A JSON number for an `Int` parameter. Swift's `Int` cannot hold 1.5, so the API rules a non-whole index out by its type;
+/// the runner stands in for that by throwing the module's error, so the shared "throws" vectors still apply.
+private func whole(_ value: Any, or error: some LilyRangeError) throws -> Int {
+    let n = (value as! NSNumber).doubleValue
+    guard n.rounded(.towardZero) == n, n.isFinite else { throw error }
+    return Int(n)
+}
+
+/// A JSON number for a `Double` parameter; JSON has no NaN, so the vectors write null for "not a finite number".
+private func double(_ value: Any) -> Double { number(value) ?? .nan }
+
+private func wheelOptions(_ value: Any) -> [WheelOption] {
+    (value as! [[String: Any]]).map {
+        WheelOption(value: $0["value"] as! String, label: $0["label"] as! String, disabled: $0["disabled"] as? Bool ?? false)
+    }
+}
+
+/// Calls the named function with JSON arguments and returns a JSON-shaped result (NSNull for nil).
+private func call(_ fn: String, _ args: [Any]) throws -> Any {
+    func string(_ i: Int) -> String { args[i] as! String }
+    switch fn {
+    case "foldText": return foldText(string(0))
+    case "searchTerms": return searchTerms(string(0))
+    case "matchesSearch": return matchesSearch(string(0), string(1))
+    case "highlightSegments":
+        return highlightSegments(string(0), string(1)).map { ["text": $0.text, "match": $0.match] as [String: Any] }
+    case "splitGraphemes": return splitGraphemes(string(0))
+    case "truncateMiddleByClusters":
+        let options = args[1] as! [String: Any]
+        let strategy = (options["strategy"] as? String).flatMap(TruncationStrategy.init(rawValue:)) ?? .even
+        if let end = options["end"] { _ = try whole(end, or: TruncateMiddleError.end) }
+        return try truncateMiddle(
+            string(0), ellipsis: options["ellipsis"] as! String, maxWidth: number(options["maxWidth"]!)!,
+            strategy: strategy, end: (options["end"] as? NSNumber)?.intValue, measure: { Double($0.count) })
+    case "meterScale":
+        let units = args[3] as? [String: Any]
+        guard
+            let scale = try meterScale(
+                number(args[0]), low: number(args[1]), high: number(args[2]),
+                valueUnit: units?["value"] as? String, rangeUnit: units?["range"] as? String)
+        else { return NSNull() }
+        var out: [String: Any] = ["min": scale.min, "max": scale.max]
+        if let low = scale.low { out["low"] = low }
+        if let high = scale.high { out["high"] = high }
+        return out
+    case "ageParts":
+        return try ageParts(birth: date(args[0]), at: date(args[1])).map {
+            ["value": $0.value, "unit": $0.unit.rawValue] as [String: Any]
+        }
+    case "toIsoDuration":
+        let parts = (args[0] as! [[String: Any]]).map {
+            AgePart(value: ($0["value"] as! NSNumber).intValue, unit: AgeUnit(rawValue: $0["unit"] as! String)!)
+        }
+        return toIsoDuration(parts)
+    case "partialDatePrecision": return try partialDatePrecision(string(0)).rawValue
+    case "durationParts":
+        let p = try durationParts(string(0))
+        return [
+            "years": p.years, "months": p.months, "weeks": p.weeks, "days": p.days, "hours": p.hours,
+            "minutes": p.minutes, "seconds": p.seconds, "negative": p.negative,
+        ] as [String: Any]
+    case "htmlDuration":
+        guard let d = htmlDuration(string(0)) else { return NSNull() }
+        return ["datetime": d.datetime, "negative": d.negative] as [String: Any]
+    case "isTypeaheadKey":
+        let event = args[0] as! [String: Any]
+        let native = event["nativeEvent"] as? [String: Any]
+        return isTypeaheadKey(
+            event["key"] as! String, control: event["ctrlKey"] as? Bool ?? false, option: event["altKey"] as? Bool ?? false,
+            command: event["metaKey"] as? Bool ?? false,
+            composing: (event["isComposing"] as? Bool ?? false) || (native?["isComposing"] as? Bool ?? false))
+    case "nextTypeaheadState":
+        let previous = args[0] as! [String: Any]
+        let state = nextTypeaheadState(
+            TypeaheadState(prefix: previous["prefix"] as! String, at: (previous["at"] as! NSNumber).intValue),
+            key: string(1), now: (args[2] as! NSNumber).intValue, resetMilliseconds: (args[3] as! NSNumber).intValue)
+        return ["prefix": state.prefix, "at": state.at] as [String: Any]
+    case "findTypeaheadMatch":
+        return try findTypeaheadMatch(
+            args[0] as! [String], from: whole(args[1], or: TypeaheadError.from), prefix: string(2))
+    case "logicalKey": return logicalKey(string(0), rightToLeft: args[1] as! Bool)
+    case "ipsSectionCode": return ipsSectionCode(string(0)) as Any? ?? NSNull()
+    case "ipsSectionIsRequired": return ipsSectionIsRequired(string(0))
+    case "ipsSectionId":
+        return try ipsSectionId(
+            string(0), id: args.count > 1 ? args[1] as? String : nil,
+            idPrefix: args.count > 2 ? args[2] as! String : ipsIdPrefix)
+    case "ipsMissingRequired": return ipsMissingRequired((args[0] as! [[String: Any]]).map { $0["key"] as! String })
+    case "ipsContents":
+        let sections = (args[0] as! [[String: Any]]).map {
+            IpsSectionEntry(
+                key: $0["key"] as! String, heading: $0["heading"] as! String,
+                status: ($0["status"] as? String).flatMap(IpsSectionStatus.init(rawValue:)), id: $0["id"] as? String)
+        }
+        let entries = try ipsContents(
+            sections, requiredHeadings: args[1] as! [String: String],
+            idPrefix: args.count > 2 ? args[2] as! String : ipsIdPrefix)
+        return entries.map { e -> [String: Any] in
+            var out: [String: Any] = [
+                "key": e.key, "heading": e.heading, "status": e.status.rawValue, "id": e.id, "required": e.required,
+                "added": e.added,
+            ]
+            if let code = e.code { out["code"] = code }
+            return out
+        }
+    case "wheelMoveKey":
+        return wheelMoveKey(
+            string(0), orientation: args.count > 1 ? WheelOrientation(rawValue: args[1] as! String)! : .vertical,
+            rightToLeft: args.count > 2 ? args[2] as! Bool : false)?.rawValue as Any? ?? NSNull()
+    case "wheelIndexNearest":
+        return try wheelIndexNearest(
+            wheelOptions(args[0]), middles: (args[1] as! [Any]).map(double), centre: double(args[2]))
+    case "nextWheelIndex":
+        let move = args.count > 3 ? args[3] as! [String: Any] : [:]
+        return try nextWheelIndex(
+            wheelOptions(args[0]), current: whole(args[1], or: WheelPickerError.current), key: WheelMoveKey(rawValue: string(2))!,
+            loop: move["loop"] as? Bool ?? false, pageSize: (move["pageSize"] as? NSNumber)?.doubleValue ?? 5)
+    case "nextWheelPrefix":
+        let p = args[0] as! [String: Any]
+        let next = nextWheelPrefix(
+            WheelTypeahead(prefix: p["prefix"] as! String, at: (p["at"] as! NSNumber).intValue), key: string(1),
+            now: (args[2] as! NSNumber).intValue, resetMilliseconds: (args[3] as! NSNumber).intValue)
+        return ["prefix": next.prefix, "at": next.at] as [String: Any]
+    case "wheelTypeaheadIndex":
+        return try wheelTypeaheadIndex(
+            wheelOptions(args[0]), current: whole(args[1], or: WheelPickerError.current), prefix: string(2))
+    default: throw Unknown(description: "unknown vector function \(fn)")
+    }
+}
+
+/// JSON equality through a round trip, so numbers compare by value (2 and 2.0 alike) and dictionaries ignore order.
+private func same(_ a: Any, _ b: Any) throws -> Bool {
+    let wrap = { (x: Any) throws -> Any in
+        try JSONSerialization.jsonObject(with: JSONSerialization.data(withJSONObject: [x]), options: [])
+    }
+    return (try wrap(a) as! NSArray).isEqual(try wrap(b) as! NSArray)
+}
+
+@Test func everyVectorFileIsReadAndPasses() throws {
+    let files = try loadVectorFiles()
+    #expect(Set(files.map(\.name)) == ["clinical-format.json", "ips-sections.json", "middle-truncation.json", "search-text.json", "typeahead.json", "wheel-picker.json"])
+    var count = 0
+    for file in files {
+        for (index, c) in file.cases.enumerated() {
+            let fn = c["fn"] as! String
+            let args = c["args"] as! [Any]
+            let label = "\(file.name) #\(index) \(fn)(\(args))"
+            if let reason = c["throws"] as? String {
+                // The vector names the reason; the port's LilyRangeError must carry the same one.
+                do {
+                    _ = try call(fn, args)
+                    Issue.record("\(label) should throw \(reason)")
+                } catch let error as any LilyRangeError {
+                    #expect(error.reason == reason, "\(label): threw \(error.reason), expected \(reason)")
+                }
+            } else if c["throws"] as? Bool == true {
+                #expect(throws: (any Error).self, "\(label) should throw") { _ = try call(fn, args) }
+            } else {
+                let result = try call(fn, args)
+                #expect(try same(result, c["expected"]!), "\(label): got \(result), expected \(c["expected"]!)")
+            }
+            count += 1
+        }
+    }
+    #expect(count == files.reduce(0) { $0 + $1.cases.count })
+    #expect(count >= 211)
+}

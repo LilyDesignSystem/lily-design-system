@@ -30,7 +30,7 @@ record list; the status is never blank; the document author's narrative can foll
 - `code`: string (optional) -- the LOINC code
 - `required`: boolean (optional) -- override whether the IPS requires the section
 - `id`: string (optional) -- the element id
-- `idPrefix`: string (default: "international-patient-summary") -- the same as its summary's; the default `id` is `{idPrefix}-{section}`
+- `idPrefix`: string (default: "international-patient-summary") -- the same as its summary's; the default `id` is `{idPrefix}-{section}`. An empty `idPrefix`, `id` or `section` throws an `IpsSectionsError` (a `RangeError`), never the default
 - `narrative`: slot (optional), `narrativeLabel`: string, `narrativeOpen`: boolean (default: false) -- the author's narrative
 - `children`: slot (optional) -- the entries
 - `...restProps`: any additional HTML attributes spread onto the section

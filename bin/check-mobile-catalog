@@ -1,0 +1,137 @@
+#!/usr/bin/env python3
+"""bin/check-mobile-catalog — the mobile decisions and the semantics map stay complete.
+
+mobile/components-mobile.tsv (tasks.md P43-T2) has one row per components.tsv
+slug: slug, apple, apple_type, android, android_type, reason. Each decision is
+`native`, `lily`, `pattern` or `none`. This check fails when:
+
+  * the header is wrong, a row has the wrong number of columns, or a slug is
+    missing, repeated or not in components.tsv;
+  * a decision is not one of the four, or a reason is empty;
+  * a `native` or `pattern` decision names no platform type.
+
+mobile/semantics.tsv (P43-T1) maps ARIA and HTML to SwiftUI, UIKit and Compose:
+kind, name, swiftui, uikit, compose, notes. This check fails when an `aria-*`
+attribute, a `role="…"` or an "HTML tag" element used in components/*/AGENTS.md
+has no row, a row is repeated, or a row has an empty platform column.
+
+`--counts` prints the number of components per decision for each platform.
+Spec: spec/apple-swift and spec/android-kotlin.
+"""
+
+import os
+import re
+import sys
+from collections import Counter
+
+TOP = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DECISIONS = {"native", "lily", "pattern", "none"}
+HEADER = ["slug", "apple", "apple_type", "android", "android_type", "reason"]
+SEM_HEADER = ["kind", "name", "swiftui", "uikit", "compose", "notes"]
+
+errors = []
+
+
+def read_tsv(path, header):
+    with open(path, encoding="utf-8") as f:
+        lines = f.read().splitlines()
+    if not lines or lines[0].split("\t") != header:
+        errors.append(f"{os.path.relpath(path, TOP)}: header must be {' / '.join(header)}")
+        return []
+    rows = []
+    for n, line in enumerate(lines[1:], start=2):
+        cols = line.split("\t")
+        if len(cols) != len(header):
+            errors.append(f"{os.path.relpath(path, TOP)}:{n}: {len(cols)} columns, expected {len(header)}")
+            continue
+        rows.append((n, cols))
+    return rows
+
+
+def catalog():
+    slugs = []
+    with open(os.path.join(TOP, "components.tsv"), encoding="utf-8") as f:
+        for line in f:
+            slug = line.split("\t")[0].strip()
+            if slug and slug != "slug":
+                slugs.append(slug)
+    return slugs
+
+
+def check_components(slugs):
+    rows = read_tsv(os.path.join(TOP, "mobile", "components-mobile.tsv"), HEADER)
+    known = set(slugs)
+    seen = set()
+    counts = {"apple": Counter(), "android": Counter()}
+    for n, (slug, apple, apple_type, android, android_type, reason) in rows:
+        where = f"mobile/components-mobile.tsv:{n}"
+        if slug not in known:
+            errors.append(f"{where}: {slug} is not in components.tsv")
+        if slug in seen:
+            errors.append(f"{where}: {slug} is repeated")
+        seen.add(slug)
+        for platform, decision, kind in (("apple", apple, apple_type), ("android", android, android_type)):
+            if decision not in DECISIONS:
+                errors.append(f"{where}: {platform} decision {decision!r} is not one of {sorted(DECISIONS)}")
+            elif decision in ("native", "pattern") and not kind.strip():
+                errors.append(f"{where}: {platform} decision {decision} names no platform type")
+            counts[platform][decision] += 1
+        if not reason.strip():
+            errors.append(f"{where}: {slug} has no reason")
+    for slug in slugs:
+        if slug not in seen:
+            errors.append(f"mobile/components-mobile.tsv: no row for {slug}")
+    return counts
+
+
+def used_semantics():
+    aria, roles, tags = set(), set(), set()
+    base = os.path.join(TOP, "components")
+    for slug in os.listdir(base):
+        path = os.path.join(base, slug, "AGENTS.md")
+        if not os.path.isfile(path):
+            continue
+        with open(path, encoding="utf-8") as f:
+            text = f.read()
+        aria.update(re.findall(r"\baria-[a-z]+", text))
+        roles.update(re.findall(r"role=\\?[\"']([a-z]+)", text))
+        for line in text.splitlines():
+            if line.startswith("- HTML tag:"):
+                tags.update(re.findall(r"<([a-z][a-z0-9]*)", line))
+    return {"attribute": aria, "role": roles, "element": tags}
+
+
+def check_semantics():
+    rows = read_tsv(os.path.join(TOP, "mobile", "semantics.tsv"), SEM_HEADER)
+    have = {"attribute": set(), "role": set(), "element": set()}
+    for n, (kind, name, swiftui, uikit, compose, _notes) in rows:
+        where = f"mobile/semantics.tsv:{n}"
+        if kind not in have:
+            errors.append(f"{where}: kind {kind!r} is not attribute, role or element")
+            continue
+        if name in have[kind]:
+            errors.append(f"{where}: {kind} {name} is repeated")
+        have[kind].add(name)
+        for column, value in (("swiftui", swiftui), ("uikit", uikit), ("compose", compose)):
+            if not value.strip():
+                errors.append(f"{where}: {kind} {name} has an empty {column} column (write none and a note)")
+    for kind, names in used_semantics().items():
+        for name in sorted(names - have[kind]):
+            errors.append(f"mobile/semantics.tsv: no row for {kind} {name}, used in components/*/AGENTS.md")
+
+
+def main():
+    counts = check_components(catalog())
+    check_semantics()
+    if "--counts" in sys.argv:
+        for platform, c in counts.items():
+            print(platform + ": " + ", ".join(f"{k} {c[k]}" for k in ("lily", "native", "pattern", "none")))
+    if errors:
+        for e in errors:
+            print("check-mobile-catalog: " + e, file=sys.stderr)
+        sys.exit(1)
+    print("check-mobile-catalog: OK")
+
+
+if __name__ == "__main__":
+    main()

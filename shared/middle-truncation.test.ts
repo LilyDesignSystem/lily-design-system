@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, test, vi } from "vitest";
-import { splitGraphemes, truncateMiddle } from "./middle-truncation";
+import { splitGraphemes, truncateMiddle, TruncateMiddleError } from "./middle-truncation";
 
 // One unit per grapheme: widths are cluster counts, so expectations are exact.
 const measure = (s: string) => splitGraphemes(s).length;
@@ -51,14 +51,10 @@ describe("truncateMiddle", () => {
         ).toBe("abcd…");
     });
 
-    test("end larger than the text is clamped", () => {
-        const out = truncateMiddle("abcdef", {
-            ...base,
-            maxWidth: 3,
-            strategy: "fixed-end",
-            end: 99,
-        });
-        expect(out.startsWith("…")).toBe(true);
+    test("an end larger than the text is an error, never clamped", () => {
+        expect(() =>
+            truncateMiddle("abcdef", { ...base, maxWidth: 3, strategy: "fixed-end", end: 99 }),
+        ).toThrow(TruncateMiddleError);
     });
 
     test("never splits a surrogate pair or an emoji sequence", () => {
@@ -101,9 +97,9 @@ describe("splitGraphemes without Intl.Segmenter", () => {
 
 describe("min-end without a usable end (coverage)", () => {
     const measure = (s: string) => s.length;
-    test("a missing, infinite or NaN end keeps no tail beyond the even split", () => {
+    test("a missing end keeps no tail beyond the even split", () => {
         const even = truncateMiddle("abcdefghijklmnop", { ellipsis: "…", maxWidth: 9, measure });
-        for (const end of [undefined, Infinity, NaN]) {
+        for (const end of [undefined]) {
             expect(
                 truncateMiddle("abcdefghijklmnop", {
                     ellipsis: "…",
@@ -114,5 +110,33 @@ describe("min-end without a usable end (coverage)", () => {
                 }),
             ).toBe(even);
         }
+    });
+});
+
+describe("invalid input is an error (checked arithmetic)", () => {
+    const measure = (s: string) => s.length;
+    test.each([Infinity, NaN, -1, 1.5])(
+        "end %s throws a TruncateMiddleError with reason end",
+        (end) => {
+            let thrown: unknown;
+            try {
+                truncateMiddle("abcdefghijklmnop", {
+                    ellipsis: "…",
+                    maxWidth: 9,
+                    measure,
+                    strategy: "min-end",
+                    end,
+                });
+            } catch (error) {
+                thrown = error;
+            }
+            expect(thrown).toBeInstanceOf(RangeError);
+            expect((thrown as TruncateMiddleError).reason).toBe("end");
+        },
+    );
+    test.each([NaN, -1, Infinity])("maxWidth %s throws with reason maxWidth", (maxWidth) => {
+        expect(() => truncateMiddle("abc", { ellipsis: "…", maxWidth, measure })).toThrow(
+            TruncateMiddleError,
+        );
     });
 });

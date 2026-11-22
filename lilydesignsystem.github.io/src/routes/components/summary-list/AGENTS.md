@@ -44,6 +44,13 @@
 - `children`: slot (required) -- list content, typically `<dt>`/`<dd>` pairs
 - `...restProps`: any additional HTML attributes spread onto the `<dl>` element
 
+## Mobile
+
+Decisions: [mobile/components-mobile.tsv](../../mobile/components-mobile.tsv) (`lily` on both). Tests: `lily-design-system-swift/Tests/LilyUITests`, `lily-design-system-kotlin/lily-compose/src/test`.
+
+- Apple: `SummaryList(label:content:)` in `LilyUI`: a labelled container (`accessibilityElement(children: .contain)`).
+- Android: `SummaryList(label) { … }` in `lily-compose`: a traversal group with the label as its content description.
+
 ## Acceptance Criteria
 
 - [ ] Renders <dl> element with class="summary-list"

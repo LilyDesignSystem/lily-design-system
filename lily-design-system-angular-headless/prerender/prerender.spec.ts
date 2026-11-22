@@ -24,6 +24,9 @@ const INPUTS: Record<string, Inputs> = {
     CurrencyInput: { currencyCode: "XTS" },
     HeatmapChartWithYearOfDays: { year: 2026, weekStart: 1 },
     InputWithMask: { mask: "##" },
+    // Both inputs are required: an added section needs the consumer's heading, and a section its key (empty is an error).
+    InternationalPatientSummary: { requiredHeadings: { medications: "x", allergies: "x", problems: "x" } },
+    InternationalPatientSummarySection: { section: "allergies" },
     KbdShortcut: { keys: ["K"] },
     MiddleTruncation: { text: "x", ellipsis: "x" },
     OneTimePasswordInput: { length: 6 },

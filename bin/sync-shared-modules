@@ -494,6 +494,25 @@ for source in sorted((top / "shared" / "zone-names").glob("*")):
                 target.parent.mkdir(exist_ok=True)
                 shutil.copyfile(source, target)
 
+# The shared test vectors (tasks.md P43-T3) go into the mobile packages' tests, which are built on their own (the Swift package
+# is exported to its own repository, spec/apple-swift), so they cannot read shared/ directly.
+VECTOR_DIRS = [
+    "lily-design-system-swift/Tests/LilyCoreTests/vectors",
+    "lily-design-system-kotlin/lily-core/src/jvmTest/resources/vectors",
+]
+for source in sorted((top / "shared" / "vectors").glob("*.json")):
+    for relative in VECTOR_DIRS:
+        package = top / relative.split("/")[0]
+        if not package.is_dir():
+            continue
+        target = top / relative / source.name
+        if target.exists() and filecmp.cmp(source, target, shallow=False):
+            continue
+        drift.append(target.relative_to(top))
+        if not check:
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(source, target)
+
 for path in drift:
     print(("drift: " if check else "synced: ") + str(path))
 if check and drift:

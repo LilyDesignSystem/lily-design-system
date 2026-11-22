@@ -49,7 +49,7 @@
 - `code`: string (optional) -- the LOINC code; default the IPS code for the key
 - `required`: boolean (optional) -- default whether the IPS requires the section
 - `id`: string (optional) -- default `international-patient-summary-{section}`
-- `idPrefix`: string (default: "international-patient-summary") -- the same as its summary's; the default `id` is `{idPrefix}-{section}`
+- `idPrefix`: string (default: "international-patient-summary") -- the same as its summary's; the default `id` is `{idPrefix}-{section}`. An empty `idPrefix`, `id` or `section` throws an `IpsSectionsError` (a `RangeError`), never the default
 - `narrative`: slot (optional) -- the author's narrative
 - `narrativeLabel`: string -- the narrative's summary; required with `narrative`
 - `narrativeOpen`: boolean (default: false) -- open the narrative, as when the section has no structured entries
@@ -63,6 +63,13 @@
 - Could use: name attribute
 - Notes: The narrative is a <details>: open, close, keyboard and find-in-page reveal come from the browser.
 - Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
+## Mobile
+
+Decisions: [mobile/components-mobile.tsv](../../mobile/components-mobile.tsv) (`lily` on both). The rules are `IpsRules` in `LilyCore` and `lily-core`.
+
+- Apple: `InternationalPatientSummarySection(section:heading:headingLevel:status:statusLabel:statusPlacement:narrativeLabel:narrativeOpen:content:narrative:)` in `LilyUI`: a container under a header at its level (no region landmarks on mobile); the status line shows unless `statusPlacement` is `.list`; the narrative is in a native `DisclosureGroup`; `code` gives the LOINC code.
+- Android: `InternationalPatientSummarySection(…)` in `lily-compose`: a traversal group under a `heading()`; the narrative is in `Disclosure`, since foundation has none.
 
 ## Acceptance Criteria
 

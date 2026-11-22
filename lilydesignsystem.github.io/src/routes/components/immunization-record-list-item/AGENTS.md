@@ -38,6 +38,11 @@
 - `children`: slot (optional) — anything else, such as a link to the full record
 - `...restProps`: any — additional HTML attributes spread onto the root
 
+## Mobile
+
+- Apple: A pattern: the generic `RecordList` and `RecordListItem` hold the rules (never blank, withheld and entered-in-error never silent, whose record first) and the record itself is a Lily view, so mobile ships no type of its own for this list (`pattern` in [mobile/components-mobile.tsv](../../mobile/components-mobile.tsv)).
+- Android: The same pattern in `lily-compose`.
+
 ## Acceptance Criteria
 
 - [x] Renders <li> with class="immunization-record-list-item"

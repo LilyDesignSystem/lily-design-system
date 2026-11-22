@@ -21,7 +21,10 @@ export interface TruncateMiddleOptions {
     /** Width of a string in the same unit as `maxWidth`. */
     measure: (text: string) => number;
     strategy?: TruncationStrategy;
-    /** Clusters kept at the end for "fixed-end" and "min-end". Ignored by "even". */
+    /**
+     * Clusters kept at the end for "fixed-end" and "min-end" (0 when not given), ignored by "even". It must be a whole number of
+     * at least 0, and no more than the text's clusters when the text is shortened, or truncateMiddle throws.
+     */
     end?: number;
 }
 
@@ -43,14 +46,45 @@ export function splitGraphemes(text: string): string[] {
     return Array.from(text);
 }
 
-function clampEnd(end: number | undefined, length: number): number {
-    if (end === undefined || !Number.isFinite(end)) return 0;
-    return Math.min(Math.max(Math.floor(end), 0), length);
+export type TruncateMiddleReason = "end" | "maxWidth";
+
+/** Thrown for an `end` or `maxWidth` that is malformed or out of range: invalid data is an error, never clamped. */
+export class TruncateMiddleError extends RangeError {
+    readonly reason: TruncateMiddleReason;
+    constructor(reason: TruncateMiddleReason, message: string) {
+        super(`truncateMiddle: ${message}`);
+        this.name = "TruncateMiddleError";
+        this.reason = reason;
+    }
+}
+
+/** `end` is 0 when not given, else a whole number of clusters from 0 to the text's length. */
+function checkedEnd(end: number | undefined, length: number): number {
+    if (end === undefined) return 0;
+    if (!Number.isInteger(end) || end < 0 || end > length) {
+        throw new TruncateMiddleError(
+            "end",
+            `end ${String(end)} is not a whole number from 0 to ${length}`,
+        );
+    }
+    return end;
 }
 
 /** The text shortened to fit `maxWidth`, or unchanged when it already fits. */
 export function truncateMiddle(text: string, options: TruncateMiddleOptions): string {
     const { ellipsis, maxWidth, measure, strategy = "even" } = options;
+    if (!Number.isFinite(maxWidth) || maxWidth < 0) {
+        throw new TruncateMiddleError(
+            "maxWidth",
+            `maxWidth ${String(maxWidth)} is not a finite number of at least 0`,
+        );
+    }
+    if (options.end !== undefined && (!Number.isInteger(options.end) || options.end < 0)) {
+        throw new TruncateMiddleError(
+            "end",
+            `end ${String(options.end)} is not a whole number of at least 0`,
+        );
+    }
     if (measure(text) <= maxWidth) return text;
 
     const g = splitGraphemes(text);
@@ -59,7 +93,7 @@ export function truncateMiddle(text: string, options: TruncateMiddleOptions): st
     const head = (count: number): string => g.slice(0, count).join("");
 
     if (strategy === "fixed-end") {
-        const end = clampEnd(options.end, n);
+        const end = checkedEnd(options.end, n);
         const endText = tail(end);
         const room = maxWidth - measure(ellipsis + endText);
         let low = 0;
@@ -72,7 +106,7 @@ export function truncateMiddle(text: string, options: TruncateMiddleOptions): st
         return head(low) + ellipsis + endText;
     }
 
-    const minEnd = strategy === "min-end" ? clampEnd(options.end, n) : 0;
+    const minEnd = strategy === "min-end" ? checkedEnd(options.end, n) : 0;
     const split = (kept: number): [number, number] => {
         const endCount = Math.min(n, Math.max(Math.ceil(kept / 2), minEnd));
         return [Math.max(0, kept - endCount), endCount];

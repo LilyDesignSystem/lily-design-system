@@ -1,5 +1,8 @@
 {
   "angular:clinical-format.ts:string:days": "AgeUnit keys returned by ageParts() for code, never shown: the consumer turns them into words with Intl.DurationFormat or its own labels (spec/healthcare-ui, P27-T1).",
   "angular:clinical-format.ts:string:hours": "AgeUnit keys returned by ageParts() for code, never shown: the consumer turns them into words with Intl.DurationFormat or its own labels (spec/healthcare-ui, P27-T1).",
-  "angular:clinical-format.ts:string:minutes": "AgeUnit keys returned by ageParts() for code, never shown: the consumer turns them into words with Intl.DurationFormat or its own labels (spec/healthcare-ui, P27-T1)."
+  "angular:clinical-format.ts:string:minutes": "AgeUnit keys returned by ageParts() for code, never shown: the consumer turns them into words with Intl.DurationFormat or its own labels (spec/healthcare-ui, P27-T1).",
+  "angular:ips-sections.ts:string:and": "A RangeError message for a developer (checked arithmetic, tasks.md P43-T6): thrown for invalid input, never rendered or announced; the consumer catches the error and reads its reason.",
+  "angular:middle-truncation.ts:string:of": "A RangeError message for a developer (checked arithmetic, tasks.md P43-T6): thrown for invalid input, never rendered or announced; the consumer catches the error and reads its reason.",
+  "html:middle-truncation.html:string:of": "A RangeError message for a developer (checked arithmetic, tasks.md P43-T6): thrown for invalid input, never rendered or announced; the consumer catches the error and reads its reason."
 }

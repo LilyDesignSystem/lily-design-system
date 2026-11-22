@@ -29,21 +29,25 @@ export function matchesSearch(text: string, query: string): boolean {
 export type SearchSegment = { text: string; match: boolean };
 
 /**
- * `text` cut into runs, marking the parts any term matches (for `<mark>`). Folding can change a string's length (a precomposed "é"
- * is one character, its folded form too, but a ligature may not be), so matching works on a per-character fold and falls back to
- * one unmarked segment if the two ever disagree.
+ * `text` cut into runs, marking the parts any term matches (for `<mark>`). Matching works per code point: each one is folded
+ * on its own, so a position in the folded text is a position in `text`. A code point that folds to anything but exactly one
+ * code point (a combining mark, which folds to nothing) cannot be mapped back, and then the whole text is one unmarked
+ * segment. An emoji or other astral character folds to itself, so it no longer turns highlighting off (2026-11-22).
  */
 export function highlightSegments(text: string, query: string): SearchSegment[] {
     const terms = searchTerms(query);
     if (terms.length === 0 || text === "") return [{ text, match: false }];
     const chars = Array.from(text);
-    const folded = chars.map((c) => foldText(c));
+    const folded = chars.map((c) => Array.from(foldText(c)));
     if (folded.some((f) => f.length !== 1)) return [{ text, match: false }];
-    const flat = folded.join("");
+    const flat = folded.map((f) => f[0]);
     const marked = new Array<boolean>(chars.length).fill(false);
     for (const term of terms) {
-        for (let at = flat.indexOf(term); at !== -1; at = flat.indexOf(term, at + 1)) {
-            for (let i = at; i < at + term.length; i++) marked[i] = true;
+        const needle = Array.from(term);
+        for (let at = 0; at + needle.length <= flat.length; at++) {
+            if (needle.every((c, k) => flat[at + k] === c)) {
+                for (let i = at; i < at + needle.length; i++) marked[i] = true;
+            }
         }
     }
     const out: SearchSegment[] = [];

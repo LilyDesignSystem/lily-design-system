@@ -7,6 +7,7 @@ import {
     ipsSectionCode,
     ipsSectionId,
     ipsSectionIsRequired,
+    IpsSectionsError,
 } from "./ips-sections";
 
 describe("ips-sections", () => {
@@ -67,15 +68,19 @@ describe("ips-sections", () => {
         });
     });
 
-    test("an empty idPrefix falls back to the default prefix", () => {
-        expect(ipsSectionId("allergies", undefined, "")).toBe(
-            "international-patient-summary-allergies",
-        );
+    test("an empty key, id or idPrefix is an error, never the default", () => {
+        expect(() => ipsSectionId("allergies", undefined, "")).toThrow(IpsSectionsError);
+        expect(() => ipsSectionId("allergies", "")).toThrow(IpsSectionsError);
+        expect(() => ipsSectionId("")).toThrow(IpsSectionsError);
+        try {
+            ipsSectionId("allergies", undefined, "");
+        } catch (error) {
+            expect(error).toBeInstanceOf(RangeError);
+            expect((error as IpsSectionsError).reason).toBe("idPrefix");
+        }
     });
 
-    test("a missing required section with no consumer heading is headed by an empty string", () => {
-        const added = ipsContents([], {}).filter((e) => e.added);
-        expect(added.length).toBeGreaterThan(0);
-        expect(added.every((e) => e.heading === "")).toBe(true);
+    test("a missing required section with no consumer heading is an error, never an empty heading", () => {
+        expect(() => ipsContents([], {})).toThrow(IpsSectionsError);
     });
 });

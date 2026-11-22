@@ -36,6 +36,13 @@
 - `entryState`: `"withheld"` | `"entered-in-error"` (optional) -- a withheld record shows only `entryStateLabel`, never its content; one entered in error keeps its content struck through in `<del class="record-list-item-entry">`, with `entryStateLabel`. Rendered as `data-entry-state`; neither is ever silently removed (spec/lessons/zoblocks)
 - `entryStateLabel`: string -- that state in the consumer's words, in `-entry-state`; required with `entryState` (a development warning says so)
 
+## Mobile
+
+Decisions: [mobile/components-mobile.tsv](../../mobile/components-mobile.tsv) (`lily` on both). The rules are `RecordRules` in `LilyCore` and `lily-core`.
+
+- Apple: `RecordListItem(subjectLabel:status:statusLabel:updatedLabel:entryState:entryStateLabel:content:)` in `LilyUI`: one combined element; a withheld record shows only its state words, one entered in error keeps its content struck through with its words; a code or state without words warns.
+- Android: `RecordListItem(…)` in `lily-compose`: one merged TalkBack stop; a record entered in error provides a line-through `LocalLilyTextStyles`, so the Lily views inside draw struck through.
+
 ## Acceptance Criteria
 
 - [x] Renders <li> with class="record-list-item"

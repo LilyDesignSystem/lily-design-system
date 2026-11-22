@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState } from "./typeahead";
+import {
+    findTypeaheadMatch,
+    isTypeaheadKey,
+    nextTypeaheadState,
+    TypeaheadError,
+} from "./typeahead";
 
 describe("typeahead", () => {
     it("recognises printable single characters only", () => {
@@ -48,9 +53,15 @@ describe("typeahead", () => {
     });
     it("returns -1 for no match or no labels", () => {
         expect(findTypeaheadMatch(rows, 0, "zz9")).toBe(-1);
-        expect(findTypeaheadMatch([], 0, "a")).toBe(-1);
+        expect(findTypeaheadMatch([], -1, "a")).toBe(-1);
         expect(findTypeaheadMatch(rows, 0, "")).toBe(-1);
         expect(findTypeaheadMatch(["undefined"], 0, "\u0301")).toBe(-1);
+    });
+    it("throws a TypeaheadError for a from that is not -1 or a row, never wraps it", () => {
+        for (const from of [rows.length, -2, 0.5, NaN]) {
+            expect(() => findTypeaheadMatch(rows, from, "a")).toThrow(TypeaheadError);
+        }
+        expect(() => findTypeaheadMatch([], 0, "a")).toThrow(RangeError);
     });
     it("keeps cycling when a combining mark folds away", () => {
         expect(findTypeaheadMatch(["x1", "x2"], 0, "x\u0338")).toBe(1);

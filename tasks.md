@@ -4330,6 +4330,228 @@ quick wins and are done; then T5, T6/T7, T9, T8, T10.
       releases under `next` first, then promote.
       Verify: the publish scripts take a `--tag`, and `docs/` says which releases go to `next`.
 
+## Phase 43 — Mobile foundations (2026-11-22)
+
+From adopter feedback asking for Lily's semantics in native mobile apps, and the research in
+[spec/apple-swift](spec/apple-swift/index.md) and [spec/android-kotlin](spec/android-kotlin/index.md). This phase is shared by
+both platforms and comes first: it decides what each component is on mobile and makes the logic portable before any Swift or
+Kotlin UI is written. Order: T1 and T2 first (decisions), then T4 and T3 (logic), then T5 and T6 (assets).
+
+- [x] **P43-T1 A mobile semantics map.** `mobile/semantics.tsv`: every ARIA role, state and property used in
+      `components/*/AGENTS.md`, with its SwiftUI, UIKit and Jetpack Compose equivalent, or "none" and a reason (landmarks,
+      `aria-describedby`, `aria-invalid` on Apple). Add `mobile/index.md` explaining the columns, linked from both topics.
+      Verify: a script lists the ARIA names in the AGENTS files and fails when one has no row; `bin/check-links` passes.
+      _(2026-11-22: done. 119 rows: 28 attributes, 43 roles and 48 elements, every one used in the AGENTS files;
+      `bin/check-mobile-catalog` fails on a missing row or an empty platform column, and was seen to fail when a row was removed.)_
+- [x] **P43-T2 A mobile decision per component.** `mobile/components-mobile.tsv`: one row per `components.tsv` slug with an
+      Apple decision and an Android decision (`native`, `lily`, `pattern` or `none`), the platform type for `native`, the
+      Swift or Kotlin name where it differs (a `Lily` prefix on a clash), and a reason. `bin/check-mobile-catalog` (in `bin/test`) fails on a
+      missing, extra or reasonless row. Start from the category estimate in the Apple topic.
+      Verify: `bin/check-mobile-catalog` passes; the counts per decision are printed and recorded in both topics.
+      _(2026-11-22: done, 661 rows. Apple: 343 `lily` (155 plus the 188 identifiers), 146 `native`, 34 `pattern`, 138 `none`.
+      Android: 355 `lily` (167 plus the identifiers), 100, 53, 153. Later the same day the five specialised record lists and
+      their items became `pattern` (the generic `RecordList`): Apple 333 / 146 / 44 / 138, Android 345 / 100 / 63 / 153. Six names get a `Lily` prefix to avoid platform clashes.
+      The first-pass decisions are one maintainer review away from final; change a row and its reason together.)_
+- [ ] **P43-T3 Test vectors for the shared modules.** For each module a mobile package uses (search-text, typeahead,
+      edit-history, filter-model, clinical-format, calendar-system, middle-truncation, wheel-picker, zones, direction,
+      intl-labels), export input/output cases to `shared/vectors/{module}.json` from the TypeScript tests, and have those
+      tests read the same file so the vectors cannot drift.
+      Verify: `cd shared && pnpm test` passes and reads every vector file; a `--check` fails when a vector is edited without
+      the tests agreeing.
+      _(2026-11-22, progress: `shared/vectors/` holds 88 cases for `search-text`, `middle-truncation` and the locale-independent
+      half of `clinical-format`, and `shared/vectors.test.ts` replays them, so a vector that disagrees with the module fails
+      `pnpm test` (no separate `--check` is needed). The first run found that `ageParts` returned a negative day count after
+      the end of a short month (31 January to 1 March: 13 months and −2 days); fixed in `shared/clinical-format.ts` and the C#
+      twin, with tests, and synced to every copy. Still to add: typeahead, edit-history, filter-model, calendar-system,
+      wheel-picker, zones, direction, intl-labels.)_
+      _(2026-11-22, coverage: 93 cases now (truncation without `end`, emoji in search). They show that one astral character, such
+      as an emoji, anywhere in the text turns off `highlightSegments` for the whole text, because the per-code-point fold is
+      compared by UTF-16 length. It is the documented fallback, not a crash, but a search for "cafe" in "😀 cafe" marks nothing.
+      Fixed the same day: `highlightSegments` compares folded code points, in `shared/search-text.ts` (synced to the 38 packages
+      that carry it), Swift and Kotlin, with vectors for an emoji, a supplementary CJK character and a combining mark; the Svelte
+      data grid's 249 tests pass.)_
+      _(2026-11-22: `typeahead` (`isTypeaheadKey`, `nextTypeaheadState`, `findTypeaheadMatch`) and `direction`'s `logicalKey`
+      added, 47 cases including Hangul, a supplementary ideograph, Greek and IME composition; ported to Swift (scalar comparison,
+      so a Hangul initial matches as the TypeScript's code-unit comparison does) and Kotlin. 142 vectors, all three languages,
+      100% of lines. Still to add: edit-history, filter-model, calendar-system, wheel-picker, zones, intl-labels.)_
+      _(2026-11-22: `ips-sections` added (18 cases: the registry, required sections, ids, the contents with missing required
+      sections appended), ported to Swift and Kotlin; 160 vectors in all.)_
+      _(2026-11-22: `wheel-picker`'s pure functions added (51 cases: move keys by orientation and direction, the option nearest
+      the centre, next index with disabled options, loop and page size, type-ahead), ported to Swift and Kotlin, the base for
+      Android's `WheelPicker`; 211 vectors. The module folds with `toLocaleLowerCase`, so labels whose lower case depends on the
+      locale (Turkish İ) are kept out of the vectors. Still to add: edit-history, filter-model, calendar-system, zones,
+      intl-labels.)_
+- [ ] **P43-T4 Identifier validation, written for the first time.** Corrected 2026-11-22: there
+      are no validators to move. The 94 web identifier inputs validate nothing beyond the browser: 5 carry an HTML `pattern`
+      (Ireland IHI, France NIR, UK NHS number, Northern Ireland H&C number, US SSN), the rest none, and no catalog computes a check
+      digit. `AGENTS/national-person-identifiers.tsv` describes one in prose for 63 identifiers (Modulus-11, Modulus-97, Luhn,
+      Verhoeff and others). Writing them is correctness-critical (a wrong validator rejects a real patient's number), so decide
+      first: whether inputs validate at all or only format; and for each identifier, the authoritative algorithm source and
+      official test numbers. Then, in `shared/identifiers.ts` with vectors (valid and invalid official examples), one identifier
+      at a time, synced to the web catalogs and ported to `LilyCore` and `lily-core`; a `pattern` and grouping for display can
+      come first, as they cannot reject a valid number if they are only advisory.
+      Verify: per identifier, vectors from its official source pass in TypeScript, C#, Swift and Kotlin; the source is cited in
+      the TSV.
+      _(Decided 2026-11-22 by the maintainer: validate. Each input checks its format and, where the identifier has one, its
+      check digit; an invalid number is an error the input reports, never a silent fix. Per identifier: the official algorithm
+      source and test numbers first, then the validator with valid and invalid vectors.)_
+- [x] **P43-T6 Checked arithmetic in the shared modules: no fallback for invalid input (2026-11-22).** An input outside its valid
+      range is invalid data, so it is an error. `truncateMiddle` (an `end` or `maxWidth` out of range), `findTypeaheadMatch` (a
+      `from` that is not -1 or a row), the wheel-picker functions (`current`, `pageSize`, `middles`, `centre`) and
+      `ipsSectionId` / `ipsContents` (an empty key, id or prefix, a missing required heading) no longer clamp, wrap, skip or
+      default: each throws its module's `RangeError` subclass (`TruncateMiddleError`, `TypeaheadError`, `WheelPickerError`,
+      `IpsSectionsError`) with a `reason`, as `MeterScaleError` does. C# (`IpsSectionsException`, which also refuses an unknown
+      status), Swift (typed `throws`, `LilyRangeError`) and Kotlin (`LilyRangeException`) throw the same reasons, and
+      `InternationalPatientSummary` in `LilyUI` has a throwing initialiser. The vectors' `"throws"` names the reason and every
+      runner checks it.
+      Verify: `shared` vitest, `swift test`, `./gradlew build koverVerify` and the Blazor tests pass; each runner fails on a wrong
+      reason.
+- [ ] **P43-T5 Swift and Kotlin token output.** `bin/generate-theme-tokens --swift` and `--kotlin` write per-theme token files
+      (colours in light, dark and high-contrast sets; `rem` to points and `dp`; type roles to text styles, never fixed
+      sizes) for a first set of six themes: light, dark, NHS England, GOV.UK, USWDS and one non-Anglophone public-sector
+      theme. Add the outputs to the Generated files table.
+      Verify: `bin/generate-theme-tokens --check` covers the new outputs; `bin/check-generated-files` passes; the contrast gate
+      holds for the generated pairs.
+      _(2026-11-22, progress: done as `bin/generate-mobile-tokens` (a separate script; `--check` in `bin/test`, in the Generated
+      files table) for the six themes, writing `LilyThemes/LilyTokens.swift` and the `lily-compose-themes` module. OKLCH is
+      converted to sRGB (it reproduces daisyUI's `#422AD5` and GOV.UK's `#1D70B8`); rem is 16 points or dp; type stays with the
+      platform's text styles. Tests in both languages check every light and dark pair at 4.5:1. Found: the NHS England
+      themes' primary, `oklch(45% 0.17 251)`, is `#0054AE` in the browser too, not the NHS Blue `#005EB8` their comment
+      names; decide whether to re-baseline it (a web theme change, not a mobile one). The same day, Swift's `LilyThemes` gained
+      the themed `.lily` styles (alert, badge, tag, card, inset text, warning text, summary list item) and `.lilyTheme(_:)`,
+      rendered in all six themes, at 100% of lines. Compose followed: `LilyDecoration` in `lily-compose` (applied after each
+      component's semantics; `PlainDecoration` by default) and `LilyTheme(tokens) { }` in `lily-compose-themes`, tested to keep
+      every component's semantics in every theme, with the rails drawn under Robolectric's native graphics. Not yet:
+      high-contrast variants.)_
+- [ ] **P43-T6 Label packs as mobile resources.** A copy of `shared/label-packs/*.json` in each mobile package's resources,
+      kept by `bin/sync-shared-modules`, with a loader in Swift and Kotlin; optionally generated `.xcstrings` and `strings.xml`.
+      A key a pack lacks stays unset, never another language.
+      Verify: `bin/sync-shared-modules --check` passes; `bin/check-label-packs` covers the mobile helpers' keys.
+
+## Phase 44 — Apple Swift (2026-11-22)
+
+A Swift package of SwiftUI components: [spec/apple-swift](spec/apple-swift/index.md). Depends on P43-T1 to T4. Order: T1, T2,
+T3, then T4 and T5 together, then T6 to T8.
+
+- [x] **P44-T1 Scaffold `lily-design-system-swift`.** A SwiftPM package with `LilyCore`, `LilyUI`, `LilyIdentifiers` and
+      `LilyThemes` products, Swift 6 language mode, strict concurrency, iOS and iPadOS 18 minimum (check current adoption
+      first and record the figure), no third-party runtime dependency, and the required subproject files.
+      Verify: `swift build` and `swift test` pass on macOS; `xcodebuild` builds for an iOS simulator; `bin/test` passes.
+      _(2026-11-22: done with `LilyCore` and `LilyUI`; `LilyIdentifiers` and `LilyThemes` wait for P43-T4 and P43-T5. iOS 18 is
+      the current and two previous majors; adoption figures not checked. Builds with no warnings for macOS and the iOS Simulator.)_
+- [ ] **P44-T2 `LilyCore` from the vectors.** Port the P43-T3 modules and the P43-T4 identifier validators to Swift, with
+      Swift Testing reading every vector file.
+      Verify: `swift test` passes on macOS and Linux; every vector file is read.
+      _(2026-11-22, progress: `search-text`, `middle-truncation` and the locale-independent `clinical-format` functions pass all
+      88 vectors on macOS; breaking `foldText` makes 12 cases fail. Linux not run yet. The rest follow P43-T3 and T4.)_
+- [ ] **P44-T3 Style protocol pattern and a first slice.** Define the `{Name}Style` / configuration / `.plain` / `.lily`
+      pattern and ship it for a first slice of `lily` components: `field` (label, hint, error message), `error-summary`
+      (takes VoiceOver focus and lists links to fields), `summary-list`, `alert`, `warning-text`, `badge`, `tag`, `card`,
+      `empty-state`. Each gets an "Apple" section in its `AGENTS.md` with the accessibility and keyboard contract.
+      Verify: a UI test per contract clause; no hardcoded user-facing string (a Swift rule in `bin/check-worldwide` and
+      `bin/check-built-english`).
+      _(2026-11-22, progress: the pattern and `Field`, `ErrorSummary`, `SummaryList`, `SummaryListItem`, `WarningText` and
+      `LilyAlert` are in `LilyUI`; each keeps its accessibility outside the style, and the decisions that can be computed are in
+      `LilySemantics` with five Swift Testing tests. `Badge`, `Tag`, `Card` (with heading levels) and `InsetText` followed the same day. Not yet: a linked card; the per-clause UI tests (they
+      need the example app, P44-T5); the Swift rule in the string checks. The six AGENTS files gained a "Mobile" section,
+      Apple and Android together, on 2026-11-22.)_
+- [ ] **P44-T4 Healthcare and identifier views.** `observation-view`, `allergy-record-list`, `medication-view`, `age-view`,
+      `duration-view`, `early-warning-score-view` in `LilyUI`; the identifier `-input` / `-view` pairs in `LilyIdentifiers`
+      (start with the types the first adopter needs, then all 94), each input with the right `keyboardType`, autocorrection
+      off and no autofill leak, each view with a grouped spoken form.
+      Verify: UI tests per clause; the input properties asserted for every identifier input.
+      _(2026-11-22, progress: `ObservationView` done, with its rules as `ObservationRules` in `LilyCore` (seven tests): a missing
+      result speaks its status words, any status but final is shown, no flag is inferred from a range, value and unit are
+      joined by a no-break space, missing words warn in debug builds. In the example catalog. `AgeView` and `DurationView`
+      followed the same day, then `AllergyRecordList` and its item on `AllergyRules`, then `MedicationView` (tall man segments), then `EarlyWarningScoreView`, then `DecisionSupportCard`
+      (a refused dismissal moves VoiceOver to the reasons), then `RecordList` and `RecordListItem` on `RecordRules`; the five
+      specialised record lists are a pattern of these on mobile, then `InternationalPatientSummary` and its section on the
+      ported IPS registry (contents call back to the app; missing required sections are added). Still to do: the identifiers.)_
+- [ ] **P44-T5 Example app.** `lily-design-system-swift-examples`: home, a searchable component list and a detail screen per
+      shipped component (demo, code, variants), plus patient banner, vaccination record and contact form screens.
+      Verify: `performAccessibilityAudit()` passes on every screen (ignores listed with reasons; the list may only shrink);
+      the Dynamic Type sweep (default, `accessibility3`, `accessibility5`) finds no clipped text or controls.
+      _(2026-11-22, progress: `LilyUIExamples` in the package holds a worked example of each of the nine `LilyUI` components,
+      with its code, and `ExampleCatalog`, a searchable list and detail screen (search through `LilyCore`'s folding). Tests
+      render every example and the catalog. Then `lily-design-system-swift-examples`: a hand-written Xcode project (synchronized
+      folders) with the app and a UI-test target, depending on the package locally. `performAccessibilityAudit` passes on the
+      catalog and every detail screen at the default and largest text sizes (iPhone 17 Pro simulator). Getting there found and
+      fixed, in Lily: ten views that dropped the static-text trait (the audit took them for undersized controls), and button
+      and link tint below 4.5:1 (now the generated `link` token); in the app: code samples as selectable text (one line high).
+      Exclusions are in `isIgnored` with reasons (system search field and bars, the scroll-edge effect). Still to do: UI tests of
+      each component's accessibility tree, the Dynamic Type clipping sweep, composed screens.)_
+- [ ] **P44-T6 Publish through an export repository.** `make publish-swift` pushes the package subtree to a read-only
+      `lily-design-system-swift` repository and tags it; record why in [monorepo-github-pages](spec/monorepo-github-pages/index.md)
+      (SwiftPM needs `Package.swift` at a repository root). Ask before the first push.
+      Verify: a fresh Xcode project adds the package from the tag and builds.
+- [ ] **P44-T7 Skill, docs and `bin/ci`.** `lily-design-system-swift-skill`; a Swift tab in shipped components' usage on the
+      docs site; `bin/ci --job swift`; Apple columns in `docs/screen-reader-matrix.md` (VoiceOver, Voice Control, Switch
+      Control, Full Keyboard Access).
+      Verify: `bin/ci --job swift` passes locally; the skill passes the skill checks in `bin/test`.
+- [ ] **P44-T8 Brand theme and time-zone helpers.** `ThemePicker` for an app's brand themes (`@AppStorage`) and
+      `TimeZonePicker` on Foundation names ordered by UTC offset. Text-size, motion, locale, share, search, date-time and
+      colour pickers are declined or native (see the topic).
+      Verify: tests per clause; the helpers' AGENTS files name the declined pickers and their native replacements.
+
+## Phase 45 — Android Kotlin (2026-11-22)
+
+Kotlin libraries of Jetpack Compose components: [spec/android-kotlin](spec/android-kotlin/index.md). Depends on P43-T1 to T4.
+Same order as Phase 44; the two can run side by side once P43 is done.
+
+- [x] **P45-T1 Scaffold `lily-design-system-kotlin`.** One Gradle build (version catalog, Kotlin 2.4, explicit API mode,
+      binary-compatibility validation) with `lily-core` (Kotlin Multiplatform), `lily-compose`, `lily-compose-identifiers`,
+      `lily-compose-themes` and `lily-compose-material3`; `minSdk` 24 (confirmed 2026-11-22: Compose 1.13 requires it; 23 fails the app's manifest merge) and
+      `compileSdk`/`targetSdk` 37.
+      Verify: `./gradlew build` passes; a dependency check fails if `lily-compose` depends on any Material artifact.
+      _(2026-11-22: done with `lily-core` and `lily-compose`; the identifiers, themes and Material 3 modules wait for P43-T4 and
+      T5. `compileSdk` is 37.2, because Compose 1.13 requires 37.1 or later. Binary-compatibility validation is not set up yet.
+      `checkNoMaterial` was seen to fail when Material 3 was added.)_
+- [ ] **P45-T2 `lily-core` from the vectors.** Port the P43-T3 modules and the P43-T4 validators to Kotlin `commonMain`, with
+      `kotlin.test` reading every vector file.
+      Verify: `./gradlew :lily-core:allTests` passes; every vector file is read.
+      _(2026-11-22, progress: JVM target only; the same three modules as P44-T2 pass all 88 vectors, and a broken `foldText`
+      fails them. Dates are UTC epoch milliseconds, with a civil-date algorithm, so no date library is needed.)_
+- [ ] **P45-T3 Composable pattern and the first slice.** The `{Name}Defaults` / colours / slots / `modifier` pattern on
+      foundation only, for the same first slice as P44-T3, with `error(...)`, `heading()`, `paneTitle`, `liveRegion` and
+      traversal semantics as the semantics map says, a 48dp minimum target, and an "Android" section in each `AGENTS.md`.
+      Verify: a Robolectric semantics test per clause; no hardcoded string or `stringResource` default.
+      _(2026-11-22, progress: `Field`, `ErrorSummary`, `SummaryList`, `SummaryListItem`, `WarningText` and `LilyAlert` on
+      foundation only, with eight Robolectric tests of the semantics tree; removing `heading()` from the error summary's title
+      fails one. `LilyBadge`, `Tag`, `LilyCard` and `InsetText` followed the same day (12 tests, 100% of lines). Not yet: a linked
+      card. The AGENTS files have a "Mobile" section.)_
+- [ ] **P45-T4 Healthcare and identifier composables.** As P44-T4, with `KeyboardOptions` asserted for every identifier input.
+      Verify: Robolectric tests per clause; ATF (`enableAccessibilityChecks()`) passes on an API 34+ emulator.
+      _(2026-11-22, progress: `ObservationView` done on the same `ObservationRules` (in `lily-core`, six tests), with a hidden
+      `Canvas` meter and `LilyWarnings`; in the example catalog. `AgeView`, `DurationView`, `AllergyRecordList`, `MedicationView`, `EarlyWarningScoreView` and `DecisionSupportCard` (reasons as a radio group) and `RecordList` (a struck-through
+      text style for records entered in error) and `InternationalPatientSummary` (with a new `Disclosure`, since foundation
+      has none) followed. ATF not run yet.)_
+- [ ] **P45-T5 Example app.** `lily-design-system-android-examples`, adaptive (list-detail on wide windows), with the same
+      screens as P44-T5.
+      Verify: every screen at 320dp, font scale 1.0, 1.5 and 2.0 and a large resizable window shows no clipped text or lost
+      control (`DeviceConfigurationOverride`); ATF passes with ignores listed and reasons.
+      _(2026-11-22, progress: `lily-compose-examples` holds a worked example of each of the nine `lily-compose` components, with
+      its code, and `ExampleCatalog`, a searchable list and detail view (navigation left to the app). Six Robolectric tests,
+      100% of lines. Then `lily-compose-examples-app`, an application module hosting the catalog in `LilyTheme`, light or dark
+      with the system, edge to edge, system back closing a detail, its words in `strings.xml`: `assembleDebug` builds an APK,
+      lint is clean. Building it found that Compose 1.13 needs `minSdk` 24, so every module moved from 23. Still to do: run it
+      on an emulator, ATF and the size sweep.)_
+      _(2026-11-22: ATF runs. `AccessibilityChecksTest` (androidTest, `enableAccessibilityChecks()`) checks the catalog and every
+      detail view on the `Pixel_10_API_37` emulator, and passes at font scale 1.0 and 2.0 (`adb shell settings put system
+  font_scale 2.0`). Its first run found the catalog's search field 44dp tall; it now has the 48dp minimum. Still to do: the
+      320dp and large-window size sweep, and running ATF on each component's own composable in `lily-compose`.)_
+- [ ] **P45-T6 Publish to Maven Central.** Verify the `io.github.lilydesignsystem` namespace (or a domain the project owns),
+      sign artifacts, add `bin/publish-kotlin` publishing from the monorepo like `bin/publish-helpers`, and extend
+      `bin/check-package-metadata` and `bin/verify-published` to the POMs. Ask before the first publish.
+      Verify: a fresh Android Studio project resolves the release from Maven Central and builds.
+- [ ] **P45-T7 Skill, docs and `bin/ci`.** `lily-design-system-kotlin-skill`; a Kotlin tab on the docs site; `bin/ci --job
+kotlin` (JVM) and `--job kotlin-emulator` (ATF); Android columns in the screen-reader matrix (TalkBack, Switch Access,
+      Voice Access, hardware keyboard).
+      Verify: both jobs pass locally.
+- [ ] **P45-T8 Helpers and Compose Multiplatform.** `ThemePicker` (DataStore), `TimeZonePicker`, a thin per-app language
+      helper over `LocaleManager`, and a `ColorPicker` (Compose has none). Run one `lily-compose` screen under Compose
+      Multiplatform on iOS with VoiceOver and record the result; it is a bonus, not the Apple product.
+      Verify: tests per clause; the CMP result recorded in the Android topic.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.

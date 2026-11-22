@@ -9,6 +9,7 @@ import {
     wheelMoveKey,
     wheelTypeaheadIndex,
     watchWheelScroll,
+    WheelPickerError,
     type WheelOption,
 } from "./wheel-picker";
 
@@ -253,5 +254,38 @@ describe("watchWheelScroll", () => {
         } finally {
             vi.useRealTimers();
         }
+    });
+});
+
+describe("invalid input is an error (checked arithmetic)", () => {
+    const opts = [
+        { value: "a", label: "Ant" },
+        { value: "b", label: "Bee" },
+    ];
+    const reason = (fn: () => unknown): string | undefined => {
+        try {
+            fn();
+        } catch (error) {
+            expect(error).toBeInstanceOf(RangeError);
+            expect(error).toBeInstanceOf(WheelPickerError);
+            return (error as WheelPickerError).reason;
+        }
+        return undefined;
+    };
+    test("a current out of range", () => {
+        expect(reason(() => nextWheelIndex(opts, 2, "ArrowDown"))).toBe("current");
+        expect(reason(() => wheelTypeaheadIndex(opts, -2, "a"))).toBe("current");
+    });
+    test("a pageSize that is not a positive whole number", () => {
+        for (const pageSize of [0, -1, 2.5, NaN]) {
+            expect(reason(() => nextWheelIndex(opts, 0, "PageDown", { pageSize }))).toBe(
+                "pageSize",
+            );
+        }
+    });
+    test("middles that do not match the options, or a centre that is not finite", () => {
+        expect(reason(() => wheelIndexNearest(opts, [0], 10))).toBe("middles");
+        expect(reason(() => wheelIndexNearest(opts, [0, Infinity], 10))).toBe("middles");
+        expect(reason(() => wheelIndexNearest(opts, [0, 40], NaN))).toBe("centre");
     });
 });

@@ -34,6 +34,11 @@
 - `effectiveLabel`: string (optional) — that date as the consumer writes it; the `<time>` shows only when set
 - `...restProps`: any — additional HTML attributes spread onto the root
 
+## Mobile
+
+- Apple: A pattern: the generic `RecordList` and `RecordListItem` hold the rules (never blank, withheld and entered-in-error never silent, whose record first) and the record itself is a Lily view, so mobile ships no type of its own for this list (`pattern` in [mobile/components-mobile.tsv](../../mobile/components-mobile.tsv)).
+- Android: The same pattern in `lily-compose`.
+
 ## Acceptance Criteria
 
 - [x] Renders <li> with class="medication-record-list-item"
