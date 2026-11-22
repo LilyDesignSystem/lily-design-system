@@ -5,6 +5,10 @@ import {
     luhnValid,
     stripSeparators,
     validateAustraliaTaxFileNumber,
+    validateDanmarkPersonnummer,
+    validateEspanaCodigoDeIdentificacionFiscal,
+    validateIndonesiaNomorIndukKependudukan,
+    validateMalaysiaKadPengenalan,
     validateAsSaudiyahRaqmAlHuwiyahAlWataniyah,
     validateAustraliaIndividualHealthcareIdentifier,
     validateDeutschlandKrankenversichertennummer,
@@ -1164,5 +1168,68 @@ describe("validateAsSaudiyahRaqmAlHuwiyahAlWataniyah", () => {
         );
         expect(validateAsSaudiyahRaqmAlHuwiyahAlWataniyah("108765432")).toEqual(bad("length"));
         expect(validateAsSaudiyahRaqmAlHuwiyahAlWataniyah("10876543x2")).toEqual(bad("characters"));
+    });
+});
+
+describe("validateEspanaCodigoDeIdentificacionFiscal", () => {
+    test("a worked example, and each end of the letter table", () => {
+        expect(validateEspanaCodigoDeIdentificacionFiscal("12345678Z")).toEqual(ok);
+        expect(validateEspanaCodigoDeIdentificacionFiscal("00000000T")).toEqual(ok);
+        expect(validateEspanaCodigoDeIdentificacionFiscal("00000022E")).toEqual(ok);
+    });
+    test("a wrong letter, a letter outside the table, length, characters and structure", () => {
+        expect(validateEspanaCodigoDeIdentificacionFiscal("12345678A")).toEqual(bad("checksum"));
+        expect(validateEspanaCodigoDeIdentificacionFiscal("12345678U")).toEqual(bad("checksum"));
+        expect(validateEspanaCodigoDeIdentificacionFiscal("1234567Z")).toEqual(bad("length"));
+        expect(validateEspanaCodigoDeIdentificacionFiscal("12345678z")).toEqual(bad("characters"));
+        expect(validateEspanaCodigoDeIdentificacionFiscal("X2345678Z")).toEqual(bad("structure"));
+    });
+});
+
+describe("validateDanmarkPersonnummer", () => {
+    test("each century rule", () => {
+        expect(validateDanmarkPersonnummer("010180-1234")).toEqual(ok);
+        expect(validateDanmarkPersonnummer("010105-4234")).toEqual(ok);
+        expect(validateDanmarkPersonnummer("010160-4234")).toEqual(ok);
+        expect(validateDanmarkPersonnummer("010105-5234")).toEqual(ok);
+        expect(validateDanmarkPersonnummer("010160-5234")).toEqual(ok);
+        expect(validateDanmarkPersonnummer("290200-5234")).toEqual(ok);
+        expect(validateDanmarkPersonnummer("290259-5234")).toEqual(bad("date"));
+    });
+    test("a date that does not exist, length and characters", () => {
+        expect(validateDanmarkPersonnummer("310280-1234")).toEqual(bad("date"));
+        expect(validateDanmarkPersonnummer("011380-1234")).toEqual(bad("date"));
+        expect(validateDanmarkPersonnummer("010180-123")).toEqual(bad("length"));
+        expect(validateDanmarkPersonnummer("010180-123x")).toEqual(bad("characters"));
+    });
+});
+
+describe("validateMalaysiaKadPengenalan", () => {
+    test("a valid date, with dashes", () => {
+        expect(validateMalaysiaKadPengenalan("800101-14-5678")).toEqual(ok);
+    });
+    test("an unreal date, length and characters", () => {
+        expect(validateMalaysiaKadPengenalan("801301-14-5678")).toEqual(bad("date"));
+        expect(validateMalaysiaKadPengenalan("800431-14-5678")).toEqual(bad("date"));
+        expect(validateMalaysiaKadPengenalan("800101-14-567")).toEqual(bad("length"));
+        expect(validateMalaysiaKadPengenalan("800101-14-567x")).toEqual(bad("characters"));
+    });
+});
+
+describe("validateIndonesiaNomorIndukKependudukan", () => {
+    test("a man's and a woman's number", () => {
+        expect(validateIndonesiaNomorIndukKependudukan("3171010110800001")).toEqual(ok);
+        expect(validateIndonesiaNomorIndukKependudukan("3171015110800001")).toEqual(ok);
+    });
+    test("a province of 00, an unreal date, length and characters", () => {
+        expect(validateIndonesiaNomorIndukKependudukan("0071010110800001")).toEqual(
+            bad("structure"),
+        );
+        expect(validateIndonesiaNomorIndukKependudukan("3171013110800001")).toEqual(ok);
+        expect(validateIndonesiaNomorIndukKependudukan("3171011113800001")).toEqual(bad("date"));
+        expect(validateIndonesiaNomorIndukKependudukan("317101011080000")).toEqual(bad("length"));
+        expect(validateIndonesiaNomorIndukKependudukan("317101011080000x")).toEqual(
+            bad("characters"),
+        );
     });
 });

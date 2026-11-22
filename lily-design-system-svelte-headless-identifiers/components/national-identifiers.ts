@@ -962,3 +962,59 @@ export function validateAsSaudiyahRaqmAlHuwiyahAlWataniyah(value: string): Ident
     if (s[0] !== "1" && s[0] !== "2") return no("structure");
     return luhnValid(s) ? OK : no("checksum");
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Format rules for schemes whose published rules have no usable check digit (P43-T3, fifth family)
+
+/**
+ * The Spanish tax identification number as the component documents it: eight digits and a control letter, the number modulo 23
+ * looked up in TRWAGMYFPDXBNJZSQVHLCKE (so the letters I, N-tilde, O and U are never used). Upper case; a foreigner's NIE and a company's
+ * CIF have other shapes and are not covered.
+ */
+export function validateEspanaCodigoDeIdentificacionFiscal(value: string): IdentifierResult {
+    const s = stripSeparators(text(value, "validateEspanaCodigoDeIdentificacionFiscal"));
+    if (!/^[A-Z0-9]+$/.test(s)) return no("characters");
+    if (s.length !== 9) return no("length");
+    if (!/^[0-9]{8}[A-Z]$/.test(s)) return no("structure");
+    return "TRWAGMYFPDXBNJZSQVHLCKE"[Number(s.slice(0, 8)) % 23] === s[8] ? OK : no("checksum");
+}
+
+/**
+ * The Danish personal number (CPR): ten digits, DDMMYY and four more, the first of which (the seventh digit overall) with the year
+ * gives the century (0 to 3 the 1900s; 4 and 9 the 2000s up to 36, else the 1900s; 5 to 8 the 2000s up to 57, else the 1800s). Numbers
+ * issued since 2007 need not satisfy the old Modulus-11 check, so only the date is checked, and no check digit is applied.
+ */
+export function validateDanmarkPersonnummer(value: string): IdentifierResult {
+    const s = stripSeparators(text(value, "validateDanmarkPersonnummer"));
+    if (!isDigits(s)) return no("characters");
+    if (s.length !== 10) return no("length");
+    const yy = Number(s.slice(4, 6));
+    const d7 = Number(s[6]);
+    const century =
+        d7 <= 3 ? 1900 : d7 === 4 || d7 === 9 ? (yy <= 36 ? 2000 : 1900) : yy <= 57 ? 2000 : 1800;
+    return isCalendarDate(century + yy, Number(s.slice(2, 4)), Number(s.slice(0, 2)))
+        ? OK
+        : no("date");
+}
+
+/** The Malaysian identity card number (MyKad): twelve digits, YYMMDD, a two-digit place code and four more; there is no check digit, so the date (its century is not encoded) is the only rule. */
+export function validateMalaysiaKadPengenalan(value: string): IdentifierResult {
+    const s = stripSeparators(text(value, "validateMalaysiaKadPengenalan"));
+    if (!isDigits(s)) return no("characters");
+    if (s.length !== 12) return no("length");
+    const month = Number(s.slice(2, 4));
+    const day = Number(s.slice(4, 6));
+    return month >= 1 && month <= 12 && day >= 1 && day <= maxDay(month) ? OK : no("date");
+}
+
+/** The Indonesian population identification number (NIK): sixteen digits, a region code (not 00 for the province), DDMMYY with 40 added to the day for a woman, and a four-digit sequence; no published check digit, so the date is the only other rule. */
+export function validateIndonesiaNomorIndukKependudukan(value: string): IdentifierResult {
+    const s = stripSeparators(text(value, "validateIndonesiaNomorIndukKependudukan"));
+    if (!isDigits(s)) return no("characters");
+    if (s.length !== 16) return no("length");
+    if (s.startsWith("00")) return no("structure");
+    let day = Number(s.slice(6, 8));
+    if (day > 40) day -= 40;
+    const month = Number(s.slice(8, 10));
+    return month >= 1 && month <= 12 && day >= 1 && day <= maxDay(month) ? OK : no("date");
+}

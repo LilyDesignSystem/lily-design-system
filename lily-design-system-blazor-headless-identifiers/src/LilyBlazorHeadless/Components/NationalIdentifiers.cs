@@ -790,4 +790,52 @@ public static class NationalIdentifiers
         if (s[0] is not ('1' or '2')) return Fail(IdentifierReason.Structure);
         return LuhnValid(s) ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
     }
+
+    // Format rules for schemes whose published rules have no usable check digit (P43-T3, fifth family)
+
+    /// <summary>Spanish tax identification number as documented: eight digits and a control letter, the number modulo 23 in TRWAGMYFPDXBNJZSQVHLCKE. Upper case.</summary>
+    public static IdentifierResult ValidateEspanaCodigoDeIdentificacionFiscal(string value)
+    {
+        var s = StripSeparators(value);
+        if (s.Length == 0 || !s.All(c => c is (>= '0' and <= '9') or (>= 'A' and <= 'Z'))) return Fail(IdentifierReason.Characters);
+        if (s.Length != 9) return Fail(IdentifierReason.Length);
+        if (!System.Text.RegularExpressions.Regex.IsMatch(s, "^[0-9]{8}[A-Z]$")) return Fail(IdentifierReason.Structure);
+        return "TRWAGMYFPDXBNJZSQVHLCKE"[(int)(long.Parse(s[..8]) % 23)] == s[8] ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
+    }
+
+    /// <summary>Danish CPR: ten digits, DDMMYY, the century from the seventh digit and the year; only the date is checked (no check digit is applied).</summary>
+    public static IdentifierResult ValidateDanmarkPersonnummer(string value)
+    {
+        var s = StripSeparators(value);
+        if (!IsDigits(s)) return Fail(IdentifierReason.Characters);
+        if (s.Length != 10) return Fail(IdentifierReason.Length);
+        var yy = int.Parse(s[4..6]);
+        var d7 = s[6] - '0';
+        var century = d7 <= 3 ? 1900 : d7 is 4 or 9 ? (yy <= 36 ? 2000 : 1900) : yy <= 57 ? 2000 : 1800;
+        return IsCalendarDate(century + yy, int.Parse(s[2..4]), int.Parse(s[..2])) ? IdentifierResult.Ok : Fail(IdentifierReason.Date);
+    }
+
+    /// <summary>Malaysian MyKad number: twelve digits, YYMMDD first; no check digit, so only the date is checked.</summary>
+    public static IdentifierResult ValidateMalaysiaKadPengenalan(string value)
+    {
+        var s = StripSeparators(value);
+        if (!IsDigits(s)) return Fail(IdentifierReason.Characters);
+        if (s.Length != 12) return Fail(IdentifierReason.Length);
+        var month = int.Parse(s[2..4]);
+        var day = int.Parse(s[4..6]);
+        return month is >= 1 and <= 12 && day >= 1 && day <= MaxDay(month) ? IdentifierResult.Ok : Fail(IdentifierReason.Date);
+    }
+
+    /// <summary>Indonesian NIK: sixteen digits, a province other than 00, DDMMYY with 40 added to a woman's day; no published check digit, so only the date is checked.</summary>
+    public static IdentifierResult ValidateIndonesiaNomorIndukKependudukan(string value)
+    {
+        var s = StripSeparators(value);
+        if (!IsDigits(s)) return Fail(IdentifierReason.Characters);
+        if (s.Length != 16) return Fail(IdentifierReason.Length);
+        if (s.StartsWith("00", StringComparison.Ordinal)) return Fail(IdentifierReason.Structure);
+        var day = int.Parse(s[6..8]);
+        if (day > 40) day -= 40;
+        var month = int.Parse(s[8..10]);
+        return month is >= 1 and <= 12 && day >= 1 && day <= MaxDay(month) ? IdentifierResult.Ok : Fail(IdentifierReason.Date);
+    }
 }

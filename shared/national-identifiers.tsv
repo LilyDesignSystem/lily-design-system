@@ -9,12 +9,12 @@ cesko-cestovni-pas	open	no validator yet (tasks.md P43-T3)
 cesko-rodne-cislo	validated	validateRodneCislo
 cymru-rhif-y-gwasanaeth-iechyd-gwladol	validated	validateNhsNumber
 kypros-national-passport-number	open	no validator yet (tasks.md P43-T3)
-danmark-personnummer	open	no validator yet (tasks.md P43-T3)
+danmark-personnummer	validated	validateDanmarkPersonnummer
 deutschland-krankenversichertennummer	validated	validateDeutschlandKrankenversichertennummer
 eesti-isikukood	validated	validateEestiIsikukood
 ellada-dematerialised-securities-system	open	no validator yet (tasks.md P43-T3)
 england-national-health-service-number	validated	validateNhsNumber
-espana-codigo-de-identificacion-fiscal	open	no validator yet (tasks.md P43-T3)
+espana-codigo-de-identificacion-fiscal	validated	validateEspanaCodigoDeIdentificacionFiscal
 espana-tarjeta-sanitaria-individual	open	no validator yet (tasks.md P43-T3)
 france-numero-d-identification-au-repertoire	validated	validateFranceNir
 hrvatska-osobni-identifikacijski-broj	validated	validateHrvatskaOsobniIdentifikacijskiBroj
@@ -67,7 +67,7 @@ rossiya-snils	validated	validateRossiyaSnils
 turkiye-tc-kimlik-numarasi	validated	validateTurkiyeTcKimlikNumarasi
 argentina-codigo-unico-de-identificacion-laboral	validated	validateArgentinaCodigoUnicoDeIdentificacionLaboral
 ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv	validated	validateUkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkiv
-indonesia-nomor-induk-kependudukan	open	no validator yet (tasks.md P43-T3)
+indonesia-nomor-induk-kependudukan	validated	validateIndonesiaNomorIndukKependudukan
 prathet-thai-lek-prajam-tua-prachachon	validated	validatePrathetThaiLekPrajamTuaPrachachon
 chile-rol-unico-nacional	validated	validateChileRolUnicoNacional
 misr-al-raqm-al-qawmi	open	no validator yet (tasks.md P43-T3)
@@ -75,7 +75,7 @@ taiwan-guomin-shenfenzheng-tongyi-bianhao	validated	validateTaiwanGuominShenfenz
 hong-kong-identity-card	validated	validateHongKongIdentityCard
 iran-kod-e-melli	validated	validateIranKodEMelli
 as-saudiyah-raqm-al-huwiyah-al-wataniyah	validated	validateAsSaudiyahRaqmAlHuwiyahAlWataniyah
-malaysia-kad-pengenalan	open	no validator yet (tasks.md P43-T3)
+malaysia-kad-pengenalan	validated	validateMalaysiaKadPengenalan
 viet-nam-can-cuoc-cong-dan	open	no validator yet (tasks.md P43-T3)
 pakistan-computerized-national-identity-card	open	no validator yet (tasks.md P43-T3)
 uruguay-cedula-de-identidad	validated	validateUruguayCedulaDeIdentidad
@@ -90,7 +90,7 @@ guatemala-codigo-unico-de-identificacion	open	no validator yet (tasks.md P43-T3)
 mauritius-national-identity-card-number	open	no validator yet (tasks.md P43-T3)
 ghana-card-personal-identification-number	open	no validator yet (tasks.md P43-T3)
 ityopya-fayda-identification-number	open	no validator yet (tasks.md P43-T3)
-sri-lanka-national-identity-card	open	no validator yet (tasks.md P43-T3)
+sri-lanka-national-identity-card	no-check	The check-digit algorithm is not published (the component documentation says so), so only a date rule could be checked.
 bangladesh-national-identity-card	open	no validator yet (tasks.md P43-T3)
 qazaqstan-zheke-saikestendiru-nomiri	validated	validateQazaqstanZhekeSaikestendiruNomiri
 ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami	open	no validator yet (tasks.md P43-T3)

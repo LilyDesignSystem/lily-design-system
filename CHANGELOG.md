@@ -45,6 +45,10 @@ highlights.
   change many components at once) and which go straight to `latest` (fixes, patches, additive releases). Holding `latest` two days behind, which one
   consumer asked for, was not adopted: it would delay every fix for every consumer. `bin/test-publish-tag` checks the option with a fake `npm`.
 
+## National identifier validation, sixth slice (2026-11-22, P43-T3)
+
+- Four more validators, TypeScript and C#: the Spanish tax number as documented (eight digits and the mod-23 letter), and the Danish CPR, Malaysian MyKad and Indonesian NIK as date and structure rules, because their published rules have no usable check digit. Sri Lanka's identity card is recorded as having no usable check (its algorithm is not published). 58 of the 94 types are validated, 2 have no usable check.
+
 ## National identifier validation, fifth slice (2026-11-22, P43-T3)
 
 - Eight more validators, TypeScript and C#: the Australian IHI (prefix 800360, Luhn), the German KVNR, the Polish NIP, the Kazakhstan IIN, the Ukrainian RNOKPP and the Saudi ID, and, for two schemes with no check digit, the format rules only: the UK National Insurance number (letters, suffix, prefixes never issued) and the US Social Security number (area, group and serial never issued). 54 of the 94 types are now validated.

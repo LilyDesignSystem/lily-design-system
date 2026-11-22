@@ -676,4 +676,45 @@ public class NationalIdentifiersTests
         Assert.Equal(Bad(IdentifierReason.Structure), NationalIdentifiers.ValidateAsSaudiyahRaqmAlHuwiyahAlWataniyah(WithLuhn("308765432")));
         Assert.Equal(Bad(IdentifierReason.Length), NationalIdentifiers.ValidateAsSaudiyahRaqmAlHuwiyahAlWataniyah("108765432"));
     }
+
+    [Fact]
+    public void EspanaCodigoDeIdentificacionFiscal()
+    {
+        Assert.Equal(Ok, NationalIdentifiers.ValidateEspanaCodigoDeIdentificacionFiscal("12345678Z"));
+        Assert.Equal(Ok, NationalIdentifiers.ValidateEspanaCodigoDeIdentificacionFiscal("00000000T"));
+        Assert.Equal(Ok, NationalIdentifiers.ValidateEspanaCodigoDeIdentificacionFiscal("00000022E"));
+        Assert.Equal(Bad(IdentifierReason.Checksum), NationalIdentifiers.ValidateEspanaCodigoDeIdentificacionFiscal("12345678A"));
+        Assert.Equal(Bad(IdentifierReason.Length), NationalIdentifiers.ValidateEspanaCodigoDeIdentificacionFiscal("1234567Z"));
+        Assert.Equal(Bad(IdentifierReason.Characters), NationalIdentifiers.ValidateEspanaCodigoDeIdentificacionFiscal("12345678z"));
+        Assert.Equal(Bad(IdentifierReason.Structure), NationalIdentifiers.ValidateEspanaCodigoDeIdentificacionFiscal("X2345678Z"));
+    }
+
+    [Fact]
+    public void DanmarkPersonnummer()
+    {
+        foreach (var ok in new[] { "010180-1234", "010105-4234", "010160-4234", "010105-5234", "010160-5234", "290200-5234" })
+            Assert.Equal(Ok, NationalIdentifiers.ValidateDanmarkPersonnummer(ok));
+        Assert.Equal(Bad(IdentifierReason.Date), NationalIdentifiers.ValidateDanmarkPersonnummer("290259-5234"));
+        Assert.Equal(Bad(IdentifierReason.Date), NationalIdentifiers.ValidateDanmarkPersonnummer("310280-1234"));
+        Assert.Equal(Bad(IdentifierReason.Length), NationalIdentifiers.ValidateDanmarkPersonnummer("010180-123"));
+    }
+
+    [Fact]
+    public void MalaysiaKadPengenalan()
+    {
+        Assert.Equal(Ok, NationalIdentifiers.ValidateMalaysiaKadPengenalan("800101-14-5678"));
+        Assert.Equal(Bad(IdentifierReason.Date), NationalIdentifiers.ValidateMalaysiaKadPengenalan("801301-14-5678"));
+        Assert.Equal(Bad(IdentifierReason.Date), NationalIdentifiers.ValidateMalaysiaKadPengenalan("800431-14-5678"));
+        Assert.Equal(Bad(IdentifierReason.Length), NationalIdentifiers.ValidateMalaysiaKadPengenalan("800101-14-567"));
+    }
+
+    [Fact]
+    public void IndonesiaNomorIndukKependudukan()
+    {
+        Assert.Equal(Ok, NationalIdentifiers.ValidateIndonesiaNomorIndukKependudukan("3171010110800001"));
+        Assert.Equal(Ok, NationalIdentifiers.ValidateIndonesiaNomorIndukKependudukan("3171015110800001"));
+        Assert.Equal(Bad(IdentifierReason.Structure), NationalIdentifiers.ValidateIndonesiaNomorIndukKependudukan("0071010110800001"));
+        Assert.Equal(Bad(IdentifierReason.Date), NationalIdentifiers.ValidateIndonesiaNomorIndukKependudukan("3171011113800001"));
+        Assert.Equal(Bad(IdentifierReason.Length), NationalIdentifiers.ValidateIndonesiaNomorIndukKependudukan("317101011080000"));
+    }
 }
