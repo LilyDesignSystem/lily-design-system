@@ -82,4 +82,50 @@ public class InternationalPatientSummarySectionTests : TestContext
         foreach (var placement in new string?[] { null, "heading" })
             Assert.Equal("In words", Unavailable(placement).Find(".international-patient-summary-section-status").TextContent);
     }
+
+    [Theory]
+    [InlineData("allergies", null, "required")]
+    [InlineData("immunizations", null, "recommended")]
+    [InlineData("pregnancy", null, "optional")]
+    [InlineData("allergies", "recommended", "recommended")]
+    [InlineData("made-up", null, null)]
+    public void DataLevel_is_the_sections_level_in_the_IPS_and_Level_overrides_it(string key, string? level, string? expected)
+    {
+        var section = RenderComponent<InternationalPatientSummarySection>(p =>
+        {
+            p.Add(x => x.Section, key).Add(x => x.Heading, "Heading");
+            if (level is not null) p.Add(x => x.Level, level);
+        }).Find("section.international-patient-summary-section");
+        Assert.Equal(expected, section.GetAttribute("data-level"));
+    }
+
+    [Fact]
+    public void Meta_and_Warning_render_nothing_when_omitted()
+    {
+        var section = RenderComponent<InternationalPatientSummarySection>(p =>
+            p.Add(x => x.Section, "allergies").Add(x => x.Heading, "Allergies")).Find("section");
+        Assert.Empty(section.QuerySelectorAll(".international-patient-summary-section-meta"));
+        Assert.Empty(section.QuerySelectorAll(".international-patient-summary-section-warning"));
+    }
+
+    [Fact]
+    public void Meta_then_Warning_sit_after_the_heading_and_status_and_before_the_entries()
+    {
+        var section = RenderComponent<InternationalPatientSummarySection>(p =>
+            p.Add(x => x.Section, "allergies").Add(x => x.Heading, "Allergies")
+                .Add(x => x.Status, "unavailable").Add(x => x.StatusLabel, "In words")
+                .Add(x => x.Warning, "<span>Entries not found</span>")
+                .Add(x => x.Meta, "<span>Required</span>")
+                .AddChildContent("<ul class=\"entries\"></ul>")).Find("section");
+        var order = section.Children.Select(c => c.ClassName!.Split(' ')[0]).ToArray();
+        Assert.Equal(new[]
+        {
+            "international-patient-summary-section-heading",
+            "international-patient-summary-section-status",
+            "international-patient-summary-section-meta",
+            "international-patient-summary-section-warning",
+            "entries",
+        }, order);
+        Assert.Equal("Required", section.QuerySelector(".international-patient-summary-section-meta")!.TextContent);
+    }
 }

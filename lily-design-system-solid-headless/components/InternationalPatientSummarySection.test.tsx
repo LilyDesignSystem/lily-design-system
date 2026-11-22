@@ -140,4 +140,68 @@ describe("InternationalPatientSummarySection", () => {
             expect(warn).not.toHaveBeenCalled();
         });
     });
+    describe("meta, warning and level (P42-T6b)", () => {
+        test("data-level is the section's level in the IPS, and level overrides it", () => {
+            const level = (props: Record<string, unknown>) => {
+                const { unmount } = render(
+                    <Subject
+                        section="allergies"
+                        heading="Allergies"
+                        {...props}
+                    />,
+                );
+                const value = screen.getByRole("region").getAttribute("data-level");
+                unmount();
+                return value;
+            };
+            expect(level({})).toBe("required");
+            expect(level({ section: "pregnancy" })).toBe("optional");
+            expect(level({ level: "recommended" })).toBe("recommended");
+            expect(level({ section: "made-up" })).toBeNull();
+        });
+
+        test("meta and warning render nothing when omitted", () => {
+            render(
+                <Subject
+                    section="allergies"
+                    heading="Allergies"
+                />,
+            );
+            const region = screen.getByRole("region");
+            expect(region.querySelector(".international-patient-summary-section-meta")).toBeNull();
+            expect(
+                region.querySelector(".international-patient-summary-section-warning"),
+            ).toBeNull();
+        });
+
+        test("meta, then warning, sit after the heading and status and before the entries", () => {
+            render(
+                <Subject
+                    section="allergies"
+                    heading="Allergies"
+                    status="unavailable"
+                    statusLabel="In words"
+                    meta={<span>Required</span>}
+                    warning={<span>Entries not found</span>}
+                >
+                    <ul class="entries" />
+                </Subject>,
+            );
+            const region = screen.getByRole("region", { name: "Allergies" });
+            const order = [...region.children].map((c) => c.className.split(" ")[0]);
+            expect(order).toEqual([
+                "international-patient-summary-section-heading",
+                "international-patient-summary-section-status",
+                "international-patient-summary-section-meta",
+                "international-patient-summary-section-warning",
+                "entries",
+            ]);
+            expect(
+                region.querySelector(".international-patient-summary-section-meta")!.textContent,
+            ).toBe("Required");
+            expect(
+                region.querySelector(".international-patient-summary-section-warning")!.textContent,
+            ).toBe("Entries not found");
+        });
+    });
 });

@@ -22,6 +22,23 @@ class Host {
     readonly narrativeLabel = input<string>("");
 }
 
+@Component({
+    standalone: true,
+    imports: [InternationalPatientSummarySection],
+    template: `<lily-international-patient-summary-section section="allergies" heading="Allergies" status="unavailable" statusLabel="In words"><ul class="entries"></ul><span warning class="warning-text">Entries not found</span><span meta class="meta-text">Required</span></lily-international-patient-summary-section>`,
+})
+class SlotHost {}
+
+@Component({
+    standalone: true,
+    imports: [InternationalPatientSummarySection],
+    template: `<lily-international-patient-summary-section [section]="section()" heading="Heading" [level]="level()" />`,
+})
+class LevelHost {
+    readonly section = input<string>("allergies");
+    readonly level = input<"required" | "recommended" | "optional" | undefined>(undefined);
+}
+
 afterEach(() => {
     vi.restoreAllMocks();
     resetDevWarnings();
@@ -110,6 +127,42 @@ describe("InternationalPatientSummarySection", () => {
             const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
             mount({ status: "unavailable", statusPlacement: "list" });
             expect(warn).not.toHaveBeenCalled();
+        });
+    });
+    describe("meta, warning and level (P42-T6b)", () => {
+        const level = (inputs: Record<string, unknown>) => {
+            const fixture = TestBed.createComponent(LevelHost);
+            for (const [k, v] of Object.entries(inputs)) fixture.componentRef.setInput(k, v);
+            fixture.detectChanges();
+            return fixture.nativeElement
+                .querySelector("section.international-patient-summary-section")
+                .getAttribute("data-level");
+        };
+
+        test("data-level is the section's level in the IPS, and level overrides it", () => {
+            expect(level({})).toBe("required");
+            expect(level({ section: "pregnancy" })).toBe("optional");
+            expect(level({ level: "recommended" })).toBe("recommended");
+            expect(level({ section: "made-up" })).toBeNull();
+        });
+
+        test("meta and warning render nothing when not given", () => {
+            const section = mount();
+            expect(section.querySelector(".meta-text, .warning-text")).toBeNull();
+        });
+
+        test("meta, then warning, sit after the heading and status and before the entries, whatever order they are written in", () => {
+            const fixture = TestBed.createComponent(SlotHost);
+            fixture.detectChanges();
+            const region = fixture.nativeElement.querySelector("section") as HTMLElement;
+            const order = [...region.children].map((c) => c.className.split(" ")[0]);
+            expect(order).toEqual([
+                "international-patient-summary-section-heading",
+                "international-patient-summary-section-status",
+                "meta-text",
+                "warning-text",
+                "entries",
+            ]);
         });
     });
 });

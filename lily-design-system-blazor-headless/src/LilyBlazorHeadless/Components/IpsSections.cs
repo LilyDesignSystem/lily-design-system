@@ -40,6 +40,9 @@ public static class IpsSections
 
     public static bool IsRequired(string key) => Required.Contains(key);
 
+    /// <summary>A section's level in the IPS ("required", "recommended" or "optional"), or null for a key that is not an IPS section.</summary>
+    public static string? Level(string key) => All.Where(s => s.Key == key).Select(s => s.Level).FirstOrDefault();
+
     /// <summary>The default id prefix; give each summary on a page its own.</summary>
     public const string IdPrefix = "international-patient-summary";
 

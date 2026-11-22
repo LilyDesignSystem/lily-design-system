@@ -6,7 +6,12 @@
 // given, sits in a <details> after the entries. See components/international-patient-summary-section/index.md.
 import React from "react";
 import { warnMissingProp } from "./dev-warning";
-import { ipsSectionCode, ipsSectionId, ipsSectionIsRequired } from "./ips-sections";
+import {
+    ipsSectionCode,
+    ipsSectionId,
+    ipsSectionIsRequired,
+    ipsSectionLevel,
+} from "./ips-sections";
 import type { IpsSectionStatus } from "./ips-sections";
 
 export interface InternationalPatientSummarySectionProps {
@@ -24,6 +29,12 @@ export interface InternationalPatientSummarySectionProps {
     code?: string;
     /** Default whether the IPS requires the section. */
     required?: boolean;
+    /** The section's level in the IPS: "required", "recommended" or "optional". Default the registry's level for the key; data-level. */
+    level?: "required" | "recommended" | "optional";
+    /** What a viewer shows beside the heading, after the heading and status and before the entries. Nothing is rendered without it. */
+    meta?: React.ReactNode;
+    /** A notice about the entries, after `meta` and before them. Nothing is rendered without it. */
+    warning?: React.ReactNode;
     id?: string;
     /** The same as its summary's; ids are {idPrefix}-{section}. */
     idPrefix?: string;
@@ -45,6 +56,9 @@ export default function InternationalPatientSummarySection({
     statusPlacement = "heading",
     code,
     required,
+    level,
+    meta,
+    warning,
     id,
     idPrefix,
     narrative,
@@ -88,6 +102,7 @@ export default function InternationalPatientSummarySection({
             data-code={code ?? ipsSectionCode(section)}
             data-status={status}
             data-required={isRequired ? "true" : undefined}
+            data-level={level ?? ipsSectionLevel(section)}
             {...restProps}
         >
             <Heading
@@ -98,6 +113,10 @@ export default function InternationalPatientSummarySection({
             </Heading>
             {status !== "known" && statusLabel && statusPlacement !== "list" ? (
                 <p className="international-patient-summary-section-status">{statusLabel}</p>
+            ) : null}
+            {meta ? <div className="international-patient-summary-section-meta">{meta}</div> : null}
+            {warning ? (
+                <div className="international-patient-summary-section-warning">{warning}</div>
             ) : null}
             {children}
             {narrative ? (

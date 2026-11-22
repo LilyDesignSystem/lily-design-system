@@ -71,6 +71,11 @@ export function ipsSectionCode(key: string): string | undefined {
     return IPS_SECTIONS.find((s) => s.key === key)?.code;
 }
 
+/** A section's level in the IPS ("required", "recommended" or "optional"), or undefined for a key that is not an IPS section. */
+export function ipsSectionLevel(key: string): IpsSectionLevel | undefined {
+    return IPS_SECTIONS.find((s) => s.key === key)?.level;
+}
+
 export function ipsSectionIsRequired(key: string): boolean {
     return IPS_REQUIRED_SECTIONS.includes(key);
 }

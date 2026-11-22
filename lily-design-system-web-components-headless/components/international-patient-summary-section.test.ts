@@ -82,4 +82,49 @@ describe("InternationalPatientSummarySection", () => {
             expect(words(section)).toBe(2);
         });
     });
+    describe("meta, warning and level (P42-T6b)", () => {
+        const mount = (attrs: string, inner = "") => {
+            document.body.innerHTML = `<lily-international-patient-summary-section section="allergies" heading="Allergies" ${attrs}>${inner}</lily-international-patient-summary-section>`;
+            return document.querySelector(
+                "section.international-patient-summary-section",
+            ) as HTMLElement;
+        };
+
+        test("data-level is the section's level in the IPS, and level overrides it", () => {
+            expect(mount("").getAttribute("data-level")).toBe("required");
+            document.body.innerHTML = `<lily-international-patient-summary-section section="pregnancy" heading="P"></lily-international-patient-summary-section>`;
+            expect(document.querySelector("section")!.getAttribute("data-level")).toBe("optional");
+            expect(mount('level="recommended"').getAttribute("data-level")).toBe("recommended");
+            expect(mount('level="recommended"').hasAttribute("level")).toBe(false);
+            document.body.innerHTML = `<lily-international-patient-summary-section section="made-up" heading="Other"></lily-international-patient-summary-section>`;
+            expect(document.querySelector("section")!.hasAttribute("data-level")).toBe(false);
+        });
+
+        test("meta and warning render nothing when omitted", () => {
+            const section = mount("");
+            expect(section.querySelector(".international-patient-summary-section-meta")).toBeNull();
+            expect(
+                section.querySelector(".international-patient-summary-section-warning"),
+            ).toBeNull();
+        });
+
+        test("meta, then warning, sit after the heading and status and before the entries, whatever order they are written in", () => {
+            const section = mount(
+                'status="unavailable" status-label="In words"',
+                '<ul class="entries"></ul><span slot="warning">Entries not found</span><span slot="meta">Required</span>',
+            );
+            const order = [...section.children].map((c) => c.className.split(" ")[0]);
+            expect(order).toEqual([
+                "international-patient-summary-section-heading",
+                "international-patient-summary-section-status",
+                "international-patient-summary-section-meta",
+                "international-patient-summary-section-warning",
+                "entries",
+            ]);
+            expect(
+                section.querySelector(".international-patient-summary-section-meta")!.textContent,
+            ).toBe("Required");
+            expect(section.querySelector("[slot]")).toBeNull();
+        });
+    });
 });

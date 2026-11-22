@@ -9,6 +9,10 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## IPS section: `level`, `meta` and `warning` (2026-11-22, P42-T6b)
+
+- `international-patient-summary-section` renders `data-level` (`required`, `recommended` or `optional`, from the IPS registry, or the new `level` prop), and takes optional `meta` and `warning` slots between the heading and status and the entries, so a viewer's section markup needs no extra wrapper. Nothing is rendered when they are omitted. Svelte, React, Solid, Vue, Angular (projected `meta` / `warning` elements, no wrapper), Web Components (`slot="meta"`), Nunjucks, Blazor and the HTML and Alpine snippets; `ipsSectionLevel` in `shared/ips-sections.ts` and `IpsSections.Level` in Blazor.
+
 ## The home page's newer tiles in 51 languages (2026-11-22, P41-T8a)
 
 - The Styles, Compare and Accessibility tiles have words in 51 of the site's 59 languages (unreviewed drafts: the headings of Compare and Accessibility are the

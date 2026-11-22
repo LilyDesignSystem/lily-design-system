@@ -484,5 +484,5 @@ export { ToolbarOptions, SplitterOptions, TreeSelection, TreePopupOptions, Menti
 
 export { ageParts, durationParts, formatPartialDate, formatProportion, formatQuantity, htmlDuration, partialDatePrecision, toIsoDuration } from "./components/clinical-format";
 export type { AgePart, AgeUnit, DatePrecision, DurationParts, ProportionKind, QuantityComparator } from "./components/clinical-format";
-export { IPS_REQUIRED_SECTIONS, IPS_SECTIONS, ipsContents, ipsMissingRequired, ipsSectionCode, ipsSectionId, ipsSectionIsRequired } from "./components/ips-sections";
+export { IPS_REQUIRED_SECTIONS, IPS_SECTIONS, ipsContents, ipsMissingRequired, ipsSectionCode, ipsSectionId, ipsSectionIsRequired, ipsSectionLevel } from "./components/ips-sections";
 export type { IpsContentsEntry, IpsSectionDefinition, IpsSectionEntry, IpsSectionLevel, IpsSectionStatus } from "./components/ips-sections";

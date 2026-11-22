@@ -1,6 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, input } from "@angular/core";
 import { warnMissingProp } from "./dev-warning";
-import { ipsSectionCode, ipsSectionId, ipsSectionIsRequired } from "./ips-sections";
+import {
+    ipsSectionCode,
+    ipsSectionId,
+    ipsSectionIsRequired,
+    ipsSectionLevel,
+} from "./ips-sections";
 import type { IpsSectionStatus } from "./ips-sections";
 
 /**
@@ -8,7 +13,9 @@ import type { IpsSectionStatus } from "./ips-sections";
  *
  * A <section> named by its heading, carrying the section's key, LOINC code, status and whether the IPS requires it, as data.
  * For any status but "known" the consumer's words are shown under the heading. Content marked `narrative` is projected into a
- * <details> after the entries, rendered when `narrativeLabel` is given. See components/international-patient-summary-section.
+ * <details> after the entries, rendered when `narrativeLabel` is given. Content marked `meta` and then `warning` is projected
+ * between the heading and the entries; Angular cannot tell whether content was projected, so there is no wrapper element,
+ * and the projected element carries its own class. See components/international-patient-summary-section.
  */
 @Component({
     selector: "lily-international-patient-summary-section",
@@ -21,13 +28,14 @@ import type { IpsSectionStatus } from "./ips-sections";
       [attr.data-code]="sectionCode() || null"
       [attr.data-status]="status()"
       [attr.data-required]="isRequired() ? 'true' : null"
+      [attr.data-level]="sectionLevel() || null"
     >@switch (headingLevel()) {
       @case (3) {<h3 [attr.id]="headingId()" class="international-patient-summary-section-heading">{{ heading() }}</h3>}
       @case (4) {<h4 [attr.id]="headingId()" class="international-patient-summary-section-heading">{{ heading() }}</h4>}
       @case (5) {<h5 [attr.id]="headingId()" class="international-patient-summary-section-heading">{{ heading() }}</h5>}
       @case (6) {<h6 [attr.id]="headingId()" class="international-patient-summary-section-heading">{{ heading() }}</h6>}
       @default {<h2 [attr.id]="headingId()" class="international-patient-summary-section-heading">{{ heading() }}</h2>}
-    }@if (status() !== "known" && statusLabel() && statusPlacement() !== "list") {<p class="international-patient-summary-section-status">{{ statusLabel() }}</p>}<ng-content />@if (narrativeLabel()) {<details class="international-patient-summary-section-narrative" [open]="narrativeOpen()"><summary>{{ narrativeLabel() }}</summary><ng-content select="[narrative]" /></details>}</section>`,
+    }@if (status() !== "known" && statusLabel() && statusPlacement() !== "list") {<p class="international-patient-summary-section-status">{{ statusLabel() }}</p>}<ng-content select="[meta]" /><ng-content select="[warning]" /><ng-content />@if (narrativeLabel()) {<details class="international-patient-summary-section-narrative" [open]="narrativeOpen()"><summary>{{ narrativeLabel() }}</summary><ng-content select="[narrative]" /></details>}</section>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InternationalPatientSummarySection implements OnInit {
@@ -45,6 +53,8 @@ export class InternationalPatientSummarySection implements OnInit {
     readonly code = input<string | undefined>(undefined);
     /** Default whether the IPS requires the section. */
     readonly required = input<boolean | undefined>(undefined);
+    /** The section's level in the IPS: "required", "recommended" or "optional". Default the registry's level for the key; data-level. */
+    readonly level = input<"required" | "recommended" | "optional" | undefined>(undefined);
     readonly id = input<string | undefined>(undefined);
     /** The same as its summary's; ids are {idPrefix}-{section}. */
     readonly idPrefix = input<string | undefined>(undefined);
@@ -57,6 +67,9 @@ export class InternationalPatientSummarySection implements OnInit {
     );
     protected readonly headingId = computed(() => `${this.sectionId()}-heading`);
     protected readonly sectionCode = computed(() => this.code() ?? ipsSectionCode(this.section()));
+    protected readonly sectionLevel = computed(
+        () => this.level() ?? ipsSectionLevel(this.section()),
+    );
     protected readonly isRequired = computed(
         () => this.required() ?? ipsSectionIsRequired(this.section()),
     );
