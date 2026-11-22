@@ -535,6 +535,9 @@ if test -e "$top/node_modules/prettier/package.json" && test -e "$top/lilydesign
 else
     err "bin/test-generators needs the root install and the docs site's (marked); run pnpm install in both"
 fi
+# The publish scripts' --tag option (tasks.md P42-T10), checked with a fake npm: nothing is published.
+"$top/bin/test-publish-tag" >/dev/null 2>&1 \
+    || err "the --tag option of bin/publish-helpers or bin/publish-headless is wrong; run bin/test-publish-tag"
 # The Alpine snippets are generated (tasks.md P12-T5b). The generator formats with the root Prettier, so it needs the
 # root install; where that is missing (CI's verify job) the lint job runs the same check.
 if test -e "$top/node_modules/prettier/package.json"; then

@@ -9,6 +9,13 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## A `next` dist-tag for risky releases (2026-11-22, P42-T10)
+
+- `bin/publish-helpers` and `bin/publish-headless` take `--tag <name>`, publishing every npm package under that dist-tag instead of `latest`
+  (`latest` itself is refused; NuGet has no dist-tags). `docs/releasing.md` says which releases go to `next` first (breaking ones, and ones that
+  change many components at once) and which go straight to `latest` (fixes, patches, additive releases). Holding `latest` two days behind, which one
+  consumer asked for, was not adopted: it would delay every fix for every consumer. `bin/test-publish-tag` checks the option with a fake `npm`.
+
 ## `meterScale` for the observation meter (2026-11-21, P42-T8)
 
 - `meterScale(value, low?, high?, units?)` in the `clinical-format` module (C# `ClinicalFormat.MeterScale`) returns the `observation-view` meter's

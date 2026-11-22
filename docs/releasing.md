@@ -145,6 +145,31 @@ identified release commits; earlier history has no tags.
    carries a provenance attestation (a local `npm publish` cannot), and no
    release before 2026-10-10 has one.
 
+## Which releases go to `next`
+
+Added 2026-11-22 (tasks.md P42-T10), after two consumers reported that Lily published `svelte-headless` four times in a week, two of
+them breaking, while they refuse any version younger than two days. They are always one to three releases behind, and each catch-up
+needs a person to name versions. Holding `latest` two days behind was considered and **not adopted**: it would delay every fix for
+every consumer to suit one rule. Instead, a risky release is published under the `next` dist-tag first and promoted once it has
+settled, so `latest` only ever moves to a version that has already been out for a while.
+
+- **Goes to `next` first:** a breaking release (a removed or renamed component or prop, a package split such as 0.11.0's identifiers
+  move), and a release that changes many components at once (a theme rule shared by all 63 themes, a change to a shared module copied
+  into every catalog).
+- **Goes straight to `latest`:** a fix a consumer is waiting for, a patch, and an additive release (a new component or prop that
+  changes nothing that exists).
+- **Fewer, larger releases.** Group breaking changes into one release and say so in its changelog, as 0.11.0 did.
+
+```sh
+bin/publish-helpers --tag next        # every npm helper package under `next` (NuGet has no dist-tags)
+bin/publish-headless --tag next       # the headless libraries under `next`
+npm dist-tag add @lilydesignsystem/svelte-headless@0.13.0 latest   # promote one package once it has settled
+```
+
+`--tag` takes a lowercase name (`next`, `beta`); `latest` is refused, since it is the default. `bin/test-publish-tag` (in `bin/test`)
+checks the option with a fake `npm`, so nothing is published. Consumers who follow `latest` are current without exemptions;
+consumers who want the newest ask for `@next`.
+
 ## Deprecation policy
 
 A broken published version is **deprecated, never unpublished**: the

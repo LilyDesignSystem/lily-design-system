@@ -40,22 +40,23 @@ The React shadcn registry includes dependencies imported by helper modules. Inst
 `listbox-machine`, which imports `typeahead`, which imports `search-text`. Generation and `--check` fail if an item
 names a Lily dependency missing from the registry.
 
-| Script                           | Purpose                                                                                                                                                        | In `bin/test`             |
-| -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
-| `generate-registries`            | Example-app registries, `component-demos.ts` copies, the site's component list, the listing in the root `index.md`, and the shadcn registry `static/r/react/`. | Gate (`--check`)          |
-| `generate-examples`              | Per-component usage examples (from the docs) and rendered variants (`component-variants.json`) for every demonstration page.                                   | No `--check`              |
-| `generate-site-pages`            | Rebuild placeholder docs-site component pages from `components/{slug}/index.md` and refresh every page's Example section.                                      | No `--check`              |
-| `generate-api-docs`              | Canonical-contract sections on site pages, `/r/{slug}.json`, `/r/index.json` and `/components/{slug}.md`, from `components/*/AGENTS.md`.                       | Gate (`--check`)          |
-| `generate-comparisons`           | The component matrix in `compare/index.md` from `compare/compare.tsv`; `--counts` prints each system's matched rows.                                           | Gate (`--check`)          |
-| `generate-core`                  | Lily Core from test, e2e and screen-reader evidence: `core.json`, `docs/core.md`, `docs/accessibility-conformance-report.md`, the site's `/quality` page.      | Gate (`--check`)          |
-| `generate-theme-tokens`          | DTCG token source under `themes/tokens/`: extract, generate the theme token blocks and `lily.resolver.json`, drift-check.                                      | Gate (`--check`)          |
-| `generate-zone-names`            | `shared/zone-names/*.json` (Unicode CLDR time zone names for the 64 label-pack locales, through Node's ICU).                                                   | Gate (`--check`)          |
-| `generate-page-markdown`         | A `.md` twin of each English site text page.                                                                                                                   | Gate (`--check`)          |
-| `extract-site-pages`             | The docs site's main English pages, and those in `src/lib/extra-pages.json`, as translation sources (`src/lib/pages/*/en.html`).                               | Gate (`--check`)          |
-| `generate-locale-pages`          | `/<code>/<page>/` routes for every translated language.                                                                                                        | Gate (`--check`)          |
-| `generate-sitemap`               | The docs site's `sitemap.xml` from the route tree.                                                                                                             | `--check` exists, not run |
-| `generate-storybook-stories.mjs` | Svelte Storybook stories (see the open acceptance criterion below).                                                                                            | No                        |
-| `test-generators`                | Golden tests: runs four generators on the three-component fixture in `test/generators/` and compares with the goldens; `--update-goldens` rewrites them.       | Gate                      |
+| Script                           | Purpose                                                                                                                                                                    | In `bin/test`             |
+| -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
+| `generate-registries`            | Example-app registries, `component-demos.ts` copies, the site's component list, the listing in the root `index.md`, and the shadcn registry `static/r/react/`.             | Gate (`--check`)          |
+| `generate-examples`              | Per-component usage examples (from the docs) and rendered variants (`component-variants.json`) for every demonstration page.                                               | No `--check`              |
+| `generate-site-pages`            | Rebuild placeholder docs-site component pages from `components/{slug}/index.md` and refresh every page's Example section.                                                  | No `--check`              |
+| `generate-api-docs`              | Canonical-contract sections on site pages, `/r/{slug}.json`, `/r/index.json` and `/components/{slug}.md`, from `components/*/AGENTS.md`.                                   | Gate (`--check`)          |
+| `generate-comparisons`           | The component matrix in `compare/index.md` from `compare/compare.tsv`; `--counts` prints each system's matched rows.                                                       | Gate (`--check`)          |
+| `generate-core`                  | Lily Core from test, e2e and screen-reader evidence: `core.json`, `docs/core.md`, `docs/accessibility-conformance-report.md`, the site's `/quality` page.                  | Gate (`--check`)          |
+| `generate-theme-tokens`          | DTCG token source under `themes/tokens/`: extract, generate the theme token blocks and `lily.resolver.json`, drift-check.                                                  | Gate (`--check`)          |
+| `generate-zone-names`            | `shared/zone-names/*.json` (Unicode CLDR time zone names for the 64 label-pack locales, through Node's ICU).                                                               | Gate (`--check`)          |
+| `generate-page-markdown`         | A `.md` twin of each English site text page.                                                                                                                               | Gate (`--check`)          |
+| `extract-site-pages`             | The docs site's main English pages, and those in `src/lib/extra-pages.json`, as translation sources (`src/lib/pages/*/en.html`).                                           | Gate (`--check`)          |
+| `generate-locale-pages`          | `/<code>/<page>/` routes for every translated language.                                                                                                                    | Gate (`--check`)          |
+| `generate-sitemap`               | The docs site's `sitemap.xml` from the route tree.                                                                                                                         | `--check` exists, not run |
+| `generate-storybook-stories.mjs` | Svelte Storybook stories (see the open acceptance criterion below).                                                                                                        | No                        |
+| `test-generators`                | Golden tests: runs four generators on the three-component fixture in `test/generators/` and compares with the goldens; `--update-goldens` rewrites them.                   | Gate                      |
+| `test-publish-tag`               | The `--tag` option of `bin/publish-helpers` and `bin/publish-headless`, with a fake `npm`: the tag reaches `npm publish`, is absent by default, and a bad name is refused. | Gate                      |
 
 ### Sync
 

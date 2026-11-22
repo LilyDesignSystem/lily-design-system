@@ -4324,7 +4324,7 @@ quick wins and are done; then T5, T6/T7, T9, T8, T10.
 - [x] **P42-T9 Print opens closed disclosures (item 5).** Done 2026-11-21 for Svelte, React, Solid, Vue, Angular, Web Components (`print-open="false"` opts out) and Blazor (`PrintOpen`; the script is not unit-run) (`shared/print-open.ts`, `printOpen` default true, `keepAllOpenForPrint(root)` for a page's own disclosures); HTML, Alpine and Nunjucks ship markup only, so `components/details/AGENTS.md` gives the page a five-line script. `Details` opens on `beforeprint` and restores on `afterprint` (`printOpen`,
       default true, cleaned up on destroy), in all catalogs that have it.
       Verify: printing a page with closed disclosures shows their content; closing them again leaves the page as it was.
-- [ ] **P42-T10 A `next` dist-tag for risky releases (item 11).** Fewer, larger releases and grouped breaking changes are right; holding
+- [x] **P42-T10 A `next` dist-tag for risky releases (item 11).** Done 2026-11-22: `--tag <name>` on `bin/publish-helpers` and `bin/publish-headless` (`latest` refused), `bin/test-publish-tag` in `bin/test`, and "Which releases go to `next`" in `docs/releasing.md`. Original description: Fewer, larger releases and grouped breaking changes are right; holding
       `latest` two days behind is not adopted (it would delay fixes such as P42-T2 for every consumer). Publish breaking or large
       releases under `next` first, then promote.
       Verify: the publish scripts take a `--tag`, and `docs/` says which releases go to `next`.

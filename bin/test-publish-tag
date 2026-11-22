@@ -1,0 +1,37 @@
+#!/bin/sh
+# The --tag option of bin/publish-helpers and bin/publish-headless (tasks.md P42-T10): a breaking or large release goes to npm under
+# `next` first. This runs both scripts with a fake `npm` on the PATH that only records its arguments, so nothing is published and
+# nothing is built: the tag must reach `npm publish`, be left off by default, and bad names must be refused before anything runs.
+set -u
+
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+FAKE="$(mktemp -d)"
+trap 'rm -rf "$FAKE"' EXIT
+printf '#!/bin/sh\necho "FAKE-NPM $*"\nexit 0\n' > "$FAKE/npm"
+chmod +x "$FAKE/npm"
+
+failed=0
+check() { # description, expected, actual
+  if [ "$2" = "$3" ]; then echo "ok   $1"; else echo "FAIL $1: expected [$2], got [$3]"; failed=1; fi
+}
+published() { # the arguments the fake npm saw, from one package
+  PATH="$FAKE:$PATH" timeout 120 sh "$ROOT/bin/publish-helpers" --dry-run --only lily-design-system-svelte-theme-picker "$@" 2>&1 </dev/null | grep -m1 FAKE-NPM
+}
+exit_of() { # exit status of a script given a bad tag, and its first error line
+  PATH="$FAKE:$PATH" timeout 60 sh "$ROOT/bin/$1" --dry-run "$2" "$3" >/dev/null 2>"$FAKE/err" </dev/null
+  echo "$?"
+}
+
+check "no tag: npm publish gets no --tag" "FAKE-NPM publish --access public --dry-run" "$(published)"
+check "--tag next" "FAKE-NPM publish --access public --tag next --dry-run" "$(published --tag next)"
+check "--tag=beta" "FAKE-NPM publish --access public --tag beta --dry-run" "$(published --tag=beta)"
+check "a tag with digits and a hyphen" "FAKE-NPM publish --access public --tag next-2 --dry-run" "$(published --tag next-2)"
+
+for script in publish-helpers publish-headless; do
+  for bad in latest Next a_b -x 9x ""; do
+    check "$script refuses --tag [$bad]" "2" "$(exit_of "$script" --tag "$bad")"
+  done
+  check "$script refuses a --tag with no value" "2" "$(PATH="$FAKE:$PATH" timeout 60 sh "$ROOT/bin/$script" --dry-run --tag >/dev/null 2>&1 </dev/null; echo $?)"
+done
+
+[ "$failed" = 0 ] && echo "test-publish-tag: OK" || { echo "test-publish-tag: FAILED" >&2; exit 1; }

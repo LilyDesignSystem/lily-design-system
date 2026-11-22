@@ -34,15 +34,34 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 DRY=""
 NUGET_ONLY=""
 ONLY=""
+TAG=""
+TAG_GIVEN=""
 prev=""
 for arg in "$@"; do
-  case "$prev" in --only) ONLY="$arg"; prev=""; continue ;; esac
+  case "$prev" in
+    --only) ONLY="$arg"; prev=""; continue ;;
+    --tag) TAG="$arg"; prev=""; continue ;;
+  esac
   case "$arg" in
     --dry-run) DRY="--dry-run" ;;
     --nuget-only) NUGET_ONLY="1" ;;
     --only) prev="--only" ;;
+    --tag) prev="--tag"; TAG_GIVEN="1" ;;
+    --tag=*) TAG="${arg#--tag=}"; TAG_GIVEN="1" ;;
   esac
 done
+# --tag <name> publishes every npm package under that dist-tag instead of `latest` (docs/releasing.md, "Which releases go to next"):
+# a breaking or large release goes to `next` first, then is promoted with `npm dist-tag add <package>@<version> latest`.
+# NuGet has no dist-tags, so the tag applies to npm only. `latest` is refused: it is the default, and naming it hides a mistake.
+if [ -n "$TAG_GIVEN" ]; then
+  if [ "$TAG" = "latest" ]; then echo "--tag latest is the default; leave --tag off" >&2; exit 2; fi
+  # LC_ALL=C: in some locales a glob or range such as [a-z] also matches capitals.
+  if ! printf '%s' "$TAG" | LC_ALL=C grep -Eq '^[a-z][a-z0-9-]*$'; then
+    echo "--tag takes a lowercase name such as next: $TAG" >&2; exit 2
+  fi
+fi
+TAG_ARGS=""
+[ -n "$TAG" ] && TAG_ARGS="--tag $TAG"
 # --only <dir> restricts the run to one helper package, named by its
 # top-level directory (e.g. --only lily-design-system-svelte-theme-picker
 # or --only lily-design-system-blazor-theme-picker), so a first release of
@@ -95,7 +114,7 @@ ensure_installed() {
 # the job status.
 publish_npm_package_inner() {
   dir="$1"
-  if output="$(cd "$dir" && npm publish --access public $DRY 2>&1)"; then
+  if output="$(cd "$dir" && npm publish --access public $TAG_ARGS $DRY 2>&1)"; then
     printf '%s\n' "$output"
     return 0
   else
