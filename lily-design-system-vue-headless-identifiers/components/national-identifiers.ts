@@ -838,3 +838,127 @@ export function validatePrathetThaiLekPrajamTuaPrachachon(value: string): Identi
     const sum = d.slice(0, 12).reduce((t, n, i) => t + n * (13 - i), 0);
     return (11 - (sum % 11)) % 10 === d[12] ? OK : no("checksum");
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Further identifiers (P43-T3, fourth family)
+
+/** The Australian Individual Healthcare Identifier (IHI): sixteen digits beginning 800360 (the individual identifier prefix) and a Luhn check. */
+export function validateAustraliaIndividualHealthcareIdentifier(value: string): IdentifierResult {
+    const s = stripSeparators(text(value, "validateAustraliaIndividualHealthcareIdentifier"));
+    if (!isDigits(s)) return no("characters");
+    if (s.length !== 16) return no("length");
+    if (!s.startsWith("800360")) return no("structure");
+    return luhnValid(s) ? OK : no("checksum");
+}
+
+/**
+ * The German health insurance number (KVNR): an upper-case letter, eight digits and a check digit. The letter is read as its
+ * two-digit place in the alphabet (A is 01), the ten digits are multiplied by 1 2 1 2 ..., each product's digits are added, and
+ * the sum modulo 10 is the check digit.
+ */
+export function validateDeutschlandKrankenversichertennummer(value: string): IdentifierResult {
+    const s = stripSeparators(text(value, "validateDeutschlandKrankenversichertennummer"));
+    if (!/^[A-Z0-9]+$/.test(s)) return no("characters");
+    if (s.length !== 10) return no("length");
+    if (!/^[A-Z][0-9]{9}$/.test(s)) return no("structure");
+    const position = s.charCodeAt(0) - 64;
+    const digits = [Math.floor(position / 10), position % 10, ...digitsOf(s.slice(1, 9))];
+    const sum = digits.reduce((t, n, i) => {
+        const product = n * (i % 2 === 0 ? 1 : 2);
+        return t + Math.floor(product / 10) + (product % 10);
+    }, 0);
+    return sum % 10 === Number(s[9]) ? OK : no("checksum");
+}
+
+/** The Polish tax identification number (NIP): ten digits, the tenth the first nine times 6 5 7 2 3 4 5 6 7 modulo 11 (10 is never issued). */
+export function validatePolskaNumerIdentyfikacjiPodatkowej(value: string): IdentifierResult {
+    const s = stripSeparators(text(value, "validatePolskaNumerIdentyfikacjiPodatkowej"));
+    if (!isDigits(s)) return no("characters");
+    if (s.length !== 10) return no("length");
+    const d = digitsOf(s);
+    const remainder = weightedSum(d, [6, 5, 7, 2, 3, 4, 5, 6, 7]) % 11;
+    return remainder !== 10 && remainder === d[9] ? OK : no("checksum");
+}
+
+/**
+ * The United Kingdom National Insurance number: two letters, six digits and a suffix letter A to D, in upper case. It has no
+ * check digit; the rules are the prefix letters (neither D, F, I, Q, U or V, the second also not O) and the prefixes
+ * BG, GB, KN, NK, NT, TN and ZZ, which are never issued.
+ */
+export function validateUnitedKingdomNationalInsuranceNumber(value: string): IdentifierResult {
+    const s = stripSeparators(text(value, "validateUnitedKingdomNationalInsuranceNumber"));
+    if (!/^[A-Z0-9]+$/.test(s)) return no("characters");
+    if (s.length !== 9) return no("length");
+    if (!/^[A-CEGHJ-PR-TW-Z][A-CEGHJ-NPR-TW-Z][0-9]{6}[A-D]$/.test(s)) return no("structure");
+    return ["BG", "GB", "KN", "NK", "NT", "TN", "ZZ"].includes(s.slice(0, 2))
+        ? no("structure")
+        : OK;
+}
+
+/**
+ * The United States Social Security number: nine digits as area (3), group (2) and serial (4). It has no check digit; the rules
+ * are an area of 001 to 899 other than 666 (000, 666 and 900 to 999 are never issued), a group of 01 to 99 and a serial of 0001 to 9999.
+ */
+export function validateUnitedStatesSocialSecurityNumber(value: string): IdentifierResult {
+    const s = stripSeparators(text(value, "validateUnitedStatesSocialSecurityNumber"));
+    if (!isDigits(s)) return no("characters");
+    if (s.length !== 9) return no("length");
+    const area = Number(s.slice(0, 3));
+    if (
+        area === 0 ||
+        area === 666 ||
+        area >= 900 ||
+        s.slice(3, 5) === "00" ||
+        s.slice(5) === "0000"
+    )
+        return no("structure");
+    return OK;
+}
+
+/**
+ * The Kazakhstan individual identification number (IIN): twelve digits, YYMMDD, a century-and-sex digit 1 to 6 (1 and 2 for the
+ * 1800s, 3 and 4 for the 1900s, 5 and 6 for the 2000s), four more digits, and a check: the first eleven digits times 1 to 11 modulo
+ * 11, or when that is 10 times 3 to 11, 1, 2 modulo 11; a check of 10 again is never issued.
+ */
+export function validateQazaqstanZhekeSaikestendiruNomiri(value: string): IdentifierResult {
+    const s = stripSeparators(text(value, "validateQazaqstanZhekeSaikestendiruNomiri"));
+    if (!isDigits(s)) return no("characters");
+    if (s.length !== 12) return no("length");
+    const d = digitsOf(s);
+    if (d[6] < 1 || d[6] > 6) return no("structure");
+    const century = 1800 + Math.floor((d[6] - 1) / 2) * 100;
+    if (
+        !isCalendarDate(
+            century + Number(s.slice(0, 2)),
+            Number(s.slice(2, 4)),
+            Number(s.slice(4, 6)),
+        )
+    )
+        return no("date");
+    let check = weightedSum(d, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]) % 11;
+    if (check === 10) check = weightedSum(d, [3, 4, 5, 6, 7, 8, 9, 10, 11, 1, 2]) % 11;
+    return check !== 10 && check === d[11] ? OK : no("checksum");
+}
+
+/** The Ukrainian taxpayer registration number (RNOKPP): ten digits, the tenth the first nine times -1 5 7 9 4 6 10 5 7 modulo 11, modulo 10. */
+export function validateUkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkiv(
+    value: string,
+): IdentifierResult {
+    const s = stripSeparators(
+        text(value, "validateUkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkiv"),
+    );
+    if (!isDigits(s)) return no("characters");
+    if (s.length !== 10) return no("length");
+    const d = digitsOf(s);
+    const sum = weightedSum(d, [-1, 5, 7, 9, 4, 6, 10, 5, 7]);
+    return (((sum % 11) + 11) % 11) % 10 === d[9] ? OK : no("checksum");
+}
+
+/** The Saudi national identity or resident number: ten digits beginning 1 (a citizen) or 2 (a resident), and a Luhn check. */
+export function validateAsSaudiyahRaqmAlHuwiyahAlWataniyah(value: string): IdentifierResult {
+    const s = stripSeparators(text(value, "validateAsSaudiyahRaqmAlHuwiyahAlWataniyah"));
+    if (!isDigits(s)) return no("characters");
+    if (s.length !== 10) return no("length");
+    if (s[0] !== "1" && s[0] !== "2") return no("structure");
+    return luhnValid(s) ? OK : no("checksum");
+}

@@ -697,4 +697,97 @@ public static class NationalIdentifiers
         var sum = d.Take(12).Select((n, i) => n * (13 - i)).Sum();
         return (11 - sum % 11) % 10 == d[12] ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
     }
+
+    // Further identifiers (P43-T3, fourth family)
+
+    /// <summary>Australian Individual Healthcare Identifier: sixteen digits beginning 800360 and a Luhn check.</summary>
+    public static IdentifierResult ValidateAustraliaIndividualHealthcareIdentifier(string value)
+    {
+        var s = StripSeparators(value);
+        if (!IsDigits(s)) return Fail(IdentifierReason.Characters);
+        if (s.Length != 16) return Fail(IdentifierReason.Length);
+        if (!s.StartsWith("800360", StringComparison.Ordinal)) return Fail(IdentifierReason.Structure);
+        return LuhnValid(s) ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
+    }
+
+    /// <summary>German health insurance number (KVNR): a letter, eight digits and a check digit; the letter read as its two-digit place, weights 1 2 1 2 ..., each product's digits added, modulo 10.</summary>
+    public static IdentifierResult ValidateDeutschlandKrankenversichertennummer(string value)
+    {
+        var s = StripSeparators(value);
+        if (s.Length == 0 || !s.All(c => c is (>= '0' and <= '9') or (>= 'A' and <= 'Z'))) return Fail(IdentifierReason.Characters);
+        if (s.Length != 10) return Fail(IdentifierReason.Length);
+        if (!System.Text.RegularExpressions.Regex.IsMatch(s, "^[A-Z][0-9]{9}$")) return Fail(IdentifierReason.Structure);
+        var position = s[0] - 64;
+        var digits = new List<int> { position / 10, position % 10 };
+        digits.AddRange(DigitsOf(s[1..9]));
+        var sum = digits.Select((n, i) => n * (i % 2 == 0 ? 1 : 2)).Sum(p => p / 10 + p % 10);
+        return sum % 10 == s[9] - '0' ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
+    }
+
+    /// <summary>Polish NIP: ten digits, the tenth the first nine times 6 5 7 2 3 4 5 6 7 modulo 11 (10 is never issued).</summary>
+    public static IdentifierResult ValidatePolskaNumerIdentyfikacjiPodatkowej(string value)
+    {
+        var s = StripSeparators(value);
+        if (!IsDigits(s)) return Fail(IdentifierReason.Characters);
+        if (s.Length != 10) return Fail(IdentifierReason.Length);
+        var d = DigitsOf(s);
+        var remainder = WeightedSum(d, [6, 5, 7, 2, 3, 4, 5, 6, 7]) % 11;
+        return remainder != 10 && remainder == d[9] ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
+    }
+
+    /// <summary>UK National Insurance number: two letters, six digits and a suffix A to D, upper case; prefixes BG, GB, KN, NK, NT, TN and ZZ are never issued. No check digit.</summary>
+    public static IdentifierResult ValidateUnitedKingdomNationalInsuranceNumber(string value)
+    {
+        var s = StripSeparators(value);
+        if (s.Length == 0 || !s.All(c => c is (>= '0' and <= '9') or (>= 'A' and <= 'Z'))) return Fail(IdentifierReason.Characters);
+        if (s.Length != 9) return Fail(IdentifierReason.Length);
+        if (!System.Text.RegularExpressions.Regex.IsMatch(s, "^[A-CEGHJ-PR-TW-Z][A-CEGHJ-NPR-TW-Z][0-9]{6}[A-D]$")) return Fail(IdentifierReason.Structure);
+        return new[] { "BG", "GB", "KN", "NK", "NT", "TN", "ZZ" }.Contains(s[..2]) ? Fail(IdentifierReason.Structure) : IdentifierResult.Ok;
+    }
+
+    /// <summary>US Social Security number: nine digits, an area 001 to 899 other than 666, a group other than 00, a serial other than 0000. No check digit.</summary>
+    public static IdentifierResult ValidateUnitedStatesSocialSecurityNumber(string value)
+    {
+        var s = StripSeparators(value);
+        if (!IsDigits(s)) return Fail(IdentifierReason.Characters);
+        if (s.Length != 9) return Fail(IdentifierReason.Length);
+        var area = int.Parse(s[..3]);
+        return area == 0 || area == 666 || area >= 900 || s[3..5] == "00" || s[5..] == "0000" ? Fail(IdentifierReason.Structure) : IdentifierResult.Ok;
+    }
+
+    /// <summary>Kazakhstan IIN: twelve digits, YYMMDD, a century-and-sex digit 1 to 6, and a check from weights 1 to 11, else 3 to 11, 1, 2 (10 again is never issued).</summary>
+    public static IdentifierResult ValidateQazaqstanZhekeSaikestendiruNomiri(string value)
+    {
+        var s = StripSeparators(value);
+        if (!IsDigits(s)) return Fail(IdentifierReason.Characters);
+        if (s.Length != 12) return Fail(IdentifierReason.Length);
+        var d = DigitsOf(s);
+        if (d[6] is < 1 or > 6) return Fail(IdentifierReason.Structure);
+        var century = 1800 + (d[6] - 1) / 2 * 100;
+        if (!IsCalendarDate(century + int.Parse(s[..2]), int.Parse(s[2..4]), int.Parse(s[4..6]))) return Fail(IdentifierReason.Date);
+        var check = WeightedSum(d, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]) % 11;
+        if (check == 10) check = WeightedSum(d, [3, 4, 5, 6, 7, 8, 9, 10, 11, 1, 2]) % 11;
+        return check != 10 && check == d[11] ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
+    }
+
+    /// <summary>Ukrainian RNOKPP: ten digits, the tenth the first nine times -1 5 7 9 4 6 10 5 7 modulo 11, modulo 10.</summary>
+    public static IdentifierResult ValidateUkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkiv(string value)
+    {
+        var s = StripSeparators(value);
+        if (!IsDigits(s)) return Fail(IdentifierReason.Characters);
+        if (s.Length != 10) return Fail(IdentifierReason.Length);
+        var d = DigitsOf(s);
+        var sum = WeightedSum(d, [-1, 5, 7, 9, 4, 6, 10, 5, 7]);
+        return ((sum % 11 + 11) % 11) % 10 == d[9] ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
+    }
+
+    /// <summary>Saudi national identity or resident number: ten digits beginning 1 or 2, and a Luhn check.</summary>
+    public static IdentifierResult ValidateAsSaudiyahRaqmAlHuwiyahAlWataniyah(string value)
+    {
+        var s = StripSeparators(value);
+        if (!IsDigits(s)) return Fail(IdentifierReason.Characters);
+        if (s.Length != 10) return Fail(IdentifierReason.Length);
+        if (s[0] is not ('1' or '2')) return Fail(IdentifierReason.Structure);
+        return LuhnValid(s) ? IdentifierResult.Ok : Fail(IdentifierReason.Checksum);
+    }
 }

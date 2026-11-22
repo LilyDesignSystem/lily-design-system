@@ -45,6 +45,10 @@ highlights.
   change many components at once) and which go straight to `latest` (fixes, patches, additive releases). Holding `latest` two days behind, which one
   consumer asked for, was not adopted: it would delay every fix for every consumer. `bin/test-publish-tag` checks the option with a fake `npm`.
 
+## National identifier validation, fifth slice (2026-11-22, P43-T3)
+
+- Eight more validators, TypeScript and C#: the Australian IHI (prefix 800360, Luhn), the German KVNR, the Polish NIP, the Kazakhstan IIN, the Ukrainian RNOKPP and the Saudi ID, and, for two schemes with no check digit, the format rules only: the UK National Insurance number (letters, suffix, prefixes never issued) and the US Social Security number (area, group and serial never issued). 54 of the 94 types are now validated.
+
 ## National identifier validation, fourth slice (2026-11-22, P43-T3)
 
 - Ten more validators in `shared/national-identifiers.ts` and the C# `NationalIdentifiers`: Croatia OIB (ISO 7064 MOD 11,10), Slovenia EMSO, Romania CNP, Austria social security number, Iceland kennitala (a company's day has 40 added), Israel teudat zehut (nine digits, not padded), Iran kod-e melli, the UAE Emirates ID, the Hong Kong identity card (one or two letters, brackets ignored) and the Thai national ID. 46 of the 94 types are now validated (`shared/national-identifiers.tsv`).

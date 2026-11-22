@@ -570,4 +570,110 @@ public class NationalIdentifiersTests
         Assert.Equal(Bad(IdentifierReason.Checksum), NationalIdentifiers.ValidatePrathetThaiLekPrajamTuaPrachachon("1-1017-00207-03-1"));
         Assert.Equal(Bad(IdentifierReason.Length), NationalIdentifiers.ValidatePrathetThaiLekPrajamTuaPrachachon("1-1017-00207-03"));
     }
+
+    private static string WithLuhn(string stem) => stem + Enumerable.Range(0, 10).First(c => NationalIdentifiers.LuhnValid(stem + c));
+
+    [Fact]
+    public void AustraliaIndividualHealthcareIdentifier()
+    {
+        var id = WithLuhn("800360123456789");
+        Assert.Equal(Ok, NationalIdentifiers.ValidateAustraliaIndividualHealthcareIdentifier(id));
+        Assert.Equal(Bad(IdentifierReason.Checksum), NationalIdentifiers.ValidateAustraliaIndividualHealthcareIdentifier(id[..15] + (id[15] - '0' + 1) % 10));
+        Assert.Equal(Bad(IdentifierReason.Structure), NationalIdentifiers.ValidateAustraliaIndividualHealthcareIdentifier(WithLuhn("800361123456789")));
+        Assert.Equal(Bad(IdentifierReason.Length), NationalIdentifiers.ValidateAustraliaIndividualHealthcareIdentifier("800360123456789"));
+    }
+
+    [Fact]
+    public void DeutschlandKrankenversichertennummer()
+    {
+        Assert.Equal(Ok, NationalIdentifiers.ValidateDeutschlandKrankenversichertennummer("A123456780"));
+        Assert.Equal(Bad(IdentifierReason.Checksum), NationalIdentifiers.ValidateDeutschlandKrankenversichertennummer("A123456781"));
+        Assert.Equal(Bad(IdentifierReason.Structure), NationalIdentifiers.ValidateDeutschlandKrankenversichertennummer("1123456780"));
+        Assert.Equal(Bad(IdentifierReason.Length), NationalIdentifiers.ValidateDeutschlandKrankenversichertennummer("A12345678"));
+        var position = 'Z' - 64;
+        var digits = new List<int> { position / 10, position % 10 };
+        digits.AddRange("98765432".Select(c => c - '0'));
+        var check = digits.Select((n, i) => n * (i % 2 == 0 ? 1 : 2)).Sum(p => p / 10 + p % 10) % 10;
+        Assert.Equal(Ok, NationalIdentifiers.ValidateDeutschlandKrankenversichertennummer($"Z98765432{check}"));
+    }
+
+    [Fact]
+    public void PolskaNumerIdentyfikacjiPodatkowej()
+    {
+        Assert.Equal(Ok, NationalIdentifiers.ValidatePolskaNumerIdentyfikacjiPodatkowej("526-025-02-74"));
+        Assert.Equal(Bad(IdentifierReason.Checksum), NationalIdentifiers.ValidatePolskaNumerIdentyfikacjiPodatkowej("526-025-02-75"));
+        Assert.Equal(Bad(IdentifierReason.Length), NationalIdentifiers.ValidatePolskaNumerIdentyfikacjiPodatkowej("526-025-02"));
+        var weights = new[] { 6, 5, 7, 2, 3, 4, 5, 6, 7 };
+        var stem = Enumerable.Range(0, 1000).Select(n => "526025" + n.ToString("D3")).First(t => t.Select((c, i) => (c - '0') * weights[i]).Sum() % 11 == 10);
+        Assert.Equal(Bad(IdentifierReason.Checksum), NationalIdentifiers.ValidatePolskaNumerIdentyfikacjiPodatkowej(stem + "0"));
+    }
+
+    [Fact]
+    public void UnitedKingdomNationalInsuranceNumber()
+    {
+        Assert.Equal(Ok, NationalIdentifiers.ValidateUnitedKingdomNationalInsuranceNumber("AB 12 34 56 C"));
+        Assert.Equal(Ok, NationalIdentifiers.ValidateUnitedKingdomNationalInsuranceNumber("JG103759A"));
+        foreach (var bad in new[] { "DA123456C", "AO123456C", "BG123456C", "ZZ123456C", "AB123456E" })
+            Assert.Equal(Bad(IdentifierReason.Structure), NationalIdentifiers.ValidateUnitedKingdomNationalInsuranceNumber(bad));
+        Assert.Equal(Bad(IdentifierReason.Length), NationalIdentifiers.ValidateUnitedKingdomNationalInsuranceNumber("AB12345C"));
+        Assert.Equal(Bad(IdentifierReason.Characters), NationalIdentifiers.ValidateUnitedKingdomNationalInsuranceNumber("ab123456c"));
+    }
+
+    [Fact]
+    public void UnitedStatesSocialSecurityNumber()
+    {
+        Assert.Equal(Ok, NationalIdentifiers.ValidateUnitedStatesSocialSecurityNumber("123-45-6789"));
+        Assert.Equal(Ok, NationalIdentifiers.ValidateUnitedStatesSocialSecurityNumber("899-99-9999"));
+        foreach (var bad in new[] { "000-12-3456", "666-12-3456", "900-12-3456", "123-00-6789", "123-45-0000" })
+            Assert.Equal(Bad(IdentifierReason.Structure), NationalIdentifiers.ValidateUnitedStatesSocialSecurityNumber(bad));
+        Assert.Equal(Bad(IdentifierReason.Length), NationalIdentifiers.ValidateUnitedStatesSocialSecurityNumber("123-45-678"));
+    }
+
+    private static int KazakhCheck(string eleven)
+    {
+        var d = eleven.Select(c => c - '0').ToArray();
+        var c1 = d.Select((n, i) => n * (i + 1)).Sum() % 11;
+        if (c1 == 10) c1 = d.Select((n, i) => n * new[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 1, 2 }[i]).Sum() % 11;
+        return c1;
+    }
+
+    [Fact]
+    public void QazaqstanZhekeSaikestendiruNomiri()
+    {
+        var good = "85010150123" + KazakhCheck("85010150123");
+        Assert.Equal(Ok, NationalIdentifiers.ValidateQazaqstanZhekeSaikestendiruNomiri(good));
+        Assert.Equal(Bad(IdentifierReason.Checksum), NationalIdentifiers.ValidateQazaqstanZhekeSaikestendiruNomiri(good[..11] + (good[11] - '0' + 1) % 10));
+        Assert.Equal(Bad(IdentifierReason.Structure), NationalIdentifiers.ValidateQazaqstanZhekeSaikestendiruNomiri("850101701234"));
+        Assert.Equal(Bad(IdentifierReason.Date), NationalIdentifiers.ValidateQazaqstanZhekeSaikestendiruNomiri("851301501234"));
+        Assert.Equal(Bad(IdentifierReason.Length), NationalIdentifiers.ValidateQazaqstanZhekeSaikestendiruNomiri("8501015012"));
+        var second = Enumerable.Range(0, 10000).Select(n => "8501015" + n.ToString("D4"))
+            .First(t => t.Select((c, i) => (c - '0') * (i + 1)).Sum() % 11 == 10 && KazakhCheck(t) != 10);
+        Assert.Equal(Ok, NationalIdentifiers.ValidateQazaqstanZhekeSaikestendiruNomiri(second + KazakhCheck(second)));
+    }
+
+    [Fact]
+    public void UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkiv()
+    {
+        static string WithCheck(string nine)
+        {
+            var sum = nine.Select((c, i) => (c - '0') * new[] { -1, 5, 7, 9, 4, 6, 10, 5, 7 }[i]).Sum();
+            return nine + ((sum % 11 + 11) % 11 % 10);
+        }
+        var good = WithCheck("304310706");
+        Assert.Equal(Ok, NationalIdentifiers.ValidateUkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkiv(good));
+        Assert.Equal(Ok, NationalIdentifiers.ValidateUkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkiv(WithCheck("100000000")));
+        Assert.Equal(Bad(IdentifierReason.Checksum), NationalIdentifiers.ValidateUkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkiv(good[..9] + (good[9] - '0' + 1) % 10));
+        Assert.Equal(Bad(IdentifierReason.Length), NationalIdentifiers.ValidateUkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkiv("304310706"));
+    }
+
+    [Fact]
+    public void AsSaudiyahRaqmAlHuwiyahAlWataniyah()
+    {
+        Assert.Equal(Ok, NationalIdentifiers.ValidateAsSaudiyahRaqmAlHuwiyahAlWataniyah(WithLuhn("108765432")));
+        Assert.Equal(Ok, NationalIdentifiers.ValidateAsSaudiyahRaqmAlHuwiyahAlWataniyah(WithLuhn("212345678")));
+        var good = WithLuhn("108765432");
+        Assert.Equal(Bad(IdentifierReason.Checksum), NationalIdentifiers.ValidateAsSaudiyahRaqmAlHuwiyahAlWataniyah(good[..9] + (good[9] - '0' + 1) % 10));
+        Assert.Equal(Bad(IdentifierReason.Structure), NationalIdentifiers.ValidateAsSaudiyahRaqmAlHuwiyahAlWataniyah(WithLuhn("308765432")));
+        Assert.Equal(Bad(IdentifierReason.Length), NationalIdentifiers.ValidateAsSaudiyahRaqmAlHuwiyahAlWataniyah("108765432"));
+    }
 }
