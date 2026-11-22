@@ -4304,7 +4304,7 @@ quick wins and are done; then T5, T6/T7, T9, T8, T10.
 - [x] **P42-T4 `--lily-link` (item 8).** Done 2026-11-21: shared "Link colour" section; `bin/check-theme --contrast` reports it on both
       surfaces in every theme (lowest 4.69:1) and `--gate` holds light and dark.
       Still open: use it in the examples' and the docs site's own `a` rule (they still use `--color-primary`).
-- [ ] **P42-T5 A 320px page in the themes' tests (item 9).** Cause found by reading the changelog: themes 0.7.0 gave table header cells
+- [x] **P42-T5 A 320px page in the themes' tests (item 9).** Done 2026-11-22: `e2e/themes-320.spec.ts` in the HTML examples app (all 63 themes, plus the four column and scroller combinations; the page needs both `minmax(0, 1fr)` and the scroller; see [spec/responsive](spec/responsive/index.md)). Original description: Cause found by reading the changelog: themes 0.7.0 gave table header cells
       `overflow-wrap: break-word`, which keeps each column as wide as its longest header word, so a table in a single `1fr` grid column
       widens the page (the consumer's `minmax(0, 1fr)` is the right fix on its side; the dashboards in six example apps went into a
       `horizontal-scroller` for the same reason). Add a 320px page (a record list, a table, a `details`, a long unbroken word) in every

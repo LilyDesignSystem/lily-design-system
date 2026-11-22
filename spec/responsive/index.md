@@ -69,6 +69,16 @@ full-width blocks). Moving the themes to `min-width` queries is not planned: the
 - [ ] `bin/check-theme` rejects `100vw` widths on `body` and full-width blocks.
 - [x] The rules are reflected in the Lily skills ([agent-skills](../agent-skills/index.md)).
 
+## A table in a grid column (2026-11-22, tasks.md P42-T5)
+
+A table whose whole-word headers are wider than the screen (themes 0.7.0 keeps header words whole) widens a 320px page unless **both** hold:
+the column can shrink, which a bare `1fr` track cannot (`minmax(0, 1fr)`), and the table is in a labelled `horizontal-scroller`. Measured on
+four headers: `1fr` alone, `1fr` with the scroller, and `minmax(0, 1fr)` without it all overflow by 20px; only the two together fit. The fix
+is the page's, never a theme's: a theme cannot make a `1fr` track shrink, and `display: block` on a table would strip its semantics. The
+HTML examples app's `e2e/themes-320.spec.ts` holds it: a record list, a table in its scroller, a disclosure and long values in links and
+code, in all 63 themes at 320px, plus the four combinations above. Plain text is not wrapped by the themes (only table cells, links, code
+and identifier views are), so a long unbroken value belongs in one of those.
+
 ## Related topics
 
 - [stephcraft-lessons](../lessons/stephcraft/index.md) — the review these rules and the planned work come from

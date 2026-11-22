@@ -18,8 +18,9 @@ anything that can change how an existing page lays out. The monorepo's root
 - **Changed (layout):** table header cells, and links and code inside them, use `overflow-wrap: break-word` instead of `anywhere`,
   so a one-word header is no longer split mid-word ("Patie/nt"). A column is now at least as wide as its header's longest word,
   which raises the minimum content width of a `table`, `data-table` and anything that holds one. **Watch for:** a page whose layout
-  is a single `1fr` grid column holding a table can grow wider than a 320px screen (a 47px sideways scroll was seen); write the
-  column as `minmax(0, 1fr)`, or put the table in a `horizontal-scroller`. Data cells keep `anywhere`. Components: `table`,
+  is a single `1fr` grid column holding a table can grow wider than a 320px screen (a 47px sideways scroll was seen); the page needs both: write
+  the column as `minmax(0, 1fr)` (a bare `1fr` track will not shrink below its content) and put the table in a labelled
+  `horizontal-scroller` (measured at 320px; either alone still widens the page). Data cells keep `anywhere`. Components: `table`,
   `data-table`, `calendar-table`, `kanban-table`.
 - **Added:** a shared "Whole-card link" section: a link marked `data-lily-card-link` in a card's heading makes the whole `card` its
   target, keeps other controls above it, and draws the focus ring round the card. Components: `card`.
