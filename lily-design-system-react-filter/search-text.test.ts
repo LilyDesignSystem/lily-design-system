@@ -52,3 +52,18 @@ describe("highlightSegments when folding changes a character's length (coverage)
         expect(highlightSegments("한글", "한")).toEqual([{ text: "한글", match: false }]);
     });
 });
+
+describe("highlightSegments with characters outside the Basic Multilingual Plane", () => {
+    it("still marks a match when the text holds an emoji (fixed 2026-11-22)", () => {
+        expect(highlightSegments("😀 cafe", "cafe")).toEqual([
+            { text: "😀 ", match: false },
+            { text: "cafe", match: true },
+        ]);
+    });
+    it("marks a supplementary CJK character as one unit", () => {
+        expect(highlightSegments("𠮷野家", "𠮷")).toEqual([
+            { text: "𠮷", match: true },
+            { text: "野家", match: false },
+        ]);
+    });
+});

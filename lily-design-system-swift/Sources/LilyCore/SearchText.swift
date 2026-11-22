@@ -38,22 +38,23 @@ public struct SearchSegment: Equatable, Sendable {
     }
 }
 
-/// `text` cut into runs, marking the parts any term matches. Works per code point, as the TypeScript does; when folding a code
-/// point does not give exactly one UTF-16 unit, matching cannot be mapped back, so the whole text is one unmarked segment.
+/// `text` cut into runs, marking the parts any term matches. Works per code point, as the TypeScript does: a code point that
+/// folds to anything but exactly one code point cannot be mapped back, and then the whole text is one unmarked segment. An
+/// emoji folds to itself, so it does not turn highlighting off.
 public func highlightSegments(_ text: String, _ query: String) -> [SearchSegment] {
     let terms = searchTerms(query)
     if terms.isEmpty || text.isEmpty { return [SearchSegment(text: text, match: false)] }
     let scalars = Array(text.unicodeScalars)
-    var flat: [UInt16] = []
+    var flat: [Unicode.Scalar] = []
     for scalar in scalars {
-        let folded = Array(foldText(String(scalar)).utf16)
+        let folded = Array(foldText(String(scalar)).unicodeScalars)
         if folded.count != 1 { return [SearchSegment(text: text, match: false)] }
         flat.append(folded[0])
     }
     var marked = [Bool](repeating: false, count: scalars.count)
     for term in terms {
-        let needle = Array(term.utf16)
-        guard !needle.isEmpty, needle.count <= flat.count else { continue }
+        let needle = Array(term.unicodeScalars)
+        guard needle.count <= flat.count else { continue }
         for at in 0...(flat.count - needle.count) where Array(flat[at..<(at + needle.count)]) == needle {
             for i in at..<(at + needle.count) { marked[i] = true }
         }

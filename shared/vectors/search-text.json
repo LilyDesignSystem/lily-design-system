@@ -181,7 +181,39 @@
       "args": ["😀 cafe", "cafe"],
       "expected": [
         {
-          "text": "😀 cafe",
+          "text": "😀 ",
+          "match": false
+        },
+        {
+          "text": "cafe",
+          "match": true
+        }
+      ]
+    },
+    {
+      "fn": "highlightSegments",
+      "args": ["𠮷野家", "野"],
+      "expected": [
+        {
+          "text": "𠮷",
+          "match": false
+        },
+        {
+          "text": "野",
+          "match": true
+        },
+        {
+          "text": "家",
+          "match": false
+        }
+      ]
+    },
+    {
+      "fn": "highlightSegments",
+      "args": ["éte", "ete"],
+      "expected": [
+        {
+          "text": "éte",
           "match": false
         }
       ]

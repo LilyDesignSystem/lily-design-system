@@ -42,29 +42,22 @@ public fun matchesSearch(text: String, query: String): Boolean {
 public data class SearchSegment(val text: String, val match: Boolean)
 
 /**
- * [text] cut into runs, marking the parts any term matches. Works per code point, as the TypeScript does; when folding a code
- * point does not give exactly one UTF-16 unit, the whole text is one unmarked segment.
+ * [text] cut into runs, marking the parts any term matches. Works per code point, as the TypeScript does: a code point that
+ * folds to anything but exactly one code point cannot be mapped back, and then the whole text is one unmarked segment. An
+ * emoji folds to itself, so it does not turn highlighting off.
  */
 public fun highlightSegments(text: String, query: String): List<SearchSegment> {
     val terms = searchTerms(query)
     if (terms.isEmpty() || text.isEmpty()) return listOf(SearchSegment(text, false))
-    val codePoints = mutableListOf<String>()
-    var i = 0
-    while (i < text.length) {
-        val cp = text.codePointAtCompat(i)
-        val n = Character.charCount(cp)
-        codePoints += text.substring(i, i + n)
-        i += n
-    }
-    val folded = codePoints.map { foldText(it) }
-    if (folded.any { it.length != 1 }) return listOf(SearchSegment(text, false))
-    val flat = folded.joinToString("")
+    val codePoints = text.codePointStrings()
+    val folded = codePoints.map { foldText(it).codePointStrings() }
+    if (folded.any { it.size != 1 }) return listOf(SearchSegment(text, false))
+    val flat = folded.map { it[0] }
     val marked = BooleanArray(codePoints.size)
     for (term in terms) {
-        var at = flat.indexOf(term)
-        while (at != -1) {
-            for (k in at until at + term.length) marked[k] = true
-            at = flat.indexOf(term, at + 1)
+        val needle = term.codePointStrings()
+        for (at in 0..flat.size - needle.size) {
+            if (needle.indices.all { flat[at + it] == needle[it] }) for (k in at until at + needle.size) marked[k] = true
         }
     }
     val out = mutableListOf<SearchSegment>()
@@ -72,6 +65,18 @@ public fun highlightSegments(text: String, query: String): List<SearchSegment> {
         val last = out.lastOrNull()
         if (last != null && last.match == marked[index]) out[out.size - 1] = last.copy(text = last.text + c)
         else out += SearchSegment(c, marked[index])
+    }
+    return out
+}
+
+/** The text split into code points, each as a String (a surrogate pair stays together). */
+private fun String.codePointStrings(): List<String> {
+    val out = mutableListOf<String>()
+    var i = 0
+    while (i < length) {
+        val n = Character.charCount(codePointAtCompat(i))
+        out += substring(i, i + n)
+        i += n
     }
     return out
 }
