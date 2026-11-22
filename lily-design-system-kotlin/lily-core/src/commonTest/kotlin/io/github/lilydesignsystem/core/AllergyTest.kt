@@ -109,3 +109,16 @@ class IpsSectionsTest {
         assertEquals(null, IpsSectionStatus.fromKey("unknown"))
     }
 }
+
+class IpsRulesTest {
+    @Test fun sectionsSayTheirStatusOnceAndWarnForMissingWords() {
+        assertTrue(IpsRules.showsStatusLine(IpsSectionStatus.Omitted, IpsStatusPlacement.Heading))
+        assertTrue(!IpsRules.showsStatusLine(IpsSectionStatus.Omitted, IpsStatusPlacement.List))
+        assertTrue(!IpsRules.showsStatusLine(IpsSectionStatus.Known, IpsStatusPlacement.Heading))
+        assertEquals(3, IpsRules.sectionWarnings("", IpsSectionStatus.NoneKnown, null, IpsStatusPlacement.Heading, true, null).size)
+        assertTrue(IpsRules.sectionWarnings("A", IpsSectionStatus.NoneKnown, null, IpsStatusPlacement.List, false, null).isEmpty())
+        assertTrue(IpsRules.sectionWarnings("A", IpsSectionStatus.NoneKnown, "None", IpsStatusPlacement.Heading, true, "T").isEmpty())
+        assertEquals(5, IpsRules.summaryWarnings("", "", emptyMap()).size)
+        assertTrue(IpsRules.summaryWarnings("S", "M", mapOf("medications" to "M", "allergies" to "A", "problems" to "P")).isEmpty())
+    }
+}

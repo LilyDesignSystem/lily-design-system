@@ -354,4 +354,45 @@ class ComponentSemanticsTest {
         rule.onNodeWithContentDescription("Measles vaccine", useUnmergedTree = true).assertExists()
         rule.onNodeWithText("No immunisations recorded").assertExists()
     }
+
+    @Test fun internationalPatientSummaryAddsMissingRequiredSections() {
+        val chosen = mutableListOf<String>()
+        val headings = mapOf("medications" to "Medicines", "allergies" to "Allergies", "problems" to "Problems")
+        rule.setContent {
+            androidx.compose.foundation.layout.Column {
+                InternationalPatientSummary(
+                    label = "Patient summary",
+                    sections = listOf(io.github.lilydesignsystem.core.IpsSectionEntry("allergies", "Allergy list",
+                        io.github.lilydesignsystem.core.IpsSectionStatus.NoneKnown)),
+                    requiredHeadings = headings, omittedLabel = "Section missing from document", contentsLabel = "Contents",
+                    onSelectSection = { chosen += it }, banner = { BasicText("Sam Okoro") }, details = { BasicText("Created 20 Nov") },
+                ) {
+                    InternationalPatientSummarySection(
+                        "allergies", "Allergy list", status = io.github.lilydesignsystem.core.IpsSectionStatus.NoneKnown,
+                        statusPlacement = io.github.lilydesignsystem.core.IpsStatusPlacement.List,
+                        narrativeLabel = "Document text", narrative = { BasicText("No known drug allergies.") },
+                    ) { AllergyRecordList(io.github.lilydesignsystem.core.AllergyListStatus.NoneKnown, "No known allergies") }
+                }
+                InternationalPatientSummary("S", emptyList(), headings, "Missing")
+                InternationalPatientSummarySection(
+                    "patient-story", "Story", narrativeOpen = true, narrative = { BasicText("Open narrative") },
+                )
+            }
+        }
+        rule.onNodeWithContentDescription("Patient summary")
+            .assert(SemanticsMatcher.expectValue(SemanticsProperties.IsTraversalGroup, true))
+        rule.onAllNodesWithText("Allergy list").assertCountEquals(2) // the contents entry and the heading
+        rule.onAllNodesWithText("Section missing from document").assertCountEquals(2) // medications and problems
+        rule.onAllNodesWithText("Missing").assertCountEquals(3) // all three, in the empty summary
+        rule.onAllNodesWithText("No known drug allergies.").assertCountEquals(0)
+        rule.onNodeWithText("Document text").performSemanticsAction(androidx.compose.ui.semantics.SemanticsActions.Expand)
+        rule.onNodeWithText("No known drug allergies.").assertExists()
+        rule.onNodeWithText("Document text").performSemanticsAction(androidx.compose.ui.semantics.SemanticsActions.Collapse)
+        rule.onAllNodesWithText("No known drug allergies.").assertCountEquals(0)
+        rule.onNodeWithText("Document text").performSemanticsAction(androidx.compose.ui.semantics.SemanticsActions.OnClick)
+        rule.onNodeWithText("No known drug allergies.").assertExists()
+        rule.onNodeWithText("Open narrative").assertExists()
+        rule.onAllNodesWithText("Medicines")[0].performSemanticsAction(androidx.compose.ui.semantics.SemanticsActions.OnClick)
+        assertEquals(listOf("medications"), chosen)
+    }
 }

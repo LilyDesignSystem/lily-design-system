@@ -85,3 +85,34 @@ public fun ipsContents(
     }
     return given + added
 }
+
+/** Where a section says a status other than known in words: under its heading, or in the record list inside it. */
+public enum class IpsStatusPlacement { Heading, List }
+
+public object IpsRules {
+    /** Whether a section shows its status line under the heading. */
+    public fun showsStatusLine(status: IpsSectionStatus, placement: IpsStatusPlacement): Boolean =
+        status != IpsSectionStatus.Known && placement == IpsStatusPlacement.Heading
+
+    public fun sectionWarnings(
+        heading: String,
+        status: IpsSectionStatus,
+        statusLabel: String?,
+        placement: IpsStatusPlacement,
+        hasNarrative: Boolean,
+        narrativeLabel: String?,
+    ): List<String> = buildList {
+        if (heading.isEmpty()) add("InternationalPatientSummarySection: a heading is required")
+        if (showsStatusLine(status, placement) && statusLabel.isNullOrEmpty()) {
+            add("InternationalPatientSummarySection: status ${status.key} needs a statusLabel")
+        }
+        if (hasNarrative && narrativeLabel.isNullOrEmpty()) add("InternationalPatientSummarySection: a narrative needs a narrativeLabel")
+    }
+
+    public fun summaryWarnings(label: String, omittedLabel: String, requiredHeadings: Map<String, String>): List<String> = buildList {
+        if (label.isEmpty()) add("InternationalPatientSummary: a label is required")
+        if (omittedLabel.isEmpty()) add("InternationalPatientSummary: an omittedLabel is required")
+        IPS_REQUIRED_SECTIONS.filter { requiredHeadings[it].isNullOrEmpty() }
+            .forEach { add("InternationalPatientSummary: requiredHeadings needs $it") }
+    }
+}

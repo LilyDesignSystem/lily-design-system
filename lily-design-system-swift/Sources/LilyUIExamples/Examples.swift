@@ -289,6 +289,37 @@ public enum Examples {
                         }
                     })
             }),
+        Example(
+            slug: "international-patient-summary", name: "InternationalPatientSummary",
+            summary: "An IPS document's structure: missing required sections are shown as omitted, never left out.",
+            code: """
+                InternationalPatientSummary(
+                    label: "Patient summary", sections: [.init(key: "allergies", heading: "Allergies", status: .noneKnown)],
+                    requiredHeadings: ["medications": "Medicines", "allergies": "Allergies", "problems": "Problems"],
+                    omittedLabel: "Section missing from document", contentsLabel: "Contents",
+                    onSelectSection: { key in proxy.scrollTo(key) }
+                ) {
+                    InternationalPatientSummarySection(section: "allergies", heading: "Allergies", status: .noneKnown,
+                                                       statusPlacement: .list) {
+                        AllergyRecordList(status: .noneKnown, statusLabel: "No known allergies")
+                    }
+                }
+                """,
+            make: {
+                AnyView(
+                    InternationalPatientSummary(
+                        label: "Patient summary",
+                        sections: [.init(key: "allergies", heading: "Allergies", status: .noneKnown)],
+                        requiredHeadings: ["medications": "Medicines", "allergies": "Allergies", "problems": "Problems"],
+                        omittedLabel: "Section missing from document", contentsLabel: "Contents"
+                    ) {
+                        InternationalPatientSummarySection(
+                            section: "allergies", heading: "Allergies", status: .noneKnown, statusPlacement: .list
+                        ) {
+                            AllergyRecordList(status: .noneKnown, statusLabel: "No known allergies")
+                        }
+                    })
+            }),
     ]
 
     /// The examples whose name, slug or summary match `query`, with Lily's own search folding (case and accents ignored).

@@ -46,6 +46,11 @@ import io.github.lilydesignsystem.core.DecisionSupportIndicator
 import io.github.lilydesignsystem.compose.ErrorSummary
 import io.github.lilydesignsystem.compose.Field
 import io.github.lilydesignsystem.compose.InsetText
+import io.github.lilydesignsystem.compose.InternationalPatientSummary
+import io.github.lilydesignsystem.compose.InternationalPatientSummarySection
+import io.github.lilydesignsystem.core.IpsSectionEntry
+import io.github.lilydesignsystem.core.IpsSectionStatus
+import io.github.lilydesignsystem.core.IpsStatusPlacement
 import io.github.lilydesignsystem.compose.LilyAlert
 import io.github.lilydesignsystem.compose.LilyBadge
 import io.github.lilydesignsystem.compose.LilyCard
@@ -290,6 +295,33 @@ public object Examples {
                     MedicationView(name = "Warfarin", strength = "5\u00A0mg")
                 }
                 RecordListItem(entryState = RecordEntryState.Withheld, entryStateLabel = "Withheld at the patient's request") {}
+            }
+        },
+        Example(
+            "international-patient-summary", "InternationalPatientSummary",
+            "An IPS document's structure: missing required sections are shown as omitted, never left out.",
+            """
+            InternationalPatientSummary(
+                label = "Patient summary", sections = listOf(IpsSectionEntry("allergies", "Allergies", IpsSectionStatus.NoneKnown)),
+                requiredHeadings = mapOf("medications" to "Medicines", "allergies" to "Allergies", "problems" to "Problems"),
+                omittedLabel = "Section missing from document", contentsLabel = "Contents", onSelectSection = ::scrollTo,
+            ) {
+                InternationalPatientSummarySection("allergies", "Allergies", status = IpsSectionStatus.NoneKnown,
+                    statusPlacement = IpsStatusPlacement.List) {
+                    AllergyRecordList(AllergyListStatus.NoneKnown, "No known allergies")
+                }
+            }
+            """.trimIndent(),
+        ) {
+            InternationalPatientSummary(
+                label = "Patient summary",
+                sections = listOf(IpsSectionEntry("allergies", "Allergies", IpsSectionStatus.NoneKnown)),
+                requiredHeadings = mapOf("medications" to "Medicines", "allergies" to "Allergies", "problems" to "Problems"),
+                omittedLabel = "Section missing from document", contentsLabel = "Contents",
+            ) {
+                InternationalPatientSummarySection(
+                    "allergies", "Allergies", status = IpsSectionStatus.NoneKnown, statusPlacement = IpsStatusPlacement.List,
+                ) { AllergyRecordList(AllergyListStatus.NoneKnown, "No known allergies") }
             }
         },
     )

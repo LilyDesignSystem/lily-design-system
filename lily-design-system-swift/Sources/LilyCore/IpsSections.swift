@@ -102,3 +102,41 @@ public func ipsContents(
     }
     return given + added
 }
+
+/// Where a section says a status other than known in words: under its heading (default), or in the record list inside it,
+/// which has its own never-blank status item, so the words appear once.
+public enum IpsStatusPlacement: String, Sendable {
+    case heading, list
+}
+
+public enum IpsRules {
+    /// Whether a section shows its status line under the heading.
+    public static func showsStatusLine(_ status: IpsSectionStatus, placement: IpsStatusPlacement) -> Bool {
+        status != .known && placement == .heading
+    }
+
+    public static func sectionWarnings(
+        heading: String, status: IpsSectionStatus, statusLabel: String?, placement: IpsStatusPlacement,
+        hasNarrative: Bool, narrativeLabel: String?
+    ) -> [String] {
+        var out: [String] = []
+        if heading.isEmpty { out.append("InternationalPatientSummarySection: a heading is required") }
+        if showsStatusLine(status, placement: placement), statusLabel?.isEmpty ?? true {
+            out.append("InternationalPatientSummarySection: status \(status.rawValue) needs a statusLabel")
+        }
+        if hasNarrative, narrativeLabel?.isEmpty ?? true {
+            out.append("InternationalPatientSummarySection: a narrative needs a narrativeLabel")
+        }
+        return out
+    }
+
+    public static func summaryWarnings(label: String, omittedLabel: String, requiredHeadings: [String: String]) -> [String] {
+        var out: [String] = []
+        if label.isEmpty { out.append("InternationalPatientSummary: a label is required") }
+        if omittedLabel.isEmpty { out.append("InternationalPatientSummary: an omittedLabel is required") }
+        for key in ipsRequiredSections where requiredHeadings[key]?.isEmpty ?? true {
+            out.append("InternationalPatientSummary: requiredHeadings needs \(key)")
+        }
+        return out
+    }
+}

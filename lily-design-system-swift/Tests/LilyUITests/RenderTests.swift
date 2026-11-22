@@ -312,3 +312,40 @@ private struct CustomScoreStyle: EarlyWarningScoreViewStyle {
     }
     #expect(render(RecordList(status: .noneKnown, statusLabel: "No immunisations recorded")))
 }
+
+@MainActor @Test func internationalPatientSummaryAddsMissingRequiredSections() {
+    var chosen: [String] = []
+    let headings = ["medications": "Medicines", "allergies": "Allergies", "problems": "Problems"]
+    let summary = InternationalPatientSummary(
+        label: "Patient summary", sections: [.init(key: "allergies", heading: "Allergies", status: .noneKnown)],
+        requiredHeadings: headings, omittedLabel: "Section missing from document", contentsLabel: "Contents",
+        onSelectSection: { chosen.append($0) },
+        banner: { Text(verbatim: "Sam Okoro, born 14 March 1984") },
+        content: {
+            InternationalPatientSummarySection(
+                section: "allergies", heading: "Allergies", status: .noneKnown, statusPlacement: .list,
+                narrativeLabel: "Document text", narrativeOpen: true,
+                content: { AllergyRecordList(status: .noneKnown, statusLabel: "No known allergies") },
+                narrative: { Text(verbatim: "No known drug allergies.") })
+        },
+        details: { Text(verbatim: "Created 20 November 2026") })
+    #expect(render(summary))
+    #expect(summary.contents.map(\.key) == ["allergies", "medications", "problems"])
+    #expect(summary.contents.filter(\.added).map(\.key) == ["medications", "problems"])
+    summary.onSelectSection("medications")
+    #expect(chosen == ["medications"])
+    let plain = InternationalPatientSummary(
+        label: "Summary", sections: [], requiredHeadings: headings, omittedLabel: "Missing") { EmptyView() }
+    #expect(render(plain))
+    let section = InternationalPatientSummarySection(
+        section: "results", heading: "Results", status: .unavailable, statusLabel: "Not available yet")
+    #expect(render(section))
+    #expect(section.code == "30954-2")
+    #expect(render(InternationalPatientSummarySection(section: "vital-signs", heading: "Vital signs") { Text(verbatim: "BP") }))
+    // A narrative without its label still renders (and warns).
+    #expect(
+        render(
+            InternationalPatientSummarySection(
+                section: "patient-story", heading: "Patient story", narrativeOpen: true, content: { EmptyView() },
+                narrative: { Text(verbatim: "Narrative") })))
+}

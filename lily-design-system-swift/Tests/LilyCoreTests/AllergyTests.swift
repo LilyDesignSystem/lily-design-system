@@ -108,3 +108,29 @@ import Testing
         RecordRules.itemWarnings(status: nil, statusLabel: nil, entryState: .enteredInError, entryStateLabel: nil)
             == ["RecordListItem: entryState entered-in-error needs an entryStateLabel"])
 }
+
+@Test func ipsSectionsSayTheirStatusOnceAndWarnForMissingWords() {
+    #expect(IpsRules.showsStatusLine(.omitted, placement: .heading))
+    #expect(!IpsRules.showsStatusLine(.omitted, placement: .list))
+    #expect(!IpsRules.showsStatusLine(.known, placement: .heading))
+    #expect(
+        IpsRules.sectionWarnings(
+            heading: "", status: .noneKnown, statusLabel: nil, placement: .heading, hasNarrative: true, narrativeLabel: nil
+        ).count == 3)
+    #expect(
+        IpsRules.sectionWarnings(
+            heading: "Allergies", status: .noneKnown, statusLabel: nil, placement: .list, hasNarrative: false,
+            narrativeLabel: nil
+        ).isEmpty)
+    #expect(
+        IpsRules.sectionWarnings(
+            heading: "Allergies", status: .noneKnown, statusLabel: "None", placement: .heading, hasNarrative: true,
+            narrativeLabel: "Text"
+        ).isEmpty)
+    #expect(IpsRules.summaryWarnings(label: "", omittedLabel: "", requiredHeadings: [:]).count == 5)
+    #expect(
+        IpsRules.summaryWarnings(
+            label: "Summary", omittedLabel: "Missing",
+            requiredHeadings: ["medications": "M", "allergies": "A", "problems": "P"]
+        ).isEmpty)
+}

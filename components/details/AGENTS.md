@@ -44,6 +44,11 @@
 - Notes: Open, close, keyboard and find-in-page reveal come from the browser.
 - Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
 
+## Mobile
+
+- Apple: Native: `DisclosureGroup` ([mobile/components-mobile.tsv](../../mobile/components-mobile.tsv)).
+- Android: `Disclosure(label, initiallyOpen) { … }` in `lily-compose`: a 48dp toggle with `expand`/`collapse` semantics actions, since Compose foundation has no disclosure.
+
 ## Acceptance Criteria
 
 - [ ] Renders <details> element with class="details"

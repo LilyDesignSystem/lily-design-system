@@ -4440,7 +4440,8 @@ T3, then T4 and T5 together, then T6 to T8.
       joined by a no-break space, missing words warn in debug builds. In the example catalog. `AgeView` and `DurationView`
       followed the same day, then `AllergyRecordList` and its item on `AllergyRules`, then `MedicationView` (tall man segments), then `EarlyWarningScoreView`, then `DecisionSupportCard`
       (a refused dismissal moves VoiceOver to the reasons), then `RecordList` and `RecordListItem` on `RecordRules`; the five
-      specialised record lists are a pattern of these on mobile. Still to do: `international-patient-summary`, the identifiers.)_
+      specialised record lists are a pattern of these on mobile, then `InternationalPatientSummary` and its section on the
+      ported IPS registry (contents call back to the app; missing required sections are added). Still to do: the identifiers.)_
 - [ ] **P44-T5 Example app.** `lily-design-system-swift-examples`: home, a searchable component list and a detail screen per
       shipped component (demo, code, variants), plus patient banner, vaccination record and contact form screens.
       Verify: `performAccessibilityAudit()` passes on every screen (ignores listed with reasons; the list may only shrink);
@@ -4492,7 +4493,8 @@ Same order as Phase 44; the two can run side by side once P43 is done.
       Verify: Robolectric tests per clause; ATF (`enableAccessibilityChecks()`) passes on an API 34+ emulator.
       _(2026-11-22, progress: `ObservationView` done on the same `ObservationRules` (in `lily-core`, six tests), with a hidden
       `Canvas` meter and `LilyWarnings`; in the example catalog. `AgeView`, `DurationView`, `AllergyRecordList`, `MedicationView`, `EarlyWarningScoreView` and `DecisionSupportCard` (reasons as a radio group) and `RecordList` (a struck-through
-      text style for records entered in error) followed. ATF not run yet.)_
+      text style for records entered in error) and `InternationalPatientSummary` (with a new `Disclosure`, since foundation
+      has none) followed. ATF not run yet.)_
 - [ ] **P45-T5 Example app.** `lily-design-system-android-examples`, adaptive (list-detail on wide windows), with the same
       screens as P44-T5.
       Verify: every screen at 320dp, font scale 1.0, 1.5 and 2.0 and a large resizable window shows no clipped text or lost
