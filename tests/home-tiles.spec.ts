@@ -81,10 +81,12 @@ test("the tiles do not scroll sideways at 400 percent zoom or at the largest tex
     page,
 }) => {
     // 400 percent zoom of a 1280px window is a 320px viewport. Other content further down the English home may be wider
-    // (code samples), so this reads the tiles, not the page.
+    // (code samples), so the tiles are read first, then the page.
     await page.setViewportSize({ width: 320, height: 800 });
     for (const route of ["/en-us/", "/cy-gb/", "/ar-001/"]) {
         await page.goto(route);
+        // Let the theme stylesheet the picker loads arrive: before it, the page is unthemed and its layout is not the one measured.
+        await page.waitForLoadState("networkidle");
         await page.evaluate(() =>
             document.documentElement.setAttribute("data-text-size", "largest"),
         );
@@ -99,9 +101,45 @@ test("the tiles do not scroll sideways at 400 percent zoom or at the largest tex
             );
         });
         expect(inside, route).toBe(true);
-        // The page as a whole is not asserted here: the hero's icon row still overflows at the largest text size (tasks.md P41-T8b).
+        // And the page as a whole (the hero's icon row and the header included), at the largest text size.
+        expect(
+            await page.evaluate(
+                () => document.documentElement.scrollWidth <= document.documentElement.clientWidth,
+            ),
+            route,
+        ).toBe(true);
     }
 });
+
+// Every home at 320px and the largest text size: no page scrolls sideways (WCAG 1.4.10 and 1.4.4). A language with long words
+// (Welsh, German, Finnish) is where a heading or a header row first breaks.
+for (const route of HOMES) {
+    test(`${route} does not scroll sideways at 320px and the largest text size`, async ({
+        page,
+    }) => {
+        await page.setViewportSize({ width: 320, height: 800 });
+        await page.goto(route);
+        // Hydrated first: the text-size picker resets the attribute to its own value until it has mounted.
+        await page.waitForLoadState("networkidle");
+        await page.evaluate(() =>
+            document.documentElement.setAttribute("data-text-size", "largest"),
+        );
+        const over = await page.evaluate(() => {
+            const width = document.documentElement.clientWidth;
+            return {
+                scroll: document.documentElement.scrollWidth - width,
+                wide: [...document.querySelectorAll("main *, header *")]
+                    .filter(
+                        (e) =>
+                            e.getBoundingClientRect().right > width + 1 && !e.closest(".site-nav"),
+                    )
+                    .slice(0, 3)
+                    .map((e) => `${e.tagName}.${e.className}`),
+            };
+        });
+        expect(over.scroll, JSON.stringify(over.wide)).toBeLessThanOrEqual(0);
+    });
+}
 
 test("the whole tile is the link target", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
