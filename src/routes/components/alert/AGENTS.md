@@ -49,6 +49,13 @@ control the accent rail and tinted background through `data-type`.
 | `--lily-alert-border-color`  | `var(--lily-border)`    |
 | `--lily-alert-border-radius` | `var(--lily-radius-md)` |
 
+## Mobile
+
+Decisions: [mobile/components-mobile.tsv](../../mobile/components-mobile.tsv) (`lily` on both). Tests: `lily-design-system-swift/Tests/LilyUITests`, `lily-design-system-kotlin/lily-compose/src/test`.
+
+- Apple: `LilyAlert(kind:heading:message:politeness:)` in `LilyUI` (named `LilyAlert` because SwiftUI has `Alert`). Announced on appear and when the message changes: `.assertive` posts a high-priority announcement, `.polite` a default one, `.off` none. `kind` goes to the style, never spoken. Style: `LilyAlertStyle`.
+- Android: `LilyAlert(message, kind, heading, politeness)` in `lily-compose`: a live region, `Assertive` by default, `Polite`, or none for `Off`; one TalkBack stop.
+
 ## Acceptance Criteria
 
 - [ ] Renders <div> element with class="alert"
