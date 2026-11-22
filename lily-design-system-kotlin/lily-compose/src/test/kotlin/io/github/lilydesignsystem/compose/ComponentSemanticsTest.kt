@@ -202,4 +202,39 @@ class ComponentSemanticsTest {
         assertEquals(1, durationWarnings("P1Y").size)
         assertEquals(0, durationWarnings("PT90M").size)
     }
+
+    @Test fun allergyRecordListIsNeverBlankAndItemsSpeakInOrder() {
+        val words = io.github.lilydesignsystem.core.AllergyWords(
+            "Peanut", "Mother", "Anaphylaxis", "Severe", "High risk", "Active", "Confirmed", "Allergy", "Food", "3 Nov 2026",
+        )
+        val tick = androidx.compose.runtime.mutableIntStateOf(0)
+        rule.setContent {
+            androidx.compose.foundation.layout.Column {
+                AllergyRecordList(io.github.lilydesignsystem.core.AllergyListStatus.Known, "Known allergies", label = "Allergies") {
+                    BasicText("Tick ${tick.intValue}")
+                    AllergyRecordListItem(words, codes = io.github.lilydesignsystem.core.AllergyCodes(severity = "severe")) {
+                        BasicText("Full record")
+                    }
+                    AllergyRecordListItem(io.github.lilydesignsystem.core.AllergyWords("Latex"))
+                    AllergyRecordListItem(
+                        io.github.lilydesignsystem.core.AllergyWords("Nickel", reaction = "Rash"),
+                        modifier = androidx.compose.ui.Modifier,
+                        codes = io.github.lilydesignsystem.core.AllergyCodes(),
+                    )
+                }
+                AllergyRecordList(io.github.lilydesignsystem.core.AllergyListStatus.NoneKnown, "No known allergies")
+            }
+        }
+        rule.onNodeWithContentDescription("Allergies")
+            .assert(SemanticsMatcher.expectValue(SemanticsProperties.IsTraversalGroup, true))
+        rule.onNodeWithContentDescription("Mother\nPeanut\nAnaphylaxis\nSevere\nHigh risk\nActive\nConfirmed\nAllergy\nFood\n3 Nov 2026")
+            .assertExists()
+        rule.onNodeWithText("Full record").assertExists()
+        rule.onNodeWithContentDescription("Latex").assertExists()
+        rule.onNodeWithText("No known allergies").assertExists()
+        rule.onAllNodesWithText("Known allergies").assertCountEquals(0)
+        tick.intValue = 1 // recompose the parent with the items' arguments unchanged
+        rule.waitForIdle()
+        rule.onNodeWithContentDescription("Latex").assertExists()
+    }
 }

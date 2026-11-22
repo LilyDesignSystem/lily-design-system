@@ -30,6 +30,11 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import io.github.lilydesignsystem.compose.AgeView
+import io.github.lilydesignsystem.compose.AllergyRecordList
+import io.github.lilydesignsystem.compose.AllergyRecordListItem
+import io.github.lilydesignsystem.core.AllergyCodes
+import io.github.lilydesignsystem.core.AllergyListStatus
+import io.github.lilydesignsystem.core.AllergyWords
 import io.github.lilydesignsystem.compose.AlertKind
 import io.github.lilydesignsystem.compose.DurationView
 import io.github.lilydesignsystem.compose.BadgeKind
@@ -185,6 +190,28 @@ public object Examples {
             "duration-view", "DurationView", "A length of time in the app's words; the direction is in the words.",
             """DurationView("3 days early", duration = "-P3D", label = "Delivery")""",
         ) { DurationView("3 days early", duration = "-P3D", label = "Delivery") },
+        Example(
+            "allergy-record-list", "AllergyRecordList", "Allergies with every status in words; a list that is never blank.",
+            """
+            AllergyRecordList(AllergyListStatus.Known, "Known allergies", label = "Allergies") {
+                AllergyRecordListItem(
+                    AllergyWords("Penicillin", reaction = "Hives", severity = "Moderate", verificationStatus = "Confirmed"),
+                    codes = AllergyCodes(severity = "moderate", verificationStatus = "confirmed"),
+                )
+            }
+            """.trimIndent(),
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                AllergyRecordList(AllergyListStatus.Known, "Known allergies", label = "Allergies") {
+                    AllergyRecordListItem(
+                        AllergyWords("Penicillin", reaction = "Hives", severity = "Moderate", verificationStatus = "Confirmed",
+                            category = "Medication"),
+                        codes = AllergyCodes(severity = "moderate", verificationStatus = "confirmed"),
+                    )
+                }
+                AllergyRecordList(AllergyListStatus.NoneKnown, "No known allergies")
+            }
+        },
     )
 
     /** The examples whose name, slug or summary match [query], with Lily's search folding (case and accents ignored). */

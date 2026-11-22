@@ -188,6 +188,30 @@ public enum Examples {
             summary: "A length of time in the app's words; the direction is in the words.",
             code: #"DurationView("3 days early", duration: "-P3D", label: "Delivery")"#,
             make: { AnyView(DurationView("3 days early", duration: "-P3D", label: "Delivery")) }),
+        Example(
+            slug: "allergy-record-list", name: "AllergyRecordList",
+            summary: "Allergies with every status in words; a list that is never blank.",
+            code: """
+                AllergyRecordList(status: .known, statusLabel: "Known allergies", label: "Allergies") {
+                    AllergyRecordListItem(
+                        AllergyWords(substance: "Penicillin", reaction: "Hives", severity: "Moderate",
+                                     verificationStatus: "Confirmed"),
+                        codes: AllergyCodes(severity: "moderate", verificationStatus: "confirmed"))
+                }
+                """,
+            make: {
+                AnyView(
+                    VStack(alignment: .leading, spacing: 16) {
+                        AllergyRecordList(status: .known, statusLabel: "Known allergies", label: "Allergies") {
+                            AllergyRecordListItem(
+                                AllergyWords(
+                                    substance: "Penicillin", reaction: "Hives", severity: "Moderate",
+                                    verificationStatus: "Confirmed", category: "Medication"),
+                                codes: AllergyCodes(severity: "moderate", verificationStatus: "confirmed"))
+                        }
+                        AllergyRecordList(status: .noneKnown, statusLabel: "No known allergies")
+                    })
+            }),
     ]
 
     /// The examples whose name, slug or summary match `query`, with Lily's own search folding (case and accents ignored).

@@ -199,3 +199,27 @@ private struct CustomObservationStyle: ObservationViewStyle {
     #expect(render(AgeView("")))
     #expect(render(DurationView("", duration: "PT0S")))
 }
+
+private struct CustomAllergyStyle: AllergyRecordListItemStyle {
+    func makeBody(configuration: AllergyRecordListItemStyleConfiguration) -> some View {
+        VStack { configuration.substance; Text(verbatim: configuration.codes.severity ?? "-") }
+    }
+}
+
+@MainActor @Test func allergyRecordListRendersEveryStatusAndItsItems() {
+    let words = AllergyWords(
+        subject: "Mother", substance: "Peanut", reaction: "Anaphylaxis", severity: "Severe", criticality: "High risk",
+        clinicalStatus: "Active", verificationStatus: "Confirmed", type: "Allergy", category: "Food", updated: "3 Nov 2026")
+    let codes = AllergyCodes(severity: "severe", criticality: "high", clinicalStatus: "active", verificationStatus: "confirmed")
+    for status in AllergyListStatus.allCases {
+        #expect(
+            render(
+                AllergyRecordList(status: status, statusLabel: "Status words", label: "Allergies") {
+                    AllergyRecordListItem(words, codes: codes) { Link("Full record", destination: URL(string: "https://example.org")!) }
+                    AllergyRecordListItem(AllergyWords(substance: "Latex"))
+                }))
+    }
+    #expect(render(AllergyRecordList(status: .noneKnown, statusLabel: "No known allergies")))
+    #expect(render(AllergyRecordListItem(words, codes: codes).allergyRecordListItemStyle(CustomAllergyStyle())))
+    #expect(render(AllergyRecordListItem(AllergyWords(substance: "Latex")).allergyRecordListItemStyle(.plain)))
+}

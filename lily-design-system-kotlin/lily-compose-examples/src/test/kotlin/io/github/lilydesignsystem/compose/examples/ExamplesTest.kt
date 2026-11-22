@@ -29,7 +29,7 @@ class ExamplesTest {
         assertEquals(
             setOf(
                 "field", "error-summary", "summary-list", "warning-text", "alert", "badge", "tag", "card", "inset-text",
-                "observation-view", "age-view", "duration-view",
+                "observation-view", "age-view", "duration-view", "allergy-record-list",
             ),
             slugs.toSet(),
         )

@@ -34,6 +34,13 @@
 - `children`: slot (optional) — `allergy-record-list-item` items
 - `...restProps`: any — additional HTML attributes spread onto the root
 
+## Mobile
+
+Decisions: [mobile/components-mobile.tsv](../../mobile/components-mobile.tsv) (`lily` on both). The rules are `AllergyRules` in `LilyCore` and `lily-core`, one test each.
+
+- Apple: `AllergyRecordList(status:statusLabel:label:content:)` in `LilyUI`: a labelled container named by `label`, else `statusLabel`; for any status but `known` the status words are its one item. A missing `statusLabel` prints a development warning.
+- Android: `AllergyRecordList(status, statusLabel, label) { … }` in `lily-compose`: a traversal group with the same rules.
+
 ## Acceptance Criteria
 
 - [x] Renders <ul> with class="allergy-record-list"
