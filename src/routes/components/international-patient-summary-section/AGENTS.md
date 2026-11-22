@@ -62,6 +62,13 @@
 - Notes: The narrative is a <details>: open, close, keyboard and find-in-page reveal come from the browser.
 - Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
 
+## Mobile
+
+Decisions: [mobile/components-mobile.tsv](../../mobile/components-mobile.tsv) (`lily` on both). The rules are `IpsRules` in `LilyCore` and `lily-core`.
+
+- Apple: `InternationalPatientSummarySection(section:heading:headingLevel:status:statusLabel:statusPlacement:narrativeLabel:narrativeOpen:content:narrative:)` in `LilyUI`: a container under a header at its level (no region landmarks on mobile); the status line shows unless `statusPlacement` is `.list`; the narrative is in a native `DisclosureGroup`; `code` gives the LOINC code.
+- Android: `InternationalPatientSummarySection(…)` in `lily-compose`: a traversal group under a `heading()`; the narrative is in `Disclosure`, since foundation has none.
+
 ## Acceptance Criteria
 
 - [ ] Renders <section> with class="international-patient-summary-section", named by its heading
