@@ -166,6 +166,7 @@ xctest
 precomposed
 exclamationmark
 subheadline
+hydr
 Okoro
 toggleable
 xcstrings

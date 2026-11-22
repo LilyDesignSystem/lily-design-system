@@ -45,6 +45,8 @@ import io.github.lilydesignsystem.compose.LilyAlert
 import io.github.lilydesignsystem.compose.LilyBadge
 import io.github.lilydesignsystem.compose.LilyCard
 import io.github.lilydesignsystem.compose.LilyMinimumTouchTarget
+import io.github.lilydesignsystem.compose.MedicationView
+import io.github.lilydesignsystem.core.MedicationNameSegment
 import io.github.lilydesignsystem.compose.Politeness
 import io.github.lilydesignsystem.compose.Problem
 import io.github.lilydesignsystem.compose.SummaryList
@@ -211,6 +213,21 @@ public object Examples {
                 }
                 AllergyRecordList(AllergyListStatus.NoneKnown, "No known allergies")
             }
+        },
+        Example(
+            "medication-view", "MedicationView",
+            "A medicine with tall man letters marked by the app; the spoken name stays one word.",
+            """
+            MedicationView(nameSegments = listOf(MedicationNameSegment("hydr"), MedicationNameSegment("OXY", tallMan = true),
+                           MedicationNameSegment("zine")), strength = "25 mg", form = "tablet", route = "oral")
+            """.trimIndent(),
+        ) {
+            MedicationView(
+                nameSegments = listOf(
+                    MedicationNameSegment("hydr"), MedicationNameSegment("OXY", tallMan = true), MedicationNameSegment("zine"),
+                ),
+                strength = "25\u00A0mg", form = "tablet", route = "oral", frequency = "twice a day",
+            )
         },
     )
 

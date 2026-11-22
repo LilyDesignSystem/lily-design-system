@@ -237,4 +237,26 @@ class ComponentSemanticsTest {
         rule.waitForIdle()
         rule.onNodeWithContentDescription("Latex").assertExists()
     }
+
+    @Test fun medicationViewSpeaksOneWordForATallManName() {
+        val segments = listOf(
+            io.github.lilydesignsystem.core.MedicationNameSegment("hydr"),
+            io.github.lilydesignsystem.core.MedicationNameSegment("OXY", tallMan = true),
+            io.github.lilydesignsystem.core.MedicationNameSegment("zine"),
+        )
+        rule.setContent {
+            androidx.compose.foundation.layout.Column {
+                MedicationView(nameSegments = segments, strength = "25\u00A0mg", route = "oral", label = "Medication")
+                MedicationView(name = "Paracetamol", dosageText = "Two tablets up to four times a day")
+            }
+        }
+        rule.onNodeWithContentDescription("Medication\nhydrOXYzine\n25\u00A0mg\noral").assertExists()
+        rule.onNodeWithContentDescription("Paracetamol\nTwo tablets up to four times a day").assertExists()
+        val name = medicationName(null, segments)!!
+        assertEquals("hydrOXYzine", name.text)
+        assertEquals(1, name.spanStyles.size)
+        assertEquals(4, name.spanStyles[0].start)
+        assertNull(medicationName(null, emptyList()))
+        assertEquals("Ibuprofen", medicationName("Ibuprofen", emptyList())!!.text)
+    }
 }

@@ -39,3 +39,14 @@ import Testing
             == "Mother\nPeanut\nAnaphylaxis\nSevere\nHigh risk\nActive\nConfirmed\nAllergy\nFood\n3 Nov 2026")
     #expect(AllergyRules.spoken(AllergyWords(substance: "Latex", reaction: "")) == "Latex")
 }
+
+@Test func medicationSegmentsJoinIntoOneSpokenName() {
+    let segments = [MedicationNameSegment("hydr"), MedicationNameSegment("OXY", tallMan: true), MedicationNameSegment("zine")]
+    #expect(MedicationRules.name("ignored", segments: segments) == "hydrOXYzine")
+    #expect(MedicationRules.name("Paracetamol", segments: []) == "Paracetamol")
+    #expect(MedicationRules.name(nil, segments: []) == nil)
+    #expect(
+        MedicationRules.spoken(
+            label: "Medication", name: nil, segments: segments, strength: "25\u{00A0}mg", form: "tablet", route: "oral",
+            frequency: "twice a day", dosageText: "") == "Medication\nhydrOXYzine\n25\u{00A0}mg\ntablet\noral\ntwice a day")
+}

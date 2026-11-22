@@ -39,3 +39,16 @@ class AllergyTest {
         assertEquals("Latex", AllergyRules.spoken(AllergyWords("Latex", reaction = "")))
     }
 }
+
+class MedicationTest {
+    @Test fun segmentsJoinIntoOneSpokenName() {
+        val segments = listOf(MedicationNameSegment("hydr"), MedicationNameSegment("OXY", tallMan = true), MedicationNameSegment("zine"))
+        assertEquals("hydrOXYzine", MedicationRules.name("ignored", segments))
+        assertEquals("Paracetamol", MedicationRules.name("Paracetamol", emptyList()))
+        assertEquals(null, MedicationRules.name(null, emptyList()))
+        assertEquals(
+            "Medication\nhydrOXYzine\n25 mg\ntablet\noral\ntwice a day",
+            MedicationRules.spoken("Medication", null, segments, "25 mg", "tablet", "oral", "twice a day", ""),
+        )
+    }
+}

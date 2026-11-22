@@ -212,6 +212,19 @@ public enum Examples {
                         AllergyRecordList(status: .noneKnown, statusLabel: "No known allergies")
                     })
             }),
+        Example(
+            slug: "medication-view", name: "MedicationView",
+            summary: "A medicine with tall man letters marked by the app; the spoken name stays one word.",
+            code: """
+                MedicationView(nameSegments: [.init("hydr"), .init("OXY", tallMan: true), .init("zine")],
+                               strength: "25 mg", form: "tablet", route: "oral", frequency: "twice a day")
+                """,
+            make: {
+                AnyView(
+                    MedicationView(
+                        nameSegments: [.init("hydr"), .init("OXY", tallMan: true), .init("zine")], strength: "25\u{00A0}mg",
+                        form: "tablet", route: "oral", frequency: "twice a day"))
+            }),
     ]
 
     /// The examples whose name, slug or summary match `query`, with Lily's own search folding (case and accents ignored).

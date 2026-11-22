@@ -223,3 +223,21 @@ private struct CustomAllergyStyle: AllergyRecordListItemStyle {
     #expect(render(AllergyRecordListItem(words, codes: codes).allergyRecordListItemStyle(CustomAllergyStyle())))
     #expect(render(AllergyRecordListItem(AllergyWords(substance: "Latex")).allergyRecordListItemStyle(.plain)))
 }
+
+private struct CustomMedicationStyle: MedicationViewStyle {
+    func makeBody(configuration: MedicationViewStyleConfiguration) -> some View {
+        HStack { configuration.name; ForEach(Array(configuration.details.enumerated()), id: \.offset) { $0.element } }
+    }
+}
+
+@MainActor @Test func medicationViewRendersPlainAndTallManNames() {
+    #expect(render(MedicationView(name: "Paracetamol", strength: "500\u{00A0}mg", form: "tablet", label: "Medication")))
+    #expect(
+        render(
+            MedicationView(
+                nameSegments: [.init("hydr"), .init("OXY", tallMan: true), .init("zine")], strength: "25\u{00A0}mg",
+                route: "oral", frequency: "twice a day", dosageText: "Take with food")))
+    #expect(render(MedicationView(name: "Ibuprofen", strength: "200\u{00A0}mg").medicationViewStyle(CustomMedicationStyle())))
+    #expect(render(MedicationView(name: "Ibuprofen").medicationViewStyle(.plain)))
+    #expect(MedicationView().nameText == nil)
+}

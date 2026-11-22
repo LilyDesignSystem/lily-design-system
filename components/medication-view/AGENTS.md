@@ -37,6 +37,13 @@
 - `label`: string (optional) — hidden text naming the value
 - `...restProps`: any — additional HTML attributes spread onto the root
 
+## Mobile
+
+Decisions: [mobile/components-mobile.tsv](../../mobile/components-mobile.tsv) (`lily` on both). The rules are `MedicationRules` in `LilyCore` and `lily-core`.
+
+- Apple: `MedicationView(name:nameSegments:strength:form:route:frequency:dosageText:label:)` in `LilyUI`: tall man segments (`MedicationNameSegment`) are bold, nothing is marked automatically, and the spoken name is the segments joined, one word; one VoiceOver element; no part truncated. Style: `MedicationViewStyle`.
+- Android: `MedicationView(…)` in `lily-compose`: the name is an `AnnotatedString` with bold tall man spans (`medicationName()`); one TalkBack stop.
+
 ## Acceptance Criteria
 
 - [x] Renders <span> with class="medication-view"
