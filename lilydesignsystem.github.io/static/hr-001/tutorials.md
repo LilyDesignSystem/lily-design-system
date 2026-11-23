@@ -83,7 +83,23 @@ Makroi renderirani na poslužitelju za Eleventy i bilo koji Node cjevovod predlo
 
 ~10 minuta
 
-](https://lilydesignsystem.com/hr-001/tutorials/nunjucks/)
+](https://lilydesignsystem.com/hr-001/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 minuta
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 minuta
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 Ne možete se odlučiti? Počnite s [HTML](https://lilydesignsystem.com/hr-001/tutorials/html/) — uči ugovor o kukama klasa koji dijele svi ostali frameworki i radi izravno iz datoteke.
 

@@ -83,7 +83,23 @@ Eleventy اور کسی بھی Node ٹیمپلیٹنگ پائپ لائن کے ل�
 
 تقریباً 10 منٹ
 
-](https://lilydesignsystem.com/ur-001/tutorials/nunjucks/)
+](https://lilydesignsystem.com/ur-001/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+تقریباً 10 منٹ
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+تقریباً 10 منٹ
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 فیصلہ نہیں کر پا رہے؟ [HTML](https://lilydesignsystem.com/ur-001/tutorials/html/) سے شروع کریں — یہ وہ کلاس ہُک معاہدہ سکھاتا ہے جو باقی تمام فریم ورکس میں مشترک ہے، اور یہ سیدھا فائل سے چلتا ہے۔
 

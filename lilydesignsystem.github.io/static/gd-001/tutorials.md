@@ -83,7 +83,23 @@ Macros air an rèiteachadh air an fhrithealaiche airson Eleventy agus loidhne-ph
 
 ~10 mionaidean
 
-](https://lilydesignsystem.com/gd-001/tutorials/nunjucks/)
+](https://lilydesignsystem.com/gd-001/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 mionaidean
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 mionaidean
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 Nad dhà bheachd? Tòisich le [HTML](https://lilydesignsystem.com/gd-001/tutorials/html/) — theagaisg e cùmhnant nan crochaidhean clas a tha gach frèam eile a’ roinn, agus ruithidh e dìreach bho fhaidhle.
 

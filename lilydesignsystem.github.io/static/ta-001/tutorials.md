@@ -81,7 +81,23 @@ Eleventy மற்றும் எந்த Node வார்ப்புரு 
 
 ~10 நிமிடங்கள்
 
-](https://lilydesignsystem.com/ta-001/tutorials/nunjucks/)
+](https://lilydesignsystem.com/ta-001/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 நிமிடங்கள்
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 நிமிடங்கள்
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 குழப்பமா? இதிலிருந்து தொடங்குங்கள்: [HTML](https://lilydesignsystem.com/ta-001/tutorials/html/) — இது மற்ற ஒவ்வொரு கட்டமைப்பும் பகிரும் வகுப்பு கொக்கி ஒப்பந்தத்தைக் கற்பிக்கிறது, கோப்பிலிருந்தே நேரடியாக இயங்குகிறது.
 

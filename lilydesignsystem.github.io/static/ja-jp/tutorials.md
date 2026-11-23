@@ -83,7 +83,23 @@ Eleventy や、あらゆる Node のテンプレート処理パイプライン�
 
 約 10 分
 
-](https://lilydesignsystem.com/ja-jp/tutorials/nunjucks/)
+](https://lilydesignsystem.com/ja-jp/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+約 10 分
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+約 10 分
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 迷ったら [HTML](https://lilydesignsystem.com/ja-jp/tutorials/html/) から始めましょう。他のすべてのフレームワークが共有するクラスフックの約束事が身につき、 ファイルから直接実行できます。
 

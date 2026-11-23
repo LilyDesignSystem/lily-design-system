@@ -83,7 +83,23 @@ Zerbitzarian errendatutako makroak Eleventy-rako eta edozein Node txantiloi-kana
 
 ~10 minutu
 
-](https://lilydesignsystem.com/eu-es/tutorials/nunjucks/)
+](https://lilydesignsystem.com/eu-es/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 minutu
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 minutu
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 Zalantzan? Hasi [HTML](https://lilydesignsystem.com/eu-es/tutorials/html/) — rekin; beste framework guztiek partekatzen duten klase-gakoen kontratua irakasten du, eta zuzenean fitxategitik exekutatzen da.
 

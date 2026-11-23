@@ -83,7 +83,23 @@ Makro yang dirender di server untuk Eleventy dan alur templat Node apa pun.
 
 ~10 menit
 
-](https://lilydesignsystem.com/id-id/tutorials/nunjucks/)
+](https://lilydesignsystem.com/id-id/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 menit
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 menit
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 Bingung memilih? Mulailah dengan [HTML](https://lilydesignsystem.com/id-id/tutorials/html/) — tutorial ini mengajarkan kontrak kelas pengait yang dipakai bersama oleh semua framework lain, dan dapat dijalankan langsung dari berkas.
 

@@ -83,7 +83,23 @@ Eleventy आ कवनो Node टेम्पलेट पाइपलाइन
 
 ~10 मिनट
 
-](https://lilydesignsystem.com/bh-001/tutorials/nunjucks/)
+](https://lilydesignsystem.com/bh-001/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 मिनट
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 मिनट
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 दुविधा में बानी? एकरा से शुरू करीं: [HTML](https://lilydesignsystem.com/bh-001/tutorials/html/) — ई क्लास हुक करार सिखावेला जे बाकी हर फ्रेमवर्क साझा करेला, आ सीधे फाइल से चलेला।
 

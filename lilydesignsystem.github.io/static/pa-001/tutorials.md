@@ -83,7 +83,23 @@ Eleventy ਅਤੇ ਕਿਸੇ ਵੀ Node ਟੈਂਪਲੇਟ ਪਾਈਪ�
 
 ~10 ਮਿੰਟ
 
-](https://lilydesignsystem.com/pa-001/tutorials/nunjucks/)
+](https://lilydesignsystem.com/pa-001/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 ਮਿੰਟ
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 ਮਿੰਟ
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 ਦੁਚਿੱਤੀ ਵਿੱਚ ਹੋ? ਇਸ ਨਾਲ ਸ਼ੁਰੂ ਕਰੋ: [HTML](https://lilydesignsystem.com/pa-001/tutorials/html/) — ਇਹ ਕਲਾਸ ਹੁੱਕ ਇਕਰਾਰਨਾਮਾ ਸਿਖਾਉਂਦਾ ਹੈ ਜੋ ਹਰ ਹੋਰ ਫ੍ਰੇਮਵਰਕ ਸਾਂਝਾ ਕਰਦਾ ਹੈ, ਅਤੇ ਸਿੱਧਾ ਫਾਈਲ ਤੋਂ ਚੱਲਦਾ ਹੈ।
 

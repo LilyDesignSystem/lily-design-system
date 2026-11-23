@@ -83,7 +83,23 @@ Makrows renderjati fuq is-server għal Eleventy u kwalunkwe pipeline tat-templat
 
 ~10 minuti
 
-](https://lilydesignsystem.com/mt-mt/tutorials/nunjucks/)
+](https://lilydesignsystem.com/mt-mt/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 minuti
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 minuti
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 Imdejjaq bejniethom? Ibda b’ [HTML](https://lilydesignsystem.com/mt-mt/tutorials/html/) — jgħallem il-kuntratt tal-ganċijiet tal-klassi li jaqsmu l-frameworks l-oħra kollha, u jaħdem direttament minn fajl.
 

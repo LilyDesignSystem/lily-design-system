@@ -83,7 +83,23 @@ Server-rendert macros for Eleventy an onie Node templating pipeline.
 
 ~10 minutes
 
-](https://lilydesignsystem.com/sco-gb/tutorials/nunjucks/)
+](https://lilydesignsystem.com/sco-gb/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 minutes
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 minutes
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 Torn atween them? Stairt wi [HTML](https://lilydesignsystem.com/sco-gb/tutorials/html/) — it teaches the class-hook contract ilka ither framework shares, an it rins straucht frae a file.
 

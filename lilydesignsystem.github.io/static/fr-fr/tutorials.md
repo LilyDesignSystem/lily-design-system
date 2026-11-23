@@ -83,7 +83,23 @@ Macros rendues côté serveur pour Eleventy et toute chaîne de modèles Node.
 
 ~10 minutes
 
-](https://lilydesignsystem.com/fr-fr/tutorials/nunjucks/)
+](https://lilydesignsystem.com/fr-fr/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 minutes
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 minutes
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 Hésitant ? Commencez par [HTML](https://lilydesignsystem.com/fr-fr/tutorials/html/) — il enseigne le contrat des classes d'accroche que tous les autres frameworks partagent, et il s'exécute directement depuis un fichier.
 

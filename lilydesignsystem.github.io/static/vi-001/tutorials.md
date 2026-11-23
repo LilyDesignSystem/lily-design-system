@@ -83,7 +83,23 @@ Macro hiển thị phía máy chủ cho Eleventy và mọi quy trình mẫu củ
 
 ~10 phút
 
-](https://lilydesignsystem.com/vi-001/tutorials/nunjucks/)
+](https://lilydesignsystem.com/vi-001/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 phút
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 phút
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 Phân vân? Hãy bắt đầu với [HTML](https://lilydesignsystem.com/vi-001/tutorials/html/) — nó dạy hợp đồng móc lớp mà mọi framework khác đều dùng chung, và chạy thẳng từ một tệp.
 

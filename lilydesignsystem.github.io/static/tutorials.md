@@ -2,7 +2,7 @@
 
 Title: Tutorials — Lily Design System
 
-Description: Step-by-step Lily tutorials: your first component, styling, ready-made themes, and preference helpers — for HTML, Svelte, React, Vue, Angular, Blazor, and Nunjucks.
+Description: Step-by-step Lily tutorials: your first component, styling, ready-made themes, and preference helpers — for HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks, Swift, and Kotlin.
 
 # Learn Lily, step by step
 
@@ -83,7 +83,23 @@ Server-rendered macros for Eleventy and any Node templating pipeline.
 
 ~10 minutes
 
-](https://lilydesignsystem.com/tutorials/nunjucks/)
+](https://lilydesignsystem.com/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 minutes
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 minutes
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 Torn between them? Start with [HTML](https://lilydesignsystem.com/tutorials/html/) — it teaches the class-hook contract every other framework shares, and it runs straight from a file.
 

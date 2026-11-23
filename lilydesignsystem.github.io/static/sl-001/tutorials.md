@@ -83,7 +83,23 @@ Makri, upodobljeni na strežniku, za Eleventy in katerikoli cevovod predlog Node
 
 ~10 minut
 
-](https://lilydesignsystem.com/sl-001/tutorials/nunjucks/)
+](https://lilydesignsystem.com/sl-001/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 minut
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 minut
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 Ne morete se odločiti? Začnite s [HTML](https://lilydesignsystem.com/sl-001/tutorials/html/) — uči pogodbo o kavljih razredov, ki jo delijo vsa druga ogrodja, in deluje neposredno iz datoteke.
 

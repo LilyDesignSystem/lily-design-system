@@ -83,7 +83,23 @@ Serveryje atvaizduojami makrokomandos Eleventy ir bet kuriam Node šablonų konv
 
 ~10 minučių
 
-](https://lilydesignsystem.com/lt-lt/tutorials/nunjucks/)
+](https://lilydesignsystem.com/lt-lt/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 minučių
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 minučių
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 Nesate tikri? Pradėkite nuo [HTML](https://lilydesignsystem.com/lt-lt/tutorials/html/) — jis moko klasės kabliukų sutarties, kurią dalijasi visi kiti karkasai, ir veikia tiesiai iš failo.
 

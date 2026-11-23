@@ -83,7 +83,23 @@ Eleventy आणि कोणत्याही Node टेम्प्लेट 
 
 ~10 मिनिटे
 
-](https://lilydesignsystem.com/mr-001/tutorials/nunjucks/)
+](https://lilydesignsystem.com/mr-001/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 मिनिटे
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 मिनिटे
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 द्विधा आहात? याने सुरू करा: [HTML](https://lilydesignsystem.com/mr-001/tutorials/html/) — हे इतर प्रत्येक फ्रेमवर्क वाटून घेतो तो क्लास हुक करार शिकवते, आणि थेट फाइलमधून चालते.
 

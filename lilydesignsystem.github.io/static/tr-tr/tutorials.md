@@ -83,7 +83,23 @@ Eleventy ve herhangi bir Node şablon hattı için sunucuda oluşturulan makrola
 
 ~10 dakika
 
-](https://lilydesignsystem.com/tr-tr/tutorials/nunjucks/)
+](https://lilydesignsystem.com/tr-tr/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 dakika
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 dakika
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 Kararsız mısınız? [HTML](https://lilydesignsystem.com/tr-tr/tutorials/html/) ile başlayın — diğer tüm çerçevelerin paylaştığı sınıf kancası sözleşmesini öğretir ve doğrudan bir dosyadan çalışır.
 

@@ -83,7 +83,23 @@ Runes του Svelte 5, snippets και αμφίδρομη δέσμευση με 
 
 ~10 λεπτά
 
-](https://lilydesignsystem.com/el-gr/tutorials/nunjucks/)
+](https://lilydesignsystem.com/el-gr/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 λεπτά
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 λεπτά
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 Διστάζεις; Ξεκίνα με το [HTML](https://lilydesignsystem.com/el-gr/tutorials/html/) — διδάσκει το συμβόλαιο των αγκιστριών κλάσεων που μοιράζονται όλα τα άλλα πλαίσια και τρέχει απευθείας από αρχείο.
 

@@ -83,7 +83,23 @@ Eleventy और किसी भी Node टेम्पलेट पाइप�
 
 लगभग 10 मिनट
 
-](https://lilydesignsystem.com/hi-001/tutorials/nunjucks/)
+](https://lilydesignsystem.com/hi-001/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+लगभग 10 मिनट
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+लगभग 10 मिनट
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 तय नहीं कर पा रहे? [HTML](https://lilydesignsystem.com/hi-001/tutorials/html/) से शुरू करें — यह वह क्लास हुक अनुबंध सिखाता है जो बाकी सभी फ़्रेमवर्क साझा करते हैं, और यह सीधे फ़ाइल से चलता है।
 

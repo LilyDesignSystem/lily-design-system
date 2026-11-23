@@ -83,7 +83,23 @@ Serverrenderade makron för Eleventy och valfri Node-mallpipeline.
 
 ca 10 minuter
 
-](https://lilydesignsystem.com/sv-se/tutorials/nunjucks/)
+](https://lilydesignsystem.com/sv-se/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+ca 10 minuter
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+ca 10 minuter
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 Kan du inte välja? Börja med [HTML](https://lilydesignsystem.com/sv-se/tutorials/html/) – den lär ut kontraktet för klasskrokar som alla andra ramverk delar, och den körs direkt från en fil.
 

@@ -83,7 +83,23 @@ Makros dyskwedhys war servyer rag Eleventy ha pub fordh-skrifans Node.
 
 ~10 mynysenn
 
-](https://lilydesignsystem.com/kw-gb/tutorials/nunjucks/)
+](https://lilydesignsystem.com/kw-gb/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 mynysenn
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 mynysenn
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 Dhe-vlans? Dallethewgh gans [HTML](https://lilydesignsystem.com/kw-gb/tutorials/html/) — hi a dhisk an kevambos klass-krok a rann peub framwyth aral, ha hi a gerdh yn kowl dhiworth restren.
 

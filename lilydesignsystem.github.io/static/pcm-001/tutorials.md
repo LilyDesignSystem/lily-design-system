@@ -83,7 +83,23 @@ Macros wey server dey render for Eleventy and any Node templating pipeline wey y
 
 ~10 minutes
 
-](https://lilydesignsystem.com/pcm-001/tutorials/nunjucks/)
+](https://lilydesignsystem.com/pcm-001/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 minutes
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 minutes
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 You dey confuse between dem? Start with [HTML](https://lilydesignsystem.com/pcm-001/tutorials/html/) — e teach di class-hook contract wey every other framework share, and e dey run straight from file.
 

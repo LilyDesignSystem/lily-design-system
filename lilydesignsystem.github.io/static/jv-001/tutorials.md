@@ -83,7 +83,23 @@ Makro sing dirender ing server kanggo Eleventy lan pipeline templat Node apa wa�
 
 ~10 menit
 
-](https://lilydesignsystem.com/jv-001/tutorials/nunjucks/)
+](https://lilydesignsystem.com/jv-001/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 menit
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 menit
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 Bingung milih? Wiwiti karo [HTML](https://lilydesignsystem.com/jv-001/tutorials/html/) — mulangaké kontrak pancingan kelas sing dienggo bareng kabèh framework liyané, lan mlaku langsung saka berkas.
 

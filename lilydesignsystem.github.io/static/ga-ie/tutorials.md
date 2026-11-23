@@ -83,7 +83,23 @@ Macraí rindreáilte ar an bhfreastalaí d’Eleventy agus d’aon phíblíne te
 
 ~10 nóiméad
 
-](https://lilydesignsystem.com/ga-ie/tutorials/nunjucks/)
+](https://lilydesignsystem.com/ga-ie/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 nóiméad
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 nóiméad
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 Idir dhá chomhairle? Tosaigh le [HTML](https://lilydesignsystem.com/ga-ie/tutorials/html/) — múineann sé conradh na gcrúcaí aicme a roinneann gach creat eile, agus ritheann sé go díreach ó chomhad.
 

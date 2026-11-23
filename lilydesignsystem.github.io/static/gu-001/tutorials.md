@@ -83,7 +83,23 @@ Eleventy અને કોઈપણ Node ટેમ્પ્લેટ પાઇપ
 
 ~10 મિનિટ
 
-](https://lilydesignsystem.com/gu-001/tutorials/nunjucks/)
+](https://lilydesignsystem.com/gu-001/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 મિનિટ
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 મિનિટ
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 અસમંજસમાં છો? આનાથી શરૂ કરો: [HTML](https://lilydesignsystem.com/gu-001/tutorials/html/) — તે ક્લાસ હૂક કરાર શીખવે છે જે અન્ય દરેક ફ્રેમવર્ક વહેંચે છે, અને સીધું ફાઇલમાંથી ચાલે છે.
 

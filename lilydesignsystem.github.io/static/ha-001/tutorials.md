@@ -83,7 +83,23 @@ Macro da aka nuna a uwar garke don Eleventy da kowane bututun samfuri na Node.
 
 ~minti 10
 
-](https://lilydesignsystem.com/ha-001/tutorials/nunjucks/)
+](https://lilydesignsystem.com/ha-001/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~minti 10
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~minti 10
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 Ka rasa yadda za ka zaɓa? Fara da [HTML](https://lilydesignsystem.com/ha-001/tutorials/html/) — yana koyar da yarjejeniyar ƙugiyoyin aji da kowane sauran tsarin aiki ke rabawa, kuma yana gudana kai tsaye daga fayil.
 

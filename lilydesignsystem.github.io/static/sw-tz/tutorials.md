@@ -83,7 +83,23 @@ Makro yanayoonyeshwa na seva kwa Eleventy na mfumo wowote wa violezo wa Node.
 
 ~dakika 10
 
-](https://lilydesignsystem.com/sw-tz/tutorials/nunjucks/)
+](https://lilydesignsystem.com/sw-tz/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~dakika 10
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~dakika 10
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 Umeshindwa kuchagua? Anza na [HTML](https://lilydesignsystem.com/sw-tz/tutorials/html/) — inafundisha mkataba wa vishikio vya darasa unaoshirikiwa na kila mfumo mwingine wa kazi, na inaendeshwa moja kwa moja kutoka kwa faili.
 

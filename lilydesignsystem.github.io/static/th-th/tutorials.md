@@ -83,7 +83,23 @@ Svelte 5 runes สนิปเป็ต และการผูกสองท�
 
 ประมาณ 10 นาที
 
-](https://lilydesignsystem.com/th-th/tutorials/nunjucks/)
+](https://lilydesignsystem.com/th-th/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+ประมาณ 10 นาที
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+ประมาณ 10 นาที
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 ลังเลอยู่ใช่ไหม? เริ่มกับ [HTML](https://lilydesignsystem.com/th-th/tutorials/html/) — สอนข้อตกลงคลาสฮุกที่ทุกเฟรมเวิร์กอื่นใช้ร่วมกัน และรันได้จากไฟล์โดยตรง
 

@@ -83,7 +83,23 @@ Makra renderowane po stronie serwera dla Eleventy i dowolnego potoku szablonów 
 
 ~10 minut
 
-](https://lilydesignsystem.com/pl-001/tutorials/nunjucks/)
+](https://lilydesignsystem.com/pl-001/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 minut
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 minut
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 Nie możesz się zdecydować? Zacznij od [HTML](https://lilydesignsystem.com/pl-001/tutorials/html/) — uczy kontraktu haków klas, który dzielą wszystkie inne frameworki, i działa prosto z pliku.
 

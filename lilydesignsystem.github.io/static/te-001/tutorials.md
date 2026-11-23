@@ -83,7 +83,23 @@ Eleventy మరియు ఏదైనా Node టెంప్లేట్ పై
 
 ~10 నిమిషాలు
 
-](https://lilydesignsystem.com/te-001/tutorials/nunjucks/)
+](https://lilydesignsystem.com/te-001/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 నిమిషాలు
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 నిమిషాలు
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 సందిగ్ధంలో ఉన్నారా? దీనితో మొదలుపెట్టండి: [HTML](https://lilydesignsystem.com/te-001/tutorials/html/) — ఇది ఇతర ప్రతి ఫ్రేమ్‌వర్క్ పంచుకునే క్లాస్ హుక్ ఒప్పందాన్ని నేర్పుతుంది, మరియు నేరుగా ఫైల్ నుండి నడుస్తుంది.
 

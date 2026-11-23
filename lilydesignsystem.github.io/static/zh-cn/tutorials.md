@@ -83,7 +83,23 @@ Svelte 5 runes、代码片段和 `bind:value` 双向绑定。
 
 约 10 分钟
 
-](https://lilydesignsystem.com/zh-cn/tutorials/nunjucks/)
+](https://lilydesignsystem.com/zh-cn/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+约 10 分钟
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+约 10 分钟
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 拿不定主意？从 [HTML](https://lilydesignsystem.com/zh-cn/tutorials/html/) 开始——它讲授所有其他框架共享的类钩子契约，并且可以直接从文件运行。
 
