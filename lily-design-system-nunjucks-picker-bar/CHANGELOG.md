@@ -4,6 +4,10 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.9.0 — 2026-11-23
+
+- **Changed:** the default `themes` list has 65 entries: it gains "Light High-Contrast" and "Dark High-Contrast" (WCAG 2.2 AAA), sorted with the rest by the name shown. Pickers: `theme-picker`.
+
 ## 0.8.0 — 2026-11-21
 
 - **Order change:** the default themes list the 36 generic themes first, alphabetically, then the 27 company and

@@ -3,6 +3,10 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the package follows [Semantic Versioning](https://semver.org/).
 
+## 0.3.0 — 2026-11-23
+
+- **Added:** `validateNationalIdentifier` and the per-identifier check-digit validators (documented algorithms only), returning `{ valid }` or `{ valid: false, reason }`; a non-string is a `TypeError`. Pickers: none.
+
 ## 0.2.0 — 2026-11-18
 
 - Twelve more national identifier types, 24 components (188 in all, 94 types): Peru's Documento Nacional de

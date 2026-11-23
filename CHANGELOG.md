@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Release: themes 0.9.0, picker-bars and the headless identifiers add-ons (2026-11-23)
+
+- `@lilydesignsystem/themes` 0.9.0: Light High-Contrast and Dark High-Contrast (WCAG 2.2 AAA), 65 themes.
+- The picker-bars (Svelte, React, Vue, Angular, HTML, Web Components, Solid, Nunjucks) list the 65 themes by default.
+- The nine npm `-headless-identifiers` packages ship `validateNationalIdentifier` and the check-digit validators.
+
 ## Faster local CI (2026-11-23)
 
 - `bin/ci --full` runs the jobs in parallel lanes (3 at a time, each tool limited to its share of the cores) and does not rerun

@@ -5,6 +5,10 @@ The format is loosely based on [Keep a Changelog](https://keepachangelog.com/) a
 change what a page shows. The monorepo's root
 [CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md) has the reasoning behind each change.
 
+## 0.10.0 — 2026-11-23
+
+- **Changed:** the default `themes` list has 65 entries: it gains "Light High-Contrast" and "Dark High-Contrast" (WCAG 2.2 AAA), sorted with the rest by the name shown. Pickers: `theme-picker`.
+
 ## 0.9.0 — 2026-11-22
 
 - **Changed (order):** the default `themes` are one list sorted alphabetically by the name shown, not the 36 generic themes first

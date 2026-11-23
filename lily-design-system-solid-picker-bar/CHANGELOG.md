@@ -12,3 +12,7 @@ Release highlights and project news: [NEWS.md](NEWS.md).
 ---
 
 Lily™ and Lily Design System™ are trademarks.
+
+## 0.4.0 — 2026-11-23
+
+- **Changed:** the default `themes` list has 65 entries: it gains "Light High-Contrast" and "Dark High-Contrast" (WCAG 2.2 AAA), sorted with the rest by the name shown. Pickers: `theme-picker`.

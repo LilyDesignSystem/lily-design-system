@@ -5,6 +5,10 @@ The format is loosely based on [Keep a Changelog](https://keepachangelog.com/) a
 anything that can change how an existing page lays out. The monorepo's root
 [CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md) has the reasoning behind each change.
 
+## 0.9.0 — 2026-11-23
+
+- **Added:** `light-high-contrast` and `dark-high-contrast`, accessible themes meeting WCAG 2.2 AAA (7:1 text and a heavy focus ring), 65 themes in all.
+
 ## 0.8.0 — 2026-11-22
 
 - **Fixed:** a link inside `.hero` takes the hero's text colour (`color: inherit`, underlined), and so do the headings, so it is
