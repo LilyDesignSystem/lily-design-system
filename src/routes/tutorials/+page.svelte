@@ -2,7 +2,7 @@
   <title>Tutorials — Lily Design System</title>
   <meta
     name="description"
-    content="Step-by-step Lily tutorials: your first component, styling, ready-made themes, and preference helpers — for HTML, Svelte, React, Vue, Angular, Blazor, and Nunjucks."
+    content="Step-by-step Lily tutorials: your first component, styling, ready-made themes, and preference helpers — for HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks, Swift, and Kotlin."
   />
 </svelte:head>
 
@@ -32,6 +32,11 @@
     <li>
       <strong>For Blazor</strong> — git and the
       <a href="https://dotnet.microsoft.com/">.NET SDK</a> 11 or later.
+    </li>
+    <li>
+      <strong>For Swift</strong> — a Mac with Xcode, to build for iOS or
+      iPadOS. <strong>For Kotlin</strong> — Android Studio and a recent
+      JDK.
     </li>
   </ul>
   <p>
@@ -109,6 +114,16 @@
       <h3 class="card-heading">Nunjucks</h3>
       <p class="card-description">Server-rendered macros for Eleventy and any Node templating pipeline.</p>
       <p class="card-meta">~10 minutes</p>
+    </a>
+    <a class="card" href="/tutorials/swift/">
+      <h3 class="card-heading">Swift</h3>
+      <p class="card-description">SwiftUI components for iOS and iPadOS, added with Swift Package Manager.</p>
+      <p class="card-meta">~10 minutes · mobile</p>
+    </a>
+    <a class="card" href="/tutorials/kotlin/">
+      <h3 class="card-heading">Kotlin</h3>
+      <p class="card-description">Jetpack Compose components for Android, built on <code>compose.foundation</code> only.</p>
+      <p class="card-meta">~10 minutes · mobile</p>
     </a>
   </div>
   <p class="prose" style="margin: 0 auto;">
