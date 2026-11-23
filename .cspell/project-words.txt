@@ -483,3 +483,11 @@ DTAC
 NICU
 Jamo
 CUIT
+Alla
+Donella
+Drasner
+Kholmatova
+Léonie
+OOPSLA
+Sipgate
+McGrane

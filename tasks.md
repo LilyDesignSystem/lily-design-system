@@ -4565,6 +4565,40 @@ Decision (2026-11-22): pure shared functions, documented algorithms only. Compon
 - [x] **P43-T4 The list and its check.** Done 2026-11-22: `shared/national-identifiers.tsv` (94 types: 36 validated, 1 with no usable check (South Korea, with the reason), 57 open) and `bin/check-identifier-validation` in `bin/test`. A type moves from open to validated as P43-T3 continues; "format-only" became "no-check", which needs a reason. Original: Every identifier type with no check digit documented gets its format rule only and is listed with the reason in `spec/national-identifiers/index.md`; a check that its list matches what is implemented runs in `bin/test`.
       Verify: the check fails when a type is in neither list.
 
+## Phase 46 — Lessons from Smashing Magazine's "Design Systems" (2026-11-23)
+
+From [spec/lessons/smashing-magazine-design-systems](spec/lessons/smashing-magazine-design-systems/index.md). Order: T1 and T2
+together on the notices and actions, then T4 and T6, then T3, T7, T8, T10, T11 and T13; T5 is the maintainer's; T9 is an
+investigation.
+
+- [ ] **P46-T1 A purpose line for every component.** A `- Purpose:` bullet in each `components/{slug}/AGENTS.md` Metadata (what it is
+      for and how), written family by family from the notices and actions; rewrite presentational or circular descriptions.
+      Verify: a check in `bin/test` fails on a missing or empty purpose line.
+- [ ] **P46-T2 Prominence scales.** A section in `spec/components` ranking notices and actions, with politeness and one-per-view rules;
+      each member's "When to Use" names its place.
+      Verify: every component in both scales links back to it; `bin/check-links` passes.
+- [ ] **P46-T3 A purpose facet.** A purpose column in `components-categories.tsv` from `bin/generate-component-categories`, agreed by a
+      card sort, and a filter on the `/components` pages.
+      Verify: `bin/generate-registries --check` passes and an e2e test filters by purpose.
+- [ ] **P46-T4 A glossary.** `spec/glossary/index.md`, linked from `spec/index.md` and `llms.txt`.
+      Verify: `bin/check-links` passes.
+- [ ] **P46-T5 Ranked principles.** Maintainer decision: rank the overview principles and give each a checkable phrasing and an example.
+      Verify: the maintainer approves the wording.
+- [ ] **P46-T6 Criteria for a new component.** `.github/ISSUE_TEMPLATE/component-proposal.yml` and the criteria in `CONTRIBUTING.md`.
+      Verify: the next catalog addition links a filled-in proposal.
+- [ ] **P46-T7 A states grid.** A `/states` page on the docs site rendering every interactive class hook in every styled state.
+      Verify: an axe e2e test passes in the light and dark themes.
+- [ ] **P46-T8 A timing scale.** `--lily-duration-*` steps and per-purpose easings in every theme, zero under reduced motion.
+      Verify: a `bin/check-theme` rule fails a theme without them.
+- [ ] **P46-T9 Colour means action (investigation).** Count theme selectors that give non-interactive text the action colour.
+      Verify: the count and a gate-or-not decision recorded in the lessons topic.
+- [ ] **P46-T10 A label-pack writing guide.** A voice and tone section in `spec/label-packs`.
+      Verify: `bin/check-links` passes.
+- [ ] **P46-T11 Building your design system on Lily.** `docs/building-your-design-system.md`, linked from the docs site and `llms.txt`.
+      Verify: `bin/check-links` passes.
+- [ ] **P46-T13 Misuse written down.** The persuasive components name their misuse in "When Not to Use".
+      Verify: a `bin/check-known-limitations`-style assertion over the listed slugs.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.
