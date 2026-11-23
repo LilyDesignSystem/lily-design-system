@@ -5,7 +5,10 @@
 #   bin/ci --job <name> [arg...]  one job; a matrix job takes its matrix values (default: all of them)
 #   bin/ci --fast                 seconds: the checks that need no per-package install (generated files, links,
 #                                 coverage, class names); bin/test in it needs the root and docs-site installs
-#   bin/ci --full                 every job, in order; ends with a table of step, result and seconds, and writes
+#   bin/ci --full [--serial] [--no-cache]
+#                                 every job, side by side in lanes (LILY_CI_JOBS at a time, default 3, each tool limited to its share of the cores), a passed job not rerun
+#                                 while what it reads is unchanged (.ci/cache/); --serial runs one job at a time, in order,
+#                                 --no-cache runs everything. Ends with a table of step, result and seconds, and writes
 #                                 .ci/receipt.json (git-ignored)
 #   bin/ci --verify-receipt        is there a receipt for HEAD, from a clean tree, with every job passing? (the publish gate)
 #   bin/ci --clean [mode]         a clean-room mode: runs a mode (default --full) in a fresh git worktree of HEAD,
@@ -39,6 +42,14 @@ SECONDS_TAKEN=()
 group() { if [ -n "${GITHUB_ACTIONS:-}" ]; then echo "::group::$*"; else echo "== $*"; fi; }
 endgroup() { if [ -n "${GITHUB_ACTIONS:-}" ]; then echo "::endgroup::"; fi; }
 
+# Record one step's outcome for the closing table, and (in a parallel run) in this unit's step log for the parent.
+record() {
+    STEPS+=("$1")
+    RESULTS+=("$2")
+    SECONDS_TAKEN+=("$3")
+    if [ -n "${LILY_CI_STEP_LOG:-}" ]; then printf '%s\t%s\t%s\n' "$1" "$2" "$3" >> "$LILY_CI_STEP_LOG"; fi
+}
+
 # Run one named step in a subshell that stops at its first failure, and record how it went.
 step() {
     local name="$1"
@@ -50,13 +61,39 @@ step() {
     bash -e -o pipefail -c "$(declare -f); $(printf '%q ' "$@")"
     status=$?
     endgroup
-    STEPS+=("$name")
-    SECONDS_TAKEN+=($((SECONDS - start)))
-    if [ "$status" -eq 0 ]; then RESULTS+=("pass"); else RESULTS+=("FAIL ($status)"); fi
+    if [ "$status" -eq 0 ]; then record "$name" "pass" $((SECONDS - start)); else record "$name" "FAIL ($status)" $((SECONDS - start)); fi
     return "$status"
 }
 
 in_dir() { (cd "$1" && shift && "$@"); }
+
+# The root and docs-site installs. A parallel --full run does them once, up front (LILY_CI_PREINSTALLED), because two jobs
+# running pnpm install in one directory at once would race.
+root_install() { if [ -n "${LILY_CI_PREINSTALLED:-}" ]; then echo "root install: done up front"; else pnpm install --frozen-lockfile; fi; }
+docs_install() { if [ -n "${LILY_CI_PREINSTALLED:-}" ]; then echo "docs install: done up front"; else (cd lilydesignsystem.github.io && pnpm install --frozen-lockfile); fi; }
+
+# A hash of the working-tree contents of the tracked files under the given paths, plus the Node version: what a build or a
+# cached result depends on. Uncommitted edits count, so a stale result is never reused.
+paths_key() {
+    { git ls-files -z -- "$@" | xargs -0 shasum -a 1 2>/dev/null; node --version; } | shasum -a 1 | cut -d' ' -f1
+}
+
+# `pnpm run build` unless this directory, and every directory built before it in this chain, is unchanged since its last
+# build here. Only the build is skipped: the checks and tests that follow always run. Keyed on a chain, so a package built
+# after another one is rebuilt when that one changes.
+BUILD_CHAIN=""
+cached_build() {
+    local dir="$1" key stamp
+    BUILD_CHAIN="$BUILD_CHAIN$(paths_key "$dir")"
+    key="$(printf '%s' "$BUILD_CHAIN" | shasum -a 1 | cut -d' ' -f1)"
+    stamp="$dir/node_modules/.cache/lily-build-key"
+    if [ -f "$stamp" ] && [ "$(cat "$stamp")" = "$key" ] && [ -d "$dir/dist" ]; then
+        echo "build skipped: $dir is unchanged since its last build"
+        return 0
+    fi
+    (cd "$dir" && pnpm run --if-present build) || return 1
+    mkdir -p "$dir/node_modules/.cache" && printf '%s' "$key" > "$stamp"
+}
 
 # --- the install-free checks (the fast tier, and most of verify) ---
 
@@ -94,8 +131,8 @@ job_verify() {
     local failed=0
     step "verify: no tracked node_modules or dist" no_junk || failed=1
     # The root install brings Prettier, which the generators' --check modes format through.
-    step "verify: install the root" pnpm install --frozen-lockfile || return 1
-    step "verify: install the docs site" in_dir lilydesignsystem.github.io pnpm install --frozen-lockfile || return 1
+    step "verify: install the root" root_install || return 1
+    step "verify: install the docs site" docs_install || return 1
     step "verify: bin/test" bin/test || failed=1
     step "verify: bin/check-links" bin/check-links || failed=1
     step "verify: registries are freshly generated" bin/generate-registries --check || failed=1
@@ -107,7 +144,7 @@ job_verify() {
 
 job_lint() {
     local failed=0
-    step "lint: install" pnpm install --frozen-lockfile || return 1
+    step "lint: install" root_install || return 1
     step "lint: eslint" pnpm lint || failed=1
     step "lint: prettier" pnpm format:check || failed=1
     step "lint: dotnet format" bin/dotnet-format --check || failed=1
@@ -117,11 +154,13 @@ job_lint() {
 
 helper_packages_one() {
     local framework="$1" d
-    pnpm install --frozen-lockfile
-    (cd "lily-design-system-$framework-headless" && pnpm install --frozen-lockfile && pnpm run --if-present build)
+    root_install
+    (cd "lily-design-system-$framework-headless" && pnpm install --frozen-lockfile --prefer-offline) &&
+        cached_build "lily-design-system-$framework-headless" || return 1
     for d in $(bin/list-helper-packages "$framework"); do
         echo "-- $d"
-        (cd "$d" && pnpm install --frozen-lockfile && pnpm run build && pnpm run check && pnpm run test)
+        (cd "$d" && pnpm install --frozen-lockfile --prefer-offline) && cached_build "$d" &&
+            (cd "$d" && pnpm run check && pnpm run test) || return 1
     done
 }
 
@@ -134,11 +173,10 @@ job_helper_packages() {
 }
 
 headless_one() {
-    cd "$1"
-    pnpm install --frozen-lockfile
-    pnpm run check
-    pnpm run --if-present build
-    pnpm exec vitest run
+    local dir="$1"
+    (cd "$dir" && pnpm install --frozen-lockfile --prefer-offline && pnpm run check) || return 1
+    cached_build "$dir" || return 1
+    cd "$dir" && pnpm exec vitest run
 }
 
 job_headless() {
@@ -234,8 +272,8 @@ job_security_audit() { step "security-audit" bin/security-audit; }
 
 eleventy_example() {
     # The site serves the locale picker's and the date-time picker's dist/index.js.
-    (cd lily-design-system-nunjucks-locale-picker && pnpm install --frozen-lockfile && pnpm run build)
-    (cd lily-design-system-nunjucks-date-time-picker && pnpm install --frozen-lockfile && pnpm run build)
+    (cd lily-design-system-nunjucks-locale-picker && pnpm install --frozen-lockfile --prefer-offline) && cached_build lily-design-system-nunjucks-locale-picker
+    (cd lily-design-system-nunjucks-date-time-picker && pnpm install --frozen-lockfile --prefer-offline) && cached_build lily-design-system-nunjucks-date-time-picker
     cd lily-design-system-nunjucks-eleventy-examples
     pnpm install --frozen-lockfile
     pnpm run build
@@ -277,9 +315,7 @@ job_consumer_smoke() {
     if [ -z "${CI:-}" ] && [ -z "${LILY_CI_ALLOW_CONSUMER_SMOKE:-}" ]; then
         echo "consumer-smoke: skipped. It runs npm install in pnpm projects and deletes their node_modules; run it in a fresh" >&2
         echo "worktree with LILY_CI_ALLOW_CONSUMER_SMOKE=1, or leave it to CI." >&2
-        STEPS+=("consumer-smoke")
-        SECONDS_TAKEN+=(0)
-        RESULTS+=("skipped (local)")
+        record "consumer-smoke" "skipped (local)" 0
         return 0
     fi
     step "consumer-smoke" consumer_smoke
@@ -426,7 +462,7 @@ check_receipt() {
         if (r.sha !== process.env.SHA) console.log(`the receipt is for ${r.sha}, not HEAD ${process.env.SHA}; run bin/ci --full`);
         else if (!r.clean) console.log("the receipt was written from a dirty tree; commit or stash, then run bin/ci --full");
         else {
-            const bad = r.steps.filter((s) => s.result !== "pass" && !(s.name === "consumer-smoke" && s.result.startsWith("skipped")));
+            const bad = r.steps.filter((s) => !s.result.startsWith("pass") && !(s.name === "consumer-smoke" && s.result.startsWith("skipped")));
             if (bad.length) console.log("not every step passed: " + bad.map((s) => `${s.name} (${s.result})`).join(", "));
             else if (process.env.DIRTY) console.log("the tree is dirty now; commit or stash first");
         }
@@ -443,6 +479,159 @@ check_receipt() {
     return 1
 }
 
+# --- the parallel --full run ---
+#
+# `--full` runs the jobs as "units" in "lanes". Units in one lane run one after another, because they share directories (a
+# framework's headless library, its helpers and its example app); lanes run side by side, at most LILY_CI_JOBS at a time
+# (default 3, each tool limited to its share of the cores). Every unit is `bin/ci --job ...` writing its log to .ci/logs/ and its steps to .ci/units/, so the receipt and
+# the table are the same as a serial run's. A passed unit is cached in .ci/cache/ under a hash of everything it reads (its
+# directories, shared/, the themes, the catalog, this script, the tool versions), and is not run again while that is
+# unchanged; the table and the receipt then say "pass (cached)". `--no-cache` runs everything; `--serial` runs one job at a
+# time, as before. The security audit is cached for 24 hours (it reads the network, not the tree).
+
+UNIT_LANES=()
+UNIT_ARGS=()
+add_unit() { UNIT_LANES+=("$1"); UNIT_ARGS+=("$2"); }
+
+build_units() {
+    local fw app cat cats
+    add_unit nunjucks "helper-packages nunjucks"
+    add_unit nunjucks "headless lily-design-system-nunjucks-headless lily-design-system-nunjucks-headless-identifiers"
+    add_unit nunjucks "eleventy-example"
+    add_unit audit "security-audit"
+    add_unit html "html-headless"
+    add_unit html "helper-packages html"
+    add_unit alpine "helper-packages alpine"
+    add_unit alpine "headless lily-design-system-alpine-headless lily-design-system-alpine-headless-identifiers"
+    add_unit alpine "alpine-examples"
+    add_unit root "verify"
+    add_unit root "lint"
+    add_unit root "shared-tests"
+    add_unit dotnet "dotnet-tests"
+    add_unit dotnet "dotnet-helper-packages"
+    add_unit sveltekit "example-smoke"
+    for fw in svelte react vue angular web-components solid; do
+        add_unit "$fw" "helper-packages $fw"
+        add_unit "$fw" "headless lily-design-system-$fw-headless lily-design-system-$fw-headless-identifiers"
+    done
+    for app in "${ACCESSIBILITY_APPS[@]}"; do add_unit "a11y-$app" "accessibility-examples $app"; done
+    add_unit shadcn "shadcn-registry"
+    add_unit spell "spell-check"
+    add_unit consumer "consumer-smoke"
+}
+
+# The directories and files a unit's result depends on, or nothing for a unit that is never cached.
+unit_inputs() {
+    local lane="$1" common="shared themes components.tsv components-categories.tsv bin/ci bin/list-helper-packages package.json pnpm-lock.yaml lily-design-system-locale-translations lily-design-system-themes lily-design-system-pattern-testers"
+    case "$lane" in
+        nunjucks | html | alpine | svelte | react | vue | angular | web-components | solid)
+            # shellcheck disable=SC2086
+            echo $common $(ls -d "lily-design-system-$lane-"* 2>/dev/null)
+            ;;
+        sveltekit) echo $common lily-design-system-svelte-sveltekit-examples ;;
+        dotnet) echo $common $(ls -d lily-design-system-blazor-* 2>/dev/null) ;;
+        a11y-*) echo $common "${lane#a11y-}" ;;
+        *) echo "" ;;
+    esac
+}
+
+unit_id() { printf '%s' "$1 $2" | shasum -a 1 | cut -c1-12; }
+
+# Run one unit, or replay it from the cache; prints nothing, records its status in .ci/units/<id>.status.
+run_unit() {
+    local lane="$1" args="$2" id inputs key cache_key log steps ttl="" age
+    id="$(unit_id "$lane" "$args")"
+    steps=".ci/units/$id.tsv"
+    log=".ci/logs/${lane}-${args%% *}-$id.log"
+    rm -f "$steps" ".ci/units/$id.status"
+    inputs="$(unit_inputs "$lane")"
+    cache_key=""
+    if [ -z "${LILY_CI_NO_CACHE:-}" ]; then
+        if [ "$args" = "security-audit" ]; then
+            ttl=86400
+            cache_key="$(git ls-files -z -- '*pnpm-lock.yaml' '*packages.lock.json' | xargs -0 shasum -a 1 | shasum -a 1 | cut -d' ' -f1)"
+        elif [ -n "$inputs" ]; then
+            # shellcheck disable=SC2086
+            cache_key="$({ paths_key $inputs; echo "$args"; echo "$TOOLS"; } | shasum -a 1 | cut -d' ' -f1)"
+        fi
+    fi
+    if [ -n "$cache_key" ] && [ -f ".ci/cache/$id.key" ] && [ "$(cat ".ci/cache/$id.key")" = "$cache_key" ]; then
+        age=$(($(date +%s) - $(cat ".ci/cache/$id.time" 2>/dev/null || echo 0)))
+        if [ -z "$ttl" ] || [ "$age" -lt "$ttl" ]; then
+            awk -F'\t' '{ print $1 "\t" $2 " (cached)\t0" }' ".ci/cache/$id.tsv" > "$steps"
+            echo "cached  $lane: $args" 
+            echo 0 > ".ci/units/$id.status"
+            return 0
+        fi
+    fi
+    # shellcheck disable=SC2086
+    LILY_CI_STEP_LOG="$steps" LILY_CI_PREINSTALLED=1 bin/ci --job $args > "$log" 2>&1
+    local status=$?
+    echo "$status" > ".ci/units/$id.status"
+    if [ "$status" -eq 0 ] && [ -n "$cache_key" ]; then
+        mkdir -p .ci/cache
+        printf '%s' "$cache_key" > ".ci/cache/$id.key"
+        date +%s > ".ci/cache/$id.time"
+        cp "$steps" ".ci/cache/$id.tsv"
+    fi
+    return "$status"
+}
+
+run_lane() {
+    local lane="$1" i start=$SECONDS failed=0
+    for i in "${!UNIT_LANES[@]}"; do
+        [ "${UNIT_LANES[$i]}" = "$lane" ] || continue
+        run_unit "$lane" "${UNIT_ARGS[$i]}" || failed=1
+    done
+    echo "finished $lane in $((SECONDS - start))s ($([ "$failed" -eq 0 ] && echo pass || echo FAIL))"
+    return "$failed"
+}
+
+full_parallel() {
+    local jobs="${LILY_CI_JOBS:-3}" cores workers lane lanes=() seen=" " i failed=0 id log
+    TOOLS="$(node --version) $(pnpm --version 2>/dev/null) $(dotnet --version 2>/dev/null)"
+    export TOOLS
+    build_units
+    mkdir -p .ci/logs .ci/units
+    rm -f .ci/units/* .ci/logs/*
+    # The two installs every job needs, once, before the lanes start.
+    group "installs"
+    pnpm install --frozen-lockfile || return 1
+    (cd lilydesignsystem.github.io && pnpm install --frozen-lockfile) || return 1
+    endgroup
+    export LILY_CI_PREINSTALLED=1
+    # Every test tool defaults to about half the cores (or all of them), so lanes side by side oversubscribe the machine and
+    # tests time out (a load average of 345 on 16 cores, 2026-11-23). Give each lane its share: Playwright, WebDriverIO and
+    # Vitest read these.
+    cores="$(node -p 'require("node:os").availableParallelism()')"
+    workers=$((cores / jobs))
+    [ "$workers" -lt 2 ] && workers=2
+    export LILY_CI_WORKERS="$workers" VITEST_MAX_WORKERS="$workers"
+    for i in "${!UNIT_LANES[@]}"; do
+        case "$seen" in *" ${UNIT_LANES[$i]} "*) ;; *) lanes+=("${UNIT_LANES[$i]}"); seen="$seen${UNIT_LANES[$i]} " ;; esac
+    done
+    for lane in "${lanes[@]}"; do
+        while [ "$(jobs -rp | wc -l | tr -d ' ')" -ge "$jobs" ]; do sleep 1; done
+        echo "started $lane"
+        run_lane "$lane" &
+    done
+    wait
+    # Collect the steps in unit order, so the table and the receipt read like a serial run's.
+    for i in "${!UNIT_LANES[@]}"; do
+        id="$(unit_id "${UNIT_LANES[$i]}" "${UNIT_ARGS[$i]}")"
+        if [ -f ".ci/units/$id.tsv" ]; then
+            while IFS=$'\t' read -r name result secs; do record "$name" "$result" "$secs"; done < ".ci/units/$id.tsv"
+        fi
+        if [ "$(cat ".ci/units/$id.status" 2>/dev/null || echo 1)" != "0" ]; then
+            failed=1
+            log=".ci/logs/${UNIT_LANES[$i]}-${UNIT_ARGS[$i]%% *}-$id.log"
+            echo "---- FAILED: ${UNIT_ARGS[$i]} (${UNIT_LANES[$i]}); the end of $log" >&2
+            tail -n 25 "$log" 2>/dev/null >&2
+        fi
+    done
+    return "$failed"
+}
+
 table() {
     local i
     printf '\n%-60s %-18s %s\n' "step" "result" "seconds"
@@ -452,7 +641,7 @@ table() {
 }
 
 usage() {
-    sed -n '2,11p' "$0" | sed 's/^# \{0,1\}//'
+    sed -n '2,14p' "$0" | sed 's/^# \{0,1\}//'
     exit 2
 }
 
@@ -481,14 +670,37 @@ case "${1:-}" in
         exit "$status"
         ;;
     --fast)
+        # A tree that already passed the fast tier is not checked again (a push right after a commit, a second push): the
+        # marker is keyed on the tree object of HEAD and written only from a clean tree.
+        fast_marker=".ci/fast-$(git rev-parse 'HEAD^{tree}').ok"
+        if [ -z "$(git status --porcelain)" ] && [ -f "$fast_marker" ]; then
+            echo "bin/ci: the fast tier already passed for this tree ($(git rev-parse --short HEAD))"
+            exit 0
+        fi
         fast_checks
         status=$?
         table
+        if [ "$status" -eq 0 ] && [ -z "$(git status --porcelain)" ]; then
+            mkdir -p .ci && rm -f .ci/fast-*.ok && touch "$fast_marker"
+        fi
         exit "$status"
         ;;
     --full)
+        shift
         failed=0
-        for name in "${JOBS[@]}"; do run_job "$name" || failed=1; done
+        serial=""
+        for arg in "$@"; do
+            case "$arg" in
+                --serial) serial=1 ;;
+                --no-cache) export LILY_CI_NO_CACHE=1 ;;
+                *) usage ;;
+            esac
+        done
+        if [ -n "$serial" ]; then
+            for name in "${JOBS[@]}"; do run_job "$name" || failed=1; done
+        else
+            full_parallel || failed=1
+        fi
         table
         write_receipt
         exit "$failed"

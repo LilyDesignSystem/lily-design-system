@@ -10,6 +10,7 @@ const crossEngineSpecs =
 export default defineConfig({
     testDir: "./e2e",
     fullyParallel: true,
+    workers: process.env.LILY_CI_WORKERS ? Number(process.env.LILY_CI_WORKERS) : undefined,
     forbidOnly: !!process.env.CI,
     retries: process.env.CI ? 2 : 0,
     reporter: process.env.CI ? "github" : "list",

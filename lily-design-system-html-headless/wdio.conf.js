@@ -4,7 +4,7 @@ const path = require("path");
 exports.config = {
     runner: "local",
     specs: ["./components/*.test.js"],
-    maxInstances: 8,
+    maxInstances: Number(process.env.LILY_CI_WORKERS) || 8,
     capabilities: [
         {
             browserName: "chrome",

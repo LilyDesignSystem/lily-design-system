@@ -211,6 +211,28 @@ and hands it to the workers and the server in `LILY_E2E_PORT`; `baseURL` and the
 `localhost`. To test a server you started yourself, set `LILY_E2E_PORT` to its port. The manual `pnpm preview` and
 `pnpm serve` commands keep their usual ports.
 
+## A faster full run (2026-11-23)
+
+A serial `bin/ci --full` took about 42 minutes (2,525 s of steps). `--full` now runs the jobs as units in lanes and
+caches what has not changed:
+
+- **Lanes.** A framework's headless library, helpers and example app share directories, so they run in one lane, one
+  after another; lanes (the nine frameworks, the root checks, .NET, the SvelteKit smoke, each accessibility app, the audit)
+  run side by side, `LILY_CI_JOBS` at a time (default 3). The root and docs-site installs run once, first. `--serial` keeps
+  the old order.
+- **A budget per lane.** Four lanes at once drove the load average to 345 on 16 cores and made tests time out, because every tool
+  already defaults to about half the cores. Each lane now gets `cores / jobs` workers through `LILY_CI_WORKERS` (Playwright,
+  WebDriverIO) and `VITEST_MAX_WORKERS` (Vitest). With three lanes the full run took 1,175 s, 19.6 minutes.
+- **A result cache.** A unit that passed is not run again while a hash of the tracked files it reads (its directories,
+  `shared/`, the themes, the catalog, `bin/ci`) and the tool versions is unchanged; the receipt says `pass (cached)`. The
+  security audit is cached 24 hours and runs its 200 audits side by side. `--no-cache` runs everything.
+- **Builds are skipped, tests never are.** A helper or headless build that is unchanged since its last build (and so is
+  everything built before it) is not rebuilt; its check and tests always run.
+- **The fast tier** (`bin/ci --fast`, the pre-push hook) is not repeated for a tree that already passed it.
+- **Lint caches.** `pnpm lint` and `pnpm format:check` keep ESLint and Prettier caches.
+
+Coverage is the same: no test, browser or sweep was removed, and a cached unit is replayed only when nothing it reads changed.
+
 ## What is not adopted
 
 - **A paid CI service or larger runners.** No problem measured needs them.

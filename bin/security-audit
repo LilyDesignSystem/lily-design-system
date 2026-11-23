@@ -20,7 +20,8 @@
 //
 // The advisories come from the npm registry and nuget.org, the same services every install already uses.
 
-import { execFileSync, spawnSync } from "node:child_process";
+import { execFileSync, spawn } from "node:child_process";
+import { availableParallelism } from "node:os";
 import { appendFileSync, existsSync, readdirSync, readFileSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -51,8 +52,37 @@ const npmDirs = only.length
     ? only.map((d) => join(top, d)).filter((d) => existsSync(join(d, "pnpm-lock.yaml")))
     : [top, ...findDirs((d) => existsSync(join(d, "pnpm-lock.yaml")))].filter((d) => existsSync(join(d, "pnpm-lock.yaml")));
 
-function pnpmAudit(dir, prod) {
-    const r = spawnSync("pnpm", ["audit", "--json", ...(prod ? ["--prod"] : [])], { cwd: dir, encoding: "utf-8" });
+// The audits are network-bound and independent, so they run side by side (LILY_AUDIT_JOBS at a time, default the core
+// count up to 8), in a pool that keeps the results in input order, so the report does not depend on timing.
+function run(cmd, args, opts) {
+    return new Promise((resolve) => {
+        const child = spawn(cmd, args, { ...opts, stdio: ["ignore", "pipe", "pipe"] });
+        let stdout = "";
+        let stderr = "";
+        child.stdout.on("data", (c) => (stdout += c));
+        child.stderr.on("data", (c) => (stderr += c));
+        child.on("error", () => resolve({ stdout, stderr, status: 1 }));
+        child.on("close", (status) => resolve({ stdout, stderr, status }));
+    });
+}
+
+async function pool(items, fn) {
+    const limit = Number(process.env.LILY_AUDIT_JOBS) || Math.min(8, availableParallelism());
+    const results = new Array(items.length);
+    let next = 0;
+    await Promise.all(
+        Array.from({ length: Math.min(limit, items.length) }, async () => {
+            while (next < items.length) {
+                const i = next++;
+                results[i] = await fn(items[i]);
+            }
+        }),
+    );
+    return results;
+}
+
+async function pnpmAudit(dir, prod) {
+    const r = await run("pnpm", ["audit", "--json", ...(prod ? ["--prod"] : [])], { cwd: dir, encoding: "utf-8" });
     try {
         const json = JSON.parse(r.stdout);
         return Object.values(json.advisories ?? {}).map((a) => ({
@@ -68,7 +98,8 @@ function pnpmAudit(dir, prod) {
 }
 
 const rows = []; // { where, kind, scope, module, severity, title, patched, fails }
-for (const dir of npmDirs) {
+async function auditDir(dir) {
+    const out = [];
     const where = relative(top, dir) || ".";
     let pkg = {};
     try {
@@ -77,17 +108,19 @@ for (const dir of npmDirs) {
     const published = !pkg.private && !!pkg.name;
     const prodModules = new Set();
     if (published) {
-        for (const a of pnpmAudit(dir, true)) {
+        for (const a of await pnpmAudit(dir, true)) {
             prodModules.add(`${a.module} ${a.title}`);
-            rows.push({ where, kind: "npm", scope: "production", ...a, fails: failsAt(a.severity) });
+            out.push({ where, kind: "npm", scope: "production", ...a, fails: failsAt(a.severity) });
         }
     }
-    for (const a of pnpmAudit(dir, false)) {
+    for (const a of await pnpmAudit(dir, false)) {
         if (prodModules.has(`${a.module} ${a.title}`)) continue;
-        rows.push({ where, kind: "npm", scope: published ? "development" : "app or tooling", ...a, fails: false });
+        out.push({ where, kind: "npm", scope: published ? "development" : "app or tooling", ...a, fails: false });
     }
     process.stderr.write(".");
+    return out;
 }
+rows.push(...(await pool(npmDirs, auditDir)).flat());
 process.stderr.write("\n");
 
 // The published .NET projects: tracked .csproj files with a PackageId.
@@ -97,8 +130,9 @@ const csprojs = only.length
           .split("\n")
           .filter(Boolean)
           .filter((p) => /<PackageId>/.test(readFileSync(join(top, p), "utf-8")));
-for (const proj of csprojs) {
-    const r = spawnSync("dotnet", ["list", proj, "package", "--vulnerable", "--include-transitive"], {
+async function auditProject(proj) {
+    const rowsOut = [];
+    const r = await run("dotnet", ["list", proj, "package", "--vulnerable", "--include-transitive"], {
         cwd: top,
         encoding: "utf-8",
     });
@@ -107,7 +141,7 @@ for (const proj of csprojs) {
     for (const line of out.split("\n")) {
         const m = line.match(/^\s*>\s+(\S+)\s+(\S+)\s+(?:\S+\s+)?(Low|Moderate|High|Critical)\s+(\S+)/);
         if (m) {
-            rows.push({
+            rowsOut.push({
                 where: dirname(proj),
                 kind: "nuget",
                 scope: "production",
@@ -120,9 +154,12 @@ for (const proj of csprojs) {
         }
     }
     if (r.status !== 0) {
-        rows.push({ where: dirname(proj), kind: "nuget", scope: "production", module: "(audit)", severity: "info", title: "dotnet list package failed", fails: false });
+        rowsOut.push({ where: dirname(proj), kind: "nuget", scope: "production", module: "(audit)", severity: "info", title: "dotnet list package failed", fails: false });
     }
+    return rowsOut;
 }
+// dotnet restores into obj/, so two projects that share one restore would fight; keep them in a small pool.
+rows.push(...(await pool(csprojs, auditProject)).flat());
 
 const failing = rows.filter((r) => r.fails);
 const byScope = {};

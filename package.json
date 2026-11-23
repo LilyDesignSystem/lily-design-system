@@ -3,8 +3,8 @@
   "private": true,
   "description": "Repo-level lint and format tooling only; nothing here is published. Each subproject keeps its own package.json and lockfile.",
   "scripts": {
-    "lint": "eslint \"lily-design-system-*/**/*.{js,mjs,cjs,ts,tsx,vue,svelte}\" shared",
-    "format:check": "prettier --check \"lily-design-system-*/**/*.{ts,tsx,js,mjs,cjs,vue,svelte,css,json,yaml,yml}\" \"lily-design-system-alpine-headless/components/*.html\" \"**/*.md\" \"shared/**/*.{ts,js,mjs,json}\" eslint.config.mjs package.json .prettierrc.json",
+    "lint": "eslint --cache --cache-location node_modules/.cache/eslint/ \"lily-design-system-*/**/*.{js,mjs,cjs,ts,tsx,vue,svelte}\" shared",
+    "format:check": "prettier --check --cache --cache-strategy content --cache-location node_modules/.cache/prettier/ \"lily-design-system-*/**/*.{ts,tsx,js,mjs,cjs,vue,svelte,css,json,yaml,yml}\" \"lily-design-system-alpine-headless/components/*.html\" \"**/*.md\" \"shared/**/*.{ts,js,mjs,json}\" eslint.config.mjs package.json .prettierrc.json",
     "format": "prettier --write \"lily-design-system-*/**/*.{ts,tsx,js,mjs,cjs,vue,svelte,css,json,yaml,yml}\" \"lily-design-system-alpine-headless/components/*.html\" \"**/*.md\" \"shared/**/*.{ts,js,mjs,json}\" eslint.config.mjs package.json .prettierrc.json"
   },
   "engines": {
