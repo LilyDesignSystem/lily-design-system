@@ -4539,7 +4539,7 @@ Same order as Phase 44; the two can run side by side once P43 is done.
       detail view on the `Pixel_10_API_37` emulator, and passes at font scale 1.0 and 2.0 (`adb shell settings put system
 font_scale 2.0`). Its first run found the catalog's search field 44dp tall; it now has the 48dp minimum. Still to do: the
       320dp and large-window size sweep, and running ATF on each component's own composable in `lily-compose`.)_
-- [ ] **P45-T6 Publish to Maven Central.** Verify the `io.github.lilydesignsystem` namespace (or a domain the project owns),
+- [ ] **P45-T6 Publish to Maven Central.** Prepared 2026-11-23: `maven-publish` and `signing` on `lily-core`, `lily-compose`, `lily-compose-themes` and `lily-compose-examples` (POM with name, description, url, the seven licences at the recipient's option, developer and scm; an empty javadoc jar; signing only when `SIGNING_KEY` is set), and `bin/publish-kotlin` (`--dry-run` builds every publication into `build/repo` and checks each POM, which passes; a real run needs `CENTRAL_USERNAME`, `CENTRAL_PASSWORD`, `SIGNING_KEY`, `SIGNING_PASSWORD` and a green receipt). Not done, and not mine to do: verify the `io.github.lilydesignsystem` namespace in the Central Portal, make a Portal token and a signing key. Original: Verify the `io.github.lilydesignsystem` namespace (or a domain the project owns),
       sign artifacts, add `bin/publish-kotlin` publishing from the monorepo like `bin/publish-helpers`, and extend
       `bin/check-package-metadata` and `bin/verify-published` to the POMs. Ask before the first publish.
       Verify: a fresh Android Studio project resolves the release from Maven Central and builds.

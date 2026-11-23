@@ -1,0 +1,62 @@
+#!/bin/sh
+# Publish the Kotlin libraries (lily-design-system-kotlin/) to Maven Central from the monorepo (tasks.md P45-T6). Maven Central
+# does not care where the source lives, so there is no export repository, unlike Swift.
+#
+#   bin/publish-kotlin --dry-run   # build every publication into lily-design-system-kotlin/build/repo and check each POM; no credentials
+#   bin/publish-kotlin             # sign and upload to the Central Portal staging API
+#
+# A real run needs a green `bin/ci --full` receipt for HEAD (outside CI) and these in the environment: CENTRAL_USERNAME and
+# CENTRAL_PASSWORD (a Central Portal user token), SIGNING_KEY (an armoured private key) and SIGNING_PASSWORD. The namespace
+# io.github.lilydesignsystem must be verified in the Portal first. The upload lands in a staging repository; the release itself is
+# confirmed in the Portal (or with the manual-upload endpoint, see docs/releasing.md).
+set -eu
+
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+KOTLIN="$ROOT/lily-design-system-kotlin"
+DRY=""
+for arg in "$@"; do
+  case "$arg" in
+    --dry-run) DRY="1" ;;
+    *) echo "usage: bin/publish-kotlin [--dry-run]" >&2; exit 2 ;;
+  esac
+done
+
+# A JAVA_HOME that does not name a JDK breaks the Gradle wrapper; fall back to the java on PATH.
+if [ -n "${JAVA_HOME:-}" ] && [ ! -x "$JAVA_HOME/bin/java" ]; then unset JAVA_HOME; fi
+if [ -z "${ANDROID_HOME:-}" ] && [ -d "$HOME/Library/Android/sdk" ]; then ANDROID_HOME="$HOME/Library/Android/sdk"; export ANDROID_HOME; fi
+
+if [ -n "$DRY" ]; then
+  (cd "$KOTLIN" && rm -rf build/repo && ./gradlew publishAllPublicationsToLocalRepository -q)
+  node - "$KOTLIN" <<'JS'
+const fs = require("fs");
+const path = require("path");
+const kotlin = process.argv[2];
+const repo = path.join(kotlin, "build/repo/io/github/lilydesignsystem");
+const version = /lilyVersion=(.+)/.exec(fs.readFileSync(path.join(kotlin, "gradle.properties"), "utf8"))[1].trim();
+const errors = [];
+const modules = ["lily-core", "lily-compose", "lily-compose-themes", "lily-compose-examples"];
+for (const m of modules) {
+    const dir = path.join(repo, m, version);
+    const files = fs.existsSync(dir) ? fs.readdirSync(dir) : [];
+    const has = (suffix) => files.some((f) => f === `${m}-${version}${suffix}`);
+    for (const suffix of [".pom", "-sources.jar", "-javadoc.jar"]) if (!has(suffix)) errors.push(`${m}: missing ${m}-${version}${suffix}`);
+    if (!has(".aar") && !has(".jar")) errors.push(`${m}: missing the .aar or .jar`);
+    const pom = has(".pom") ? fs.readFileSync(path.join(dir, `${m}-${version}.pom`), "utf8") : "";
+    for (const tag of ["<name>", "<description>", "<url>", "<licenses>", "<developers>", "<scm>"]) {
+        if (!pom.includes(tag)) errors.push(`${m}: the POM has no ${tag}`);
+    }
+}
+if (!fs.existsSync(path.join(repo, "lily-core-jvm", version))) errors.push("lily-core-jvm: the Kotlin Multiplatform JVM artifact is missing");
+if (errors.length) { console.error(errors.join("\n")); process.exit(1); }
+console.log(`publish-kotlin: ${modules.length} modules at ${version} built into build/repo with complete POMs (dry run: nothing uploaded)`);
+JS
+  exit 0
+fi
+
+for v in CENTRAL_USERNAME CENTRAL_PASSWORD SIGNING_KEY SIGNING_PASSWORD; do
+  eval "val=\${$v:-}"
+  [ -n "$val" ] || { echo "$v is not set: a real publish needs the Central Portal token and the signing key (see the header of this script)" >&2; exit 1; }
+done
+[ -n "${CI:-}" ] || "$ROOT/bin/ci" --verify-receipt || exit 1
+(cd "$KOTLIN" && ./gradlew publishAllPublicationsToCentralRepository)
+echo "uploaded to the Central Portal staging API; confirm the release in the Portal"

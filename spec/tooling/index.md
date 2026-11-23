@@ -93,13 +93,15 @@ names a Lily dependency missing from the registry.
 
 ### Publishing and release
 
-| Script                 | Purpose                                                                                                                |
-| ---------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| `publish-headless`     | Build and publish the 7 headless libraries (npm / NuGet); continues past an already-published package.                 |
-| `publish-helpers`      | Build (in `list-helper-packages` order) and publish every helper package: npm for the JS frameworks, NuGet for Blazor. |
-| `verify-published`     | Is every helper package's local version on npm / nuget.org? `--wait N` polls through registry lag. Never publishes.    |
-| `smoke-packages`       | Pack and install each headless and npm helper tarball into a scratch consumer and render it.                           |
-| `publish-github-pages` | Push `lilydesignsystem.github.io/` to its own repository via git subtree (`make publish-github-pages`).                |
+| Script                 | Purpose                                                                                                                     |
+| ---------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `publish-headless`     | Build and publish the 7 headless libraries (npm / NuGet); continues past an already-published package.                      |
+| `publish-helpers`      | Build (in `list-helper-packages` order) and publish every helper package: npm for the JS frameworks, NuGet for Blazor.      |
+| `publish-swift`        | Split `lily-design-system-swift/` and push it, with a never-moved semantic-version tag, to its read-only export repository. |
+| `publish-kotlin`       | Build and sign the Kotlin libraries and upload them to Maven Central; `--dry-run` checks every POM with no credentials.     |
+| `verify-published`     | Is every helper package's local version on npm / nuget.org? `--wait N` polls through registry lag. Never publishes.         |
+| `smoke-packages`       | Pack and install each headless and npm helper tarball into a scratch consumer and render it.                                |
+| `publish-github-pages` | Push `lilydesignsystem.github.io/` to its own repository via git subtree (`make publish-github-pages`).                     |
 
 ## Verification: bin/test
 

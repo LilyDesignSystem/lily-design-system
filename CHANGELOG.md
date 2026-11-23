@@ -45,6 +45,10 @@ highlights.
   change many components at once) and which go straight to `latest` (fixes, patches, additive releases). Holding `latest` two days behind, which one
   consumer asked for, was not adopted: it would delay every fix for every consumer. `bin/test-publish-tag` checks the option with a fake `npm`.
 
+## Kotlin publishing setup (2026-11-23, P45-T6)
+
+- The four Kotlin library modules have Maven publications (POM metadata, the seven licences at the recipient's option, a javadoc jar, optional signing), and `bin/publish-kotlin --dry-run` builds them into `lily-design-system-kotlin/build/repo` and checks every POM. A real publish needs a verified `io.github.lilydesignsystem` namespace, a Central Portal token and a signing key, none of which exist yet.
+
 ## Swift package published as 0.1.0 (2026-11-23, P44-T6)
 
 - `bin/publish-swift` and `make publish-swift TAG=0.1.0` split `lily-design-system-swift/` (`git subtree split`) and push it, with a never-moved semantic-version tag, to the read-only export repository `LilyDesignSystem/lily-design-system-swift`, because SwiftPM resolves a package from a repository root. A real run needs a green `bin/ci --full` receipt. A fresh SwiftPM project resolved the 0.1.0 tag and built. `bin/test` allows links to this one export besides the docs site.

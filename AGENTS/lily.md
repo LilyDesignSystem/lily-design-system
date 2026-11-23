@@ -202,6 +202,8 @@ Also copied rather than generated: `bin/sync` rsyncs the root `AGENTS/` and `the
 - [generate-storybook-stories.mjs](../bin/generate-storybook-stories.mjs): Generate Storybook stories
 - [publish-helpers](../bin/publish-helpers): Build and publish every helper package (npm / NuGet)
 - [publish-headless](../bin/publish-headless): Build and publish the 7 full-catalog headless libraries, Web Components and Alpine (npm / NuGet)
+- [publish-swift](../bin/publish-swift): Split `lily-design-system-swift/` and push it, with a never-moved semantic-version tag, to its read-only export repository (`make publish-swift TAG=0.1.0`); `--dry-run` splits only (SwiftPM needs `Package.swift` at a repository root)
+- [publish-kotlin](../bin/publish-kotlin): Build and sign the Kotlin libraries and upload them to Maven Central's Portal staging API; `--dry-run` builds every publication into `build/repo` and checks each POM, with no credentials
 - [generate-registries](../bin/generate-registries): Regenerate example-app catalog registries from components.tsv
 - [check-links](../bin/check-links): Verify relative markdown links resolve
 - [check-dtcg-tokens](../bin/check-dtcg-tokens): `themes/tokens/*.json` and `lily.resolver.json` are strict DTCG 2025.10 (in bin/test)
