@@ -753,6 +753,10 @@ describe("validateLietuvaAsmensKodas", () => {
         expect(validateLietuvaAsmensKodas(withCheck("5050505000"))).toEqual(ok);
         expect(validateLietuvaAsmensKodas(withCheck("1900101000"))).toEqual(ok);
     });
+    test("the second weighting is used when the first check is 10, and a second 10 means 0", () => {
+        expect(validateLietuvaAsmensKodas("39001010841")).toEqual(ok);
+        expect(validateLietuvaAsmensKodas("39001010590")).toEqual(ok);
+    });
     test("a failed check, a century digit of 7, an unreal date, length and characters", () => {
         const good = withCheck("3900101000");
         expect(
