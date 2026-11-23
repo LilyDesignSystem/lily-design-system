@@ -75,6 +75,7 @@
       <li>Component: sticky-promo-banner</li>
       <li>PascalCase: StickyPromoBanner</li>
       <li>Description: a fixed-position promotional banner with a dismiss button</li>
+      <li>Purpose: Keeps a promotion in view as the page scrolls so the reader can act on it later. Because it is fixed it must be dismissable and must not hide the control that has focus.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;aside&gt;</li>
       <li>CSS class: .sticky-promo-banner</li>

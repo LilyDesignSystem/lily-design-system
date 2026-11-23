@@ -75,6 +75,7 @@
       <li>Component: action-link</li>
       <li>PascalCase: ActionLink</li>
       <li>Description: a hyperlink styled as an action trigger</li>
+      <li>Purpose: Starts a task by navigating to it, such as "Start now", as a link with an arrow cue. It is a link, so it has no disabled state; a button does something on the page instead.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;a&gt;</li>
       <li>CSS class: .action-link</li>

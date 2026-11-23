@@ -75,6 +75,7 @@
       <li>Component: button</li>
       <li>PascalCase: Button</li>
       <li>Description: a generic clickable button element</li>
+      <li>Purpose: Does something on this page when activated, such as saving or opening a dialog, with the native button's keyboard and form behaviour. Use a link to go somewhere instead.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;button&gt;</li>
       <li>CSS class: .button</li>

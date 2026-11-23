@@ -75,6 +75,7 @@
       <li>Component: announcement-banner</li>
       <li>PascalCase: AnnouncementBanner</li>
       <li>Description: a banner highlighting important messages for all users</li>
+      <li>Purpose: Announces something site-wide at the top of the page, such as an event or a closure, in a labelled region that a screen reader can find and that can be announced when it changes.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .announcement-banner</li>

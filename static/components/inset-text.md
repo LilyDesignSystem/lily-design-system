@@ -57,6 +57,7 @@ None -- this component is a passive container with no interactive behavior.
 - Use to help users identify and understand important content that needs to stand out from the rest of the page
 - Use on content pages to highlight key information without the visual weight of a WarningCallout
 - Use sparingly -- its effectiveness depends on it being distinct from surrounding content
+- **Prominence:** Notices, rank 7 (quietest): supplementary text set apart; never the only place a requirement is stated. See [the prominence scales](https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/components/index.md#prominence-scales).
 
 ## When Not to Use
 

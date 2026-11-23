@@ -75,6 +75,7 @@
       <li>Component: medical-banner-box-for-danger</li>
       <li>PascalCase: MedicalBannerBoxForDanger</li>
       <li>Description: a medical record banner box for danger information e.g. reactions, warnings, alarms, etc.</li>
+      <li>Purpose: Sets a clinical danger apart in a box, such as an urgent action to take. It is louder than advice, so use it sparingly or nothing stands out.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .medical-banner-box-for-danger</li>

@@ -5,6 +5,7 @@
 - Component: action-link
 - PascalCase: ActionLink
 - Description: a hyperlink styled as an action trigger
+- Purpose: Starts a task by navigating to it, such as "Start now", as a link with an arrow cue. It is a link, so it has no disabled state; a button does something on the page instead.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <a>
 - CSS class: .action-link

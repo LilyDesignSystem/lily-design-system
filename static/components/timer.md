@@ -90,6 +90,7 @@ announces the consumer's own words when a milestone passes.
 - Do not use for static time display -- show the time as plain text or a `<time>` element.
 - Do not use for auto-triggering actions on countdown -- use TimerButton instead.
 - Do not use when time remaining is better shown as a proportion -- use Progress or Meter instead.
+- **Misuse:** a visible countdown used to pressure a decision ("3 people are looking at this"), or a limit the user cannot adjust. Show a timer only for a real limit, and give a way to extend it (WCAG 2.2.1).
 
 ## Headless
 

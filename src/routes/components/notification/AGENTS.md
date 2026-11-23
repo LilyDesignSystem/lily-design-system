@@ -5,6 +5,7 @@
 - Component: notification
 - PascalCase: Notification
 - Description: a brief message about an event or update
+- Purpose: Tells the user about an event or update that can wait for a pause, such as a new message. It is a polite status message that does not interrupt, and becomes an alert only when marked urgent.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .notification

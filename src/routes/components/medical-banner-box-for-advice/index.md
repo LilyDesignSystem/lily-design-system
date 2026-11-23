@@ -55,6 +55,7 @@ This component is useful in clinical interfaces, electronic health records, and 
 - Use to display the patient's GP, key worker, next appointment, or care pathway
 - Use when clinicians need quick reference to routine supporting information alongside the patient banner
 - Use for displaying treatment goals, discharge plans, or referral information
+- **Prominence:** Notices, rank 7 (quietest): advice set apart; never the only place a requirement is stated. See [the prominence scales](https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/components/index.md#prominence-scales).
 
 ## When Not to Use
 

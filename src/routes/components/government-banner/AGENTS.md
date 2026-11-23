@@ -5,6 +5,7 @@
 - Component: government-banner
 - PascalCase: GovernmentBanner
 - Description: a banner identifying a website as belonging to a government, with an expandable details panel
+- Purpose: Tells the reader that the site belongs to an official body and how to check it, so they can trust it is the real one. It carries a standing fact, not an update.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <aside>
 - CSS class: .government-banner

@@ -68,6 +68,7 @@ None -- this component is a passive notification container. Toasts are announced
 - Use for success confirmations, informational updates, and non-critical error feedback.
 - Use inside a Sonner container when managing multiple stacked toast notifications.
 - Use the `urgent` prop sparingly, only for time-sensitive error messages.
+- **Prominence:** Notices, rank 3: never the only copy of an error or a deadline, because it goes away. See [the prominence scales](https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/components/index.md#prominence-scales).
 
 ## When Not to Use
 
@@ -76,6 +77,7 @@ None -- this component is a passive notification container. Toasts are announced
 - Do not use for form validation errors -- use ErrorSummary instead.
 - Do not use for critical alerts requiring user acknowledgment -- use AlertDialog instead.
 - Do not use for content that users need to reference later -- use Notification or InformationCallout instead.
+- **Misuse:** putting the only copy of an error, a deadline or a legal notice in something that disappears. A toast that times out fails WCAG 2.2.1 unless the user can pause, extend or find the message again elsewhere.
 
 ## Headless
 

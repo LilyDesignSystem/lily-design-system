@@ -48,6 +48,7 @@ The component renders a `<div>` holding an optional icon and a `<strong>` line. 
 
 - To warn users about something important near the action or decision it relates to, such as the legal consequences of an action, or of not taking one
 - When the warning fits in one short line or sentence and needs no heading or further content
+- **Prominence:** Notices, rank 6: a consequence the reader must not miss; few per page, or nothing stands out. See [the prominence scales](https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/components/index.md#prominence-scales).
 
 ## When Not to Use
 

@@ -5,6 +5,7 @@
 - Component: phase-banner
 - PascalCase: PhaseBanner
 - Description: a banner showing service development phase and inviting feedback
+- Purpose: States the service's phase, such as beta, at the top of the page and tells the reader what that means for them and where to send feedback.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .phase-banner

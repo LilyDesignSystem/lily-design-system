@@ -75,6 +75,7 @@
       <li>Component: banner</li>
       <li>PascalCase: Banner</li>
       <li>Description: a prominent message bar across the top of a page</li>
+      <li>Purpose: Shows everyone on the site one message that lasts for days, such as a planned change, in a labelled region at the top of the page.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .banner</li>

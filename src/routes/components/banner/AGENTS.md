@@ -5,6 +5,7 @@
 - Component: banner
 - PascalCase: Banner
 - Description: a prominent message bar across the top of a page
+- Purpose: Shows everyone on the site one message that lasts for days, such as a planned change, in a labelled region at the top of the page.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .banner

@@ -81,12 +81,14 @@ Top banner, hidden until `open` becomes `true`:
 - Use for promotional announcements, beta invites, feature launches, and other time-bound messages.
 - Use when the message is supplementary and dismissable (not safety-critical).
 - Use at the top of the viewport for high-visibility announcements; at the bottom for less intrusive promos.
+- **Prominence:** Promotion, fixed to the viewport: dismissable (WCAG 2.2.1), and never hiding a focused control (2.4.11). See [the prominence scales](https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/components/index.md#prominence-scales).
 
 ## When Not to Use
 
 - Do not use for safety-critical or blocking messages — use AlertDialog or Banner instead.
 - Do not use for cookie consent unless your design explicitly treats consent as a promo (most regulators expect a more prominent surface).
 - Do not use for navigation; use Header or NavigationMenu.
+- **Misuse:** a promotion the user cannot dismiss, or a fixed bar that hides the control they are focused on. Both break WCAG 2.2.1 (Timing Adjustable) and 2.4.11 (Focus Not Obscured); always give it a close control and set `--lily-fixed-bar-block-end`.
 
 ## Headless
 
