@@ -5,6 +5,7 @@
 - Component: romania-cod-numeric-personal-input
 - PascalCase: RomaniaCodNumericPersonalInput
 - Description: an input for entering Romania's Cod Numeric Personal (CNP)
+- Purpose: Collects Romania's Cod Numeric Personal (CNP) in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .romania-cod-numeric-personal-input

@@ -5,6 +5,7 @@
 - Component: container-with-fluid-width
 - PascalCase: ContainerWithFluidWidth
 - Description: a full-width content wrapper with horizontal padding
+- Purpose: Lets content span the full width with side padding, for pages that should use the whole screen.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .container-with-fluid-width

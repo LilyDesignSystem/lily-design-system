@@ -5,6 +5,7 @@
 - Component: guatemala-codigo-unico-de-identificacion-view
 - PascalCase: GuatemalaCodigoUnicoDeIdentificacionView
 - Description: a read-only display of Guatemala's Código Único de Identificación (CUI)
+- Purpose: Shows Guatemala's Código Único de Identificación (CUI) as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow
 - HTML tag: <span>
 - CSS class: .guatemala-codigo-unico-de-identificacion-view

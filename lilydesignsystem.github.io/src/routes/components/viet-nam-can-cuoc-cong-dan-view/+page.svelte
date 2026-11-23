@@ -76,6 +76,7 @@
       <li>Component: viet-nam-can-cuoc-cong-dan-view</li>
       <li>PascalCase: VietNamCanCuocCongDanView</li>
       <li>Description: a read-only display of Viet Nam's Citizen Identification Number (CCCD)</li>
+      <li>Purpose: Shows Viet Nam's Citizen Identification Number (CCCD) as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .viet-nam-can-cuoc-cong-dan-view</li>

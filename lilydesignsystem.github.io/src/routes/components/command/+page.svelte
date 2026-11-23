@@ -75,6 +75,7 @@
       <li>Component: command</li>
       <li>PascalCase: Command</li>
       <li>Description: a command palette for searching and executing actions</li>
+      <li>Purpose: Lets people find and run an action by typing its name, as a command palette does.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .command</li>

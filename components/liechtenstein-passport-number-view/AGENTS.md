@@ -5,6 +5,7 @@
 - Component: liechtenstein-passport-number-view
 - PascalCase: LiechtensteinPassportNumberView
 - Description: a read-only display of Liechtenstein's Liechtenstein Passport Number
+- Purpose: Shows Liechtenstein's Liechtenstein Passport Number as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .liechtenstein-passport-number-view

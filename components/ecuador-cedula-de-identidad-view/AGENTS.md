@@ -5,6 +5,7 @@
 - Component: ecuador-cedula-de-identidad-view
 - PascalCase: EcuadorCedulaDeIdentidadView
 - Description: a read-only display of Ecuador's Cedula de Identidad Number
+- Purpose: Shows Ecuador's Cedula de Identidad Number as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow
 - HTML tag: <span>
 - CSS class: .ecuador-cedula-de-identidad-view

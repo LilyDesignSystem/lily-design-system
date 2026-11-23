@@ -5,6 +5,7 @@
 - Component: eire-individual-health-identifier-view
 - PascalCase: EireIndividualHealthIdentifierView
 - Description: a read-only display of Eire Individual Health Identifier (IHI) unique national healthcare identifier
+- Purpose: Shows Eire Individual Health Identifier (IHI) unique national healthcare identifier as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .eire-individual-health-identifier-view

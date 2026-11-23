@@ -75,6 +75,7 @@
       <li>Component: collapsible</li>
       <li>PascalCase: Collapsible</li>
       <li>Description: a container that can be expanded or collapsed</li>
+      <li>Purpose: Hides a section of content until someone opens it. Use it for detail most readers do not need.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;details&gt;</li>
       <li>CSS class: .collapsible</li>

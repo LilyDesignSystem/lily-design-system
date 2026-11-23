@@ -75,6 +75,7 @@
       <li>Component: tel-input</li>
       <li>PascalCase: TelInput</li>
       <li>Description: an input for entering a telephone number &lt;input type="tel"&gt;</li>
+      <li>Purpose: Collects a telephone number &lt;input type="tel"&gt; in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .tel-input</li>

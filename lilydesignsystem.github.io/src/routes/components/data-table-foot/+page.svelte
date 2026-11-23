@@ -75,6 +75,7 @@
       <li>Component: data-table-foot</li>
       <li>PascalCase: DataTableFoot</li>
       <li>Description: a data table interactive grid tfoot for displaying and sorting tabular data &lt;tfoot&gt;</li>
+      <li>Purpose: Holds the summary rows of a data table, such as totals.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;tfoot&gt;</li>
       <li>CSS class: .data-table-foot</li>

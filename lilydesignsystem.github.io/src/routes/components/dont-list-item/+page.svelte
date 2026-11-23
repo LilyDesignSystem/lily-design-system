@@ -75,6 +75,7 @@
       <li>Component: dont-list-item</li>
       <li>PascalCase: DontListItem</li>
       <li>Description: a discouraged-practice item in a dont-list guideline list</li>
+      <li>Purpose: Holds one practice to avoid.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;li&gt;</li>
       <li>CSS class: .dont-list-item</li>

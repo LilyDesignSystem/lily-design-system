@@ -75,6 +75,7 @@
       <li>Component: document-list-item</li>
       <li>PascalCase: DocumentListItem</li>
       <li>Description: one document entry in a document list</li>
+      <li>Purpose: Holds one document's title and details.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;li&gt;</li>
       <li>CSS class: .document-list-item</li>

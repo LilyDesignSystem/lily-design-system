@@ -75,6 +75,7 @@
       <li>Component: united-states-social-security-number-input</li>
       <li>PascalCase: UnitedStatesSocialSecurityNumberInput</li>
       <li>Description: an input for entering a US Social Security number</li>
+      <li>Purpose: Collects a US Social Security number in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .united-states-social-security-number-input</li>

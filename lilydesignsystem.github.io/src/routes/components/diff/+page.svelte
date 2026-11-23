@@ -75,6 +75,7 @@
       <li>Component: diff</li>
       <li>PascalCase: Diff</li>
       <li>Description: a side-by-side comparison of two items</li>
+      <li>Purpose: Shows two versions of content side by side, so differences stand out.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .diff</li>

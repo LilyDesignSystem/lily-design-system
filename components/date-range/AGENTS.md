@@ -5,6 +5,7 @@
 - Component: date-range
 - PascalCase: DateRange
 - Description: paired start and end date inputs
+- Purpose: Collects a start and an end date as a pair.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <fieldset> (containing two <input type="date">)
 - CSS class: .date-range

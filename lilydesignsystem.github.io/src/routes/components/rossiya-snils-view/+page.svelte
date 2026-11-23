@@ -76,6 +76,7 @@
       <li>Component: rossiya-snils-view</li>
       <li>PascalCase: RossiyaSnilsView</li>
       <li>Description: a read-only display of Russia's СНИЛС (Strakhovoy Nomer Individualnogo Litsevogo Scheta)</li>
+      <li>Purpose: Shows Russia's СНИЛС (Strakhovoy Nomer Individualnogo Litsevogo Scheta) as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .rossiya-snils-view</li>

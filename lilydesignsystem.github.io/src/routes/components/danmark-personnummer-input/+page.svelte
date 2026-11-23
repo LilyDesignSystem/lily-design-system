@@ -75,6 +75,7 @@
       <li>Component: danmark-personnummer-input</li>
       <li>PascalCase: DanmarkPersonnummerInput</li>
       <li>Description: an input for entering Denmark's Personnummer (CPR-nummer) (CPR)</li>
+      <li>Purpose: Collects Denmark's Personnummer (CPR-nummer) (CPR) in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .danmark-personnummer-input</li>

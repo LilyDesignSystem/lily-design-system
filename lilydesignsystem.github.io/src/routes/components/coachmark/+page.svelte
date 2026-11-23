@@ -75,6 +75,7 @@
       <li>Component: coachmark</li>
       <li>PascalCase: Coachmark</li>
       <li>Description: an anchored popover that spotlights and explains a single feature</li>
+      <li>Purpose: Points at one feature and explains it, for onboarding or a newly added control. Show it once; do not use it for permanent help.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt; with role="dialog"</li>
       <li>CSS class: .coachmark</li>

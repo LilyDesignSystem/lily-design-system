@@ -76,6 +76,7 @@
       <li>Component: as-saudiyah-raqm-al-huwiyah-al-wataniyah-view</li>
       <li>PascalCase: AsSaudiyahRaqmAlHuwiyahAlWataniyahView</li>
       <li>Description: a read-only display of Saudi Arabia's National Identification Number</li>
+      <li>Purpose: Shows Saudi Arabia's National Identification Number as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .as-saudiyah-raqm-al-huwiyah-al-wataniyah-view</li>

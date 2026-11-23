@@ -75,6 +75,7 @@
       <li>Component: portugal-passaporte-view</li>
       <li>PascalCase: PortugalPassaporteView</li>
       <li>Description: a read-only display of Portugal's Passaporte</li>
+      <li>Purpose: Shows Portugal's Passaporte as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .portugal-passaporte-view</li>

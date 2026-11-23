@@ -75,6 +75,7 @@
       <li>Component: code</li>
       <li>PascalCase: Code</li>
       <li>Description: an inline code span for displaying short code snippets within surrounding text</li>
+      <li>Purpose: Marks a short piece of code, a file path or a command inside a sentence.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;code&gt;</li>
       <li>CSS class: .code</li>

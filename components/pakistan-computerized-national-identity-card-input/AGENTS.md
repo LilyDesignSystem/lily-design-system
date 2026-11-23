@@ -5,6 +5,7 @@
 - Component: pakistan-computerized-national-identity-card-input
 - PascalCase: PakistanComputerizedNationalIdentityCardInput
 - Description: an input for entering Pakistan's Computerized National Identity Card Number (CNIC)
+- Purpose: Collects Pakistan's Computerized National Identity Card Number (CNIC) in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.
 - Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow
 - HTML tag: <input>
 - CSS class: .pakistan-computerized-national-identity-card-input

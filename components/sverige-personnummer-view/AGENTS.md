@@ -5,6 +5,7 @@
 - Component: sverige-personnummer-view
 - PascalCase: SverigePersonnummerView
 - Description: a read-only display of Sweden's Personnummer
+- Purpose: Shows Sweden's Personnummer as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .sverige-personnummer-view

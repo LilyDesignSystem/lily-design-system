@@ -5,6 +5,7 @@
 - Component: colombia-cedula-de-ciudadania-view
 - PascalCase: ColombiaCedulaDeCiudadaniaView
 - Description: a read-only display of Colombia's Cedula de Ciudadania Number
+- Purpose: Shows Colombia's Cedula de Ciudadania Number as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow
 - HTML tag: <span>
 - CSS class: .colombia-cedula-de-ciudadania-view

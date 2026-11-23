@@ -75,6 +75,7 @@
       <li>Component: data-table-th</li>
       <li>PascalCase: DataTableTH</li>
       <li>Description: a data table interactive grid header cell for displaying and sorting tabular data &lt;th&gt;</li>
+      <li>Purpose: Names a column of a data table so each value is announced with its heading.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;th&gt;</li>
       <li>CSS class: .data-table-th</li>

@@ -75,6 +75,7 @@
       <li>Component: collection-list-item</li>
       <li>PascalCase: CollectionListItem</li>
       <li>Description: one item in a collection list with optional image, heading, meta, and description</li>
+      <li>Purpose: Presents one entry of a collection, with a heading, an optional image and a short description.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;li&gt;</li>
       <li>CSS class: .collection-list-item</li>

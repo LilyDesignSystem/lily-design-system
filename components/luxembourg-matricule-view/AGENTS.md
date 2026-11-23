@@ -5,6 +5,7 @@
 - Component: luxembourg-matricule-view
 - PascalCase: LuxembourgMatriculeView
 - Description: a read-only display of Luxembourg's Numéro d'Identification Nationale (Matricule)
+- Purpose: Shows Luxembourg's Numéro d'Identification Nationale (Matricule) as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow
 - HTML tag: <span>
 - CSS class: .luxembourg-matricule-view

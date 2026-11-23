@@ -75,6 +75,7 @@
       <li>Component: espana-tarjeta-sanitaria-individual-view</li>
       <li>PascalCase: EspanaTarjetaSanitariaIndividualView</li>
       <li>Description: a read-only display of an España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier</li>
+      <li>Purpose: Shows an España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .espana-tarjeta-sanitaria-individual-view</li>

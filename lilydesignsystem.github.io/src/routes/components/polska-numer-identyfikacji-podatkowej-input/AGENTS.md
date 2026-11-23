@@ -5,6 +5,7 @@
 - Component: polska-numer-identyfikacji-podatkowej-input
 - PascalCase: PolskaNumerIdentyfikacjiPodatkowejInput
 - Description: an input for entering Poland's Numer Identyfikacji Podatkowej (NIP)
+- Purpose: Collects Poland's Numer Identyfikacji Podatkowej (NIP) in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .polska-numer-identyfikacji-podatkowej-input

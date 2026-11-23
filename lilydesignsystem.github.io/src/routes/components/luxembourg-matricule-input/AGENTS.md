@@ -5,6 +5,7 @@
 - Component: luxembourg-matricule-input
 - PascalCase: LuxembourgMatriculeInput
 - Description: an input for entering Luxembourg's Numéro d'Identification Nationale (Matricule)
+- Purpose: Collects Luxembourg's Numéro d'Identification Nationale (Matricule) in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.
 - Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow
 - HTML tag: <input>
 - CSS class: .luxembourg-matricule-input

@@ -75,6 +75,7 @@
       <li>Component: data-table-td</li>
       <li>PascalCase: DataTableTD</li>
       <li>Description: a data table interactive grid data cell for displaying and sorting tabular data &lt;td&gt;</li>
+      <li>Purpose: Holds one value of one record in a data table.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;td&gt;</li>
       <li>CSS class: .data-table-td</li>

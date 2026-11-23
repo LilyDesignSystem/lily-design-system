@@ -76,6 +76,7 @@
       <li>Component: magyarorszag-taj-szam-view</li>
       <li>PascalCase: MagyarorszagTajSzamView</li>
       <li>Description: a read-only display of Hungary's Társadalombiztosítási Azonosító Jel (TAJ)</li>
+      <li>Purpose: Shows Hungary's Társadalombiztosítási Azonosító Jel (TAJ) as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .magyarorszag-taj-szam-view</li>

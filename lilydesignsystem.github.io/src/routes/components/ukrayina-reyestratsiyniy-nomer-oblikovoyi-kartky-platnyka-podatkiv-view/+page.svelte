@@ -76,6 +76,7 @@
       <li>Component: ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view</li>
       <li>PascalCase: UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivView</li>
       <li>Description: a read-only display of Ukraine's Реєстраційний номер облікової картки платника податків (РНОКПП)</li>
+      <li>Purpose: Shows Ukraine's Реєстраційний номер облікової картки платника податків (РНОКПП) as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view</li>

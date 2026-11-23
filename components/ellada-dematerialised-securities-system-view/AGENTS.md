@@ -5,6 +5,7 @@
 - Component: ellada-dematerialised-securities-system-view
 - PascalCase: ElladaDematerialisedSecuritiesSystemView
 - Description: a read-only display of Greece's Dematerialised Securities System (DSS)
+- Purpose: Shows Greece's Dematerialised Securities System (DSS) as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .ellada-dematerialised-securities-system-view

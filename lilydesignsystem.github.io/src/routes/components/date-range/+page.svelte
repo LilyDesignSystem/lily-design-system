@@ -75,6 +75,7 @@
       <li>Component: date-range</li>
       <li>PascalCase: DateRange</li>
       <li>Description: paired start and end date inputs</li>
+      <li>Purpose: Collects a start and an end date as a pair.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;fieldset&gt; (containing two &lt;input type="date"&gt;)</li>
       <li>CSS class: .date-range</li>

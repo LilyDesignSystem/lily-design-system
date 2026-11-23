@@ -76,6 +76,7 @@
       <li>Component: colombia-cedula-de-ciudadania-input</li>
       <li>PascalCase: ColombiaCedulaDeCiudadaniaInput</li>
       <li>Description: an input for entering Colombia's Cedula de Ciudadania Number</li>
+      <li>Purpose: Collects Colombia's Cedula de Ciudadania Number in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .colombia-cedula-de-ciudadania-input</li>

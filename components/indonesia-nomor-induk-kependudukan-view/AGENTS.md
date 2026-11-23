@@ -5,6 +5,7 @@
 - Component: indonesia-nomor-induk-kependudukan-view
 - PascalCase: IndonesiaNomorIndukKependudukanView
 - Description: a read-only display of Indonesia's Nomor Induk Kependudukan (NIK)
+- Purpose: Shows Indonesia's Nomor Induk Kependudukan (NIK) as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow
 - HTML tag: <span>
 - CSS class: .indonesia-nomor-induk-kependudukan-view

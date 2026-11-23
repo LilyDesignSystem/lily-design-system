@@ -5,6 +5,7 @@
 - Component: malaysia-kad-pengenalan-view
 - PascalCase: MalaysiaKadPengenalanView
 - Description: a read-only display of Malaysia's MyKad Number (NRIC)
+- Purpose: Shows Malaysia's MyKad Number (NRIC) as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow
 - HTML tag: <span>
 - CSS class: .malaysia-kad-pengenalan-view

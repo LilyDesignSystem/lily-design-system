@@ -75,6 +75,7 @@
       <li>Component: liechtenstein-national-identity-card-number-input</li>
       <li>PascalCase: LiechtensteinNationalIdentityCardNumberInput</li>
       <li>Description: an input for entering Liechtenstein's Liechtenstein National Identity Card Number</li>
+      <li>Purpose: Collects Liechtenstein's Liechtenstein National Identity Card Number in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .liechtenstein-national-identity-card-number-input</li>

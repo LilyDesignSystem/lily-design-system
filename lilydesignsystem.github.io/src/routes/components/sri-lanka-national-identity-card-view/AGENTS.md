@@ -5,6 +5,7 @@
 - Component: sri-lanka-national-identity-card-view
 - PascalCase: SriLankaNationalIdentityCardView
 - Description: a read-only display of Sri Lanka's National Identity Card (NIC) number
+- Purpose: Shows Sri Lanka's National Identity Card (NIC) number as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow
 - HTML tag: <span>
 - CSS class: .sri-lanka-national-identity-card-view

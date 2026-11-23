@@ -5,6 +5,7 @@
 - Component: mauritius-national-identity-card-number-view
 - PascalCase: MauritiusNationalIdentityCardNumberView
 - Description: a read-only display of Mauritius's National Identity Card number
+- Purpose: Shows Mauritius's National Identity Card number as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow
 - HTML tag: <span>
 - CSS class: .mauritius-national-identity-card-number-view

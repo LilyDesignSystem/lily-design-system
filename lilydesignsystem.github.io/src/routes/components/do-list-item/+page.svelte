@@ -75,6 +75,7 @@
       <li>Component: do-list-item</li>
       <li>PascalCase: DoListItem</li>
       <li>Description: an encouraged-practice item in a do-list guideline list</li>
+      <li>Purpose: Holds one recommended practice.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;li&gt;</li>
       <li>CSS class: .do-list-item</li>

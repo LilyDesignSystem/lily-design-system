@@ -5,6 +5,7 @@
 - Component: data-table-foot
 - PascalCase: DataTableFoot
 - Description: a data table interactive grid tfoot for displaying and sorting tabular data <tfoot>
+- Purpose: Holds the summary rows of a data table, such as totals.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <tfoot>
 - CSS class: .data-table-foot

@@ -76,6 +76,7 @@
       <li>Component: early-warning-score-view</li>
       <li>PascalCase: EarlyWarningScoreView</li>
       <li>Description: a read-only display of an early warning score, with its band and escalation text</li>
+      <li>Purpose: Shows an early warning score, with its band and escalation text as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.</li>
       <li>Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .early-warning-score-view</li>

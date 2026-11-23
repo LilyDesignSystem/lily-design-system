@@ -5,6 +5,7 @@
 - Component: magyarorszag-taj-szam-view
 - PascalCase: MagyarorszagTajSzamView
 - Description: a read-only display of Hungary's Társadalombiztosítási Azonosító Jel (TAJ)
+- Purpose: Shows Hungary's Társadalombiztosítási Azonosító Jel (TAJ) as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow
 - HTML tag: <span>
 - CSS class: .magyarorszag-taj-szam-view

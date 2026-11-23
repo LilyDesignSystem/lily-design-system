@@ -5,6 +5,7 @@
 - Component: ghana-card-personal-identification-number-view
 - PascalCase: GhanaCardPersonalIdentificationNumberView
 - Description: a read-only display of Ghana's Ghana Card PIN
+- Purpose: Shows Ghana's Ghana Card PIN as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow
 - HTML tag: <span>
 - CSS class: .ghana-card-personal-identification-number-view

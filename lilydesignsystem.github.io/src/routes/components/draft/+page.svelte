@@ -75,6 +75,7 @@
       <li>Component: draft</li>
       <li>PascalCase: Draft</li>
       <li>Description: an early preliminary version of content such as an article, email, report, etc.</li>
+      <li>Purpose: Marks content as an unfinished version, so nobody mistakes it for the published one.</li>
       <li>Status: experimental — recent catalog addition with the least accumulated depth; contract may still move</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .draft</li>

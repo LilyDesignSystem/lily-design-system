@@ -5,6 +5,7 @@
 - Component: context-menu
 - PascalCase: ContextMenu
 - Description: a menu that appears on right-click or long-press
+- Purpose: Offers the actions that apply to the thing under the pointer, opened by right-click or long press. Always give a visible way to reach the same actions.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .context-menu

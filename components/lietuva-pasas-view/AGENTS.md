@@ -5,6 +5,7 @@
 - Component: lietuva-pasas-view
 - PascalCase: LietuvaPasasView
 - Description: a read-only display of Lithuania's Pasas
+- Purpose: Shows Lithuania's Pasas as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .lietuva-pasas-view

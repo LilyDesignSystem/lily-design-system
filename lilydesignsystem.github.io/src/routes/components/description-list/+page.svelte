@@ -75,6 +75,7 @@
       <li>Component: description-list</li>
       <li>PascalCase: DescriptionList</li>
       <li>Description: a definition list displaying information in key-value format &lt;dl&gt;</li>
+      <li>Purpose: Pairs names with values, such as the fields of a record, in a list of terms and descriptions.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;dl&gt;</li>
       <li>CSS class: .description-list</li>

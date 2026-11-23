@@ -75,6 +75,7 @@
       <li>Component: measurement-system-view</li>
       <li>PascalCase: MeasurementSystemView</li>
       <li>Description: a read-only display of a measurement system</li>
+      <li>Purpose: Shows a measurement system as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .measurement-system-view</li>

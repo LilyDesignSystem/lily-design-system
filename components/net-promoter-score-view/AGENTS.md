@@ -5,6 +5,7 @@
 - Component: net-promoter-score-view
 - PascalCase: NetPromoterScoreView
 - Description: a read-only display of a Net Promoter Score
+- Purpose: Shows a Net Promoter Score as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <span>
 - CSS class: .net-promoter-score-view

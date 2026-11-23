@@ -75,6 +75,7 @@
       <li>Component: time-input</li>
       <li>PascalCase: TimeInput</li>
       <li>Description: an input for entering a time value &lt;input type="time"&gt;</li>
+      <li>Purpose: Collects a time value &lt;input type="time"&gt; in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .time-input</li>

@@ -75,6 +75,7 @@
       <li>Component: date-time-view</li>
       <li>PascalCase: DateTimeView</li>
       <li>Description: a read-only display of a formatted date and time</li>
+      <li>Purpose: Shows a date or time as read-only text in the &lt;time&gt; element, so machines can read it too.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;time&gt;</li>
       <li>CSS class: .date-time-view</li>

@@ -76,6 +76,7 @@
       <li>Component: hanguk-jumin-deungnok-beonho-view</li>
       <li>PascalCase: HangukJuminDeungnokBeonhoView</li>
       <li>Description: a read-only display of South Korea's Resident Registration Number (주민등록번호)</li>
+      <li>Purpose: Shows South Korea's Resident Registration Number (주민등록번호) as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .hanguk-jumin-deungnok-beonho-view</li>

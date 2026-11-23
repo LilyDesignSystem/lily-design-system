@@ -76,6 +76,7 @@
       <li>Component: medication-view</li>
       <li>PascalCase: MedicationView</li>
       <li>Description: a read-only display of a medicine, with its name, strength, form, route and frequency</li>
+      <li>Purpose: Shows a medicine, with its name, strength, form, route and frequency as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.</li>
       <li>Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .medication-view</li>

@@ -76,6 +76,7 @@
       <li>Component: malaysia-kad-pengenalan-input</li>
       <li>PascalCase: MalaysiaKadPengenalanInput</li>
       <li>Description: an input for entering Malaysia's MyKad Number (NRIC)</li>
+      <li>Purpose: Collects Malaysia's MyKad Number (NRIC) in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .malaysia-kad-pengenalan-input</li>

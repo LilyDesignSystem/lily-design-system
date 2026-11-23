@@ -5,6 +5,7 @@
 - Component: canada-social-insurance-number-view
 - PascalCase: CanadaSocialInsuranceNumberView
 - Description: a read-only display of Canada's Social Insurance Number (SIN)
+- Purpose: Shows Canada's Social Insurance Number (SIN) as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow
 - HTML tag: <span>
 - CSS class: .canada-social-insurance-number-view

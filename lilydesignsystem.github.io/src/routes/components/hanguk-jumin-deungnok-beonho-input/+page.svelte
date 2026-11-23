@@ -76,6 +76,7 @@
       <li>Component: hanguk-jumin-deungnok-beonho-input</li>
       <li>PascalCase: HangukJuminDeungnokBeonhoInput</li>
       <li>Description: an input for entering South Korea's Resident Registration Number (주민등록번호)</li>
+      <li>Purpose: Collects South Korea's Resident Registration Number (주민등록번호) in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .hanguk-jumin-deungnok-beonho-input</li>

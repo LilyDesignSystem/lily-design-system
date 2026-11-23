@@ -76,6 +76,7 @@
       <li>Component: bharat-aadhaar-view</li>
       <li>PascalCase: BharatAadhaarView</li>
       <li>Description: a read-only display of India's Aadhaar (आधार)</li>
+      <li>Purpose: Shows India's Aadhaar (आधार) as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .bharat-aadhaar-view</li>

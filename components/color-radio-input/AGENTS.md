@@ -5,6 +5,7 @@
 - Component: color-radio-input
 - PascalCase: ColorRadioInput
 - Description: a radio input for one choice of a color swatch <input type="radio">
+- Purpose: Holds one swatch of a colour radio group.
 - Status: experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow
 - HTML tag: <input>
 - CSS class: .color-radio-input

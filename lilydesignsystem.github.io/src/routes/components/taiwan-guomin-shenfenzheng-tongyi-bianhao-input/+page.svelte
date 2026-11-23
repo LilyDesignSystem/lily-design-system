@@ -76,6 +76,7 @@
       <li>Component: taiwan-guomin-shenfenzheng-tongyi-bianhao-input</li>
       <li>PascalCase: TaiwanGuominShenfenzhengTongyiBianhaoInput</li>
       <li>Description: an input for entering Taiwan's National Identification Card Number</li>
+      <li>Purpose: Collects Taiwan's National Identification Card Number in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .taiwan-guomin-shenfenzheng-tongyi-bianhao-input</li>

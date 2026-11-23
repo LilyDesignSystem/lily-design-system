@@ -75,6 +75,7 @@
       <li>Component: context-menu-item</li>
       <li>PascalCase: ContextMenuItem</li>
       <li>Description: one item in a context menu</li>
+      <li>Purpose: Runs one action from a context menu.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .context-menu-item</li>

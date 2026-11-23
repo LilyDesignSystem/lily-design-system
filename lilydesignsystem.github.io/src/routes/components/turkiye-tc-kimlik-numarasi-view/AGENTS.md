@@ -5,6 +5,7 @@
 - Component: turkiye-tc-kimlik-numarasi-view
 - PascalCase: TurkiyeTcKimlikNumarasiView
 - Description: a read-only display of Turkey's T.C. Kimlik Numarası
+- Purpose: Shows Turkey's T.C. Kimlik Numarası as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow
 - HTML tag: <span>
 - CSS class: .turkiye-tc-kimlik-numarasi-view

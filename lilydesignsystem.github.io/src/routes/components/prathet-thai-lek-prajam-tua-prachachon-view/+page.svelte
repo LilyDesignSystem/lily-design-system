@@ -76,6 +76,7 @@
       <li>Component: prathet-thai-lek-prajam-tua-prachachon-view</li>
       <li>PascalCase: PrathetThaiLekPrajamTuaPrachachonView</li>
       <li>Description: a read-only display of Thailand's เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)</li>
+      <li>Purpose: Shows Thailand's เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon) as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .prathet-thai-lek-prajam-tua-prachachon-view</li>

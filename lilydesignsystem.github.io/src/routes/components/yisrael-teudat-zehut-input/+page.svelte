@@ -76,6 +76,7 @@
       <li>Component: yisrael-teudat-zehut-input</li>
       <li>PascalCase: YisraelTeudatZehutInput</li>
       <li>Description: an input for entering Israel's Teudat Zehut (תעודת זהות)</li>
+      <li>Purpose: Collects Israel's Teudat Zehut (תעודת זהות) in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .yisrael-teudat-zehut-input</li>

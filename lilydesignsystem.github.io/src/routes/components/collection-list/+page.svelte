@@ -75,6 +75,7 @@
       <li>Component: collection-list</li>
       <li>PascalCase: CollectionList</li>
       <li>Description: a compact list of multiple related items such as articles or events</li>
+      <li>Purpose: Lists related items such as articles, events or search results, each with a heading and optional summary.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;ul&gt;</li>
       <li>CSS class: .collection-list</li>

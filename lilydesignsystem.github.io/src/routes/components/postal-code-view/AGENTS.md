@@ -5,6 +5,7 @@
 - Component: postal-code-view
 - PascalCase: PostalCodeView
 - Description: a read-only display of a postal or ZIP code
+- Purpose: Shows a postal or ZIP code as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .postal-code-view

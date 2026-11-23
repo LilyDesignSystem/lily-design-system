@@ -75,6 +75,7 @@
       <li>Component: france-numero-d-identification-au-repertoire-view</li>
       <li>PascalCase: FranceNumeroDIdentificationAuRepertoireView</li>
       <li>Description: a read-only display of a France numéro d'identification au répertoire (NIR) unique national healthcare identifier</li>
+      <li>Purpose: Shows a France numéro d'identification au répertoire (NIR) unique national healthcare identifier as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .france-numero-d-identification-au-repertoire-view</li>

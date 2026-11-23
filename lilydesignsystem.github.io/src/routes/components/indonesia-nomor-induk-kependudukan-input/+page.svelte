@@ -76,6 +76,7 @@
       <li>Component: indonesia-nomor-induk-kependudukan-input</li>
       <li>PascalCase: IndonesiaNomorIndukKependudukanInput</li>
       <li>Description: an input for entering Indonesia's Nomor Induk Kependudukan (NIK)</li>
+      <li>Purpose: Collects Indonesia's Nomor Induk Kependudukan (NIK) in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .indonesia-nomor-induk-kependudukan-input</li>

@@ -5,6 +5,7 @@
 - Component: pilipinas-philhealth-identification-number-view
 - PascalCase: PilipinasPhilhealthIdentificationNumberView
 - Description: a read-only display of the Philippines's PhilHealth Identification Number (PIN)
+- Purpose: Shows the Philippines's PhilHealth Identification Number (PIN) as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow
 - HTML tag: <span>
 - CSS class: .pilipinas-philhealth-identification-number-view

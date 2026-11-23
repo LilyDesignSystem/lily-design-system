@@ -5,6 +5,7 @@
 - Component: bangladesh-national-identity-card-input
 - PascalCase: BangladeshNationalIdentityCardInput
 - Description: an input for entering Bangladesh's National ID (NID) number
+- Purpose: Collects Bangladesh's National ID (NID) number in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.
 - Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow
 - HTML tag: <input>
 - CSS class: .bangladesh-national-identity-card-input

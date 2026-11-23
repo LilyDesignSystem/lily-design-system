@@ -75,6 +75,7 @@
       <li>Component: comment</li>
       <li>PascalCase: Comment</li>
       <li>Description: a comment is anything that expresses an opinion, observation, explanation, etc.</li>
+      <li>Purpose: Marks a reader's opinion or reply attached to other content, such as a discussion reply or a review note.</li>
       <li>Status: experimental — recent catalog addition with the least accumulated depth; contract may still move</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .comment</li>

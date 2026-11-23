@@ -5,6 +5,7 @@
 - Component: bangladesh-national-identity-card-view
 - PascalCase: BangladeshNationalIdentityCardView
 - Description: a read-only display of Bangladesh's National ID (NID) number
+- Purpose: Shows Bangladesh's National ID (NID) number as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow
 - HTML tag: <span>
 - CSS class: .bangladesh-national-identity-card-view

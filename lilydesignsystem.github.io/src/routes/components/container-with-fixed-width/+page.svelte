@@ -75,6 +75,7 @@
       <li>Component: container-with-fixed-width</li>
       <li>PascalCase: ContainerWithFixedWidth</li>
       <li>Description: a centered content wrapper with a fixed max-width breakpoint</li>
+      <li>Purpose: Centres content and caps its width at a set breakpoint, so line length stays readable.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .container-with-fixed-width</li>

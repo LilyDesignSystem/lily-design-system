@@ -5,6 +5,7 @@
 - Component: ityopya-fayda-identification-number-view
 - PascalCase: ItyopyaFaydaIdentificationNumberView
 - Description: a read-only display of Ethiopia's Fayda Identification Number (FIN)
+- Purpose: Shows Ethiopia's Fayda Identification Number (FIN) as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow
 - HTML tag: <span>
 - CSS class: .ityopya-fayda-identification-number-view

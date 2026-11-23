@@ -5,6 +5,7 @@
 - Component: italia-codice-fiscale-view
 - PascalCase: ItaliaCodiceFiscaleView
 - Description: a read-only display of Italy's Codice fiscale (CF)
+- Purpose: Shows Italy's Codice fiscale (CF) as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .italia-codice-fiscale-view

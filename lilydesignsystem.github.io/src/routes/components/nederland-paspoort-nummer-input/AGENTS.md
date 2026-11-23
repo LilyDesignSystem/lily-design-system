@@ -5,6 +5,7 @@
 - Component: nederland-paspoort-nummer-input
 - PascalCase: NederlandPaspoortNummerInput
 - Description: an input for entering Netherlands's Paspoort Nummer
+- Purpose: Collects Netherlands's Paspoort Nummer in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .nederland-paspoort-nummer-input

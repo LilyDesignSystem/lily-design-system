@@ -5,6 +5,7 @@
 - Component: observation-view
 - PascalCase: ObservationView
 - Description: a read-only display of a clinical observation or test result, with its unit, reference range and interpretation flag
+- Purpose: Shows a clinical observation or test result, with its unit, reference range and interpretation flag as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow
 - HTML tag: <span>
 - CSS class: .observation-view

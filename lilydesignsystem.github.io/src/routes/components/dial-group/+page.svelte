@@ -75,6 +75,7 @@
       <li>Component: dial-group</li>
       <li>PascalCase: DialGroup</li>
       <li>Description: a group of dial components</li>
+      <li>Purpose: Groups several dials that belong together, such as the knobs of one control.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .dial-group</li>

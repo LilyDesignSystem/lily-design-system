@@ -75,6 +75,7 @@
       <li>Component: contextual-help</li>
       <li>PascalCase: ContextualHelp</li>
       <li>Description: a help button that opens a popover with explanatory content</li>
+      <li>Purpose: Gives short help beside a field or term, opened from a small button, so the page stays uncluttered.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt; wrapper with &lt;button&gt; trigger and &lt;div role="dialog"&gt; panel</li>
       <li>CSS class: .contextual-help</li>

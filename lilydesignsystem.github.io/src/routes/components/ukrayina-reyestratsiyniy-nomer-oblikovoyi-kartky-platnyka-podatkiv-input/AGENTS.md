@@ -5,6 +5,7 @@
 - Component: ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input
 - PascalCase: UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput
 - Description: an input for entering Ukraine's Реєстраційний номер облікової картки платника податків (РНОКПП)
+- Purpose: Collects Ukraine's Реєстраційний номер облікової картки платника податків (РНОКПП) in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.
 - Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow
 - HTML tag: <input>
 - CSS class: .ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input

@@ -5,6 +5,7 @@
 - Component: ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-view
 - PascalCase: OzbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiView
 - Description: a read-only display of Uzbekistan's Personal identification number (JShShIR / PINFL)
+- Purpose: Shows Uzbekistan's Personal identification number (JShShIR / PINFL) as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow
 - HTML tag: <span>
 - CSS class: .ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-view

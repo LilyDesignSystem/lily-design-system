@@ -5,6 +5,7 @@
 - Component: draft
 - PascalCase: Draft
 - Description: an early preliminary version of content such as an article, email, report, etc.
+- Purpose: Marks content as an unfinished version, so nobody mistakes it for the published one.
 - Status: experimental — recent catalog addition with the least accumulated depth; contract may still move
 - HTML tag: <div>
 - CSS class: .draft

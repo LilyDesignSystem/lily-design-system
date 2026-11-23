@@ -75,6 +75,7 @@
       <li>Component: latvija-personas-kods-input</li>
       <li>PascalCase: LatvijaPersonasKodsInput</li>
       <li>Description: an input for entering Latvia's Personas kods</li>
+      <li>Purpose: Collects Latvia's Personas kods in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .latvija-personas-kods-input</li>

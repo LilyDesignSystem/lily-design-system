@@ -75,6 +75,7 @@
       <li>Component: code-block</li>
       <li>PascalCase: CodeBlock</li>
       <li>Description: a block of formatted code with optional line numbers and line highlighting</li>
+      <li>Purpose: Shows several lines of code with optional line numbers and highlighted lines.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;pre&gt;</li>
       <li>CSS class: .code-block</li>

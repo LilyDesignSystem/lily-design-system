@@ -5,6 +5,7 @@
 - Component: container-with-fixed-width
 - PascalCase: ContainerWithFixedWidth
 - Description: a centered content wrapper with a fixed max-width breakpoint
+- Purpose: Centres content and caps its width at a set breakpoint, so line length stays readable.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .container-with-fixed-width

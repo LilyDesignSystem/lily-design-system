@@ -5,6 +5,7 @@
 - Component: al-imarat-raqm-al-huwiyah-view
 - PascalCase: AlImaratRaqmAlHuwiyahView
 - Description: a read-only display of the United Arab Emirates' Emirates ID number
+- Purpose: Shows the United Arab Emirates' Emirates ID number as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow
 - HTML tag: <span>
 - CSS class: .al-imarat-raqm-al-huwiyah-view

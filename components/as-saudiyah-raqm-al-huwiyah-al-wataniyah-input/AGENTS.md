@@ -5,6 +5,7 @@
 - Component: as-saudiyah-raqm-al-huwiyah-al-wataniyah-input
 - PascalCase: AsSaudiyahRaqmAlHuwiyahAlWataniyahInput
 - Description: an input for entering Saudi Arabia's National Identification Number
+- Purpose: Collects Saudi Arabia's National Identification Number in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.
 - Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow
 - HTML tag: <input>
 - CSS class: .as-saudiyah-raqm-al-huwiyah-al-wataniyah-input

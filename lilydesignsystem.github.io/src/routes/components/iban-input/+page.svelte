@@ -75,6 +75,7 @@
       <li>Component: iban-input</li>
       <li>PascalCase: IbanInput</li>
       <li>Description: an input for entering an International Bank Account Number (IBAN)</li>
+      <li>Purpose: Collects an International Bank Account Number (IBAN) in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.</li>
       <li>Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .iban-input</li>

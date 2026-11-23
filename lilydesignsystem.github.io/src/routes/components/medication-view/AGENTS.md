@@ -5,6 +5,7 @@
 - Component: medication-view
 - PascalCase: MedicationView
 - Description: a read-only display of a medicine, with its name, strength, form, route and frequency
+- Purpose: Shows a medicine, with its name, strength, form, route and frequency as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow
 - HTML tag: <span>
 - CSS class: .medication-view

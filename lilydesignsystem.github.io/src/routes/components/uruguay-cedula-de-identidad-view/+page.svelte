@@ -76,6 +76,7 @@
       <li>Component: uruguay-cedula-de-identidad-view</li>
       <li>PascalCase: UruguayCedulaDeIdentidadView</li>
       <li>Description: a read-only display of Uruguay's Cedula de Identidad Number</li>
+      <li>Purpose: Shows Uruguay's Cedula de Identidad Number as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .uruguay-cedula-de-identidad-view</li>

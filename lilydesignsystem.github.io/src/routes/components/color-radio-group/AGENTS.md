@@ -5,6 +5,7 @@
 - Component: color-radio-group
 - PascalCase: ColorRadioGroup
 - Description: a fieldset radio group for selecting a color swatch
+- Purpose: Offers a fixed set of colour swatches to choose one from.
 - Status: experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow
 - HTML tag: <fieldset>
 - CSS class: .color-radio-group

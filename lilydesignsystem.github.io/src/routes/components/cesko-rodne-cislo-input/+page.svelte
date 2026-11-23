@@ -75,6 +75,7 @@
       <li>Component: cesko-rodne-cislo-input</li>
       <li>PascalCase: CeskoRodneCisloInput</li>
       <li>Description: an input for entering Czech Republic's Rodné číslo (RČ)</li>
+      <li>Purpose: Collects Czech Republic's Rodné číslo (RČ) in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .cesko-rodne-cislo-input</li>

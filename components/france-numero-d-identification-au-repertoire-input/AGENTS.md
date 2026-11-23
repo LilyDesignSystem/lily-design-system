@@ -5,6 +5,7 @@
 - Component: france-numero-d-identification-au-repertoire-input
 - PascalCase: FranceNumeroDIdentificationAuRepertoireInput
 - Description: an input for entering a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
+- Purpose: Collects a France numéro d'identification au répertoire (NIR) unique national healthcare identifier in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .france-numero-d-identification-au-repertoire-input

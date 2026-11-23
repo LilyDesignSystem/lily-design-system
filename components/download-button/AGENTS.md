@@ -5,6 +5,7 @@
 - Component: download-button
 - PascalCase: DownloadButton
 - Description: a download link styled as a button, with optional file size and format metadata
+- Purpose: Starts the download of a file, as a link that looks like a button. Say the file type and size in its text.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <a>
 - CSS class: .download-button

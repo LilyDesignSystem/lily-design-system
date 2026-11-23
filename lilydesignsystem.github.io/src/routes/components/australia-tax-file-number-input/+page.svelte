@@ -76,6 +76,7 @@
       <li>Component: australia-tax-file-number-input</li>
       <li>PascalCase: AustraliaTaxFileNumberInput</li>
       <li>Description: an input for entering Australia's Tax File Number (TFN)</li>
+      <li>Purpose: Collects Australia's Tax File Number (TFN) in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .australia-tax-file-number-input</li>

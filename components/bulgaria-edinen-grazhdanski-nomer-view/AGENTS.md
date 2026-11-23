@@ -5,6 +5,7 @@
 - Component: bulgaria-edinen-grazhdanski-nomer-view
 - PascalCase: BulgariaEdinenGrazhdanskiNomerView
 - Description: a read-only display of Bulgaria's Единен граждански номер / Edinen grazhdanski nomer (EGN)
+- Purpose: Shows Bulgaria's Единен граждански номер / Edinen grazhdanski nomer (EGN) as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .bulgaria-edinen-grazhdanski-nomer-view

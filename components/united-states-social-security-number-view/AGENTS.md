@@ -5,6 +5,7 @@
 - Component: united-states-social-security-number-view
 - PascalCase: UnitedStatesSocialSecurityNumberView
 - Description: a read-only display of a US Social Security number
+- Purpose: Shows a US Social Security number as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .united-states-social-security-number-view

@@ -75,6 +75,7 @@
       <li>Component: date-time-local-input</li>
       <li>PascalCase: DateTimeLocalInput</li>
       <li>Description: an input for entering a date and time without time zone &lt;input type="datetime-local"&gt;</li>
+      <li>Purpose: Picks a date and a time together with the browser's own control, with no time zone.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .date-time-local-input</li>

@@ -5,6 +5,7 @@
 - Component: england-national-health-service-number-input
 - PascalCase: EnglandNationalHealthServiceNumberInput
 - Description: an input for entering England's National Health Service Number (NHS)
+- Purpose: Collects England's National Health Service Number (NHS) in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .england-national-health-service-number-input

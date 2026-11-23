@@ -76,6 +76,7 @@
       <li>Component: mexico-clave-unica-de-registro-de-poblacion-input</li>
       <li>PascalCase: MexicoClaveUnicaDeRegistroDePoblacionInput</li>
       <li>Description: an input for entering Mexico's Clave Única de Registro de Población (CURP)</li>
+      <li>Purpose: Collects Mexico's Clave Única de Registro de Población (CURP) in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .mexico-clave-unica-de-registro-de-poblacion-input</li>

@@ -5,6 +5,7 @@
 - Component: password-input-or-text-input-div
 - PascalCase: PasswordInputOrTextInputDiv
 - Description: an input for entering a password <input type="password"> or text <input type="text"> with show/hide toggle
+- Purpose: Collects a password <input type="password"> or text <input type="text"> with show/hide toggle in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .password-input-or-text-input-div

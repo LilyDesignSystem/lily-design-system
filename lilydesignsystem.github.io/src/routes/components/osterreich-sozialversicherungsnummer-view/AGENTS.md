@@ -5,6 +5,7 @@
 - Component: osterreich-sozialversicherungsnummer-view
 - PascalCase: OsterreichSozialversicherungsnummerView
 - Description: a read-only display of Austria's Sozialversicherungsnummer (SVNR)
+- Purpose: Shows Austria's Sozialversicherungsnummer (SVNR) as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow
 - HTML tag: <span>
 - CSS class: .osterreich-sozialversicherungsnummer-view

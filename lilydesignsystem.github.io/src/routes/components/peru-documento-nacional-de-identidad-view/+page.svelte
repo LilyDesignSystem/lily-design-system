@@ -76,6 +76,7 @@
       <li>Component: peru-documento-nacional-de-identidad-view</li>
       <li>PascalCase: PeruDocumentoNacionalDeIdentidadView</li>
       <li>Description: a read-only display of Peru's Documento Nacional de Identidad (DNI)</li>
+      <li>Purpose: Shows Peru's Documento Nacional de Identidad (DNI) as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .peru-documento-nacional-de-identidad-view</li>

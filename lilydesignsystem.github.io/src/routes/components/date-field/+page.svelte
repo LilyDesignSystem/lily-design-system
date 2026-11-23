@@ -76,6 +76,7 @@
       <li>Component: date-field</li>
       <li>PascalCase: DateField</li>
       <li>Description: a structured field for entering date components</li>
+      <li>Purpose: Asks for a date as day, month and year in separate boxes, for dates people know by heart such as a birth date.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;fieldset&gt;</li>
       <li>CSS class: .date-field</li>

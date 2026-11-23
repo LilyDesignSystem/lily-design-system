@@ -75,6 +75,7 @@
       <li>Component: norge-fodselsnummer-input</li>
       <li>PascalCase: NorgeFodselsnummerInput</li>
       <li>Description: an input for entering Norway's Fødselsnummer</li>
+      <li>Purpose: Collects Norway's Fødselsnummer in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .norge-fodselsnummer-input</li>

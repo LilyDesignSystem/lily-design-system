@@ -5,6 +5,7 @@
 - Component: measurement-instance-view
 - PascalCase: MeasurementInstanceView
 - Description: a read-only display of a measurement value and unit
+- Purpose: Shows a measurement value and unit as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .measurement-instance-view

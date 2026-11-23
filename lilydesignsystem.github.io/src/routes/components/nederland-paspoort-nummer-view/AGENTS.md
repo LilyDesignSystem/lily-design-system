@@ -5,6 +5,7 @@
 - Component: nederland-paspoort-nummer-view
 - PascalCase: NederlandPaspoortNummerView
 - Description: a read-only display of Netherlands's Paspoort Nummer
+- Purpose: Shows Netherlands's Paspoort Nummer as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .nederland-paspoort-nummer-view

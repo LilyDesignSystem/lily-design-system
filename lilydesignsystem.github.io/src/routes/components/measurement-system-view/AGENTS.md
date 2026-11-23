@@ -5,6 +5,7 @@
 - Component: measurement-system-view
 - PascalCase: MeasurementSystemView
 - Description: a read-only display of a measurement system
+- Purpose: Shows a measurement system as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .measurement-system-view

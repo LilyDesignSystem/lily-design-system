@@ -5,6 +5,7 @@
 - Component: iran-kod-e-melli-view
 - PascalCase: IranKodEMelliView
 - Description: a read-only display of Iran's National Code (Kod-e Melli)
+- Purpose: Shows Iran's National Code (Kod-e Melli) as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow
 - HTML tag: <span>
 - CSS class: .iran-kod-e-melli-view

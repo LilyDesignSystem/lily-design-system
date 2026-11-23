@@ -76,6 +76,7 @@
       <li>Component: document-list</li>
       <li>PascalCase: DocumentList</li>
       <li>Description: a list displaying documents with titles and metadata</li>
+      <li>Purpose: Lists documents with their titles and details, such as date and size.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;ul&gt;</li>
       <li>CSS class: .document-list</li>

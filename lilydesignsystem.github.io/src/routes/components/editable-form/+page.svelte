@@ -75,6 +75,7 @@
       <li>Component: editable-form</li>
       <li>PascalCase: EditableForm</li>
       <li>Description: a form wrapper for inline editing of content</li>
+      <li>Purpose: Wraps in-place editing in a form with submit and cancel, so changes are saved only when confirmed.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;form&gt;</li>
       <li>CSS class: .editable-form</li>

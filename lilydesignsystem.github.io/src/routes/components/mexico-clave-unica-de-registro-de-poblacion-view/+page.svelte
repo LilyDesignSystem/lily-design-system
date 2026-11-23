@@ -76,6 +76,7 @@
       <li>Component: mexico-clave-unica-de-registro-de-poblacion-view</li>
       <li>PascalCase: MexicoClaveUnicaDeRegistroDePoblacionView</li>
       <li>Description: a read-only display of Mexico's Clave Única de Registro de Población (CURP)</li>
+      <li>Purpose: Shows Mexico's Clave Única de Registro de Población (CURP) as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .mexico-clave-unica-de-registro-de-poblacion-view</li>

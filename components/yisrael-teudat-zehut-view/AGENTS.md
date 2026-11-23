@@ -5,6 +5,7 @@
 - Component: yisrael-teudat-zehut-view
 - PascalCase: YisraelTeudatZehutView
 - Description: a read-only display of Israel's Teudat Zehut (תעודת זהות)
+- Purpose: Shows Israel's Teudat Zehut (תעודת זהות) as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow
 - HTML tag: <span>
 - CSS class: .yisrael-teudat-zehut-view

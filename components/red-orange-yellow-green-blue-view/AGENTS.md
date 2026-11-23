@@ -5,6 +5,7 @@
 - Component: red-orange-yellow-green-blue-view
 - PascalCase: RedOrangeYellowGreenBlueView
 - Description: a read-only display of a five-level color status
+- Purpose: Shows a five-level color status as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <span>
 - CSS class: .red-orange-yellow-green-blue-view

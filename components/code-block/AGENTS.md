@@ -5,6 +5,7 @@
 - Component: code-block
 - PascalCase: CodeBlock
 - Description: a block of formatted code with optional line numbers and line highlighting
+- Purpose: Shows several lines of code with optional line numbers and highlighted lines.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <pre>
 - CSS class: .code-block

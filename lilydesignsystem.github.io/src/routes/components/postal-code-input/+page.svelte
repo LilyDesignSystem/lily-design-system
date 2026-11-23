@@ -75,6 +75,7 @@
       <li>Component: postal-code-input</li>
       <li>PascalCase: PostalCodeInput</li>
       <li>Description: an input for entering a postal or ZIP code</li>
+      <li>Purpose: Collects a postal or ZIP code in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .postal-code-input</li>

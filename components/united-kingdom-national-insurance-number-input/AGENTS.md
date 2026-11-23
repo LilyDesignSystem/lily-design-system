@@ -5,6 +5,7 @@
 - Component: united-kingdom-national-insurance-number-input
 - PascalCase: UnitedKingdomNationalInsuranceNumberInput
 - Description: an input for entering United Kingdom's National Insurance Number (NINO)
+- Purpose: Collects United Kingdom's National Insurance Number (NINO) in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .united-kingdom-national-insurance-number-input

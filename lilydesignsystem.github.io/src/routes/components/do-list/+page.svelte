@@ -75,6 +75,7 @@
       <li>Component: do-list</li>
       <li>PascalCase: DoList</li>
       <li>Description: a guideline list of encouraged do-list-item components</li>
+      <li>Purpose: Lists recommended practices, usually beside a list of what not to do.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;ul&gt;</li>
       <li>CSS class: .do-list</li>

@@ -75,6 +75,7 @@
       <li>Component: data-table-row</li>
       <li>PascalCase: DataTableRow</li>
       <li>Description: a data table interactive grid row for displaying and sorting tabular data &lt;tr&gt;</li>
+      <li>Purpose: Holds one record of a data table, or one row of headings.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;tr&gt;</li>
       <li>CSS class: .data-table-row</li>

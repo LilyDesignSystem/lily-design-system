@@ -5,6 +5,7 @@
 - Component: misr-al-raqm-al-qawmi-view
 - PascalCase: MisrAlRaqmAlQawmiView
 - Description: a read-only display of Egypt's الرقم القومي (Al-Raqm Al-Qawmi)
+- Purpose: Shows Egypt's الرقم القومي (Al-Raqm Al-Qawmi) as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow
 - HTML tag: <span>
 - CSS class: .misr-al-raqm-al-qawmi-view

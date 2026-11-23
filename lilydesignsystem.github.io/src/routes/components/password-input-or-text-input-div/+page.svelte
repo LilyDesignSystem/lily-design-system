@@ -75,6 +75,7 @@
       <li>Component: password-input-or-text-input-div</li>
       <li>PascalCase: PasswordInputOrTextInputDiv</li>
       <li>Description: an input for entering a password &lt;input type="password"&gt; or text &lt;input type="text"&gt; with show/hide toggle</li>
+      <li>Purpose: Collects a password &lt;input type="password"&gt; or text &lt;input type="text"&gt; with show/hide toggle in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .password-input-or-text-input-div</li>

@@ -5,6 +5,7 @@
 - Component: data-table-head
 - PascalCase: DataTableHead
 - Description: a data table interactive grid thead for displaying and sorting tabular data <thead>
+- Purpose: Holds the column headings of a data table.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <thead>
 - CSS class: .data-table-head

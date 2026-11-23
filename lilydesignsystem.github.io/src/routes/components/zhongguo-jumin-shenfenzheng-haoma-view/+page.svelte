@@ -76,6 +76,7 @@
       <li>Component: zhongguo-jumin-shenfenzheng-haoma-view</li>
       <li>PascalCase: ZhongguoJuminShenfenzhengHaomaView</li>
       <li>Description: a read-only display of China's 居民身份证号码 (Jūmín Shēnfènzhèng Hàomǎ)</li>
+      <li>Purpose: Shows China's 居民身份证号码 (Jūmín Shēnfènzhèng Hàomǎ) as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .zhongguo-jumin-shenfenzheng-haoma-view</li>

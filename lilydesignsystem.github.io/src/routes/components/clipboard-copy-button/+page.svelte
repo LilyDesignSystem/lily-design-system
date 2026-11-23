@@ -75,6 +75,7 @@
       <li>Component: clipboard-copy-button</li>
       <li>PascalCase: ClipboardCopyButton</li>
       <li>Description: a button that copies text to the clipboard</li>
+      <li>Purpose: Copies a given piece of text, such as a code or a link, to the clipboard in one press.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;button&gt;</li>
       <li>CSS class: .clipboard-copy-button</li>

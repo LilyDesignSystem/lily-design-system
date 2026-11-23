@@ -75,6 +75,7 @@
       <li>Component: alba-community-health-index-input</li>
       <li>PascalCase: AlbaCommunityHealthIndexInput</li>
       <li>Description: an input for entering Scotland's Community Health Index (CHI)</li>
+      <li>Purpose: Collects Scotland's Community Health Index (CHI) in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .alba-community-health-index-input</li>

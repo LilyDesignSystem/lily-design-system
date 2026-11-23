@@ -75,6 +75,7 @@
       <li>Component: editable</li>
       <li>PascalCase: Editable</li>
       <li>Description: an inline-editable text element that toggles between view and edit modes</li>
+      <li>Purpose: Lets someone change a value in place, by clicking it, without opening a form.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .editable</li>

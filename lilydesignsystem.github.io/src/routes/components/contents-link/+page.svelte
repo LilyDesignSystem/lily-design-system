@@ -75,6 +75,7 @@
       <li>Component: contents-link</li>
       <li>PascalCase: ContentsLink</li>
       <li>Description: one table of contents link</li>
+      <li>Purpose: Jumps to one section of the page from a table of contents.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;a&gt;</li>
       <li>CSS class: .contents-link</li>

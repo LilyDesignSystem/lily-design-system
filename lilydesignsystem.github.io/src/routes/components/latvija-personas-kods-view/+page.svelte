@@ -75,6 +75,7 @@
       <li>Component: latvija-personas-kods-view</li>
       <li>PascalCase: LatvijaPersonasKodsView</li>
       <li>Description: a read-only display of Latvia's Personas kods</li>
+      <li>Purpose: Shows Latvia's Personas kods as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .latvija-personas-kods-view</li>

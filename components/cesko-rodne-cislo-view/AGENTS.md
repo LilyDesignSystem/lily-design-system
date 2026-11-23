@@ -5,6 +5,7 @@
 - Component: cesko-rodne-cislo-view
 - PascalCase: CeskoRodneCisloView
 - Description: a read-only display of Czech Republic's Rodné číslo (RČ)
+- Purpose: Shows Czech Republic's Rodné číslo (RČ) as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .cesko-rodne-cislo-view

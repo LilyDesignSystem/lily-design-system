@@ -75,6 +75,7 @@
       <li>Component: sverige-personnummer-input</li>
       <li>PascalCase: SverigePersonnummerInput</li>
       <li>Description: an input for entering Sweden's Personnummer</li>
+      <li>Purpose: Collects Sweden's Personnummer in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .sverige-personnummer-input</li>

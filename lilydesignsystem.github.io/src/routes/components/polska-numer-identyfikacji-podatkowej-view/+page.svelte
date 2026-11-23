@@ -75,6 +75,7 @@
       <li>Component: polska-numer-identyfikacji-podatkowej-view</li>
       <li>PascalCase: PolskaNumerIdentyfikacjiPodatkowejView</li>
       <li>Description: a read-only display of Poland's Numer Identyfikacji Podatkowej (NIP)</li>
+      <li>Purpose: Shows Poland's Numer Identyfikacji Podatkowej (NIP) as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .polska-numer-identyfikacji-podatkowej-view</li>

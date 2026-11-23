@@ -75,6 +75,7 @@
       <li>Component: contents-list</li>
       <li>PascalCase: ContentsList</li>
       <li>Description: an contents ordered list of contents list item components</li>
+      <li>Purpose: Lists the sections of a page so readers can scan it and jump to one.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;ol&gt;</li>
       <li>CSS class: .contents-list</li>

@@ -75,6 +75,7 @@
       <li>Component: column-chart</li>
       <li>PascalCase: ColumnChart</li>
       <li>Description: a vertical column chart visualization for displaying data</li>
+      <li>Purpose: Compares one measured value across a few named categories with vertical bars.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;figure&gt;</li>
       <li>CSS class: .column-chart</li>

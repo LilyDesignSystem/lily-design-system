@@ -76,6 +76,7 @@
       <li>Component: south-africa-identity-number-view</li>
       <li>PascalCase: SouthAfricaIdentityNumberView</li>
       <li>Description: a read-only display of South Africa's South African Identity Number</li>
+      <li>Purpose: Shows South Africa's South African Identity Number as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .south-africa-identity-number-view</li>

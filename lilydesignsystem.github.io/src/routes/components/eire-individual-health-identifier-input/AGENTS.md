@@ -5,6 +5,7 @@
 - Component: eire-individual-health-identifier-input
 - PascalCase: EireIndividualHealthIdentifierInput
 - Description: an input for entering Eire Individual Health Identifier (IHI) unique national healthcare identifier
+- Purpose: Collects Eire Individual Health Identifier (IHI) unique national healthcare identifier in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .eire-individual-health-identifier-input

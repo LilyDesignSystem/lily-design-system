@@ -75,6 +75,7 @@
       <li>Component: contents-list-item</li>
       <li>PascalCase: ContentsListItem</li>
       <li>Description: one contents list item</li>
+      <li>Purpose: Holds one entry of a table of contents.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;li&gt;</li>
       <li>CSS class: .contents-list-item</li>

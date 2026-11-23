@@ -5,6 +5,7 @@
 - Component: republica-dominicana-cedula-de-identidad-y-electoral-view
 - PascalCase: RepublicaDominicanaCedulaDeIdentidadYElectoralView
 - Description: a read-only display of the Dominican Republic's Cédula de Identidad y Electoral
+- Purpose: Shows the Dominican Republic's Cédula de Identidad y Electoral as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow
 - HTML tag: <span>
 - CSS class: .republica-dominicana-cedula-de-identidad-y-electoral-view

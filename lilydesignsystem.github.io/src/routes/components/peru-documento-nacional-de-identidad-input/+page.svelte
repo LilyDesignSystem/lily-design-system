@@ -76,6 +76,7 @@
       <li>Component: peru-documento-nacional-de-identidad-input</li>
       <li>PascalCase: PeruDocumentoNacionalDeIdentidadInput</li>
       <li>Description: an input for entering Peru's Documento Nacional de Identidad (DNI)</li>
+      <li>Purpose: Collects Peru's Documento Nacional de Identidad (DNI) in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .peru-documento-nacional-de-identidad-input</li>

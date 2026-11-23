@@ -75,6 +75,7 @@
       <li>Component: data-table-head</li>
       <li>PascalCase: DataTableHead</li>
       <li>Description: a data table interactive grid thead for displaying and sorting tabular data &lt;thead&gt;</li>
+      <li>Purpose: Holds the column headings of a data table.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;thead&gt;</li>
       <li>CSS class: .data-table-head</li>

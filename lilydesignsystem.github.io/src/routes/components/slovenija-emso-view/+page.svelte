@@ -75,6 +75,7 @@
       <li>Component: slovenija-emso-view</li>
       <li>PascalCase: SlovenijaEmsoView</li>
       <li>Description: a read-only display of Slovenia's Enotna Matična Številka Občana (EMŠO)</li>
+      <li>Purpose: Shows Slovenia's Enotna Matična Številka Občana (EMŠO) as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .slovenija-emso-view</li>

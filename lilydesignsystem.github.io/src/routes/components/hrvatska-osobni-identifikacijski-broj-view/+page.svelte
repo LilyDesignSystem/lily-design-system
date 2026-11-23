@@ -75,6 +75,7 @@
       <li>Component: hrvatska-osobni-identifikacijski-broj-view</li>
       <li>PascalCase: HrvatskaOsobniIdentifikacijskiBrojView</li>
       <li>Description: a read-only display of Croatia's Osobni identifikacijski broj (OIB)</li>
+      <li>Purpose: Shows Croatia's Osobni identifikacijski broj (OIB) as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .hrvatska-osobni-identifikacijski-broj-view</li>

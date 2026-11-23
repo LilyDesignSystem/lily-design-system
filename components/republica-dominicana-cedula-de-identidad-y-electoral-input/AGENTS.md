@@ -5,6 +5,7 @@
 - Component: republica-dominicana-cedula-de-identidad-y-electoral-input
 - PascalCase: RepublicaDominicanaCedulaDeIdentidadYElectoralInput
 - Description: an input for entering the Dominican Republic's Cédula de Identidad y Electoral
+- Purpose: Collects the Dominican Republic's Cédula de Identidad y Electoral in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.
 - Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow
 - HTML tag: <input>
 - CSS class: .republica-dominicana-cedula-de-identidad-y-electoral-input

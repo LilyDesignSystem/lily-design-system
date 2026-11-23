@@ -75,6 +75,7 @@
       <li>Component: espana-codigo-de-identificacion-fiscal-input</li>
       <li>PascalCase: EspanaCodigoDeIdentificacionFiscalInput</li>
       <li>Description: an input for entering Spain's Código de Identificación Fiscal (CIF)</li>
+      <li>Purpose: Collects Spain's Código de Identificación Fiscal (CIF) in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .espana-codigo-de-identificacion-fiscal-input</li>

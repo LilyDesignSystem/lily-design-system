@@ -5,6 +5,7 @@
 - Component: australia-tax-file-number-view
 - PascalCase: AustraliaTaxFileNumberView
 - Description: a read-only display of Australia's Tax File Number (TFN)
+- Purpose: Shows Australia's Tax File Number (TFN) as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow
 - HTML tag: <span>
 - CSS class: .australia-tax-file-number-view

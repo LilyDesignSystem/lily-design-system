@@ -5,6 +5,7 @@
 - Component: aotearoa-national-health-index-view
 - PascalCase: AotearoaNationalHealthIndexView
 - Description: a read-only display of New Zealand's National Health Index (NHI) Number
+- Purpose: Shows New Zealand's National Health Index (NHI) Number as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow
 - HTML tag: <span>
 - CSS class: .aotearoa-national-health-index-view

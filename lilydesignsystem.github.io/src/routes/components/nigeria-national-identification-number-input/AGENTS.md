@@ -5,6 +5,7 @@
 - Component: nigeria-national-identification-number-input
 - PascalCase: NigeriaNationalIdentificationNumberInput
 - Description: an input for entering Nigeria's National Identification Number (NIN)
+- Purpose: Collects Nigeria's National Identification Number (NIN) in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.
 - Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow
 - HTML tag: <input>
 - CSS class: .nigeria-national-identification-number-input

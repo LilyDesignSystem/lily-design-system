@@ -5,6 +5,7 @@
 - Component: polska-pesel-view
 - PascalCase: PolskaPeselView
 - Description: a read-only display of Poland's PESEL
+- Purpose: Shows Poland's PESEL as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .polska-pesel-view

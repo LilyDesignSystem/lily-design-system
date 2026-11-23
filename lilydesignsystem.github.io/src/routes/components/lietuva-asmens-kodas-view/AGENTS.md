@@ -5,6 +5,7 @@
 - Component: lietuva-asmens-kodas-view
 - PascalCase: LietuvaAsmensKodasView
 - Description: a read-only display of Lithuania's Asmens kodas
+- Purpose: Shows Lithuania's Asmens kodas as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .lietuva-asmens-kodas-view

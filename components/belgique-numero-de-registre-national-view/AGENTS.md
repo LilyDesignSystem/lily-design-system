@@ -5,6 +5,7 @@
 - Component: belgique-numero-de-registre-national-view
 - PascalCase: BelgiqueNumeroDeRegistreNationalView
 - Description: a read-only display of Belgium's Numéro de Registre National / Rijksregisternummer (NRN)
+- Purpose: Shows Belgium's Numéro de Registre National / Rijksregisternummer (NRN) as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .belgique-numero-de-registre-national-view

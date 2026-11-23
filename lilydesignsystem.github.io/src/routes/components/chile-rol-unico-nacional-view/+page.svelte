@@ -76,6 +76,7 @@
       <li>Component: chile-rol-unico-nacional-view</li>
       <li>PascalCase: ChileRolUnicoNacionalView</li>
       <li>Description: a read-only display of Chile's Rol Único Nacional (RUN)</li>
+      <li>Purpose: Shows Chile's Rol Único Nacional (RUN) as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .chile-rol-unico-nacional-view</li>

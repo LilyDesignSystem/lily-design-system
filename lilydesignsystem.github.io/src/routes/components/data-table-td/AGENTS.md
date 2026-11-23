@@ -5,6 +5,7 @@
 - Component: data-table-td
 - PascalCase: DataTableTD
 - Description: a data table interactive grid data cell for displaying and sorting tabular data <td>
+- Purpose: Holds one value of one record in a data table.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <td>
 - CSS class: .data-table-td

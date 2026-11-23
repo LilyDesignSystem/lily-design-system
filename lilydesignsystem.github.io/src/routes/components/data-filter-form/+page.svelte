@@ -75,6 +75,7 @@
       <li>Component: data-filter-form</li>
       <li>PascalCase: DataFilterForm</li>
       <li>Description: a form for filtering data by criteria</li>
+      <li>Purpose: Narrows a data set by criteria the person sets, in one form with one submit.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;form&gt;</li>
       <li>CSS class: .data-filter-form</li>

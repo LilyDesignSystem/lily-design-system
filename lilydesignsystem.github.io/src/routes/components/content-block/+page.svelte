@@ -75,6 +75,7 @@
       <li>Component: content-block</li>
       <li>PascalCase: ContentBlock</li>
       <li>Description: a content width constraint container with named column widths</li>
+      <li>Purpose: Constrains content to a named column width, such as narrow text or a wide figure.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .content-block</li>

@@ -5,6 +5,7 @@
 - Component: age-view
 - PascalCase: AgeView
 - Description: a read-only display of a person's age, in the units suited to it
+- Purpose: Shows a person's age, in the units suited to it as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow
 - HTML tag: <span>
 - CSS class: .age-view

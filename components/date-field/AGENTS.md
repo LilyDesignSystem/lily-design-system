@@ -5,6 +5,7 @@
 - Component: date-field
 - PascalCase: DateField
 - Description: a structured field for entering date components
+- Purpose: Asks for a date as day, month and year in separate boxes, for dates people know by heart such as a birth date.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <fieldset>
 - CSS class: .date-field

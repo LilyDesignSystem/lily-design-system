@@ -5,6 +5,7 @@
 - Component: diff
 - PascalCase: Diff
 - Description: a side-by-side comparison of two items
+- Purpose: Shows two versions of content side by side, so differences stand out.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .diff

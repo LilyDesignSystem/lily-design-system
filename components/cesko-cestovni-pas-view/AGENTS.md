@@ -5,6 +5,7 @@
 - Component: cesko-cestovni-pas-view
 - PascalCase: CeskoCestovniPasView
 - Description: a read-only display of Czech Republic's Cestovní pas
+- Purpose: Shows Czech Republic's Cestovní pas as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .cesko-cestovni-pas-view

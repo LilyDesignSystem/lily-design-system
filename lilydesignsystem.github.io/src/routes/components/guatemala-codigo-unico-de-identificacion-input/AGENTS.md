@@ -5,6 +5,7 @@
 - Component: guatemala-codigo-unico-de-identificacion-input
 - PascalCase: GuatemalaCodigoUnicoDeIdentificacionInput
 - Description: an input for entering Guatemala's Código Único de Identificación (CUI)
+- Purpose: Collects Guatemala's Código Único de Identificación (CUI) in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.
 - Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow
 - HTML tag: <input>
 - CSS class: .guatemala-codigo-unico-de-identificacion-input

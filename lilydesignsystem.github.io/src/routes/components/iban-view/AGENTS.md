@@ -5,6 +5,7 @@
 - Component: iban-view
 - PascalCase: IbanView
 - Description: a read-only display of an International Bank Account Number (IBAN)
+- Purpose: Shows an International Bank Account Number (IBAN) as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .iban-view

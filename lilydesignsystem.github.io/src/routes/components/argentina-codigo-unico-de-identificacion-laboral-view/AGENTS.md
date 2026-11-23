@@ -5,6 +5,7 @@
 - Component: argentina-codigo-unico-de-identificacion-laboral-view
 - PascalCase: ArgentinaCodigoUnicoDeIdentificacionLaboralView
 - Description: a read-only display of Argentina's Código Único de Identificación Laboral (CUIL)
+- Purpose: Shows Argentina's Código Único de Identificación Laboral (CUIL) as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow
 - HTML tag: <span>
 - CSS class: .argentina-codigo-unico-de-identificacion-laboral-view

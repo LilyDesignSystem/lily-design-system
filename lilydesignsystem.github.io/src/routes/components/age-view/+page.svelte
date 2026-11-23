@@ -76,6 +76,7 @@
       <li>Component: age-view</li>
       <li>PascalCase: AgeView</li>
       <li>Description: a read-only display of a person's age, in the units suited to it</li>
+      <li>Purpose: Shows a person's age, in the units suited to it as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.</li>
       <li>Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .age-view</li>

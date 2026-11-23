@@ -5,6 +5,7 @@
 - Component: red-amber-green-view
 - PascalCase: RedAmberGreenView
 - Description: a read-only display of a red/amber/green status
+- Purpose: Shows a red/amber/green status as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <span>
 - CSS class: .red-amber-green-view

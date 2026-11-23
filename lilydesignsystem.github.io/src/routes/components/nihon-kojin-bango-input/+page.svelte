@@ -76,6 +76,7 @@
       <li>Component: nihon-kojin-bango-input</li>
       <li>PascalCase: NihonKojinBangoInput</li>
       <li>Description: an input for entering Japan's Individual Number / My Number (マイナンバー)</li>
+      <li>Purpose: Collects Japan's Individual Number / My Number (マイナンバー) in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .nihon-kojin-bango-input</li>

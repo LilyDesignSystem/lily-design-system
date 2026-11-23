@@ -76,6 +76,7 @@
       <li>Component: nigeria-national-identification-number-view</li>
       <li>PascalCase: NigeriaNationalIdentificationNumberView</li>
       <li>Description: a read-only display of Nigeria's National Identification Number (NIN)</li>
+      <li>Purpose: Shows Nigeria's National Identification Number (NIN) as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .nigeria-national-identification-number-view</li>

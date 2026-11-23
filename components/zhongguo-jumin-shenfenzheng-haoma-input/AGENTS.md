@@ -5,6 +5,7 @@
 - Component: zhongguo-jumin-shenfenzheng-haoma-input
 - PascalCase: ZhongguoJuminShenfenzhengHaomaInput
 - Description: an input for entering China's 居民身份证号码 (Jūmín Shēnfènzhèng Hàomǎ)
+- Purpose: Collects China's 居民身份证号码 (Jūmín Shēnfènzhèng Hàomǎ) in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.
 - Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow
 - HTML tag: <input>
 - CSS class: .zhongguo-jumin-shenfenzheng-haoma-input

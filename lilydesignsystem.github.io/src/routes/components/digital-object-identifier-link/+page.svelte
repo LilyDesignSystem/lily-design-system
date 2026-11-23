@@ -75,6 +75,7 @@
       <li>Component: digital-object-identifier-link</li>
       <li>PascalCase: DigitalObjectIdentifierLink</li>
       <li>Description: a permanent hyperlink for a Digital Object Identifier (DOI) to an electronic source</li>
+      <li>Purpose: Links to a published work through its permanent DOI, which keeps working when the address moves.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;a&gt;</li>
       <li>CSS class: .digital-object-identifier-link</li>

@@ -5,6 +5,7 @@
 - Component: combobox
 - PascalCase: Combobox
 - Description: a text input combined with a dropdown list for filtering options
+- Purpose: Lets people type to filter a list and pick from it, or enter their own text. Use a select for a short fixed list.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .combobox

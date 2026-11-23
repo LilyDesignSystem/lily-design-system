@@ -5,6 +5,7 @@
 - Component: liechtenstein-national-identity-card-number-view
 - PascalCase: LiechtensteinNationalIdentityCardNumberView
 - Description: a read-only display of Liechtenstein's Liechtenstein National Identity Card Number
+- Purpose: Shows Liechtenstein's Liechtenstein National Identity Card Number as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .liechtenstein-national-identity-card-number-view

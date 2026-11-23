@@ -75,6 +75,7 @@
       <li>Component: data-table-body</li>
       <li>PascalCase: DataTableBody</li>
       <li>Description: a data table interactive grid tbody for displaying and sorting tabular data &lt;tbody&gt;</li>
+      <li>Purpose: Holds the data rows of a data table.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;tbody&gt;</li>
       <li>CSS class: .data-table-body</li>

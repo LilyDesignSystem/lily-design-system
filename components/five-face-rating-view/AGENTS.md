@@ -5,6 +5,7 @@
 - Component: five-face-rating-view
 - PascalCase: FiveFaceRatingView
 - Description: a read-only display of a five-face satisfaction rating
+- Purpose: Shows a five-face satisfaction rating as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <span>
 - CSS class: .five-face-rating-view

@@ -5,6 +5,7 @@
 - Component: color-input
 - PascalCase: ColorInput
 - Description: an input for selecting a color value <input type="color">
+- Purpose: Picks a colour with the browser's own colour picker. Use a colour radio group to choose from a fixed set.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <input>
 - CSS class: .color-input

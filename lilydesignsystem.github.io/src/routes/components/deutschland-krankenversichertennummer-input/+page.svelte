@@ -75,6 +75,7 @@
       <li>Component: deutschland-krankenversichertennummer-input</li>
       <li>PascalCase: DeutschlandKrankenversichertennummerInput</li>
       <li>Description: an input for entering Germany's Krankenversichertennummer (KVNR)</li>
+      <li>Purpose: Collects Germany's Krankenversichertennummer (KVNR) in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .deutschland-krankenversichertennummer-input</li>

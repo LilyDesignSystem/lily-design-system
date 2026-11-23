@@ -75,6 +75,7 @@
       <li>Component: tuaisceart-eireann-health-and-care-number-view</li>
       <li>PascalCase: TuaisceartEireannHealthAndCareNumberView</li>
       <li>Description: a read-only display of Tuaisceart Eireann Health and Care (H&amp;C) Number unique national healthcare identifier</li>
+      <li>Purpose: Shows Tuaisceart Eireann Health and Care (H&amp;C) Number unique national healthcare identifier as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .tuaisceart-eireann-health-and-care-number-view</li>

@@ -75,6 +75,7 @@
       <li>Component: container</li>
       <li>PascalCase: Container</li>
       <li>Description: a generic block-level content container</li>
+      <li>Purpose: Groups content in a plain block that carries no meaning of its own, for styling or layout.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .container</li>

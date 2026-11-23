@@ -75,6 +75,7 @@
       <li>Component: dial</li>
       <li>PascalCase: Dial</li>
       <li>Description: a rotary dial control for selecting a value</li>
+      <li>Purpose: Adjusts a number by turning a knob. Use a slider when a straight track will do.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .dial</li>

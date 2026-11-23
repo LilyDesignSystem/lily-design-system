@@ -75,6 +75,7 @@
       <li>Component: currency-input</li>
       <li>PascalCase: CurrencyInput</li>
       <li>Description: a locale-aware currency input with automatic formatting, symbols, separators</li>
+      <li>Purpose: Collects an amount of money, formatted for the locale and currency the consumer chooses.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .currency-input</li>

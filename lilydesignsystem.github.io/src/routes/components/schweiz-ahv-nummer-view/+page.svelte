@@ -76,6 +76,7 @@
       <li>Component: schweiz-ahv-nummer-view</li>
       <li>PascalCase: SchweizAhvNummerView</li>
       <li>Description: a read-only display of Switzerland's AHV-Nummer / Numéro AVS</li>
+      <li>Purpose: Shows Switzerland's AHV-Nummer / Numéro AVS as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .schweiz-ahv-nummer-view</li>

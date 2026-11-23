@@ -75,6 +75,7 @@
       <li>Component: date-time-now-input</li>
       <li>PascalCase: DateTimeNowInput</li>
       <li>Description: an input for entering a date and time and "now" button &lt;input type="date"&gt;&lt;input type="time"&gt;&lt;button type="button"&gt;</li>
+      <li>Purpose: Fills a date and time field with the current moment on request, for recording when something just happened.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .date-time-now-input</li>

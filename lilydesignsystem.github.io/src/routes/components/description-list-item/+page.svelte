@@ -75,6 +75,7 @@
       <li>Component: description-list-item</li>
       <li>PascalCase: DescriptionListItem</li>
       <li>Description: one key-value pair in a description list using dt and dd elements</li>
+      <li>Purpose: Holds one name and its value in a description list.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .description-list-item</li>

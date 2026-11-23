@@ -76,6 +76,7 @@
       <li>Component: al-imarat-raqm-al-huwiyah-input</li>
       <li>PascalCase: AlImaratRaqmAlHuwiyahInput</li>
       <li>Description: an input for entering the United Arab Emirates' Emirates ID number</li>
+      <li>Purpose: Collects the United Arab Emirates' Emirates ID number in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .al-imarat-raqm-al-huwiyah-input</li>

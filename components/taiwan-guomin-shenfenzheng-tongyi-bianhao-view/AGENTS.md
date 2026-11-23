@@ -5,6 +5,7 @@
 - Component: taiwan-guomin-shenfenzheng-tongyi-bianhao-view
 - PascalCase: TaiwanGuominShenfenzhengTongyiBianhaoView
 - Description: a read-only display of Taiwan's National Identification Card Number
+- Purpose: Shows Taiwan's National Identification Card Number as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow
 - HTML tag: <span>
 - CSS class: .taiwan-guomin-shenfenzheng-tongyi-bianhao-view

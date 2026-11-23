@@ -5,6 +5,7 @@
 - Component: australia-tax-file-number-input
 - PascalCase: AustraliaTaxFileNumberInput
 - Description: an input for entering Australia's Tax File Number (TFN)
+- Purpose: Collects Australia's Tax File Number (TFN) in one field, with autocomplete and spellcheck off so the number is neither saved by the browser nor sent to a spellchecker. Use it where staff or the person enter that number.
 - Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow
 - HTML tag: <input>
 - CSS class: .australia-tax-file-number-input

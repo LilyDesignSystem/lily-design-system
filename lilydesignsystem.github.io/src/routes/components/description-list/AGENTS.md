@@ -5,6 +5,7 @@
 - Component: description-list
 - PascalCase: DescriptionList
 - Description: a definition list displaying information in key-value format <dl>
+- Purpose: Pairs names with values, such as the fields of a record, in a list of terms and descriptions.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <dl>
 - CSS class: .description-list

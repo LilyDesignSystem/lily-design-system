@@ -5,6 +5,7 @@
 - Component: qazaqstan-zheke-saikestendiru-nomiri-view
 - PascalCase: QazaqstanZhekeSaikestendiruNomiriView
 - Description: a read-only display of Kazakhstan's Individual Identification Number (IIN)
+- Purpose: Shows Kazakhstan's Individual Identification Number (IIN) as read-only text, so it is displayed one way wherever it appears. Use the input to collect it.
 - Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow
 - HTML tag: <span>
 - CSS class: .qazaqstan-zheke-saikestendiru-nomiri-view

@@ -75,6 +75,7 @@
       <li>Component: dont-list</li>
       <li>PascalCase: DontList</li>
       <li>Description: a guideline list of discouraged dont-list-item components</li>
+      <li>Purpose: Lists practices to avoid, usually beside a list of what to do.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;ul&gt;</li>
       <li>CSS class: .dont-list</li>
