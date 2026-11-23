@@ -45,6 +45,10 @@ highlights.
   change many components at once) and which go straight to `latest` (fixes, patches, additive releases). Holding `latest` two days behind, which one
   consumer asked for, was not adopted: it would delay every fix for every consumer. `bin/test-publish-tag` checks the option with a fake `npm`.
 
+## The docs site's picker names come from the label packs (2026-11-23, P41-T9)
+
+- The site header's picker bar is named from the language's `pickers` section of the label packs (`@lilydesignsystem/svelte-locale-translations` 0.6.0), and the share picker's copy words too, so 59 languages say what the pack says (unreviewed drafts) and a regional route such as `de-at` uses its language's pack. The site's picker-bar is now 0.9.0. English changes from Theme / Language / Text size to the pack's Themes / Locales / Text Sizes.
+
 ## Light and Dark High-Contrast themes (2026-11-23)
 
 - Two new reference themes, `light-high-contrast` and `dark-high-contrast`, bring the set to 65: black on white and white on black, every text pair at least 7:1 (WCAG 2.2 AAA, 1.4.6), links at least 7:1 on every surface, 2px borders and no depth. Added to the default theme lists and labels of all nine picker-bars and the docs site; they reach consumers with the next themes and picker-bar releases. `tests/high-contrast-themes.spec.ts` measures them through the real picker.
