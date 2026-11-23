@@ -5,6 +5,7 @@
 - Component: convert-from-div
 - PascalCase: ConvertFromDiv
 - Description: the source side of a conversion, holding the value and unit to convert from
+- Purpose: Holds the value and unit to convert from.
 - Status: beta — implemented and unit-tested in all nine headless libraries; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .convert-from-div

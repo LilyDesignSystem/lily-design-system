@@ -76,6 +76,7 @@
       <li>Component: medication-record-list</li>
       <li>PascalCase: MedicationRecordList</li>
       <li>Description: a list of a patient's medicines, whose status is never blank</li>
+      <li>Purpose: Lists a patient's medicines, and never leaves the status blank.</li>
       <li>Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;ul&gt;</li>
       <li>CSS class: .medication-record-list</li>

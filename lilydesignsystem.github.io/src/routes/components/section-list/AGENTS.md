@@ -5,6 +5,7 @@
 - Component: section-list
 - PascalCase: SectionList
 - Description: a list of section navigation items
+- Purpose: Lists the sections of a document for navigation.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <ul>
 - CSS class: .section-list

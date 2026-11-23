@@ -76,6 +76,7 @@
       <li>Component: calendar-day-table</li>
       <li>PascalCase: CalendarDayTable</li>
       <li>Description: a calendar grid showing the time slots of one day: one row per slot</li>
+      <li>Purpose: Lays the time slots of one day out as rows.</li>
       <li>Status: beta — implemented and unit-tested in the Svelte canonical; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;table&gt;</li>
       <li>CSS class: .calendar-day-table</li>

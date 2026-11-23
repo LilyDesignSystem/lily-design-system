@@ -76,6 +76,7 @@
       <li>Component: immunization-record-list</li>
       <li>PascalCase: ImmunizationRecordList</li>
       <li>Description: a list of a patient's immunizations, whose status is never blank</li>
+      <li>Purpose: Lists a patient's immunizations, and never leaves the status blank.</li>
       <li>Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;ul&gt;</li>
       <li>CSS class: .immunization-record-list</li>

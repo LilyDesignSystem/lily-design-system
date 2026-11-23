@@ -76,6 +76,7 @@
       <li>Component: device-record-list</li>
       <li>PascalCase: DeviceRecordList</li>
       <li>Description: a list of a patient's medical devices, whose status is never blank</li>
+      <li>Purpose: Lists a patient's medical devices, and never leaves the status blank.</li>
       <li>Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;ul&gt;</li>
       <li>CSS class: .device-record-list</li>

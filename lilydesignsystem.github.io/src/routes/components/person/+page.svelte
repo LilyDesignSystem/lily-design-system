@@ -75,6 +75,7 @@
       <li>Component: person</li>
       <li>PascalCase: Person</li>
       <li>Description: a person component that contains other person-related information</li>
+      <li>Purpose: Presents a person's name, photo, role and contact details.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;article&gt;</li>
       <li>CSS class: .person</li>

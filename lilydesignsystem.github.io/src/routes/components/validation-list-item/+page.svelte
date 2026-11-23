@@ -75,6 +75,7 @@
       <li>Component: validation-list-item</li>
       <li>PascalCase: ValidationListItem</li>
       <li>Description: one validation rule in a validation list with a status of pending, passed, or failed</li>
+      <li>Purpose: Holds one rule, pending, passed or failed.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;li&gt;</li>
       <li>CSS class: .validation-list-item</li>

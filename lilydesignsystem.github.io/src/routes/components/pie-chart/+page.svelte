@@ -76,6 +76,7 @@
       <li>Component: pie-chart</li>
       <li>PascalCase: PieChart</li>
       <li>Description: a circular chart divided into slices that show each part of a whole</li>
+      <li>Purpose: Shows the share each part has of a whole. Use a bar chart for more than a few parts.</li>
       <li>Status: beta — implemented and unit-tested in all eight headless libraries; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;figure&gt;</li>
       <li>CSS class: .pie-chart</li>

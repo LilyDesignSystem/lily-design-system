@@ -76,6 +76,7 @@
       <li>Component: tool-call-output</li>
       <li>PascalCase: ToolCallOutput</li>
       <li>Description: the output or result returned by a tool in a tool call</li>
+      <li>Purpose: Shows what the tool returned.</li>
       <li>Status: beta — implemented and unit-tested in all eight headless libraries; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .tool-call-output</li>

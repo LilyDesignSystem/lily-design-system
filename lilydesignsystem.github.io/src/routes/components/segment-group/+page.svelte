@@ -75,6 +75,7 @@
       <li>Component: segment-group</li>
       <li>PascalCase: SegmentGroup</li>
       <li>Description: a group of mutually exclusive segment options</li>
+      <li>Purpose: Switches between a few related views or modes, one active at a time.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .segment-group</li>

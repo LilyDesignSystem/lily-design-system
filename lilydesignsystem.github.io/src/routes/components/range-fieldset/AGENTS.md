@@ -5,6 +5,7 @@
 - Component: range-fieldset
 - PascalCase: RangeFieldset
 - Description: a fieldset of two range inputs for a minimum and a maximum that cannot cross
+- Purpose: Chooses a span of values with two thumbs on one track.
 - Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow
 - HTML tag: <fieldset>
 - CSS class: .range-fieldset

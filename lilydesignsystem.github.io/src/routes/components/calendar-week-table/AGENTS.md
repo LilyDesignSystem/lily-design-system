@@ -5,6 +5,7 @@
 - Component: calendar-week-table
 - PascalCase: CalendarWeekTable
 - Description: a calendar grid showing the seven days of one week as day columns
+- Purpose: Lays the seven days of a week out as columns.
 - Status: beta — implemented and unit-tested in the Svelte canonical; not yet exercised in composed flows
 - HTML tag: <table>
 - CSS class: .calendar-week-table

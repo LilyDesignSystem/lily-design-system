@@ -75,6 +75,7 @@
       <li>Component: scroller-video</li>
       <li>PascalCase: ScrollerVideo</li>
       <li>Description: a video-driven scrollytelling component with frame-by-frame scrubbing</li>
+      <li>Purpose: Plays a video forward and back as the reader scrolls.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .scroller-video</li>

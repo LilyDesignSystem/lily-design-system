@@ -75,6 +75,7 @@
       <li>Component: tour</li>
       <li>PascalCase: Tour</li>
       <li>Description: a tour guide, such as for sightseeing, or pathways, or demonstrations, etc.</li>
+      <li>Purpose: Walks someone through a product step by step.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .tour</li>

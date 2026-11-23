@@ -76,6 +76,7 @@
       <li>Component: red-amber-green-radio-group</li>
       <li>PascalCase: RedAmberGreenRadioGroup</li>
       <li>Description: a fieldset radio group for selecting a red/amber/green status</li>
+      <li>Purpose: Asks for a red, amber or green status. The meaning is in words, never colour alone.</li>
       <li>Status: experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;fieldset&gt;</li>
       <li>CSS class: .red-amber-green-radio-group</li>

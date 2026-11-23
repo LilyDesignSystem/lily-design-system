@@ -76,6 +76,7 @@
       <li>Component: show-more</li>
       <li>PascalCase: ShowMore</li>
       <li>Description: clamp long content behind a show more / show less toggle</li>
+      <li>Purpose: Shortens long content and offers a button to see all of it.</li>
       <li>Status: beta — implemented and unit-tested in the Svelte canonical; ports to the other frameworks pending (2026-10-05)</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .show-more</li>

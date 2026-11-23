@@ -5,6 +5,7 @@
 - Component: radio-group
 - PascalCase: RadioGroup
 - Description: a group of radio buttons for selecting one option
+- Purpose: Offers a short list of options of which exactly one must be chosen.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <fieldset>
 - CSS class: .radio-group

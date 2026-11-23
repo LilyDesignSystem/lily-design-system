@@ -75,6 +75,7 @@
       <li>Component: section-heading</li>
       <li>PascalCase: SectionHeading</li>
       <li>Description: a styled heading introducing a major content section, with optional eyebrow and subtitle</li>
+      <li>Purpose: Introduces a major section with its heading and a short lead.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;header&gt;</li>
       <li>CSS class: .section-heading</li>

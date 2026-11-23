@@ -5,6 +5,7 @@
 - Component: multi-select-with-extras
 - PascalCase: MultiSelectWithExtras
 - Description: a multiple-choice select with content before and after it
+- Purpose: Adds content before or after a multiple select, such as a hint or an action.
 - Status: beta — implemented and unit-tested in the Svelte canonical; ports to the other frameworks pending (2026-10-05)
 - HTML tag: <div>
 - CSS class: .multi-select-with-extras

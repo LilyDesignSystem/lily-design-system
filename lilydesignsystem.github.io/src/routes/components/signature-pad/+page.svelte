@@ -75,6 +75,7 @@
       <li>Component: signature-pad</li>
       <li>PascalCase: SignaturePad</li>
       <li>Description: a drawing area for capturing a handwritten signature</li>
+      <li>Purpose: Captures a handwritten signature drawn with a finger or pen.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .signature-pad</li>

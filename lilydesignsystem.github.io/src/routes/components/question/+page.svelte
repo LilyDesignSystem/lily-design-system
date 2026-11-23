@@ -75,6 +75,7 @@
       <li>Component: question</li>
       <li>PascalCase: Question</li>
       <li>Description: a question is anything that asks for information, invites a response, tests knowledge, etc.</li>
+      <li>Purpose: Marks text that asks for information, such as a quiz question or a forum post.</li>
       <li>Status: experimental — recent catalog addition with the least accumulated depth; contract may still move</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .question</li>

@@ -5,6 +5,7 @@
 - Component: tag-input-div
 - PascalCase: TagInputDiv
 - Description: an input for adding and removing tags
+- Purpose: Lets people add and remove tags by typing.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .tag-input-div

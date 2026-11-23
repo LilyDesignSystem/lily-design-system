@@ -5,6 +5,7 @@
 - Component: table-foot
 - PascalCase: TableFoot
 - Description: a table interactive grid tfoot <tfoot>
+- Purpose: Holds the summary rows of a table.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <tfoot>
 - CSS class: .table-foot

@@ -75,6 +75,7 @@
       <li>Component: tree-list</li>
       <li>PascalCase: TreeList</li>
       <li>Description: a hierarchical list with nested expandable items</li>
+      <li>Purpose: Shows a hierarchy that can be opened and closed, with arrow-key navigation.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;ol&gt;</li>
       <li>CSS class: .tree-list</li>

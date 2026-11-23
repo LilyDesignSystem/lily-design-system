@@ -5,6 +5,7 @@
 - Component: heatmap-chart-with-year-of-days
 - PascalCase: HeatmapChartWithYearOfDays
 - Description: a heatmap chart of one year of days, one cell per day in week columns and weekday rows
+- Purpose: Shows one cell per day of a year, by week, to reveal patterns in activity.
 - Status: experimental — added 2026-10-22; implemented and unit-tested in all nine headless catalogs
 - HTML tag: <figure>
 - CSS class: .heatmap-chart-with-year-of-days

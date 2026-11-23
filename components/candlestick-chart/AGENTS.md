@@ -5,6 +5,7 @@
 - Component: candlestick-chart
 - PascalCase: CandlestickChart
 - Description: a financial chart showing open, high, low and close values for each period as candles
+- Purpose: Shows the open, high, low and close of each period, as in prices.
 - Status: beta — implemented and unit-tested in all eight headless libraries; not yet exercised in composed flows
 - HTML tag: <figure>
 - CSS class: .candlestick-chart

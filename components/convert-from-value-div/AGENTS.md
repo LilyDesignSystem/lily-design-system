@@ -5,6 +5,7 @@
 - Component: convert-from-value-div
 - PascalCase: ConvertFromValueDiv
 - Description: the value to convert from, such as a text input holding the number of dollars
+- Purpose: Holds the number to convert from.
 - Status: beta — implemented and unit-tested in all nine headless libraries; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .convert-from-value-div

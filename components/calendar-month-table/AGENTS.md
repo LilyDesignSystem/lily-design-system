@@ -5,6 +5,7 @@
 - Component: calendar-month-table
 - PascalCase: CalendarMonthTable
 - Description: a calendar grid showing the days of one month: week rows by seven day columns
+- Purpose: Lays the days of a month out as weeks by weekday.
 - Status: beta — implemented and unit-tested in the Svelte canonical; not yet exercised in composed flows
 - HTML tag: <table>
 - CSS class: .calendar-month-table

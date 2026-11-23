@@ -5,6 +5,7 @@
 - Component: tool-call-input
 - PascalCase: ToolCallInput
 - Description: the input or arguments passed to a tool in a tool call
+- Purpose: Shows what was sent to the tool.
 - Status: beta — implemented and unit-tested in all eight headless libraries; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .tool-call-input

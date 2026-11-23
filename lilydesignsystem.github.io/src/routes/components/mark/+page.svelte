@@ -76,6 +76,7 @@
       <li>Component: mark</li>
       <li>PascalCase: Mark</li>
       <li>Description: an inline highlight marking text as relevant or referenced, such as a search match, using the native mark element</li>
+      <li>Purpose: Highlights text that is relevant, such as a search match.</li>
       <li>Status: beta — implemented and unit-tested in all eight headless libraries; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;mark&gt;</li>
       <li>CSS class: .mark</li>

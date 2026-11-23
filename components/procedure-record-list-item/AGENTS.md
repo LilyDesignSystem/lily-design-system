@@ -5,6 +5,7 @@
 - Component: procedure-record-list-item
 - PascalCase: ProcedureRecordListItem
 - Description: one procedure in a procedure record list, with its status and when it was performed
+- Purpose: Shows one procedure with its status and date.
 - Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow
 - HTML tag: <li>
 - CSS class: .procedure-record-list-item

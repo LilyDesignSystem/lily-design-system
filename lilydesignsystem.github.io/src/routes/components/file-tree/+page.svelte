@@ -76,6 +76,7 @@
       <li>Component: file-tree</li>
       <li>PascalCase: FileTree</li>
       <li>Description: a hierarchical tree of folders and files with expandable folders</li>
+      <li>Purpose: Browses folders and files as a tree with arrow-key navigation.</li>
       <li>Status: beta — implemented and unit-tested in the Svelte canonical; ports to the other frameworks pending (2026-10-05)</li>
       <li>HTML tag: &lt;ul&gt;</li>
       <li>CSS class: .file-tree</li>

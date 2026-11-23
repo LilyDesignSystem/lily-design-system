@@ -5,6 +5,7 @@
 - Component: red-orange-yellow-green-blue-radio-group
 - PascalCase: RedOrangeYellowGreenBlueRadioGroup
 - Description: a fieldset radio group for selecting a five-level color status
+- Purpose: Asks for one of five coloured statuses, each named in words.
 - Status: experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow
 - HTML tag: <fieldset>
 - CSS class: .red-orange-yellow-green-blue-radio-group

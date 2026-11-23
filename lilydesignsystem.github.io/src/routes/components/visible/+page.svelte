@@ -75,6 +75,7 @@
       <li>Component: visible</li>
       <li>PascalCase: Visible</li>
       <li>Description: an IntersectionObserver wrapper that exposes element visibility state</li>
+      <li>Purpose: Tells other components when an element is on screen, for lazy loading and scroll effects.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .visible</li>

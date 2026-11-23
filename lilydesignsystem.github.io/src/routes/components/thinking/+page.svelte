@@ -76,6 +76,7 @@
       <li>Component: thinking</li>
       <li>PascalCase: Thinking</li>
       <li>Description: a closed-by-default disclosure for an assistant's reasoning, with a streaming state</li>
+      <li>Purpose: Shows an assistant's reasoning or progress in a disclosure that can be opened.</li>
       <li>Status: beta — implemented and unit-tested in the Svelte canonical; ports to the other frameworks pending (2026-10-05)</li>
       <li>HTML tag: &lt;details&gt;</li>
       <li>CSS class: .thinking</li>

@@ -5,6 +5,7 @@
 - Component: convert-div
 - PascalCase: ConvertDiv
 - Description: a group that converts a value from one unit into another, such as dollars into euros or miles into kilometres
+- Purpose: Converts a value from one unit into another, such as dollars into euros.
 - Status: beta — implemented and unit-tested in all nine headless libraries; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .convert-div

@@ -5,6 +5,7 @@
 - Component: funnel-chart
 - PascalCase: FunnelChart
 - Description: a chart of stages narrowing from top to bottom, showing how a quantity drops at each step
+- Purpose: Shows how a quantity falls through stages, such as signups to purchases.
 - Status: beta — implemented and unit-tested in all eight headless libraries; not yet exercised in composed flows
 - HTML tag: <figure>
 - CSS class: .funnel-chart

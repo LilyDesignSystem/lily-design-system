@@ -5,6 +5,7 @@
 - Component: slider
 - PascalCase: Slider
 - Description: a draggable control for selecting a value along a track
+- Purpose: Picks a number by dragging a handle along a track. Use a number input when the exact value matters.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <input>
 - CSS class: .slider

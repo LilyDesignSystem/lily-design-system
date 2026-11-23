@@ -5,6 +5,7 @@
 - Component: option
 - PascalCase: Option
 - Description: an option element within a select dropdown
+- Purpose: Holds one choice inside a select.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <option>
 - CSS class: .option

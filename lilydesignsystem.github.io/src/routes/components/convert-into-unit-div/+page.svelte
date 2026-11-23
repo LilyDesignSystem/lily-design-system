@@ -76,6 +76,7 @@
       <li>Component: convert-into-unit-div</li>
       <li>PascalCase: ConvertIntoUnitDiv</li>
       <li>Description: the unit to convert into, such as a select box of currencies or lengths</li>
+      <li>Purpose: Holds the unit to convert into.</li>
       <li>Status: beta — implemented and unit-tested in all nine headless libraries; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .convert-into-unit-div</li>

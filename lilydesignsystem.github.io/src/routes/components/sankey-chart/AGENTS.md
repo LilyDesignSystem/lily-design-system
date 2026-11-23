@@ -5,6 +5,7 @@
 - Component: sankey-chart
 - PascalCase: SankeyChart
 - Description: a flow chart where link width encodes the quantity moving between nodes
+- Purpose: Shows how a quantity flows between stages, with width for size.
 - Status: beta — implemented and unit-tested in the Svelte canonical; not yet exercised in composed flows
 - HTML tag: <figure>
 - CSS class: .sankey-chart

@@ -75,6 +75,7 @@
       <li>Component: section-nav</li>
       <li>PascalCase: SectionNav</li>
       <li>Description: a navigation container for section navigation links</li>
+      <li>Purpose: Marks a set of section links as a navigation landmark.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;nav&gt;</li>
       <li>CSS class: .section-nav</li>

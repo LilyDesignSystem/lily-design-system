@@ -76,6 +76,7 @@
       <li>Component: numeric-rating-scale-picker</li>
       <li>PascalCase: NumericRatingScalePicker</li>
       <li>Description: a picker for a 0 to 10 rating, such as pain, with the consumer's words at each end</li>
+      <li>Purpose: Collects a rating from 0 to 10, such as pain, as a set of numbered choices.</li>
       <li>Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;fieldset&gt;</li>
       <li>CSS class: .numeric-rating-scale-picker</li>

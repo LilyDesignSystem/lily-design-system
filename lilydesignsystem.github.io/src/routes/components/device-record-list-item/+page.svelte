@@ -76,6 +76,7 @@
       <li>Component: device-record-list-item</li>
       <li>PascalCase: DeviceRecordListItem</li>
       <li>Description: one medical device in a device record list, with its status and when it was used</li>
+      <li>Purpose: Shows one medical device with its status and date.</li>
       <li>Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;li&gt;</li>
       <li>CSS class: .device-record-list-item</li>

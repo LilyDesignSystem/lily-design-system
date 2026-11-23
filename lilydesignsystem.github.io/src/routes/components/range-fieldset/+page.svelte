@@ -76,6 +76,7 @@
       <li>Component: range-fieldset</li>
       <li>PascalCase: RangeFieldset</li>
       <li>Description: a fieldset of two range inputs for a minimum and a maximum that cannot cross</li>
+      <li>Purpose: Chooses a span of values with two thumbs on one track.</li>
       <li>Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;fieldset&gt;</li>
       <li>CSS class: .range-fieldset</li>

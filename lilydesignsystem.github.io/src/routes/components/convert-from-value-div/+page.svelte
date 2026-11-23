@@ -76,6 +76,7 @@
       <li>Component: convert-from-value-div</li>
       <li>PascalCase: ConvertFromValueDiv</li>
       <li>Description: the value to convert from, such as a text input holding the number of dollars</li>
+      <li>Purpose: Holds the number to convert from.</li>
       <li>Status: beta — implemented and unit-tested in all nine headless libraries; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .convert-from-value-div</li>

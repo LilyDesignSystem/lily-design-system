@@ -5,6 +5,7 @@
 - Component: success-panel
 - PascalCase: SuccessPanel
 - Description: a panel confirming a task has been completed
+- Purpose: Confirms in plain words that a task is done, as the main element of a confirmation page.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .success-panel

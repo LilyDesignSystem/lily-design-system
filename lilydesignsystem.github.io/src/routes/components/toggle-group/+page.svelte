@@ -75,6 +75,7 @@
       <li>Component: toggle-group</li>
       <li>PascalCase: ToggleGroup</li>
       <li>Description: a group of toggle buttons for selecting options</li>
+      <li>Purpose: Groups toggle buttons that choose related options.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .toggle-group</li>

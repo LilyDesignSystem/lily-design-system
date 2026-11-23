@@ -76,6 +76,7 @@
       <li>Component: tool-call-error</li>
       <li>PascalCase: ToolCallError</li>
       <li>Description: the error shown when a tool call fails</li>
+      <li>Purpose: Shows why the call failed, announced as an alert.</li>
       <li>Status: beta — implemented and unit-tested in all eight headless libraries; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .tool-call-error</li>

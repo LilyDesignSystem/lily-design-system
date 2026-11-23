@@ -5,6 +5,7 @@
 - Component: toggle-group
 - PascalCase: ToggleGroup
 - Description: a group of toggle buttons for selecting options
+- Purpose: Groups toggle buttons that choose related options.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .toggle-group

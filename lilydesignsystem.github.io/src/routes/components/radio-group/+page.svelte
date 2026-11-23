@@ -75,6 +75,7 @@
       <li>Component: radio-group</li>
       <li>PascalCase: RadioGroup</li>
       <li>Description: a group of radio buttons for selecting one option</li>
+      <li>Purpose: Offers a short list of options of which exactly one must be chosen.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;fieldset&gt;</li>
       <li>CSS class: .radio-group</li>

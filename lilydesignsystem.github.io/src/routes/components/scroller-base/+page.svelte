@@ -75,6 +75,7 @@
       <li>Component: scroller-base</li>
       <li>PascalCase: ScrollerBase</li>
       <li>Description: a low-level scroll position tracking primitive for scrollytelling</li>
+      <li>Purpose: Tracks scroll position for scrollytelling, so other components can react.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .scroller-base</li>

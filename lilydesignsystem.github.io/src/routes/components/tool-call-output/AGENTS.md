@@ -5,6 +5,7 @@
 - Component: tool-call-output
 - PascalCase: ToolCallOutput
 - Description: the output or result returned by a tool in a tool call
+- Purpose: Shows what the tool returned.
 - Status: beta — implemented and unit-tested in all eight headless libraries; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .tool-call-output

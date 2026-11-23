@@ -76,6 +76,7 @@
       <li>Component: record-provenance-view</li>
       <li>PascalCase: RecordProvenanceView</li>
       <li>Description: who recorded a record, where it came from and whether it is signed, in the consumer's words</li>
+      <li>Purpose: Shows where a record came from: who wrote it, when and from what source.</li>
       <li>Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .record-provenance-view</li>

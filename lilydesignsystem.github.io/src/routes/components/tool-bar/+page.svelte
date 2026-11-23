@@ -75,6 +75,7 @@
       <li>Component: tool-bar</li>
       <li>PascalCase: ToolBar</li>
       <li>Description: a horizontal bar of tool actions</li>
+      <li>Purpose: Gathers frequent actions in one place, with arrow keys between them.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .tool-bar</li>

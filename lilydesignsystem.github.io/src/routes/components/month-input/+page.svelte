@@ -75,6 +75,7 @@
       <li>Component: month-input</li>
       <li>PascalCase: MonthInput</li>
       <li>Description: an input for selecting a month and year &lt;input type="month"&gt;</li>
+      <li>Purpose: Picks a month and year with the browser's own control. Use date field when the day matters.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .month-input</li>

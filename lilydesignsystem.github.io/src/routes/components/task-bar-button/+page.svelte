@@ -75,6 +75,7 @@
       <li>Component: task-bar-button</li>
       <li>PascalCase: TaskBarButton</li>
       <li>Description: one item in a task bar</li>
+      <li>Purpose: Runs one action of a task bar.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;button&gt;</li>
       <li>CSS class: .task-bar-button</li>

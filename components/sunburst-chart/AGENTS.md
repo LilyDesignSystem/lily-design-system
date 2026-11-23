@@ -5,6 +5,7 @@
 - Component: sunburst-chart
 - PascalCase: SunburstChart
 - Description: a radial chart showing a hierarchy as concentric rings of arcs
+- Purpose: Shows a hierarchy as concentric rings of arcs.
 - Status: beta — implemented and unit-tested in all eight headless libraries; not yet exercised in composed flows
 - HTML tag: <figure>
 - CSS class: .sunburst-chart

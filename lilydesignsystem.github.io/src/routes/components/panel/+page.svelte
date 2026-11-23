@@ -76,6 +76,7 @@
       <li>Component: panel</li>
       <li>PascalCase: Panel</li>
       <li>Description: a generic content panel with optional heading</li>
+      <li>Purpose: Groups related content or controls in a labelled box.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .panel</li>

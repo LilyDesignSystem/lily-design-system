@@ -5,6 +5,7 @@
 - Component: mockup-shell
 - PascalCase: MockupShell
 - Description: a box area that looks like a terminal shell
+- Purpose: Frames content in a drawing of a terminal window, to show commands and their output.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .mockup-shell

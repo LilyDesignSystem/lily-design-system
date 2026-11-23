@@ -75,6 +75,7 @@
       <li>Component: sonner</li>
       <li>PascalCase: Sonner</li>
       <li>Description: a toast notification manager</li>
+      <li>Purpose: Provides the region where short toast messages appear.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .sonner</li>

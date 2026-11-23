@@ -75,6 +75,7 @@
       <li>Component: pagination-link</li>
       <li>PascalCase: PaginationLink</li>
       <li>Description: one pagination link in the trail</li>
+      <li>Purpose: Links to one page of a paginated set.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;a&gt;</li>
       <li>CSS class: .pagination-link</li>

@@ -76,6 +76,7 @@
       <li>Component: wheel-picker</li>
       <li>PascalCase: WheelPicker</li>
       <li>Description: a single-select listbox, vertical by default, where the selection follows the cursor, for choosing one of a short list by scrolling or typing</li>
+      <li>Purpose: Picks one option by scrolling a wheel, for short ranges skimmed by feel such as hours.</li>
       <li>Status: experimental — implemented and unit-tested in all nine headless catalogs (2026-10-23); plain HTML/Nunjucks and static Blazor differ, see index.md</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .wheel-picker</li>

@@ -75,6 +75,7 @@
       <li>Component: separator</li>
       <li>PascalCase: Separator</li>
       <li>Description: a horizontal or vertical divider between content sections</li>
+      <li>Purpose: Divides content into sections, visibly and for assistive technology.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;hr&gt;</li>
       <li>CSS class: .separator</li>

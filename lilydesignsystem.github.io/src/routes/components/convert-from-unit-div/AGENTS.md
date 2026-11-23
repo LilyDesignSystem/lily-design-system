@@ -5,6 +5,7 @@
 - Component: convert-from-unit-div
 - PascalCase: ConvertFromUnitDiv
 - Description: the unit to convert from, such as a select box of currencies or lengths
+- Purpose: Holds the unit to convert from.
 - Status: beta — implemented and unit-tested in all nine headless libraries; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .convert-from-unit-div

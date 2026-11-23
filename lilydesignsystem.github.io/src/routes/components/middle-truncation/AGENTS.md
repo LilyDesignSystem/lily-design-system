@@ -5,6 +5,7 @@
 - Component: middle-truncation
 - PascalCase: MiddleTruncation
 - Description: a string shortened in the middle to fit its width, keeping the start and the end
+- Purpose: Shortens a long string in the middle, keeping its start and end, such as a file name.
 - Status: experimental — implemented and tested in all nine headless catalogs (2026-10-23); Blazor (`MaxCharacters`), Nunjucks and HTML measure differently, see index.md
 - HTML tag: <span>
 - CSS class: .middle-truncation

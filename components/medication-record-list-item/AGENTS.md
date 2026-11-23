@@ -5,6 +5,7 @@
 - Component: medication-record-list-item
 - PascalCase: MedicationRecordListItem
 - Description: one medicine in a medication record list, with its status and when it applies
+- Purpose: Shows one medicine with its status and when it applies.
 - Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow
 - HTML tag: <li>
 - CSS class: .medication-record-list-item

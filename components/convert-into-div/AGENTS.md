@@ -5,6 +5,7 @@
 - Component: convert-into-div
 - PascalCase: ConvertIntoDiv
 - Description: the target side of a conversion, holding the value and unit to convert into
+- Purpose: Holds the value and unit to convert into.
 - Status: beta — implemented and unit-tested in all nine headless libraries; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .convert-into-div

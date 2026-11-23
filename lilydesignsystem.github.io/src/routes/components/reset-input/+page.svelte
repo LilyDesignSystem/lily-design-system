@@ -75,6 +75,7 @@
       <li>Component: reset-input</li>
       <li>PascalCase: ResetInput</li>
       <li>Description: a button input that resets a form to default values &lt;input type="reset"&gt;</li>
+      <li>Purpose: Puts a form's fields back to their starting values. Use it rarely; people lose work by mistake.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .reset-input</li>

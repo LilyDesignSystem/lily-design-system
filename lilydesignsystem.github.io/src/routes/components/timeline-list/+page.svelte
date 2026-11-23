@@ -75,6 +75,7 @@
       <li>Component: timeline-list</li>
       <li>PascalCase: TimelineList</li>
       <li>Description: an ordered list of chronological events or milestones</li>
+      <li>Purpose: Lists events in time order along a line.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;ol&gt;</li>
       <li>CSS class: .timeline-list</li>

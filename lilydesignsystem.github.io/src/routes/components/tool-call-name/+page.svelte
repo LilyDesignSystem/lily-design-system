@@ -76,6 +76,7 @@
       <li>Component: tool-call-name</li>
       <li>PascalCase: ToolCallName</li>
       <li>Description: the name of the tool in a tool call, shown in the summary</li>
+      <li>Purpose: Names the tool that was called.</li>
       <li>Status: beta — implemented and unit-tested in all eight headless libraries; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .tool-call-name</li>

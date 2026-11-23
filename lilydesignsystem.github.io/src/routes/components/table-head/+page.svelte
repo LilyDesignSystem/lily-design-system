@@ -75,6 +75,7 @@
       <li>Component: table-head</li>
       <li>PascalCase: TableHead</li>
       <li>Description: a table interactive grid thead &lt;thead&gt;</li>
+      <li>Purpose: Holds the column headings of a table.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;thead&gt;</li>
       <li>CSS class: .table-head</li>

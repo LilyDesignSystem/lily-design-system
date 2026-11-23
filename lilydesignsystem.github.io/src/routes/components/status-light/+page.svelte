@@ -75,6 +75,7 @@
       <li>Component: status-light</li>
       <li>PascalCase: StatusLight</li>
       <li>Description: a small colored dot status indicator paired with a status label</li>
+      <li>Purpose: Shows a status with a small dot and a word.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;span&gt; with role="status"</li>
       <li>CSS class: .status-light</li>

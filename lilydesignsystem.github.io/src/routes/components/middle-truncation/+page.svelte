@@ -76,6 +76,7 @@
       <li>Component: middle-truncation</li>
       <li>PascalCase: MiddleTruncation</li>
       <li>Description: a string shortened in the middle to fit its width, keeping the start and the end</li>
+      <li>Purpose: Shortens a long string in the middle, keeping its start and end, such as a file name.</li>
       <li>Status: experimental — implemented and tested in all nine headless catalogs (2026-10-23); Blazor (<code>MaxCharacters</code>), Nunjucks and HTML measure differently, see index.md</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .middle-truncation</li>

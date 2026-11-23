@@ -5,6 +5,7 @@
 - Component: red-amber-green-radio-input
 - PascalCase: RedAmberGreenRadioInput
 - Description: a radio input for one choice of a red/amber/green status <input type="radio">
+- Purpose: Holds one status of a red, amber or green question.
 - Status: experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow
 - HTML tag: <input>
 - CSS class: .red-amber-green-radio-input

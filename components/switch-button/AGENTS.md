@@ -5,6 +5,7 @@
 - Component: switch-button
 - PascalCase: SwitchButton
 - Description: a toggle switch for turning a setting on or off
+- Purpose: Turns a setting on or off at once. Use a checkbox when the change waits for a submit.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <button>
 - CSS class: .switch-button

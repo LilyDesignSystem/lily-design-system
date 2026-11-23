@@ -75,6 +75,7 @@
       <li>Component: tel-link</li>
       <li>PascalCase: TelLink</li>
       <li>Description: a tel hyperlink for a telephone number</li>
+      <li>Purpose: Dials a phone number when selected on a device that can call.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;a&gt;</li>
       <li>CSS class: .tel-link</li>

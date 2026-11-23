@@ -76,6 +76,7 @@
       <li>Component: record-list</li>
       <li>PascalCase: RecordList</li>
       <li>Description: a list of records from one section of a patient's record, whose status is never blank</li>
+      <li>Purpose: Lists records from one section of a patient's record, and never leaves the status blank.</li>
       <li>Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;ul&gt;</li>
       <li>CSS class: .record-list</li>

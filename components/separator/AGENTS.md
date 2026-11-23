@@ -5,6 +5,7 @@
 - Component: separator
 - PascalCase: Separator
 - Description: a horizontal or vertical divider between content sections
+- Purpose: Divides content into sections, visibly and for assistive technology.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <hr>
 - CSS class: .separator

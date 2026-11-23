@@ -75,6 +75,7 @@
       <li>Component: slider-button</li>
       <li>PascalCase: SliderButton</li>
       <li>Description: a button with a slider that the user needs to slide to confirm</li>
+      <li>Purpose: Confirms an action by sliding, to avoid accidental taps.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;button&gt;</li>
       <li>CSS class: .slider-button</li>

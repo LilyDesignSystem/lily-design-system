@@ -5,6 +5,7 @@
 - Component: table-th
 - PascalCase: TableTH
 - Description: a table interactive grid header cell <th>
+- Purpose: Names a column of a table so each cell is announced with its heading.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <th>
 - CSS class: .table-th

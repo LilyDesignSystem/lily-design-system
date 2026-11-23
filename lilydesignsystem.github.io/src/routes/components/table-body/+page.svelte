@@ -75,6 +75,7 @@
       <li>Component: table-body</li>
       <li>PascalCase: TableBody</li>
       <li>Description: a table interactive grid tbody &lt;tbody&gt;</li>
+      <li>Purpose: Holds the data rows of a table.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;tbody&gt;</li>
       <li>CSS class: .table-body</li>

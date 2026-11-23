@@ -5,6 +5,7 @@
 - Component: split-button
 - PascalCase: SplitButton
 - Description: a button with a primary action and a dropdown for related actions
+- Purpose: Offers a main action and a menu of related alternatives in one control.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div> with role="group"
 - CSS class: .split-button

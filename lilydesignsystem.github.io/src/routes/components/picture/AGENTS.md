@@ -5,6 +5,7 @@
 - Component: picture
 - PascalCase: Picture
 - Description: a responsive image wrapper that lets the browser choose among several sources, using the native picture element
+- Purpose: Lets the browser choose among several image files by screen size or format.
 - Status: beta — implemented and unit-tested in all eight headless libraries; not yet exercised in composed flows
 - HTML tag: <picture>
 - CSS class: .picture

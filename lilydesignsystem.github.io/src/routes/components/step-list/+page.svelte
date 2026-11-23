@@ -75,6 +75,7 @@
       <li>Component: step-list</li>
       <li>PascalCase: StepList</li>
       <li>Description: an ordered list of step items showing progress through a multi-step process</li>
+      <li>Purpose: Shows where someone is in a process of several steps.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;ol&gt;</li>
       <li>CSS class: .step-list</li>

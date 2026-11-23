@@ -75,6 +75,7 @@
       <li>Component: theme-provider</li>
       <li>PascalCase: ThemeProvider</li>
       <li>Description: a container that applies CSS custom properties from a theme object to its children</li>
+      <li>Purpose: Applies a set of design tokens to everything inside it, so one area can look different.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .theme-provider</li>

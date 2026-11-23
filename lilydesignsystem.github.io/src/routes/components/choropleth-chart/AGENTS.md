@@ -5,6 +5,7 @@
 - Component: choropleth-chart
 - PascalCase: ChoroplethChart
 - Description: a map chart that shades regions by the value of a measure
+- Purpose: Shades regions of a map by the value of a measure.
 - Status: beta — implemented and unit-tested in all eight headless libraries; not yet exercised in composed flows
 - HTML tag: <figure>
 - CSS class: .choropleth-chart

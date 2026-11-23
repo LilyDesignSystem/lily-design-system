@@ -75,6 +75,7 @@
       <li>Component: watermark</li>
       <li>PascalCase: Watermark</li>
       <li>Description: a decorative repeating overlay text or image marking a page</li>
+      <li>Purpose: Marks a page with repeating text or an image, such as Draft.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .watermark</li>

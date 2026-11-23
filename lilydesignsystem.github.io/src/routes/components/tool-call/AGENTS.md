@@ -5,6 +5,7 @@
 - Component: tool-call
 - PascalCase: ToolCall
 - Description: a collapsible record of one tool invocation by an AI agent, with a name, a status word, and its input, output or error
+- Purpose: Records one call an AI agent made to a tool, as a disclosure with its input, output and errors.
 - Status: beta — implemented and unit-tested in all eight headless libraries; not yet exercised in composed flows
 - HTML tag: <details>
 - CSS class: .tool-call

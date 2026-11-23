@@ -75,6 +75,7 @@
       <li>Component: scatter-chart</li>
       <li>PascalCase: ScatterChart</li>
       <li>Description: a scatter chart visualization using dots to display data</li>
+      <li>Purpose: Shows whether two measures move together, one dot per observation.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;figure&gt;</li>
       <li>CSS class: .scatter-chart</li>

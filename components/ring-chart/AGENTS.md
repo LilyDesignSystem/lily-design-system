@@ -5,6 +5,7 @@
 - Component: ring-chart
 - PascalCase: RingChart
 - Description: a pie chart with a hollow centre, often used to show progress or a share of a total
+- Purpose: Shows a share of a whole or progress, as a pie with a hollow centre.
 - Status: beta — implemented and unit-tested in all eight headless libraries; not yet exercised in composed flows
 - HTML tag: <figure>
 - CSS class: .ring-chart

@@ -75,6 +75,7 @@
       <li>Component: progress-circle</li>
       <li>PascalCase: ProgressCircle</li>
       <li>Description: a circular progress indicator</li>
+      <li>Purpose: Shows how far a task has got, as a ring.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .progress-circle</li>

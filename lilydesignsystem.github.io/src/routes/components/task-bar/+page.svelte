@@ -75,6 +75,7 @@
       <li>Component: task-bar</li>
       <li>PascalCase: TaskBar</li>
       <li>Description: a horizontal bar of task shortcuts or actions</li>
+      <li>Purpose: Gathers the actions for a task in one toolbar.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .task-bar</li>

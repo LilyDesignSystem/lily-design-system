@@ -75,6 +75,7 @@
       <li>Component: place</li>
       <li>PascalCase: Place</li>
       <li>Description: a place component that contains other place-related information</li>
+      <li>Purpose: Presents a place's name, address, description and map.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;article&gt;</li>
       <li>CSS class: .place</li>

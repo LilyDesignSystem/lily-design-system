@@ -75,6 +75,7 @@
       <li>Component: timeline-list-item</li>
       <li>PascalCase: TimelineListItem</li>
       <li>Description: one event in a timeline list</li>
+      <li>Purpose: Holds one event on a timeline.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;li&gt;</li>
       <li>CSS class: .timeline-list-item</li>

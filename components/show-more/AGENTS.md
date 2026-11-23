@@ -5,6 +5,7 @@
 - Component: show-more
 - PascalCase: ShowMore
 - Description: clamp long content behind a show more / show less toggle
+- Purpose: Shortens long content and offers a button to see all of it.
 - Status: beta — implemented and unit-tested in the Svelte canonical; ports to the other frameworks pending (2026-10-05)
 - HTML tag: <div>
 - CSS class: .show-more

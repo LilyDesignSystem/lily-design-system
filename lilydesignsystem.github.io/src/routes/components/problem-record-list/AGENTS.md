@@ -5,6 +5,7 @@
 - Component: problem-record-list
 - PascalCase: ProblemRecordList
 - Description: a list of a patient's problems and conditions, whose status is never blank
+- Purpose: Lists a patient's problems and conditions, and never leaves the status blank.
 - Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow
 - HTML tag: <ul>
 - CSS class: .problem-record-list

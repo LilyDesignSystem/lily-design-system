@@ -75,6 +75,7 @@
       <li>Component: time-picker-input</li>
       <li>PascalCase: TimePickerInput</li>
       <li>Description: an input with a dropdown for picking a time</li>
+      <li>Purpose: Picks a time of day, often beside a date.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .time-picker-input</li>

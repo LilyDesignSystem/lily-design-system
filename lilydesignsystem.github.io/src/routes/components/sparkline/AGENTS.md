@@ -5,6 +5,7 @@
 - Component: sparkline
 - PascalCase: Sparkline
 - Description: a small inline chart showing a data trend
+- Purpose: Shows a trend in a tiny chart beside a number or a line of text.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <span>
 - CSS class: .sparkline

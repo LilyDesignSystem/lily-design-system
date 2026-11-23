@@ -5,6 +5,7 @@
 - Component: mockup-window
 - PascalCase: MockupWindow
 - Description: a box area that looks like a desktop window
+- Purpose: Frames content in a drawing of a desktop window, for documentation and demos.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .mockup-window

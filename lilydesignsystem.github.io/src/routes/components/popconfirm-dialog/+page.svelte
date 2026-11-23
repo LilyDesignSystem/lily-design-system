@@ -75,6 +75,7 @@
       <li>Component: popconfirm-dialog</li>
       <li>PascalCase: PopconfirmDialog</li>
       <li>Description: a popover dialog with confirm and cancel buttons</li>
+      <li>Purpose: Asks for confirmation beside the control that was used, without covering the page. Use a modal dialog for serious, irreversible actions.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .popconfirm-dialog</li>

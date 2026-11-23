@@ -76,6 +76,7 @@
       <li>Component: immunization-record-list-item</li>
       <li>PascalCase: ImmunizationRecordListItem</li>
       <li>Description: one immunization in an immunization record list, with vaccine, date, dose and status</li>
+      <li>Purpose: Shows one immunization with vaccine, date and dose.</li>
       <li>Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;li&gt;</li>
       <li>CSS class: .immunization-record-list-item</li>

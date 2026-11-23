@@ -75,6 +75,7 @@
       <li>Component: scroller</li>
       <li>PascalCase: Scroller</li>
       <li>Description: a scrollytelling container with step-based foreground and background composition</li>
+      <li>Purpose: Tells a story in steps, changing a background as the reader scrolls.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .scroller</li>

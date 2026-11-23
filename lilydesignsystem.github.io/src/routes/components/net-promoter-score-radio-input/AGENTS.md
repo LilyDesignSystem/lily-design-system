@@ -5,6 +5,7 @@
 - Component: net-promoter-score-radio-input
 - PascalCase: NetPromoterScoreRadioInput
 - Description: a radio input for one choice of a 0-10 Net Promoter Score <input type="radio">
+- Purpose: Holds one score from 0 to 10 of a net promoter score question.
 - Status: experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow
 - HTML tag: <input>
 - CSS class: .net-promoter-score-radio-input

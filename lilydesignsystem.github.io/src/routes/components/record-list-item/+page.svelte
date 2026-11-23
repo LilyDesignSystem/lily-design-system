@@ -76,6 +76,7 @@
       <li>Component: record-list-item</li>
       <li>PascalCase: RecordListItem</li>
       <li>Description: one record in a record list, with its status and last update around the consumer's content</li>
+      <li>Purpose: Shows one record with its status and when it was last updated.</li>
       <li>Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;li&gt;</li>
       <li>CSS class: .record-list-item</li>

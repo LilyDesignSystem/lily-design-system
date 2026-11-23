@@ -5,6 +5,7 @@
 - Component: problem-record-list-item
 - PascalCase: ProblemRecordListItem
 - Description: one problem or condition in a problem record list, with its clinical and verification status, severity, onset and resolution
+- Purpose: Shows one problem with its clinical and verification status.
 - Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow
 - HTML tag: <li>
 - CSS class: .problem-record-list-item

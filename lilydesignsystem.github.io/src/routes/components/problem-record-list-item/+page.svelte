@@ -76,6 +76,7 @@
       <li>Component: problem-record-list-item</li>
       <li>PascalCase: ProblemRecordListItem</li>
       <li>Description: one problem or condition in a problem record list, with its clinical and verification status, severity, onset and resolution</li>
+      <li>Purpose: Shows one problem with its clinical and verification status.</li>
       <li>Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;li&gt;</li>
       <li>CSS class: .problem-record-list-item</li>

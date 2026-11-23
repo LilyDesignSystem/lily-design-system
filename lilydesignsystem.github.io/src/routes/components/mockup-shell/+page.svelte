@@ -75,6 +75,7 @@
       <li>Component: mockup-shell</li>
       <li>PascalCase: MockupShell</li>
       <li>Description: a box area that looks like a terminal shell</li>
+      <li>Purpose: Frames content in a drawing of a terminal window, to show commands and their output.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .mockup-shell</li>

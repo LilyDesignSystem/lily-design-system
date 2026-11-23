@@ -75,6 +75,7 @@
       <li>Component: progress-spinner</li>
       <li>PascalCase: ProgressSpinner</li>
       <li>Description: an indeterminate spinning progress indicator</li>
+      <li>Purpose: Shows that something is loading when the time it will take is not known.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .progress-spinner</li>

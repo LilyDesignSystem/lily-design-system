@@ -5,6 +5,7 @@
 - Component: review-date
 - PascalCase: ReviewDate
 - Description: a display of a content review date
+- Purpose: Shows when a page was last checked and when it is next due.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <time>
 - CSS class: .review-date

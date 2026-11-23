@@ -75,6 +75,7 @@
       <li>Component: mockup-phone-landscape</li>
       <li>PascalCase: MockupPhoneLandscape</li>
       <li>Description: a box area that looks like a mobile phone in landscape orientation</li>
+      <li>Purpose: Frames content in a drawing of a phone held sideways, for documentation and demos.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .mockup-phone-landscape</li>

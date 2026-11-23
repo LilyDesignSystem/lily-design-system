@@ -76,6 +76,7 @@
       <li>Component: procedure-record-list-item</li>
       <li>PascalCase: ProcedureRecordListItem</li>
       <li>Description: one procedure in a procedure record list, with its status and when it was performed</li>
+      <li>Purpose: Shows one procedure with its status and date.</li>
       <li>Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;li&gt;</li>
       <li>CSS class: .procedure-record-list-item</li>

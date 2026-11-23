@@ -5,6 +5,7 @@
 - Component: screen-reader-span
 - PascalCase: ScreenReaderSpan
 - Description: a visually hidden span of text intended for screen readers to provide more descriptive labels
+- Purpose: Adds text that only screen readers hear, such as which item a link is about.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .screen-reader-span

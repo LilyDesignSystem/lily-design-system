@@ -5,6 +5,7 @@
 - Component: task-list-item
 - PascalCase: TaskListItem
 - Description: one task item with a checkbox and label
+- Purpose: Holds one task of a task list.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <li>
 - CSS class: .task-list-item

@@ -75,6 +75,7 @@
       <li>Component: section-link</li>
       <li>PascalCase: SectionLink</li>
       <li>Description: one section link in the navigation</li>
+      <li>Purpose: Links to one section in a section navigation.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;a&gt;</li>
       <li>CSS class: .section-link</li>

@@ -5,6 +5,7 @@
 - Component: step-list-item
 - PascalCase: StepListItem
 - Description: one step in a step list with status of waiting, in progress, finished, or error
+- Purpose: Holds one step, waiting, in progress, finished or in error.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <li>
 - CSS class: .step-list-item

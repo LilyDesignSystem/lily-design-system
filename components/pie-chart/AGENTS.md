@@ -5,6 +5,7 @@
 - Component: pie-chart
 - PascalCase: PieChart
 - Description: a circular chart divided into slices that show each part of a whole
+- Purpose: Shows the share each part has of a whole. Use a bar chart for more than a few parts.
 - Status: beta — implemented and unit-tested in all eight headless libraries; not yet exercised in composed flows
 - HTML tag: <figure>
 - CSS class: .pie-chart

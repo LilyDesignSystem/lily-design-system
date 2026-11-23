@@ -5,6 +5,7 @@
 - Component: allergy-record-list-item
 - PascalCase: AllergyRecordListItem
 - Description: one allergy or intolerance in an allergy record list, with substance, reaction, severity, criticality and status
+- Purpose: Shows one allergy: its substance, reactions, severity and status.
 - Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow
 - HTML tag: <li>
 - CSS class: .allergy-record-list-item

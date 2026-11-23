@@ -5,6 +5,7 @@
 - Component: table-td
 - PascalCase: TableTD
 - Description: a table interactive grid data cell <td>
+- Purpose: Holds one data cell of a table.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <td>
 - CSS class: .table-td

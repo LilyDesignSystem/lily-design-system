@@ -76,6 +76,7 @@
       <li>Component: video-player</li>
       <li>PascalCase: VideoPlayer</li>
       <li>Description: a video player with play-in-view behavior, custom controls, and IntersectionObserver support</li>
+      <li>Purpose: Plays a video with captions and controls, and can start only when in view.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;figure&gt; containing &lt;video&gt;</li>
       <li>CSS class: .video-player</li>

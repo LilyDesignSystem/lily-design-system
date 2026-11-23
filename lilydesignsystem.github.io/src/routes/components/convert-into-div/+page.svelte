@@ -76,6 +76,7 @@
       <li>Component: convert-into-div</li>
       <li>PascalCase: ConvertIntoDiv</li>
       <li>Description: the target side of a conversion, holding the value and unit to convert into</li>
+      <li>Purpose: Holds the value and unit to convert into.</li>
       <li>Status: beta — implemented and unit-tested in all nine headless libraries; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .convert-into-div</li>

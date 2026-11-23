@@ -76,6 +76,7 @@
       <li>Component: tool-call</li>
       <li>PascalCase: ToolCall</li>
       <li>Description: a collapsible record of one tool invocation by an AI agent, with a name, a status word, and its input, output or error</li>
+      <li>Purpose: Records one call an AI agent made to a tool, as a disclosure with its input, output and errors.</li>
       <li>Status: beta — implemented and unit-tested in all eight headless libraries; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;details&gt;</li>
       <li>CSS class: .tool-call</li>

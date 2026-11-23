@@ -76,6 +76,7 @@
       <li>Component: gauge-chart</li>
       <li>PascalCase: GaugeChart</li>
       <li>Description: a dial chart showing one value within a range, with optional thresholds</li>
+      <li>Purpose: Shows one value on a dial against its range and thresholds.</li>
       <li>Status: beta — implemented and unit-tested in the Svelte canonical; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;figure&gt;</li>
       <li>CSS class: .gauge-chart</li>

@@ -75,6 +75,7 @@
       <li>Component: validation-list</li>
       <li>PascalCase: ValidationList</li>
       <li>Description: a live-feedback list of input validation rules with pending, passed, and failed states</li>
+      <li>Purpose: Shows the rules a value must meet and which are already met, while the person types.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;ul&gt;</li>
       <li>CSS class: .validation-list</li>

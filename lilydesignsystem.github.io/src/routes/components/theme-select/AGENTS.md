@@ -5,6 +5,7 @@
 - Component: theme-select
 - PascalCase: ThemeSelect
 - Description: a select dropdown for choosing a theme
+- Purpose: Switches the look of the page from a native select. The theme picker is the icon version.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <select>
 - CSS class: .theme-select

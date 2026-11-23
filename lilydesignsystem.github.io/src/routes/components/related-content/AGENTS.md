@@ -5,6 +5,7 @@
 - Component: related-content
 - PascalCase: RelatedContent
 - Description: a section providing links to related or supporting information
+- Purpose: Lists links to further reading beside or after a piece of content.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <aside>
 - CSS class: .related-content

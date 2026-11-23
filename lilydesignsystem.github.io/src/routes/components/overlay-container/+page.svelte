@@ -75,6 +75,7 @@
       <li>Component: overlay-container</li>
       <li>PascalCase: OverlayContainer</li>
       <li>Description: a full-viewport overlay backdrop for modals and sheets</li>
+      <li>Purpose: Dims the page behind a modal dialog, drawer or sheet.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .overlay-container</li>

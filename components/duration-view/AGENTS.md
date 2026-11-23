@@ -5,6 +5,7 @@
 - Component: duration-view
 - PascalCase: DurationView
 - Description: a length of time, as an ISO 8601 duration in a `<time>` element, shown in the consumer's words
+- Purpose: Shows a length of time in the consumer's own words.
 - Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow
 - HTML tag: <time>
 - CSS class: .duration-view

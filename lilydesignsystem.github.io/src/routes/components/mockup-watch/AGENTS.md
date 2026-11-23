@@ -5,6 +5,7 @@
 - Component: mockup-watch
 - PascalCase: MockupWatch
 - Description: a box area that looks like a smart watch
+- Purpose: Frames content in a drawing of a smart watch, for documentation and demos.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .mockup-watch

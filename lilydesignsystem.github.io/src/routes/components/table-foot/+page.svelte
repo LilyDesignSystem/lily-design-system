@@ -75,6 +75,7 @@
       <li>Component: table-foot</li>
       <li>PascalCase: TableFoot</li>
       <li>Description: a table interactive grid tfoot &lt;tfoot&gt;</li>
+      <li>Purpose: Holds the summary rows of a table.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;tfoot&gt;</li>
       <li>CSS class: .table-foot</li>

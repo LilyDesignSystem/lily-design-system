@@ -5,6 +5,7 @@
 - Component: red-orange-yellow-green-blue-radio-input
 - PascalCase: RedOrangeYellowGreenBlueRadioInput
 - Description: a radio input for one choice of a five-level color status <input type="radio">
+- Purpose: Holds one status of a five-colour question.
 - Status: experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow
 - HTML tag: <input>
 - CSS class: .red-orange-yellow-green-blue-radio-input

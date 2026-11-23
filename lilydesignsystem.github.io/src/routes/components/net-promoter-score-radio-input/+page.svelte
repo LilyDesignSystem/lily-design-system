@@ -76,6 +76,7 @@
       <li>Component: net-promoter-score-radio-input</li>
       <li>PascalCase: NetPromoterScoreRadioInput</li>
       <li>Description: a radio input for one choice of a 0-10 Net Promoter Score &lt;input type="radio"&gt;</li>
+      <li>Purpose: Holds one score from 0 to 10 of a net promoter score question.</li>
       <li>Status: experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .net-promoter-score-radio-input</li>

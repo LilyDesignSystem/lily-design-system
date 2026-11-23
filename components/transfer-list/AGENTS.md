@@ -5,6 +5,7 @@
 - Component: transfer-list
 - PascalCase: TransferList
 - Description: a dual list box for moving items between two lists
+- Purpose: Moves items between two lists, such as available and chosen.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .transfer-list

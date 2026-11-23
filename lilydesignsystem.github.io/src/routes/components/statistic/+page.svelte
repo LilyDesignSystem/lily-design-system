@@ -75,6 +75,7 @@
       <li>Component: statistic</li>
       <li>PascalCase: Statistic</li>
       <li>Description: a numeric value display with title, prefix, and suffix</li>
+      <li>Purpose: Shows one headline number with its title, unit and change.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .statistic</li>

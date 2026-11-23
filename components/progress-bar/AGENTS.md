@@ -5,6 +5,7 @@
 - Component: progress-bar
 - PascalCase: ProgressBar
 - Description: a horizontal progress indicator
+- Purpose: Shows how far a task has got, as a horizontal bar.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .progress-bar

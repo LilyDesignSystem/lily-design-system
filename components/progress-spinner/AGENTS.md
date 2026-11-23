@@ -5,6 +5,7 @@
 - Component: progress-spinner
 - PascalCase: ProgressSpinner
 - Description: an indeterminate spinning progress indicator
+- Purpose: Shows that something is loading when the time it will take is not known.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .progress-spinner

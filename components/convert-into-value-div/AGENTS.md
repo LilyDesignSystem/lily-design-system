@@ -5,6 +5,7 @@
 - Component: convert-into-value-div
 - PascalCase: ConvertIntoValueDiv
 - Description: the converted value, such as a text input showing the number of euros
+- Purpose: Shows the converted number.
 - Status: beta — implemented and unit-tested in all nine headless libraries; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .convert-into-value-div

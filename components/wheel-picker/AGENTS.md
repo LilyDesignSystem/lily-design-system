@@ -5,6 +5,7 @@
 - Component: wheel-picker
 - PascalCase: WheelPicker
 - Description: a single-select listbox, vertical by default, where the selection follows the cursor, for choosing one of a short list by scrolling or typing
+- Purpose: Picks one option by scrolling a wheel, for short ranges skimmed by feel such as hours.
 - Status: experimental — implemented and unit-tested in all nine headless catalogs (2026-10-23); plain HTML/Nunjucks and static Blazor differ, see index.md
 - HTML tag: <div>
 - CSS class: .wheel-picker

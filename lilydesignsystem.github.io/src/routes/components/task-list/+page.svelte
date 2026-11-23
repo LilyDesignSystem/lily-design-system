@@ -75,6 +75,7 @@
       <li>Component: task-list</li>
       <li>PascalCase: TaskList</li>
       <li>Description: an ordered list of task list items</li>
+      <li>Purpose: Lists the tasks to do, with the status of each.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;ol&gt;</li>
       <li>CSS class: .task-list</li>

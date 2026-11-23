@@ -75,6 +75,7 @@
       <li>Component: tile</li>
       <li>PascalCase: Tile</li>
       <li>Description: a grouping container that presents related content in a structured format, often as a single clickable area</li>
+      <li>Purpose: Groups related content as one block, often a link to something larger.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .tile</li>

@@ -75,6 +75,7 @@
       <li>Component: tool-bar-button</li>
       <li>PascalCase: ToolBarButton</li>
       <li>Description: one action button in a tool bar</li>
+      <li>Purpose: Runs one action in a toolbar.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;button&gt;</li>
       <li>CSS class: .tool-bar-button</li>

@@ -76,6 +76,7 @@
       <li>Component: one-time-password-input</li>
       <li>PascalCase: OneTimePasswordInput</li>
       <li>Description: a single one-time-password input with a numeric keypad, SMS autofill, and a fixed length</li>
+      <li>Purpose: Collects a one-time code sent to the person, with the code autofilled where the device offers it.</li>
       <li>Status: beta — implemented and unit-tested in the Svelte canonical; ports to the other frameworks pending (2026-10-05)</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .one-time-password-input</li>

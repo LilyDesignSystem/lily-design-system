@@ -76,6 +76,7 @@
       <li>Component: medication-record-list-item</li>
       <li>PascalCase: MedicationRecordListItem</li>
       <li>Description: one medicine in a medication record list, with its status and when it applies</li>
+      <li>Purpose: Shows one medicine with its status and when it applies.</li>
       <li>Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;li&gt;</li>
       <li>CSS class: .medication-record-list-item</li>

@@ -5,6 +5,7 @@
 - Component: tool-call-name
 - PascalCase: ToolCallName
 - Description: the name of the tool in a tool call, shown in the summary
+- Purpose: Names the tool that was called.
 - Status: beta — implemented and unit-tested in all eight headless libraries; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .tool-call-name

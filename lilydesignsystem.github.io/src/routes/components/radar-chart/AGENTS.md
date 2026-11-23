@@ -5,6 +5,7 @@
 - Component: radar-chart
 - PascalCase: RadarChart
 - Description: a chart plotting several axes from a shared centre as a polygon
+- Purpose: Compares several measures of one item on axes from a shared centre.
 - Status: beta — implemented and unit-tested in the Svelte canonical; not yet exercised in composed flows
 - HTML tag: <figure>
 - CSS class: .radar-chart

@@ -75,6 +75,7 @@
       <li>Component: resizable</li>
       <li>PascalCase: Resizable</li>
       <li>Description: a container that the user can resize by dragging</li>
+      <li>Purpose: Lets people drag to change the size of its content.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .resizable</li>

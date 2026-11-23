@@ -75,6 +75,7 @@
       <li>Component: product-card</li>
       <li>PascalCase: ProductCard</li>
       <li>Description: a specialized card for displaying a product with image, title, price, and actions</li>
+      <li>Purpose: Shows a product's image, name and price together as one card.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;article&gt;</li>
       <li>CSS class: .product-card</li>

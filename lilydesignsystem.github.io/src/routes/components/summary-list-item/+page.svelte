@@ -75,6 +75,7 @@
       <li>Component: summary-list-item</li>
       <li>PascalCase: SummaryListItem</li>
       <li>Description: one key-value pair in a summary list</li>
+      <li>Purpose: Holds one name and value row of a summary list, with its actions.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .summary-list-item</li>

@@ -5,6 +5,7 @@
 - Component: immunization-record-list-item
 - PascalCase: ImmunizationRecordListItem
 - Description: one immunization in an immunization record list, with vaccine, date, dose and status
+- Purpose: Shows one immunization with vaccine, date and dose.
 - Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow
 - HTML tag: <li>
 - CSS class: .immunization-record-list-item

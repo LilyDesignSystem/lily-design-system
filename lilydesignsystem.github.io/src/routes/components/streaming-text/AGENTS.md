@@ -5,6 +5,7 @@
 - Component: streaming-text
 - PascalCase: StreamingText
 - Description: text that arrives in chunks, as an AI answer streams in, announced once to screen readers when complete
+- Purpose: Shows text that arrives in pieces, as an AI answer does, and announces it once complete.
 - Status: beta — implemented and unit-tested in all eight headless libraries; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .streaming-text

@@ -75,6 +75,7 @@
       <li>Component: popup</li>
       <li>PascalCase: Popup</li>
       <li>Description: a temporary overlay that appears above page content</li>
+      <li>Purpose: Shows brief information or a prompt over the page for a moment.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .popup</li>

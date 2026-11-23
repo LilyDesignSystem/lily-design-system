@@ -5,6 +5,7 @@
 - Component: mockup-tablet-landscape
 - PascalCase: MockupTabletLandscape
 - Description: a box area that looks like a tablet computer in landscape mode
+- Purpose: Frames content in a drawing of a tablet held sideways, for documentation and demos.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .mockup-tablet-landscape

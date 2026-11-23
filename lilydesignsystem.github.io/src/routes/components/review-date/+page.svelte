@@ -75,6 +75,7 @@
       <li>Component: review-date</li>
       <li>PascalCase: ReviewDate</li>
       <li>Description: a display of a content review date</li>
+      <li>Purpose: Shows when a page was last checked and when it is next due.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;time&gt;</li>
       <li>CSS class: .review-date</li>

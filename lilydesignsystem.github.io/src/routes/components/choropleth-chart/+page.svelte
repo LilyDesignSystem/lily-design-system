@@ -76,6 +76,7 @@
       <li>Component: choropleth-chart</li>
       <li>PascalCase: ChoroplethChart</li>
       <li>Description: a map chart that shades regions by the value of a measure</li>
+      <li>Purpose: Shades regions of a map by the value of a measure.</li>
       <li>Status: beta — implemented and unit-tested in all eight headless libraries; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;figure&gt;</li>
       <li>CSS class: .choropleth-chart</li>

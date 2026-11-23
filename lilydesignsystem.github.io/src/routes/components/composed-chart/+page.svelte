@@ -76,6 +76,7 @@
       <li>Component: composed-chart</li>
       <li>PascalCase: ComposedChart</li>
       <li>Description: a chart that combines several chart types, such as bars and a line, on shared axes</li>
+      <li>Purpose: Combines chart types, such as bars and a line, on one set of axes.</li>
       <li>Status: beta — implemented and unit-tested in all eight headless libraries; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;figure&gt;</li>
       <li>CSS class: .composed-chart</li>

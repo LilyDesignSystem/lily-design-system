@@ -5,6 +5,7 @@
 - Component: device-record-list-item
 - PascalCase: DeviceRecordListItem
 - Description: one medical device in a device record list, with its status and when it was used
+- Purpose: Shows one medical device with its status and date.
 - Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow
 - HTML tag: <li>
 - CSS class: .device-record-list-item

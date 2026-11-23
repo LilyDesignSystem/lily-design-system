@@ -75,6 +75,7 @@
       <li>Component: sheet</li>
       <li>PascalCase: Sheet</li>
       <li>Description: a panel that slides in from a screen edge as an overlay</li>
+      <li>Purpose: Slides a modal panel in from an edge for a task that needs focus.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;dialog&gt;</li>
       <li>CSS class: .sheet</li>

@@ -75,6 +75,7 @@
       <li>Component: tree-list-item</li>
       <li>PascalCase: TreeListItem</li>
       <li>Description: one item in a tree navigation list</li>
+      <li>Purpose: Holds one node of a tree.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;li&gt;</li>
       <li>CSS class: .tree-list-item</li>

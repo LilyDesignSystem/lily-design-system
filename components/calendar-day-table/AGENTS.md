@@ -5,6 +5,7 @@
 - Component: calendar-day-table
 - PascalCase: CalendarDayTable
 - Description: a calendar grid showing the time slots of one day: one row per slot
+- Purpose: Lays the time slots of one day out as rows.
 - Status: beta — implemented and unit-tested in the Svelte canonical; not yet exercised in composed flows
 - HTML tag: <table>
 - CSS class: .calendar-day-table

@@ -75,6 +75,7 @@
       <li>Component: split-view</li>
       <li>PascalCase: SplitView</li>
       <li>Description: a two-panel resizable layout container with a draggable divider between them</li>
+      <li>Purpose: Shows two panels side by side with a draggable divider.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt; container with two &lt;section&gt; panels and a role="separator" divider</li>
       <li>CSS class: .split-view</li>

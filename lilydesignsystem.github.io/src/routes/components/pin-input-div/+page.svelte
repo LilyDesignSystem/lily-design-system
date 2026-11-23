@@ -75,6 +75,7 @@
       <li>Component: pin-input-div</li>
       <li>PascalCase: PinInputDiv</li>
       <li>Description: a series of single-digit inputs for entering a PIN or OTP code</li>
+      <li>Purpose: Collects a short code one character per box, such as a PIN.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .pin-input-div</li>

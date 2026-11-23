@@ -5,6 +5,7 @@
 - Component: scatter-chart
 - PascalCase: ScatterChart
 - Description: a scatter chart visualization using dots to display data
+- Purpose: Shows whether two measures move together, one dot per observation.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <figure>
 - CSS class: .scatter-chart

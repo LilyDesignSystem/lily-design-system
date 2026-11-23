@@ -75,6 +75,7 @@
       <li>Component: pagination-list</li>
       <li>PascalCase: PaginationList</li>
       <li>Description: an ordered list of pagination list items</li>
+      <li>Purpose: Divides a long set of results into pages and links between them.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;ol&gt;</li>
       <li>CSS class: .pagination-list</li>

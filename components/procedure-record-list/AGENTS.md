@@ -5,6 +5,7 @@
 - Component: procedure-record-list
 - PascalCase: ProcedureRecordList
 - Description: a list of a patient's procedures, whose status is never blank
+- Purpose: Lists a patient's procedures, and never leaves the status blank.
 - Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow
 - HTML tag: <ul>
 - CSS class: .procedure-record-list

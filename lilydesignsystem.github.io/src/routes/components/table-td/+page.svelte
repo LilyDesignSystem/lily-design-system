@@ -75,6 +75,7 @@
       <li>Component: table-td</li>
       <li>PascalCase: TableTD</li>
       <li>Description: a table interactive grid data cell &lt;td&gt;</li>
+      <li>Purpose: Holds one data cell of a table.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;td&gt;</li>
       <li>CSS class: .table-td</li>

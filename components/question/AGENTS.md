@@ -5,6 +5,7 @@
 - Component: question
 - PascalCase: Question
 - Description: a question is anything that asks for information, invites a response, tests knowledge, etc.
+- Purpose: Marks text that asks for information, such as a quiz question or a forum post.
 - Status: experimental — recent catalog addition with the least accumulated depth; contract may still move
 - HTML tag: <div>
 - CSS class: .question

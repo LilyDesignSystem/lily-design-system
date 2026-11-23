@@ -5,6 +5,7 @@
 - Component: calendar-year-table
 - PascalCase: CalendarYearTable
 - Description: a calendar grid showing the twelve months of one year (typically 3 x 4 or 4 x 3 month cells)
+- Purpose: Lays the twelve months of a year out as a grid.
 - Status: beta — implemented and unit-tested in the Svelte canonical; not yet exercised in composed flows
 - HTML tag: <table>
 - CSS class: .calendar-year-table

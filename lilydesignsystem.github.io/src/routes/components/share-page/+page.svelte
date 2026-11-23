@@ -75,6 +75,7 @@
       <li>Component: share-page</li>
       <li>PascalCase: SharePage</li>
       <li>Description: a component for sharing the page on social media</li>
+      <li>Purpose: Offers ways to share a page, such as email, copy link and a social network.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .share-page</li>

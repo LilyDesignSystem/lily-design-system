@@ -75,6 +75,7 @@
       <li>Component: toggle-button</li>
       <li>PascalCase: ToggleButton</li>
       <li>Description: a button that toggles between pressed and unpressed states</li>
+      <li>Purpose: Turns one option on or off and stays pressed until pressed again.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;button&gt;</li>
       <li>CSS class: .toggle-button</li>

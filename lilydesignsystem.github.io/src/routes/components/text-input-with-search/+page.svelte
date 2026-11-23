@@ -75,6 +75,7 @@
       <li>Component: text-input-with-search</li>
       <li>PascalCase: TextInputWithSearch</li>
       <li>Description: a single-line text input field &lt;input type="text"&gt; with search capability</li>
+      <li>Purpose: Collects a search term with a button that runs the search.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .text-input-with-search</li>

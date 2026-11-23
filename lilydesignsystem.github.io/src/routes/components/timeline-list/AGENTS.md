@@ -5,6 +5,7 @@
 - Component: timeline-list
 - PascalCase: TimelineList
 - Description: an ordered list of chronological events or milestones
+- Purpose: Lists events in time order along a line.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <ol>
 - CSS class: .timeline-list

@@ -75,6 +75,7 @@
       <li>Component: table-row</li>
       <li>PascalCase: TableRow</li>
       <li>Description: a table interactive grid row &lt;tr&gt;</li>
+      <li>Purpose: Holds one row of a table.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;tr&gt;</li>
       <li>CSS class: .table-row</li>

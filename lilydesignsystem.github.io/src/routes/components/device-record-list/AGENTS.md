@@ -5,6 +5,7 @@
 - Component: device-record-list
 - PascalCase: DeviceRecordList
 - Description: a list of a patient's medical devices, whose status is never blank
+- Purpose: Lists a patient's medical devices, and never leaves the status blank.
 - Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow
 - HTML tag: <ul>
 - CSS class: .device-record-list

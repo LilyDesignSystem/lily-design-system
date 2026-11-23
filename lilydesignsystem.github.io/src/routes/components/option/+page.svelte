@@ -75,6 +75,7 @@
       <li>Component: option</li>
       <li>PascalCase: Option</li>
       <li>Description: an option element within a select dropdown</li>
+      <li>Purpose: Holds one choice inside a select.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;option&gt;</li>
       <li>CSS class: .option</li>

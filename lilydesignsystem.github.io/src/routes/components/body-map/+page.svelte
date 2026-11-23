@@ -76,6 +76,7 @@
       <li>Component: body-map</li>
       <li>PascalCase: BodyMap</li>
       <li>Description: a picker for marking regions of the body on a consumer-supplied drawing, with a checkbox for each region</li>
+      <li>Purpose: Marks regions of the body, such as pain or wound sites, on a figure.</li>
       <li>Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;fieldset&gt;</li>
       <li>CSS class: .body-map</li>

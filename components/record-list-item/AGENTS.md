@@ -5,6 +5,7 @@
 - Component: record-list-item
 - PascalCase: RecordListItem
 - Description: one record in a record list, with its status and last update around the consumer's content
+- Purpose: Shows one record with its status and when it was last updated.
 - Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow
 - HTML tag: <li>
 - CSS class: .record-list-item

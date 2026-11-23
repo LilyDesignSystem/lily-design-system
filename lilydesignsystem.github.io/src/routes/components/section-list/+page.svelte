@@ -76,6 +76,7 @@
       <li>Component: section-list</li>
       <li>PascalCase: SectionList</li>
       <li>Description: a list of section navigation items</li>
+      <li>Purpose: Lists the sections of a document for navigation.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;ul&gt;</li>
       <li>CSS class: .section-list</li>

@@ -75,6 +75,7 @@
       <li>Component: select-with-extras</li>
       <li>PascalCase: SelectWithExtras</li>
       <li>Description: a select dropdown with additional features like search or groups</li>
+      <li>Purpose: Adds content before or after a native select, such as a hint or an action.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .select-with-extras</li>

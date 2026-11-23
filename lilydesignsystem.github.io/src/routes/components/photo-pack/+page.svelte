@@ -75,6 +75,7 @@
       <li>Component: photo-pack</li>
       <li>PascalCase: PhotoPack</li>
       <li>Description: a collection of photos displayed together as a group</li>
+      <li>Purpose: Shows a set of related photos together, such as a photo essay.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .photo-pack</li>

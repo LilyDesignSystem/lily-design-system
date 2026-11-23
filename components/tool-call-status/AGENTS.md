@@ -5,6 +5,7 @@
 - Component: tool-call-status
 - PascalCase: ToolCallStatus
 - Description: the status of a tool call as a word, such as pending, running, done or error
+- Purpose: States in a word where the call is, such as running, done or error.
 - Status: beta — implemented and unit-tested in all eight headless libraries; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .tool-call-status

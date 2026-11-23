@@ -5,6 +5,7 @@
 - Component: allergy-record-list
 - PascalCase: AllergyRecordList
 - Description: a list of a patient's allergies and intolerances, whose status is never blank
+- Purpose: Lists a patient's allergies and intolerances, and never leaves the status blank.
 - Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow
 - HTML tag: <ul>
 - CSS class: .allergy-record-list

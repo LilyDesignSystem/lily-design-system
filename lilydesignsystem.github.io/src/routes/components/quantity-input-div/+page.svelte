@@ -76,6 +76,7 @@
       <li>Component: quantity-input-div</li>
       <li>PascalCase: QuantityInputDiv</li>
       <li>Description: a quantity entered as a number and a unit, each unit with its own limits</li>
+      <li>Purpose: Collects a number with its unit, such as a weight in kilograms.</li>
       <li>Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .quantity-input-div</li>

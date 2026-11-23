@@ -76,6 +76,7 @@
       <li>Component: tool-call-input</li>
       <li>PascalCase: ToolCallInput</li>
       <li>Description: the input or arguments passed to a tool in a tool call</li>
+      <li>Purpose: Shows what was sent to the tool.</li>
       <li>Status: beta — implemented and unit-tested in all eight headless libraries; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .tool-call-input</li>

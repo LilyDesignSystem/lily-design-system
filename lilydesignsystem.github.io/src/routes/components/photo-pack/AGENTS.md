@@ -5,6 +5,7 @@
 - Component: photo-pack
 - PascalCase: PhotoPack
 - Description: a collection of photos displayed together as a group
+- Purpose: Shows a set of related photos together, such as a photo essay.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .photo-pack

@@ -76,6 +76,7 @@
       <li>Component: duration-view</li>
       <li>PascalCase: DurationView</li>
       <li>Description: a length of time, as an ISO 8601 duration in a <code>&lt;time&gt;</code> element, shown in the consumer's words</li>
+      <li>Purpose: Shows a length of time in the consumer's own words.</li>
       <li>Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;time&gt;</li>
       <li>CSS class: .duration-view</li>

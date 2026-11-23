@@ -76,6 +76,7 @@
       <li>Component: repeatable-fieldset</li>
       <li>PascalCase: RepeatableFieldset</li>
       <li>Description: a group of identical fieldsets that a person adds to and removes from ("add another")</li>
+      <li>Purpose: Asks the same group of questions several times, with add and remove, such as each medicine.</li>
       <li>Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;fieldset&gt;</li>
       <li>CSS class: .repeatable-fieldset</li>

@@ -5,6 +5,7 @@
 - Component: decision-support-card
 - PascalCase: DecisionSupportCard
 - Description: a clinical decision support card with a summary, urgency indicator, source, suggestions and override reasons
+- Purpose: Shows a clinical decision support suggestion, with its source and actions, in the CDS Hooks card shape.
 - Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow
 - HTML tag: <div>
 - CSS class: .decision-support-card

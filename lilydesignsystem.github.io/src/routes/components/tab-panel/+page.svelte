@@ -75,6 +75,7 @@
       <li>Component: tab-panel</li>
       <li>PascalCase: TabPanel</li>
       <li>Description: a content panel associated with a tab in a tab bar</li>
+      <li>Purpose: Holds the content shown for the selected tab.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt; with role="tabpanel"</li>
       <li>CSS class: .tab-panel</li>

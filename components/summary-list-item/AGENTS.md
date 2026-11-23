@@ -5,6 +5,7 @@
 - Component: summary-list-item
 - PascalCase: SummaryListItem
 - Description: one key-value pair in a summary list
+- Purpose: Holds one name and value row of a summary list, with its actions.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .summary-list-item

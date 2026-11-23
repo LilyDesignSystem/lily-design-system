@@ -75,6 +75,7 @@
       <li>Component: pagination-list-item</li>
       <li>PascalCase: PaginationListItem</li>
       <li>Description: one pagination list item in the trail</li>
+      <li>Purpose: Holds one page link in a pagination list.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;li&gt;</li>
       <li>CSS class: .pagination-list-item</li>

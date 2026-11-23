@@ -75,6 +75,7 @@
       <li>Component: tab-bar-button</li>
       <li>PascalCase: TabBarButton</li>
       <li>Description: one tab button in a tab group</li>
+      <li>Purpose: Selects one tab of a tab bar.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;button&gt;</li>
       <li>CSS class: .tab-bar-button</li>

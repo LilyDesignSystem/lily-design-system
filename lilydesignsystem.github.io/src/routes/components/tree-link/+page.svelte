@@ -75,6 +75,7 @@
       <li>Component: tree-link</li>
       <li>PascalCase: TreeLink</li>
       <li>Description: one link in the tree</li>
+      <li>Purpose: Links to one page in a tree navigation.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;a&gt;</li>
       <li>CSS class: .tree-link</li>

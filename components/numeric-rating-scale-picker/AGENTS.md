@@ -5,6 +5,7 @@
 - Component: numeric-rating-scale-picker
 - PascalCase: NumericRatingScalePicker
 - Description: a picker for a 0 to 10 rating, such as pain, with the consumer's words at each end
+- Purpose: Collects a rating from 0 to 10, such as pain, as a set of numbered choices.
 - Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow
 - HTML tag: <fieldset>
 - CSS class: .numeric-rating-scale-picker

@@ -5,6 +5,7 @@
 - Component: step-list
 - PascalCase: StepList
 - Description: an ordered list of step items showing progress through a multi-step process
+- Purpose: Shows where someone is in a process of several steps.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <ol>
 - CSS class: .step-list

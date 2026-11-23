@@ -5,6 +5,7 @@
 - Component: pagination-list
 - PascalCase: PaginationList
 - Description: an ordered list of pagination list items
+- Purpose: Divides a long set of results into pages and links between them.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <ol>
 - CSS class: .pagination-list

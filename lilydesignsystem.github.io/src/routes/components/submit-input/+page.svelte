@@ -75,6 +75,7 @@
       <li>Component: submit-input</li>
       <li>PascalCase: SubmitInput</li>
       <li>Description: a button input that submits a form &lt;input type="submit"&gt;</li>
+      <li>Purpose: Sends a form, as a native submit input.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .submit-input</li>

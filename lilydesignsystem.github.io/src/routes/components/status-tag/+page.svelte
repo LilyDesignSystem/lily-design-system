@@ -76,6 +76,7 @@
       <li>Component: status-tag</li>
       <li>PascalCase: StatusTag</li>
       <li>Description: a tag showing the current status of a task</li>
+      <li>Purpose: Names the current state of an item, such as Completed or In review.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .status-tag</li>

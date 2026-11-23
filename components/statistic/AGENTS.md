@@ -5,6 +5,7 @@
 - Component: statistic
 - PascalCase: Statistic
 - Description: a numeric value display with title, prefix, and suffix
+- Purpose: Shows one headline number with its title, unit and change.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .statistic

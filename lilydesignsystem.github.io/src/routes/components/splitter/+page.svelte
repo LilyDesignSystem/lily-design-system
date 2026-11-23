@@ -75,6 +75,7 @@
       <li>Component: splitter</li>
       <li>PascalCase: Splitter</li>
       <li>Description: a draggable divider for resizing adjacent panels</li>
+      <li>Purpose: Is the draggable divider between two resizable panels.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .splitter</li>

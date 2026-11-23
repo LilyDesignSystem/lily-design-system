@@ -76,6 +76,7 @@
       <li>Component: red-amber-green-radio-input</li>
       <li>PascalCase: RedAmberGreenRadioInput</li>
       <li>Description: a radio input for one choice of a red/amber/green status &lt;input type="radio"&gt;</li>
+      <li>Purpose: Holds one status of a red, amber or green question.</li>
       <li>Status: experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .red-amber-green-radio-input</li>

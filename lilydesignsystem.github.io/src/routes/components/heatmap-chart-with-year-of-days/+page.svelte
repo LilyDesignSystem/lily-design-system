@@ -76,6 +76,7 @@
       <li>Component: heatmap-chart-with-year-of-days</li>
       <li>PascalCase: HeatmapChartWithYearOfDays</li>
       <li>Description: a heatmap chart of one year of days, one cell per day in week columns and weekday rows</li>
+      <li>Purpose: Shows one cell per day of a year, by week, to reveal patterns in activity.</li>
       <li>Status: experimental — added 2026-10-22; implemented and unit-tested in all nine headless catalogs</li>
       <li>HTML tag: &lt;figure&gt;</li>
       <li>CSS class: .heatmap-chart-with-year-of-days</li>

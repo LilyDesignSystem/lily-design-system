@@ -5,6 +5,7 @@
 - Component: heatmap-chart
 - PascalCase: HeatmapChart
 - Description: a grid chart where cell colour encodes the value at each row and column
+- Purpose: Shows how a value varies across two categories, with colour for size and the numbers also given.
 - Status: beta — implemented and unit-tested in the Svelte canonical; not yet exercised in composed flows
 - HTML tag: <figure>
 - CSS class: .heatmap-chart

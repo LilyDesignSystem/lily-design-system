@@ -5,6 +5,7 @@
 - Component: empty-state
 - PascalCase: EmptyState
 - Description: a container for the nothing-here-yet state of a list, table, search or inbox
+- Purpose: Explains why a list, table or inbox is empty and what to do next.
 - Status: beta — implemented and unit-tested in the Svelte canonical; ports to the other frameworks pending (2026-10-05)
 - HTML tag: <div>
 - CSS class: .empty-state

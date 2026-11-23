@@ -75,6 +75,7 @@
       <li>Component: section-list-item</li>
       <li>PascalCase: SectionListItem</li>
       <li>Description: one section navigation item</li>
+      <li>Purpose: Holds one entry in a section list.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;li&gt;</li>
       <li>CSS class: .section-list-item</li>

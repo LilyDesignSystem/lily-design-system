@@ -5,6 +5,7 @@
 - Component: tel-link
 - PascalCase: TelLink
 - Description: a tel hyperlink for a telephone number
+- Purpose: Dials a phone number when selected on a device that can call.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <a>
 - CSS class: .tel-link

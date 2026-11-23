@@ -76,6 +76,7 @@
       <li>Component: allergy-record-list</li>
       <li>PascalCase: AllergyRecordList</li>
       <li>Description: a list of a patient's allergies and intolerances, whose status is never blank</li>
+      <li>Purpose: Lists a patient's allergies and intolerances, and never leaves the status blank.</li>
       <li>Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;ul&gt;</li>
       <li>CSS class: .allergy-record-list</li>

@@ -5,6 +5,7 @@
 - Component: quantity-input-div
 - PascalCase: QuantityInputDiv
 - Description: a quantity entered as a number and a unit, each unit with its own limits
+- Purpose: Collects a number with its unit, such as a weight in kilograms.
 - Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow
 - HTML tag: <div>
 - CSS class: .quantity-input-div

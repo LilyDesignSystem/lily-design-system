@@ -75,6 +75,7 @@
       <li>Component: summary-box</li>
       <li>PascalCase: SummaryBox</li>
       <li>Description: a boxed callout highlighting key takeaways or next steps from a longer page</li>
+      <li>Purpose: Highlights the key points or next steps of a longer page.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;aside&gt;</li>
       <li>CSS class: .summary-box</li>

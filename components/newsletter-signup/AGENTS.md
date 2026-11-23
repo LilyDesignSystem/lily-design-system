@@ -5,6 +5,7 @@
 - Component: newsletter-signup
 - PascalCase: NewsletterSignup
 - Description: an email subscription form composition with idle, submitting, success, and error states
+- Purpose: Collects an email address to subscribe someone to updates, in one small form.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <form>
 - CSS class: .newsletter-signup

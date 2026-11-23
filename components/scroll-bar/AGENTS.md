@@ -5,6 +5,7 @@
 - Component: scroll-bar
 - PascalCase: ScrollBar
 - Description: a custom scrollbar element
+- Purpose: Moves through content vertically or horizontally with a visible bar.
 - Status: beta — implemented and unit-tested in all seven frameworks, with the keys in all but Nunjucks (markup only; its keys are the consumer's script), and an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .scroll-bar

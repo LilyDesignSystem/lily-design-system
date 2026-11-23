@@ -5,6 +5,7 @@
 - Component: multi-select
 - PascalCase: MultiSelect
 - Description: a native select that lets the user choose several options at once
+- Purpose: Chooses several options from a list. Use checkboxes for a short list.
 - Status: beta — implemented and unit-tested in the Svelte canonical; ports to the other frameworks pending (2026-10-05)
 - HTML tag: <select>
 - CSS class: .multi-select

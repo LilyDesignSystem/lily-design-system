@@ -75,6 +75,7 @@
       <li>Component: tour-list</li>
       <li>PascalCase: TourList</li>
       <li>Description: an ordered list of tour guide steps</li>
+      <li>Purpose: Lists the steps of a guided tour in order.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;ol&gt;</li>
       <li>CSS class: .tour-list</li>

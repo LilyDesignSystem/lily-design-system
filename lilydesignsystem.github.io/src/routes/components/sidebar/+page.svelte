@@ -75,6 +75,7 @@
       <li>Component: sidebar</li>
       <li>PascalCase: Sidebar</li>
       <li>Description: a side panel for navigation or supplementary content</li>
+      <li>Purpose: Holds related links or content beside the main content.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;aside&gt;</li>
       <li>CSS class: .sidebar</li>

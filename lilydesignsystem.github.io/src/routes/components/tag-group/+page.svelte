@@ -75,6 +75,7 @@
       <li>Component: tag-group</li>
       <li>PascalCase: TagGroup</li>
       <li>Description: a group of tag elements</li>
+      <li>Purpose: Groups related tags so they are announced as a set.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .tag-group</li>

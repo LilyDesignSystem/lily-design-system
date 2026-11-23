@@ -76,6 +76,7 @@
       <li>Component: sankey-chart</li>
       <li>PascalCase: SankeyChart</li>
       <li>Description: a flow chart where link width encodes the quantity moving between nodes</li>
+      <li>Purpose: Shows how a quantity flows between stages, with width for size.</li>
       <li>Status: beta — implemented and unit-tested in the Svelte canonical; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;figure&gt;</li>
       <li>CSS class: .sankey-chart</li>

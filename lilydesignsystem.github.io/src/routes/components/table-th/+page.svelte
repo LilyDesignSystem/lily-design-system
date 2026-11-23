@@ -75,6 +75,7 @@
       <li>Component: table-th</li>
       <li>PascalCase: TableTH</li>
       <li>Description: a table interactive grid header cell &lt;th&gt;</li>
+      <li>Purpose: Names a column of a table so each cell is announced with its heading.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;th&gt;</li>
       <li>CSS class: .table-th</li>

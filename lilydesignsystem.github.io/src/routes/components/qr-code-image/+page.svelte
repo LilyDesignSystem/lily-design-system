@@ -75,6 +75,7 @@
       <li>Component: qr-code-image</li>
       <li>PascalCase: QrCodeImage</li>
       <li>Description: a QR code image generated from text or URL data</li>
+      <li>Purpose: Shows a QR code that a phone camera reads, with a text alternative.</li>
       <li>Status: experimental — recent catalog addition with the least accumulated depth; contract may still move</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .qr-code-image</li>

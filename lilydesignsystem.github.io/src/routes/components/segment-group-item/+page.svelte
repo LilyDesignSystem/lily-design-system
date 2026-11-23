@@ -75,6 +75,7 @@
       <li>Component: segment-group-item</li>
       <li>PascalCase: SegmentGroupItem</li>
       <li>Description: one selectable segment in a segment group</li>
+      <li>Purpose: Holds one choice of a segment group.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;button&gt;</li>
       <li>CSS class: .segment-group-item</li>

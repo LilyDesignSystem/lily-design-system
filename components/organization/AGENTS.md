@@ -5,6 +5,7 @@
 - Component: organization
 - PascalCase: Organization
 - Description: an organization component that contains other organization-related information
+- Purpose: Presents an organisation's name, logo, description and contact details.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <article>
 - CSS class: .organization

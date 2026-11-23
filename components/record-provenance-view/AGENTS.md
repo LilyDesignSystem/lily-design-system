@@ -5,6 +5,7 @@
 - Component: record-provenance-view
 - PascalCase: RecordProvenanceView
 - Description: who recorded a record, where it came from and whether it is signed, in the consumer's words
+- Purpose: Shows where a record came from: who wrote it, when and from what source.
 - Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow
 - HTML tag: <span>
 - CSS class: .record-provenance-view

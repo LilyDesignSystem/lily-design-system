@@ -5,6 +5,7 @@
 - Component: gauge-chart
 - PascalCase: GaugeChart
 - Description: a dial chart showing one value within a range, with optional thresholds
+- Purpose: Shows one value on a dial against its range and thresholds.
 - Status: beta — implemented and unit-tested in the Svelte canonical; not yet exercised in composed flows
 - HTML tag: <figure>
 - CSS class: .gauge-chart

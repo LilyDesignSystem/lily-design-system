@@ -5,6 +5,7 @@
 - Component: tour-list
 - PascalCase: TourList
 - Description: an ordered list of tour guide steps
+- Purpose: Lists the steps of a guided tour in order.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <ol>
 - CSS class: .tour-list

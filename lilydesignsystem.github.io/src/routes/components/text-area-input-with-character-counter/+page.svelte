@@ -75,6 +75,7 @@
       <li>Component: text-area-input-with-character-counter</li>
       <li>PascalCase: TextAreaInputWithCharacterCounter</li>
       <li>Description: a multi-line text area input with a caption below that is a character counter "[number] of [maximum] characters"</li>
+      <li>Purpose: Collects several lines of text and counts the characters against a limit.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .text-area-input-with-character-counter</li>

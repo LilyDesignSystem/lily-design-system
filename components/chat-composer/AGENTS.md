@@ -5,6 +5,7 @@
 - Component: chat-composer
 - PascalCase: ChatComposer
 - Description: a chat input form with a text area that grows with its content, sends on Enter, and turns its send button into a stop button while a reply is in progress
+- Purpose: Collects a message to send, with Enter to send and a stop button while a reply is coming.
 - Status: beta — implemented and unit-tested in all eight headless libraries; not yet exercised in composed flows
 - HTML tag: <form>
 - CSS class: .chat-composer

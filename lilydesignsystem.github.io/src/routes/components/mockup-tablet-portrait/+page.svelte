@@ -75,6 +75,7 @@
       <li>Component: mockup-tablet-portrait</li>
       <li>PascalCase: MockupTabletPortrait</li>
       <li>Description: a box area that looks like a tablet computer in portrait mode</li>
+      <li>Purpose: Frames content in a drawing of a tablet, for documentation and demos.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .mockup-tablet-portrait</li>

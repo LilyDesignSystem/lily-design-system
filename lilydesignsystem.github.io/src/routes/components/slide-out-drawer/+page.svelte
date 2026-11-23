@@ -75,6 +75,7 @@
       <li>Component: slide-out-drawer</li>
       <li>PascalCase: SlideOutDrawer</li>
       <li>Description: a drawer that slides out from the side of the page</li>
+      <li>Purpose: Slides in from the side to show extra content or navigation.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;dialog&gt;</li>
       <li>CSS class: .slide-out-drawer</li>

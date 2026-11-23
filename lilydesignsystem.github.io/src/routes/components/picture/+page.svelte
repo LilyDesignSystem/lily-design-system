@@ -76,6 +76,7 @@
       <li>Component: picture</li>
       <li>PascalCase: Picture</li>
       <li>Description: a responsive image wrapper that lets the browser choose among several sources, using the native picture element</li>
+      <li>Purpose: Lets the browser choose among several image files by screen size or format.</li>
       <li>Status: beta — implemented and unit-tested in all eight headless libraries; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;picture&gt;</li>
       <li>CSS class: .picture</li>

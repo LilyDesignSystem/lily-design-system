@@ -75,6 +75,7 @@
       <li>Component: pictogram</li>
       <li>PascalCase: Pictogram</li>
       <li>Description: an icon-based component pairing an icon with a title and description in a centered or side layout</li>
+      <li>Purpose: Pairs an icon or illustration with a title and description, centred.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;figure&gt;</li>
       <li>CSS class: .pictogram</li>

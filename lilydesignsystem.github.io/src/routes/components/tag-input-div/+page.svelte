@@ -75,6 +75,7 @@
       <li>Component: tag-input-div</li>
       <li>PascalCase: TagInputDiv</li>
       <li>Description: an input for adding and removing tags</li>
+      <li>Purpose: Lets people add and remove tags by typing.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .tag-input-div</li>

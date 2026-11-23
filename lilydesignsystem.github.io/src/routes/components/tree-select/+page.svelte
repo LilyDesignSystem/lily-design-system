@@ -75,6 +75,7 @@
       <li>Component: tree-select</li>
       <li>PascalCase: TreeSelect</li>
       <li>Description: a select dropdown showing a tree of hierarchical options</li>
+      <li>Purpose: Picks one value from a hierarchy in a dropdown.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .tree-select</li>

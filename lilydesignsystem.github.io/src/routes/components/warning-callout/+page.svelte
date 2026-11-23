@@ -76,6 +76,7 @@
       <li>Component: warning-callout</li>
       <li>PascalCase: WarningCallout</li>
       <li>Description: a callout box highlighting a warning message</li>
+      <li>Purpose: Warns about a risk or a problem the reader must not miss.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;aside&gt;</li>
       <li>CSS class: .warning-callout</li>

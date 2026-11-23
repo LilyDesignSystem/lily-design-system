@@ -75,6 +75,7 @@
       <li>Component: theme-select-option</li>
       <li>PascalCase: ThemeSelectOption</li>
       <li>Description: one option in a theme select dropdown</li>
+      <li>Purpose: Holds one theme choice of a theme select.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;option&gt;</li>
       <li>CSS class: .theme-select-option</li>

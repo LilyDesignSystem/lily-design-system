@@ -76,6 +76,7 @@
       <li>Component: kbd-shortcut</li>
       <li>PascalCase: KbdShortcut</li>
       <li>Description: a multi-key keyboard shortcut shown as a row of key caps</li>
+      <li>Purpose: Shows a keyboard shortcut such as Ctrl + K, one key at a time.</li>
       <li>Status: beta — implemented and unit-tested in the Svelte canonical; ports to the other frameworks pending (2026-10-05)</li>
       <li>HTML tag: &lt;kbd&gt;</li>
       <li>CSS class: .kbd-shortcut</li>

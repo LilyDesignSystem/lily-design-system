@@ -76,6 +76,7 @@
       <li>Component: heatmap-chart</li>
       <li>PascalCase: HeatmapChart</li>
       <li>Description: a grid chart where cell colour encodes the value at each row and column</li>
+      <li>Purpose: Shows how a value varies across two categories, with colour for size and the numbers also given.</li>
       <li>Status: beta — implemented and unit-tested in the Svelte canonical; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;figure&gt;</li>
       <li>CSS class: .heatmap-chart</li>

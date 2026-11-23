@@ -75,6 +75,7 @@
       <li>Component: tile-map</li>
       <li>PascalCase: TileMap</li>
       <li>Description: a tile cartogram map with configurable layers for geographic data visualization</li>
+      <li>Purpose: Shows geographic data as equal tiles, one per place, so small places are not lost.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .tile-map</li>

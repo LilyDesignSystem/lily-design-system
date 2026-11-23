@@ -75,6 +75,7 @@
       <li>Component: scroll-area</li>
       <li>PascalCase: ScrollArea</li>
       <li>Description: a scrollable container with custom scrollbar support</li>
+      <li>Purpose: Scrolls overflowing content inside a box that can be reached by keyboard.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .scroll-area</li>

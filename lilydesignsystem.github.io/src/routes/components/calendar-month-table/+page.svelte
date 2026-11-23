@@ -76,6 +76,7 @@
       <li>Component: calendar-month-table</li>
       <li>PascalCase: CalendarMonthTable</li>
       <li>Description: a calendar grid showing the days of one month: week rows by seven day columns</li>
+      <li>Purpose: Lays the days of a month out as weeks by weekday.</li>
       <li>Status: beta — implemented and unit-tested in the Svelte canonical; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;table&gt;</li>
       <li>CSS class: .calendar-month-table</li>

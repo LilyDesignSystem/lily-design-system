@@ -75,6 +75,7 @@
       <li>Component: timer-button</li>
       <li>PascalCase: TimerButton</li>
       <li>Description: a button with a timer that will automatically click after a given amount of time</li>
+      <li>Purpose: Runs an action after a countdown unless the person cancels it.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;button&gt;</li>
       <li>CSS class: .timer-button</li>

@@ -5,6 +5,7 @@
 - Component: submit-input
 - PascalCase: SubmitInput
 - Description: a button input that submits a form <input type="submit">
+- Purpose: Sends a form, as a native submit input.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <input>
 - CSS class: .submit-input
