@@ -75,6 +75,7 @@
       <li>Component: file-dialog</li>
       <li>PascalCase: FileDialog</li>
       <li>Description: a dialog for browsing and selecting files</li>
+      <li>Purpose: Opens a modal for choosing, opening or saving files. Use file upload for a single field in a form.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;dialog&gt;</li>
       <li>CSS class: .file-dialog</li>

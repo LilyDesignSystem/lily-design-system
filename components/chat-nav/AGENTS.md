@@ -5,6 +5,7 @@
 - Component: chat-nav
 - PascalCase: ChatNav
 - Description: a navigation container for chat information
+- Purpose: Marks the conversation list as a navigation landmark, so people can jump to it.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <nav>
 - CSS class: .chat-nav

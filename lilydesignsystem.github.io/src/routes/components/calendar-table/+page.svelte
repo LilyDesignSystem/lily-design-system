@@ -75,6 +75,7 @@
       <li>Component: calendar-table</li>
       <li>PascalCase: CalendarTable</li>
       <li>Description: a calendar table interactive grid for managing dates, days, etc. &lt;table&gt;</li>
+      <li>Purpose: Lays dates out as a grid of weeks, so people can see and choose days in context.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;table&gt;</li>
       <li>CSS class: .calendar-table</li>

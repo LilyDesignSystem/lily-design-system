@@ -75,6 +75,7 @@
       <li>Component: kanban-table-foot</li>
       <li>PascalCase: KanbanTableFoot</li>
       <li>Description: a kanban board table interactive grid tfoot for organizing items by status &lt;tfoot&gt;</li>
+      <li>Purpose: Holds a summary under a kanban board.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;tfoot&gt;</li>
       <li>CSS class: .kanban-table-foot</li>

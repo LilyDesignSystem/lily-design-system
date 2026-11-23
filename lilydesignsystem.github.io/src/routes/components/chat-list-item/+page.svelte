@@ -75,6 +75,7 @@
       <li>Component: chat-list-item</li>
       <li>PascalCase: ChatListItem</li>
       <li>Description: one chat list item component, typically containing one chat message component</li>
+      <li>Purpose: Holds one message in a conversation list.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;li&gt;</li>
       <li>CSS class: .chat-list-item</li>

@@ -75,6 +75,7 @@
       <li>Component: info-state</li>
       <li>PascalCase: InfoState</li>
       <li>Description: a composition of illustration, title, description, and action for empty, error, or info states</li>
+      <li>Purpose: Tells people why a screen is empty or unavailable, with an illustration, a message and a next step.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;section&gt;</li>
       <li>CSS class: .info-state</li>

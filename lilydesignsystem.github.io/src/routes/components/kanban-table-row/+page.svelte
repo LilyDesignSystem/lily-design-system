@@ -75,6 +75,7 @@
       <li>Component: kanban-table-row</li>
       <li>PascalCase: KanbanTableRow</li>
       <li>Description: a kanban board table interactive grid row for organizing items by status &lt;tr&gt;</li>
+      <li>Purpose: Holds one row of cards in a kanban board.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;tr&gt;</li>
       <li>CSS class: .kanban-table-row</li>

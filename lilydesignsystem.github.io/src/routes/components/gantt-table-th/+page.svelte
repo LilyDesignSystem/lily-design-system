@@ -75,6 +75,7 @@
       <li>Component: gantt-table-th</li>
       <li>PascalCase: GanttTableTH</li>
       <li>Description: a Gantt chart table interactive grid header cell for planning schedule visualization &lt;th&gt;</li>
+      <li>Purpose: Names a time period column of a Gantt table.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;th&gt;</li>
       <li>CSS class: .gantt-table-th</li>

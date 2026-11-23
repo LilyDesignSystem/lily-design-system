@@ -75,6 +75,7 @@
       <li>Component: go-to-previous-section</li>
       <li>PascalCase: GoToPreviousSection</li>
       <li>Description: a link that takes users to the previous section of the current page</li>
+      <li>Purpose: Jumps back to the previous section of a long page.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;a&gt;</li>
       <li>CSS class: .go-to-previous-section</li>

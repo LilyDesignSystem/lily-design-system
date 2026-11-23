@@ -5,6 +5,7 @@
 - Component: icon-list
 - PascalCase: IconList
 - Description: an ordered list of icon list item components
+- Purpose: Lists short points, each led by an icon.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <ul>
 - CSS class: .icon-list

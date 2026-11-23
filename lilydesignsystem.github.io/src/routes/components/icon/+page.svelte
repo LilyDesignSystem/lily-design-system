@@ -75,6 +75,7 @@
       <li>Component: icon</li>
       <li>PascalCase: Icon</li>
       <li>Description: a container for displaying an icon</li>
+      <li>Purpose: Shows a small symbol for an action or idea. Pair it with text unless the meaning is universal.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .icon</li>

@@ -75,6 +75,7 @@
       <li>Component: input-with-mask</li>
       <li>PascalCase: InputWithMask</li>
       <li>Description: an input displaying a format mask placeholder for the user to fill in</li>
+      <li>Purpose: Shows the expected shape of a value, such as a phone number, while the person types.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .input-with-mask</li>

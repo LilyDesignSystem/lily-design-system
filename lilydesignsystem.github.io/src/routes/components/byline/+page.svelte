@@ -75,6 +75,7 @@
       <li>Component: byline</li>
       <li>PascalCase: Byline</li>
       <li>Description: an author attribution with publish and update timestamps</li>
+      <li>Purpose: Credits the author of a piece and says when it was published or updated.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .byline</li>

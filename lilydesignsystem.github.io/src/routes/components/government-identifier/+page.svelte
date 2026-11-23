@@ -75,6 +75,7 @@
       <li>Component: government-identifier</li>
       <li>PascalCase: GovernmentIdentifier</li>
       <li>Description: an identifier section with a parent agency logo, agency name, and required government links</li>
+      <li>Purpose: Names the agency that runs a service and links to its parent, at the foot of a page.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;section&gt;</li>
       <li>CSS class: .government-identifier</li>

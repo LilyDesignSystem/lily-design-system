@@ -76,6 +76,7 @@
       <li>Component: five-star-rating-radio-input</li>
       <li>PascalCase: FiveStarRatingRadioInput</li>
       <li>Description: a radio input for one choice of a 1-5 star rating &lt;input type="radio"&gt;</li>
+      <li>Purpose: Holds one star value of a five-star rating.</li>
       <li>Status: experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .five-star-rating-radio-input</li>

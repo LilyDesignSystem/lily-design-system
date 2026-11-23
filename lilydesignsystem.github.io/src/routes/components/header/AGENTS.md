@@ -5,6 +5,7 @@
 - Component: header
 - PascalCase: Header
 - Description: a page or section header area
+- Purpose: Marks the introductory region of a page or section, with its title and navigation.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <header>
 - CSS class: .header

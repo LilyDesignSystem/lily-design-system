@@ -75,6 +75,7 @@
       <li>Component: listbox</li>
       <li>PascalCase: Listbox</li>
       <li>Description: a list of selectable options with keyboard navigation</li>
+      <li>Purpose: Lets people choose one or several options from a visible list, with arrow-key navigation.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .listbox</li>

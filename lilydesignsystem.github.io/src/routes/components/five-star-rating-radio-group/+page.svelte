@@ -76,6 +76,7 @@
       <li>Component: five-star-rating-radio-group</li>
       <li>PascalCase: FiveStarRatingRadioGroup</li>
       <li>Description: a fieldset radio group for selecting a 1-5 star rating</li>
+      <li>Purpose: Asks for a rating from one to five stars.</li>
       <li>Status: experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;fieldset&gt;</li>
       <li>CSS class: .five-star-rating-radio-group</li>

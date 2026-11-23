@@ -5,6 +5,7 @@
 - Component: gantt-table-th
 - PascalCase: GanttTableTH
 - Description: a Gantt chart table interactive grid header cell for planning schedule visualization <th>
+- Purpose: Names a time period column of a Gantt table.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <th>
 - CSS class: .gantt-table-th

@@ -75,6 +75,7 @@
       <li>Component: calendar-table-row</li>
       <li>PascalCase: CalendarTableRow</li>
       <li>Description: a calendar table interactive grid row for managing dates, days, etc. &lt;tr&gt;</li>
+      <li>Purpose: Holds one week of a calendar grid.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;tr&gt;</li>
       <li>CSS class: .calendar-table-row</li>

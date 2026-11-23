@@ -76,6 +76,7 @@
       <li>Component: five-face-rating-radio-input</li>
       <li>PascalCase: FiveFaceRatingRadioInput</li>
       <li>Description: a radio input for one choice of a 1-5 satisfaction rating &lt;input type="radio"&gt;</li>
+      <li>Purpose: Holds one face of a five-face rating.</li>
       <li>Status: experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .five-face-rating-radio-input</li>

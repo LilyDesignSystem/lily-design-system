@@ -76,6 +76,7 @@
       <li>Component: international-patient-summary</li>
       <li>PascalCase: InternationalPatientSummary</li>
       <li>Description: an International Patient Summary (HL7 FHIR IPS) laid out for a clinician: patient banner, contents, sections and document details, never silently missing a required section</li>
+      <li>Purpose: Presents the minimum clinical summary of a patient in a standard shape that any country's clinicians can read.</li>
       <li>Status: experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;article&gt;</li>
       <li>Naming exception: no suffix; the root of a document view is an <code>&lt;article&gt;</code>, a self-contained composition</li>

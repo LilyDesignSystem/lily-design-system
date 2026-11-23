@@ -4571,7 +4571,7 @@ From [spec/lessons/smashing-magazine-design-systems](spec/lessons/smashing-magaz
 together on the notices and actions, then T4 and T6, then T3, T7, T8, T10, T11 and T13; T5 is the maintainer's; T9 is an
 investigation.
 
-- [ ] **P46-T1 A purpose line for every component (361 of 661 written, 2026-11-23: the notices, actions, persuasive components, and the common form, navigation and content components; `bin/check-component-guidance` fails on a missing one unless the allow-list names it, and the list may only shrink).** A `- Purpose:` bullet in each `components/{slug}/AGENTS.md` Metadata (what it is
+- [ ] **P46-T1 A purpose line for every component (471 of 661 written, 2026-11-23: the notices, actions, persuasive components, and the common form, navigation and content components; `bin/check-component-guidance` fails on a missing one unless the allow-list names it, and the list may only shrink).** A `- Purpose:` bullet in each `components/{slug}/AGENTS.md` Metadata (what it is
       for and how), written family by family from the notices and actions; rewrite presentational or circular descriptions.
       Verify: a check in `bin/test` fails on a missing or empty purpose line.
 - [x] **P46-T2 Prominence scales.** A section in `spec/components` ranking notices and actions, with politeness and one-per-view rules;

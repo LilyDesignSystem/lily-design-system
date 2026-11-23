@@ -5,6 +5,7 @@
 - Component: input
 - PascalCase: Input
 - Description: a generic HTML input element
+- Purpose: Collects one line of free text with a label and a bound value.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .input

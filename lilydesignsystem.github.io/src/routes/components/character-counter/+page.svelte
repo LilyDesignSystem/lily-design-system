@@ -75,6 +75,7 @@
       <li>Component: character-counter</li>
       <li>PascalCase: CharacterCounter</li>
       <li>Description: a counter showing remaining or used characters in a text field</li>
+      <li>Purpose: Tells people how many characters they have typed against a limit.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .character-counter</li>

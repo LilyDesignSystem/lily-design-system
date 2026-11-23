@@ -75,6 +75,7 @@
       <li>Component: hover-card</li>
       <li>PascalCase: HoverCard</li>
       <li>Description: a card that appears on hover over a trigger element</li>
+      <li>Purpose: Shows a preview of a link's target on hover or focus. Do not put essential content in it.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .hover-card</li>

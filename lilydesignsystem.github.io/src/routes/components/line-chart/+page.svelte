@@ -75,6 +75,7 @@
       <li>Component: line-chart</li>
       <li>PascalCase: LineChart</li>
       <li>Description: a line chart visualization connecting data points to display data</li>
+      <li>Purpose: Shows how a value changes over an ordered series, such as time, by its shape.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;figure&gt;</li>
       <li>CSS class: .line-chart</li>

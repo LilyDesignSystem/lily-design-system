@@ -75,6 +75,7 @@
       <li>Component: gantt-table-tfoot</li>
       <li>PascalCase: GanttTableTfoot</li>
       <li>Description: a Gantt chart table interactive grid tfoot for planning schedule visualization &lt;tfoot&gt;</li>
+      <li>Purpose: Holds the summary rows of a Gantt table.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;tfoot&gt;</li>
       <li>CSS class: .gantt-table-tfoot</li>

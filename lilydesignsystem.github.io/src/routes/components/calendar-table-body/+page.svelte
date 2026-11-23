@@ -75,6 +75,7 @@
       <li>Component: calendar-table-body</li>
       <li>PascalCase: CalendarTableBody</li>
       <li>Description: a calendar table interactive grid tbody for managing dates, days, etc. &lt;tbody&gt;</li>
+      <li>Purpose: Holds the weeks of a calendar grid.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;tbody&gt;</li>
       <li>CSS class: .calendar-table-body</li>

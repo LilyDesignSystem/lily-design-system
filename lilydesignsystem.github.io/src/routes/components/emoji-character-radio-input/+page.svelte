@@ -76,6 +76,7 @@
       <li>Component: emoji-character-radio-input</li>
       <li>PascalCase: EmojiCharacterRadioInput</li>
       <li>Description: a radio input for one choice of an emoji character &lt;input type="radio"&gt;</li>
+      <li>Purpose: Holds one emoji choice of an emoji group.</li>
       <li>Status: experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .emoji-character-radio-input</li>

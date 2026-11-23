@@ -5,6 +5,7 @@
 - Component: five-face-rating-radio-group
 - PascalCase: FiveFaceRatingRadioGroup
 - Description: a fieldset radio group for selecting a 1-5 satisfaction rating using face labels
+- Purpose: Asks how satisfied someone was, on a five-face scale.
 - Status: experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow
 - HTML tag: <fieldset>
 - CSS class: .five-face-rating-radio-group

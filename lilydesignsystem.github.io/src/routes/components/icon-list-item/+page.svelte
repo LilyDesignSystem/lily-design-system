@@ -75,6 +75,7 @@
       <li>Component: icon-list-item</li>
       <li>PascalCase: IconListItem</li>
       <li>Description: one item in an icon list with a leading icon slot</li>
+      <li>Purpose: Holds one point of an icon list.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;li&gt;</li>
       <li>CSS class: .icon-list-item</li>

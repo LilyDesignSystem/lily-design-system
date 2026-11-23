@@ -5,6 +5,7 @@
 - Component: expander
 - PascalCase: Expander
 - Description: a control that expands to reveal more content
+- Purpose: Shows or hides extra content with a toggle button. Use collapsible for the native details element.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .expander

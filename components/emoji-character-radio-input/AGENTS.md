@@ -5,6 +5,7 @@
 - Component: emoji-character-radio-input
 - PascalCase: EmojiCharacterRadioInput
 - Description: a radio input for one choice of an emoji character <input type="radio">
+- Purpose: Holds one emoji choice of an emoji group.
 - Status: experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow
 - HTML tag: <input>
 - CSS class: .emoji-character-radio-input

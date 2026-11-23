@@ -75,6 +75,7 @@
       <li>Component: character</li>
       <li>PascalCase: Character</li>
       <li>Description: a single character display element</li>
+      <li>Purpose: Shows a single glyph, symbol or emoji with a text alternative.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .character</li>

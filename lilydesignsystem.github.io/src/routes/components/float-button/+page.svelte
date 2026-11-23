@@ -75,6 +75,7 @@
       <li>Component: float-button</li>
       <li>PascalCase: FloatButton</li>
       <li>Description: a floating action button anchored to a viewport corner</li>
+      <li>Purpose: Keeps one important action in a corner of the screen as the page scrolls.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;button&gt;</li>
       <li>CSS class: .float-button</li>

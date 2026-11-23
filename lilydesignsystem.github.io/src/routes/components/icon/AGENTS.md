@@ -5,6 +5,7 @@
 - Component: icon
 - PascalCase: Icon
 - Description: a container for displaying an icon
+- Purpose: Shows a small symbol for an action or idea. Pair it with text unless the meaning is universal.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <span>
 - CSS class: .icon

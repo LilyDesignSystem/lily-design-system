@@ -75,6 +75,7 @@
       <li>Component: file-manager</li>
       <li>PascalCase: FileManager</li>
       <li>Description: a file browser for navigating and managing files</li>
+      <li>Purpose: Lets people browse, organise and manage files and folders.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .file-manager</li>

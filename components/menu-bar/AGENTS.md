@@ -5,6 +5,7 @@
 - Component: menu-bar
 - PascalCase: MenuBar
 - Description: a horizontal bar of menu triggers
+- Purpose: Offers a row of menus across the top of an application, as a desktop program does.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .menu-bar

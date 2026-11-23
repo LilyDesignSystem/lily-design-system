@@ -75,6 +75,7 @@
       <li>Component: menu-bar-button</li>
       <li>PascalCase: MenuBarButton</li>
       <li>Description: one item in a menu bar</li>
+      <li>Purpose: Opens one menu of a menu bar.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;button&gt;</li>
       <li>CSS class: .menu-bar-button</li>

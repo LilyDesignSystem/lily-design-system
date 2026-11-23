@@ -5,6 +5,7 @@
 - Component: feature-card
 - PascalCase: FeatureCard
 - Description: a large content card with a prominent image positioned alongside or above the text
+- Purpose: Promotes one feature or story with a large image, a heading and a link.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <article>
 - CSS class: .feature-card

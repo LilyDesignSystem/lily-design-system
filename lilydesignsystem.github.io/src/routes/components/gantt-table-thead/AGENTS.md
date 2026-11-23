@@ -5,6 +5,7 @@
 - Component: gantt-table-thead
 - PascalCase: GanttTableThead
 - Description: a Gantt chart table interactive grid thead for planning schedule visualization <thead>
+- Purpose: Holds the time period headings of a Gantt table.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <thead>
 - CSS class: .gantt-table-thead

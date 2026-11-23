@@ -5,6 +5,7 @@
 - Component: horizontal-scroller
 - PascalCase: HorizontalScroller
 - Description: a horizontally scrollable content container
+- Purpose: Lets a wide table or code scroll sideways inside its own region, so the page does not.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .horizontal-scroller

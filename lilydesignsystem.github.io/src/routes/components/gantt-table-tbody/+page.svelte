@@ -75,6 +75,7 @@
       <li>Component: gantt-table-tbody</li>
       <li>PascalCase: GanttTableTbody</li>
       <li>Description: a Gantt chart table interactive grid tbody for planning schedule visualization &lt;tbody&gt;</li>
+      <li>Purpose: Holds the task rows of a Gantt table.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;tbody&gt;</li>
       <li>CSS class: .gantt-table-tbody</li>

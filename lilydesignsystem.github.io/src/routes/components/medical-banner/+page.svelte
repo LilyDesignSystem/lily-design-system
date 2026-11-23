@@ -75,6 +75,7 @@
       <li>Component: medical-banner</li>
       <li>PascalCase: MedicalBanner</li>
       <li>Description: a prominent message bar across the top of a page, with medical information</li>
+      <li>Purpose: Keeps the most important clinical facts, such as the patient and their alerts, at the top of a page.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .medical-banner</li>

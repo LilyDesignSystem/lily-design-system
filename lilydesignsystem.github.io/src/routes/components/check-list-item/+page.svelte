@@ -75,6 +75,7 @@
       <li>Component: check-list-item</li>
       <li>PascalCase: CheckListItem</li>
       <li>Description: one check list item component with a checkbox</li>
+      <li>Purpose: Holds one tickable item of a checklist.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;li&gt;</li>
       <li>CSS class: .check-list-item</li>

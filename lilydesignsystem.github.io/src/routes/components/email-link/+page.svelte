@@ -75,6 +75,7 @@
       <li>Component: email-link</li>
       <li>PascalCase: EmailLink</li>
       <li>Description: a mailto hyperlink for an email address</li>
+      <li>Purpose: Opens a new email to an address in the person's mail app.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;a&gt;</li>
       <li>CSS class: .email-link</li>

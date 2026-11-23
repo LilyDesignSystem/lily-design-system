@@ -5,6 +5,7 @@
 - Component: input-group
 - PascalCase: InputGroup
 - Description: a group wrapping an input with prefix and suffix addons
+- Purpose: Joins an input to a prefix or suffix, such as a currency symbol or a unit.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .input-group

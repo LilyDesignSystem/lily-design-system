@@ -5,6 +5,7 @@
 - Component: hero-headline
 - PascalCase: HeroHeadline
 - Description: a full-bleed hero section with headline overlaid on media
+- Purpose: Opens a page with a headline laid over a large image or video.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .hero-headline

@@ -5,6 +5,7 @@
 - Component: gantt-table
 - PascalCase: GanttTable
 - Description: a Gantt chart table interactive grid for planning schedule visualization <table>
+- Purpose: Shows tasks and their dates as bars on a timeline, to plan and track a project.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <table>
 - CSS class: .gantt-table

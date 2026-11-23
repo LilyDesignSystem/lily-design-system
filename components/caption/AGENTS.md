@@ -5,6 +5,7 @@
 - Component: caption
 - PascalCase: Caption
 - Description: a caption for a table or figure element
+- Purpose: Explains a picture, video or chart in words beside it.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <figcaption>
 - CSS class: .caption

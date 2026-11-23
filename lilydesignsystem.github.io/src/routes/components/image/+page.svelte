@@ -76,6 +76,7 @@
       <li>Component: image</li>
       <li>PascalCase: Image</li>
       <li>Description: an image element with alt text</li>
+      <li>Purpose: Shows a photo, illustration or diagram, with alternative text.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;img&gt;</li>
       <li>CSS class: .image</li>

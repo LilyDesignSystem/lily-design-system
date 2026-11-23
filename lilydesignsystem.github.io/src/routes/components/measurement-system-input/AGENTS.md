@@ -5,6 +5,7 @@
 - Component: measurement-system-input
 - PascalCase: MeasurementSystemInput
 - Description: an input for selecting a measurement system
+- Purpose: Records which measurement system a value uses, such as metric or imperial.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .measurement-system-input

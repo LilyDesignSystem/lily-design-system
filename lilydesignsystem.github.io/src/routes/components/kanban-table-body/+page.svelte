@@ -75,6 +75,7 @@
       <li>Component: kanban-table-body</li>
       <li>PascalCase: KanbanTableBody</li>
       <li>Description: a kanban board table interactive grid tbody for organizing items by status &lt;tbody&gt;</li>
+      <li>Purpose: Holds the columns and cards of a kanban board.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;tbody&gt;</li>
       <li>CSS class: .kanban-table-body</li>

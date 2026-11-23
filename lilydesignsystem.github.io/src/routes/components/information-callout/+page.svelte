@@ -76,6 +76,7 @@
       <li>Component: information-callout</li>
       <li>PascalCase: InformationCallout</li>
       <li>Description: a callout box highlighting informational content</li>
+      <li>Purpose: Sets apart a note that deserves attention but is not a warning.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;aside&gt;</li>
       <li>CSS class: .information-callout</li>

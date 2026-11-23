@@ -75,6 +75,7 @@
       <li>Component: go-to-next-section</li>
       <li>PascalCase: GoToNextSection</li>
       <li>Description: a link that takes users to the next section of the current page</li>
+      <li>Purpose: Jumps to the next section of a long page.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;a&gt;</li>
       <li>CSS class: .go-to-next-section</li>

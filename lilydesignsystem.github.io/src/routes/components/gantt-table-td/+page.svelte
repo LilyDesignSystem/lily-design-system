@@ -75,6 +75,7 @@
       <li>Component: gantt-table-td</li>
       <li>PascalCase: GanttTableTD</li>
       <li>Description: a Gantt chart table interactive grid data cell for planning schedule visualization &lt;td&gt;</li>
+      <li>Purpose: Holds one time period of one task in a Gantt table.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;td&gt;</li>
       <li>CSS class: .gantt-table-td</li>

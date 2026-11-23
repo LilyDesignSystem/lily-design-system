@@ -75,6 +75,7 @@
       <li>Component: footer</li>
       <li>PascalCase: Footer</li>
       <li>Description: a page or section footer area</li>
+      <li>Purpose: Closes a page or section with its contact, legal and related links.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;footer&gt;</li>
       <li>CSS class: .footer</li>

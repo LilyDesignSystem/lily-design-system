@@ -5,6 +5,7 @@
 - Component: info-state
 - PascalCase: InfoState
 - Description: a composition of illustration, title, description, and action for empty, error, or info states
+- Purpose: Tells people why a screen is empty or unavailable, with an illustration, a message and a next step.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <section>
 - CSS class: .info-state

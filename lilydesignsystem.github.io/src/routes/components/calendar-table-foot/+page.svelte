@@ -75,6 +75,7 @@
       <li>Component: calendar-table-foot</li>
       <li>PascalCase: CalendarTableFoot</li>
       <li>Description: a calendar table interactive grid tfoot for managing dates, days, etc. &lt;tfoot&gt;</li>
+      <li>Purpose: Holds a summary row under a calendar grid.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;tfoot&gt;</li>
       <li>CSS class: .calendar-table-foot</li>

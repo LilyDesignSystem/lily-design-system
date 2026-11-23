@@ -75,6 +75,7 @@
       <li>Component: end-notes</li>
       <li>PascalCase: EndNotes</li>
       <li>Description: a section of titled endnote items at the end of an article</li>
+      <li>Purpose: Gathers numbered notes, sources or methods at the end of an article.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;section&gt;</li>
       <li>CSS class: .end-notes</li>

@@ -75,6 +75,7 @@
       <li>Component: grail-layout-top-header</li>
       <li>PascalCase: GrailLayoutTopHeader</li>
       <li>Description: grail layout top header full width with &lt;header&gt; tag</li>
+      <li>Purpose: Holds the header region of a grail layout.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;header&gt;</li>
       <li>CSS class: .grail-layout-top-header</li>

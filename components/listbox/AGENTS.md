@@ -5,6 +5,7 @@
 - Component: listbox
 - PascalCase: Listbox
 - Description: a list of selectable options with keyboard navigation
+- Purpose: Lets people choose one or several options from a visible list, with arrow-key navigation.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .listbox

@@ -75,6 +75,7 @@
       <li>Component: caption</li>
       <li>PascalCase: Caption</li>
       <li>Description: a caption for a table or figure element</li>
+      <li>Purpose: Explains a picture, video or chart in words beside it.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;figcaption&gt;</li>
       <li>CSS class: .caption</li>

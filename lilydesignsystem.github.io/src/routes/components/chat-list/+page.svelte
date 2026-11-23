@@ -75,6 +75,7 @@
       <li>Component: chat-list</li>
       <li>PascalCase: ChatList</li>
       <li>Description: an ordered list of chat list item components</li>
+      <li>Purpose: Lists the messages of a conversation in order.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;ol&gt;</li>
       <li>CSS class: .chat-list</li>

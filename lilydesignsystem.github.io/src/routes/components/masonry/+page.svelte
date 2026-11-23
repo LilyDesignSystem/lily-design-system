@@ -75,6 +75,7 @@
       <li>Component: masonry</li>
       <li>PascalCase: Masonry</li>
       <li>Description: a masonry layout container for variable-height items</li>
+      <li>Purpose: Packs cards of different heights into columns without gaps.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .masonry</li>

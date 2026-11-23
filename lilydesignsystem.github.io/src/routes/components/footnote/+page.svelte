@@ -76,6 +76,7 @@
       <li>Component: footnote</li>
       <li>PascalCase: Footnote</li>
       <li>Description: a footnote reference and content element</li>
+      <li>Purpose: Adds a side note or source for a point in the main text without interrupting it.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .footnote</li>

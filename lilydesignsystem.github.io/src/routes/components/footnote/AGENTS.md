@@ -5,6 +5,7 @@
 - Component: footnote
 - PascalCase: Footnote
 - Description: a footnote reference and content element
+- Purpose: Adds a side note or source for a point in the main text without interrupting it.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <span>
 - CSS class: .footnote

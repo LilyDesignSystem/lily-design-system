@@ -75,6 +75,7 @@
       <li>Component: figure</li>
       <li>PascalCase: Figure</li>
       <li>Description: a self-contained figure with optional caption</li>
+      <li>Purpose: Pairs a graphic, such as a chart or diagram, with its caption.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;figure&gt;</li>
       <li>CSS class: .figure</li>

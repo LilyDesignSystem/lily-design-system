@@ -75,6 +75,7 @@
       <li>Component: go-to-top</li>
       <li>PascalCase: GoToTop</li>
       <li>Description: a link that returns users to the top of a long page</li>
+      <li>Purpose: Returns to the top of a long page in one step.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;a&gt;</li>
       <li>CSS class: .go-to-top</li>

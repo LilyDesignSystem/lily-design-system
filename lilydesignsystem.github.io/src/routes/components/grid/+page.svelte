@@ -75,6 +75,7 @@
       <li>Component: grid</li>
       <li>PascalCase: Grid</li>
       <li>Description: a CSS grid layout container with configurable columns and gap</li>
+      <li>Purpose: Lays children out in columns with a gap, using CSS grid.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .grid</li>

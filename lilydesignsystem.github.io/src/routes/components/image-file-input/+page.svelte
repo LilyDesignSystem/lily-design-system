@@ -75,6 +75,7 @@
       <li>Component: image-file-input</li>
       <li>PascalCase: ImageFileInput</li>
       <li>Description: an input for selecting image files with preview</li>
+      <li>Purpose: Chooses an image file from the device to upload.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .image-file-input</li>

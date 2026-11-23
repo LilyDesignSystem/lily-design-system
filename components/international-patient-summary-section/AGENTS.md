@@ -5,6 +5,7 @@
 - Component: international-patient-summary-section
 - PascalCase: InternationalPatientSummarySection
 - Description: one section of an International Patient Summary, with its LOINC code and a status that is never blank
+- Purpose: Holds one section of an international patient summary, such as allergies or medications.
 - Status: experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow
 - HTML tag: <section>
 - Naming exception: `-section` is not in the suffix table; it renders `<section>`, the element its name says

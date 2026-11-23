@@ -5,6 +5,7 @@
 - Component: medical-banner-box
 - PascalCase: MedicalBannerBox
 - Description: a medical banner box that is inside a medical-banner component, using flexbox horizontal, with medical information
+- Purpose: Lays out one group of facts inside a medical banner.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .medical-banner-box

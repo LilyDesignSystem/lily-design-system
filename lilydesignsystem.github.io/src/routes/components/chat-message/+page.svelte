@@ -75,6 +75,7 @@
       <li>Component: chat-message</li>
       <li>PascalCase: ChatMessage</li>
       <li>Description: a chat message shows one chat conversation message entry and all its data, including the author avatar, author name, time, etc.</li>
+      <li>Purpose: Shows one message with its author, time and text.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;article&gt;</li>
       <li>CSS class: .chat-message</li>

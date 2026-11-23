@@ -75,6 +75,7 @@
       <li>Component: check-list</li>
       <li>PascalCase: CheckList</li>
       <li>Description: an ordered list of check list item components</li>
+      <li>Purpose: Lists items that can be ticked off, to track tasks or choices.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;ol&gt;</li>
       <li>CSS class: .check-list</li>

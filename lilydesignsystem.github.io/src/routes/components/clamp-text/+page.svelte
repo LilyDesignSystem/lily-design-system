@@ -75,6 +75,7 @@
       <li>Component: clamp-text</li>
       <li>PascalCase: ClampText</li>
       <li>Description: a text container that truncates content to a maximum number of lines</li>
+      <li>Purpose: Cuts long text to a set number of lines and tells assistive technology the full text is there.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .clamp-text</li>

@@ -5,6 +5,7 @@
 - Component: flair
 - PascalCase: Flair
 - Description: a decorative highlight or emphasis element
+- Purpose: Adds a small label to an item, such as a category or status. Say the meaning in words, not colour alone.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <span>
 - CSS class: .flair

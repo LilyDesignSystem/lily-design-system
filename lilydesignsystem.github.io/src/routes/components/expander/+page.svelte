@@ -75,6 +75,7 @@
       <li>Component: expander</li>
       <li>PascalCase: Expander</li>
       <li>Description: a control that expands to reveal more content</li>
+      <li>Purpose: Shows or hides extra content with a toggle button. Use collapsible for the native details element.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .expander</li>

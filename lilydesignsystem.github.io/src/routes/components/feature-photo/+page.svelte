@@ -75,6 +75,7 @@
       <li>Component: feature-photo</li>
       <li>PascalCase: FeaturePhoto</li>
       <li>Description: a responsive photo with lazy loading and alt text validation</li>
+      <li>Purpose: Shows a large editorial photo that loads lazily and requires alternative text.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;figure&gt;</li>
       <li>CSS class: .feature-photo</li>

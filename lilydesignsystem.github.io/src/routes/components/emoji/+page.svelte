@@ -75,6 +75,7 @@
       <li>Component: emoji</li>
       <li>PascalCase: Emoji</li>
       <li>Description: a single emoji character with accessible name</li>
+      <li>Purpose: Shows an emoji with a spoken name, so screen readers announce what it means.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .emoji</li>

@@ -75,6 +75,7 @@
       <li>Component: gantt-table-tr</li>
       <li>PascalCase: GanttTableTr</li>
       <li>Description: a Gantt chart table interactive grid row for planning schedule visualization &lt;tr&gt;</li>
+      <li>Purpose: Holds one task or milestone of a Gantt table.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;tr&gt;</li>
       <li>CSS class: .gantt-table-tr</li>

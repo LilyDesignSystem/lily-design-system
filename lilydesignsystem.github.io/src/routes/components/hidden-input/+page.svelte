@@ -75,6 +75,7 @@
       <li>Component: hidden-input</li>
       <li>PascalCase: HiddenInput</li>
       <li>Description: a hidden input for including data in form submission &lt;input type="hidden"&gt;</li>
+      <li>Purpose: Sends a value with a form that the person does not see or change.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .hidden-input</li>

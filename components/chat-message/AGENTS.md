@@ -5,6 +5,7 @@
 - Component: chat-message
 - PascalCase: ChatMessage
 - Description: a chat message shows one chat conversation message entry and all its data, including the author avatar, author name, time, etc.
+- Purpose: Shows one message with its author, time and text.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <article>
 - CSS class: .chat-message

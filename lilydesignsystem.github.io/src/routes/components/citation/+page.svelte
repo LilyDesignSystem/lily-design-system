@@ -75,6 +75,7 @@
       <li>Component: citation</li>
       <li>PascalCase: Citation</li>
       <li>Description: a citation acknowledges the relevance of a work of another to the topic of discussion</li>
+      <li>Purpose: Credits a work the text relies on, so readers can find it.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;cite&gt;</li>
       <li>CSS class: .citation</li>

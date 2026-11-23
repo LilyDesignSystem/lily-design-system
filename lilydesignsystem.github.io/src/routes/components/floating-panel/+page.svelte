@@ -75,6 +75,7 @@
       <li>Component: floating-panel</li>
       <li>PascalCase: FloatingPanel</li>
       <li>Description: a panel that floats above page content</li>
+      <li>Purpose: Floats content over the page, such as a popover or a dropdown panel.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .floating-panel</li>

@@ -76,6 +76,7 @@
       <li>Component: international-patient-summary-section</li>
       <li>PascalCase: InternationalPatientSummarySection</li>
       <li>Description: one section of an International Patient Summary, with its LOINC code and a status that is never blank</li>
+      <li>Purpose: Holds one section of an international patient summary, such as allergies or medications.</li>
       <li>Status: experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;section&gt;</li>
       <li>Naming exception: <code>-section</code> is not in the suffix table; it renders <code>&lt;section&gt;</code>, the element its name says</li>

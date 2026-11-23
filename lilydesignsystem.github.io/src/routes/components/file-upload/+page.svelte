@@ -75,6 +75,7 @@
       <li>Component: file-upload</li>
       <li>PascalCase: FileUpload</li>
       <li>Description: a drag-and-drop area for uploading files</li>
+      <li>Purpose: Lets people choose files to send, with a button that opens the file picker.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .file-upload</li>

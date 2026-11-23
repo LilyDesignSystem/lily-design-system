@@ -5,6 +5,7 @@
 - Component: image-input
 - PascalCase: ImageInput
 - Description: a graphical submit button that displays an image <input type="image">
+- Purpose: Submits a form from a picture, reporting where it was clicked.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .image-input

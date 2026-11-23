@@ -75,6 +75,7 @@
       <li>Component: calendar-range-picker</li>
       <li>PascalCase: CalendarRangePicker</li>
       <li>Description: a picker for selecting a date range on a calendar</li>
+      <li>Purpose: Picks a start and an end date by choosing them on a month grid. Use date range for typed dates.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .calendar-range-picker</li>

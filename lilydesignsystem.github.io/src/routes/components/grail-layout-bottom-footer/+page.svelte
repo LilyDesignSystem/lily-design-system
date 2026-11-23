@@ -75,6 +75,7 @@
       <li>Component: grail-layout-bottom-footer</li>
       <li>PascalCase: GrailLayoutBottomFooter</li>
       <li>Description: grail layout bottom footer full width with &lt;footer&gt; tag</li>
+      <li>Purpose: Holds the footer region of a grail layout.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;footer&gt;</li>
       <li>CSS class: .grail-layout-bottom-footer</li>

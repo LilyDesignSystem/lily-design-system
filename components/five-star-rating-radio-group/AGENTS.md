@@ -5,6 +5,7 @@
 - Component: five-star-rating-radio-group
 - PascalCase: FiveStarRatingRadioGroup
 - Description: a fieldset radio group for selecting a 1-5 star rating
+- Purpose: Asks for a rating from one to five stars.
 - Status: experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow
 - HTML tag: <fieldset>
 - CSS class: .five-star-rating-radio-group

@@ -5,6 +5,7 @@
 - Component: calendar-table-th
 - PascalCase: CalendarTableTH
 - Description: a calendar table interactive grid header cell for managing dates, days, etc. <th>
+- Purpose: Names a column of a calendar grid, such as a weekday.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <th>
 - CSS class: .calendar-table-th

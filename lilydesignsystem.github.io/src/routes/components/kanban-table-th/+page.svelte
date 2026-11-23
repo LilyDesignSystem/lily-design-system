@@ -75,6 +75,7 @@
       <li>Component: kanban-table-th</li>
       <li>PascalCase: KanbanTableTH</li>
       <li>Description: a kanban board table interactive grid header cell for organizing items by status &lt;th&gt;</li>
+      <li>Purpose: Names one stage column of a kanban board.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;th&gt;</li>
       <li>CSS class: .kanban-table-th</li>

@@ -5,6 +5,7 @@
 - Component: measurement-unit-input
 - PascalCase: MeasurementUnitInput
 - Description: an input for selecting a measurement unit
+- Purpose: Records the unit of a measurement, such as kg or cm.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .measurement-unit-input

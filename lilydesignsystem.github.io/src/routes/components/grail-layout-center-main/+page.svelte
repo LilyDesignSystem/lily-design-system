@@ -75,6 +75,7 @@
       <li>Component: grail-layout-center-main</li>
       <li>PascalCase: GrailLayoutCenterMain</li>
       <li>Description: grail layout center main content with &lt;main&gt; tag</li>
+      <li>Purpose: Holds the main content of a grail layout.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;main&gt;</li>
       <li>CSS class: .grail-layout-center-main</li>

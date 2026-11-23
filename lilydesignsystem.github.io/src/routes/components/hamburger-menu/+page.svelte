@@ -75,6 +75,7 @@
       <li>Component: hamburger-menu</li>
       <li>PascalCase: HamburgerMenu</li>
       <li>Description: a toggle button that opens a mobile navigation menu</li>
+      <li>Purpose: Reveals or hides a navigation panel from a button, to save space on small screens.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .hamburger-menu</li>

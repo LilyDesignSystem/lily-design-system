@@ -75,6 +75,7 @@
       <li>Component: menu-bar</li>
       <li>PascalCase: MenuBar</li>
       <li>Description: a horizontal bar of menu triggers</li>
+      <li>Purpose: Offers a row of menus across the top of an application, as a desktop program does.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .menu-bar</li>

@@ -5,6 +5,7 @@
 - Component: information-callout
 - PascalCase: InformationCallout
 - Description: a callout box highlighting informational content
+- Purpose: Sets apart a note that deserves attention but is not a warning.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <aside>
 - CSS class: .information-callout

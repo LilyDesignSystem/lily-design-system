@@ -5,6 +5,7 @@
 - Component: carousel
 - PascalCase: Carousel
 - Description: a slideshow for cycling through content items
+- Purpose: Moves through a set of slides one at a time, with controls to pause and step. Use it sparingly; a list shows everything at once.
 - Status: discouraged — kept for existing users; prefer showing the content directly
 - Alternative: `card` in a `grid`, so every item is visible
 - Reason: slides past the first are often missed, and the pattern is hard to make accessible; Queensland's public design system declines to offer one

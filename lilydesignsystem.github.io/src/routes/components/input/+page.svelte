@@ -75,6 +75,7 @@
       <li>Component: input</li>
       <li>PascalCase: Input</li>
       <li>Description: a generic HTML input element</li>
+      <li>Purpose: Collects one line of free text with a label and a bound value.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .input</li>

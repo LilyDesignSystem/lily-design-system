@@ -5,6 +5,7 @@
 - Component: flex-stack
 - PascalCase: FlexStack
 - Description: a flex layout container for vertical or horizontal stacking with consistent gap
+- Purpose: Lines items up in a row or column with an even gap.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .flex-stack

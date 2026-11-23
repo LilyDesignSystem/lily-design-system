@@ -76,6 +76,7 @@
       <li>Component: emoji-character-radio-group</li>
       <li>PascalCase: EmojiCharacterRadioGroup</li>
       <li>Description: a fieldset radio group for selecting an emoji character</li>
+      <li>Purpose: Offers a set of emoji to choose one from, such as a reaction.</li>
       <li>Status: experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow</li>
       <li>HTML tag: &lt;fieldset&gt;</li>
       <li>CSS class: .emoji-character-radio-group</li>

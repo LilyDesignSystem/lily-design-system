@@ -75,6 +75,7 @@
       <li>Component: headline</li>
       <li>PascalCase: Headline</li>
       <li>Description: a page headline with heading, subtitle, and byline area</li>
+      <li>Purpose: Introduces an article with its heading, subtitle and byline.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt; containing &lt;h1&gt;</li>
       <li>CSS class: .headline</li>

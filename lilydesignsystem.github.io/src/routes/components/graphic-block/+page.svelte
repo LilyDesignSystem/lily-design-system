@@ -75,6 +75,7 @@
       <li>Component: graphic-block</li>
       <li>PascalCase: GraphicBlock</li>
       <li>Description: a wrapper for charts and graphics with title, description, notes, and ARIA description</li>
+      <li>Purpose: Wraps a chart or graphic with its title, description, notes and a text description.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;figure&gt;</li>
       <li>CSS class: .graphic-block</li>

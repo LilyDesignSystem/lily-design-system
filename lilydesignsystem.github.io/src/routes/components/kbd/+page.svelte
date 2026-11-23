@@ -75,6 +75,7 @@
       <li>Component: kbd</li>
       <li>PascalCase: Kbd</li>
       <li>Description: show keyboard shortcuts and key combinations in a styled inline element</li>
+      <li>Purpose: Shows a key or key combination, such as Ctrl+S.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;kbd&gt;</li>
       <li>CSS class: .kbd</li>

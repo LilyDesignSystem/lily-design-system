@@ -75,6 +75,7 @@
       <li>Component: calendar-table-th</li>
       <li>PascalCase: CalendarTableTH</li>
       <li>Description: a calendar table interactive grid header cell for managing dates, days, etc. &lt;th&gt;</li>
+      <li>Purpose: Names a column of a calendar grid, such as a weekday.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;th&gt;</li>
       <li>CSS class: .calendar-table-th</li>

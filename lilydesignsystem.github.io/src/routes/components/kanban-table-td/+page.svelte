@@ -75,6 +75,7 @@
       <li>Component: kanban-table-td</li>
       <li>PascalCase: KanbanTableTD</li>
       <li>Description: kanban board table interactive grid data cell for organizing items by status &lt;td&gt;</li>
+      <li>Purpose: Holds one card in a kanban column.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;td&gt;</li>
       <li>CSS class: .kanban-table-td</li>

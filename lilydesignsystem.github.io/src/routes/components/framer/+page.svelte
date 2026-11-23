@@ -75,6 +75,7 @@
       <li>Component: framer</li>
       <li>PascalCase: Framer</li>
       <li>Description: a container for framed content display with decorative border</li>
+      <li>Purpose: Puts a decorative frame round a screenshot or artwork.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .framer</li>

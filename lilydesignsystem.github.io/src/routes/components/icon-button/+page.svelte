@@ -75,6 +75,7 @@
       <li>Component: icon-button</li>
       <li>PascalCase: IconButton</li>
       <li>Description: a button containing only an icon with a required accessible label</li>
+      <li>Purpose: Runs an action from a button that shows only an icon, so it must carry an accessible name.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;button&gt;</li>
       <li>CSS class: .icon-button</li>

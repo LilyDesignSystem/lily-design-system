@@ -75,6 +75,7 @@
       <li>Component: kanban-table</li>
       <li>PascalCase: KanbanTable</li>
       <li>Description: a kanban board table interactive grid for organizing items by status &lt;table&gt;</li>
+      <li>Purpose: Moves work through stages by columns of cards, to see what is waiting, active and done.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;table&gt;</li>
       <li>CSS class: .kanban-table</li>

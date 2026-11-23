@@ -75,6 +75,7 @@
       <li>Component: mentions-input</li>
       <li>PascalCase: MentionsInput</li>
       <li>Description: a text input with at-mention autocomplete suggestions</li>
+      <li>Purpose: Lets people name others in text by typing @ and choosing from suggestions.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .mentions-input</li>

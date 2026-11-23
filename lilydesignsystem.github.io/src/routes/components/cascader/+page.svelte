@@ -75,6 +75,7 @@
       <li>Component: cascader</li>
       <li>PascalCase: Cascader</li>
       <li>Description: a multi-level dropdown for selecting a value from a hierarchy</li>
+      <li>Purpose: Picks one value from a hierarchy by choosing at each level, such as country, region, city.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .cascader</li>

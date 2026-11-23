@@ -75,6 +75,7 @@
       <li>Component: menu-group</li>
       <li>PascalCase: MenuGroup</li>
       <li>Description: a labeled section of menu items within a menu</li>
+      <li>Purpose: Labels a set of related items within a menu.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt; with role="group"</li>
       <li>CSS class: .menu-group</li>

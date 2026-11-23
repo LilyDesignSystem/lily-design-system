@@ -75,6 +75,7 @@
       <li>Component: kanban-table-head</li>
       <li>PascalCase: KanbanTableHead</li>
       <li>Description: a kanban board table interactive grid thead for organizing items by status &lt;thead&gt;</li>
+      <li>Purpose: Holds the stage headings of a kanban board.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;thead&gt;</li>
       <li>CSS class: .kanban-table-head</li>

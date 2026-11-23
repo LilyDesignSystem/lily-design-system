@@ -75,6 +75,7 @@
       <li>Component: grail-layout</li>
       <li>PascalCase: GrailLayout</li>
       <li>Description: a responsive web design structure with header, left aside, center main, right aside, footer</li>
+      <li>Purpose: Builds a page of header, footer, main and two side columns, the classic holy grail layout.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .grail-layout</li>

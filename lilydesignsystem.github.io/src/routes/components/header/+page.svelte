@@ -75,6 +75,7 @@
       <li>Component: header</li>
       <li>PascalCase: Header</li>
       <li>Description: a page or section header area</li>
+      <li>Purpose: Marks the introductory region of a page or section, with its title and navigation.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;header&gt;</li>
       <li>CSS class: .header</li>

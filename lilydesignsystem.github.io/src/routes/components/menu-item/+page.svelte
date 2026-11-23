@@ -75,6 +75,7 @@
       <li>Component: menu-item</li>
       <li>PascalCase: MenuItem</li>
       <li>Description: one item in a menu</li>
+      <li>Purpose: Runs one action in a menu.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .menu-item</li>

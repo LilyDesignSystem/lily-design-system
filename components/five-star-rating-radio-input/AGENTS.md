@@ -5,6 +5,7 @@
 - Component: five-star-rating-radio-input
 - PascalCase: FiveStarRatingRadioInput
 - Description: a radio input for one choice of a 1-5 star rating <input type="radio">
+- Purpose: Holds one star value of a five-star rating.
 - Status: experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow
 - HTML tag: <input>
 - CSS class: .five-star-rating-radio-input

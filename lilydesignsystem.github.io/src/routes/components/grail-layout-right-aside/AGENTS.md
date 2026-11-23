@@ -5,6 +5,7 @@
 - Component: grail-layout-right-aside
 - PascalCase: GrailLayoutRightAside
 - Description: grail layout right aside sidebar with <aside> tag
+- Purpose: Holds the right side column of a grail layout.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <aside>
 - CSS class: .grail-layout-right-aside

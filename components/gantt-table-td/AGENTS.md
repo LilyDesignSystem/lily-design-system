@@ -5,6 +5,7 @@
 - Component: gantt-table-td
 - PascalCase: GanttTableTD
 - Description: a Gantt chart table interactive grid data cell for planning schedule visualization <td>
+- Purpose: Holds one time period of one task in a Gantt table.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <td>
 - CSS class: .gantt-table-td

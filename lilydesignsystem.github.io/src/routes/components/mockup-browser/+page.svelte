@@ -75,6 +75,7 @@
       <li>Component: mockup-browser</li>
       <li>PascalCase: MockupBrowser</li>
       <li>Description: a box area that looks like a web browser</li>
+      <li>Purpose: Frames content inside a drawing of a browser window, for documentation and demos.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .mockup-browser</li>

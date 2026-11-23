@@ -75,6 +75,7 @@
       <li>Component: calendar-table-head</li>
       <li>PascalCase: CalendarTableHead</li>
       <li>Description: a calendar table interactive grid thead for managing dates, days, etc. &lt;thead&gt;</li>
+      <li>Purpose: Holds the weekday headings of a calendar grid.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;thead&gt;</li>
       <li>CSS class: .calendar-table-head</li>

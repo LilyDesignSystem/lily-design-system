@@ -5,6 +5,7 @@
 - Component: file-manager
 - PascalCase: FileManager
 - Description: a file browser for navigating and managing files
+- Purpose: Lets people browse, organise and manage files and folders.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .file-manager

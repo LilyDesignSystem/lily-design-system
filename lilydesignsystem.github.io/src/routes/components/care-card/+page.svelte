@@ -76,6 +76,7 @@
       <li>Component: care-card</li>
       <li>PascalCase: CareCard</li>
       <li>Description: a medical care instruction card with urgency levels</li>
+      <li>Purpose: Tells a patient how urgently to act on a health concern, with the level stated in words as well as colour.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .care-card</li>

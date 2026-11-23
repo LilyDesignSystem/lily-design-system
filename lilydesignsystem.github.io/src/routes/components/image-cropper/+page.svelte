@@ -75,6 +75,7 @@
       <li>Component: image-cropper</li>
       <li>PascalCase: ImageCropper</li>
       <li>Description: a container for cropping and resizing an image to a selected region</li>
+      <li>Purpose: Lets people choose the part of an image to keep.</li>
       <li>Status: experimental — recent catalog addition with the least accumulated depth; contract may still move</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .image-cropper</li>

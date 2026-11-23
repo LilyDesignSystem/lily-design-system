@@ -75,6 +75,7 @@
       <li>Component: calendar-table-td</li>
       <li>PascalCase: CalendarTableTD</li>
       <li>Description: a calendar table interactive grid data cell for managing dates, days, etc. &lt;td&gt;</li>
+      <li>Purpose: Holds one day of a calendar grid, and can be marked selected.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;td&gt;</li>
       <li>CSS class: .calendar-table-td</li>
