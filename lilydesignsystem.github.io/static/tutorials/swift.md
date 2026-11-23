@@ -12,7 +12,7 @@ Lily's semantics, accessibility contracts and worldwide rules for SwiftUI on iPh
 
 A small contact form — a labelled field with a hint and an error, an error summary, a warning — first plain, then themed, in about 15 minutes.
 
-**Early and unreleased.** The Swift package is not on a registry yet, so you add it from a copy of the monorepo. Its components are a first slice, not the whole catalog: see the list in step 2.
+**Early.** Version 0.1.0 is a first slice, not the whole catalog: see the list in step 2. It is published as a git tag, so add it by URL as in step 1.
 
 ## Before you start
 
@@ -20,16 +20,12 @@ You need Xcode 16 or later, Swift 6 language mode, and an app that targets iOS 1
 
 ## Step 1 — Add the package
 
-```
-git clone https://github.com/LilyDesignSystem/lily-design-system
-```
-
-In Xcode choose **File ▸ Add Package Dependencies ▸ Add Local…** and pick the folder `lily-design-system/lily-design-system-swift`. Or, in a Swift package:
+In Xcode choose **File ▸ Add Package Dependencies…** and enter the repository URL, or, in a Swift package:
 
 ```
 // Package.swift
 dependencies: [
-    .package(path: "../lily-design-system/lily-design-system-swift"),
+    .package(url: "https://github.com/LilyDesignSystem/lily-design-system-swift.git", from: "0.1.0"),
 ],
 targets: [
     .target(name: "App", dependencies: [
@@ -38,6 +34,8 @@ targets: [
     ]),
 ],
 ```
+
+The repository is a read-only export of the monorepo's `lily-design-system-swift` folder; issues and pull requests go to the monorepo.
 
 The products are `LilyCore` (pure Swift: search folding, middle truncation, clinical formatting), `LilyUI` (the SwiftUI components), `LilyThemes` (generated tokens and the themed styles) and `LilyUIExamples` (a worked example of every component).
 

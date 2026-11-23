@@ -378,8 +378,9 @@ test_locale_directories_have_a_region() (
 # (docs/superpowers holds dated plans, kept as written).
 test_no_subtree_mirrors() (
     cd "$top" || return
+    # lily-design-system-swift is the one export repository besides the docs site (spec/monorepo-github-pages, P44-T6).
     links="$(git grep -nIiE '(github\.com|codeberg\.org|gitlab\.com)[/:]lilydesignsystem/lily-design-system-[a-z]' \
-        -- . ':!docs/superpowers' ':!bin/test' || true)"
+        -- . ':!docs/superpowers' ':!bin/test' | grep -viE 'lilydesignsystem/lily-design-system-swift(\.git|[^-a-z]|$)' || true)"
     test -z "$links" || err "links to a deleted subtree mirror (link the monorepo directory instead):
 $links"
     files="$(git ls-files '*.git-subtree-push' 'bin/git-subtree-push')"

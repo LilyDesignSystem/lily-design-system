@@ -143,6 +143,16 @@ up-to-date` on all three push URLs). Since 2026-10-10 it is the
 - [bin/publish-github-pages](../../bin/publish-github-pages)
 - [Makefile](../../Makefile)
 
+## A second export: the Swift package (2026-11-23)
+
+The docs site is no longer the only subtree. SwiftPM resolves a package from a repository root, where `Package.swift` must sit,
+and cloning the monorepo for one package is not acceptable, so `lily-design-system-swift/` is also split out
+(`git subtree split --prefix=lily-design-system-swift`) and pushed to a read-only repository,
+`LilyDesignSystem/lily-design-system-swift`. This reverses the 2026-10-10 "no mirrors" decision for this one subproject, for a
+reason SwiftPM imposes. `make publish-swift TAG=0.1.0` (`bin/publish-swift`) pushes `main` and a semantic-version tag that
+is never moved; a real run needs a green `bin/ci --full` receipt for HEAD. Maven Central, by contrast, does not care where
+the Kotlin source lives, so the Kotlin libraries publish straight from the monorepo (tasks.md P45-T6).
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.

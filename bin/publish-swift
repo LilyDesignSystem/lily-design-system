@@ -1,0 +1,53 @@
+#!/bin/sh
+# Publish the Swift package, lily-design-system-swift/, to its read-only export repository and tag the release.
+# Invoked by `make publish-swift`. SwiftPM needs Package.swift at a repository root, so a package cannot be resolved from a
+# subdirectory of the monorepo; the export repository exists only for that (spec/apple-swift, spec/monorepo-github-pages, tasks.md P44-T6).
+#
+#   bin/publish-swift --dry-run --tag 0.1.0   # split the subtree and report the commit; push nothing
+#   bin/publish-swift --tag 0.1.0             # push main and the tag to the `swift` remote
+#
+# A real publish outside CI needs a clean, green `bin/ci --full` receipt for HEAD, like bin/publish-helpers.
+set -eu
+
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$ROOT"
+PREFIX="lily-design-system-swift"
+REMOTE="swift"
+DRY=""
+TAG=""
+prev=""
+for arg in "$@"; do
+  case "$prev" in
+    --tag) TAG="$arg"; prev=""; continue ;;
+  esac
+  case "$arg" in
+    --dry-run) DRY="1" ;;
+    --tag) prev="--tag" ;;
+    --tag=*) TAG="${arg#--tag=}" ;;
+    *) echo "usage: bin/publish-swift [--dry-run] --tag X.Y.Z" >&2; exit 2 ;;
+  esac
+done
+if ! printf '%s' "$TAG" | LC_ALL=C grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$'; then
+  echo "--tag takes a semantic version such as 0.1.0 (SwiftPM reads tags as versions, with no leading v): '$TAG'" >&2
+  exit 2
+fi
+git remote get-url "$REMOTE" >/dev/null 2>&1 || { echo "no '$REMOTE' remote; add it first (see spec/monorepo-github-pages)" >&2; exit 1; }
+[ -f "$PREFIX/Package.swift" ] || { echo "$PREFIX/Package.swift is missing" >&2; exit 1; }
+
+if [ -z "$DRY" ] && [ -z "${CI:-}" ]; then
+  "$ROOT/bin/ci" --verify-receipt || exit 1
+fi
+
+# The subtree's commit, the same one every time for the same history, so a retry cannot move a published tag.
+SHA="$(git subtree split --prefix="$PREFIX")"
+echo "split $PREFIX at HEAD $(git rev-parse --short HEAD): $SHA"
+if git ls-remote --exit-code --tags "$REMOTE" "refs/tags/$TAG" >/dev/null 2>&1; then
+  THERE="$(git ls-remote --tags "$REMOTE" "refs/tags/$TAG" | cut -f1)"
+  if [ "$THERE" = "$SHA" ]; then echo "tag $TAG is already published at this commit"; else
+    echo "tag $TAG already exists on $REMOTE at $THERE, not $SHA: a published version is never moved; choose a new --tag" >&2; exit 1
+  fi
+fi
+if [ -n "$DRY" ]; then echo "(dry run: nothing pushed)"; exit 0; fi
+git push "$REMOTE" "${SHA}:refs/heads/main"
+git push "$REMOTE" "${SHA}:refs/tags/${TAG}"
+echo "published $PREFIX $TAG ($SHA) to $REMOTE"

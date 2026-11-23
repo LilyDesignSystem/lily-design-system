@@ -69,6 +69,13 @@ publish-github-pages:
 	bin/publish-github-pages
 
 ##
+# make publish-swift TAG=0.1.0: Publish the Swift package to its read-only export repository and tag it.
+##
+.PHONY: publish-swift
+publish-swift:
+	bin/publish-swift --tag $(TAG)
+
+##
 # make test: Test everything.
 ##
 .PHONY: test

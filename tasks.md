@@ -4480,7 +4480,7 @@ T3, then T4 and T5 together, then T6 to T8.
       and link tint below 4.5:1 (now the generated `link` token); in the app: code samples as selectable text (one line high).
       Exclusions are in `isIgnored` with reasons (system search field and bars, the scroll-edge effect). Still to do: UI tests of
       each component's accessibility tree, the Dynamic Type clipping sweep, composed screens.)_
-- [ ] **P44-T6 Publish through an export repository.** `make publish-swift` pushes the package subtree to a read-only
+- [x] **P44-T6 Publish through an export repository.** Done 2026-11-23: `bin/publish-swift` and `make publish-swift TAG=…` (subtree split, a never-moved tag, the receipt gate), the `LilyDesignSystem/lily-design-system-swift` repository and tag 0.1.0; a fresh SwiftPM project resolved the tag and built. The GitHub export only: the Codeberg and GitLab mirrors need repositories created there. Original: `make publish-swift` pushes the package subtree to a read-only
       `lily-design-system-swift` repository and tags it; record why in [monorepo-github-pages](spec/monorepo-github-pages/index.md)
       (SwiftPM needs `Package.swift` at a repository root). Ask before the first push.
       Verify: a fresh Xcode project adds the package from the tag and builds.

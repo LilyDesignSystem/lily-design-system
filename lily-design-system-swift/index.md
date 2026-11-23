@@ -1,7 +1,7 @@
 # Lily Design System™: Swift
 
 A Swift package that brings Lily's semantics, accessibility contracts and worldwide rules to SwiftUI apps on iPhone and iPad.
-Research, decisions and plan: [spec/apple-swift](../spec/apple-swift/index.md). Status: **early, unreleased** (tasks.md Phase 44).
+Research, decisions and plan: [spec/apple-swift](../spec/apple-swift/index.md). Status: **early**; version 0.1.0 is a git tag on the read-only export repository <https://github.com/LilyDesignSystem/lily-design-system-swift> (tasks.md Phase 44).
 
 ## Products
 
@@ -15,6 +15,14 @@ Research, decisions and plan: [spec/apple-swift](../spec/apple-swift/index.md). 
 
 Planned: `LilyIdentifiers` (the national identifier inputs and views, after their validators move to `shared/`, P43-T4). Requirements: Swift 6 language mode, iOS 18 / iPadOS 18 or later (macOS 15 for
 tests), no third-party runtime dependency.
+
+## Install
+
+```swift
+.package(url: "https://github.com/LilyDesignSystem/lily-design-system-swift.git", from: "0.1.0"),
+```
+
+The export repository is read-only: it is the `lily-design-system-swift/` directory of the monorepo, pushed by `make publish-swift`. Send issues and pull requests to the monorepo.
 
 ## Use
 
