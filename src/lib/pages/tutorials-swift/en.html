@@ -20,9 +20,8 @@
     </p>
     <div class="callout">
         <p style="margin: 0;">
-            <strong>Early and unreleased.</strong> The Swift package is not on a registry yet, so you
-            add it from a copy of the monorepo. Its components are a first slice, not the whole catalog:
-            see the list in step 2.
+            <strong>Early.</strong> Version 0.1.0 is a first slice, not the whole catalog: see the list
+            in step 2. It is published as a git tag, so add it by URL as in step 1.
         </p>
     </div>
 
@@ -33,19 +32,15 @@
     </p>
 
     <h2>Step 1 — Add the package</h2>
-
-    <pre tabindex="0"><code
-            >git clone https://github.com/LilyDesignSystem/lily-design-system</code
-        ></pre>
     <p>
-        In Xcode choose <strong>File ▸ Add Package Dependencies ▸ Add Local…</strong> and pick the
-        folder <code>lily-design-system/lily-design-system-swift</code>. Or, in a Swift package:
+        In Xcode choose <strong>File ▸ Add Package Dependencies…</strong> and enter the repository URL,
+        or, in a Swift package:
     </p>
 
     <pre tabindex="0"><code
             >// Package.swift
 dependencies: [
-    .package(path: "../lily-design-system/lily-design-system-swift"),
+    .package(url: "https://github.com/LilyDesignSystem/lily-design-system-swift.git", from: "0.1.0"),
 ],
 targets: [
     .target(name: "App", dependencies: [
@@ -54,6 +49,10 @@ targets: [
     ]),
 ],</code
         ></pre>
+    <p>
+        The repository is a read-only export of the monorepo's <code>lily-design-system-swift</code> folder;
+        issues and pull requests go to the monorepo.
+    </p>
     <p>
         The products are <code>LilyCore</code> (pure Swift: search folding, middle truncation,
         clinical formatting), <code>LilyUI</code> (the SwiftUI components),
