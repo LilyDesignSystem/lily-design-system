@@ -62,8 +62,15 @@ function tagFor(path: string): string | null {
     return tag;
 }
 
+// An element that refuses to render without an attribute (the IPS section throws for an empty key) gets one here.
+const REQUIRED: Record<string, string> = {
+    "lily-international-patient-summary-section": 'section="allergies" heading="Allergies"',
+    // The summary adds any required section it is not given, and a missing one needs its heading.
+    "lily-international-patient-summary": `required-headings='{"medications":"Medications","allergies":"Allergies","problems":"Problems"}'`,
+};
+
 function mount(tag: string, attributes: string): HTMLFormElement {
-    document.body.innerHTML = `<form><${tag} label="x" ${attributes}></${tag}></form>`;
+    document.body.innerHTML = `<form><${tag} label="x" ${attributes} ${REQUIRED[tag] ?? ""}></${tag}></form>`;
     return document.querySelector("form")!;
 }
 

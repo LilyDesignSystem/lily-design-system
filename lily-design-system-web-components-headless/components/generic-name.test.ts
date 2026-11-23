@@ -13,6 +13,13 @@ const allow: string[] = allowList;
 
 const seen: Seen = {};
 
+// An element that refuses to render without an attribute (the IPS section throws for an empty key) gets one here.
+const REQUIRED: Record<string, string> = {
+    "lily-international-patient-summary-section": 'section="allergies" heading="Allergies"',
+    // The summary adds any required section it is not given, and a missing one needs its heading.
+    "lily-international-patient-summary": `required-headings='{"medications":"Medications","allergies":"Allergies","problems":"Problems"}'`,
+};
+
 test("no component names a generic root", () => {
     vi.spyOn(console, "error").mockImplementation(() => {});
     vi.spyOn(console, "warn").mockImplementation(() => {});
@@ -27,7 +34,13 @@ test("no component names a generic root", () => {
         try {
             if (!customElements.get(tag)) customElements.define(tag, Element);
             document.body.innerHTML =
-                "<" + tag + ' label="Example" value="1" alt="A" src="/a"></' + tag + ">";
+                "<" +
+                tag +
+                ' label="Example" value="1" alt="A" src="/a" ' +
+                (REQUIRED[tag] ?? "") +
+                "></" +
+                tag +
+                ">";
             const host = document.body.firstElementChild as HTMLElement;
             // A custom element has no role of its own, so a named host is as generic as a named <div>.
             // An upgrade-in-place component has replaced its host with a native element such as <li>, which does.

@@ -102,3 +102,6 @@ lily-design-system-nunjucks-headless/components/navigation-menu/overflow-navigat
 # StrykerJS's sandbox and report (bin/mutation-test)
 shared/.stryker-tmp/
 shared/reports/
+
+# SwiftPM build output
+**/.build
