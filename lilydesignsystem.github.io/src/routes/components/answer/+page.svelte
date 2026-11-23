@@ -75,6 +75,7 @@
       <li>Component: answer</li>
       <li>PascalCase: Answer</li>
       <li>Description: an answer is anything that responds to a question, request, action, etc.</li>
+      <li>Purpose: Marks the text that responds to a question, such as an FAQ reply, a quiz answer or a forum reply.</li>
       <li>Status: experimental — recent catalog addition with the least accumulated depth; contract may still move</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .answer</li>

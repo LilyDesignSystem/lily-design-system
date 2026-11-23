@@ -75,6 +75,7 @@
       <li>Component: angle-slider-range-input</li>
       <li>PascalCase: AngleSliderRangeInput</li>
       <li>Description: a range input for selecting an angle in degrees</li>
+      <li>Purpose: Picks an angle in degrees by dragging or by keyboard. Use a number input when the exact angle must be typed.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .angle-slider-range-input</li>

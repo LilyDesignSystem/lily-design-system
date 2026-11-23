@@ -75,6 +75,7 @@
       <li>Component: breadcrumb-link</li>
       <li>PascalCase: BreadcrumbLink</li>
       <li>Description: one breadcrumb link in the trail</li>
+      <li>Purpose: Links to one step on the path from the home page to the current page.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;a&gt;</li>
       <li>CSS class: .breadcrumb-link</li>

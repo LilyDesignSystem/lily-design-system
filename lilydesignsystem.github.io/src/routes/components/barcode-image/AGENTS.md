@@ -5,6 +5,7 @@
 - Component: barcode-image
 - PascalCase: BarcodeImage
 - Description: a visual machine-readable symbolic code image, such as for a scanner
+- Purpose: Shows a machine-readable barcode that a scanner reads, with a text alternative for people.
 - Status: experimental — recent catalog addition with the least accumulated depth; contract may still move
 - HTML tag: <img>
 - CSS class: .barcode-image

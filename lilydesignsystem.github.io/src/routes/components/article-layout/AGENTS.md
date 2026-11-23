@@ -5,6 +5,7 @@
 - Component: article-layout
 - PascalCase: ArticleLayout
 - Description: a top-level article wrapper that sets CSS custom properties for content column widths
+- Purpose: Sets the column widths for an article, so text, wide figures and full-bleed media line up.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <article>
 - CSS class: .article-layout

@@ -75,6 +75,7 @@
       <li>Component: bar-chart</li>
       <li>PascalCase: BarChart</li>
       <li>Description: a horizontal bar chart visualization for displaying data</li>
+      <li>Purpose: Compares one measured value across named categories, with long category names laid out horizontally.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;figure&gt;</li>
       <li>CSS class: .bar-chart</li>

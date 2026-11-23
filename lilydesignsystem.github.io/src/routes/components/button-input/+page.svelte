@@ -75,6 +75,7 @@
       <li>Component: button-input</li>
       <li>PascalCase: ButtonInput</li>
       <li>Description: an input element of type button for form actions &lt;input type="button"&gt;</li>
+      <li>Purpose: Submits, resets or runs a script from a form, as a native input button. Use a button when it needs markup inside.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .button-input</li>

@@ -75,6 +75,7 @@
       <li>Component: blockquote</li>
       <li>PascalCase: Blockquote</li>
       <li>Description: a block-level quotation with optional source citation</li>
+      <li>Purpose: Marks a quotation taken from another source, with an optional link to where it came from.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;blockquote&gt;</li>
       <li>CSS class: .blockquote</li>

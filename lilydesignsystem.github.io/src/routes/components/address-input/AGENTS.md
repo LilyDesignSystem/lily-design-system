@@ -5,6 +5,7 @@
 - Component: address-input
 - PascalCase: AddressInput
 - Description: an input for searching or manually entering an address
+- Purpose: Collects a postal address as one named group of fields, so autofill and screen readers treat it as one answer.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div> with role="group"
 - CSS class: .address-input

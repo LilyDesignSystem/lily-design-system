@@ -5,6 +5,7 @@
 - Component: area-chart
 - PascalCase: AreaChart
 - Description: an area chart visualization showing sized components in continuous data
+- Purpose: Shows how a quantity changes over time, with the filled area emphasising its size. Use a line chart to compare several series.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <figure>
 - CSS class: .area-chart

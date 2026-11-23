@@ -75,6 +75,7 @@
       <li>Component: back-link</li>
       <li>PascalCase: BackLink</li>
       <li>Description: a navigation link to return to a previous page</li>
+      <li>Purpose: Takes people back to the page or step they came from. Use breadcrumbs to show the whole path.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;a&gt;</li>
       <li>CSS class: .back-link</li>

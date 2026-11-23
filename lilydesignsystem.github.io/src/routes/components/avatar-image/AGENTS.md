@@ -5,6 +5,7 @@
 - Component: avatar-image
 - PascalCase: AvatarImage
 - Description: an avatar indicator inside image such as a user photo
+- Purpose: Shows a person's photo inside an avatar, with alternative text.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <img>
 - CSS class: .avatar-image

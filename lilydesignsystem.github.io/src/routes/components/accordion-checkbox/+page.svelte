@@ -75,6 +75,7 @@
       <li>Component: accordion-checkbox</li>
       <li>PascalCase: AccordionCheckbox</li>
       <li>Description: a checkbox option that reveals an accordion panel when checked</li>
+      <li>Purpose: Lets people tick options from a list while each option reveals its own related fields or help. Use a plain checkbox group when nothing needs revealing.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .accordion-checkbox</li>

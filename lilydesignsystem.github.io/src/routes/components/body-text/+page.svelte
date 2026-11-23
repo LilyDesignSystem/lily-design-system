@@ -75,6 +75,7 @@
       <li>Component: body-text</li>
       <li>PascalCase: BodyText</li>
       <li>Description: a rendered text block within a content width container</li>
+      <li>Purpose: Wraps running text in a content width, so line length stays readable.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .body-text</li>

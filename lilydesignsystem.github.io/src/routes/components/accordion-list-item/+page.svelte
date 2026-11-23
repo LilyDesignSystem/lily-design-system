@@ -76,6 +76,7 @@
       <li>Component: accordion-list-item</li>
       <li>PascalCase: AccordionListItem</li>
       <li>Description: an accordion list item component</li>
+      <li>Purpose: Holds one expandable section of an accordion, so a reader can open only what they need.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;li&gt;</li>
       <li>CSS class: .accordion-list-item</li>

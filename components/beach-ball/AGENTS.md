@@ -5,6 +5,7 @@
 - Component: beach-ball
 - PascalCase: BeachBall
 - Description: a decorative animated beach ball element
+- Purpose: Tells people the system is busy and they should wait. Use a progress bar when you know how far along it is.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .beach-ball

@@ -75,6 +75,7 @@
       <li>Component: avatar-text</li>
       <li>PascalCase: AvatarText</li>
       <li>Description: an avatar indicator inner text such as a user name</li>
+      <li>Purpose: Shows a person's initials inside an avatar when there is no photo.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .avatar-text</li>

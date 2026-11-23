@@ -75,6 +75,7 @@
       <li>Component: addressograph-box</li>
       <li>PascalCase: AddressographBox</li>
       <li>Description: a box that shows a person's identification details, such as name, tracking information, and salient notations</li>
+      <li>Purpose: Shows the identifying details of the person a record belongs to, in the box clinicians expect to see at the top of a chart.</li>
       <li>Status: experimental — recent catalog addition with the least accumulated depth; contract may still move</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .addressograph-box</li>

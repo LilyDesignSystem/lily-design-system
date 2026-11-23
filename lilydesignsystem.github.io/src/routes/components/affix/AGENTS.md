@@ -5,6 +5,7 @@
 - Component: affix
 - PascalCase: Affix
 - Description: a wrapper that pins its content to a viewport position while the page scrolls
+- Purpose: Keeps a block, such as a table of contents, in view while the rest of the page scrolls.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .affix

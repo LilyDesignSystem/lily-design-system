@@ -75,6 +75,7 @@
       <li>Component: action-bar-button</li>
       <li>PascalCase: ActionBarButton</li>
       <li>Description: one action button inside an action bar</li>
+      <li>Purpose: Runs one bulk action on the current selection, such as delete or move.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;button&gt;</li>
       <li>CSS class: .action-bar-button</li>

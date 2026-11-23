@@ -75,6 +75,7 @@
       <li>Component: avatar-image</li>
       <li>PascalCase: AvatarImage</li>
       <li>Description: an avatar indicator inside image such as a user photo</li>
+      <li>Purpose: Shows a person's photo inside an avatar, with alternative text.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;img&gt;</li>
       <li>CSS class: .avatar-image</li>

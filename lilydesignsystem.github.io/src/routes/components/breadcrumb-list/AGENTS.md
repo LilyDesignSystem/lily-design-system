@@ -5,6 +5,7 @@
 - Component: breadcrumb-list
 - PascalCase: BreadcrumbList
 - Description: an ordered list of breadcrumb list items
+- Purpose: Lists the steps from the home page to the current page in order.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <ol>
 - CSS class: .breadcrumb-list

@@ -75,6 +75,7 @@
       <li>Component: barcode-image</li>
       <li>PascalCase: BarcodeImage</li>
       <li>Description: a visual machine-readable symbolic code image, such as for a scanner</li>
+      <li>Purpose: Shows a machine-readable barcode that a scanner reads, with a text alternative for people.</li>
       <li>Status: experimental — recent catalog addition with the least accumulated depth; contract may still move</li>
       <li>HTML tag: &lt;img&gt;</li>
       <li>CSS class: .barcode-image</li>

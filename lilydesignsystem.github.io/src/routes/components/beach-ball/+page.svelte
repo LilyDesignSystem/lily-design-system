@@ -75,6 +75,7 @@
       <li>Component: beach-ball</li>
       <li>PascalCase: BeachBall</li>
       <li>Description: a decorative animated beach ball element</li>
+      <li>Purpose: Tells people the system is busy and they should wait. Use a progress bar when you know how far along it is.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .beach-ball</li>

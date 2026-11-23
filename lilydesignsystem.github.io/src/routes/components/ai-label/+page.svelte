@@ -75,6 +75,7 @@
       <li>Component: ai-label</li>
       <li>PascalCase: AiLabel</li>
       <li>Description: an indicator of AI instances that is a pathway to AI explainability</li>
+      <li>Purpose: Tells people that content was made by AI and points to how it was made. Use it on generated content, never on human-written content.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .ai-label</li>

@@ -5,6 +5,7 @@
 - Component: button-input
 - PascalCase: ButtonInput
 - Description: an input element of type button for form actions <input type="button">
+- Purpose: Submits, resets or runs a script from a form, as a native input button. Use a button when it needs markup inside.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .button-input

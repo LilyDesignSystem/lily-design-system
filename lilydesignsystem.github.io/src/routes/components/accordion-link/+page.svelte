@@ -75,6 +75,7 @@
       <li>Component: accordion-link</li>
       <li>PascalCase: AccordionLink</li>
       <li>Description: an accordion link</li>
+      <li>Purpose: Names one section of an accordion as a link to its own page, so the section can be bookmarked and shared.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;a&gt;</li>
       <li>CSS class: .accordion-link</li>

@@ -75,6 +75,7 @@
       <li>Component: article-layout</li>
       <li>PascalCase: ArticleLayout</li>
       <li>Description: a top-level article wrapper that sets CSS custom properties for content column widths</li>
+      <li>Purpose: Sets the column widths for an article, so text, wide figures and full-bleed media line up.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;article&gt;</li>
       <li>CSS class: .article-layout</li>

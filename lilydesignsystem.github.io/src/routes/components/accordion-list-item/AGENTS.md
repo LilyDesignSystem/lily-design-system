@@ -5,6 +5,7 @@
 - Component: accordion-list-item
 - PascalCase: AccordionListItem
 - Description: an accordion list item component
+- Purpose: Holds one expandable section of an accordion, so a reader can open only what they need.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <li>
 - CSS class: .accordion-list-item

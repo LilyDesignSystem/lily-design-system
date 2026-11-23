@@ -5,6 +5,7 @@
 - Component: accordion-list
 - PascalCase: AccordionList
 - Description: an accordion ordered list of list item components
+- Purpose: Groups the sections of an accordion into one ordered list, so a screen reader announces how many sections there are.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <ol>
 - CSS class: .accordion-list

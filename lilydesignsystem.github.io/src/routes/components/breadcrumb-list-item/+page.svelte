@@ -75,6 +75,7 @@
       <li>Component: breadcrumb-list-item</li>
       <li>PascalCase: BreadcrumbListItem</li>
       <li>Description: one breadcrumb list item in the trail</li>
+      <li>Purpose: Holds one step of a breadcrumb trail, in its place in the list.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;li&gt;</li>
       <li>CSS class: .breadcrumb-list-item</li>

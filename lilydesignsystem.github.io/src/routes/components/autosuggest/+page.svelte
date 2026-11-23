@@ -75,6 +75,7 @@
       <li>Component: autosuggest</li>
       <li>PascalCase: Autosuggest</li>
       <li>Description: a text input that proposes matching options as users type</li>
+      <li>Purpose: Offers matching options as someone types, so they find an item in a long list without browsing it. Use a select for a short list.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks (Nunjucks renders the markup; opening and the keys are the consumer's script) with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .autosuggest</li>

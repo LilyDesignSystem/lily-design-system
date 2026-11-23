@@ -5,6 +5,7 @@
 - Component: body-text
 - PascalCase: BodyText
 - Description: a rendered text block within a content width container
+- Purpose: Wraps running text in a content width, so line length stays readable.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .body-text

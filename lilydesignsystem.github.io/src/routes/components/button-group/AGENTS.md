@@ -5,6 +5,7 @@
 - Component: button-group
 - PascalCase: ButtonGroup
 - Description: a wrapper that groups related buttons together
+- Purpose: Keeps related buttons together, such as a primary action and its alternatives, so they read as a set.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .button-group

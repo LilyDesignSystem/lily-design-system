@@ -75,6 +75,7 @@
       <li>Component: action-bar</li>
       <li>PascalCase: ActionBar</li>
       <li>Description: a contextual action bar that appears when items are selected, showing the selection count and bulk action buttons</li>
+      <li>Purpose: Shows what can be done to the items a person has selected, and how many are selected. Use a toolbar for actions that do not depend on a selection.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt; with role="toolbar"</li>
       <li>CSS class: .action-bar</li>

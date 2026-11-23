@@ -5,6 +5,7 @@
 - Component: avatar-group
 - PascalCase: AvatarGroup
 - Description: a group of avatar components
+- Purpose: Shows several people at once as a stack of avatars, with a count of the rest.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .avatar-group

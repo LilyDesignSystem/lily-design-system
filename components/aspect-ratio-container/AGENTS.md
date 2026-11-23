@@ -5,6 +5,7 @@
 - Component: aspect-ratio-container
 - PascalCase: AspectRatioContainer
 - Description: a container that maintains a fixed aspect ratio
+- Purpose: Reserves a box of fixed proportions for an image, video or map, so the page does not jump as it loads.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .aspect-ratio-container

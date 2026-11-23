@@ -75,6 +75,7 @@
       <li>Component: avatar-group</li>
       <li>PascalCase: AvatarGroup</li>
       <li>Description: a group of avatar components</li>
+      <li>Purpose: Shows several people at once as a stack of avatars, with a count of the rest.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .avatar-group</li>

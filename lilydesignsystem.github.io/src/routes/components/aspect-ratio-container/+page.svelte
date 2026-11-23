@@ -75,6 +75,7 @@
       <li>Component: aspect-ratio-container</li>
       <li>PascalCase: AspectRatioContainer</li>
       <li>Description: a container that maintains a fixed aspect ratio</li>
+      <li>Purpose: Reserves a box of fixed proportions for an image, video or map, so the page does not jump as it loads.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .aspect-ratio-container</li>

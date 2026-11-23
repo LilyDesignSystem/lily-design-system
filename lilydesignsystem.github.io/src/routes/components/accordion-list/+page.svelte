@@ -76,6 +76,7 @@
       <li>Component: accordion-list</li>
       <li>PascalCase: AccordionList</li>
       <li>Description: an accordion ordered list of list item components</li>
+      <li>Purpose: Groups the sections of an accordion into one ordered list, so a screen reader announces how many sections there are.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;ol&gt;</li>
       <li>CSS class: .accordion-list</li>

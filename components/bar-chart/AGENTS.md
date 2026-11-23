@@ -5,6 +5,7 @@
 - Component: bar-chart
 - PascalCase: BarChart
 - Description: a horizontal bar chart visualization for displaying data
+- Purpose: Compares one measured value across named categories, with long category names laid out horizontally.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <figure>
 - CSS class: .bar-chart

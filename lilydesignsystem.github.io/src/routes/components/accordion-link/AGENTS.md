@@ -5,6 +5,7 @@
 - Component: accordion-link
 - PascalCase: AccordionLink
 - Description: an accordion link
+- Purpose: Names one section of an accordion as a link to its own page, so the section can be bookmarked and shared.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <a>
 - CSS class: .accordion-link

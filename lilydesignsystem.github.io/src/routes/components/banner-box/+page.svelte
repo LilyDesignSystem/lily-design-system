@@ -75,6 +75,7 @@
       <li>Component: banner-box</li>
       <li>PascalCase: BannerBox</li>
       <li>Description: a banner box that is inside a banner component, using flexbox horizontal</li>
+      <li>Purpose: Lays out the contents of a banner, such as an icon, a message and an action, in one row.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .banner-box</li>
