@@ -22,6 +22,11 @@
           "description": "The words Lily uses for its own parts, one sentence each, the file that defines each, and the words not to use."
         },
         {
+          "title": "docs/building-your-design-system.md",
+          "url": "docs/building-your-design-system.md",
+          "description": "How to build your own design system on Lily: purpose and principles, an inventory against the catalog, compositions, a theme and brand overlay, names, the three dials and where the room outside Lily is."
+        },
+        {
           "title": "AGENTS.md",
           "url": "AGENTS.md",
           "description": "Binding design-principle rules; loads every file under `AGENTS/`."

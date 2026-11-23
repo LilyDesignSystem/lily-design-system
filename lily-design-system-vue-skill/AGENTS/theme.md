@@ -4,7 +4,7 @@ Themes live entirely in the example subprojects' CSS and the optional `ThemeProv
 
 ### Reference palette (default examples)
 
-The example apps default to an NHS-aligned palette, one reference among the 63 themes (public-sector systems from several countries plus general-purpose ones); teams can swap any value via CSS custom properties without touching component code.
+The example apps default to an NHS-aligned palette, one reference among the 65 themes (public-sector systems from several countries plus general-purpose ones); teams can swap any value via CSS custom properties without touching component code.
 
 - primary `#2563eb`
 - NHS blue `#005eb8`
@@ -113,7 +113,7 @@ These all live in example-app CSS and consume the theme CSS custom properties. T
 
 ### Reference theme stylesheets
 
-The root [themes/](../themes) directory ships 63 standalone theme stylesheets targeting the Lily class hooks — NHS England/Scotland/Wales (patient + practitioner variants), GOV.UK GDS, USWDS, the GC Design System (Canada), SGDS (Singapore), the Digital Agency (Japan), gov.br (Brazil), ECL (European Commission), AgDS (Australia), Adobe Spectrum, Mozilla Protocol, Ant Design, Atlassian, Excel, Fluent, GitHub Primer, IBM Carbon, Linear, Notion, Salesforce, SAP Fiori, Vercel, and general-purpose light/dark themes. Selectors use `:where(...)` so consumer overrides win. The `theme-picker` helper (see [helpers.md](helpers.md)) loads them at runtime by swapping a managed `<link>` href and setting `data-theme` on the document root.
+The root [themes/](../themes) directory ships 65 standalone theme stylesheets targeting the Lily class hooks — NHS England/Scotland/Wales (patient + practitioner variants), GOV.UK GDS, USWDS, the GC Design System (Canada), SGDS (Singapore), the Digital Agency (Japan), gov.br (Brazil), ECL (European Commission), AgDS (Australia), Adobe Spectrum, Mozilla Protocol, Ant Design, Atlassian, Excel, Fluent, GitHub Primer, IBM Carbon, Linear, Notion, Salesforce, SAP Fiori, Vercel, and general-purpose light/dark themes. Selectors use `:where(...)` so consumer overrides win. The `theme-picker` helper (see [helpers.md](helpers.md)) loads them at runtime by swapping a managed `<link>` href and setting `data-theme` on the document root.
 
 ### Group fieldsets
 

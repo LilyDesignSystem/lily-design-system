@@ -141,15 +141,15 @@ them. Leave **5** to the maintainer. The book shows principles work only when th
 
 ## Acceptance criteria
 
-- [ ] Every `components/{slug}/AGENTS.md` has a non-empty `- Purpose:` bullet, and a check in `bin/test` fails without one (item 1).
-- [ ] `spec/components` has a prominence scale for notices and for actions, and every member's "When to Use" names its place (item 2).
+- [x] Every `components/{slug}/AGENTS.md` has a non-empty `- Purpose:` bullet, and a check in `bin/test` fails without one (item 1; 20 of 661 written, the rest on a shrinking allow-list).
+- [x] `spec/components` has a prominence scale for notices and for actions, and every member's "When to Use" names its place (item 2).
 - [ ] `components-categories.tsv` has a purpose column, generated and drift-checked, and the `/components` pages filter by it (item 3).
-- [ ] `spec/glossary/index.md` exists, is linked from `spec/index.md` and `llms.txt`, and `bin/check-links` passes (item 4).
-- [ ] A `component-proposal.yml` issue form exists and `CONTRIBUTING.md` states the criteria (item 6).
+- [x] `spec/glossary/index.md` exists, is linked from `spec/index.md` and `llms.txt`, and `bin/check-links` passes (item 4).
+- [x] A `component-proposal.yml` issue form exists and `CONTRIBUTING.md` states the criteria (item 6).
 - [ ] The docs site has a `/states` page, axe-clean in the light and dark themes (item 7).
-- [ ] Every theme declares the timing scale and zeroes it under reduced motion, enforced by `bin/check-theme` (item 8).
-- [ ] The label-packs topic has a voice and tone section (item 10); `docs/building-your-design-system.md` exists (item 11).
-- [ ] The persuasive components name their misuse in "When Not to Use" (item 13).
+- [x] Every theme declares the timing scale and zeroes it under reduced motion, enforced by `bin/check-theme` (item 8).
+- [x] The label-packs topic has a voice and tone section (item 10); `docs/building-your-design-system.md` exists (item 11).
+- [x] The persuasive components name their misuse in "When Not to Use" (item 13).
 
 ## Related topics
 

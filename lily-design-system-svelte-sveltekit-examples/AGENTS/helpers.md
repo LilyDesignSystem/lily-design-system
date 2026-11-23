@@ -61,9 +61,10 @@ when the app passes `links` and `labels.link`), `search-picker`
 (next, added 2026-10-02), `theme-picker`, `locale-picker`, `time-zone-picker` (optional, after locale; 0.5.0, 2026-10-25: only when `labels.timeZone` and a time-zone locale are given),
 `text-size-picker`, and `share-picker` — each depended on as a real
 npm package, not vendored — in that order, with
-two defaults pre-wired: `themes` defaults to all 63 root `themes/`
-slugs (the 36 generic themes alphabetically, then the 27 company and
-public-sector themes by label, with `DEFAULT_THEME_LABELS` for the names
+two defaults pre-wired: `themes` defaults to all 65 root `themes/`
+slugs (in one list sorted alphabetically by the name shown, not
+grouped by kind; the theme-picker's "Order of themes" rule, with
+`DEFAULT_THEME_LABELS` for the names
 title-casing gets wrong, such as "IBM Carbon" and "NHS England
 (patients)", under the consumer's own labels), and `sizes` defaults to the
 seven-step scale `largest`, `larger`, `large`, `normal`, `small`,

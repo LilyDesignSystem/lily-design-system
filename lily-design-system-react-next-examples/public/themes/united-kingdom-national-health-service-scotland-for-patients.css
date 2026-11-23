@@ -4941,3 +4941,36 @@
        [lang|="lo"], [lang|="km"]) {
     --lily-line-height-body: 1.75;
 }
+
+/* ============================================================================
+ * Timing scale — shared verbatim by all themes (tasks.md P46-T8).
+ *
+ * Timing works like a type scale: a base step, a faster and a slower one, chosen by the
+ * distance an element travels, and one easing for each purpose. A consumer's transitions
+ * read these (`transition: opacity var(--lily-duration-base) var(--lily-ease-state)`), so a
+ * change is made in one place. Every step is 0s under `prefers-reduced-motion: reduce` and
+ * `data-motion="reduce"`, so a transition that reads them is instant for those users.
+ * ========================================================================= */
+
+:where(:root) {
+    --lily-duration-fast: 100ms;
+    --lily-duration-base: 200ms;
+    --lily-duration-slow: 400ms;
+    --lily-ease-state: ease-out;
+    --lily-ease-emphasis: ease-in-out;
+    --lily-ease-reveal: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    :where(:root) {
+        --lily-duration-fast: 0s;
+        --lily-duration-base: 0s;
+        --lily-duration-slow: 0s;
+    }
+}
+
+:where(html[data-motion="reduce"]) {
+    --lily-duration-fast: 0s;
+    --lily-duration-base: 0s;
+    --lily-duration-slow: 0s;
+}

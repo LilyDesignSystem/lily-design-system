@@ -577,9 +577,10 @@ are not the web. Full research and advice: [spec/apple-swift](spec/apple-swift/i
   must stay so (VoiceOver and TalkBack behaviour, Liquid Glass, Material 3 Expressive, future OS changes). Lily's mobile
   value is the 188 national identifier components (validation, formatting, keyboard, no autocorrect or autofill leak, a
   spoken form), the healthcare components, and small semantic content components (summary list, error summary, warning
-  text). Every slug has a recorded decision ([mobile/components-mobile.tsv](mobile/components-mobile.tsv)): 155 Lily components plus
-  the 188 identifiers on Apple, 167 plus the identifiers on Android.
-- **Logic is shared through test vectors.** The `shared/` modules and the identifier validators are ported by hand to Swift
+  text). Every slug has a recorded decision ([mobile/components-mobile.tsv](mobile/components-mobile.tsv)): 145 Lily components plus
+  the 188 identifiers on Apple, 157 plus the identifiers on Android.
+- **Logic is shared through test vectors.** The `shared/` modules (and identifier validation, once written: no catalog has it
+  yet, see P43-T4) are ported by hand to Swift
   and Kotlin and proved equal to the TypeScript with JSON vectors. A Kotlin Multiplatform core for Swift, JavaScriptCore,
   and Swift on Android (Swift 6.3) were each assessed and declined as too heavy a runtime dependency for a design system.
 - **Publishing differs.** Maven Central publishes from the monorepo as npm does. SwiftPM needs `Package.swift` at a
@@ -594,8 +595,8 @@ are not the web. Full research and advice: [spec/apple-swift](spec/apple-swift/i
 ### Advice, in priority order
 
 1. Decide before building: the semantics map and a per-component mobile decision, checked in `bin/test` (P43-T1, T2).
-2. Make the logic portable: vectors for the shared modules and the identifier validators moved into `shared/` (P43-T3, T4).
-   This also removes the per-catalog copies of the validators on the web.
+2. Make the logic portable: vectors for the shared modules (P43-T3). Identifier validation exists in no catalog, so P43-T4 is
+   writing it, one identifier at a time from an official source, after a maintainer decision on whether inputs validate.
 3. Generate tokens and ship label packs for both platforms (P43-T5, T6).
 4. Build both platforms side by side on the same first slice (field, error summary, summary list, alert and friends), then
    the healthcare and identifier components, then the example apps (Phases 44 and 45).
@@ -604,11 +605,12 @@ are not the web. Full research and advice: [spec/apple-swift](spec/apple-swift/i
 
 ## Phase 43 — Mobile foundations (2026-11-22)
 
-Shared by Apple and Android: the semantics map, a mobile decision per component, test vectors, identifier validators in
+Shared by Apple and Android: the semantics map, a mobile decision per component, test vectors, identifier validation (to be written) in
 `shared/`, Swift and Kotlin tokens, label packs as mobile resources.
 Tasks: [tasks.md](tasks.md#phase-43--mobile-foundations-2026-11-22).
 
-Status (2026-11-22): researched; nothing built. T1 and T2 first.
+Status (2026-11-22): T1 and T2 done (`mobile/`, `bin/check-mobile-catalog`); T3 started (88 vectors, which found and fixed an
+`ageParts` bug).
 
 ## Phase 44 — Apple Swift (2026-11-22)
 
@@ -617,7 +619,8 @@ style protocols, Swift 6, iOS 18 and later; UIKit apps host it. An example app, 
 SwiftPM. Findings: [spec/apple-swift](spec/apple-swift/index.md).
 Tasks: [tasks.md](tasks.md#phase-44--apple-swift-2026-11-22).
 
-Status (2026-11-22): researched; nothing built. Depends on P43-T1 to T4.
+Status (2026-11-22): `lily-design-system-swift` exists, unreleased: `LilyCore` passes the shared vectors and `LilyUI` has a
+first slice of six components (P44-T1 done, T2 and T3 in progress).
 
 ## Phase 45 — Android Kotlin (2026-11-22)
 
@@ -626,7 +629,8 @@ themes, an optional Material 3 adapter), Kotlin 2.4, published to Maven Central 
 a skill; Compose Multiplatform on iOS tested as a bonus, not the Apple product. Findings:
 [spec/android-kotlin](spec/android-kotlin/index.md). Tasks: [tasks.md](tasks.md#phase-45--android-kotlin-2026-11-22).
 
-Status (2026-11-22): researched; nothing built. Depends on P43-T1 to T4.
+Status (2026-11-22): `lily-design-system-kotlin` exists, unreleased: `lily-core` passes the shared vectors and `lily-compose` has the
+same first slice as Swift, on foundation only (P45-T1 done, T2 and T3 in progress).
 
 ---
 

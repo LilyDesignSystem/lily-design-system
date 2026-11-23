@@ -154,6 +154,7 @@ SHARED_SECTIONS = (
     "Text size and motion preferences",
     "Forced colours and contrast preference",
     "Writing systems",
+    "Timing scale",
 )
 
 COMPONENT_SCOPED_VARIABLES = {

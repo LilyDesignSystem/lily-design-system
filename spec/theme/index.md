@@ -418,6 +418,15 @@ Editorial / scrollytelling primitives use CSS custom properties for column width
 }
 ```
 
+## Timing scale (2026-11-23, P46-T8)
+
+Every theme carries a shared "Timing scale" section (pinned verbatim by `bin/check-theme`): `--lily-duration-fast` (100ms),
+`--lily-duration-base` (200ms) and `--lily-duration-slow` (400ms), and one easing per purpose, `--lily-ease-state` (a state
+change), `--lily-ease-emphasis` and `--lily-ease-reveal`. Timing works like a type scale: pick the step by the distance an
+element travels. All three durations are `0s` under `prefers-reduced-motion: reduce` and `data-motion="reduce"`, so a transition
+that reads them is instant for those users. DTCG `duration` is not in Lily's strict 2025.10 subset, so the tokens live in the
+theme CSS until it is. See [lessons/smashing-magazine-design-systems](../lessons/smashing-magazine-design-systems/index.md).
+
 ## Acceptance criteria
 
 - [x] No headless component contains a hardcoded hex / named colour / RGB / HSL literal.
