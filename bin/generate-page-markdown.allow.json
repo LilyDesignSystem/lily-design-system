@@ -34,5 +34,9 @@
   {
     "pattern": "^/markdown-editor/$",
     "reason": "This is an interactive editor demo; its component and helper documentation have Markdown sources."
+  },
+  {
+    "pattern": "^/states/$",
+    "reason": "This is a live specimen grid of controls in every state: the states are the page, so a static Markdown twin would be a different page."
   }
 ]

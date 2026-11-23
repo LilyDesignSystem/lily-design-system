@@ -4586,11 +4586,11 @@ investigation.
       Verify: the maintainer approves the wording.
 - [x] **P46-T6 Criteria for a new component.** `.github/ISSUE_TEMPLATE/component-proposal.yml` and the criteria in `CONTRIBUTING.md`.
       Verify: the next catalog addition links a filled-in proposal.
-- [ ] **P46-T7 A states grid.** A `/states` page on the docs site rendering every interactive class hook in every styled state.
+- [x] **P46-T7 A states grid.** A `/states` page on the docs site rendering every interactive class hook in every styled state.
       Verify: an axe e2e test passes in the light and dark themes.
 - [x] **P46-T8 A timing scale.** `--lily-duration-*` steps and per-purpose easings in every theme, zero under reduced motion.
       Verify: a `bin/check-theme` rule fails a theme without them.
-- [ ] **P46-T9 Colour means action (investigation).** Count theme selectors that give non-interactive text the action colour.
+- [x] **P46-T9 Colour means action (investigation).** Count theme selectors that give non-interactive text the action colour.
       Verify: the count and a gate-or-not decision recorded in the lessons topic.
 - [x] **P46-T10 A label-pack writing guide.** A voice and tone section in `spec/label-packs`.
       Verify: `bin/check-links` passes.

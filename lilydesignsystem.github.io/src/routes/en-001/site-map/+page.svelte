@@ -34,7 +34,8 @@
         { href: '/en-001/icons/', label: 'Icons' },
         { href: '/en-001/layouts/', label: 'Layouts' },
         { href: '/en-001/templates/', label: 'Templates' },
-        { href: '/theme-contrast/', label: 'Theme contrast table' }
+        { href: '/theme-contrast/', label: 'Theme contrast table' },
+        { href: '/states/', label: 'Component states' }
       ]
     },
     {

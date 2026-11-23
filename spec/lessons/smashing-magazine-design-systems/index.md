@@ -128,6 +128,18 @@ page and nothing will say they compete. That is the gap item 2 fills.
 | Pattern walls, Slack bots, catch-ups    | —                                         | **Decline.** Company rituals. The open-source equivalents already exist: public tasks, NEWS, the docs site and GitHub Discussions.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | Distributed ownership                   | —                                         | **Note, no change.** Eurostar and Sipgate show distributed models stalling without an owner, and Lily's single producer is a deliberate choice ([GOVERNANCE](../../../GOVERNANCE.md)). The book's risk for this model is the bottleneck. Item 6's form and item 11's guide make it cheaper to propose a component and to work without one.                                                                                                                                                                                                                                                                                              |
 
+### Item 9, investigated (2026-11-23)
+
+A scan of the 65 themes for rules that set `color` to `--color-primary`, `--lily-link-*` or `--lily-brand` found ten selectors,
+the same ten in every theme (they come from shared rules): `.submit-input`, `.reset-input`, `.image-input`, `.go-to-top`,
+`.go-to-next-section`, `.go-to-previous-section` and `.call-to-action` (all interactive), `.hero` and
+`.step-list-item[data-status="in-progress"]::before` (they match only through `--color-primary-content`, the text on a primary
+fill, which is the pair rule and not an exception), and **one real exception, `.statistic > [data-part="value"]`**, a number in the
+action colour that cannot be clicked. Decision: **do not add a gate yet.** One exception does not justify a rule that would have
+to tell interactive selectors from the rest by parsing, which gives false positives. Whether the statistic value keeps the
+primary colour is a visual choice for the maintainer; if it changes, or a second exception appears, add a `bin/check-theme` rule
+with a reasoned allow-list that may only shrink.
+
 ## Advice
 
 **Start with items 1 and 2 together, on the notices and the actions.** The inventory above already shows the problem, and
@@ -146,7 +158,7 @@ them. Leave **5** to the maintainer. The book shows principles work only when th
 - [ ] `components-categories.tsv` has a purpose column, generated and drift-checked, and the `/components` pages filter by it (item 3).
 - [x] `spec/glossary/index.md` exists, is linked from `spec/index.md` and `llms.txt`, and `bin/check-links` passes (item 4).
 - [x] A `component-proposal.yml` issue form exists and `CONTRIBUTING.md` states the criteria (item 6).
-- [ ] The docs site has a `/states` page, axe-clean in the light and dark themes (item 7).
+- [x] The docs site has a `/states` page, axe-clean in the light and dark themes (item 7).
 - [x] Every theme declares the timing scale and zeroes it under reduced motion, enforced by `bin/check-theme` (item 8).
 - [x] The label-packs topic has a voice and tone section (item 10); `docs/building-your-design-system.md` exists (item 11).
 - [x] The persuasive components name their misuse in "When Not to Use" (item 13).
