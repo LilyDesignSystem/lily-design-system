@@ -18,11 +18,15 @@
     import { LOCALE_LABELS, locales, DEFAULT_LOCALE } from "#lib/locales.js";
     import { ui } from "#lib/i18n.js";
     import { pageHref } from "#lib/pages.js";
+    import { sitePickerLabels, siteShareLabels } from "#lib/picker-labels.js";
     import { THEMES, THEME_LABELS } from "#lib/themes.js";
 
     let { locale = DEFAULT_LOCALE }: { locale?: string } = $props();
 
     const strings = $derived(ui(locale));
+    // Every name comes from the language's label pack; the site's own words fill a key the pack lacks.
+    const labels = $derived(sitePickerLabels(locale, strings.pickerLabels));
+    const share = $derived(siteShareLabels(locale));
 
     // The link picker's menu: pages this site actually has, reusing the nav strings that are already
     // translated for every locale. (The site has no Contact Us or Privacy Policy page to list.)
@@ -83,16 +87,7 @@
 
 <PickerBar
     class="site-preferences"
-    labels={{
-        link: strings.pickerLabels.link,
-        theme: strings.pickerLabels.theme,
-        locale: strings.pickerLabels.locale,
-        textSize: strings.pickerLabels.textSize,
-        share: strings.pickerLabels.share,
-        search: strings.pickerLabels.search,
-        searchInput: strings.pickerLabels.searchInput,
-        searchSubmit: strings.pickerLabels.searchSubmit,
-    }}
+    {labels}
     {links}
     linkProps={{ navigate: (href: string) => goto(href) }}
     searchProps={{ action: "/components/", navigate: (href: string) => goto(href) }}
@@ -113,8 +108,8 @@
     {shareTargets}
     shareProps={{
         title: "Lily Design System™",
-        copyLabel: "Copy link",
-        copiedLabel: "Link copied",
-        copyFailedLabel: "Could not copy — copy it from the address bar",
+        copyLabel: share.copyLabel ?? "Copy link",
+        copiedLabel: share.copiedLabel ?? "Link copied",
+        copyFailedLabel: share.copyFailedLabel ?? "Could not copy — copy it from the address bar",
     }}
 />
