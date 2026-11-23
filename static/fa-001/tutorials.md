@@ -83,7 +83,23 @@ HTML معنایی را با قلاب‌های کلاس رونوشت کنید و 
 
 حدود ۱۰ دقیقه
 
-](https://lilydesignsystem.com/fa-001/tutorials/nunjucks/)
+](https://lilydesignsystem.com/fa-001/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+حدود ۱۰ دقیقه
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+حدود ۱۰ دقیقه
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 مردد هستید؟ با [HTML](https://lilydesignsystem.com/fa-001/tutorials/html/) شروع کنید — قرارداد قلاب‌های کلاس را می‌آموزد که هر چارچوب دیگری در آن شریک است و مستقیماً از یک فایل اجرا می‌شود.
 

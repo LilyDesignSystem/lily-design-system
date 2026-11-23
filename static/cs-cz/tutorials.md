@@ -83,7 +83,23 @@ Makra renderovaná na serveru pro Eleventy a jakýkoli šablonovací řetězec N
 
 ~10 minut
 
-](https://lilydesignsystem.com/cs-cz/tutorials/nunjucks/)
+](https://lilydesignsystem.com/cs-cz/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 minut
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 minut
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 Nemůžete se rozhodnout? Začněte s [HTML](https://lilydesignsystem.com/cs-cz/tutorials/html/) — učí smlouvu o háčcích tříd, kterou sdílí všechny ostatní frameworky, a běží přímo ze souboru.
 

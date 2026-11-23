@@ -83,7 +83,23 @@ Server-gjengitte makroer for Eleventy og enhver Node-malrørledning.
 
 ~10 minutter
 
-](https://lilydesignsystem.com/nb-no/tutorials/nunjucks/)
+](https://lilydesignsystem.com/nb-no/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 minutter
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 minutter
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 Usikker? Start med [HTML](https://lilydesignsystem.com/nb-no/tutorials/html/) — den lærer klassekrokkontrakten som alle andre rammeverk deler, og den kjører rett fra en fil.
 

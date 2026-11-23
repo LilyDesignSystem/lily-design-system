@@ -83,7 +83,23 @@ Kiszolgálóoldalon renderelt makrók az Eleventyhez és bármely Node-sablonoz�
 
 ~10 perc
 
-](https://lilydesignsystem.com/hu-001/tutorials/nunjucks/)
+](https://lilydesignsystem.com/hu-001/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 perc
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 perc
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 Nem tudsz dönteni? Kezdd a [HTML](https://lilydesignsystem.com/hu-001/tutorials/html/) -lel – megtanítja az osztályhorog-szerződést, amelyet minden más keretrendszer megoszt, és közvetlenül fájlból fut.
 

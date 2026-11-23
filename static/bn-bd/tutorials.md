@@ -83,7 +83,23 @@ Eleventy ও যেকোনো Node টেমপ্লেট পাইপলা
 
 প্রায় ১০ মিনিট
 
-](https://lilydesignsystem.com/bn-bd/tutorials/nunjucks/)
+](https://lilydesignsystem.com/bn-bd/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+প্রায় ১০ মিনিট
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+প্রায় ১০ মিনিট
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 দ্বিধায় আছেন? [HTML](https://lilydesignsystem.com/bn-bd/tutorials/html/) দিয়ে শুরু করুন — এটি সেই ক্লাস হুক চুক্তি শেখায় যা বাকি সব ফ্রেমওয়ার্ক ভাগ করে নেয়, আর এটি সরাসরি ফাইল থেকেই চলে।
 

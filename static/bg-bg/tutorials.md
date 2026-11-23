@@ -83,7 +83,23 @@ Description: Уроци за Lily стъпка по стъпка: първият
 
 ~10 минути
 
-](https://lilydesignsystem.com/bg-bg/tutorials/nunjucks/)
+](https://lilydesignsystem.com/bg-bg/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 минути
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 минути
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 Колебаете се? Започнете с [HTML](https://lilydesignsystem.com/bg-bg/tutorials/html/) — учи договора за куките за клас, който споделят всички останали фреймуърци, и работи директно от файл.
 

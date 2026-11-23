@@ -83,7 +83,23 @@ Macros renderizadas en el servidor para Eleventy y cualquier flujo de plantillas
 
 ~10 minutos
 
-](https://lilydesignsystem.com/es-es/tutorials/nunjucks/)
+](https://lilydesignsystem.com/es-es/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 minutos
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 minutos
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 ¿Dudas entre varios? Empieza por [HTML](https://lilydesignsystem.com/es-es/tutorials/html/): enseña el contrato de clases de enlace que comparten todos los demás frameworks y se ejecuta directamente desde un archivo.
 

@@ -83,7 +83,23 @@ Runes של Svelte 5, snippets, ו `bind:value` קשירה דו-כיוונית.
 
 ~10 דקות
 
-](https://lilydesignsystem.com/he-001/tutorials/nunjucks/)
+](https://lilydesignsystem.com/he-001/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 דקות
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 דקות
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 מתלבטים? התחילו עם [HTML](https://lilydesignsystem.com/he-001/tutorials/html/) — הוא מלמד את חוזה ווי המחלקה שכל שאר המסגרות חולקות, והוא רץ ישירות מקובץ.
 

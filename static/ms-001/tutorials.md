@@ -83,7 +83,23 @@ Makro dirender pelayan untuk Eleventy dan sebarang saluran templat Node.
 
 ~10 minit
 
-](https://lilydesignsystem.com/ms-001/tutorials/nunjucks/)
+](https://lilydesignsystem.com/ms-001/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 minit
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 minit
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 Sukar memilih? Mulakan dengan [HTML](https://lilydesignsystem.com/ms-001/tutorials/html/) — ia mengajar kontrak cangkuk kelas yang dikongsi setiap rangka kerja lain, dan ia berjalan terus daripada fail.
 

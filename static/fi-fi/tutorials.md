@@ -83,7 +83,23 @@ Palvelinpuolella renderöitävät makrot Eleventylle ja mille tahansa Node-malli
 
 ~10 minuuttia
 
-](https://lilydesignsystem.com/fi-fi/tutorials/nunjucks/)
+](https://lilydesignsystem.com/fi-fi/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 minuuttia
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 minuuttia
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 Etkö osaa päättää? Aloita [HTML](https://lilydesignsystem.com/fi-fi/tutorials/html/) :stä – se opettaa luokkakoukkusopimuksen, jonka kaikki muut kehykset jakavat, ja se toimii suoraan tiedostosta.
 

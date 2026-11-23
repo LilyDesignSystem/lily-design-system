@@ -83,7 +83,23 @@ Serveris renderdatavad makrod Eleventy ja mis tahes Node'i mallitorustiku jaoks.
 
 ~10 minutit
 
-](https://lilydesignsystem.com/et-001/tutorials/nunjucks/)
+](https://lilydesignsystem.com/et-001/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 minutit
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 minutit
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 Ei suuda valida? Alusta [HTML](https://lilydesignsystem.com/et-001/tutorials/html/) -ga – see õpetab klassihaakide lepingut, mida iga teine raamistik jagab, ja töötab otse failist.
 

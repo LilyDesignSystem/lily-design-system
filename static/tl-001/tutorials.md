@@ -83,7 +83,23 @@ Mga macro na nire-render sa server para sa Eleventy at anumang Node templating p
 
 ~10 minuto
 
-](https://lilydesignsystem.com/tl-001/tutorials/nunjucks/)
+](https://lilydesignsystem.com/tl-001/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 minuto
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 minuto
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 Hindi makapili? Magsimula sa [HTML](https://lilydesignsystem.com/tl-001/tutorials/html/) — itinuturo nito ang kontrata ng class hook na pinagsasaluhan ng lahat ng ibang framework, at tumatakbo ito diretso mula sa isang file.
 

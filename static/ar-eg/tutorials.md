@@ -83,7 +83,23 @@ Description: دروس Lily خطوة بخطوة: مكوّنك الأول، وال
 
 نحو 10 دقائق
 
-](https://lilydesignsystem.com/ar-eg/tutorials/nunjucks/)
+](https://lilydesignsystem.com/ar-eg/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+نحو 10 دقائق
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+نحو 10 دقائق
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 محتار بينها؟ ابدأ بـ [HTML](https://lilydesignsystem.com/ar-eg/tutorials/html/) — فهو يعلّم عقد فئات الربط الذي تشترك فيه أطر العمل الأخرى كلها، ويعمل مباشرة من ملف.
 

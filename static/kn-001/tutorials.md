@@ -83,7 +83,23 @@ Eleventy ಮತ್ತು ಯಾವುದೇ Node ಟೆಂಪ್ಲೇಟಿಂ�
 
 ~10 ನಿಮಿಷಗಳು
 
-](https://lilydesignsystem.com/kn-001/tutorials/nunjucks/)
+](https://lilydesignsystem.com/kn-001/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 ನಿಮಿಷಗಳು
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 ನಿಮಿಷಗಳು
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 ಇವುಗಳ ನಡುವೆ ಗೊಂದಲವೇ? ಇದರಿಂದ ಆರಂಭಿಸಿ [HTML](https://lilydesignsystem.com/kn-001/tutorials/html/) — ಇದು ಇತರ ಎಲ್ಲಾ ಫ್ರೇಮ್‌ವರ್ಕ್‌ಗಳು ಹಂಚಿಕೊಳ್ಳುವ ಕ್ಲಾಸ್-ಹುಕ್ ಒಪ್ಪಂದವನ್ನು ಕಲಿಸುತ್ತದೆ, ಮತ್ತು ಫೈಲ್‌ನಿಂದ ನೇರವಾಗಿ ಚಲಿಸುತ್ತದೆ.
 

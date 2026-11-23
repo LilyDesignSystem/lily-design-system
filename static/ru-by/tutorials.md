@@ -83,7 +83,23 @@ Description: Пошаговые учебники по Lily: ваш первый 
 
 ~10 минут
 
-](https://lilydesignsystem.com/ru-by/tutorials/nunjucks/)
+](https://lilydesignsystem.com/ru-by/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 минут
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 минут
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 Не можете выбрать? Начните с [HTML](https://lilydesignsystem.com/ru-by/tutorials/html/) — он учит контракту классов-зацепок, общему для всех остальных фреймворков, и запускается прямо из файла.
 

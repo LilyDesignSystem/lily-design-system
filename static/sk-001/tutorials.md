@@ -83,7 +83,23 @@ Makrá renderované na serveri pre Eleventy a akýkoľvek šablónovací reťaze
 
 ~10 minút
 
-](https://lilydesignsystem.com/sk-001/tutorials/nunjucks/)
+](https://lilydesignsystem.com/sk-001/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 minút
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 minút
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 Neviete sa rozhodnúť? Začnite s [HTML](https://lilydesignsystem.com/sk-001/tutorials/html/) — učí zmluvu o háčikoch tried, ktorú zdieľajú všetky ostatné frameworky, a beží priamo zo súboru.
 

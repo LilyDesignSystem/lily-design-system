@@ -83,7 +83,23 @@ Svelte 5 runes, snippets, ແລະ `bind:value` ການຜູກສອງທ�
 
 ~10 ນາທີ
 
-](https://lilydesignsystem.com/lo-la/tutorials/nunjucks/)
+](https://lilydesignsystem.com/lo-la/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 ນາທີ
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 ນາທີ
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 ຕັດສິນໃຈບໍ່ໄດ້? ເລີ່ມດ້ວຍ [HTML](https://lilydesignsystem.com/lo-la/tutorials/html/) — ມັນສອນສັນຍາ class hook ທີ່ເຟຣມເວີກອື່ນທັງໝົດແບ່ງປັນ, ແລະແລ່ນໂດຍກົງຈາກໄຟລ໌.
 

@@ -83,7 +83,23 @@ Miðlaraútgefin makró fyrir Eleventy og hvaða Node-sniðmátsferli sem er.
 
 ~10 mínútur
 
-](https://lilydesignsystem.com/is-is/tutorials/nunjucks/)
+](https://lilydesignsystem.com/is-is/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 mínútur
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 mínútur
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 Áttu erfitt með að velja? Byrjaðu á [HTML](https://lilydesignsystem.com/is-is/tutorials/html/) — það kennir klasakróksamninginn sem allir aðrir rammar deila og keyrir beint úr skrá.
 

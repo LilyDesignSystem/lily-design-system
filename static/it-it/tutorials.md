@@ -83,7 +83,23 @@ Macro renderizzate lato server per Eleventy e qualsiasi pipeline di template Nod
 
 ~10 minuti
 
-](https://lilydesignsystem.com/it-it/tutorials/nunjucks/)
+](https://lilydesignsystem.com/it-it/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 minuti
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 minuti
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 Indeciso? Inizia con [HTML](https://lilydesignsystem.com/it-it/tutorials/html/) – insegna il contratto degli hook di classe che ogni altro framework condivide e funziona direttamente da un file.
 

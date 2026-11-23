@@ -83,7 +83,23 @@ Svelte 5 runes, snippets និង `bind:value` ការចងពីរទិ�
 
 ~១០ នាទី
 
-](https://lilydesignsystem.com/km-kh/tutorials/nunjucks/)
+](https://lilydesignsystem.com/km-kh/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~១០ នាទី
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~១០ នាទី
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 ស្ទាក់ស្ទើរ? ចាប់ផ្តើមជាមួយ [HTML](https://lilydesignsystem.com/km-kh/tutorials/html/) — វាបង្រៀនកិច្ចសន្យា class hook ដែលក្របខណ្ឌផ្សេងទៀតទាំងអស់ចែករំលែក ហើយវាដំណើរការដោយផ្ទាល់ពីឯកសារ។
 

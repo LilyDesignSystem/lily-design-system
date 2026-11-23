@@ -83,7 +83,23 @@ Razor 元件,附帶參數、 `ChildContent`,同 bUnit 測試。
 
 約 10 分鐘
 
-](https://lilydesignsystem.com/yue-001/tutorials/nunjucks/)
+](https://lilydesignsystem.com/yue-001/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+約 10 分鐘
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+約 10 分鐘
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 唔知點揀?由 [HTML](https://lilydesignsystem.com/yue-001/tutorials/html/) 開始 — 佢教你所有其他框架共用嘅類別掛鉤合約,而且直接由檔案運行。
 

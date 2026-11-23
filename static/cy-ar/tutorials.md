@@ -83,7 +83,23 @@ Macros wedi'u rendro ar y gweinydd ar gyfer Eleventy ac unrhyw biblinell templed
 
 ~10 munud
 
-](https://lilydesignsystem.com/cy-ar/tutorials/nunjucks/)
+](https://lilydesignsystem.com/cy-ar/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 munud
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 munud
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 Methu penderfynu? Dechreuwch gyda [HTML](https://lilydesignsystem.com/cy-ar/tutorials/html/) — mae'n dysgu'r contract bachau dosbarth y mae pob fframwaith arall yn ei rannu, ac mae'n rhedeg yn syth o ffeil.
 

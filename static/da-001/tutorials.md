@@ -83,7 +83,23 @@ Servergengivne makroer til Eleventy og enhver Node-skabelonpipeline.
 
 ca. 10 minutter
 
-](https://lilydesignsystem.com/da-001/tutorials/nunjucks/)
+](https://lilydesignsystem.com/da-001/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+ca. 10 minutter
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+ca. 10 minutter
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 Kan du ikke vælge? Start med [HTML](https://lilydesignsystem.com/da-001/tutorials/html/) – den lærer klassekrog-kontrakten, som alle andre frameworks deler, og den kører direkte fra en fil.
 

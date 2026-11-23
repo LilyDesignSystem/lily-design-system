@@ -83,7 +83,23 @@ Server-gerenderde macro's voor Eleventy en elke Node-templatepipeline.
 
 ~10 minuten
 
-](https://lilydesignsystem.com/nl-nl/tutorials/nunjucks/)
+](https://lilydesignsystem.com/nl-nl/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 minuten
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 minuten
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 Twijfel je? Begin met [HTML](https://lilydesignsystem.com/nl-nl/tutorials/html/) – het leert het contract van klassenhaken dat elk ander framework deelt, en het draait rechtstreeks vanuit een bestand.
 

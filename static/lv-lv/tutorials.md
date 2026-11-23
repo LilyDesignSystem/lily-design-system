@@ -83,7 +83,23 @@ Serverī renderēti makro Eleventy un jebkuram Node veidņu konveijeram.
 
 ~10 minūtes
 
-](https://lilydesignsystem.com/lv-lv/tutorials/nunjucks/)
+](https://lilydesignsystem.com/lv-lv/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 minūtes
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 minūtes
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 Nevarat izlemt? Sāciet ar [HTML](https://lilydesignsystem.com/lv-lv/tutorials/html/) — tā māca klases āķu līgumu, ko dala visi pārējie ietvari, un darbojas tieši no faila.
 

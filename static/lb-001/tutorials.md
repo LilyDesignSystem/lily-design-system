@@ -83,7 +83,23 @@ Server-gerenderte Makroen fir Eleventy an all Node-Template-Pipeline.
 
 ~10 Minutten
 
-](https://lilydesignsystem.com/lb-001/tutorials/nunjucks/)
+](https://lilydesignsystem.com/lb-001/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 Minutten
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 Minutten
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 Zerräissen tëscht hinnen? Fänkt mat [HTML](https://lilydesignsystem.com/lb-001/tutorials/html/) un — et léiert de Klassenhaken-Kontrakt, deen all aner Framework deelt, a leeft direkt aus enger Datei.
 

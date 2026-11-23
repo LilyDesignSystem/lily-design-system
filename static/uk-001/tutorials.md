@@ -83,7 +83,23 @@ Runes Svelte 5, snippets і `bind:value` двостороннє зв’язув�
 
 ~10 хвилин
 
-](https://lilydesignsystem.com/uk-001/tutorials/nunjucks/)
+](https://lilydesignsystem.com/uk-001/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 хвилин
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 хвилин
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 Вагаєтеся? Почніть із [HTML](https://lilydesignsystem.com/uk-001/tutorials/html/) — він навчає контракту клас-гачків, спільного для всіх інших фреймворків, і запускається прямо з файлу.
 

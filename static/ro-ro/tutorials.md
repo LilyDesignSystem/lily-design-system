@@ -83,7 +83,23 @@ Macrouri randate pe server pentru Eleventy și orice flux de șabloane Node.
 
 ~10 minute
 
-](https://lilydesignsystem.com/ro-ro/tutorials/nunjucks/)
+](https://lilydesignsystem.com/ro-ro/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+~10 minute
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+~10 minute
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 Ești indecis? Începe cu [HTML](https://lilydesignsystem.com/ro-ro/tutorials/html/) — te învață contractul cârligelor de clasă pe care îl împart toate celelalte framework-uri și rulează direct dintr-un fișier.
 

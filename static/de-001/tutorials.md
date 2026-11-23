@@ -83,7 +83,23 @@ Serverseitig gerenderte Makros für Eleventy und jede Node-Template-Pipeline.
 
 ca. 10 Minuten
 
-](https://lilydesignsystem.com/de-001/tutorials/nunjucks/)
+](https://lilydesignsystem.com/de-001/tutorials/nunjucks/) [
+
+### Swift
+
+`SwiftUI` · iOS · iPadOS
+
+ca. 10 Minuten
+
+](https://lilydesignsystem.com/tutorials/swift/) [
+
+### Kotlin
+
+`Jetpack Compose` · Android
+
+ca. 10 Minuten
+
+](https://lilydesignsystem.com/tutorials/kotlin/)
 
 Unentschlossen? Beginnen Sie mit [HTML](https://lilydesignsystem.com/de-001/tutorials/html/) – es vermittelt den Vertrag der Klassen-Hooks, den jedes andere Framework teilt, und läuft direkt aus einer Datei.
 
