@@ -1,4 +1,4 @@
-// Every stylesheet in static/assets/themes (63), in one list sorted alphabetically by the name shown (spec/theme-picker,
+// Every stylesheet in static/assets/themes (65), in one list sorted alphabetically by the name shown (spec/theme-picker,
 // "Order of themes"), sorted below with the platform's collation. Shared by the site header and the /demo/ pages.
 const THEME_SLUGS: string[] = [
     "abyss",
@@ -16,6 +16,7 @@ const THEME_SLUGS: string[] = [
     "cupcake",
     "cyberpunk",
     "dark",
+    "dark-high-contrast",
     "dim",
     "dracula",
     "emerald",
@@ -25,6 +26,7 @@ const THEME_SLUGS: string[] = [
     "halloween",
     "lemonade",
     "light",
+    "light-high-contrast",
     "lofi",
     "luxury",
     "night",
@@ -74,7 +76,9 @@ export const THEME_LABELS: Record<string, string> = {
     "brazil-padrao-digital-de-governo": "Brazil Padrão Digital de Governo",
     "canada-government-of-canada-design-system": "Canada Government of Canada Design System",
     "github-primer": "GitHub Primer",
+    "dark-high-contrast": "Dark High-Contrast",
     "ibm-carbon": "IBM Carbon",
+    "light-high-contrast": "Light High-Contrast",
     "sap-fiori": "SAP Fiori",
     "united-kingdom-government-digital-service": "GOV.UK Design System",
     "united-kingdom-national-health-service-england-for-patients": "NHS England (patients)",

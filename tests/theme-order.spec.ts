@@ -3,15 +3,15 @@ import { THEMES } from "../src/lib/themes";
 
 // spec/theme-picker, "Order of themes": one list, alphabetical by the name shown, in the page's language.
 
-test("the theme picker lists all 63 themes alphabetically by the name shown, in one list", async ({
+test("the theme picker lists all 65 themes alphabetically by the name shown, in one list", async ({
     page,
 }) => {
-    expect(THEMES).toHaveLength(63);
+    expect(THEMES).toHaveLength(65);
     await page.goto("/");
     await page.locator(".theme-picker-button").click();
     const names = await page.locator(".theme-picker-option").allTextContents();
     const shown = names.map((n) => n.trim());
-    expect(shown).toHaveLength(63);
+    expect(shown).toHaveLength(65);
     const collator = new Intl.Collator(undefined, { sensitivity: "base", numeric: true });
     expect(shown).toEqual([...shown].sort((a, b) => collator.compare(a, b)));
     // Not grouped by kind: a company theme sits among the generic ones, and "NHS England" sorts under N.
