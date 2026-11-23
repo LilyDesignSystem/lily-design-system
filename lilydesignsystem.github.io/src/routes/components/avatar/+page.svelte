@@ -76,6 +76,7 @@
       <li>Component: avatar</li>
       <li>PascalCase: Avatar</li>
       <li>Description: an avatar indicator that shows an avatar image or avatar text</li>
+      <li>Purpose: Identifies a person or an organisation by their picture or initials, with a text alternative that names them.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .avatar</li>

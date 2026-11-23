@@ -75,6 +75,7 @@
       <li>Component: popover</li>
       <li>PascalCase: Popover</li>
       <li>Description: a floating content box anchored to a trigger element</li>
+      <li>Purpose: Shows a small floating box of extra content next to the control that opened it, closing on Escape or a click outside.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .popover</li>

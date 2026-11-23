@@ -75,6 +75,7 @@
       <li>Component: range-input</li>
       <li>PascalCase: RangeInput</li>
       <li>Description: a slider input for selecting a value within a range &lt;input type="range"&gt;</li>
+      <li>Purpose: Lets the user pick a value along a range by feel, such as a volume, when the exact number matters less than the position.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .range-input</li>

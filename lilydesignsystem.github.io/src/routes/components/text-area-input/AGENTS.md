@@ -5,6 +5,7 @@
 - Component: text-area-input
 - PascalCase: TextAreaInput
 - Description: a multi-line text input area
+- Purpose: Collects free text that may run to several lines, such as a message or a note, where a single-line input would hide what the user has written.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <textarea>
 - CSS class: .text-area-input

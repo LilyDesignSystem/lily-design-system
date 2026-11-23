@@ -75,6 +75,7 @@
       <li>Component: file-input</li>
       <li>PascalCase: FileInput</li>
       <li>Description: an input for selecting files from the file system &lt;input type="file"&gt;</li>
+      <li>Purpose: Lets the user choose files to send, from their device, through the native file control that assistive technology already understands.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .file-input</li>

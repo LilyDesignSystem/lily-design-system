@@ -5,6 +5,7 @@
 - Component: summary-list
 - PascalCase: SummaryList
 - Description: a description list of key-value summary pairs
+- Purpose: Presents facts about one thing as name and value pairs, such as a person's details, with an action to change each.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <dl>
 - CSS class: .summary-list

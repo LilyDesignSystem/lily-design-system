@@ -5,6 +5,7 @@
 - Component: skip-link
 - PascalCase: SkipLink
 - Description: a hidden link for keyboard users to skip to main content
+- Purpose: Lets a keyboard or screen-reader user jump past the repeated header and navigation to the main content, shown when it receives focus.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <a>
 - CSS class: .skip-link

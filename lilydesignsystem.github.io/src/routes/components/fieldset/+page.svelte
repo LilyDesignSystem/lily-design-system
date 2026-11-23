@@ -75,6 +75,7 @@
       <li>Component: fieldset</li>
       <li>PascalCase: Fieldset</li>
       <li>Description: a group of related form fields with a legend</li>
+      <li>Purpose: Groups related controls under one legend, such as the parts of an address, so a screen reader announces the group's name before each control in it.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;fieldset&gt;</li>
       <li>CSS class: .fieldset</li>

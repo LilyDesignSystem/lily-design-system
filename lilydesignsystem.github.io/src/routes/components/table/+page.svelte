@@ -75,6 +75,7 @@
       <li>Component: table</li>
       <li>PascalCase: Table</li>
       <li>Description: a table with rows and columns &lt;table&gt;</li>
+      <li>Purpose: Lays out data that has rows and columns, with headers, so a screen reader can read each cell with its row and column names.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;table&gt;</li>
       <li>CSS class: .table</li>

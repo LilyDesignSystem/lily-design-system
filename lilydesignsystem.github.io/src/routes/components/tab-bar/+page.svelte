@@ -75,6 +75,7 @@
       <li>Component: tab-bar</li>
       <li>PascalCase: TabBar</li>
       <li>Description: a group of tabs for switching between content panels</li>
+      <li>Purpose: Switches between panels of related content on one page, keeping one panel in view at a time, with arrow keys moving between the tabs.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .tab-bar</li>

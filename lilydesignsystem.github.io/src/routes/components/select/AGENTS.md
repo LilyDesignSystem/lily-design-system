@@ -5,6 +5,7 @@
 - Component: select
 - PascalCase: Select
 - Description: a dropdown select element for choosing one option
+- Purpose: Lets the user choose one option from a list too long for radio buttons, using the browser's native control so it works with every assistive technology.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <select>
 - CSS class: .select

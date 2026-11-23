@@ -5,6 +5,7 @@
 - Component: date-input
 - PascalCase: DateInput
 - Description: an input for entering a date value <input type="date">
+- Purpose: Collects a date through the browser's own date field. Use `date-field` when the user should type a date they know by heart.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <input>
 - CSS class: .date-input

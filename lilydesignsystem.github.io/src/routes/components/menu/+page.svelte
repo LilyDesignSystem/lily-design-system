@@ -75,6 +75,7 @@
       <li>Component: menu</li>
       <li>PascalCase: Menu</li>
       <li>Description: a list of actions or options triggered by a button</li>
+      <li>Purpose: Offers a short list of actions or choices that the user opens from a button and picks one of, with arrow keys moving through them.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .menu</li>

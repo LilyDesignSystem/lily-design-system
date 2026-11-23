@@ -5,6 +5,7 @@
 - Component: error-message
 - PascalCase: ErrorMessage
 - Description: an error message associated with a form field
+- Purpose: Says, next to the control, what is wrong and how to fix it, and is linked to the control so a screen reader reads it with the field.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <p>
 - CSS class: .error-message

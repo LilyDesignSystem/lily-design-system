@@ -75,6 +75,7 @@
       <li>Component: data-table</li>
       <li>PascalCase: DataTable</li>
       <li>Description: a data table interactive grid for displaying and sorting tabular data &lt;table&gt;</li>
+      <li>Purpose: Shows tabular data the user can sort and scan, with headers that name each column and a state that says how it is sorted.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;table&gt;</li>
       <li>CSS class: .data-table</li>

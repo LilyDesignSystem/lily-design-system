@@ -5,6 +5,7 @@
 - Component: checkbox-input
 - PascalCase: CheckboxInput
 - Description: a checkbox input for toggling a boolean value <input type="checkbox">
+- Purpose: Lets the user switch one yes-or-no choice on or off, such as agreeing to terms, and keeps it in the form. Use a radio group when exactly one of several must be chosen.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <input>
 - CSS class: .checkbox-input

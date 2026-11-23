@@ -5,6 +5,7 @@
 - Component: password-input
 - PascalCase: PasswordInput
 - Description: an input for entering a password with obscured text <input type="password">
+- Purpose: Collects a secret the screen must not show, such as a password, with the browser's password-manager support, and lets the user reveal it where the product allows.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .password-input

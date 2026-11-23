@@ -5,6 +5,7 @@
 - Component: dialog
 - PascalCase: Dialog
 - Description: a modal or non-modal dialog window
+- Purpose: Interrupts with a window that asks for the user's attention and input, with the page behind it inert while it is open and focus returning to where it was opened.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <dialog>
 - CSS class: .dialog

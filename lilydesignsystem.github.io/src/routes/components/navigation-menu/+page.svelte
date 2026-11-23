@@ -75,6 +75,7 @@
       <li>Component: navigation-menu</li>
       <li>PascalCase: NavigationMenu</li>
       <li>Description: a site-wide navigation menu with links</li>
+      <li>Purpose: Lists the site's main destinations as links in a navigation landmark, so every page can be reached from every other.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;nav&gt;</li>
       <li>CSS class: .navigation-menu</li>

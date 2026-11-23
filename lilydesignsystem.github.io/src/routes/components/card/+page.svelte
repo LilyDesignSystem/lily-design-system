@@ -76,6 +76,7 @@
       <li>Component: card</li>
       <li>PascalCase: Card</li>
       <li>Description: a grouped content container with header, body, and footer areas</li>
+      <li>Purpose: Groups the content of one item, such as an appointment or an article, in a box with a heading and, if needed, actions, so the item reads as one unit.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .card</li>

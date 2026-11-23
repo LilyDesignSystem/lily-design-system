@@ -5,6 +5,7 @@
 - Component: avatar
 - PascalCase: Avatar
 - Description: an avatar indicator that shows an avatar image or avatar text
+- Purpose: Identifies a person or an organisation by their picture or initials, with a text alternative that names them.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <span>
 - CSS class: .avatar

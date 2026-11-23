@@ -75,6 +75,7 @@
       <li>Component: drawer</li>
       <li>PascalCase: Drawer</li>
       <li>Description: a panel that slides in from the edge of the screen</li>
+      <li>Purpose: Slides a panel in from the edge of the screen for a task or details that belong beside the page, without leaving it.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;dialog&gt;</li>
       <li>CSS class: .drawer</li>

@@ -75,6 +75,7 @@
       <li>Component: search-input</li>
       <li>PascalCase: SearchInput</li>
       <li>Description: an input for entering a search query &lt;input type="search"&gt;</li>
+      <li>Purpose: Collects a search query, so a phone offers a search keyboard and a screen reader announces a search field. Pair it with a form that has the search role.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .search-input</li>

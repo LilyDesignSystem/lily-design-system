@@ -75,6 +75,7 @@
       <li>Component: tag</li>
       <li>PascalCase: Tag</li>
       <li>Description: a keyword label for categorizing content</li>
+      <li>Purpose: Labels an item with a keyword or a status so it can be told from others at a glance, in words and not colour alone.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .tag</li>

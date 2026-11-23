@@ -5,6 +5,7 @@
 - Component: tag
 - PascalCase: Tag
 - Description: a keyword label for categorizing content
+- Purpose: Labels an item with a keyword or a status so it can be told from others at a glance, in words and not colour alone.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <span>
 - CSS class: .tag

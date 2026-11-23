@@ -75,6 +75,7 @@
       <li>Component: summary-list</li>
       <li>PascalCase: SummaryList</li>
       <li>Description: a description list of key-value summary pairs</li>
+      <li>Purpose: Presents facts about one thing as name and value pairs, such as a person's details, with an action to change each.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;dl&gt;</li>
       <li>CSS class: .summary-list</li>

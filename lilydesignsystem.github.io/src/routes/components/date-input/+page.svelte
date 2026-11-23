@@ -75,6 +75,7 @@
       <li>Component: date-input</li>
       <li>PascalCase: DateInput</li>
       <li>Description: an input for entering a date value &lt;input type="date"&gt;</li>
+      <li>Purpose: Collects a date through the browser's own date field. Use <code>date-field</code> when the user should type a date they know by heart.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .date-input</li>

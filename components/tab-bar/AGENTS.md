@@ -5,6 +5,7 @@
 - Component: tab-bar
 - PascalCase: TabBar
 - Description: a group of tabs for switching between content panels
+- Purpose: Switches between panels of related content on one page, keeping one panel in view at a time, with arrow keys moving between the tabs.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .tab-bar

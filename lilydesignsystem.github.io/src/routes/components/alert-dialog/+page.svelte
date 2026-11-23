@@ -75,6 +75,7 @@
       <li>Component: alert-dialog</li>
       <li>PascalCase: AlertDialog</li>
       <li>Description: a modal dialog for urgent messages requiring user acknowledgment</li>
+      <li>Purpose: Interrupts to tell the user something that needs an answer before they continue, such as a destructive confirmation, with the safest answer easy to reach.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;dialog&gt;</li>
       <li>CSS class: .alert-dialog</li>

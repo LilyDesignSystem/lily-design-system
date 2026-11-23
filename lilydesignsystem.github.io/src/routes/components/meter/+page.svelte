@@ -75,6 +75,7 @@
       <li>Component: meter</li>
       <li>PascalCase: Meter</li>
       <li>Description: a gauge displaying a scalar value within a known range</li>
+      <li>Purpose: Shows a measurement within a known range, such as disk space used, as a gauge with its value in words.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;meter&gt;</li>
       <li>CSS class: .meter</li>

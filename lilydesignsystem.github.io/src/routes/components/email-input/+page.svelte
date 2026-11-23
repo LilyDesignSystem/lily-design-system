@@ -75,6 +75,7 @@
       <li>Component: email-input</li>
       <li>PascalCase: EmailInput</li>
       <li>Description: an input for entering an email address &lt;input type="email"&gt;</li>
+      <li>Purpose: Collects an email address, so a phone offers the right keyboard and the browser can check the address's shape before the form is sent.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .email-input</li>

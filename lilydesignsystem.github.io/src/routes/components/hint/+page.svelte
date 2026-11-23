@@ -76,6 +76,7 @@
       <li>Component: hint</li>
       <li>PascalCase: Hint</li>
       <li>Description: hint text providing guidance for a form field</li>
+      <li>Purpose: Gives guidance about a control before the user types, such as the format of a date, and is linked to the control so it is read with its label.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;p&gt;</li>
       <li>CSS class: .hint</li>

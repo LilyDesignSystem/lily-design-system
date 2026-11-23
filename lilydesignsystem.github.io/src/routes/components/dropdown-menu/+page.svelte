@@ -75,6 +75,7 @@
       <li>Component: dropdown-menu</li>
       <li>PascalCase: DropdownMenu</li>
       <li>Description: a menu that opens below a trigger button</li>
+      <li>Purpose: Offers actions for one object from a trigger button, opening below it and closing when one is chosen or the user presses Escape.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .dropdown-menu</li>

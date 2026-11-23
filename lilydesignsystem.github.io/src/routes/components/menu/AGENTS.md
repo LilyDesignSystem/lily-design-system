@@ -5,6 +5,7 @@
 - Component: menu
 - PascalCase: Menu
 - Description: a list of actions or options triggered by a button
+- Purpose: Offers a short list of actions or choices that the user opens from a button and picks one of, with arrow keys moving through them.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .menu

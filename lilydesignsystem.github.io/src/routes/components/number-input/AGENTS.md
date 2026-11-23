@@ -5,6 +5,7 @@
 - Component: number-input
 - PascalCase: NumberInput
 - Description: an input for entering a numeric value with validation <input type="number">
+- Purpose: Collects a number, so a phone offers a numeric keyboard and the browser can check a range and a step. Use a text input for identifiers that only look like numbers.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <input>
 - CSS class: .number-input

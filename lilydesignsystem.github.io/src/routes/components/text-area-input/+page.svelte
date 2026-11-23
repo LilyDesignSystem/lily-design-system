@@ -75,6 +75,7 @@
       <li>Component: text-area-input</li>
       <li>PascalCase: TextAreaInput</li>
       <li>Description: a multi-line text input area</li>
+      <li>Purpose: Collects free text that may run to several lines, such as a message or a note, where a single-line input would hide what the user has written.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;textarea&gt;</li>
       <li>CSS class: .text-area-input</li>

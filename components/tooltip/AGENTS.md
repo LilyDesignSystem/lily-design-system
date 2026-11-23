@@ -5,6 +5,7 @@
 - Component: tooltip
 - PascalCase: Tooltip
 - Description: a small popup showing descriptive text on hover or focus
+- Purpose: Names or explains a control briefly when the pointer rests on it or it has keyboard focus; it carries nothing the user needs to act.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .tooltip

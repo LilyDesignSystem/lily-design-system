@@ -5,6 +5,7 @@
 - Component: breadcrumb-nav
 - PascalCase: BreadcrumbNav
 - Description: a navigation container for breadcrumb trail links
+- Purpose: Shows where the current page sits in the site's hierarchy and lets the user go back up one level at a time.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <nav>
 - CSS class: .breadcrumb-nav

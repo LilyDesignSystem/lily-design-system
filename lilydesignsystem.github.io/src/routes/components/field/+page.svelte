@@ -75,6 +75,7 @@
       <li>Component: field</li>
       <li>PascalCase: Field</li>
       <li>Description: a form field wrapper with label, input, and error message</li>
+      <li>Purpose: Wraps one form control with its label, hint and error message and links them, so the control has one accessible name and the guidance and the error are read with it.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .field</li>

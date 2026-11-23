@@ -75,6 +75,7 @@
       <li>Component: label</li>
       <li>PascalCase: Label</li>
       <li>Description: a label associated with a form input</li>
+      <li>Purpose: Names a form control in words the user can see and click, and gives the control its accessible name.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;label&gt;</li>
       <li>CSS class: .label</li>

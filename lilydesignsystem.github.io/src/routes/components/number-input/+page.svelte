@@ -75,6 +75,7 @@
       <li>Component: number-input</li>
       <li>PascalCase: NumberInput</li>
       <li>Description: an input for entering a numeric value with validation &lt;input type="number"&gt;</li>
+      <li>Purpose: Collects a number, so a phone offers a numeric keyboard and the browser can check a range and a step. Use a text input for identifiers that only look like numbers.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .number-input</li>

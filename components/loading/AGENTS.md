@@ -5,6 +5,7 @@
 - Component: loading
 - PascalCase: Loading
 - Description: a loading indicator, such as text, or image, or animation
+- Purpose: Tells the user that something is on its way and they should wait, announced politely to a screen reader.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .loading

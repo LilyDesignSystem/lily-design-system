@@ -75,6 +75,7 @@
       <li>Component: skeleton</li>
       <li>PascalCase: Skeleton</li>
       <li>Description: a placeholder loading animation for content</li>
+      <li>Purpose: Holds the place of content that is still loading, showing its shape so the page does not jump when the content arrives.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .skeleton</li>

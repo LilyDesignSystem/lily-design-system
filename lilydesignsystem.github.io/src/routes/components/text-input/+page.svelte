@@ -75,6 +75,7 @@
       <li>Component: text-input</li>
       <li>PascalCase: TextInput</li>
       <li>Description: a single-line text input field &lt;input type="text"&gt;</li>
+      <li>Purpose: Collects a short piece of free text, such as a name, in one line. It is the default way to ask for a value, with the native input's form, autofill and keyboard behaviour.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .text-input</li>

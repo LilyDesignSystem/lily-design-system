@@ -5,6 +5,7 @@
 - Component: tree-nav
 - PascalCase: TreeNav
 - Description: a hierarchical navigation with expandable branches
+- Purpose: Navigates a hierarchy whose branches the user opens and closes, such as folders or a site's sections, with arrow keys moving through it.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <nav>
 - CSS class: .tree-nav

@@ -75,6 +75,7 @@
       <li>Component: contents-nav</li>
       <li>PascalCase: ContentsNav</li>
       <li>Description: a contents navigation area</li>
+      <li>Purpose: Lists the sections of a long page with links to them, so the reader can see its shape and jump to a part.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;nav&gt;</li>
       <li>CSS class: .contents-nav</li>

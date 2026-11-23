@@ -5,6 +5,7 @@
 - Component: accordion-nav
 - PascalCase: AccordionNav
 - Description: an accordion navigation area for collapsible accordion information
+- Purpose: Stacks sections of content that the user opens and closes one at a time, so a long page can be scanned by its headings.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <nav>
 - CSS class: .accordion-nav

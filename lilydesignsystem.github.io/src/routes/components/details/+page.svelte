@@ -75,6 +75,7 @@
       <li>Component: details</li>
       <li>PascalCase: Details</li>
       <li>Description: a disclosure widget that shows and hides content</li>
+      <li>Purpose: Shows or hides a block of extra content behind a summary, using the browser's own disclosure so it works without script.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;details&gt;</li>
       <li>CSS class: .details</li>

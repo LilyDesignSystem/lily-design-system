@@ -75,6 +75,7 @@
       <li>Component: pagination-nav</li>
       <li>PascalCase: PaginationNav</li>
       <li>Description: an ordered list of page navigation links</li>
+      <li>Purpose: Moves between pages of a long list or set of results, naming the current page and the way to the next and the previous.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;nav&gt;</li>
       <li>CSS class: .pagination-nav</li>

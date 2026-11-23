@@ -5,6 +5,7 @@
 - Component: table
 - PascalCase: Table
 - Description: a table with rows and columns <table>
+- Purpose: Lays out data that has rows and columns, with headers, so a screen reader can read each cell with its row and column names.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <table>
 - CSS class: .table

@@ -75,6 +75,7 @@
       <li>Component: progress</li>
       <li>PascalCase: Progress</li>
       <li>Description: a horizontal progress bar showing completion</li>
+      <li>Purpose: Shows how far a task has come, such as an upload, and announces the value to assistive technology.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;progress&gt;</li>
       <li>CSS class: .progress</li>

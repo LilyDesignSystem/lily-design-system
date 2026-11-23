@@ -75,6 +75,7 @@
       <li>Component: badge</li>
       <li>PascalCase: Badge</li>
       <li>Description: a small label for counts, statuses, or categories</li>
+      <li>Purpose: Shows a small count or status next to a name, such as the number of unread messages, in a way a screen reader reads with it.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .badge</li>

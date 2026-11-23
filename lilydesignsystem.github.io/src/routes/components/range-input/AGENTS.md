@@ -5,6 +5,7 @@
 - Component: range-input
 - PascalCase: RangeInput
 - Description: a slider input for selecting a value within a range <input type="range">
+- Purpose: Lets the user pick a value along a range by feel, such as a volume, when the exact number matters less than the position.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <input>
 - CSS class: .range-input

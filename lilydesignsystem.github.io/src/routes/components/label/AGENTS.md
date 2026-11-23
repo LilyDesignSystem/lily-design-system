@@ -5,6 +5,7 @@
 - Component: label
 - PascalCase: Label
 - Description: a label associated with a form input
+- Purpose: Names a form control in words the user can see and click, and gives the control its accessible name.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <label>
 - CSS class: .label

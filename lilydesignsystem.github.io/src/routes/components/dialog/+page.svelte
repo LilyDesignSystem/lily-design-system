@@ -75,6 +75,7 @@
       <li>Component: dialog</li>
       <li>PascalCase: Dialog</li>
       <li>Description: a modal or non-modal dialog window</li>
+      <li>Purpose: Interrupts with a window that asks for the user's attention and input, with the page behind it inert while it is open and focus returning to where it was opened.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;dialog&gt;</li>
       <li>CSS class: .dialog</li>

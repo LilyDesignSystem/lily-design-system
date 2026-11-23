@@ -5,6 +5,7 @@
 - Component: progress
 - PascalCase: Progress
 - Description: a horizontal progress bar showing completion
+- Purpose: Shows how far a task has come, such as an upload, and announces the value to assistive technology.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <progress>
 - CSS class: .progress

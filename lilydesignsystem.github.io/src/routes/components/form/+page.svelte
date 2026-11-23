@@ -75,6 +75,7 @@
       <li>Component: form</li>
       <li>PascalCase: Form</li>
       <li>Description: a form element for collecting and submitting user data</li>
+      <li>Purpose: Collects values and sends them to the server, as one labelled unit, so a screen reader announces where the form starts and a submit works from the keyboard.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;form&gt;</li>
       <li>CSS class: .form</li>

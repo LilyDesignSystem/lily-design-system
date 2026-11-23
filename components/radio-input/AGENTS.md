@@ -5,6 +5,7 @@
 - Component: radio-input
 - PascalCase: RadioInput
 - Description: a single radio button input <input type="radio">
+- Purpose: Offers one option of a set that the user picks exactly one of; used inside a radio group, where arrow keys move between the options.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <input>
 - CSS class: .radio-input

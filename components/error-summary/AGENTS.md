@@ -5,6 +5,7 @@
 - Component: error-summary
 - PascalCase: ErrorSummary
 - Description: a summary of all validation errors on a form
+- Purpose: Collects every error on a form at the top after a failed submit, with a link to each, so the user can find and fix them all and focus lands on the problem, not on the page.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .error-summary

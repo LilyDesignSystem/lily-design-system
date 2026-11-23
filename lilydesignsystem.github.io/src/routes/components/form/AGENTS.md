@@ -5,6 +5,7 @@
 - Component: form
 - PascalCase: Form
 - Description: a form element for collecting and submitting user data
+- Purpose: Collects values and sends them to the server, as one labelled unit, so a screen reader announces where the form starts and a submit works from the keyboard.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <form>
 - CSS class: .form

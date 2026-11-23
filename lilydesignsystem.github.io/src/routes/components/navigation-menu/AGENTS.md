@@ -5,6 +5,7 @@
 - Component: navigation-menu
 - PascalCase: NavigationMenu
 - Description: a site-wide navigation menu with links
+- Purpose: Lists the site's main destinations as links in a navigation landmark, so every page can be reached from every other.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <nav>
 - CSS class: .navigation-menu

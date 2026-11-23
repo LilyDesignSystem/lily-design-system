@@ -75,6 +75,7 @@
       <li>Component: radio-input</li>
       <li>PascalCase: RadioInput</li>
       <li>Description: a single radio button input &lt;input type="radio"&gt;</li>
+      <li>Purpose: Offers one option of a set that the user picks exactly one of; used inside a radio group, where arrow keys move between the options.</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .radio-input</li>
