@@ -88,8 +88,8 @@ afterEach(() => {
 });
 
 describe("PickerBar — DEFAULT_THEMES (§3, §5.1)", () => {
-    test("has all 63 Lily reference theme slugs", () => {
-        expect(DEFAULT_THEMES).toHaveLength(63);
+    test("has all 65 Lily reference theme slugs", () => {
+        expect(DEFAULT_THEMES).toHaveLength(65);
     });
 
     const labelOf = (slug: string) =>
@@ -99,8 +99,8 @@ describe("PickerBar — DEFAULT_THEMES (§3, §5.1)", () => {
             .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
             .join(" ");
 
-    test("lists all 63 themes in one list, alphabetically by the name shown", () => {
-        expect(new Set(DEFAULT_THEMES).size).toBe(63);
+    test("lists all 65 themes in one list, alphabetically by the name shown", () => {
+        expect(new Set(DEFAULT_THEMES).size).toBe(65);
         const collator = new Intl.Collator("en", { sensitivity: "base", numeric: true });
         const names = DEFAULT_THEMES.map(labelOf);
         expect(names).toEqual([...names].sort((a, b) => collator.compare(a, b)));
@@ -123,11 +123,11 @@ describe("PickerBar — DEFAULT_THEMES (§3, §5.1)", () => {
         const shown = [...el.querySelectorAll("li.theme-picker-option")].map((o) =>
             o.textContent?.trim(),
         );
-        expect(shown).toHaveLength(63);
+        expect(shown).toHaveLength(65);
         expect(shown[0]).toBe("Abyss");
         expect(shown[2]).toBe("Adobe Spectrum");
-        expect(shown[33]).toBe("IBM Carbon");
-        expect(shown[62]).toBe("Wireframe");
+        expect(shown[34]).toBe("IBM Carbon");
+        expect(shown[64]).toBe("Wireframe");
         el.remove();
     });
 

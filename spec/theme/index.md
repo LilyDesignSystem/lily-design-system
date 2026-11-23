@@ -104,7 +104,7 @@ Consumer CSS reads these:
 
 ## Reference theme stylesheets (`themes/`)
 
-The root [`themes/`](../../themes/) directory ships 63 ready-to-use theme stylesheets that target the Lily™ class hooks directly. They cover public-sector reference designs (NHS England, NHS Scotland, and NHS Wales — each with `-for-patients` and `-for-practitioners` variants — GOV.UK GDS as `united-kingdom-government-digital-service`, USWDS as `united-states-web-design-system`), vendor-inspired palettes (`adobe-spectrum`, `mozilla-protocol`), and general-purpose themes (`light`, `dark`, `nord`, `dracula`, `wireframe`, and others).
+The root [`themes/`](../../themes/) directory ships 65 ready-to-use theme stylesheets that target the Lily™ class hooks directly. They cover public-sector reference designs (NHS England, NHS Scotland, and NHS Wales — each with `-for-patients` and `-for-practitioners` variants — GOV.UK GDS as `united-kingdom-government-digital-service`, USWDS as `united-states-web-design-system`), vendor-inspired palettes (`adobe-spectrum`, `mozilla-protocol`), and general-purpose themes (`light`, `dark`, `nord`, `dracula`, `wireframe`, and others).
 
 - Each file is standalone: link one stylesheet, get one complete theme.
 - Selectors use `:where(...)` so consumer overrides always win on specificity.
@@ -199,7 +199,7 @@ needs beyond the standard goes under the reverse-domain
 
 [`themes/tokens/lily.resolver.json`](../../themes/tokens/lily.resolver.json)
 is a 2025.10 Resolver document, written by the same generator. Each
-theme file is a complete token set, so the 63 themes are the contexts
+theme file is a complete token set, so the 65 themes are the contexts
 of one `theme` modifier (input `{"theme": "<slug>"}`, default `light`)
 rather than layered sets; the patient and practitioner pairs and each
 theme's light or dark scheme are listed under the modifier's
@@ -213,9 +213,9 @@ ranges, dimension units, aliases that resolve with matching types,
 reverse-domain `$extensions` keys, Lily's own extension shape, and the
 Resolver's structure and references. On 2026-10-29 two real parsers
 were also run once over the files, outside the repo: Terrazzo
-(`@terrazzo/parser` 2.10.0) loaded all 63 files and the resolver (57
+(`@terrazzo/parser` 2.10.0) loaded all 65 files and the resolver (57
 permutations) with no errors or warnings, and Style Dictionary 5.7.1
-(`usesDtcg`) formatted all 63 with no warnings, now emitting `1rem` for
+(`usesDtcg`) formatted all 65 with no warnings, now emitting `1rem` for
 the fluid tokens where it used to emit `[object Object]`. Neither tool
 rejected the old `fluidDimension` type, so the in-repo check is the
 stricter gate.
@@ -234,7 +234,7 @@ deliberate exclusions.
 | GOV.UK GDS, USWDS, Adobe Spectrum, Mozilla Protocol (4) | 4     | 0                                                                                                                  | none          |
 | `light` / `dark` canonical pair                         | 1     | 1                                                                                                                  | —             |
 
-Added 2026-10-16 (63 themes in all): eleven design-system references —
+Added 2026-10-16 (65 themes in all): eleven design-system references —
 Ant Design, Atlassian, Excel, Fluent, GitHub Primer, IBM Carbon, Notion,
 Salesforce, SAP Fiori and Vercel (all light), and Linear (dark, the one
 upstream whose own visual language is dark-first) — and `cappuccino`, a
@@ -242,7 +242,7 @@ Lily original in the coffee family (light). Every text pair in them
 reaches at least AA (4.5:1); where a brand colour could not carry text at
 that ratio its fill was moved along lightness, and the move is recorded
 in that theme's own spec (`lily-design-system-themes/spec/themes/{slug}/`).
-Totals: 63 themes, 42 light and 15 dark.
+Totals: 65 themes, 42 light and 15 dark.
 
 **Deliberate exclusions.**
 
@@ -299,7 +299,7 @@ language. An app's body text should use `var(--lily-font-body)` and `var(--lily-
 
 ## Public-sector design systems beyond the UK and US: adopt or decline (2026-10-30, P17-T9)
 
-The 63 themes include public-sector looks from the UK (7) and the US (1) only (worldwide audit, finding 10). A theme
+The 65 themes include public-sector looks from the UK (7) and the US (1) only (worldwide audit, finding 10). A theme
 takes colours, spacing and type scale from a system's published guidance; it never copies its logo, crest, coat of
 arms or a restricted typeface, and never claims to be the system. Licences were read from each system's own
 repository on 2026-10-30.
@@ -353,7 +353,7 @@ gap in the evidence, not a finding that none exists.
 
 The rule must name a style: `outline: var(--lily-focus-ring)` alone resets `outline-style` to `none`. Every theme wrote it that
 way for file-tree items and a picker's keyboard cursor, so neither had a ring; it is now `2px solid`, and the Nunjucks app's
-`e2e/focus-visible.spec.ts` focuses a file-tree item under each of the 63 themes alone, and a picker's cursor in the app, and
+`e2e/focus-visible.spec.ts` focuses a file-tree item under each of the 65 themes alone, and a picker's cursor in the app, and
 fails on a missing or thinner outline.
 
 `bin/check-theme --contrast --gate`, in `bin/test`, fails when the ring is below 3:1 against `--color-base-100` or
@@ -373,7 +373,7 @@ Found by two consumers of the International Patient Summary projects (`spec/less
 
 - **`--lily-link`** is the colour for a link in the adopter's own CSS (`a { color: var(--lily-link) }`). `--color-primary` is a fill, and
   in `bumblebee` (yellow) or `acid` (pink) it is unreadable as text on the page. The token is the primary mixed 20 percent into
-  `--color-base-content` (`color-mix(in oklch, …)`), in a shared "Link colour" section identical in all 63 themes. At 20 percent every
+  `--color-base-content` (`color-mix(in oklch, …)`), in a shared "Link colour" section identical in all 65 themes. At 20 percent every
   theme reaches 4.5:1 on `--color-base-100` and `--color-base-200` (the lowest is 4.69:1). `bin/check-theme --contrast` reports both
   pairs, and the gate holds them for the `light` and `dark` themes. Because the colour is then close to the text colour, a link keeps
   its underline (WCAG 1.4.1).
@@ -425,8 +425,8 @@ Editorial / scrollytelling primitives use CSS custom properties for column width
 - [x] Theme tokens are a flat object flattening to `--theme-{path}` custom properties.
 - [x] `ThemeProvider` reflects `base` to `data-theme` and uses only `display: contents` plus CSS-variable inline styles.
 - [x] Light / dark / high-contrast variants are selected via `data-theme` values, not component logic.
-- [x] All 63 themes carry the pinned "Focus not obscured" section (`scroll-padding-block` from `--lily-fixed-bar-block-start` / `-end`).
-- [x] All 63 themes carry the pinned "Writing systems" section and define only `--lily-font-body-latin` (`bin/check-theme` rule 14).
+- [x] All 65 themes carry the pinned "Focus not obscured" section (`scroll-padding-block` from `--lily-fixed-bar-block-start` / `-end`).
+- [x] All 65 themes carry the pinned "Writing systems" section and define only `--lily-font-body-latin` (`bin/check-theme` rule 14).
 - [x] An adopt-or-decline list of non-UK/US public-sector systems, with a licence per system.
 - [x] Themes for the six adopted systems (P17-T9a).
 - [x] Editorial column widths use the `--content-width-*` convention set by `article-layout` and read by `content-block`.
@@ -444,6 +444,16 @@ Editorial / scrollytelling primitives use CSS custom properties for column width
 - [AGENTS/theme.md](../../AGENTS/theme.md)
 - [spec/index.md](../index.md) §4.4 Theme, §10.1 Reuters column-width convention
 - [AGENTS/examples.md](../../AGENTS/examples.md)
+
+## High-contrast themes (2026-11-23)
+
+`light-high-contrast` ("Light High-Contrast") and `dark-high-contrast` ("Dark High-Contrast") are two original themes for
+people who need more contrast than the other 63 give, built to WCAG 2.2 AAA rather than AA: body text is black on white or white on black
+(21:1), every `-content` colour on its fill is at least 7:1 (1.4.6), links (`--lily-link`) are at least 7:1 on every base surface,
+borders are 2px (`--border: 2px`), corners are 0.25rem and `--depth` is 0, so no information rests on a shadow. Colour pairs
+are checked by `bin/check-theme --contrast`, which reports none of their pairs below 7:1, and the site's
+`tests/high-contrast-themes.spec.ts` measures the page text and a link at 7:1 through the real picker. They share every
+component rule with the other themes: only the token block differs. The picker names come from `DEFAULT_THEME_LABELS`.
 
 ---
 

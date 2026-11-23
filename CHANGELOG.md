@@ -45,6 +45,10 @@ highlights.
   change many components at once) and which go straight to `latest` (fixes, patches, additive releases). Holding `latest` two days behind, which one
   consumer asked for, was not adopted: it would delay every fix for every consumer. `bin/test-publish-tag` checks the option with a fake `npm`.
 
+## Light and Dark High-Contrast themes (2026-11-23)
+
+- Two new reference themes, `light-high-contrast` and `dark-high-contrast`, bring the set to 65: black on white and white on black, every text pair at least 7:1 (WCAG 2.2 AAA, 1.4.6), links at least 7:1 on every surface, 2px borders and no depth. Added to the default theme lists and labels of all nine picker-bars and the docs site; they reach consumers with the next themes and picker-bar releases. `tests/high-contrast-themes.spec.ts` measures them through the real picker.
+
 ## Kotlin publishing setup (2026-11-23, P45-T6)
 
 - The four Kotlin library modules have Maven publications (POM metadata, the seven licences at the recipient's option, a javadoc jar, optional signing), and `bin/publish-kotlin --dry-run` builds them into `lily-design-system-kotlin/build/repo` and checks every POM. A real publish needs a verified `io.github.lilydesignsystem` namespace, a Central Portal token and a signing key, none of which exist yet.

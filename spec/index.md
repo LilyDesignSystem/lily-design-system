@@ -388,7 +388,7 @@ Scripts live in `bin/`:
 | `bin/check-helper-docs`                                                                                                 | Every Svelte grid-like helper documents each prop and lists no shipped feature as a non-goal.                                                                                            |
 | `bin/check-label-packs`                                                                                                 | The 64 label packs match the English pack; the helpers still take every key a pack holds.                                                                                                |
 | `bin/verify-published`                                                                                                  | After a publish: is every helper package's local version on npm / nuget.org? `--wait` polls through registry lag.                                                                        |
-| `bin/check-theme`                                                                                                       | Conformance checks for the 63 reference themes; `--contrast` reports token-pair contrast (report only).                                                                                  |
+| `bin/check-theme`                                                                                                       | Conformance checks for the 65 reference themes; `--contrast` reports token-pair contrast (report only).                                                                                  |
 | `bin/generate-theme-tokens`                                                                                             | DTCG token source: extract / generate / drift-check.                                                                                                                                     |
 | `bin/generate-api-docs`                                                                                                 | Site canonical-contract sections, the `/r/{slug}.json` manifests and the `/components/{slug}.md` copies, from AGENTS metadata; drift-checked.                                            |
 | `bin/check-class-names`                                                                                                 | Every implementation in all 8 headless libraries carries its slug as the first token of a class list.                                                                                    |
@@ -673,7 +673,7 @@ canonical release record. Most recent events, newest first:
 
 - **Unicode type-ahead (2026-11-19)** — listboxes and grids using the shared matcher can cycle through names starting
   with supplementary CJK characters and Hangul syllables. See [keyboard type-ahead](internationalization/index.md#keyboard-type-ahead).
-- **Contrast gate and dependency refresh (2026-11-02)** — `bin/check-theme --contrast --gate` in `bin/test` (no AA failure in 63 themes);
+- **Contrast gate and dependency refresh (2026-11-02)** — `bin/check-theme --contrast --gate` in `bin/test` (no AA failure in 65 themes);
   `:user-invalid` in every theme; ESLint 10; patch and minor updates in 164 packages; Vitest 5 everywhere. See [CHANGELOG.md](../CHANGELOG.md).
 - **Modal dialogs, menus on the Popover API, form reset (2026-10-30)** — `dialog`, `alert-dialog`, `file-dialog` and
   `timeout-dialog` open with `showModal()` in every catalog; `dropdown-menu`, `split-button`, `action-group` and
@@ -685,7 +685,7 @@ canonical release record. Most recent events, newest first:
   empty); strict DTCG 2025.10 tokens; Firefox and WebKit in every example app's e2e; `bin/check-worldwide` and the
   Gregorian, digit, RTL and currency fixes from the [worldwide audit](internationalization/worldwide-audit.md).
 - **Responsive rules and `picture` (2026-10-28)** — `AGENTS/responsive.md`, container queries and scoped overflow in
-  the 63 themes, `grid` `minColumnWidth`, `picture` (catalog 582). See [responsive](responsive/index.md).
+  the 65 themes, `grid` `minColumnWidth`, `picture` (catalog 582). See [responsive](responsive/index.md).
 - **Editors and time zones (2026-10-24)** — `markdown-editor` and `org-editor` in all nine catalogs;
   `time-zone-picker` with CLDR names in 64 languages. See [zone-names](zone-names/index.md).
 

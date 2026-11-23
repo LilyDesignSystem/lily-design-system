@@ -28,7 +28,7 @@ in the repository should be read as softening it.
 
 Lily is unusually large for a one-person project: 608 catalog components
 implemented across seven frameworks, seven example applications, 35 helper
-packages, 63 theme stylesheets, and roughly 11,000 markdown files. State that
+packages, 65 theme stylesheets, and roughly 11,000 markdown files. State that
 plainly rather than let a reader discover it as a surprise.
 
 The practical consequences:

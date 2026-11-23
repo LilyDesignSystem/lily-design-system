@@ -75,7 +75,7 @@ them. Nothing else in the table includes Blazor or Nunjucks.
 Most systems pick one side. Radix, Base UI, React Aria, Bits, Melt, and Ark ship behaviour and leave
 you the visuals. DaisyUI, Flowbite, Ant, Carbon, and Spectrum ship the visuals
 and their opinions with them. Lily ships an unstyled layer with zero CSS, plus
-seven complete styled applications and 63 theme stylesheets, so you can see the
+seven complete styled applications and 65 theme stylesheets, so you can see the
 end state before adopting the primitives.
 
 **3. Internationalisation as a hard rule, not a feature.**
@@ -85,7 +85,7 @@ and gender logic belongs to the consumer. Most component libraries ship English
 defaults and a translation mechanism bolted on afterwards.
 
 **4. Public-sector reference coverage.**
-63 themes covering NHS England, Scotland and Wales in patient and practitioner
+65 themes covering NHS England, Scotland and Wales in patient and practitioner
 variants, GOV.UK GDS, and USWDS, plus 188 national personal identifier components
 across 30+ countries with normalization and validation. Nothing else in the table
 addresses this, and it is the one area where Lily's breadth is not just breadth.

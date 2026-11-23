@@ -72,8 +72,8 @@ afterEach(() => {
 });
 
 describe("PickerBar — DEFAULT_THEMES (§3, §5.1)", () => {
-    test("has all 63 Lily reference theme slugs", () => {
-        expect(DEFAULT_THEMES).toHaveLength(63);
+    test("has all 65 Lily reference theme slugs", () => {
+        expect(DEFAULT_THEMES).toHaveLength(65);
     });
 
     const labelOf = (slug: string) =>
@@ -83,8 +83,8 @@ describe("PickerBar — DEFAULT_THEMES (§3, §5.1)", () => {
             .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
             .join(" ");
 
-    test("lists all 63 themes in one list, alphabetically by the name shown", () => {
-        expect(new Set(DEFAULT_THEMES).size).toBe(63);
+    test("lists all 65 themes in one list, alphabetically by the name shown", () => {
+        expect(new Set(DEFAULT_THEMES).size).toBe(65);
         const collator = new Intl.Collator("en", { sensitivity: "base", numeric: true });
         const names = DEFAULT_THEMES.map(labelOf);
         expect(names).toEqual([...names].sort((a, b) => collator.compare(a, b)));
@@ -166,11 +166,11 @@ describe("PickerBar — theme-picker wiring (§5.1, §7.3, §7.6)", () => {
         const wrapper = build();
         await buttons(wrapper).theme.trigger("click");
         const options = wrapper.findAll(".theme-picker-option");
-        expect(options).toHaveLength(63);
+        expect(options).toHaveLength(65);
         expect(options[0].text()).toBe("Abyss");
         expect(options[2].text()).toBe("Adobe Spectrum");
-        expect(options[33].text()).toBe("IBM Carbon");
-        expect(options[62].text()).toBe("Wireframe");
+        expect(options[34].text()).toBe("IBM Carbon");
+        expect(options[64].text()).toBe("Wireframe");
     });
 
     test("§7.6 an explicit `themes` prop overrides the default", async () => {

@@ -188,7 +188,7 @@ This resolves P10-T6 as follows. Adopt the shadcn path for copying. Build only t
 - Validate `themes/tokens/*.json` against the 2025.10 Format schema in `bin/test`.
 - Move `fluidDimension` under `$extensions["com.lilydesignsystem"]` on a standard `dimension` token whose `$value` is
   the floor, so strict tools read a usable value and Lily tools still read the fluid one.
-- Add a Resolver document that expresses the 63 themes' shared structure, including the patient and practitioner
+- Add a Resolver document that expresses the 65 themes' shared structure, including the patient and practitioner
   variants and the light and dark modes, as sets and modifiers.
 - Test one theme's import into Penpot (open source, native tokens) and into Figma through Tokens Studio, and document
   both on the not-planned Figma page (P5-T5).

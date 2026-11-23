@@ -14,7 +14,7 @@ It does **not** cover: the headless markup rules (see [headless](../headless/ind
 
 - **Mobile first** for new CSS. Base rules are the narrow layout; queries use `min-width`.
 - **Intrinsic sizing before breakpoints.** `minmax()`, `min()`, `clamp()`, `flex-wrap` and `repeat(auto-fit, …)` first; a breakpoint only where the layout changes in kind.
-- **`rem` breakpoints.** The 63 themes use `48rem` (Tailwind's `md`), so they follow the viewer's font size. `px` breakpoints are not used.
+- **`rem` breakpoints.** The 65 themes use `48rem` (Tailwind's `md`), so they follow the viewer's font size. `px` breakpoints are not used.
 - **Container queries for components, viewport queries for page shells.** Done in the themes (P15-T2): the three grail-layout regions are containers; `card` is not, because inline-size containment collapses it in a shrink-to-fit parent. A component outside a grail region has no container and keeps its wide layout.
 - **Logical properties** so right-to-left needs no second stylesheet.
 - **No `100vw` widths** on `body` or full-width blocks.
@@ -34,8 +34,8 @@ down here instead, in `rem` (Tailwind's scale, so adopters moving between system
 | Name  | Width   | Used today                                                                |
 | ----- | ------- | ------------------------------------------------------------------------- |
 | `sm`  | `40rem` | NHS Wales for patients: a primary button in a form goes full width (DHCW) |
-| `md`  | `48rem` | All 63 themes: `grail-layout` is one column (left aside above `main`)     |
-| `lg`  | `64rem` | All 63 themes: `grail-layout` right aside drops below `main`              |
+| `md`  | `48rem` | All 65 themes: `grail-layout` is one column (left aside above `main`)     |
+| `lg`  | `64rem` | All 65 themes: `grail-layout` right aside drops below `main`              |
 | `xl`  | `80rem` | unused                                                                    |
 | `2xl` | `96rem` | unused                                                                    |
 
@@ -48,7 +48,7 @@ Measured 2026-10-28 over `themes/*.css`: every theme has one `@media (max-width:
 desktop-first today, not mobile first; NHS Wales for patients adds a `40rem` one. All 57 use
 `max-width: calc(100vw - 1rem)` to cap a popup, which is allowed (the `100vw` rule is about widths of `body` and
 full-width blocks). Moving the themes to `min-width` queries is not planned: the rule binds new CSS, and a rewrite of
-63 themes needs its own task.
+65 themes needs its own task.
 
 ## Where each rule is verified
 
@@ -56,7 +56,7 @@ full-width blocks). Moving the themes to `min-width` queries is not planned: the
 | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
 | No horizontal overflow  | Six-width sweep in every example app: 320 (reflow), 375, 768, 1280, 2560, plus 320 at deviceScaleFactor 4 (400% zoom emulation); a 60-character unbroken string in a `summary-list` and a `data-table` at 320px; grail-layout DOM order equals visual order at 320, 768 and 1280 (`e2e/responsive.spec.ts`, P15-T6/T7/T8) | none                                 |
 | Breakpoints in `rem`    | `bin/check-theme` rule 9, against the table above                                                                                                                                                                                                                                                                         | none                                 |
-| `container-type` set    | `bin/check-theme` rule 8; the section is pinned across all 63 themes                                                                                                                                                                                                                                                      | none                                 |
+| `container-type` set    | `bin/check-theme` rule 8; the section is pinned across all 65 themes                                                                                                                                                                                                                                                      | none                                 |
 | Fluid values have floor | `bin/check-theme` rule 11; `bin/generate-theme-tokens --check`                                                                                                                                                                                                                                                            | none                                 |
 | No `100vw` on `body`    | none                                                                                                                                                                                                                                                                                                                      | `bin/check-theme` (P15-T1 follow-up) |
 | Headless has no queries | Forbidden-literal list in [AGENTS/theme.md](../../AGENTS/theme.md), reviewed by hand                                                                                                                                                                                                                                      | none                                 |
@@ -76,7 +76,7 @@ the column can shrink, which a bare `1fr` track cannot (`minmax(0, 1fr)`), and t
 four headers: `1fr` alone, `1fr` with the scroller, and `minmax(0, 1fr)` without it all overflow by 20px; only the two together fit. The fix
 is the page's, never a theme's: a theme cannot make a `1fr` track shrink, and `display: block` on a table would strip its semantics. The
 HTML examples app's `e2e/themes-320.spec.ts` holds it: a record list, a table in its scroller, a disclosure and long values in links and
-code, in all 63 themes at 320px, plus the four combinations above. Plain text is not wrapped by the themes (only table cells, links, code
+code, in all 65 themes at 320px, plus the four combinations above. Plain text is not wrapped by the themes (only table cells, links, code
 and identifier views are), so a long unbroken value belongs in one of those.
 
 ## Related topics

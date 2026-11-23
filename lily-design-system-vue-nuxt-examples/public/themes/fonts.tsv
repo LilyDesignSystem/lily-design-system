@@ -20,6 +20,7 @@ corporate	system-ui	system	none: the viewer's own operating-system font	n/a	Noth
 cupcake	system-ui	system	none: the viewer's own operating-system font	n/a	Nothing to ship or licence.
 cyberpunk	system-ui	system	none: the viewer's own operating-system font	n/a	Nothing to ship or licence.
 dark	system-ui	system	none: the viewer's own operating-system font	n/a	Nothing to ship or licence.
+dark-high-contrast	system-ui	system	none: the viewer's own operating-system font	n/a	Nothing to ship or licence.
 dim	system-ui	system	none: the viewer's own operating-system font	n/a	Nothing to ship or licence.
 dracula	system-ui	system	none: the viewer's own operating-system font	n/a	Nothing to ship or licence.
 emerald	system-ui	system	none: the viewer's own operating-system font	n/a	Nothing to ship or licence.
@@ -35,6 +36,7 @@ ibm-carbon	system-ui	system	none: the viewer's own operating-system font	n/a	Not
 japan-digital-agency-design-system	Noto Sans JP	named, not shipped	SIL OFL 1.1	unverified	From general knowledge on 2026-11-01; the licence file was not read. Verify before bundling the font.
 lemonade	system-ui	system	none: the viewer's own operating-system font	n/a	Nothing to ship or licence.
 light	system-ui	system	none: the viewer's own operating-system font	n/a	Nothing to ship or licence.
+light-high-contrast	system-ui	system	none: the viewer's own operating-system font	n/a	Nothing to ship or licence.
 linear	system-ui	system	none: the viewer's own operating-system font	n/a	Nothing to ship or licence.
 lofi	system-ui	system	none: the viewer's own operating-system font	n/a	Nothing to ship or licence.
 luxury	system-ui	system	none: the viewer's own operating-system font	n/a	Nothing to ship or licence.

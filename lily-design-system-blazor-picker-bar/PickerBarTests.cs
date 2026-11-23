@@ -53,7 +53,7 @@ public class PickerBarTests : TestContext
     [Fact]
     public void Section_5_1_DefaultThemes_Has_All_63_Slugs()
     {
-        Assert.Equal(63, PickerBar.DefaultThemes.Count);
+        Assert.Equal(65, PickerBar.DefaultThemes.Count);
     }
 
     private static string LabelOf(string slug) =>
@@ -64,7 +64,7 @@ public class PickerBarTests : TestContext
     [Fact]
     public void Section_5_1_DefaultThemes_Are_One_List_Sorted_By_The_Name_Shown()
     {
-        Assert.Equal(63, PickerBar.DefaultThemes.Distinct().Count());
+        Assert.Equal(65, PickerBar.DefaultThemes.Distinct().Count());
         var sorted = LilyDesignSystem.Blazor.Helpers.ThemePicker.SortThemeSlugs(
             PickerBar.DefaultThemes.Reverse(), LabelOf, "en");
         Assert.Equal(sorted, PickerBar.DefaultThemes);
@@ -95,7 +95,7 @@ public class PickerBarTests : TestContext
         var cut = RenderBar();
         cut.Find("button[aria-label='Theme']").Click();
         var options = cut.FindAll(".theme-picker-option");
-        Assert.Equal(63, options.Count);
+        Assert.Equal(65, options.Count);
         Assert.Equal("Abyss", options[0].TextContent);
         // One list sorted by the name shown, not grouped by kind.
         var themes = PickerBar.DefaultThemes.ToList();

@@ -153,7 +153,7 @@ The listbox reads **Follow this device**, a line, then the themes in alphabetica
 
 - `systemLabel` adds a first option, value `"system"` (`SYSTEM_THEME`), with no English default. While chosen it applies
   `systemThemes.light` or `.dark` (default `light`, `dark`) from `prefers-color-scheme`, and follows the device when it switches.
-- The line is a border the theme draws on `.theme-picker-option-system` (all 63 `themes/`), because a listbox may hold only
+- The line is a border the theme draws on `.theme-picker-option-system` (all 65 `themes/`), because a listbox may hold only
   options and groups; the native select variant uses `<hr class="theme-picker-separator">`.
 - `cookieName` keeps the choice, not the theme it applied, in a first-party cookie: `Path=/`, `SameSite=Lax`, `Secure` on https,
   400 days (the browser maximum). It is read before `localStorage`; a value that is not one of the choices is ignored.

@@ -32,7 +32,7 @@ Asserts the contracts a theme stylesheet must honour (plan P3-T5):
 
   7. Today is marked, never filled. A rule for `[aria-current="date"]` sets no
      background: a solid fill on the current day's cell hides the events in it
-     (reported 2026-10-17 against an app theme; all 63 themes use an outline).
+     (reported 2026-10-17 against an app theme; all 65 themes use an outline).
 
   8. Container queries have a container. A theme that uses `@container` also
      sets `container-type` somewhere: a query with no container never matches

@@ -108,7 +108,7 @@ Nunjucks also ships `nunjucks-listbox-behavior`. Alpine ships only `alpine-{data
 
 ## Reference themes
 
-The [themes/](../themes) directory ships 63 standalone theme stylesheets (NHS England/Scotland/Wales patient + practitioner variants, GOV.UK GDS, USWDS, the GC Design System (Canada), SGDS (Singapore), the Digital Agency (Japan), gov.br (Brazil), ECL (European Commission), AgDS (Australia), Adobe Spectrum, Mozilla Protocol, Ant Design, Atlassian, Excel, Fluent, GitHub Primer, IBM Carbon, Linear, Notion, Salesforce, SAP Fiori, Vercel, and general-purpose themes) that target the Lily class hooks; the theme-picker helper loads them at runtime.
+The [themes/](../themes) directory ships 65 standalone theme stylesheets (NHS England/Scotland/Wales patient + practitioner variants, GOV.UK GDS, USWDS, the GC Design System (Canada), SGDS (Singapore), the Digital Agency (Japan), gov.br (Brazil), ECL (European Commission), AgDS (Australia), Adobe Spectrum, Mozilla Protocol, Ant Design, Atlassian, Excel, Fluent, GitHub Primer, IBM Carbon, Linear, Notion, Salesforce, SAP Fiori, Vercel, and general-purpose themes) that target the Lily class hooks; the theme-picker helper loads them at runtime.
 
 ## Agent skills
 
@@ -216,7 +216,7 @@ Also copied rather than generated: `bin/sync` rsyncs the root `AGENTS/` and `the
 - [generate-core](../bin/generate-core): The Lily Core tier from test, e2e and screen-reader evidence, the `/quality` page and the self-assessed ACR (`--check` in bin/test)
 - [check-recipes](../bin/check-recipes): Every recipe in `recipes/{slug}/{name}.html` has front matter (title, components, tags), lists only real slugs it uses, parses, gives every control an accessible name, names only ids that exist, and never describes a control with a hidden element (in bin/test)
 - [check-picker-icons](../bin/check-picker-icons): All 80 bundled picker icons follow the icon contract: one `viewBox`, a `currentColor` stroke, round caps and joins, `rem` size, `aria-hidden` (in bin/test)
-- [check-theme](../bin/check-theme): Verify the 63 reference themes honour their conformance contracts; `--contrast` reports each theme's token-pair contrast against WCAG AA/AAA (report only)
+- [check-theme](../bin/check-theme): Verify the 65 reference themes honour their conformance contracts; `--contrast` reports each theme's token-pair contrast against WCAG AA/AAA (report only)
 - [check-class-names](../bin/check-class-names): Every headless implementation carries its kebab-case base class (first in a class list)
 - [check-html-tags](../bin/check-html-tags): Every headless implementation's root element is the contract's HTML tag, or is listed with a reason in `bin/check-html-tags.allow.json` (which may only shrink; in bin/test)
 - [check-identifier-validation](../bin/check-identifier-validation): Every national identifier type is validated by a function in `shared/national-identifiers.ts`, recorded as having no usable check with its reason, or listed open, in `shared/national-identifiers.tsv` (in bin/test)

@@ -112,6 +112,11 @@
             "$ref": "dark.json"
           }
         ],
+        "dark-high-contrast": [
+          {
+            "$ref": "dark-high-contrast.json"
+          }
+        ],
         "dim": [
           {
             "$ref": "dim.json"
@@ -185,6 +190,11 @@
         "light": [
           {
             "$ref": "light.json"
+          }
+        ],
+        "light-high-contrast": [
+          {
+            "$ref": "light-high-contrast.json"
           }
         ],
         "linear": [
@@ -348,6 +358,7 @@
               "business",
               "coffee",
               "dark",
+              "dark-high-contrast",
               "dim",
               "dracula",
               "forest",
@@ -385,6 +396,7 @@
               "japan-digital-agency-design-system",
               "lemonade",
               "light",
+              "light-high-contrast",
               "lofi",
               "mozilla-protocol",
               "nord",

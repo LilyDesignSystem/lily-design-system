@@ -1,4 +1,4 @@
---- /var/folders/zp/p2vtmfrj35b27yh4ns6h_6h40000gn/T/tmp.htHgHCduxA/t_new
+--- base
 +++ lily-design-system-web-components-picker-bar/picker-bar.ts
 @@ -5,37 +5,58 @@
   * the custom-element class but does NOT register it. The `index.ts`
@@ -74,7 +74,7 @@
  /**
   * All 63 Lily reference theme slugs (see `themes/` at the repo root), in one list sorted alphabetically by the name shown
   * (`DEFAULT_THEME_LABELS`, else the title-cased slug), so "IBM Carbon" sorts under I and "NHS England (patients)" under N.
-@@ -136,9 +157,8 @@
+@@ -140,9 +161,8 @@
  
  /**
   * The seven-step text-size scale. Each slug title-cases to exactly the
@@ -86,7 +86,7 @@
   */
  export const DEFAULT_SIZES: string[] = [
      "largest",
-@@ -150,7 +170,7 @@
+@@ -154,7 +174,7 @@
      "smallest",
  ];
  
@@ -95,7 +95,7 @@
  export type PickerBarLabels = {
      /**
       * Accessible name for the link picker's button and list. Needed only when `links` is
-@@ -182,6 +202,11 @@
+@@ -186,6 +206,11 @@
      share: string;
  };
  
@@ -107,7 +107,7 @@
  const DEFAULT_LABELS: PickerBarLabels = {
      search: "",
      searchInput: "",
-@@ -192,90 +217,74 @@
+@@ -196,90 +221,74 @@
      share: "",
  };
  
@@ -239,7 +239,7 @@
      get themesUrl(): string {
          return this.getAttribute("themes-url") ?? "";
      }
-@@ -287,13 +296,13 @@
+@@ -291,13 +300,13 @@
          return [...this.#themes];
      }
      set themes(v: string[]) {
@@ -256,7 +256,7 @@
      }
  
      get locales(): string[] {
-@@ -306,127 +315,168 @@
+@@ -310,127 +319,168 @@
              this.setAttribute("locales", csv);
              return;
          }
@@ -488,7 +488,7 @@
          const themesAttr = this.getAttribute("themes");
          if (themesAttr !== null) this.#themes = parseCsv(themesAttr);
          const localesAttr = this.getAttribute("locales");
-@@ -434,54 +484,57 @@
+@@ -438,54 +488,57 @@
          const sizesAttr = this.getAttribute("sizes");
          if (sizesAttr !== null) this.#sizes = parseCsv(sizesAttr);
  
@@ -569,7 +569,7 @@
          // Only when the app names it: a client-side app can leave search out (tasks.md P28-T7).
          let searchEl: SearchPicker | null = null;
          if (this.#labels.search) {
-@@ -507,24 +560,12 @@
+@@ -511,24 +564,12 @@
          Object.assign(localeEl, this.#localeProps);
          root.appendChild(localeEl);
  
@@ -597,7 +597,7 @@
          textSizeEl.defaultValue = "normal";
          Object.assign(textSizeEl, this.#textSizeProps);
          root.appendChild(textSizeEl);
-@@ -535,20 +576,15 @@
+@@ -539,20 +580,15 @@
          Object.assign(shareEl, this.#shareProps);
          root.appendChild(shareEl);
  

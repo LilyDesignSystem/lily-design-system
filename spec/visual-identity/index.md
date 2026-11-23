@@ -38,7 +38,7 @@ in its header) but not the crown image's licence.
 
 | The sources say                                                                                   | Lily today                                                                                                                                               |
 | ------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| A visual identity is a system, not a logo; guidelines keep it consistent                          | 63 themes, each a token set plus a shared conformance contract enforced by `bin/check-theme` (provenance header, shared sections, contrast).             |
+| A visual identity is a system, not a logo; guidelines keep it consistent                          | 65 themes, each a token set plus a shared conformance contract enforced by `bin/check-theme` (provenance header, shared sections, contrast).             |
 | One shared core, brand-specific values in a separate layer (Frost: core + brand)                  | Headless components with class hooks; themes in `@layer lily` using `:where()` so a consumer override wins; DTCG tokens in `themes/tokens/`.             |
 | Keep token names constant across brands                                                           | Every theme defines the same `--color-*`, `--radius-*`, `--depth` and `--lily-*` names; `bin/check-theme` pins them.                                     |
 | Brand colours are often not text-safe; derive an accessible variant                               | Content pairs are at least 4.5:1 in the six newest themes; `--lily-error-text` is derived from `--color-base-content`; `--contrast` reports every theme. |
@@ -147,7 +147,7 @@ theme's `--lily-brand` (item 3), creating it if absent, off by default. Idempote
 - [x] `--lily-brand` and `--lily-on-brand` are in every theme's shared section and pinned by `bin/check-theme`.
 - [x] The logo-slot composition is in `AGENTS/components.md` and `spec/visual-identity`, with an example page tested in one
       example app.
-- [x] `themes/fonts.tsv` has a row for all 63 themes, with unknowns marked unknown (a separate file: `references.tsv` has only the 14 public-sector rows).
+- [x] `themes/fonts.tsv` has a row for all 65 themes, with unknowns marked unknown (a separate file: `references.tsv` has only the 14 public-sector rows).
 - [x] The icon contract is checked for every bundled picker icon.
 - [x] The theme-picker's optional `themeColor` works in all eight catalogs and is idempotent.
 - [x] Each recorded identity change has a dated entry in `themes/identity-changes.tsv`, reported by `bin/check-theme-references` (no per-theme docs page exists to carry the line).

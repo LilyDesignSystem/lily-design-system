@@ -18,8 +18,8 @@ const themes = readdirSync(DIR)
     // In the picker's order: the site's THEMES list, alphabetical by the name shown.
     .sort((a, b) => THEMES.indexOf(a.slug) - THEMES.indexOf(b.slug));
 
-test("there are 63 themes and the picker offers all of them", async ({ page }) => {
-    expect(themes).toHaveLength(63);
+test("there are 65 themes and the picker offers all of them", async ({ page }) => {
+    expect(themes).toHaveLength(65);
     expect(themes.map((t) => t.slug)).toEqual(THEMES);
     await page.goto("/");
     await page.locator(".theme-picker-button").click();
