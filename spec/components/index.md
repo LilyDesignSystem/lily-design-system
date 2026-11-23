@@ -321,15 +321,15 @@ screen reader's experience, through its live region. Added 2026-11-23 from
 
 ### Notices, loudest first
 
-| Rank | Component                                                                                       | For                                                           | Live region                                  | Rule                                                              |
-| ---- | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | -------------------------------------------- | ----------------------------------------------------------------- |
-| 1    | [`super-banner`](../../components/super-banner/index.md)                                        | A state that affects the whole service                        | `role="alert"`, `assertive`                  | One at a time                                                     |
-| 2    | [`alert`](../../components/alert/index.md)                                                      | Feedback the user must hear now, about what they just did     | `role="alert"` (or `status`), `assertive`    | Few at once; the first one the user can act on moves focus        |
-| 3    | [`notification`](../../components/notification/index.md), [`toast`](../../components/toast/index.md) | An event or update that can wait for a pause in speech        | `role="status"`, `polite` (`alert` if urgent) | A toast never carries the only copy of an error or a deadline     |
-| 4    | [`banner`](../../components/banner/index.md), [`announcement-banner`](../../components/announcement-banner/index.md) | Something for everyone on the site, for days                  | a region (`polite`, or `live`)               | One site-wide banner at a time                                    |
-| 5    | [`phase-banner`](../../components/phase-banner/index.md), [`government-banner`](../../components/government-banner/index.md) | A standing fact about the service or its owner                | none (a group, or an `<aside>`)              | One of each, at the top of the page                               |
-| 6    | [`warning-text`](../../components/warning-text/index.md), [`medical-banner-box-for-danger`](../../components/medical-banner-box-for-danger/index.md) | A consequence the reader must not miss in the text            | none (static content)                        | Few per page; if everything warns, nothing does                   |
-| 7    | [`inset-text`](../../components/inset-text/index.md), [`medical-banner-box-for-advice`](../../components/medical-banner-box-for-advice/index.md) | Supplementary text set apart                                  | none (`role="note"`)                         | No limit, and never the only place a requirement is stated        |
+| Rank | Component                                                                                                                                            | For                                                       | Live region                                   | Rule                                                          |
+| ---- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- | --------------------------------------------- | ------------------------------------------------------------- |
+| 1    | [`super-banner`](../../components/super-banner/index.md)                                                                                             | A state that affects the whole service                    | `role="alert"`, `assertive`                   | One at a time                                                 |
+| 2    | [`alert`](../../components/alert/index.md)                                                                                                           | Feedback the user must hear now, about what they just did | `role="alert"` (or `status`), `assertive`     | Few at once; the first one the user can act on moves focus    |
+| 3    | [`notification`](../../components/notification/index.md), [`toast`](../../components/toast/index.md)                                                 | An event or update that can wait for a pause in speech    | `role="status"`, `polite` (`alert` if urgent) | A toast never carries the only copy of an error or a deadline |
+| 4    | [`banner`](../../components/banner/index.md), [`announcement-banner`](../../components/announcement-banner/index.md)                                 | Something for everyone on the site, for days              | a region (`polite`, or `live`)                | One site-wide banner at a time                                |
+| 5    | [`phase-banner`](../../components/phase-banner/index.md), [`government-banner`](../../components/government-banner/index.md)                         | A standing fact about the service or its owner            | none (a group, or an `<aside>`)               | One of each, at the top of the page                           |
+| 6    | [`warning-text`](../../components/warning-text/index.md), [`medical-banner-box-for-danger`](../../components/medical-banner-box-for-danger/index.md) | A consequence the reader must not miss in the text        | none (static content)                         | Few per page; if everything warns, nothing does               |
+| 7    | [`inset-text`](../../components/inset-text/index.md), [`medical-banner-box-for-advice`](../../components/medical-banner-box-for-advice/index.md)     | Supplementary text set apart                              | none (`role="note"`)                          | No limit, and never the only place a requirement is stated    |
 
 Promotion is a separate suite, ranked by how hard it pulls: [`hero`](../../components/hero/index.md) (the page's own opening),
 [`sticky-promo-banner`](../../components/sticky-promo-banner/index.md) (fixed to the viewport, so it must be dismissable and must
@@ -338,12 +338,12 @@ not carry a `super-banner`, a `sticky-promo-banner` and a `hero` at once: they c
 
 ### Actions, quietest first
 
-| Rank | Component                                                    | For                                                    | Rule                                                                  |
-| ---- | ------------------------------------------------------------ | ------------------------------------------------------ | --------------------------------------------------------------------- |
-| 1    | a plain `<a>` in text                                        | Going somewhere, inside a sentence                     | The default for navigation                                            |
-| 2    | [`action-link`](../../components/action-link/index.md)       | Starting a task by navigating                          | A link: it has no disabled state                                      |
-| 3    | [`button`](../../components/button/index.md)                 | Doing something on this page                           | Native `<button>`; the themes' secondary and tertiary looks           |
-| 4    | [`call-to-action`](../../components/call-to-action/index.md) | The one thing this view wants the user to do           | **One primary action per view**; `<a>` with `href`, else `<button>`  |
+| Rank | Component                                                    | For                                          | Rule                                                                |
+| ---- | ------------------------------------------------------------ | -------------------------------------------- | ------------------------------------------------------------------- |
+| 1    | a plain `<a>` in text                                        | Going somewhere, inside a sentence           | The default for navigation                                          |
+| 2    | [`action-link`](../../components/action-link/index.md)       | Starting a task by navigating                | A link: it has no disabled state                                    |
+| 3    | [`button`](../../components/button/index.md)                 | Doing something on this page                 | Native `<button>`; the themes' secondary and tertiary looks         |
+| 4    | [`call-to-action`](../../components/call-to-action/index.md) | The one thing this view wants the user to do | **One primary action per view**; `<a>` with `href`, else `<button>` |
 
 A component's "When to Use" names its place on its scale, so the order is read where the component is chosen.
 

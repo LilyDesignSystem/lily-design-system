@@ -38,11 +38,11 @@ Lily's, and use one word for one thing.
 
 ## 6. Know which of the three dials you are setting
 
-| Dial                    | Lily's setting                                                                  | What you choose                                                    |
-| ----------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| Strict or loose         | Strict: contracts, checks, allow-lists that may only shrink                     | How much of that to inherit, and where your teams may step outside |
-| Modular or integrated   | Modular: a component works alone                                                | Which compositions you make the default                           |
-| Centralised or distributed | Centralised: one maintainer, one catalog                                     | Who in your organisation owns your layer, and how others propose   |
+| Dial                       | Lily's setting                                              | What you choose                                                    |
+| -------------------------- | ----------------------------------------------------------- | ------------------------------------------------------------------ |
+| Strict or loose            | Strict: contracts, checks, allow-lists that may only shrink | How much of that to inherit, and where your teams may step outside |
+| Modular or integrated      | Modular: a component works alone                            | Which compositions you make the default                            |
+| Centralised or distributed | Centralised: one maintainer, one catalog                    | Who in your organisation owns your layer, and how others propose   |
 
 "The right system is the one whose downsides you can manage."
 
