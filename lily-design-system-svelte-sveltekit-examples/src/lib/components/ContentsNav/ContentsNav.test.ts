@@ -257,6 +257,19 @@ describe("ContentsNav — scrollspy", () => {
         expect(activeLink()!.textContent).toBe("api");
     });
 
+    test("the URL hash keeps winning when the page is resized before anyone scrolls", async () => {
+        const tops = sections(IDS);
+        tops.intro = 0;
+        tops.usage = 300;
+        tops.api = 600;
+        window.location.hash = "#api";
+        render(Subject, { props: { label: "Contents", spy: true, children: linksSnippet(IDS) } });
+        await settle();
+        window.dispatchEvent(new Event("resize"));
+        await settle();
+        expect(activeLink()!.textContent).toBe("api");
+    });
+
     test("ancestors of the active link get data-descendant-active", async () => {
         const tops = sections(["intro", "child"]);
         tops.intro = -400;
