@@ -310,6 +310,43 @@ Short contracts for the components added in October 2026; each component's own
   root), and the structural `calendar-year/month/week/day-table` views (they reuse the
   `calendar-table-*` sub-elements).
 
+## Prominence scales
+
+Components that compete for attention are a suite, each at a known volume. Lily ships no `data-prominence` prop and no
+loudness token: how loud a component looks is the consumer's CSS. What Lily records is the order, so a new notice or action
+takes a volume that is not already taken, and an adopter knows which of two components on one page will win. The test, from
+Tom Osborne's "visual loudness": if the page were read aloud, which part would be louder? For a notice the answer is also the
+screen reader's experience, through its live region. Added 2026-11-23 from
+[Smashing Magazine's "Design Systems"](../lessons/smashing-magazine-design-systems/index.md) (item 2).
+
+### Notices, loudest first
+
+| Rank | Component                                                                                       | For                                                           | Live region                                  | Rule                                                              |
+| ---- | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | -------------------------------------------- | ----------------------------------------------------------------- |
+| 1    | [`super-banner`](../../components/super-banner/index.md)                                        | A state that affects the whole service                        | `role="alert"`, `assertive`                  | One at a time                                                     |
+| 2    | [`alert`](../../components/alert/index.md)                                                      | Feedback the user must hear now, about what they just did     | `role="alert"` (or `status`), `assertive`    | Few at once; the first one the user can act on moves focus        |
+| 3    | [`notification`](../../components/notification/index.md), [`toast`](../../components/toast/index.md) | An event or update that can wait for a pause in speech        | `role="status"`, `polite` (`alert` if urgent) | A toast never carries the only copy of an error or a deadline     |
+| 4    | [`banner`](../../components/banner/index.md), [`announcement-banner`](../../components/announcement-banner/index.md) | Something for everyone on the site, for days                  | a region (`polite`, or `live`)               | One site-wide banner at a time                                    |
+| 5    | [`phase-banner`](../../components/phase-banner/index.md), [`government-banner`](../../components/government-banner/index.md) | A standing fact about the service or its owner                | none (a group, or an `<aside>`)              | One of each, at the top of the page                               |
+| 6    | [`warning-text`](../../components/warning-text/index.md), [`medical-banner-box-for-danger`](../../components/medical-banner-box-for-danger/index.md) | A consequence the reader must not miss in the text            | none (static content)                        | Few per page; if everything warns, nothing does                   |
+| 7    | [`inset-text`](../../components/inset-text/index.md), [`medical-banner-box-for-advice`](../../components/medical-banner-box-for-advice/index.md) | Supplementary text set apart                                  | none (`role="note"`)                         | No limit, and never the only place a requirement is stated        |
+
+Promotion is a separate suite, ranked by how hard it pulls: [`hero`](../../components/hero/index.md) (the page's own opening),
+[`sticky-promo-banner`](../../components/sticky-promo-banner/index.md) (fixed to the viewport, so it must be dismissable and must
+not hide a focused control: WCAG 2.2.1, 2.4.11), then [`call-to-action`](../../components/call-to-action/index.md). A page does
+not carry a `super-banner`, a `sticky-promo-banner` and a `hero` at once: they compete.
+
+### Actions, quietest first
+
+| Rank | Component                                                    | For                                                    | Rule                                                                  |
+| ---- | ------------------------------------------------------------ | ------------------------------------------------------ | --------------------------------------------------------------------- |
+| 1    | a plain `<a>` in text                                        | Going somewhere, inside a sentence                     | The default for navigation                                            |
+| 2    | [`action-link`](../../components/action-link/index.md)       | Starting a task by navigating                          | A link: it has no disabled state                                      |
+| 3    | [`button`](../../components/button/index.md)                 | Doing something on this page                           | Native `<button>`; the themes' secondary and tertiary looks           |
+| 4    | [`call-to-action`](../../components/call-to-action/index.md) | The one thing this view wants the user to do           | **One primary action per view**; `<a>` with `href`, else `<button>`  |
+
+A component's "When to Use" names its place on its scale, so the order is read where the component is chosen.
+
 ## Maturity
 
 Every catalog entry carries a maturity status — a `- Status:` bullet in

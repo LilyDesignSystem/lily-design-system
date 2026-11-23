@@ -5,6 +5,7 @@
 - Component: hero
 - PascalCase: Hero
 - Description: a large box or image with a title and description
+- Purpose: Opens a page with its main message and, usually, its one main action, so the reader knows within a glance what the page is for.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <section>
 - CSS class: .hero

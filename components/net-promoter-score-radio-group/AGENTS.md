@@ -5,6 +5,7 @@
 - Component: net-promoter-score-radio-group
 - PascalCase: NetPromoterScoreRadioGroup
 - Description: a fieldset radio group for selecting a 0-10 Net Promoter Score
+- Purpose: Asks the user how likely they are to recommend the service, 0 to 10, as a set of radio buttons. It is optional and never interrupts a task.
 - Status: experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow
 - HTML tag: <fieldset>
 - CSS class: .net-promoter-score-radio-group

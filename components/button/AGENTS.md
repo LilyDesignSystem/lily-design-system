@@ -5,6 +5,7 @@
 - Component: button
 - PascalCase: Button
 - Description: a generic clickable button element
+- Purpose: Does something on this page when activated, such as saving or opening a dialog, with the native button's keyboard and form behaviour. Use a link to go somewhere instead.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <button>
 - CSS class: .button

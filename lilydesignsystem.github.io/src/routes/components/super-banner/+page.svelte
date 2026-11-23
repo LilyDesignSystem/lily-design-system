@@ -75,6 +75,7 @@
       <li>Component: super-banner</li>
       <li>PascalCase: SuperBanner</li>
       <li>Description: a super-banner communicates a high-priority state that affects an entire app, experience, process, or system</li>
+      <li>Purpose: Interrupts the reader to say that the whole service is affected, such as an outage or a legal change, so they cannot miss it. It is an assertive alert, so use one at a time and only when everything else is secondary.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .super-banner</li>

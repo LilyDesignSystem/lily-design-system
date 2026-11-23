@@ -16,6 +16,7 @@ start in every framework: https://lilydesignsystem.com/getting-started/.
 - [spec/index.md](spec/index.md): the specification — vision, scope,
   architecture, naming conventions, composition patterns, acceptance
   criteria, roadmap. Links out to one `spec/{topic}/index.md` per topic.
+- [spec/glossary/index.md](spec/glossary/index.md): the words Lily uses for its own parts, one sentence each.
 - [AGENTS.md](AGENTS.md): binding design-principle rules; loads every file
   under `AGENTS/`.
 - [README.md](README.md): human-readable project overview.

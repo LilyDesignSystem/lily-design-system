@@ -119,8 +119,24 @@ These are not style preferences; they are the contracts Lily exists to hold.
 
 ## Adding a component
 
-Open an issue first. A new component means work in 14 subprojects plus docs, so
-agreeing it exists is cheaper than reverting it.
+Open a [component proposal](https://github.com/LilyDesignSystem/lily-design-system/blob/main/.github/ISSUE_TEMPLATE/component-proposal.yml) first. A new
+component means work in 14 subprojects plus docs, so agreeing it exists is cheaper than
+reverting it. A proposal is agreed when it meets these criteria:
+
+- **A purpose.** One or two sentences saying what it is, what it is for and how it does
+  that. If you cannot say what it is for without using its name, its purpose is unclear.
+- **A name that is not its look.** "A pink button can only be pink." Names come from the
+  structure and role ([the suffix table](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/components.md)); a name that is hard to
+  find is a warning about the component, not about naming.
+- **The change test.** Should this be one component or two? If you change one, do you want
+  the others to change in the same way? If yes, one component with variants; if no, two.
+- **Not already covered.** The existing components and recipes were considered, each with
+  the reason it falls short.
+- **A place on the scale**, if it competes for attention (a notice or an action): a volume
+  that is not already taken, in [the prominence scales](https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/components/index.md#prominence-scales).
+- **Two independent sources**: another design system, a standard, or two real uses.
+- **Not a one-off.** A one-off belongs in the adopter's code, built with Lily's class hooks,
+  rest props and recipes.
 
 Once agreed, the mechanical path:
 

@@ -5,6 +5,7 @@
 - Component: warning-text
 - PascalCase: WarningText
 - Description: a short warning shown as an icon and a bold line of text, with a visually hidden prefix supplied by the consumer
+- Purpose: Marks a consequence the reader must not miss inside the text, such as a deadline or a risk, with a visible "warning" prefix so it is never signalled by colour alone.
 - Status: beta — implemented and unit-tested in all eight headless libraries; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .warning-text

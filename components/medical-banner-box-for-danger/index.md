@@ -54,6 +54,7 @@ This component is useful in clinical interfaces, electronic health records, and 
 - Use to visually distinguish critical safety information from other banner content
 - Use when clinicians need immediate visibility of life-threatening patient data
 - Use for infection control alerts, fall risk warnings, or Do Not Resuscitate indicators
+- **Prominence:** Notices, rank 6: a danger the reader must not miss; few per page. See [the prominence scales](https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/components/index.md#prominence-scales).
 
 ## When Not to Use
 

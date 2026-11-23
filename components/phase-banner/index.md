@@ -46,6 +46,7 @@ For service-wide announcements that aren't about development phase, use `Announc
 
 - Indicating that a service is in alpha or beta and inviting feedback from early users
 - Communicating that a service is iterating quickly and may change
+- **Prominence:** Notices, rank 5: a standing fact about the service, one at the top of the page. See [the prominence scales](https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/components/index.md#prominence-scales).
 
 ## When Not to Use
 

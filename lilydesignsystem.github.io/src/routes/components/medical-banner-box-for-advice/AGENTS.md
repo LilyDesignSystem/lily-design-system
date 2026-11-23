@@ -5,6 +5,7 @@
 - Component: medical-banner-box-for-advice
 - PascalCase: MedicalBannerBoxForAdvice
 - Description: a medical record banner box for advice information e.g. contacts, contexts, plans, etc.
+- Purpose: Sets clinical advice apart in a box so it is seen after the facts it follows. It is a quiet notice, so a requirement is also stated in the text.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .medical-banner-box-for-advice

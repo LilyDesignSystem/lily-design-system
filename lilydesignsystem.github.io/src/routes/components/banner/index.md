@@ -70,6 +70,7 @@ Banners may be persistent or dismissible, depending on the message's importance.
 - Use to show a success confirmation after a user completes an action, such as saving or updating a record
 - Use sparingly -- evidence shows users often miss banners when overused
 - Use at most one banner per page, positioned at the top of the main content area below breadcrumbs and before the h1 heading
+- **Prominence:** Notices, rank 4: one site-wide banner at a time, for something that lasts days. See [the prominence scales](https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/components/index.md#prominence-scales).
 
 ## When Not to Use
 

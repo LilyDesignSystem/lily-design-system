@@ -5,6 +5,7 @@
 - Component: toast
 - PascalCase: Toast
 - Description: a brief auto-dismissing notification message
+- Purpose: Confirms a small action briefly and then goes away, such as "Copied". Because it disappears it never carries the only copy of an error or a deadline.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .toast

@@ -75,6 +75,7 @@
       <li>Component: timeout-dialog</li>
       <li>PascalCase: TimeoutDialog</li>
       <li>Description: a modal dialog warning users before session timeout</li>
+      <li>Purpose: Warns the user that their session is about to end and lets them extend it, so they do not lose their work. It gives enough time to answer and a way to keep going.</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;dialog&gt;</li>
       <li>CSS class: .timeout-dialog</li>

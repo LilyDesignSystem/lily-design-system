@@ -92,6 +92,7 @@ Polite status update using `role="status"`:
 - Use when the message does not require user interaction -- it is informational only and dismisses itself or persists passively.
 - Use `role="status"` with `aria-live="polite"` for lower-priority updates that should not interrupt the user's current task.
 - Use the `type` prop to communicate severity (info, success, warning, error) through `data-type` for consumer styling.
+- **Prominence:** Notices, rank 2: feedback the user must hear now; use `notification` or `toast` when it can wait. See [the prominence scales](https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/components/index.md#prominence-scales).
 
 ## When Not to Use
 

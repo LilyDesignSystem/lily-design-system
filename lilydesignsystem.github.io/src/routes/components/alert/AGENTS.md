@@ -5,6 +5,7 @@
 - Component: alert
 - PascalCase: Alert
 - Description: a status message for important information or feedback
+- Purpose: Gives feedback the user must hear now about what they just did, such as a failed save, so they can act on it. It is announced at once by a screen reader; use a notification when it can wait.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .alert

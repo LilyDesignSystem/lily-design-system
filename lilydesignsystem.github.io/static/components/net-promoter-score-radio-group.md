@@ -83,6 +83,7 @@ It renders:
 - Do not use when more than one option may be chosen -- use [CheckboxGroup](checkbox-group.md) instead.
 - Do not use for a read-only display -- use [NetPromoterScoreView](net-promoter-score-view.md) instead.
 - Do not use for a plain set of choices with no status or rating meaning -- use [RadioGroup](radio-group.md) instead.
+- **Misuse:** asking again and again after a "no", blocking the task until it is answered, or showing it at the moment of a failure. The question is optional and dismissable, and never interrupts a task (WCAG 2.2.4 Interruptions).
 
 ## Headless
 

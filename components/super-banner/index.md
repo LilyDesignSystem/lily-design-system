@@ -63,6 +63,7 @@ This headless component uses a `<div>` element with `role="alert"` for immediate
 - Use for global maintenance notices that must be visible on every page
 - Use when the message requires immediate attention and cannot be missed, such as a security incident or data breach notification
 - Use for regulatory or legal notices that must interrupt the user experience until acknowledged
+- **Prominence:** Notices, rank 1 (loudest): one at a time, for a state that affects the whole service. See [the prominence scales](https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/components/index.md#prominence-scales).
 
 ## When Not to Use
 

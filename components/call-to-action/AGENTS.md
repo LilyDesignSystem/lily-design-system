@@ -5,6 +5,7 @@
 - Component: call-to-action
 - PascalCase: CallToAction
 - Description: a prominent prompt encouraging user action
+- Purpose: Asks the reader to do the one thing this view wants, as a link when it goes somewhere and a button when it does something. It is the loudest action on the page, so use one per view.
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <a> when `href` is given, else <button type="button">
 - CSS class: .call-to-action

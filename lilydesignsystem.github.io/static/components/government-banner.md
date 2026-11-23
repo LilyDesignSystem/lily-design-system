@@ -71,6 +71,7 @@ Default collapsed banner:
 
 - Use at the top of every page on a government website to identify it as official.
 - Use to provide on-demand explanations of government domains and HTTPS.
+- **Prominence:** Notices, rank 5: a standing fact about the service's owner, one at the top of the page. See [the prominence scales](https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/components/index.md#prominence-scales).
 
 ## When Not to Use
 

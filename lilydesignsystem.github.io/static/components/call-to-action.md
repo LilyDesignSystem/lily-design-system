@@ -77,6 +77,7 @@ CTA with a screen reader label override:
 - Use for the most prominent interactive element on a page that drives user engagement toward a key goal.
 - Use when you need dual-mode behavior: an `<a>` for navigation CTAs or a `<button>` for action CTAs.
 - Use in hero sections, landing pages, or marketing banners to direct the user to the primary conversion goal.
+- **Prominence:** Actions, rank 4 (loudest): the one primary action per view. See [the prominence scales](https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/components/index.md#prominence-scales).
 
 ## When Not to Use
 
@@ -84,6 +85,7 @@ CTA with a screen reader label override:
 - Do not use for form submission -- use Button with `type="submit"` instead.
 - Do not use for secondary or low-priority actions -- use Button instead.
 - Do not use more than one primary CTA per section to avoid diluting focus.
+- **Misuse:** a false deadline or scarcity ("Only 1 left"), a pre-ticked upsell, or a decline label that shames the user ("No thanks, I don't like saving money"). Name each choice neutrally; urgency that is not real is a dark pattern, and an expiring offer needs a way to extend or disable the time limit (WCAG 2.2.1).
 
 ## Headless
 

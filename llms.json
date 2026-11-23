@@ -17,6 +17,11 @@
           "description": "The specification — vision, scope, architecture, naming conventions, composition patterns, acceptance criteria, roadmap. Links out to one `spec/{topic}/index.md` per topic."
         },
         {
+          "title": "spec/glossary/index.md",
+          "url": "spec/glossary/index.md",
+          "description": "The words Lily uses for its own parts, one sentence each, the file that defines each, and the words not to use."
+        },
+        {
           "title": "AGENTS.md",
           "url": "AGENTS.md",
           "description": "Binding design-principle rules; loads every file under `AGENTS/`."

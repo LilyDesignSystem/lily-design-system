@@ -61,6 +61,7 @@ Common in services that hold sensitive data (banking, government, healthcare) wh
 
 - Use `AlertDialog` for non-timeout urgent confirmations
 - Use `Dialog` for general modal content without alert semantics
+- **Misuse:** a countdown shorter than the user can read and act on, or a session limit with no way to extend it. WCAG 2.2.1 requires a warning, a way to extend and enough time (at least 20 seconds to respond, extendable at least ten times).
 
 ## Headless
 

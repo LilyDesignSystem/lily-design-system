@@ -61,6 +61,7 @@ This headless component uses a `<section>` element with an `aria-label` to creat
 - Use when you need a large visual introduction that sets the context for the page
 - Use on marketing or public-facing pages where a strong first impression matters
 - Use to combine a headline, supporting text, and a primary call-to-action in a single prominent section
+- **Prominence:** Promotion, the page's own opening; it competes with `sticky-promo-banner` and `super-banner`, so pick one loud thing. See [the prominence scales](https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/components/index.md#prominence-scales).
 
 ## When Not to Use
 

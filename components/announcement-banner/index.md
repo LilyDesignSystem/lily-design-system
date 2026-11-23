@@ -58,6 +58,7 @@ Reach for `AnnouncementBanner` when the message is broad and persistent. Use `Al
 
 - Communicating service-wide messages such as scheduled maintenance, important news, or new feature launches
 - Surfacing time-sensitive information that all users should see
+- **Prominence:** Notices, rank 4: one site-wide banner at a time, for something that lasts days. See [the prominence scales](https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/components/index.md#prominence-scales).
 
 ## When Not to Use
 

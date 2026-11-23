@@ -420,6 +420,8 @@ implemented_everywhere_or_err
     || err "a headless root element differs from its contract's HTML tag (and is not listed); run bin/check-html-tags"
 "$top/bin/check-known-limitations" >/dev/null 2>&1 \
     || err "a component document lacks its Known limitations section or required disabled-control guidance; run bin/check-known-limitations"
+"$top/bin/check-component-guidance" >/dev/null 2>&1 \
+    || err "a component lacks its purpose, prominence or misuse guidance, or the purpose allow-list is stale; run bin/check-component-guidance"
 
 # Every national identifier type is validated, recorded as having no usable check (with the reason), or open (tasks.md P43-T4).
 "$top/bin/check-identifier-validation" >/dev/null 2>&1 \

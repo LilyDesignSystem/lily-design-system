@@ -67,6 +67,7 @@ None -- this component is a passive announcement container. Notifications are an
 - Use for brief, time-sensitive messages that appear temporarily and auto-dismiss
 - Use when the notification does not require immediate user action -- it is informational only
 - Use with `urgent` for critical messages that must immediately interrupt the user, such as errors or security alerts
+- **Prominence:** Notices, rank 3: an update that can wait for a pause in speech; use `alert` when it cannot. See [the prominence scales](https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/components/index.md#prominence-scales).
 
 ## When Not to Use
 

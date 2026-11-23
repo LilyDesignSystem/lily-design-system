@@ -1,0 +1,78 @@
+name: Component proposal
+description: >-
+  Propose a new component for the catalog. A component means work in many subprojects plus docs, so agree it exists first.
+  Answer every question; a one-off belongs in your own code.
+title: "[component] <slug>: <what it is for>"
+labels: ["component-proposal"]
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        A new component is work in the headless libraries of every catalog, their tests and stories, the docs and the example
+        apps. The questions below are the criteria in
+        [CONTRIBUTING.md](../../blob/main/CONTRIBUTING.md#adding-a-component).
+  - type: input
+    id: slug
+    attributes:
+      label: Slug and name
+      description: The kebab-case slug and the PascalCase name. A name says the purpose, never the look.
+      placeholder: fact-grid, FactGrid
+    validations:
+      required: true
+  - type: textarea
+    id: purpose
+    attributes:
+      label: Purpose
+      description: >-
+        What it is, what it is for, and how it does that, in one or two sentences. "Fact Grid is a shortlist of facts. Use it to
+        give the reader an immediate impression of the content that follows." is a purpose; "a grid of facts" is not.
+    validations:
+      required: true
+  - type: textarea
+    id: behaviour
+    attributes:
+      label: The user behaviour it serves
+      description: What a person is trying to do, in their words.
+    validations:
+      required: true
+  - type: textarea
+    id: considered
+    attributes:
+      label: Existing components considered
+      description: Each existing component or composition you looked at (see components.tsv and recipes/) and why it falls short.
+    validations:
+      required: true
+  - type: textarea
+    id: change-test
+    attributes:
+      label: Specificity
+      description: >-
+        If you change this one, do you want the similar components to change the same way? If yes, it is one component with
+        variants; if no, it is two. Say which and why.
+    validations:
+      required: true
+  - type: textarea
+    id: prominence
+    attributes:
+      label: Prominence
+      description: >-
+        If it competes for attention (a notice, an action), where does it sit on the scale in spec/components, and what volume is
+        not already taken? Otherwise write "does not compete".
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Two independent sources
+      description: Another design system, a standard (WAI-ARIA Authoring Practices, a WHATWG element), or two real uses, with links.
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you submit
+      options:
+        - label: It is not a one-off that belongs in the adopter's own code.
+          required: true
+        - label: Its name is not presentational (no colour, size or look) and I could say what it is for without naming it.
+          required: true

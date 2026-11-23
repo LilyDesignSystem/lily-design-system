@@ -1,0 +1,66 @@
+#!/usr/bin/env node
+// Written guidance that a component's document must carry (tasks.md Phase 46, spec/lessons/smashing-magazine-design-systems):
+//   - a `- Purpose:` bullet in components/{slug}/AGENTS.md (what it is for and how), for every component not listed in
+//     bin/check-component-guidance.allow.json; the list may only shrink, so a listed slug that has one fails until removed;
+//   - a **Prominence:** bullet in "When to Use" for every member of the notice and action scales;
+//   - a **Misuse:** bullet in "When Not to Use" for the persuasive components.
+// `--write-allow` rewrites the allow-list to the slugs that still lack a purpose (it can only remove entries).
+
+const fs = require("fs");
+const path = require("path");
+
+const top = path.join(__dirname, "..");
+const allowFile = path.join(__dirname, "check-component-guidance.allow.json");
+const slugs = fs
+    .readFileSync(path.join(top, "components.tsv"), "utf8")
+    .trim()
+    .split("\n")
+    .map((line) => line.split("\t")[0]);
+
+const PROMINENCE = [
+    "super-banner", "alert", "notification", "toast", "banner", "announcement-banner", "phase-banner", "government-banner",
+    "warning-text", "medical-banner-box-for-danger", "inset-text", "medical-banner-box-for-advice", "hero",
+    "sticky-promo-banner", "call-to-action", "action-link", "button",
+];
+const MISUSE = ["sticky-promo-banner", "call-to-action", "net-promoter-score-radio-group", "toast", "timeout-dialog", "timer"];
+
+const read = (file) => fs.readFileSync(path.join(top, file), "utf8");
+const hasPurpose = (slug) => /^- Purpose: \S/m.test(read(`components/${slug}/AGENTS.md`));
+const section = (text, heading) => {
+    const m = text.match(new RegExp(`^## ${heading}\\s*$`, "m"));
+    if (!m) return "";
+    const rest = text.slice(m.index + m[0].length);
+    const next = rest.search(/^## /m);
+    return next < 0 ? rest : rest.slice(0, next);
+};
+
+const without = slugs.filter((slug) => !hasPurpose(slug));
+if (process.argv.includes("--write-allow")) {
+    fs.writeFileSync(allowFile, JSON.stringify(without, null, 2) + "\n");
+    console.log(`check-component-guidance: ${without.length} component(s) still lack a purpose`);
+    process.exit(0);
+}
+
+const allow = new Set(JSON.parse(fs.readFileSync(allowFile, "utf8")));
+const errors = [];
+for (const slug of without) {
+    if (!allow.has(slug)) errors.push(`components/${slug}/AGENTS.md: no "- Purpose:" line (what it is for and how)`);
+}
+for (const slug of allow) {
+    if (!slugs.includes(slug)) errors.push(`${path.basename(allowFile)}: "${slug}" is not in components.tsv`);
+    else if (hasPurpose(slug)) errors.push(`${path.basename(allowFile)}: "${slug}" now has a purpose; remove it from the list (run --write-allow)`);
+}
+for (const slug of PROMINENCE) {
+    const when = section(read(`components/${slug}/index.md`), "When to Use");
+    if (!/\*\*Prominence:\*\*/.test(when) || !when.includes("spec/components/index.md#prominence-scales"))
+        errors.push(`components/${slug}/index.md: "When to Use" must name its place on the prominence scale and link it`);
+}
+for (const slug of MISUSE) {
+    const not = section(read(`components/${slug}/index.md`), "When Not to Use");
+    if (!/\*\*Misuse:\*\*/.test(not)) errors.push(`components/${slug}/index.md: "When Not to Use" must say how it can be used against the user`);
+}
+if (errors.length) {
+    console.error(errors.join("\n"));
+    process.exit(1);
+}
+console.log(`check-component-guidance: OK (${slugs.length - without.length} purposes, ${without.length} listed, ${PROMINENCE.length} placed, ${MISUSE.length} misuse notes)`);

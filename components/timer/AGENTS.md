@@ -5,6 +5,7 @@
 - Component: timer
 - PascalCase: Timer
 - Description: a countdown or elapsed time display
+- Purpose: Shows a real countdown or elapsed time, such as a session limit, in a form the user can read, and is never used to pressure a decision.
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <time>
 - CSS class: .timer

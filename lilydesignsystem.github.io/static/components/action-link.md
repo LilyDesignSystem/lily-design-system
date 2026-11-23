@@ -49,6 +49,7 @@ Action links are useful when you want to draw attention to a key navigational st
 - Use on content-heavy pages where a key action needs visual emphasis beyond a standard inline link.
 - Use when the link represents a significant next step in the user's journey, not routine navigation.
 - Use within text blocks or care cards to draw attention to an actionable pathway.
+- **Prominence:** Actions, rank 2: starting a task by navigating; a plain link in text is quieter, a `button` does something on the page. See [the prominence scales](https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/components/index.md#prominence-scales).
 
 ## When Not to Use
 

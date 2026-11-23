@@ -136,6 +136,24 @@ draft until a native speaker checks it.
 Adding one is: create `<code>-001.json` from `en-001`, run `bin/check-label-packs`, and list it under Locales.
 The list is a plan, not a commitment; a funded native reviewer moves a language up.
 
+## Voice and tone (2026-11-23)
+
+A screen-reader user experiences a product through its writing, so the labels are part of the interface. For the English
+pack (`en-001`) and for anyone translating it:
+
+- **Plain words.** The shortest word a reader knows. "Use", not "utilise"; "Show", not "Display the contents of".
+- **A button names its verb.** "Save changes", "Delete patient record", "Send message", never "OK", "Submit" or "Yes" alone. The
+  accessible name should still say what happens when read out of context in a list of controls.
+- **An error says what happened and what to do next.** "The date is not in the calendar. Enter a day from 1 to 31." Never blame
+  the reader, never only "Invalid".
+- **No humour in errors, status or warnings.** A joke costs a reader in difficulty more than it gives anyone else.
+- **One word for one thing**, as in the [glossary](../glossary/index.md): do not alternate "remove", "delete" and "clear".
+- **Translate the meaning, not the words.** A translator keeps a label as short as the English one where the language allows, and a
+  native speaker checks the screen-reader wording before a pack is marked reviewed.
+
+Source: Alla Kholmatova's _Design Systems_ (2017), chapter 9, on voice and tone; Léonie Watson's point that a screen-reader user
+experiences a product through its writing. See [lessons/smashing-magazine-design-systems](../lessons/smashing-magazine-design-systems/index.md).
+
 ## Acceptance criteria
 
 - [x] Every pack has the English pack's keys, none empty, and each string keeps exactly the placeholders English uses (`bin/check-label-packs`, in `bin/test`).

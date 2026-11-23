@@ -132,6 +132,7 @@ component would blur semantic regions without owning the work that coordinates t
 - Use when the action changes state or submits data -- buttons signal "do something", not "go somewhere".
 - Use the toggle button pattern (with `pressed` prop) for features like bold/italic formatting toggles.
 - Use when you need rich content inside the button (icons, formatted text) via children slots.
+- **Prominence:** Actions, rank 3: doing something on this page; use `call-to-action` for the one primary action of the view. See [the prominence scales](https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/components/index.md#prominence-scales).
 
 ## When Not to Use
 
