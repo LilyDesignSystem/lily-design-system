@@ -194,11 +194,11 @@ describe("PickerBar — theme-picker wiring (§5.1, §7.3, §7.6)", () => {
         const el = mount();
         click(el.querySelector(".theme-picker-button")!);
         const options = el.querySelectorAll(".theme-picker-option");
-        expect(options).toHaveLength(63);
+        expect(options).toHaveLength(65);
         expect(options[0].textContent).toBe("Abyss");
         expect(options[2].textContent).toBe("Adobe Spectrum");
-        expect(options[33].textContent).toBe("IBM Carbon");
-        expect(options[62].textContent).toBe("Wireframe");
+        expect(options[34].textContent).toBe("IBM Carbon");
+        expect(options[64].textContent).toBe("Wireframe");
     });
 
     test("§7.6 an explicit `themes` prop overrides the default", () => {
