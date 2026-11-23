@@ -159,3 +159,10 @@ describe("validate", () => {
         });
     });
 });
+
+describe("exportFieldCell keeps a Date value as a Date", () => {
+    test("a date object in a field is exported as itself, not as text", () => {
+        const when = new Date("2026-11-23T12:00:00Z");
+        expect(exportFieldCell(by("due"), { due: when })).toBe(when);
+    });
+});

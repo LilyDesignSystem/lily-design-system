@@ -7,6 +7,7 @@ import {
     ipsSectionCode,
     ipsSectionId,
     ipsSectionIsRequired,
+    ipsSectionLevel,
     IpsSectionsError,
 } from "./ips-sections";
 
@@ -82,5 +83,12 @@ describe("ips-sections", () => {
 
     test("a missing required section with no consumer heading is an error, never an empty heading", () => {
         expect(() => ipsContents([], {})).toThrow(IpsSectionsError);
+    });
+});
+
+describe("ipsSectionLevel", () => {
+    test("names a section's level, and is undefined for a key that is not an IPS section", () => {
+        expect(ipsSectionLevel("medications")).toBe("required");
+        expect(ipsSectionLevel("not-a-section")).toBeUndefined();
     });
 });
