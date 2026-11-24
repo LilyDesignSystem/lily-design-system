@@ -6,6 +6,7 @@
                         description: "a generic clickable button element",
                         tag: "button",
                         category: "buttons",
+                        purpose: "act",
                     },
                     {
                         slug: "check-list",
@@ -13,6 +14,7 @@
                         description: "a list of checked items",
                         tag: "ol",
                         category: "lists",
+                        purpose: "show",
                     },
                     {
                         slug: "mark",
@@ -20,6 +22,7 @@
                         description: "a highlighted run of text",
                         tag: "mark",
                         category: "text",
+                        purpose: "show",
                     },
                 ];
 </script>

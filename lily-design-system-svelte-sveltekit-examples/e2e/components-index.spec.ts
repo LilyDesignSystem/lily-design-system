@@ -48,6 +48,23 @@ test.describe("/components search filters", () => {
         await expect(page.getByRole("status")).toContainText(`${TOTAL} of ${TOTAL} components`);
     });
 
+    test("purpose filter shows exactly the components with that purpose", async ({ page }) => {
+        const navigateSlugs = new Set(
+            components.filter((c) => c.purpose === "navigate").map((c) => c.slug),
+        );
+        expect(navigateSlugs.size).toBeGreaterThan(0);
+        await page.goto("/components");
+        await page.getByLabel("Purpose").selectOption("navigate");
+
+        const items = page.locator(".component-index-list-item a");
+        expect(await items.count()).toBe(navigateSlugs.size);
+        const hrefs = await items.evaluateAll((as) => as.map((a) => a.getAttribute("href")));
+        for (const href of hrefs) expect(navigateSlugs.has(slugFromHref(href))).toBe(true);
+
+        await page.getByRole("button", { name: "Clear filters" }).click();
+        await expect(page.getByRole("status")).toContainText(`${TOTAL} of ${TOTAL} components`);
+    });
+
     test("category filter shows exactly the components in that category", async ({ page }) => {
         await page.goto("/components");
         await page.getByLabel("Category").selectOption("tables");

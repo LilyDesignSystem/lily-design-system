@@ -56,11 +56,13 @@ const write = (p, s) => {
 const { CATEGORY_LABEL } = require("./generate-component-categories");
 const categoryOf = {};
 const tagOf = {};
+const purposeOf = {};
 for (const line of read("components-categories.tsv").split("\n")) {
   if (!line.trim()) continue;
-  const [slug, tag, category] = line.split("\t");
+  const [slug, tag, category, purpose] = line.split("\t");
   tagOf[slug] = tag;
   categoryOf[slug] = category;
+  purposeOf[slug] = purpose;
 }
 
 const components = read("components.tsv")
@@ -71,7 +73,7 @@ const components = read("components.tsv")
     if (!(slug in categoryOf)) {
       throw new Error(`${slug} missing from components-categories.tsv — run bin/generate-component-categories`);
     }
-    return { slug, name, description: description || "", tag: tagOf[slug], category: categoryOf[slug] };
+    return { slug, name, description: description || "", tag: tagOf[slug], category: categoryOf[slug], purpose: purposeOf[slug] };
   });
 
 const demosSource = read(
@@ -107,6 +109,7 @@ const tsEntry = (c, indent) => {
     `${f}description: ${jsStr(c.description)},`,
     `${f}tag: ${jsStr(c.tag)},`,
     `${f}category: ${jsStr(c.category)},`,
+    `${f}purpose: ${jsStr(c.purpose)},`,
     `${i}},`,
   ].join("\n");
 };
@@ -140,6 +143,7 @@ write(
   description: string;
   tag: string;
   category: string;
+  purpose: string;
 }
 
 export const components: Component[] = [
@@ -161,6 +165,7 @@ write(
   description: string;
   tag: string;
   category: string;
+  purpose: string;
 }
 
 export const components: Component[] = [
@@ -182,6 +187,7 @@ write(
   description: string;
   tag: string;
   category: string;
+  purpose: string;
 }
 
 export const components: ComponentMeta[] = [
@@ -203,6 +209,7 @@ write(
   description: string;
   tag: string;
   category: string;
+  purpose: string;
 }
 
 export const components: ComponentMeta[] = [
@@ -312,6 +319,7 @@ const htmlEntry = (c, indent) => {
     `${f}description: ${jsStr(c.description)},`,
     `${f}tag: ${jsStr(c.tag)},`,
     `${f}category: ${jsStr(c.category)},`,
+    `${f}purpose: ${jsStr(c.purpose)},`,
     `${i}},`,
   ].join("\n");
 };

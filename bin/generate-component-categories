@@ -4,7 +4,7 @@
 // Regenerate components-categories.tsv — one row per component in
 // components.tsv, adding two derived columns:
 //
-//   slug	tag	category
+//   slug	tag	category	purpose
 //
 // `tag` is the canonical root HTML element, read verbatim from each
 // component's own components/{slug}/AGENTS.md "HTML tag" line — the
@@ -116,6 +116,16 @@ function htmlTagOf(slug) {
   return m[1].trim();
 }
 
+// Purpose (P46-T3): the maintainer-approved facet, one of PURPOSES per component, edited by hand in components-purposes.tsv.
+const PURPOSES = ["collect", "show", "navigate", "inform", "act", "structure"];
+const purposeOf = {};
+for (const line of read("components-purposes.tsv").split("\n").slice(1)) {
+  if (!line.trim()) continue;
+  const [slug, purpose] = line.split("\t");
+  if (!PURPOSES.includes(purpose)) throw new Error(`components-purposes.tsv: ${slug} has unknown purpose ${purpose}`);
+  purposeOf[slug] = purpose;
+}
+
 const rows = components.map((slug) => {
   const rawTag = htmlTagOf(slug);
   const tagMatch = rawTag.match(/<(\w+)>/);
@@ -128,15 +138,16 @@ const rows = components.map((slug) => {
   else category = suffixOverride(slug) || (role && ROLE_BUCKET[role]) || TAG_BUCKET[tag] || "content";
 
   if (!CATEGORY_LABEL[category]) throw new Error(`${slug}: unknown category id ${category}`);
-  return { slug, tag, category };
+  if (!purposeOf[slug]) throw new Error(`${slug} has no row in components-purposes.tsv`);
+  return { slug, tag, category, purpose: purposeOf[slug] };
 });
 
 // Exported so bin/generate-registries can emit the same id → label map
 // into every app registry without a second, driftable copy.
-module.exports = { CATEGORY_LABEL, rows };
+module.exports = { CATEGORY_LABEL, PURPOSES, rows };
 
 if (require.main === module) {
-  const out = rows.map((r) => `${r.slug}\t${r.tag}\t${r.category}`).join("\n") + "\n";
+  const out = rows.map((r) => `${r.slug}\t${r.tag}\t${r.category}\t${r.purpose}`).join("\n") + "\n";
   fs.writeFileSync(path.join(top, "components-categories.tsv"), out);
   console.log(`wrote components-categories.tsv (${rows.length} rows)`);
 

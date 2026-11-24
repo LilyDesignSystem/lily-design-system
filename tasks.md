@@ -4577,7 +4577,7 @@ investigation.
 - [x] **P46-T2 Prominence scales.** A section in `spec/components` ranking notices and actions, with politeness and one-per-view rules;
       each member's "When to Use" names its place.
       Verify: every component in both scales links back to it; `bin/check-links` passes.
-- [ ] **P46-T3 A purpose facet.** A purpose column in `components-categories.tsv` from `bin/generate-component-categories`, agreed by a
+- [x] **P46-T3 A purpose facet (approved 2026-11-24; `components-purposes.tsv` is the hand-edited source, a fourth `purpose` column in `components-categories.tsv`, a Purpose filter on the SvelteKit `/components` page; the other apps' registries carry the field but not yet the filter).** A purpose column in `components-categories.tsv` from `bin/generate-component-categories`, agreed by a
       card sort, and a filter on the `/components` pages.
       Draft 2026-11-24: `spec/lessons/smashing-magazine-design-systems/purpose-draft.tsv` assigns all 661 to six purposes by rule (show 244, collect 192, structure 98, navigate 67, inform 34, act 26); about 98 "structure" rows are catch-alls (blockquote, code, byline, caption, ...) that need a maintainer sort before the column and filter are built.
       Verify: `bin/generate-registries --check` passes and an e2e test filters by purpose.

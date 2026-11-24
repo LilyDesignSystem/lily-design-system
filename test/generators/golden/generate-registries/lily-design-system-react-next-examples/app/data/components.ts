@@ -4,6 +4,7 @@ export interface Component {
   description: string;
   tag: string;
   category: string;
+  purpose: string;
 }
 
 export const components: Component[] = [
@@ -13,6 +14,7 @@ export const components: Component[] = [
       description: "a generic clickable button element",
       tag: "button",
       category: "buttons",
+      purpose: "act",
   },
   {
       slug: "check-list",
@@ -20,6 +22,7 @@ export const components: Component[] = [
       description: "a list of checked items",
       tag: "ol",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "mark",
@@ -27,6 +30,7 @@ export const components: Component[] = [
       description: "a highlighted run of text",
       tag: "mark",
       category: "text",
+      purpose: "show",
   },
 ];
 

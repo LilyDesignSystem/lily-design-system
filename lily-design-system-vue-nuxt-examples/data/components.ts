@@ -4,6 +4,7 @@ export interface ComponentMeta {
   description: string;
   tag: string;
   category: string;
+  purpose: string;
 }
 
 export const components: ComponentMeta[] = [
@@ -13,6 +14,7 @@ export const components: ComponentMeta[] = [
       description: "a checkbox option that reveals an accordion panel when checked",
       tag: "div",
       category: "content",
+      purpose: "collect",
   },
   {
       slug: "accordion-link",
@@ -20,6 +22,7 @@ export const components: ComponentMeta[] = [
       description: "an accordion link",
       tag: "a",
       category: "links",
+      purpose: "navigate",
   },
   {
       slug: "accordion-list",
@@ -27,6 +30,7 @@ export const components: ComponentMeta[] = [
       description: "an accordion ordered list of list item components",
       tag: "ol",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "accordion-list-item",
@@ -34,6 +38,7 @@ export const components: ComponentMeta[] = [
       description: "an accordion list item component",
       tag: "li",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "accordion-nav",
@@ -41,6 +46,7 @@ export const components: ComponentMeta[] = [
       description: "an accordion navigation area for collapsible accordion information",
       tag: "nav",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "action-bar",
@@ -48,6 +54,7 @@ export const components: ComponentMeta[] = [
       description: "a contextual action bar that appears when items are selected, showing the selection count and bulk action buttons",
       tag: "div",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "action-bar-button",
@@ -55,6 +62,7 @@ export const components: ComponentMeta[] = [
       description: "one action button inside an action bar",
       tag: "button",
       category: "navigation",
+      purpose: "act",
   },
   {
       slug: "action-group",
@@ -62,6 +70,7 @@ export const components: ComponentMeta[] = [
       description: "a group of action buttons that can collapse to an overflow menu when space is constrained",
       tag: "div",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "action-link",
@@ -69,6 +78,7 @@ export const components: ComponentMeta[] = [
       description: "a hyperlink styled as an action trigger",
       tag: "a",
       category: "links",
+      purpose: "navigate",
   },
   {
       slug: "address-input",
@@ -76,6 +86,7 @@ export const components: ComponentMeta[] = [
       description: "an input for searching or manually entering an address",
       tag: "div",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "addressograph-box",
@@ -83,6 +94,7 @@ export const components: ComponentMeta[] = [
       description: "a box that shows a person's identification details, such as name, tracking information, and salient notations",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "affix",
@@ -90,6 +102,7 @@ export const components: ComponentMeta[] = [
       description: "a wrapper that pins its content to a viewport position while the page scrolls",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "ai-label",
@@ -97,6 +110,7 @@ export const components: ComponentMeta[] = [
       description: "an indicator of AI instances that is a pathway to AI explainability",
       tag: "span",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "alba-community-health-index-input",
@@ -104,6 +118,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Scotland's Community Health Index (CHI)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "alba-community-health-index-view",
@@ -111,6 +126,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Scotland's Community Health Index (CHI)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "alert",
@@ -118,6 +134,7 @@ export const components: ComponentMeta[] = [
       description: "a status message for important information or feedback",
       tag: "div",
       category: "content",
+      purpose: "inform",
   },
   {
       slug: "alert-dialog",
@@ -125,6 +142,7 @@ export const components: ComponentMeta[] = [
       description: "a modal dialog for urgent messages requiring user acknowledgment",
       tag: "dialog",
       category: "overlays",
+      purpose: "inform",
   },
   {
       slug: "angle-slider-range-input",
@@ -132,6 +150,7 @@ export const components: ComponentMeta[] = [
       description: "a range input for selecting an angle in degrees",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "announcement-banner",
@@ -139,6 +158,7 @@ export const components: ComponentMeta[] = [
       description: "a banner highlighting important messages for all users",
       tag: "div",
       category: "overlays",
+      purpose: "inform",
   },
   {
       slug: "answer",
@@ -146,6 +166,7 @@ export const components: ComponentMeta[] = [
       description: "an answer is anything that responds to a question, request, action, etc.",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "area-chart",
@@ -153,6 +174,7 @@ export const components: ComponentMeta[] = [
       description: "an area chart visualization showing sized components in continuous data",
       tag: "figure",
       category: "data-viz",
+      purpose: "show",
   },
   {
       slug: "article-layout",
@@ -160,6 +182,7 @@ export const components: ComponentMeta[] = [
       description: "a top-level article wrapper that sets CSS custom properties for content column widths",
       tag: "article",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "aspect-ratio-container",
@@ -167,6 +190,7 @@ export const components: ComponentMeta[] = [
       description: "a container that maintains a fixed aspect ratio",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "australia-individual-healthcare-identifier-input",
@@ -174,6 +198,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Australia's Individual Healthcare Identifier (IHI)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "australia-individual-healthcare-identifier-view",
@@ -181,6 +206,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Australia's Individual Healthcare Identifier (IHI)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "autosuggest",
@@ -188,6 +214,7 @@ export const components: ComponentMeta[] = [
       description: "a text input that proposes matching options as users type",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "avatar",
@@ -195,6 +222,7 @@ export const components: ComponentMeta[] = [
       description: "an avatar indicator that shows an avatar image or avatar text",
       tag: "span",
       category: "content",
+      purpose: "show",
   },
   {
       slug: "avatar-group",
@@ -202,6 +230,7 @@ export const components: ComponentMeta[] = [
       description: "a group of avatar components",
       tag: "div",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "avatar-image",
@@ -209,6 +238,7 @@ export const components: ComponentMeta[] = [
       description: "an avatar indicator inside image such as a user photo",
       tag: "img",
       category: "media",
+      purpose: "show",
   },
   {
       slug: "avatar-text",
@@ -216,6 +246,7 @@ export const components: ComponentMeta[] = [
       description: "an avatar indicator inner text such as a user name",
       tag: "span",
       category: "content",
+      purpose: "show",
   },
   {
       slug: "back-link",
@@ -223,6 +254,7 @@ export const components: ComponentMeta[] = [
       description: "a navigation link to return to a previous page",
       tag: "a",
       category: "links",
+      purpose: "navigate",
   },
   {
       slug: "badge",
@@ -230,6 +262,7 @@ export const components: ComponentMeta[] = [
       description: "a small label for counts, statuses, or categories",
       tag: "span",
       category: "content",
+      purpose: "show",
   },
   {
       slug: "banner",
@@ -237,6 +270,7 @@ export const components: ComponentMeta[] = [
       description: "a prominent message bar across the top of a page",
       tag: "div",
       category: "overlays",
+      purpose: "inform",
   },
   {
       slug: "banner-box",
@@ -244,6 +278,7 @@ export const components: ComponentMeta[] = [
       description: "a banner box that is inside a banner component, using flexbox horizontal",
       tag: "div",
       category: "content",
+      purpose: "inform",
   },
   {
       slug: "bar-chart",
@@ -251,6 +286,7 @@ export const components: ComponentMeta[] = [
       description: "a horizontal bar chart visualization for displaying data",
       tag: "figure",
       category: "data-viz",
+      purpose: "show",
   },
   {
       slug: "barcode-image",
@@ -258,6 +294,7 @@ export const components: ComponentMeta[] = [
       description: "a visual machine-readable symbolic code image, such as for a scanner",
       tag: "img",
       category: "media",
+      purpose: "show",
   },
   {
       slug: "beach-ball",
@@ -265,6 +302,7 @@ export const components: ComponentMeta[] = [
       description: "a decorative animated beach ball element",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "belgique-numero-de-registre-national-input",
@@ -272,6 +310,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Belgium's Numéro de Registre National / Rijksregisternummer (NRN)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "belgique-numero-de-registre-national-view",
@@ -279,6 +318,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Belgium's Numéro de Registre National / Rijksregisternummer (NRN)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "blockquote",
@@ -286,6 +326,7 @@ export const components: ComponentMeta[] = [
       description: "a block-level quotation with optional source citation",
       tag: "blockquote",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "body-text",
@@ -293,6 +334,7 @@ export const components: ComponentMeta[] = [
       description: "a rendered text block within a content width container",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "breadcrumb-link",
@@ -300,6 +342,7 @@ export const components: ComponentMeta[] = [
       description: "one breadcrumb link in the trail",
       tag: "a",
       category: "links",
+      purpose: "navigate",
   },
   {
       slug: "breadcrumb-list",
@@ -307,6 +350,7 @@ export const components: ComponentMeta[] = [
       description: "an ordered list of breadcrumb list items",
       tag: "ol",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "breadcrumb-list-item",
@@ -314,6 +358,7 @@ export const components: ComponentMeta[] = [
       description: "one breadcrumb list item in the trail",
       tag: "li",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "breadcrumb-nav",
@@ -321,6 +366,7 @@ export const components: ComponentMeta[] = [
       description: "a navigation container for breadcrumb trail links",
       tag: "nav",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "bulgaria-edinen-grazhdanski-nomer-input",
@@ -328,6 +374,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Bulgaria's Единен граждански номер / Edinen grazhdanski nomer (EGN)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "bulgaria-edinen-grazhdanski-nomer-view",
@@ -335,6 +382,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Bulgaria's Единен граждански номер / Edinen grazhdanski nomer (EGN)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "button",
@@ -342,6 +390,7 @@ export const components: ComponentMeta[] = [
       description: "a generic clickable button element",
       tag: "button",
       category: "buttons",
+      purpose: "act",
   },
   {
       slug: "button-group",
@@ -349,6 +398,7 @@ export const components: ComponentMeta[] = [
       description: "a wrapper that groups related buttons together",
       tag: "div",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "button-input",
@@ -356,6 +406,7 @@ export const components: ComponentMeta[] = [
       description: "an input element of type button for form actions <input type=\"button\">",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "byline",
@@ -363,6 +414,7 @@ export const components: ComponentMeta[] = [
       description: "an author attribution with publish and update timestamps",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "calendar-range-picker",
@@ -370,6 +422,7 @@ export const components: ComponentMeta[] = [
       description: "a picker for selecting a date range on a calendar",
       tag: "div",
       category: "pickers",
+      purpose: "collect",
   },
   {
       slug: "calendar-table",
@@ -377,6 +430,7 @@ export const components: ComponentMeta[] = [
       description: "a calendar table interactive grid for managing dates, days, etc. <table>",
       tag: "table",
       category: "tables",
+      purpose: "show",
   },
   {
       slug: "calendar-table-body",
@@ -384,6 +438,7 @@ export const components: ComponentMeta[] = [
       description: "a calendar table interactive grid tbody for managing dates, days, etc. <tbody>",
       tag: "tbody",
       category: "tables",
+      purpose: "show",
   },
   {
       slug: "calendar-table-foot",
@@ -391,6 +446,7 @@ export const components: ComponentMeta[] = [
       description: "a calendar table interactive grid tfoot for managing dates, days, etc. <tfoot>",
       tag: "tfoot",
       category: "tables",
+      purpose: "show",
   },
   {
       slug: "calendar-table-head",
@@ -398,6 +454,7 @@ export const components: ComponentMeta[] = [
       description: "a calendar table interactive grid thead for managing dates, days, etc. <thead>",
       tag: "thead",
       category: "tables",
+      purpose: "show",
   },
   {
       slug: "calendar-table-row",
@@ -405,6 +462,7 @@ export const components: ComponentMeta[] = [
       description: "a calendar table interactive grid row for managing dates, days, etc. <tr>",
       tag: "tr",
       category: "tables",
+      purpose: "show",
   },
   {
       slug: "calendar-table-td",
@@ -412,6 +470,7 @@ export const components: ComponentMeta[] = [
       description: "a calendar table interactive grid data cell for managing dates, days, etc. <td>",
       tag: "td",
       category: "tables",
+      purpose: "show",
   },
   {
       slug: "calendar-table-th",
@@ -419,6 +478,7 @@ export const components: ComponentMeta[] = [
       description: "a calendar table interactive grid header cell for managing dates, days, etc. <th>",
       tag: "th",
       category: "tables",
+      purpose: "show",
   },
   {
       slug: "call-to-action",
@@ -426,6 +486,7 @@ export const components: ComponentMeta[] = [
       description: "a prominent prompt encouraging user action",
       tag: "a",
       category: "links",
+      purpose: "navigate",
   },
   {
       slug: "caption",
@@ -433,6 +494,7 @@ export const components: ComponentMeta[] = [
       description: "a caption for a figure element",
       tag: "figcaption",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "card",
@@ -440,6 +502,7 @@ export const components: ComponentMeta[] = [
       description: "a grouped content container with header, body, and footer areas",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "care-card",
@@ -447,6 +510,7 @@ export const components: ComponentMeta[] = [
       description: "a medical care instruction card with urgency levels",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "carousel",
@@ -454,6 +518,7 @@ export const components: ComponentMeta[] = [
       description: "a slideshow for cycling through content items",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "cascader",
@@ -461,6 +526,7 @@ export const components: ComponentMeta[] = [
       description: "a multi-level dropdown for selecting a value from a hierarchy",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "cesko-cestovni-pas-input",
@@ -468,6 +534,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Czech Republic's Cestovní pas",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "cesko-cestovni-pas-view",
@@ -475,6 +542,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Czech Republic's Cestovní pas",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "cesko-rodne-cislo-input",
@@ -482,6 +550,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Czech Republic's Rodné číslo (RČ)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "cesko-rodne-cislo-view",
@@ -489,6 +558,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Czech Republic's Rodné číslo (RČ)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "character",
@@ -496,6 +566,7 @@ export const components: ComponentMeta[] = [
       description: "a single character display element",
       tag: "span",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "character-counter",
@@ -503,6 +574,7 @@ export const components: ComponentMeta[] = [
       description: "a counter showing remaining or used characters in a text field",
       tag: "span",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "chat-list",
@@ -510,6 +582,7 @@ export const components: ComponentMeta[] = [
       description: "an ordered list of chat list item components",
       tag: "ol",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "chat-list-item",
@@ -517,6 +590,7 @@ export const components: ComponentMeta[] = [
       description: "one chat list item component, typically containing one chat message component",
       tag: "li",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "chat-message",
@@ -524,6 +598,7 @@ export const components: ComponentMeta[] = [
       description: "a chat message shows one chat conversation message entry and all its data, including the author avatar, author name, time, etc.",
       tag: "article",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "chat-nav",
@@ -531,6 +606,7 @@ export const components: ComponentMeta[] = [
       description: "a navigation container for chat information",
       tag: "nav",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "check-list",
@@ -538,6 +614,7 @@ export const components: ComponentMeta[] = [
       description: "an ordered list of check list item components",
       tag: "ol",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "check-list-item",
@@ -545,6 +622,7 @@ export const components: ComponentMeta[] = [
       description: "one check list item component with a checkbox",
       tag: "li",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "checkbox-group",
@@ -552,6 +630,7 @@ export const components: ComponentMeta[] = [
       description: "a group component that manages a collection of checkboxes with shared state",
       tag: "fieldset",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "checkbox-input",
@@ -559,6 +638,7 @@ export const components: ComponentMeta[] = [
       description: "a checkbox input for toggling a boolean value <input type=\"checkbox\">",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "citation",
@@ -566,6 +646,7 @@ export const components: ComponentMeta[] = [
       description: "a citation acknowledges the relevance of a work of another to the topic of discussion",
       tag: "cite",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "clamp-text",
@@ -573,6 +654,7 @@ export const components: ComponentMeta[] = [
       description: "a text container that truncates content to a maximum number of lines",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "clipboard-copy-button",
@@ -580,6 +662,7 @@ export const components: ComponentMeta[] = [
       description: "a button that copies text to the clipboard",
       tag: "button",
       category: "buttons",
+      purpose: "act",
   },
   {
       slug: "coachmark",
@@ -587,6 +670,7 @@ export const components: ComponentMeta[] = [
       description: "an anchored popover that spotlights and explains a single feature",
       tag: "div",
       category: "overlays",
+      purpose: "act",
   },
   {
       slug: "code",
@@ -594,6 +678,7 @@ export const components: ComponentMeta[] = [
       description: "an inline code span for displaying short code snippets within surrounding text",
       tag: "code",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "code-block",
@@ -601,6 +686,7 @@ export const components: ComponentMeta[] = [
       description: "a block of formatted code with optional line numbers and line highlighting",
       tag: "pre",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "collapsible",
@@ -608,6 +694,7 @@ export const components: ComponentMeta[] = [
       description: "a container that can be expanded or collapsed",
       tag: "details",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "collection-list",
@@ -615,6 +702,7 @@ export const components: ComponentMeta[] = [
       description: "a compact list of multiple related items such as articles or events",
       tag: "ul",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "collection-list-item",
@@ -622,6 +710,7 @@ export const components: ComponentMeta[] = [
       description: "one item in a collection list with optional image, heading, meta, and description",
       tag: "li",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "color-input",
@@ -629,6 +718,7 @@ export const components: ComponentMeta[] = [
       description: "an input for selecting a color value <input type=\"color\">",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "color-radio-group",
@@ -636,6 +726,7 @@ export const components: ComponentMeta[] = [
       description: "a fieldset radio group for selecting a color swatch",
       tag: "fieldset",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "color-radio-input",
@@ -643,6 +734,7 @@ export const components: ComponentMeta[] = [
       description: "a radio input for one choice of a color swatch <input type=\"radio\">",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "column-chart",
@@ -650,6 +742,7 @@ export const components: ComponentMeta[] = [
       description: "a vertical column chart visualization for displaying data",
       tag: "figure",
       category: "data-viz",
+      purpose: "show",
   },
   {
       slug: "combobox",
@@ -657,6 +750,7 @@ export const components: ComponentMeta[] = [
       description: "a text input combined with a dropdown list for filtering options",
       tag: "div",
       category: "content",
+      purpose: "collect",
   },
   {
       slug: "command",
@@ -664,6 +758,7 @@ export const components: ComponentMeta[] = [
       description: "a command palette for searching and executing actions",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "comment",
@@ -671,6 +766,7 @@ export const components: ComponentMeta[] = [
       description: "a comment is anything that expresses an opinion, observation, explanation, etc.",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "container",
@@ -678,6 +774,7 @@ export const components: ComponentMeta[] = [
       description: "a generic block-level content container",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "container-with-fixed-width",
@@ -685,6 +782,7 @@ export const components: ComponentMeta[] = [
       description: "a centered content wrapper with a fixed max-width breakpoint",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "container-with-fluid-width",
@@ -692,6 +790,7 @@ export const components: ComponentMeta[] = [
       description: "a full-width content wrapper with horizontal padding",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "content-block",
@@ -699,6 +798,7 @@ export const components: ComponentMeta[] = [
       description: "a content width constraint container with named column widths",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "contents-link",
@@ -706,6 +806,7 @@ export const components: ComponentMeta[] = [
       description: "one table of contents link",
       tag: "a",
       category: "links",
+      purpose: "navigate",
   },
   {
       slug: "contents-list",
@@ -713,6 +814,7 @@ export const components: ComponentMeta[] = [
       description: "an contents ordered list of contents list item components",
       tag: "ol",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "contents-list-item",
@@ -720,6 +822,7 @@ export const components: ComponentMeta[] = [
       description: "one contents list item",
       tag: "li",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "contents-nav",
@@ -727,6 +830,7 @@ export const components: ComponentMeta[] = [
       description: "a contents navigation area",
       tag: "nav",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "context-menu",
@@ -734,6 +838,7 @@ export const components: ComponentMeta[] = [
       description: "a menu that appears on right-click or long-press",
       tag: "div",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "context-menu-item",
@@ -741,6 +846,7 @@ export const components: ComponentMeta[] = [
       description: "one item in a context menu",
       tag: "div",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "contextual-help",
@@ -748,6 +854,7 @@ export const components: ComponentMeta[] = [
       description: "a help button that opens a popover with explanatory content",
       tag: "div",
       category: "overlays",
+      purpose: "act",
   },
   {
       slug: "currency-input",
@@ -755,6 +862,7 @@ export const components: ComponentMeta[] = [
       description: "a locale-aware currency input with automatic formatting, symbols, separators",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "cymru-rhif-y-gwasanaeth-iechyd-gwladol-input",
@@ -762,6 +870,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Wales's Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "cymru-rhif-y-gwasanaeth-iechyd-gwladol-view",
@@ -769,6 +878,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Wales's Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "kypros-national-passport-number-input",
@@ -776,6 +886,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Kypros's National Passport Number",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "kypros-national-passport-number-view",
@@ -783,6 +894,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Kypros's National Passport Number",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "danmark-personnummer-input",
@@ -790,6 +902,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Denmark's Personnummer (CPR-nummer) (CPR)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "danmark-personnummer-view",
@@ -797,6 +910,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Denmark's Personnummer (CPR-nummer) (CPR)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "data-filter-form",
@@ -804,6 +918,7 @@ export const components: ComponentMeta[] = [
       description: "a form for filtering data by criteria",
       tag: "form",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "data-table",
@@ -811,6 +926,7 @@ export const components: ComponentMeta[] = [
       description: "a data table interactive grid for displaying and sorting tabular data <table>",
       tag: "table",
       category: "tables",
+      purpose: "show",
   },
   {
       slug: "data-table-body",
@@ -818,6 +934,7 @@ export const components: ComponentMeta[] = [
       description: "a data table interactive grid tbody for displaying and sorting tabular data <tbody>",
       tag: "tbody",
       category: "tables",
+      purpose: "show",
   },
   {
       slug: "data-table-foot",
@@ -825,6 +942,7 @@ export const components: ComponentMeta[] = [
       description: "a data table interactive grid tfoot for displaying and sorting tabular data <tfoot>",
       tag: "tfoot",
       category: "tables",
+      purpose: "show",
   },
   {
       slug: "data-table-head",
@@ -832,6 +950,7 @@ export const components: ComponentMeta[] = [
       description: "a data table interactive grid thead for displaying and sorting tabular data <thead>",
       tag: "thead",
       category: "tables",
+      purpose: "show",
   },
   {
       slug: "data-table-row",
@@ -839,6 +958,7 @@ export const components: ComponentMeta[] = [
       description: "a data table interactive grid row for displaying and sorting tabular data <tr>",
       tag: "tr",
       category: "tables",
+      purpose: "show",
   },
   {
       slug: "data-table-td",
@@ -846,6 +966,7 @@ export const components: ComponentMeta[] = [
       description: "a data table interactive grid data cell for displaying and sorting tabular data <td>",
       tag: "td",
       category: "tables",
+      purpose: "show",
   },
   {
       slug: "data-table-th",
@@ -853,6 +974,7 @@ export const components: ComponentMeta[] = [
       description: "a data table interactive grid header cell for displaying and sorting tabular data <th>",
       tag: "th",
       category: "tables",
+      purpose: "show",
   },
   {
       slug: "date-field",
@@ -860,6 +982,7 @@ export const components: ComponentMeta[] = [
       description: "a structured field for entering date components",
       tag: "fieldset",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "date-input",
@@ -867,6 +990,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering a date value <input type=\"date\">",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "date-range",
@@ -874,6 +998,7 @@ export const components: ComponentMeta[] = [
       description: "paired start and end date inputs",
       tag: "fieldset",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "date-time-local-input",
@@ -881,6 +1006,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering a date and time without time zone <input type=\"datetime-local\">",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "date-time-now-input",
@@ -888,6 +1014,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering a date and time and \"now\" button <input type=\"date\"><input type=\"time\"><button type=\"button\">",
       tag: "div",
       category: "content",
+      purpose: "collect",
   },
   {
       slug: "date-time-view",
@@ -895,6 +1022,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of a formatted date and time",
       tag: "time",
       category: "content",
+      purpose: "show",
   },
   {
       slug: "description-list",
@@ -902,6 +1030,7 @@ export const components: ComponentMeta[] = [
       description: "a definition list displaying information in key-value format <dl>",
       tag: "dl",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "description-list-item",
@@ -909,6 +1038,7 @@ export const components: ComponentMeta[] = [
       description: "one key-value pair in a description list using dt and dd elements",
       tag: "div",
       category: "content",
+      purpose: "show",
   },
   {
       slug: "details",
@@ -916,6 +1046,7 @@ export const components: ComponentMeta[] = [
       description: "a disclosure widget that shows and hides content",
       tag: "details",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "deutschland-krankenversichertennummer-input",
@@ -923,6 +1054,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Germany's Krankenversichertennummer (KVNR)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "deutschland-krankenversichertennummer-view",
@@ -930,6 +1062,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Germany's Krankenversichertennummer (KVNR)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "dial",
@@ -937,6 +1070,7 @@ export const components: ComponentMeta[] = [
       description: "a rotary dial control for selecting a value",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "dial-group",
@@ -944,6 +1078,7 @@ export const components: ComponentMeta[] = [
       description: "a group of dial components",
       tag: "div",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "dialog",
@@ -951,6 +1086,7 @@ export const components: ComponentMeta[] = [
       description: "a modal or non-modal dialog window",
       tag: "dialog",
       category: "overlays",
+      purpose: "act",
   },
   {
       slug: "diff",
@@ -958,6 +1094,7 @@ export const components: ComponentMeta[] = [
       description: "a side-by-side comparison of two items",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "digital-object-identifier-link",
@@ -965,6 +1102,7 @@ export const components: ComponentMeta[] = [
       description: "a permanent hyperlink for a Digital Object Identifier (DOI) to an electronic source",
       tag: "a",
       category: "links",
+      purpose: "navigate",
   },
   {
       slug: "do-list",
@@ -972,6 +1110,7 @@ export const components: ComponentMeta[] = [
       description: "a guideline list of encouraged do-list-item components",
       tag: "ul",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "do-list-item",
@@ -979,6 +1118,7 @@ export const components: ComponentMeta[] = [
       description: "an encouraged-practice item in a do-list guideline list",
       tag: "li",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "document-list",
@@ -986,6 +1126,7 @@ export const components: ComponentMeta[] = [
       description: "a list displaying documents with titles and metadata",
       tag: "ul",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "document-list-item",
@@ -993,6 +1134,7 @@ export const components: ComponentMeta[] = [
       description: "one document entry in a document list",
       tag: "li",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "dont-list",
@@ -1000,6 +1142,7 @@ export const components: ComponentMeta[] = [
       description: "a guideline list of discouraged dont-list-item components",
       tag: "ul",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "dont-list-item",
@@ -1007,6 +1150,7 @@ export const components: ComponentMeta[] = [
       description: "a discouraged-practice item in a dont-list guideline list",
       tag: "li",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "download-button",
@@ -1014,6 +1158,7 @@ export const components: ComponentMeta[] = [
       description: "a download link styled as a button, with optional file size and format metadata",
       tag: "a",
       category: "links",
+      purpose: "act",
   },
   {
       slug: "draft",
@@ -1021,6 +1166,7 @@ export const components: ComponentMeta[] = [
       description: "an early preliminary version of content such as an article, email, report, etc.",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "drawer",
@@ -1028,6 +1174,7 @@ export const components: ComponentMeta[] = [
       description: "a panel that slides in from the edge of the screen",
       tag: "dialog",
       category: "overlays",
+      purpose: "act",
   },
   {
       slug: "dropdown-menu",
@@ -1035,6 +1182,7 @@ export const components: ComponentMeta[] = [
       description: "a menu that opens below a trigger button",
       tag: "div",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "editable",
@@ -1042,6 +1190,7 @@ export const components: ComponentMeta[] = [
       description: "an inline-editable text element that toggles between view and edit modes",
       tag: "div",
       category: "content",
+      purpose: "show",
   },
   {
       slug: "editable-form",
@@ -1049,6 +1198,7 @@ export const components: ComponentMeta[] = [
       description: "a form wrapper for inline editing of content",
       tag: "form",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "eesti-isikukood-input",
@@ -1056,6 +1206,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Estonia's Isikukood (IK)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "eesti-isikukood-view",
@@ -1063,6 +1214,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Estonia's Isikukood (IK)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "ellada-dematerialised-securities-system-input",
@@ -1070,6 +1222,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Greece's Dematerialised Securities System (DSS)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "ellada-dematerialised-securities-system-view",
@@ -1077,6 +1230,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Greece's Dematerialised Securities System (DSS)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "email-input",
@@ -1084,6 +1238,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering an email address <input type=\"email\">",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "email-link",
@@ -1091,6 +1246,7 @@ export const components: ComponentMeta[] = [
       description: "a mailto hyperlink for an email address",
       tag: "a",
       category: "links",
+      purpose: "navigate",
   },
   {
       slug: "emoji",
@@ -1098,6 +1254,7 @@ export const components: ComponentMeta[] = [
       description: "a single emoji character with accessible name",
       tag: "span",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "emoji-character-radio-group",
@@ -1105,6 +1262,7 @@ export const components: ComponentMeta[] = [
       description: "a fieldset radio group for selecting an emoji character",
       tag: "fieldset",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "emoji-character-radio-input",
@@ -1112,6 +1270,7 @@ export const components: ComponentMeta[] = [
       description: "a radio input for one choice of an emoji character <input type=\"radio\">",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "end-notes",
@@ -1119,6 +1278,7 @@ export const components: ComponentMeta[] = [
       description: "a section of titled endnote items at the end of an article",
       tag: "section",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "england-national-health-service-number-input",
@@ -1126,6 +1286,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering England's National Health Service Number (NHS)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "england-national-health-service-number-view",
@@ -1133,6 +1294,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of England's National Health Service Number (NHS)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "error-message",
@@ -1140,6 +1302,7 @@ export const components: ComponentMeta[] = [
       description: "an error message associated with a form field",
       tag: "p",
       category: "content",
+      purpose: "inform",
   },
   {
       slug: "error-summary",
@@ -1147,6 +1310,7 @@ export const components: ComponentMeta[] = [
       description: "a summary of all validation errors on a form",
       tag: "div",
       category: "content",
+      purpose: "inform",
   },
   {
       slug: "espana-codigo-de-identificacion-fiscal-input",
@@ -1154,6 +1318,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Spain's Código de Identificación Fiscal (CIF)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "espana-codigo-de-identificacion-fiscal-view",
@@ -1161,6 +1326,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Spain's Código de Identificación Fiscal (CIF)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "espana-tarjeta-sanitaria-individual-input",
@@ -1168,6 +1334,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering an España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "espana-tarjeta-sanitaria-individual-view",
@@ -1175,6 +1342,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of an España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "event",
@@ -1182,6 +1350,7 @@ export const components: ComponentMeta[] = [
       description: "an event component that contains other event-related information",
       tag: "article",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "expander",
@@ -1189,6 +1358,7 @@ export const components: ComponentMeta[] = [
       description: "a control that expands to reveal more content",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "feature-card",
@@ -1196,6 +1366,7 @@ export const components: ComponentMeta[] = [
       description: "a large content card with a prominent image positioned alongside or above the text",
       tag: "article",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "feature-photo",
@@ -1203,6 +1374,7 @@ export const components: ComponentMeta[] = [
       description: "a responsive photo with lazy loading and alt text validation",
       tag: "figure",
       category: "media",
+      purpose: "show",
   },
   {
       slug: "field",
@@ -1210,6 +1382,7 @@ export const components: ComponentMeta[] = [
       description: "a form field wrapper with label, input, and error message",
       tag: "div",
       category: "content",
+      purpose: "collect",
   },
   {
       slug: "fieldset",
@@ -1217,6 +1390,7 @@ export const components: ComponentMeta[] = [
       description: "a group of related form fields with a legend",
       tag: "fieldset",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "figure",
@@ -1224,6 +1398,7 @@ export const components: ComponentMeta[] = [
       description: "a self-contained figure with optional caption",
       tag: "figure",
       category: "media",
+      purpose: "show",
   },
   {
       slug: "file-dialog",
@@ -1231,6 +1406,7 @@ export const components: ComponentMeta[] = [
       description: "a dialog for browsing and selecting files",
       tag: "dialog",
       category: "overlays",
+      purpose: "act",
   },
   {
       slug: "file-input",
@@ -1238,6 +1414,7 @@ export const components: ComponentMeta[] = [
       description: "an input for selecting files from the file system <input type=\"file\">",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "file-manager",
@@ -1245,6 +1422,7 @@ export const components: ComponentMeta[] = [
       description: "a file browser for navigating and managing files",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "file-upload",
@@ -1252,6 +1430,7 @@ export const components: ComponentMeta[] = [
       description: "a drag-and-drop area for uploading files",
       tag: "div",
       category: "content",
+      purpose: "collect",
   },
   {
       slug: "five-face-rating-radio-group",
@@ -1259,6 +1438,7 @@ export const components: ComponentMeta[] = [
       description: "a fieldset radio group for selecting a 1-5 satisfaction rating using face labels",
       tag: "fieldset",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "five-face-rating-radio-input",
@@ -1266,6 +1446,7 @@ export const components: ComponentMeta[] = [
       description: "a radio input for one choice of a 1-5 satisfaction rating <input type=\"radio\">",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "five-face-rating-view",
@@ -1273,6 +1454,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of a five-face satisfaction rating",
       tag: "span",
       category: "content",
+      purpose: "show",
   },
   {
       slug: "five-star-rating-radio-group",
@@ -1280,6 +1462,7 @@ export const components: ComponentMeta[] = [
       description: "a fieldset radio group for selecting a 1-5 star rating",
       tag: "fieldset",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "five-star-rating-radio-input",
@@ -1287,6 +1470,7 @@ export const components: ComponentMeta[] = [
       description: "a radio input for one choice of a 1-5 star rating <input type=\"radio\">",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "five-star-rating-view",
@@ -1294,6 +1478,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of a five-star rating",
       tag: "span",
       category: "content",
+      purpose: "show",
   },
   {
       slug: "flair",
@@ -1301,6 +1486,7 @@ export const components: ComponentMeta[] = [
       description: "a decorative highlight or emphasis element",
       tag: "span",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "flex-stack",
@@ -1308,6 +1494,7 @@ export const components: ComponentMeta[] = [
       description: "a flex layout container for vertical or horizontal stacking with consistent gap",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "float-button",
@@ -1315,6 +1502,7 @@ export const components: ComponentMeta[] = [
       description: "a floating action button anchored to a viewport corner",
       tag: "button",
       category: "buttons",
+      purpose: "act",
   },
   {
       slug: "floating-panel",
@@ -1322,6 +1510,7 @@ export const components: ComponentMeta[] = [
       description: "a panel that floats above page content",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "footer",
@@ -1329,6 +1518,7 @@ export const components: ComponentMeta[] = [
       description: "a page or section footer area",
       tag: "footer",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "footnote",
@@ -1336,6 +1526,7 @@ export const components: ComponentMeta[] = [
       description: "a footnote reference and content element",
       tag: "span",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "form",
@@ -1343,6 +1534,7 @@ export const components: ComponentMeta[] = [
       description: "a form element for collecting and submitting user data",
       tag: "form",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "framer",
@@ -1350,6 +1542,7 @@ export const components: ComponentMeta[] = [
       description: "a container for framed content display with decorative border",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "france-numero-d-identification-au-repertoire-input",
@@ -1357,6 +1550,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering a France numéro d'identification au répertoire (NIR) unique national healthcare identifier",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "france-numero-d-identification-au-repertoire-view",
@@ -1364,6 +1558,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of a France numéro d'identification au répertoire (NIR) unique national healthcare identifier",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "gantt-table",
@@ -1371,6 +1566,7 @@ export const components: ComponentMeta[] = [
       description: "a Gantt chart table interactive grid for planning schedule visualization <table>",
       tag: "table",
       category: "tables",
+      purpose: "show",
   },
   {
       slug: "gantt-table-tbody",
@@ -1378,6 +1574,7 @@ export const components: ComponentMeta[] = [
       description: "a Gantt chart table interactive grid tbody for planning schedule visualization <tbody>",
       tag: "tbody",
       category: "tables",
+      purpose: "show",
   },
   {
       slug: "gantt-table-td",
@@ -1385,6 +1582,7 @@ export const components: ComponentMeta[] = [
       description: "a Gantt chart table interactive grid data cell for planning schedule visualization <td>",
       tag: "td",
       category: "tables",
+      purpose: "show",
   },
   {
       slug: "gantt-table-tfoot",
@@ -1392,6 +1590,7 @@ export const components: ComponentMeta[] = [
       description: "a Gantt chart table interactive grid tfoot for planning schedule visualization <tfoot>",
       tag: "tfoot",
       category: "tables",
+      purpose: "show",
   },
   {
       slug: "gantt-table-th",
@@ -1399,6 +1598,7 @@ export const components: ComponentMeta[] = [
       description: "a Gantt chart table interactive grid header cell for planning schedule visualization <th>",
       tag: "th",
       category: "tables",
+      purpose: "show",
   },
   {
       slug: "gantt-table-thead",
@@ -1406,6 +1606,7 @@ export const components: ComponentMeta[] = [
       description: "a Gantt chart table interactive grid thead for planning schedule visualization <thead>",
       tag: "thead",
       category: "tables",
+      purpose: "show",
   },
   {
       slug: "gantt-table-tr",
@@ -1413,6 +1614,7 @@ export const components: ComponentMeta[] = [
       description: "a Gantt chart table interactive grid row for planning schedule visualization <tr>",
       tag: "tr",
       category: "tables",
+      purpose: "show",
   },
   {
       slug: "go-to-next-section",
@@ -1420,6 +1622,7 @@ export const components: ComponentMeta[] = [
       description: "a link that takes users to the next section of the current page",
       tag: "a",
       category: "links",
+      purpose: "navigate",
   },
   {
       slug: "go-to-previous-section",
@@ -1427,6 +1630,7 @@ export const components: ComponentMeta[] = [
       description: "a link that takes users to the previous section of the current page",
       tag: "a",
       category: "links",
+      purpose: "navigate",
   },
   {
       slug: "go-to-top",
@@ -1434,6 +1638,7 @@ export const components: ComponentMeta[] = [
       description: "a link that returns users to the top of a long page",
       tag: "a",
       category: "links",
+      purpose: "navigate",
   },
   {
       slug: "government-banner",
@@ -1441,6 +1646,7 @@ export const components: ComponentMeta[] = [
       description: "a banner identifying a website as belonging to a government, with an expandable details panel",
       tag: "aside",
       category: "overlays",
+      purpose: "inform",
   },
   {
       slug: "government-identifier",
@@ -1448,6 +1654,7 @@ export const components: ComponentMeta[] = [
       description: "an identifier section with a parent agency logo, agency name, and required government links",
       tag: "section",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "grail-layout",
@@ -1455,6 +1662,7 @@ export const components: ComponentMeta[] = [
       description: "a responsive web design structure with header, left aside, center main, right aside, footer",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "grail-layout-bottom-footer",
@@ -1462,6 +1670,7 @@ export const components: ComponentMeta[] = [
       description: "grail layout bottom footer full width with <footer> tag",
       tag: "footer",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "grail-layout-center-main",
@@ -1469,6 +1678,7 @@ export const components: ComponentMeta[] = [
       description: "grail layout center main content with <main> tag",
       tag: "main",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "grail-layout-left-aside",
@@ -1476,6 +1686,7 @@ export const components: ComponentMeta[] = [
       description: "grail layout left aside sidebar with <aside> tag",
       tag: "aside",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "grail-layout-right-aside",
@@ -1483,6 +1694,7 @@ export const components: ComponentMeta[] = [
       description: "grail layout right aside sidebar with <aside> tag",
       tag: "aside",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "grail-layout-top-header",
@@ -1490,6 +1702,7 @@ export const components: ComponentMeta[] = [
       description: "grail layout top header full width with <header> tag",
       tag: "header",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "graphic-block",
@@ -1497,6 +1710,7 @@ export const components: ComponentMeta[] = [
       description: "a wrapper for charts and graphics with title, description, notes, and ARIA description",
       tag: "figure",
       category: "media",
+      purpose: "show",
   },
   {
       slug: "grid",
@@ -1504,6 +1718,7 @@ export const components: ComponentMeta[] = [
       description: "a CSS grid layout container with configurable columns and gap",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "hamburger-menu",
@@ -1511,6 +1726,7 @@ export const components: ComponentMeta[] = [
       description: "a toggle button that opens a mobile navigation menu",
       tag: "div",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "header",
@@ -1518,6 +1734,7 @@ export const components: ComponentMeta[] = [
       description: "a page or section header area",
       tag: "header",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "headline",
@@ -1525,6 +1742,7 @@ export const components: ComponentMeta[] = [
       description: "a page headline with heading, subtitle, and byline area",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "hero",
@@ -1532,6 +1750,7 @@ export const components: ComponentMeta[] = [
       description: "a large box or image with a title and description",
       tag: "section",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "hero-headline",
@@ -1539,6 +1758,7 @@ export const components: ComponentMeta[] = [
       description: "a full-bleed hero section with headline overlaid on media",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "hidden-input",
@@ -1546,6 +1766,7 @@ export const components: ComponentMeta[] = [
       description: "a hidden input for including data in form submission <input type=\"hidden\">",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "hint",
@@ -1553,6 +1774,7 @@ export const components: ComponentMeta[] = [
       description: "hint text providing guidance for a form field",
       tag: "p",
       category: "content",
+      purpose: "inform",
   },
   {
       slug: "horizontal-scroller",
@@ -1560,6 +1782,7 @@ export const components: ComponentMeta[] = [
       description: "a horizontally scrollable content container",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "hover-card",
@@ -1567,6 +1790,7 @@ export const components: ComponentMeta[] = [
       description: "a card that appears on hover over a trigger element",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "hrvatska-osobni-identifikacijski-broj-input",
@@ -1574,6 +1798,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Croatia's Osobni identifikacijski broj (OIB)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "hrvatska-osobni-identifikacijski-broj-view",
@@ -1581,6 +1806,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Croatia's Osobni identifikacijski broj (OIB)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "iban-input",
@@ -1588,6 +1814,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering an International Bank Account Number (IBAN)",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "iban-view",
@@ -1595,6 +1822,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of an International Bank Account Number (IBAN)",
       tag: "span",
       category: "content",
+      purpose: "show",
   },
   {
       slug: "icon",
@@ -1602,6 +1830,7 @@ export const components: ComponentMeta[] = [
       description: "a container for displaying an icon",
       tag: "span",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "icon-button",
@@ -1609,6 +1838,7 @@ export const components: ComponentMeta[] = [
       description: "a button containing only an icon with a required accessible label",
       tag: "button",
       category: "buttons",
+      purpose: "act",
   },
   {
       slug: "icon-list",
@@ -1616,6 +1846,7 @@ export const components: ComponentMeta[] = [
       description: "an ordered list of icon list item components",
       tag: "ul",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "icon-list-item",
@@ -1623,6 +1854,7 @@ export const components: ComponentMeta[] = [
       description: "one item in an icon list with a leading icon slot",
       tag: "li",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "image",
@@ -1630,6 +1862,7 @@ export const components: ComponentMeta[] = [
       description: "an image element with alt text",
       tag: "img",
       category: "media",
+      purpose: "show",
   },
   {
       slug: "image-cropper",
@@ -1637,6 +1870,7 @@ export const components: ComponentMeta[] = [
       description: "a container for cropping and resizing an image to a selected region",
       tag: "div",
       category: "content",
+      purpose: "show",
   },
   {
       slug: "image-file-input",
@@ -1644,6 +1878,7 @@ export const components: ComponentMeta[] = [
       description: "an input for selecting image files with preview",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "image-input",
@@ -1651,6 +1886,7 @@ export const components: ComponentMeta[] = [
       description: "a graphical submit button that displays an image <input type=\"image\">",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "info-state",
@@ -1658,6 +1894,7 @@ export const components: ComponentMeta[] = [
       description: "a composition of illustration, title, description, and action for empty, error, or info states",
       tag: "section",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "information-callout",
@@ -1665,6 +1902,7 @@ export const components: ComponentMeta[] = [
       description: "a callout box highlighting informational content",
       tag: "aside",
       category: "navigation",
+      purpose: "inform",
   },
   {
       slug: "input",
@@ -1672,6 +1910,7 @@ export const components: ComponentMeta[] = [
       description: "a generic HTML input element",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "input-group",
@@ -1679,6 +1918,7 @@ export const components: ComponentMeta[] = [
       description: "a group wrapping an input with prefix and suffix addons",
       tag: "div",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "input-with-mask",
@@ -1686,6 +1926,7 @@ export const components: ComponentMeta[] = [
       description: "an input displaying a format mask placeholder for the user to fill in",
       tag: "div",
       category: "content",
+      purpose: "collect",
   },
   {
       slug: "inset-text",
@@ -1693,6 +1934,7 @@ export const components: ComponentMeta[] = [
       description: "indented text to distinguish it from surrounding content",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "international-patient-summary",
@@ -1700,6 +1942,7 @@ export const components: ComponentMeta[] = [
       description: "an International Patient Summary (HL7 FHIR IPS) laid out for a clinician: patient banner, contents, sections and document details, never silently missing a required section",
       tag: "article",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "international-patient-summary-section",
@@ -1707,6 +1950,7 @@ export const components: ComponentMeta[] = [
       description: "one section of an International Patient Summary, with its LOINC code and a status that is never blank",
       tag: "section",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "eire-individual-health-identifier-input",
@@ -1714,6 +1958,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Eire Individual Health Identifier (IHI) unique national healthcare identifier",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "eire-individual-health-identifier-view",
@@ -1721,6 +1966,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Eire Individual Health Identifier (IHI) unique national healthcare identifier",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "island-kennitala-input",
@@ -1728,6 +1974,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Iceland's Kennitala",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "island-kennitala-view",
@@ -1735,6 +1982,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Iceland's Kennitala",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "italia-codice-fiscale-input",
@@ -1742,6 +1990,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Italy's Codice fiscale (CF)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "italia-codice-fiscale-view",
@@ -1749,6 +1998,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Italy's Codice fiscale (CF)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "kanban-table",
@@ -1756,6 +2006,7 @@ export const components: ComponentMeta[] = [
       description: "a kanban board table interactive grid for organizing items by status <table>",
       tag: "table",
       category: "tables",
+      purpose: "show",
   },
   {
       slug: "kanban-table-body",
@@ -1763,6 +2014,7 @@ export const components: ComponentMeta[] = [
       description: "a kanban board table interactive grid tbody for organizing items by status <tbody>",
       tag: "tbody",
       category: "tables",
+      purpose: "show",
   },
   {
       slug: "kanban-table-foot",
@@ -1770,6 +2022,7 @@ export const components: ComponentMeta[] = [
       description: "a kanban board table interactive grid tfoot for organizing items by status <tfoot>",
       tag: "tfoot",
       category: "tables",
+      purpose: "show",
   },
   {
       slug: "kanban-table-head",
@@ -1777,6 +2030,7 @@ export const components: ComponentMeta[] = [
       description: "a kanban board table interactive grid thead for organizing items by status <thead>",
       tag: "thead",
       category: "tables",
+      purpose: "show",
   },
   {
       slug: "kanban-table-row",
@@ -1784,6 +2038,7 @@ export const components: ComponentMeta[] = [
       description: "a kanban board table interactive grid row for organizing items by status <tr>",
       tag: "tr",
       category: "tables",
+      purpose: "show",
   },
   {
       slug: "kanban-table-td",
@@ -1791,6 +2046,7 @@ export const components: ComponentMeta[] = [
       description: "kanban board table interactive grid data cell for organizing items by status <td>",
       tag: "td",
       category: "tables",
+      purpose: "show",
   },
   {
       slug: "kanban-table-th",
@@ -1798,6 +2054,7 @@ export const components: ComponentMeta[] = [
       description: "a kanban board table interactive grid header cell for organizing items by status <th>",
       tag: "th",
       category: "tables",
+      purpose: "show",
   },
   {
       slug: "kbd",
@@ -1805,6 +2062,7 @@ export const components: ComponentMeta[] = [
       description: "show keyboard shortcuts and key combinations in a styled inline element",
       tag: "kbd",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "label",
@@ -1812,6 +2070,7 @@ export const components: ComponentMeta[] = [
       description: "a label associated with a form input",
       tag: "label",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "latvija-personas-kods-input",
@@ -1819,6 +2078,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Latvia's Personas kods",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "latvija-personas-kods-view",
@@ -1826,6 +2086,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Latvia's Personas kods",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "liechtenstein-national-identity-card-number-input",
@@ -1833,6 +2094,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Liechtenstein's Liechtenstein National Identity Card Number",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "liechtenstein-national-identity-card-number-view",
@@ -1840,6 +2102,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Liechtenstein's Liechtenstein National Identity Card Number",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "liechtenstein-passport-number-input",
@@ -1847,6 +2110,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Liechtenstein's Liechtenstein Passport Number",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "liechtenstein-passport-number-view",
@@ -1854,6 +2118,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Liechtenstein's Liechtenstein Passport Number",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "lietuva-asmens-kodas-input",
@@ -1861,6 +2126,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Lithuania's Asmens kodas",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "lietuva-asmens-kodas-view",
@@ -1868,6 +2134,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Lithuania's Asmens kodas",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "lietuva-pasas-input",
@@ -1875,6 +2142,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Lithuania's Pasas",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "lietuva-pasas-view",
@@ -1882,6 +2150,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Lithuania's Pasas",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "line-chart",
@@ -1889,6 +2158,7 @@ export const components: ComponentMeta[] = [
       description: "a line chart visualization connecting data points to display data",
       tag: "figure",
       category: "data-viz",
+      purpose: "show",
   },
   {
       slug: "listbox",
@@ -1896,6 +2166,7 @@ export const components: ComponentMeta[] = [
       description: "a list of selectable options with keyboard navigation",
       tag: "div",
       category: "content",
+      purpose: "show",
   },
   {
       slug: "loading",
@@ -1903,6 +2174,7 @@ export const components: ComponentMeta[] = [
       description: "a loading indicator, such as text, or image, or animation",
       tag: "div",
       category: "content",
+      purpose: "inform",
   },
   {
       slug: "malta-national-identification-number-input",
@@ -1910,6 +2182,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Malta's Malta National Identification Number",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "malta-national-identification-number-view",
@@ -1917,6 +2190,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Malta's Malta National Identification Number",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "malta-passport-number-input",
@@ -1924,6 +2198,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Malta's Malta Passport Number",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "malta-passport-number-view",
@@ -1931,6 +2206,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Malta's Malta Passport Number",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "masonry",
@@ -1938,6 +2214,7 @@ export const components: ComponentMeta[] = [
       description: "a masonry layout container for variable-height items",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "measurement-instance-input",
@@ -1945,6 +2222,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering a measurement value and unit",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "measurement-instance-view",
@@ -1952,6 +2230,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of a measurement value and unit",
       tag: "span",
       category: "content",
+      purpose: "show",
   },
   {
       slug: "measurement-system-input",
@@ -1959,6 +2238,7 @@ export const components: ComponentMeta[] = [
       description: "an input for selecting a measurement system",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "measurement-system-view",
@@ -1966,6 +2246,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of a measurement system",
       tag: "span",
       category: "content",
+      purpose: "show",
   },
   {
       slug: "measurement-unit-input",
@@ -1973,6 +2254,7 @@ export const components: ComponentMeta[] = [
       description: "an input for selecting a measurement unit",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "measurement-unit-view",
@@ -1980,6 +2262,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of a measurement unit",
       tag: "span",
       category: "content",
+      purpose: "show",
   },
   {
       slug: "medical-banner",
@@ -1987,6 +2270,7 @@ export const components: ComponentMeta[] = [
       description: "a prominent message bar across the top of a page, with medical information",
       tag: "div",
       category: "overlays",
+      purpose: "inform",
   },
   {
       slug: "medical-banner-box",
@@ -1994,6 +2278,7 @@ export const components: ComponentMeta[] = [
       description: "a medical banner box that is inside a medical-banner component, using flexbox horizontal, with medical information",
       tag: "div",
       category: "content",
+      purpose: "inform",
   },
   {
       slug: "medical-banner-box-for-advice",
@@ -2001,6 +2286,7 @@ export const components: ComponentMeta[] = [
       description: "a medical record banner box for advice information e.g. contacts, contexts, plans, etc.",
       tag: "div",
       category: "content",
+      purpose: "inform",
   },
   {
       slug: "medical-banner-box-for-danger",
@@ -2008,6 +2294,7 @@ export const components: ComponentMeta[] = [
       description: "a medical record banner box for danger information e.g. reactions, warnings, alarms, etc.",
       tag: "div",
       category: "content",
+      purpose: "inform",
   },
   {
       slug: "mentions-input",
@@ -2015,6 +2302,7 @@ export const components: ComponentMeta[] = [
       description: "a text input with at-mention autocomplete suggestions",
       tag: "div",
       category: "content",
+      purpose: "collect",
   },
   {
       slug: "menu",
@@ -2022,6 +2310,7 @@ export const components: ComponentMeta[] = [
       description: "a list of actions or options triggered by a button",
       tag: "div",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "menu-bar",
@@ -2029,6 +2318,7 @@ export const components: ComponentMeta[] = [
       description: "a horizontal bar of menu triggers",
       tag: "div",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "menu-bar-button",
@@ -2036,6 +2326,7 @@ export const components: ComponentMeta[] = [
       description: "one item in a menu bar",
       tag: "button",
       category: "navigation",
+      purpose: "act",
   },
   {
       slug: "menu-group",
@@ -2043,6 +2334,7 @@ export const components: ComponentMeta[] = [
       description: "a labeled section of menu items within a menu",
       tag: "div",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "menu-item",
@@ -2050,6 +2342,7 @@ export const components: ComponentMeta[] = [
       description: "one item in a menu",
       tag: "div",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "meter",
@@ -2057,6 +2350,7 @@ export const components: ComponentMeta[] = [
       description: "a gauge displaying a scalar value within a known range",
       tag: "meter",
       category: "data-viz",
+      purpose: "show",
   },
   {
       slug: "mockup-browser",
@@ -2064,6 +2358,7 @@ export const components: ComponentMeta[] = [
       description: "a box area that looks like a web browser",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "mockup-laptop",
@@ -2071,6 +2366,7 @@ export const components: ComponentMeta[] = [
       description: "a box area that looks like a laptop computer",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "mockup-phone-landscape",
@@ -2078,6 +2374,7 @@ export const components: ComponentMeta[] = [
       description: "a box area that looks like a mobile phone in landscape orientation",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "mockup-phone-portrait",
@@ -2085,6 +2382,7 @@ export const components: ComponentMeta[] = [
       description: "a box area that looks like a mobile phone",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "mockup-shell",
@@ -2092,6 +2390,7 @@ export const components: ComponentMeta[] = [
       description: "a box area that looks like a terminal shell",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "mockup-tablet-landscape",
@@ -2099,6 +2398,7 @@ export const components: ComponentMeta[] = [
       description: "a box area that looks like a tablet computer in landscape mode",
       tag: "div",
       category: "content",
+      purpose: "show",
   },
   {
       slug: "mockup-tablet-portrait",
@@ -2106,6 +2406,7 @@ export const components: ComponentMeta[] = [
       description: "a box area that looks like a tablet computer in portrait mode",
       tag: "div",
       category: "content",
+      purpose: "show",
   },
   {
       slug: "mockup-watch",
@@ -2113,6 +2414,7 @@ export const components: ComponentMeta[] = [
       description: "a box area that looks like a smart watch",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "mockup-window",
@@ -2120,6 +2422,7 @@ export const components: ComponentMeta[] = [
       description: "a box area that looks like a desktop window",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "month-input",
@@ -2127,6 +2430,7 @@ export const components: ComponentMeta[] = [
       description: "an input for selecting a month and year <input type=\"month\">",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "navigation-menu",
@@ -2134,6 +2438,7 @@ export const components: ComponentMeta[] = [
       description: "a site-wide navigation menu with links",
       tag: "nav",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "nederland-burgerservice-nummer-input",
@@ -2141,6 +2446,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Netherlands's Burgerservicenummer (BSN)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "nederland-burgerservice-nummer-view",
@@ -2148,6 +2454,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Netherlands's Burgerservicenummer (BSN)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "nederland-identiteitskaart-nummer-input",
@@ -2155,6 +2462,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Netherlands's Identiteitskaart Nummer",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "nederland-identiteitskaart-nummer-view",
@@ -2162,6 +2470,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Netherlands's Identiteitskaart Nummer",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "nederland-paspoort-nummer-input",
@@ -2169,6 +2478,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Netherlands's Paspoort Nummer",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "nederland-paspoort-nummer-view",
@@ -2176,6 +2486,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Netherlands's Paspoort Nummer",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "net-promoter-score-radio-group",
@@ -2183,6 +2494,7 @@ export const components: ComponentMeta[] = [
       description: "a fieldset radio group for selecting a 0-10 Net Promoter Score",
       tag: "fieldset",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "net-promoter-score-radio-input",
@@ -2190,6 +2502,7 @@ export const components: ComponentMeta[] = [
       description: "a radio input for one choice of a 0-10 Net Promoter Score <input type=\"radio\">",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "net-promoter-score-view",
@@ -2197,6 +2510,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of a Net Promoter Score",
       tag: "span",
       category: "content",
+      purpose: "show",
   },
   {
       slug: "newsletter-signup",
@@ -2204,6 +2518,7 @@ export const components: ComponentMeta[] = [
       description: "an email subscription form composition with idle, submitting, success, and error states",
       tag: "form",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "norge-fodselsnummer-input",
@@ -2211,6 +2526,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Norway's Fødselsnummer",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "norge-fodselsnummer-view",
@@ -2218,6 +2534,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Norway's Fødselsnummer",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "tuaisceart-eireann-health-and-care-number-input",
@@ -2225,6 +2542,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Tuaisceart Eireann Health and Care (H&C) Number unique national healthcare identifier",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "tuaisceart-eireann-health-and-care-number-view",
@@ -2232,6 +2550,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Tuaisceart Eireann Health and Care (H&C) Number unique national healthcare identifier",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "notification",
@@ -2239,6 +2558,7 @@ export const components: ComponentMeta[] = [
       description: "a brief message about an event or update",
       tag: "div",
       category: "content",
+      purpose: "inform",
   },
   {
       slug: "number-input",
@@ -2246,6 +2566,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering a numeric value with validation <input type=\"number\">",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "option",
@@ -2253,6 +2574,7 @@ export const components: ComponentMeta[] = [
       description: "an option element within a select dropdown",
       tag: "option",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "organization",
@@ -2260,6 +2582,7 @@ export const components: ComponentMeta[] = [
       description: "an organization component that contains other organization-related information",
       tag: "article",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "overlay-container",
@@ -2267,6 +2590,7 @@ export const components: ComponentMeta[] = [
       description: "a full-viewport overlay backdrop for modals and sheets",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "padding-reset",
@@ -2274,6 +2598,7 @@ export const components: ComponentMeta[] = [
       description: "a container that resets padding inside fluid-width containers",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "pagination-link",
@@ -2281,6 +2606,7 @@ export const components: ComponentMeta[] = [
       description: "one pagination link in the trail",
       tag: "a",
       category: "links",
+      purpose: "navigate",
   },
   {
       slug: "pagination-list",
@@ -2288,6 +2614,7 @@ export const components: ComponentMeta[] = [
       description: "an ordered list of pagination list items",
       tag: "ol",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "pagination-list-item",
@@ -2295,6 +2622,7 @@ export const components: ComponentMeta[] = [
       description: "one pagination list item in the trail",
       tag: "li",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "pagination-nav",
@@ -2302,6 +2630,7 @@ export const components: ComponentMeta[] = [
       description: "an ordered list of page navigation links",
       tag: "nav",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "panel",
@@ -2309,6 +2638,7 @@ export const components: ComponentMeta[] = [
       description: "a generic content panel with optional heading",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "password-input",
@@ -2316,6 +2646,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering a password with obscured text <input type=\"password\">",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "password-input-or-text-input-div",
@@ -2323,6 +2654,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering a password <input type=\"password\"> or text <input type=\"text\"> with show/hide toggle",
       tag: "div",
       category: "content",
+      purpose: "collect",
   },
   {
       slug: "person",
@@ -2330,6 +2662,7 @@ export const components: ComponentMeta[] = [
       description: "a person component that contains other person-related information",
       tag: "article",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "phase-banner",
@@ -2337,6 +2670,7 @@ export const components: ComponentMeta[] = [
       description: "a banner showing service development phase and inviting feedback",
       tag: "div",
       category: "overlays",
+      purpose: "inform",
   },
   {
       slug: "photo-pack",
@@ -2344,6 +2678,7 @@ export const components: ComponentMeta[] = [
       description: "a collection of photos displayed together as a group",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "pictogram",
@@ -2351,6 +2686,7 @@ export const components: ComponentMeta[] = [
       description: "an icon-based component pairing an icon with a title and description in a centered or side layout",
       tag: "figure",
       category: "media",
+      purpose: "show",
   },
   {
       slug: "pin-input-div",
@@ -2358,6 +2694,7 @@ export const components: ComponentMeta[] = [
       description: "a series of single-digit inputs for entering a PIN or OTP code",
       tag: "div",
       category: "content",
+      purpose: "collect",
   },
   {
       slug: "place",
@@ -2365,6 +2702,7 @@ export const components: ComponentMeta[] = [
       description: "a place component that contains other place-related information",
       tag: "article",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "polska-numer-identyfikacji-podatkowej-input",
@@ -2372,6 +2710,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Poland's Numer Identyfikacji Podatkowej (NIP)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "polska-numer-identyfikacji-podatkowej-view",
@@ -2379,6 +2718,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Poland's Numer Identyfikacji Podatkowej (NIP)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "polska-pesel-input",
@@ -2386,6 +2726,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Poland's PESEL",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "polska-pesel-view",
@@ -2393,6 +2734,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Poland's PESEL",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "popconfirm-dialog",
@@ -2400,6 +2742,7 @@ export const components: ComponentMeta[] = [
       description: "a popover dialog with confirm and cancel buttons",
       tag: "div",
       category: "content",
+      purpose: "act",
   },
   {
       slug: "popover",
@@ -2407,6 +2750,7 @@ export const components: ComponentMeta[] = [
       description: "a floating content box anchored to a trigger element",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "popup",
@@ -2414,6 +2758,7 @@ export const components: ComponentMeta[] = [
       description: "a temporary overlay that appears above page content",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "portugal-numero-de-identificacao-fiscal-input",
@@ -2421,6 +2766,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Portugal's Número de Identificação Fiscal (NIF)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "portugal-numero-de-identificacao-fiscal-view",
@@ -2428,6 +2774,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Portugal's Número de Identificação Fiscal (NIF)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "portugal-passaporte-input",
@@ -2435,6 +2782,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Portugal's Passaporte",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "portugal-passaporte-view",
@@ -2442,6 +2790,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Portugal's Passaporte",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "postal-code-input",
@@ -2449,6 +2798,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering a postal or ZIP code",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "postal-code-view",
@@ -2456,6 +2806,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of a postal or ZIP code",
       tag: "span",
       category: "content",
+      purpose: "show",
   },
   {
       slug: "product-card",
@@ -2463,6 +2814,7 @@ export const components: ComponentMeta[] = [
       description: "a specialized card for displaying a product with image, title, price, and actions",
       tag: "article",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "progress",
@@ -2470,6 +2822,7 @@ export const components: ComponentMeta[] = [
       description: "a horizontal progress bar showing completion",
       tag: "progress",
       category: "data-viz",
+      purpose: "inform",
   },
   {
       slug: "progress-bar",
@@ -2477,6 +2830,7 @@ export const components: ComponentMeta[] = [
       description: "a horizontal progress indicator",
       tag: "div",
       category: "navigation",
+      purpose: "inform",
   },
   {
       slug: "progress-circle",
@@ -2484,6 +2838,7 @@ export const components: ComponentMeta[] = [
       description: "a circular progress indicator",
       tag: "div",
       category: "content",
+      purpose: "inform",
   },
   {
       slug: "progress-spinner",
@@ -2491,6 +2846,7 @@ export const components: ComponentMeta[] = [
       description: "an indeterminate spinning progress indicator",
       tag: "div",
       category: "content",
+      purpose: "inform",
   },
   {
       slug: "qr-code-image",
@@ -2498,6 +2854,7 @@ export const components: ComponentMeta[] = [
       description: "a QR code image generated from text or URL data",
       tag: "div",
       category: "content",
+      purpose: "show",
   },
   {
       slug: "question",
@@ -2505,6 +2862,7 @@ export const components: ComponentMeta[] = [
       description: "a question is anything that asks for information, invites a response, tests knowledge, etc.",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "radio-group",
@@ -2512,6 +2870,7 @@ export const components: ComponentMeta[] = [
       description: "a group of radio buttons for selecting one option",
       tag: "fieldset",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "radio-input",
@@ -2519,6 +2878,7 @@ export const components: ComponentMeta[] = [
       description: "a single radio button input <input type=\"radio\">",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "range-input",
@@ -2526,6 +2886,7 @@ export const components: ComponentMeta[] = [
       description: "a slider input for selecting a value within a range <input type=\"range\">",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "red-amber-green-radio-group",
@@ -2533,6 +2894,7 @@ export const components: ComponentMeta[] = [
       description: "a fieldset radio group for selecting a red/amber/green status",
       tag: "fieldset",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "red-amber-green-radio-input",
@@ -2540,6 +2902,7 @@ export const components: ComponentMeta[] = [
       description: "a radio input for one choice of a red/amber/green status <input type=\"radio\">",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "red-amber-green-view",
@@ -2547,6 +2910,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of a red/amber/green status",
       tag: "span",
       category: "content",
+      purpose: "show",
   },
   {
       slug: "red-orange-yellow-green-blue-radio-group",
@@ -2554,6 +2918,7 @@ export const components: ComponentMeta[] = [
       description: "a fieldset radio group for selecting a five-level color status",
       tag: "fieldset",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "red-orange-yellow-green-blue-radio-input",
@@ -2561,6 +2926,7 @@ export const components: ComponentMeta[] = [
       description: "a radio input for one choice of a five-level color status <input type=\"radio\">",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "red-orange-yellow-green-blue-view",
@@ -2568,6 +2934,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of a five-level color status",
       tag: "span",
       category: "content",
+      purpose: "show",
   },
   {
       slug: "related-content",
@@ -2575,6 +2942,7 @@ export const components: ComponentMeta[] = [
       description: "a section providing links to related or supporting information",
       tag: "aside",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "reset-input",
@@ -2582,6 +2950,7 @@ export const components: ComponentMeta[] = [
       description: "a button input that resets a form to default values <input type=\"reset\">",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "resizable",
@@ -2589,6 +2958,7 @@ export const components: ComponentMeta[] = [
       description: "a container that the user can resize by dragging",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "review-date",
@@ -2596,6 +2966,7 @@ export const components: ComponentMeta[] = [
       description: "a display of a content review date",
       tag: "time",
       category: "content",
+      purpose: "show",
   },
   {
       slug: "romania-cod-numeric-personal-input",
@@ -2603,6 +2974,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Romania's Cod Numeric Personal (CNP)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "romania-cod-numeric-personal-view",
@@ -2610,6 +2982,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Romania's Cod Numeric Personal (CNP)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "romania-pasaport-input",
@@ -2617,6 +2990,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Romania's Paşaport",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "romania-pasaport-view",
@@ -2624,6 +2998,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Romania's Paşaport",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "scatter-chart",
@@ -2631,6 +3006,7 @@ export const components: ComponentMeta[] = [
       description: "a scatter chart visualization using dots to display data",
       tag: "figure",
       category: "data-viz",
+      purpose: "show",
   },
   {
       slug: "screen-reader-span",
@@ -2638,6 +3014,7 @@ export const components: ComponentMeta[] = [
       description: "a visually hidden span of text intended for screen readers to provide more descriptive labels",
       tag: "span",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "scroll-area",
@@ -2645,6 +3022,7 @@ export const components: ComponentMeta[] = [
       description: "a scrollable container with custom scrollbar support",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "scroll-bar",
@@ -2652,6 +3030,7 @@ export const components: ComponentMeta[] = [
       description: "a custom scrollbar element",
       tag: "div",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "scroller",
@@ -2659,6 +3038,7 @@ export const components: ComponentMeta[] = [
       description: "a scrollytelling container with step-based foreground and background composition",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "scroller-base",
@@ -2666,6 +3046,7 @@ export const components: ComponentMeta[] = [
       description: "a low-level scroll position tracking primitive for scrollytelling",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "scroller-video",
@@ -2673,6 +3054,7 @@ export const components: ComponentMeta[] = [
       description: "a video-driven scrollytelling component with frame-by-frame scrubbing",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "search-input",
@@ -2680,6 +3062,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering a search query <input type=\"search\">",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "section-heading",
@@ -2687,6 +3070,7 @@ export const components: ComponentMeta[] = [
       description: "a styled heading introducing a major content section, with optional eyebrow and subtitle",
       tag: "header",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "section-link",
@@ -2694,6 +3078,7 @@ export const components: ComponentMeta[] = [
       description: "one section link in the navigation",
       tag: "a",
       category: "links",
+      purpose: "navigate",
   },
   {
       slug: "section-list",
@@ -2701,6 +3086,7 @@ export const components: ComponentMeta[] = [
       description: "a list of section navigation items",
       tag: "ul",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "section-list-item",
@@ -2708,6 +3094,7 @@ export const components: ComponentMeta[] = [
       description: "one section navigation item",
       tag: "li",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "section-nav",
@@ -2715,6 +3102,7 @@ export const components: ComponentMeta[] = [
       description: "a navigation container for section navigation links",
       tag: "nav",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "segment-group",
@@ -2722,6 +3110,7 @@ export const components: ComponentMeta[] = [
       description: "a group of mutually exclusive segment options",
       tag: "div",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "segment-group-item",
@@ -2729,6 +3118,7 @@ export const components: ComponentMeta[] = [
       description: "one selectable segment in a segment group",
       tag: "button",
       category: "forms",
+      purpose: "act",
   },
   {
       slug: "select",
@@ -2736,6 +3126,7 @@ export const components: ComponentMeta[] = [
       description: "a dropdown select element for choosing one option",
       tag: "select",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "select-with-extras",
@@ -2743,6 +3134,7 @@ export const components: ComponentMeta[] = [
       description: "a select dropdown with additional features like search or groups",
       tag: "div",
       category: "content",
+      purpose: "collect",
   },
   {
       slug: "separator",
@@ -2750,6 +3142,7 @@ export const components: ComponentMeta[] = [
       description: "a horizontal or vertical divider between content sections",
       tag: "hr",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "share-page",
@@ -2757,6 +3150,7 @@ export const components: ComponentMeta[] = [
       description: "a component for sharing the page on social media",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "sheet",
@@ -2764,6 +3158,7 @@ export const components: ComponentMeta[] = [
       description: "a panel that slides in from a screen edge as an overlay",
       tag: "dialog",
       category: "overlays",
+      purpose: "act",
   },
   {
       slug: "sidebar",
@@ -2771,6 +3166,7 @@ export const components: ComponentMeta[] = [
       description: "a side panel for navigation or supplementary content",
       tag: "aside",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "signature-pad",
@@ -2778,6 +3174,7 @@ export const components: ComponentMeta[] = [
       description: "a drawing area for capturing a handwritten signature",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "skeleton",
@@ -2785,6 +3182,7 @@ export const components: ComponentMeta[] = [
       description: "a placeholder loading animation for content",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "skip-link",
@@ -2792,6 +3190,7 @@ export const components: ComponentMeta[] = [
       description: "a hidden link for keyboard users to skip to main content",
       tag: "a",
       category: "links",
+      purpose: "navigate",
   },
   {
       slug: "slide-out-drawer",
@@ -2799,6 +3198,7 @@ export const components: ComponentMeta[] = [
       description: "a drawer that slides out from the side of the page",
       tag: "dialog",
       category: "overlays",
+      purpose: "act",
   },
   {
       slug: "slider",
@@ -2806,6 +3206,7 @@ export const components: ComponentMeta[] = [
       description: "a draggable control for selecting a value along a track",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "slider-button",
@@ -2813,6 +3214,7 @@ export const components: ComponentMeta[] = [
       description: "a button with a slider that the user needs to slide to confirm",
       tag: "button",
       category: "buttons",
+      purpose: "act",
   },
   {
       slug: "slovenija-emso-input",
@@ -2820,6 +3222,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Slovenia's Enotna Matična Številka Občana (EMŠO)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "slovenija-emso-view",
@@ -2827,6 +3230,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Slovenia's Enotna Matična Številka Občana (EMŠO)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "slovensko-pas-input",
@@ -2834,6 +3238,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Slovakia's Pas",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "slovensko-pas-view",
@@ -2841,6 +3246,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Slovakia's Pas",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "slovensko-rodne-cislo-input",
@@ -2848,6 +3254,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Slovakia's Rodné číslo (RČ)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "slovensko-rodne-cislo-view",
@@ -2855,6 +3262,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Slovakia's Rodné číslo (RČ)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "sonner",
@@ -2862,6 +3270,7 @@ export const components: ComponentMeta[] = [
       description: "a toast notification manager",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "sparkline",
@@ -2869,6 +3278,7 @@ export const components: ComponentMeta[] = [
       description: "a small inline chart showing a data trend",
       tag: "span",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "split-button",
@@ -2876,6 +3286,7 @@ export const components: ComponentMeta[] = [
       description: "a button with a primary action and a dropdown for related actions",
       tag: "div",
       category: "forms",
+      purpose: "act",
   },
   {
       slug: "split-view",
@@ -2883,6 +3294,7 @@ export const components: ComponentMeta[] = [
       description: "a two-panel resizable layout container with a draggable divider between them",
       tag: "div",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "splitter",
@@ -2890,6 +3302,7 @@ export const components: ComponentMeta[] = [
       description: "a draggable divider for resizing adjacent panels",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "statistic",
@@ -2897,6 +3310,7 @@ export const components: ComponentMeta[] = [
       description: "a numeric value display with title, prefix, and suffix",
       tag: "div",
       category: "content",
+      purpose: "show",
   },
   {
       slug: "status-light",
@@ -2904,6 +3318,7 @@ export const components: ComponentMeta[] = [
       description: "a small colored dot status indicator paired with a status label",
       tag: "span",
       category: "content",
+      purpose: "inform",
   },
   {
       slug: "status-tag",
@@ -2911,6 +3326,7 @@ export const components: ComponentMeta[] = [
       description: "a tag showing the current status of a task",
       tag: "span",
       category: "content",
+      purpose: "inform",
   },
   {
       slug: "step-list",
@@ -2918,6 +3334,7 @@ export const components: ComponentMeta[] = [
       description: "an ordered list of step items showing progress through a multi-step process",
       tag: "ol",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "step-list-item",
@@ -2925,6 +3342,7 @@ export const components: ComponentMeta[] = [
       description: "one step in a step list with status of waiting, in progress, finished, or error",
       tag: "li",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "sticky-promo-banner",
@@ -2932,6 +3350,7 @@ export const components: ComponentMeta[] = [
       description: "a fixed-position promotional banner with a dismiss button",
       tag: "aside",
       category: "overlays",
+      purpose: "inform",
   },
   {
       slug: "submit-input",
@@ -2939,6 +3358,7 @@ export const components: ComponentMeta[] = [
       description: "a button input that submits a form <input type=\"submit\">",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "success-panel",
@@ -2946,6 +3366,7 @@ export const components: ComponentMeta[] = [
       description: "a panel confirming a task has been completed",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "summary-box",
@@ -2953,6 +3374,7 @@ export const components: ComponentMeta[] = [
       description: "a boxed callout highlighting key takeaways or next steps from a longer page",
       tag: "aside",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "summary-list",
@@ -2960,6 +3382,7 @@ export const components: ComponentMeta[] = [
       description: "a description list of key-value summary pairs",
       tag: "dl",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "summary-list-item",
@@ -2967,6 +3390,7 @@ export const components: ComponentMeta[] = [
       description: "one key-value pair in a summary list",
       tag: "div",
       category: "content",
+      purpose: "show",
   },
   {
       slug: "suomi-henkilotunnus-input",
@@ -2974,6 +3398,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Finland's Henkilötunnus (HETU)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "suomi-henkilotunnus-view",
@@ -2981,6 +3406,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Finland's Henkilötunnus (HETU)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "super-banner",
@@ -2988,6 +3414,7 @@ export const components: ComponentMeta[] = [
       description: "a super-banner communicates a high-priority state that affects an entire app, experience, process, or system",
       tag: "div",
       category: "overlays",
+      purpose: "inform",
   },
   {
       slug: "sverige-personnummer-input",
@@ -2995,6 +3422,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Sweden's Personnummer",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "sverige-personnummer-view",
@@ -3002,6 +3430,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Sweden's Personnummer",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "switch-button",
@@ -3009,6 +3438,7 @@ export const components: ComponentMeta[] = [
       description: "a toggle switch for turning a setting on or off",
       tag: "button",
       category: "buttons",
+      purpose: "act",
   },
   {
       slug: "tab-bar",
@@ -3016,6 +3446,7 @@ export const components: ComponentMeta[] = [
       description: "a group of tabs for switching between content panels",
       tag: "div",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "tab-bar-button",
@@ -3023,6 +3454,7 @@ export const components: ComponentMeta[] = [
       description: "one tab button in a tab group",
       tag: "button",
       category: "navigation",
+      purpose: "act",
   },
   {
       slug: "tab-panel",
@@ -3030,6 +3462,7 @@ export const components: ComponentMeta[] = [
       description: "a content panel associated with a tab in a tab bar",
       tag: "div",
       category: "overlays",
+      purpose: "act",
   },
   {
       slug: "table",
@@ -3037,6 +3470,7 @@ export const components: ComponentMeta[] = [
       description: "a table with rows and columns <table>",
       tag: "table",
       category: "tables",
+      purpose: "show",
   },
   {
       slug: "table-body",
@@ -3044,6 +3478,7 @@ export const components: ComponentMeta[] = [
       description: "a table interactive grid tbody <tbody>",
       tag: "tbody",
       category: "tables",
+      purpose: "show",
   },
   {
       slug: "table-foot",
@@ -3051,6 +3486,7 @@ export const components: ComponentMeta[] = [
       description: "a table interactive grid tfoot <tfoot>",
       tag: "tfoot",
       category: "tables",
+      purpose: "show",
   },
   {
       slug: "table-head",
@@ -3058,6 +3494,7 @@ export const components: ComponentMeta[] = [
       description: "a table interactive grid thead <thead>",
       tag: "thead",
       category: "tables",
+      purpose: "show",
   },
   {
       slug: "table-row",
@@ -3065,6 +3502,7 @@ export const components: ComponentMeta[] = [
       description: "a table interactive grid row <tr>",
       tag: "tr",
       category: "tables",
+      purpose: "show",
   },
   {
       slug: "table-td",
@@ -3072,6 +3510,7 @@ export const components: ComponentMeta[] = [
       description: "a table interactive grid data cell <td>",
       tag: "td",
       category: "tables",
+      purpose: "show",
   },
   {
       slug: "table-th",
@@ -3079,6 +3518,7 @@ export const components: ComponentMeta[] = [
       description: "a table interactive grid header cell <th>",
       tag: "th",
       category: "tables",
+      purpose: "show",
   },
   {
       slug: "tag",
@@ -3086,6 +3526,7 @@ export const components: ComponentMeta[] = [
       description: "a keyword label for categorizing content",
       tag: "span",
       category: "content",
+      purpose: "show",
   },
   {
       slug: "tag-group",
@@ -3093,6 +3534,7 @@ export const components: ComponentMeta[] = [
       description: "a group of tag elements",
       tag: "div",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "tag-input-div",
@@ -3100,6 +3542,7 @@ export const components: ComponentMeta[] = [
       description: "an input for adding and removing tags",
       tag: "div",
       category: "content",
+      purpose: "collect",
   },
   {
       slug: "task-bar",
@@ -3107,6 +3550,7 @@ export const components: ComponentMeta[] = [
       description: "a horizontal bar of task shortcuts or actions",
       tag: "div",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "task-bar-button",
@@ -3114,6 +3558,7 @@ export const components: ComponentMeta[] = [
       description: "one item in a task bar",
       tag: "button",
       category: "navigation",
+      purpose: "act",
   },
   {
       slug: "task-list",
@@ -3121,6 +3566,7 @@ export const components: ComponentMeta[] = [
       description: "an ordered list of task list items",
       tag: "ol",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "task-list-item",
@@ -3128,6 +3574,7 @@ export const components: ComponentMeta[] = [
       description: "one task item with a checkbox and label",
       tag: "li",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "tel-input",
@@ -3135,6 +3582,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering a telephone number <input type=\"tel\">",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "tel-link",
@@ -3142,6 +3590,7 @@ export const components: ComponentMeta[] = [
       description: "a tel hyperlink for a telephone number",
       tag: "a",
       category: "links",
+      purpose: "navigate",
   },
   {
       slug: "text-area-input",
@@ -3149,6 +3598,7 @@ export const components: ComponentMeta[] = [
       description: "a multi-line text input area",
       tag: "textarea",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "text-area-input-with-character-counter",
@@ -3156,6 +3606,7 @@ export const components: ComponentMeta[] = [
       description: "a multi-line text area input with a caption below that is a character counter \"[number] of [maximum] characters\"",
       tag: "div",
       category: "content",
+      purpose: "collect",
   },
   {
       slug: "text-input",
@@ -3163,6 +3614,7 @@ export const components: ComponentMeta[] = [
       description: "a single-line text input field <input type=\"text\">",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "text-input-with-search",
@@ -3170,6 +3622,7 @@ export const components: ComponentMeta[] = [
       description: "a single-line text input field <input type=\"text\"> with search capability",
       tag: "div",
       category: "content",
+      purpose: "collect",
   },
   {
       slug: "theme-provider",
@@ -3177,6 +3630,7 @@ export const components: ComponentMeta[] = [
       description: "a container that applies CSS custom properties from a theme object to its children",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "theme-select",
@@ -3184,6 +3638,7 @@ export const components: ComponentMeta[] = [
       description: "a select dropdown for choosing a theme",
       tag: "select",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "theme-select-option",
@@ -3191,6 +3646,7 @@ export const components: ComponentMeta[] = [
       description: "one option in a theme select dropdown",
       tag: "option",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "theme-view",
@@ -3198,6 +3654,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of the current theme",
       tag: "span",
       category: "content",
+      purpose: "show",
   },
   {
       slug: "tile",
@@ -3205,6 +3662,7 @@ export const components: ComponentMeta[] = [
       description: "a grouping container that presents related content in a structured format, often as a single clickable area",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "tile-map",
@@ -3212,6 +3670,7 @@ export const components: ComponentMeta[] = [
       description: "a tile cartogram map with configurable layers for geographic data visualization",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "time-input",
@@ -3219,6 +3678,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering a time value <input type=\"time\">",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "time-picker-input",
@@ -3226,6 +3686,7 @@ export const components: ComponentMeta[] = [
       description: "an input with a dropdown for picking a time",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "timeline-list",
@@ -3233,6 +3694,7 @@ export const components: ComponentMeta[] = [
       description: "an ordered list of chronological events or milestones",
       tag: "ol",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "timeline-list-item",
@@ -3240,6 +3702,7 @@ export const components: ComponentMeta[] = [
       description: "one event in a timeline list",
       tag: "li",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "timeout-dialog",
@@ -3247,6 +3710,7 @@ export const components: ComponentMeta[] = [
       description: "a modal dialog warning users before session timeout",
       tag: "dialog",
       category: "overlays",
+      purpose: "act",
   },
   {
       slug: "timer",
@@ -3254,6 +3718,7 @@ export const components: ComponentMeta[] = [
       description: "a countdown or elapsed time display",
       tag: "time",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "timer-button",
@@ -3261,6 +3726,7 @@ export const components: ComponentMeta[] = [
       description: "a button with a timer that will automatically click after a given amount of time",
       tag: "button",
       category: "buttons",
+      purpose: "act",
   },
   {
       slug: "toast",
@@ -3268,6 +3734,7 @@ export const components: ComponentMeta[] = [
       description: "a brief auto-dismissing notification message",
       tag: "div",
       category: "content",
+      purpose: "inform",
   },
   {
       slug: "toggle-button",
@@ -3275,6 +3742,7 @@ export const components: ComponentMeta[] = [
       description: "a button that toggles between pressed and unpressed states",
       tag: "button",
       category: "buttons",
+      purpose: "act",
   },
   {
       slug: "toggle-group",
@@ -3282,6 +3750,7 @@ export const components: ComponentMeta[] = [
       description: "a group of toggle buttons for selecting options",
       tag: "div",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "tool-bar",
@@ -3289,6 +3758,7 @@ export const components: ComponentMeta[] = [
       description: "a horizontal bar of tool actions",
       tag: "div",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "tool-bar-button",
@@ -3296,6 +3766,7 @@ export const components: ComponentMeta[] = [
       description: "one action button in a tool bar",
       tag: "button",
       category: "navigation",
+      purpose: "act",
   },
   {
       slug: "tooltip",
@@ -3303,6 +3774,7 @@ export const components: ComponentMeta[] = [
       description: "a small popup showing descriptive text on hover or focus",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "tour",
@@ -3310,6 +3782,7 @@ export const components: ComponentMeta[] = [
       description: "a tour guide, such as for sightseeing, or pathways, or demonstrations, etc.",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "tour-list",
@@ -3317,6 +3790,7 @@ export const components: ComponentMeta[] = [
       description: "an ordered list of tour guide steps",
       tag: "ol",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "tour-list-item",
@@ -3324,6 +3798,7 @@ export const components: ComponentMeta[] = [
       description: "one step in a tour guide list",
       tag: "li",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "transfer-list",
@@ -3331,6 +3806,7 @@ export const components: ComponentMeta[] = [
       description: "a dual list box for moving items between two lists",
       tag: "div",
       category: "content",
+      purpose: "show",
   },
   {
       slug: "tree-link",
@@ -3338,6 +3814,7 @@ export const components: ComponentMeta[] = [
       description: "one link in the tree",
       tag: "a",
       category: "links",
+      purpose: "navigate",
   },
   {
       slug: "tree-list",
@@ -3345,6 +3822,7 @@ export const components: ComponentMeta[] = [
       description: "a hierarchical list with nested expandable items",
       tag: "ol",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "tree-list-item",
@@ -3352,6 +3830,7 @@ export const components: ComponentMeta[] = [
       description: "one item in a tree navigation list",
       tag: "li",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "tree-menu",
@@ -3359,6 +3838,7 @@ export const components: ComponentMeta[] = [
       description: "a hierarchical tree menu with expandable branches",
       tag: "ul",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "tree-nav",
@@ -3366,6 +3846,7 @@ export const components: ComponentMeta[] = [
       description: "a hierarchical navigation with expandable branches",
       tag: "nav",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "tree-select",
@@ -3373,6 +3854,7 @@ export const components: ComponentMeta[] = [
       description: "a select dropdown showing a tree of hierarchical options",
       tag: "div",
       category: "content",
+      purpose: "collect",
   },
   {
       slug: "united-kingdom-national-health-service-number-input",
@@ -3380,6 +3862,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering a UK NHS number",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "united-kingdom-national-health-service-number-view",
@@ -3387,6 +3870,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of a UK NHS number",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "united-kingdom-national-insurance-number-input",
@@ -3394,6 +3878,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering United Kingdom's National Insurance Number (NINO)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "united-kingdom-national-insurance-number-view",
@@ -3401,6 +3886,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of United Kingdom's National Insurance Number (NINO)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "united-states-social-security-number-input",
@@ -3408,6 +3894,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering a US Social Security number",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "united-states-social-security-number-view",
@@ -3415,6 +3902,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of a US Social Security number",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "url-input",
@@ -3422,6 +3910,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering a URL <input type=\"url\">",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "validation-list",
@@ -3429,6 +3918,7 @@ export const components: ComponentMeta[] = [
       description: "a live-feedback list of input validation rules with pending, passed, and failed states",
       tag: "ul",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "validation-list-item",
@@ -3436,6 +3926,7 @@ export const components: ComponentMeta[] = [
       description: "one validation rule in a validation list with a status of pending, passed, or failed",
       tag: "li",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "video-player",
@@ -3443,6 +3934,7 @@ export const components: ComponentMeta[] = [
       description: "a video player with play-in-view behavior, custom controls, and IntersectionObserver support",
       tag: "figure",
       category: "media",
+      purpose: "show",
   },
   {
       slug: "visible",
@@ -3450,6 +3942,7 @@ export const components: ComponentMeta[] = [
       description: "an IntersectionObserver wrapper that exposes element visibility state",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "warning-callout",
@@ -3457,6 +3950,7 @@ export const components: ComponentMeta[] = [
       description: "a callout box highlighting a warning message",
       tag: "aside",
       category: "navigation",
+      purpose: "inform",
   },
   {
       slug: "watermark",
@@ -3464,6 +3958,7 @@ export const components: ComponentMeta[] = [
       description: "a decorative repeating overlay text or image marking a page",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "week-input",
@@ -3471,6 +3966,7 @@ export const components: ComponentMeta[] = [
       description: "an input for selecting a week and year <input type=\"week\">",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "aotearoa-national-health-index-input",
@@ -3478,6 +3974,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering New Zealand's National Health Index (NHI) Number",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "aotearoa-national-health-index-view",
@@ -3485,6 +3982,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of New Zealand's National Health Index (NHI) Number",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "pilipinas-philhealth-identification-number-input",
@@ -3492,6 +3990,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering the Philippines' PhilHealth Identification Number (PIN)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "pilipinas-philhealth-identification-number-view",
@@ -3499,6 +3998,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of the Philippines' PhilHealth Identification Number (PIN)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "brasil-cartao-nacional-de-saude-input",
@@ -3506,6 +4006,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Brazil's Cartao Nacional de Saude (CNS)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "brasil-cartao-nacional-de-saude-view",
@@ -3513,6 +4014,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Brazil's Cartao Nacional de Saude (CNS)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "schweiz-ahv-nummer-input",
@@ -3520,6 +4022,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Switzerland's AHV-Nummer / Numero AVS",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "schweiz-ahv-nummer-view",
@@ -3527,6 +4030,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Switzerland's AHV-Nummer / Numero AVS",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "canada-social-insurance-number-input",
@@ -3534,6 +4038,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Canada's Social Insurance Number (SIN)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "canada-social-insurance-number-view",
@@ -3541,6 +4046,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Canada's Social Insurance Number (SIN)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "hanguk-jumin-deungnok-beonho-input",
@@ -3548,6 +4054,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering South Korea's Resident Registration Number",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "hanguk-jumin-deungnok-beonho-view",
@@ -3555,6 +4062,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of South Korea's Resident Registration Number",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "nihon-kojin-bango-input",
@@ -3562,6 +4070,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Japan's Individual Number (My Number)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "nihon-kojin-bango-view",
@@ -3569,6 +4078,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Japan's Individual Number (My Number)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "bharat-aadhaar-input",
@@ -3576,6 +4086,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering India's Aadhaar number",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "bharat-aadhaar-view",
@@ -3583,6 +4094,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of India's Aadhaar number",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "yisrael-teudat-zehut-input",
@@ -3590,6 +4102,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Israel's Teudat Zehut identity number",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "yisrael-teudat-zehut-view",
@@ -3597,6 +4110,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Israel's Teudat Zehut identity number",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "south-africa-identity-number-input",
@@ -3604,6 +4118,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering South Africa's Identity Number",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "south-africa-identity-number-view",
@@ -3611,6 +4126,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of South Africa's Identity Number",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "mexico-clave-unica-de-registro-de-poblacion-input",
@@ -3618,6 +4134,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Mexico's Clave Unica de Registro de Poblacion (CURP)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "mexico-clave-unica-de-registro-de-poblacion-view",
@@ -3625,6 +4142,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Mexico's Clave Unica de Registro de Poblacion (CURP)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "singapore-national-registration-identity-card-input",
@@ -3632,6 +4150,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Singapore's National Registration Identity Card number (NRIC/FIN)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "singapore-national-registration-identity-card-view",
@@ -3639,6 +4158,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Singapore's National Registration Identity Card number (NRIC/FIN)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "osterreich-sozialversicherungsnummer-input",
@@ -3646,6 +4166,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Austria's Sozialversicherungsnummer (SVNR)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "osterreich-sozialversicherungsnummer-view",
@@ -3653,6 +4174,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Austria's Sozialversicherungsnummer (SVNR)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "magyarorszag-taj-szam-input",
@@ -3660,6 +4182,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Hungary's Tarsadalombiztositasi Azonosito Jel (TAJ)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "magyarorszag-taj-szam-view",
@@ -3667,6 +4190,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Hungary's Tarsadalombiztositasi Azonosito Jel (TAJ)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "luxembourg-matricule-input",
@@ -3674,6 +4198,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Luxembourg's Numero d'Identification Nationale (Matricule)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "luxembourg-matricule-view",
@@ -3681,6 +4206,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Luxembourg's Numero d'Identification Nationale (Matricule)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "zhongguo-jumin-shenfenzheng-haoma-input",
@@ -3688,6 +4214,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering China's Resident Identity Card Number",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "zhongguo-jumin-shenfenzheng-haoma-view",
@@ -3695,6 +4222,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of China's Resident Identity Card Number",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "rossiya-snils-input",
@@ -3702,6 +4230,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Russia's SNILS Individual Insurance Account Number",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "rossiya-snils-view",
@@ -3709,6 +4238,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Russia's SNILS Individual Insurance Account Number",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "turkiye-tc-kimlik-numarasi-input",
@@ -3716,6 +4246,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Turkey's T.C. Kimlik Numarasi",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "turkiye-tc-kimlik-numarasi-view",
@@ -3723,6 +4254,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Turkey's T.C. Kimlik Numarasi",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "argentina-codigo-unico-de-identificacion-laboral-input",
@@ -3730,6 +4262,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Argentina's Codigo Unico de Identificacion Laboral (CUIL)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "argentina-codigo-unico-de-identificacion-laboral-view",
@@ -3737,6 +4270,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Argentina's Codigo Unico de Identificacion Laboral (CUIL)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input",
@@ -3744,6 +4278,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Ukraine's Taxpayer Registration Card Number (RNOKPP)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view",
@@ -3751,6 +4286,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Ukraine's Taxpayer Registration Card Number (RNOKPP)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "indonesia-nomor-induk-kependudukan-input",
@@ -3758,6 +4294,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Indonesia's Nomor Induk Kependudukan (NIK)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "indonesia-nomor-induk-kependudukan-view",
@@ -3765,6 +4302,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Indonesia's Nomor Induk Kependudukan (NIK)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "prathet-thai-lek-prajam-tua-prachachon-input",
@@ -3772,6 +4310,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Thailand's National Identification Number",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "prathet-thai-lek-prajam-tua-prachachon-view",
@@ -3779,6 +4318,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Thailand's National Identification Number",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "chile-rol-unico-nacional-input",
@@ -3786,6 +4326,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Chile's Rol Unico Nacional (RUN)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "chile-rol-unico-nacional-view",
@@ -3793,6 +4334,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Chile's Rol Unico Nacional (RUN)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "misr-al-raqm-al-qawmi-input",
@@ -3800,6 +4342,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Egypt's National Number",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "misr-al-raqm-al-qawmi-view",
@@ -3807,6 +4350,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Egypt's National Number",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "taiwan-guomin-shenfenzheng-tongyi-bianhao-input",
@@ -3814,6 +4358,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Taiwan's National Identification Card Number",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "taiwan-guomin-shenfenzheng-tongyi-bianhao-view",
@@ -3821,6 +4366,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Taiwan's National Identification Card Number",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "hong-kong-identity-card-input",
@@ -3828,6 +4374,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Hong Kong's Identity Card Number",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "hong-kong-identity-card-view",
@@ -3835,6 +4382,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Hong Kong's Identity Card Number",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "iran-kod-e-melli-input",
@@ -3842,6 +4390,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Iran's National Code (Kod-e Melli)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "iran-kod-e-melli-view",
@@ -3849,6 +4398,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Iran's National Code (Kod-e Melli)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "as-saudiyah-raqm-al-huwiyah-al-wataniyah-input",
@@ -3856,6 +4406,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Saudi Arabia's National Identification Number",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "as-saudiyah-raqm-al-huwiyah-al-wataniyah-view",
@@ -3863,6 +4414,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Saudi Arabia's National Identification Number",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "malaysia-kad-pengenalan-input",
@@ -3870,6 +4422,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Malaysia's MyKad Number (NRIC)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "malaysia-kad-pengenalan-view",
@@ -3877,6 +4430,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Malaysia's MyKad Number (NRIC)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "viet-nam-can-cuoc-cong-dan-input",
@@ -3884,6 +4438,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Viet Nam's Citizen Identification Number (CCCD)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "viet-nam-can-cuoc-cong-dan-view",
@@ -3891,6 +4446,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Viet Nam's Citizen Identification Number (CCCD)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "pakistan-computerized-national-identity-card-input",
@@ -3898,6 +4454,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Pakistan's Computerized National Identity Card Number (CNIC)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "pakistan-computerized-national-identity-card-view",
@@ -3905,6 +4462,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Pakistan's Computerized National Identity Card Number (CNIC)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "uruguay-cedula-de-identidad-input",
@@ -3912,6 +4470,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Uruguay's Cedula de Identidad Number",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "uruguay-cedula-de-identidad-view",
@@ -3919,6 +4478,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Uruguay's Cedula de Identidad Number",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "ecuador-cedula-de-identidad-input",
@@ -3926,6 +4486,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Ecuador's Cedula de Identidad Number",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "ecuador-cedula-de-identidad-view",
@@ -3933,6 +4494,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Ecuador's Cedula de Identidad Number",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "colombia-cedula-de-ciudadania-input",
@@ -3940,6 +4502,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Colombia's Cedula de Ciudadania Number",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "colombia-cedula-de-ciudadania-view",
@@ -3947,6 +4510,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Colombia's Cedula de Ciudadania Number",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "australia-tax-file-number-input",
@@ -3954,6 +4518,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Australia's Tax File Number (TFN)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "australia-tax-file-number-view",
@@ -3961,6 +4526,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Australia's Tax File Number (TFN)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "nigeria-national-identification-number-input",
@@ -3968,6 +4534,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Nigeria's National Identification Number (NIN)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "nigeria-national-identification-number-view",
@@ -3975,6 +4542,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Nigeria's National Identification Number (NIN)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "peru-documento-nacional-de-identidad-input",
@@ -3982,6 +4550,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Peru's Documento Nacional de Identidad (DNI)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "peru-documento-nacional-de-identidad-view",
@@ -3989,6 +4558,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Peru's Documento Nacional de Identidad (DNI)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "republica-dominicana-cedula-de-identidad-y-electoral-input",
@@ -3996,6 +4566,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering the Dominican Republic's Cédula de Identidad y Electoral",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "republica-dominicana-cedula-de-identidad-y-electoral-view",
@@ -4003,6 +4574,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of the Dominican Republic's Cédula de Identidad y Electoral",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "costa-rica-cedula-de-identidad-input",
@@ -4010,6 +4582,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Costa Rica's Cédula de Identidad",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "costa-rica-cedula-de-identidad-view",
@@ -4017,6 +4590,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Costa Rica's Cédula de Identidad",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "guatemala-codigo-unico-de-identificacion-input",
@@ -4024,6 +4598,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Guatemala's Código Único de Identificación (CUI)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "guatemala-codigo-unico-de-identificacion-view",
@@ -4031,6 +4606,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Guatemala's Código Único de Identificación (CUI)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "mauritius-national-identity-card-number-input",
@@ -4038,6 +4614,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Mauritius's National Identity Card number",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "mauritius-national-identity-card-number-view",
@@ -4045,6 +4622,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Mauritius's National Identity Card number",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "ghana-card-personal-identification-number-input",
@@ -4052,6 +4630,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Ghana's Ghana Card PIN",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "ghana-card-personal-identification-number-view",
@@ -4059,6 +4638,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Ghana's Ghana Card PIN",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "ityopya-fayda-identification-number-input",
@@ -4066,6 +4646,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Ethiopia's Fayda Identification Number (FIN)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "ityopya-fayda-identification-number-view",
@@ -4073,6 +4654,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Ethiopia's Fayda Identification Number (FIN)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "sri-lanka-national-identity-card-input",
@@ -4080,6 +4662,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Sri Lanka's National Identity Card (NIC) number",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "sri-lanka-national-identity-card-view",
@@ -4087,6 +4670,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Sri Lanka's National Identity Card (NIC) number",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "bangladesh-national-identity-card-input",
@@ -4094,6 +4678,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Bangladesh's National ID (NID) number",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "bangladesh-national-identity-card-view",
@@ -4101,6 +4686,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Bangladesh's National ID (NID) number",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "qazaqstan-zheke-saikestendiru-nomiri-input",
@@ -4108,6 +4694,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Kazakhstan's Individual Identification Number (IIN)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "qazaqstan-zheke-saikestendiru-nomiri-view",
@@ -4115,6 +4702,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Kazakhstan's Individual Identification Number (IIN)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-input",
@@ -4122,6 +4710,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering Uzbekistan's Personal identification number (JShShIR / PINFL)",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-view",
@@ -4129,6 +4718,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of Uzbekistan's Personal identification number (JShShIR / PINFL)",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "al-imarat-raqm-al-huwiyah-input",
@@ -4136,6 +4726,7 @@ export const components: ComponentMeta[] = [
       description: "an input for entering the United Arab Emirates' Emirates ID number",
       tag: "input",
       category: "national",
+      purpose: "collect",
   },
   {
       slug: "al-imarat-raqm-al-huwiyah-view",
@@ -4143,6 +4734,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of the United Arab Emirates' Emirates ID number",
       tag: "span",
       category: "national",
+      purpose: "show",
   },
   {
       slug: "one-time-password-input",
@@ -4150,6 +4742,7 @@ export const components: ComponentMeta[] = [
       description: "a single one-time-password input with a numeric keypad, SMS autofill, and a fixed length",
       tag: "input",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "multi-select",
@@ -4157,6 +4750,7 @@ export const components: ComponentMeta[] = [
       description: "a native select that allows choosing several options at once",
       tag: "select",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "multi-select-with-extras",
@@ -4164,6 +4758,7 @@ export const components: ComponentMeta[] = [
       description: "a multiple-choice select with additional features like search, groups, or selected-value chips",
       tag: "div",
       category: "content",
+      purpose: "collect",
   },
   {
       slug: "empty-state",
@@ -4171,6 +4766,7 @@ export const components: ComponentMeta[] = [
       description: "a placeholder shown when a list, table, or view has nothing to display yet, with room for guidance and an action",
       tag: "div",
       category: "content",
+      purpose: "inform",
   },
   {
       slug: "show-more",
@@ -4178,6 +4774,7 @@ export const components: ComponentMeta[] = [
       description: "a content region clamped to a shorter height with a button that reveals the rest",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "kbd-shortcut",
@@ -4185,6 +4782,7 @@ export const components: ComponentMeta[] = [
       description: "a keyboard shortcut made of one or more key caps, for example Ctrl plus K",
       tag: "kbd",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "calendar-year-table",
@@ -4192,6 +4790,7 @@ export const components: ComponentMeta[] = [
       description: "a calendar grid showing the twelve months of one year",
       tag: "table",
       category: "tables",
+      purpose: "show",
   },
   {
       slug: "calendar-month-table",
@@ -4199,6 +4798,7 @@ export const components: ComponentMeta[] = [
       description: "a calendar grid showing the days of one month",
       tag: "table",
       category: "tables",
+      purpose: "show",
   },
   {
       slug: "calendar-week-table",
@@ -4206,6 +4806,7 @@ export const components: ComponentMeta[] = [
       description: "a calendar grid showing the seven days of one week",
       tag: "table",
       category: "tables",
+      purpose: "show",
   },
   {
       slug: "calendar-day-table",
@@ -4213,6 +4814,7 @@ export const components: ComponentMeta[] = [
       description: "a calendar grid showing the time slots of one day",
       tag: "table",
       category: "tables",
+      purpose: "show",
   },
   {
       slug: "thinking",
@@ -4220,6 +4822,7 @@ export const components: ComponentMeta[] = [
       description: "a collapsible block that shows an AI agent's reasoning or thinking, closed by default",
       tag: "details",
       category: "navigation",
+      purpose: "inform",
   },
   {
       slug: "gauge-chart",
@@ -4227,6 +4830,7 @@ export const components: ComponentMeta[] = [
       description: "a dial chart showing one value within a range, with optional thresholds",
       tag: "figure",
       category: "data-viz",
+      purpose: "show",
   },
   {
       slug: "heatmap-chart",
@@ -4234,6 +4838,7 @@ export const components: ComponentMeta[] = [
       description: "a grid chart where cell colour encodes the value at each row and column",
       tag: "figure",
       category: "data-viz",
+      purpose: "show",
   },
   {
       slug: "radar-chart",
@@ -4241,6 +4846,7 @@ export const components: ComponentMeta[] = [
       description: "a chart plotting several axes from a shared centre as a polygon",
       tag: "figure",
       category: "data-viz",
+      purpose: "show",
   },
   {
       slug: "sankey-chart",
@@ -4248,6 +4854,7 @@ export const components: ComponentMeta[] = [
       description: "a flow chart where link width encodes the quantity moving between nodes",
       tag: "figure",
       category: "data-viz",
+      purpose: "show",
   },
   {
       slug: "file-tree",
@@ -4255,6 +4862,7 @@ export const components: ComponentMeta[] = [
       description: "a hierarchical tree of folders and files with expandable folders",
       tag: "ul",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "pie-chart",
@@ -4262,6 +4870,7 @@ export const components: ComponentMeta[] = [
       description: "a circular chart divided into slices that show each part of a whole",
       tag: "figure",
       category: "data-viz",
+      purpose: "show",
   },
   {
       slug: "ring-chart",
@@ -4269,6 +4878,7 @@ export const components: ComponentMeta[] = [
       description: "a pie chart with a hollow centre, often used to show progress or a share of a total",
       tag: "figure",
       category: "data-viz",
+      purpose: "show",
   },
   {
       slug: "funnel-chart",
@@ -4276,6 +4886,7 @@ export const components: ComponentMeta[] = [
       description: "a chart of stages narrowing from top to bottom, showing how a quantity drops at each step",
       tag: "figure",
       category: "data-viz",
+      purpose: "show",
   },
   {
       slug: "candlestick-chart",
@@ -4283,6 +4894,7 @@ export const components: ComponentMeta[] = [
       description: "a financial chart showing open, high, low and close values for each period as candles",
       tag: "figure",
       category: "data-viz",
+      purpose: "show",
   },
   {
       slug: "composed-chart",
@@ -4290,6 +4902,7 @@ export const components: ComponentMeta[] = [
       description: "a chart that combines several chart types, such as bars and a line, on shared axes",
       tag: "figure",
       category: "data-viz",
+      purpose: "show",
   },
   {
       slug: "choropleth-chart",
@@ -4297,6 +4910,7 @@ export const components: ComponentMeta[] = [
       description: "a map chart that shades regions by the value of a measure",
       tag: "figure",
       category: "data-viz",
+      purpose: "show",
   },
   {
       slug: "sunburst-chart",
@@ -4304,6 +4918,7 @@ export const components: ComponentMeta[] = [
       description: "a radial chart showing a hierarchy as concentric rings of arcs",
       tag: "figure",
       category: "data-viz",
+      purpose: "show",
   },
   {
       slug: "streaming-text",
@@ -4311,6 +4926,7 @@ export const components: ComponentMeta[] = [
       description: "text that arrives in chunks, as an AI answer streams in, announced once to screen readers when complete",
       tag: "div",
       category: "content",
+      purpose: "inform",
   },
   {
       slug: "tool-call",
@@ -4318,6 +4934,7 @@ export const components: ComponentMeta[] = [
       description: "a collapsible record of one tool invocation by an AI agent, with a name, a status word, and its input, output or error",
       tag: "details",
       category: "navigation",
+      purpose: "navigate",
   },
   {
       slug: "tool-call-name",
@@ -4325,6 +4942,7 @@ export const components: ComponentMeta[] = [
       description: "the name of the tool in a tool call, shown in the summary",
       tag: "span",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "tool-call-status",
@@ -4332,6 +4950,7 @@ export const components: ComponentMeta[] = [
       description: "the status of a tool call as a word, such as pending, running, done or error",
       tag: "span",
       category: "content",
+      purpose: "inform",
   },
   {
       slug: "tool-call-input",
@@ -4339,6 +4958,7 @@ export const components: ComponentMeta[] = [
       description: "the input or arguments passed to a tool in a tool call",
       tag: "div",
       category: "content",
+      purpose: "collect",
   },
   {
       slug: "tool-call-output",
@@ -4346,6 +4966,7 @@ export const components: ComponentMeta[] = [
       description: "the output or result returned by a tool in a tool call",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "tool-call-error",
@@ -4353,6 +4974,7 @@ export const components: ComponentMeta[] = [
       description: "the error shown when a tool call fails",
       tag: "div",
       category: "content",
+      purpose: "inform",
   },
   {
       slug: "mark",
@@ -4360,6 +4982,7 @@ export const components: ComponentMeta[] = [
       description: "an inline highlight marking text as relevant or referenced, such as a search match, using the native mark element",
       tag: "mark",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "chat-composer",
@@ -4367,6 +4990,7 @@ export const components: ComponentMeta[] = [
       description: "a chat input form with a text area that grows with its content, sends on Enter, and turns its send button into a stop button while a reply is in progress",
       tag: "form",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "heatmap-chart-with-year-of-days",
@@ -4374,6 +4998,7 @@ export const components: ComponentMeta[] = [
       description: "a heatmap chart of one year of days, one cell per day in week columns and weekday rows",
       tag: "figure",
       category: "data-viz",
+      purpose: "show",
   },
   {
       slug: "middle-truncation",
@@ -4381,6 +5006,7 @@ export const components: ComponentMeta[] = [
       description: "a string shortened in the middle to fit its width, keeping the start and the end",
       tag: "span",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "wheel-picker",
@@ -4388,6 +5014,7 @@ export const components: ComponentMeta[] = [
       description: "a single-select listbox, vertical by default, where the selection follows the cursor, for choosing one of a short list by scrolling or typing",
       tag: "div",
       category: "pickers",
+      purpose: "collect",
   },
   {
       slug: "convert-div",
@@ -4395,6 +5022,7 @@ export const components: ComponentMeta[] = [
       description: "a group that converts a value from one unit into another, such as dollars into euros or miles into kilometres",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "convert-from-div",
@@ -4402,6 +5030,7 @@ export const components: ComponentMeta[] = [
       description: "the source side of a conversion, holding the value and unit to convert from",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "convert-from-value-div",
@@ -4409,6 +5038,7 @@ export const components: ComponentMeta[] = [
       description: "the value to convert from, such as a text input holding the number of dollars",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "convert-from-unit-div",
@@ -4416,6 +5046,7 @@ export const components: ComponentMeta[] = [
       description: "the unit to convert from, such as a select box of currencies or lengths",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "convert-into-div",
@@ -4423,6 +5054,7 @@ export const components: ComponentMeta[] = [
       description: "the target side of a conversion, holding the value and unit to convert into",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "convert-into-value-div",
@@ -4430,6 +5062,7 @@ export const components: ComponentMeta[] = [
       description: "the converted value, such as a text input showing the number of euros",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "convert-into-unit-div",
@@ -4437,6 +5070,7 @@ export const components: ComponentMeta[] = [
       description: "the unit to convert into, such as a select box of currencies or lengths",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "picture",
@@ -4444,6 +5078,7 @@ export const components: ComponentMeta[] = [
       description: "a responsive image wrapper that lets the browser choose among several sources, using the native picture element",
       tag: "picture",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "warning-text",
@@ -4451,6 +5086,7 @@ export const components: ComponentMeta[] = [
       description: "a short warning shown as an icon and a bold line of text, with a visually hidden prefix supplied by the consumer",
       tag: "div",
       category: "content",
+      purpose: "inform",
   },
   {
       slug: "observation-view",
@@ -4458,6 +5094,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of a clinical observation or test result, with its unit, reference range and interpretation flag",
       tag: "span",
       category: "content",
+      purpose: "show",
   },
   {
       slug: "allergy-record-list",
@@ -4465,6 +5102,7 @@ export const components: ComponentMeta[] = [
       description: "a list of a patient's allergies and intolerances, whose status is never blank",
       tag: "ul",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "allergy-record-list-item",
@@ -4472,6 +5110,7 @@ export const components: ComponentMeta[] = [
       description: "one allergy or intolerance in an allergy record list, with substance, reaction, severity, criticality and status",
       tag: "li",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "medication-view",
@@ -4479,6 +5118,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of a medicine, with its name, strength, form, route and frequency",
       tag: "span",
       category: "content",
+      purpose: "show",
   },
   {
       slug: "decision-support-card",
@@ -4486,6 +5126,7 @@ export const components: ComponentMeta[] = [
       description: "a clinical decision support card with a summary, urgency indicator, source, suggestions and override reasons",
       tag: "div",
       category: "content",
+      purpose: "structure",
   },
   {
       slug: "early-warning-score-view",
@@ -4493,6 +5134,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of an early warning score, with its band and escalation text",
       tag: "span",
       category: "content",
+      purpose: "inform",
   },
   {
       slug: "age-view",
@@ -4500,6 +5142,7 @@ export const components: ComponentMeta[] = [
       description: "a read-only display of a person's age, in the units suited to it",
       tag: "span",
       category: "content",
+      purpose: "show",
   },
   {
       slug: "numeric-rating-scale-picker",
@@ -4507,6 +5150,7 @@ export const components: ComponentMeta[] = [
       description: "a picker for a 0 to 10 rating, such as pain, with the consumer's words at each end",
       tag: "fieldset",
       category: "pickers",
+      purpose: "collect",
   },
   {
       slug: "body-map",
@@ -4514,6 +5158,7 @@ export const components: ComponentMeta[] = [
       description: "a picker for marking regions of the body on a consumer-supplied drawing, with a checkbox for each region",
       tag: "fieldset",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "record-list",
@@ -4521,6 +5166,7 @@ export const components: ComponentMeta[] = [
       description: "a list of records from one section of a patient's record, whose status is never blank",
       tag: "ul",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "medication-record-list",
@@ -4528,6 +5174,7 @@ export const components: ComponentMeta[] = [
       description: "a list of a patient's medicines, whose status is never blank",
       tag: "ul",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "problem-record-list",
@@ -4535,6 +5182,7 @@ export const components: ComponentMeta[] = [
       description: "a list of a patient's problems and conditions, whose status is never blank",
       tag: "ul",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "immunization-record-list",
@@ -4542,6 +5190,7 @@ export const components: ComponentMeta[] = [
       description: "a list of a patient's immunizations, whose status is never blank",
       tag: "ul",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "procedure-record-list",
@@ -4549,6 +5198,7 @@ export const components: ComponentMeta[] = [
       description: "a list of a patient's procedures, whose status is never blank",
       tag: "ul",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "device-record-list",
@@ -4556,6 +5206,7 @@ export const components: ComponentMeta[] = [
       description: "a list of a patient's medical devices, whose status is never blank",
       tag: "ul",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "record-list-item",
@@ -4563,6 +5214,7 @@ export const components: ComponentMeta[] = [
       description: "one record in a record list, with its status and last update around the consumer's content",
       tag: "li",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "medication-record-list-item",
@@ -4570,6 +5222,7 @@ export const components: ComponentMeta[] = [
       description: "one medicine in a medication record list, with its status and when it applies",
       tag: "li",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "problem-record-list-item",
@@ -4577,6 +5230,7 @@ export const components: ComponentMeta[] = [
       description: "one problem or condition in a problem record list, with its clinical and verification status, severity, onset and resolution",
       tag: "li",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "immunization-record-list-item",
@@ -4584,6 +5238,7 @@ export const components: ComponentMeta[] = [
       description: "one immunization in an immunization record list, with vaccine, date, dose and status",
       tag: "li",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "procedure-record-list-item",
@@ -4591,6 +5246,7 @@ export const components: ComponentMeta[] = [
       description: "one procedure in a procedure record list, with its status and when it was performed",
       tag: "li",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "device-record-list-item",
@@ -4598,6 +5254,7 @@ export const components: ComponentMeta[] = [
       description: "one medical device in a device record list, with its status and when it was used",
       tag: "li",
       category: "lists",
+      purpose: "show",
   },
   {
       slug: "duration-view",
@@ -4605,6 +5262,7 @@ export const components: ComponentMeta[] = [
       description: "a length of time, as an ISO 8601 duration in a <time> element, shown in the consumer's words",
       tag: "time",
       category: "content",
+      purpose: "show",
   },
   {
       slug: "quantity-input-div",
@@ -4612,6 +5270,7 @@ export const components: ComponentMeta[] = [
       description: "a quantity entered as a number and a unit, each unit with its own limits",
       tag: "div",
       category: "content",
+      purpose: "collect",
   },
   {
       slug: "record-provenance-view",
@@ -4619,6 +5278,7 @@ export const components: ComponentMeta[] = [
       description: "who recorded a record, where it came from and whether it is signed, in the consumer's words",
       tag: "span",
       category: "content",
+      purpose: "show",
   },
   {
       slug: "repeatable-fieldset",
@@ -4626,6 +5286,7 @@ export const components: ComponentMeta[] = [
       description: "a group of identical fieldsets that a person adds to and removes from (\"add another\")",
       tag: "fieldset",
       category: "forms",
+      purpose: "collect",
   },
   {
       slug: "range-fieldset",
@@ -4633,6 +5294,7 @@ export const components: ComponentMeta[] = [
       description: "a fieldset of two range inputs for a minimum and a maximum that cannot cross",
       tag: "fieldset",
       category: "forms",
+      purpose: "collect",
   },
 ];
 

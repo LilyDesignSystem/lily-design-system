@@ -1,661 +1,661 @@
-accordion-checkbox	div	content
-accordion-link	a	links
-accordion-list	ol	lists
-accordion-list-item	li	lists
-accordion-nav	nav	navigation
-action-bar	div	navigation
-action-bar-button	button	navigation
-action-group	div	forms
-action-link	a	links
-address-input	div	forms
-addressograph-box	div	content
-affix	div	content
-ai-label	span	content
-alba-community-health-index-input	input	national
-alba-community-health-index-view	span	national
-alert	div	content
-alert-dialog	dialog	overlays
-angle-slider-range-input	input	forms
-announcement-banner	div	overlays
-answer	div	content
-area-chart	figure	data-viz
-article-layout	article	navigation
-aspect-ratio-container	div	content
-australia-individual-healthcare-identifier-input	input	national
-australia-individual-healthcare-identifier-view	span	national
-autosuggest	div	content
-avatar	span	content
-avatar-group	div	forms
-avatar-image	img	media
-avatar-text	span	content
-back-link	a	links
-badge	span	content
-banner	div	overlays
-banner-box	div	content
-bar-chart	figure	data-viz
-barcode-image	img	media
-beach-ball	div	content
-belgique-numero-de-registre-national-input	input	national
-belgique-numero-de-registre-national-view	span	national
-blockquote	blockquote	content
-body-text	div	content
-breadcrumb-link	a	links
-breadcrumb-list	ol	lists
-breadcrumb-list-item	li	lists
-breadcrumb-nav	nav	navigation
-bulgaria-edinen-grazhdanski-nomer-input	input	national
-bulgaria-edinen-grazhdanski-nomer-view	span	national
-button	button	buttons
-button-group	div	forms
-button-input	input	forms
-byline	div	content
-calendar-range-picker	div	pickers
-calendar-table	table	tables
-calendar-table-body	tbody	tables
-calendar-table-foot	tfoot	tables
-calendar-table-head	thead	tables
-calendar-table-row	tr	tables
-calendar-table-td	td	tables
-calendar-table-th	th	tables
-call-to-action	a	links
-caption	figcaption	content
-card	div	content
-care-card	div	content
-carousel	div	content
-cascader	div	content
-cesko-cestovni-pas-input	input	national
-cesko-cestovni-pas-view	span	national
-cesko-rodne-cislo-input	input	national
-cesko-rodne-cislo-view	span	national
-character	span	content
-character-counter	span	content
-chat-list	ol	lists
-chat-list-item	li	lists
-chat-message	article	navigation
-chat-nav	nav	navigation
-check-list	ol	lists
-check-list-item	li	lists
-checkbox-group	fieldset	forms
-checkbox-input	input	forms
-citation	cite	content
-clamp-text	div	content
-clipboard-copy-button	button	buttons
-coachmark	div	overlays
-code	code	content
-code-block	pre	content
-collapsible	details	navigation
-collection-list	ul	lists
-collection-list-item	li	lists
-color-input	input	forms
-color-radio-group	fieldset	forms
-color-radio-input	input	forms
-column-chart	figure	data-viz
-combobox	div	content
-command	div	content
-comment	div	content
-container	div	content
-container-with-fixed-width	div	content
-container-with-fluid-width	div	content
-content-block	div	content
-contents-link	a	links
-contents-list	ol	lists
-contents-list-item	li	lists
-contents-nav	nav	navigation
-context-menu	div	navigation
-context-menu-item	div	navigation
-contextual-help	div	overlays
-currency-input	input	forms
-cymru-rhif-y-gwasanaeth-iechyd-gwladol-input	input	national
-cymru-rhif-y-gwasanaeth-iechyd-gwladol-view	span	national
-kypros-national-passport-number-input	input	national
-kypros-national-passport-number-view	span	national
-danmark-personnummer-input	input	national
-danmark-personnummer-view	span	national
-data-filter-form	form	forms
-data-table	table	tables
-data-table-body	tbody	tables
-data-table-foot	tfoot	tables
-data-table-head	thead	tables
-data-table-row	tr	tables
-data-table-td	td	tables
-data-table-th	th	tables
-date-field	fieldset	forms
-date-input	input	forms
-date-range	fieldset	forms
-date-time-local-input	input	forms
-date-time-now-input	div	content
-date-time-view	time	content
-description-list	dl	lists
-description-list-item	div	content
-details	details	navigation
-deutschland-krankenversichertennummer-input	input	national
-deutschland-krankenversichertennummer-view	span	national
-dial	div	content
-dial-group	div	forms
-dialog	dialog	overlays
-diff	div	content
-digital-object-identifier-link	a	links
-do-list	ul	lists
-do-list-item	li	lists
-document-list	ul	lists
-document-list-item	li	lists
-dont-list	ul	lists
-dont-list-item	li	lists
-download-button	a	links
-draft	div	content
-drawer	dialog	overlays
-dropdown-menu	div	navigation
-editable	div	content
-editable-form	form	forms
-eesti-isikukood-input	input	national
-eesti-isikukood-view	span	national
-ellada-dematerialised-securities-system-input	input	national
-ellada-dematerialised-securities-system-view	span	national
-email-input	input	forms
-email-link	a	links
-emoji	span	content
-emoji-character-radio-group	fieldset	forms
-emoji-character-radio-input	input	forms
-end-notes	section	navigation
-england-national-health-service-number-input	input	national
-england-national-health-service-number-view	span	national
-error-message	p	content
-error-summary	div	content
-espana-codigo-de-identificacion-fiscal-input	input	national
-espana-codigo-de-identificacion-fiscal-view	span	national
-espana-tarjeta-sanitaria-individual-input	input	national
-espana-tarjeta-sanitaria-individual-view	span	national
-event	article	navigation
-expander	div	content
-feature-card	article	navigation
-feature-photo	figure	media
-field	div	content
-fieldset	fieldset	forms
-figure	figure	media
-file-dialog	dialog	overlays
-file-input	input	forms
-file-manager	div	content
-file-upload	div	content
-five-face-rating-radio-group	fieldset	forms
-five-face-rating-radio-input	input	forms
-five-face-rating-view	span	content
-five-star-rating-radio-group	fieldset	forms
-five-star-rating-radio-input	input	forms
-five-star-rating-view	span	content
-flair	span	content
-flex-stack	div	content
-float-button	button	buttons
-floating-panel	div	content
-footer	footer	navigation
-footnote	span	content
-form	form	forms
-framer	div	content
-france-numero-d-identification-au-repertoire-input	input	national
-france-numero-d-identification-au-repertoire-view	span	national
-gantt-table	table	tables
-gantt-table-tbody	tbody	tables
-gantt-table-td	td	tables
-gantt-table-tfoot	tfoot	tables
-gantt-table-th	th	tables
-gantt-table-thead	thead	tables
-gantt-table-tr	tr	tables
-go-to-next-section	a	links
-go-to-previous-section	a	links
-go-to-top	a	links
-government-banner	aside	overlays
-government-identifier	section	navigation
-grail-layout	div	content
-grail-layout-bottom-footer	footer	navigation
-grail-layout-center-main	main	navigation
-grail-layout-left-aside	aside	navigation
-grail-layout-right-aside	aside	navigation
-grail-layout-top-header	header	navigation
-graphic-block	figure	media
-grid	div	content
-hamburger-menu	div	navigation
-header	header	navigation
-headline	div	content
-hero	section	navigation
-hero-headline	div	content
-hidden-input	input	forms
-hint	p	content
-horizontal-scroller	div	content
-hover-card	div	content
-hrvatska-osobni-identifikacijski-broj-input	input	national
-hrvatska-osobni-identifikacijski-broj-view	span	national
-iban-input	input	forms
-iban-view	span	content
-icon	span	content
-icon-button	button	buttons
-icon-list	ul	lists
-icon-list-item	li	lists
-image	img	media
-image-cropper	div	content
-image-file-input	input	forms
-image-input	input	forms
-info-state	section	navigation
-information-callout	aside	navigation
-input	input	forms
-input-group	div	forms
-input-with-mask	div	content
-inset-text	div	content
-international-patient-summary	article	navigation
-international-patient-summary-section	section	navigation
-eire-individual-health-identifier-input	input	national
-eire-individual-health-identifier-view	span	national
-island-kennitala-input	input	national
-island-kennitala-view	span	national
-italia-codice-fiscale-input	input	national
-italia-codice-fiscale-view	span	national
-kanban-table	table	tables
-kanban-table-body	tbody	tables
-kanban-table-foot	tfoot	tables
-kanban-table-head	thead	tables
-kanban-table-row	tr	tables
-kanban-table-td	td	tables
-kanban-table-th	th	tables
-kbd	kbd	content
-label	label	forms
-latvija-personas-kods-input	input	national
-latvija-personas-kods-view	span	national
-liechtenstein-national-identity-card-number-input	input	national
-liechtenstein-national-identity-card-number-view	span	national
-liechtenstein-passport-number-input	input	national
-liechtenstein-passport-number-view	span	national
-lietuva-asmens-kodas-input	input	national
-lietuva-asmens-kodas-view	span	national
-lietuva-pasas-input	input	national
-lietuva-pasas-view	span	national
-line-chart	figure	data-viz
-listbox	div	content
-loading	div	content
-malta-national-identification-number-input	input	national
-malta-national-identification-number-view	span	national
-malta-passport-number-input	input	national
-malta-passport-number-view	span	national
-masonry	div	content
-measurement-instance-input	input	forms
-measurement-instance-view	span	content
-measurement-system-input	input	forms
-measurement-system-view	span	content
-measurement-unit-input	input	forms
-measurement-unit-view	span	content
-medical-banner	div	overlays
-medical-banner-box	div	content
-medical-banner-box-for-advice	div	content
-medical-banner-box-for-danger	div	content
-mentions-input	div	content
-menu	div	navigation
-menu-bar	div	navigation
-menu-bar-button	button	navigation
-menu-group	div	forms
-menu-item	div	navigation
-meter	meter	data-viz
-mockup-browser	div	content
-mockup-laptop	div	content
-mockup-phone-landscape	div	content
-mockup-phone-portrait	div	content
-mockup-shell	div	content
-mockup-tablet-landscape	div	content
-mockup-tablet-portrait	div	content
-mockup-watch	div	content
-mockup-window	div	content
-month-input	input	forms
-navigation-menu	nav	navigation
-nederland-burgerservice-nummer-input	input	national
-nederland-burgerservice-nummer-view	span	national
-nederland-identiteitskaart-nummer-input	input	national
-nederland-identiteitskaart-nummer-view	span	national
-nederland-paspoort-nummer-input	input	national
-nederland-paspoort-nummer-view	span	national
-net-promoter-score-radio-group	fieldset	forms
-net-promoter-score-radio-input	input	forms
-net-promoter-score-view	span	content
-newsletter-signup	form	forms
-norge-fodselsnummer-input	input	national
-norge-fodselsnummer-view	span	national
-tuaisceart-eireann-health-and-care-number-input	input	national
-tuaisceart-eireann-health-and-care-number-view	span	national
-notification	div	content
-number-input	input	forms
-option	option	forms
-organization	article	navigation
-overlay-container	div	content
-padding-reset	div	content
-pagination-link	a	links
-pagination-list	ol	lists
-pagination-list-item	li	lists
-pagination-nav	nav	navigation
-panel	div	content
-password-input	input	forms
-password-input-or-text-input-div	div	content
-person	article	navigation
-phase-banner	div	overlays
-photo-pack	div	content
-pictogram	figure	media
-pin-input-div	div	content
-place	article	navigation
-polska-numer-identyfikacji-podatkowej-input	input	national
-polska-numer-identyfikacji-podatkowej-view	span	national
-polska-pesel-input	input	national
-polska-pesel-view	span	national
-popconfirm-dialog	div	content
-popover	div	content
-popup	div	content
-portugal-numero-de-identificacao-fiscal-input	input	national
-portugal-numero-de-identificacao-fiscal-view	span	national
-portugal-passaporte-input	input	national
-portugal-passaporte-view	span	national
-postal-code-input	input	forms
-postal-code-view	span	content
-product-card	article	navigation
-progress	progress	data-viz
-progress-bar	div	navigation
-progress-circle	div	content
-progress-spinner	div	content
-qr-code-image	div	content
-question	div	content
-radio-group	fieldset	forms
-radio-input	input	forms
-range-input	input	forms
-red-amber-green-radio-group	fieldset	forms
-red-amber-green-radio-input	input	forms
-red-amber-green-view	span	content
-red-orange-yellow-green-blue-radio-group	fieldset	forms
-red-orange-yellow-green-blue-radio-input	input	forms
-red-orange-yellow-green-blue-view	span	content
-related-content	aside	navigation
-reset-input	input	forms
-resizable	div	content
-review-date	time	content
-romania-cod-numeric-personal-input	input	national
-romania-cod-numeric-personal-view	span	national
-romania-pasaport-input	input	national
-romania-pasaport-view	span	national
-scatter-chart	figure	data-viz
-screen-reader-span	span	content
-scroll-area	div	content
-scroll-bar	div	navigation
-scroller	div	content
-scroller-base	div	content
-scroller-video	div	content
-search-input	input	forms
-section-heading	header	navigation
-section-link	a	links
-section-list	ul	lists
-section-list-item	li	lists
-section-nav	nav	navigation
-segment-group	div	forms
-segment-group-item	button	forms
-select	select	forms
-select-with-extras	div	content
-separator	hr	navigation
-share-page	div	content
-sheet	dialog	overlays
-sidebar	aside	navigation
-signature-pad	div	content
-skeleton	div	content
-skip-link	a	links
-slide-out-drawer	dialog	overlays
-slider	input	forms
-slider-button	button	buttons
-slovenija-emso-input	input	national
-slovenija-emso-view	span	national
-slovensko-pas-input	input	national
-slovensko-pas-view	span	national
-slovensko-rodne-cislo-input	input	national
-slovensko-rodne-cislo-view	span	national
-sonner	div	content
-sparkline	span	content
-split-button	div	forms
-split-view	div	navigation
-splitter	div	content
-statistic	div	content
-status-light	span	content
-status-tag	span	content
-step-list	ol	lists
-step-list-item	li	lists
-sticky-promo-banner	aside	overlays
-submit-input	input	forms
-success-panel	div	content
-summary-box	aside	navigation
-summary-list	dl	lists
-summary-list-item	div	content
-suomi-henkilotunnus-input	input	national
-suomi-henkilotunnus-view	span	national
-super-banner	div	overlays
-sverige-personnummer-input	input	national
-sverige-personnummer-view	span	national
-switch-button	button	buttons
-tab-bar	div	navigation
-tab-bar-button	button	navigation
-tab-panel	div	overlays
-table	table	tables
-table-body	tbody	tables
-table-foot	tfoot	tables
-table-head	thead	tables
-table-row	tr	tables
-table-td	td	tables
-table-th	th	tables
-tag	span	content
-tag-group	div	forms
-tag-input-div	div	content
-task-bar	div	navigation
-task-bar-button	button	navigation
-task-list	ol	lists
-task-list-item	li	lists
-tel-input	input	forms
-tel-link	a	links
-text-area-input	textarea	forms
-text-area-input-with-character-counter	div	content
-text-input	input	forms
-text-input-with-search	div	content
-theme-provider	div	content
-theme-select	select	forms
-theme-select-option	option	forms
-theme-view	span	content
-tile	div	content
-tile-map	div	content
-time-input	input	forms
-time-picker-input	input	forms
-timeline-list	ol	lists
-timeline-list-item	li	lists
-timeout-dialog	dialog	overlays
-timer	time	content
-timer-button	button	buttons
-toast	div	content
-toggle-button	button	buttons
-toggle-group	div	forms
-tool-bar	div	navigation
-tool-bar-button	button	navigation
-tooltip	div	content
-tour	div	content
-tour-list	ol	lists
-tour-list-item	li	lists
-transfer-list	div	content
-tree-link	a	links
-tree-list	ol	lists
-tree-list-item	li	lists
-tree-menu	ul	navigation
-tree-nav	nav	navigation
-tree-select	div	content
-united-kingdom-national-health-service-number-input	input	national
-united-kingdom-national-health-service-number-view	span	national
-united-kingdom-national-insurance-number-input	input	national
-united-kingdom-national-insurance-number-view	span	national
-united-states-social-security-number-input	input	national
-united-states-social-security-number-view	span	national
-url-input	input	forms
-validation-list	ul	lists
-validation-list-item	li	lists
-video-player	figure	media
-visible	div	content
-warning-callout	aside	navigation
-watermark	div	content
-week-input	input	forms
-aotearoa-national-health-index-input	input	national
-aotearoa-national-health-index-view	span	national
-pilipinas-philhealth-identification-number-input	input	national
-pilipinas-philhealth-identification-number-view	span	national
-brasil-cartao-nacional-de-saude-input	input	national
-brasil-cartao-nacional-de-saude-view	span	national
-schweiz-ahv-nummer-input	input	national
-schweiz-ahv-nummer-view	span	national
-canada-social-insurance-number-input	input	national
-canada-social-insurance-number-view	span	national
-hanguk-jumin-deungnok-beonho-input	input	national
-hanguk-jumin-deungnok-beonho-view	span	national
-nihon-kojin-bango-input	input	national
-nihon-kojin-bango-view	span	national
-bharat-aadhaar-input	input	national
-bharat-aadhaar-view	span	national
-yisrael-teudat-zehut-input	input	national
-yisrael-teudat-zehut-view	span	national
-south-africa-identity-number-input	input	national
-south-africa-identity-number-view	span	national
-mexico-clave-unica-de-registro-de-poblacion-input	input	national
-mexico-clave-unica-de-registro-de-poblacion-view	span	national
-singapore-national-registration-identity-card-input	input	national
-singapore-national-registration-identity-card-view	span	national
-osterreich-sozialversicherungsnummer-input	input	national
-osterreich-sozialversicherungsnummer-view	span	national
-magyarorszag-taj-szam-input	input	national
-magyarorszag-taj-szam-view	span	national
-luxembourg-matricule-input	input	national
-luxembourg-matricule-view	span	national
-zhongguo-jumin-shenfenzheng-haoma-input	input	national
-zhongguo-jumin-shenfenzheng-haoma-view	span	national
-rossiya-snils-input	input	national
-rossiya-snils-view	span	national
-turkiye-tc-kimlik-numarasi-input	input	national
-turkiye-tc-kimlik-numarasi-view	span	national
-argentina-codigo-unico-de-identificacion-laboral-input	input	national
-argentina-codigo-unico-de-identificacion-laboral-view	span	national
-ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input	input	national
-ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view	span	national
-indonesia-nomor-induk-kependudukan-input	input	national
-indonesia-nomor-induk-kependudukan-view	span	national
-prathet-thai-lek-prajam-tua-prachachon-input	input	national
-prathet-thai-lek-prajam-tua-prachachon-view	span	national
-chile-rol-unico-nacional-input	input	national
-chile-rol-unico-nacional-view	span	national
-misr-al-raqm-al-qawmi-input	input	national
-misr-al-raqm-al-qawmi-view	span	national
-taiwan-guomin-shenfenzheng-tongyi-bianhao-input	input	national
-taiwan-guomin-shenfenzheng-tongyi-bianhao-view	span	national
-hong-kong-identity-card-input	input	national
-hong-kong-identity-card-view	span	national
-iran-kod-e-melli-input	input	national
-iran-kod-e-melli-view	span	national
-as-saudiyah-raqm-al-huwiyah-al-wataniyah-input	input	national
-as-saudiyah-raqm-al-huwiyah-al-wataniyah-view	span	national
-malaysia-kad-pengenalan-input	input	national
-malaysia-kad-pengenalan-view	span	national
-viet-nam-can-cuoc-cong-dan-input	input	national
-viet-nam-can-cuoc-cong-dan-view	span	national
-pakistan-computerized-national-identity-card-input	input	national
-pakistan-computerized-national-identity-card-view	span	national
-uruguay-cedula-de-identidad-input	input	national
-uruguay-cedula-de-identidad-view	span	national
-ecuador-cedula-de-identidad-input	input	national
-ecuador-cedula-de-identidad-view	span	national
-colombia-cedula-de-ciudadania-input	input	national
-colombia-cedula-de-ciudadania-view	span	national
-australia-tax-file-number-input	input	national
-australia-tax-file-number-view	span	national
-nigeria-national-identification-number-input	input	national
-nigeria-national-identification-number-view	span	national
-peru-documento-nacional-de-identidad-input	input	national
-peru-documento-nacional-de-identidad-view	span	national
-republica-dominicana-cedula-de-identidad-y-electoral-input	input	national
-republica-dominicana-cedula-de-identidad-y-electoral-view	span	national
-costa-rica-cedula-de-identidad-input	input	national
-costa-rica-cedula-de-identidad-view	span	national
-guatemala-codigo-unico-de-identificacion-input	input	national
-guatemala-codigo-unico-de-identificacion-view	span	national
-mauritius-national-identity-card-number-input	input	national
-mauritius-national-identity-card-number-view	span	national
-ghana-card-personal-identification-number-input	input	national
-ghana-card-personal-identification-number-view	span	national
-ityopya-fayda-identification-number-input	input	national
-ityopya-fayda-identification-number-view	span	national
-sri-lanka-national-identity-card-input	input	national
-sri-lanka-national-identity-card-view	span	national
-bangladesh-national-identity-card-input	input	national
-bangladesh-national-identity-card-view	span	national
-qazaqstan-zheke-saikestendiru-nomiri-input	input	national
-qazaqstan-zheke-saikestendiru-nomiri-view	span	national
-ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-input	input	national
-ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-view	span	national
-al-imarat-raqm-al-huwiyah-input	input	national
-al-imarat-raqm-al-huwiyah-view	span	national
-one-time-password-input	input	forms
-multi-select	select	forms
-multi-select-with-extras	div	content
-empty-state	div	content
-show-more	div	content
-kbd-shortcut	kbd	content
-calendar-year-table	table	tables
-calendar-month-table	table	tables
-calendar-week-table	table	tables
-calendar-day-table	table	tables
-thinking	details	navigation
-gauge-chart	figure	data-viz
-heatmap-chart	figure	data-viz
-radar-chart	figure	data-viz
-sankey-chart	figure	data-viz
-file-tree	ul	lists
-pie-chart	figure	data-viz
-ring-chart	figure	data-viz
-funnel-chart	figure	data-viz
-candlestick-chart	figure	data-viz
-composed-chart	figure	data-viz
-choropleth-chart	figure	data-viz
-sunburst-chart	figure	data-viz
-streaming-text	div	content
-tool-call	details	navigation
-tool-call-name	span	content
-tool-call-status	span	content
-tool-call-input	div	content
-tool-call-output	div	content
-tool-call-error	div	content
-mark	mark	content
-chat-composer	form	forms
-heatmap-chart-with-year-of-days	figure	data-viz
-middle-truncation	span	content
-wheel-picker	div	pickers
-convert-div	div	content
-convert-from-div	div	content
-convert-from-value-div	div	content
-convert-from-unit-div	div	content
-convert-into-div	div	content
-convert-into-value-div	div	content
-convert-into-unit-div	div	content
-picture	picture	content
-warning-text	div	content
-observation-view	span	content
-allergy-record-list	ul	lists
-allergy-record-list-item	li	lists
-medication-view	span	content
-decision-support-card	div	content
-early-warning-score-view	span	content
-age-view	span	content
-numeric-rating-scale-picker	fieldset	pickers
-body-map	fieldset	forms
-record-list	ul	lists
-medication-record-list	ul	lists
-problem-record-list	ul	lists
-immunization-record-list	ul	lists
-procedure-record-list	ul	lists
-device-record-list	ul	lists
-record-list-item	li	lists
-medication-record-list-item	li	lists
-problem-record-list-item	li	lists
-immunization-record-list-item	li	lists
-procedure-record-list-item	li	lists
-device-record-list-item	li	lists
-duration-view	time	content
-quantity-input-div	div	content
-record-provenance-view	span	content
-repeatable-fieldset	fieldset	forms
-range-fieldset	fieldset	forms
+accordion-checkbox	div	content	collect
+accordion-link	a	links	navigate
+accordion-list	ol	lists	show
+accordion-list-item	li	lists	show
+accordion-nav	nav	navigation	navigate
+action-bar	div	navigation	navigate
+action-bar-button	button	navigation	act
+action-group	div	forms	collect
+action-link	a	links	navigate
+address-input	div	forms	collect
+addressograph-box	div	content	structure
+affix	div	content	structure
+ai-label	span	content	structure
+alba-community-health-index-input	input	national	collect
+alba-community-health-index-view	span	national	show
+alert	div	content	inform
+alert-dialog	dialog	overlays	inform
+angle-slider-range-input	input	forms	collect
+announcement-banner	div	overlays	inform
+answer	div	content	structure
+area-chart	figure	data-viz	show
+article-layout	article	navigation	navigate
+aspect-ratio-container	div	content	structure
+australia-individual-healthcare-identifier-input	input	national	collect
+australia-individual-healthcare-identifier-view	span	national	show
+autosuggest	div	content	structure
+avatar	span	content	show
+avatar-group	div	forms	collect
+avatar-image	img	media	show
+avatar-text	span	content	show
+back-link	a	links	navigate
+badge	span	content	show
+banner	div	overlays	inform
+banner-box	div	content	inform
+bar-chart	figure	data-viz	show
+barcode-image	img	media	show
+beach-ball	div	content	structure
+belgique-numero-de-registre-national-input	input	national	collect
+belgique-numero-de-registre-national-view	span	national	show
+blockquote	blockquote	content	structure
+body-text	div	content	structure
+breadcrumb-link	a	links	navigate
+breadcrumb-list	ol	lists	show
+breadcrumb-list-item	li	lists	show
+breadcrumb-nav	nav	navigation	navigate
+bulgaria-edinen-grazhdanski-nomer-input	input	national	collect
+bulgaria-edinen-grazhdanski-nomer-view	span	national	show
+button	button	buttons	act
+button-group	div	forms	collect
+button-input	input	forms	collect
+byline	div	content	structure
+calendar-range-picker	div	pickers	collect
+calendar-table	table	tables	show
+calendar-table-body	tbody	tables	show
+calendar-table-foot	tfoot	tables	show
+calendar-table-head	thead	tables	show
+calendar-table-row	tr	tables	show
+calendar-table-td	td	tables	show
+calendar-table-th	th	tables	show
+call-to-action	a	links	navigate
+caption	figcaption	content	structure
+card	div	content	structure
+care-card	div	content	structure
+carousel	div	content	structure
+cascader	div	content	structure
+cesko-cestovni-pas-input	input	national	collect
+cesko-cestovni-pas-view	span	national	show
+cesko-rodne-cislo-input	input	national	collect
+cesko-rodne-cislo-view	span	national	show
+character	span	content	structure
+character-counter	span	content	structure
+chat-list	ol	lists	show
+chat-list-item	li	lists	show
+chat-message	article	navigation	navigate
+chat-nav	nav	navigation	navigate
+check-list	ol	lists	show
+check-list-item	li	lists	show
+checkbox-group	fieldset	forms	collect
+checkbox-input	input	forms	collect
+citation	cite	content	structure
+clamp-text	div	content	structure
+clipboard-copy-button	button	buttons	act
+coachmark	div	overlays	act
+code	code	content	structure
+code-block	pre	content	structure
+collapsible	details	navigation	navigate
+collection-list	ul	lists	show
+collection-list-item	li	lists	show
+color-input	input	forms	collect
+color-radio-group	fieldset	forms	collect
+color-radio-input	input	forms	collect
+column-chart	figure	data-viz	show
+combobox	div	content	collect
+command	div	content	structure
+comment	div	content	structure
+container	div	content	structure
+container-with-fixed-width	div	content	structure
+container-with-fluid-width	div	content	structure
+content-block	div	content	structure
+contents-link	a	links	navigate
+contents-list	ol	lists	show
+contents-list-item	li	lists	show
+contents-nav	nav	navigation	navigate
+context-menu	div	navigation	navigate
+context-menu-item	div	navigation	navigate
+contextual-help	div	overlays	act
+currency-input	input	forms	collect
+cymru-rhif-y-gwasanaeth-iechyd-gwladol-input	input	national	collect
+cymru-rhif-y-gwasanaeth-iechyd-gwladol-view	span	national	show
+kypros-national-passport-number-input	input	national	collect
+kypros-national-passport-number-view	span	national	show
+danmark-personnummer-input	input	national	collect
+danmark-personnummer-view	span	national	show
+data-filter-form	form	forms	collect
+data-table	table	tables	show
+data-table-body	tbody	tables	show
+data-table-foot	tfoot	tables	show
+data-table-head	thead	tables	show
+data-table-row	tr	tables	show
+data-table-td	td	tables	show
+data-table-th	th	tables	show
+date-field	fieldset	forms	collect
+date-input	input	forms	collect
+date-range	fieldset	forms	collect
+date-time-local-input	input	forms	collect
+date-time-now-input	div	content	collect
+date-time-view	time	content	show
+description-list	dl	lists	show
+description-list-item	div	content	show
+details	details	navigation	navigate
+deutschland-krankenversichertennummer-input	input	national	collect
+deutschland-krankenversichertennummer-view	span	national	show
+dial	div	content	structure
+dial-group	div	forms	collect
+dialog	dialog	overlays	act
+diff	div	content	structure
+digital-object-identifier-link	a	links	navigate
+do-list	ul	lists	show
+do-list-item	li	lists	show
+document-list	ul	lists	show
+document-list-item	li	lists	show
+dont-list	ul	lists	show
+dont-list-item	li	lists	show
+download-button	a	links	act
+draft	div	content	structure
+drawer	dialog	overlays	act
+dropdown-menu	div	navigation	navigate
+editable	div	content	show
+editable-form	form	forms	collect
+eesti-isikukood-input	input	national	collect
+eesti-isikukood-view	span	national	show
+ellada-dematerialised-securities-system-input	input	national	collect
+ellada-dematerialised-securities-system-view	span	national	show
+email-input	input	forms	collect
+email-link	a	links	navigate
+emoji	span	content	structure
+emoji-character-radio-group	fieldset	forms	collect
+emoji-character-radio-input	input	forms	collect
+end-notes	section	navigation	navigate
+england-national-health-service-number-input	input	national	collect
+england-national-health-service-number-view	span	national	show
+error-message	p	content	inform
+error-summary	div	content	inform
+espana-codigo-de-identificacion-fiscal-input	input	national	collect
+espana-codigo-de-identificacion-fiscal-view	span	national	show
+espana-tarjeta-sanitaria-individual-input	input	national	collect
+espana-tarjeta-sanitaria-individual-view	span	national	show
+event	article	navigation	navigate
+expander	div	content	structure
+feature-card	article	navigation	navigate
+feature-photo	figure	media	show
+field	div	content	collect
+fieldset	fieldset	forms	collect
+figure	figure	media	show
+file-dialog	dialog	overlays	act
+file-input	input	forms	collect
+file-manager	div	content	structure
+file-upload	div	content	collect
+five-face-rating-radio-group	fieldset	forms	collect
+five-face-rating-radio-input	input	forms	collect
+five-face-rating-view	span	content	show
+five-star-rating-radio-group	fieldset	forms	collect
+five-star-rating-radio-input	input	forms	collect
+five-star-rating-view	span	content	show
+flair	span	content	structure
+flex-stack	div	content	structure
+float-button	button	buttons	act
+floating-panel	div	content	structure
+footer	footer	navigation	navigate
+footnote	span	content	structure
+form	form	forms	collect
+framer	div	content	structure
+france-numero-d-identification-au-repertoire-input	input	national	collect
+france-numero-d-identification-au-repertoire-view	span	national	show
+gantt-table	table	tables	show
+gantt-table-tbody	tbody	tables	show
+gantt-table-td	td	tables	show
+gantt-table-tfoot	tfoot	tables	show
+gantt-table-th	th	tables	show
+gantt-table-thead	thead	tables	show
+gantt-table-tr	tr	tables	show
+go-to-next-section	a	links	navigate
+go-to-previous-section	a	links	navigate
+go-to-top	a	links	navigate
+government-banner	aside	overlays	inform
+government-identifier	section	navigation	navigate
+grail-layout	div	content	structure
+grail-layout-bottom-footer	footer	navigation	navigate
+grail-layout-center-main	main	navigation	navigate
+grail-layout-left-aside	aside	navigation	navigate
+grail-layout-right-aside	aside	navigation	navigate
+grail-layout-top-header	header	navigation	navigate
+graphic-block	figure	media	show
+grid	div	content	structure
+hamburger-menu	div	navigation	navigate
+header	header	navigation	navigate
+headline	div	content	structure
+hero	section	navigation	navigate
+hero-headline	div	content	structure
+hidden-input	input	forms	collect
+hint	p	content	inform
+horizontal-scroller	div	content	structure
+hover-card	div	content	structure
+hrvatska-osobni-identifikacijski-broj-input	input	national	collect
+hrvatska-osobni-identifikacijski-broj-view	span	national	show
+iban-input	input	forms	collect
+iban-view	span	content	show
+icon	span	content	structure
+icon-button	button	buttons	act
+icon-list	ul	lists	show
+icon-list-item	li	lists	show
+image	img	media	show
+image-cropper	div	content	show
+image-file-input	input	forms	collect
+image-input	input	forms	collect
+info-state	section	navigation	navigate
+information-callout	aside	navigation	inform
+input	input	forms	collect
+input-group	div	forms	collect
+input-with-mask	div	content	collect
+inset-text	div	content	structure
+international-patient-summary	article	navigation	navigate
+international-patient-summary-section	section	navigation	navigate
+eire-individual-health-identifier-input	input	national	collect
+eire-individual-health-identifier-view	span	national	show
+island-kennitala-input	input	national	collect
+island-kennitala-view	span	national	show
+italia-codice-fiscale-input	input	national	collect
+italia-codice-fiscale-view	span	national	show
+kanban-table	table	tables	show
+kanban-table-body	tbody	tables	show
+kanban-table-foot	tfoot	tables	show
+kanban-table-head	thead	tables	show
+kanban-table-row	tr	tables	show
+kanban-table-td	td	tables	show
+kanban-table-th	th	tables	show
+kbd	kbd	content	structure
+label	label	forms	collect
+latvija-personas-kods-input	input	national	collect
+latvija-personas-kods-view	span	national	show
+liechtenstein-national-identity-card-number-input	input	national	collect
+liechtenstein-national-identity-card-number-view	span	national	show
+liechtenstein-passport-number-input	input	national	collect
+liechtenstein-passport-number-view	span	national	show
+lietuva-asmens-kodas-input	input	national	collect
+lietuva-asmens-kodas-view	span	national	show
+lietuva-pasas-input	input	national	collect
+lietuva-pasas-view	span	national	show
+line-chart	figure	data-viz	show
+listbox	div	content	show
+loading	div	content	inform
+malta-national-identification-number-input	input	national	collect
+malta-national-identification-number-view	span	national	show
+malta-passport-number-input	input	national	collect
+malta-passport-number-view	span	national	show
+masonry	div	content	structure
+measurement-instance-input	input	forms	collect
+measurement-instance-view	span	content	show
+measurement-system-input	input	forms	collect
+measurement-system-view	span	content	show
+measurement-unit-input	input	forms	collect
+measurement-unit-view	span	content	show
+medical-banner	div	overlays	inform
+medical-banner-box	div	content	inform
+medical-banner-box-for-advice	div	content	inform
+medical-banner-box-for-danger	div	content	inform
+mentions-input	div	content	collect
+menu	div	navigation	navigate
+menu-bar	div	navigation	navigate
+menu-bar-button	button	navigation	act
+menu-group	div	forms	collect
+menu-item	div	navigation	navigate
+meter	meter	data-viz	show
+mockup-browser	div	content	structure
+mockup-laptop	div	content	structure
+mockup-phone-landscape	div	content	structure
+mockup-phone-portrait	div	content	structure
+mockup-shell	div	content	structure
+mockup-tablet-landscape	div	content	show
+mockup-tablet-portrait	div	content	show
+mockup-watch	div	content	structure
+mockup-window	div	content	structure
+month-input	input	forms	collect
+navigation-menu	nav	navigation	navigate
+nederland-burgerservice-nummer-input	input	national	collect
+nederland-burgerservice-nummer-view	span	national	show
+nederland-identiteitskaart-nummer-input	input	national	collect
+nederland-identiteitskaart-nummer-view	span	national	show
+nederland-paspoort-nummer-input	input	national	collect
+nederland-paspoort-nummer-view	span	national	show
+net-promoter-score-radio-group	fieldset	forms	collect
+net-promoter-score-radio-input	input	forms	collect
+net-promoter-score-view	span	content	show
+newsletter-signup	form	forms	collect
+norge-fodselsnummer-input	input	national	collect
+norge-fodselsnummer-view	span	national	show
+tuaisceart-eireann-health-and-care-number-input	input	national	collect
+tuaisceart-eireann-health-and-care-number-view	span	national	show
+notification	div	content	inform
+number-input	input	forms	collect
+option	option	forms	collect
+organization	article	navigation	navigate
+overlay-container	div	content	structure
+padding-reset	div	content	structure
+pagination-link	a	links	navigate
+pagination-list	ol	lists	show
+pagination-list-item	li	lists	show
+pagination-nav	nav	navigation	navigate
+panel	div	content	structure
+password-input	input	forms	collect
+password-input-or-text-input-div	div	content	collect
+person	article	navigation	navigate
+phase-banner	div	overlays	inform
+photo-pack	div	content	structure
+pictogram	figure	media	show
+pin-input-div	div	content	collect
+place	article	navigation	navigate
+polska-numer-identyfikacji-podatkowej-input	input	national	collect
+polska-numer-identyfikacji-podatkowej-view	span	national	show
+polska-pesel-input	input	national	collect
+polska-pesel-view	span	national	show
+popconfirm-dialog	div	content	act
+popover	div	content	structure
+popup	div	content	structure
+portugal-numero-de-identificacao-fiscal-input	input	national	collect
+portugal-numero-de-identificacao-fiscal-view	span	national	show
+portugal-passaporte-input	input	national	collect
+portugal-passaporte-view	span	national	show
+postal-code-input	input	forms	collect
+postal-code-view	span	content	show
+product-card	article	navigation	navigate
+progress	progress	data-viz	inform
+progress-bar	div	navigation	inform
+progress-circle	div	content	inform
+progress-spinner	div	content	inform
+qr-code-image	div	content	show
+question	div	content	structure
+radio-group	fieldset	forms	collect
+radio-input	input	forms	collect
+range-input	input	forms	collect
+red-amber-green-radio-group	fieldset	forms	collect
+red-amber-green-radio-input	input	forms	collect
+red-amber-green-view	span	content	show
+red-orange-yellow-green-blue-radio-group	fieldset	forms	collect
+red-orange-yellow-green-blue-radio-input	input	forms	collect
+red-orange-yellow-green-blue-view	span	content	show
+related-content	aside	navigation	navigate
+reset-input	input	forms	collect
+resizable	div	content	structure
+review-date	time	content	show
+romania-cod-numeric-personal-input	input	national	collect
+romania-cod-numeric-personal-view	span	national	show
+romania-pasaport-input	input	national	collect
+romania-pasaport-view	span	national	show
+scatter-chart	figure	data-viz	show
+screen-reader-span	span	content	structure
+scroll-area	div	content	structure
+scroll-bar	div	navigation	navigate
+scroller	div	content	structure
+scroller-base	div	content	structure
+scroller-video	div	content	structure
+search-input	input	forms	collect
+section-heading	header	navigation	navigate
+section-link	a	links	navigate
+section-list	ul	lists	show
+section-list-item	li	lists	show
+section-nav	nav	navigation	navigate
+segment-group	div	forms	collect
+segment-group-item	button	forms	act
+select	select	forms	collect
+select-with-extras	div	content	collect
+separator	hr	navigation	navigate
+share-page	div	content	structure
+sheet	dialog	overlays	act
+sidebar	aside	navigation	navigate
+signature-pad	div	content	structure
+skeleton	div	content	structure
+skip-link	a	links	navigate
+slide-out-drawer	dialog	overlays	act
+slider	input	forms	collect
+slider-button	button	buttons	act
+slovenija-emso-input	input	national	collect
+slovenija-emso-view	span	national	show
+slovensko-pas-input	input	national	collect
+slovensko-pas-view	span	national	show
+slovensko-rodne-cislo-input	input	national	collect
+slovensko-rodne-cislo-view	span	national	show
+sonner	div	content	structure
+sparkline	span	content	structure
+split-button	div	forms	act
+split-view	div	navigation	navigate
+splitter	div	content	structure
+statistic	div	content	show
+status-light	span	content	inform
+status-tag	span	content	inform
+step-list	ol	lists	show
+step-list-item	li	lists	show
+sticky-promo-banner	aside	overlays	inform
+submit-input	input	forms	collect
+success-panel	div	content	structure
+summary-box	aside	navigation	navigate
+summary-list	dl	lists	show
+summary-list-item	div	content	show
+suomi-henkilotunnus-input	input	national	collect
+suomi-henkilotunnus-view	span	national	show
+super-banner	div	overlays	inform
+sverige-personnummer-input	input	national	collect
+sverige-personnummer-view	span	national	show
+switch-button	button	buttons	act
+tab-bar	div	navigation	navigate
+tab-bar-button	button	navigation	act
+tab-panel	div	overlays	act
+table	table	tables	show
+table-body	tbody	tables	show
+table-foot	tfoot	tables	show
+table-head	thead	tables	show
+table-row	tr	tables	show
+table-td	td	tables	show
+table-th	th	tables	show
+tag	span	content	show
+tag-group	div	forms	collect
+tag-input-div	div	content	collect
+task-bar	div	navigation	navigate
+task-bar-button	button	navigation	act
+task-list	ol	lists	show
+task-list-item	li	lists	show
+tel-input	input	forms	collect
+tel-link	a	links	navigate
+text-area-input	textarea	forms	collect
+text-area-input-with-character-counter	div	content	collect
+text-input	input	forms	collect
+text-input-with-search	div	content	collect
+theme-provider	div	content	structure
+theme-select	select	forms	collect
+theme-select-option	option	forms	collect
+theme-view	span	content	show
+tile	div	content	structure
+tile-map	div	content	structure
+time-input	input	forms	collect
+time-picker-input	input	forms	collect
+timeline-list	ol	lists	show
+timeline-list-item	li	lists	show
+timeout-dialog	dialog	overlays	act
+timer	time	content	structure
+timer-button	button	buttons	act
+toast	div	content	inform
+toggle-button	button	buttons	act
+toggle-group	div	forms	collect
+tool-bar	div	navigation	navigate
+tool-bar-button	button	navigation	act
+tooltip	div	content	structure
+tour	div	content	structure
+tour-list	ol	lists	show
+tour-list-item	li	lists	show
+transfer-list	div	content	show
+tree-link	a	links	navigate
+tree-list	ol	lists	show
+tree-list-item	li	lists	show
+tree-menu	ul	navigation	navigate
+tree-nav	nav	navigation	navigate
+tree-select	div	content	collect
+united-kingdom-national-health-service-number-input	input	national	collect
+united-kingdom-national-health-service-number-view	span	national	show
+united-kingdom-national-insurance-number-input	input	national	collect
+united-kingdom-national-insurance-number-view	span	national	show
+united-states-social-security-number-input	input	national	collect
+united-states-social-security-number-view	span	national	show
+url-input	input	forms	collect
+validation-list	ul	lists	show
+validation-list-item	li	lists	show
+video-player	figure	media	show
+visible	div	content	structure
+warning-callout	aside	navigation	inform
+watermark	div	content	structure
+week-input	input	forms	collect
+aotearoa-national-health-index-input	input	national	collect
+aotearoa-national-health-index-view	span	national	show
+pilipinas-philhealth-identification-number-input	input	national	collect
+pilipinas-philhealth-identification-number-view	span	national	show
+brasil-cartao-nacional-de-saude-input	input	national	collect
+brasil-cartao-nacional-de-saude-view	span	national	show
+schweiz-ahv-nummer-input	input	national	collect
+schweiz-ahv-nummer-view	span	national	show
+canada-social-insurance-number-input	input	national	collect
+canada-social-insurance-number-view	span	national	show
+hanguk-jumin-deungnok-beonho-input	input	national	collect
+hanguk-jumin-deungnok-beonho-view	span	national	show
+nihon-kojin-bango-input	input	national	collect
+nihon-kojin-bango-view	span	national	show
+bharat-aadhaar-input	input	national	collect
+bharat-aadhaar-view	span	national	show
+yisrael-teudat-zehut-input	input	national	collect
+yisrael-teudat-zehut-view	span	national	show
+south-africa-identity-number-input	input	national	collect
+south-africa-identity-number-view	span	national	show
+mexico-clave-unica-de-registro-de-poblacion-input	input	national	collect
+mexico-clave-unica-de-registro-de-poblacion-view	span	national	show
+singapore-national-registration-identity-card-input	input	national	collect
+singapore-national-registration-identity-card-view	span	national	show
+osterreich-sozialversicherungsnummer-input	input	national	collect
+osterreich-sozialversicherungsnummer-view	span	national	show
+magyarorszag-taj-szam-input	input	national	collect
+magyarorszag-taj-szam-view	span	national	show
+luxembourg-matricule-input	input	national	collect
+luxembourg-matricule-view	span	national	show
+zhongguo-jumin-shenfenzheng-haoma-input	input	national	collect
+zhongguo-jumin-shenfenzheng-haoma-view	span	national	show
+rossiya-snils-input	input	national	collect
+rossiya-snils-view	span	national	show
+turkiye-tc-kimlik-numarasi-input	input	national	collect
+turkiye-tc-kimlik-numarasi-view	span	national	show
+argentina-codigo-unico-de-identificacion-laboral-input	input	national	collect
+argentina-codigo-unico-de-identificacion-laboral-view	span	national	show
+ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input	input	national	collect
+ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view	span	national	show
+indonesia-nomor-induk-kependudukan-input	input	national	collect
+indonesia-nomor-induk-kependudukan-view	span	national	show
+prathet-thai-lek-prajam-tua-prachachon-input	input	national	collect
+prathet-thai-lek-prajam-tua-prachachon-view	span	national	show
+chile-rol-unico-nacional-input	input	national	collect
+chile-rol-unico-nacional-view	span	national	show
+misr-al-raqm-al-qawmi-input	input	national	collect
+misr-al-raqm-al-qawmi-view	span	national	show
+taiwan-guomin-shenfenzheng-tongyi-bianhao-input	input	national	collect
+taiwan-guomin-shenfenzheng-tongyi-bianhao-view	span	national	show
+hong-kong-identity-card-input	input	national	collect
+hong-kong-identity-card-view	span	national	show
+iran-kod-e-melli-input	input	national	collect
+iran-kod-e-melli-view	span	national	show
+as-saudiyah-raqm-al-huwiyah-al-wataniyah-input	input	national	collect
+as-saudiyah-raqm-al-huwiyah-al-wataniyah-view	span	national	show
+malaysia-kad-pengenalan-input	input	national	collect
+malaysia-kad-pengenalan-view	span	national	show
+viet-nam-can-cuoc-cong-dan-input	input	national	collect
+viet-nam-can-cuoc-cong-dan-view	span	national	show
+pakistan-computerized-national-identity-card-input	input	national	collect
+pakistan-computerized-national-identity-card-view	span	national	show
+uruguay-cedula-de-identidad-input	input	national	collect
+uruguay-cedula-de-identidad-view	span	national	show
+ecuador-cedula-de-identidad-input	input	national	collect
+ecuador-cedula-de-identidad-view	span	national	show
+colombia-cedula-de-ciudadania-input	input	national	collect
+colombia-cedula-de-ciudadania-view	span	national	show
+australia-tax-file-number-input	input	national	collect
+australia-tax-file-number-view	span	national	show
+nigeria-national-identification-number-input	input	national	collect
+nigeria-national-identification-number-view	span	national	show
+peru-documento-nacional-de-identidad-input	input	national	collect
+peru-documento-nacional-de-identidad-view	span	national	show
+republica-dominicana-cedula-de-identidad-y-electoral-input	input	national	collect
+republica-dominicana-cedula-de-identidad-y-electoral-view	span	national	show
+costa-rica-cedula-de-identidad-input	input	national	collect
+costa-rica-cedula-de-identidad-view	span	national	show
+guatemala-codigo-unico-de-identificacion-input	input	national	collect
+guatemala-codigo-unico-de-identificacion-view	span	national	show
+mauritius-national-identity-card-number-input	input	national	collect
+mauritius-national-identity-card-number-view	span	national	show
+ghana-card-personal-identification-number-input	input	national	collect
+ghana-card-personal-identification-number-view	span	national	show
+ityopya-fayda-identification-number-input	input	national	collect
+ityopya-fayda-identification-number-view	span	national	show
+sri-lanka-national-identity-card-input	input	national	collect
+sri-lanka-national-identity-card-view	span	national	show
+bangladesh-national-identity-card-input	input	national	collect
+bangladesh-national-identity-card-view	span	national	show
+qazaqstan-zheke-saikestendiru-nomiri-input	input	national	collect
+qazaqstan-zheke-saikestendiru-nomiri-view	span	national	show
+ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-input	input	national	collect
+ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-view	span	national	show
+al-imarat-raqm-al-huwiyah-input	input	national	collect
+al-imarat-raqm-al-huwiyah-view	span	national	show
+one-time-password-input	input	forms	collect
+multi-select	select	forms	collect
+multi-select-with-extras	div	content	collect
+empty-state	div	content	inform
+show-more	div	content	structure
+kbd-shortcut	kbd	content	structure
+calendar-year-table	table	tables	show
+calendar-month-table	table	tables	show
+calendar-week-table	table	tables	show
+calendar-day-table	table	tables	show
+thinking	details	navigation	inform
+gauge-chart	figure	data-viz	show
+heatmap-chart	figure	data-viz	show
+radar-chart	figure	data-viz	show
+sankey-chart	figure	data-viz	show
+file-tree	ul	lists	show
+pie-chart	figure	data-viz	show
+ring-chart	figure	data-viz	show
+funnel-chart	figure	data-viz	show
+candlestick-chart	figure	data-viz	show
+composed-chart	figure	data-viz	show
+choropleth-chart	figure	data-viz	show
+sunburst-chart	figure	data-viz	show
+streaming-text	div	content	inform
+tool-call	details	navigation	navigate
+tool-call-name	span	content	structure
+tool-call-status	span	content	inform
+tool-call-input	div	content	collect
+tool-call-output	div	content	structure
+tool-call-error	div	content	inform
+mark	mark	content	structure
+chat-composer	form	forms	collect
+heatmap-chart-with-year-of-days	figure	data-viz	show
+middle-truncation	span	content	structure
+wheel-picker	div	pickers	collect
+convert-div	div	content	structure
+convert-from-div	div	content	structure
+convert-from-value-div	div	content	structure
+convert-from-unit-div	div	content	structure
+convert-into-div	div	content	structure
+convert-into-value-div	div	content	structure
+convert-into-unit-div	div	content	structure
+picture	picture	content	structure
+warning-text	div	content	inform
+observation-view	span	content	show
+allergy-record-list	ul	lists	show
+allergy-record-list-item	li	lists	show
+medication-view	span	content	show
+decision-support-card	div	content	structure
+early-warning-score-view	span	content	inform
+age-view	span	content	show
+numeric-rating-scale-picker	fieldset	pickers	collect
+body-map	fieldset	forms	collect
+record-list	ul	lists	show
+medication-record-list	ul	lists	show
+problem-record-list	ul	lists	show
+immunization-record-list	ul	lists	show
+procedure-record-list	ul	lists	show
+device-record-list	ul	lists	show
+record-list-item	li	lists	show
+medication-record-list-item	li	lists	show
+problem-record-list-item	li	lists	show
+immunization-record-list-item	li	lists	show
+procedure-record-list-item	li	lists	show
+device-record-list-item	li	lists	show
+duration-view	time	content	show
+quantity-input-div	div	content	collect
+record-provenance-view	span	content	show
+repeatable-fieldset	fieldset	forms	collect
+range-fieldset	fieldset	forms	collect

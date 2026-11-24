@@ -17,6 +17,17 @@
     let search = $state("");
     let categoryFilter = $state("");
     let suffixFilter = $state("");
+    let purposeFilter = $state("");
+
+    // Purpose facet (tasks.md P46-T3): what a component is for, from components-purposes.tsv.
+    const PURPOSE_LABEL: Record<string, string> = {
+        collect: "Collect input",
+        show: "Show information",
+        navigate: "Navigate",
+        inform: "Inform or warn",
+        act: "Act or decide",
+        structure: "Structure or style content",
+    };
 
     const withSuffix = components.map((c) => ({ ...c, suffix: suffixPatternOf(c.slug) }));
 
@@ -31,6 +42,10 @@
 
     const categoryCounts = countBy(withSuffix, "category");
     const suffixCounts = countBy(withSuffix, "suffix");
+    const purposeCounts = countBy(withSuffix, "purpose");
+    const purposeOptions = Object.entries(PURPOSE_LABEL)
+        .filter(([id]) => purposeCounts.has(id))
+        .map(([id, label]) => ({ id, label, count: purposeCounts.get(id) ?? 0 }));
 
     const categoryOptions = Object.entries(CATEGORY_LABEL)
         .filter(([id]) => categoryCounts.has(id))
@@ -63,7 +78,8 @@
                 c.description.toLowerCase().includes(q);
             const matchesCategory = categoryFilter === "" || c.category === categoryFilter;
             const matchesSuffix = suffixFilter === "" || c.suffix === suffixFilter;
-            return matchesSearch && matchesCategory && matchesSuffix;
+            const matchesPurpose = purposeFilter === "" || c.purpose === purposeFilter;
+            return matchesSearch && matchesCategory && matchesSuffix && matchesPurpose;
         }),
     );
 
@@ -71,6 +87,7 @@
         search = "";
         categoryFilter = "";
         suffixFilter = "";
+        purposeFilter = "";
     }
 </script>
 
@@ -118,6 +135,23 @@
     <div class="field">
         <label
             class="label"
+            for="purpose-filter">Purpose</label
+        >
+        <select
+            id="purpose-filter"
+            class="select"
+            bind:value={purposeFilter}
+        >
+            <option value="">All purposes ({components.length})</option>
+            {#each purposeOptions as opt (opt.id)}
+                <option value={opt.id}>{opt.label} ({opt.count})</option>
+            {/each}
+        </select>
+    </div>
+
+    <div class="field">
+        <label
+            class="label"
             for="suffix-filter">Suffix pattern</label
         >
         <select
@@ -132,7 +166,7 @@
         </select>
     </div>
 
-    {#if search || categoryFilter || suffixFilter}
+    {#if search || categoryFilter || suffixFilter || purposeFilter}
         <p>
             <button
                 type="button"
