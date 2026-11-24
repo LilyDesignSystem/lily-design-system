@@ -39,7 +39,7 @@ reach for; it does not restate any of their contracts in full.
   — not a plain catalog component. **Deep dive:**
   [`lily-design-system-blazor-helpers-skill`](../lily-design-system-blazor-helpers-skill/).
 - **[`lily-design-system-blazor-web-examples`](../lily-design-system-blazor-web-examples/)**
-  — a Blazor Web App (.NET 10) reference application, fully styled against
+  — a Blazor Web App (.NET 11) reference application, fully styled against
   the NHS UK design system's colours, typography, spacing, and focus states.
   It imports the headless library and the helpers via `ProjectReference` and demonstrates
   every catalog component plus 12 composed pages. Reach for this to run

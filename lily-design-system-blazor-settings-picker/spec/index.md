@@ -144,5 +144,5 @@ panel is a named group; focus stays visible; no motion. The content's own access
 
 - Package: `LilyDesignSystem.Blazor.SettingsPicker`
 - Version: 0.1.0 (new, 2026-10-08)
-- Framework: Blazor (.NET 10), Razor class library
+- Framework: Blazor (.NET 11), Razor class library
 - Test runner: xUnit + bUnit

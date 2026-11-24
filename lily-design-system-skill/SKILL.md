@@ -76,7 +76,7 @@ listing: `components.tsv` in the canonical repo, or browse it at
 
 Seven frameworks ship a matched headless + example pair, each implementing
 the 473-component core catalog, with identifiers in separate add-ons: HTML, Svelte 5, React 19, Vue 3, Angular
-(20–22), Blazor (.NET 10), Nunjucks. Two more catalogs: Web Components
+(20–22), Blazor (.NET 11), Nunjucks. Two more catalogs: Web Components
 (native custom elements, 601 of 636 — table sub-elements and interactive
 list items cannot be autonomous custom elements; no example app) and
 Alpine.js (all 636 as annotated snippets plus one plugin, with an example

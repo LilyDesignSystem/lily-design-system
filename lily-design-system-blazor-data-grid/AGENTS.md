@@ -5,7 +5,7 @@ reference for anything it does not restate. Read it first; everything below is a
 
 ## What this package is
 
-A reusable Blazor (.NET 10) headless interactive data grid. It composes `LilyDesignSystem.Blazor.Headless`'s `DataTable`
+A reusable Blazor (.NET 11) headless interactive data grid. It composes `LilyDesignSystem.Blazor.Headless`'s `DataTable`
 family (a real dependency, unmodified) and adds sort, filter, selection, resize, reorder,
 pagination, APG Grid keyboard navigation, cell editing, virtualization, export and twelve cell
 types. Ships no CSS.

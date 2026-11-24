@@ -48,7 +48,7 @@ Its position relative to its siblings:
   NHS UK visual reference, how to run it, the Interactive Server hosting
   model, the native-attribute-vs-PascalCase-parameter gotcha that broke
   five of its own pages), and the Blazor-wide conventions verified to span
-  all three subprojects (.NET 10/C#, the namespace split, `CssClass`,
+  all three subprojects (.NET 11/C#, the namespace split, `CssClass`,
   `RenderFragment ChildContent`, `AdditionalAttributes`, `IJSRuntime` DOM
   work, NuGet Trusted Publishing).
 - The standard subproject file set (`index.md`, `README.md` symlink,

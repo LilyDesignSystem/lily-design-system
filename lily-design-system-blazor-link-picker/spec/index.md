@@ -128,7 +128,7 @@ tooltip, no stylesheet / English / routes). This port's suite, `LinkPickerTests.
 
 - Package: `LilyDesignSystem.Blazor.LinkPicker`
 - Version: 0.1.0 (new, 2026-10-07)
-- Framework: Blazor (.NET 10), Razor class library
+- Framework: Blazor (.NET 11), Razor class library
 - Test runner: xUnit + bUnit
 
 ## Open state and disabled (2026-10-16)

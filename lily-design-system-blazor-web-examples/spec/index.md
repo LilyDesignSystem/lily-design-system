@@ -12,7 +12,7 @@ implementation status against the **583 canonical components**.
 
 ## 1. Role in the ecosystem
 
-This subproject is the **styled reference app** for the Blazor / .NET 10
+This subproject is the **styled reference app** for the Blazor / .NET 11
 ecosystem. It consumes the sibling library
 `lily-design-system-blazor-headless/` via a `ProjectReference` and renders
 every component with NHS-aligned CSS so visitors can see the design system

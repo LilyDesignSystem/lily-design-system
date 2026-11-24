@@ -1,6 +1,6 @@
 # DataGrid (Blazor helper)
 
-A reusable Blazor (.NET 10) headless **interactive data grid**. It composes
+A reusable Blazor (.NET 11) headless **interactive data grid**. It composes
 `LilyDesignSystem.Blazor.Headless`'s `DataTable` family — the same `role="grid"` container the headless catalog
 ships, with zero behaviour built in — and adds sort, client-side filter, row selection, column
 resize / visibility / reorder / pinning, pagination, WAI-ARIA APG Grid keyboard navigation,
