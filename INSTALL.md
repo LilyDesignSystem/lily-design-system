@@ -305,7 +305,7 @@ later. The helper packages restarted at 0.1.0 after the July 2026 rename to
 ## License
 
 Free open source, under your choice of MIT, Apache-2.0, GPL-2.0-only,
-GPL-3.0-only, BSD-3-Clause, OGL-UK-3.0, or CC-BY-NC-SA-4.0. See [LICENSE.md](LICENSE.md).
+GPL-3.0-only, BSD-3-Clause, OGL-UK-3.0, or CC-BY-SA-4.0. See [LICENSE.md](LICENSE.md).
 
 ---
 

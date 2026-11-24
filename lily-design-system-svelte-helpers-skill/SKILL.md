@@ -1,7 +1,7 @@
 ---
 name: lily-design-system-svelte-helpers-skill
 description: Explains Lily Design System's Svelte helper packages — the canonical reference every other framework's helpers port from, one top-level subproject per package — covering the eleven *-picker helpers (theme, locale, text-size, motion, share, search, link, menu, settings, time-zone, date-time), picker-bar, and the data-grid, kanban-board, gantt-chart and calendar packages; their npm package names and install idiom; the shared icon-button-opens-popup contract; and the idempotent-apply rule that exists because a re-entrant $effect once froze a picker mid-open. Use when someone asks how to install or use a Lily Svelte helper, wants the Svelte 5 idiom for one, asks why applying a preference must be idempotent, or asks which helpers are canonical when frameworks disagree.
-license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-NC-SA-4.0
+license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-SA-4.0
 ---
 
 # Lily Design System™ — Svelte helpers

@@ -189,7 +189,7 @@ and error messages are all configurable by the consumer.
 
 ## License
 
-MIT or Apache-2.0 or OGL-UK-3.0 or CC-BY-NC-SA-4.0 or GPL-2.0 or GPL-3.0, or contact us for more.
+MIT or Apache-2.0 or OGL-UK-3.0 or CC-BY-SA-4.0 or GPL-2.0 or GPL-3.0, or contact us for more.
 
 ## Contact
 

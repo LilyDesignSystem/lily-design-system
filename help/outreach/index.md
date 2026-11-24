@@ -77,7 +77,7 @@ The project currently gives four different answers to "may I use this at work?":
 | Source                                                      | Answer                                                                                                                  |
 | ----------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
 | [LICENSE.md](../../LICENSE.md)                              | `CC BY-NC-SA` — **non-commercial**, share-alike, and a _content_ licence, not a software licence                        |
-| [spec/index.md](../../spec/index.md) §14                    | "MIT or Apache-2.0 or OGL-UK-3.0 or CC-BY-NC-SA-4.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause (or contact for other terms)" |
+| [spec/index.md](../../spec/index.md) §14                    | "MIT or Apache-2.0 or OGL-UK-3.0 or CC-BY-SA-4.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause (or contact for other terms)" |
 | `@lilydesignsystem/svelte-headless` on npm                  | `MIT`                                                                                                                   |
 | `@lilydesignsystem/react-headless`, `…-vue-headless` on npm | `ISC`                                                                                                                   |
 

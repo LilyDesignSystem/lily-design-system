@@ -232,7 +232,7 @@ pnpm exec vitest run                 # explicit one-shot run
 - Template engine: Nunjucks 3.x
 - Test runner: vitest + jsdom
 - Package manager: pnpm
-- License: MIT or Apache-2.0 or OGL-UK-3.0 or CC-BY-NC-SA-4.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause
+- License: MIT or Apache-2.0 or OGL-UK-3.0 or CC-BY-SA-4.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause
 - Contact: Joel Parker Henderson <joel@joelparkerhenderson.com>
 - Canonical catalog: [../components.tsv](../../components.tsv) — 608 components
 - Root spec: [../spec/index.md](../../spec/index.md)

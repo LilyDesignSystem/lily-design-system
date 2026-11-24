@@ -1,7 +1,7 @@
 ---
 name: lily-design-system-theme
 description: Customizes an application's Lily styling or authors a canonical Lily reference theme from DTCG tokens, class hooks, and the repository's accessibility gates. Use when someone asks to style Lily components, choose or override a theme, edit design tokens, create a theme, or validate theme contrast and interaction states.
-license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-NC-SA-4.0
+license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-SA-4.0
 ---
 
 # Theme Lily Design System

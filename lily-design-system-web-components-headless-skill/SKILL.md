@@ -1,7 +1,7 @@
 ---
 name: lily-design-system-web-components-headless-skill
 description: Explains Lily Design System's 438-component native Web Components core catalog — plain custom elements (`class X extends HTMLElement`, tags like `<lily-button>`), no framework runtime, no build step to consume. Use when someone asks how to use it, wants the custom-element usage idiom, needs to know which 35 core components it permanently excludes and why, asks why it differs from the full core catalogs, or asks about autonomous custom elements versus customized built-ins or light-DOM-only architecture.
-license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-NC-SA-4.0
+license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-SA-4.0
 ---
 
 # Lily Design System™ — Web Components headless usage

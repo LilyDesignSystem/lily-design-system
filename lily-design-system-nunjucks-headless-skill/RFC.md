@@ -136,7 +136,7 @@ line between "helper" and "component" that the current set violates.
 
 ### RFC 5 — Does a seven-way license choice help or confuse?
 
-**Current answer:** MIT, Apache-2.0, GPL-2.0-only, GPL-3.0-only, BSD-3-Clause, OGL-UK-3.0, or CC-BY-NC-SA-4.0,
+**Current answer:** MIT, Apache-2.0, GPL-2.0-only, GPL-3.0-only, BSD-3-Clause, OGL-UK-3.0, or CC-BY-SA-4.0,
 at the adopter's option ([LICENSE.md](LICENSE.md)).
 
 **The doubt:** a disjunction is maximally permissive in theory and can read as

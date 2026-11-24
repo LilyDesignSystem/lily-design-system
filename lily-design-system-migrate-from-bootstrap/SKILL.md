@@ -1,7 +1,7 @@
 ---
 name: lily-design-system-migrate-from-bootstrap
 description: Migrates a Bootstrap interface to Lily Design System while preserving semantics, keyboard behaviour, accessible relationships, and product styling. Use when someone asks to replace, remove, convert, or migrate Bootstrap components, data-bs behaviour, utilities, forms, or layout to Lily.
-license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-NC-SA-4.0
+license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-SA-4.0
 ---
 
 # Migrate from Bootstrap to Lily

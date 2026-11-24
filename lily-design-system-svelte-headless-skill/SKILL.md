@@ -1,7 +1,7 @@
 ---
 name: lily-design-system-svelte-headless-skill
 description: Explains how to install and consume Lily Design System's 473-component Svelte core headless library — its npm package, Svelte 5 runes idioms, and naming and composition rules. Use when someone asks how to install or import Lily's Svelte components, wants the Svelte 5 consumption idiom, asks which package to depend on, or asks how theming and class hooks work.
-license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-NC-SA-4.0
+license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-SA-4.0
 ---
 
 # Lily Design System™ — Svelte headless

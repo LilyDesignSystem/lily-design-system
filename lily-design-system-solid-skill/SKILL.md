@@ -1,7 +1,7 @@
 ---
 name: lily-design-system-solid-skill
 description: Explains what's available for Solid 2.0 in Lily Design System and which of the three layers to reach for — the headless component library, the 21 helper packages, or the example app — and covers the example app itself (a Vite single-page app on Solid Router 2.0). Use when someone asks what Solid support Lily Design System has, which Solid package they need, wants to see Lily's components styled and running in Solid, or asks about the Solid example app's routes or setup.
-license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-NC-SA-4.0
+license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-SA-4.0
 ---
 
 # Lily Design System™ — Solid

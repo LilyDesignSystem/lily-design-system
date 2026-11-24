@@ -1,7 +1,7 @@
 ---
 name: lily-design-system-react-helpers-skill
 description: Explains how to install and use Lily Design System's React *-picker helper packages — theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, search-picker, link-picker, menu-picker, settings-picker, time-zone-picker, date-time-picker, picker-bar, and the grid-like and editor packages — their icon-button-plus-listbox / disclosure-of-links / field-plus-dialog shapes, npm package names, and the idempotent-apply guard React consumers need to know about. Use when someone asks how to install or use Lily Design System's React theme/locale/text-size/motion/share/date-time picker, wants the React-specific helper idiom (controlled value/onChange, render-prop children, SSR/"use client" boundaries), or hits a re-entrant apply / infinite-loop bug wiring a picker's onChange back into its own value.
-license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-NC-SA-4.0
+license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-SA-4.0
 ---
 
 # Lily Design System™ — React helpers

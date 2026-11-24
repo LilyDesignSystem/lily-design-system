@@ -1,7 +1,7 @@
 ---
 name: lily-design-system-angular-headless-skill
 description: Use when someone asks how to install or import Lily Design System's Angular headless components, wants the Angular-specific usage idiom (standalone components, element selectors, the tag+attribute-selector convention for list/table sub-elements), needs to know what's different about consuming Lily in an Angular app, or asks why a `*ListItem` or table sub-element component is used as `<li lily-breadcrumb-list-item>` instead of `<lily-breadcrumb-list-item>`.
-license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-NC-SA-4.0
+license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-SA-4.0
 ---
 
 # Lily Design System™ — Angular headless usage

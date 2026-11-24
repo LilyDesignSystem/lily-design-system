@@ -1,7 +1,7 @@
 ---
 name: lily-design-system-blazor-headless-skill
 description: Explains how to install and use Lily Design System's Blazor headless component library — the NuGet package identity and publish status, the Blazor/Razor-specific usage idiom (the CssClass parameter instead of a class attribute, RenderFragment ChildContent, EventCallback/native-attribute wiring, AdditionalAttributes pass-through), and where the canonical suffix-to-element mapping and composition patterns live. Use when someone asks how to install or use Lily's Blazor components, why a component doesn't take a Value/ValueChanged pair, how to pass a CSS class or ARIA attributes to a Razor component from this library, or wants the current NuGet publish status.
-license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-NC-SA-4.0
+license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-SA-4.0
 ---
 
 # Lily Design System™ — Blazor headless usage

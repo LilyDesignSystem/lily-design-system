@@ -1,7 +1,7 @@
 ---
 name: lily-design-system-vue-helpers-skill
 description: Use when someone asks how to install or import one of Lily Design System's Vue `*-picker` helper packages (theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, search-picker, link-picker, menu-picker, settings-picker, time-zone-picker, date-time-picker, picker-bar, and the grid-like and editor packages), wants the Vue 3 SFC-specific usage idiom for them (`v-model`, `v-bind="$attrs"`, `defineModel`), needs an individual helper's npm package name (`@lilydesignsystem/vue-theme-picker` and siblings), or wants to know the icon-button-plus-listbox vs. disclosure-of-links vs. field-plus-dialog contract each helper follows.
-license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-NC-SA-4.0
+license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-SA-4.0
 ---
 
 # Lily Design System™ — Vue Helpers — concepts & usage

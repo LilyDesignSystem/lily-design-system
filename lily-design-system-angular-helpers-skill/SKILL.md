@@ -1,7 +1,7 @@
 ---
 name: lily-design-system-angular-helpers-skill
 description: Use when someone asks how to install or import Lily Design System's Angular picker helpers (theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, search-picker, link-picker, menu-picker, settings-picker, time-zone-picker, date-time-picker, picker-bar, and the grid-like and editor packages), wants the Angular-specific usage idiom (standalone components, signal inputs/model, `$any($event.target).value` template casts), or needs to know how the helpers differ from plain Angular headless catalog components.
-license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-NC-SA-4.0
+license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-SA-4.0
 ---
 
 # Lily Design System™ — Angular helpers usage

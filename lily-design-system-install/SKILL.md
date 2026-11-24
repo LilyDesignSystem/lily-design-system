@@ -1,7 +1,7 @@
 ---
 name: lily-design-system-install
 description: Installs Lily Design System for the caller's framework and chooses the matching headless, helper, identifier, and theme packages without adding an unnecessary runtime. Use when someone asks to install, set up, start with, or choose packages for Lily in Svelte, React, Vue, Angular, Solid, Blazor, Nunjucks, HTML, Web Components, or Alpine.js.
-license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-NC-SA-4.0
+license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-SA-4.0
 ---
 
 # Install Lily Design System

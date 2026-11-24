@@ -1,7 +1,7 @@
 ---
 name: lily-design-system-react-headless-skill
 description: Explains how to install, import, and use Lily Design System's 473-component React core headless library — its npm package, JSX and controlled-prop idioms, and naming rules. Use when someone asks how to install or import Lily's React components, wants React-specific usage, asks about peer dependencies, or needs the package for a component.
-license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-NC-SA-4.0
+license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-SA-4.0
 ---
 
 # Lily Design System™ — React headless

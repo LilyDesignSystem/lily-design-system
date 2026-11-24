@@ -1,7 +1,7 @@
 ---
 name: lily-design-system-blazor-helpers-skill
 description: Explains how to install and use Lily Design System's Blazor *-picker helpers — theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, search-picker, link-picker, menu-picker, settings-picker, time-zone-picker, date-time-picker, picker-bar, and the grid-like and editor packages — their NuGet package identities and publish status, and the Blazor-specific implementation pattern (partial-class {Pascal}.razor + {Pascal}.razor.cs, IJSRuntime DOM interop gated on OnAfterRenderAsync for SSR safety, EditorRequired parameters). Use when someone asks how to install or use Lily's Blazor picker helpers, how a helper stays safe under Blazor Server/WebAssembly/static SSR, what the icon-button-plus-listbox contract is, or wants the current NuGet publish status for the helper packages.
-license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-NC-SA-4.0
+license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-SA-4.0
 ---
 
 # Lily Design System™ — Blazor helpers usage

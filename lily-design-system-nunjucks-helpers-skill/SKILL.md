@@ -1,7 +1,7 @@
 ---
 name: lily-design-system-nunjucks-helpers-skill
 description: Explains how to consume Lily Design System's Nunjucks *-picker helpers catalog (theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, search-picker, link-picker, menu-picker, settings-picker, time-zone-picker, date-time-picker, picker-bar, and the grid-like and editor packages) — the macro-plus-client.js split unique to the Nunjucks port, the icon-button-opens-listbox contract shared by the four preference helpers versus share-picker's disclosure-of-links and date-time-picker's field-plus-dialog shape, and motion-picker's one documented server/client deviation (no matchMedia at render time). Use when someone asks how to add a Lily picker helper to a Nunjucks/Eleventy page, wants the data-lily-* hook contract, needs to know what still works without JavaScript, or asks why motion-picker's server-rendered markup differs from its client-corrected value.
-license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-NC-SA-4.0
+license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-SA-4.0
 ---
 
 # Lily Design System™ — Nunjucks `*-picker` helpers

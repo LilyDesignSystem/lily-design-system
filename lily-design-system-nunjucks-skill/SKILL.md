@@ -1,7 +1,7 @@
 ---
 name: lily-design-system-nunjucks-skill
 description: Umbrella skill for Nunjucks in Lily Design System — explains which layer (the 473-component core headless library, separate identifier add-on, helper packages, or fully styled Eleventy example app) to reach for, points to the deeper sibling skills for the headless and helpers contracts, and gives real coverage of the example app that neither sibling skill covers. Use when someone asks what's available for Nunjucks in Lily Design System, which Nunjucks subproject or package they need, how the pieces relate, or wants to run or copy CSS from the styled Nunjucks/Eleventy reference app.
-license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-NC-SA-4.0
+license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-SA-4.0
 ---
 
 # Lily Design System™ — Nunjucks umbrella

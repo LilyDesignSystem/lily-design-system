@@ -1,7 +1,7 @@
 ---
 name: lily-design-system-nunjucks-headless-skill
 description: Explains how to consume Lily Design System's Nunjucks headless component library — the macro-call idiom (a single `params` object, `classes`, `attributes`, `text`/`html`, body content via `{% call %}`/`caller()`), the camelCase-macro/kebab-case-file naming split Nunjucks forces, and server-rendering-specific notes. Use when someone asks how to import or call a Lily Nunjucks macro, wants the `params` shape for a component, needs to pass a class hook or arbitrary HTML attributes into a macro, wants to nest components (e.g. BreadcrumbNav > BreadcrumbList > BreadcrumbListItem) via `{% call %}`, or asks about Eleventy / server-side Nunjucks integration for Lily.
-license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-NC-SA-4.0
+license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause OR OGL-UK-3.0 OR CC-BY-SA-4.0
 ---
 
 # Lily Design System™ — Nunjucks headless macros
