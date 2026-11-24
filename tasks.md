@@ -4601,6 +4601,40 @@ investigation.
 - [x] **P46-T13 Misuse written down.** The persuasive components name their misuse in "When Not to Use".
       Verify: a `bin/check-known-limitations`-style assertion over the listed slugs.
 
+## Phase 47 — Lessons from openehr-rust (2026-11-24)
+
+From [spec/lessons/openehr-rust](spec/lessons/openehr-rust/index.md). Order: T1 and T2 first (a leak and a change of meaning),
+then T3, T6, T7 and T8 (small), then T4; T5, T9 and T10 are maintainer decisions.
+
+- [ ] **P47-T1 Errors never echo a clinical value.** Every error in `shared/clinical-format.ts` (eleven echo the value today) and
+      the C# `ClinicalFormat` port names the function, parameter and rule, never the value; a closed vocabulary may be named.
+      Verify: a test passes a sentinel to every exported function and asserts no thrown message contains it, in TypeScript and C#.
+- [ ] **P47-T2 Recorded precision for results.** An optional `precision` (decimal places) on `formatQuantity` and `formatRange`,
+      and the guide's dose and result rules.
+      Verify: `1.5` with `precision: 2` writes `1.50`; without it the output is unchanged; the guide names both rules.
+- [ ] **P47-T3 `,` as a decimal sign in durations.** `durationParts` accepts `PT1,5S`; `htmlDuration` writes `.`.
+      Verify: unit tests in TypeScript and C#.
+- [ ] **P47-T4 Leap seconds (investigation).** `date-time-view` and the data grid with `2016-12-31T23:59:60Z`.
+      Verify: a test in each, and a fix for whatever throws or changes the second.
+- [ ] **P47-T5 Partial dates in `filter` and the data grid (maintainer decision).** A partial-date field and cell type; an
+      undecidable comparison does not match, in every output.
+      Verify: a property test that no output matches `2019` against "before 2019-06-01" or "after 2019-06-01".
+- [ ] **P47-T6 Withheld summaries.** A healthcare-guide rule: a summary says how many entries are not shown, never which.
+      Verify: `bin/check-links` passes.
+- [ ] **P47-T7 `PHI.md`.** What Lily does with patient data, each answer citing its check or contract, with the gaps stated.
+      Verify: linked from `index.md`, `SECURITY.md` and `llms.txt`; `bin/check-links` passes.
+- [ ] **P47-T8 A coverage floor.** `coverage-floor.tsv` read by `bin/coverage-report --check`, run in `bin/ci --full`.
+      Verify: lowering coverage below the floor fails, and beating it without lowering the floor fails.
+- [ ] **P47-T9 A clinical-format corpus run (maintainer decision).** An ignored test over the EHRbase SDK canonical JSON, read
+      in place.
+      Verify: a recorded run in the lessons topic, with the corpus commit.
+- [ ] **P47-T10 Requirement ids for the healthcare rules (maintainer decision).** Permanent ids in `spec/healthcare-ui`, cited
+      from tests.
+      Verify: the maintainer's decision recorded in the lessons topic.
+- [ ] **P47-T11 A worked openEHR example.** A canonical JSON `DV_QUANTITY` and a partial `DV_DATE` beside the Lily props, in
+      the healthcare guide.
+      Verify: `bin/check-links` passes.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.
