@@ -229,11 +229,33 @@ public class ClinicalFormatTests
     }
 
     [Fact]
-    public void MeterScale_exception_is_an_ArgumentOutOfRangeException_that_names_the_input()
+    public void MeterScale_exception_is_an_ArgumentOutOfRangeException_that_names_the_rule_not_the_value()
     {
         var error = Assert.Throws<MeterScaleException>(() => ClinicalFormat.MeterScale(5, 5.5, 3.5));
         Assert.IsAssignableFrom<ArgumentOutOfRangeException>(error);
-        Assert.Contains("5.5 to 3.5", error.Message);
+        Assert.Contains("reversed or has no width", error.Message);
+        Assert.DoesNotContain("5.5", error.Message);
+        Assert.Null(error.ActualValue);
+    }
+
+    // spec/lessons/openehr-rust item 1: an exception reaches logs and error trackers, so it never carries a clinical value.
+    public static TheoryData<string, Action> ValueBearingErrors => new()
+    {
+        { "FormatRange backwards", () => ClinicalFormat.FormatRange(987654.321m, 1m, "mg", En) },
+        { "MeterScale reversed", () => ClinicalFormat.MeterScale(987654.321, 987654.321, 1) },
+        { "MeterScale one-sided bound", () => ClinicalFormat.MeterScale(987654.321, -987654.321, null) },
+        { "MeterScale non-finite end", () => ClinicalFormat.MeterScale(987654.321, double.NaN, 987654.321) },
+        { "FormatPartialDate bad day", () => ClinicalFormat.FormatPartialDate("1987-06-54", En) },
+        { "FormatPartialDate bad month", () => ClinicalFormat.FormatPartialDate("1987-54", En) },
+        { "FormatPartialDate not a date", () => ClinicalFormat.FormatPartialDate("1987/06/01", En) },
+    };
+
+    [Theory]
+    [MemberData(nameof(ValueBearingErrors))]
+    public void Errors_never_echo_a_clinical_value(string name, Action act)
+    {
+        var error = Assert.ThrowsAny<ArgumentException>(act);
+        Assert.False(error.Message.Contains("987654") || error.Message.Contains("1987") || error.Message.Contains("54"), name);
     }
 
     [Fact]

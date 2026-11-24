@@ -17,9 +17,10 @@ public record HtmlDurationValue(string Datetime, bool Negative);
 /// <summary>The scale of an <c>ObservationView</c> meter: its <c>MeterMin</c> and <c>MeterMax</c>, and the range's <c>MeterLow</c> and <c>MeterHigh</c>.</summary>
 public record MeterScaleResult(double Min, double Max, double? Low, double? High);
 
-/// <summary>Thrown by <see cref="ClinicalFormat.MeterScale"/> for malformed or out-of-range input; <see cref="Reason"/> is value, range, reversed, bound or units.</summary>
-public sealed class MeterScaleException(string reason, string paramName, object? actualValue, string message)
-    : ArgumentOutOfRangeException(paramName, actualValue, $"MeterScale: {message}")
+/// <summary>Thrown by <see cref="ClinicalFormat.MeterScale"/> for malformed or out-of-range input; <see cref="Reason"/> is value, range, reversed, bound or units.
+/// The message names the rule broken and never the value: a reading is patient data, and an exception reaches logs.</summary>
+public sealed class MeterScaleException(string reason, string paramName, string message)
+    : ArgumentOutOfRangeException(paramName, $"MeterScale: {message}")
 {
     public string Reason { get; } = reason;
 }
@@ -64,7 +65,7 @@ public static class ClinicalFormat
     public static string FormatRange(decimal low, decimal high, string unit, CultureInfo culture)
     {
         ArgumentNullException.ThrowIfNull(culture);
-        if (low > high) throw new ArgumentOutOfRangeException(nameof(low), low, $"low {low} is above high {high}");
+        if (low > high) throw new ArgumentOutOfRangeException(nameof(low), "low is above high, so the range would read backwards");
         var lowText = FormatQuantity(low, "", culture);
         var written = low == high
             ? lowText
@@ -86,16 +87,16 @@ public static class ClinicalFormat
     {
         static bool Finite(double? n) => n is { } d && double.IsFinite(d);
         if (value is null || (low is null && high is null)) return null;
-        if (!Finite(value)) throw new MeterScaleException("value", nameof(value), value, $"the value is not a finite number: {value}");
-        if (low is not null && !Finite(low)) throw new MeterScaleException("range", nameof(low), low, $"an end of the range is not a finite number: {low}");
-        if (high is not null && !Finite(high)) throw new MeterScaleException("range", nameof(high), high, $"an end of the range is not a finite number: {high}");
+        if (!Finite(value)) throw new MeterScaleException("value", nameof(value), "the value is not a finite number");
+        if (low is not null && !Finite(low)) throw new MeterScaleException("range", nameof(low), "an end of the range is not a finite number");
+        if (high is not null && !Finite(high)) throw new MeterScaleException("range", nameof(high), "an end of the range is not a finite number");
         if (!string.IsNullOrEmpty(valueUnit) && !string.IsNullOrEmpty(rangeUnit) && valueUnit != rangeUnit)
-            throw new MeterScaleException("units", nameof(rangeUnit), rangeUnit, $"the value is in {valueUnit} but the range is in {rangeUnit}");
+            throw new MeterScaleException("units", nameof(rangeUnit), $"the value is in {valueUnit} but the range is in {rangeUnit}");
 
         double min, max;
         if (low is { } l && high is { } h)
         {
-            if (l >= h) throw new MeterScaleException("reversed", nameof(low), low, $"the range is reversed or has no width: {l} to {h}");
+            if (l >= h) throw new MeterScaleException("reversed", nameof(low), "the range is reversed or has no width");
             var half = (h - l) / 2;
             min = l - half;
             max = h + half;
@@ -103,7 +104,7 @@ public static class ClinicalFormat
         else
         {
             var bound = (high ?? low)!.Value;
-            if (bound <= 0) throw new MeterScaleException("bound", high is null ? nameof(low) : nameof(high), bound, $"a one-sided bound must be above zero: {bound}");
+            if (bound <= 0) throw new MeterScaleException("bound", high is null ? nameof(low) : nameof(high), "a one-sided bound must be above zero");
             min = 0;
             max = bound * 1.5;
         }
@@ -152,14 +153,14 @@ public static class ClinicalFormat
     {
         ArgumentNullException.ThrowIfNull(iso);
         var match = System.Text.RegularExpressions.Regex.Match(iso, @"^(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?$");
-        if (!match.Success) throw new ArgumentOutOfRangeException(nameof(iso), iso, "not a partial ISO 8601 date");
+        if (!match.Success) throw new ArgumentOutOfRangeException(nameof(iso), "not a partial ISO 8601 date (YYYY, YYYY-MM or YYYY-MM-DD)");
         var year = int.Parse(match.Groups[1].Value, CultureInfo.InvariantCulture);
         int? month = match.Groups[2].Success ? int.Parse(match.Groups[2].Value, CultureInfo.InvariantCulture) : null;
         int? day = match.Groups[3].Success ? int.Parse(match.Groups[3].Value, CultureInfo.InvariantCulture) : null;
-        if (year < 1) throw new ArgumentOutOfRangeException(nameof(iso), iso, "not a year");
-        if (month is < 1 or > 12) throw new ArgumentOutOfRangeException(nameof(iso), iso, "not a month");
+        if (year < 1) throw new ArgumentOutOfRangeException(nameof(iso), "not a partial ISO 8601 date: the year is before 1");
+        if (month is < 1 or > 12) throw new ArgumentOutOfRangeException(nameof(iso), "not a partial ISO 8601 date: the month is not 01 to 12");
         if (day is not null && (day < 1 || day > DateTime.DaysInMonth(year, month!.Value)))
-            throw new ArgumentOutOfRangeException(nameof(iso), iso, "not a calendar date");
+            throw new ArgumentOutOfRangeException(nameof(iso), "not a calendar date: the day is outside its month");
         return (year, month, day);
     }
 

@@ -92,7 +92,7 @@ describe("formatRange", () => {
     });
     test("refuses a range given backwards, so it can never read high to low", () => {
         expect(() => formatRange(2.12, 1.82, "", "en-GB")).toThrow(
-            "formatRange: low 2.12 is above high 1.82",
+            "formatRange: low is above high, so the range would read backwards",
         );
     });
     test("keeps every digit the caller gave", () => {
@@ -435,8 +435,8 @@ describe("meterScale", () => {
         expect(reason(() => meterScale(1, -3))).toBe("bound");
     });
 
-    test("the message names the bad input", () => {
-        expect(() => meterScale(5, 5.5, 3.5)).toThrow(/reversed.*5\.5 to 3\.5/);
+    test("the message names the rule broken, never the value (a reading is patient data)", () => {
+        expect(() => meterScale(5, 5.5, 3.5)).toThrow(/reversed or has no width$/);
         expect(() => meterScale(NaN, 1, 2)).toThrow(
             /^meterScale: the value is not a finite number/,
         );
@@ -488,5 +488,44 @@ describe("clinical-format edge cases (coverage)", () => {
             expect(() => durationParts(bad)).toThrow(RangeError);
         }
         expect(() => durationParts(undefined as unknown as string)).toThrow(RangeError);
+    });
+});
+
+describe("errors never echo a clinical value (spec/lessons/openehr-rust item 1)", () => {
+    // An error reaches the console, an error tracker and a bug report at once, so a value in it leaks patient data.
+    const NUMBER = 987654.321;
+    const DATE = "1987-06-54";
+    const DURATION = "P9876X";
+    const thrown = (f: () => unknown): string => {
+        try {
+            f();
+        } catch (error) {
+            return String((error as Error).message);
+        }
+        throw new Error("expected a throw");
+    };
+    const leaks = (message: string) =>
+        message.includes("987654") ||
+        message.includes("1987") ||
+        message.includes("9876") ||
+        message.includes("54");
+
+    test.each([
+        ["formatQuantity, a non-finite value", () => formatQuantity(Number.NaN, "mg", "en")],
+        ["formatRange, backwards", () => formatRange(NUMBER, 1, "mg", "en")],
+        ["meterScale, reversed", () => meterScale(NUMBER, NUMBER, 1)],
+        ["meterScale, a one-sided bound", () => meterScale(NUMBER, -NUMBER)],
+        ["meterScale, a non-finite end", () => meterScale(NUMBER, Number.NaN, NUMBER)],
+        ["ageParts, not a date", () => ageParts(DATE, "2026-01-01")],
+        ["ageParts, at before birth", () => ageParts("2026-01-02", "1987-01-01")],
+        ["partialDatePrecision, a bad day", () => partialDatePrecision(DATE)],
+        ["partialDatePrecision, a bad month", () => partialDatePrecision("1987-54")],
+        ["partialDatePrecision, not a date", () => partialDatePrecision("1987/06/01")],
+        ["formatPartialDate, a bad day", () => formatPartialDate(DATE, "en")],
+        ["formatProportion, a zero denominator", () => formatProportion(NUMBER, 0, "ratio", "en")],
+        ["formatProportion, a wrong percent", () => formatProportion(NUMBER, 10, "percent", "en")],
+        ["durationParts, not a duration", () => durationParts(DURATION)],
+    ])("%s", (_name, f) => {
+        expect(leaks(thrown(f))).toBe(false);
     });
 });

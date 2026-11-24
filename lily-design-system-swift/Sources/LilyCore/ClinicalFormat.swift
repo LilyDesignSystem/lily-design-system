@@ -5,11 +5,13 @@
 import Foundation
 
 public enum ClinicalFormatError: Error, Equatable, Sendable {
+    // No case carries the value it refused: an error reaches logs and crash reports, and a clinical value is patient data
+    // (spec/lessons/openehr-rust item 1).
     /// A meter value that is not a finite number, or that lies outside its scale.
-    case meterValueOffScale(Double)
+    case meterValueOffScale
     case atBeforeBirth
-    case notAPartialDate(String)
-    case notADuration(String)
+    case notAPartialDate
+    case notADuration
 }
 
 /// A meter's scale for a value and its reference range (observation-view). A drawing decision, never a clinical one.
@@ -34,7 +36,7 @@ public struct MeterReading: Sendable, Equatable {
 
     public init(value: Double, scale: MeterScale) throws {
         guard value.isFinite, value >= scale.min, value <= scale.max else {
-            throw ClinicalFormatError.meterValueOffScale(value)
+            throw ClinicalFormatError.meterValueOffScale
         }
         self.value = value
         self.scale = scale
@@ -169,14 +171,14 @@ public enum DatePrecision: String, Sendable {
 /// "year", "month" or "day": how precise a partial ISO 8601 date (YYYY, YYYY-MM or YYYY-MM-DD) is.
 public func partialDatePrecision(_ iso: String) throws -> DatePrecision {
     guard let match = iso.wholeMatch(of: /(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?/) else {
-        throw ClinicalFormatError.notAPartialDate(iso)
+        throw ClinicalFormatError.notAPartialDate
     }
     let year = Int(match.1)!
     let month = match.2.map { Int($0)! }
     let dayOfMonth = match.3.map { Int($0)! }
-    if let month, !(1...12).contains(month) { throw ClinicalFormatError.notAPartialDate(iso) }
+    if let month, !(1...12).contains(month) { throw ClinicalFormatError.notAPartialDate }
     if let dayOfMonth, let month, !(1...daysInMonth(year: year, month: month)).contains(dayOfMonth) {
-        throw ClinicalFormatError.notAPartialDate(iso)
+        throw ClinicalFormatError.notAPartialDate
     }
     if dayOfMonth != nil { return .day }
     if month != nil { return .month }
@@ -198,7 +200,7 @@ public struct DurationParts: Equatable, Sendable {
 public func durationParts(_ iso: String) throws -> DurationParts {
     let pattern = /(-)?P(?:(\d+)Y)?(?:(\d+)M)?(?:(\d+)W)?(?:(\d+)D)?(?:T(?:(\d+)H)?(?:(\d+)M)?(\d+(?:\.\d+)?S)?)?/
     guard let match = iso.wholeMatch(of: pattern), iso.wholeMatch(of: /-?PT?/) == nil else {
-        throw ClinicalFormatError.notADuration(iso)
+        throw ClinicalFormatError.notADuration
     }
     func n(_ s: Substring?) -> Int { s.map { Int($0)! } ?? 0 }
     var parts = DurationParts()

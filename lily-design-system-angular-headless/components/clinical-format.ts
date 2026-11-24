@@ -82,7 +82,7 @@ export function formatQuantity(
         comparator !== undefined &&
         !Object.prototype.hasOwnProperty.call(COMPARATOR_SIGN, comparator)
     )
-        throw new RangeError(`formatQuantity: not a comparator: ${String(comparator)}`);
+        throw new RangeError(`formatQuantity: not a comparator: ${String(comparator).slice(0, 8)}`);
     // maximumFractionDigits keeps every digit the caller gave; Intl never writes trailing zeros and always writes a leading one.
     const number = new Intl.NumberFormat(locale, {
         maximumFractionDigits: 20,
@@ -101,7 +101,8 @@ export function formatRange(low: number, high: number, unit: string, locale: str
     if (!Number.isFinite(low) || !Number.isFinite(high))
         throw new RangeError("formatRange: low and high must be finite numbers");
     if (!locale) throw new RangeError("formatRange: a locale is required");
-    if (low > high) throw new RangeError(`formatRange: low ${low} is above high ${high}`);
+    if (low > high)
+        throw new RangeError("formatRange: low is above high, so the range would read backwards");
     const format = new Intl.NumberFormat(locale, { maximumFractionDigits: 20, useGrouping: true });
     // formatRange is ES2023; some packages' TypeScript lib settings predate it, though every supported runtime has it.
     const ranged = format as Intl.NumberFormat & {
@@ -162,13 +163,9 @@ export function meterScale(
     const hasLow = low !== undefined && low !== null;
     const hasHigh = high !== undefined && high !== null;
     if (value === undefined || value === null || (!hasLow && !hasHigh)) return undefined;
-    if (!finite(value))
-        throw new MeterScaleError("value", `the value is not a finite number: ${String(value)}`);
+    if (!finite(value)) throw new MeterScaleError("value", "the value is not a finite number");
     if ((hasLow && !finite(low)) || (hasHigh && !finite(high)))
-        throw new MeterScaleError(
-            "range",
-            `an end of the range is not a finite number: ${String(low)} to ${String(high)}`,
-        );
+        throw new MeterScaleError("range", "an end of the range is not a finite number");
     if (units?.value && units?.range && units.value !== units.range)
         throw new MeterScaleError(
             "units",
@@ -179,17 +176,13 @@ export function meterScale(
     let max: number;
     if (finite(low) && finite(high)) {
         if (low >= high)
-            throw new MeterScaleError(
-                "reversed",
-                `the range is reversed or has no width: ${low} to ${high}`,
-            );
+            throw new MeterScaleError("reversed", "the range is reversed or has no width");
         const half = (high - low) / 2;
         min = low - half;
         max = high + half;
     } else {
         const bound = (finite(high) ? high : low) as number;
-        if (bound <= 0)
-            throw new MeterScaleError("bound", `a one-sided bound must be above zero: ${bound}`);
+        if (bound <= 0) throw new MeterScaleError("bound", "a one-sided bound must be above zero");
         min = 0;
         max = bound * 1.5;
     }
@@ -201,8 +194,7 @@ export function meterScale(
 
 function toDate(value: Date | string): Date {
     const date = value instanceof Date ? value : new Date(value);
-    if (Number.isNaN(date.getTime()))
-        throw new RangeError(`ageParts: not a date: ${String(value)}`);
+    if (Number.isNaN(date.getTime())) throw new RangeError("ageParts: not a date");
     return date;
 }
 
@@ -306,14 +298,14 @@ const PARTIAL_DATE = /^(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?$/;
 
 function parsePartialDate(iso: string): { year: number; month?: number; day?: number } {
     const match = PARTIAL_DATE.exec(iso);
-    if (!match) throw new RangeError(`not a partial ISO 8601 date: ${String(iso)}`);
+    if (!match) throw new RangeError("not a partial ISO 8601 date (YYYY, YYYY-MM or YYYY-MM-DD)");
     const year = Number(match[1]);
     const month = match[2] === undefined ? undefined : Number(match[2]);
     const day = match[3] === undefined ? undefined : Number(match[3]);
     if (month !== undefined && (month < 1 || month > 12))
-        throw new RangeError(`not a month: ${String(iso)}`);
+        throw new RangeError("not a partial ISO 8601 date: the month is not 01 to 12");
     if (day !== undefined && (day < 1 || day > daysInMonth(year, (month as number) - 1)))
-        throw new RangeError(`not a calendar date: ${String(iso)}`);
+        throw new RangeError("not a calendar date: the day is outside its month");
     return { year, month, day };
 }
 
@@ -399,7 +391,9 @@ export function formatProportion(
             return `${sign}${number(whole)}${NO_BREAK_SPACE}${number(rest)}/${number(denominator)}`;
         }
         default:
-            throw new RangeError(`formatProportion: not a proportion kind: ${String(kind)}`);
+            throw new RangeError(
+                `formatProportion: not a proportion kind: ${String(kind).slice(0, 20)}`,
+            );
     }
 }
 
@@ -426,7 +420,7 @@ const ISO_DURATION =
 export function durationParts(iso: string): DurationParts {
     const match = ISO_DURATION.exec(iso ?? "");
     if (!match || /^-?PT?$/.test(iso))
-        throw new RangeError(`not an ISO 8601 duration: ${String(iso)}`);
+        throw new RangeError("durationParts: not an ISO 8601 duration");
     const n = (i: number) => (match[i] === undefined ? 0 : Number(match[i]));
     return {
         years: n(2),

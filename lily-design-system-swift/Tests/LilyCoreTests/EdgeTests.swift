@@ -71,7 +71,7 @@ import Testing
     let scale = MeterScale(min: 2.5, max: 6.5, low: 3.5, high: 5.5)
     #expect(try MeterReading(value: 6.1, scale: scale).value == 6.1)
     #expect(try MeterReading(value: 2.5, scale: scale).value == 2.5)
-    #expect(throws: ClinicalFormatError.meterValueOffScale(9)) { try MeterReading(value: 9, scale: scale) }
-    #expect(throws: ClinicalFormatError.meterValueOffScale(2)) { try MeterReading(value: 2, scale: scale) }
+    #expect(throws: ClinicalFormatError.meterValueOffScale) { try MeterReading(value: 9, scale: scale) }
+    #expect(throws: ClinicalFormatError.meterValueOffScale) { try MeterReading(value: 2, scale: scale) }
     #expect(throws: (any Error).self) { try MeterReading(value: .nan, scale: scale) }
 }

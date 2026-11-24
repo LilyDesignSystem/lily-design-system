@@ -9,7 +9,7 @@ public data class MeterScale(val min: Double, val max: Double, val low: Double? 
 /** A value on its meter scale, checked: a value that is not finite or lies outside the scale is an error, never clamped. */
 public class MeterReading(public val value: Double, public val scale: MeterScale) {
     init {
-        require(value.isFinite() && value >= scale.min && value <= scale.max) { "meter value $value is off its scale" }
+        require(value.isFinite() && value >= scale.min && value <= scale.max) { "the meter value is off its scale" }
     }
 }
 
@@ -27,9 +27,9 @@ public fun meterScale(
     rangeUnit: String? = null,
 ): MeterScale? {
     if (value == null || (low == null && high == null)) return null
-    if (!value.isFinite()) throw MeterScaleException("value", "the value is not a finite number: $value")
+    if (!value.isFinite()) throw MeterScaleException("value", "the value is not a finite number")
     if ((low != null && !low.isFinite()) || (high != null && !high.isFinite())) {
-        throw MeterScaleException("range", "an end of the range is not a finite number: $low to $high")
+        throw MeterScaleException("range", "an end of the range is not a finite number")
     }
     if (!valueUnit.isNullOrEmpty() && !rangeUnit.isNullOrEmpty() && valueUnit != rangeUnit) {
         throw MeterScaleException("units", "the value is in $valueUnit but the range is in $rangeUnit")
@@ -37,13 +37,13 @@ public fun meterScale(
     val lower: Double
     val upper: Double
     if (low != null && high != null) {
-        if (low >= high) throw MeterScaleException("reversed", "the range is reversed or has no width: $low to $high")
+        if (low >= high) throw MeterScaleException("reversed", "the range is reversed or has no width")
         val half = (high - low) / 2
         lower = low - half
         upper = high + half
     } else {
         val bound = high ?: low!!
-        if (bound <= 0) throw MeterScaleException("bound", "a one-sided bound must be above zero: $bound")
+        if (bound <= 0) throw MeterScaleException("bound", "a one-sided bound must be above zero")
         lower = 0.0
         upper = bound * 1.5
     }
@@ -159,12 +159,12 @@ private val PARTIAL_DATE = Regex("""^(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?$""")
 
 /** "year", "month" or "day": how precise a partial ISO 8601 date (YYYY, YYYY-MM or YYYY-MM-DD) is. */
 public fun partialDatePrecision(iso: String): DatePrecision {
-    val match = PARTIAL_DATE.matchEntire(iso) ?: throw IllegalArgumentException("not a partial ISO 8601 date: $iso")
+    val match = PARTIAL_DATE.matchEntire(iso) ?: throw IllegalArgumentException("not a partial ISO 8601 date (YYYY, YYYY-MM or YYYY-MM-DD)")
     val year = match.groupValues[1].toInt()
     val month = match.groups[2]?.value?.toInt()
     val day = match.groups[3]?.value?.toInt()
-    require(month == null || month in 1..12) { "not a month: $iso" }
-    require(day == null || day in 1..daysInMonth(year, month!!)) { "not a calendar date: $iso" }
+    require(month == null || month in 1..12) { "not a partial ISO 8601 date: the month is not 01 to 12" }
+    require(day == null || day in 1..daysInMonth(year, month!!)) { "not a calendar date: the day is outside its month" }
     return when {
         day != null -> DatePrecision.Day
         month != null -> DatePrecision.Month
@@ -190,7 +190,7 @@ private val EMPTY_DURATION = Regex("""^-?PT?$""")
 
 public fun durationParts(iso: String): DurationParts {
     val match = ISO_DURATION.matchEntire(iso)
-    require(match != null && !EMPTY_DURATION.matches(iso)) { "not an ISO 8601 duration: $iso" }
+    require(match != null && !EMPTY_DURATION.matches(iso)) { "not an ISO 8601 duration" }
     fun n(i: Int) = match.groups[i]?.value?.toInt() ?: 0
     return DurationParts(
         years = n(2), months = n(3), weeks = n(4), days = n(5), hours = n(6), minutes = n(7),

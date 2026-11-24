@@ -25,7 +25,7 @@ private func date(_ value: Any) throws -> Date {
     formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
     let plain = ISO8601DateFormatter()
     guard let text = value as? String, let date = formatter.date(from: text) ?? plain.date(from: text) else {
-        throw ClinicalFormatError.notAPartialDate(String(describing: value))
+        throw ClinicalFormatError.notAPartialDate
     }
     return date
 }

@@ -4606,7 +4606,7 @@ investigation.
 From [spec/lessons/openehr-rust](spec/lessons/openehr-rust/index.md). Order: T1 and T2 first (a leak and a change of meaning),
 then T3, T6, T7 and T8 (small), then T4; T5, T9 and T10 are maintainer decisions.
 
-- [ ] **P47-T1 Errors never echo a clinical value.** Every error in `shared/clinical-format.ts` (eleven echo the value today) and
+- [x] **P47-T1 Errors never echo a clinical value.** _(2026-11-24: TypeScript, C#, Swift and Kotlin; a sentinel test in TypeScript and C#.)_ Every error in `shared/clinical-format.ts` (eleven echo the value today) and
       the C# `ClinicalFormat` port names the function, parameter and rule, never the value; a closed vocabulary may be named.
       Verify: a test passes a sentinel to every exported function and asserts no thrown message contains it, in TypeScript and C#.
 - [ ] **P47-T2 Recorded precision for results.** An optional `precision` (decimal places) on `formatQuantity` and `formatRange`,
