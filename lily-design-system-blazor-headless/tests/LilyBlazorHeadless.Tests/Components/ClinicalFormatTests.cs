@@ -268,4 +268,22 @@ public class ClinicalFormatTests
         Assert.Equal(scale, ClinicalFormat.MeterScale(5, 3.5, 5.5, null, "mg/dL"));
         Assert.Equal(scale, ClinicalFormat.MeterScale(5, 3.5, 5.5, "", "mg/dL"));
     }
+
+    // spec/lessons/openehr-rust item 2: a result keeps the places reported; a dose (no precision) never has a trailing zero.
+    [Fact]
+    public void FormatQuantity_with_precision_keeps_the_places_reported()
+    {
+        Assert.Equal("1.50\u00a0mmol/L", ClinicalFormat.FormatQuantity(1.5m, "mmol/L", En, null, 2));
+        Assert.Equal("<5,0\u00a0mmol/L", ClinicalFormat.FormatQuantity(5m, "mmol/L", CultureInfo.GetCultureInfo("de-DE"), "<", 1));
+        Assert.Equal("1.5\u00a0mg", ClinicalFormat.FormatQuantity(1.5m, "mg", En));
+        Assert.Equal("3.50\u20135.00\u00a0mmol/L", ClinicalFormat.FormatRange(3.5m, 5m, "mmol/L", En, 2));
+    }
+
+    [Fact]
+    public void FormatQuantity_refuses_a_value_finer_than_its_precision_and_a_bad_precision()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => ClinicalFormat.FormatQuantity(1.55m, "", En, null, 1));
+        Assert.Throws<ArgumentOutOfRangeException>(() => ClinicalFormat.FormatQuantity(1m, "", En, null, -1));
+        Assert.Throws<ArgumentOutOfRangeException>(() => ClinicalFormat.FormatQuantity(1m, "", En, null, 21));
+    }
 }

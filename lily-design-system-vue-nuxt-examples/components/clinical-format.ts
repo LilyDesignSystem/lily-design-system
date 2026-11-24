@@ -10,6 +10,8 @@
  *   formatQuantity(5, "mmol/L", "en-GB", "<") "<5 mmol/L" (FHIR Quantity.comparator: <, <=, >=, >; never dropped)
  *   formatQuantity(3, "kg", "en-GB", "~")      "≈3 kg"     (openEHR magnitude_status "~": approximate, never read as exact)
  *   formatRange(3.5, 5.5, "mmol/L", "en-GB")   "3.5–5.5 mmol/L" (low to high, always; a range given backwards is refused)
+ *   formatQuantity(1.5, "mmol/L", "en-GB", undefined, { precision: 2 }) "1.50 mmol/L" (a result keeps the places reported;
+ *                                                                     openEHR DV_QUANTITY.precision; never for a dose)
  *
  * The number and unit are joined by a no-break space (U+00A0), so a line break can never separate a dose from its unit.
  * The rules are those of ISMP's guidelines for electronic communication of medication information, which the Australian and
@@ -66,14 +68,37 @@ const HOUR = 60 * MINUTE;
 const DAY = 24 * HOUR;
 
 /**
+ * How many decimal places to write. openEHR DV_QUANTITY.precision: the places the source reported, so a result of 1.50 mmol/L
+ * keeps its second place. Leave it out for a dose, which must never have a trailing zero ("1.0 mg" reads as "10 mg").
+ */
+export interface QuantityOptions {
+    precision?: number;
+}
+
+function decimalPlaces(
+    value: number,
+    precision: number | undefined,
+    caller: string,
+): Intl.NumberFormatOptions {
+    if (precision === undefined) return { maximumFractionDigits: 20 };
+    if (!Number.isInteger(precision) || precision < 0 || precision > 20)
+        throw new RangeError(`${caller}: precision must be a whole number from 0 to 20`);
+    // A value with more places than its precision would have to be rounded, which changes the value: refuse it instead.
+    if (Number(value.toFixed(precision)) !== value)
+        throw new RangeError(`${caller}: the value has more decimal places than its precision`);
+    return { minimumFractionDigits: precision, maximumFractionDigits: precision };
+}
+
+/**
  * A quantity and its unit, written the safe way: no trailing zero, a leading zero, grouping, a no-break space. A comparator
- * is written before the number as <, ≤, ≥, > or ≈, with no space.
+ * is written before the number as <, ≤, ≥, > or ≈, with no space. With `precision`, exactly that many decimal places.
  */
 export function formatQuantity(
     value: number,
     unit: string,
     locale: string,
     comparator?: QuantityComparator,
+    options: QuantityOptions = {},
 ): string {
     if (!Number.isFinite(value))
         throw new RangeError("formatQuantity: value must be a finite number");
@@ -83,9 +108,10 @@ export function formatQuantity(
         !Object.prototype.hasOwnProperty.call(COMPARATOR_SIGN, comparator)
     )
         throw new RangeError(`formatQuantity: not a comparator: ${String(comparator).slice(0, 8)}`);
-    // maximumFractionDigits keeps every digit the caller gave; Intl never writes trailing zeros and always writes a leading one.
+    // Without a precision, maximumFractionDigits keeps every digit the caller gave; Intl never writes trailing zeros and always
+    // writes a leading one.
     const number = new Intl.NumberFormat(locale, {
-        maximumFractionDigits: 20,
+        ...decimalPlaces(value, options.precision, "formatQuantity"),
         useGrouping: true,
     }).format(value);
     const written = comparator ? `${COMPARATOR_SIGN[comparator]}${number}` : number;
@@ -97,13 +123,23 @@ export function formatQuantity(
  * spacing (Intl.NumberFormat.formatRange). A low above the high is refused rather than written, so a range can never read
  * backwards ("2.12–1.82"). Equal ends are one number: Intl would write "~5", which reads as approximate.
  */
-export function formatRange(low: number, high: number, unit: string, locale: string): string {
+export function formatRange(
+    low: number,
+    high: number,
+    unit: string,
+    locale: string,
+    options: QuantityOptions = {},
+): string {
     if (!Number.isFinite(low) || !Number.isFinite(high))
         throw new RangeError("formatRange: low and high must be finite numbers");
     if (!locale) throw new RangeError("formatRange: a locale is required");
     if (low > high)
         throw new RangeError("formatRange: low is above high, so the range would read backwards");
-    const format = new Intl.NumberFormat(locale, { maximumFractionDigits: 20, useGrouping: true });
+    decimalPlaces(low, options.precision, "formatRange");
+    const format = new Intl.NumberFormat(locale, {
+        ...decimalPlaces(high, options.precision, "formatRange"),
+        useGrouping: true,
+    });
     // formatRange is ES2023; some packages' TypeScript lib settings predate it, though every supported runtime has it.
     const ranged = format as Intl.NumberFormat & {
         formatRange(start: number, end: number): string;

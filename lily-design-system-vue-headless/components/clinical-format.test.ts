@@ -529,3 +529,39 @@ describe("errors never echo a clinical value (spec/lessons/openehr-rust item 1)"
         expect(leaks(thrown(f))).toBe(false);
     });
 });
+
+describe("recorded precision (spec/lessons/openehr-rust item 2)", () => {
+    test("a result keeps the decimal places it was reported to", () => {
+        expect(formatQuantity(1.5, "mmol/L", "en-GB", undefined, { precision: 2 })).toBe(
+            `1.50${NBSP}mmol/L`,
+        );
+        expect(formatQuantity(5, "mmol/L", "de-DE", "<", { precision: 1 })).toBe(
+            `<5,0${NBSP}mmol/L`,
+        );
+        expect(formatQuantity(42, "bpm", "en-GB", undefined, { precision: 0 })).toBe(
+            `42${NBSP}bpm`,
+        );
+        expect(formatRange(3.5, 5, "mmol/L", "en-GB", { precision: 2 })).toBe(
+            `3.50–5.00${NBSP}mmol/L`,
+        );
+        expect(formatRange(5, 5, "", "en-GB", { precision: 1 })).toBe("5.0");
+    });
+    test("without precision the output is unchanged: no trailing zero, the rule for a dose", () => {
+        expect(formatQuantity(1.5, "mg", "en-GB")).toBe(`1.5${NBSP}mg`);
+        expect(formatRange(3.5, 5, "mmol/L", "en-GB")).toBe(`3.5–5${NBSP}mmol/L`);
+    });
+    test("a value with more places than its precision is refused, never rounded", () => {
+        expect(() => formatQuantity(1.55, "mmol/L", "en-GB", undefined, { precision: 1 })).toThrow(
+            /more decimal places than its precision/,
+        );
+        expect(() => formatRange(3.25, 5, "", "en-GB", { precision: 1 })).toThrow(
+            /more decimal places than its precision/,
+        );
+    });
+    test("a precision that is not a whole number from 0 to 20 is refused", () => {
+        for (const precision of [-1, 1.5, 21, Number.NaN])
+            expect(() => formatQuantity(1, "", "en", undefined, { precision })).toThrow(
+                /precision must be a whole number/,
+            );
+    });
+});

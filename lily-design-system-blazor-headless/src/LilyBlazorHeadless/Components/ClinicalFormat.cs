@@ -36,12 +36,25 @@ public static class ClinicalFormat
 {
     private const char NoBreakSpace = ' ';
 
+    // A value with more places than its precision would have to be rounded, which changes the value: refuse it instead.
+    private static int CheckedPlaces(decimal value, int precision, string caller)
+    {
+        if (precision is < 0 or > 20)
+            throw new ArgumentOutOfRangeException(nameof(precision), $"{caller}: precision must be a whole number from 0 to 20");
+        if (decimal.Round(value, precision) != value)
+            throw new ArgumentOutOfRangeException(nameof(value), $"{caller}: the value has more decimal places than its precision");
+        return precision;
+    }
+
     /// <summary>A quantity and its unit: no trailing zero, a leading zero, grouping, a no-break space before the unit.</summary>
-    public static string FormatQuantity(decimal value, string unit, CultureInfo culture, string? comparator = null)
+    public static string FormatQuantity(decimal value, string unit, CultureInfo culture, string? comparator = null, int? precision = null)
     {
         ArgumentNullException.ThrowIfNull(culture);
-        // "#,0.############################" keeps every significant digit and writes no trailing zero.
-        var number = value.ToString("#,0.############################", culture);
+        // Without a precision, "#,0.############################" keeps every significant digit and writes no trailing zero (a
+        // dose). With one (openEHR DV_QUANTITY.precision), exactly that many places, so a result reported as 1.50 keeps them.
+        var number = precision is { } places
+            ? value.ToString("N" + CheckedPlaces(value, places, nameof(FormatQuantity)), culture)
+            : value.ToString("#,0.############################", culture);
         // FHIR Quantity.comparator, plus openEHR's "~": "<5" is not "5", and "about 3 kg" is not "3 kg", so it is never dropped.
         var sign = comparator switch
         {
@@ -62,14 +75,14 @@ public static class ClinicalFormat
     /// range can never read backwards. Equal ends are one number. .NET has no CLDR range patterns, so this writes the common one
     /// that Intl.NumberFormat.formatRange gives: an en dash, spaced when an end is negative ("-2 – 3").
     /// </summary>
-    public static string FormatRange(decimal low, decimal high, string unit, CultureInfo culture)
+    public static string FormatRange(decimal low, decimal high, string unit, CultureInfo culture, int? precision = null)
     {
         ArgumentNullException.ThrowIfNull(culture);
         if (low > high) throw new ArgumentOutOfRangeException(nameof(low), "low is above high, so the range would read backwards");
-        var lowText = FormatQuantity(low, "", culture);
+        var lowText = FormatQuantity(low, "", culture, null, precision);
         var written = low == high
             ? lowText
-            : lowText + (low < 0 || high < 0 ? " \u2013 " : "\u2013") + FormatQuantity(high, "", culture);
+            : lowText + (low < 0 || high < 0 ? " \u2013 " : "\u2013") + FormatQuantity(high, "", culture, null, precision);
         return string.IsNullOrEmpty(unit) ? written : $"{written}{NoBreakSpace}{unit}";
     }
 

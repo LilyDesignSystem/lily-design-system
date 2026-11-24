@@ -93,6 +93,10 @@ at `/patient-banner` in the SvelteKit example app:
 - An off-scale result is the instrument's limit with a comparator ("> 33.3 mmol/L": `formatQuantity` with `">"`) and your critical
   flag, never a bare number. An approximate value keeps its `≈` (`"~"`).
 - Give further named ranges ("Critical: below 2.5") as `ranges`, each its own part.
+- Keep the decimal places the laboratory reported: a potassium of 4.50 mmol/L is written with `formatQuantity(4.5, "mmol/L",
+locale, undefined, { precision: 2 })`, because "4.5" claims less precision than the result has. A dose is the opposite: no
+  `precision`, so no trailing zero ("1 mg", never "1.0 mg", which reads as "10 mg"). A value with more places than its
+  `precision` is refused, never rounded.
 - A corrected or amended result keeps the value it replaced, in a `<del>`, with your words for when it changed (`previousValue`,
   `previousLabel`), so a clinician who read the old value knows it changed.
 - An interval reading says its width and function ("Mean, 24 hours"), and a reading's state and method ("Sitting, large cuff")
@@ -271,25 +275,26 @@ it at all is your service's decision.
 Lily does not read openEHR compositions either. The mapping for openEHR Reference Model data types and codes, as a suggestion
 your clinical safety review decides ([spec/lessons/openehr](../../../spec/lessons/openehr/index.md)):
 
-| openEHR                                                       | Lily                                                                                   |
-| ------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| `DV_QUANTITY` (entry)                                         | `quantity-input-div`; units as UCUM codes with your words                              |
-| `DV_QUANTITY` (display), `magnitude_status`                   | `observation-view` with `formatQuantity(value, unit, locale, comparator)` (`~` is `≈`) |
-| `DV_ORDERED.normal_status` `HHH`, `HH`, `H`, `L`, `LL`, `LLL` | `observation-view` `interpretation`: FHIR `HU`, `HH`, `H`, `L`, `LL`, `LU`             |
-| `other_reference_ranges` with a `meaning`                     | `observation-view` `ranges`                                                            |
-| `DV_DATE` partial (year, year and month)                      | `date-field` `precision`; `formatPartialDate()`; `date-time-view`                      |
-| `DV_DURATION`                                                 | `duration-view` with `durationParts()`                                                 |
-| `DV_PROPORTION`                                               | `formatProportion()` inside `observation-view`                                         |
-| `DV_ORDINAL`, `DV_SCALE`                                      | a `radio-group` whose labels carry the number and its words                            |
-| `DV_CODED_TEXT`                                               | the coded values pattern below                                                         |
-| `DV_BOOLEAN`                                                  | `checkbox-input`, only when "not asked" cannot happen                                  |
-| `ELEMENT.null_flavour` `253` unknown, `271` no information    | `status="not-recorded"` or `"unavailable"`, with words that say which                  |
-| `null_flavour` `272` masked                                   | `observation-view` `status="masked"`                                                   |
-| `null_flavour` `273` not applicable                           | `status="not-applicable"`                                                              |
-| `PARTY_RELATED` subject                                       | `subjectLabel` on the record items                                                     |
-| `AUDIT_DETAILS`, `ATTESTATION`, `FEEDER_AUDIT`                | `record-provenance-view`                                                               |
-| Instruction State Machine steps                               | a `timeline-list` of steps, with the current state on the item                         |
-| an archetype item with occurrences `0..*`                     | `repeatable-fieldset`                                                                  |
+| openEHR                                                       | Lily                                                                                                     |
+| ------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `DV_QUANTITY` (entry)                                         | `quantity-input-div`; units as UCUM codes with your words                                                |
+| `DV_QUANTITY` (display), `magnitude_status`                   | `observation-view` with `formatQuantity(value, unit, locale, comparator)` (`~` is `≈`)                   |
+| `DV_QUANTITY.precision`                                       | `formatQuantity(…, { precision })` and `formatRange(…, { precision })`; `-1` (unknown) is leaving it out |
+| `DV_ORDERED.normal_status` `HHH`, `HH`, `H`, `L`, `LL`, `LLL` | `observation-view` `interpretation`: FHIR `HU`, `HH`, `H`, `L`, `LL`, `LU`                               |
+| `other_reference_ranges` with a `meaning`                     | `observation-view` `ranges`                                                                              |
+| `DV_DATE` partial (year, year and month)                      | `date-field` `precision`; `formatPartialDate()`; `date-time-view`                                        |
+| `DV_DURATION`                                                 | `duration-view` with `durationParts()`                                                                   |
+| `DV_PROPORTION`                                               | `formatProportion()` inside `observation-view`                                                           |
+| `DV_ORDINAL`, `DV_SCALE`                                      | a `radio-group` whose labels carry the number and its words                                              |
+| `DV_CODED_TEXT`                                               | the coded values pattern below                                                                           |
+| `DV_BOOLEAN`                                                  | `checkbox-input`, only when "not asked" cannot happen                                                    |
+| `ELEMENT.null_flavour` `253` unknown, `271` no information    | `status="not-recorded"` or `"unavailable"`, with words that say which                                    |
+| `null_flavour` `272` masked                                   | `observation-view` `status="masked"`                                                                     |
+| `null_flavour` `273` not applicable                           | `status="not-applicable"`                                                                                |
+| `PARTY_RELATED` subject                                       | `subjectLabel` on the record items                                                                       |
+| `AUDIT_DETAILS`, `ATTESTATION`, `FEEDER_AUDIT`                | `record-provenance-view`                                                                                 |
+| Instruction State Machine steps                               | a `timeline-list` of steps, with the current state on the item                                           |
+| an archetype item with occurrences `0..*`                     | `repeatable-fieldset`                                                                                    |
 
 ## Coded values
 
