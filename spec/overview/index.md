@@ -20,7 +20,7 @@ It does not cover the monorepo directory layout or git-subtree model (see [archi
 - **CSS-strategy-agnostic.** Works with semantic CSS, utility CSS (Tailwind), or no CSS at all.
 - **Forkable.** Any team can adopt, fork, theme, or extend Lily; the headless layer makes no visual decisions and the example layer is a reference, not a dependency.
 
-### Ranked order (P46-T5, draft for maintainer approval, 2026-11-24)
+### Ranked order (P46-T5, approved by the maintainer 2026-11-24)
 
 When two principles conflict, the higher one wins. Each has a phrasing a reviewer can check and an example.
 

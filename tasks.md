@@ -4583,8 +4583,8 @@ investigation.
       Verify: `bin/generate-registries --check` passes and an e2e test filters by purpose.
 - [x] **P46-T4 A glossary.** `spec/glossary/index.md`, linked from `spec/index.md` and `llms.txt`.
       Verify: `bin/check-links` passes.
-- [ ] **P46-T5 Ranked principles.** Maintainer decision: rank the overview principles and give each a checkable phrasing and an example.
-      Draft 2026-11-24 in `spec/overview/index.md` "Ranked order": worldwide, accessible, internationalisable, composable, framework-plural, CSS-agnostic, forkable (the maintainer's order), each with a check and an example. Awaiting wording approval.
+- [x] **P46-T5 Ranked principles (approved 2026-11-24).** Maintainer decision: rank the overview principles and give each a checkable phrasing and an example.
+      Draft 2026-11-24 in `spec/overview/index.md` "Ranked order": worldwide, accessible, internationalisable, composable, framework-plural, CSS-agnostic, forkable (the maintainer's order), each with a check and an example.
       Verify: the maintainer approves the wording.
 - [x] **P46-T6 Criteria for a new component.** `.github/ISSUE_TEMPLATE/component-proposal.yml` and the criteria in `CONTRIBUTING.md`.
       Verify: the next catalog addition links a filled-in proposal.
