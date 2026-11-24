@@ -80,7 +80,13 @@ function vitestCoverage(dir, include, exclude = []) {
         "--coverage.exclude=**/.claude/**",
         ...exclude.map((path) => `--coverage.exclude=${path}`),
     ];
-    execFileSync("npx", args, { cwd, stdio: ["ignore", "ignore", "inherit"] });
+    // A fixed fast-check seed (shared/fast-check-seed.setup.ts), so the property tests reach the same branches on every run and the
+    // floor does not move by a branch or two from one run to the next.
+    execFileSync("npx", args, {
+        cwd,
+        stdio: ["ignore", "ignore", "inherit"],
+        env: { ...process.env, FAST_CHECK_SEED: "20261124" },
+    });
     const total = JSON.parse(
         readFileSync(join(cwd, "reports/coverage/coverage-summary.json"), "utf8"),
     ).total;

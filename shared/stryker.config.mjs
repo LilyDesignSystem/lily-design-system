@@ -14,6 +14,7 @@ export default {
         "!*.test.ts",
         "!vitest.config.ts",
         "!vitest.bench.config.ts",
+        "!*.setup.ts",
         "!*.bench.ts",
         "!*.d.ts",
         "!pattern-tester.ts",

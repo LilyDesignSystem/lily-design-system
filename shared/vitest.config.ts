@@ -6,6 +6,7 @@ export default defineConfig({
     test: {
         environment: "jsdom",
         include: ["*.test.ts"],
+        setupFiles: ["./fast-check-seed.setup.ts"],
         coverage: {
             reporter: ["text", "json-summary"],
             reportsDirectory: "reports/coverage",
