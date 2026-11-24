@@ -15,8 +15,8 @@ license files, manifests, and documentation keep that statement consistent.
    The exception is NuGet: nuget.org accepts only licenses approved by the Open Source Initiative or
    listed by the Free Software Foundation, and rejected `OGL-UK-3.0` and `CC-BY-NC-SA-4.0` with a 400
    (2026-11-24). A `.csproj` therefore carries the five-license subset `MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause`, a valid subset of the
-   expression because `OR` lets the recipient choose; `bin/check-package-metadata` enforces it. The package
-   still ships `LICENSE.md`, which lists all seven.
+   expression because `OR` lets the recipient choose; `bin/check-package-metadata` enforces it. The monorepo's
+   `LICENSE.md` still lists all seven.
 4. Documentation that lists the licenses (`README.md`, `CITATION.cff`, `INSTALL.md`,
    and similar) agrees with this table.
 5. When this table changes, `LICENSE.md`, the manifests, and the documentation change
