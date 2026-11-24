@@ -3,4 +3,4 @@
 # (--update-floor) when it goes below, so a gain is kept. 100% coverage is a floor of 0.
 shared	24	279
 svelte-headless	2	147
-blazor-headless	14	230
+blazor-headless	14	232
