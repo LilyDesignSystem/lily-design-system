@@ -37,6 +37,8 @@ for p in sorted(glob.glob("lily-design-system-*/package.json")):
     if not isinstance(r, dict) or r.get("url") != NPM_URL or r.get("directory") != want_dir:
         errors.append(f"{p}: repository must be {{\"type\": \"git\", \"url\": \"{NPM_URL}\", \"directory\": \"{want_dir}\"}}, found {json.dumps(r)}")
 
+NUGET_LICENSE = "MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause"
+
 for p in sorted(glob.glob("lily-design-system-*/**/*.csproj", recursive=True)):
     if "/bin/" in p or "/obj/" in p:
         continue
@@ -47,6 +49,11 @@ for p in sorted(glob.glob("lily-design-system-*/**/*.csproj", recursive=True)):
     m = re.search(r"<RepositoryUrl>([^<]*)</RepositoryUrl>", t)
     if not m or m.group(1) != NUGET_URL:
         errors.append(f"{p}: <RepositoryUrl> must be {NUGET_URL}, found {m.group(1) if m else 'none'}")
+    # nuget.org accepts only OSI-approved or FSF-listed licenses (it rejected OGL-UK-3.0 and
+    # CC-BY-NC-SA-4.0 with a 400, 2026-11-24), so a .csproj carries the OSI-approved subset.
+    lic = re.search(r"<PackageLicenseExpression>([^<]*)</PackageLicenseExpression>", t)
+    if lic and lic.group(1) != NUGET_LICENSE:
+        errors.append(f"{p}: <PackageLicenseExpression> must be {NUGET_LICENSE} (nuget.org accepts only OSI/FSF licenses), found {lic.group(1)}")
 
 if errors:
     print(f"check-package-metadata: {len(errors)} problem(s)")
