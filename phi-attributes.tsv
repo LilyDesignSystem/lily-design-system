@@ -1,0 +1,74 @@
+# component	attribute	what it can hold (PHI.md; bin/check-phi-attributes)
+age-view	data-duration	the age shown, as an ISO duration
+allergy-record-list	aria-label	the app's own label, which may name the patient or the record
+allergy-record-list	data-status	the state of a record, an entry or a list (not recorded, none known, final)
+allergy-record-list-item	data-clinical-status	whether a problem or allergy is active or resolved
+allergy-record-list-item	data-criticality	how dangerous an allergy is
+allergy-record-list-item	data-severity	the severity of a reaction
+allergy-record-list-item	data-verification-status	whether a problem or allergy is confirmed
+allergy-record-list-item	datetime	the date, time or duration shown (a date of birth, an onset)
+body-map	checked	the answer chosen
+body-map	value	the result, the option chosen or the region selected
+context-menu	aria-label	the app's own label, which may name the patient or the record
+date-time-view	aria-label	the app's own label, which may name the patient or the record
+date-time-view	datetime	the date, time or duration shown (a date of birth, an onset)
+decision-support-card	aria-label	the app's own label, which may name the patient or the record
+decision-support-card	data-indicator	how serious a decision support card is
+decision-support-card	data-recommended	whether a suggestion is the recommended one
+decision-support-card	href	a link the app gives; an email address or telephone number in email-link and tel-link
+decision-support-card	value	the result, the option chosen or the region selected
+device-record-list	aria-label	the app's own label, which may name the patient or the record
+device-record-list	data-status	the state of a record, an entry or a list (not recorded, none known, final)
+device-record-list-item	data-status	the state of a record, an entry or a list (not recorded, none known, final)
+device-record-list-item	datetime	the date, time or duration shown (a date of birth, an onset)
+dropdown-menu	aria-label	the app's own label, which may name the patient or the record
+duration-view	data-negative	whether the duration is negative
+duration-view	datetime	the date, time or duration shown (a date of birth, an onset)
+early-warning-score-view	data-band	the early warning score's band
+email-link	aria-label	the app's own label, which may name the patient or the record
+email-link	href	a link the app gives; an email address or telephone number in email-link and tel-link
+immunization-record-list	aria-label	the app's own label, which may name the patient or the record
+immunization-record-list	data-status	the state of a record, an entry or a list (not recorded, none known, final)
+immunization-record-list-item	data-status	the state of a record, an entry or a list (not recorded, none known, final)
+immunization-record-list-item	datetime	the date, time or duration shown (a date of birth, an onset)
+international-patient-summary	aria-label	the app's own label, which may name the patient or the record
+international-patient-summary	data-section	which section of a patient summary
+international-patient-summary	data-status	the state of a record, an entry or a list (not recorded, none known, final)
+international-patient-summary	href	a link the app gives; an email address or telephone number in email-link and tel-link
+international-patient-summary-section	data-code	the section's LOINC code
+international-patient-summary-section	data-level	how far the section is required
+international-patient-summary-section	data-required	whether the section is required
+international-patient-summary-section	data-section	which section of a patient summary
+international-patient-summary-section	data-status	the state of a record, an entry or a list (not recorded, none known, final)
+medical-banner	aria-label	the app's own label, which may name the patient or the record
+medical-banner	data-type	the kind of banner
+medication-record-list	aria-label	the app's own label, which may name the patient or the record
+medication-record-list	data-status	the state of a record, an entry or a list (not recorded, none known, final)
+medication-record-list-item	data-status	the state of a record, an entry or a list (not recorded, none known, final)
+medication-record-list-item	datetime	the date, time or duration shown (a date of birth, an onset)
+numeric-rating-scale-picker	checked	the answer chosen
+numeric-rating-scale-picker	value	the result, the option chosen or the region selected
+observation-view	data-interpretation	whether a result is normal, high, low or critical
+observation-view	data-status	the state of a record, an entry or a list (not recorded, none known, final)
+observation-view	high	the high end of the reference range
+observation-view	low	the low end of the reference range
+observation-view	max	an end of the scale the app gives, often worked from the result
+observation-view	min	an end of the scale the app gives, often worked from the result
+observation-view	optimum	the best value the app gives
+observation-view	value	the result, the option chosen or the region selected
+problem-record-list	aria-label	the app's own label, which may name the patient or the record
+problem-record-list	data-status	the state of a record, an entry or a list (not recorded, none known, final)
+problem-record-list-item	data-clinical-status	whether a problem or allergy is active or resolved
+problem-record-list-item	data-verification-status	whether a problem or allergy is confirmed
+problem-record-list-item	datetime	the date, time or duration shown (a date of birth, an onset)
+procedure-record-list	aria-label	the app's own label, which may name the patient or the record
+procedure-record-list	data-status	the state of a record, an entry or a list (not recorded, none known, final)
+procedure-record-list-item	data-status	the state of a record, an entry or a list (not recorded, none known, final)
+procedure-record-list-item	datetime	the date, time or duration shown (a date of birth, an onset)
+record-list	aria-label	the app's own label, which may name the patient or the record
+record-list	data-status	the state of a record, an entry or a list (not recorded, none known, final)
+record-list-item	data-entry-state	whether an entry is in error or withheld
+record-list-item	data-status	the state of a record, an entry or a list (not recorded, none known, final)
+record-list-item	datetime	the date, time or duration shown (a date of birth, an onset)
+tel-link	aria-label	the app's own label, which may name the patient or the record
+tel-link	href	a link the app gives; an email address or telephone number in email-link and tel-link

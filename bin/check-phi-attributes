@@ -1,0 +1,46 @@
+#!/usr/bin/env python3
+"""bin/check-phi-attributes — phi-attributes.tsv names every attribute of a healthcare component that a prop fills (P48-T1).
+
+PHI.md tells a privacy reviewer which attributes may hold patient data, because a session-replay or analytics tool may record
+attributes it would mask as text. This reads the markup of the Svelte components (canonical) whose index.md links the
+healthcare guide, and those already in the file, and fails when a bound attribute is missing from phi-attributes.tsv, or when a
+row names an attribute the component does not bind. Attributes that cannot hold a record's value (class, handlers, relations
+between elements) are skipped. It reads source, not a rendered page: a value reaching an attribute through a spread
+(consumer-given attributes) or a child component is not seen.
+"""
+import os
+import re
+import sys
+
+TOP = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SKIP = re.compile(r"^(class|this|id|on[a-z]+|aria-(controls|expanded|labelledby|describedby|invalid)|commandfor|popovertarget|tabindex|type|required|open|heading|section)$")
+
+
+def read(path):
+    with open(os.path.join(TOP, path), encoding="utf-8") as f:
+        return f.read()
+
+
+names = dict(line.split("\t")[:2] for line in read("components.tsv").splitlines() if line)
+rows = [line.split("\t") for line in read("phi-attributes.tsv").splitlines() if line and not line.startswith("#")]
+errors = [f"phi-attributes.tsv: expected 3 cells: {r}" for r in rows if len(r) != 3]
+listed = {(r[0], r[1]) for r in rows if len(r) == 3}
+slugs = {s for s in names if os.path.exists(os.path.join(TOP, f"components/{s}/index.md")) and "patterns/healthcare" in read(f"components/{s}/index.md")}
+slugs |= {s for s, _ in listed}
+bound = set()
+for slug in sorted(slugs):
+    name = names.get(slug)
+    path = f"lily-design-system-svelte-headless/components/{name}/{name}.svelte"
+    if name is None or not os.path.exists(os.path.join(TOP, path)):
+        errors.append(f"{slug}: no Svelte component")
+        continue
+    markup = re.sub(r"<!--.*?-->|<script.*?</script>", "", read(path), flags=re.S)
+    attributes = set(re.findall(r'(?<![\w-])([a-z][a-z-]*)=(?:\{|"[^"]*\{)', markup))
+    bound |= {(slug, a) for a in attributes if not SKIP.match(a)}
+errors += [f"{s}: {a} is filled from a prop but not in phi-attributes.tsv" for s, a in sorted(bound - listed)]
+errors += [f"{s}: {a} is in phi-attributes.tsv but the component does not bind it" for s, a in sorted(listed - bound)]
+for e in errors:
+    print(f"check-phi-attributes: {e}", file=sys.stderr)
+if not errors:
+    print(f"check-phi-attributes: {len(listed)} attributes of {len(slugs)} components: OK")
+sys.exit(1 if errors else 0)
