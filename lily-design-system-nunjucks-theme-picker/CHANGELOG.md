@@ -4,6 +4,10 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.6.0 — 2026-11-24
+
+- **Behaviour change:** the theme cookie is off by default (tasks.md P41-T5c). With `cookieName` unset, a choice is kept in `localStorage` under `lily-{name}` and in no cookie; name one, such as `cookieName="lily-theme"`, to keep it in a first-party cookie too, for a server-rendered page. From 2026-11-16 both were on by default. An app that reads the `lily-theme` cookie on its server must now set `cookieName`.
+
 ## 0.5.0 — 2026-11-21
 
 - `fallbackLabels`: a label per slug used when `themeLabels` has none, before the title-cased slug. A template cannot merge
@@ -199,7 +203,6 @@ in force.
 
 ### Unreleased
 
-- **Behaviour change:** the theme cookie is off by default (tasks.md P41-T5c). With `cookieName` unset, a choice is kept in `localStorage` under `lily-{name}` and in no cookie; name one, such as `cookieName="lily-theme"`, to keep it in a first-party cookie too, for a server-rendered page. From 2026-11-16 both were on by default. An app that reads the `lily-theme` cookie on its server must now set `cookieName`.
 - `variant="select"` renders a native `<select>` instead of the icon button and listbox (RFC 3 prototype, ported from
   the Svelte reference 2026-10-30). Opt-in; the default is unchanged. See `spec/index.md`, "Native select variant".
 

@@ -4,6 +4,10 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.6.0 — 2026-11-24
+
+- **Behaviour change:** the theme cookie is off by default (tasks.md P41-T5c). With `cookieName` unset, a choice is kept in `localStorage` under `lily-{name}` and in no cookie; name one, such as `cookieName="lily-theme"`, to keep it in a first-party cookie too, for a server-rendered page. From 2026-11-16 both were on by default. An app that reads the `lily-theme` cookie on its server must now set `cookieName`.
+
 ## 0.5.0 — 2026-11-22
 
 - **Order change:** the themes are listed in one list sorted by the name shown (`sortThemes`, default on; turn it off to keep the order given), compared with the page's language from `<html lang>`, so "NHS England (patients)" is under N.
@@ -235,10 +239,6 @@ Previously released in-tree as `lily-design-system-svelte-theme-select`. Everyth
 under that name. Identifiers in these entries (class hooks, symbols, data
 attributes) have been updated to their current spellings so the document
 reads coherently; the events they describe are unchanged.
-
-### Unreleased
-
-- **Behaviour change:** the theme cookie is off by default (tasks.md P41-T5c). With `cookieName` unset, a choice is kept in `localStorage` under `lily-{name}` and in no cookie; name one, such as `cookieName="lily-theme"`, to keep it in a first-party cookie too, for a server-rendered page. From 2026-11-16 both were on by default. An app that reads the `lily-theme` cookie on its server must now set `cookieName`.
 
 #### Changed (BREAKING)
 

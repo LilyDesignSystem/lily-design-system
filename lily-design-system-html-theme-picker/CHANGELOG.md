@@ -3,6 +3,10 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.6.0 — 2026-11-24
+
+- **Behaviour change:** the theme cookie is off by default (tasks.md P41-T5c). With the `cookie-name` attribute unset, a choice is kept in `localStorage` under `lily-{name}` and in no cookie; name one, such as `cookie-name="lily-theme"`, to keep it in a first-party cookie too, for a server-rendered page. From 2026-11-16 both were on by default. An app that reads the `lily-theme` cookie on its server must now set `cookie-name`.
+
 ## 0.5.0 — 2026-11-22
 
 - **Order change:** the themes are listed in one list sorted by the name shown (`sortThemes`, default on; turn it off to keep the order given), compared with the page's language from `<html lang>`, so "NHS England (patients)" is under N.
@@ -221,7 +225,6 @@ package name.
 
 ### Unreleased
 
-- **Behaviour change:** the theme cookie is off by default (tasks.md P41-T5c). With the `cookie-name` attribute unset, a choice is kept in `localStorage` under `lily-{name}` and in no cookie; name one, such as `cookie-name="lily-theme"`, to keep it in a first-party cookie too, for a server-rendered page. From 2026-11-16 both were on by default. An app that reads the `lily-theme` cookie on its server must now set `cookie-name`.
 - `variant="select"` renders a native `<select>` instead of the icon button and listbox (RFC 3 prototype, ported from
   the Svelte reference 2026-10-30). Opt-in; the default is unchanged. See `spec/index.md`, "Native select variant".
 
