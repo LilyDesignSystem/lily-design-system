@@ -2,7 +2,6 @@
 
 The `bin/` scripts and the Makefile, one line each. Part of the [AGENTS/lily.md](lily.md) set.
 
-
 - [Makefile](../Makefile): `make publish-github-pages` delegates to [bin/publish-github-pages](../bin/publish-github-pages), see [spec/monorepo-github-pages/index.md](../spec/monorepo-github-pages/index.md)
 - [publish-github-pages](../bin/publish-github-pages): Push `lilydesignsystem.github.io/` to its own repository via git subtree (the one subproject that still has one; it serves GitHub Pages)
 - [test-github-discussions](../bin/test-github-discussions): Verify the organization's GitHub Discussions page exists and the source repository's discussions redirect to it (`make test`); see [spec/github-discussions-for-organization-repository/index.md](../spec/github-discussions-for-organization-repository/index.md)

@@ -18,7 +18,7 @@ framework's own idiom (props and events, slots, bindings) and how much of the ca
 | HTML           | `@lilydesignsystem/html-headless` 0.14.0           | none (no framework)            | 473 of 473      | 188 of 188           | 661 of 661  | 661 of 661        | 21              | yes         | yes   | yes      |
 | Nunjucks       | `@lilydesignsystem/nunjucks-headless` 0.12.0       | nunjucks >=3.0.0               | 473 of 473      | 188 of 188           | 661 of 661  | 661 of 661        | 22              | yes         | yes   | yes      |
 | Alpine.js      | `@lilydesignsystem/alpine-headless` 0.4.1          | alpinejs ^3.14.0               | 473 of 473      | 188 of 188           | 661 of 661  | 661 of 661        | 6               | yes         | yes   | yes      |
-| Blazor         | `LilyDesignSystem.Blazor.Headless` 0.11.0          | .NET 11.0                      | 473 of 473      | 188 of 188           | 661 of 661  | none              | 21              | yes         | yes   | yes      |
+| Blazor         | `LilyDesignSystem.Blazor.Headless` 0.11.1          | .NET 11.0                      | 473 of 473      | 188 of 188           | 661 of 661  | none              | 21              | yes         | yes   | yes      |
 
 - **Headless package** is the package to install; the national identifiers are its add-on, the same name with
   `-identifiers` (`LilyDesignSystem.Blazor.Headless.Identifiers` for Blazor). Versions are the repository's, which
