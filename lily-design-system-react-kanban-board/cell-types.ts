@@ -12,6 +12,7 @@ export type DataGridCellType =
     | "number"
     | "link"
     | "date"
+    | "partial-date"
     | "time"
     | "time-zone"
     | "select"
@@ -149,6 +150,42 @@ export function isCivilDate(text: unknown): text is string {
     const [y, m, d] = text.split("-").map(Number);
     const date = new Date(Date.UTC(y, m - 1, d));
     return date.getUTCFullYear() === y && date.getUTCMonth() === m - 1 && date.getUTCDate() === d;
+}
+
+/**
+ * A partial civil date: `YYYY`, `YYYY-MM` or `YYYY-MM-DD` (openEHR DV_DATE, FHIR), each a real year, month or day. The grid
+ * shows only the fields it has and never completes one (spec/lessons/openehr-rust item 5).
+ */
+export function isPartialCivilDate(text: unknown): text is string {
+    if (typeof text !== "string") return false;
+    if (/^\d{4}$/.test(text)) return true;
+    if (/^\d{4}-\d{2}$/.test(text)) {
+        const month = Number(text.slice(5, 7));
+        return month >= 1 && month <= 12;
+    }
+    return isCivilDate(text);
+}
+
+/** A partial date written with only the fields it has: "2019", "March 2019", "14 Mar 2019"; without a locale, as written. */
+function partialDateFormatter(
+    locale: string | undefined,
+    options: Intl.DateTimeFormatOptions | undefined,
+): (v: unknown) => string {
+    return (v) => {
+        if (isEmpty(v)) return "";
+        if (!isPartialCivilDate(v)) return String(v);
+        if (!locale && !options) return v;
+        const [y, m, d] = v.split("-").map(Number);
+        const date = new Date(Date.UTC(2000, (m ?? 1) - 1, d ?? 1));
+        date.setUTCFullYear(y);
+        const fields: Intl.DateTimeFormatOptions =
+            d !== undefined
+                ? { dateStyle: "medium", ...options }
+                : m !== undefined
+                  ? { year: "numeric", month: "long" }
+                  : { year: "numeric" };
+        return new Intl.DateTimeFormat(locale, { ...fields, timeZone: "UTC" }).format(date);
+    };
 }
 
 /** A civil time `HH:mm` or `HH:mm:ss`, 24-hour. */
@@ -359,6 +396,8 @@ export function isInvalidForType(column: TypedColumn, value: unknown): boolean {
             return safeHref(linkParts(value)?.href) === null;
         case "date":
             return !isCivilDate(value);
+        case "partial-date":
+            return !isPartialCivilDate(value);
         case "time":
             return !isCivilTime(value);
         case "time-zone":
@@ -507,6 +546,18 @@ function typeDefaults(column: TypedColumn, gridLocale: string | undefined): Part
                     civilDateToDate(column.accessor ? column.accessor(row) : row[column.id]),
             };
         }
+        // Edited as text, since a native date input cannot hold "2019"; sorted as text, which orders ISO partial dates (a year
+        // before its months); exported as text, never as a spreadsheet date, which would invent a day.
+        case "partial-date":
+            return {
+                align: "start",
+                editor: "text",
+                format: partialDateFormatter(locale, column.dateFormat),
+                exportValue: (row) => {
+                    const v = column.accessor ? column.accessor(row) : row[column.id];
+                    return isEmpty(v) ? null : String(v);
+                },
+            };
         case "time": {
             const formatter =
                 locale || column.timeFormat

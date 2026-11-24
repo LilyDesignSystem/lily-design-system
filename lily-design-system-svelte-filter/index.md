@@ -57,13 +57,20 @@ npm install @lilydesignsystem/svelte-filter
 
 ## Fields and operators
 
-| Type             | Value            | Operators                                                                                                                                                    |
-| ---------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `text` (default) | text             | contains, does not contain, equals, not equals, starts with, ends with, is empty, is not empty                                                               |
-| `number`         | number           | equals, not equals, **greater than**, **at least** (lower limit), **less than**, **at most** (upper limit), **between**, not between, is empty, is not empty |
-| `date`           | ISO `YYYY-MM-DD` | the same as `number` — a date range is `between`                                                                                                             |
-| `select`         | an option id     | equals, not equals, **is one of**, **is none of**, is empty, is not empty                                                                                    |
-| `boolean`        | —                | is true, is false, is empty, is not empty                                                                                                                    |
+| Type             | Value            | Operators                                                                                                                                                                                  |
+| ---------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `text` (default) | text             | contains, does not contain, equals, not equals, starts with, ends with, is empty, is not empty                                                                                             |
+| `number`         | number           | equals, not equals, **greater than**, **at least** (lower limit), **less than**, **at most** (upper limit), **between**, not between, is empty, is not empty                               |
+| `date`           | ISO `YYYY-MM-DD` | the same as `number` — a date range is `between`                                                                                                                                           |
+| `partial-date`   | ISO `YYYY-MM-DD` | the same as `date`; the rows hold `YYYY`, `YYYY-MM` or `YYYY-MM-DD`, and a row the comparison cannot decide (`2019` against "before 2019-06-01") matches neither the rule nor its negation |
+| `select`         | an option id     | equals, not equals, **is one of**, **is none of**, is empty, is not empty                                                                                                                  |
+| `boolean`        | —                | is true, is false, is empty, is not empty                                                                                                                                                  |
+
+A `partial-date` comparison has three answers: true, false, or cannot tell. Groups combine them by Kleene logic (`or` is true
+when one side is, `and` is false when one side is, `not` swaps true and false and leaves "cannot tell"), and a row passes only
+when the whole filter is true, in the predicate, SQL, MongoDB and OData alike. The outputs write it as plain text comparisons
+against the rule's date cut to the row's length, so the column must hold the ISO text. Filters with no partial-date comparison
+are written exactly as before ([spec/lessons/openehr-rust](../spec/lessons/openehr-rust/index.md), item 5).
 
 A field's `operators` can restrict the list (`operators: ["gte", "lte"]` for a limit-only field), `column` names it in SQL / MongoDB / OData, and `options` supplies a `select`'s choices.
 

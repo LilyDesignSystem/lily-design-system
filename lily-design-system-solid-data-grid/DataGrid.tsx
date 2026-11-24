@@ -2165,7 +2165,7 @@ export function DataGrid(props: Props) {
             fileBody(entry, column, ctx)
         ) : column.type === "link" ? (
             linkBody(ctx)
-        ) : column.type === "date" || column.type === "time" ? (
+        ) : column.type === "date" || column.type === "partial-date" || column.type === "time" ? (
             ctx.formatted !== "" ? (
                 <time datetime={String(ctx.value)}>{ctx.formatted}</time>
             ) : null

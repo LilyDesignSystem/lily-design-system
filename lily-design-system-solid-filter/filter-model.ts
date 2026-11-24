@@ -11,7 +11,12 @@ import { foldText } from "./search-text";
 // Types
 // ---------------------------------------------------------------------
 
-export type FilterFieldType = "text" | "number" | "date" | "select" | "boolean";
+/**
+ * `partial-date` is a date that may be known only to the year or the month (`2019`, `2019-03`, `2019-03-14`), as openEHR
+ * DV_DATE and FHIR allow. Rule values are full dates; a comparison the row's precision cannot decide does not match, in every
+ * output and under `not` (spec/lessons/openehr-rust item 5).
+ */
+export type FilterFieldType = "text" | "number" | "date" | "partial-date" | "select" | "boolean";
 
 export type FilterOperator =
     | "contains"
@@ -105,6 +110,18 @@ const OPERATORS_BY_TYPE: Record<FilterFieldType, FilterOperator[]> = {
         "is-not-empty",
     ],
     date: [
+        "equals",
+        "not-equals",
+        "gt",
+        "gte",
+        "lt",
+        "lte",
+        "between",
+        "not-between",
+        "is-empty",
+        "is-not-empty",
+    ],
+    "partial-date": [
         "equals",
         "not-equals",
         "gt",
@@ -316,7 +333,8 @@ export function ruleIssue(rule: FilterRule, fields: readonly FilterField[]): Rul
     const check = (v: unknown): RuleIssue | undefined => {
         if (v === undefined || v === null || v === "") return "missing-value";
         if (type === "number") return isNumber(v) ? undefined : "invalid-value";
-        if (type === "date") return isIsoDate(v) ? undefined : "invalid-value";
+        if (type === "date" || type === "partial-date")
+            return isIsoDate(v) ? undefined : "invalid-value";
         if (type === "select")
             return typeof v === "string" && (field.options ?? []).some((o) => o.id === v)
                 ? undefined
@@ -359,6 +377,150 @@ export function normalise(group: FilterGroup, fields: readonly FilterField[]): F
     }
     return children.length ? { ...group, children } : null;
 }
+
+// ---------------------------------------------------------------------
+// Partial dates: three-valued comparison
+// ---------------------------------------------------------------------
+
+/** A row value of a `partial-date` field: `YYYY`, `YYYY-MM` or `YYYY-MM-DD`, each a real year, month or day. */
+export function isPartialDate(value: unknown): value is string {
+    if (typeof value !== "string") return false;
+    if (/^\d{4}$/.test(value)) return true;
+    if (/^\d{4}-\d{2}$/.test(value)) {
+        const month = Number(value.slice(5, 7));
+        return month >= 1 && month <= 12;
+    }
+    return isIsoDate(value);
+}
+
+/** The lengths a partial date's text can have: a year, a month, a day. */
+const PARTIAL_LENGTHS = [4, 7, 10] as const;
+type PartialLength = (typeof PARTIAL_LENGTHS)[number];
+
+/**
+ * One case of a partial-date comparison: the row's text has `length` characters and stands in one of `relations` to `key`, the
+ * rule's date cut to that length. A row's text is all the days that begin with it, so a shorter text is before, within or after
+ * the rule's date by plain text comparison with the cut date, which every output can write.
+ */
+export type PartialDateAtom = {
+    length: PartialLength;
+    relations: ("<" | "=" | ">")[];
+    key: string;
+};
+
+/** A condition on one row's text: an atom, a blank value, or `any` / `all` of other conditions (`any: []` never holds). */
+export type PartialDateCondition =
+    | { atom: PartialDateAtom }
+    | { blank: true }
+    | { any: PartialDateCondition[] }
+    | { all: PartialDateCondition[] };
+
+/** When a partial-date rule is definitely true and when definitely false. A row in neither "cannot tell", and never matches. */
+export type PartialDateRails = { whenTrue: PartialDateCondition; whenFalse: PartialDateCondition };
+
+const lastDayOfMonth = (year: number, month: number) =>
+    new Date(Date.UTC(year, month, 0)).getUTCDate();
+
+type Bound = "lt" | "lte" | "gt" | "gte" | "equals";
+
+function boundRails(op: Bound, date: string): PartialDateRails {
+    const year = Number(date.slice(0, 4));
+    const month = Number(date.slice(5, 7));
+    const day = Number(date.slice(8, 10));
+    const whenTrue: PartialDateCondition[] = [];
+    // A blank row is false for a comparison, as for every other field type.
+    const whenFalse: PartialDateCondition[] = [{ blank: true }];
+    for (const length of PARTIAL_LENGTHS) {
+        const key = date.slice(0, length);
+        // Is the rule's date the first or the last day of the row's year, month or day?
+        const first = length === 10 || (length === 7 ? day === 1 : month === 1 && day === 1);
+        const last =
+            length === 10 ||
+            (length === 7 ? day === lastDayOfMonth(year, month) : month === 12 && day === 31);
+        const t: ("<" | "=" | ">")[] = [];
+        const f: ("<" | "=" | ">")[] = [];
+        switch (op) {
+            case "lt": // true when every day of the row is before the date, false when none is
+                t.push("<");
+                f.push(">");
+                if (first) f.push("=");
+                break;
+            case "lte":
+                t.push("<");
+                if (last) t.push("=");
+                f.push(">");
+                break;
+            case "gt":
+                t.push(">");
+                f.push("<");
+                if (last) f.push("=");
+                break;
+            case "gte":
+                t.push(">");
+                if (first) t.push("=");
+                f.push("<");
+                break;
+            case "equals": // only a full date can equal a date
+                if (length === 10) t.push("=");
+                f.push("<", ">");
+                break;
+        }
+        if (t.length) whenTrue.push({ atom: { length, relations: t, key } });
+        if (f.length) whenFalse.push({ atom: { length, relations: f, key } });
+    }
+    return { whenTrue: { any: whenTrue }, whenFalse: { any: whenFalse } };
+}
+
+/** The two rails of a comparison rule on a `partial-date` field. Negation swaps them, so "cannot tell" stays "cannot tell". */
+export function partialDateRails(rule: FilterRule): PartialDateRails {
+    const v = rule.value as string;
+    const swap = (r: PartialDateRails): PartialDateRails => ({
+        whenTrue: r.whenFalse,
+        whenFalse: r.whenTrue,
+    });
+    const between = (): PartialDateRails => {
+        // Kleene "and": true when both bounds are, false when either is.
+        const low = boundRails("gte", v);
+        const high = boundRails("lte", rule.value2 as string);
+        return {
+            whenTrue: { all: [low.whenTrue, high.whenTrue] },
+            whenFalse: { any: [low.whenFalse, high.whenFalse] },
+        };
+    };
+    switch (rule.operator) {
+        case "lt":
+        case "lte":
+        case "gt":
+        case "gte":
+        case "equals":
+            return boundRails(rule.operator, v);
+        case "not-equals":
+            return swap(boundRails("equals", v));
+        case "between":
+            return between();
+        case "not-between":
+            return swap(between());
+        default:
+            throw new FilterError("partialDateRails: not a comparison operator");
+    }
+}
+
+/** Whether a row's value satisfies a condition. */
+export function partialDateHolds(condition: PartialDateCondition, raw: unknown): boolean {
+    if ("blank" in condition) return isBlank(raw);
+    if ("any" in condition) return condition.any.some((c) => partialDateHolds(c, raw));
+    if ("all" in condition) return condition.all.every((c) => partialDateHolds(c, raw));
+    const { length, relations, key } = condition.atom;
+    if (!isPartialDate(raw) || raw.length !== length) return false;
+    const relation = raw < key ? "<" : raw > key ? ">" : "=";
+    return relations.includes(relation);
+}
+
+/** Whether a rule needs the three-valued rails: a comparison on a `partial-date` field. */
+const isPartialComparison = (rule: FilterRule, field: FilterField | undefined): boolean =>
+    fieldType(field) === "partial-date" &&
+    rule.operator !== "is-empty" &&
+    rule.operator !== "is-not-empty";
 
 // ---------------------------------------------------------------------
 // Predicate (filter rows in memory)
@@ -437,15 +599,35 @@ export function toPredicate(
     const tree = normalise(group, fields);
     if (!tree) return () => true;
     const byId = new Map(fields.map((f) => [f.id, f]));
-    const test = (node: FilterNode, row: Record<string, unknown>): boolean => {
-        // The `!` is safe: `normalise` has already dropped every rule whose field is not declared.
-        if (node.type === "rule") return ruleMatches(node, byId.get(node.field)!, row);
-        const results = node.children.map((c) => test(c, row));
+    // Three-valued: a partial-date comparison can be "cannot tell" (null), which `and`, `or` and `not` keep (Kleene logic), and a
+    // row matches only when the whole filter is true. Every other rule is true or false, so a filter without one is unchanged.
+    const test = (node: FilterNode, row: Record<string, unknown>): boolean | null => {
+        if (node.type === "rule") {
+            // The `!` is safe: `normalise` has already dropped every rule whose field is not declared.
+            const field = byId.get(node.field)!;
+            if (!isPartialComparison(node, field)) return ruleMatches(node, field, row);
+            const rails = partialDateRails(node);
+            const raw = row[field.id];
+            if (partialDateHolds(rails.whenTrue, raw)) return true;
+            return partialDateHolds(rails.whenFalse, raw) ? false : null;
+        }
         // Every child is evaluated (no short-circuit), which is harmless: matching has no side effects and a group is small.
-        const ok = node.combinator === "and" ? results.every(Boolean) : results.some(Boolean);
-        return node.not ? !ok : ok;
+        const results = node.children.map((c) => test(c, row));
+        const ok =
+            node.combinator === "and"
+                ? results.includes(false)
+                    ? false
+                    : results.includes(null)
+                      ? null
+                      : true
+                : results.includes(true)
+                  ? true
+                  : results.includes(null)
+                    ? null
+                    : false;
+        return node.not && ok !== null ? !ok : ok;
     };
-    return (row) => test(tree, row);
+    return (row) => test(tree, row) === true;
 }
 
 // ---------------------------------------------------------------------
@@ -561,6 +743,83 @@ export type SqlOptions = {
 
 export type SqlResult = { sql: string; params: unknown[] };
 
+/** Whether any rule under `node` is a partial-date comparison, so the node needs both rails written. */
+function hasPartialComparison(node: FilterNode, byId: Map<string, FilterField>): boolean {
+    return node.type === "rule"
+        ? isPartialComparison(node, byId.get(node.field))
+        : node.children.some((c) => hasPartialComparison(c, byId));
+}
+
+/**
+ * Both rails of a node, lazily: `whenTrue()` and `whenFalse()` write the condition that the node is definitely true or
+ * definitely false. Each is called at most once, so an output that numbers its parameters binds only what it writes. A group
+ * joins its children's rails (Kleene logic: "and" is true when all are and false when any is); `not` swaps them. A rule that is
+ * not a partial-date comparison is two-valued, so its false rail is its own negation.
+ */
+type Rails<T> = { whenTrue: () => T; whenFalse: () => T };
+
+function writeRails<T>(
+    node: FilterNode,
+    byId: Map<string, FilterField>,
+    out: {
+        plainRule: (r: FilterRule) => T;
+        plainGroup: (g: FilterGroup) => T;
+        negate: (x: T) => T;
+        join: (parts: T[], combinator: FilterCombinator) => T;
+        condition: (c: PartialDateCondition, field: FilterField) => T;
+    },
+): Rails<T> {
+    if (node.type === "rule") {
+        const field = byId.get(node.field)!;
+        if (isPartialComparison(node, field)) {
+            const rails = partialDateRails(node);
+            return {
+                whenTrue: () => out.condition(rails.whenTrue, field),
+                whenFalse: () => out.condition(rails.whenFalse, field),
+            };
+        }
+        return {
+            whenTrue: () => out.plainRule(node),
+            whenFalse: () => out.negate(out.plainRule(node)),
+        };
+    }
+    if (!hasPartialComparison(node, byId))
+        return {
+            whenTrue: () => out.plainGroup(node),
+            whenFalse: () => out.negate(out.plainGroup(node)),
+        };
+    const children = node.children.map((c) => writeRails(c, byId, out));
+    const other: FilterCombinator = node.combinator === "and" ? "or" : "and";
+    const rails: Rails<T> = {
+        whenTrue: () =>
+            out.join(
+                children.map((c) => c.whenTrue()),
+                node.combinator,
+            ),
+        whenFalse: () =>
+            out.join(
+                children.map((c) => c.whenFalse()),
+                other,
+            ),
+    };
+    return node.not ? { whenTrue: rails.whenFalse, whenFalse: rails.whenTrue } : rails;
+}
+
+/** The comparison a set of relations makes, or `null` when it is all three (any text of that length). */
+function relationOperator(
+    relations: ("<" | "=" | ">")[],
+): "<" | "=" | ">" | "<=" | ">=" | "<>" | null {
+    const has = (r: "<" | "=" | ">") => relations.includes(r);
+    if (has("<") && has("=") && has(">")) return null;
+    if (has("<") && has("=")) return "<=";
+    if (has(">") && has("=")) return ">=";
+    if (has("<") && has(">")) return "<>";
+    return has("<") ? "<" : has(">") ? ">" : "=";
+}
+
+// The LIKE pattern for a partial date's text length: `_` is any one character, so it needs no escape clause.
+const LENGTH_PATTERN: Record<PartialLength, string> = { 4: "____", 7: "____-__", 10: "____-__-__" };
+
 // The only text that is ever written into SQL besides operators: a column name, so it must be a plain (optionally dotted) identifier.
 // With that rule the quote character can never appear inside the name, so no escaping of the quotes is needed.
 const IDENTIFIER = /^[A-Za-z_][A-Za-z0-9_]*(\.[A-Za-z_][A-Za-z0-9_]*)*$/;
@@ -668,11 +927,11 @@ export function toSql(
                 return `${column} NOT IN (${(v as unknown[]).map(bind).join(", ")})`;
             // For text, "empty" means null or the empty string, as in the predicate; for other types only null can be empty.
             case "is-empty":
-                return type === "text"
+                return type === "text" || type === "partial-date"
                     ? `(${column} IS NULL OR ${column} = '')`
                     : `${column} IS NULL`;
             case "is-not-empty":
-                return type === "text"
+                return type === "text" || type === "partial-date"
                     ? `(${column} IS NOT NULL AND ${column} <> '')`
                     : `${column} IS NOT NULL`;
             case "is-true":
@@ -688,7 +947,32 @@ export function toSql(
         if (g.not) return `NOT (${joined})`;
         return parts.length > 1 && !top ? `(${joined})` : joined;
     };
-    return { sql: write(tree, true), params };
+    if (!hasPartialComparison(tree, byId)) return { sql: write(tree, true), params };
+    const condition = (c: PartialDateCondition, field: FilterField): string => {
+        const column = quoteIdentifier(field.column ?? field.id, dialect);
+        if ("blank" in c) return `(${column} IS NULL OR ${column} = '')`;
+        if ("atom" in c) {
+            const op = relationOperator(c.atom.relations);
+            const shape = `${column} LIKE '${LENGTH_PATTERN[c.atom.length]}'`;
+            return op ? `(${shape} AND ${column} ${op} ${bind(c.atom.key)})` : shape;
+        }
+        const list = "any" in c ? c.any : c.all;
+        // An empty "any" never holds and an empty "all" always does; 1 = 0 and 1 = 1 read the same in every dialect.
+        if (list.length === 0) return "any" in c ? "1 = 0" : "1 = 1";
+        const parts = list.map((x) => condition(x, field));
+        return parts.length === 1 ? parts[0] : `(${parts.join("any" in c ? " OR " : " AND ")})`;
+    };
+    const rails = writeRails<string>(tree, byId, {
+        plainRule: rule,
+        plainGroup: (g) => write(g, false),
+        negate: (x) => `NOT (${x})`,
+        join: (parts, combinator) =>
+            parts.length === 1
+                ? parts[0]
+                : `(${parts.join(combinator === "and" ? " AND " : " OR ")})`,
+        condition,
+    });
+    return { sql: rails.whenTrue(), params };
 }
 
 // ---------------------------------------------------------------------
@@ -744,11 +1028,11 @@ export function toMongo(
             case "not-in":
                 return { [key]: { $nin: v } };
             case "is-empty":
-                return type === "text"
+                return type === "text" || type === "partial-date"
                     ? { $or: [{ [key]: null }, { [key]: "" }] }
                     : { [key]: null };
             case "is-not-empty":
-                return type === "text"
+                return type === "text" || type === "partial-date"
                     ? { $and: [{ [key]: { $ne: null } }, { [key]: { $ne: "" } }] }
                     : { [key]: { $ne: null } };
             case "is-true":
@@ -764,7 +1048,34 @@ export function toMongo(
             parts.length === 1 ? parts[0] : { [g.combinator === "and" ? "$and" : "$or"]: parts };
         return g.not ? { $nor: [body] } : body;
     };
-    return write(tree);
+    if (!hasPartialComparison(tree, byId)) return write(tree);
+    const MONGO_OP = { "<": "$lt", ">": "$gt", "<=": "$lte", ">=": "$gte", "<>": "$ne" } as const;
+    const condition = (c: PartialDateCondition, field: FilterField): Record<string, unknown> => {
+        const key = field.column ?? field.id;
+        if ("blank" in c) return { $or: [{ [key]: null }, { [key]: "" }] };
+        if ("atom" in c) {
+            const op = relationOperator(c.atom.relations);
+            const shape = { [key]: { $regex: `^.{${c.atom.length}}$` } };
+            if (!op) return shape;
+            const compare =
+                op === "=" ? { [key]: c.atom.key } : { [key]: { [MONGO_OP[op]]: c.atom.key } };
+            return { $and: [shape, compare] };
+        }
+        const list = "any" in c ? c.any : c.all;
+        // An empty "any" matches nothing ($expr false); an empty "all" matches everything ({}).
+        if (list.length === 0) return "any" in c ? { $expr: false } : {};
+        const parts = list.map((x) => condition(x, field));
+        return parts.length === 1 ? parts[0] : { ["any" in c ? "$or" : "$and"]: parts };
+    };
+    const rails = writeRails<Record<string, unknown>>(tree, byId, {
+        plainRule: rule,
+        plainGroup: write,
+        negate: (x) => ({ $nor: [x] }),
+        join: (parts, combinator) =>
+            parts.length === 1 ? parts[0] : { [combinator === "and" ? "$and" : "$or"]: parts },
+        condition,
+    });
+    return rails.whenTrue();
 }
 
 // ---------------------------------------------------------------------
@@ -818,9 +1129,13 @@ export function toOData(group: FilterGroup, fields: readonly FilterField[]): str
             case "not-in":
                 return `not (${name} in (${(v as unknown[]).map(lit).join(",")}))`;
             case "is-empty":
-                return type === "text" ? `(${name} eq null or ${name} eq '')` : `${name} eq null`;
+                return type === "text" || type === "partial-date"
+                    ? `(${name} eq null or ${name} eq '')`
+                    : `${name} eq null`;
             case "is-not-empty":
-                return type === "text" ? `(${name} ne null and ${name} ne '')` : `${name} ne null`;
+                return type === "text" || type === "partial-date"
+                    ? `(${name} ne null and ${name} ne '')`
+                    : `${name} ne null`;
             case "is-true":
                 return `${name} eq true`;
             case "is-false":
@@ -833,7 +1148,39 @@ export function toOData(group: FilterGroup, fields: readonly FilterField[]): str
         if (g.not) return `not (${joined})`;
         return parts.length > 1 && !top ? `(${joined})` : joined;
     };
-    return write(tree, true);
+    if (!hasPartialComparison(tree, byId)) return write(tree, true);
+    const ODATA_OP = {
+        "<": "lt",
+        ">": "gt",
+        "=": "eq",
+        "<=": "le",
+        ">=": "ge",
+        "<>": "ne",
+    } as const;
+    const condition = (c: PartialDateCondition, field: FilterField): string => {
+        const name = field.column ?? field.id;
+        if ("blank" in c) return `(${name} eq null or ${name} eq '')`;
+        if ("atom" in c) {
+            const op = relationOperator(c.atom.relations);
+            const shape = `length(${name}) eq ${c.atom.length}`;
+            return op ? `(${shape} and ${name} ${ODATA_OP[op]} ${odataString(c.atom.key)})` : shape;
+        }
+        const list = "any" in c ? c.any : c.all;
+        if (list.length === 0) return "any" in c ? "false" : "true";
+        const parts = list.map((x) => condition(x, field));
+        return parts.length === 1 ? parts[0] : `(${parts.join("any" in c ? " or " : " and ")})`;
+    };
+    const rails = writeRails<string>(tree, byId, {
+        plainRule: rule,
+        plainGroup: (g) => write(g, false),
+        negate: (x) => `not (${x})`,
+        join: (parts, combinator) =>
+            parts.length === 1
+                ? parts[0]
+                : `(${parts.join(combinator === "and" ? " and " : " or ")})`,
+        condition,
+    });
+    return rails.whenTrue();
 }
 
 // ---------------------------------------------------------------------

@@ -271,7 +271,11 @@ export function Filter(props: FilterProps): JSX.Element {
                                 );
                             }
                             const inputType =
-                                type === "number" ? "number" : type === "date" ? "date" : "text";
+                                type === "number"
+                                    ? "number"
+                                    : type === "date" || type === "partial-date"
+                                      ? "date"
+                                      : "text";
                             return (
                                 <>
                                     <input

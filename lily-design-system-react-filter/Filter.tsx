@@ -246,7 +246,12 @@ export function Filter({
                     </select>
                 );
             }
-            const inputType = type === "number" ? "number" : type === "date" ? "date" : "text";
+            const inputType =
+                type === "number"
+                    ? "number"
+                    : type === "date" || type === "partial-date"
+                      ? "date"
+                      : "text";
             return (
                 <>
                     <input

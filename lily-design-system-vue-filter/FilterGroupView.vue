@@ -26,7 +26,11 @@ function toggleOption(rule: FilterRule, optionId: string, checked: boolean): voi
 }
 
 const inputType = (field: FilterField) =>
-    fieldType(field) === "number" ? "number" : fieldType(field) === "date" ? "date" : "text";
+    fieldType(field) === "number"
+        ? "number"
+        : fieldType(field) === "date" || fieldType(field) === "partial-date"
+          ? "date"
+          : "text";
 const target = (e: Event) => e.target as HTMLInputElement | HTMLSelectElement;
 </script>
 

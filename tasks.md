@@ -4619,7 +4619,7 @@ then T3, T6, T7 and T8 (small), then T4; T5, T9 and T10 are maintainer decisions
 - [ ] **P47-T4b A leap second in a data grid time cell (maintainer decision).** Accept `HH:mm:60` as valid, display it as
       written, and edit it in a text field instead of the native time input.
       Verify: a test that a `:60` value survives an edit that changes nothing.
-- [ ] **P47-T5 Partial dates in `filter` and the data grid (maintainer decision).** A partial-date field and cell type; an
+- [x] **P47-T5 Partial dates in `filter` and the data grid (approved 2026-11-24, option (a): every output).** _(2026-11-24: a `partial-date` field type in `shared/filter-model.ts` and the C# port, three-valued with Kleene logic; each output writes a "definitely true" and a "definitely false" rail, swapped by `not`, so a filter without one is unchanged; property tests for soundness, SQL run in SQLite and MongoDB against the predicate; the eight filter UIs; a `partial-date` cell type in all nine grids.)_ A partial-date field and cell type; an
       undecidable comparison does not match, in every output.
       Verify: a property test that no output matches `2019` against "before 2019-06-01" or "after 2019-06-01".
 - [x] **P47-T6 Withheld summaries.** _(2026-11-24.)_ A healthcare-guide rule: a summary says how many entries are not shown, never which.

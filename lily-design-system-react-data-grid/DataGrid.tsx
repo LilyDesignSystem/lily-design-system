@@ -2083,7 +2083,7 @@ export function DataGrid({
             fileBody(entry, column, ctx)
         ) : column.type === "link" ? (
             linkBody(ctx)
-        ) : column.type === "date" || column.type === "time" ? (
+        ) : column.type === "date" || column.type === "partial-date" || column.type === "time" ? (
             ctx.formatted !== "" ? (
                 <time dateTime={String(ctx.value)}>{ctx.formatted}</time>
             ) : null

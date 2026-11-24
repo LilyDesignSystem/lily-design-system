@@ -225,6 +225,8 @@ public static class CellTypes
                 return SafeHref(LinkParts(value)?.Href) is null;
             case DataGridCellType.Date:
                 return CivilDateOf(value) is null;
+            case DataGridCellType.PartialDate:
+                return !IsPartialCivilDate(value);
             case DataGridCellType.Time:
                 return value is not string t || !IsCivilTime(t);
             case DataGridCellType.TimeZone:
@@ -263,6 +265,30 @@ public static class CellTypes
         return !string.IsNullOrEmpty(locale) || column.NumberFormat is not null
             ? n.ToString(column.NumberFormat ?? "#,##0.###", CultureOf(locale))
             : Invariant(v!);
+    }
+
+    /// <summary>A partial civil date: <c>YYYY</c>, <c>YYYY-MM</c> or <c>YYYY-MM-DD</c>, each a real year, month or day.</summary>
+    public static bool IsPartialCivilDate(object? value)
+    {
+        if (value is not string s) return false;
+        if (Regex.IsMatch(s, @"^\d{4}$")) return true;
+        if (Regex.IsMatch(s, @"^\d{4}-\d{2}$")) return int.Parse(s.AsSpan(5, 2), CultureInfo.InvariantCulture) is >= 1 and <= 12;
+        return IsCivilDate(s);
+    }
+
+    // Only the fields the value has: "2019", "March 2019", or the full date; without a locale, as written.
+    private static string PartialDateText(string? locale, object? v)
+    {
+        if (IsEmpty(v)) return "";
+        if (!IsPartialCivilDate(v)) return v!.ToString() ?? "";
+        var s = (string)v!;
+        if (string.IsNullOrEmpty(locale)) return s;
+        var culture = CultureOf(locale);
+        var year = int.Parse(s[..4], CultureInfo.InvariantCulture);
+        if (s.Length == 4) return year.ToString(CultureInfo.InvariantCulture);
+        var month = int.Parse(s.Substring(5, 2), CultureInfo.InvariantCulture);
+        if (s.Length == 7) return new DateOnly(year, month, 1).ToString("Y", culture);
+        return DateOnly.ParseExact(s, "yyyy-MM-dd", CultureInfo.InvariantCulture).ToString("D", culture);
     }
 
     private static string DateText(DataGridColumn column, string? locale, object? v)
@@ -340,6 +366,16 @@ public static class CellTypes
                     Editor = c.Editor == DataGridEditor.Default ? DataGridEditor.Date : c.Editor,
                     Format = c.Format ?? ((v, _) => DateText(column, locale, v)),
                     ExportValue = c.ExportValue ?? (row => CivilDateOf(Raw(column, row))),
+                };
+            // Edited as text (a native date input cannot hold "2019"), sorted as text (a year before its months), exported as
+            // text: a spreadsheet date would invent a day.
+            case DataGridCellType.PartialDate:
+                return c with
+                {
+                    Align = c.Align == DataGridAlign.Default ? DataGridAlign.Start : c.Align,
+                    Editor = c.Editor == DataGridEditor.Default ? DataGridEditor.Text : c.Editor,
+                    Format = c.Format ?? ((v, _) => PartialDateText(locale, v)),
+                    ExportValue = c.ExportValue ?? (row => IsEmpty(Raw(column, row)) ? null : Raw(column, row)!.ToString()),
                 };
             case DataGridCellType.Time:
                 return c with

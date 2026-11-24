@@ -123,4 +123,23 @@ public class GridModulesTests
         Assert.Equal("ArrowRight", GridMotion.LogicalKey("ArrowLeft", true));
         Assert.Equal("ArrowLeft", GridMotion.LogicalKey("ArrowLeft", false));
     }
+
+    // spec/lessons/openehr-rust item 5: a partial date is shown with only the fields it has, edited and exported as text.
+    [Fact]
+    public void PartialDate_cells_show_only_the_fields_they_have_and_are_never_completed()
+    {
+        Assert.True(CellTypes.IsPartialCivilDate("2019"));
+        Assert.True(CellTypes.IsPartialCivilDate("2019-03"));
+        Assert.False(CellTypes.IsPartialCivilDate("2019-13"));
+        Assert.False(CellTypes.IsPartialCivilDate("20190314"));
+        var column = CellTypes.Resolve(new DataGridColumn { Id = "onset", Header = "Onset", Type = DataGridCellType.PartialDate }, "en-GB", System.Array.Empty<DataGridRow>());
+        var row = new DataGridRow { ["onset"] = "2019-03" };
+        Assert.Equal("2019", column.Format!("2019", row));
+        Assert.Equal("March 2019", column.Format!("2019-03", row));
+        Assert.Equal("2019-13", column.Format!("2019-13", row));
+        Assert.Equal(DataGridEditor.Text, column.Editor);
+        Assert.Equal("2019-03", column.ExportValue!(row));
+        Assert.True(CellTypes.IsInvalidForType(column, "2019-13"));
+        Assert.False(CellTypes.IsInvalidForType(column, "2019"));
+    }
 }

@@ -360,7 +360,12 @@ export class FilterBuilder extends HTMLElement {
                     );
                     return [select];
                 }
-                const inputType = type === "number" ? "number" : type === "date" ? "date" : "text";
+                const inputType =
+                    type === "number"
+                        ? "number"
+                        : type === "date" || type === "partial-date"
+                          ? "date"
+                          : "text";
                 const make = (
                     cls: string,
                     name: string,

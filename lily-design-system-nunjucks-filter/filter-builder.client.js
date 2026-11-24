@@ -237,7 +237,12 @@ export function initFilterBuilder(root, opts = {}) {
                     );
                     return [select];
                 }
-                const inputType = type === "number" ? "number" : type === "date" ? "date" : "text";
+                const inputType =
+                    type === "number"
+                        ? "number"
+                        : type === "date" || type === "partial-date"
+                          ? "date"
+                          : "text";
                 const make = (cls, name, stored, key, fk) => {
                     const input = el("input", {
                         class: cls,

@@ -174,6 +174,7 @@ export type DataGridColumn = {
         | "number"
         | "link"
         | "date"
+        | "partial-date"
         | "time"
         | "time-zone"
         | "select"

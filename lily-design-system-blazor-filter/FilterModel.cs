@@ -19,6 +19,9 @@ public enum FilterFieldType
     Text,
     Number,
     Date,
+    /// <summary>A date known to the year, the month or the day (<c>2019</c>, <c>2019-03</c>, <c>2019-03-14</c>); rule values are full
+    /// dates, and a comparison the row's precision cannot decide does not match, in every output and under <c>Not</c>.</summary>
+    PartialDate,
     Select,
     Boolean,
 }
@@ -145,6 +148,7 @@ public static class FilterModel
         [FilterFieldType.Text] = new[] { "contains", "not-contains", "equals", "not-equals", "starts-with", "ends-with", "is-empty", "is-not-empty" },
         [FilterFieldType.Number] = new[] { "equals", "not-equals", "gt", "gte", "lt", "lte", "between", "not-between", "is-empty", "is-not-empty" },
         [FilterFieldType.Date] = new[] { "equals", "not-equals", "gt", "gte", "lt", "lte", "between", "not-between", "is-empty", "is-not-empty" },
+        [FilterFieldType.PartialDate] = new[] { "equals", "not-equals", "gt", "gte", "lt", "lte", "between", "not-between", "is-empty", "is-not-empty" },
         [FilterFieldType.Select] = new[] { "equals", "not-equals", "in", "not-in", "is-empty", "is-not-empty" },
         [FilterFieldType.Boolean] = new[] { "is-true", "is-false", "is-empty", "is-not-empty" },
     };
@@ -289,7 +293,7 @@ public static class FilterModel
             return field.Type switch
             {
                 FilterFieldType.Number => TryNumber(v, out _) ? null : RuleIssue.InvalidValue,
-                FilterFieldType.Date => IsIsoDate(v) ? null : RuleIssue.InvalidValue,
+                FilterFieldType.Date or FilterFieldType.PartialDate => IsIsoDate(v) ? null : RuleIssue.InvalidValue,
                 FilterFieldType.Select => v is string id && (field.Options ?? Array.Empty<FilterOption>()).Any(o => o.Id == id) ? null : RuleIssue.UnknownOption,
                 _ => v is string ? null : RuleIssue.InvalidValue,
             };
@@ -416,20 +420,175 @@ public static class FilterModel
         };
     }
 
+    // ---------------------------------------------------------------------
+    // Partial dates: three-valued comparison (the twin of shared/filter-model.ts)
+    // ---------------------------------------------------------------------
+
+    private static readonly Regex YearOnly = new(@"^\d{4}$", RegexOptions.Compiled);
+    private static readonly Regex YearMonth = new(@"^\d{4}-(\d{2})$", RegexOptions.Compiled);
+
+    /// <summary>A row value of a partial-date field: <c>YYYY</c>, <c>YYYY-MM</c> or <c>YYYY-MM-DD</c>, each a real year, month or day.</summary>
+    public static bool IsPartialDate(object? value)
+    {
+        if (value is not string s) return false;
+        if (YearOnly.IsMatch(s)) return true;
+        var m = YearMonth.Match(s);
+        if (m.Success) return int.Parse(m.Groups[1].Value, CultureInfo.InvariantCulture) is >= 1 and <= 12;
+        return IsIsoDate(s);
+    }
+
+    private static readonly int[] PartialLengths = { 4, 7, 10 };
+
+    /// <summary>The row's text has <see cref="Length"/> characters and stands in one of <see cref="Relations"/> ('&lt;', '=', '&gt;')
+    /// to <see cref="Key"/>, the rule's date cut to that length.</summary>
+    public sealed record PartialDateAtom(int Length, string Relations, string Key);
+
+    /// <summary>A condition on one row's text: an atom, a blank value, or any / all of other conditions.</summary>
+    public abstract record PartialDateCondition;
+    public sealed record AtomCondition(PartialDateAtom Atom) : PartialDateCondition;
+    public sealed record BlankCondition : PartialDateCondition;
+    public sealed record AnyCondition(IReadOnlyList<PartialDateCondition> Items) : PartialDateCondition;
+    public sealed record AllCondition(IReadOnlyList<PartialDateCondition> Items) : PartialDateCondition;
+
+    /// <summary>When a partial-date rule is definitely true and when definitely false; a row in neither never matches.</summary>
+    public sealed record PartialDateRailsResult(PartialDateCondition WhenTrue, PartialDateCondition WhenFalse);
+
+    private static PartialDateRailsResult BoundRails(string op, string date)
+    {
+        var year = int.Parse(date[..4], CultureInfo.InvariantCulture);
+        var month = int.Parse(date.Substring(5, 2), CultureInfo.InvariantCulture);
+        var day = int.Parse(date.Substring(8, 2), CultureInfo.InvariantCulture);
+        var whenTrue = new List<PartialDateCondition>();
+        // A blank row is false for a comparison, as for every other field type.
+        var whenFalse = new List<PartialDateCondition> { new BlankCondition() };
+        foreach (var length in PartialLengths)
+        {
+            var key = date[..length];
+            var first = length == 10 || (length == 7 ? day == 1 : month == 1 && day == 1);
+            var last = length == 10 || (length == 7 ? day == DateTime.DaysInMonth(year, month) : month == 12 && day == 31);
+            var (t, f) = op switch
+            {
+                "lt" => ("<", first ? ">=" : ">"),
+                "lte" => (last ? "<=" : "<", ">"),
+                "gt" => (">", last ? "<=" : "<"),
+                "gte" => (first ? ">=" : ">", "<"),
+                "equals" => (length == 10 ? "=" : "", "<>"),
+                _ => throw new FilterException("not a bound operator"),
+            };
+            if (t.Length > 0) whenTrue.Add(new AtomCondition(new PartialDateAtom(length, t, key)));
+            whenFalse.Add(new AtomCondition(new PartialDateAtom(length, f, key)));
+        }
+        return new PartialDateRailsResult(new AnyCondition(whenTrue), new AnyCondition(whenFalse));
+    }
+
+    /// <summary>The two rails of a comparison rule on a partial-date field. Negation swaps them, so "cannot tell" stays so.</summary>
+    public static PartialDateRailsResult PartialDateRails(FilterRule rule)
+    {
+        var v = AsText(rule.Value);
+        static PartialDateRailsResult Swap(PartialDateRailsResult r) => new(r.WhenFalse, r.WhenTrue);
+        PartialDateRailsResult Between()
+        {
+            var low = BoundRails("gte", v);
+            var high = BoundRails("lte", AsText(rule.Value2));
+            return new(new AllCondition(new[] { low.WhenTrue, high.WhenTrue }), new AnyCondition(new[] { low.WhenFalse, high.WhenFalse }));
+        }
+        return rule.Operator switch
+        {
+            "lt" or "lte" or "gt" or "gte" or "equals" => BoundRails(rule.Operator, v),
+            "not-equals" => Swap(BoundRails("equals", v)),
+            "between" => Between(),
+            "not-between" => Swap(Between()),
+            _ => throw new FilterException("not a comparison operator"),
+        };
+    }
+
+    private static bool Holds(PartialDateCondition condition, object? raw) => condition switch
+    {
+        BlankCondition => IsBlank(raw),
+        AnyCondition any => any.Items.Any(c => Holds(c, raw)),
+        AllCondition all => all.Items.All(c => Holds(c, raw)),
+        AtomCondition { Atom: var a } => raw is string s && IsPartialDate(s) && s.Length == a.Length
+            && RelationHolds(a.Relations, string.CompareOrdinal(s, a.Key)),
+        _ => false,
+    };
+
+    // The relations are written as an operator ("<", "<=", "<>", ...); the comparison's sign picks which hold.
+    private static bool RelationHolds(string op, int sign) => op switch
+    {
+        "<" => sign < 0,
+        "<=" => sign <= 0,
+        ">" => sign > 0,
+        ">=" => sign >= 0,
+        "=" => sign == 0,
+        "<>" => sign != 0,
+        _ => false,
+    };
+
+    private static bool IsPartialComparison(FilterRule rule, FilterField? field)
+        => field?.Type == FilterFieldType.PartialDate && rule.Operator is not ("is-empty" or "is-not-empty");
+
+    private static bool HasPartialComparison(FilterNode node, IReadOnlyDictionary<string, FilterField> byId) => node switch
+    {
+        FilterRule r => IsPartialComparison(r, byId.GetValueOrDefault(r.Field)),
+        FilterGroup g => g.Children.Any(c => HasPartialComparison(c, byId)),
+        _ => false,
+    };
+
+    // Both rails of a node, lazily, so an output that numbers its parameters binds only what it writes (see writeRails in TS).
+    private sealed record Rails<T>(Func<T> WhenTrue, Func<T> WhenFalse);
+
+    private static Rails<T> WriteRails<T>(FilterNode node, IReadOnlyDictionary<string, FilterField> byId,
+        Func<FilterRule, T> plainRule, Func<FilterGroup, T> plainGroup, Func<T, T> negate,
+        Func<IReadOnlyList<T>, string, T> join, Func<PartialDateCondition, FilterField, T> condition)
+    {
+        if (node is FilterRule r)
+        {
+            var field = byId[r.Field];
+            if (IsPartialComparison(r, field))
+            {
+                var rails = PartialDateRails(r);
+                return new(() => condition(rails.WhenTrue, field), () => condition(rails.WhenFalse, field));
+            }
+            return new(() => plainRule(r), () => negate(plainRule(r)));
+        }
+        var g = (FilterGroup)node;
+        if (!HasPartialComparison(g, byId)) return new(() => plainGroup(g), () => negate(plainGroup(g)));
+        var children = g.Children.Select(c => WriteRails(c, byId, plainRule, plainGroup, negate, join, condition)).ToList();
+        var other = g.Combinator == "and" ? "or" : "and";
+        var result = new Rails<T>(
+            () => join(children.Select(c => c.WhenTrue()).ToList(), g.Combinator),
+            () => join(children.Select(c => c.WhenFalse()).ToList(), other));
+        return g.Not ? new(result.WhenFalse, result.WhenTrue) : result;
+    }
+
+    private static string LengthPattern(int length) => length switch { 4 => "____", 7 => "____-__", _ => "____-__-__" };
+
     /// <summary>A function that says whether a row (a record by field id) passes. An empty filter passes every row.</summary>
     public static Func<IReadOnlyDictionary<string, object?>, bool> ToPredicate(FilterGroup group, IReadOnlyList<FilterField> fields)
     {
         if (Normalise(group, fields) is not { } tree) return _ => true;
         var byId = fields.ToDictionary(f => f.Id);
-        bool Test(FilterNode node, IReadOnlyDictionary<string, object?> row)
+        // Three-valued: a partial-date comparison can be "cannot tell" (null), which and, or and not keep (Kleene logic); a row
+        // matches only when the whole filter is true. Every other rule is true or false, so a filter without one is unchanged.
+        bool? Test(FilterNode node, IReadOnlyDictionary<string, object?> row)
         {
-            if (node is FilterRule rule) return RuleMatches(rule, byId[rule.Field], row);
+            if (node is FilterRule rule)
+            {
+                var field = byId[rule.Field];
+                if (!IsPartialComparison(rule, field)) return RuleMatches(rule, field, row);
+                var rails = PartialDateRails(rule);
+                row.TryGetValue(field.Id, out var raw);
+                if (Holds(rails.WhenTrue, raw)) return true;
+                return Holds(rails.WhenFalse, raw) ? false : null;
+            }
             var g = (FilterGroup)node;
-            var results = g.Children.Select(c => Test(c, row));
-            var ok = g.Combinator == "and" ? results.All(x => x) : results.Any(x => x);
-            return g.Not ? !ok : ok;
+            var results = g.Children.Select(c => Test(c, row)).ToList();
+            bool? ok = g.Combinator == "and"
+                ? results.Contains(false) ? false : results.Contains(null) ? null : true
+                : results.Contains(true) ? true : results.Contains(null) ? null : false;
+            return g.Not && ok is { } b ? !b : ok;
         }
-        return row => Test(tree, row);
+        return row => Test(tree, row) == true;
     }
 
     // ---------------------------------------------------------------------
@@ -579,6 +738,7 @@ public static class FilterModel
             var field = byId[r.Field];
             var column = QuoteIdentifier(field.Column ?? field.Id, dialect);
             var text = field.Type == FilterFieldType.Text;
+            var emptyAsText = text || field.Type == FilterFieldType.PartialDate;
             var v = r.Value;
             string List() => string.Join(", ", (AsList(v) ?? Array.Empty<string>()).Select(x => Bind(x)));
             return r.Operator switch
@@ -597,8 +757,8 @@ public static class FilterModel
                 "not-between" => $"{column} NOT BETWEEN {Bind(v)} AND {Bind(r.Value2)}",
                 "in" => $"{column} IN ({List()})",
                 "not-in" => $"{column} NOT IN ({List()})",
-                "is-empty" => text ? $"({column} IS NULL OR {column} = '')" : $"{column} IS NULL",
-                "is-not-empty" => text ? $"({column} IS NOT NULL AND {column} <> '')" : $"{column} IS NOT NULL",
+                "is-empty" => emptyAsText ? $"({column} IS NULL OR {column} = '')" : $"{column} IS NULL",
+                "is-not-empty" => emptyAsText ? $"({column} IS NOT NULL AND {column} <> '')" : $"{column} IS NOT NULL",
                 "is-true" => $"{column} = {Bind(true)}",
                 "is-false" => $"{column} = {Bind(false)}",
                 _ => throw new FilterException($"unknown operator: {r.Operator}"),
@@ -611,8 +771,25 @@ public static class FilterModel
             if (g.Not) return $"NOT ({joined})";
             return parts.Count > 1 && !top ? $"({joined})" : joined;
         }
-        var sql = Write(tree, true);
-        return new SqlResult(sql, parameters);
+        if (!HasPartialComparison(tree, byId)) return new SqlResult(Write(tree, true), parameters);
+        string Condition(PartialDateCondition c, FilterField field)
+        {
+            var column = QuoteIdentifier(field.Column ?? field.Id, dialect);
+            switch (c)
+            {
+                case BlankCondition: return $"({column} IS NULL OR {column} = '')";
+                case AtomCondition { Atom: var a }: return $"({column} LIKE '{LengthPattern(a.Length)}' AND {column} {a.Relations} {Bind(a.Key)})";
+                default:
+                    var any = c is AnyCondition;
+                    var items = c is AnyCondition ac ? ac.Items : ((AllCondition)c).Items;
+                    if (items.Count == 0) return any ? "1 = 0" : "1 = 1";
+                    var parts = items.Select(x => Condition(x, field)).ToList();
+                    return parts.Count == 1 ? parts[0] : "(" + string.Join(any ? " OR " : " AND ", parts) + ")";
+            }
+        }
+        var rails = WriteRails<string>(tree, byId, Rule, g => Write(g, false), x => $"NOT ({x})",
+            (parts, comb) => parts.Count == 1 ? parts[0] : "(" + string.Join(comb == "and" ? " AND " : " OR ", parts) + ")", Condition);
+        return new SqlResult(rails.WhenTrue(), parameters);
     }
 
     // ---------------------------------------------------------------------
@@ -632,7 +809,7 @@ public static class FilterModel
         {
             var field = byId[r.Field];
             var key = field.Column ?? field.Id;
-            var text = field.Type == FilterFieldType.Text;
+            var text = field.Type is FilterFieldType.Text or FilterFieldType.PartialDate;
             var v = r.Value;
             return r.Operator switch
             {
@@ -663,7 +840,30 @@ public static class FilterModel
             var body = parts.Count == 1 ? parts[0] : Obj(g.Combinator == "and" ? "$and" : "$or", new JsonArray(parts.Select(p => (JsonNode?)p).ToArray()));
             return g.Not ? Obj("$nor", new JsonArray(body)) : body;
         }
-        return Write(tree);
+        if (!HasPartialComparison(tree, byId)) return Write(tree);
+        JsonArray Array(IEnumerable<JsonObject> items) => new(items.Select(p => (JsonNode?)p).ToArray());
+        JsonObject Condition(PartialDateCondition c, FilterField field)
+        {
+            var key = field.Column ?? field.Id;
+            switch (c)
+            {
+                case BlankCondition: return Obj("$or", new JsonArray(Obj(key, null), Obj(key, "")));
+                case AtomCondition { Atom: var a }:
+                    var shape = Obj(key, Obj("$regex", $"^.{{{a.Length}}}$"));
+                    var compare = a.Relations == "=" ? Obj(key, a.Key)
+                        : Obj(key, Obj(a.Relations switch { "<" => "$lt", ">" => "$gt", "<=" => "$lte", ">=" => "$gte", _ => "$ne" }, a.Key));
+                    return Obj("$and", new JsonArray(shape, compare));
+                default:
+                    var any = c is AnyCondition;
+                    var items = c is AnyCondition ac ? ac.Items : ((AllCondition)c).Items;
+                    if (items.Count == 0) return any ? Obj("$expr", false) : new JsonObject();
+                    var parts = items.Select(x => Condition(x, field)).ToList();
+                    return parts.Count == 1 ? parts[0] : Obj(any ? "$or" : "$and", Array(parts));
+            }
+        }
+        var rails = WriteRails<JsonObject>(tree, byId, Rule, Write, x => Obj("$nor", new JsonArray(x)),
+            (parts, comb) => parts.Count == 1 ? parts[0] : Obj(comb == "and" ? "$and" : "$or", Array(parts)), Condition);
+        return rails.WhenTrue();
     }
 
     // ---------------------------------------------------------------------
@@ -701,8 +901,8 @@ public static class FilterModel
                 "not-between" => $"({name} lt {Lit(v)} or {name} gt {Lit(r.Value2)})",
                 "in" => $"{name} in ({List()})",
                 "not-in" => $"not ({name} in ({List()}))",
-                "is-empty" => type == FilterFieldType.Text ? $"({name} eq null or {name} eq '')" : $"{name} eq null",
-                "is-not-empty" => type == FilterFieldType.Text ? $"({name} ne null and {name} ne '')" : $"{name} ne null",
+                "is-empty" => type is FilterFieldType.Text or FilterFieldType.PartialDate ? $"({name} eq null or {name} eq '')" : $"{name} eq null",
+                "is-not-empty" => type is FilterFieldType.Text or FilterFieldType.PartialDate ? $"({name} ne null and {name} ne '')" : $"{name} ne null",
                 "is-true" => $"{name} eq true",
                 "is-false" => $"{name} eq false",
                 _ => throw new FilterException($"unknown operator: {r.Operator}"),
@@ -715,7 +915,27 @@ public static class FilterModel
             if (g.Not) return $"not ({joined})";
             return parts.Count > 1 && !top ? $"({joined})" : joined;
         }
-        return Write(tree, true);
+        if (!HasPartialComparison(tree, byId)) return Write(tree, true);
+        string Condition(PartialDateCondition c, FilterField field)
+        {
+            var name = field.Column ?? field.Id;
+            switch (c)
+            {
+                case BlankCondition: return $"({name} eq null or {name} eq '')";
+                case AtomCondition { Atom: var a }:
+                    var op = a.Relations switch { "<" => "lt", ">" => "gt", "=" => "eq", "<=" => "le", ">=" => "ge", _ => "ne" };
+                    return $"(length({name}) eq {a.Length} and {name} {op} {ODataString(a.Key)})";
+                default:
+                    var any = c is AnyCondition;
+                    var items = c is AnyCondition ac ? ac.Items : ((AllCondition)c).Items;
+                    if (items.Count == 0) return any ? "false" : "true";
+                    var parts = items.Select(x => Condition(x, field)).ToList();
+                    return parts.Count == 1 ? parts[0] : "(" + string.Join(any ? " or " : " and ", parts) + ")";
+            }
+        }
+        var rails = WriteRails<string>(tree, byId, Rule, g => Write(g, false), x => $"not ({x})",
+            (parts, comb) => parts.Count == 1 ? parts[0] : "(" + string.Join(comb == "and" ? " and " : " or ", parts) + ")", Condition);
+        return rails.WhenTrue();
     }
 
     // ---------------------------------------------------------------------

@@ -17,7 +17,7 @@
 
   opts:
     label    — string, required. Accessible name of the whole filter.
-    fields   — array of { id, label, type?: "text"|"number"|"date"|"select"|"boolean", options?: [{id,label}], column?, operators? }.
+    fields   — array of { id, label, type?: "text"|"number"|"date"|"partial-date"|"select"|"boolean", options?: [{id,label}], column?, operators? }.
     value    — optional starting filter: { type: "group", id, combinator, not?, children } (plain data, as the model's functions produce).
     format   — optional "json" | "sql" | "mongo" | "odata": show the filter written out (needs labels.output).
     dialect  — SQL dialect for format "sql": ansi (default), postgres, mysql, sqlite, mssql.

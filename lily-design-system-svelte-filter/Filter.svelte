@@ -261,7 +261,11 @@
         {:else}
             <input
                 class="filter-value"
-                type={type === "number" ? "number" : type === "date" ? "date" : "text"}
+                type={type === "number"
+                    ? "number"
+                    : type === "date" || type === "partial-date"
+                      ? "date"
+                      : "text"}
                 inputmode={type === "number" ? "decimal" : undefined}
                 aria-label={arity === 2 ? labels.valueFrom : labels.value}
                 {readonly}
@@ -275,7 +279,11 @@
             {#if arity === 2}
                 <input
                     class="filter-value filter-value-to"
-                    type={type === "number" ? "number" : type === "date" ? "date" : "text"}
+                    type={type === "number"
+                        ? "number"
+                        : type === "date" || type === "partial-date"
+                          ? "date"
+                          : "text"}
                     inputmode={type === "number" ? "decimal" : undefined}
                     aria-label={labels.valueTo}
                     {readonly}

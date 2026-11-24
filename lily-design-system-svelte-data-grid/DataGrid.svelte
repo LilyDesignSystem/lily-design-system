@@ -1929,7 +1929,7 @@
                     ctx,
                 )}{:else if column.type === "link"}{@render linkBody(
                     ctx,
-                )}{:else if column.type === "date" || column.type === "time"}{#if ctx.formatted !== ""}<time
+                )}{:else if column.type === "date" || column.type === "partial-date" || column.type === "time"}{#if ctx.formatted !== ""}<time
                         datetime={String(ctx.value)}>{ctx.formatted}</time
                     >{/if}{:else}{ctx.formatted}{/if}{#if isEditable(column) && column.type !== "radio" && labels.editCell}
                 <button

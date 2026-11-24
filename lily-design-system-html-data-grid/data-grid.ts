@@ -2726,7 +2726,11 @@ export class DataGrid extends HTMLElement {
                     );
                 }
             }
-        } else if (column.type === "date" || column.type === "time") {
+        } else if (
+            column.type === "date" ||
+            column.type === "partial-date" ||
+            column.type === "time"
+        ) {
             if (ctx.formatted !== "")
                 cell.append(el("time", undefined, { datetime: String(ctx.value) }, ctx.formatted));
         } else {

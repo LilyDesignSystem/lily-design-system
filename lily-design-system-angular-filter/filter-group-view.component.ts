@@ -134,7 +134,7 @@ export class FilterGroupView {
     }
     protected inputType(field: FilterField): string {
         const t = fieldType(field);
-        return t === "number" ? "number" : t === "date" ? "date" : "text";
+        return t === "number" ? "number" : t === "date" || t === "partial-date" ? "date" : "text";
     }
     protected text(v: unknown): string {
         return textOf(v);

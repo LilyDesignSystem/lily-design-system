@@ -129,7 +129,7 @@
             }
             else
             {
-                var inputType = type == FilterFieldType.Number ? "number" : type == FilterFieldType.Date ? "date" : "text";
+                var inputType = type == FilterFieldType.Number ? "number" : type is FilterFieldType.Date or FilterFieldType.PartialDate ? "date" : "text";
                 <input class="filter-value" type="@inputType" inputmode="@(type == FilterFieldType.Number ? "decimal" : null)"
                        aria-label="@(arity == ValueArity.Two ? Labels.ValueFrom : Labels.Value)" readonly="@Readonly" value="@TextOf(rule.Value)"
                        @oninput="@(e => SetRuleAsync(ruleId, r => r with { Value = ParseTyped(type, e.Value?.ToString()) }))" />

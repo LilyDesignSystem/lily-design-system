@@ -61,20 +61,21 @@ What a type supplies (each one overridable by the column's own prop of the same 
 
 ### Overview
 
-| Type                | Value                                 | Displays as                         | Sorts by                     | Filters on     | Edits with               | Exports as                                             |
-| ------------------- | ------------------------------------- | ----------------------------------- | ---------------------------- | -------------- | ------------------------ | ------------------------------------------------------ |
-| text                | `string`                              | the string                          | collator (`compare`)         | the string     | text input               | string (formula-defused)                               |
-| number              | `number \| null`                      | `format` (e.g. `Intl.NumberFormat`) | numeric                      | formatted text | number input             | typed number                                           |
-| link                | `string` (href) or `{ href, label? }` | `<a>`                               | label text                   | label and href | text inputs              | label text (href in the next column when `exportHref`) |
-| date                | `"YYYY-MM-DD"`                        | `<time datetime>` formatted         | ISO string                   | formatted text | date field + calendar    | typed date                                             |
-| time                | `"HH:mm"` / `"HH:mm:ss"`              | `<time>` formatted                  | ISO string                   | formatted text | time field               | text `HH:mm[:ss]`                                      |
-| time with time zone | `{ time, timeZone }`                  | time + zone name                    | minutes at a reference date  | formatted text | time field + zone select | text `HH:mm ZONE`                                      |
-| select option       | option `id` (`string`)                | the option's label                  | option label or option order | label          | native `<select>`        | option label                                           |
-| radio group         | option `id` (`string`)                | all options, one checked            | option order                 | label          | the radios themselves    | option label                                           |
-| person              | `{ id, name, email? }` or an array    | name (and optional avatar)          | name (collator)              | name and email | consumer-supplied lookup | name, `; `-joined                                      |
-| file                | `{ id, name, size?, type?, href? }[]` | file names                          | first name, then count       | names          | `<input type="file">`    | names, `; `-joined                                     |
-| rollup              | computed (number, date, text)         | as the result's own type            | the result                   | formatted text | read-only                | typed result                                           |
-| formulas            | expression `string` + computed result | the result                          | the result                   | the result     | formula text field       | typed result (or formula + cached result)              |
+| Type                | Value                                   | Displays as                         | Sorts by                              | Filters on     | Edits with               | Exports as                                             |
+| ------------------- | --------------------------------------- | ----------------------------------- | ------------------------------------- | -------------- | ------------------------ | ------------------------------------------------------ |
+| text                | `string`                                | the string                          | collator (`compare`)                  | the string     | text input               | string (formula-defused)                               |
+| number              | `number \| null`                        | `format` (e.g. `Intl.NumberFormat`) | numeric                               | formatted text | number input             | typed number                                           |
+| link                | `string` (href) or `{ href, label? }`   | `<a>`                               | label text                            | label and href | text inputs              | label text (href in the next column when `exportHref`) |
+| date                | `"YYYY-MM-DD"`                          | `<time datetime>` formatted         | ISO string                            | formatted text | date field + calendar    | typed date                                             |
+| partial date        | `"YYYY"`, `"YYYY-MM"` or `"YYYY-MM-DD"` | `<time datetime>`, only its fields  | ISO string (a year before its months) | formatted text | text input               | text, never a typed date                               |
+| time                | `"HH:mm"` / `"HH:mm:ss"`                | `<time>` formatted                  | ISO string                            | formatted text | time field               | text `HH:mm[:ss]`                                      |
+| time with time zone | `{ time, timeZone }`                    | time + zone name                    | minutes at a reference date           | formatted text | time field + zone select | text `HH:mm ZONE`                                      |
+| select option       | option `id` (`string`)                  | the option's label                  | option label or option order          | label          | native `<select>`        | option label                                           |
+| radio group         | option `id` (`string`)                  | all options, one checked            | option order                          | label          | the radios themselves    | option label                                           |
+| person              | `{ id, name, email? }` or an array      | name (and optional avatar)          | name (collator)                       | name and email | consumer-supplied lookup | name, `; `-joined                                      |
+| file                | `{ id, name, size?, type?, href? }[]`   | file names                          | first name, then count                | names          | `<input type="file">`    | names, `; `-joined                                     |
+| rollup              | computed (number, date, text)           | as the result's own type            | the result                            | formatted text | read-only                | typed result                                           |
+| formulas            | expression `string` + computed result   | the result                          | the result                            | the result     | formula text field       | typed result (or formula + cached result)              |
 
 ### 3.1 Text
 
@@ -116,6 +117,19 @@ What a type supplies (each one overridable by the column's own prop of the same 
 - **Export**: a typed date (`Date` at UTC midnight → Excel date serial, `yyyy-mm-dd` number format) — the shipped writer already does this for `Date` values.
 - **Accessibility**: `<time datetime>` gives machines the ISO value; the visible text is the human one. Relative text ("tomorrow") is the consumer's `format`, and should be paired with the absolute date for AT.
 - **Status**: shipped (0.8.0). The editor is the platform's native `<input type="date">` rather than the composed `DateTimePicker`: the grid depends on the headless layer only, and a native field is accessible and locale-aware everywhere. A column wanting the calendar dialog supplies its own `cell` snippet. A civil date exports as a typed date and writes without a time of day in CSV/TSV.
+
+### 3.4a Partial date
+
+- **Value**: `"YYYY"`, `"YYYY-MM"` or `"YYYY-MM-DD"`, a date known only to the year or the month (openEHR DV_DATE, FHIR partial
+  dates; [spec/lessons/openehr-rust](../../../spec/lessons/openehr-rust/index.md), item 5).
+- **Display**: `<time datetime="2019-03">` with only the fields the value has ("2019", "March 2019", "14 Mar 2019"); never a day
+  or a month the record does not have. No `locale` → the value as written.
+- **Sort**: lexicographic on the ISO string, which puts a year before its months and a month before its days.
+- **Edit**: a text input, since a native date input cannot hold `2019`; a value that is not a partial date is flagged invalid.
+- **Export**: the text as written. A typed spreadsheet date would invent a day.
+- **Filter**: the `filter` helper's `partial-date` field type, where a comparison the value's precision cannot decide matches
+  neither the rule nor its negation.
+- **Status**: shipped (2026-11-24) in all nine grids.
 
 ### 3.5 Time
 

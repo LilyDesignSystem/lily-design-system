@@ -392,7 +392,7 @@
                                             }
                                         }
                                     }
-                                    else if (column.Type is DataGridCellType.Date or DataGridCellType.Time)
+                                    else if (column.Type is DataGridCellType.Date or DataGridCellType.PartialDate or DataGridCellType.Time)
                                     {
                                         @if (ctx.Formatted.Length > 0)
                                         {

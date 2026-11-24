@@ -28,6 +28,9 @@ public enum DataGridCellType
     Number,
     Link,
     Date,
+    /// <summary>A date known to the year, the month or the day (<c>2019</c>, <c>2019-03</c>, <c>2019-03-14</c>): shown with only the
+    /// fields it has, edited as text, exported as text, never completed.</summary>
+    PartialDate,
     Time,
     /// <summary>A time of day and the zone it is stated in.</summary>
     TimeZone,

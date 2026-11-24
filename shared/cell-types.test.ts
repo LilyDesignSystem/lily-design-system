@@ -9,6 +9,7 @@ import {
     filesOf,
     isCivilDate,
     isCivilTime,
+    isPartialCivilDate,
     isInvalidForType,
     isValidTimeZone,
     isZonedTime,
@@ -582,5 +583,47 @@ describe("resolveColumn", () => {
             format: (v: unknown) => string;
         };
         expect(column.format("23:59:60")).toBe("23:59:60");
+    });
+});
+
+// spec/lessons/openehr-rust item 5: a partial date is shown with only the fields it has, edited as text, and never completed.
+describe("partial-date cells", () => {
+    type Resolved = {
+        editor: string;
+        format: (v: unknown) => string;
+        exportValue: (row: object) => unknown;
+    };
+    const column = (locale?: string) =>
+        resolveColumn(
+            { id: "onset", type: "partial-date" } as never,
+            locale as never,
+        ) as unknown as Resolved;
+    test("isPartialCivilDate accepts a year, a month or a day", () => {
+        for (const ok of ["2019", "2019-03", "2019-03-14"])
+            expect(isPartialCivilDate(ok)).toBe(true);
+        for (const bad of ["19", "2019-13", "2019-02-30", "20190314", ""])
+            expect(isPartialCivilDate(bad)).toBe(false);
+    });
+    test("formats only the fields the value has, and never adds a day or a month", () => {
+        const c = column("en-GB");
+        expect(c.format("2019")).toBe("2019");
+        expect(c.format("2019-03")).toBe("March 2019");
+        expect(c.format("2019-03-14")).toBe("14 Mar 2019");
+        expect(column().format("2019-03")).toBe("2019-03");
+    });
+    test("is edited as text and exported as text, never as a spreadsheet date", () => {
+        const c = column("en-GB");
+        expect(c.editor).toBe("text");
+        expect(c.exportValue({ onset: "2019-03" })).toBe("2019-03");
+        expect(c.exportValue({ onset: "" })).toBeNull();
+    });
+    test("an impossible value is flagged and shown as written", () => {
+        expect(isInvalidForType({ id: "onset", type: "partial-date" } as never, "2019-13")).toBe(
+            true,
+        );
+        expect(isInvalidForType({ id: "onset", type: "partial-date" } as never, "2019")).toBe(
+            false,
+        );
+        expect(column("en-GB").format("2019-13")).toBe("2019-13");
     });
 });
