@@ -50,7 +50,7 @@ public sealed record PickerBarLabels
 public partial class PickerBar : ComponentBase
 {
     /// <summary>
-    /// All 63 Lily reference theme slugs (see <c>themes/</c> at the repo
+    /// All 65 Lily reference theme slugs (see <c>themes/</c> at the repo
     /// root), in one list sorted alphabetically by the name shown
     /// (<see cref="DefaultThemeLabels"/>, else the title-cased slug), so "IBM
     /// Carbon" sorts under I and "NHS England (patients)" under N. Generic and

@@ -72,7 +72,7 @@
 -export type { ShareTarget, LinkItem };
 -
  /**
-  * All 63 Lily reference theme slugs (see `themes/` at the repo root), in one list sorted alphabetically by the name shown
+  * All 65 Lily reference theme slugs (see `themes/` at the repo root), in one list sorted alphabetically by the name shown
   * (`DEFAULT_THEME_LABELS`, else the title-cased slug), so "IBM Carbon" sorts under I and "NHS England (patients)" under N.
 @@ -140,9 +161,8 @@
  

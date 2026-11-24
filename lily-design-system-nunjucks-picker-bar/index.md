@@ -67,7 +67,7 @@ Then load `picker-bar.client.js` once and call `autoInit()`:
 ```
 
 That's a complete, working header row: a site search (a search for
-`foo` goes to `/?foo`), 63 themes, four locales, the
+`foo` goes to `/?foo`), 65 themes, four locales, the
 seven-step text-size scale, and one share destination plus copy-to-URL
 if you add `shareProps: { copyLabel: "Copy link" }`.
 
@@ -77,7 +77,7 @@ function — a Nunjucks macro cannot call an arbitrary JS function.
 
 ## Defaults
 
-- **`themes`** defaults to `DEFAULT_THEMES` — all 63 Lily reference
+- **`themes`** defaults to `DEFAULT_THEMES` — all 65 Lily reference
   theme slugs, in one list sorted alphabetically by the name shown (not
   grouped by kind; the theme-picker's "Order of themes" rule).
   `DEFAULT_THEME_LABELS` gives the names title-casing gets wrong ("IBM

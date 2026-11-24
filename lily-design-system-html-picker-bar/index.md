@@ -88,7 +88,7 @@ same pattern elsewhere in this catalog.
 
 ## Defaults
 
-- **`themes`** defaults to `DEFAULT_THEMES` — all 63 Lily reference
+- **`themes`** defaults to `DEFAULT_THEMES` — all 65 Lily reference
   theme slugs, in one list sorted alphabetically by the name shown (not
   grouped by kind; the theme-picker's "Order of themes" rule).
   `DEFAULT_THEME_LABELS` gives the names title-casing gets wrong ("IBM

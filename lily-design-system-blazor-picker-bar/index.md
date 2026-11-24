@@ -55,13 +55,13 @@ reimplementation.
 ```
 
 That's a complete, working header row: site search (a search for
-`foo` goes to `/?foo`), 63 themes, four locales, the
+`foo` goes to `/?foo`), 65 themes, four locales, the
 seven-step text-size scale, and one share destination plus copy-to-URL
 if you add `ShareAttributes["CopyLabel"] = "Copy link"`.
 
 ## Defaults
 
-- **`Themes`** defaults to `PickerBar.DefaultThemes` — all 63 Lily
+- **`Themes`** defaults to `PickerBar.DefaultThemes` — all 65 Lily
   reference theme slugs, in one list sorted alphabetically by the name shown
   (not grouped by kind; the theme picker's "Order of themes" rule).
   `PickerBar.DefaultThemeLabels` gives the names title-casing gets wrong

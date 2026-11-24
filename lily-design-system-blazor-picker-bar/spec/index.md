@@ -95,7 +95,7 @@ otherwise gets out of the way.
 
 ### 5.1 `DefaultThemes`
 
-All 63 Lily reference theme slugs (`themes/` at the repo root), in one list sorted alphabetically by the name shown
+All 65 Lily reference theme slugs (`themes/` at the repo root), in one list sorted alphabetically by the name shown
 (`DefaultThemeLabels`, else the title-cased slug), so "IBM Carbon" sorts under I, "NHS England (patients)" under N and "GOV.UK
 Design System" under G. Generic and company or public-sector themes are not grouped apart: this replaces the 2026-11-20 grouped
 order, by the theme picker's "Order of themes" rule (2026-11-21), which sorts its options the same way whatever order it is given.
@@ -201,6 +201,6 @@ version, not vendored or duplicated source.
 
 ## Default theme order and labels (2026-11-20)
 
-One list of 63 sorted by the name shown (§5.1, 2026-11-21); `DEFAULT_THEME_LABELS` supplies the labels title-casing gets wrong,
+One list of 65 sorted by the name shown (§5.1, 2026-11-21); `DEFAULT_THEME_LABELS` supplies the labels title-casing gets wrong,
 under the consumer's own. Tests: the order (against `ThemePicker.SortThemeSlugs`), the spelling of the abbreviations and the NHS
 themes, and a consumer's label winning over a default.

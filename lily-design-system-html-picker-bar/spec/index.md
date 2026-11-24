@@ -115,9 +115,8 @@ list. This is a pre-existing limitation of the CSV encoding, not new to
 ### 5.1 `DEFAULT_THEMES`
 
 Identical array, identical ordering rationale, to the canonical Svelte
-spec §5.1: all 63 Lily reference theme slugs, the 36 generic themes
-alphabetically and then the 27 company and public-sector themes by
-label, with the same `DEFAULT_THEME_LABELS`, set on the child
+spec §5.1: every Lily reference theme slug, in one list sorted by the
+name shown, with the same `DEFAULT_THEME_LABELS`, set on the child
 `<theme-picker>` under `themeProps.themeLabels`, which win.
 
 ### 5.2 `DEFAULT_SIZES`
@@ -201,6 +200,6 @@ bundling or erroring on them.
 
 ## Default theme order and labels (2026-11-20)
 
-The 36 generic themes come first, then the 27 company and public-sector themes by label (§5.1); `DEFAULT_THEME_LABELS`
-supplies the labels title-casing gets wrong, under the consumer's own. Tests: the order of both groups, the spelling of the
-abbreviations and the NHS themes, and a consumer's label winning over a default.
+Superseded 2026-11-21 (see §5.1): the themes are one list sorted by the name shown, not two groups. `DEFAULT_THEME_LABELS`
+supplies the labels title-casing gets wrong, under the consumer's own. Tests: the spelling of the abbreviations and the NHS
+themes, and a consumer's label winning over a default; the order is the theme picker's `sortThemes` tests.

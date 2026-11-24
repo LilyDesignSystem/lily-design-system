@@ -37,7 +37,7 @@ import type {
 export type { ShareTarget, LinkItem };
 
 /**
- * All 63 Lily reference theme slugs (see `themes/` at the repo root), in one list sorted alphabetically by the name shown
+ * All 65 Lily reference theme slugs (see `themes/` at the repo root), in one list sorted alphabetically by the name shown
  * (`DEFAULT_THEME_LABELS`, else the title-cased slug), so "IBM Carbon" sorts under I and "NHS England (patients)" under N.
  * Generic and company or public-sector themes are not grouped apart (spec/theme-picker, "Order of themes"). The theme picker
  * sorts its options the same way whatever order it is given.

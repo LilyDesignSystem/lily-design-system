@@ -4253,7 +4253,7 @@ current design system. No person or organisation is named. Order: T1 first (a tr
       the clinical components, nine working examples, a comparison that says where an official system is stronger, six
       unproved items, a try-it path, and an adopter slot left empty. The figures are typed into the page from the generated
       reports, not generated: a later task could generate them, so they cannot go stale.)_
-- [ ] **P41-T7 Sort themes alphabetically in the pickers.** The spec changed 2026-11-21 ([order of themes](spec/theme-picker/index.md#order-of-themes-added-2026-11-21)):
+- [x] **P41-T7 Sort themes alphabetically in the pickers.** _(Code done and released in the theme-pickers 0.5.0 and picker-bars 0.9.0: `sortThemes` in `shared/theme-choice.ts` and C#, an order test in every catalog. Docs finished 2026-11-24: the nine picker-bar specs' §5.1 and the themes package no longer describe two groups, and their counts say 65.)_ The spec changed 2026-11-21 ([order of themes](spec/theme-picker/index.md#order-of-themes-added-2026-11-21)):
       one list sorted by the name shown, "Follow this device" first, `sortThemes={false}` to keep a given order. Add `sortThemes` to
       `shared/theme-choice.ts` (and its C# twin), use it in `themeChoices` in all eight theme-picker catalogs and in the picker-bar
       defaults, update each package's own `spec/index.md`, README and `index.md` (the Svelte picker-bar's still says "36 generic themes
