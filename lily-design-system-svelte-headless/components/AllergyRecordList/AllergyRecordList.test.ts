@@ -49,7 +49,7 @@ describe("AllergyRecordList", () => {
         expect(screen.getByRole("list", { name: "Record" })).toBeTruthy();
     });
 
-    test("warns when the status is missing", () => {
+    test("HC-C5: warns when the status is missing", () => {
         const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
         render(Subject, { props: { statusLabel: "Known allergies" } as never });
         expect(

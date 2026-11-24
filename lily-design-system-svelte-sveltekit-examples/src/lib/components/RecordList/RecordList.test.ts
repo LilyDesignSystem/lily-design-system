@@ -53,7 +53,7 @@ describe("RecordList", () => {
         expect(screen.getByRole("list", { name: "Record" })).toBeTruthy();
     });
 
-    test("warns when the status is missing", () => {
+    test("HC-C3: warns when the status is missing", () => {
         const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
         render(Subject, { props: { statusLabel: "Vital signs" } as never });
         expect(

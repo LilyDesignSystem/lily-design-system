@@ -5,7 +5,8 @@ health service built with Lily Design System™. Each answer names the check or 
 verified rather than trusted. Lily is a user-interface library: it renders what your application gives it, in the browser
 (or in Blazor, on your server). It is not a medical device, and it is certified by no one.
 
-The model for this page is openehr-rust's `PHI.md` ([spec/lessons/openehr-rust](spec/lessons/openehr-rust/index.md)).
+The model for this page is openehr-rust's `PHI.md` ([spec/lessons/openehr-rust](spec/lessons/openehr-rust/index.md)). The safety rules behind these answers have
+permanent ids, each traced to the tests that check it, in [spec/healthcare-ui/requirements.md](spec/healthcare-ui/requirements.md).
 
 ## The short answers
 

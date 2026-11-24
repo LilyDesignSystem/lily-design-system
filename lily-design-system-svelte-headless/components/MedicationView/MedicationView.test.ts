@@ -25,7 +25,7 @@ describe("MedicationView", () => {
         expect(part("frequency")?.textContent).toBe("three times daily");
     });
 
-    test("marks the consumer's tall man segments, and only those", () => {
+    test("HC-C6: marks the consumer's tall man segments, and only those", () => {
         render(Subject, {
             props: { nameSegments: [{ text: "hydr" }, { text: "ALAZINE", tallMan: true }] },
         });
@@ -35,7 +35,7 @@ describe("MedicationView", () => {
         expect(marked[0].textContent).toBe("ALAZINE");
     });
 
-    test("writes no tall man letters of its own", () => {
+    test("HC-C6: writes no tall man letters of its own", () => {
         render(Subject, { props: { name: "hydroxyzine HCl" } });
         expect(root().querySelector(".medication-view-tall-man")).toBeNull();
         expect(part("name")?.textContent).toBe("hydroxyzine HCl");

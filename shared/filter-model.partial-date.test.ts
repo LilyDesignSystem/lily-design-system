@@ -123,7 +123,7 @@ describe("partial-date field type", () => {
 });
 
 describe("the predicate: certain, or no match", () => {
-    test("a year that may or may not be before the date matches neither the rule nor its negation", () => {
+    test("HC-Q1: a year that may or may not be before the date matches neither the rule nor its negation", () => {
         expect(matches(group([rule("lt", "2019-06-01")]), "2019")).toBe(false);
         expect(matches(group([rule("lt", "2019-06-01")], "and", true), "2019")).toBe(false);
         expect(matches(group([rule("gte", "2019-06-01")]), "2019")).toBe(false);
@@ -160,7 +160,7 @@ describe("the predicate: certain, or no match", () => {
         expect(matches(group([unknown, rule("gt", "2020-01-01")], "and", true), "2019")).toBe(true);
     });
 
-    test("soundness: a match means every day the row may stand for matches the ordinary date filter", () => {
+    test("HC-Q2: soundness: a match means every day the row may stand for matches the ordinary date filter", () => {
         fc.assert(
             fc.property(tree, partialDate, (g, onset) => {
                 if (!matches(g, onset)) return true;

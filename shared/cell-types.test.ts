@@ -577,7 +577,7 @@ describe("resolveColumn", () => {
 
     // spec/lessons/openehr-rust item 4: a time cell cannot yet hold a leap second (the native time editor has no second 60),
     // so it is flagged, and shown exactly as written; it is never rounded to 23:59:59 or 00:00.
-    test("a leap second in a time cell is shown as written, never changed", () => {
+    test("HC-F15: a leap second in a time cell is shown as written, never changed", () => {
         expect(isCivilTime("23:59:60")).toBe(false);
         const column = resolveColumn({ id: "t", type: "time" } as never) as {
             format: (v: unknown) => string;

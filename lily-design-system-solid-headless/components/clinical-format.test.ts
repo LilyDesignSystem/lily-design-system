@@ -16,17 +16,17 @@ import {
 const NBSP = " ";
 
 describe("formatQuantity", () => {
-    test("writes no trailing zero", () => {
+    test("HC-F1: writes no trailing zero", () => {
         expect(formatQuantity(5.0, "mg", "en-GB")).toBe(`5${NBSP}mg`);
         expect(formatQuantity(2.5, "mg", "en-GB")).toBe(`2.5${NBSP}mg`);
     });
 
-    test("always writes a leading zero", () => {
+    test("HC-F2: always writes a leading zero", () => {
         expect(formatQuantity(0.5, "mg", "en-GB")).toBe(`0.5${NBSP}mg`);
         expect(formatQuantity(0.125, "mg", "en-US")).toBe(`0.125${NBSP}mg`);
     });
 
-    test("groups thousands, so 5000 is not read as 500", () => {
+    test("HC-F3: groups thousands, so 5000 is not read as 500", () => {
         expect(formatQuantity(5000, "units", "en-GB")).toBe(`5,000${NBSP}units`);
     });
 
@@ -35,7 +35,7 @@ describe("formatQuantity", () => {
         expect(formatQuantity(1250.5, "mL", "de-DE")).toBe(`1.250,5${NBSP}mL`);
     });
 
-    test("joins number and unit with a no-break space", () => {
+    test("HC-F4: joins number and unit with a no-break space", () => {
         expect(formatQuantity(10, "mL", "en-GB")).toContain(NBSP);
         expect(formatQuantity(10, "mL", "en-GB")).not.toContain(" ");
     });
@@ -48,7 +48,7 @@ describe("formatQuantity", () => {
         expect(formatQuantity(7, "", "en-GB")).toBe("7");
     });
 
-    test("writes a FHIR comparator before the number, never dropping it", () => {
+    test("HC-F5: writes a FHIR comparator before the number, never dropping it", () => {
         expect(formatQuantity(5, "mmol/L", "en-GB", "<")).toBe(`<5${NBSP}mmol/L`);
         expect(formatQuantity(5, "mmol/L", "en-GB", "<=")).toBe(`≤5${NBSP}mmol/L`);
         expect(formatQuantity(0.5, "mg", "de-DE", ">=")).toBe(`≥0,5${NBSP}mg`);
@@ -56,7 +56,7 @@ describe("formatQuantity", () => {
         expect(formatQuantity(5, "mmol/L", "en-GB")).toBe(`5${NBSP}mmol/L`);
     });
 
-    test("writes openEHR's approximate comparator as ≈, never dropping it", () => {
+    test("HC-F5: writes openEHR's approximate comparator as ≈, never dropping it", () => {
         expect(formatQuantity(3, "kg", "en-GB", "~")).toBe(`≈3${NBSP}kg`);
         expect(formatQuantity(2.5, "L", "de-DE", "~")).toBe(`≈2,5${NBSP}L`);
     });
@@ -90,7 +90,7 @@ describe("formatRange", () => {
     test("writes the range alone without a unit", () => {
         expect(formatRange(1, 2, "", "en-GB")).toBe("1–2");
     });
-    test("refuses a range given backwards, so it can never read high to low", () => {
+    test("HC-F7: refuses a range given backwards, so it can never read high to low", () => {
         expect(() => formatRange(2.12, 1.82, "", "en-GB")).toThrow(
             "formatRange: low is above high, so the range would read backwards",
         );
@@ -126,22 +126,22 @@ describe("ageParts", () => {
     const HOUR = 60 * MIN;
     const DAY = 24 * HOUR;
 
-    test("minutes under 2 hours", () => {
+    test("HC-F14: minutes under 2 hours", () => {
         expect(ageParts(birth, after(0))).toEqual([{ value: 0, unit: "minutes" }]);
         expect(ageParts(birth, after(2 * HOUR - MIN))).toEqual([{ value: 119, unit: "minutes" }]);
     });
 
-    test("hours from 2 hours to under 2 days", () => {
+    test("HC-F14: hours from 2 hours to under 2 days", () => {
         expect(ageParts(birth, after(2 * HOUR))).toEqual([{ value: 2, unit: "hours" }]);
         expect(ageParts(birth, after(2 * DAY - MIN))).toEqual([{ value: 47, unit: "hours" }]);
     });
 
-    test("days from 2 days to under 4 weeks", () => {
+    test("HC-F14: days from 2 days to under 4 weeks", () => {
         expect(ageParts(birth, after(2 * DAY))).toEqual([{ value: 2, unit: "days" }]);
         expect(ageParts(birth, after(27 * DAY))).toEqual([{ value: 27, unit: "days" }]);
     });
 
-    test("weeks and days from 4 weeks to under 1 year", () => {
+    test("HC-F14: weeks and days from 4 weeks to under 1 year", () => {
         expect(ageParts(birth, after(28 * DAY))).toEqual([
             { value: 4, unit: "weeks" },
             { value: 0, unit: "days" },
@@ -153,7 +153,7 @@ describe("ageParts", () => {
         expect(ageParts("2025-01-10", "2026-01-09")[0].unit).toBe("weeks");
     });
 
-    test("months and days from 1 year to under 2 years", () => {
+    test("HC-F14: months and days from 1 year to under 2 years", () => {
         expect(ageParts("2025-01-10", "2026-01-10")).toEqual([
             { value: 12, unit: "months" },
             { value: 0, unit: "days" },
@@ -164,7 +164,7 @@ describe("ageParts", () => {
         ]);
     });
 
-    test("years and months from 2 years to under 18", () => {
+    test("HC-F14: years and months from 2 years to under 18", () => {
         expect(ageParts("2024-03-15", "2026-03-15")).toEqual([
             { value: 2, unit: "years" },
             { value: 0, unit: "months" },
@@ -175,7 +175,7 @@ describe("ageParts", () => {
         ]);
     });
 
-    test("years alone from 18", () => {
+    test("HC-F14: years alone from 18", () => {
         expect(ageParts("2008-11-20", "2026-11-20")).toEqual([{ value: 18, unit: "years" }]);
         expect(ageParts("1950-06-01", "2026-11-14")).toEqual([{ value: 76, unit: "years" }]);
     });
@@ -226,19 +226,19 @@ describe("toIsoDuration", () => {
 });
 
 describe("formatPartialDate", () => {
-    test("writes a year alone, never inventing a month or day", () => {
+    test("HC-F9: writes a year alone, never inventing a month or day", () => {
         expect(formatPartialDate("2019", "en-GB")).toBe("2019");
         expect(formatPartialDate("2019", "de-DE")).toBe("2019");
     });
 
-    test("writes a month and year with the month as a word, never inventing a day", () => {
+    test("HC-F9, HC-F10: writes a month and year with the month as a word, never inventing a day", () => {
         expect(formatPartialDate("2019-03", "en-GB")).toBe("March 2019");
         expect(formatPartialDate("2019-03", "de-DE")).toBe("März 2019");
         expect(formatPartialDate("2019-03", "en-GB", { month: "short" })).toBe("Mar 2019");
         expect(formatPartialDate("2019-03", "en-GB")).not.toMatch(/\b1\b/);
     });
 
-    test("writes a full date with the month as a word", () => {
+    test("HC-F10: writes a full date with the month as a word", () => {
         expect(formatPartialDate("2019-03-14", "en-GB")).toBe("14 March 2019");
         expect(formatPartialDate("2019-03-14", "en-US")).toBe("March 14, 2019");
         expect(formatPartialDate("2019-03-14", "de-DE")).toBe("14. März 2019");
@@ -297,7 +297,7 @@ describe("formatProportion", () => {
         expect(formatProportion(0.5, 1, "unitary", "de-DE")).toBe("0,5");
     });
 
-    test("reduces nothing and writes whole or proper integer fractions plainly", () => {
+    test("HC-F13: reduces nothing and writes whole or proper integer fractions plainly", () => {
         expect(formatProportion(2, 4, "fraction", "en-GB")).toBe("2/4");
         expect(formatProportion(4, 2, "integer-fraction", "en-GB")).toBe("2");
         expect(formatProportion(1, 2, "integer-fraction", "en-GB")).toBe("1/2");
@@ -316,7 +316,7 @@ describe("formatProportion", () => {
 });
 
 describe("durationParts", () => {
-    test("returns each part, converting nothing", () => {
+    test("HC-F11: returns each part, converting nothing", () => {
         expect(durationParts("P1Y2M3W4DT5H6M7S")).toEqual({
             years: 1,
             months: 2,
@@ -329,6 +329,12 @@ describe("durationParts", () => {
         });
         expect(durationParts("PT90M").minutes).toBe(90);
         expect(durationParts("PT1.5S").seconds).toBe(1.5);
+    });
+
+    test("HC-F12: accepts ',' as the decimal sign, as ISO 8601 and openEHR allow, and htmlDuration writes '.'", () => {
+        expect(durationParts("PT1,5S").seconds).toBe(1.5);
+        expect(htmlDuration("PT1,5S")).toEqual({ datetime: "PT1.5S", negative: false });
+        expect(() => durationParts("PT1,S")).toThrow(RangeError);
     });
 
     test("keeps the sign apart", () => {
@@ -435,7 +441,7 @@ describe("meterScale", () => {
         expect(reason(() => meterScale(1, -3))).toBe("bound");
     });
 
-    test("the message names the rule broken, never the value (a reading is patient data)", () => {
+    test("HC-F8: the message names the rule broken, never the value (a reading is patient data)", () => {
         expect(() => meterScale(5, 5.5, 3.5)).toThrow(/reversed or has no width$/);
         expect(() => meterScale(NaN, 1, 2)).toThrow(
             /^meterScale: the value is not a finite number/,
@@ -491,7 +497,7 @@ describe("clinical-format edge cases (coverage)", () => {
     });
 });
 
-describe("errors never echo a clinical value (spec/lessons/openehr-rust item 1)", () => {
+describe("HC-F8: errors never echo a clinical value (spec/lessons/openehr-rust item 1)", () => {
     // An error reaches the console, an error tracker and a bug report at once, so a value in it leaks patient data.
     const NUMBER = 987654.321;
     const DATE = "1987-06-54";
@@ -531,7 +537,7 @@ describe("errors never echo a clinical value (spec/lessons/openehr-rust item 1)"
 });
 
 describe("recorded precision (spec/lessons/openehr-rust item 2)", () => {
-    test("a result keeps the decimal places it was reported to", () => {
+    test("HC-F6: a result keeps the decimal places it was reported to", () => {
         expect(formatQuantity(1.5, "mmol/L", "en-GB", undefined, { precision: 2 })).toBe(
             `1.50${NBSP}mmol/L`,
         );
@@ -550,7 +556,7 @@ describe("recorded precision (spec/lessons/openehr-rust item 2)", () => {
         expect(formatQuantity(1.5, "mg", "en-GB")).toBe(`1.5${NBSP}mg`);
         expect(formatRange(3.5, 5, "mmol/L", "en-GB")).toBe(`3.5–5${NBSP}mmol/L`);
     });
-    test("a value with more places than its precision is refused, never rounded", () => {
+    test("HC-F6: a value with more places than its precision is refused, never rounded", () => {
         expect(() => formatQuantity(1.55, "mmol/L", "en-GB", undefined, { precision: 1 })).toThrow(
             /more decimal places than its precision/,
         );

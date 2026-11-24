@@ -31,7 +31,7 @@ describe("EarlyWarningScoreView", () => {
         expect(part("escalation")?.textContent).toBe("Urgent response");
     });
 
-    test("shows the score it is given and computes nothing", () => {
+    test("HC-C9: shows the score it is given and computes nothing", () => {
         render(Subject, { props: { score: "3" } });
         expect(part("score")?.textContent).toBe("3");
         expect(root().hasAttribute("data-band")).toBe(false);

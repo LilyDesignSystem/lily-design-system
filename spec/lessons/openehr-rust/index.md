@@ -149,6 +149,9 @@ should wait for an adopter who needs them.
   text editor in place of the native time input for every time cell, losing its picker, its keyboard and its screen-reader
   support for a value almost no record holds: none has been added since 2016, and they are to end by 2035. The grid keeps a
   `:60` value exactly as written, flags it, and never changes it, which is the rule that matters.
+- **2026-11-24, item 9 (P47-T9): a corpus run. Adopted**; run 1 is below.
+- **2026-11-24, item 10 (P47-T10): requirement ids. Adopted**, because adopters asked for them:
+  [spec/healthcare-ui/requirements.md](../../healthcare-ui/requirements.md), checked by `bin/check-healthcare-requirements`.
 
 ## Corpus run (item 9)
 

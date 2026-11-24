@@ -30,12 +30,12 @@ describe("ObservationView", () => {
         expect(part("range")?.textContent).toBe("3.5–5.3");
     });
 
-    test("joins value and unit with a no-break space", () => {
+    test("HC-F4: joins value and unit with a no-break space", () => {
         render(Subject, { props: { value: "5.9", unit: "mmol/L" } });
         expect(root().textContent).toContain("5.9 mmol/L");
     });
 
-    test("renders the interpretation code as data, and the flag only as the consumer's words", () => {
+    test("HC-C1: renders the interpretation code as data, and the flag only as the consumer's words", () => {
         render(Subject, {
             props: { value: "2.1", interpretation: "LL", flagLabel: "Critically low" },
         });
@@ -44,7 +44,7 @@ describe("ObservationView", () => {
         expect(root().textContent).toContain("Critically low");
     });
 
-    test("not-recorded and unavailable show different words, never a blank", () => {
+    test("HC-C3: not-recorded and unavailable show different words, never a blank", () => {
         const { unmount } = render(Subject, {
             props: { status: "not-recorded", statusLabel: "Not recorded" },
         });
@@ -115,7 +115,7 @@ describe("ObservationView", () => {
         expect(part("value")).toBeNull();
     });
 
-    test("never infers an interpretation: with a range but no interpretation, no flag and no data", () => {
+    test("HC-C2: never infers an interpretation: with a range but no interpretation, no flag and no data", () => {
         render(Subject, { props: { value: "5.9", unit: "mmol/L", range: "3.5–5.3" } });
         expect(root().hasAttribute("data-interpretation")).toBe(false);
         expect(part("flag")).toBeNull();
@@ -137,7 +137,7 @@ describe("ObservationView", () => {
         expect(ranges[1].textContent).toBe("Critical below 2.5");
     });
 
-    test("a corrected result keeps the superseded value in a del, with words", () => {
+    test("HC-C4: a corrected result keeps the superseded value in a del, with words", () => {
         render(Subject, {
             props: {
                 value: "4.8",

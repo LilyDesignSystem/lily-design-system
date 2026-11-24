@@ -6,7 +6,7 @@ import { test, expect } from "@playwright/test";
 test.describe("patient banner at 320px", () => {
     test.use({ viewport: { width: 320, height: 800 } });
 
-    test("every field is visible, unclipped and inside the page", async ({ page }) => {
+    test("HC-B1: every field is visible, unclipped and inside the page", async ({ page }) => {
         await page.goto("/patient-banner");
         const banner = page.getByRole("region", { name: /MONTGOMERY-FITZWILLIAM/ });
         await expect(banner).toBeVisible();
@@ -39,7 +39,7 @@ test.describe("patient banner at 320px", () => {
         expect(pageOverflows, "the page scrolls sideways").toBe(false);
     });
 
-    test("two identifiers and the age are shown", async ({ page }) => {
+    test("HC-B2: two identifiers and the age are shown", async ({ page }) => {
         await page.goto("/patient-banner");
         const banner = page.getByRole("region", { name: /MONTGOMERY-FITZWILLIAM/ });
         await expect(banner.locator("time[datetime='1949-02-03']")).toBeVisible();
@@ -47,7 +47,9 @@ test.describe("patient banner at 320px", () => {
         await expect(banner.locator(".age-view")).toHaveAttribute("data-duration", "P77Y");
     });
 
-    test("allergies are never blank, and a deceased patient is said in words", async ({ page }) => {
+    test("HC-B3: allergies are never blank, and a deceased patient is said in words", async ({
+        page,
+    }) => {
         await page.goto("/patient-banner");
         const living = page.getByRole("region", { name: /MONTGOMERY-FITZWILLIAM/ });
         await expect(

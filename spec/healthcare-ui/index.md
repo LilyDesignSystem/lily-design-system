@@ -177,6 +177,12 @@ labels the specification does not supply). Its needs, against Phase 27 (tasks [P
       words, with a contents link; `shared/ips-sections.ts` with tests, ported to Blazor and Nunjucks.
 - [x] 11–12. Each maintainer decision is recorded here: `body-map` and a 0 to 10 rating scale were both approved on 2026-11-14 (tasks.md P27-T11, P27-T12).
 
+## Requirement ids
+
+[requirements.md](requirements.md) gives each safety-relevant rule here a permanent id (`HC-F1`, `HC-C3`, …), its status
+(tested, checked, guide, untested, declined) and the tests that cite it, for an adopter's clinical safety case.
+`bin/check-healthcare-requirements` (in `bin/test`) keeps the register and the tests in step.
+
 ## Adopter guide
 
 [docs/patterns/healthcare/index.md](../../docs/patterns/healthcare/index.md): what Lily does and does not do, alert tiering,

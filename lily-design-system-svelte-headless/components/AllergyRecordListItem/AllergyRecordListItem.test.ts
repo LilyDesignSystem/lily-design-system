@@ -76,7 +76,7 @@ describe("AllergyRecordListItem", () => {
         ).toBe(true);
     });
 
-    test("subjectLabel says whose record it is, first, when it is not the patient's", () => {
+    test("HC-C11: subjectLabel says whose record it is, first, when it is not the patient's", () => {
         const { container } = render(Subject, {
             props: {
                 substance: "Penicillin",

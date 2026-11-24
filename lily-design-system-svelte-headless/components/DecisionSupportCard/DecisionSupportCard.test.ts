@@ -26,7 +26,7 @@ describe("DecisionSupportCard", () => {
         );
     });
 
-    test("is not a live region, so it never interrupts by itself", () => {
+    test("HC-C7: is not a live region, so it never interrupts by itself", () => {
         render(Subject, { props: base });
         const card = screen.getByRole("group");
         expect(card.hasAttribute("aria-live")).toBe(false);
@@ -82,7 +82,7 @@ describe("DecisionSupportCard", () => {
         expect(onSuggestion).toHaveBeenLastCalledWith("switch");
     });
 
-    test("dismissing without a reason is refused when reasons are offered", async () => {
+    test("HC-C8: dismissing without a reason is refused when reasons are offered", async () => {
         const user = userEvent.setup();
         const onDismiss = vi.fn();
         render(Subject, {

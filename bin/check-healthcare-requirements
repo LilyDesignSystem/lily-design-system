@@ -1,0 +1,94 @@
+#!/usr/bin/env python3
+"""bin/check-healthcare-requirements — the healthcare requirement ids and the tests that cite them agree.
+
+spec/healthcare-ui/requirements.md gives each safety-relevant healthcare rule a permanent id (HC-F1, HC-C3, ...), a status
+and its evidence (tasks.md P47-T10). This fails when:
+
+  - an id is malformed or appears twice;
+  - a status is not tested, checked, guide, untested, declined or withdrawn;
+  - an evidence file does not exist;
+  - a `tested` id is not cited in each of its evidence files;
+  - a `checked` id's evidence is not a bin/ script;
+  - any tracked test file cites an id the register does not have.
+
+Usage: bin/check-healthcare-requirements [--list]   (--list prints id, status and evidence count)
+"""
+
+import re
+import subprocess
+import sys
+from pathlib import Path
+
+TOP = Path(__file__).resolve().parent.parent
+REGISTER = TOP / "spec/healthcare-ui/requirements.md"
+STATUSES = {"tested", "checked", "guide", "untested", "declined", "withdrawn"}
+ID = re.compile(r"^HC-[A-Z]\d+$")
+CITATION = re.compile(r"\bHC-[A-Z]\d+\b")
+TEST_FILE = re.compile(r"(\.test\.ts|\.spec\.ts|Tests\.cs|Tests\.swift|Test\.kt)$")
+
+
+def rows():
+    for number, line in enumerate(REGISTER.read_text(encoding="utf-8").splitlines(), 1):
+        if not line.startswith("| HC-"):
+            continue
+        cells = [cell.strip() for cell in line.strip().strip("|").split("|")]
+        if len(cells) != 4:
+            yield number, None, None, None, f"line {number}: expected 4 cells, found {len(cells)}"
+            continue
+        ident, _requirement, status, evidence = cells
+        yield number, ident, status, re.findall(r"`([^`]+)`", evidence), None
+
+
+def main() -> int:
+    errors = []
+    seen = {}
+    for number, ident, status, evidence, problem in rows():
+        if problem:
+            errors.append(problem)
+            continue
+        if not ID.match(ident):
+            errors.append(f"line {number}: malformed id {ident!r}")
+        if ident in seen:
+            errors.append(f"line {number}: {ident} already used on line {seen[ident][0]}")
+        seen[ident] = (number, status, evidence)
+        if status not in STATUSES:
+            errors.append(f"{ident}: unknown status {status!r}")
+        if not evidence:
+            errors.append(f"{ident}: no evidence")
+        for path in evidence:
+            file = TOP / path
+            if not file.exists():
+                errors.append(f"{ident}: evidence {path} does not exist")
+            elif status == "tested" and not re.search(rf"\b{re.escape(ident)}\b", file.read_text(encoding="utf-8")):
+                errors.append(f"{ident}: no test in {path} cites it")
+            elif status == "checked" and not path.startswith("bin/"):
+                errors.append(f"{ident}: a checked rule's evidence must be a bin/ script, not {path}")
+
+    tracked = subprocess.run(["git", "ls-files"], cwd=TOP, capture_output=True, text=True, check=True).stdout.split()
+    for path in tracked:
+        if not TEST_FILE.search(path) or "node_modules" in path:
+            continue
+        try:
+            text = (TOP / path).read_text(encoding="utf-8")
+        except (OSError, UnicodeDecodeError):
+            continue
+        for cited in sorted(set(CITATION.findall(text))):
+            if cited not in seen:
+                errors.append(f"{path} cites {cited}, which the register does not have")
+
+    if "--list" in sys.argv[1:]:
+        for ident, (_number, status, evidence) in seen.items():
+            print(f"{ident}\t{status}\t{len(evidence)}")
+    for error in errors:
+        print(f"check-healthcare-requirements: {error}", file=sys.stderr)
+    if not errors:
+        counts = {}
+        for _number, status, _evidence in seen.values():
+            counts[status] = counts.get(status, 0) + 1
+        summary = ", ".join(f"{n} {s}" for s, n in sorted(counts.items()))
+        print(f"check-healthcare-requirements: {len(seen)} ids ({summary})")
+    return 1 if errors else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

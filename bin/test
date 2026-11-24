@@ -472,6 +472,8 @@ fi
     || err "a headless component builds English around a value, or a listed finding is gone; run bin/check-built-english"
 "$top/bin/check-identifier-inputs" >/dev/null 2>&1 \
     || err "a national identifier input lacks autocomplete=off or spellcheck=false; run bin/check-identifier-inputs"
+"$top/bin/check-healthcare-requirements" >/dev/null 2>&1 \
+    || err "the healthcare requirement ids and the tests that cite them disagree; run bin/check-healthcare-requirements"
 "$top/bin/check-solid-form-reset" >/dev/null 2>&1 \
     || err "a Solid field binds value or checked with no default, so a form reset would clear it; run bin/check-solid-form-reset"
 "$top/bin/generate-core" --check >/dev/null 2>&1 \

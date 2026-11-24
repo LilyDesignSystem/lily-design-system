@@ -9,6 +9,7 @@ public class ClinicalFormatTests
     private static readonly CultureInfo En = CultureInfo.GetCultureInfo("en-GB");
     private static readonly CultureInfo De = CultureInfo.GetCultureInfo("de-DE");
 
+    // HC-F1, HC-F2, HC-F3 (spec/healthcare-ui/requirements.md)
     [Fact]
     public void FormatQuantity_writes_no_trailing_zero_a_leading_zero_and_grouping()
     {
@@ -20,6 +21,7 @@ public class ClinicalFormatTests
         Assert.Equal("7", ClinicalFormat.FormatQuantity(7m, "", En));
     }
 
+    // HC-F14 (spec/healthcare-ui/requirements.md)
     [Theory]
     [InlineData("2026-01-10T08:00:00Z", "2026-01-10T09:59:00Z", "119 Minutes")]
     [InlineData("2026-01-10T08:00:00Z", "2026-01-10T10:00:00Z", "2 Hours")]
@@ -45,6 +47,7 @@ public class ClinicalFormatTests
         Assert.Equal("PT0M", ClinicalFormat.ToIsoDuration([new(0, AgeUnit.Minutes)]));
     }
 
+    // HC-F5 (spec/healthcare-ui/requirements.md)
     [Theory]
     [InlineData("<", "<5\u00a0mmol/L")]
     [InlineData("<=", "\u22645\u00a0mmol/L")]
@@ -55,6 +58,7 @@ public class ClinicalFormatTests
         Assert.Equal(expected, ClinicalFormat.FormatQuantity(5m, "mmol/L", CultureInfo.GetCultureInfo("en-GB"), comparator));
     }
 
+    // HC-F5 (spec/healthcare-ui/requirements.md)
     [Fact]
     public void FormatQuantity_writes_the_approximate_comparator_as_almost_equal()
     {
@@ -67,6 +71,7 @@ public class ClinicalFormatTests
         Assert.Throws<ArgumentOutOfRangeException>(() => ClinicalFormat.FormatQuantity(5m, "mg", CultureInfo.GetCultureInfo("en-GB"), "=~"));
     }
 
+    // HC-F9 (spec/healthcare-ui/requirements.md)
     [Theory]
     [InlineData("2019", "en-GB", "2019")]
     [InlineData("2019-03", "en-GB", "March 2019")]
@@ -146,6 +151,7 @@ public class ClinicalFormatTests
         Assert.Equal("-2 \u2013 3\u00A0\u00B0C", ClinicalFormat.FormatRange(-2m, 3m, "\u00B0C", En));
     }
 
+    // HC-F7 (spec/healthcare-ui/requirements.md)
     [Fact]
     public void FormatRange_refuses_a_range_given_backwards()
     {
@@ -250,6 +256,7 @@ public class ClinicalFormatTests
         { "FormatPartialDate not a date", () => ClinicalFormat.FormatPartialDate("1987/06/01", En) },
     };
 
+    // HC-F8 (spec/healthcare-ui/requirements.md)
     [Theory]
     [MemberData(nameof(ValueBearingErrors))]
     public void Errors_never_echo_a_clinical_value(string name, Action act)
@@ -270,6 +277,7 @@ public class ClinicalFormatTests
     }
 
     // spec/lessons/openehr-rust item 2: a result keeps the places reported; a dose (no precision) never has a trailing zero.
+    // HC-F6 (spec/healthcare-ui/requirements.md)
     [Fact]
     public void FormatQuantity_with_precision_keeps_the_places_reported()
     {
@@ -288,6 +296,7 @@ public class ClinicalFormatTests
     }
 
     // spec/lessons/openehr-rust item 3: ISO 8601 and openEHR allow "," as the decimal sign; HTML takes only ".".
+    // HC-F12 (spec/healthcare-ui/requirements.md)
     [Fact]
     public void HtmlDuration_accepts_a_comma_decimal_sign_and_writes_a_point()
     {

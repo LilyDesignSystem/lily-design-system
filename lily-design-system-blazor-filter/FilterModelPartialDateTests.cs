@@ -39,6 +39,7 @@ public class FilterModelPartialDateTests
     public void IsPartialDate_accepts_a_year_a_month_or_a_day(string value, bool expected)
         => Assert.Equal(expected, FilterModel.IsPartialDate(value));
 
+    // HC-Q1 (spec/healthcare-ui/requirements.md)
     [Fact]
     public void What_the_precision_cannot_decide_matches_neither_the_rule_nor_its_negation()
     {
