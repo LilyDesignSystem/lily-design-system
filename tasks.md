@@ -4609,7 +4609,7 @@ then T3, T6, T7 and T8 (small), then T4; T5, T9 and T10 are maintainer decisions
 - [x] **P47-T1 Errors never echo a clinical value.** _(2026-11-24: TypeScript, C#, Swift and Kotlin; a sentinel test in TypeScript and C#.)_ Every error in `shared/clinical-format.ts` (eleven echo the value today) and
       the C# `ClinicalFormat` port names the function, parameter and rule, never the value; a closed vocabulary may be named.
       Verify: a test passes a sentinel to every exported function and asserts no thrown message contains it, in TypeScript and C#.
-- [x] **P47-T2 Recorded precision for results.** _(2026-11-24: TypeScript and C#; a value finer than its precision is refused, never rounded. Swift and Kotlin ports not yet.)_ An optional `precision` (decimal places) on `formatQuantity` and `formatRange`,
+- [x] **P47-T2 Recorded precision for results.** _(2026-11-24: TypeScript and C#; a value finer than its precision is refused, never rounded. Swift and Kotlin have no `formatQuantity`: their ports keep only the locale-independent clinical-format functions, so there is nothing to port.)_ An optional `precision` (decimal places) on `formatQuantity` and `formatRange`,
       and the guide's dose and result rules.
       Verify: `1.5` with `precision: 2` writes `1.50`; without it the output is unchanged; the guide names both rules.
 - [x] **P47-T3 `,` as a decimal sign in durations.** _(2026-11-24: TypeScript, C#, Swift and Kotlin, through five shared vectors.)_ `durationParts` accepts `PT1,5S`; `htmlDuration` writes `.`.
