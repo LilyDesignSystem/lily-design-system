@@ -11,7 +11,7 @@ import {
 
 TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
 
-// The picker keeps the choice in a cookie by default (lily-{name}), and jsdom keeps cookies for the whole file, so a
+// A picker given a cookieName keeps the choice in a cookie, and jsdom keeps cookies for the whole file, so a
 // choice made in one test would start the next. Clear every cookie before each test.
 import { beforeEach } from "vitest";
 beforeEach(() => {

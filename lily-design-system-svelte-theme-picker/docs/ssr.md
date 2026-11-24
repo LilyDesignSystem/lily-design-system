@@ -105,9 +105,9 @@ End-to-end code lives in
 [`../examples/sveltekit-cookie/`](../examples/sveltekit-cookie/).
 The shape is:
 
-1. The picker writes every change of choice to its first-party
-   `lily-theme` cookie itself (the default `cookieName`). No endpoint is
-   needed.
+1. The picker writes every change of choice to a first-party
+   `lily-theme` cookie itself, once it is given `cookieName="lily-theme"`
+   (the cookie is off by default since 2026-11-24). No endpoint is needed.
 2. `hooks.server.ts` reads it with `readThemeCookie(cookie, "lily-theme", allowed)`
    into `event.locals.theme` and uses `transformPageChunk` to substitute
    `data-theme` and the theme's `<link>` into `app.html`.
@@ -201,8 +201,8 @@ Leave `data-theme` off `<html>` for `"system"`, or set it from a small
 inline script that reads `matchMedia` before the body renders.
 
 Other transports (a header, a server-side preference store, a URL
-parameter) still work as before: pass the resolved `value`, and
-`cookieName=""` if you want no cookie at all.
+parameter) still work as before: pass the resolved `value` and leave
+`cookieName` unset, so no cookie is kept.
 
 ---
 

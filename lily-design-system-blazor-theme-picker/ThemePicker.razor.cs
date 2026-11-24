@@ -90,13 +90,14 @@ public partial class ThemePicker : ComponentBase, IAsyncDisposable
 
     /// <summary>The first-party cookie that keeps the choice (<c>Path=/</c>, <c>SameSite=Lax</c>, <c>Secure</c> on
     /// https, 400 days), so a server can read it (<see cref="ReadThemeCookie"/>) and send the page in the right theme.
-    /// Default <c>lily-{Name}</c> (<c>lily-theme</c>); <c>""</c> sets no cookie. Written only when the choice changes,
+    /// Off by default (tasks.md P41-T5c): give a name, such as <c>lily-theme</c>, to keep the choice in a cookie too. Written only when the choice changes,
     /// never on first load.</summary>
     [Parameter] public string? CookieName { get; set; }
 
-    // Both stores are on by default, under lily-{Name}; an empty string turns one off (null means the default).
+    // localStorage is on by default, under lily-{Name} (an empty string turns it off); the cookie only when CookieName
+    // names one (tasks.md P41-T5c).
     private string StorageKeyOrDefault => StorageKey ?? $"lily-{Name}";
-    private string CookieNameOrDefault => CookieName ?? $"lily-{Name}";
+    private string CookieNameOrDefault => CookieName ?? "";
 
     /// <summary>Also set <c>&lt;meta name="theme-color"&gt;</c> from the theme's
     /// <c>--lily-brand</c> once its stylesheet has loaded, so the browser chrome

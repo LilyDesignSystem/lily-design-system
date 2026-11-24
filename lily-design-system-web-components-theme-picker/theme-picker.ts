@@ -367,12 +367,12 @@ export class ThemePicker extends HTMLElement {
 
     /**
      * The first-party cookie that keeps the choice (`Path=/`, `SameSite=Lax`, `Secure` on https, 400 days), so a
-     * server can read it and send the page in the right theme. Attribute `cookie-name`; default `lily-{name}`
-     * (`lily-theme`), `cookie-name=""` sets no cookie. Written only when the choice changes, never on first load.
+     * server can read it and send the page in the right theme. Attribute `cookie-name`; off by default (P41-T5c): name
+     * one, such as `lily-theme`, to keep the choice in a cookie too. Written only when the choice changes, never on load.
      * Setting `null` restores the default.
      */
     get cookieName(): string {
-        return this.getAttribute("cookie-name") ?? `lily-${this.name}`;
+        return this.getAttribute("cookie-name") ?? "";
     }
     set cookieName(v: string | null) {
         if (v === null || v === undefined) this.removeAttribute("cookie-name");

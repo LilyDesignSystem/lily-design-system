@@ -647,8 +647,9 @@ Ported from the Svelte reference ([spec §5.6 and §5.7](../../lily-design-syste
 - The pure helpers are `theme-choice.ts`, copied from `shared/theme-choice.ts` by `bin/sync-shared-modules`: never edit
   this copy. Tests: `theme-picker.system.test.ts`.
 
-## Kept in both stores by default (2026-11-16)
+## Where the choice is kept (2026-11-16; cookie opt-in 2026-11-24)
 
-Ported from the Svelte reference ([spec §5.8](../../lily-design-system-svelte-theme-picker/spec/index.md#58-kept-in-both-by-default-2026-11-16)).
-With the `storageKey` / `cookieName` macro options not given, the choice is kept in both `localStorage` and a first-party cookie, under `lily-{name}`
-(`lily-theme`); an empty string turns a store off. Nothing is written on the first load, only when the choice changes.
+Ported from the Svelte reference ([spec §5.8](../../lily-design-system-svelte-theme-picker/spec/index.md#58-where-the-choice-is-kept-2026-11-16-cookie-opt-in-2026-11-24)).
+With the `storageKey` / `cookieName` macro options not given, the choice is kept in `localStorage`, under `lily-{name}` (`lily-theme`), and in no cookie. A first-party cookie is kept only
+when the cookie name is given, such as `lily-theme`, for a server-rendered page (2026-11-24, tasks.md P41-T5c). An empty
+storage key turns `localStorage` off. Nothing is written on the first load, only when the choice changes.

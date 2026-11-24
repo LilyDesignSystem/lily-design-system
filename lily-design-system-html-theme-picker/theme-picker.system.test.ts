@@ -179,16 +179,16 @@ describe("<theme-picker> — kept in a cookie (§5.7, §7.40–§7.42)", () => {
 });
 
 describe("theme picker — kept by default (§5.8, §7.44–§7.46)", () => {
-    test("§7.44 with no storage-key or cookie-name, a choice is kept in both, under lily-{name}", () => {
+    test("§7.44 with no storage-key or cookie-name, a choice is kept in localStorage under lily-{name} and sets no cookie (P41-T5c)", () => {
         mount(BASE);
         choose("Abyss");
         expect(localStorage.getItem("lily-theme")).toBe("abyss");
-        expect(readThemeCookie(document.cookie, "lily-theme")).toBe("abyss");
+        expect(document.cookie).toBe("");
         document.body.innerHTML = "";
         mount({ ...BASE, name: "brand" });
         choose("Dark");
         expect(localStorage.getItem("lily-brand")).toBe("dark");
-        expect(readThemeCookie(document.cookie, "lily-brand")).toBe("dark");
+        expect(document.cookie).toBe("");
     });
 
     test("§7.45 the first load stores nothing until the choice changes, nor does reconnecting", () => {

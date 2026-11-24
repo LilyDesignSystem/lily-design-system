@@ -439,25 +439,28 @@ interface preference, is the kind EU and UK regulators describe as
 decision for a given service is the adopter's, not Lily's. The same rules
 cover `localStorage`.
 
-### 5.8 Kept in both by default (2026-11-16)
+### 5.8 Where the choice is kept (2026-11-16; cookie opt-in 2026-11-24)
 
-With neither prop given, the choice is kept in both stores, under the
-same name, `lily-{name}`: `lily-theme` for the default `name`. Two pickers
-with different names keep separate choices. An empty string turns a
-store off (`storageKey=""`, `cookieName=""`); `undefined` means the
+With neither prop given, the choice is kept in `localStorage` under
+`lily-{name}` (`lily-theme` for the default `name`), and in no cookie.
+Two pickers with different names keep separate choices. `cookieName`
+turns the cookie on under the name it gives, such as `lily-theme`; an
+empty `storageKey` turns `localStorage` off; `undefined` means the
 default.
 
-- Both, because each covers what the other cannot. The cookie reaches
-  the server, so a server-rendered page can arrive in the right theme
-  (§5.7). `localStorage` survives where cookies are blocked or cleared on
-  close, and costs nothing on each request. On start the cookie wins
-  (§5.2).
+- The cookie is opt-in (maintainer decision 2026-11-24, tasks.md
+  P41-T5c). It reaches the server, so a server-rendered page can arrive
+  in the right theme (§5.7); only such an app needs it, and a cookie
+  every adopter sets without asking must then be found and declared in
+  each one's cookie audit. From 2026-11-16 to 2026-11-24 both stores were
+  on by default.
+- `localStorage` survives where cookies are blocked or cleared on close,
+  and costs nothing on each request. On start a given cookie wins (§5.2).
 - Nothing is written on the first load (§5.3), only when the choice
-  changes: a visitor who never chooses gets no cookie and no storage
-  entry, which keeps the default inside the user-requested exemption above.
-- A server-rendered app that wants no cookie passes `cookieName=""`; a
-  static app that wants nothing stored passes both empty and relies on
-  "Follow this device".
+  changes: a visitor who never chooses gets no storage entry, and no
+  cookie even when one is named.
+- A static app that wants nothing stored passes `storageKey=""` and
+  relies on "Follow this device".
 
 ## 6. Accessibility
 
@@ -672,7 +675,7 @@ builds the href from both forms.
 | §7.41  | The cookie sets the starting choice, above `localStorage`.                                                                                                               |
 | §7.42  | A cookie that is not one of the choices is ignored, and never reaches the stylesheet URL.                                                                                |
 | §7.43  | `themeCookie` writes `Path=/`, 400 days, `SameSite=Lax` and `Secure` when asked; `readThemeCookie` finds, decodes and checks.                                            |
-| §7.44  | With neither prop, a choice is kept in both stores under `lily-{name}` (§5.8).                                                                                           |
+| §7.44  | With neither prop, a choice is kept in `localStorage` under `lily-{name}` and sets no cookie (§5.8).                                                                     |
 | §7.45  | The first load stores nothing until the choice changes.                                                                                                                  |
 | §7.46  | An empty `storageKey` or `cookieName` turns that store off.                                                                                                              |
 

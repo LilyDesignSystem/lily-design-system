@@ -160,8 +160,10 @@ The listbox reads **Follow this device**, a line, then the themes in alphabetica
 - The change callback also receives the choice (`onChange(theme, choice)`), so a controlled picker keeps `"system"`.
 - The pure helpers are one shared module, `shared/theme-choice.ts`, copied into the TypeScript catalogs by
   `bin/sync-shared-modules` (Nunjucks gets the `.js`); Blazor repeats them in C#.
-- Both stores are on by default (2026-11-16), under `lily-{name}` (`lily-theme`); an empty `storageKey` / `cookieName` turns
-  one off, and nothing is written on the first load, only when the choice changes. In all eight catalogs.
+- `localStorage` keeps the choice by default, under `lily-{name}` (`lily-theme`); the cookie is kept only when `cookieName`
+  names one (maintainer decision 2026-11-24, tasks.md P41-T5c; both were on by default from 2026-11-16). An empty
+  `storageKey` turns `localStorage` off. Nothing is written on the first load, only when the choice changes. In all eight
+  catalogs.
 - A server reads it with `readThemeCookie(header, name, allowed)` and sends `data-theme` and the `<link>` with the page; for
   `"system"` it links both themes by `media`. Recipe: the Svelte package's `examples/sveltekit-cookie/`.
 

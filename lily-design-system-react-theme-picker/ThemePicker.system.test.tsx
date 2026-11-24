@@ -227,11 +227,11 @@ describe("ThemePicker — kept in a cookie (§5.7, §7.40–§7.42)", () => {
 });
 
 describe("ThemePicker — kept by default (§5.8, §7.44–§7.46)", () => {
-    test("§7.44 with no storageKey or cookieName, a choice is kept in both, under lily-{name}", async () => {
+    test("§7.44 with no storageKey or cookieName, a choice is kept in localStorage under lily-{name} and sets no cookie (P41-T5c)", async () => {
         const { unmount } = render(<ThemePicker {...base} />);
         await choose("Abyss");
         expect(localStorage.getItem("lily-theme")).toBe("abyss");
-        expect(readThemeCookie(document.cookie, "lily-theme")).toBe("abyss");
+        expect(document.cookie).toBe("");
         unmount();
         render(
             <ThemePicker
@@ -241,7 +241,7 @@ describe("ThemePicker — kept by default (§5.8, §7.44–§7.46)", () => {
         );
         await choose("Dark");
         expect(localStorage.getItem("lily-brand")).toBe("dark");
-        expect(readThemeCookie(document.cookie, "lily-brand")).toBe("dark");
+        expect(document.cookie).toBe("");
     });
 
     test("§7.45 the first load stores nothing until the choice changes", () => {

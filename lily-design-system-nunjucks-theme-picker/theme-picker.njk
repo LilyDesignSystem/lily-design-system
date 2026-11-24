@@ -38,7 +38,7 @@
                     (default {light: "light", dark: "dark"}).
     cookieName    — string. The first-party cookie client.js keeps the choice
                     in (Path=/, SameSite=Lax, Secure on https, 400 days).
-                    Default "lily-{name}" ("lily-theme"); "" sets no cookie.
+                    Off by default; give a name, such as "lily-theme", to keep it.
                     Written only when the choice changes. A server reads it
                     (see readThemeCookie) and passes it back as `value`.
     themeColor    — boolean. If true, client.js also sets <meta name="theme-color">
@@ -107,7 +107,7 @@
 {%- set name = opts.name | default("theme") -%}
 {%- set extension = opts.extension | default(".css") -%}
 {%- set value = opts.value | default("") -%}
-{#- Both stores keep the choice by default, under lily-{name}; "" turns one off. -#}
+{#- localStorage keeps the choice by default, under lily-{name} ("" turns it off); the cookie only when cookieName names one. -#}
 {%- set storageKey = opts.storageKey | default("lily-" + name) -%}
 {%- set defaultValue = opts.defaultValue | default("") -%}
 {%- set detectFromSystem = opts.detectFromSystem | default(false) -%}
@@ -117,7 +117,7 @@
 {%- set fallbackLabels = opts.fallbackLabels | default({}) -%}
 {%- set systemLabel = opts.systemLabel | default("") -%}
 {%- set systemThemes = opts.systemThemes | default({light: "light", dark: "dark"}) -%}
-{%- set cookieName = opts.cookieName | default("lily-" + name) -%}
+{%- set cookieName = opts.cookieName | default("") -%}
 {#- The themes in alphabetical order of the name shown, unless sortThemes is false. The names are the ones rendered below. -#}
 {%- set themeList = opts.themes -%}
 {%- if opts.sortThemes != false -%}

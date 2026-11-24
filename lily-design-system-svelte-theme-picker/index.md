@@ -428,8 +428,9 @@ Topic guide: [`docs/custom-rendering.md`](./docs/custom-rendering.md).
 
 ## Persistence
 
-The choice is kept in **both** `localStorage` and a first-party cookie by default, under `lily-{name}` (`lily-theme`),
-and read back on the next mount (§ Default theme). Each covers what the other cannot:
+The choice is kept in `localStorage` by default, under `lily-{name}` (`lily-theme`), and read back on the next mount
+(§ Default theme). A first-party cookie is kept too only when `cookieName` names one (since 2026-11-24): give it for a
+server-rendered app. Each covers what the other cannot:
 
 - The cookie reaches the server, so a server-rendered page can arrive in the right theme with no flash:
   `readThemeCookie(request.headers.get("cookie"), "lily-theme", allowed)`. See [`docs/ssr.md`](./docs/ssr.md) and the

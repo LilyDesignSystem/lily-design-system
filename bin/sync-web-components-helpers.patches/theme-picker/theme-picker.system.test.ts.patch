@@ -27,5 +27,5 @@
 +});
 +
  describe("theme picker — kept by default (§5.8, §7.44–§7.46)", () => {
-     test("§7.44 with no storage-key or cookie-name, a choice is kept in both, under lily-{name}", () => {
+     test("§7.44 with no storage-key or cookie-name, a choice is kept in localStorage under lily-{name} and sets no cookie (P41-T5c)", () => {
          mount(BASE);

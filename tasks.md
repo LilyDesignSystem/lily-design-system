@@ -4240,7 +4240,7 @@ current design system. No person or organisation is named. Order: T1 first (a tr
 - [ ] **P41-T5b Ship an SBOM and check provenance.** A CycloneDX document per published package, generated in the release
       pipeline and attached to the release; a script that verifies each registry's provenance for the latest version.
       Verify: `bin/verify-published` reports provenance, and the assurance pack's gap rows are removed.
-- [ ] **P41-T5c The theme picker's cookie is on by default.** `ThemePicker` writes a first-party `lily-theme` cookie (400 days) on a
+- [x] **P41-T5c The theme picker's cookie is on by default.** _(Decided 2026-11-24 by the maintainer: off by default. In all eight catalogs an unset `cookieName` keeps no cookie and `localStorage` stays on; the SvelteKit cookie recipe and the docs site name `lily-theme` explicitly, so the site's cookie policy is unchanged. Each catalog's §7.44 test checks that a choice sets no cookie; the docs, the spec, `AGENTS/helpers.md` and the changelogs say so. Not yet released.)_ `ThemePicker` writes a first-party `lily-theme` cookie (400 days) on a
       choice, as well as `localStorage`, unless `cookieName=""`; `AGENTS/helpers.md` and the picker docs say "optional
       `localStorage`". Decide whether the default should be off, and either way document the cookie in every catalog's picker docs.
       _(Found 2026-11-21: the site's cookie policy first said "no cookies" and was wrong; the policy is corrected and

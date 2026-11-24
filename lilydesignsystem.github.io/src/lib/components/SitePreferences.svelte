@@ -96,6 +96,9 @@
     themeProps={{
         detectFromSystem: true,
         storageKey: "lily-site-theme",
+        // The one cookie the site's cookie policy documents. The picker sets none unless asked (tasks.md P41-T5c), so it is
+        // named here to keep the policy true; tests/policy-pages.spec.ts checks it.
+        cookieName: "lily-theme",
         themeLabels: THEME_LABELS,
     }}
     locales={locales()}

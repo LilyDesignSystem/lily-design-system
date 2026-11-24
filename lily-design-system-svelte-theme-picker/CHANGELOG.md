@@ -238,6 +238,8 @@ reads coherently; the events they describe are unchanged.
 
 ### Unreleased
 
+- **Behaviour change:** the theme cookie is off by default (tasks.md P41-T5c). With `cookieName` unset, a choice is kept in `localStorage` under `lily-{name}` and in no cookie; name one, such as `cookieName="lily-theme"`, to keep it in a first-party cookie too, for a server-rendered page. From 2026-11-16 both were on by default. An app that reads the `lily-theme` cookie on its server must now set `cookieName`.
+
 #### Changed (BREAKING)
 
 - **The control is no longer a native `<select>`.** It is now an icon

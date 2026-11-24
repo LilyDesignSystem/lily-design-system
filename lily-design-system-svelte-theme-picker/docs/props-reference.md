@@ -110,12 +110,13 @@ With it and nothing chosen or kept, the picker starts on `"system"`.
 
 The themes `"system"` applies. Defaults to `{ light: "light", dark: "dark" }`.
 
-## `cookieName` — optional, string — defaults to `lily-{name}`
+## `cookieName` — optional, string — off by default
 
 The first-party cookie that keeps the choice: `Path=/`, `SameSite=Lax`, `Secure` on https, 400 days. The choice is
 kept, not the theme it applied (`"system"` stays `"system"`), and only when it changes, never on the first load. Read
 before `localStorage` on start; a value that is not one of the choices is ignored. A server reads it with
-`readThemeCookie`; see [ssr.md](./ssr.md). `""` sets no cookie.
+`readThemeCookie`; see [ssr.md](./ssr.md). Unset or `""`, no cookie is kept (the default since 2026-11-24, tasks.md
+P41-T5c); name one, such as `lily-theme`, for a server-rendered app.
 
 ## `name` — optional, string — defaults to `"theme"`
 

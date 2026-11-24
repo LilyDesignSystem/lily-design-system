@@ -53,8 +53,7 @@ export type Props = {
     systemThemes?: { light: string; dark: string };
     /**
      * The first-party cookie that keeps the choice (`Path=/`, `SameSite=Lax`, `Secure` on https, 400 days), so a server
-     * can read it and send the page in the right theme (`readThemeCookie`). Default `lily-{name}` (`lily-theme`); `""`
-     * sets no cookie. Written only when the choice changes, never on first load.
+     * can read it and send the page in the right theme (`readThemeCookie`). Off by default (tasks.md P41-T5c): give a name, such as `lily-theme`, to keep the choice in a cookie too. Written only when the choice changes, never on first load.
      */
     cookieName?: string;
     /**
@@ -339,9 +338,10 @@ function applyTheme(slug: string, choice: string): void {
 // again. Kept once per change of choice.
 let keptValue = "";
 
-// Both stores are on by default, under `lily-{name}`; an empty string turns one off.
+// localStorage is on by default, under `lily-{name}` (an empty string turns it off); the cookie only when `cookieName`
+// names one (tasks.md P41-T5c).
 const storageKey = computed(() => props.storageKey ?? `lily-${props.name}`);
-const cookieName = computed(() => props.cookieName ?? `lily-${props.name}`);
+const cookieName = computed(() => props.cookieName ?? "");
 
 function keepChoice(choice: string): void {
     if (choice === keptValue) return;

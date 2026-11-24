@@ -23,6 +23,7 @@
         themesUrl="/assets/themes/"
         themes={["light", "dark", "abyss"]}
         systemLabel="Follow this device"
+        cookieName="lily-theme"
         bind:value={theme}
     />
 </header>

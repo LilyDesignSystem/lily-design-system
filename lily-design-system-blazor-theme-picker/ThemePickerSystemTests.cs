@@ -161,19 +161,20 @@ public class ThemePickerSystemTests : TestContext
         cut.WaitForAssertion(() => Assert.Contains("theme=system; Path=/", Applied().Last()));
     }
 
-    [Fact(DisplayName = "§7.44 with no StorageKey or CookieName, a choice is kept in both, under lily-{Name}")]
-    public void KeptInBothByDefault()
+    [Fact(DisplayName = "§7.44 with no StorageKey or CookieName, a choice is kept in localStorage under lily-{Name} and sets no cookie (P41-T5c)")]
+    public void KeptInLocalStorageByDefaultWithNoCookie()
     {
         var cut = Render();
         cut.WaitForAssertion(() => Assert.True(Sets(Applied().Last(), "light")));
         Choose(cut, "Abyss");
         cut.WaitForAssertion(() => Assert.True(Sets(Applied().Last(), "abyss")));
         Assert.Contains("localStorage.setItem(\"lily-theme\",\"abyss\")", Applied().Last());
-        Assert.Contains("lily-theme=abyss; Path=/", Applied().Last());
+        Assert.All(Applied(), s => Assert.DoesNotContain("document.cookie", s));
 
         var brand = Render(p => p.Add(x => x.Name, "brand"));
         Choose(brand, "Dark");
-        brand.WaitForAssertion(() => Assert.Contains("lily-brand=dark; Path=/", Applied().Last()));
+        brand.WaitForAssertion(() => Assert.Contains("localStorage.setItem(\"lily-brand\",\"dark\")", Applied().Last()));
+        Assert.All(Applied(), s => Assert.DoesNotContain("document.cookie", s));
     }
 
     [Fact(DisplayName = "§7.45 the first load stores nothing until the choice changes")]

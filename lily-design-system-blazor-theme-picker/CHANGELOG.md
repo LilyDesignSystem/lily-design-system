@@ -174,6 +174,8 @@ selectors. Nothing else moves.
 
 #### Unreleased
 
+- **Behaviour change:** the theme cookie is off by default (tasks.md P41-T5c). With `CookieName` unset, a choice is kept in `localStorage` under `lily-{name}` and in no cookie; name one, such as `CookieName="lily-theme"`, to keep it in a first-party cookie too, for a server-rendered page. From 2026-11-16 both were on by default. An app that reads the `lily-theme` cookie on its server must now set `CookieName`.
+
 ##### Added
 
 - **`ThemePicker.ThemeName(string slug)` — public static.** The single

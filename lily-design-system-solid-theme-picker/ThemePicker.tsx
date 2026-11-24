@@ -81,8 +81,7 @@ export type Props = Omit<
     systemThemes?: SystemThemes;
     /**
      * The first-party cookie that keeps the choice (`Path=/`, `SameSite=Lax`, `Secure` on https, 400 days), so a server
-     * can read it and send the page in the right theme (`readThemeCookie`). Default `lily-{name}` (`lily-theme`); `""`
-     * sets no cookie. Written only when the choice changes, never on first load.
+     * can read it and send the page in the right theme (`readThemeCookie`). Off by default (tasks.md P41-T5c): give a name, such as `lily-theme`, to keep the choice in a cookie too. Written only when the choice changes, never on first load.
      */
     cookieName?: string;
     /**
@@ -310,9 +309,10 @@ export function ThemePicker(props: Props): JSX.Element {
     const systemThemes = () => props.systemThemes ?? DEFAULT_SYSTEM_THEMES;
     const isControlled = () => props.value !== undefined;
 
-    // Both stores are on by default, under `lily-{name}`; an empty string turns one off.
+    // localStorage is on by default, under `lily-{name}` (an empty string turns it off); the cookie only when `cookieName`
+    // names one (tasks.md P41-T5c).
     const storageKey = () => props.storageKey ?? `lily-${name()}`;
-    const cookieName = () => props.cookieName ?? `lily-${name()}`;
+    const cookieName = () => props.cookieName ?? "";
 
     // Internal state for uncontrolled mode. Starts empty; resolved after mount (SSR-safe).
     const [internalValue, setInternalValue] = createSignal("");
