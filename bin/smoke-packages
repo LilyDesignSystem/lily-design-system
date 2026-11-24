@@ -192,6 +192,7 @@ globalThis.HTMLElement = dom.window.HTMLElement;
 globalThis.customElements = dom.window.customElements;
 globalThis.CustomEvent = dom.window.CustomEvent;
 globalThis.Node = dom.window.Node;
+globalThis.MutationObserver = dom.window.MutationObserver;
 globalThis.localStorage = dom.window.localStorage;
 Object.defineProperty(globalThis, "navigator", { value: dom.window.navigator, configurable: true });
 
@@ -233,6 +234,7 @@ globalThis.HTMLElement = dom.window.HTMLElement;
 globalThis.customElements = dom.window.customElements;
 globalThis.CustomEvent = dom.window.CustomEvent;
 globalThis.Node = dom.window.Node;
+globalThis.MutationObserver = dom.window.MutationObserver;
 globalThis.localStorage = dom.window.localStorage;
 Object.defineProperty(globalThis, "navigator", { value: dom.window.navigator, configurable: true });
 

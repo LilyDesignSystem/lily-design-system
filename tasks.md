@@ -4644,7 +4644,7 @@ From [spec/quality-review](spec/quality-review/index.md); the numbers in bracket
 
 ### Claims and privacy
 
-- [ ] **P48-T1 Correct `PHI.md` on attributes (7).** List each attribute that can hold patient data (`datetime`,
+- [x] **P48-T1 Correct `PHI.md` on attributes (7).** _(2026-11-24: `phi-attributes.tsv`, 73 attributes of 30 components, and `bin/check-phi-attributes` in `bin/test`, over the Svelte source.)_ List each attribute that can hold patient data (`datetime`,
       `data-duration`, `data-interpretation`, `data-severity` and the rest), say why it is there and how to mask it, and keep
       "No" only for the identifier views.
       Verify: a check that fails when a healthcare component renders an attribute from a prop that the list does not name.
@@ -4660,10 +4660,10 @@ From [spec/quality-review](spec/quality-review/index.md); the numbers in bracket
 
 ### Gates
 
-- [ ] **P48-T4 Green `main` (1, 2, 4).** `MutationObserver` in both jsdom blocks of `bin/smoke-packages`, then whatever the
-      later checks find; the root install, or no prettier, for `bin/generate-framework-matrix --check` in the verify job.
+- [ ] **P48-T4 Green `main` (1, 2, 4).** _(2026-11-24: `MutationObserver` in both jsdom blocks of `bin/smoke-packages`; exact-case
+      names in `bin/generate-framework-matrix`; a green run not yet seen.)_ Whatever the later smoke checks find.
       Verify: a green `CI` run on `main`.
-- [ ] **P48-T5 `bin/test` shows why a check failed (4).** Keep a failing check's output and print its last lines.
+- [ ] **P48-T5 `bin/test` shows why a check failed.** Keep a failing check's output and print its last lines.
       Verify: a check that crashes prints its error, not only "is stale".
 - [ ] **P48-T6 The receipt names what was skipped (3).** `consumer-smoke` runs locally in a scratch directory or its last CI
       result is required; `--verify-receipt` lists skipped jobs.

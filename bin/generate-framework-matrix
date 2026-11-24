@@ -18,18 +18,40 @@ const { execFileSync } = require("node:child_process");
 
 const top = path.resolve(__dirname, "..");
 const OUT = "docs/framework-comparison.md";
-const exists = (p) => fs.existsSync(path.join(top, p));
+// Exact case: macOS finds CalendarTableTd.ts when the file is CalendarTableTD.ts and Linux (CI) does not, so a plain
+// existsSync counts differently on the two.
+const listings = new Map();
+const exists = (p) => {
+    let dir = top;
+    for (const part of path.normalize(p).split(path.sep)) {
+        if (!listings.has(dir))
+            listings.set(
+                dir,
+                new Set(
+                    fs.existsSync(dir) && fs.statSync(dir).isDirectory() ? fs.readdirSync(dir) : [],
+                ),
+            );
+        if (!listings.get(dir).has(part)) return false;
+        dir = path.join(dir, part);
+    }
+    return true;
+};
 const read = (p) => fs.readFileSync(path.join(top, p), "utf-8");
 
+// The PascalCase name is the catalog's own (TableTH, not TableTh).
+const names = new Map(
+    read("components.tsv")
+        .split("\n")
+        .filter(Boolean)
+        .map((line) => line.split("\t").slice(0, 2)),
+);
 const components = read("components-categories.tsv")
     .split("\n")
     .filter(Boolean)
     .map((line) => {
         const [slug, , category] = line.split("\t");
-        const name = slug
-            .split("-")
-            .map((w) => w[0].toUpperCase() + w.slice(1))
-            .join("");
+        const name = names.get(slug);
+        if (!name) throw new Error(`generate-framework-matrix: ${slug} is not in components.tsv`);
         return { slug, name, national: category === "national" };
     });
 
@@ -37,61 +59,81 @@ const components = read("components-categories.tsv")
 // -headless-identifiers package at the same relative path (spec/headless-identifiers).
 const CATALOGS = [
     {
-        id: "svelte", label: "Svelte", tutorial: "svelte",
+        id: "svelte",
+        label: "Svelte",
+        tutorial: "svelte",
         impl: (c) => `components/${c.name}/${c.name}.svelte`,
         test: (c) => `components/${c.name}/${c.name}.test.ts`,
         story: (c) => `components/${c.name}/${c.name}.stories.svelte`,
     },
     {
-        id: "react", label: "React", tutorial: "react",
+        id: "react",
+        label: "React",
+        tutorial: "react",
         impl: (c) => `components/${c.name}.tsx`,
         test: (c) => `components/${c.name}.test.tsx`,
         story: (c) => `components/${c.name}.stories.tsx`,
     },
     {
-        id: "solid", label: "Solid", tutorial: null,
+        id: "solid",
+        label: "Solid",
+        tutorial: null,
         impl: (c) => `components/${c.name}.tsx`,
         test: (c) => `components/${c.name}.test.tsx`,
         story: null,
     },
     {
-        id: "vue", label: "Vue", tutorial: "vue",
+        id: "vue",
+        label: "Vue",
+        tutorial: "vue",
         impl: (c) => `components/${c.name}.vue`,
         test: (c) => `components/${c.name}.test.ts`,
         story: (c) => `components/${c.name}.stories.ts`,
     },
     {
-        id: "angular", label: "Angular", tutorial: "angular",
+        id: "angular",
+        label: "Angular",
+        tutorial: "angular",
         impl: (c) => `components/${c.name}.ts`,
         test: (c) => `components/${c.name}.spec.ts`,
         story: (c) => `components/${c.name}.stories.ts`,
     },
     {
-        id: "web-components", label: "Web Components", tutorial: "web-components",
+        id: "web-components",
+        label: "Web Components",
+        tutorial: "web-components",
         impl: (c) => `components/${c.slug}.ts`,
         test: (c) => `components/${c.slug}.test.ts`,
         story: (c) => `components/${c.slug}.stories.ts`,
     },
     {
-        id: "html", label: "HTML", tutorial: "html",
+        id: "html",
+        label: "HTML",
+        tutorial: "html",
         impl: (c) => `components/${c.slug}.html`,
         test: (c) => `components/${c.slug}.test.js`,
         story: (c) => `components/${c.slug}.stories.ts`,
     },
     {
-        id: "nunjucks", label: "Nunjucks", tutorial: "nunjucks",
+        id: "nunjucks",
+        label: "Nunjucks",
+        tutorial: "nunjucks",
         impl: (c) => `components/${c.slug}/macro.njk`,
         test: (c) => `components/${c.slug}/macro.test.js`,
         story: (c) => `components/${c.slug}/macro.stories.ts`,
     },
     {
-        id: "alpine", label: "Alpine.js", tutorial: "alpine",
+        id: "alpine",
+        label: "Alpine.js",
+        tutorial: "alpine",
         impl: (c) => `components/${c.slug}.html`,
         test: (c) => `components/${c.slug}.test.js`,
         story: (c) => `components/${c.slug}.stories.ts`,
     },
     {
-        id: "blazor", label: "Blazor", tutorial: "blazor",
+        id: "blazor",
+        label: "Blazor",
+        tutorial: "blazor",
         impl: (c) => `src/LilyBlazorHeadless/Components/${c.name}.razor`,
         test: (c) => `tests/LilyBlazorHeadless.Tests/Components/${c.name}Tests.cs`,
         story: null,
@@ -115,7 +157,11 @@ function packageInfo(id) {
     if (id === "blazor") {
         const csproj = read(`${dir}/src/LilyBlazorHeadless/LilyBlazorHeadless.csproj`);
         const tag = (t) => (csproj.match(new RegExp(`<${t}>([^<]+)</${t}>`)) || [])[1] || "";
-        return { name: tag("PackageId"), version: tag("Version"), supports: `.NET ${tag("TargetFramework").replace(/^net/, "")}` };
+        return {
+            name: tag("PackageId"),
+            version: tag("Version"),
+            supports: `.NET ${tag("TargetFramework").replace(/^net/, "")}`,
+        };
     }
     const pkg = JSON.parse(read(`${dir}/package.json`));
     const peers = Object.entries(pkg.peerDependencies || {})
@@ -130,14 +176,21 @@ function count(cat, which, subset) {
     let n = 0;
     for (const c of subset) {
         const rel = cat[which](c);
-        if (exists(`lily-design-system-${cat.id}-headless/${rel}`) || exists(`lily-design-system-${cat.id}-headless-identifiers/${rel}`)) n++;
+        if (
+            exists(`lily-design-system-${cat.id}-headless/${rel}`) ||
+            exists(`lily-design-system-${cat.id}-headless-identifiers/${rel}`)
+        )
+            n++;
     }
     return n;
 }
 
 function helperCount(id) {
     try {
-        const out = execFileSync(path.join(top, "bin/list-helper-packages"), [id], { cwd: top, encoding: "utf-8" });
+        const out = execFileSync(path.join(top, "bin/list-helper-packages"), [id], {
+            cwd: top,
+            encoding: "utf-8",
+        });
         return out.split("\n").filter(Boolean).length;
     } catch {
         return 0;
@@ -166,13 +219,27 @@ const rows = CATALOGS.map((cat) => {
         String(helperCount(cat.id)),
         yes(EXAMPLES[cat.id] && exists(EXAMPLES[cat.id])),
         yes(exists(`lily-design-system-${cat.id}-headless-skill/SKILL.md`)),
-        yes(cat.tutorial && exists(`lilydesignsystem.github.io/src/routes/tutorials/${cat.tutorial}/+page.svelte`)),
+        yes(
+            cat.tutorial &&
+                exists(
+                    `lilydesignsystem.github.io/src/routes/tutorials/${cat.tutorial}/+page.svelte`,
+                ),
+        ),
     ];
 });
 
 const head = [
-    "Framework", "Headless package", "Supports", "Core components", "National identifiers", "Unit tested",
-    "Storybook stories", "Helper packages", "Example app", "Skill", "Tutorial",
+    "Framework",
+    "Headless package",
+    "Supports",
+    "Core components",
+    "National identifiers",
+    "Unit tested",
+    "Storybook stories",
+    "Helper packages",
+    "Example app",
+    "Skill",
+    "Tutorial",
 ];
 const table = [
     `| ${head.join(" | ")} |`,
@@ -214,16 +281,22 @@ Lily™ and Lily Design System™ are trademarks.
 `;
 
 // Through the repo's own Prettier, so the file passes format:check and the --check compares like with like.
-const formatted = execFileSync(path.join(top, "node_modules/.bin/prettier"), ["--stdin-filepath", OUT], {
-    cwd: top,
-    input: doc,
-    encoding: "utf-8",
-});
+const formatted = execFileSync(
+    path.join(top, "node_modules/.bin/prettier"),
+    ["--stdin-filepath", OUT],
+    {
+        cwd: top,
+        input: doc,
+        encoding: "utf-8",
+    },
+);
 
 if (process.argv.includes("--check")) {
     const current = exists(OUT) ? read(OUT) : "";
     if (current !== formatted) {
-        console.error(`generate-framework-matrix: ${OUT} is out of date; run bin/generate-framework-matrix`);
+        console.error(
+            `generate-framework-matrix: ${OUT} is out of date; run bin/generate-framework-matrix`,
+        );
         process.exit(1);
     }
     console.log(`generate-framework-matrix: ${OUT} is current`);
