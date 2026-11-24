@@ -4,7 +4,7 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.2.0 — 2026-11-24
 
 - **Added:** a summary line and a remove-all button (tasks.md P40-T10): `labels.summary` (a `{count}` template, or a function through the client option), `labels.clearAll` and `labels.allRemoved`, as in the Svelte filter. The model gains `clearFilter`.
 - **Fixed:** a filter without an output no longer renders the text "null" (the client passed `null` to `replaceChildren`, which writes it as text).

@@ -7,7 +7,7 @@
     <RootNamespace>LilyDesignSystem.Blazor.Helpers</RootNamespace>
     <AssemblyName>LilyDesignSystem.Blazor.Filter</AssemblyName>
     <PackageId>LilyDesignSystem.Blazor.Filter</PackageId>
-    <Version>0.2.0</Version>
+    <Version>0.3.0</Version>
     <Authors>Joel Parker Henderson</Authors>
     <Description>Lily Design System Blazor filter: a headless filter builder (conditions and groups over text, number, date, choice and yes/no fields; and / or / not) that outputs JSON, SQL, MongoDB, OData or a predicate. Headless, SSR-safe, no CSS.</Description>
     <PackageProjectUrl>https://lilydesignsystem.com/</PackageProjectUrl>

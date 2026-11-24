@@ -3,7 +3,7 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the package follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.5.0 — 2026-11-24
 
 - **Fixed:** every identifier view (`lily-*-view`) removes its `value` attribute once it has read it, and moves a later
   `setAttribute("value", …)` into its text the same way, so the identifier is no longer left in an attribute where a
