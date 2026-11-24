@@ -32,6 +32,17 @@
 </div>
 
 <div class="field">
+    <label class="label" for="purpose-filter">Purpose</label>
+    <select id="purpose-filter" class="select" @bind="purposeFilter">
+        <option value="">All purposes (@ComponentData.Components.Count)</option>
+        @foreach (var opt in purposeOptions)
+        {
+            <option value="@opt.Id">@opt.Label (@opt.Count)</option>
+        }
+    </select>
+</div>
+
+<div class="field">
     <label class="label" for="suffix-filter">Suffix pattern</label>
     <select id="suffix-filter" class="select" @bind="suffixFilter">
         <option value="">All suffix patterns (@ComponentData.Components.Count)</option>
@@ -42,7 +53,7 @@
     </select>
 </div>
 
-@if (!string.IsNullOrEmpty(search) || !string.IsNullOrEmpty(categoryFilter) || !string.IsNullOrEmpty(suffixFilter))
+@if (!string.IsNullOrEmpty(search) || !string.IsNullOrEmpty(categoryFilter) || !string.IsNullOrEmpty(suffixFilter) || !string.IsNullOrEmpty(purposeFilter))
 {
     <p>
         <button type="button" class="button" @onclick="ClearFilters">Clear filters</button>
@@ -65,6 +76,7 @@
     private string search = "";
     private string categoryFilter = "";
     private string suffixFilter = "";
+    private string purposeFilter = "";
 
     private record FilterOption(string Id, string Label, int Count);
 
@@ -75,6 +87,19 @@
 
     private static readonly List<FilterOption> categoryOptions = BuildCategoryOptions();
     private static readonly List<FilterOption> suffixOptions = BuildSuffixOptions();
+    private static readonly List<FilterOption> purposeOptions = BuildPurposeOptions();
+
+    private static List<FilterOption> BuildPurposeOptions()
+    {
+        var counts = ComponentData.Components
+            .GroupBy(c => c.Purpose)
+            .ToDictionary(g => g.Key, g => g.Count());
+
+        return ComponentData.PurposeLabel
+            .Where(kv => counts.ContainsKey(kv.Key))
+            .Select(kv => new FilterOption(kv.Key, kv.Value, counts[kv.Key]))
+            .ToList();
+    }
 
     private static List<FilterOption> BuildCategoryOptions()
     {
@@ -122,7 +147,8 @@
                 c.Description.Contains(search, StringComparison.OrdinalIgnoreCase);
             var matchesCategory = string.IsNullOrEmpty(categoryFilter) || c.Category == categoryFilter;
             var matchesSuffix = string.IsNullOrEmpty(suffixFilter) || suffix == suffixFilter;
-            return matchesSearch && matchesCategory && matchesSuffix;
+            var matchesPurpose = string.IsNullOrEmpty(purposeFilter) || c.Purpose == purposeFilter;
+            return matchesSearch && matchesCategory && matchesSuffix && matchesPurpose;
         });
 
     private void ClearFilters()
@@ -130,5 +156,6 @@
         search = "";
         categoryFilter = "";
         suffixFilter = "";
+        purposeFilter = "";
     }
 }

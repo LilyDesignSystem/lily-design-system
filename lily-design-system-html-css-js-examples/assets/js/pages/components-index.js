@@ -5321,6 +5321,15 @@
                     content: "Content & other",
                 };
 
+                var PURPOSE_LABEL = {
+                    collect: "Collect input",
+                    show: "Show information",
+                    navigate: "Navigate",
+                    inform: "Inform or warn",
+                    act: "Act or decide",
+                    structure: "Structure or style content",
+                };
+
                 var SUFFIX_PATTERNS = [
                     { id: "table-thead", label: "Gantt table head (-table-thead)" },
                     { id: "table-tbody", label: "Gantt table body (-table-tbody)" },
@@ -5395,6 +5404,20 @@
                     return suffixPatternOf(c.slug);
                 });
 
+                var purposeCounts = countBy(components, function (c) {
+                    return c.purpose;
+                });
+                var purposeOptions = [];
+                for (var purposeId in PURPOSE_LABEL) {
+                    if (purposeCounts[purposeId]) {
+                        purposeOptions.push({
+                            id: purposeId,
+                            label: PURPOSE_LABEL[purposeId],
+                            count: purposeCounts[purposeId],
+                        });
+                    }
+                }
+
                 var categoryOptions = [];
                 for (var categoryId in CATEGORY_LABEL) {
                     if (categoryCounts[categoryId]) {
@@ -5451,6 +5474,7 @@
 
                 var searchInput = document.getElementById("component-search");
                 var categoryFilterEl = document.getElementById("category-filter");
+                var purposeFilterEl = document.getElementById("purpose-filter");
                 var suffixFilterEl = document.getElementById("suffix-filter");
                 var clearFiltersWrapper = document.getElementById("clear-filters-wrapper");
                 var clearFiltersButton = document.getElementById("clear-filters-button");
@@ -5459,6 +5483,7 @@
 
                 document.getElementById("catalog-count").textContent = components.length;
                 populateSelect(categoryFilterEl, "All categories", categoryOptions);
+                populateSelect(purposeFilterEl, "All purposes", purposeOptions);
                 populateSelect(suffixFilterEl, "All suffix patterns", suffixOptions);
 
                 function renderCards(list) {
@@ -5498,6 +5523,7 @@
                     var active =
                         searchInput.value.trim() !== "" ||
                         categoryFilterEl.value !== "" ||
+                        purposeFilterEl.value !== "" ||
                         suffixFilterEl.value !== "";
                     clearFiltersWrapper.hidden = !active;
                 }
@@ -5505,6 +5531,7 @@
                 function filterComponents() {
                     var query = searchInput.value.toLowerCase().trim();
                     var categoryValue = categoryFilterEl.value;
+                    var purposeValue = purposeFilterEl.value;
                     var suffixValue = suffixFilterEl.value;
 
                     var filtered = [];
@@ -5517,7 +5544,8 @@
                             c.description.toLowerCase().indexOf(query) !== -1;
                         var matchesCategory = categoryValue === "" || c.category === categoryValue;
                         var matchesSuffix = suffixValue === "" || suffixPatternOf(c.slug) === suffixValue;
-                        if (matchesSearch && matchesCategory && matchesSuffix) {
+                        var matchesPurpose = purposeValue === "" || c.purpose === purposeValue;
+                        if (matchesSearch && matchesCategory && matchesSuffix && matchesPurpose) {
                             filtered.push(c);
                         }
                     }
@@ -5528,12 +5556,14 @@
                 function resetFilters() {
                     searchInput.value = "";
                     categoryFilterEl.value = "";
+                    purposeFilterEl.value = "";
                     suffixFilterEl.value = "";
                     filterComponents();
                 }
 
                 searchInput.addEventListener("input", filterComponents);
                 categoryFilterEl.addEventListener("change", filterComponents);
+                purposeFilterEl.addEventListener("change", filterComponents);
                 suffixFilterEl.addEventListener("change", filterComponents);
                 clearFiltersButton.addEventListener("click", resetFilters);
 

@@ -39,13 +39,15 @@ description: All Lily Design System components, rendered via Nunjucks macros and
 <div data-module="components-search" id="components-search">
   <script type="application/json" id="component-categories-data">{{ componentCategories | dump | safe }}</script>
 
+  <script type="application/json" id="component-purposes-data">{{ componentPurposes | dump | safe }}</script>
+
   <p id="components-count">
     {{ components | length }} component{% if components | length != 1 %}s{% endif %} currently implemented.
   </p>
 
   <ul class="component-index-list" id="component-index-list">
     {% for c in components %}
-    <li class="component-index-list-item" data-category="{{ c.category }}">
+    <li class="component-index-list-item" data-category="{{ c.category }}" data-purpose="{{ c.purpose }}">
       <a href="/components/{{ c.kebab }}/">{{ c.title }}</a>
     </li>
     {% endfor %}

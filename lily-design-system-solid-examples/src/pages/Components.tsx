@@ -1,6 +1,6 @@
 import type { JSX } from "@solidjs/web";
 import { createMemo, createSignal, For, Show } from "solid-js";
-import { CATEGORY_LABEL, components } from "../data/components";
+import { CATEGORY_LABEL, components, PURPOSE_LABEL } from "../data/components";
 import { STANDALONE_ID, SUFFIX_LABEL, suffixPatternOf } from "../data/suffix-pattern";
 
 // Category and suffix-pattern filters beside the text search. A category comes from each component's registry entry
@@ -21,6 +21,10 @@ function countBy(items: Record<string, string>[], key: string): Map<string, numb
 const withSuffix = components.map((c) => ({ ...c, suffix: suffixPatternOf(c.slug) }));
 const categoryCounts = countBy(withSuffix, "category");
 const suffixCounts = countBy(withSuffix, "suffix");
+const purposeCounts = countBy(withSuffix, "purpose");
+const purposeOptions: FilterOption[] = Object.entries(PURPOSE_LABEL)
+    .filter(([id]) => purposeCounts.has(id))
+    .map(([id, label]) => ({ id, label, count: purposeCounts.get(id) ?? 0 }));
 const categoryOptions: FilterOption[] = Object.entries(CATEGORY_LABEL)
     .filter(([id]) => categoryCounts.has(id))
     .map(([id, label]) => ({ id, label, count: categoryCounts.get(id) ?? 0 }))
@@ -45,6 +49,7 @@ export default function Components(): JSX.Element {
     const [search, setSearch] = createSignal("");
     const [categoryFilter, setCategoryFilter] = createSignal("");
     const [suffixFilter, setSuffixFilter] = createSignal("");
+    const [purposeFilter, setPurposeFilter] = createSignal("");
 
     const filtered = createMemo(() => {
         const q = search().toLowerCase();
@@ -56,7 +61,8 @@ export default function Components(): JSX.Element {
                 c.description.toLowerCase().includes(q);
             const matchesCategory = categoryFilter() === "" || c.category === categoryFilter();
             const matchesSuffix = suffixFilter() === "" || c.suffix === suffixFilter();
-            return matchesSearch && matchesCategory && matchesSuffix;
+            const matchesPurpose = purposeFilter() === "" || c.purpose === purposeFilter();
+            return matchesSearch && matchesCategory && matchesSuffix && matchesPurpose;
         });
     });
 
@@ -64,10 +70,14 @@ export default function Components(): JSX.Element {
         setSearch("");
         setCategoryFilter("");
         setSuffixFilter("");
+        setPurposeFilter("");
     }
 
     const hasActiveFilters = () =>
-        search() !== "" || categoryFilter() !== "" || suffixFilter() !== "";
+        search() !== "" ||
+        categoryFilter() !== "" ||
+        suffixFilter() !== "" ||
+        purposeFilter() !== "";
 
     return (
         <main class="page-wrapper">
@@ -107,6 +117,30 @@ export default function Components(): JSX.Element {
                 >
                     <option value="">All categories ({components.length})</option>
                     <For each={categoryOptions}>
+                        {(opt) => (
+                            <option value={opt.id}>
+                                {opt.label} ({opt.count})
+                            </option>
+                        )}
+                    </For>
+                </select>
+            </div>
+
+            <div class="field">
+                <label
+                    class="label"
+                    for="purpose-filter"
+                >
+                    Purpose
+                </label>
+                <select
+                    id="purpose-filter"
+                    class="select"
+                    value={purposeFilter()}
+                    onChange={(e) => setPurposeFilter(e.currentTarget.value)}
+                >
+                    <option value="">All purposes ({components.length})</option>
+                    <For each={purposeOptions}>
                         {(opt) => (
                             <option value={opt.id}>
                                 {opt.label} ({opt.count})

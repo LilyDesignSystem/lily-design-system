@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { test, expect } from "@playwright/test";
 import { components } from "../src/data/components";
 import { suffixPatternOf } from "../src/data/suffix-pattern";
@@ -46,6 +47,19 @@ test.describe("/components search filters", () => {
 
         await page.getByRole("button", { name: "Clear filters" }).click();
         await expect(page.getByRole("status")).toContainText(`${TOTAL} of ${TOTAL} components`);
+    });
+
+    test("purpose filter shows exactly the components with that purpose", async ({ page }) => {
+        // Ground truth: the fourth column of the root components-categories.tsv (tasks.md P46-T3).
+        const tsv = readFileSync("../components-categories.tsv", "utf-8");
+        const navigateCount = tsv
+            .split("\n")
+            .filter((line) => line.split("\t")[3] === "navigate").length;
+        expect(navigateCount).toBeGreaterThan(0);
+
+        await page.goto("/components");
+        await page.getByLabel("Purpose").selectOption("navigate");
+        await expect(page.locator('a[href^="/components/"]')).toHaveCount(navigateCount);
     });
 
     test("category filter shows exactly the components in that category", async ({ page }) => {

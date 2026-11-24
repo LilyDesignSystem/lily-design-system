@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import { components, CATEGORY_LABEL } from "~/data/components";
+import { components, CATEGORY_LABEL, PURPOSE_LABEL } from "~/data/components";
 import { suffixPatternOf, SUFFIX_LABEL, STANDALONE_ID } from "~/data/suffix-pattern";
 
 // Plan P6-T5: category + suffix-pattern filters alongside the existing
@@ -16,6 +16,7 @@ import { suffixPatternOf, SUFFIX_LABEL, STANDALONE_ID } from "~/data/suffix-patt
 const search = ref("");
 const categoryFilter = ref("");
 const suffixFilter = ref("");
+const purposeFilter = ref("");
 
 const withSuffix = components.map((c) => ({
     ...c,
@@ -33,6 +34,11 @@ function countBy(items: Record<string, unknown>[], key: string) {
 
 const categoryCounts = countBy(withSuffix, "category");
 const suffixCounts = countBy(withSuffix, "suffix");
+const purposeCounts = countBy(withSuffix, "purpose");
+
+const purposeOptions = Object.entries(PURPOSE_LABEL)
+    .filter(([id]) => purposeCounts.has(id))
+    .map(([id, label]) => ({ id, label, count: purposeCounts.get(id) ?? 0 }));
 
 const categoryOptions = Object.entries(CATEGORY_LABEL)
     .filter(([id]) => categoryCounts.has(id))
@@ -65,18 +71,20 @@ const filtered = computed(() =>
             c.description.toLowerCase().includes(q);
         const matchesCategory = categoryFilter.value === "" || c.category === categoryFilter.value;
         const matchesSuffix = suffixFilter.value === "" || c.suffix === suffixFilter.value;
-        return matchesSearch && matchesCategory && matchesSuffix;
+        const matchesPurpose = purposeFilter.value === "" || c.purpose === purposeFilter.value;
+        return matchesSearch && matchesCategory && matchesSuffix && matchesPurpose;
     }),
 );
 
 const hasActiveFilters = computed(
-    () => !!(search.value || categoryFilter.value || suffixFilter.value),
+    () => !!(search.value || categoryFilter.value || suffixFilter.value || purposeFilter.value),
 );
 
 function resetFilters() {
     search.value = "";
     categoryFilter.value = "";
     suffixFilter.value = "";
+    purposeFilter.value = "";
 }
 </script>
 
@@ -114,6 +122,28 @@ function resetFilters() {
                 <option value="">All categories ({{ components.length }})</option>
                 <option
                     v-for="opt in categoryOptions"
+                    :key="opt.id"
+                    :value="opt.id"
+                >
+                    {{ opt.label }} ({{ opt.count }})
+                </option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label
+                class="label"
+                for="purpose-filter"
+                >Purpose</label
+            >
+            <select
+                id="purpose-filter"
+                class="select"
+                v-model="purposeFilter"
+            >
+                <option value="">All purposes ({{ components.length }})</option>
+                <option
+                    v-for="opt in purposeOptions"
                     :key="opt.id"
                     :value="opt.id"
                 >

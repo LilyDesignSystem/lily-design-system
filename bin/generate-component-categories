@@ -117,7 +117,15 @@ function htmlTagOf(slug) {
 }
 
 // Purpose (P46-T3): the maintainer-approved facet, one of PURPOSES per component, edited by hand in components-purposes.tsv.
-const PURPOSES = ["collect", "show", "navigate", "inform", "act", "structure"];
+const PURPOSE_LABEL = {
+  collect: "Collect input",
+  show: "Show information",
+  navigate: "Navigate",
+  inform: "Inform or warn",
+  act: "Act or decide",
+  structure: "Structure or style content",
+};
+const PURPOSES = Object.keys(PURPOSE_LABEL);
 const purposeOf = {};
 for (const line of read("components-purposes.tsv").split("\n").slice(1)) {
   if (!line.trim()) continue;
@@ -144,7 +152,7 @@ const rows = components.map((slug) => {
 
 // Exported so bin/generate-registries can emit the same id → label map
 // into every app registry without a second, driftable copy.
-module.exports = { CATEGORY_LABEL, PURPOSES, rows };
+module.exports = { CATEGORY_LABEL, PURPOSE_LABEL, PURPOSES, rows };
 
 if (require.main === module) {
   const out = rows.map((r) => `${r.slug}\t${r.tag}\t${r.category}\t${r.purpose}`).join("\n") + "\n";

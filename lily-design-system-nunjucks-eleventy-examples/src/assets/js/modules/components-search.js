@@ -84,8 +84,8 @@ export const SUFFIX_LABEL = {
     [STANDALONE_ID]: STANDALONE_LABEL,
 };
 
-function readCategoryLabels() {
-    const el = document.getElementById("component-categories-data");
+function readLabels(id) {
+    const el = document.getElementById(id);
     if (!el) return {};
     try {
         return JSON.parse(el.textContent || "{}");
@@ -130,7 +130,8 @@ export function init() {
     const items = Array.from(list.querySelectorAll(".component-index-list-item"));
     if (items.length === 0) return;
 
-    const categoryLabels = readCategoryLabels();
+    const categoryLabels = readLabels("component-categories-data");
+    const purposeLabels = readLabels("component-purposes-data");
 
     const records = items.map((li) => {
         const anchor = li.querySelector("a");
@@ -141,6 +142,7 @@ export function init() {
             li,
             slug,
             category: li.dataset.category || "",
+            purpose: li.dataset.purpose || "",
             suffix,
             text: `${li.textContent || ""} ${slug}`.toLowerCase(),
         };
@@ -153,6 +155,11 @@ export function init() {
         .filter(([id]) => categoryCounts.has(id))
         .map(([id, label]) => ({ id, label, count: categoryCounts.get(id) }))
         .sort((a, b) => b.count - a.count);
+
+    const purposeCounts = countBy(records, "purpose");
+    const purposeOptions = Object.entries(purposeLabels)
+        .filter(([id]) => purposeCounts.has(id))
+        .map(([id, label]) => ({ id, label, count: purposeCounts.get(id) }));
 
     const suffixCounts = countBy(records, "suffix");
     const suffixOptions = Object.entries(SUFFIX_LABEL)
@@ -188,6 +195,10 @@ export function init() {
 			<select id="component-category-filter" class="select"></select>
 		</div>
 		<div class="field">
+			<label class="label" for="component-purpose-filter">Purpose</label>
+			<select id="component-purpose-filter" class="select"></select>
+		</div>
+		<div class="field">
 			<label class="label" for="component-suffix-filter">Suffix pattern</label>
 			<select id="component-suffix-filter" class="select"></select>
 		</div>
@@ -204,16 +215,19 @@ export function init() {
 
     const searchInput = panel.querySelector("#component-search-input");
     const categorySelect = panel.querySelector("#component-category-filter");
+    const purposeSelect = panel.querySelector("#component-purpose-filter");
     const suffixSelect = panel.querySelector("#component-suffix-filter");
     const clearButton = panel.querySelector("#component-filters-clear");
     const status = panel.querySelector("#component-filters-status");
 
     buildSelectOptions(categorySelect, categoryOptions, `All categories (${total})`);
+    buildSelectOptions(purposeSelect, purposeOptions, `All purposes (${total})`);
     buildSelectOptions(suffixSelect, suffixOptions, `All suffix patterns (${total})`);
 
     function applyFilters() {
         const query = searchInput.value.trim().toLowerCase();
         const categoryValue = categorySelect.value;
+        const purposeValue = purposeSelect.value;
         const suffixValue = suffixSelect.value;
 
         let shown = 0;
@@ -221,7 +235,8 @@ export function init() {
             const matchesSearch = query === "" || record.text.includes(query);
             const matchesCategory = categoryValue === "" || record.category === categoryValue;
             const matchesSuffix = suffixValue === "" || record.suffix === suffixValue;
-            const visible = matchesSearch && matchesCategory && matchesSuffix;
+            const matchesPurpose = purposeValue === "" || record.purpose === purposeValue;
+            const visible = matchesSearch && matchesCategory && matchesSuffix && matchesPurpose;
             record.li.hidden = !visible;
             if (visible) shown += 1;
         }
@@ -231,10 +246,12 @@ export function init() {
 
     searchInput.addEventListener("input", applyFilters);
     categorySelect.addEventListener("change", applyFilters);
+    purposeSelect.addEventListener("change", applyFilters);
     suffixSelect.addEventListener("change", applyFilters);
     clearButton.addEventListener("click", () => {
         searchInput.value = "";
         categorySelect.value = "";
+        purposeSelect.value = "";
         suffixSelect.value = "";
         applyFilters();
     });

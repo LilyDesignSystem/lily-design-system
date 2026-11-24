@@ -2,7 +2,7 @@
     import Header from "#lib/components/Header/Header.svelte";
     import Footer from "#lib/components/Footer/Footer.svelte";
     import BackLink from "#lib/components/BackLink/BackLink.svelte";
-    import { components, CATEGORY_LABEL } from "#lib/data/components.js";
+    import { components, CATEGORY_LABEL, PURPOSE_LABEL } from "#lib/data/components.js";
     import { suffixPatternOf, SUFFIX_LABEL, STANDALONE_ID } from "#lib/data/suffix-pattern.js";
 
     // Plan P6-T5: category + suffix-pattern filters alongside the
@@ -18,16 +18,6 @@
     let categoryFilter = $state("");
     let suffixFilter = $state("");
     let purposeFilter = $state("");
-
-    // Purpose facet (tasks.md P46-T3): what a component is for, from components-purposes.tsv.
-    const PURPOSE_LABEL: Record<string, string> = {
-        collect: "Collect input",
-        show: "Show information",
-        navigate: "Navigate",
-        inform: "Inform or warn",
-        act: "Act or decide",
-        structure: "Structure or style content",
-    };
 
     const withSuffix = components.map((c) => ({ ...c, suffix: suffixPatternOf(c.slug) }));
 

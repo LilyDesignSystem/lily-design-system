@@ -44,12 +44,25 @@ public class PageTests : TestContext
     }
 
     [Fact]
+    public void Components_purpose_filter_shows_exactly_the_components_with_that_purpose()
+    {
+        var cut = RenderComponent<ComponentsPage>();
+        var expected = ComponentData.Components.Count(c => c.Purpose == "navigate");
+
+        cut.Find("#purpose-filter").Change("navigate");
+
+        var links = cut.FindAll("a[href^='/components/']");
+        Assert.Equal(expected, links.Count);
+        Assert.True(links.Count > 0);
+    }
+
+    [Fact]
     public void Components_suffix_filter_shows_exactly_the_slugs_ending_in_that_suffix()
     {
         var cut = RenderComponent<ComponentsPage>();
-        var expected = ComponentData.Components.Count(c => SuffixPattern.Of(c.Slug) == "picker-button");
+        var expected = ComponentData.Components.Count(c => SuffixPattern.Of(c.Slug) == "list-item");
 
-        cut.Find("#suffix-filter").Change("picker-button");
+        cut.Find("#suffix-filter").Change("list-item");
 
         var links = cut.FindAll("a[href^='/components/']");
         Assert.Equal(expected, links.Count);
@@ -57,7 +70,7 @@ public class PageTests : TestContext
         foreach (var link in links)
         {
             var slug = link.GetAttribute("href")!.Replace("/components/", "");
-            Assert.Equal("picker-button", SuffixPattern.Of(slug));
+            Assert.Equal("list-item", SuffixPattern.Of(slug));
         }
     }
 

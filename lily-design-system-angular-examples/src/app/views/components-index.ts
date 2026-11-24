@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, signal, computed } from "@angular/core";
 import { RouterLink } from "@angular/router";
-import { components, CATEGORY_LABEL } from "../components-data";
+import { components, CATEGORY_LABEL, PURPOSE_LABEL } from "../components-data";
 import { suffixPatternOf, SUFFIX_LABEL, STANDALONE_ID } from "../suffix-pattern";
 
 interface Entry {
@@ -8,6 +8,7 @@ interface Entry {
     pascal: string;
     description: string;
     category: string;
+    purpose: string;
     suffix: string;
 }
 
@@ -29,11 +30,12 @@ const entries: Entry[] = components
         pascal: c.name,
         description: c.description,
         category: c.category,
+        purpose: c.purpose,
         suffix: suffixPatternOf(c.slug),
     }))
     .sort((a, b) => a.slug.localeCompare(b.slug));
 
-function countBy(items: Entry[], key: "category" | "suffix"): Map<string, number> {
+function countBy(items: Entry[], key: "category" | "purpose" | "suffix"): Map<string, number> {
     const counts = new Map<string, number>();
     for (const item of items) {
         counts.set(item[key], (counts.get(item[key]) ?? 0) + 1);
@@ -43,6 +45,10 @@ function countBy(items: Entry[], key: "category" | "suffix"): Map<string, number
 
 const categoryCounts = countBy(entries, "category");
 const suffixCounts = countBy(entries, "suffix");
+const purposeCounts = countBy(entries, "purpose");
+const purposeOptions: FilterOption[] = Object.entries(PURPOSE_LABEL)
+    .filter(([id]) => purposeCounts.has(id))
+    .map(([id, label]) => ({ id, label, count: purposeCounts.get(id) ?? 0 }));
 
 // Both dropdowns only ever list ids actually present in the catalog,
 // so "All ..." plus real, populated options -- no dead choices that
@@ -95,6 +101,14 @@ const suffixOptions: FilterOption[] = Object.entries(SUFFIX_LABEL)
         }
       </select>
 
+      <label for="purpose-filter" style="display: block; font-weight: 600;">Purpose</label>
+      <select id="purpose-filter" [value]="purposeFilter()" (change)="setPurposeFilter($event)">
+        <option value="">All purposes ({{ entries.length }})</option>
+        @for (opt of purposeOptions; track opt.id) {
+          <option [value]="opt.id">{{ opt.label }} ({{ opt.count }})</option>
+        }
+      </select>
+
       <label for="suffix-filter" style="display: block; font-weight: 600;">Suffix pattern</label>
       <select id="suffix-filter" [value]="suffixFilter()" (change)="setSuffixFilter($event)">
         <option value="">All suffix patterns ({{ entries.length }})</option>
@@ -130,15 +144,18 @@ export default class ComponentsIndexPage {
     protected readonly entries = entries;
     protected readonly categoryOptions = categoryOptions;
     protected readonly suffixOptions = suffixOptions;
+    protected readonly purposeOptions = purposeOptions;
 
     protected readonly query = signal("");
     protected readonly categoryFilter = signal("");
     protected readonly suffixFilter = signal("");
+    protected readonly purposeFilter = signal("");
 
     protected readonly filtered = computed(() => {
         const q = this.query().trim().toLowerCase();
         const category = this.categoryFilter();
         const suffix = this.suffixFilter();
+        const purpose = this.purposeFilter();
         return this.entries.filter((e) => {
             const matchesSearch =
                 q === "" ||
@@ -147,12 +164,17 @@ export default class ComponentsIndexPage {
                 e.description.toLowerCase().includes(q);
             const matchesCategory = category === "" || e.category === category;
             const matchesSuffix = suffix === "" || e.suffix === suffix;
-            return matchesSearch && matchesCategory && matchesSuffix;
+            const matchesPurpose = purpose === "" || e.purpose === purpose;
+            return matchesSearch && matchesCategory && matchesSuffix && matchesPurpose;
         });
     });
 
     protected readonly hasActiveFilter = computed(
-        () => this.query() !== "" || this.categoryFilter() !== "" || this.suffixFilter() !== "",
+        () =>
+            this.query() !== "" ||
+            this.categoryFilter() !== "" ||
+            this.suffixFilter() !== "" ||
+            this.purposeFilter() !== "",
     );
 
     protected setQuery(event: Event): void {
@@ -163,6 +185,10 @@ export default class ComponentsIndexPage {
         this.categoryFilter.set((event.target as HTMLSelectElement).value);
     }
 
+    protected setPurposeFilter(event: Event): void {
+        this.purposeFilter.set((event.target as HTMLSelectElement).value);
+    }
+
     protected setSuffixFilter(event: Event): void {
         this.suffixFilter.set((event.target as HTMLSelectElement).value);
     }
@@ -171,5 +197,6 @@ export default class ComponentsIndexPage {
         this.query.set("");
         this.categoryFilter.set("");
         this.suffixFilter.set("");
+        this.purposeFilter.set("");
     }
 }

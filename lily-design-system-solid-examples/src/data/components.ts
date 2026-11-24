@@ -5313,3 +5313,13 @@ export const CATEGORY_LABEL: Record<string, string> = {
   "data-viz": "Data visualization",
   "content": "Content & other",
 };
+
+/** Purpose id → display label (tasks.md P46-T3). */
+export const PURPOSE_LABEL: Record<string, string> = {
+  "collect": "Collect input",
+  "show": "Show information",
+  "navigate": "Navigate",
+  "inform": "Inform or warn",
+  "act": "Act or decide",
+  "structure": "Structure or style content",
+};

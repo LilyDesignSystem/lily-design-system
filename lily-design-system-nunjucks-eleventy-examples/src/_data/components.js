@@ -31,8 +31,8 @@ function loadCategories() {
     if (!existsSync(categoriesTsv)) return map;
     for (const line of readFileSync(categoriesTsv, "utf-8").split("\n")) {
         if (!line.trim()) continue;
-        const [slug, tag, category] = line.split("\t");
-        map[slug] = { tag, category };
+        const [slug, tag, category, purpose] = line.split("\t");
+        map[slug] = { tag, category, purpose };
     }
     return map;
 }
@@ -70,6 +70,7 @@ function scan() {
         macro: kebabToCamel(name),
         tag: categories[name]?.tag || "",
         category: categories[name]?.category || "content",
+        purpose: categories[name]?.purpose || "structure",
     }));
 }
 

@@ -53,7 +53,7 @@ const write = (p, s) => {
 
 // ---------- canonical sources ----------
 
-const { CATEGORY_LABEL } = require("./generate-component-categories");
+const { CATEGORY_LABEL, PURPOSE_LABEL } = require("./generate-component-categories");
 const categoryOf = {};
 const tagOf = {};
 const purposeOf = {};
@@ -118,6 +118,11 @@ const tsEntries = (indent) => components.map((c) => tsEntry(c, indent)).join("\n
 // The category id → display label map (plan P6-T5's category filter),
 // as one TS literal shared by every registry below — the single place
 // the labels are spelled out, sourced from generate-component-categories.
+const purposeLabelEntries = (indent) =>
+  Object.entries(PURPOSE_LABEL)
+    .map(([id, label]) => `${" ".repeat(indent)}${jsStr(id)}: ${jsStr(label)},`)
+    .join("\n");
+
 const categoryLabelEntries = (indent) => {
   const i = " ".repeat(indent);
   return Object.entries(CATEGORY_LABEL)
@@ -131,6 +136,11 @@ write(
 /** Category id → display label (plan P6-T5's category filter). */
 export const CATEGORY_LABEL: Record<string, string> = {
 ${categoryLabelEntries(2)}
+};
+
+/** Purpose id → display label (tasks.md P46-T3). */
+export const PURPOSE_LABEL: Record<string, string> = {
+${purposeLabelEntries(2)}
 };
 `
 );
@@ -154,6 +164,11 @@ ${tsEntries(2)}
 export const CATEGORY_LABEL: Record<string, string> = {
 ${categoryLabelEntries(2)}
 };
+
+/** Purpose id → display label (tasks.md P46-T3). */
+export const PURPOSE_LABEL: Record<string, string> = {
+${purposeLabelEntries(2)}
+};
 `
 );
 
@@ -175,6 +190,11 @@ ${tsEntries(2)}
 /** Category id → display label (plan P6-T5's category filter). */
 export const CATEGORY_LABEL: Record<string, string> = {
 ${categoryLabelEntries(2)}
+};
+
+/** Purpose id → display label (tasks.md P46-T3). */
+export const PURPOSE_LABEL: Record<string, string> = {
+${purposeLabelEntries(2)}
 };
 `
 );
@@ -198,6 +218,11 @@ ${tsEntries(2)}
 export const CATEGORY_LABEL: Record<string, string> = {
 ${categoryLabelEntries(2)}
 };
+
+/** Purpose id → display label (tasks.md P46-T3). */
+export const PURPOSE_LABEL: Record<string, string> = {
+${purposeLabelEntries(2)}
+};
 `
 );
 
@@ -219,6 +244,11 @@ ${tsEntries(2)}
 /** Category id → display label (plan P6-T5's category filter). */
 export const CATEGORY_LABEL: Record<string, string> = {
 ${categoryLabelEntries(2)}
+};
+
+/** Purpose id → display label (tasks.md P46-T3). */
+export const PURPOSE_LABEL: Record<string, string> = {
+${purposeLabelEntries(2)}
 };
 `
 );
@@ -242,6 +272,8 @@ export type LilyComponent = {
   name: string;
   pascal: string;
   description: string;
+  /** What it is for: collect, show, navigate, inform, act or structure (tasks.md P46-T3). */
+  purpose: 'collect' | 'show' | 'navigate' | 'inform' | 'act' | 'structure';
   /** Maturity: see the rubric in spec/components. */
   status: 'stable' | 'beta' | 'experimental' | 'deprecated' | 'discouraged';
 };
@@ -250,10 +282,15 @@ export const LILY_COMPONENTS: LilyComponent[] = [
 ${components
   .map(
     (c) =>
-      `  { name: ${jsStr(c.slug)}, pascal: ${jsStr(c.name)}, description: ${jsStr(c.description)}, status: ${jsStr(statusOf(c.slug))} },`
+      `  { name: ${jsStr(c.slug)}, pascal: ${jsStr(c.name)}, description: ${jsStr(c.description)}, purpose: ${jsStr(c.purpose)}, status: ${jsStr(statusOf(c.slug))} },`
   )
   .join("\n")}
 ];
+
+/** Purpose id → display label (tasks.md P46-T3). */
+export const PURPOSE_LABEL: Record<string, string> = {
+${purposeLabelEntries(2)}
+};
 `
 );
 
@@ -274,7 +311,7 @@ write(
   "lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Data/ComponentData.cs",
   `namespace LilyBlazorWebExamples.Data;
 
-public record ComponentInfo(string Slug, string Name, string Description, string Tag, string Category, string DemoHtml);
+public record ComponentInfo(string Slug, string Name, string Description, string Tag, string Category, string Purpose, string DemoHtml);
 public static class ComponentData
 {
     // Category id → display label (plan P6-T5's category filter).
@@ -285,12 +322,20 @@ ${Object.entries(CATEGORY_LABEL)
   .join("\n")}
     };
 
+    // Purpose id → display label (tasks.md P46-T3).
+    public static readonly Dictionary<string, string> PurposeLabel = new()
+    {
+${Object.entries(PURPOSE_LABEL)
+  .map(([id, label]) => `        { ${csStr(id)}, ${csStr(label)} },`)
+  .join("\n")}
+    };
+
     public static readonly List<ComponentInfo> Components = new()
     {
 ${components
   .map(
     (c) =>
-      `        new(${csStr(c.slug)}, ${csStr(c.name)}, ${csStr(c.description)}, ${csStr(c.tag)}, ${csStr(c.category)}, ${csStr(unescapeJs(demos[c.slug]))}),`
+      `        new(${csStr(c.slug)}, ${csStr(c.name)}, ${csStr(c.description)}, ${csStr(c.tag)}, ${csStr(c.category)}, ${csStr(c.purpose)}, ${csStr(unescapeJs(demos[c.slug]))}),`
   )
   .join("\n")}
     };

@@ -79,6 +79,21 @@ test.describe("/components search filters", () => {
         await expect(page.getByRole("status")).toContainText(`${TOTAL} of ${TOTAL} components`);
     });
 
+    test("purpose filter shows exactly the components with that purpose", async ({ page }) => {
+        // Ground truth: the fourth column of the root components-categories.tsv (tasks.md P46-T3).
+        const tsv = readFileSync("../components-categories.tsv", "utf-8");
+        const navigateCount = tsv
+            .split("\n")
+            .filter((line) => line.split("\t")[3] === "navigate").length;
+        expect(navigateCount).toBeGreaterThan(0);
+
+        await page.goto("/components/");
+        await page.getByLabel("Purpose").selectOption("navigate");
+        await expect(page.locator(".component-index-list-item:not([hidden]) a")).toHaveCount(
+            navigateCount,
+        );
+    });
+
     test("category filter shows exactly the components in that category", async ({ page }) => {
         await page.goto("/components/");
         await page.getByLabel("Category").selectOption("tables");

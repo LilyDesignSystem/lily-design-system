@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { components, CATEGORY_LABEL } from "@/app/data/components";
+import { components, CATEGORY_LABEL, PURPOSE_LABEL } from "@/app/data/components";
 import { suffixPatternOf, SUFFIX_LABEL, STANDALONE_ID } from "@/app/data/suffix-pattern";
 
 // Plan P6-T5: category + suffix-pattern filters alongside the
@@ -33,6 +33,11 @@ const withSuffix = components.map((c) => ({ ...c, suffix: suffixPatternOf(c.slug
 
 const categoryCounts = countBy(withSuffix, "category");
 const suffixCounts = countBy(withSuffix, "suffix");
+const purposeCounts = countBy(withSuffix, "purpose");
+
+const purposeOptions: FilterOption[] = Object.entries(PURPOSE_LABEL)
+    .filter(([id]) => purposeCounts.has(id))
+    .map(([id, label]) => ({ id, label, count: purposeCounts.get(id) ?? 0 }));
 
 const categoryOptions: FilterOption[] = Object.entries(CATEGORY_LABEL)
     .filter(([id]) => categoryCounts.has(id))
@@ -59,6 +64,7 @@ export default function ComponentsPage() {
     const [search, setSearch] = useState("");
     const [categoryFilter, setCategoryFilter] = useState("");
     const [suffixFilter, setSuffixFilter] = useState("");
+    const [purposeFilter, setPurposeFilter] = useState("");
 
     const filtered = useMemo(() => {
         const q = search.toLowerCase();
@@ -70,17 +76,20 @@ export default function ComponentsPage() {
                 c.description.toLowerCase().includes(q);
             const matchesCategory = categoryFilter === "" || c.category === categoryFilter;
             const matchesSuffix = suffixFilter === "" || c.suffix === suffixFilter;
-            return matchesSearch && matchesCategory && matchesSuffix;
+            const matchesPurpose = purposeFilter === "" || c.purpose === purposeFilter;
+            return matchesSearch && matchesCategory && matchesSuffix && matchesPurpose;
         });
-    }, [search, categoryFilter, suffixFilter]);
+    }, [search, categoryFilter, suffixFilter, purposeFilter]);
 
     function resetFilters() {
         setSearch("");
         setCategoryFilter("");
         setSuffixFilter("");
+        setPurposeFilter("");
     }
 
-    const hasActiveFilters = search !== "" || categoryFilter !== "" || suffixFilter !== "";
+    const hasActiveFilters =
+        search !== "" || categoryFilter !== "" || suffixFilter !== "" || purposeFilter !== "";
 
     return (
         <main className="page-wrapper">
@@ -119,6 +128,31 @@ export default function ComponentsPage() {
                 >
                     <option value="">All categories ({components.length})</option>
                     {categoryOptions.map((opt) => (
+                        <option
+                            key={opt.id}
+                            value={opt.id}
+                        >
+                            {opt.label} ({opt.count})
+                        </option>
+                    ))}
+                </select>
+            </div>
+
+            <div className="field">
+                <label
+                    className="label"
+                    htmlFor="purpose-filter"
+                >
+                    Purpose
+                </label>
+                <select
+                    id="purpose-filter"
+                    className="select"
+                    value={purposeFilter}
+                    onChange={(e) => setPurposeFilter(e.target.value)}
+                >
+                    <option value="">All purposes ({components.length})</option>
+                    {purposeOptions.map((opt) => (
                         <option
                             key={opt.id}
                             value={opt.id}
