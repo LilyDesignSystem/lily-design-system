@@ -185,9 +185,9 @@ Deprecations, like releases, get a CHANGELOG entry.
 ## Kotlin (Maven Central)
 
 The four Kotlin modules (`lily-core`, `lily-compose`, `lily-compose-themes`, `lily-compose-examples`) publish from this monorepo
-under the namespace `io.github.lilydesignsystem`; there is no export repository (unlike Swift). One-time setup, by the maintainer:
+under the namespace `com.lilydesignsystem` (the Kotlin packages keep their `io.github.lilydesignsystem.*` names); there is no export repository (unlike Swift). One-time setup, by the maintainer:
 
-1. Sign in to the [Central Portal](https://central.sonatype.com) and verify the namespace `io.github.lilydesignsystem`.
+1. Sign in to the [Central Portal](https://central.sonatype.com) and verify the namespace `com.lilydesignsystem` (a DNS TXT record on `lilydesignsystem.com` holding the verification key the Portal shows).
 2. Generate a Portal user token (a username and password pair) for uploads.
 3. Create a GPG signing key, publish its public half to a key server, and keep the armoured private key and its passphrase.
 

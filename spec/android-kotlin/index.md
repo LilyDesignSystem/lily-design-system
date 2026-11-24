@@ -103,8 +103,8 @@ packs shipped as resources. On Android:
      AndroidX and kotlinx.
 4. **Publishing from the monorepo.** Maven Central does not care where the source lives, so the Gradle build publishes
    from its subproject directory, from the maintainer's machine, like the npm packages
-   (`bin/publish-kotlin`). Group `io.github.lilydesignsystem` (verifiable through the GitHub organisation) unless the
-   project owns a domain; POMs name the monorepo with the subproject path, enforced by `bin/check-package-metadata`.
+   (`bin/publish-kotlin`). Group `com.lilydesignsystem` (verified by a DNS TXT record on the project's domain, chosen 2026-11-24 over
+   `io.github.lilydesignsystem`; the Kotlin packages keep their `io.github` names); POMs name the monorepo with the subproject path, enforced by `bin/check-package-metadata`.
 5. **Example app** (P45-T5). `lily-design-system-android-examples`: home, a searchable component list and a detail screen
    per component with demo, code and variants; composed screens matching the Apple app. Adaptive from the start
    (list-detail on wide windows), since Android 17 removes the opt-out.

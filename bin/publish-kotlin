@@ -7,7 +7,7 @@
 #
 # A real run needs a green `bin/ci --full` receipt for HEAD (outside CI) and these in the environment: CENTRAL_USERNAME and
 # CENTRAL_PASSWORD (a Central Portal user token), SIGNING_KEY (an armoured private key) and SIGNING_PASSWORD. The namespace
-# io.github.lilydesignsystem must be verified in the Portal first. The upload lands in a staging repository; the release itself is
+# com.lilydesignsystem must be verified in the Portal first. The upload lands in a staging repository; the release itself is
 # confirmed in the Portal (or with the manual-upload endpoint, see docs/releasing.md).
 set -eu
 
@@ -31,7 +31,7 @@ if [ -n "$DRY" ]; then
 const fs = require("fs");
 const path = require("path");
 const kotlin = process.argv[2];
-const repo = path.join(kotlin, "build/repo/io/github/lilydesignsystem");
+const repo = path.join(kotlin, "build/repo/com/lilydesignsystem");
 const version = /lilyVersion=(.+)/.exec(fs.readFileSync(path.join(kotlin, "gradle.properties"), "utf8"))[1].trim();
 const errors = [];
 const modules = ["lily-core", "lily-compose", "lily-compose-themes", "lily-compose-examples"];

@@ -38,7 +38,7 @@ val checkNoMaterial by tasks.registering {
 // run: no credentials); `publishAllPublicationsToCentralRepository` uploads to the Central Portal's staging API and needs
 // CENTRAL_USERNAME and CENTRAL_PASSWORD (a Portal user token) and, to sign, SIGNING_KEY (an armoured private key) and SIGNING_PASSWORD.
 val publishable = setOf("lily-core", "lily-compose", "lily-compose-themes", "lily-compose-examples")
-group = "io.github.lilydesignsystem"
+group = "com.lilydesignsystem"
 version = providers.gradleProperty("lilyVersion").get()
 
 subprojects {
