@@ -4614,8 +4614,11 @@ then T3, T6, T7 and T8 (small), then T4; T5, T9 and T10 are maintainer decisions
       Verify: `1.5` with `precision: 2` writes `1.50`; without it the output is unchanged; the guide names both rules.
 - [x] **P47-T3 `,` as a decimal sign in durations.** _(2026-11-24: TypeScript, C#, Swift and Kotlin, through five shared vectors.)_ `durationParts` accepts `PT1,5S`; `htmlDuration` writes `.`.
       Verify: unit tests in TypeScript and C#.
-- [ ] **P47-T4 Leap seconds (investigation).** `date-time-view` and the data grid with `2016-12-31T23:59:60Z`.
+- [x] **P47-T4 Leap seconds (investigation).** _(2026-11-24: `date-time-view` passes the consumer's string through in every catalog, so `23:59:60` is kept; a Svelte test pins it. The data grid's time cell refuses `:60`, shows it exactly as written and flags it; a test pins that it is never changed. Accepting it needs an editor other than the native time input, which has no second 60: left as P47-T4b.)_ `date-time-view` and the data grid with `2016-12-31T23:59:60Z`.
       Verify: a test in each, and a fix for whatever throws or changes the second.
+- [ ] **P47-T4b A leap second in a data grid time cell (maintainer decision).** Accept `HH:mm:60` as valid, display it as
+      written, and edit it in a text field instead of the native time input.
+      Verify: a test that a `:60` value survives an edit that changes nothing.
 - [ ] **P47-T5 Partial dates in `filter` and the data grid (maintainer decision).** A partial-date field and cell type; an
       undecidable comparison does not match, in every output.
       Verify: a property test that no output matches `2019` against "before 2019-06-01" or "after 2019-06-01".
