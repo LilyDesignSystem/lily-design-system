@@ -160,7 +160,9 @@ another project, never copied here) and feeds every value to the formatters. It 
 directory; the file's header has the command, and `OPENEHR_JSON_CORPUS_REPORT` writes one TSV row per value.
 
 **Run 1, 2026-11-24**, `ehrbase/openEHR_SDK` at `e07110a2d969d6971ff157b93288f64ee30764af`,
-`test-data/src/main/resources/composition/canonical_json` (57 files): 155 values, none refused wrongly, no digit lost.
+`test-data/src/main/resources/composition/canonical_json` (57 files): 155 values, none refused wrongly. The 100 quantities and counts were read back with no digit lost; the
+dates, durations, proportions and ranges were checked only for being accepted or refused as expected (corrected
+2026-11-24; P48-T9 reads them back too).
 
 | Type            | Values | Outcome                                                                                                                                                       |
 | --------------- | -----: | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |

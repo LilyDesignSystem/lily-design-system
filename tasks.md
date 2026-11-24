@@ -4240,7 +4240,7 @@ current design system. No person or organisation is named. Order: T1 first (a tr
 - [ ] **P41-T5b Ship an SBOM and check provenance.** A CycloneDX document per published package, generated in the release
       pipeline and attached to the release; a script that verifies each registry's provenance for the latest version.
       Verify: `bin/verify-published` reports provenance, and the assurance pack's gap rows are removed.
-- [x] **P41-T5c The theme picker's cookie is on by default.** _(Decided 2026-11-24 by the maintainer: off by default. In all eight catalogs an unset `cookieName` keeps no cookie and `localStorage` stays on; the SvelteKit cookie recipe and the docs site name `lily-theme` explicitly, so the site's cookie policy is unchanged. Each catalog's §7.44 test checks that a choice sets no cookie; the docs, the spec, `AGENTS/helpers.md` and the changelogs say so. Not yet released.)_ `ThemePicker` writes a first-party `lily-theme` cookie (400 days) on a
+- [ ] **P41-T5c The theme picker's cookie is on by default.** _(Reopened 2026-11-24: the code and unit tests are done and theme-pickers 0.6.0 are published, but the Verify line's Playwright checks are not written.)_ _(Decided 2026-11-24 by the maintainer: off by default. In all eight catalogs an unset `cookieName` keeps no cookie and `localStorage` stays on; the SvelteKit cookie recipe and the docs site name `lily-theme` explicitly, so the site's cookie policy is unchanged. Each catalog's §7.44 test checks that a choice sets no cookie; the docs, the spec, `AGENTS/helpers.md` and the changelogs say so. Not yet released.)_ `ThemePicker` writes a first-party `lily-theme` cookie (400 days) on a
       choice, as well as `localStorage`, unless `cookieName=""`; `AGENTS/helpers.md` and the picker docs say "optional
       `localStorage`". Decide whether the default should be off, and either way document the cookie in every catalog's picker docs.
       _(Found 2026-11-21: the site's cookie policy first said "no cookies" and was wrong; the policy is corrected and
@@ -4628,7 +4628,7 @@ then T3, T6, T7 and T8 (small), then T4; T5, T9 and T10 are maintainer decisions
       Verify: linked from `index.md`, `SECURITY.md` and `llms.txt`; `bin/check-links` passes.
 - [x] **P47-T8 A coverage floor.** _(2026-11-24: `coverage-floor.tsv` (shared 24/279, Svelte 2/147, Blazor 14/232 uncovered lines/branches); `bin/coverage-report --floor-only` as `bin/ci --job coverage-floor`, in its own cached lane and in `ci.yml`.)_ `coverage-floor.tsv` read by `bin/coverage-report --check`, run in `bin/ci --full`.
       Verify: lowering coverage below the floor fails, and beating it without lowering the floor fails.
-- [x] **P47-T9 A clinical-format corpus run (maintainer decision).** _(Adopted 2026-11-24: `shared/clinical-format.corpus.test.ts`, skipped without `OPENEHR_JSON_CORPUS`; run 1 over the EHRbase SDK at `e07110a2d`: 155 values, no wrong refusal, no lost digit; recorded in the lessons topic.)_ An ignored test over the EHRbase SDK canonical JSON, read
+- [x] **P47-T9 A clinical-format corpus run (maintainer decision).** _(Adopted 2026-11-24: `shared/clinical-format.corpus.test.ts`, skipped without `OPENEHR_JSON_CORPUS`; run 1 over the EHRbase SDK at `e07110a2d`: 155 values, no wrong refusal; only the 100 quantities and counts are read back for a lost digit (P48-T9); recorded in the lessons topic.)_ An ignored test over the EHRbase SDK canonical JSON, read
       in place.
       Verify: a recorded run in the lessons topic, with the corpus commit.
 - [x] **P47-T10 Requirement ids for the healthcare rules (maintainer decision).** _(Adopted 2026-11-24, because adopters asked: `spec/healthcare-ui/requirements.md`, 40 ids (31 tested, 1 checked, 4 guide, 3 declined, 1 untested: HC-I2, closed the same day by `bin/check-identifier-views` and rendered tests in Svelte and Web Components, which found and fixed the Web Components views leaving the identifier in the host's `value` attribute), cited from the TypeScript, Svelte, C# and e2e tests; `bin/check-healthcare-requirements` in `bin/test`.)_ Permanent ids in `spec/healthcare-ui`, cited
@@ -4637,6 +4637,69 @@ then T3, T6, T7 and T8 (small), then T4; T5, T9 and T10 are maintainer decisions
 - [x] **P47-T11 A worked openEHR example.** _(2026-11-24.)_ A canonical JSON `DV_QUANTITY` and a partial `DV_DATE` beside the Lily props, in
       the healthcare guide.
       Verify: `bin/check-links` passes.
+
+## Phase 48 — Quality review (2026-11-24)
+
+From [spec/quality-review](spec/quality-review/index.md); the numbers in brackets are its findings. Order: T1 to T4 first.
+
+### Claims and privacy
+
+- [ ] **P48-T1 Correct `PHI.md` on attributes (7).** List each attribute that can hold patient data (`datetime`,
+      `data-duration`, `data-interpretation`, `data-severity` and the rest), say why it is there and how to mask it, and keep
+      "No" only for the identifier views.
+      Verify: a check that fails when a healthcare component renders an attribute from a prop that the list does not name.
+- [ ] **P48-T2 No identifier left in a Web Components attribute (8).** The identifier inputs, and `age-view`, `date-time-view`
+      and `duration-view` on their hosts. Decide first whether an input may keep `defaultValue`, which form reset needs.
+      Verify: a sentinel test over every identifier input and clinical view, as HC-I2 has for the identifier views.
+- [ ] **P48-T3 The register names the catalogs (9).** A catalogs column; `bin/check-healthcare-requirements` requires the id
+      in a test of each, and in a test name or the comment above a test rather than anywhere in the file.
+      Verify: removing an id from one catalog's test fails the check.
+- [ ] **P48-T9 The corpus test reads every type back (10).** Dates, durations, proportions and ranges, and a second corpus
+      from another country's records.
+      Verify: a deliberately wrong formatter fails each type.
+
+### Gates
+
+- [ ] **P48-T4 Green `main` (1, 2, 4).** `MutationObserver` in both jsdom blocks of `bin/smoke-packages`, then whatever the
+      later checks find; the root install, or no prettier, for `bin/generate-framework-matrix --check` in the verify job.
+      Verify: a green `CI` run on `main`.
+- [ ] **P48-T5 `bin/test` shows why a check failed (4).** Keep a failing check's output and print its last lines.
+      Verify: a check that crashes prints its error, not only "is stale".
+- [ ] **P48-T6 The receipt names what was skipped (3).** `consumer-smoke` runs locally in a scratch directory or its last CI
+      result is required; `--verify-receipt` lists skipped jobs.
+      Verify: a publish is refused while `consumer-smoke` is red.
+- [ ] **P48-T7 Find the Blazor coverage flake (5).** Diff the branches of a 230 run and a 232 run under load. Until then report a
+      figure below the floor without failing.
+      Verify: ten runs under load measure the same.
+- [ ] **P48-T8 A safe way to run and commit (6).** A `bin/` wrapper that runs `bin/test` and commits only on exit 0, for
+      people and agents; CI cancels only a run whose job set a newer push repeats.
+      Verify: a failing `bin/test` leaves no commit.
+
+### Code
+
+- [ ] **P48-T10 One base for the Web Components identifier views (11).** Verify: each view file holds only its name and class.
+- [ ] **P48-T11 Undo for "Remove all conditions" (12).** One level, in all nine catalogs, announced, with a label-pack string.
+      Verify: undo restores the same filter object's content, by keyboard.
+- [ ] **P48-T12 Mount the filter in an example app and style it (13).** With axe, keyboard, 320px and forced-colours checks, and
+      theme rules for its hooks. Verify: the e2e suite exercises the summary, the button and focus after it.
+- [ ] **P48-T13 Writers refuse a condition they cannot write (14).** Either types that make it impossible (a non-empty list, one or
+      two relations) or a `FilterError`; no fallback. Verify: the type or the error, in TypeScript and C#.
+- [ ] **P48-T14 Finish P41-T5c's browser checks (15).** A first visit stores nothing, a choice sets no cookie, and with
+      `cookieName` exactly that one. Verify: Playwright in each example app.
+
+### Releases and docs
+
+- [ ] **P48-T15 A release in dependency order (16, 17).** `bin/release` publishes the packages whose version is new, refreshes the
+      dependants' lockfiles and waits for the registry between steps; `--only` in `bin/publish-headless`; a check that no
+      lockfile disagrees with its `package.json`. Verify: a dry run of a theme-picker and picker-bar release.
+- [ ] **P48-T16 A changelog for every published version (18).** A section per version, or a recorded reason for a stub.
+      Verify: a check in `bin/check-package-metadata`.
+- [ ] **P48-T17 Generated counts, smaller files (19).** Counts in `spec/index.md` and `AGENTS/*.md` from the repository; finished
+      phases of `tasks.md` to an archive; renumber the second Phase 43; `spec/index.md` under 40 KB, as the AGENTS files are.
+      Verify: a `--check` in `bin/test`.
+- [x] **P48-T18 Text-size names (20).** _(2026-11-24: agreement, script, register and case rules in spec/label-packs; ten packs
+      changed, unreviewed; not released.)_
+- [ ] **P48-T19 One register in the Javanese pack, and native review (20).** Verify: a speaker's review, then `reviewed: true`.
 
 ---
 

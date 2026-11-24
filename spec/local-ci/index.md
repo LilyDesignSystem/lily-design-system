@@ -248,7 +248,7 @@ Coverage is the same: no test, browser or sweep was removed, and a cached unit i
 
 ## Acceptance criteria
 
-- [ ] `CI` is green on `main` (proposal 1).
+- [ ] `CI` is green on `main` (proposal 1). _(2026-11-24: not once that day; causes in [quality-review](../quality-review/index.md).)_
 - [ ] `bin/ci --list` names every CI job and `ci.yml` calls it (proposal 2).
 - [ ] A pre-push hook runs tier 1, enabled by one script (proposal 3).
 - [ ] CI cancels superseded runs and skips docs-only changes (proposal 4).

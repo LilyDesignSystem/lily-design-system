@@ -330,6 +330,10 @@ and 95% function coverage. The 949-test run reached 95.43% of lines and 95.25% o
 pattern driver through production handlers and fixtures, cell-type behavior and wheel scrolling, including cleanup and
 disabled states.
 
+**Known flake (2026-11-24, P48-T7).** The property tests run with a fixed seed under `bin/coverage-report`, so `shared/` and Svelte
+headless measure the same each run. Blazor headless does not: 232 uncovered branches alone, sometimes 230 under load, cause
+unknown. Rerun the job alone; do not lower the floor for it.
+
 ## Mutation testing
 
 (2026-11-17, tasks.md P35-T3.) A mutant is a small change to the code, such as `<` made `<=`, a branch removed or a string
