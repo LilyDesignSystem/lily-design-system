@@ -446,7 +446,7 @@ export interface DurationParts {
 }
 
 const ISO_DURATION =
-    /^(-)?P(?:(\d+)Y)?(?:(\d+)M)?(?:(\d+)W)?(?:(\d+)D)?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+(?:\.\d+)?)S)?)?$/;
+    /^(-)?P(?:(\d+)Y)?(?:(\d+)M)?(?:(\d+)W)?(?:(\d+)D)?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+(?:[.,]\d+)?)S)?)?$/;
 
 /**
  * The parts of an ISO 8601 duration ("P1Y2M3DT4H", "-PT90M"). Pass them, without `negative`, to
@@ -465,7 +465,8 @@ export function durationParts(iso: string): DurationParts {
         days: n(5),
         hours: n(6),
         minutes: n(7),
-        seconds: n(8),
+        // ISO 8601 and openEHR allow "," as the decimal sign as well as ".".
+        seconds: match[8] === undefined ? 0 : Number(match[8].replace(",", ".")),
         negative: match[1] === "-",
     };
 }
@@ -483,5 +484,6 @@ export function htmlDuration(iso: string): { datetime: string; negative: boolean
     }
     if (parts.years || parts.months || parts.weeks || /[YW]|P\d+M/.test(iso.split("T")[0]))
         return null;
-    return { datetime: iso.replace(/^-/, ""), negative: parts.negative };
+    // HTML takes only "." as the decimal sign.
+    return { datetime: iso.replace(/^-/, "").replace(",", "."), negative: parts.negative };
 }

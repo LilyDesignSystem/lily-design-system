@@ -198,7 +198,7 @@ public struct DurationParts: Equatable, Sendable {
 }
 
 public func durationParts(_ iso: String) throws -> DurationParts {
-    let pattern = /(-)?P(?:(\d+)Y)?(?:(\d+)M)?(?:(\d+)W)?(?:(\d+)D)?(?:T(?:(\d+)H)?(?:(\d+)M)?(\d+(?:\.\d+)?S)?)?/
+    let pattern = /(-)?P(?:(\d+)Y)?(?:(\d+)M)?(?:(\d+)W)?(?:(\d+)D)?(?:T(?:(\d+)H)?(?:(\d+)M)?(\d+(?:[.,]\d+)?S)?)?/
     guard let match = iso.wholeMatch(of: pattern), iso.wholeMatch(of: /-?PT?/) == nil else {
         throw ClinicalFormatError.notADuration
     }
@@ -211,7 +211,7 @@ public func durationParts(_ iso: String) throws -> DurationParts {
     parts.days = n(match.5)
     parts.hours = n(match.6)
     parts.minutes = n(match.7)
-    parts.seconds = match.8.map { Double($0.dropLast())! } ?? 0
+    parts.seconds = match.8.map { Double($0.dropLast().replacingOccurrences(of: ",", with: "."))! } ?? 0
     return parts
 }
 
@@ -224,5 +224,5 @@ public func htmlDuration(_ iso: String) -> (datetime: String, negative: Bool)? {
     {
         return nil
     }
-    return (iso.hasPrefix("-") ? String(iso.dropFirst()) : iso, parts.negative)
+    return ((iso.hasPrefix("-") ? String(iso.dropFirst()) : iso).replacingOccurrences(of: ",", with: "."), parts.negative)
 }

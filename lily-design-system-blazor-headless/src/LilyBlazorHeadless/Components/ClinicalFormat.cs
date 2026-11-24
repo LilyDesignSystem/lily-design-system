@@ -255,9 +255,10 @@ public static class ClinicalFormat
     public static HtmlDurationValue? HtmlDuration(string? iso)
     {
         if (string.IsNullOrEmpty(iso)) return null;
-        var match = System.Text.RegularExpressions.Regex.Match(iso, @"^(-)?P(?:(\d+)D)?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+(?:\.\d+)?)S)?)?$");
+        var match = System.Text.RegularExpressions.Regex.Match(iso, @"^(-)?P(?:(\d+)D)?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+(?:[.,]\d+)?)S)?)?$");
         if (!match.Success || !System.Text.RegularExpressions.Regex.IsMatch(iso, @"\d") || iso.EndsWith('T')) return null;
-        return new HtmlDurationValue(iso.TrimStart('-'), match.Groups[1].Success);
+        // ISO 8601 allows "," as the decimal sign; HTML takes only ".".
+        return new HtmlDurationValue(iso.TrimStart('-').Replace(',', '.'), match.Groups[1].Success);
     }
 
     // Whole months are counted from birth, a day past the end of a shorter month landing on its last day; the days are those left

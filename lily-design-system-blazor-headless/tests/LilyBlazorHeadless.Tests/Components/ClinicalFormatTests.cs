@@ -286,4 +286,12 @@ public class ClinicalFormatTests
         Assert.Throws<ArgumentOutOfRangeException>(() => ClinicalFormat.FormatQuantity(1m, "", En, null, -1));
         Assert.Throws<ArgumentOutOfRangeException>(() => ClinicalFormat.FormatQuantity(1m, "", En, null, 21));
     }
+
+    // spec/lessons/openehr-rust item 3: ISO 8601 and openEHR allow "," as the decimal sign; HTML takes only ".".
+    [Fact]
+    public void HtmlDuration_accepts_a_comma_decimal_sign_and_writes_a_point()
+    {
+        Assert.Equal(new HtmlDurationValue("PT1.5S", false), ClinicalFormat.HtmlDuration("PT1,5S"));
+        Assert.Null(ClinicalFormat.HtmlDuration("PT1,S"));
+    }
 }

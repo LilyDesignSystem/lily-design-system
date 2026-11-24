@@ -426,6 +426,52 @@
       "fn": "htmlDuration",
       "args": ["nonsense"],
       "expected": null
+    },
+    {
+      "fn": "durationParts",
+      "args": ["PT1,5S"],
+      "expected": {
+        "years": 0,
+        "months": 0,
+        "weeks": 0,
+        "days": 0,
+        "hours": 0,
+        "minutes": 0,
+        "seconds": 1.5,
+        "negative": false
+      }
+    },
+    {
+      "fn": "durationParts",
+      "args": ["PT1.5S"],
+      "expected": {
+        "years": 0,
+        "months": 0,
+        "weeks": 0,
+        "days": 0,
+        "hours": 0,
+        "minutes": 0,
+        "seconds": 1.5,
+        "negative": false
+      }
+    },
+    {
+      "fn": "durationParts",
+      "args": ["PT1,S"],
+      "throws": true
+    },
+    {
+      "fn": "durationParts",
+      "args": ["PT1;5S"],
+      "throws": true
+    },
+    {
+      "fn": "htmlDuration",
+      "args": ["PT1,5S"],
+      "expected": {
+        "datetime": "PT1.5S",
+        "negative": false
+      }
     }
   ]
 }

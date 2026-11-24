@@ -185,7 +185,7 @@ public data class DurationParts(
 )
 
 private val ISO_DURATION =
-    Regex("""^(-)?P(?:(\d+)Y)?(?:(\d+)M)?(?:(\d+)W)?(?:(\d+)D)?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+(?:\.\d+)?)S)?)?$""")
+    Regex("""^(-)?P(?:(\d+)Y)?(?:(\d+)M)?(?:(\d+)W)?(?:(\d+)D)?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+(?:[.,]\d+)?)S)?)?$""")
 private val EMPTY_DURATION = Regex("""^-?PT?$""")
 
 public fun durationParts(iso: String): DurationParts {
@@ -194,7 +194,7 @@ public fun durationParts(iso: String): DurationParts {
     fun n(i: Int) = match.groups[i]?.value?.toInt() ?: 0
     return DurationParts(
         years = n(2), months = n(3), weeks = n(4), days = n(5), hours = n(6), minutes = n(7),
-        seconds = match.groups[8]?.value?.toDouble() ?: 0.0,
+        seconds = match.groups[8]?.value?.replace(',', '.')?.toDouble() ?: 0.0,
         negative = match.groups[1] != null,
     )
 }
@@ -206,5 +206,5 @@ public fun htmlDuration(iso: String): HtmlDuration? {
     val parts = try { durationParts(iso) } catch (_: IllegalArgumentException) { return null }
     val datePart = iso.substringBefore("T")
     if (parts.years != 0 || parts.months != 0 || parts.weeks != 0 || Regex("""[YW]|P\d+M""").containsMatchIn(datePart)) return null
-    return HtmlDuration(iso.removePrefix("-"), parts.negative)
+    return HtmlDuration(iso.removePrefix("-").replace(',', '.'), parts.negative)
 }

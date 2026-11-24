@@ -4612,7 +4612,7 @@ then T3, T6, T7 and T8 (small), then T4; T5, T9 and T10 are maintainer decisions
 - [x] **P47-T2 Recorded precision for results.** _(2026-11-24: TypeScript and C#; a value finer than its precision is refused, never rounded. Swift and Kotlin ports not yet.)_ An optional `precision` (decimal places) on `formatQuantity` and `formatRange`,
       and the guide's dose and result rules.
       Verify: `1.5` with `precision: 2` writes `1.50`; without it the output is unchanged; the guide names both rules.
-- [ ] **P47-T3 `,` as a decimal sign in durations.** `durationParts` accepts `PT1,5S`; `htmlDuration` writes `.`.
+- [x] **P47-T3 `,` as a decimal sign in durations.** _(2026-11-24: TypeScript, C#, Swift and Kotlin, through five shared vectors.)_ `durationParts` accepts `PT1,5S`; `htmlDuration` writes `.`.
       Verify: unit tests in TypeScript and C#.
 - [ ] **P47-T4 Leap seconds (investigation).** `date-time-view` and the data grid with `2016-12-31T23:59:60Z`.
       Verify: a test in each, and a fix for whatever throws or changes the second.
