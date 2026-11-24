@@ -70,6 +70,9 @@ describe("colors", () => {
         expect(parseColor("#f00")).toBe("#ff0000");
         expect(parseColor("rgb(0, 94, 184)")).toBe("#005eb8");
         expect(parseColor("rgb(0 94 184)")).toBe("#005eb8");
+        // rgb() takes three numbers or three percentages here, never a mix, so a stray % is refused rather than guessed.
+        expect(parseColor("rgb(0 94% 184)")).toBeNull();
+        expect(parseColor("rgb(0, 94, 184%)")).toBeNull();
         expect(parseColor("hsl(120 100% 25%)")).toBe("#008000");
         expect(parseColor("hsl(120deg, 100%, 25%)")).toBe("#008000");
         expect(parseColor("transparent")).toBe("transparent");

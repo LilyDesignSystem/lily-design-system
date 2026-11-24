@@ -73,6 +73,12 @@ test("with no options the arrows leave the caret alone and do not open", () => {
     expect(state.open).toBe(false);
 });
 
+test("Alt+ArrowUp on a closed list does nothing: it closes an open list, it never opens one", () => {
+    const { press, state } = mount(THREE, false);
+    expect(press("ArrowUp", { altKey: true }).defaultPrevented).toBe(false);
+    expect(state.open).toBe(false);
+});
+
 test("Enter with nothing highlighted is left alone, so a form still submits", () => {
     const { press, state } = mount(THREE);
     expect(press("Enter").defaultPrevented).toBe(false);
