@@ -20,6 +20,22 @@ It does not cover the monorepo directory layout or git-subtree model (see [archi
 - **CSS-strategy-agnostic.** Works with semantic CSS, utility CSS (Tailwind), or no CSS at all.
 - **Forkable.** Any team can adopt, fork, theme, or extend Lily; the headless layer makes no visual decisions and the example layer is a reference, not a dependency.
 
+### Ranked order (P46-T5, draft for maintainer approval, 2026-11-24)
+
+When two principles conflict, the higher one wins. Each has a phrasing a reviewer can check and an example.
+
+| Rank | Principle               | Checkable phrasing                                                                                            | Example                                                                                      |
+| ---- | ----------------------- | ------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| 1    | Worldwide, not national | No shipped code defaults a currency, weekend, English locale or single-region format (`bin/check-worldwide`). | A date helper takes `locale` and `weekStart`; it never assumes Sunday or `en-US`.            |
+| 2    | Accessible by default   | Every interactive component has an accessible name, a keyboard contract and a test that sends the key.        | An icon button requires `label`; `bin/check-coverage` fails a key contract with no key test. |
+| 3    | Internationalisable     | No user-facing string is built or defaulted inside a component (`bin/check-built-english`).                   | A pager takes `pageLabel(n, total)` from the consumer, not `"Page " + n`.                    |
+| 4    | Composable              | A component works alone and inside its family, with no hidden dependence on a sibling's internals.            | `Table` parts nest in any order the HTML allows.                                             |
+| 5    | Framework-plural        | A behaviour change lands in the Svelte reference first, then every port (`bin/check-port-parity`).            | A new `Combobox` prop appears in all seven catalogs or has a recorded reason.                |
+| 6    | CSS-strategy-agnostic   | The headless layer ships no CSS and names its hooks by class and `data-*`, so any CSS approach works.         | A theme or a Tailwind `@apply` can style `.button` equally.                                  |
+| 7    | Forkable                | Nothing in the headless layer requires the example layer, a theme or the docs site.                           | A team copies one component directory into their repo and it still builds.                   |
+
+Why this order: reach and access come before convenience, and a convenience (a default string, a shared style) never justifies excluding a region or a person.
+
 ## The two layers
 
 Lily is organised as two complementary layers — each component exists once in the canonical catalog and is realised in both.

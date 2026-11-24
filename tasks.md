@@ -4579,10 +4579,12 @@ investigation.
       Verify: every component in both scales links back to it; `bin/check-links` passes.
 - [ ] **P46-T3 A purpose facet.** A purpose column in `components-categories.tsv` from `bin/generate-component-categories`, agreed by a
       card sort, and a filter on the `/components` pages.
+      Draft 2026-11-24: `spec/lessons/smashing-magazine-design-systems/purpose-draft.tsv` assigns all 661 to six purposes by rule (show 244, collect 192, structure 98, navigate 67, inform 34, act 26); about 98 "structure" rows are catch-alls (blockquote, code, byline, caption, ...) that need a maintainer sort before the column and filter are built.
       Verify: `bin/generate-registries --check` passes and an e2e test filters by purpose.
 - [x] **P46-T4 A glossary.** `spec/glossary/index.md`, linked from `spec/index.md` and `llms.txt`.
       Verify: `bin/check-links` passes.
 - [ ] **P46-T5 Ranked principles.** Maintainer decision: rank the overview principles and give each a checkable phrasing and an example.
+      Draft 2026-11-24 in `spec/overview/index.md` "Ranked order": worldwide, accessible, internationalisable, composable, framework-plural, CSS-agnostic, forkable (the maintainer's order), each with a check and an example. Awaiting wording approval.
       Verify: the maintainer approves the wording.
 - [x] **P46-T6 Criteria for a new component.** `.github/ISSUE_TEMPLATE/component-proposal.yml` and the criteria in `CONTRIBUTING.md`.
       Verify: the next catalog addition links a filled-in proposal.
