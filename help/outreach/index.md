@@ -74,12 +74,12 @@ evaluation. **Gates 1–3 block all outreach.**
 
 The project currently gives four different answers to "may I use this at work?":
 
-| Source                                                      | Answer                                                                                                                  |
-| ----------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| [LICENSE.md](../../LICENSE.md)                              | `CC BY-NC-SA` — **non-commercial**, share-alike, and a _content_ licence, not a software licence                        |
+| Source                                                      | Answer                                                                                                               |
+| ----------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| [LICENSE.md](../../LICENSE.md)                              | `CC BY-NC-SA` — **non-commercial**, share-alike, and a _content_ licence, not a software licence                     |
 | [spec/index.md](../../spec/index.md) §14                    | "MIT or Apache-2.0 or OGL-UK-3.0 or CC-BY-SA-4.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause (or contact for other terms)" |
-| `@lilydesignsystem/svelte-headless` on npm                  | `MIT`                                                                                                                   |
-| `@lilydesignsystem/react-headless`, `…-vue-headless` on npm | `ISC`                                                                                                                   |
+| `@lilydesignsystem/svelte-headless` on npm                  | `MIT`                                                                                                                |
+| `@lilydesignsystem/react-headless`, `…-vue-headless` on npm | `ISC`                                                                                                                |
 
 Meanwhile [index.md](../../index.md) and the website both say "free open source".
 CC BY-NC-SA is not an open-source licence, is not OSI-approved, and its `NC` clause

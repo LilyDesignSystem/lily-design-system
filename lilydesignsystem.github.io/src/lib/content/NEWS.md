@@ -23,7 +23,7 @@ _Updated 2026-10-21._
 | Layers      | 9 headless libraries, 8 example applications, 167 helper packages (one top-level subproject each since 2026-10-10)                                                                                                                                                                                                             |
 | Themes      | 63 reference stylesheets                                                                                                                                                                                                                                                                                                       |
 | Published   | 6 of 7 full-catalog headless libraries and the JS helper packages on npm (see [CHANGELOG.md](CHANGELOG.md) for exact per-package status); the 6 Blazor NuGet packages are packed, push pending credentials; Web Components headless and helpers are built but not yet subtree-pushed or published                              |
-| License     | MIT, Apache-2.0, GPL-2.0-only, GPL-3.0-only, BSD-3-Clause, OGL-UK-3.0, or CC-BY-NC-SA-4.0, at your option                                                                                                                                                                                                                      |
+| License     | MIT, Apache-2.0, GPL-2.0-only, GPL-3.0-only, BSD-3-Clause, OGL-UK-3.0, or CC-BY-SA-4.0, at your option                                                                                                                                                                                                                      |
 | Maintainers | 1                                                                                                                                                                                                                                                                                                                              |
 | Funding     | [GitHub Sponsors](https://github.com/sponsors/joelparkerhenderson) live; Open Collective planned — see [CONTRIBUTING.md](CONTRIBUTING.md) for what money buys and does not                                                                                                                                                     |
 
@@ -157,7 +157,7 @@ direct answer, including when the answer is unflattering.
 > helper packages. Lily targets WCAG 2.2 AAA, follows the WAI-ARIA Authoring
 > Practices, and requires every user-facing string to be supplied by the consumer.
 > It is maintained by Joel Parker Henderson and is available under a choice of MIT,
-> Apache-2.0, GPL-2.0-only, GPL-3.0-only, BSD-3-Clause, OGL-UK-3.0, or CC-BY-NC-SA-4.0.
+> Apache-2.0, GPL-2.0-only, GPL-3.0-only, BSD-3-Clause, OGL-UK-3.0, or CC-BY-SA-4.0.
 
 ### Facts worth checking before you print them
 
