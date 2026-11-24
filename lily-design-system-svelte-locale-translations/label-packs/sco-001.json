@@ -229,7 +229,10 @@
     "ruleAdded": "Condition {n} addit",
     "ruleRemoved": "Condition {n} remuived",
     "groupAdded": "Group, level {depth}, addit",
-    "groupRemoved": "Group, level {depth}, remuived"
+    "groupRemoved": "Group, level {depth}, remuived",
+    "summary": "Conditions: {count}",
+    "clearAll": "Remuive aw conditions",
+    "allRemoved": "Aw conditions remuived"
   },
   "text-size": {
     "largest": "biggest",

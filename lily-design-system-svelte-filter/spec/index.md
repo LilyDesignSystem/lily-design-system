@@ -56,7 +56,8 @@ Pure and immutable: `createRule(fields, fieldId?)`, `createGroup(combinator, chi
 - **Value editors** follow the field: `input[type=text|number|date].filter-value`, `select.filter-value` for one choice, `div.filter-choices[role=group]` of checkboxes for _is one of_, two inputs (`.filter-value`, `.filter-value-to`; named `labels.valueFrom` / `valueTo`) for a range, none for operators without a value.
 - **State** is the immutable `value` (bindable) and `onChange(group)`; every edit is a new object. Changing the field or operator follows §4.
 - **Focus**: adding a condition focuses its field select; adding a group focuses its first condition; removing returns focus to the group's _Add condition_.
-- **Announcements** (polite status region, only for labels that are given): `ruleAdded(n)`, `ruleRemoved(n)`, `groupAdded(depth)`, `groupRemoved(depth)`.
+- **Summary and remove all** (tasks.md P40-T10): with `labels.summary`, `p.filter-summary` above the builder reads `labels.summary(count)`, the number of conditions in the whole filter ("Conditions: 3"; a template in the label packs, so no plural is built). With `labels.clearAll`, `button.filter-clear-all` removes every condition and group and the top level's _Not_, keeping its _and_ / _or_ (`clearFilter`); it is shown only when there is something to remove and the filter is not `readonly`, and focus then moves to the top level's _Add condition_.
+- **Announcements** (polite status region, only for labels that are given): `ruleAdded(n)`, `ruleRemoved(n)`, `groupAdded(depth)`, `groupRemoved(depth)`, `allRemoved`.
 - **`format`** (with `labels.output`) shows the filter as text in a named group (`pre.filter-output-text`, `data-format`), recomputed from the normalised tree; `dialect` applies to SQL.
 - **`readonly`**: controls are disabled / read-only and add and remove buttons are not rendered. **`maxDepth`** (default 3) removes _Add group_ at the deepest level.
 - **i18n**: every string is in `labels`; operator names come from `labels.operatorName(op, field)`; there is no default English and no default locale.
@@ -64,7 +65,7 @@ Pure and immutable: `createRule(fields, fieldId?)`, `createGroup(combinator, chi
 
 ## 11. Acceptance
 
-Tests §8.1–§8.29 in `Filter.test.ts`; the model's tests in `filter-model.test.ts` (operators, editing, validation, predicate, JSON round trip, the SQL dialects, quoting, escaping and the injection cases, MongoDB, OData); `search-text.test.ts` for the shared text folding.
+Tests §8.1–§8.32 in `Filter.test.ts`; the model's tests in `filter-model.test.ts` (operators, editing, validation, predicate, JSON round trip, the SQL dialects, quoting, escaping and the injection cases, MongoDB, OData); `search-text.test.ts` for the shared text folding.
 
 ## 12. Sources
 

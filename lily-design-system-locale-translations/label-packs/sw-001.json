@@ -229,7 +229,10 @@
     "ruleAdded": "Sharti {n} limeongezwa",
     "ruleRemoved": "Sharti {n} limeondolewa",
     "groupAdded": "Kikundi, ngazi {depth}, kimeongezwa",
-    "groupRemoved": "Kikundi, ngazi {depth}, kimeondolewa"
+    "groupRemoved": "Kikundi, ngazi {depth}, kimeondolewa",
+    "summary": "Masharti: {count}",
+    "clearAll": "Ondoa masharti yote",
+    "allRemoved": "Masharti yote yameondolewa"
   },
   "text-size": {
     "largest": "kubwa kabisa",

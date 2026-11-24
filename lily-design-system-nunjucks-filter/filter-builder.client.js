@@ -12,6 +12,7 @@ import {
     addNode,
     changeField,
     changeOperator,
+    clearFilter,
     createGroup,
     createRule,
     fieldType,
@@ -31,6 +32,7 @@ const TEMPLATES = [
     "ruleRemoved",
     "groupAdded",
     "groupRemoved",
+    "summary",
 ];
 
 /** A text field's value, a number input's number (undefined when empty), or a date: what the rule stores for what was typed. */
@@ -115,7 +117,7 @@ export function initFilterBuilder(root, opts = {}) {
     for (const name of TEMPLATES) {
         if (typeof given[name] === "string") {
             const template = given[name];
-            labels[name] = (n) => fill(template, { n, depth: n });
+            labels[name] = (n) => fill(template, { n, depth: n, count: n });
         }
     }
     if (typeof given.operatorName !== "function") {
@@ -181,6 +183,14 @@ export function initFilterBuilder(root, opts = {}) {
         focusKey = `${parentId}:add-rule`;
         status = labels.groupRemoved ? labels.groupRemoved(depth) : status;
         commit(removeNode(value, group.id));
+    }
+
+    /** Remove every condition and group, then put focus on the filter's own "Add condition", since the button goes. */
+    function clearAll() {
+        if (readonly) return;
+        focusKey = `${value.id}:add-rule`;
+        status = labels.allRemoved ?? status;
+        commit(clearFilter(value));
     }
 
     function toggleOption(rule, optionId, checked) {
@@ -476,29 +486,45 @@ export function initFilterBuilder(root, opts = {}) {
             return view;
         };
 
+        let clearButton = null;
+        if (labels.clearAll && !readonly && (value.children.length > 0 || value.not)) {
+            clearButton = el(
+                "button",
+                { type: "button", class: "filter-clear-all" },
+                labels.clearAll,
+            );
+            clearButton.addEventListener("click", clearAll);
+        }
+        // replaceChildren writes a null as the text "null", so the parts a filter does not have are left out first.
         root.replaceChildren(
-            groupView(value, 1, null),
-            format && labels.output
-                ? el(
-                      "div",
-                      {
-                          class: "filter-output",
-                          role: "group",
-                          "aria-label": labels.output,
-                          "data-format": format,
-                      },
-                      el("pre", { class: "filter-output-text" }, outputText()),
-                  )
-                : null,
-            el(
-                "p",
-                {
-                    class: "filter-status",
-                    "aria-live": "polite",
-                    "data-lily-filter-builder-status": "",
-                },
-                status,
-            ),
+            ...[
+                labels.summary
+                    ? el("p", { class: "filter-summary" }, labels.summary(ruleNumbers.size))
+                    : null,
+                clearButton,
+                groupView(value, 1, null),
+                format && labels.output
+                    ? el(
+                          "div",
+                          {
+                              class: "filter-output",
+                              role: "group",
+                              "aria-label": labels.output,
+                              "data-format": format,
+                          },
+                          el("pre", { class: "filter-output-text" }, outputText()),
+                      )
+                    : null,
+                el(
+                    "p",
+                    {
+                        class: "filter-status",
+                        "aria-live": "polite",
+                        "data-lily-filter-builder-status": "",
+                    },
+                    status,
+                ),
+            ].filter((part) => part !== null),
         );
         if (keep) root.querySelector(`[data-focus-key="${CSS.escape(keep)}"]`)?.focus();
     }

@@ -273,7 +273,10 @@
     "ruleAdded": "Betingelse {n} tilføjet",
     "ruleRemoved": "Betingelse {n} fjernet",
     "groupAdded": "Gruppe, niveau {depth}, tilføjet",
-    "groupRemoved": "Gruppe, niveau {depth}, fjernet"
+    "groupRemoved": "Gruppe, niveau {depth}, fjernet",
+    "summary": "Betingelser: {count}",
+    "clearAll": "Fjern alle betingelser",
+    "allRemoved": "Alle betingelser er fjernet"
   },
   "text-size": {
     "largest": "størst",

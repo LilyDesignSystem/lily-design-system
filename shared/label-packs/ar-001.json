@@ -273,7 +273,10 @@
     "ruleAdded": "أُضيف الشرط {n}",
     "ruleRemoved": "أُزيل الشرط {n}",
     "groupAdded": "أُضيفت المجموعة، المستوى {depth}",
-    "groupRemoved": "أُزيلت المجموعة، المستوى {depth}"
+    "groupRemoved": "أُزيلت المجموعة، المستوى {depth}",
+    "summary": "الشروط: {count}",
+    "clearAll": "إزالة كل الشروط",
+    "allRemoved": "أُزيلت كل الشروط"
   },
   "text-size": {
     "largest": "الأكبر",

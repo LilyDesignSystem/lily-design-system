@@ -273,7 +273,10 @@
     "ruleAdded": "Sąlyga {n} pridėta",
     "ruleRemoved": "Sąlyga {n} pašalinta",
     "groupAdded": "Grupė, {depth} lygis, pridėta",
-    "groupRemoved": "Grupė, {depth} lygis, pašalinta"
+    "groupRemoved": "Grupė, {depth} lygis, pašalinta",
+    "summary": "Sąlygos: {count}",
+    "clearAll": "Pašalinti visas sąlygas",
+    "allRemoved": "Visos sąlygos pašalintos"
   },
   "text-size": {
     "largest": "didžiausias",

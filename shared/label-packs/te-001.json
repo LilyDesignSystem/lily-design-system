@@ -273,7 +273,10 @@
     "ruleAdded": "షరతు {n} జోడించబడింది",
     "ruleRemoved": "షరతు {n} తీసివేయబడింది",
     "groupAdded": "సమూహం, స్థాయి {depth}, జోడించబడింది",
-    "groupRemoved": "సమూహం, స్థాయి {depth}, తీసివేయబడింది"
+    "groupRemoved": "సమూహం, స్థాయి {depth}, తీసివేయబడింది",
+    "summary": "షరతులు: {count}",
+    "clearAll": "అన్ని షరతులను తీసివేయండి",
+    "allRemoved": "అన్ని షరతులు తీసివేయబడ్డాయి"
   },
   "text-size": {
     "largest": "అతి పెద్ద",

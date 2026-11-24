@@ -273,7 +273,10 @@
     "ruleAdded": "ਸ਼ਰਤ {n} ਜੋੜੀ ਗਈ",
     "ruleRemoved": "ਸ਼ਰਤ {n} ਹਟਾਈ ਗਈ",
     "groupAdded": "ਸਮੂਹ, ਪੱਧਰ {depth}, ਜੋੜਿਆ ਗਿਆ",
-    "groupRemoved": "ਸਮੂਹ, ਪੱਧਰ {depth}, ਹਟਾਇਆ ਗਿਆ"
+    "groupRemoved": "ਸਮੂਹ, ਪੱਧਰ {depth}, ਹਟਾਇਆ ਗਿਆ",
+    "summary": "ਸ਼ਰਤਾਂ: {count}",
+    "clearAll": "ਸਾਰੀਆਂ ਸ਼ਰਤਾਂ ਹਟਾਓ",
+    "allRemoved": "ਸਾਰੀਆਂ ਸ਼ਰਤਾਂ ਹਟਾ ਦਿੱਤੀਆਂ"
   },
   "text-size": {
     "largest": "ਸਭ ਤੋਂ ਵੱਡਾ",

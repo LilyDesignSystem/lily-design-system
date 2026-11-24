@@ -229,7 +229,10 @@
     "ruleAdded": "Dem add condition {n}",
     "ruleRemoved": "Dem remove condition {n}",
     "groupAdded": "Dem add group, level {depth}",
-    "groupRemoved": "Dem remove group, level {depth}"
+    "groupRemoved": "Dem remove group, level {depth}",
+    "summary": "Conditions: {count}",
+    "clearAll": "Remove all di conditions",
+    "allRemoved": "All di conditions don comot"
   },
   "text-size": {
     "largest": "di biggest",

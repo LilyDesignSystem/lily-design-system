@@ -229,7 +229,10 @@
     "ruleAdded": "Syarat {n} ditambah",
     "ruleRemoved": "Syarat {n} dialih keluar",
     "groupAdded": "Kumpulan, aras {depth}, ditambah",
-    "groupRemoved": "Kumpulan, aras {depth}, dialih keluar"
+    "groupRemoved": "Kumpulan, aras {depth}, dialih keluar",
+    "summary": "Syarat: {count}",
+    "clearAll": "Alih keluar semua syarat",
+    "allRemoved": "Semua syarat dialih keluar"
   },
   "text-size": {
     "largest": "terbesar",

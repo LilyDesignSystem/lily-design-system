@@ -229,7 +229,10 @@
     "ruleAdded": "תנאי {n} נוסף",
     "ruleRemoved": "תנאי {n} הוסר",
     "groupAdded": "קבוצה, רמה {depth}, נוספה",
-    "groupRemoved": "קבוצה, רמה {depth}, הוסרה"
+    "groupRemoved": "קבוצה, רמה {depth}, הוסרה",
+    "summary": "תנאים: {count}",
+    "clearAll": "הסרת כל התנאים",
+    "allRemoved": "כל התנאים הוסרו"
   },
   "text-size": {
     "largest": "הגדול ביותר",

@@ -229,7 +229,10 @@
     "ruleAdded": "เพิ่มเงื่อนไข {n} แล้ว",
     "ruleRemoved": "ลบเงื่อนไข {n} แล้ว",
     "groupAdded": "เพิ่มกลุ่ม ระดับ {depth} แล้ว",
-    "groupRemoved": "ลบกลุ่ม ระดับ {depth} แล้ว"
+    "groupRemoved": "ลบกลุ่ม ระดับ {depth} แล้ว",
+    "summary": "เงื่อนไข: {count}",
+    "clearAll": "ลบเงื่อนไขทั้งหมด",
+    "allRemoved": "ลบเงื่อนไขทั้งหมดแล้ว"
   },
   "text-size": {
     "largest": "ใหญ่ที่สุด",

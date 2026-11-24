@@ -4197,7 +4197,7 @@ guide (T5, T6) and the examples (T7); T8 and T9 are investigations. New props go
       view stays the application's.
       Verify: the findings and a decision are recorded in the topic. _(2026-11-20: adopt, deferred. No summary or clear-all exists; the labels must go into all
       64 label packs, so they wait for the next label-pack round. The interim pattern is in the topic.)_
-- [ ] **P40-T10 A summary line and clear-all in the `filter` helper.** `labels.summary` (a template with `{count}`, never built
+- [x] **P40-T10 A summary line and clear-all in the `filter` helper.** _(2026-11-24: `summary` ("Conditions: {count}", a colon form, so no plural is built), `clearAll` and `allRemoved` in all 64 packs (63 unreviewed drafts); `clearFilter` in the TypeScript and C# models; the line and the button in all nine filter catalogs (Svelte, React, Solid, Vue, Angular, HTML, Web Components, Nunjucks, Blazor) with tests §8.30–§8.32; it fixed a Nunjucks client that wrote "null" as text.)_ `labels.summary` (a template with `{count}`, never built
       English) and `labels.clearAll`, in the next label-pack round so all 64 packs gain them together.
       Verify: in all eight catalogs with tests; `bin/check-label-packs` and `bin/check-built-english` pass.
 

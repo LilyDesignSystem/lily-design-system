@@ -229,7 +229,10 @@
     "ruleAdded": "Idinagdag ang kondisyon {n}",
     "ruleRemoved": "Inalis ang kondisyon {n}",
     "groupAdded": "Idinagdag ang grupo, antas {depth}",
-    "groupRemoved": "Inalis ang grupo, antas {depth}"
+    "groupRemoved": "Inalis ang grupo, antas {depth}",
+    "summary": "Mga kondisyon: {count}",
+    "clearAll": "Alisin ang lahat ng kondisyon",
+    "allRemoved": "Naalis na ang lahat ng kondisyon"
   },
   "text-size": {
     "largest": "pinakamalaki",

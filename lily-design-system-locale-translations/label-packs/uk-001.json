@@ -229,7 +229,10 @@
     "ruleAdded": "Умову {n} додано",
     "ruleRemoved": "Умову {n} видалено",
     "groupAdded": "Групу, рівень {depth}, додано",
-    "groupRemoved": "Групу, рівень {depth}, видалено"
+    "groupRemoved": "Групу, рівень {depth}, видалено",
+    "summary": "Умов: {count}",
+    "clearAll": "Видалити всі умови",
+    "allRemoved": "Усі умови видалено"
   },
   "text-size": {
     "largest": "найбільший",

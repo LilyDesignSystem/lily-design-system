@@ -273,7 +273,10 @@
     "ruleAdded": "Kondisi {n} wis ditambahake",
     "ruleRemoved": "Kondisi {n} wis dibusak",
     "groupAdded": "Klompok, tingkat {depth}, wis ditambahake",
-    "groupRemoved": "Klompok, tingkat {depth}, wis dibusak"
+    "groupRemoved": "Klompok, tingkat {depth}, wis dibusak",
+    "summary": "Kondisi: {count}",
+    "clearAll": "Busak kabeh kondisi",
+    "allRemoved": "Kabeh kondisi wis dibusak"
   },
   "text-size": {
     "largest": "paling gedhé",

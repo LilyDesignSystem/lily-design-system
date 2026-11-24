@@ -273,7 +273,10 @@
     "ruleAdded": "Il-kundizzjoni {n} ġiet miżjuda",
     "ruleRemoved": "Il-kundizzjoni {n} tneħħiet",
     "groupAdded": "Il-grupp, livell {depth}, ġie miżjud",
-    "groupRemoved": "Il-grupp, livell {depth}, tneħħa"
+    "groupRemoved": "Il-grupp, livell {depth}, tneħħa",
+    "summary": "Kundizzjonijiet: {count}",
+    "clearAll": "Neħħi l-kundizzjonijiet kollha",
+    "allRemoved": "Il-kundizzjonijiet kollha tneħħew"
   },
   "text-size": {
     "largest": "l-akbar",

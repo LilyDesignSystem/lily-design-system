@@ -273,7 +273,10 @@
     "ruleAdded": "Pogoj {n} dodan",
     "ruleRemoved": "Pogoj {n} odstranjen",
     "groupAdded": "Skupina, raven {depth}, dodana",
-    "groupRemoved": "Skupina, raven {depth}, odstranjena"
+    "groupRemoved": "Skupina, raven {depth}, odstranjena",
+    "summary": "Pogoji: {count}",
+    "clearAll": "Odstrani vse pogoje",
+    "allRemoved": "Vsi pogoji so odstranjeni"
   },
   "text-size": {
     "largest": "največji",

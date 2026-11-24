@@ -273,7 +273,10 @@
     "ruleAdded": "Cuireadh coinníoll {n} leis",
     "ruleRemoved": "Baineadh coinníoll {n}",
     "groupAdded": "Cuireadh grúpa, leibhéal {depth}, leis",
-    "groupRemoved": "Baineadh grúpa, leibhéal {depth}"
+    "groupRemoved": "Baineadh grúpa, leibhéal {depth}",
+    "summary": "Coinníollacha: {count}",
+    "clearAll": "Bain gach coinníoll",
+    "allRemoved": "Baineadh gach coinníoll"
   },
   "text-size": {
     "largest": "is mó",

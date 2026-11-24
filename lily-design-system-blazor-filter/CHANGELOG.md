@@ -4,6 +4,10 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+- **Added:** a summary line and a remove-all button (tasks.md P40-T10): `FilterLabels.Summary`, `ClearAll` and `AllRemoved`, from `ToFilterLabels()` too; `FilterModel.ClearFilter`.
+
 ## 0.2.0 — 2026-11-24
 
 - `ToFilterLabels()` builds `FilterLabels` from a label pack.

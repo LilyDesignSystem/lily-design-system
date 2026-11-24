@@ -12,6 +12,7 @@ import {
     addNode,
     changeField,
     changeOperator,
+    clearFilter,
     createGroup,
     createRule,
     fieldType,
@@ -63,6 +64,12 @@ export type FilterLabels = {
     ruleRemoved?: (n: number) => string;
     groupAdded?: (depth: number) => string;
     groupRemoved?: (depth: number) => string;
+    /** A line above the builder saying how many conditions there are: (the count) => "Conditions: 3". Gates the line. */
+    summary?: (count: number) => string;
+    /** The button that removes every condition and group. Gates the button. */
+    clearAll?: string;
+    /** Announced after every condition is removed. */
+    allRemoved?: string;
 };
 
 export type FilterProps = Omit<HTMLAttributes<HTMLDivElement>, "onChange" | "defaultValue"> & {
@@ -196,6 +203,14 @@ export function Filter({
         commit(removeNode(value, group.id));
         announce(labels.groupRemoved?.(depth));
         pendingFocus.current = `[data-filter-add-rule="${parentId}"]`;
+    }
+
+    /** Remove every condition and group, then put focus on the filter's own "Add condition", since the button goes. */
+    function clearAll(): void {
+        if (readonly) return;
+        commit(clearFilter(value));
+        announce(labels.allRemoved);
+        pendingFocus.current = `[data-filter-add-rule="${value.id}"]`;
     }
 
     const setRule = (ruleId: string, change: (rule: FilterRule) => FilterRule): void => {
@@ -482,6 +497,16 @@ export function Filter({
             data-readonly={readonly ? "" : undefined}
             {...rest}
         >
+            {labels.summary && <p className="filter-summary">{labels.summary(ruleNumbers.size)}</p>}
+            {labels.clearAll && !readonly && (value.children.length > 0 || value.not) && (
+                <button
+                    type="button"
+                    className="filter-clear-all"
+                    onClick={clearAll}
+                >
+                    {labels.clearAll}
+                </button>
+            )}
             {groupView(value, 1, null)}
             {format && labels.output && (
                 <div

@@ -273,7 +273,10 @@
     "ruleAdded": "Voorwaarde {n} toegevoegd",
     "ruleRemoved": "Voorwaarde {n} verwijderd",
     "groupAdded": "Groep, niveau {depth}, toegevoegd",
-    "groupRemoved": "Groep, niveau {depth}, verwijderd"
+    "groupRemoved": "Groep, niveau {depth}, verwijderd",
+    "summary": "Voorwaarden: {count}",
+    "clearAll": "Alle voorwaarden verwijderen",
+    "allRemoved": "Alle voorwaarden verwijderd"
   },
   "text-size": {
     "largest": "grootst",

@@ -229,7 +229,10 @@
     "ruleAdded": "Bedingung {n} derbäigesat",
     "ruleRemoved": "Bedingung {n} ewechgeholl",
     "groupAdded": "Grupp, Niveau {depth}, derbäigesat",
-    "groupRemoved": "Grupp, Niveau {depth}, ewechgeholl"
+    "groupRemoved": "Grupp, Niveau {depth}, ewechgeholl",
+    "summary": "Bedingungen: {count}",
+    "clearAll": "All Bedingungen ewechhuelen",
+    "allRemoved": "All Bedingungen ewechgeholl"
   },
   "text-size": {
     "largest": "am gréissten",

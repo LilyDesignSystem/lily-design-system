@@ -90,7 +90,7 @@ const labels: FilterLabels = {
   addGroup: "Add group",
   removeRule: (n) => `Remove condition ${n}`,
   removeGroup: (depth) => `Remove group, level ${depth}`,
-  // optional: choose, empty, output (names the text output), ruleAdded / ruleRemoved / groupAdded / groupRemoved (announcements)
+  // optional: choose, empty, output (names the text output), ruleAdded / ruleRemoved / groupAdded / groupRemoved (announcements), summary ("Conditions: {count}"), clearAll and allRemoved (the remove-all button and its announcement)
 };
 ```
 

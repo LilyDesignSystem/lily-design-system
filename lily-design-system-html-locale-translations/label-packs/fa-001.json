@@ -273,7 +273,10 @@
     "ruleAdded": "شرط {n} اضافه شد",
     "ruleRemoved": "شرط {n} حذف شد",
     "groupAdded": "گروه، سطح {depth}، اضافه شد",
-    "groupRemoved": "گروه، سطح {depth}، حذف شد"
+    "groupRemoved": "گروه، سطح {depth}، حذف شد",
+    "summary": "شرط‌ها: {count}",
+    "clearAll": "حذف همهٔ شرط‌ها",
+    "allRemoved": "همهٔ شرط‌ها حذف شدند"
   },
   "text-size": {
     "largest": "بزرگ‌ترین",

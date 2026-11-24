@@ -273,7 +273,10 @@
     "ruleAdded": "Podmienka {n} pridaná",
     "ruleRemoved": "Podmienka {n} odstránená",
     "groupAdded": "Skupina, úroveň {depth}, pridaná",
-    "groupRemoved": "Skupina, úroveň {depth}, odstránená"
+    "groupRemoved": "Skupina, úroveň {depth}, odstránená",
+    "summary": "Podmienky: {count}",
+    "clearAll": "Odstrániť všetky podmienky",
+    "allRemoved": "Všetky podmienky boli odstránené"
   },
   "text-size": {
     "largest": "najväčší",

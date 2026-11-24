@@ -6,7 +6,7 @@
 
 `{{ filterBuilder({ label, fields, value?, labels, format?, dialect?, maxDepth?, readonly?, classes?, id?, attributes? }) }}` renders the labelled `div.filter[role=group]`, the configuration (`data-lily-filter-builder-config`) and the polite status region. `filter-builder.client.js` (`initFilterBuilder(root, { labels, onChange })`, `autoInit`) builds the groups, conditions and output inside it with the Svelte markup (same classes, roles, `data-*` hooks) and owns every edit; it returns `{ getValue, setValue, destroy }` and dispatches a bubbling `filterchange` event. Typing in a value input updates the stored value and the output text without rebuilding the markup; every other edit rebuilds and puts focus back on the control that had it (`data-focus-key`).
 
-Labels cross the template boundary as plain strings: `{n}` and `{depth}` templates for `rule`, `group`, `removeRule`, `removeGroup`, `ruleAdded`, `ruleRemoved`, `groupAdded`, `groupRemoved`, and an `operatorNames` object. The client option `labels` may give any of them as a function instead, which wins.
+Labels cross the template boundary as plain strings: `{n}` and `{depth}` templates for `rule`, `group`, `removeRule`, `removeGroup`, `ruleAdded`, `ruleRemoved`, `groupAdded`, `groupRemoved`, a `{count}` template for `summary`, the strings `clearAll` and `allRemoved`, and an `operatorNames` object. The client option `labels` may give any of them as a function instead, which wins.
 
 ## Deviations from the Svelte contract
 

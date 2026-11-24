@@ -273,7 +273,10 @@
     "ruleAdded": "Dodano warunek {n}",
     "ruleRemoved": "Usunięto warunek {n}",
     "groupAdded": "Dodano grupę, poziom {depth}",
-    "groupRemoved": "Usunięto grupę, poziom {depth}"
+    "groupRemoved": "Usunięto grupę, poziom {depth}",
+    "summary": "Warunki: {count}",
+    "clearAll": "Usuń wszystkie warunki",
+    "allRemoved": "Usunięto wszystkie warunki"
   },
   "text-size": {
     "largest": "największy",

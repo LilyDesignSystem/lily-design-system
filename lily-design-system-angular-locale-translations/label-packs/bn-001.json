@@ -273,7 +273,10 @@
     "ruleAdded": "শর্ত {n} যোগ করা হয়েছে",
     "ruleRemoved": "শর্ত {n} সরানো হয়েছে",
     "groupAdded": "গোষ্ঠী, স্তর {depth}, যোগ করা হয়েছে",
-    "groupRemoved": "গোষ্ঠী, স্তর {depth}, সরানো হয়েছে"
+    "groupRemoved": "গোষ্ঠী, স্তর {depth}, সরানো হয়েছে",
+    "summary": "শর্ত: {count}",
+    "clearAll": "সব শর্ত সরান",
+    "allRemoved": "সব শর্ত সরানো হয়েছে"
   },
   "text-size": {
     "largest": "সবচেয়ে বড়",

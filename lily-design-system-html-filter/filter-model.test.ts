@@ -4,6 +4,7 @@ import {
     addNode,
     changeField,
     changeOperator,
+    clearFilter,
     createGroup,
     createRule,
     formatFilter,
@@ -100,6 +101,25 @@ describe("building and editing", () => {
         expect((rulesOf(renamed)[0] as FilterRule).value).toBe("y");
         expect(removeNode(added, b.id)).toEqual(root);
         expect(removeNode(root, "missing")).toBe(root);
+    });
+    test("clearFilter removes every condition and group, keeps the root's id and combinator, and drops its not", () => {
+        const root = {
+            ...group("or", rule("name", "contains", "x"), group("and", rule("age", "gt", 3))),
+            not: true,
+        };
+        const cleared = clearFilter(root);
+        expect(cleared).toEqual({
+            type: "group",
+            id: root.id,
+            combinator: "or",
+            not: false,
+            children: [],
+        });
+        expect(rulesOf(cleared)).toHaveLength(0);
+        expect(root.children).toHaveLength(2);
+        expect(toPredicate(cleared, FIELDS)({ name: "anything" })).toBe(true);
+        const empty = group("and");
+        expect(clearFilter(empty)).toBe(empty);
     });
     test("changeField resets values and keeps an operator the new field also offers", () => {
         const r = changeField(rule("name", "equals", "x"), FIELDS, "age");

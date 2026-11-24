@@ -273,7 +273,10 @@
     "ruleAdded": "{n}. koşul eklendi",
     "ruleRemoved": "{n}. koşul kaldırıldı",
     "groupAdded": "Grup, düzey {depth}, eklendi",
-    "groupRemoved": "Grup, düzey {depth}, kaldırıldı"
+    "groupRemoved": "Grup, düzey {depth}, kaldırıldı",
+    "summary": "Koşullar: {count}",
+    "clearAll": "Tüm koşulları kaldır",
+    "allRemoved": "Tüm koşullar kaldırıldı"
   },
   "text-size": {
     "largest": "en büyük",

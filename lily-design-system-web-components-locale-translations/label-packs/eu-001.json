@@ -273,7 +273,10 @@
     "ruleAdded": "{n}. baldintza gehitu da",
     "ruleRemoved": "{n}. baldintza kendu da",
     "groupAdded": "Taldea, {depth}. maila, gehitu da",
-    "groupRemoved": "Taldea, {depth}. maila, kendu da"
+    "groupRemoved": "Taldea, {depth}. maila, kendu da",
+    "summary": "Baldintzak: {count}",
+    "clearAll": "Kendu baldintza guztiak",
+    "allRemoved": "Baldintza guztiak kendu dira"
   },
   "text-size": {
     "largest": "handiena",

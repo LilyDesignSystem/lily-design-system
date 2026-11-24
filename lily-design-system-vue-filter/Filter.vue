@@ -28,6 +28,7 @@ import { FILTER_CONTEXT } from "./filter-context";
 import {
     EMPTY_FILTER,
     addNode,
+    clearFilter,
     createGroup,
     createRule,
     formatFilter,
@@ -110,6 +111,15 @@ async function focusSelector(selector: string): Promise<void> {
     rootEl.value?.querySelector<HTMLElement>(selector)?.focus();
 }
 
+/** Remove every condition and group, then put focus on the filter's own "Add condition", since the button goes. */
+function clearAll(): void {
+    if (props.readonly) return;
+    const rootId = value.value.id;
+    commit(clearFilter(value.value));
+    announce(props.labels.allRemoved);
+    void focusSelector(`[data-filter-add-rule="${rootId}"]`);
+}
+
 provide(FILTER_CONTEXT, {
     fields: () => props.fields,
     labels: () => props.labels,
@@ -167,6 +177,20 @@ provide(FILTER_CONTEXT, {
         :aria-label="label"
         :data-readonly="readonly ? '' : undefined"
     >
+        <p
+            v-if="labels.summary"
+            class="filter-summary"
+        >
+            {{ labels.summary(ruleNumbers.size) }}
+        </p>
+        <button
+            v-if="labels.clearAll && !readonly && (value.children.length > 0 || value.not)"
+            type="button"
+            class="filter-clear-all"
+            @click="clearAll"
+        >
+            {{ labels.clearAll }}
+        </button>
         <FilterGroupView
             :group="value"
             :depth="1"

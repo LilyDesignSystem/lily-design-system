@@ -273,7 +273,10 @@
     "ruleAdded": "条件 {n} を追加しました",
     "ruleRemoved": "条件 {n} を削除しました",
     "groupAdded": "グループ、レベル {depth} を追加しました",
-    "groupRemoved": "グループ、レベル {depth} を削除しました"
+    "groupRemoved": "グループ、レベル {depth} を削除しました",
+    "summary": "条件数: {count}",
+    "clearAll": "すべての条件を削除",
+    "allRemoved": "すべての条件を削除しました"
   },
   "text-size": {
     "largest": "最大",

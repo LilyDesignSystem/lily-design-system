@@ -590,6 +590,61 @@ describe("Filter — another language and right-to-left (§8.26–§8.29)", () =
 
 // P10-T9: inside a <form>, a reset puts the filter back to the one it started with (as the Svelte reference does).
 // The fields are controlled, so without this the browser's reset changes nothing.
+describe("Filter — summary and remove all (P40-T10)", () => {
+    const labels: FilterLabels = {
+        ...LABELS,
+        summary: (count) => `Conditions: ${count}`,
+        clearAll: "Remove all conditions",
+        allRemoved: "All conditions removed",
+    };
+    const nested = () =>
+        start(rule("name", "contains", "a"), createGroup("or", [rule("age", "gt", 3)]));
+
+    test("§8.30 the summary counts every condition in the filter, nested ones too, and follows edits", async () => {
+        render(() => <Filter {...{ ...base, labels, defaultValue: nested() }} />);
+        expect(document.querySelector(".filter-summary")?.textContent).toBe("Conditions: 2");
+        await fireEvent.click(screen.getByText("Remove condition 1"));
+        expect(document.querySelector(".filter-summary")?.textContent).toBe("Conditions: 1");
+    });
+
+    test("§8.31 remove all empties the filter, keeps its and / or, announces it and moves focus to Add condition", async () => {
+        const onChange = vi.fn();
+        render(() => (
+            <Filter
+                {...{
+                    ...base,
+                    labels,
+                    onChange,
+                    defaultValue: { ...nested(), combinator: "or" as const, not: true },
+                }}
+            />
+        ));
+        await fireEvent.click(screen.getByText("Remove all conditions"));
+        await tick();
+        const next = onChange.mock.calls.at(-1)?.[0] as FilterGroup;
+        expect(next).toMatchObject({ id: "root", combinator: "or", not: false, children: [] });
+        expect(document.querySelector(".filter-summary")?.textContent).toBe("Conditions: 0");
+        expect(status()).toBe("All conditions removed");
+        expect(screen.queryByText("Remove all conditions")).toBeNull();
+        expect(document.activeElement).toBe(screen.getAllByText("Add condition")[0]);
+    });
+
+    test("§8.32 without their labels there is no summary and no button; readonly or empty has no button", () => {
+        const first = render(() => <Filter {...{ ...base, defaultValue: nested() }} />);
+        expect(document.querySelector(".filter-summary")).toBeNull();
+        expect(document.querySelector(".filter-clear-all")).toBeNull();
+        first.unmount();
+        const second = render(() => (
+            <Filter {...{ ...base, labels, readonly: true, defaultValue: nested() }} />
+        ));
+        expect(document.querySelector(".filter-summary")?.textContent).toBe("Conditions: 2");
+        expect(document.querySelector(".filter-clear-all")).toBeNull();
+        second.unmount();
+        render(() => <Filter {...{ ...base, labels, defaultValue: start() }} />);
+        expect(document.querySelector(".filter-clear-all")).toBeNull();
+    });
+});
+
 describe("Filter form reset", () => {
     const afterReset = () => act(() => new Promise((r) => setTimeout(r, 0)));
 

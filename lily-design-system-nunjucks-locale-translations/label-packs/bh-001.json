@@ -274,7 +274,10 @@
     "ruleAdded": "शर्त {n} जोड़ल गइल",
     "ruleRemoved": "शर्त {n} हटावल गइल",
     "groupAdded": "समूह, स्तर {depth}, जोड़ल गइल",
-    "groupRemoved": "समूह, स्तर {depth}, हटावल गइल"
+    "groupRemoved": "समूह, स्तर {depth}, हटावल गइल",
+    "summary": "शर्त: {count}",
+    "clearAll": "सब शर्त हटाईं",
+    "allRemoved": "सब शर्त हटा दिहल गइल"
   },
   "text-size": {
     "largest": "सबसे बड़ा",

@@ -273,7 +273,10 @@
     "ruleAdded": "{n}. nosacījums pievienots",
     "ruleRemoved": "{n}. nosacījums noņemts",
     "groupAdded": "Grupa, {depth}. līmenis, pievienota",
-    "groupRemoved": "Grupa, {depth}. līmenis, noņemta"
+    "groupRemoved": "Grupa, {depth}. līmenis, noņemta",
+    "summary": "Nosacījumi: {count}",
+    "clearAll": "Noņemt visus nosacījumus",
+    "allRemoved": "Visi nosacījumi noņemti"
   },
   "text-size": {
     "largest": "lielākais",

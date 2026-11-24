@@ -273,7 +273,10 @@
     "ruleAdded": "An ƙara sharaɗi na {n}",
     "ruleRemoved": "An cire sharaɗi na {n}",
     "groupAdded": "An ƙara rukuni, mataki na {depth}",
-    "groupRemoved": "An cire rukuni, mataki na {depth}"
+    "groupRemoved": "An cire rukuni, mataki na {depth}",
+    "summary": "Sharuɗɗa: {count}",
+    "clearAll": "Cire duk sharuɗɗa",
+    "allRemoved": "An cire duk sharuɗɗa"
   },
   "text-size": {
     "largest": "mafi girma",

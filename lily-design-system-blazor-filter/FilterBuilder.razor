@@ -14,6 +14,14 @@
 }
 
 <div class="@RootClass" role="group" aria-label="@Label" data-readonly="@(Readonly ? "" : null)" @attributes="AdditionalAttributes">
+    @if (Labels.Summary is { } summary)
+    {
+        <p class="filter-summary">@summary(numbers.Count)</p>
+    }
+    @if (Labels.ClearAll is { } clearAll && !Readonly && (Value.Children.Count > 0 || Value.Not))
+    {
+        <button type="button" class="filter-clear-all" @onclick="ClearAllAsync">@clearAll</button>
+    }
     @GroupView(Value, 1, null, numbers, fieldById)
     @if (Format is { } format && Labels.Output is not null)
     {

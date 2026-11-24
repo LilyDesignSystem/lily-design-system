@@ -214,6 +214,13 @@ public static class FilterModel
 
     public static FilterGroup RemoveNode(FilterGroup root, string id) => UpdateNode(root, id, _ => null);
 
+    /// <summary>
+    /// The filter with every condition and group removed (the builder's "Remove all conditions"): the root keeps its id and its
+    /// "and" or "or", and loses its "not", so the result is the empty filter, matching every row. Same as the TypeScript model.
+    /// </summary>
+    public static FilterGroup ClearFilter(FilterGroup root) =>
+        root.Children.Count == 0 && !root.Not ? root : root with { Not = false, Children = Array.Empty<FilterNode>() };
+
     /// <summary>Add <paramref name="node"/> at the end of the group <paramref name="parentId"/> (the root when it is not found).</summary>
     public static FilterGroup AddNode(FilterGroup root, string parentId, FilterNode node)
         => UpdateNode(root, parentId, n => n is FilterGroup g ? g with { Children = g.Children.Append(node).ToList() } : n);

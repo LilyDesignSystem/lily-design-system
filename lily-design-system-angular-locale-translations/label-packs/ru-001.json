@@ -273,7 +273,10 @@
     "ruleAdded": "Условие {n} добавлено",
     "ruleRemoved": "Условие {n} удалено",
     "groupAdded": "Группа, уровень {depth}, добавлена",
-    "groupRemoved": "Группа, уровень {depth}, удалена"
+    "groupRemoved": "Группа, уровень {depth}, удалена",
+    "summary": "Условий: {count}",
+    "clearAll": "Удалить все условия",
+    "allRemoved": "Все условия удалены"
   },
   "text-size": {
     "largest": "самый большой",

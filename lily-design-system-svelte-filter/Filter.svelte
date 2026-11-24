@@ -53,6 +53,12 @@
         ruleRemoved?: (n: number) => string;
         groupAdded?: (depth: number) => string;
         groupRemoved?: (depth: number) => string;
+        /** A line above the builder saying how many conditions there are: (the count) => "Conditions: 3". Gates the line. */
+        summary?: (count: number) => string;
+        /** The button that removes every condition and group. Gates the button. */
+        clearAll?: string;
+        /** Announced after every condition is removed. */
+        allRemoved?: string;
     };
 
     export type Props = {
@@ -85,6 +91,7 @@
         addNode,
         changeField,
         changeOperator,
+        clearFilter,
         createGroup,
         createRule,
         fieldType,
@@ -205,6 +212,14 @@
         commit(removeNode(value, group.id));
         announce(labels.groupRemoved?.(depth));
         void focusButton(`[data-filter-add-rule="${parentId}"]`);
+    }
+
+    /** Remove every condition and group, then put focus on the filter's own "Add condition", since the button goes. */
+    function clearAll(): void {
+        if (readonly) return;
+        commit(clearFilter(value));
+        announce(labels.allRemoved);
+        void focusButton(`[data-filter-add-rule="${value.id}"]`);
     }
 
     const setRule = (id: string, change: (rule: FilterRule) => FilterRule): void => {
@@ -455,6 +470,16 @@
     data-readonly={readonly ? "" : undefined}
     {...restProps}
 >
+    {#if labels.summary}
+        <p class="filter-summary">{labels.summary(ruleNumbers.size)}</p>
+    {/if}
+    {#if labels.clearAll && !readonly && (value.children.length > 0 || value.not)}
+        <button
+            type="button"
+            class="filter-clear-all"
+            onclick={clearAll}>{labels.clearAll}</button
+        >
+    {/if}
     {#key resets}
         {@render groupView(value, 1, null)}
     {/key}

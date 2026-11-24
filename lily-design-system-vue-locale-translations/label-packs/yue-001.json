@@ -229,7 +229,10 @@
     "ruleAdded": "已加條件 {n}",
     "ruleRemoved": "已移除條件 {n}",
     "groupAdded": "已加群組,第 {depth} 層",
-    "groupRemoved": "已移除群組,第 {depth} 層"
+    "groupRemoved": "已移除群組,第 {depth} 層",
+    "summary": "條件:{count}",
+    "clearAll": "移除所有條件",
+    "allRemoved": "已移除所有條件"
   },
   "text-size": {
     "largest": "最大",

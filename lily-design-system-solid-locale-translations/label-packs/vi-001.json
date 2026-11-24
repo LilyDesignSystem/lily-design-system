@@ -273,7 +273,10 @@
     "ruleAdded": "Đã thêm điều kiện {n}",
     "ruleRemoved": "Đã xóa điều kiện {n}",
     "groupAdded": "Đã thêm nhóm, cấp {depth}",
-    "groupRemoved": "Đã xóa nhóm, cấp {depth}"
+    "groupRemoved": "Đã xóa nhóm, cấp {depth}",
+    "summary": "Điều kiện: {count}",
+    "clearAll": "Xóa tất cả điều kiện",
+    "allRemoved": "Đã xóa tất cả điều kiện"
   },
   "text-size": {
     "largest": "lớn nhất",

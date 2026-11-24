@@ -42,6 +42,9 @@ public static class FilterLabelPack
             RuleRemoved = pack.Fn<int>(H, "ruleRemoved", n => new[] { ("n", (object?)n) }),
             GroupAdded = pack.Fn<int>(H, "groupAdded", n => new[] { ("depth", (object?)n) }),
             GroupRemoved = pack.Fn<int>(H, "groupRemoved", n => new[] { ("depth", (object?)n) }),
+            Summary = pack.Fn<int>(H, "summary", n => new[] { ("count", (object?)n) }),
+            ClearAll = pack.Text(H, "clearAll"),
+            AllRemoved = pack.Text(H, "allRemoved"),
         };
     }
 }

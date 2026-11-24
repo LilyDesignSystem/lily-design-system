@@ -273,7 +273,10 @@
     "ruleAdded": "Condição {n} adicionada",
     "ruleRemoved": "Condição {n} removida",
     "groupAdded": "Grupo, nível {depth}, adicionado",
-    "groupRemoved": "Grupo, nível {depth}, removido"
+    "groupRemoved": "Grupo, nível {depth}, removido",
+    "summary": "Condições: {count}",
+    "clearAll": "Remover todas as condições",
+    "allRemoved": "Todas as condições foram removidas"
   },
   "text-size": {
     "largest": "o maior",

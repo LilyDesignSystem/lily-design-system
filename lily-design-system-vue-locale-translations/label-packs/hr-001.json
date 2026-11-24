@@ -273,7 +273,10 @@
     "ruleAdded": "Uvjet {n} dodan",
     "ruleRemoved": "Uvjet {n} uklonjen",
     "groupAdded": "Skupina, razina {depth}, dodana",
-    "groupRemoved": "Skupina, razina {depth}, uklonjena"
+    "groupRemoved": "Skupina, razina {depth}, uklonjena",
+    "summary": "Uvjeti: {count}",
+    "clearAll": "Ukloni sve uvjete",
+    "allRemoved": "Svi su uvjeti uklonjeni"
   },
   "text-size": {
     "largest": "najveći",

@@ -152,6 +152,7 @@ export const SPEC: Record<LabelHelper, Record<string, string[]>> = {
         ruleRemoved: ["n"],
         groupAdded: ["depth"],
         groupRemoved: ["depth"],
+        summary: ["count"],
     },
 };
 

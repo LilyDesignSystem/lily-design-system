@@ -229,7 +229,10 @@
     "ruleAdded": "ເພີ່ມເງື່ອນໄຂ {n} ແລ້ວ",
     "ruleRemoved": "ເອົາເງື່ອນໄຂ {n} ອອກແລ້ວ",
     "groupAdded": "ເພີ່ມກຸ່ມ, ລະດັບ {depth}, ແລ້ວ",
-    "groupRemoved": "ເອົາກຸ່ມ, ລະດັບ {depth}, ອອກແລ້ວ"
+    "groupRemoved": "ເອົາກຸ່ມ, ລະດັບ {depth}, ອອກແລ້ວ",
+    "summary": "ເງື່ອນໄຂ: {count}",
+    "clearAll": "ເອົາເງື່ອນໄຂທັງໝົດອອກ",
+    "allRemoved": "ເອົາເງື່ອນໄຂທັງໝົດອອກແລ້ວ"
   },
   "text-size": {
     "largest": "ໃຫຍ່ທີ່ສຸດ",

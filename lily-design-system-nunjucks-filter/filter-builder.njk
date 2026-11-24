@@ -25,9 +25,11 @@
     readonly — boolean. Show the filter without letting it be edited.
     classes  — extra class on the root. id / attributes — extra id / attributes.
     labels   — plain strings and templates; there are no English defaults:
-       strings:   field, operator, value, valueFrom, valueTo, combinator, and, or, not, addRule, addGroup, choose?, empty?, output?
+       strings:   field, operator, value, valueFrom, valueTo, combinator, and, or, not, addRule, addGroup, choose?, empty?, output?,
+                  clearAll? (the "Remove all conditions" button), allRemoved? (announced after it)
        templates: rule ("Condition {n}"), group ("Group, level {depth}"), removeRule ("... {n}"), removeGroup ("... {depth}"),
-                  ruleAdded ({n}), ruleRemoved ({n}), groupAdded ({depth}), groupRemoved ({depth})
+                  ruleAdded ({n}), ruleRemoved ({n}), groupAdded ({depth}), groupRemoved ({depth}),
+                  summary? ("Conditions: {count}", a line above the builder)
        operatorNames — object: operator id -> text (ALL_OPERATORS lists the ids).
     A function cannot cross the template boundary, so the client option `initFilterBuilder(root, { labels })` may give any
     label as a function instead (rule(n), group(depth), operatorName(operator, field), ...).

@@ -273,7 +273,10 @@
     "ruleAdded": "Условие {n} е добавено",
     "ruleRemoved": "Условие {n} е премахнато",
     "groupAdded": "Група, ниво {depth}, е добавена",
-    "groupRemoved": "Група, ниво {depth}, е премахната"
+    "groupRemoved": "Група, ниво {depth}, е премахната",
+    "summary": "Условия: {count}",
+    "clearAll": "Премахване на всички условия",
+    "allRemoved": "Всички условия са премахнати"
   },
   "text-size": {
     "largest": "най-голям",

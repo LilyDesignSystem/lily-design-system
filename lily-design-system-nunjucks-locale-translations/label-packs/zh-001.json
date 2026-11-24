@@ -273,7 +273,10 @@
     "ruleAdded": "已添加条件 {n}",
     "ruleRemoved": "已移除条件 {n}",
     "groupAdded": "已添加分组，第 {depth} 级",
-    "groupRemoved": "已移除分组，第 {depth} 级"
+    "groupRemoved": "已移除分组，第 {depth} 级",
+    "summary": "条件：{count}",
+    "clearAll": "移除所有条件",
+    "allRemoved": "已移除所有条件"
   },
   "text-size": {
     "largest": "最大",

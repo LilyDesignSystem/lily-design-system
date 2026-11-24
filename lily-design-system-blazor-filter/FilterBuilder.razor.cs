@@ -52,6 +52,15 @@ public sealed record FilterLabels
     public Func<int, string>? RuleRemoved { get; init; }
     public Func<int, string>? GroupAdded { get; init; }
     public Func<int, string>? GroupRemoved { get; init; }
+
+    /// <summary>A line above the builder saying how many conditions there are: (the count) => "Conditions: 3". Gates the line.</summary>
+    public Func<int, string>? Summary { get; init; }
+
+    /// <summary>The button that removes every condition and group. Gates the button.</summary>
+    public string? ClearAll { get; init; }
+
+    /// <summary>Announced after every condition is removed.</summary>
+    public string? AllRemoved { get; init; }
 }
 
 public partial class FilterBuilder : ComponentBase
@@ -177,6 +186,16 @@ public partial class FilterBuilder : ComponentBase
         await CommitAsync(FilterModel.RemoveNode(Value, group.Id));
         Announce(Labels.GroupRemoved?.Invoke(depth));
         _focusSelector = $"[data-filter-add-rule=\"{parentId}\"]";
+    }
+
+    /// <summary>Remove every condition and group, then put focus on the filter's own "Add condition", since the button goes.</summary>
+    private async Task ClearAllAsync()
+    {
+        if (Readonly) return;
+        var rootId = Value.Id;
+        await CommitAsync(FilterModel.ClearFilter(Value));
+        Announce(Labels.AllRemoved);
+        _focusSelector = $"[data-filter-add-rule=\"{rootId}\"]";
     }
 
     /// <summary>A number input's number (null when empty or unreadable), or the text of a text, date or select field: what the rule stores for what was typed.</summary>

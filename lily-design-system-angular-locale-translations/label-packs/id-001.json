@@ -273,7 +273,10 @@
     "ruleAdded": "Kondisi {n} ditambahkan",
     "ruleRemoved": "Kondisi {n} dihapus",
     "groupAdded": "Grup, tingkat {depth}, ditambahkan",
-    "groupRemoved": "Grup, tingkat {depth}, dihapus"
+    "groupRemoved": "Grup, tingkat {depth}, dihapus",
+    "summary": "Kondisi: {count}",
+    "clearAll": "Hapus semua kondisi",
+    "allRemoved": "Semua kondisi dihapus"
   },
   "text-size": {
     "largest": "terbesar",

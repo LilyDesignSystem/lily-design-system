@@ -273,7 +273,10 @@
     "ruleAdded": "अट {n} जोडली",
     "ruleRemoved": "अट {n} काढली",
     "groupAdded": "गट, स्तर {depth}, जोडला",
-    "groupRemoved": "गट, स्तर {depth}, काढला"
+    "groupRemoved": "गट, स्तर {depth}, काढला",
+    "summary": "अटी: {count}",
+    "clearAll": "सर्व अटी काढा",
+    "allRemoved": "सर्व अटी काढल्या"
   },
   "text-size": {
     "largest": "सर्वात मोठा",

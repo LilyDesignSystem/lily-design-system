@@ -273,7 +273,10 @@
     "ruleAdded": "Condiția {n} a fost adăugată",
     "ruleRemoved": "Condiția {n} a fost eliminată",
     "groupAdded": "Grupul, nivelul {depth}, a fost adăugat",
-    "groupRemoved": "Grupul, nivelul {depth}, a fost eliminat"
+    "groupRemoved": "Grupul, nivelul {depth}, a fost eliminat",
+    "summary": "Condiții: {count}",
+    "clearAll": "Elimină toate condițiile",
+    "allRemoved": "Toate condițiile au fost eliminate"
   },
   "text-size": {
     "largest": "cel mai mare",

@@ -273,7 +273,10 @@
     "ruleAdded": "Villkor {n} har lagts till",
     "ruleRemoved": "Villkor {n} har tagits bort",
     "groupAdded": "Grupp, nivå {depth}, har lagts till",
-    "groupRemoved": "Grupp, nivå {depth}, har tagits bort"
+    "groupRemoved": "Grupp, nivå {depth}, har tagits bort",
+    "summary": "Villkor: {count}",
+    "clearAll": "Ta bort alla villkor",
+    "allRemoved": "Alla villkor har tagits bort"
   },
   "text-size": {
     "largest": "störst",

@@ -273,7 +273,10 @@
     "ruleAdded": "શરત {n} ઉમેરાઈ",
     "ruleRemoved": "શરત {n} દૂર કરાઈ",
     "groupAdded": "જૂથ, સ્તર {depth}, ઉમેરાયું",
-    "groupRemoved": "જૂથ, સ્તર {depth}, દૂર કરાયું"
+    "groupRemoved": "જૂથ, સ્તર {depth}, દૂર કરાયું",
+    "summary": "શરતો: {count}",
+    "clearAll": "બધી શરતો દૂર કરો",
+    "allRemoved": "બધી શરતો દૂર કરી"
   },
   "text-size": {
     "largest": "સૌથી મોટું",

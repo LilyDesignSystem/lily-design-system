@@ -229,7 +229,10 @@
     "ruleAdded": "Kondysyon {n} keworrys",
     "ruleRemoved": "Kondysyon {n} dihenys",
     "groupAdded": "Bagas, gradh {depth}, keworrys",
-    "groupRemoved": "Bagas, gradh {depth}, dihenys"
+    "groupRemoved": "Bagas, gradh {depth}, dihenys",
+    "summary": "Kondysyons: {count}",
+    "clearAll": "Dihenna oll an kondysyons",
+    "allRemoved": "Oll an kondysyons dihenys"
   },
   "text-size": {
     "largest": "an brassa",

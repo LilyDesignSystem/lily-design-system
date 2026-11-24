@@ -18,6 +18,7 @@ import { FilterHost, type FilterLabels } from "./filter-host";
 import {
     EMPTY_FILTER,
     addNode,
+    clearFilter,
     createGroup,
     createRule,
     formatFilter,
@@ -58,6 +59,12 @@ function numberRules(root: FilterGroup): Map<string, number> {
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
     <div #rootEl class="filter {{ className() }}" role="group" [attr.aria-label]="label()" [attr.data-readonly]="readonly() ? '' : null">
+      @if (labels().summary; as summary) {
+        <p class="filter-summary">{{ summary(numbers().size) }}</p>
+      }
+      @if (labels().clearAll && !readonly() && (value().children.length > 0 || value().not)) {
+        <button type="button" class="filter-clear-all" (click)="clearAll()">{{ labels().clearAll }}</button>
+      }
       @for (reset of [resets()]; track reset) {
         <lily-filter-group-view [group]="value()" [depth]="1" [parentId]="null" />
       }
@@ -125,7 +132,7 @@ export class Filter extends FilterHost {
     }
 
     private readonly fieldMap = computed(() => new Map(this.fields().map((f) => [f.id, f])));
-    private readonly numbers = computed(() => numberRules(this.value()));
+    protected readonly numbers = computed(() => numberRules(this.value()));
     protected readonly output = computed(() => {
         const format = this.format();
         return format && this.labels().output
@@ -198,5 +205,13 @@ export class Filter extends FilterHost {
         this.value.set(removeNode(this.value(), group.id));
         this.announce(this.labels().groupRemoved?.(depth));
         this.focusLater(`[data-filter-add-rule="${parentId}"]`);
+    }
+    /** Remove every condition and group, then put focus on the filter's own "Add condition", since the button goes. */
+    clearAll(): void {
+        if (this.readonly()) return;
+        const rootId = this.value().id;
+        this.value.set(clearFilter(this.value()));
+        this.announce(this.labels().allRemoved);
+        this.focusLater(`[data-filter-add-rule="${rootId}"]`);
     }
 }

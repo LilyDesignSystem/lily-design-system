@@ -250,6 +250,13 @@ export function addNode(root: FilterGroup, parentId: string, node: FilterNode): 
     );
 }
 
+/**
+ * The filter with every condition and group removed (the filter's "Remove all conditions"): the root keeps its id and its
+ * "and" or "or", and loses its "not", so the result is the empty filter the user started from, matching every row.
+ */
+export const clearFilter = (root: FilterGroup): FilterGroup =>
+    root.children.length === 0 && !root.not ? root : { ...root, not: false, children: [] };
+
 /** A rule with another field: its operator resets to that field's first when the old one does not apply, and its values clear. */
 export function changeField(
     rule: FilterRule,

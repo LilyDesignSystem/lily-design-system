@@ -273,7 +273,10 @@
     "ruleAdded": "شرط {n} شامل کی گئی",
     "ruleRemoved": "شرط {n} ہٹائی گئی",
     "groupAdded": "گروپ، سطح {depth}، شامل کیا گیا",
-    "groupRemoved": "گروپ، سطح {depth}، ہٹایا گیا"
+    "groupRemoved": "گروپ، سطح {depth}، ہٹایا گیا",
+    "summary": "شرائط: {count}",
+    "clearAll": "تمام شرائط ہٹائیں",
+    "allRemoved": "تمام شرائط ہٹا دی گئیں"
   },
   "text-size": {
     "largest": "سب سے بڑا",

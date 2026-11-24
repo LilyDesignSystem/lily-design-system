@@ -273,7 +273,10 @@
     "ruleAdded": "{n}. feltétel hozzáadva",
     "ruleRemoved": "{n}. feltétel eltávolítva",
     "groupAdded": "Csoport, {depth}. szint, hozzáadva",
-    "groupRemoved": "Csoport, {depth}. szint, eltávolítva"
+    "groupRemoved": "Csoport, {depth}. szint, eltávolítva",
+    "summary": "Feltételek: {count}",
+    "clearAll": "Összes feltétel eltávolítása",
+    "allRemoved": "Az összes feltétel eltávolítva"
   },
   "text-size": {
     "largest": "legnagyobb",

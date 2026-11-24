@@ -273,7 +273,10 @@
     "ruleAdded": "शर्त {n} जोड़ी गई",
     "ruleRemoved": "शर्त {n} हटाई गई",
     "groupAdded": "समूह, स्तर {depth}, जोड़ा गया",
-    "groupRemoved": "समूह, स्तर {depth}, हटाया गया"
+    "groupRemoved": "समूह, स्तर {depth}, हटाया गया",
+    "summary": "शर्तें: {count}",
+    "clearAll": "सभी शर्तें हटाएँ",
+    "allRemoved": "सभी शर्तें हटा दी गईं"
   },
   "text-size": {
     "largest": "सबसे बड़ा",

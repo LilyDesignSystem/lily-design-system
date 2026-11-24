@@ -229,7 +229,10 @@
     "ruleAdded": "បានបន្ថែមលក្ខខណ្ឌ {n}",
     "ruleRemoved": "បានដកលក្ខខណ្ឌ {n} ចេញ",
     "groupAdded": "បានបន្ថែមក្រុម កម្រិត {depth}",
-    "groupRemoved": "បានដកក្រុមចេញ កម្រិត {depth}"
+    "groupRemoved": "បានដកក្រុមចេញ កម្រិត {depth}",
+    "summary": "លក្ខខណ្ឌ៖ {count}",
+    "clearAll": "ដកលក្ខខណ្ឌទាំងអស់ចេញ",
+    "allRemoved": "បានដកលក្ខខណ្ឌទាំងអស់ចេញ"
   },
   "text-size": {
     "largest": "ធំបំផុត",

@@ -470,4 +470,62 @@ public class FilterBuilderTests : TestContext
         Assert.Equal(new[] { "Ann" }, rows.Where(r => predicate(r)).Select(r => (string)r["name"]!));
         Assert.Equal(new object?[] { 18d, "%ann%" }, FilterModel.ToSql(done, Fields).Params);
     }
+
+    // Summary and remove all (tasks.md P40-T10).
+    private static readonly FilterLabels SummaryLabels = Labels with
+    {
+        Summary = n => $"Conditions: {n}",
+        ClearAll = "Remove all conditions",
+        AllRemoved = "All conditions removed",
+    };
+
+    private static FilterGroup Nested() =>
+        Start(Rule("name", "contains", "a"), FilterModel.CreateGroup("or", new FilterNode[] { Rule("age", "gt", 3d) }));
+
+    [Fact]
+    public void Section_8_30_The_summary_counts_every_condition_nested_ones_too_and_follows_edits()
+    {
+        var cut = Render(Nested(), labels: SummaryLabels);
+        Assert.Equal("Conditions: 2", cut.Find(".filter-summary").TextContent);
+        ByText(cut, "Remove condition 1").Click();
+        Assert.Equal("Conditions: 1", cut.Find(".filter-summary").TextContent);
+    }
+
+    [Fact]
+    public void Section_8_31_Remove_all_empties_the_filter_keeps_its_combinator_announces_it_and_moves_focus_to_Add_condition()
+    {
+        var changes = new List<FilterGroup>();
+        var cut = Render(Nested() with { Combinator = "or", Not = true }, changes: changes, labels: SummaryLabels);
+        ByText(cut, "Remove all conditions").Click();
+        var next = changes.Last();
+        Assert.Equal(("root", "or", false, 0), (next.Id, next.Combinator, next.Not, next.Children.Count));
+        Assert.Equal("Conditions: 0", cut.Find(".filter-summary").TextContent);
+        Assert.Equal("All conditions removed", Status(cut));
+        Assert.Empty(cut.FindAll(".filter-clear-all"));
+        Assert.Contains(JSInterop.Invocations, i => i.Identifier == "eval" && i.Arguments[0]!.ToString()!.Contains("data-filter-add-rule") && i.Arguments[0]!.ToString()!.Contains("root"));
+    }
+
+    [Fact]
+    public void Section_8_32_Without_their_labels_no_summary_and_no_button_readonly_or_empty_has_no_button()
+    {
+        var plain = Render(Nested());
+        Assert.Empty(plain.FindAll(".filter-summary"));
+        Assert.Empty(plain.FindAll(".filter-clear-all"));
+        var ro = Render(Nested(), p => p.Add(x => x.Readonly, true), labels: SummaryLabels);
+        Assert.Equal("Conditions: 2", ro.Find(".filter-summary").TextContent);
+        Assert.Empty(ro.FindAll(".filter-clear-all"));
+        var empty = Render(Start(), labels: SummaryLabels);
+        Assert.Empty(empty.FindAll(".filter-clear-all"));
+    }
+
+    [Fact]
+    public void ClearFilter_keeps_the_root_and_its_combinator_and_returns_an_empty_filter_unchanged()
+    {
+        var root = Nested() with { Combinator = "or", Not = true };
+        var cleared = FilterModel.ClearFilter(root);
+        Assert.Equal(("root", "or", false, 0), (cleared.Id, cleared.Combinator, cleared.Not, cleared.Children.Count));
+        Assert.Equal(2, root.Children.Count);
+        var empty = Start();
+        Assert.Same(empty, FilterModel.ClearFilter(empty));
+    }
 }

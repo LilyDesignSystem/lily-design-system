@@ -35,6 +35,12 @@ export type FilterLabels = {
     ruleRemoved?: (n: number) => string;
     groupAdded?: (depth: number) => string;
     groupRemoved?: (depth: number) => string;
+    /** A line above the builder saying how many conditions there are: (the count) => "Conditions: 3". Gates the line. */
+    summary?: (count: number) => string;
+    /** The button that removes every condition and group. Gates the button. */
+    clearAll?: string;
+    /** Announced after every condition is removed. */
+    allRemoved?: string;
 };
 
 /** What the recursive group view needs from the filter that hosts it. Provided by `Filter`, injected by `FilterGroupView`. */

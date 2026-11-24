@@ -229,7 +229,10 @@
     "ruleAdded": "加好条件 {n}",
     "ruleRemoved": "删脱条件 {n}",
     "groupAdded": "加好分组,第 {depth} 层",
-    "groupRemoved": "删脱分组,第 {depth} 层"
+    "groupRemoved": "删脱分组,第 {depth} 层",
+    "summary": "条件:{count}",
+    "clearAll": "删脱全部条件",
+    "allRemoved": "全部条件删脱了"
   },
   "text-size": {
     "largest": "最大",

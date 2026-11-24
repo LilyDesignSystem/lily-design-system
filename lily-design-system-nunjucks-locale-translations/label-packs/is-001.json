@@ -229,7 +229,10 @@
     "ruleAdded": "Skilyrði {n} bætt við",
     "ruleRemoved": "Skilyrði {n} fjarlægt",
     "groupAdded": "Hópi, stig {depth}, bætt við",
-    "groupRemoved": "Hópur, stig {depth}, fjarlægður"
+    "groupRemoved": "Hópur, stig {depth}, fjarlægður",
+    "summary": "Skilyrði: {count}",
+    "clearAll": "Fjarlægja öll skilyrði",
+    "allRemoved": "Öll skilyrði fjarlægð"
   },
   "text-size": {
     "largest": "stærst",

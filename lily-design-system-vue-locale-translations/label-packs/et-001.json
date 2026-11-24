@@ -273,7 +273,10 @@
     "ruleAdded": "Tingimus {n} lisatud",
     "ruleRemoved": "Tingimus {n} eemaldatud",
     "groupAdded": "Rühm, tase {depth}, lisatud",
-    "groupRemoved": "Rühm, tase {depth}, eemaldatud"
+    "groupRemoved": "Rühm, tase {depth}, eemaldatud",
+    "summary": "Tingimusi: {count}",
+    "clearAll": "Eemalda kõik tingimused",
+    "allRemoved": "Kõik tingimused on eemaldatud"
   },
   "text-size": {
     "largest": "suurim",

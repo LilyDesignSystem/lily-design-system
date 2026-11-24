@@ -273,7 +273,10 @@
     "ruleAdded": "조건 {n}을(를) 추가했습니다",
     "ruleRemoved": "조건 {n}을(를) 삭제했습니다",
     "groupAdded": "그룹, {depth}단계를 추가했습니다",
-    "groupRemoved": "그룹, {depth}단계를 삭제했습니다"
+    "groupRemoved": "그룹, {depth}단계를 삭제했습니다",
+    "summary": "조건: {count}개",
+    "clearAll": "모든 조건 삭제",
+    "allRemoved": "모든 조건을 삭제했습니다"
   },
   "text-size": {
     "largest": "가장 크게",

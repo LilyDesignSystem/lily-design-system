@@ -273,7 +273,10 @@
     "ruleAdded": "Ehto {n} lisätty",
     "ruleRemoved": "Ehto {n} poistettu",
     "groupAdded": "Ryhmä, taso {depth}, lisätty",
-    "groupRemoved": "Ryhmä, taso {depth}, poistettu"
+    "groupRemoved": "Ryhmä, taso {depth}, poistettu",
+    "summary": "Ehtoja: {count}",
+    "clearAll": "Poista kaikki ehdot",
+    "allRemoved": "Kaikki ehdot poistettu"
   },
   "text-size": {
     "largest": "suurin",

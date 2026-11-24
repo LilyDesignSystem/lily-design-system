@@ -273,7 +273,10 @@
     "ruleAdded": "Ychwanegwyd amod {n}",
     "ruleRemoved": "Tynnwyd amod {n}",
     "groupAdded": "Ychwanegwyd grŵp, lefel {depth}",
-    "groupRemoved": "Tynnwyd grŵp, lefel {depth}"
+    "groupRemoved": "Tynnwyd grŵp, lefel {depth}",
+    "summary": "Amodau: {count}",
+    "clearAll": "Tynnu pob amod",
+    "allRemoved": "Tynnwyd pob amod"
   },
   "text-size": {
     "largest": "mwyaf",

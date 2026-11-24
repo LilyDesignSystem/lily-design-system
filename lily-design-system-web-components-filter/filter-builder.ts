@@ -14,6 +14,7 @@ import {
     addNode,
     changeField,
     changeOperator,
+    clearFilter,
     createGroup,
     createRule,
     fieldType,
@@ -66,6 +67,12 @@ export type FilterLabels = {
     ruleRemoved?: (n: number) => string;
     groupAdded?: (depth: number) => string;
     groupRemoved?: (depth: number) => string;
+    /** A line above the builder saying how many conditions there are: (the count) => "Conditions: 3". Gates the line. */
+    summary?: (count: number) => string;
+    /** The button that removes every condition and group. Gates the button. */
+    clearAll?: string;
+    /** Announced after every condition is removed. */
+    allRemoved?: string;
 };
 
 /** A text field's value, a number input's number (undefined when empty), or a date: what the rule stores for what was typed. */
@@ -300,6 +307,14 @@ export class FilterBuilder extends HTMLElement {
         this.#focusKey = `${parentId}:add-rule`;
         this.#status = this.#labels.groupRemoved?.(depth) ?? this.#status;
         this.#commit(removeNode(this.#value, group.id));
+    }
+
+    /** Remove every condition and group, then put focus on the filter's own "Add condition", since the button goes. */
+    #clearAll(): void {
+        if (this.readonly || !this.#labels) return;
+        this.#focusKey = `${this.#value.id}:add-rule`;
+        this.#status = this.#labels.allRemoved ?? this.#status;
+        this.#commit(clearFilter(this.#value));
     }
 
     #toggleOption(rule: FilterRule, optionId: string, checked: boolean): void {
@@ -612,6 +627,11 @@ export class FilterBuilder extends HTMLElement {
         };
 
         const format = this.format;
+        let clearAll: HTMLElement | null = null;
+        if (labels.clearAll && !readonly && (this.#value.children.length > 0 || this.#value.not)) {
+            clearAll = el("button", { type: "button", class: "filter-clear-all" }, labels.clearAll);
+            clearAll.addEventListener("click", () => this.#clearAll());
+        }
         const root = el(
             "div",
             {
@@ -620,6 +640,10 @@ export class FilterBuilder extends HTMLElement {
                 "aria-label": this.label,
                 "data-readonly": readonly || undefined,
             },
+            labels.summary
+                ? el("p", { class: "filter-summary" }, labels.summary(ruleNumbers.size))
+                : null,
+            clearAll,
             groupView(this.#value, 1, null),
             format && labels.output
                 ? el(

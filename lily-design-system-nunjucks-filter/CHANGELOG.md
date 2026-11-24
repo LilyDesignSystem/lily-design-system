@@ -6,6 +6,8 @@ and the project follows [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- **Added:** a summary line and a remove-all button (tasks.md P40-T10): `labels.summary` (a `{count}` template, or a function through the client option), `labels.clearAll` and `labels.allRemoved`, as in the Svelte filter. The model gains `clearFilter`.
+- **Fixed:** a filter without an output no longer renders the text "null" (the client passed `null` to `replaceChildren`, which writes it as text).
 - Works with the label packs: `nunjucksLabelsFor()` (see `shared/label-packs/index.md`) gives the macro `labels` and the client option `labels`.
 
 ## 0.1.0 — 2026-10-17

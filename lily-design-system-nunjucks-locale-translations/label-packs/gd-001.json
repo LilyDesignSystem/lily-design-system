@@ -229,7 +229,10 @@
     "ruleAdded": "Chaidh cumha {n} a chur ris",
     "ruleRemoved": "Chaidh cumha {n} a thoirt air falbh",
     "groupAdded": "Chaidh buidheann, ìre {depth}, a chur ris",
-    "groupRemoved": "Chaidh buidheann, ìre {depth}, a thoirt air falbh"
+    "groupRemoved": "Chaidh buidheann, ìre {depth}, a thoirt air falbh",
+    "summary": "Cumhachan: {count}",
+    "clearAll": "Thoir air falbh a h-uile cumha",
+    "allRemoved": "Chaidh a h-uile cumha a thoirt air falbh"
   },
   "text-size": {
     "largest": "as motha",
