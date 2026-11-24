@@ -132,15 +132,22 @@ should wait for an adopter who needs them.
 
 ## Acceptance criteria
 
-- [ ] No error thrown by `shared/clinical-format.ts` or its C# port contains the value it was given (item 1).
-- [ ] `formatQuantity(1.5, "mmol/L", "en", undefined, { precision: 2 })` writes `1.50 mmol/L`, and the guide states the dose and
+- [x] No error thrown by `shared/clinical-format.ts` or its C# port contains the value it was given (item 1).
+- [x] `formatQuantity(1.5, "mmol/L", "en", undefined, { precision: 2 })` writes `1.50 mmol/L`, and the guide states the dose and
       result rules (item 2).
-- [ ] `durationParts("PT1,5S")` returns 1.5 seconds (item 3).
-- [ ] A leap-second test exists for `date-time-view` and the data grid (item 4).
-- [ ] The healthcare guide has the withheld-summary rule (item 6) and the worked openEHR example (item 11).
-- [ ] `PHI.md` exists, is linked from `index.md`, `SECURITY.md` and `llms.txt`, and every answer cites a check or a contract
+- [x] `durationParts("PT1,5S")` returns 1.5 seconds (item 3).
+- [x] A leap-second test exists for `date-time-view` and the data grid (item 4).
+- [x] The healthcare guide has the withheld-summary rule (item 6) and the worked openEHR example (item 11).
+- [x] `PHI.md` exists, is linked from `index.md`, `SECURITY.md` and `llms.txt`, and every answer cites a check or a contract
       (item 7).
-- [ ] `coverage-floor.tsv` exists and `bin/coverage-report --check` fails a drop (item 8).
+- [x] `coverage-floor.tsv` exists and `bin/coverage-report --floor-only` (`bin/ci --job coverage-floor`) fails a drop (item 8).
+
+## Decisions
+
+- **2026-11-24, item 4 (P47-T4b): a leap second stays read-only in the data grid. Declined.** Editing `HH:mm:60` would need a
+  text editor in place of the native time input for every time cell, losing its picker, its keyboard and its screen-reader
+  support for a value almost no record holds: none has been added since 2016, and they are to end by 2035. The grid keeps a
+  `:60` value exactly as written, flags it, and never changes it, which is the rule that matters.
 
 ## Related topics
 
