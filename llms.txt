@@ -21,6 +21,7 @@ start in every framework: https://lilydesignsystem.com/getting-started/.
 - [AGENTS.md](AGENTS.md): binding design-principle rules; loads every file
   under `AGENTS/`.
 - [README.md](README.md): human-readable project overview.
+- [PHI.md](PHI.md): what Lily does with patient data, for a privacy or security review.
 - [components.tsv](components.tsv): the canonical 609-component catalog —
   one row per component: slug, PascalCase name, description.
 - [CHANGELOG.md](CHANGELOG.md): full change history, with the reasoning

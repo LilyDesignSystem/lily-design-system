@@ -30,6 +30,9 @@ fixes, and the action is to upgrade.
 that was never built. Not a security defect, but recorded here because "upgrade" is
 the answer to it too.
 
+For what Lily does with patient data (no network requests, no telemetry, no values in errors or attributes), see
+[PHI.md](PHI.md).
+
 ## Reporting a vulnerability
 
 **Please do not open a public issue for a suspected vulnerability.**

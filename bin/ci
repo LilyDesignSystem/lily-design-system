@@ -27,7 +27,7 @@ top="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$top" || exit 1
 
 JOBS=(verify lint helper-packages headless html-headless dotnet-tests dotnet-helper-packages example-smoke accessibility-examples
-    eleventy-example alpine-examples consumer-smoke shadcn-registry spell-check shared-tests security-audit)
+    eleventy-example alpine-examples consumer-smoke shadcn-registry spell-check shared-tests coverage-floor security-audit)
 HELPER_FRAMEWORKS=(svelte react vue angular html web-components nunjucks alpine solid)
 HEADLESS_CATALOGS=(lily-design-system-svelte-headless lily-design-system-svelte-headless-identifiers lily-design-system-react-headless lily-design-system-react-headless-identifiers lily-design-system-vue-headless lily-design-system-vue-headless-identifiers
     lily-design-system-angular-headless lily-design-system-angular-headless-identifiers lily-design-system-nunjucks-headless lily-design-system-nunjucks-headless-identifiers lily-design-system-web-components-headless lily-design-system-web-components-headless-identifiers
@@ -417,6 +417,10 @@ shared_tests() {
 
 job_shared_tests() { step "shared-tests" shared_tests; }
 
+# The coverage floor (coverage-floor.tsv, spec/lessons/openehr-rust item 8): shared/, Svelte headless and Blazor headless may
+# not lose coverage, and a gain must be kept by lowering the floor. Measures only; writes nothing.
+job_coverage_floor() { step "coverage-floor" bin/coverage-report --floor-only; }
+
 # --- the command line ---
 
 # The receipt of a --full run (tasks.md P24-T5): the commit, whether the tree was clean, each step's result and seconds, the
@@ -507,6 +511,7 @@ build_units() {
     add_unit root "verify"
     add_unit root "lint"
     add_unit root "shared-tests"
+    add_unit coverage "coverage-floor"
     add_unit dotnet "dotnet-tests"
     add_unit dotnet "dotnet-helper-packages"
     add_unit sveltekit "example-smoke"
@@ -529,6 +534,7 @@ unit_inputs() {
             echo $common $(ls -d "lily-design-system-$lane-"* 2>/dev/null)
             ;;
         sveltekit) echo $common lily-design-system-svelte-sveltekit-examples ;;
+        coverage) echo $common coverage-floor.tsv bin/coverage-report lily-design-system-svelte-headless lily-design-system-blazor-headless ;;
         dotnet) echo $common $(ls -d lily-design-system-blazor-* 2>/dev/null) ;;
         a11y-*) echo $common "${lane#a11y-}" ;;
         *) echo "" ;;

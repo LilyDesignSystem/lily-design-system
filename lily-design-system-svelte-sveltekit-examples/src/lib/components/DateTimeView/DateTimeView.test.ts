@@ -104,4 +104,12 @@ describe("DateTimeView", () => {
         expect(root.getAttribute("datetime")).toBe("2019-03");
         expect(root.textContent?.trim()).toBe("March 2019");
     });
+
+    // spec/lessons/openehr-rust item 4: a record that captured a leap second must not be rejected or "corrected".
+    test("a leap second is kept exactly as given, in the text and the datetime attribute", () => {
+        const { container } = render(Subject, { props: { value: "2016-12-31T23:59:60Z" } });
+        const root = container.querySelector("time.date-time-view") as HTMLElement;
+        expect(root.getAttribute("datetime")).toBe("2016-12-31T23:59:60Z");
+        expect(root.textContent?.trim()).toBe("2016-12-31T23:59:60Z");
+    });
 });

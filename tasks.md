@@ -4622,11 +4622,11 @@ then T3, T6, T7 and T8 (small), then T4; T5, T9 and T10 are maintainer decisions
 - [ ] **P47-T5 Partial dates in `filter` and the data grid (maintainer decision).** A partial-date field and cell type; an
       undecidable comparison does not match, in every output.
       Verify: a property test that no output matches `2019` against "before 2019-06-01" or "after 2019-06-01".
-- [ ] **P47-T6 Withheld summaries.** A healthcare-guide rule: a summary says how many entries are not shown, never which.
+- [x] **P47-T6 Withheld summaries.** _(2026-11-24.)_ A healthcare-guide rule: a summary says how many entries are not shown, never which.
       Verify: `bin/check-links` passes.
-- [ ] **P47-T7 `PHI.md`.** What Lily does with patient data, each answer citing its check or contract, with the gaps stated.
+- [x] **P47-T7 `PHI.md`.** _(2026-11-24: each answer checked against the code; linked from `index.md`, `SECURITY.md`, `llms.txt` and `llms.json`.)_ What Lily does with patient data, each answer citing its check or contract, with the gaps stated.
       Verify: linked from `index.md`, `SECURITY.md` and `llms.txt`; `bin/check-links` passes.
-- [ ] **P47-T8 A coverage floor.** `coverage-floor.tsv` read by `bin/coverage-report --check`, run in `bin/ci --full`.
+- [x] **P47-T8 A coverage floor.** _(2026-11-24: `coverage-floor.tsv` (shared 24/279, Svelte 2/147, Blazor 14/232 uncovered lines/branches); `bin/coverage-report --floor-only` as `bin/ci --job coverage-floor`, in its own cached lane and in `ci.yml`.)_ `coverage-floor.tsv` read by `bin/coverage-report --check`, run in `bin/ci --full`.
       Verify: lowering coverage below the floor fails, and beating it without lowering the floor fails.
 - [ ] **P47-T9 A clinical-format corpus run (maintainer decision).** An ignored test over the EHRbase SDK canonical JSON, read
       in place.
@@ -4634,7 +4634,7 @@ then T3, T6, T7 and T8 (small), then T4; T5, T9 and T10 are maintainer decisions
 - [ ] **P47-T10 Requirement ids for the healthcare rules (maintainer decision).** Permanent ids in `spec/healthcare-ui`, cited
       from tests.
       Verify: the maintainer's decision recorded in the lessons topic.
-- [ ] **P47-T11 A worked openEHR example.** A canonical JSON `DV_QUANTITY` and a partial `DV_DATE` beside the Lily props, in
+- [x] **P47-T11 A worked openEHR example.** _(2026-11-24.)_ A canonical JSON `DV_QUANTITY` and a partial `DV_DATE` beside the Lily props, in
       the healthcare guide.
       Verify: `bin/check-links` passes.
 

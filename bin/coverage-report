@@ -11,7 +11,13 @@
 // are files in the repository, written by this script.
 //
 // Usage:
-//   bin/coverage-report          run the three suites with coverage and write both files (a few minutes)
+//   bin/coverage-report                 run the three suites with coverage, write both files, and check the floor
+//   bin/coverage-report --update-floor  the same, then rewrite coverage-floor.tsv to what was just measured
+//   bin/coverage-report --floor-only    measure and check the floor, writing nothing (bin/ci --job coverage-floor)
+//
+// The floor (coverage-floor.tsv, spec/lessons/openehr-rust item 8) is the uncovered lines and branches each package may
+// have. It only moves up: more uncovered than the floor fails, and fewer also fails until the floor is lowered with
+// --update-floor, so a gain is kept rather than spent later. 100% is a floor of 0.
 //
 // Not in bin/test: it runs three full test suites. Run it after a change that adds or removes tests or code paths,
 // and commit the two files with it.
@@ -44,7 +50,10 @@ function sharedCopies(dir) {
             if (statSync(join(top, dir, path)).isDirectory()) walk(path);
             else if (/\.ts$/.test(name) && !/\.(test|stories|d)\.ts$/.test(name)) {
                 const source = join(top, "shared", name);
-                if (existsSync(source) && readFileSync(source, "utf8") === readFileSync(join(top, dir, path), "utf8"))
+                if (
+                    existsSync(source) &&
+                    readFileSync(source, "utf8") === readFileSync(join(top, dir, path), "utf8")
+                )
                     found.push(path);
             }
         }
@@ -121,8 +130,9 @@ function coverletCoverage(dir, project) {
 }
 
 const PACKAGES = [
-    { name: "shared/ (pure modules)", run: () => vitestCoverage("shared") },
+    { key: "shared", name: "shared/ (pure modules)", run: () => vitestCoverage("shared") },
     {
+        key: "svelte-headless",
         name: "Svelte headless",
         run: () =>
             vitestCoverage(
@@ -132,6 +142,7 @@ const PACKAGES = [
             ),
     },
     {
+        key: "blazor-headless",
         name: "Blazor headless",
         run: () =>
             coverletCoverage(
@@ -178,10 +189,12 @@ const prettier = (text, file) =>
         encoding: "utf-8",
     });
 
-writeFileSync(
-    join(top, "docs/coverage.md"),
-    prettier(
-        `# Test coverage
+const writeDocs = !process.argv.includes("--floor-only");
+if (writeDocs) {
+    writeFileSync(
+        join(top, "docs/coverage.md"),
+        prettier(
+            `# Test coverage
 
 <!-- Written by bin/coverage-report; run it again rather than editing. -->
 
@@ -210,18 +223,18 @@ the property tests (\`shared/*.property.test.ts\`) are the measure of how well \
 
 Lily™ and Lily Design System™ are trademarks.
 `,
-        "docs/coverage.md",
-    ),
-);
+            "docs/coverage.md",
+        ),
+    );
 
-// A flat badge in the usual two-part shape, drawn here: no badge service sees the repository.
-const value = `${Math.floor(overall)}%`;
-const colour = overall >= 90 ? "#2e7d32" : overall >= 75 ? "#8a6d00" : "#b3261e";
-const lw = 62;
-const vw = 8 + value.length * 7;
-writeFileSync(
-    join(top, "docs/coverage-badge.svg"),
-    `<svg xmlns="http://www.w3.org/2000/svg" width="${lw + vw}" height="20" role="img" aria-label="coverage: ${value}">
+    // A flat badge in the usual two-part shape, drawn here: no badge service sees the repository.
+    const value = `${Math.floor(overall)}%`;
+    const colour = overall >= 90 ? "#2e7d32" : overall >= 75 ? "#8a6d00" : "#b3261e";
+    const lw = 62;
+    const vw = 8 + value.length * 7;
+    writeFileSync(
+        join(top, "docs/coverage-badge.svg"),
+        `<svg xmlns="http://www.w3.org/2000/svg" width="${lw + vw}" height="20" role="img" aria-label="coverage: ${value}">
   <title>coverage: ${value}</title>
   <rect width="${lw}" height="20" fill="#3b3b3b"/>
   <rect x="${lw}" width="${vw}" height="20" fill="${colour}"/>
@@ -231,8 +244,68 @@ writeFileSync(
   </g>
 </svg>
 `,
-);
+    );
 
-console.log(
-    `coverage: ${overall.toFixed(1)}% of lines over all three; wrote docs/coverage.md and docs/coverage-badge.svg`,
-);
+    console.log(
+        `coverage: ${overall.toFixed(1)}% of lines over all three; wrote docs/coverage.md and docs/coverage-badge.svg`,
+    );
+} else console.log(`coverage: ${overall.toFixed(1)}% of lines over all three`);
+
+// The floor: uncovered lines and branches per package, which may only fall.
+const floorFile = join(top, "coverage-floor.tsv");
+const uncovered = (m) => (m ? m.total - m.covered : null);
+const measured = rows.map((r) => ({
+    key: PACKAGES.find((p) => p.name === r.name).key,
+    lines: uncovered(r.lines),
+    branches: uncovered(r.branches),
+}));
+if (process.argv.includes("--update-floor")) {
+    writeFileSync(
+        floorFile,
+        [
+            "# package\tmax uncovered lines\tmax uncovered branches",
+            "# Written by bin/coverage-report --update-floor. A package may not go above its floor, and must lower it",
+            "# (--update-floor) when it goes below, so a gain is kept. 100% coverage is a floor of 0.",
+            ...measured.map((m) => `${m.key}\t${m.lines}\t${m.branches}`),
+        ].join("\n") + "\n",
+    );
+    console.log("coverage: wrote coverage-floor.tsv");
+} else {
+    if (!existsSync(floorFile)) {
+        console.error("coverage: no coverage-floor.tsv; run bin/coverage-report --update-floor");
+        process.exit(1);
+    }
+    const floor = new Map(
+        readFileSync(floorFile, "utf8")
+            .split("\n")
+            .filter((line) => line && !line.startsWith("#"))
+            .map((line) => {
+                const [key, lines, branches] = line.split("\t");
+                return [key, { lines: Number(lines), branches: Number(branches) }];
+            }),
+    );
+    const problems = [];
+    for (const m of measured) {
+        const f = floor.get(m.key);
+        if (!f) {
+            problems.push(`${m.key}: not in coverage-floor.tsv`);
+            continue;
+        }
+        for (const kind of ["lines", "branches"]) {
+            if (m[kind] === null) continue;
+            if (m[kind] > f[kind])
+                problems.push(
+                    `${m.key}: ${m[kind]} uncovered ${kind}, above the floor of ${f[kind]}`,
+                );
+            else if (m[kind] < f[kind])
+                problems.push(
+                    `${m.key}: ${m[kind]} uncovered ${kind}, below the floor of ${f[kind]}: lower it with --update-floor`,
+                );
+        }
+    }
+    if (problems.length) {
+        for (const p of problems) console.error(`coverage floor: ${p}`);
+        process.exit(1);
+    }
+    console.log("coverage: every package is at its floor");
+}

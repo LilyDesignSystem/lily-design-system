@@ -632,6 +632,18 @@ a skill; Compose Multiplatform on iOS tested as a bonus, not the Apple product. 
 Status (2026-11-22): `lily-design-system-kotlin` exists, unreleased: `lily-core` passes the shared vectors and `lily-compose` has the
 same first slice as Swift, on foundation only (P45-T1 done, T2 and T3 in progress).
 
+## Phase 47 — Lessons from openehr-rust (2026-11-24)
+
+A review of openehr-rust, a Rust implementation of the openEHR Reference Model. Phase 29 took the openEHR data model; this
+takes what a careful implementation of it teaches about handling the values: errors that echo patient data, recorded
+precision that a formatter drops, a duration's `,` decimal sign, leap seconds, partial dates that a filter cannot compare,
+what a summary of withheld entries may say, a `PHI.md` for privacy reviews, and a coverage floor that only moves up.
+Persistence, the audit chain, access control and redaction are declined. Findings:
+[spec/lessons/openehr-rust](spec/lessons/openehr-rust/index.md). Tasks:
+[tasks.md](tasks.md#phase-47--lessons-from-openehr-rust-2026-11-24).
+
+Status (2026-11-24): researched; nothing built. T1 and T2 first; T5, T9 and T10 are maintainer decisions.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.

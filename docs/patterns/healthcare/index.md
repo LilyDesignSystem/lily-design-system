@@ -180,6 +180,8 @@ locale, undefined, { precision: 2 })`, because "4.5" claims less precision than 
 - A withheld entry stays in the list with your words ("Restricted: not available to you"), and an entry made in error stays struck
   through with "Entered in error": give `record-list-item` or `timeline-list-item` an `entryState` and an `entryStateLabel`. Never
   remove either silently, since a gap is read as "nothing happened".
+- A summary of what is withheld says how many, never which or of what kind: "2 entries are not shown to you", never "2 sexual
+  health entries are not shown to you", since the category is itself the private fact.
 - In a clinical note, mark each passage's source (typed, dictated, template, copied forward, generated) with `data-source` and
   visible words, so copied or generated text is never taken for today's examination.
 - A section that cannot load is `unavailable` in your words, with a retry button; a technical code, if shown at all, sits behind a
@@ -295,6 +297,35 @@ your clinical safety review decides ([spec/lessons/openehr](../../../spec/lesson
 | `AUDIT_DETAILS`, `ATTESTATION`, `FEEDER_AUDIT`                | `record-provenance-view`                                                                                 |
 | Instruction State Machine steps                               | a `timeline-list` of steps, with the current state on the item                                           |
 | an archetype item with occurrences `0..*`                     | `repeatable-fieldset`                                                                                    |
+
+A worked example ([spec/lessons/openehr-rust](../../../spec/lessons/openehr-rust/index.md)). A potassium result and a partial
+date of onset, as openEHR canonical JSON:
+
+```json
+{
+  "_type": "DV_QUANTITY",
+  "magnitude": 4.5,
+  "units": "mmol/L",
+  "precision": 2,
+  "magnitude_status": "<"
+}
+```
+
+```json
+{ "_type": "DV_DATE", "value": "2019-03" }
+```
+
+become these Lily calls; nothing is rounded, padded or completed:
+
+```ts
+const value = formatQuantity(4.5, "", locale, "<", { precision: 2 }); // "<4.50": the comparator and both places kept
+// <ObservationView value={value} unit="mmol/L" … />
+const onset = formatPartialDate("2019-03", locale); // "March 2019": never "1 March 2019"
+// <DateTimeView value="2019-03" format={onset} />
+```
+
+`precision` `-1` (unknown) means leaving `precision` out. A `magnitude` with more places than its `precision` is refused, so
+check the record rather than catching the error and showing the number anyway.
 
 ## Coded values
 

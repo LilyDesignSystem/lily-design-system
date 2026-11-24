@@ -2,18 +2,18 @@
 
 <!-- Written by bin/coverage-report; run it again rather than editing. -->
 
-Measured 2026-11-21 by `bin/coverage-report`, which runs each suite with coverage on: Vitest with
+Measured 2026-11-24 by `bin/coverage-report`, which runs each suite with coverage on: Vitest with
 `@vitest/coverage-v8` for `shared/` and the Svelte headless catalog (its `components/`), and `dotnet test` with
 coverlet for the Blazor catalog. The badge in `index.md` is the lines figure over all three. The Svelte figure
-leaves out its byte-identical copies of `shared/` modules (13 files, such as `search-text.ts` and
+leaves out its byte-identical copies of `shared/` modules (14 files, such as `search-text.ts` and
 `widget-keys.ts`): they are measured once, in `shared/`, where their tests are.
 
 | Package                | Lines                        | Branches               | Functions              | Statements             |
 | ---------------------- | ---------------------------- | ---------------------- | ---------------------- | ---------------------- |
-| shared/ (pure modules) | 99.0% (3,327 of 3,360)       | 92.2% (3,171 of 3,439) | 99.3% (754 of 759)     | 98.0% (3,975 of 4,056) |
-| Svelte headless        | 99.9% (4,567 of 4,573)       | 91.1% (1,531 of 1,681) | 99.8% (1,781 of 1,784) | 99.4% (6,400 of 6,441) |
-| Blazor headless        | 99.7% (5,450 of 5,464)       | 88.6% (1,816 of 2,049) | —                      | —                      |
-| **All three**          | **99.6%** (13,344 of 13,397) |                        |                        |                        |
+| shared/ (pure modules) | 99.4% (3,961 of 3,985)       | 93.5% (3,995 of 4,274) | 99.9% (862 of 863)     | 98.5% (4,818 of 4,889) |
+| Svelte headless        | 100.0% (4,598 of 4,600)      | 91.4% (1,557 of 1,704) | 99.8% (1,787 of 1,790) | 99.4% (6,432 of 6,469) |
+| Blazor headless        | 99.7% (5,506 of 5,520)       | 89.0% (1,881 of 2,113) | —                      | —                      |
+| **All three**          | **99.7%** (14,065 of 14,105) |                        |                        |                        |
 
 Why these three: `shared/` holds the logic every package copies (search, filter, export, keyboard machines,
 calendars), Svelte is the canonical catalog the others port, and Blazor is the one catalog in another language. The

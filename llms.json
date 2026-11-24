@@ -37,6 +37,11 @@
           "description": "Human-readable project overview."
         },
         {
+          "title": "PHI.md",
+          "url": "PHI.md",
+          "description": "What Lily does with patient data, for a privacy or security review: no network requests, no telemetry, no values in errors or attributes."
+        },
+        {
           "title": "components.tsv",
           "url": "components.tsv",
           "description": "The canonical 607-component catalog — one row per component: slug, PascalCase name, description."
