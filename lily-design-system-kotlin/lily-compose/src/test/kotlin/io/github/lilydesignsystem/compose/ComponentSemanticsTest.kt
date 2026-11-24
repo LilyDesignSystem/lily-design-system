@@ -395,4 +395,28 @@ class ComponentSemanticsTest {
         rule.onAllNodesWithText("Medicines")[0].performSemanticsAction(androidx.compose.ui.semantics.SemanticsActions.OnClick)
         assertEquals(listOf("medications"), chosen)
     }
+
+    @Test
+    fun internationalPatientSummaryLazyHasTheSameStructureAsTheEagerForm() {
+        val chosen = mutableListOf<String>()
+        val headings = mapOf("medications" to "Medicines", "allergies" to "Allergies", "problems" to "Problems")
+        rule.setContent {
+            InternationalPatientSummaryLazy(
+                label = "Patient summary",
+                sections = listOf(io.github.lilydesignsystem.core.IpsSectionEntry("allergies", "Allergy list")),
+                requiredHeadings = headings, omittedLabel = "Section missing from document", contentsLabel = "Contents",
+                onSelectSection = { chosen += it }, banner = { BasicText("Sam Okoro") }, details = { BasicText("Created 20 Nov") },
+            ) {
+                item { InternationalPatientSummarySection("allergies", "Allergy list") { BasicText("Penicillin") } }
+            }
+        }
+        rule.onNodeWithContentDescription("Patient summary")
+            .assert(SemanticsMatcher.expectValue(SemanticsProperties.IsTraversalGroup, true))
+        rule.onNodeWithText("Sam Okoro").assertExists()
+        rule.onNodeWithText("Penicillin").assertExists()
+        rule.onNodeWithText("Created 20 Nov").assertExists()
+        rule.onAllNodesWithText("Section missing from document").assertCountEquals(2)
+        rule.onAllNodesWithText("Medicines")[0].performSemanticsAction(androidx.compose.ui.semantics.SemanticsActions.OnClick)
+        assertEquals(listOf("medications"), chosen)
+    }
 }
