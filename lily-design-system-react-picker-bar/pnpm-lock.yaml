@@ -27,8 +27,8 @@ importers:
         specifier: ^0.3.2
         version: 0.3.2(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       '@lilydesignsystem/react-theme-picker':
-        specifier: ^0.5.0
-        version: 0.5.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+        specifier: ^0.6.0
+        version: 0.6.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       '@lilydesignsystem/react-time-zone-picker':
         specifier: ^0.1.2
         version: 0.1.2(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -310,8 +310,8 @@ packages:
       react: '>=18'
       react-dom: '>=18'
 
-  '@lilydesignsystem/react-theme-picker@0.5.0':
-    resolution: {integrity: sha512-l+LwNKy+SWTYF54pUjiBL3l/Q9XCuHY8UjWffHt3orRXO5RX9ENqujOim+gynUz1/lMmuf3uN0KyjXGGNlk7Rw==}
+  '@lilydesignsystem/react-theme-picker@0.6.0':
+    resolution: {integrity: sha512-WngksH+zDhKha/tUFNWxccw3DMbFhbJSCWO2i+jD6lRHGHGl1nK7xMYoRXeeK3xBmaEmRV9EEBZUf7KCXFbYkg==}
     engines: {node: '>=26'}
     peerDependencies:
       react: '>=18'
@@ -1370,7 +1370,7 @@ snapshots:
       react: 19.3.1
       react-dom: 19.3.1(react@19.3.1)
 
-  '@lilydesignsystem/react-theme-picker@0.5.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
+  '@lilydesignsystem/react-theme-picker@0.6.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
     dependencies:
       '@lilydesignsystem/react-headless': 0.8.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       react: 19.3.1

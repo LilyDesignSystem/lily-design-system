@@ -27,8 +27,8 @@ importers:
         specifier: ^0.1.0
         version: 0.1.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)
       '@lilydesignsystem/solid-theme-picker':
-        specifier: ^0.2.0
-        version: 0.2.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)
+        specifier: ^0.3.0
+        version: 0.3.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)
       '@lilydesignsystem/solid-time-zone-picker':
         specifier: ^0.1.0
         version: 0.1.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)
@@ -252,8 +252,8 @@ packages:
       '@solidjs/web': ^2.0.0
       solid-js: ^2.0.0
 
-  '@lilydesignsystem/solid-theme-picker@0.2.0':
-    resolution: {integrity: sha512-63NNJ9zdpFUiyp32fCvpzAIjMhgjyEKWU/SUgdFmQOeCcH+HrsdVAAIYmaDIzHB4patZX8ZHCCEO9B2VzurgRQ==}
+  '@lilydesignsystem/solid-theme-picker@0.3.0':
+    resolution: {integrity: sha512-LbUY4FgCJ9HEhbSjFxzFtRLor2BFgP9xW6DSFKTyzWtKgM0Kyx8LeIDbJNWB/Mhw021qQavi1JBIKUw2XFHFqA==}
     engines: {node: '>=26'}
     peerDependencies:
       '@solidjs/web': ^2.0.0
@@ -1222,7 +1222,7 @@ snapshots:
       '@solidjs/web': 2.0.0(solid-js@2.0.0)
       solid-js: 2.0.0
 
-  '@lilydesignsystem/solid-theme-picker@0.2.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)':
+  '@lilydesignsystem/solid-theme-picker@0.3.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)':
     dependencies:
       '@lilydesignsystem/solid-headless': 0.1.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)
       '@solidjs/web': 2.0.0(solid-js@2.0.0)

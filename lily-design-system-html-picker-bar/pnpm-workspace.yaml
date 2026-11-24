@@ -7,7 +7,6 @@ allowBuilds:
 # to one patched version is safe.
 minimumReleaseAgeExclude:
   - "@lilydesignsystem/html-time-zone-picker@0.1.0"
-  - "@lilydesignsystem/html-theme-picker@0.4.0"
-  - "@lilydesignsystem/html-theme-picker@0.5.0"
+  - "@lilydesignsystem/html-theme-picker@0.4.0 || 0.5.0 || 0.6.0"
 overrides:
   esbuild: "0.28.2"

@@ -27,8 +27,8 @@ importers:
         specifier: ^0.3.0
         version: 0.3.0(@angular/common@22.2.4(@angular/core@22.2.4(@angular/compiler@22.2.4)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.4(@angular/compiler@22.2.4)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)
       '@lilydesignsystem/angular-theme-picker':
-        specifier: ^0.5.0
-        version: 0.5.0(@angular/common@22.2.4(@angular/core@22.2.4(@angular/compiler@22.2.4)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.4(@angular/compiler@22.2.4)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)
+        specifier: ^0.6.0
+        version: 0.6.0(@angular/common@22.2.4(@angular/core@22.2.4(@angular/compiler@22.2.4)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.4(@angular/compiler@22.2.4)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)
       '@lilydesignsystem/angular-time-zone-picker':
         specifier: ^0.1.0
         version: 0.1.0(@angular/common@22.2.4(@angular/core@22.2.4(@angular/compiler@22.2.4)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.4(@angular/compiler@22.2.4)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)
@@ -660,8 +660,8 @@ packages:
       '@angular/common': '>=20.0.0 <23.0.0'
       '@angular/core': '>=20.0.0 <23.0.0'
 
-  '@lilydesignsystem/angular-theme-picker@0.5.0':
-    resolution: {integrity: sha512-IWf24uFT9u+mfBE4HLOLIRHniJ/H5i1QhOJ4Jyy3EgwI9wlG0gLSHWeMnZAA5bnbU8gNhJDMFJ7cZnUwKFtkGg==}
+  '@lilydesignsystem/angular-theme-picker@0.6.0':
+    resolution: {integrity: sha512-cnRzRVILX6MxR3zy10FSuAeCGSLBpmn2NY2UAEnRhN4LmovR3KS7NvOZKcpbA3any6Pb9RN9VmXvy9womr7VAg==}
     engines: {node: '>=26'}
     peerDependencies:
       '@angular/common': '>=20.0.0 <23.0.0'
@@ -3280,7 +3280,7 @@ snapshots:
     transitivePeerDependencies:
       - rxjs
 
-  '@lilydesignsystem/angular-theme-picker@0.5.0(@angular/common@22.2.4(@angular/core@22.2.4(@angular/compiler@22.2.4)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.4(@angular/compiler@22.2.4)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)':
+  '@lilydesignsystem/angular-theme-picker@0.6.0(@angular/common@22.2.4(@angular/core@22.2.4(@angular/compiler@22.2.4)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.4(@angular/compiler@22.2.4)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)':
     dependencies:
       '@angular/common': 22.2.4(@angular/core@22.2.4(@angular/compiler@22.2.4)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)
       '@angular/core': 22.2.4(@angular/compiler@22.2.4)(rxjs@7.8.2)(zone.js@0.16.3)

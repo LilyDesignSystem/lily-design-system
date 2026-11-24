@@ -27,8 +27,8 @@ importers:
         specifier: ^0.3.0
         version: 0.3.0(vue@3.5.44(typescript@5.9.3))
       '@lilydesignsystem/vue-theme-picker':
-        specifier: ^0.5.0
-        version: 0.5.0(vue@3.5.44(typescript@5.9.3))
+        specifier: ^0.6.0
+        version: 0.6.0(vue@3.5.44(typescript@5.9.3))
       '@lilydesignsystem/vue-time-zone-picker':
         specifier: ^0.1.0
         version: 0.1.0(vue@3.5.44(typescript@5.9.3))
@@ -195,8 +195,8 @@ packages:
     peerDependencies:
       vue: ^3.0.0
 
-  '@lilydesignsystem/vue-theme-picker@0.5.0':
-    resolution: {integrity: sha512-ecTOb/SNL91xf+LivnAplp1oiXsCVx37B0m5Jx7XBrZR4OKF5itPMt/W5eZ6eeTLoeHUJBdzk99mTjGw7Z0/5A==}
+  '@lilydesignsystem/vue-theme-picker@0.6.0':
+    resolution: {integrity: sha512-/zSoC7xi4ojTtLH5TO4CGcY7BFdPUAaP1Xux+IFbq85zUB7rDdjvLe4m+SrSzpt9mRquyhhlx/dw4eGZvEe7Xg==}
     engines: {node: '>=26'}
     peerDependencies:
       vue: ^3.0.0
@@ -987,7 +987,7 @@ snapshots:
       '@lilydesignsystem/vue-headless': 0.4.0(vue@3.5.44(typescript@5.9.3))
       vue: 3.5.44(typescript@5.9.3)
 
-  '@lilydesignsystem/vue-theme-picker@0.5.0(vue@3.5.44(typescript@5.9.3))':
+  '@lilydesignsystem/vue-theme-picker@0.6.0(vue@3.5.44(typescript@5.9.3))':
     dependencies:
       '@lilydesignsystem/vue-headless': 0.8.0(vue@3.5.44(typescript@5.9.3))
       vue: 3.5.44(typescript@5.9.3)
