@@ -4631,7 +4631,7 @@ then T3, T6, T7 and T8 (small), then T4; T5, T9 and T10 are maintainer decisions
 - [x] **P47-T9 A clinical-format corpus run (maintainer decision).** _(Adopted 2026-11-24: `shared/clinical-format.corpus.test.ts`, skipped without `OPENEHR_JSON_CORPUS`; run 1 over the EHRbase SDK at `e07110a2d`: 155 values, no wrong refusal, no lost digit; recorded in the lessons topic.)_ An ignored test over the EHRbase SDK canonical JSON, read
       in place.
       Verify: a recorded run in the lessons topic, with the corpus commit.
-- [x] **P47-T10 Requirement ids for the healthcare rules (maintainer decision).** _(Adopted 2026-11-24, because adopters asked: `spec/healthcare-ui/requirements.md`, 40 ids (31 tested, 1 checked, 4 guide, 3 declined, 1 untested: HC-I2), cited from the TypeScript, Svelte, C# and e2e tests; `bin/check-healthcare-requirements` in `bin/test`.)_ Permanent ids in `spec/healthcare-ui`, cited
+- [x] **P47-T10 Requirement ids for the healthcare rules (maintainer decision).** _(Adopted 2026-11-24, because adopters asked: `spec/healthcare-ui/requirements.md`, 40 ids (31 tested, 1 checked, 4 guide, 3 declined, 1 untested: HC-I2, closed the same day by `bin/check-identifier-views` and rendered tests in Svelte and Web Components, which found and fixed the Web Components views leaving the identifier in the host's `value` attribute), cited from the TypeScript, Svelte, C# and e2e tests; `bin/check-healthcare-requirements` in `bin/test`.)_ Permanent ids in `spec/healthcare-ui`, cited
       from tests.
       Verify: the maintainer's decision recorded in the lessons topic.
 - [x] **P47-T11 A worked openEHR example.** _(2026-11-24.)_ A canonical JSON `DV_QUANTITY` and a partial `DV_DATE` beside the Lily props, in

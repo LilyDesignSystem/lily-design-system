@@ -1,0 +1,77 @@
+#!/usr/bin/env python3
+"""bin/check-identifier-views — every national identifier view keeps the identifier in text only (HC-I2).
+
+A national identifier is personal data. A session-replay tool or an analytics script may record element attributes
+unmasked, so each identifier view (category "national" in components-categories.tsv, slugs ending in -view) must put
+the identifier in text, never in an attribute (spec/healthcare-ui/requirements.md, HC-I2). Checked in the source of all
+ten catalogs: no data-*, title or aria-label/aria-description attribute, and in Web Components, whose value arrives as
+an attribute on the host element, the view must remove it once read. The rendered proof is the identifier-views test in
+the Svelte and Web Components identifier packages. Exits 1 on a gap.
+"""
+import csv
+import os
+import re
+import sys
+
+TOP = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def pascal(slug):
+    return "".join(w.title() for w in slug.split("-"))
+
+
+CATALOGS = {
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/{N}/{N}.svelte",
+    "react": "lily-design-system-react-headless-identifiers/components/{N}.tsx",
+    "solid": "lily-design-system-solid-headless-identifiers/components/{N}.tsx",
+    "vue": "lily-design-system-vue-headless-identifiers/components/{N}.vue",
+    "angular": "lily-design-system-angular-headless-identifiers/components/{N}.ts",
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadlessIdentifiers/Components/{N}.razor",
+    "html": "lily-design-system-html-headless-identifiers/components/{s}.html",
+    "web-components": "lily-design-system-web-components-headless-identifiers/components/{s}.ts",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/{s}/macro.njk",
+    "alpine": "lily-design-system-alpine-headless-identifiers/components/{s}.html",
+}
+# Comments are stripped first: a doc comment may name an attribute without rendering it.
+COMMENTS = re.compile(r"<!--.*?-->|/\*.*?\*/|@\*.*?\*@|\{#.*?#\}|^\s*//.*?$", re.S | re.M)
+ATTRIBUTE = re.compile(r"""\bdata-[a-z]|\btitle\s*=|["']title["']|aria-label|aria-description""")
+
+
+def find(pattern, slug):
+    path = os.path.join(TOP, pattern.format(N=pascal(slug), s=slug))
+    if os.path.exists(path):
+        return path
+    # Blazor's project folder name is not fixed across moves; look for the component by name.
+    if pattern.endswith(".razor"):
+        root = os.path.join(TOP, pattern.split("/src/")[0])
+        for folder, _dirs, files in os.walk(root):
+            if f"{pascal(slug)}.razor" in files and "/bin/" not in folder and "/obj/" not in folder:
+                return os.path.join(folder, f"{pascal(slug)}.razor")
+    return path
+
+
+slugs = [
+    r[0]
+    for r in csv.reader(open(os.path.join(TOP, "components-categories.tsv")), delimiter="\t")
+    if len(r) > 2 and r[2] == "national" and r[0].endswith("-view")
+]
+gaps = []
+for catalog, pattern in CATALOGS.items():
+    for slug in slugs:
+        path = find(pattern, slug)
+        if not os.path.exists(path):
+            gaps.append(f"{catalog}:{slug}: no implementation at {os.path.relpath(path, TOP)}")
+            continue
+        source = COMMENTS.sub("", open(path, encoding="utf-8").read())
+        found = ATTRIBUTE.search(source)
+        if found:
+            gaps.append(f"{catalog}:{slug}: writes an attribute ({found.group(0)}) that could hold the identifier")
+        if catalog == "web-components" and 'this.removeAttribute("value")' not in source:
+            gaps.append(f"{catalog}:{slug}: leaves the identifier in the host's value attribute")
+for gap in gaps:
+    print(gap)
+print(
+    f"check-identifier-views: {len(slugs)} identifier views in {len(CATALOGS)} catalogs: "
+    f"{'OK' if not gaps else f'{len(gaps)} gap(s)'}"
+)
+sys.exit(1 if gaps else 0)

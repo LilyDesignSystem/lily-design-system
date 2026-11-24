@@ -3,6 +3,14 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the package follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+- **Fixed:** every identifier view (`lily-*-view`) removes its `value` attribute once it has read it, and moves a later
+  `setAttribute("value", …)` into its text the same way, so the identifier is no longer left in an attribute where a
+  session-replay or analytics tool would record it. Setting the `value` property before the element is connected no longer
+  writes the attribute. `getAttribute("value")` on a connected view now returns `null`; read the `value` property instead
+  (spec/healthcare-ui/requirements.md, HC-I2).
+
 ## 0.4.0 — 2026-11-23
 
 - **Added:** `validateNationalIdentifier` and the per-identifier check-digit validators (documented algorithms only), returning `{ valid }` or `{ valid: false, reason }`; a non-string is a `TypeError`. Pickers: none.

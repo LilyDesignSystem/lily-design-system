@@ -58,15 +58,15 @@ themselves are explained in [the topic](index.md) and the [adopter guide](../../
 
 ## Patient banner, identifiers and filtering
 
-| Id    | Requirement                                                                                                                  | Status   | Evidence                                                                                                      |
-| ----- | ---------------------------------------------------------------------------------------------------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------- |
-| HC-B1 | Every banner field is visible and unclipped at 320 CSS pixels; names, identifiers and allergies wrap, never truncate.        | tested   | `lily-design-system-svelte-sveltekit-examples/e2e/patient-banner.spec.ts`                                     |
-| HC-B2 | The banner shows two identifiers and the age.                                                                                | tested   | `lily-design-system-svelte-sveltekit-examples/e2e/patient-banner.spec.ts`                                     |
-| HC-B3 | Allergies are never blank in the banner, and a deceased patient is said in words, not colour alone.                          | tested   | `lily-design-system-svelte-sveltekit-examples/e2e/patient-banner.spec.ts`                                     |
-| HC-I1 | Every national identifier input sets `autocomplete="off"` and `spellcheck="false"`.                                          | checked  | `bin/check-identifier-inputs`                                                                                 |
-| HC-I2 | A national identifier view puts the identifier in text only, never in a `data-*` attribute a session-replay tool might keep. | untested | `PHI.md`                                                                                                      |
-| HC-Q1 | A filter comparison a partial date cannot decide matches neither the rule nor its negation.                                  | tested   | `shared/filter-model.partial-date.test.ts`, `lily-design-system-blazor-filter/FilterModelPartialDateTests.cs` |
-| HC-Q2 | A partial date that matches a filter matches it for every day it may stand for.                                              | tested   | `shared/filter-model.partial-date.test.ts`                                                                    |
+| Id    | Requirement                                                                                                                                                                                     | Status  | Evidence                                                                                                                                                                                                         |
+| ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| HC-B1 | Every banner field is visible and unclipped at 320 CSS pixels; names, identifiers and allergies wrap, never truncate.                                                                           | tested  | `lily-design-system-svelte-sveltekit-examples/e2e/patient-banner.spec.ts`                                                                                                                                        |
+| HC-B2 | The banner shows two identifiers and the age.                                                                                                                                                   | tested  | `lily-design-system-svelte-sveltekit-examples/e2e/patient-banner.spec.ts`                                                                                                                                        |
+| HC-B3 | Allergies are never blank in the banner, and a deceased patient is said in words, not colour alone.                                                                                             | tested  | `lily-design-system-svelte-sveltekit-examples/e2e/patient-banner.spec.ts`                                                                                                                                        |
+| HC-I1 | Every national identifier input sets `autocomplete="off"` and `spellcheck="false"`.                                                                                                             | checked | `bin/check-identifier-inputs`                                                                                                                                                                                    |
+| HC-I2 | A national identifier view puts the identifier in text only, never in an attribute (`data-*`, `title`, `aria-label`, or a Web Components host's `value`) that a session-replay tool might keep. | tested  | `lily-design-system-svelte-headless-identifiers/components/identifier-views.test.ts`, `lily-design-system-web-components-headless-identifiers/components/identifier-views.test.ts`, `bin/check-identifier-views` |
+| HC-Q1 | A filter comparison a partial date cannot decide matches neither the rule nor its negation.                                                                                                     | tested  | `shared/filter-model.partial-date.test.ts`, `lily-design-system-blazor-filter/FilterModelPartialDateTests.cs`                                                                                                    |
+| HC-Q2 | A partial date that matches a filter matches it for every day it may stand for.                                                                                                                 | tested  | `shared/filter-model.partial-date.test.ts`                                                                                                                                                                       |
 
 ## Adopter rules and declined work
 
@@ -82,8 +82,9 @@ themselves are explained in [the topic](index.md) and the [adopter guide](../../
 
 ## Gaps
 
-- **HC-I2** is true of every identifier view today, but no test fails if one starts writing the identifier to a `data-*`
-  attribute. A rendered check over the identifier views in each catalog would close it.
+None. HC-I2, the last, was closed on 2026-11-24 by `bin/check-identifier-views` over all ten catalogs and a rendered test
+in Svelte and Web Components; it found that the Web Components views left the identifier in the host element's `value`
+attribute, now removed once read.
 
 ---
 
