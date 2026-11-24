@@ -182,12 +182,31 @@ declared a `main` that was never built; each now carries:
 
 Deprecations, like releases, get a CHANGELOG entry.
 
+## Kotlin (Maven Central)
+
+The four Kotlin modules (`lily-core`, `lily-compose`, `lily-compose-themes`, `lily-compose-examples`) publish from this monorepo
+under the namespace `io.github.lilydesignsystem`; there is no export repository (unlike Swift). One-time setup, by the maintainer:
+
+1. Sign in to the [Central Portal](https://central.sonatype.com) and verify the namespace `io.github.lilydesignsystem`.
+2. Generate a Portal user token (a username and password pair) for uploads.
+3. Create a GPG signing key, publish its public half to a key server, and keep the armoured private key and its passphrase.
+
+Each release:
+
+1. Set the version in `lily-design-system-kotlin/gradle.properties` (`lilyVersion`).
+2. `bin/publish-kotlin --dry-run` builds every publication into `lily-design-system-kotlin/build/repo` and checks each POM; it needs no credentials.
+3. `bin/ci --full` on the commit to release (outside CI the script refuses without a green receipt for HEAD).
+4. Export `CENTRAL_USERNAME`, `CENTRAL_PASSWORD`, `SIGNING_KEY` and `SIGNING_PASSWORD`, then run `bin/publish-kotlin`.
+5. The upload lands in a staging deployment; check it in the Portal and release it there. A released version cannot be changed or deleted.
+
 ## Credentials
 
 | Registry | Credential                                                                                                                                                                                                                                                                                                               | Where                                                                                                                                         |
 | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------- |
 | npm      | maintainer login / `NPM_TOKEN` secret                                                                                                                                                                                                                                                                                    | local `npm login`; CI secret for the workflow                                                                                                 |
 | NuGet    | OIDC [Trusted Publishing](../spec/trusted-publishing/index.md) — a `NUGET_USER` secret (the nuget.org username of whoever _created_ the policy — not the organization that owns it, and not an email) plus a policy, owned by the `lilydesignsystem` organization, bound to this repo's `publish.yml`; no API key exists | the `NuGet/login@v1` step in [`publish.yml`](../.github/workflows/publish.yml); see [MAINTAINERS.md](../MAINTAINERS.md) for holder + recovery |
+
+Maven Central (Kotlin) uses a Central Portal user token and a GPG signing key, held by the maintainer and passed as environment variables to `bin/publish-kotlin`; nothing is stored in CI.
 
 `NPM_TOKEN` is the remaining interim posture. The standing position
 ([spec/trusted-publishing/](../spec/trusted-publishing/index.md)) is to
