@@ -4,6 +4,10 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.7.1 — 2026-11-24
+
+- Targets .NET 11 (`net11.0`); the previous release targeted .NET 10.
+
 ## 0.7.0 — 2026-10-18
 
 - Added `CalendarViewLabels.PeriodTitleWithAnchor`: like `PeriodTitle` with the anchor date as a fourth argument, so a month or agenda title can name its month. It wins over `PeriodTitle` when both are set; `PeriodTitle` keeps its three arguments, so existing code compiles unchanged. Ported from the Svelte package.

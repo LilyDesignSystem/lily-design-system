@@ -9,6 +9,10 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Release: the Blazor packages, built for .NET 11 (2026-11-24)
+
+- All 23 NuGet packages are rebuilt for `net11.0` (the retarget landed 2026-11-18; the published builds were `net10.0`): `LilyDesignSystem.Blazor.Headless` 0.11.1, `LilyDesignSystem.Blazor.Headless.Identifiers` 0.2.1, and the 21 helpers, each a patch bump, except `Filter` 0.2.0 (`ToFilterLabels()`) and `PickerBar` 0.7.0 (the theme order and `DefaultThemeLabels`).
+
 ## Release: themes 0.9.0, picker-bars and the headless identifiers add-ons (2026-11-23)
 
 - `@lilydesignsystem/themes` 0.9.0: Light High-Contrast and Dark High-Contrast (WCAG 2.2 AAA), 65 themes.

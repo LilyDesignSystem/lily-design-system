@@ -7,7 +7,7 @@
     <RootNamespace>LilyDesignSystem.Blazor.Helpers</RootNamespace>
     <AssemblyName>LilyDesignSystem.Blazor.OrgEditor</AssemblyName>
     <PackageId>LilyDesignSystem.Blazor.OrgEditor</PackageId>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <Authors>Joel Parker Henderson</Authors>
     <Description>Lily Design System Blazor Org editor: a textarea with a toolbar of buttons for Emacs Org mode text effects, tasks, priorities, planning, properties, drawers and contacts. Headless, no CSS.</Description>
     <PackageProjectUrl>https://lilydesignsystem.com/</PackageProjectUrl>

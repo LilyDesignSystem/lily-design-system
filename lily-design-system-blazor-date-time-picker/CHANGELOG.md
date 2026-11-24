@@ -4,6 +4,10 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.3.1 — 2026-11-24
+
+- Targets .NET 11 (`net11.0`); the previous release targeted .NET 10.
+
 ## Unreleased — 2026-10-11
 
 Documented: unlike the other seven ports, this one does not restore its initial value on a form `reset` (no JS

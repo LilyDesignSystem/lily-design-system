@@ -3,6 +3,10 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the package follows [Semantic Versioning](https://semver.org/).
 
+## 0.2.1 — 2026-11-24
+
+- Targets .NET 11 (`net11.0`); the previous release targeted .NET 10.
+
 ## 0.2.0 — 2026-11-18
 
 - Twelve more national identifier types, 24 components (188 in all, 94 types): Peru's Documento Nacional de

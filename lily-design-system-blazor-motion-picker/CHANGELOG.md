@@ -2,6 +2,10 @@
 
 All notable changes to this helper are documented in this file.
 
+## 0.3.1 — 2026-11-24
+
+- Targets .NET 11 (`net11.0`); the previous release targeted .NET 10.
+
 ## 0.3.0 — 2026-10-16
 
 - Added `Open` (bindable: `@bind-Open`, with `OpenChanged`) and `Disabled`, ported from the Svelte package's `open`, `onOpenChange` and `disabled` (spec "Open state and disabled"). `OpenChanged` is raised with the new state whenever the picker changes it (the user's action, or `Disabled` closing it); changing `Open` from the parent opens or closes the popup without moving focus; `Disabled` disables the button.

@@ -7,7 +7,7 @@
     <RootNamespace>LilyDesignSystem.Blazor.Helpers</RootNamespace>
     <AssemblyName>LilyDesignSystem.Blazor.MarkdownEditor</AssemblyName>
     <PackageId>LilyDesignSystem.Blazor.MarkdownEditor</PackageId>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <Authors>Joel Parker Henderson</Authors>
     <Description>Lily Design System Blazor Markdown editor: a textarea with a toolbar of rich-text buttons (bold, italic, link, headings, lists, quote, code) that write Markdown. Headless, no CSS.</Description>
     <PackageProjectUrl>https://lilydesignsystem.com/</PackageProjectUrl>

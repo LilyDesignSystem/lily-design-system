@@ -7,7 +7,7 @@
     <RootNamespace>LilyDesignSystem.Blazor.Helpers</RootNamespace>
     <AssemblyName>LilyDesignSystem.Blazor.MenuPicker</AssemblyName>
     <PackageId>LilyDesignSystem.Blazor.MenuPicker</PackageId>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <Authors>Joel Parker Henderson</Authors>
     <Description>Lily Design System Blazor menu picker: an icon button (a hamburger icon) opening a dropdown of whatever the app provides. Headless, SSR-safe, no CSS.</Description>
     <PackageProjectUrl>https://lilydesignsystem.com/</PackageProjectUrl>

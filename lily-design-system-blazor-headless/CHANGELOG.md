@@ -13,6 +13,10 @@ Release highlights and project news: [NEWS.md](NEWS.md).
 
 Lily™ and Lily Design System™ are trademarks.
 
+## 0.11.1 — 2026-11-24
+
+- Targets .NET 11 (`net11.0`); the previous release targeted .NET 10.
+
 ## 0.10.0 — 2026-11-16 (breaking)
 
 - Removed (breaking): the thirteen pickers and picker buttons the radio groups supersede — `color-picker` and

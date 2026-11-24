@@ -8,7 +8,7 @@
     <RootNamespace>LilyBlazorHeadless</RootNamespace>
     <AssemblyName>LilyBlazorHeadless.Identifiers</AssemblyName>
     <PackageId>LilyDesignSystem.Blazor.Headless.Identifiers</PackageId>
-    <Version>0.2.0</Version>
+    <Version>0.2.1</Version>
     <Authors>Joel Parker Henderson</Authors>
     <Description>Lily Design System Blazor headless national identifier components: the 188 national personal identifier components (an input and a view for each of 94 identifier types across 50+ countries) as Razor components, the add-on to LilyDesignSystem.Blazor.Headless. Unstyled, accessible, zero CSS.</Description>
     <PackageProjectUrl>https://lilydesignsystem.com/</PackageProjectUrl>

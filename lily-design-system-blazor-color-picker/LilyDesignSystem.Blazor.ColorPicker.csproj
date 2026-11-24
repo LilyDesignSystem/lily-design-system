@@ -7,7 +7,7 @@
     <RootNamespace>LilyDesignSystem.Blazor.Helpers</RootNamespace>
     <AssemblyName>LilyDesignSystem.Blazor.ColorPicker</AssemblyName>
     <PackageId>LilyDesignSystem.Blazor.ColorPicker</PackageId>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <Authors>Joel Parker Henderson</Authors>
     <Description>Lily Design System Blazor colour picker: recent colours, a palette of swatches with Transparent, and colour entry by hex, CSS name, HSL, HSB, RGB or CMYK. Headless, no CSS.</Description>
     <PackageProjectUrl>https://lilydesignsystem.com/</PackageProjectUrl>

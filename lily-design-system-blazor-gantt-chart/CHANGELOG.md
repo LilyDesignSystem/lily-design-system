@@ -4,6 +4,10 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.8.1 — 2026-11-24
+
+- Targets .NET 11 (`net11.0`); the previous release targeted .NET 10.
+
 ## 0.8.0 — 2026-10-18
 
 - Added `CriticalPath.Compute()` and `CriticalPath.Apply()` (all four dependency kinds, lags and leads in calendar or working days), a line-for-line port of the Svelte `critical-path.ts` with the same test cases. Ported from the Svelte package.
