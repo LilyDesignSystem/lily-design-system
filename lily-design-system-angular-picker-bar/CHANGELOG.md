@@ -4,6 +4,10 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.11.0 — 2026-11-24
+
+- **Behaviour change**, from `@lilydesignsystem/angular-theme-picker` 0.6.0: the theme cookie is off by default (tasks.md P41-T5c). Pass the cookie name through `themeProps` (for example `cookieName: "lily-theme"`) to keep it for a server-rendered page.
+
 ## 0.10.0 — 2026-11-23
 
 - **Changed:** the default `themes` list has 65 entries: it gains "Light High-Contrast" and "Dark High-Contrast" (WCAG 2.2 AAA), sorted with the rest by the name shown. Pickers: `theme-picker`.

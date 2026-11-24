@@ -4,6 +4,10 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.8.0 — 2026-11-24
+
+- **Behaviour change**, from `LilyDesignSystem.Blazor.ThemePicker` 0.6.0: the theme cookie is off by default (tasks.md P41-T5c). Set the theme picker's `CookieName` (for example `"lily-theme"`) to keep it for a server-rendered page.
+
 ## 0.7.0 — 2026-11-24
 
 - **Order change:** the default themes list the 36 generic themes first, alphabetically, then the 27 company and
