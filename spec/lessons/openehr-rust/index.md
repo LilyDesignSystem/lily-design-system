@@ -141,6 +141,7 @@ should wait for an adopter who needs them.
 - [x] `PHI.md` exists, is linked from `index.md`, `SECURITY.md` and `llms.txt`, and every answer cites a check or a contract
       (item 7).
 - [x] `coverage-floor.tsv` exists and `bin/coverage-report --floor-only` (`bin/ci --job coverage-floor`) fails a drop (item 8).
+- [x] A corpus run is recorded, with the corpus commit (item 9).
 
 ## Decisions
 
@@ -148,6 +149,28 @@ should wait for an adopter who needs them.
   text editor in place of the native time input for every time cell, losing its picker, its keyboard and its screen-reader
   support for a value almost no record holds: none has been added since 2016, and they are to end by 2035. The grid keeps a
   `:60` value exactly as written, flags it, and never changes it, which is the rule that matters.
+
+## Corpus run (item 9)
+
+`shared/clinical-format.corpus.test.ts` reads the EHRbase SDK's canonical JSON compositions in place (Apache-2.0 test data of
+another project, never copied here) and feeds every value to the formatters. It is skipped unless `OPENEHR_JSON_CORPUS` names the
+directory; the file's header has the command, and `OPENEHR_JSON_CORPUS_REPORT` writes one TSV row per value.
+
+**Run 1, 2026-11-24**, `ehrbase/openEHR_SDK` at `e07110a2d969d6971ff157b93288f64ee30764af`,
+`test-data/src/main/resources/composition/canonical_json` (57 files): 155 values, none refused wrongly, no digit lost.
+
+| Type            | Values | Outcome                                                                                                                                                       |
+| --------------- | -----: | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `DV_QUANTITY`   |     73 | All written; each reads back to its magnitude. `magnitude_status` `"="` (exact) is written with no sign; `precision` 0 and 1 kept.                            |
+| `DV_COUNT`      |     27 | All written.                                                                                                                                                  |
+| `DV_DURATION`   |     33 | All parsed. 11 with years, months or weeks have no HTML `datetime` form, by design (HTML has no such units); the other 22 have one.                           |
+| `DV_DATE`       |     13 | 10 written. 3 are `"20190114"`, ISO 8601's basic format, and are refused: openEHR requires the extended format, as openehr-rust's `D3.13a` and `A-02` record. |
+| `DV_PROPORTION` |      6 | All written.                                                                                                                                                  |
+| `DV_INTERVAL`   |      3 | All three quantity ranges written by `formatRange`.                                                                                                           |
+
+Not exercised: `DV_DATE_TIME` (314) and `DV_TIME` (9), since Lily has no formatter of its own for them (`date-time-view` shows the
+consumer's text), and `DV_ORDINAL`, `DV_TEXT` and the other non-numeric types. The run found one defect, in the test itself: it
+read the result back splitting on a space, where the formatter writes a no-break space.
 
 ## Related topics
 

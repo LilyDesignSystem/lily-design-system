@@ -4628,7 +4628,7 @@ then T3, T6, T7 and T8 (small), then T4; T5, T9 and T10 are maintainer decisions
       Verify: linked from `index.md`, `SECURITY.md` and `llms.txt`; `bin/check-links` passes.
 - [x] **P47-T8 A coverage floor.** _(2026-11-24: `coverage-floor.tsv` (shared 24/279, Svelte 2/147, Blazor 14/232 uncovered lines/branches); `bin/coverage-report --floor-only` as `bin/ci --job coverage-floor`, in its own cached lane and in `ci.yml`.)_ `coverage-floor.tsv` read by `bin/coverage-report --check`, run in `bin/ci --full`.
       Verify: lowering coverage below the floor fails, and beating it without lowering the floor fails.
-- [ ] **P47-T9 A clinical-format corpus run (maintainer decision).** An ignored test over the EHRbase SDK canonical JSON, read
+- [x] **P47-T9 A clinical-format corpus run (maintainer decision).** _(Adopted 2026-11-24: `shared/clinical-format.corpus.test.ts`, skipped without `OPENEHR_JSON_CORPUS`; run 1 over the EHRbase SDK at `e07110a2d`: 155 values, no wrong refusal, no lost digit; recorded in the lessons topic.)_ An ignored test over the EHRbase SDK canonical JSON, read
       in place.
       Verify: a recorded run in the lessons topic, with the corpus commit.
 - [ ] **P47-T10 Requirement ids for the healthcare rules (maintainer decision).** Permanent ids in `spec/healthcare-ui`, cited
