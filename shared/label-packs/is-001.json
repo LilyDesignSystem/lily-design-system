@@ -236,11 +236,11 @@
   },
   "text-size": {
     "largest": "stærst",
-    "larger": "stærra",
-    "large": "stórt",
-    "normal": "venjulegt",
-    "small": "lítið",
-    "smaller": "minna",
+    "larger": "stærri",
+    "large": "stór",
+    "normal": "venjuleg",
+    "small": "lítil",
+    "smaller": "minni",
     "smallest": "minnst"
   },
   "date-time-now-input": {

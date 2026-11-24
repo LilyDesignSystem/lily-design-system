@@ -279,13 +279,13 @@
     "allRemoved": "Tutte le condizioni rimosse"
   },
   "text-size": {
-    "largest": "il più grande",
+    "largest": "la più grande",
     "larger": "più grande",
     "large": "grande",
     "normal": "normale",
-    "small": "piccolo",
-    "smaller": "più piccolo",
-    "smallest": "il più piccolo"
+    "small": "piccola",
+    "smaller": "più piccola",
+    "smallest": "la più piccola"
   },
   "date-time-now-input": {
     "date": "Data",

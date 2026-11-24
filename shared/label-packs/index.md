@@ -7,6 +7,8 @@ these itself; a pack is that work done once.
 Two smaller sections serve headless components and pickers that also ship no English: `text-size` (the text-size-picker's
 seven size names, `textSizeLabels(pack)`) and `date-time-now-input` (its date, time and Now names,
 `dateTimeNowInputLabels(pack)`, ready to spread onto the component).
+The size names are lower case and agree with the pack's noun for "text size"; an app that wants capitals writes them itself
+([rules](../../spec/label-packs/index.md#text-size-names)).
 
 ```ts
 import { labelsFor } from "./label-pack"; // shared/label-pack.ts, single-sourced like the other shared modules

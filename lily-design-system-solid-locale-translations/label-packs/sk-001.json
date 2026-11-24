@@ -279,13 +279,13 @@
     "allRemoved": "Všetky podmienky boli odstránené"
   },
   "text-size": {
-    "largest": "najväčší",
-    "larger": "väčší",
-    "large": "veľký",
-    "normal": "normálny",
-    "small": "malý",
-    "smaller": "menší",
-    "smallest": "najmenší"
+    "largest": "najväčšia",
+    "larger": "väčšia",
+    "large": "veľká",
+    "normal": "normálna",
+    "small": "malá",
+    "smaller": "menšia",
+    "smallest": "najmenšia"
   },
   "date-time-now-input": {
     "date": "Dátum",

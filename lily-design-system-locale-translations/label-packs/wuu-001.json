@@ -235,13 +235,13 @@
     "allRemoved": "全部条件删脱了"
   },
   "text-size": {
-    "largest": "最大",
-    "larger": "較大",
+    "largest": "顶大",
+    "larger": "更加大",
     "large": "大",
-    "normal": "正常",
+    "normal": "标准",
     "small": "小",
-    "smaller": "較小",
-    "smallest": "最小"
+    "smaller": "更加小",
+    "smallest": "顶小"
   },
   "date-time-now-input": {
     "date": "日期",

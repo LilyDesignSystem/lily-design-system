@@ -279,13 +279,13 @@
     "allRemoved": "Svi su uvjeti uklonjeni"
   },
   "text-size": {
-    "largest": "najveći",
-    "larger": "veći",
-    "large": "velik",
-    "normal": "normalan",
-    "small": "malen",
-    "smaller": "manji",
-    "smallest": "najmanji"
+    "largest": "najveća",
+    "larger": "veća",
+    "large": "velika",
+    "normal": "normalna",
+    "small": "mala",
+    "smaller": "manja",
+    "smallest": "najmanja"
   },
   "date-time-now-input": {
     "date": "Datum",

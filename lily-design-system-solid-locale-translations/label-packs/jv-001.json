@@ -51,7 +51,7 @@
     "zh-001": "爪哇语"
   },
   "common": {
-    "search": "Goleki",
+    "search": "Padosi",
     "searchAnnouncement": "{matches} saka {total} cocog",
     "export": "Ekspor",
     "exportCsv": "CSV",
@@ -63,7 +63,7 @@
     "copyFailed": "Ora bisa nyalin menyang clipboard"
   },
   "data-grid": {
-    "searchField": "Goleki ing",
+    "searchField": "Padosi ing",
     "searchAllFields": "Kabeh kolom",
     "columnVisibility": "Kolom",
     "columnVisibilityOption": "Tampilake {header}",
@@ -279,13 +279,13 @@
     "allRemoved": "Kabeh kondisi wis dibusak"
   },
   "text-size": {
-    "largest": "paling gedhé",
-    "larger": "luwih gedhé",
-    "large": "gedhé",
-    "normal": "normal",
-    "small": "cilik",
-    "smaller": "luwih cilik",
-    "smallest": "paling cilik"
+    "largest": "paling ageng",
+    "larger": "langkung ageng",
+    "large": "ageng",
+    "normal": "limrah",
+    "small": "alit",
+    "smaller": "langkung alit",
+    "smallest": "paling alit"
   },
   "date-time-now-input": {
     "date": "Tanggal",
@@ -293,21 +293,21 @@
     "now": "Saiki"
   },
   "pickers": {
-    "link": "Panggonan",
-    "search": "Goleki",
-    "searchInput": "Goleki",
-    "searchSubmit": "Goleki",
+    "link": "Panggenan",
+    "search": "Padosi",
+    "searchInput": "Padosi",
+    "searchSubmit": "Padosi",
     "theme": "Tema",
     "locale": "Basa",
-    "timeZone": "Zona wektu",
+    "timeZone": "Zona wekdal",
     "textSize": "Ukuran teks",
-    "motion": "Obahan",
-    "share": "Nuduhake",
+    "motion": "Ebahan",
+    "share": "Nuduhaken",
     "menu": "Menu",
     "settings": "Setelan",
     "copyLink": "Salin pranala",
-    "linkCopied": "Pranala disalin",
-    "copyFailed": "Pranala ora bisa disalin",
-    "followDevice": "Tututi piranti"
+    "linkCopied": "Pranala dipunsalin",
+    "copyFailed": "Pranala mboten saged dipunsalin",
+    "followDevice": "Tumut piranti"
   }
 }

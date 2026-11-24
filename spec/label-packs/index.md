@@ -58,6 +58,21 @@ returns them as the picker's `sizeLabels` (Blazor: `LocaleTranslations.TextSizeL
 pack lacks is omitted, never filled from another language. Like the rest of the pack they are unreviewed machine drafts
 (English excepted), and Cornish, Scots and Bhojpuri are lowest confidence.
 
+Rules for the names (2026-11-24):
+
+- **Agreement.** Each name agrees with the pack's own noun for one text size, the singular of `pickers.textSize`: French
+  _taille_ gives `la plus grande`, Russian _размер_ gives `большой`. A language that does not inflect here has nothing to do.
+- **Register.** A name and the picker names use the formal register where a language offers a choice: Javanese is krama. The
+  rest of the Javanese pack is still ngoko, so it mixes registers until a speaker revises it.
+- **Script.** A pack keeps to one script: Wu (`wuu-001`) is Simplified.
+- **Case.** The names are stored in lower case, as they read inside a sentence, and the picker shows them as they are. An app
+  that wants a capital writes it in JavaScript with the reader's locale (`toLocaleUpperCase(locale)` on the first grapheme):
+  CSS `::first-letter` does not apply to inline boxes, and scripts without case are unaffected. The `pickers` names are
+  control labels and are capitalised as each language capitalises a label.
+
+The French, Italian, Romanian, Czech, Slovak, Croatian, Slovenian and Icelandic names were changed to agree, and the Javanese
+and Wu names rewritten, on 2026-11-24, from a report by another project. They are still unreviewed drafts.
+
 ## Date-time-now-input names
 
 Every pack also has a `date-time-now-input` section: the headless `date-time-now-input`'s three control names (`date`,

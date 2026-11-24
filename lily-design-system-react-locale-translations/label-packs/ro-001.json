@@ -279,13 +279,13 @@
     "allRemoved": "Toate condițiile au fost eliminate"
   },
   "text-size": {
-    "largest": "cel mai mare",
+    "largest": "cea mai mare",
     "larger": "mai mare",
     "large": "mare",
-    "normal": "normal",
-    "small": "mic",
-    "smaller": "mai mic",
-    "smallest": "cel mai mic"
+    "normal": "normală",
+    "small": "mică",
+    "smaller": "mai mică",
+    "smallest": "cea mai mică"
   },
   "date-time-now-input": {
     "date": "Data",
