@@ -85,7 +85,7 @@ export const components = [
       description: "a box that shows a person's identification details, such as name, tracking information, and salient notations",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "show",
   },
   {
       slug: "affix",
@@ -101,7 +101,7 @@ export const components = [
       description: "an indicator of AI instances that is a pathway to AI explainability",
       tag: "span",
       category: "content",
-      purpose: "structure",
+      purpose: "inform",
   },
   {
       slug: "alba-community-health-index-input",
@@ -157,7 +157,7 @@ export const components = [
       description: "an answer is anything that responds to a question, request, action, etc.",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "show",
   },
   {
       slug: "area-chart",
@@ -205,7 +205,7 @@ export const components = [
       description: "a text input that proposes matching options as users type",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "collect",
   },
   {
       slug: "avatar",
@@ -317,7 +317,7 @@ export const components = [
       description: "a block-level quotation with optional source citation",
       tag: "blockquote",
       category: "content",
-      purpose: "structure",
+      purpose: "show",
   },
   {
       slug: "body-text",
@@ -325,7 +325,7 @@ export const components = [
       description: "a rendered text block within a content width container",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "show",
   },
   {
       slug: "breadcrumb-link",
@@ -405,7 +405,7 @@ export const components = [
       description: "an author attribution with publish and update timestamps",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "show",
   },
   {
       slug: "calendar-range-picker",
@@ -485,7 +485,7 @@ export const components = [
       description: "a caption for a figure element",
       tag: "figcaption",
       category: "content",
-      purpose: "structure",
+      purpose: "show",
   },
   {
       slug: "card",
@@ -501,7 +501,7 @@ export const components = [
       description: "a medical care instruction card with urgency levels",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "inform",
   },
   {
       slug: "carousel",
@@ -509,7 +509,7 @@ export const components = [
       description: "a slideshow for cycling through content items",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "navigate",
   },
   {
       slug: "cascader",
@@ -517,7 +517,7 @@ export const components = [
       description: "a multi-level dropdown for selecting a value from a hierarchy",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "collect",
   },
   {
       slug: "cesko-cestovni-pas-input",
@@ -557,7 +557,7 @@ export const components = [
       description: "a single character display element",
       tag: "span",
       category: "content",
-      purpose: "structure",
+      purpose: "show",
   },
   {
       slug: "character-counter",
@@ -565,7 +565,7 @@ export const components = [
       description: "a counter showing remaining or used characters in a text field",
       tag: "span",
       category: "content",
-      purpose: "structure",
+      purpose: "inform",
   },
   {
       slug: "chat-list",
@@ -637,7 +637,7 @@ export const components = [
       description: "a citation acknowledges the relevance of a work of another to the topic of discussion",
       tag: "cite",
       category: "content",
-      purpose: "structure",
+      purpose: "show",
   },
   {
       slug: "clamp-text",
@@ -645,7 +645,7 @@ export const components = [
       description: "a text container that truncates content to a maximum number of lines",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "show",
   },
   {
       slug: "clipboard-copy-button",
@@ -669,7 +669,7 @@ export const components = [
       description: "an inline code span for displaying short code snippets within surrounding text",
       tag: "code",
       category: "content",
-      purpose: "structure",
+      purpose: "show",
   },
   {
       slug: "code-block",
@@ -677,7 +677,7 @@ export const components = [
       description: "a block of formatted code with optional line numbers and line highlighting",
       tag: "pre",
       category: "content",
-      purpose: "structure",
+      purpose: "show",
   },
   {
       slug: "collapsible",
@@ -749,7 +749,7 @@ export const components = [
       description: "a command palette for searching and executing actions",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "act",
   },
   {
       slug: "comment",
@@ -757,7 +757,7 @@ export const components = [
       description: "a comment is anything that expresses an opinion, observation, explanation, etc.",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "show",
   },
   {
       slug: "container",
@@ -1061,7 +1061,7 @@ export const components = [
       description: "a rotary dial control for selecting a value",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "collect",
   },
   {
       slug: "dial-group",
@@ -1085,7 +1085,7 @@ export const components = [
       description: "a side-by-side comparison of two items",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "show",
   },
   {
       slug: "digital-object-identifier-link",
@@ -1157,7 +1157,7 @@ export const components = [
       description: "an early preliminary version of content such as an article, email, report, etc.",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "show",
   },
   {
       slug: "drawer",
@@ -1245,7 +1245,7 @@ export const components = [
       description: "a single emoji character with accessible name",
       tag: "span",
       category: "content",
-      purpose: "structure",
+      purpose: "show",
   },
   {
       slug: "emoji-character-radio-group",
@@ -1349,7 +1349,7 @@ export const components = [
       description: "a control that expands to reveal more content",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "act",
   },
   {
       slug: "feature-card",
@@ -1413,7 +1413,7 @@ export const components = [
       description: "a file browser for navigating and managing files",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "navigate",
   },
   {
       slug: "file-upload",
@@ -1517,7 +1517,7 @@ export const components = [
       description: "a footnote reference and content element",
       tag: "span",
       category: "content",
-      purpose: "structure",
+      purpose: "show",
   },
   {
       slug: "form",
@@ -1733,7 +1733,7 @@ export const components = [
       description: "a page headline with heading, subtitle, and byline area",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "show",
   },
   {
       slug: "hero",
@@ -1749,7 +1749,7 @@ export const components = [
       description: "a full-bleed hero section with headline overlaid on media",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "show",
   },
   {
       slug: "hidden-input",
@@ -1781,7 +1781,7 @@ export const components = [
       description: "a card that appears on hover over a trigger element",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "inform",
   },
   {
       slug: "hrvatska-osobni-identifikacijski-broj-input",
@@ -1821,7 +1821,7 @@ export const components = [
       description: "a container for displaying an icon",
       tag: "span",
       category: "content",
-      purpose: "structure",
+      purpose: "show",
   },
   {
       slug: "icon-button",
@@ -1925,7 +1925,7 @@ export const components = [
       description: "indented text to distinguish it from surrounding content",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "inform",
   },
   {
       slug: "international-patient-summary",
@@ -2053,7 +2053,7 @@ export const components = [
       description: "show keyboard shortcuts and key combinations in a styled inline element",
       tag: "kbd",
       category: "content",
-      purpose: "structure",
+      purpose: "show",
   },
   {
       slug: "label",
@@ -2669,7 +2669,7 @@ export const components = [
       description: "a collection of photos displayed together as a group",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "show",
   },
   {
       slug: "pictogram",
@@ -2741,7 +2741,7 @@ export const components = [
       description: "a floating content box anchored to a trigger element",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "inform",
   },
   {
       slug: "popup",
@@ -2749,7 +2749,7 @@ export const components = [
       description: "a temporary overlay that appears above page content",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "inform",
   },
   {
       slug: "portugal-numero-de-identificacao-fiscal-input",
@@ -2853,7 +2853,7 @@ export const components = [
       description: "a question is anything that asks for information, invites a response, tests knowledge, etc.",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "show",
   },
   {
       slug: "radio-group",
@@ -2949,7 +2949,7 @@ export const components = [
       description: "a container that the user can resize by dragging",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "act",
   },
   {
       slug: "review-date",
@@ -3141,7 +3141,7 @@ export const components = [
       description: "a component for sharing the page on social media",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "act",
   },
   {
       slug: "sheet",
@@ -3165,7 +3165,7 @@ export const components = [
       description: "a drawing area for capturing a handwritten signature",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "collect",
   },
   {
       slug: "skeleton",
@@ -3173,7 +3173,7 @@ export const components = [
       description: "a placeholder loading animation for content",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "inform",
   },
   {
       slug: "skip-link",
@@ -3261,7 +3261,7 @@ export const components = [
       description: "a toast notification manager",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "inform",
   },
   {
       slug: "sparkline",
@@ -3269,7 +3269,7 @@ export const components = [
       description: "a small inline chart showing a data trend",
       tag: "span",
       category: "content",
-      purpose: "structure",
+      purpose: "show",
   },
   {
       slug: "split-button",
@@ -3293,7 +3293,7 @@ export const components = [
       description: "a draggable divider for resizing adjacent panels",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "act",
   },
   {
       slug: "statistic",
@@ -3357,7 +3357,7 @@ export const components = [
       description: "a panel confirming a task has been completed",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "inform",
   },
   {
       slug: "summary-box",
@@ -3661,7 +3661,7 @@ export const components = [
       description: "a tile cartogram map with configurable layers for geographic data visualization",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "show",
   },
   {
       slug: "time-input",
@@ -3709,7 +3709,7 @@ export const components = [
       description: "a countdown or elapsed time display",
       tag: "time",
       category: "content",
-      purpose: "structure",
+      purpose: "show",
   },
   {
       slug: "timer-button",
@@ -3765,7 +3765,7 @@ export const components = [
       description: "a small popup showing descriptive text on hover or focus",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "inform",
   },
   {
       slug: "tour",
@@ -3773,7 +3773,7 @@ export const components = [
       description: "a tour guide, such as for sightseeing, or pathways, or demonstrations, etc.",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "navigate",
   },
   {
       slug: "tour-list",
@@ -4765,7 +4765,7 @@ export const components = [
       description: "a content region clamped to a shorter height with a button that reveals the rest",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "act",
   },
   {
       slug: "kbd-shortcut",
@@ -4773,7 +4773,7 @@ export const components = [
       description: "a keyboard shortcut made of one or more key caps, for example Ctrl plus K",
       tag: "kbd",
       category: "content",
-      purpose: "structure",
+      purpose: "show",
   },
   {
       slug: "calendar-year-table",
@@ -4933,7 +4933,7 @@ export const components = [
       description: "the name of the tool in a tool call, shown in the summary",
       tag: "span",
       category: "content",
-      purpose: "structure",
+      purpose: "show",
   },
   {
       slug: "tool-call-status",
@@ -4957,7 +4957,7 @@ export const components = [
       description: "the output or result returned by a tool in a tool call",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "show",
   },
   {
       slug: "tool-call-error",
@@ -4973,7 +4973,7 @@ export const components = [
       description: "an inline highlight marking text as relevant or referenced, such as a search match, using the native mark element",
       tag: "mark",
       category: "content",
-      purpose: "structure",
+      purpose: "show",
   },
   {
       slug: "chat-composer",
@@ -4997,7 +4997,7 @@ export const components = [
       description: "a string shortened in the middle to fit its width, keeping the start and the end",
       tag: "span",
       category: "content",
-      purpose: "structure",
+      purpose: "show",
   },
   {
       slug: "wheel-picker",
@@ -5013,7 +5013,7 @@ export const components = [
       description: "a group that converts a value from one unit into another, such as dollars into euros or miles into kilometres",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "collect",
   },
   {
       slug: "convert-from-div",
@@ -5021,7 +5021,7 @@ export const components = [
       description: "the source side of a conversion, holding the value and unit to convert from",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "collect",
   },
   {
       slug: "convert-from-value-div",
@@ -5029,7 +5029,7 @@ export const components = [
       description: "the value to convert from, such as a text input holding the number of dollars",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "collect",
   },
   {
       slug: "convert-from-unit-div",
@@ -5037,7 +5037,7 @@ export const components = [
       description: "the unit to convert from, such as a select box of currencies or lengths",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "collect",
   },
   {
       slug: "convert-into-div",
@@ -5045,7 +5045,7 @@ export const components = [
       description: "the target side of a conversion, holding the value and unit to convert into",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "show",
   },
   {
       slug: "convert-into-value-div",
@@ -5053,7 +5053,7 @@ export const components = [
       description: "the converted value, such as a text input showing the number of euros",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "show",
   },
   {
       slug: "convert-into-unit-div",
@@ -5061,7 +5061,7 @@ export const components = [
       description: "the unit to convert into, such as a select box of currencies or lengths",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "collect",
   },
   {
       slug: "picture",
@@ -5069,7 +5069,7 @@ export const components = [
       description: "a responsive image wrapper that lets the browser choose among several sources, using the native picture element",
       tag: "picture",
       category: "content",
-      purpose: "structure",
+      purpose: "show",
   },
   {
       slug: "warning-text",
@@ -5117,7 +5117,7 @@ export const components = [
       description: "a clinical decision support card with a summary, urgency indicator, source, suggestions and override reasons",
       tag: "div",
       category: "content",
-      purpose: "structure",
+      purpose: "inform",
   },
   {
       slug: "early-warning-score-view",
