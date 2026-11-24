@@ -7,6 +7,7 @@ import { describe, expect, test } from "vitest";
 import {
     isPartialDate,
     operatorsFor,
+    partialDateRails,
     ruleIssue,
     toMongo,
     toOData,
@@ -302,5 +303,141 @@ describe("OData", () => {
     });
     test("a filter without a partial-date comparison is unchanged", () => {
         expect(toOData(group([rule("lt", "2019-06-01")]), [FULL])).toBe("onset lt 2019-06-01");
+    });
+    test("is empty and is not empty treat a partial date as text, so an empty string is empty", () => {
+        expect(toOData(group([rule("is-empty")]), [PARTIAL])).toBe(
+            "(onset eq null or onset eq '')",
+        );
+        expect(toOData(group([rule("is-not-empty")]), [PARTIAL])).toBe(
+            "(onset ne null and onset ne '')",
+        );
+        for (const onset of [null, "", "2019"]) {
+            expect(mongoMatches(toMongo(group([rule("is-empty")]), [PARTIAL]), { onset })).toBe(
+                matches(group([rule("is-empty")]), onset),
+            );
+            expect(mongoMatches(toMongo(group([rule("is-not-empty")]), [PARTIAL]), { onset })).toBe(
+                matches(group([rule("is-not-empty")]), onset),
+            );
+        }
+    });
+    test("writes between as both bounds, its negation as either, and joins an or group", () => {
+        const both = toOData(group([rule("between", "2019-01-01", "2019-12-31")]), [PARTIAL]);
+        expect(both.startsWith("((")).toBe(true);
+        expect(both).toContain(") and (");
+        expect(both).toContain("onset ge '2019'");
+        expect(both).toContain("onset le '2019'");
+        const either = toOData(group([rule("between", "2019-01-01", "2019-12-31")], "and", true), [
+            PARTIAL,
+        ]);
+        expect(either).toContain("onset lt '2019'");
+        expect(either).toContain("onset gt '2019'");
+        const or = toOData(group([rule("lt", "2019-01-01"), rule("gt", "2020-12-31")], "or"), [
+            PARTIAL,
+        ]);
+        expect(or).toContain(") or (");
+        expect(or).toContain("onset lt '2019'");
+        expect(or).toContain("onset gt '2020'");
+    });
+});
+
+// A partial-date comparison beside ordinary conditions, and groups of ordinary conditions inside a filter that has one: the
+// outputs write the ordinary parts as before and only the partial-date parts on two rails.
+describe("mixed with ordinary conditions", () => {
+    const KIND: FilterField = {
+        id: "kind",
+        label: "Kind",
+        type: "select",
+        options: [
+            { id: "a", label: "A" },
+            { id: "b", label: "B" },
+        ],
+    };
+    const FIELDS = [PARTIAL, KIND];
+    const kindRule = (operator: "equals" | "not-equals", value: "a" | "b"): FilterRule => ({
+        type: "rule",
+        id: `k-${operator}-${value}`,
+        field: "kind",
+        operator,
+        value,
+    });
+    const ordinary = fc
+        .record({
+            op: fc.constantFrom("equals" as const, "not-equals" as const),
+            v: fc.constantFrom("a" as const, "b" as const),
+        })
+        .map(({ op, v }) => kindRule(op, v));
+    const mixed: fc.Arbitrary<FilterGroup> = fc.letrec<{ node: FilterNode; group: FilterGroup }>(
+        (tie) => ({
+            node: fc.oneof(
+                { depthSize: "small", withCrossShrink: true },
+                comparison,
+                ordinary,
+                tie("group"),
+            ),
+            group: fc
+                .record({
+                    children: fc.array(tie("node"), { minLength: 1, maxLength: 3 }),
+                    combinator: fc.constantFrom("and" as const, "or" as const),
+                    not: fc.boolean(),
+                })
+                .map(({ children, combinator, not }) => group(children, combinator, not)),
+        }),
+    ).group;
+    const rows = ["2019", "2019-06", "2019-06-01", "2020", null, "19"].flatMap((onset) =>
+        ["a", "b"].map((kind) => ({ onset, kind })),
+    );
+    const predicate = (g: FilterGroup, row: { onset: string | null; kind: string }) =>
+        toPredicate(g, FIELDS)(row);
+
+    test("SQL run in SQLite agrees with the predicate", () => {
+        const db = new DatabaseSync(":memory:");
+        db.exec("CREATE TABLE m (id INTEGER PRIMARY KEY, onset TEXT, kind TEXT NOT NULL)");
+        const insert = db.prepare("INSERT INTO m (onset, kind) VALUES (?, ?)");
+        for (const row of rows) insert.run(row.onset, row.kind);
+        fc.assert(
+            fc.property(mixed, fc.boolean(), (g, inline) => {
+                const { sql, params } = toSql(g, FIELDS, { dialect: "sqlite", inline });
+                const found = (
+                    db
+                        .prepare(`SELECT id FROM m WHERE ${sql} ORDER BY id`)
+                        .all(...(params as string[])) as { id: number }[]
+                ).map((r) => r.id);
+                const expected = rows.flatMap((row, i) => (predicate(g, row) ? [i + 1] : []));
+                expect(found).toEqual(expected);
+            }),
+            { numRuns: 200 },
+        );
+    });
+
+    test("MongoDB agrees with the predicate", () => {
+        fc.assert(
+            fc.property(mixed, (g) => {
+                const query = toMongo(g, FIELDS);
+                for (const row of rows) expect(mongoMatches(query, row)).toBe(predicate(g, row));
+            }),
+            { numRuns: 200 },
+        );
+    });
+
+    test("OData writes the ordinary condition plainly and negates an ordinary group as a whole", () => {
+        const g = group(
+            [
+                rule("lt", "2019-06-01"),
+                kindRule("equals", "a"),
+                group([kindRule("equals", "b")], "or", true),
+            ],
+            "and",
+            true,
+        );
+        const written = toOData(g, FIELDS);
+        expect(written).toContain("not (kind eq 'a')");
+        expect(written).toContain("not (not (kind eq 'b'))");
+        expect(written).toContain("length(onset) eq 10 and onset ge '2019-06-01'");
+    });
+
+    test("partialDateRails refuses an operator that is not a comparison", () => {
+        expect(() => partialDateRails(rule("contains", "2019"))).toThrow(
+            "not a comparison operator",
+        );
     });
 });

@@ -473,7 +473,8 @@ function boundRails(op: Bound, date: string): PartialDateRails {
                 break;
         }
         if (t.length) whenTrue.push({ atom: { length, relations: t, key } });
-        if (f.length) whenFalse.push({ atom: { length, relations: f, key } });
+        // Every operator rules out some row of every length, so f is never empty.
+        whenFalse.push({ atom: { length, relations: f, key } });
     }
     return { whenTrue: { any: whenTrue }, whenFalse: { any: whenFalse } };
 }
@@ -812,12 +813,12 @@ function writeRails<T>(
     return node.not ? { whenTrue: rails.whenFalse, whenFalse: rails.whenTrue } : rails;
 }
 
-/** The comparison a set of relations makes, or `null` when it is all three (any text of that length). */
-function relationOperator(
-    relations: ("<" | "=" | ">")[],
-): "<" | "=" | ">" | "<=" | ">=" | "<>" | null {
+/**
+ * The comparison a set of relations makes. `boundRails` gives an atom one or two relations, never all three, and every list
+ * it builds has at least one member, so the writers below need no case for "any text of that length" or for an empty list.
+ */
+function relationOperator(relations: ("<" | "=" | ">")[]): "<" | "=" | ">" | "<=" | ">=" | "<>" {
     const has = (r: "<" | "=" | ">") => relations.includes(r);
-    if (has("<") && has("=") && has(">")) return null;
     if (has("<") && has("=")) return "<=";
     if (has(">") && has("=")) return ">=";
     if (has("<") && has(">")) return "<>";
@@ -961,11 +962,9 @@ export function toSql(
         if ("atom" in c) {
             const op = relationOperator(c.atom.relations);
             const shape = `${column} LIKE '${LENGTH_PATTERN[c.atom.length]}'`;
-            return op ? `(${shape} AND ${column} ${op} ${bind(c.atom.key)})` : shape;
+            return `(${shape} AND ${column} ${op} ${bind(c.atom.key)})`;
         }
         const list = "any" in c ? c.any : c.all;
-        // An empty "any" never holds and an empty "all" always does; 1 = 0 and 1 = 1 read the same in every dialect.
-        if (list.length === 0) return "any" in c ? "1 = 0" : "1 = 1";
         const parts = list.map((x) => condition(x, field));
         return parts.length === 1 ? parts[0] : `(${parts.join("any" in c ? " OR " : " AND ")})`;
     };
@@ -1063,14 +1062,11 @@ export function toMongo(
         if ("atom" in c) {
             const op = relationOperator(c.atom.relations);
             const shape = { [key]: { $regex: `^.{${c.atom.length}}$` } };
-            if (!op) return shape;
             const compare =
                 op === "=" ? { [key]: c.atom.key } : { [key]: { [MONGO_OP[op]]: c.atom.key } };
             return { $and: [shape, compare] };
         }
         const list = "any" in c ? c.any : c.all;
-        // An empty "any" matches nothing ($expr false); an empty "all" matches everything ({}).
-        if (list.length === 0) return "any" in c ? { $expr: false } : {};
         const parts = list.map((x) => condition(x, field));
         return parts.length === 1 ? parts[0] : { ["any" in c ? "$or" : "$and"]: parts };
     };
@@ -1170,10 +1166,9 @@ export function toOData(group: FilterGroup, fields: readonly FilterField[]): str
         if ("atom" in c) {
             const op = relationOperator(c.atom.relations);
             const shape = `length(${name}) eq ${c.atom.length}`;
-            return op ? `(${shape} and ${name} ${ODATA_OP[op]} ${odataString(c.atom.key)})` : shape;
+            return `(${shape} and ${name} ${ODATA_OP[op]} ${odataString(c.atom.key)})`;
         }
         const list = "any" in c ? c.any : c.all;
-        if (list.length === 0) return "any" in c ? "false" : "true";
         const parts = list.map((x) => condition(x, field));
         return parts.length === 1 ? parts[0] : `(${parts.join("any" in c ? " or " : " and ")})`;
     };

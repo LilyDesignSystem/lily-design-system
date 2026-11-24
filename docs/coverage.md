@@ -10,10 +10,10 @@ leaves out its byte-identical copies of `shared/` modules (14 files, such as `se
 
 | Package                | Lines                        | Branches               | Functions              | Statements             |
 | ---------------------- | ---------------------------- | ---------------------- | ---------------------- | ---------------------- |
-| shared/ (pure modules) | 99.4% (3,961 of 3,985)       | 93.5% (3,995 of 4,274) | 99.9% (862 of 863)     | 98.5% (4,818 of 4,889) |
+| shared/ (pure modules) | 99.4% (4,130 of 4,154)       | 93.8% (4,206 of 4,485) | 99.9% (907 of 908)     | 98.6% (5,021 of 5,092) |
 | Svelte headless        | 100.0% (4,598 of 4,600)      | 91.4% (1,557 of 1,704) | 99.8% (1,787 of 1,790) | 99.4% (6,432 of 6,469) |
-| Blazor headless        | 99.7% (5,506 of 5,520)       | 89.0% (1,881 of 2,113) | —                      | —                      |
-| **All three**          | **99.7%** (14,065 of 14,105) |                        |                        |                        |
+| Blazor headless        | 99.7% (5,506 of 5,520)       | 89.1% (1,883 of 2,113) | —                      | —                      |
+| **All three**          | **99.7%** (14,234 of 14,274) |                        |                        |                        |
 
 Why these three: `shared/` holds the logic every package copies (search, filter, export, keyboard machines,
 calendars), Svelte is the canonical catalog the others port, and Blazor is the one catalog in another language. The

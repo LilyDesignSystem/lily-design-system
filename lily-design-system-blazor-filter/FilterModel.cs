@@ -779,6 +779,7 @@ public static class FilterModel
             return parts.Count > 1 && !top ? $"({joined})" : joined;
         }
         if (!HasPartialComparison(tree, byId)) return new SqlResult(Write(tree, true), parameters);
+        // BoundRails never builds an empty list, so no writer needs a case for one (the TypeScript model says the same).
         string Condition(PartialDateCondition c, FilterField field)
         {
             var column = QuoteIdentifier(field.Column ?? field.Id, dialect);
@@ -789,7 +790,6 @@ public static class FilterModel
                 default:
                     var any = c is AnyCondition;
                     var items = c is AnyCondition ac ? ac.Items : ((AllCondition)c).Items;
-                    if (items.Count == 0) return any ? "1 = 0" : "1 = 1";
                     var parts = items.Select(x => Condition(x, field)).ToList();
                     return parts.Count == 1 ? parts[0] : "(" + string.Join(any ? " OR " : " AND ", parts) + ")";
             }
@@ -863,7 +863,6 @@ public static class FilterModel
                 default:
                     var any = c is AnyCondition;
                     var items = c is AnyCondition ac ? ac.Items : ((AllCondition)c).Items;
-                    if (items.Count == 0) return any ? Obj("$expr", false) : new JsonObject();
                     var parts = items.Select(x => Condition(x, field)).ToList();
                     return parts.Count == 1 ? parts[0] : Obj(any ? "$or" : "$and", Array(parts));
             }
@@ -935,7 +934,6 @@ public static class FilterModel
                 default:
                     var any = c is AnyCondition;
                     var items = c is AnyCondition ac ? ac.Items : ((AllCondition)c).Items;
-                    if (items.Count == 0) return any ? "false" : "true";
                     var parts = items.Select(x => Condition(x, field)).ToList();
                     return parts.Count == 1 ? parts[0] : "(" + string.Join(any ? " or " : " and ", parts) + ")";
             }

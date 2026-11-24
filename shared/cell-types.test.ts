@@ -626,4 +626,20 @@ describe("partial-date cells", () => {
         );
         expect(column("en-GB").format("2019-13")).toBe("2019-13");
     });
+    test("a value that is not text is not a partial date; an empty cell is blank; an accessor is read", () => {
+        for (const bad of [2019, null, undefined, { year: 2019 }])
+            expect(isPartialCivilDate(bad)).toBe(false);
+        expect(column("en-GB").format("")).toBe("");
+        expect(column("en-GB").format(null)).toBe("");
+        const read = resolveColumn(
+            {
+                id: "onset",
+                type: "partial-date",
+                accessor: (row: { when: string }) => row.when,
+            } as never,
+            "en-GB" as never,
+        ) as unknown as Resolved;
+        expect(read.exportValue({ when: "2019" })).toBe("2019");
+        expect(read.exportValue({ when: null })).toBeNull();
+    });
 });
