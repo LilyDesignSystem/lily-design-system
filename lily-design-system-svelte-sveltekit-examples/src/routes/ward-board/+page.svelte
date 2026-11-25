@@ -5,6 +5,7 @@
     import Header from "#lib/components/Header/Header.svelte";
     import BackLink from "#lib/components/BackLink/BackLink.svelte";
     import Button from "#lib/components/Button/Button.svelte";
+    import HorizontalScroller from "#lib/components/HorizontalScroller/HorizontalScroller.svelte";
     import Table from "#lib/components/Table/Table.svelte";
     import TableHead from "#lib/components/TableHead/TableHead.svelte";
     import TableBody from "#lib/components/TableBody/TableBody.svelte";
@@ -64,37 +65,39 @@
         {summary}
     </p>
 
-    <Table label="Beds on Ward 7">
-        <TableHead>
-            <TableRow>
-                <TableTH scope="col">Bed</TableTH>
-                <TableTH scope="col">State</TableTH>
-                <TableTH scope="col">Patient</TableTH>
-                <TableTH scope="col">Early warning score</TableTH>
-            </TableRow>
-        </TableHead>
-        <TableBody>
-            {#each beds as bed (bed.bed)}
-                <TableRow data-state={bed.state}>
-                    <TableTH scope="row">{bed.bed}</TableTH>
-                    <TableTD>{STATE_WORDS[bed.state]}</TableTD>
-                    <TableTD>{bed.patient || "None"}</TableTD>
-                    <TableTD>
-                        {#if bed.score !== undefined && bed.band}
-                            <EarlyWarningScoreView
-                                system="NEWS2"
-                                score={bed.score}
-                                band={bed.band}
-                                bandLabel={BAND_WORDS[bed.band]}
-                            />
-                        {:else}
-                            Not applicable
-                        {/if}
-                    </TableTD>
+    <HorizontalScroller label="Beds on Ward 7">
+        <Table label="Beds on Ward 7">
+            <TableHead>
+                <TableRow>
+                    <TableTH scope="col">Bed</TableTH>
+                    <TableTH scope="col">State</TableTH>
+                    <TableTH scope="col">Patient</TableTH>
+                    <TableTH scope="col">Early warning score</TableTH>
                 </TableRow>
-            {/each}
-        </TableBody>
-    </Table>
+            </TableHead>
+            <TableBody>
+                {#each beds as bed (bed.bed)}
+                    <TableRow data-state={bed.state}>
+                        <TableTH scope="row">{bed.bed}</TableTH>
+                        <TableTD>{STATE_WORDS[bed.state]}</TableTD>
+                        <TableTD>{bed.patient || "None"}</TableTD>
+                        <TableTD>
+                            {#if bed.score !== undefined && bed.band}
+                                <EarlyWarningScoreView
+                                    system="NEWS2"
+                                    score={bed.score}
+                                    band={bed.band}
+                                    bandLabel={BAND_WORDS[bed.band]}
+                                />
+                            {:else}
+                                Not applicable
+                            {/if}
+                        </TableTD>
+                    </TableRow>
+                {/each}
+            </TableBody>
+        </Table>
+    </HorizontalScroller>
 
     <Button onclick={finishCleaning}>Mark cleaning finished</Button>
 </main>

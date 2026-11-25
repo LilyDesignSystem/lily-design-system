@@ -22,6 +22,7 @@
     import ImmunizationRecordList from "#lib/components/ImmunizationRecordList/ImmunizationRecordList.svelte";
     import RecordProvenanceView from "#lib/components/RecordProvenanceView/RecordProvenanceView.svelte";
     import Sparkline from "#lib/components/Sparkline/Sparkline.svelte";
+    import HorizontalScroller from "#lib/components/HorizontalScroller/HorizontalScroller.svelte";
     import Table from "#lib/components/Table/Table.svelte";
     import TableHead from "#lib/components/TableHead/TableHead.svelte";
     import TableBody from "#lib/components/TableBody/TableBody.svelte";
@@ -229,47 +230,49 @@
         <section aria-labelledby="vitals-heading">
             <h2 id="vitals-heading">Vital signs</h2>
             <p>The last five readings, oldest to newest, from 06:00 to 10:00 today.</p>
-            <Table label="Vital signs trend">
-                <TableHead>
-                    <TableRow>
-                        <TableTH scope="col">Sign</TableTH>
-                        <TableTH scope="col">Last</TableTH>
-                        <TableTH scope="col">Lowest</TableTH>
-                        <TableTH scope="col">Highest</TableTH>
-                        <TableTH scope="col">Trend</TableTH>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {#each VITALS as v (v.sign)}
+            <HorizontalScroller label="Vital signs trend">
+                <Table label="Vital signs trend">
+                    <TableHead>
                         <TableRow>
-                            <TableTH scope="row">{v.sign}</TableTH>
-                            <TableTD>{v.readings.at(-1)} {v.unit}</TableTD>
-                            <TableTD>{Math.min(...v.readings)} {v.unit}</TableTD>
-                            <TableTD>{Math.max(...v.readings)} {v.unit}</TableTD>
-                            <TableTD>
-                                <Sparkline
-                                    label={`${v.sign}: ${v.readings.join(", ")} ${v.unit}`}
-                                    pointCount={v.readings.length}
-                                >
-                                    <svg
-                                        viewBox="0 0 100 20"
-                                        width="100"
-                                        height="20"
-                                        aria-hidden="true"
-                                    >
-                                        <polyline
-                                            points={points(v.readings)}
-                                            fill="none"
-                                            stroke="currentColor"
-                                            stroke-width="1.5"
-                                        />
-                                    </svg>
-                                </Sparkline>
-                            </TableTD>
+                            <TableTH scope="col">Sign</TableTH>
+                            <TableTH scope="col">Last</TableTH>
+                            <TableTH scope="col">Lowest</TableTH>
+                            <TableTH scope="col">Highest</TableTH>
+                            <TableTH scope="col">Trend</TableTH>
                         </TableRow>
-                    {/each}
-                </TableBody>
-            </Table>
+                    </TableHead>
+                    <TableBody>
+                        {#each VITALS as v (v.sign)}
+                            <TableRow>
+                                <TableTH scope="row">{v.sign}</TableTH>
+                                <TableTD>{v.readings.at(-1)} {v.unit}</TableTD>
+                                <TableTD>{Math.min(...v.readings)} {v.unit}</TableTD>
+                                <TableTD>{Math.max(...v.readings)} {v.unit}</TableTD>
+                                <TableTD>
+                                    <Sparkline
+                                        label={`${v.sign}: ${v.readings.join(", ")} ${v.unit}`}
+                                        pointCount={v.readings.length}
+                                    >
+                                        <svg
+                                            viewBox="0 0 100 20"
+                                            width="100"
+                                            height="20"
+                                            aria-hidden="true"
+                                        >
+                                            <polyline
+                                                points={points(v.readings)}
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="1.5"
+                                            />
+                                        </svg>
+                                    </Sparkline>
+                                </TableTD>
+                            </TableRow>
+                        {/each}
+                    </TableBody>
+                </Table>
+            </HorizontalScroller>
         </section>
 
         <section aria-labelledby="reminders-heading">

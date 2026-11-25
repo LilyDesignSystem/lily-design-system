@@ -4399,6 +4399,24 @@
     overflow-wrap: break-word;
 }
 
+/* A data cell that holds a time, a date or a clinical value keeps it whole (2026-11-25): anywhere let a narrow column show
+   09:00 as "09:0" over "0". Inside a horizontal-scroller every data cell keeps whole words, since the scroller, not the page,
+   takes the extra width. */
+:where(
+    td time,
+    td data,
+    td .observation-view,
+    td .medication-view,
+    td .age-view,
+    td .duration-view,
+    td .early-warning-score-view,
+    .horizontal-scroller td,
+    .horizontal-scroller td a,
+    .horizontal-scroller td code
+) {
+    overflow-wrap: break-word;
+}
+
 /* ============================================================================
  * Scoped overflow — shared verbatim by all themes.
  *

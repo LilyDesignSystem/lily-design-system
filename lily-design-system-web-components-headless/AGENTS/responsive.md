@@ -22,6 +22,9 @@ Full topic: [spec/responsive/index.md](../spec/responsive/index.md).
   `anywhere`: `anywhere` also shrinks a cell's minimum width to one letter, so a table that sizes its own columns split
   one-word headers ("Patie/nt"). A table whose whole-word headers are wider than a narrow screen goes in a
   `horizontal-scroller`, the labelled, focusable region the reflow rule asks for; never let the page scroll instead.
+- **Clinical values are never split.** A `<time>`, a `<data>` and the clinical view components keep their words and numbers whole in
+  a data cell, and inside a `horizontal-scroller` every data cell does. A plain number in a cell outside a scroller can still break
+  in a narrow column, so put a clinical table in a scroller, and its times in `<time>`.
 - **Text does not shrink below `1rem`** and is never sized in `vw` alone. Fluid values are for spacing, not text.
 - **Text expansion.** Layouts must survive labels 30 percent longer than English (Welsh runs 20 to 30 percent longer); the sweep tests it at 320px.
 - **Touch and hover are queries, not guesses.** Use `(hover: none)` and `(pointer: coarse)`, never a viewport width, to

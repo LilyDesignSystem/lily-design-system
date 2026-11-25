@@ -7,6 +7,7 @@
     import Header from "#lib/components/Header/Header.svelte";
     import BackLink from "#lib/components/BackLink/BackLink.svelte";
     import Button from "#lib/components/Button/Button.svelte";
+    import HorizontalScroller from "#lib/components/HorizontalScroller/HorizontalScroller.svelte";
     import Table from "#lib/components/Table/Table.svelte";
     import TableHead from "#lib/components/TableHead/TableHead.svelte";
     import TableBody from "#lib/components/TableBody/TableBody.svelte";
@@ -163,59 +164,63 @@
         {summary}
     </p>
 
-    <Table label="Results waiting for review">
-        <TableHead>
-            <TableRow>
-                <TableTH scope="col">
-                    <input
-                        bind:this={selectAll}
-                        type="checkbox"
-                        aria-label="Select all results"
-                        checked={allSelected}
-                        onchange={toggleAll}
-                    />
-                </TableTH>
-                <TableTH scope="col">Patient</TableTH>
-                <TableTH scope="col">Result</TableTH>
-                <TableTH scope="col">Received</TableTH>
-                <TableTH scope="col">Priority</TableTH>
-                <TableTH scope="col">Review</TableTH>
-            </TableRow>
-        </TableHead>
-        <TableBody>
-            {#each results as r (r.id)}
-                <TableRow
-                    data-priority={r.priority}
-                    data-reviewed={r.reviewedBy ? "" : undefined}
-                >
-                    <TableTD>
+    <HorizontalScroller label="Results waiting for review">
+        <Table label="Results waiting for review">
+            <TableHead>
+                <TableRow>
+                    <TableTH scope="col">
                         <input
+                            bind:this={selectAll}
                             type="checkbox"
-                            aria-label={`Select ${r.test} for ${r.patient}`}
-                            checked={selected.includes(r.id)}
-                            onchange={(event) => toggle(r.id, event.currentTarget.checked)}
+                            aria-label="Select all results"
+                            checked={allSelected}
+                            onchange={toggleAll}
                         />
-                    </TableTD>
-                    <TableTH scope="row"
-                        >{r.patient}<br />Born {r.born}, NHS number {r.number}</TableTH
-                    >
-                    <TableTD>
-                        {r.test}:
-                        <ObservationView
-                            value={r.value}
-                            unit={r.unit}
-                            interpretation={r.interpretation}
-                            flagLabel={r.flagLabel || undefined}
-                            range={r.range}
-                        />
-                    </TableTD>
-                    <TableTD><time datetime={r.received}>{r.receivedLabel}</time></TableTD>
-                    <TableTD>{PRIORITY_WORDS[r.priority]}</TableTD>
-                    <TableTD
-                        >{r.reviewedBy ? `Reviewed by ${r.reviewedBy}` : "Not reviewed"}</TableTD
-                    >
+                    </TableTH>
+                    <TableTH scope="col">Patient</TableTH>
+                    <TableTH scope="col">Result</TableTH>
+                    <TableTH scope="col">Received</TableTH>
+                    <TableTH scope="col">Priority</TableTH>
+                    <TableTH scope="col">Review</TableTH>
                 </TableRow>
-            {/each}
-        </TableBody>
-    </Table>
+            </TableHead>
+            <TableBody>
+                {#each results as r (r.id)}
+                    <TableRow
+                        data-priority={r.priority}
+                        data-reviewed={r.reviewedBy ? "" : undefined}
+                    >
+                        <TableTD>
+                            <input
+                                type="checkbox"
+                                aria-label={`Select ${r.test} for ${r.patient}`}
+                                checked={selected.includes(r.id)}
+                                onchange={(event) => toggle(r.id, event.currentTarget.checked)}
+                            />
+                        </TableTD>
+                        <TableTH scope="row"
+                            >{r.patient}<br />Born {r.born}, NHS number {r.number}</TableTH
+                        >
+                        <TableTD>
+                            {r.test}:
+                            <ObservationView
+                                value={r.value}
+                                unit={r.unit}
+                                interpretation={r.interpretation}
+                                flagLabel={r.flagLabel || undefined}
+                                range={r.range}
+                            />
+                        </TableTD>
+                        <TableTD><time datetime={r.received}>{r.receivedLabel}</time></TableTD>
+                        <TableTD>{PRIORITY_WORDS[r.priority]}</TableTD>
+                        <TableTD
+                            >{r.reviewedBy
+                                ? `Reviewed by ${r.reviewedBy}`
+                                : "Not reviewed"}</TableTD
+                        >
+                    </TableRow>
+                {/each}
+            </TableBody>
+        </Table>
+    </HorizontalScroller>
 </main>

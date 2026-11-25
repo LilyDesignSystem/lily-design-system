@@ -4,6 +4,7 @@
     // the row header, so a screen reader names it in every cell. e2e/healthcare-pages.spec.ts checks it.
     import Header from "#lib/components/Header/Header.svelte";
     import BackLink from "#lib/components/BackLink/BackLink.svelte";
+    import HorizontalScroller from "#lib/components/HorizontalScroller/HorizontalScroller.svelte";
     import Table from "#lib/components/Table/Table.svelte";
     import TableHead from "#lib/components/TableHead/TableHead.svelte";
     import TableBody from "#lib/components/TableBody/TableBody.svelte";
@@ -96,33 +97,35 @@
         or is planned, in words. The product is what is on the box; the dose is what was prescribed.
     </p>
 
-    <Table label={`Medicines administration, ${chartDateWords}`}>
-        <TableHead>
-            <TableRow>
-                <TableTH scope="col">Medicine and product</TableTH>
-                <TableTH scope="col">Prescribed dose and route</TableTH>
-                {#each times as time (time)}<TableTH scope="col"
-                        >Scheduled <time datetime={time}>{time}</time></TableTH
-                    >{/each}
-            </TableRow>
-        </TableHead>
-        <TableBody>
-            {#each rows as row (row.name)}
+    <HorizontalScroller label={`Medicines administration, ${chartDateWords}`}>
+        <Table label={`Medicines administration, ${chartDateWords}`}>
+            <TableHead>
                 <TableRow>
-                    <TableTH scope="row">
-                        <MedicationView
-                            name={row.name}
-                            strength={row.product}
-                        />
-                    </TableTH>
-                    <TableTD>{row.dose} {row.route}</TableTD>
-                    {#each times as time (time)}
-                        <TableTD data-status={row.doses[time].status}
-                            >{row.doses[time].words}</TableTD
-                        >
-                    {/each}
+                    <TableTH scope="col">Medicine and product</TableTH>
+                    <TableTH scope="col">Prescribed dose and route</TableTH>
+                    {#each times as time (time)}<TableTH scope="col"
+                            >Scheduled <time datetime={time}>{time}</time></TableTH
+                        >{/each}
                 </TableRow>
-            {/each}
-        </TableBody>
-    </Table>
+            </TableHead>
+            <TableBody>
+                {#each rows as row (row.name)}
+                    <TableRow>
+                        <TableTH scope="row">
+                            <MedicationView
+                                name={row.name}
+                                strength={row.product}
+                            />
+                        </TableTH>
+                        <TableTD>{row.dose} {row.route}</TableTD>
+                        {#each times as time (time)}
+                            <TableTD data-status={row.doses[time].status}
+                                >{row.doses[time].words}</TableTD
+                            >
+                        {/each}
+                    </TableRow>
+                {/each}
+            </TableBody>
+        </Table>
+    </HorizontalScroller>
 </main>

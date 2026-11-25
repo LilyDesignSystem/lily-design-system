@@ -5,6 +5,13 @@ The format is loosely based on [Keep a Changelog](https://keepachangelog.com/) a
 anything that can change how an existing page lays out. The monorepo's root
 [CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md) has the reasoning behind each change.
 
+## Unreleased
+
+- **Fixed (layout):** a `<time>`, a `<data>` or a clinical view component (`observation-view`, `medication-view`, `age-view`,
+  `duration-view`, `early-warning-score-view`) in a table data cell keeps its words and numbers whole, and inside a
+  `horizontal-scroller` every data cell does: 09:00 was shown as "09:0" over "0". **Watch for:** such a column is now at least as wide
+  as its longest word, so a table holding one can need a `horizontal-scroller` on a narrow screen. Components: `table`, `data-table`.
+
 ## 0.9.0 — 2026-11-23
 
 - **Added:** `light-high-contrast` and `dark-high-contrast`, accessible themes meeting WCAG 2.2 AAA (7:1 text and a heavy focus ring), 65 themes in all.

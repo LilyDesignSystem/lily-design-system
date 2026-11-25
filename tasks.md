@@ -4753,6 +4753,15 @@ and unreleased; T8 to T13 are open, and T9 to T12 need people.
       Angular (2,477), SvelteKit (4,078), Next (99) and Nuxt (1,433), and HTML's full browser run had one stale failure, fixed; the
       HTML app's wdio tests and the other apps' browser specs were not run. Decide which run on every push and which weekly.
       Verify: `bin/ci --list` names every app's suites, or a file says why one is left out.
+      _(2026-11-25: the browser suites run in Chromium: Solid 62, React 1,320, Vue 1,320 and Angular 1,653 passed; Blazor had two
+      stale tests and two that tested nothing, fixed; SvelteKit's three failures became P49-T18. `clinical-reflow` and
+      `patient-dashboard` now run in CI.)_
+- [x] **P49-T18 A clinical value split across lines; clinical pages that scroll sideways.** _(2026-11-25: themes, six pages, and
+      `e2e/clinical-reflow.spec.ts` in three engines, which fails 9 ways on the old pages and 9 on the old themes.)_
+- [ ] **P49-T19 Words and numbers that still split at 320px.** The `/dashboard` (142, 4.2) and `/search-and-filter` pages, in eight
+      apps. For the maintainer: data cells outside a scroller keep `overflow-wrap: anywhere`, so any plain number there can split;
+      `break-word` would stop it and let a long value widen a page that has no scroller.
+      Verify: the `clinical-reflow` measure over those pages in each app.
 
 ---
 

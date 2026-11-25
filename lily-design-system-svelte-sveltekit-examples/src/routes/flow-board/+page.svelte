@@ -6,6 +6,7 @@
     import Header from "#lib/components/Header/Header.svelte";
     import BackLink from "#lib/components/BackLink/BackLink.svelte";
     import Button from "#lib/components/Button/Button.svelte";
+    import HorizontalScroller from "#lib/components/HorizontalScroller/HorizontalScroller.svelte";
     import Table from "#lib/components/Table/Table.svelte";
     import TableHead from "#lib/components/TableHead/TableHead.svelte";
     import TableBody from "#lib/components/TableBody/TableBody.svelte";
@@ -132,47 +133,49 @@
         {summary}
     </p>
 
-    <Table label="Today's appointments">
-        <TableHead>
-            <TableRow>
-                <TableTH scope="col">Time</TableTH>
-                <TableTH scope="col">Patient</TableTH>
-                <TableTH scope="col">Status</TableTH>
-                <TableTH scope="col">Priority</TableTH>
-                <TableTH scope="col">Room</TableTH>
-                <TableTH scope="col">Time in status</TableTH>
-            </TableRow>
-        </TableHead>
-        <TableBody>
-            {#each appointments as a (a.time)}
-                <TableRow
-                    data-status={a.status}
-                    data-priority={a.priority}
-                    data-overdue={overdue(a) ? "" : undefined}
-                >
-                    <TableTD><time datetime={a.time}>{a.timeLabel}</time></TableTD>
-                    <TableTH scope="row"
-                        >{a.patient}<br />Born {a.born}, NHS number {a.number}</TableTH
-                    >
-                    <TableTD>
-                        {STATUS_WORDS[a.status]}{#if overdue(a)}<br /><strong
-                                >Waiting over {OVERDUE_AFTER} minutes</strong
-                            >{/if}
-                    </TableTD>
-                    <TableTD>{PRIORITY_WORDS[a.priority]}</TableTD>
-                    <TableTD>{a.room || "Not yet given"}</TableTD>
-                    <TableTD>
-                        {#if a.status === "arrived" || a.status === "in-room"}
-                            <DurationView
-                                value={`${a.minutes} minutes`}
-                                duration={`PT${a.minutes}M`}
-                            />
-                        {:else}
-                            Not applicable
-                        {/if}
-                    </TableTD>
+    <HorizontalScroller label="Today's appointments">
+        <Table label="Today's appointments">
+            <TableHead>
+                <TableRow>
+                    <TableTH scope="col">Time</TableTH>
+                    <TableTH scope="col">Patient</TableTH>
+                    <TableTH scope="col">Status</TableTH>
+                    <TableTH scope="col">Priority</TableTH>
+                    <TableTH scope="col">Room</TableTH>
+                    <TableTH scope="col">Time in status</TableTH>
                 </TableRow>
-            {/each}
-        </TableBody>
-    </Table>
+            </TableHead>
+            <TableBody>
+                {#each appointments as a (a.time)}
+                    <TableRow
+                        data-status={a.status}
+                        data-priority={a.priority}
+                        data-overdue={overdue(a) ? "" : undefined}
+                    >
+                        <TableTD><time datetime={a.time}>{a.timeLabel}</time></TableTD>
+                        <TableTH scope="row"
+                            >{a.patient}<br />Born {a.born}, NHS number {a.number}</TableTH
+                        >
+                        <TableTD>
+                            {STATUS_WORDS[a.status]}{#if overdue(a)}<br /><strong
+                                    >Waiting over {OVERDUE_AFTER} minutes</strong
+                                >{/if}
+                        </TableTD>
+                        <TableTD>{PRIORITY_WORDS[a.priority]}</TableTD>
+                        <TableTD>{a.room || "Not yet given"}</TableTD>
+                        <TableTD>
+                            {#if a.status === "arrived" || a.status === "in-room"}
+                                <DurationView
+                                    value={`${a.minutes} minutes`}
+                                    duration={`PT${a.minutes}M`}
+                                />
+                            {:else}
+                                Not applicable
+                            {/if}
+                        </TableTD>
+                    </TableRow>
+                {/each}
+            </TableBody>
+        </Table>
+    </HorizontalScroller>
 </main>

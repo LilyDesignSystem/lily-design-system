@@ -4,6 +4,7 @@
     // narrative or put one in the URL. A draft belongs to its patient and is never cleared by rehearsing.
     // e2e/healthcare-pages.spec.ts checks it.
     import { onMount } from "svelte";
+    import HorizontalScroller from "#lib/components/HorizontalScroller/HorizontalScroller.svelte";
     import Header from "#lib/components/Header/Header.svelte";
     import BackLink from "#lib/components/BackLink/BackLink.svelte";
     import Button from "#lib/components/Button/Button.svelte";
@@ -134,19 +135,22 @@
         use "delivered" or "accepted" only for the event your service received. None of these states
         happens on this page.
     </p>
-    <table>
-        <caption>Delivery states, with example words</caption>
-        <thead>
-            <tr>
-                <th scope="col">State</th><th scope="col">Example words</th><th scope="col"
-                    >Draft</th
-                >
-            </tr>
-        </thead>
-        <tbody>
-            {#each states as row (row.state)}
-                <tr><th scope="row">{row.state}</th><td>{row.words}</td><td>{row.draft}</td></tr>
-            {/each}
-        </tbody>
-    </table>
+    <HorizontalScroller label="Delivery states, with example words">
+        <table>
+            <caption>Delivery states, with example words</caption>
+            <thead>
+                <tr>
+                    <th scope="col">State</th><th scope="col">Example words</th><th scope="col"
+                        >Draft</th
+                    >
+                </tr>
+            </thead>
+            <tbody>
+                {#each states as row (row.state)}
+                    <tr><th scope="row">{row.state}</th><td>{row.words}</td><td>{row.draft}</td></tr
+                    >
+                {/each}
+            </tbody>
+        </table>
+    </HorizontalScroller>
 </main>
