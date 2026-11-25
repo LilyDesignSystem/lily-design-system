@@ -77,7 +77,7 @@ import Testing
         ) == ["ObservationView: status amended needs a statusLabel"])
 }
 
-// HC-C12, HC-C13, HC-C14 (spec/healthcare-ui/requirements.md): docs/audits/gpt-6-2-astra-high finding 2.
+// HC-C12, HC-C13, HC-C14 (spec/healthcare-ui/requirements.md): the audit of 2026-11-25, finding 2.
 @Test func withheldAndWithdrawnResultsSpeakOnlyTheirWords() {
     func spoken(_ status: ObservationStatus, _ words: String?, _ show: Bool = false) -> String {
         ObservationRules.spoken(

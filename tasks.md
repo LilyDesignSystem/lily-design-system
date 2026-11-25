@@ -4705,7 +4705,7 @@ From [spec/quality-review](spec/quality-review/index.md); the numbers in bracket
 
 ## Phase 49 — Lessons from the project and healthcare audit (2026-11-25)
 
-From [docs/audits/gpt-6-2-astra-high](docs/audits/gpt-6-2-astra-high/index.md), which names the revision it read. T1 to T7 are built
+From an audit of 2026-11-25, which names the revision it read (`git show 2dd6b65d0:docs/audits/gpt-6-2-astra-high/index.md`). T1 to T7 are built
 and unreleased; T8 to T13 are open, and T9 to T12 need people.
 
 - [x] **P49-T1 A partial birth date has no age (finding 1).** _(2026-11-25: HC-F16, in TypeScript, C#, Kotlin and Swift.)_
@@ -4772,6 +4772,91 @@ and unreleased; T8 to T13 are open, and T9 to T12 need people.
 - [ ] **P49-T21 Component pages that scroll sideways at 320px.** SvelteKit's `kanban-table` (473px), `calendar-month-table` (133),
       `calendar-week-table` (133) and `heatmap-chart-with-year-of-days` (403). Found 2026-11-25; older than that.
       Verify: no component page is wider than 320px, in every app.
+
+## Phase 50 — Lessons from the four audits (2026-11-25)
+
+The audits are deleted from the tree and kept in history: `git show 2dd6b65d0:docs/audits/<path>`. They are
+`gpt-6-2-astra/index.md` (a production audit for healthcare, at revision 8f5c98174), `gpt-6-2-astra-high/index.md` (Phase 49),
+`mistral/` (2026-11-04) and `mistral-medium-3-5-high/index.md`. T1 to T5 are safety findings in the revision prepared for release;
+each was checked against the source on 2026-11-25, not reproduced in a browser here.
+
+### Safety: what happens between two valid states (audit 1 to 5)
+
+- [ ] **P50-T1 A mounted Web Component keeps a masked result on screen (1).** `lily-observation-view` builds once in `connectedCallback`
+      and has no `observedAttributes`, so a result masked or withdrawn later still shows its value and flag, and the host keeps its
+      `value`. Checked: `age-view`, `medication-view`, `allergy-record-list`, `record-list`, `decision-support-card`,
+      `early-warning-score-view`, `duration-view` and `date-time-view` observe nothing either. Correct `components/observation-view`'s
+      testing guidance, which still says a withdrawn value is visible by default.
+      Verify: one mounted instance from final to masked, final to entered-in-error, preliminary to corrected, and back; text, host and
+      rendered attributes, flag, meter and previous value; from the packed package.
+- [ ] **P50-T2 A record list can claim "None known" beside an entry (2).** Svelte and React render the children whatever the status;
+      the allergy, medication and problem lists did. Render them only when `known`, in every catalog and all the record lists, and warn
+      in development without the contents.
+      Verify: patient A to B, and known to unavailable to known, with an old child still supplied; nothing is relabelled "None known".
+- [ ] **P50-T3 An alert submits another alert's override reason (3).** `decision-support-card` keeps the chosen reason when its card is
+      replaced, and accepts one the current card does not offer (React and Svelte, from the source).
+      Verify: replacement with the same and with different reason codes, and an offered reason removed while open, in every stateful port.
+- [ ] **P50-T4 A blank label is not words (4).** `statusLabel="   "` shows a preliminary value with no qualification: the test is string
+      truthiness in Svelte, React, Vue and Solid. Check the other ports.
+      Verify: an empty string, spaces, a no-break space and a real label, in every renderer.
+- [ ] **P50-T5 A partial date is not converted to another calendar (5).** `formatPartialDate("2026-01", "en-US-u-ca-hebrew")` gives
+      Tevet 5786, though late January is Shevat. Wider than the audit says: `fa-IR`, with no calendar asked for, gives Dey 1404, though
+      late January is Bahman. Keep the source calendar for a partial date, and localize its words and digits.
+      Verify: year and month vectors across calendar boundaries, full dates still localized, in TypeScript, C#, Kotlin and Swift.
+- [ ] **P50-T6 A shared table of state transitions.** Each rule's transitions and expected outcome, driven by each framework's own update,
+      beginning with T1 to T4; published per runtime and package version. Add the conflicting list and the stale reason to the worked
+      hazard log, and ids to `spec/healthcare-ui/requirements.md`. Verify: each planted defect fails in each runtime that has the part.
+- [ ] **P50-T7 Say which published versions are affected.** Check the distributed packages for T1 to T5, and record affected and fixed
+      versions in the changelogs. Verify: from the registry tarballs.
+
+### Examples, privacy and release
+
+- [ ] **P50-T8 The patient summary names its patient.** Compose the patient banner into `/patient-summary`.
+      Verify: switching between two similar names with a request outstanding, in print too.
+- [ ] **P50-T9 What replay and error tools receive.** An independent check of custom-element host attributes and DOM updates
+      (`check-phi-attributes` reads Svelte only), with synthetic sentinel values through a record switch, a mask and an error.
+      Verify: a value planted in each is found, or absent, as `PHI.md` says. _(A configured staging deployment needs an adopter.)_
+- [ ] **P50-T10 A real publish needs evidence for its commit, in CI too.** `publish.yml` runs a real publish with no dependency on a
+      green CI run, and the scripts skip the receipt when `CI` is set. With P48-T15 and P49-T13: the smoke test covers the transitions,
+      and the release note links digest, rule, runtime, job and skips. Verify: a planted failed clinical check stops a publish.
+- [ ] **P50-T11 Clinical users and assistive technology on a change.** A clinician and an assistive-technology user review a corrected
+      result and an alert, by keyboard only, at high zoom, with a long translated label. With P49-T9. _(Needs people.)_
+      Verify: what was identified, announced and misunderstood, and the retest.
+
+### From the Mistral audits: open
+
+- [ ] **P50-T12 A quick start per framework.** `INSTALL.md` is generic. Verify: an outside reader renders a component in five minutes.
+- [ ] **P50-T13 A component chooser.** Guided questions to a component, from the purpose facet (P46). Verify: every component is reachable.
+- [ ] **P50-T14 A visual gallery.** Thumbnails from the example apps. Verify: generated, with a `--check`.
+- [ ] **P50-T15 More migration guides.** Bootstrap, GOV.UK and NHS UK exist; Material UI, Tailwind UI, Chakra UI, Ant Design, daisyUI do not.
+- [ ] **P50-T16 Help for adopters.** A searchable FAQ and troubleshooting page, a best-practices guide, and accessibility recipes.
+- [ ] **P50-T17 Screen-reader testing for newcomers.** Fold what is useful in the Mistral guide (one component, one combination) into
+      `docs/screen-reader-session.md`, after checking its VoiceOver commands, some of which look wrong. Verify: followed once for real.
+- [ ] **P50-T18 Third-party licences.** A list of what each published package depends on, and a check of the licences.
+- [ ] **P50-T19 Bundle size.** Measure each published package, record it, and fail on an unexplained rise; `sideEffects` is declared in 50
+      of 205 packages. Verify: a bundle that imports one component holds only it.
+- [ ] **P50-T20 Lighthouse on the docs site.** Performance and SEO, beside the axe checks. Verify: a recorded baseline that may not fall.
+- [ ] **P50-T21 Failed CI keeps its evidence.** Upload Playwright traces and reports on failure. Verify: a failed run's trace opens.
+- [ ] **P50-T22 A supported-browser table.** From the engines the tests run. Verify: generated from the configurations.
+- [ ] **P50-T23 Large data and rapid change.** Stress tests of the data grid, Gantt chart and kanban board beyond the benchmarks.
+- [ ] **P50-T24 Render errors.** What each framework's components do when a child throws, documented and tested.
+- [ ] **P50-T25 More shared behaviour.** Tabs, disclosure, dialog focus and roving tabindex, after the listbox, menu and combobox modules
+      (with P12-T10 and P12-T11, which decide the core package and shrink `DataGrid.svelte`, now 2,395 lines).
+
+### For the maintainer
+
+- [ ] **P50-T26 Decide which of these to take up.** People or money: an external WCAG and security audit, grants and sponsors, a second
+      publisher and co-maintainers (P16-T10), an enterprise support offer. Outreach: an organization profile README, a press kit, a
+      newsletter, an adopter showcase (no adopter is recorded), a content calendar, talks, videos, workshops, coding challenges, a
+      certificate, a contributors page. Engineering: one pnpm workspace, commit linting, automated releases, Windows and macOS runners,
+      self-hosted runners (P24-T9), deployment previews, SonarQube, a Figma exchange, a shared types package.
+- [ ] **P50-T27 Decide whether to stop adding components until Lily Core has members.** The Mistral assessment's main advice. Core has 0.
+
+Already done or tracked, so not repeated: CI green, pre-push hooks, frozen lockfiles, type checking and lint in CI, caches, Dependabot,
+the weekly security audit, coverage floor, mutation, property and benchmark tests, visual regression, axe in every app, keyboard gaps,
+Popover API, form reset, coarse-pointer targets, forced colours, reduced motion, theme references, the shadcn registry, the framework
+comparison, component contracts on the site, training (P35-T5), the playground (P22-T22), stale counts (P48-T17), adopter lint rules.
+Declined: the assessments' metrics (stars, downloads, coverage, open issues), which cite no source; IE11; a 20-second `bin/test`.
 
 ---
 

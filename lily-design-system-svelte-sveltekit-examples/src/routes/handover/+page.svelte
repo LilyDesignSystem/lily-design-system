@@ -1,5 +1,5 @@
 <script lang="ts">
-    // SBAR handover rehearsal (spec/healthcare-ui item 9, P27-T9; docs/audits/gpt-6-2-astra-high finding 3). It sends nothing,
+    // SBAR handover rehearsal (spec/healthcare-ui item 9, P27-T9; the audit of 2026-11-25, finding 3). It sends nothing,
     // and says so. The fields have no name and are disabled until this script runs, so the first HTML cannot submit a
     // narrative or put one in the URL. A draft belongs to its patient and is never cleared by rehearsing.
     // e2e/healthcare-pages.spec.ts checks it.

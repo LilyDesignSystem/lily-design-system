@@ -209,7 +209,7 @@ const show = (props: object) => {
     return root();
 };
 
-// docs/audits/gpt-6-2-astra-high finding 2: a result that is withdrawn, withheld or has no words is never read as a plain one.
+// the audit of 2026-11-25, finding 2: a result that is withdrawn, withheld or has no words is never read as a plain one.
 describe("ObservationView: withheld and withdrawn results", () => {
     const stale = {
         value: "5.9",

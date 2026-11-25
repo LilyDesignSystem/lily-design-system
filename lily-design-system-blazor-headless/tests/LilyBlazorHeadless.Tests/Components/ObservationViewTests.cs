@@ -141,7 +141,7 @@ public class ObservationViewTests : TestContext
         Assert.Empty(missing.FindAll("meter"));
     }
 
-    // docs/audits/gpt-6-2-astra-high finding 2.
+    // the audit of 2026-11-25, finding 2.
     private IRenderedComponent<ObservationView> Stale(string status, string? words, bool showWithdrawn = false) =>
         RenderComponent<ObservationView>(p => p
             .Add(x => x.Value, "5.9").Add(x => x.Unit, "mmol/L").Add(x => x.Interpretation, "HH").Add(x => x.FlagLabel, "Critically high")

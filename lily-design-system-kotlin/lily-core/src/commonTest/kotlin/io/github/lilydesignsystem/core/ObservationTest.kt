@@ -66,7 +66,7 @@ class ObservationTest {
         )
     }
 
-    // HC-C12, HC-C13, HC-C14 (spec/healthcare-ui/requirements.md): docs/audits/gpt-6-2-astra-high finding 2.
+    // HC-C12, HC-C13, HC-C14 (spec/healthcare-ui/requirements.md): the audit of 2026-11-25, finding 2.
     @Test
     fun withheldAndWithdrawnResultsSpeakOnlyTheirWords() {
         fun spoken(status: ObservationStatus, words: String?, show: Boolean = false) = ObservationRules.spoken(

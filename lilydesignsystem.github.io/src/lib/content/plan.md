@@ -660,9 +660,16 @@ Status (2026-11-24): reviewed. The label-pack names (T18) are fixed; the rest is
 
 An audit found the gaps where clinical information is incomplete, withdrawn, withheld or in transit. Its five safety findings,
 the two clinical pages and the hazard log are built; nothing is released. What is left needs people (screen-reader tasks,
-clinical review, a fluent reader, an outside team) or is release evidence. Audit:
-[docs/audits/gpt-6-2-astra-high](docs/audits/gpt-6-2-astra-high/index.md). Tasks:
+clinical review, a fluent reader, an outside team) or is release evidence. The audit:
+`git show 2dd6b65d0:docs/audits/gpt-6-2-astra-high/index.md`. Tasks:
 [tasks.md](tasks.md#phase-49--lessons-from-the-project-and-healthcare-audit-2026-11-25).
+
+## Phase 50 — Lessons from the four audits (2026-11-25)
+
+A second healthcare audit found five defects between two valid screen states, in the revision prepared for release; the headless
+release waits for them. The older assessments' open ideas are tasks too, with what is already done and what needs a decision. The
+audits are kept in history at `2dd6b65d0`. Tasks:
+[tasks.md](tasks.md#phase-50--lessons-from-the-four-audits-2026-11-25).
 
 ---
 
