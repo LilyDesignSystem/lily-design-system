@@ -4660,8 +4660,8 @@ From [spec/quality-review](spec/quality-review/index.md); the numbers in bracket
 
 ### Gates
 
-- [ ] **P48-T4 Green `main` (1, 2, 4).** _(2026-11-24: `MutationObserver` in both jsdom blocks of `bin/smoke-packages`; exact-case
-      names in `bin/generate-framework-matrix`; a green run not yet seen.)_ Whatever the later smoke checks find.
+- [x] **P48-T4 Green `main` (1, 2, 4).** _(2026-11-24: `MutationObserver` in both jsdom blocks of `bin/smoke-packages`; exact-case
+      names in `bin/generate-framework-matrix`; `CI` green on 57ec77c0b, 2026-11-25.)_ Whatever the later smoke checks find.
       Verify: a green `CI` run on `main`.
 - [ ] **P48-T5 `bin/test` shows why a check failed.** Keep a failing check's output and print its last lines.
       Verify: a check that crashes prints its error, not only "is stale".
@@ -4700,6 +4700,40 @@ From [spec/quality-review](spec/quality-review/index.md); the numbers in bracket
 - [x] **P48-T18 Text-size names (20).** _(2026-11-24: agreement, script, register and case rules in spec/label-packs; ten packs
       changed, unreviewed; not released.)_
 - [ ] **P48-T19 One register in the Javanese pack, and native review (20).** Verify: a speaker's review, then `reviewed: true`.
+
+## Phase 49 — Lessons from the project and healthcare audit (2026-11-25)
+
+From [docs/audits/gpt-6-2-astra-high](docs/audits/gpt-6-2-astra-high/index.md), which names the revision it read. T1 to T7 are built
+and unreleased; T8 to T13 are open, and T9 to T12 need people.
+
+- [x] **P49-T1 A partial birth date has no age (finding 1).** _(2026-11-25: HC-F16, in TypeScript, C#, Kotlin and Swift.)_
+      Verify: a year-only birth is refused in every runtime.
+- [x] **P49-T2 Withdrawn and masked observations (finding 2).** _(2026-11-25: HC-C12 to HC-C14 in eight web runtimes, Swift and
+      Kotlin; the FHIR R4 status table. The Compose view is not compiled on this machine. "Require" is enforced when
+      rendering, not in each language's types: see T8.)_ Verify: the register's tests.
+- [x] **P49-T3 The handover is a rehearsal (finding 3).** _(2026-11-25.)_ Verify: the browser tests, with scripts off too.
+- [x] **P49-T4 Errors hold no caller text (finding 4).** _(2026-11-25: HC-F8.)_ Verify: the sentinel tests.
+- [x] **P49-T5 A number is never shown as another (finding 5).** _(2026-11-25: HC-F17; also a percent that gained digits.)_
+      Verify: both sides of the boundary, in two locales.
+- [x] **P49-T6 The medicines chart and the observations page.** _(2026-11-25: patient, date, product and dose; one source for the
+      headline, chart, table and score; a corrected result.)_ Verify: the browser tests, print included.
+- [x] **P49-T7 A worked hazard log.** _(2026-11-25: docs/assurance/hazard-log-example.md, not reviewed by a clinician.)_
+      Verify: a clinical safety lead's review (T10).
+- [ ] **P49-T8 `statusLabel` required by type.** For any status but `final`, in Svelte, React, Solid and Vue.
+      Verify: a type test that omits it fails to compile.
+- [ ] **P49-T9 Two assisted tasks with people (screen reader).** A clinician finds which of two similar names has a corrected
+      result; a patient or carer says whether an allergy was ruled out or not known. Confirm the spoken order of a withdrawn
+      result. _(Needs people.)_ Verify: browser, assistive technology, language and misunderstanding recorded, and a retest.
+- [ ] **P49-T10 Review by a pharmacist or nurse, a laboratory or clinical reviewer, and a clinical safety lead** of the medicines
+      chart, the corrected result and the hazard log. _(Needs people.)_ Verify: their names, dates and changes recorded.
+- [ ] **P49-T11 A theme and language evidence page.** A clinical example in ordinary, forced-colours and narrow layouts, and a
+      right-to-left fixture mixing a name, number and unit, read by a fluent reviewer. _(The reading needs people.)_
+      Verify: theme, locale and date published with the result.
+- [ ] **P49-T12 An outside team installs and explains one summary** from one page: exact versions, framework, synthetic example,
+      limits and fix history. _(Needs people.)_ Verify: done without maintainer help.
+- [ ] **P49-T13 Which package was tested.** With P48-T3, P48-T6 and P48-T17: for each safety rule, runtime, package version,
+      commit, job and outcome, skipped checks included, and one dated release matrix. Verify: one fix traced from its
+      requirement to the installed package.
 
 ---
 

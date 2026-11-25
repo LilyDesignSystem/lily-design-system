@@ -56,7 +56,8 @@
         {
             href: "/handover",
             title: "Handover",
-            description: "An SBAR handover form, completed and sent by keyboard alone",
+            description:
+                "An SBAR handover rehearsal that sends nothing, completed by keyboard alone",
         },
         {
             href: "/medicines-administration",

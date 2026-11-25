@@ -19,21 +19,21 @@ that standard.
 
 ## Evidence available now
 
-| Question                                | Evidence                                                                                                                                                                          |
-| --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| How do I report a vulnerability?        | [SECURITY.md](../../SECURITY.md): private reporting, response times, safe harbour                                                                                                 |
-| What is the threat model?               | [SECURITY.md § Threat model](../../SECURITY.md): assets, trusted and untrusted input, attackers considered                                                                        |
-| What can I check for myself?            | [SECURITY.md § Structural properties](../../SECURITY.md): no network calls, no telemetry, no raw HTML rendering, `sideEffects: false`                                             |
-| Does it run under a strict CSP?         | [Content Security Policy](../content-security-policy.md): a starting policy, and the ten components that write a `style` attribute                                                |
-| Are dependencies checked?               | A weekly audit of every lockfile (`bin/security-audit`, `.github/workflows/security-audit.yml`) and a dependency-review workflow                                                  |
-| Are dependencies kept up to date?       | Grouped weekly update pull requests from `.github/dependabot.yml`                                                                                                                 |
-| What licence is it under?               | [LICENSE.md](../../LICENSE.md): a choice of several, including MIT and Apache 2.0                                                                                                 |
-| How well is it tested?                  | [Test coverage](../coverage.md), [benchmarks](../../BENCHMARKS.md), the mutation tests (`bin/mutation-test`), and the per-framework suites                                        |
-| How accessible is it?                   | [Accessibility statement](../accessibility-statement.md), the [self-assessed report](../accessibility-conformance-report.md), [Core](../core.md)                                  |
-| Which themes pass contrast?             | [Theme contrast table](../theme-contrast.md), checked on every build for the light and dark themes                                                                                |
-| What does it send to a network?         | Nothing: the headless layer has no data fetching. The website loads nothing from third parties, and sets one preference cookie (the theme) only after a visitor chooses a theme.  |
-| What does it keep in the browser?       | Only what a picker you use stores: the choice in `localStorage` and, for the theme picker, a first-party cookie. Each has a name you can change; an empty string switches it off. |
-| Who maintains it, and how are releases? | [MAINTAINERS.md](../../MAINTAINERS.md) and [releasing](../releasing.md)                                                                                                           |
+| Question                                | Evidence                                                                                                                                                                                                                            |
+| --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| How do I report a vulnerability?        | [SECURITY.md](../../SECURITY.md): private reporting, response times, safe harbour                                                                                                                                                   |
+| What is the threat model?               | [SECURITY.md § Threat model](../../SECURITY.md): assets, trusted and untrusted input, attackers considered                                                                                                                          |
+| What can I check for myself?            | [SECURITY.md § Structural properties](../../SECURITY.md): no network calls, no telemetry, no raw HTML rendering, `sideEffects: false`                                                                                               |
+| Does it run under a strict CSP?         | [Content Security Policy](../content-security-policy.md): a starting policy, and the ten components that write a `style` attribute                                                                                                  |
+| Are dependencies checked?               | A weekly audit of every lockfile (`bin/security-audit`, `.github/workflows/security-audit.yml`) and a dependency-review workflow                                                                                                    |
+| Are dependencies kept up to date?       | Grouped weekly update pull requests from `.github/dependabot.yml`                                                                                                                                                                   |
+| What licence is it under?               | [LICENSE.md](../../LICENSE.md): a choice of several, including MIT and Apache 2.0                                                                                                                                                   |
+| How well is it tested?                  | [Test coverage](../coverage.md), [benchmarks](../../BENCHMARKS.md), the mutation tests (`bin/mutation-test`), and the per-framework suites                                                                                          |
+| How accessible is it?                   | [Accessibility statement](../accessibility-statement.md), the [self-assessed report](../accessibility-conformance-report.md), [Core](../core.md)                                                                                    |
+| Which themes pass contrast?             | [Theme contrast table](../theme-contrast.md), checked on every build for the light and dark themes                                                                                                                                  |
+| What does it send to a network?         | Nothing: the headless layer has no data fetching. The website loads nothing from third parties, and sets one preference cookie (the theme) only after a visitor chooses a theme.                                                    |
+| What does it keep in the browser?       | Only what a picker you use stores: the choice in `localStorage`, under a name you can change (an empty string switches it off). The theme picker keeps a first-party cookie too only when you give it a `cookieName` (since 0.6.0). |
+| Who maintains it, and how are releases? | [MAINTAINERS.md](../../MAINTAINERS.md) and [releasing](../releasing.md)                                                                                                                                                             |
 
 ## Not available yet
 
@@ -57,6 +57,9 @@ Your build is what ships, so the useful bill of materials is yours. For an npm p
 registry's own tooling for NuGet. Keep it with the release it describes.
 
 ## Clinical safety support
+
+[A worked hazard log](hazard-log-example.md): a wrong-patient action, a withdrawn result read as current, and a handover believed
+delivered, each with Lily's control, what depends on you, the evidence and what is left.
 
 If your service is health or care software, you probably have a clinical risk management process and a safety officer.
 Lily cannot do that work for you, but it can help you with the hazards that come from the interface. Put these in your

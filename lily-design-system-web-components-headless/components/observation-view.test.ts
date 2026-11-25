@@ -174,7 +174,9 @@ describe("ObservationView: withheld and withdrawn results", () => {
         });
         expect(root.textContent?.trim()).toBe("Entered in error");
         expectNoRecord(root);
-        expect(root.querySelector("span.observation-view")?.getAttribute("data-status")).toBe("entered-in-error");
+        expect(root.querySelector("span.observation-view")?.getAttribute("data-status")).toBe(
+            "entered-in-error",
+        );
     });
 
     test("HC-C13: in a history view the former value follows its words, struck through, with no flag, range or meter", () => {

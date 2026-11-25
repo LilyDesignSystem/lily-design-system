@@ -9,6 +9,19 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Unreleased (2026-11-25)
+
+From [an audit](docs/audits/gpt-6-2-astra-high/index.md). In the headless packages and the Swift and Kotlin libraries:
+
+- **Behaviour change:** `observation-view` shows only the words of an `entered-in-error` result; `showWithdrawn`, for an authorised
+  history view, adds its former value struck through. A result that is not final and has no `statusLabel` shows no value. A
+  withheld or withdrawn result renders no flag, range, meter or `data-interpretation`. `registered` and `unknown` are new.
+- **Behaviour change:** `ageParts` refuses a year, a year and month, a time with no offset and an impossible date, and gives whole
+  days or longer for a date with no time.
+- **Fixed:** a value finer than 20 decimal places is refused, not shown as 0; `formatProportion` no longer adds digits to a percent
+  (1.1 was 1.1000000000000001%); no formatter error holds text it was given.
+- The text-size names in ten label packs ([spec/label-packs](spec/label-packs/index.md#text-size-names)), still unreviewed.
+
 ## Release: the filters 0.2.0 and the Web Components identifiers 0.5.0 (2026-11-24)
 
 - The eight npm filter packages 0.2.0 and `LilyDesignSystem.Blazor.Filter` 0.3.0: a summary line and a remove-all button

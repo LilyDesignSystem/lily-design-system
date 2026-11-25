@@ -80,28 +80,78 @@ test("the ward board summarises a change in one status line", async ({ page }) =
 
 test("every administration on the chart is words", async ({ page }) => {
     await page.goto("/medicines-administration");
-    const cells = page.locator("tbody td");
+    const cells = page.locator("tbody td[data-status]");
     expect(await cells.count()).toBe(8);
     for (const text of await cells.allTextContents()) expect(text.trim().length).toBeGreaterThan(0);
-    await expect(page.getByRole("row", { name: /enoxaparin/ })).toContainText(
-        "Omitted: patient refused",
-    );
+    const row = page.getByRole("row", { name: /enoxaparin/ });
+    await expect(row).toContainText("Omitted 08:10: patient refused");
+    // The product on the box and the prescribed dose differ, and each is in its own cell.
+    await expect(row.getByRole("rowheader")).toContainText("60\u00a0mg");
+    await expect(row.getByRole("cell").first()).toHaveText("40\u00a0mg subcutaneous");
 });
 
-test("the observations chart has its data table and the latest flag in words", async ({ page }) => {
+test("the medicines chart names its patient and its date, and prints them", async ({ page }) => {
+    await page.goto("/medicines-administration");
+    const banner = page.getByRole("region", { name: "Patient details: EXAMPLE, Alex" });
+    for (const media of ["screen", "print"] as const) {
+        await page.emulateMedia({ media });
+        await expect(banner).toContainText("Invented-0001");
+        await expect(page.locator("main time[datetime='2026-11-14']")).toHaveText(
+            "14 November 2026",
+        );
+        await expect(page.getByText("Omitted 08:10: patient refused")).toBeVisible();
+    }
+    await expect(page.locator("main")).not.toContainText("today");
+});
+
+test("the observations chart has one source: a new reading changes the headline, chart, table and score", async ({
+    page,
+}) => {
     await page.goto("/observations-chart");
-    await expect(page.getByRole("img", { name: /Respiration rate today/ })).toBeVisible();
+    const agree = async (rate: string, time: string, count: number, flag: string, band: string) => {
+        await expect(page.locator(".observation-view-value").first()).toHaveText(rate);
+        await expect(
+            page.getByRole("img", { name: new RegExp(`${rate} at ${time}$`) }),
+        ).toBeVisible();
+        const rows = page.getByRole("table", { name: /Respiration rate/ }).locator("tbody tr");
+        await expect(rows).toHaveCount(count);
+        await expect(rows.last()).toContainText(rate);
+        await expect(rows.last()).toContainText(flag);
+        await expect(page.locator(".early-warning-score-view")).toHaveAttribute("data-band", band);
+    };
+    await agree("26", "18:00", 4, "High", "medium");
+    await expect(page.locator(".observation-view-flag").first()).toHaveText("High");
+    await page.getByRole("button", { name: "Show the 22:00 reading" }).click();
+    await agree("16", "22:00", 5, "None", "low");
     await expect(
-        page.getByRole("table", { name: /Respiration rate/ }).locator("tbody tr"),
-    ).toHaveCount(4);
-    await expect(page.locator(".observation-view-flag")).toHaveText("High");
-    await expect(page.locator(".early-warning-score-view")).toHaveAttribute("data-band", "medium");
+        page.locator(".observation-view").first().locator(".observation-view-flag"),
+    ).toHaveCount(0);
 });
 
-test("the handover is completed and sent by keyboard alone", async ({ page, browserName }) => {
+test("a corrected result keeps seen, acknowledged and follow-up apart", async ({ page }) => {
+    await page.goto("/observations-chart");
+    const result = page.getByRole("region", { name: "Corrected potassium result" });
+    await expect(result.locator("del")).toHaveText("6.1");
+    for (const term of [
+        "Sample collected",
+        "Amended",
+        "Responsible for follow-up",
+        "Seen",
+        "Acknowledged",
+        "Follow-up",
+    ])
+        await expect(result.locator("dt").getByText(term, { exact: true })).toBeVisible();
+});
+
+test("the handover rehearsal is completed by keyboard alone, says nothing was sent, and keeps the text", async ({
+    page,
+    browserName,
+}) => {
     await page.goto("/handover");
-    const form = page.getByRole("form", { name: "SBAR handover" });
+    const form = page.getByRole("form", { name: "SBAR handover rehearsal" });
     const fields = ["Situation", "Background", "Assessment", "Recommendation"];
+    // The fields are off until the page's script runs.
+    await expect(form.getByRole("textbox", { name: fields[0] })).toBeEnabled();
     await form.getByRole("textbox", { name: fields[0] }).focus();
     for (const [i, name] of fields.entries()) {
         await expect(form.getByRole("textbox", { name })).toBeFocused();
@@ -111,9 +161,43 @@ test("the handover is completed and sent by keyboard alone", async ({ page, brow
             i === fields.length - 1 && browserName === "webkit" ? "Alt+Tab" : "Tab",
         );
     }
-    await expect(page.getByRole("button", { name: "Send handover" })).toBeFocused();
-    await page.keyboard.press("Enter");
-    await expect(page.getByRole("status")).toHaveText("Handover sent");
+    const button = page.getByRole("button", { name: "Rehearse handover" });
+    await expect(button).toBeFocused();
+    // Twice, as a person retrying would.
+    for (let i = 0; i < 2; i++) {
+        await page.keyboard.press("Enter");
+        await expect(page.getByRole("status")).toContainText("Rehearsal only. Nothing was sent");
+    }
+    await expect(page.getByRole("status")).not.toContainText(/delivered|accepted|handover sent/i);
+    await expect(form.getByRole("textbox", { name: "Situation" })).toHaveValue("Situation text");
+    expect(new URL(page.url()).search).toBe("");
+});
+
+test("a handover draft stays with its patient", async ({ page }) => {
+    await page.goto("/handover");
+    const situation = page.getByRole("textbox", { name: "Situation" });
+    await situation.fill("About the first person");
+    await page.getByLabel("Patient").selectOption({ index: 1 });
+    await expect(situation).toHaveValue("");
+    await situation.fill("About the second person");
+    await page.getByLabel("Patient").selectOption({ index: 0 });
+    await expect(situation).toHaveValue("About the first person");
+});
+
+test.describe("the handover before its script runs", () => {
+    test.use({ javaScriptEnabled: false });
+    test("cannot submit a narrative: its fields are off and have no names, and it would not use GET", async ({
+        page,
+    }) => {
+        await page.goto("/handover");
+        const form = page.locator("form[aria-label='SBAR handover rehearsal']");
+        await expect(form).toHaveAttribute("method", "post");
+        await expect(form.locator("fieldset")).toHaveAttribute("disabled", "");
+        for (const field of await form.locator("textarea, select").all()) {
+            await expect(field).toBeDisabled();
+            expect(await field.getAttribute("name")).toBeNull();
+        }
+    });
 });
 
 test("a section that cannot load says so in words, offers a retry, and announces only the retry", async ({

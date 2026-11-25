@@ -656,6 +656,14 @@ state by hand. Findings and evidence: [spec/quality-review](spec/quality-review/
 
 Status (2026-11-24): reviewed. The label-pack names (T18) are fixed; the rest is not started.
 
+## Phase 49 — Lessons from the project and healthcare audit (2026-11-25)
+
+An audit found the gaps where clinical information is incomplete, withdrawn, withheld or in transit. Its five safety findings,
+the two clinical pages and the hazard log are built; nothing is released. What is left needs people (screen-reader tasks,
+clinical review, a fluent reader, an outside team) or is release evidence. Audit:
+[docs/audits/gpt-6-2-astra-high](docs/audits/gpt-6-2-astra-high/index.md). Tasks:
+[tasks.md](tasks.md#phase-49--lessons-from-the-project-and-healthcare-audit-2026-11-25).
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.
