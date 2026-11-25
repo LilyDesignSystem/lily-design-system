@@ -70,7 +70,7 @@ TAG_ARGS=""
 only_matches() { [ -z "$ONLY" ] || [ "$(basename "$1")" = "$ONLY" ]; }
 
 # The receipt gate (tasks.md P24-T5): a real publish from the maintainer's machine needs `bin/ci --full` to have passed on
-# this commit from a clean tree (consumer-smoke may be skipped; CI runs it). --dry-run is not gated, and neither is CI
+# this commit from a clean tree (consumer-smoke, skipped there, must have passed elsewhere). --dry-run is not gated, and neither is CI
 # (publish.yml), which is its own clean room. LILY_PUBLISH_WITHOUT_RECEIPT=1 overrides, with a warning.
 if [ -z "$DRY" ] && [ -z "${CI:-}" ]; then
   "$ROOT/bin/ci" --verify-receipt || exit 1

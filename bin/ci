@@ -10,7 +10,7 @@
 #                                 while what it reads is unchanged (.ci/cache/); --serial runs one job at a time, in order,
 #                                 --no-cache runs everything. Ends with a table of step, result and seconds, and writes
 #                                 .ci/receipt.json (git-ignored)
-#   bin/ci --verify-receipt        is there a receipt for HEAD, from a clean tree, with every job passing? (the publish gate)
+#   bin/ci --verify-receipt        is there a receipt for HEAD, from a clean tree, with every job passing, consumer-smoke included? (the publish gate)
 #   bin/ci --clean [mode]         a clean-room mode: runs a mode (default --full) in a fresh git worktree of HEAD,
 #                                 e.g. `bin/ci --clean --job verify` (tasks.md P24-T6)
 #
@@ -318,7 +318,28 @@ job_consumer_smoke() {
         record "consumer-smoke" "skipped (local)" 0
         return 0
     fi
-    step "consumer-smoke" consumer_smoke
+    # A pass is recorded for this commit in the git directory every worktree shares, so the publish gate of another checkout of
+    # it can see it (tasks.md P48-T6). Only from a tree that was clean: the run itself leaves npm lockfiles behind.
+    local sha clean=""
+    sha="$(git rev-parse HEAD)"
+    [ -z "$(git status --porcelain)" ] && clean=1
+    step "consumer-smoke" consumer_smoke || return 1
+    if [ -n "$clean" ] && [ -z "${CI:-}" ]; then
+        mkdir -p "$(git rev-parse --git-common-dir)/lily-ci"
+        date -u +%Y-%m-%dT%H:%M:%SZ > "$(git rev-parse --git-common-dir)/lily-ci/consumer-smoke-$sha"
+    fi
+}
+
+# Where the consumer smoke test passed for a commit: "local <date>", "GitHub", or nothing.
+consumer_smoke_evidence() {
+    local file
+    file="$(git rev-parse --git-common-dir)/lily-ci/consumer-smoke-$1"
+    if [ -s "$file" ]; then
+        echo "local $(cat "$file")"
+    elif command -v gh >/dev/null && [ "$(gh api "repos/LilyDesignSystem/lily-design-system/commits/$1/check-runs?per_page=100" \
+        --jq '[.check_runs[] | select(.name | startswith("consumer smoke"))] | last | .conclusion' 2>/dev/null)" = "success" ]; then
+        echo "GitHub"
+    fi
 }
 
 shadcn_registry() {
@@ -454,11 +475,18 @@ write_receipt() {
     echo "bin/ci: wrote .ci/receipt.json for $sha ($([ "$clean" = true ] && echo clean || echo "dirty tree"))"
 }
 
-# The publish gate: exit 0 only for a receipt of HEAD, written from a clean tree that is still clean, with every step passing
-# or skipped as consumer-smoke is locally (CI runs it). LILY_PUBLISH_WITHOUT_RECEIPT=1 warns and lets the publish go ahead.
+# The publish gate: exit 0 only for a receipt of HEAD, written from a clean tree that is still clean, with every step passing.
+# A --full run skips consumer-smoke, so the gate needs its pass for this commit from elsewhere, and says where (P48-T6).
+# LILY_PUBLISH_WITHOUT_RECEIPT=1 warns and lets the publish go ahead.
 check_receipt() {
-    local problem
-    problem="$(SHA="$(git rev-parse HEAD)" DIRTY="$(git status --porcelain | head -1)" node --input-type=module -e '
+    local problem skipped smoke=""
+    skipped="$(node --input-type=module -e '
+        import { existsSync, readFileSync } from "node:fs";
+        if (existsSync(".ci/receipt.json"))
+            console.log(JSON.parse(readFileSync(".ci/receipt.json", "utf8")).steps.filter((s) => s.result.startsWith("skipped")).map((s) => s.name).join(", "));
+    ')"
+    [ -n "$skipped" ] && smoke="$(consumer_smoke_evidence "$(git rev-parse HEAD)")"
+    problem="$(SMOKE="$smoke" SHA="$(git rev-parse HEAD)" DIRTY="$(git status --porcelain | head -1)" node --input-type=module -e '
         import { existsSync, readFileSync } from "node:fs";
         const file = ".ci/receipt.json";
         if (!existsSync(file)) { console.log("there is no .ci/receipt.json; run bin/ci --full"); process.exit(0); }
@@ -468,11 +496,13 @@ check_receipt() {
         else {
             const bad = r.steps.filter((s) => !s.result.startsWith("pass") && !(s.name === "consumer-smoke" && s.result.startsWith("skipped")));
             if (bad.length) console.log("not every step passed: " + bad.map((s) => `${s.name} (${s.result})`).join(", "));
+            else if (r.steps.some((s) => s.name === "consumer-smoke" && s.result.startsWith("skipped")) && !process.env.SMOKE)
+                console.log("consumer-smoke was skipped and has not passed for this commit; run LILY_CI_ALLOW_CONSUMER_SMOKE=1 bin/ci --job consumer-smoke in a fresh worktree, or wait for CI on GitHub");
             else if (process.env.DIRTY) console.log("the tree is dirty now; commit or stash first");
         }
     ')"
     if [ -z "$problem" ]; then
-        echo "bin/ci: the receipt for $(git rev-parse --short HEAD) is clean and green"
+        echo "bin/ci: the receipt for $(git rev-parse --short HEAD) is clean and green${skipped:+; skipped here: $skipped (passed: $smoke)}"
         return 0
     fi
     if [ -n "${LILY_PUBLISH_WITHOUT_RECEIPT:-}" ]; then

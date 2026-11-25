@@ -27,6 +27,9 @@ jobs:
     name: changed files
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    permissions:
+      contents: read
+      actions: read
     outputs:
       code: ${{ steps.diff.outputs.code }}
     steps:
@@ -37,6 +40,8 @@ jobs:
         env:
           BASE: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
           HEAD: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+          EVENT: ${{ github.event_name }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           if [ -z "$BASE" ] || ! git cat-file -e "$BASE^{commit}" 2>/dev/null; then
             echo "No usable base commit; treating the change as code."
@@ -48,8 +53,13 @@ jobs:
             echo "Changed files other than Markdown:"
             echo "$other" | head -20
             echo "code=true" >> "$GITHUB_OUTPUT"
+          elif [ "$EVENT" != "pull_request" ] && [ "$(gh run list -R "$GITHUB_REPOSITORY" --workflow CI --commit "$BASE" --status success --limit 1 --json databaseId --jq length)" != "1" ]; then
+            # A run cancelled by this push, or a failed one, leaves code that nothing has tested: a Markdown push must not show
+            # it as green (tasks.md P48-T4, 2026-11-25).
+            echo "Markdown only, but CI has not passed on $BASE; running everything."
+            echo "code=true" >> "$GITHUB_OUTPUT"
           else
-            echo "Markdown only; the test matrices are skipped."
+            echo "Markdown only, on a commit that passed; the test matrices are skipped."
             echo "code=false" >> "$GITHUB_OUTPUT"
           fi
 

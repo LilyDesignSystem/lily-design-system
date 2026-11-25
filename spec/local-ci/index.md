@@ -134,6 +134,10 @@ _Built 2026-11-10 (tasks.md P24-T5), the maintainer's choice of gate._ `bin/ci -
 It refuses unless the receipt is for HEAD, was written from a clean tree, the tree is still clean, and every step passed,
 except that `consumer-smoke` may be skipped: it never runs locally, and CI runs it. `LILY_PUBLISH_WITHOUT_RECEIPT=1` warns
 and lets the publish go ahead. `--dry-run` and `publish.yml` (where `CI` is set) are not gated.
+_2026-11-25 (P48-T6):_ a `--full` run skips `consumer-smoke`, so the gate also needs its pass for the same commit: a local run of
+`LILY_CI_ALLOW_CONSUMER_SMOKE=1 bin/ci --job consumer-smoke` from a clean tree, recorded in the git directory all worktrees share,
+or GitHub's job succeeding (a skipped one does not count). It says which. A Markdown-only push skips the test matrices on GitHub
+only when CI passed on the commit before it.
 
 ### 6. A clean-room mode
 
