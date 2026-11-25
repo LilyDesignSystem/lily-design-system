@@ -92,18 +92,24 @@
         aria-label="SBAR handover rehearsal"
         {onsubmit}
     >
-        <fieldset disabled={!ready}>
+        <fieldset
+            class="fieldset"
+            disabled={!ready}
+        >
             <legend>Rehearse a handover</legend>
             <p>
                 <label for="sbar-patient">Patient</label>
                 <select
                     id="sbar-patient"
+                    class="select"
                     bind:value={patient}
                     onchange={() => (message = "")}
                 >
                     {#each patients as name, i (name)}<option value={i}>{name}</option>{/each}
                 </select>
             </p>
+            <!-- A closed select can clip a long name; this line wraps, so who it is for is always whole. -->
+            <p class="handover-patient">This handover is for: {patients[patient]}</p>
             <p>Destination in this rehearsal: Ward 4B night team (invented)</p>
             {#each parts as part (part.id)}
                 <p>
@@ -112,6 +118,7 @@
                     <textarea
                         id={`sbar-${part.id}`}
                         aria-describedby={`sbar-${part.id}-hint`}
+                        class="text-area-input"
                         rows="3"
                         required
                         autocomplete="off"

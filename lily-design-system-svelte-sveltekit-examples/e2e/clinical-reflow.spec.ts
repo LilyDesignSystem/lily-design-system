@@ -44,7 +44,12 @@ for (const route of ROUTES)
                         if (lines.size > 0) runs += 1;
                         if (lines.size > 1) broken.push(match[0]);
                     }
+                const wide = [...document.querySelectorAll("body *")]
+                    .filter((el) => el.getBoundingClientRect().right > window.innerWidth + 1)
+                    .filter((el) => !el.closest(".horizontal-scroller"))
+                    .map((el) => `${el.tagName.toLowerCase()}.${el.className}`);
                 return {
+                    wide,
                     broken,
                     runs,
                     over: document.documentElement.scrollWidth - window.innerWidth,
@@ -52,8 +57,30 @@ for (const route of ROUTES)
             });
             expect(found.runs).toBeGreaterThan(20);
             expect(found.broken).toEqual([]);
-            expect(found.over).toBeLessThanOrEqual(0);
+            expect(found.over, found.wide.join(", ")).toBeLessThanOrEqual(0);
         });
+
+test("a long patient name does not widen the handover, and is written out in full", async ({
+    page,
+}) => {
+    // A browser's select is as wide as its longest option, and a fieldset does not shrink below it: on Linux's wider fonts the
+    // page was 43px too wide in WebKit, and with this name 141px in WebKit and 205px in Firefox. Chromium hid it.
+    await page.setViewportSize({ width: 320, height: 900 });
+    await page.goto("/handover");
+    const patient = page.getByLabel("Patient", { exact: true });
+    await expect(patient).toBeEnabled();
+    await patient.evaluate((select: HTMLSelectElement) => {
+        select.options[0].textContent =
+            "MONTGOMERY-FITZWILLIAM, Alexandra Bartholomew-Josephine (born 3 Feb 1949)";
+    });
+    expect(
+        await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth),
+    ).toBeLessThanOrEqual(0);
+    await patient.selectOption({ index: 1 });
+    await expect(page.locator(".handover-patient")).toHaveText(
+        "This handover is for: Example, Alexis (born 3 Feb 1979)",
+    );
+});
 
 test("a wide clinical table scrolls by keyboard in its own named region", async ({ page }) => {
     await page.setViewportSize({ width: 320, height: 900 });
