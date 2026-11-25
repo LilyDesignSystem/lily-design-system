@@ -3,6 +3,15 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the package follows [Semantic Versioning](https://semver.org/).
 
+## 0.14.0 — 2026-11-25 (behaviour changes; published under `next`)
+
+- **Behaviour change:** `observation-view` shows only the words of an `entered-in-error` result; `showWithdrawn`, for an authorised history view, adds its former value struck through. A result that is not final and has no `statusLabel` shows no value. A withheld or withdrawn result renders no flag, range, meter or `data-interpretation`. `registered` and `unknown` are new.
+- **Type change:** `statusLabel` is required for any `status` but `final`.
+- **Behaviour change:** `ageParts` refuses a year, a year and month, a time with no offset, an offset beyond 14:00 and an impossible date, and gives whole days or longer for a date with no time. A value finer than 20 decimal places is refused, not shown as 0. `formatProportion` adds no digits to a percent. No formatter error holds the value it was given.
+- **Added:** `precision` on the quantity and range formatters, for a result's recorded precision; durations accept `,` as the decimal sign.
+- **Behaviour change:** invalid input throws instead of being clamped or defaulted: an empty section key, id or id prefix, or a missing required heading, in `international-patient-summary` (`IpsSectionsError`); a malformed `end` or `maxWidth` in `middle-truncation` (`TruncateMiddleError`); an index, centre or page size out of range in `wheel-picker` (`WheelPickerError`).
+- The licence expression offers CC-BY-SA-4.0 where it offered CC-BY-NC-SA-4.0.
+
 ## 0.13.1 — 2026-11-22
 
 - `meterScale` throws a `MeterScaleError` (a `RangeError` with a `reason`) for a non-finite value or range end, a reversed range, a bound not above zero and two different units, instead of returning `undefined`; `undefined` stays for no value or no range. `meterScale`, `MeterScaleError` and `formatRange` are exported from the package root.

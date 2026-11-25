@@ -13,6 +13,13 @@ Release highlights and project news: [NEWS.md](NEWS.md).
 
 Lily™ and Lily Design System™ are trademarks.
 
+## 0.5.0 — 2026-11-25 (behaviour changes; published under `next`)
+
+- **Behaviour change:** `ageParts` refuses a year, a year and month, a time with no offset, an offset beyond 14:00 and an impossible date, and gives whole days or longer for a date with no time. A value finer than 20 decimal places is refused, not shown as 0. `formatProportion` adds no digits to a percent. No formatter error holds the value it was given.
+- **Added:** `precision` on the quantity and range formatters, for a result's recorded precision; durations accept `,` as the decimal sign.
+- **Behaviour change:** invalid input throws instead of being clamped or defaulted in `middle-truncation` and `wheel-picker`.
+- The licence expression offers CC-BY-SA-4.0 where it offered CC-BY-NC-SA-4.0.
+
 ## 0.3.1 — 2026-11-18
 
 - **Fixed:** the plugin could not be imported. `lily-alpine.js` imports `menu-keys.js` and `widget-keys.js`, which the

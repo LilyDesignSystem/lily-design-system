@@ -9,9 +9,13 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
-## Unreleased (2026-11-25)
+## Release: the headless libraries and the Web Components identifiers (2026-11-25)
 
-From [an audit](docs/audits/gpt-6-2-astra-high/index.md). In the headless packages and the Swift and Kotlin libraries:
+npm, under the `next` tag: Svelte, React and Vue 0.14.0, Angular and Web Components 0.16.0, HTML 0.15.0, Nunjucks 0.13.0, Alpine and Solid
+0.5.0, `web-components-headless-identifiers` 0.6.0. NuGet: `LilyDesignSystem.Blazor.Headless` 0.12.0. Invalid input to the patient
+summary's sections, `middle-truncation` and `wheel-picker` throws instead of being clamped or defaulted.
+
+From [an audit](docs/audits/gpt-6-2-astra-high/index.md). In these packages, and in the Swift and Kotlin libraries, which are not released yet:
 
 - **Behaviour change:** `observation-view` shows only the words of an `entered-in-error` result; `showWithdrawn`, for an authorised
   history view, adds its former value struck through. A result that is not final and has no `statusLabel` shows no value. A

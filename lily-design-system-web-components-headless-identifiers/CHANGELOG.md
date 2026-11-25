@@ -3,7 +3,7 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the package follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.6.0 — 2026-11-25 (behaviour change)
 
 - **Fixed:** every identifier input keeps what it holds out of every attribute (HC-I3). The host's `value` attribute is read and
   removed, a later one too, and the inner input is given its value as a property; a form still submits it and a reset still

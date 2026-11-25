@@ -13,6 +13,15 @@ Release highlights and project news: [NEWS.md](NEWS.md).
 
 Lily™ and Lily Design System™ are trademarks.
 
+## 0.16.0 — 2026-11-25 (behaviour changes; published under `next`)
+
+- **Behaviour change:** `observation-view` shows only the words of an `entered-in-error` result; `showWithdrawn`, for an authorised history view, adds its former value struck through. A result that is not final and has no `statusLabel` shows no value. A withheld or withdrawn result renders no flag, range, meter or `data-interpretation`. `registered` and `unknown` are new.
+- **Behaviour change:** `ageParts` refuses a year, a year and month, a time with no offset, an offset beyond 14:00 and an impossible date, and gives whole days or longer for a date with no time. A value finer than 20 decimal places is refused, not shown as 0. `formatProportion` adds no digits to a percent. No formatter error holds the value it was given.
+- **Added:** `precision` on the quantity and range formatters, for a result's recorded precision; durations accept `,` as the decimal sign.
+- **Behaviour change:** invalid input throws instead of being clamped or defaulted: an empty section key, id or id prefix, or a missing required heading, in `international-patient-summary` (`IpsSectionsError`); a malformed `end` or `maxWidth` in `middle-truncation` (`TruncateMiddleError`); an index, centre or page size out of range in `wheel-picker` (`WheelPickerError`).
+- **Fixed:** `age-view`, `duration-view` and `date-time-view` no longer leave what they were given on the host element.
+- The licence expression offers CC-BY-SA-4.0 where it offered CC-BY-NC-SA-4.0.
+
 ## 0.14.0 — 2026-11-21
 
 - **Added:** `whole-card-link` on `lily-card`: with `href`, the heading link carries `data-lily-card-link`, so the themes' shared "Whole-card link"
