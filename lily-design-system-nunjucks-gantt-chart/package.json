@@ -30,14 +30,14 @@
   },
   "dependencies": {
     "@lilydesignsystem/nunjucks-date-time-picker": "^0.2.1",
-    "@lilydesignsystem/nunjucks-headless": "^0.8.0"
+    "@lilydesignsystem/nunjucks-headless": "^0.11.0"
   },
   "devDependencies": {
     "jsdom": "^31.0.1",
     "nunjucks": "^3.2.4",
     "tsup": "^9.0.0",
     "typescript": "^5.9.3",
-    "vitest": "^5.1.0"
+    "vitest": "^5.1.1"
   },
   "keywords": [
     "lily",
