@@ -4654,7 +4654,7 @@ From [spec/quality-review](spec/quality-review/index.md); the numbers in bracket
 - [x] **P48-T3 The register names the catalogs (9).** _(2026-11-25: a generated table, rule by runtime; a citation counts only in a test's name or the comment above it; blanks are P49-T14.)_ A catalogs column; `bin/check-healthcare-requirements` requires the id
       in a test of each, and in a test name or the comment above a test rather than anywhere in the file.
       Verify: removing an id from one catalog's test fails the check.
-- [ ] **P48-T9 The corpus test reads every type back (10).** Dates, durations, proportions and ranges, and a second corpus
+- [x] **P48-T9 The corpus test reads every type back (10).** _(2026-11-25: run 2 in spec/lessons/openehr-rust: 155 openEHR and 287 FHIR values from Australia, Switzerland and the EU; a planted wrong formatter fails each type.)_ Dates, durations, proportions and ranges, and a second corpus
       from another country's records.
       Verify: a deliberately wrong formatter fails each type.
 

@@ -173,6 +173,19 @@ dates, durations, proportions and ranges were checked only for being accepted or
 | `DV_PROPORTION` |      6 | All written.                                                                                                                                                  |
 | `DV_INTERVAL`   |      3 | All three quantity ranges written by `formatRange`.                                                                                                           |
 
+**Run 2, 2026-11-25 (P48-T9)**: every type is read back from what was written, not only accepted, and a test that needs no corpus
+plants a wrong formatter for each type and requires the check to catch it. The same openEHR commit: 155 values, all read back. And
+three sets of FHIR examples from other countries, each the `example` directory of a CC0-1.0 package from packages.fhir.org:
+
+| Package (SHA-256 of the download)                                   | Values | What they are                                                     |
+| ------------------------------------------------------------------- | -----: | ----------------------------------------------------------------- |
+| `hl7.fhir.au.core` 2.0.0, Australia (`e202166028f37001…`)           |     58 | 20 quantities, 8 reference range values, 30 partial or full dates |
+| `ch.fhir.ig.ch-lab-report` 2.0.0, Switzerland (`6c23a4493433e48e…`) |    185 | 87 quantities, 94 reference range values, 4 dates                 |
+| `hl7.fhir.eu.laboratory` 2.1.0, EU (`87019c396f4cff93…`)            |     44 | 19 quantities, 17 reference range values, 1 ratio, 7 dates        |
+
+All 287 read back. They are example records written for implementation guides, not patient records; FHIR's JSON decimals are read as
+numbers, so a trailing zero in them is not tested; none holds an ISO 8601 duration. A range counts three times: both its ends and itself.
+
 Not exercised: `DV_DATE_TIME` (314) and `DV_TIME` (9), since Lily has no formatter of its own for them (`date-time-view` shows the
 consumer's text), and `DV_ORDINAL`, `DV_TEXT` and the other non-numeric types. The run found one defect, in the test itself: it
 read the result back splitting on a space, where the formatter writes a no-break space.
