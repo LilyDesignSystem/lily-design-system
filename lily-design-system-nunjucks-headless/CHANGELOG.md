@@ -7,6 +7,8 @@ The canonical monorepo history is in the root
 
 ## 0.13.0 — 2026-11-25 (behaviour changes; published under `next`)
 
+- **Behaviour change:** a record list never says none are known beside an entry (HC-C17; it did since 0.9.0): the entry stays, and `conflictLabel`, your words for the conflict, replaces the status words as the item and the name; without it the status words go. `data-status` is then `conflict`. A refuted entry, or one entered in error, does not count.
+- **Fixed:** a label with no letter or number is not words, so a blank `statusLabel` no longer shows a result without its warning (HC-C14; it did since 0.9.0).
 - **Behaviour change:** `observation-view` shows only the words of an `entered-in-error` result; `showWithdrawn`, for an authorised history view, adds its former value struck through. A result that is not final and has no `statusLabel` shows no value. A withheld or withdrawn result renders no flag, range, meter or `data-interpretation`. `registered` and `unknown` are new.
 - **Behaviour change:** invalid input throws instead of being clamped or defaulted in `wheel-picker`.
 - The licence expression offers CC-BY-SA-4.0 where it offered CC-BY-NC-SA-4.0.

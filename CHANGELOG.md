@@ -17,10 +17,23 @@ highlights.
 
 ## Prepared, not released: the headless libraries and the Web Components identifiers (2026-11-25)
 
-On hold for the safety findings in tasks.md Phase 50 (T1 to T5). Fixed since, for this release: an alert's
-override reason is never submitted for another alert (`cardId` is new), and a label with no letter or number is not words. `formatPartialDate` no longer converts
-a year or a month to a calendar where it falls in two (Persian, Hebrew, Islamic and others): it keeps the Gregorian one and names the era. Web Components: the sixteen clinical display elements
-follow their attributes after mounting, so a result masked later leaves nothing on screen (they were built once and never again). The versions below are in the repository, not on npm or NuGet.
+The versions below are in the repository, not yet on npm or NuGet. From a second audit of 2026-11-25 (tasks.md Phase 50), fixed here.
+"Since" is the first version with the fault, from the published packages: React 0.13.1 and Web Components 0.15.1 were run, the others
+read; Blazor and Alpine were not checked.
+
+- **Behaviour change:** a record list never says none are known beside an entry (HC-C17): the entry stays, and `conflictLabel`, your words
+  for the conflict, replaces the status words as the item and the name; without it the status words go. `data-status` is then
+  `conflict`. A refuted entry, or one entered in error, does not count. Swift and Kotlin hid the entry, and show it now. Server HTML
+  shows the status as given until the script runs in Svelte, React, Solid, Vue and Angular. Since Svelte, React, Vue and Nunjucks 0.9.0,
+  Angular and Web Components 0.10.0, Solid 0.1.0. Not yet: a patient summary section above such a list (P50-T29).
+- **Fixed:** `decision-support-card` never submits the reason chosen for another alert (HC-C15); `cardId` names the alert. Since the same
+  versions, Nunjucks apart.
+- **Fixed:** a label with no letter or number is not words (HC-C14): a blank `statusLabel` showed a preliminary result with no warning.
+  Since the same versions.
+- **Fixed:** `formatPartialDate` keeps the Gregorian calendar, and names the era, for a year or a month that falls in two of the locale's
+  (Persian, Hebrew, Islamic and others; HC-F9). Since Svelte, React and Vue 0.11.0, Angular 0.12.0, Solid 0.1.0.
+- **Fixed:** Web Components: the sixteen clinical display elements follow their attributes after mounting (HC-C16), so a result masked
+  later leaves nothing on screen. Since 0.10.0.
 
 npm, under the `next` tag: Svelte, React and Vue 0.14.0, Angular and Web Components 0.16.0, HTML 0.15.0, Nunjucks 0.13.0, Alpine and Solid
 0.5.0, `web-components-headless-identifiers` 0.6.0. NuGet: `LilyDesignSystem.Blazor.Headless` 0.12.0. Invalid input to the patient

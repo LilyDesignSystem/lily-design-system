@@ -7,6 +7,7 @@ The canonical monorepo history is in the root
 
 ## 0.15.0 — 2026-11-25 (behaviour changes; published under `next`)
 
+- **Documented:** a record list never says none are known beside an entry: use `data-status="conflict"` and your own words (HC-C17).
 - **Behaviour change:** `observation-view` shows only the words of an `entered-in-error` result; `showWithdrawn`, for an authorised history view, adds its former value struck through. A result that is not final and has no `statusLabel` shows no value. A withheld or withdrawn result renders no flag, range, meter or `data-interpretation`. `registered` and `unknown` are new.
 - **Behaviour change:** invalid input throws instead of being clamped or defaulted in `middle-truncation` and `wheel-picker`.
 - The licence expression offers CC-BY-SA-4.0 where it offered CC-BY-NC-SA-4.0.
