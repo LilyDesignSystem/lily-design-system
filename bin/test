@@ -7,9 +7,21 @@ set -euf
 # subshells, so a plain variable would not survive); the script
 # exits non-zero if any check failed.
 ERRFLAG="$(mktemp)"
-trap 'rm -f "$ERRFLAG"' EXIT
+# The output of the check that is running, which check_err prints: without it a check that crashed reads like a stale file
+# (tasks.md P48-T5).
+CHECKLOG="$(mktemp)"
+trap 'rm -f "$ERRFLAG" "$CHECKLOG"' EXIT
 
 err() { >&2 printf %s\\n "Error: ${*}"; printf 1 >> "$ERRFLAG"; }
+check_err() {
+    err "$@"
+    if test -s "$CHECKLOG"; then
+        >&2 printf %s\\n "  its last lines:"
+        tail -n 12 "$CHECKLOG" | cut -c1-300 | sed 's/^/    /' >&2
+    else
+        >&2 printf %s\\n "  it printed nothing"
+    fi
+}
 
 # Written as `if cmd; then :; else err ...; fi` rather than `cmd || err
 # ...`: under `set -e`, bash 3.2 (Apple's frozen last-GPLv2 build, the
@@ -393,56 +405,56 @@ test_no_subtree_mirrors
 test_no_package_json_pnpm_overrides
 test_lockfiles_are_tracked
 implemented_everywhere_or_err
-"$top/bin/check-theme" >/dev/null 2>&1 \
-    || err "theme conformance failed; run bin/check-theme"
-"$top/bin/check-theme" --overlay >/dev/null 2>&1 \
-    || err "a brand overlay failed; run bin/check-theme --overlay"
-"$top/bin/check-theme" --contrast --gate >/dev/null 2>&1 \
-    || err "a theme colour pair is below WCAG AA (4.5:1) or unparsed; run bin/check-theme --contrast --suggest"
-"$top/bin/check-lifecycle" >/dev/null 2>&1 \
-    || err "a deprecated or discouraged component lacks its fields; run bin/check-lifecycle"
-"$top/bin/check-dev-warnings" >/dev/null 2>&1 \
-    || err "a component with a required label does not warn when it is missing; run bin/check-dev-warnings"
-"$top/bin/check-picker-icons" >/dev/null 2>&1 \
-    || err "a picker icon breaks the icon contract; run bin/check-picker-icons"
+"$top/bin/check-theme" >"$CHECKLOG" 2>&1 \
+    || check_err "theme conformance failed; run bin/check-theme"
+"$top/bin/check-theme" --overlay >"$CHECKLOG" 2>&1 \
+    || check_err "a brand overlay failed; run bin/check-theme --overlay"
+"$top/bin/check-theme" --contrast --gate >"$CHECKLOG" 2>&1 \
+    || check_err "a theme colour pair is below WCAG AA (4.5:1) or unparsed; run bin/check-theme --contrast --suggest"
+"$top/bin/check-lifecycle" >"$CHECKLOG" 2>&1 \
+    || check_err "a deprecated or discouraged component lacks its fields; run bin/check-lifecycle"
+"$top/bin/check-dev-warnings" >"$CHECKLOG" 2>&1 \
+    || check_err "a component with a required label does not warn when it is missing; run bin/check-dev-warnings"
+"$top/bin/check-picker-icons" >"$CHECKLOG" 2>&1 \
+    || check_err "a picker icon breaks the icon contract; run bin/check-picker-icons"
 # The recipes layer (tasks.md P22-T27): real slugs, parsing markup, named controls, existing ids.
-"$top/bin/check-recipes" >/dev/null 2>&1 \
-    || err "a recipe is not a sound composition of catalog components; run bin/check-recipes"
-"$top/bin/check-theme-references" --offline >/dev/null 2>&1 \
-    || err "themes/references.tsv or themes/identity-changes.tsv is malformed; run bin/check-theme-references --offline"
-"$top/bin/generate-theme-tokens" --check >/dev/null 2>&1 \
-    || err "theme token blocks drift from themes/tokens/*.json; run bin/generate-theme-tokens"
-"$top/bin/check-dtcg-tokens" >/dev/null 2>&1 \
-    || err "themes/tokens/*.json or lily.resolver.json is not strict DTCG 2025.10; run bin/check-dtcg-tokens"
-"$top/bin/check-class-names" >/dev/null 2>&1 \
-    || err "a headless implementation lacks its base class hook; run bin/check-class-names"
-"$top/bin/check-html-tags" >/dev/null 2>&1 \
-    || err "a headless root element differs from its contract's HTML tag (and is not listed); run bin/check-html-tags"
-"$top/bin/check-known-limitations" >/dev/null 2>&1 \
-    || err "a component document lacks its Known limitations section or required disabled-control guidance; run bin/check-known-limitations"
-"$top/bin/check-component-guidance" >/dev/null 2>&1 \
-    || err "a component lacks its purpose, prominence or misuse guidance, or the purpose allow-list is stale; run bin/check-component-guidance"
+"$top/bin/check-recipes" >"$CHECKLOG" 2>&1 \
+    || check_err "a recipe is not a sound composition of catalog components; run bin/check-recipes"
+"$top/bin/check-theme-references" --offline >"$CHECKLOG" 2>&1 \
+    || check_err "themes/references.tsv or themes/identity-changes.tsv is malformed; run bin/check-theme-references --offline"
+"$top/bin/generate-theme-tokens" --check >"$CHECKLOG" 2>&1 \
+    || check_err "theme token blocks drift from themes/tokens/*.json; run bin/generate-theme-tokens"
+"$top/bin/check-dtcg-tokens" >"$CHECKLOG" 2>&1 \
+    || check_err "themes/tokens/*.json or lily.resolver.json is not strict DTCG 2025.10; run bin/check-dtcg-tokens"
+"$top/bin/check-class-names" >"$CHECKLOG" 2>&1 \
+    || check_err "a headless implementation lacks its base class hook; run bin/check-class-names"
+"$top/bin/check-html-tags" >"$CHECKLOG" 2>&1 \
+    || check_err "a headless root element differs from its contract's HTML tag (and is not listed); run bin/check-html-tags"
+"$top/bin/check-known-limitations" >"$CHECKLOG" 2>&1 \
+    || check_err "a component document lacks its Known limitations section or required disabled-control guidance; run bin/check-known-limitations"
+"$top/bin/check-component-guidance" >"$CHECKLOG" 2>&1 \
+    || check_err "a component lacks its purpose, prominence or misuse guidance, or the purpose allow-list is stale; run bin/check-component-guidance"
 
 # Every national identifier type is validated, recorded as having no usable check (with the reason), or open (tasks.md P43-T4).
-"$top/bin/check-identifier-validation" >/dev/null 2>&1 \
-    || err "shared/national-identifiers.tsv disagrees with the catalog or the validators; run bin/check-identifier-validation"
+"$top/bin/check-identifier-validation" >"$CHECKLOG" 2>&1 \
+    || check_err "shared/national-identifiers.tsv disagrees with the catalog or the validators; run bin/check-identifier-validation"
 # The SvelteKit, Next.js, Nuxt and Angular examples keep copies of their
 # headless library's components; the library is the source (P10-T13).
-"$top/bin/sync-example-components" --check >/dev/null 2>&1 \
-    || err "an example app's component copy differs from its headless library; run bin/sync-example-components"
-"$top/bin/sync-shared-modules" --check >/dev/null 2>&1 \
-    || err "a package's copy of a shared module differs from shared/; run bin/sync-shared-modules"
-"$top/bin/check-helper-docs" >/dev/null 2>&1 \
-    || err "a Svelte helper's docs are out of step with its props or non-goals; run bin/check-helper-docs"
-"$top/bin/check-label-packs" >/dev/null 2>&1 \
-    || err "a label pack in shared/label-packs differs from the English pack (keys or placeholders); run bin/check-label-packs"
-"$top/bin/generate-zone-names" --check >/dev/null 2>&1 \
-    || err "a zone-name pack in shared/zone-names is missing or differs from the CLDR in this Node; run bin/generate-zone-names"
+"$top/bin/sync-example-components" --check >"$CHECKLOG" 2>&1 \
+    || check_err "an example app's component copy differs from its headless library; run bin/sync-example-components"
+"$top/bin/sync-shared-modules" --check >"$CHECKLOG" 2>&1 \
+    || check_err "a package's copy of a shared module differs from shared/; run bin/sync-shared-modules"
+"$top/bin/check-helper-docs" >"$CHECKLOG" 2>&1 \
+    || check_err "a Svelte helper's docs are out of step with its props or non-goals; run bin/check-helper-docs"
+"$top/bin/check-label-packs" >"$CHECKLOG" 2>&1 \
+    || check_err "a label pack in shared/label-packs differs from the English pack (keys or placeholders); run bin/check-label-packs"
+"$top/bin/generate-zone-names" --check >"$CHECKLOG" 2>&1 \
+    || check_err "a zone-name pack in shared/zone-names is missing or differs from the CLDR in this Node; run bin/generate-zone-names"
 
 # Packages publish from the monorepo, so every published manifest must
 # name it as its source repository (npm --provenance rejects a mismatch).
-"$top/bin/check-package-metadata" >/dev/null 2>&1 \
-    || err "a published package names a repository other than the monorepo; run bin/check-package-metadata"
+"$top/bin/check-package-metadata" >"$CHECKLOG" 2>&1 \
+    || check_err "a published package names a repository other than the monorepo; run bin/check-package-metadata"
 # The responsive rules (spec/responsive) are loaded by AGENTS.md like the other AGENTS/*.md.
 test -s "$top/AGENTS/responsive.md" && test -s "$top/spec/responsive/index.md" \
     && grep -q '^@AGENTS/responsive.md$' "$top/AGENTS.md" \
@@ -451,116 +463,116 @@ test -s "$top/AGENTS/responsive.md" && test -s "$top/spec/responsive/index.md" \
 test -s "$top/AGENTS/visual-identity.md" && test -s "$top/spec/visual-identity/index.md" \
     && grep -q '^@AGENTS/visual-identity.md$' "$top/AGENTS.md" \
     || err "AGENTS/visual-identity.md or spec/visual-identity/index.md is missing, or AGENTS.md does not load it"
-"$top/bin/generate-comparisons" --check >/dev/null 2>&1 \
-    || err "compare/index.md differs from compare/compare.tsv; run bin/generate-comparisons"
+"$top/bin/generate-comparisons" --check >"$CHECKLOG" 2>&1 \
+    || check_err "compare/index.md differs from compare/compare.tsv; run bin/generate-comparisons"
 # These two format their output with the root Prettier. Without the root install they cannot run, which is not the same
 # as stale output, so say which it is (a clean worktree found the misleading message, tasks.md P24-T6).
 if test -e "$top/node_modules/prettier/package.json"; then
-    "$top/bin/generate-framework-matrix" --check >/dev/null 2>&1 \
-        || err "docs/framework-comparison.md is stale; run bin/generate-framework-matrix"
-    "$top/bin/generate-bootstrap-migration" --check >/dev/null 2>&1 \
-        || err "the Bootstrap migration mapping is stale or names a missing Lily slug; run bin/generate-bootstrap-migration"
-    "$top/bin/generate-government-migration" --check >/dev/null 2>&1 \
-        || err "the government design system migration mapping is stale or names a missing Lily slug; run bin/generate-government-migration"
+    "$top/bin/generate-framework-matrix" --check >"$CHECKLOG" 2>&1 \
+        || check_err "docs/framework-comparison.md is stale; run bin/generate-framework-matrix"
+    "$top/bin/generate-bootstrap-migration" --check >"$CHECKLOG" 2>&1 \
+        || check_err "the Bootstrap migration mapping is stale or names a missing Lily slug; run bin/generate-bootstrap-migration"
+    "$top/bin/generate-government-migration" --check >"$CHECKLOG" 2>&1 \
+        || check_err "the government design system migration mapping is stale or names a missing Lily slug; run bin/generate-government-migration"
 else
     err "the framework matrix and migration checks need the root install (Prettier); run pnpm install"
 fi
 # Lily Core (P16-T2) and its self-assessed ACR (P16-T7): fails when a recorded Core member loses evidence, or an output is stale.
-"$top/bin/check-port-data-attributes" >/dev/null 2>&1 \
-    || err "a port lacks a data-* attribute Svelte renders, or a listed gap is fixed; run bin/check-port-data-attributes"
-"$top/bin/check-built-english" >/dev/null 2>&1 \
-    || err "a headless component builds English around a value, or a listed finding is gone; run bin/check-built-english"
-"$top/bin/check-identifier-inputs" >/dev/null 2>&1 \
-    || err "a national identifier input lacks autocomplete=off or spellcheck=false; run bin/check-identifier-inputs"
-"$top/bin/check-phi-attributes" >/dev/null 2>&1 \
-    || err "a healthcare component binds an attribute PHI.md does not list; run bin/check-phi-attributes"
-"$top/bin/check-identifier-views" >/dev/null 2>&1 \
-    || err "a national identifier view writes an attribute that could hold the identifier; run bin/check-identifier-views"
-"$top/bin/check-healthcare-requirements" >/dev/null 2>&1 \
-    || err "the healthcare requirement ids and the tests that cite them disagree; run bin/check-healthcare-requirements"
-"$top/bin/check-solid-form-reset" >/dev/null 2>&1 \
-    || err "a Solid field binds value or checked with no default, so a form reset would clear it; run bin/check-solid-form-reset"
-"$top/bin/generate-core" --check >/dev/null 2>&1 \
-    || err "a Lily Core member lost evidence, or core.json / docs/core.md / the ACR / the /quality page is stale; run bin/generate-core --check"
-"$top/bin/generate-theme-contrast" --check >/dev/null 2>&1 \
-    || err "docs/theme-contrast.md or the site's /theme-contrast page is stale; run bin/generate-theme-contrast"
-"$top/bin/generate-api-docs" --check >/dev/null 2>&1 \
-    || err "site contract sections drift from components/*/AGENTS.md; run bin/generate-api-docs"
-"$top/bin/sync-site-component-docs" --check >/dev/null 2>&1 \
-    || err "site component Markdown copies drift from components/*; run bin/sync-site-component-docs"
+"$top/bin/check-port-data-attributes" >"$CHECKLOG" 2>&1 \
+    || check_err "a port lacks a data-* attribute Svelte renders, or a listed gap is fixed; run bin/check-port-data-attributes"
+"$top/bin/check-built-english" >"$CHECKLOG" 2>&1 \
+    || check_err "a headless component builds English around a value, or a listed finding is gone; run bin/check-built-english"
+"$top/bin/check-identifier-inputs" >"$CHECKLOG" 2>&1 \
+    || check_err "a national identifier input lacks autocomplete=off or spellcheck=false; run bin/check-identifier-inputs"
+"$top/bin/check-phi-attributes" >"$CHECKLOG" 2>&1 \
+    || check_err "a healthcare component binds an attribute PHI.md does not list; run bin/check-phi-attributes"
+"$top/bin/check-identifier-views" >"$CHECKLOG" 2>&1 \
+    || check_err "a national identifier view writes an attribute that could hold the identifier; run bin/check-identifier-views"
+"$top/bin/check-healthcare-requirements" >"$CHECKLOG" 2>&1 \
+    || check_err "the healthcare requirement ids and the tests that cite them disagree; run bin/check-healthcare-requirements"
+"$top/bin/check-solid-form-reset" >"$CHECKLOG" 2>&1 \
+    || check_err "a Solid field binds value or checked with no default, so a form reset would clear it; run bin/check-solid-form-reset"
+"$top/bin/generate-core" --check >"$CHECKLOG" 2>&1 \
+    || check_err "a Lily Core member lost evidence, or core.json / docs/core.md / the ACR / the /quality page is stale; run bin/generate-core --check"
+"$top/bin/generate-theme-contrast" --check >"$CHECKLOG" 2>&1 \
+    || check_err "docs/theme-contrast.md or the site's /theme-contrast page is stale; run bin/generate-theme-contrast"
+"$top/bin/generate-api-docs" --check >"$CHECKLOG" 2>&1 \
+    || check_err "site contract sections drift from components/*/AGENTS.md; run bin/generate-api-docs"
+"$top/bin/sync-site-component-docs" --check >"$CHECKLOG" 2>&1 \
+    || check_err "site component Markdown copies drift from components/*; run bin/sync-site-component-docs"
 # Every code-bearing Web Components helper is generated from its HTML custom-element source (P12-T9).
-"$top/bin/sync-web-components-helpers" --check >/dev/null 2>&1 \
-    || err "a generated Web Components helper or reviewed difference patch drifted; run bin/sync-web-components-helpers"
+"$top/bin/sync-web-components-helpers" --check >"$CHECKLOG" 2>&1 \
+    || check_err "a generated Web Components helper or reviewed difference patch drifted; run bin/sync-web-components-helpers"
 # Every Svelte overlay or popup component records its native-platform decision (spec/competitive-position, P16-T4).
-"$top/bin/check-native-primitives" >/dev/null 2>&1 \
-    || err "a native-platform decision is missing or out of step with spec/competitive-position/native-primitives.tsv; run bin/check-native-primitives"
+"$top/bin/check-native-primitives" >"$CHECKLOG" 2>&1 \
+    || check_err "a native-platform decision is missing or out of step with spec/competitive-position/native-primitives.tsv; run bin/check-native-primitives"
 # Every component has an Apple and an Android decision, and every ARIA name has a mobile mapping (spec/apple-swift, P43-T1, T2).
-"$top/bin/check-mobile-catalog" >/dev/null 2>&1 \
-    || err "a mobile decision or semantics mapping is missing; run bin/check-mobile-catalog"
-"$top/bin/generate-mobile-tokens" --check >/dev/null 2>&1 \
-    || err "the Swift or Kotlin theme tokens are stale; run bin/generate-mobile-tokens"
-"$top/bin/generate-page-markdown" --check >/dev/null 2>&1 \
-    || err "a site page's .md twin is missing or stale; run bin/generate-page-markdown"
-"$top/bin/extract-site-pages" --check >/dev/null 2>&1 \
-    || err "site pages' English sources drift from their routes; run bin/extract-site-pages"
-"$top/bin/check-site-page-translations" >/dev/null 2>&1 \
-    || err "a translated site page differs in structure or is missing; run bin/check-site-page-translations"
-"$top/bin/generate-locale-pages" --check >/dev/null 2>&1 \
-    || err "locale page routes are out of date; run bin/generate-locale-pages"
-"$top/bin/sync-special-files" --check >/dev/null 2>&1 \
-    || err "special files are out of sync; run bin/sync-special-files"
-"$top/bin/generate-registries" --check >/dev/null 2>&1 \
-    || err "example-app registries or the shadcn registry (static/r/react/) are stale; run bin/generate-registries"
+"$top/bin/check-mobile-catalog" >"$CHECKLOG" 2>&1 \
+    || check_err "a mobile decision or semantics mapping is missing; run bin/check-mobile-catalog"
+"$top/bin/generate-mobile-tokens" --check >"$CHECKLOG" 2>&1 \
+    || check_err "the Swift or Kotlin theme tokens are stale; run bin/generate-mobile-tokens"
+"$top/bin/generate-page-markdown" --check >"$CHECKLOG" 2>&1 \
+    || check_err "a site page's .md twin is missing or stale; run bin/generate-page-markdown"
+"$top/bin/extract-site-pages" --check >"$CHECKLOG" 2>&1 \
+    || check_err "site pages' English sources drift from their routes; run bin/extract-site-pages"
+"$top/bin/check-site-page-translations" >"$CHECKLOG" 2>&1 \
+    || check_err "a translated site page differs in structure or is missing; run bin/check-site-page-translations"
+"$top/bin/generate-locale-pages" --check >"$CHECKLOG" 2>&1 \
+    || check_err "locale page routes are out of date; run bin/generate-locale-pages"
+"$top/bin/sync-special-files" --check >"$CHECKLOG" 2>&1 \
+    || check_err "special files are out of sync; run bin/sync-special-files"
+"$top/bin/generate-registries" --check >"$CHECKLOG" 2>&1 \
+    || check_err "example-app registries or the shadcn registry (static/r/react/) are stale; run bin/generate-registries"
 # --dry-run must write nothing: the working tree is identical before and after.
 dry_before="$(git -C "$top" status --porcelain | cksum)"
-"$top/bin/new-component" --dry-run bin-test-dry-run-probe >/dev/null 2>&1 \
-    || err "bin/new-component --dry-run failed"
-"$top/bin/create-component-directory" --dry-run bin-test-dry-run-probe >/dev/null 2>&1 \
-    || err "bin/create-component-directory --dry-run failed"
-"$top/bin/create-implementation-directory" --dry-run lily-design-system-bin-test-dry-run-probe >/dev/null 2>&1 \
-    || err "bin/create-implementation-directory --dry-run failed"
+"$top/bin/new-component" --dry-run bin-test-dry-run-probe >"$CHECKLOG" 2>&1 \
+    || check_err "bin/new-component --dry-run failed"
+"$top/bin/create-component-directory" --dry-run bin-test-dry-run-probe >"$CHECKLOG" 2>&1 \
+    || check_err "bin/create-component-directory --dry-run failed"
+"$top/bin/create-implementation-directory" --dry-run lily-design-system-bin-test-dry-run-probe >"$CHECKLOG" 2>&1 \
+    || check_err "bin/create-implementation-directory --dry-run failed"
 test "$dry_before" = "$(git -C "$top" status --porcelain | cksum)" \
     || err "a scaffolder --dry-run changed the working tree"
-"$top/bin/check-generated-files" >/dev/null 2>&1 \
-    || err "the Generated files table in AGENTS/lily.md disagrees with bin/; run bin/check-generated-files"
-"$top/bin/check-port-parity" --quiet >/dev/null 2>&1 \
-    || err "a port (Web Components, Alpine) drifted from its reference; run bin/check-port-parity"
-"$top/bin/check-aria-baseline" --quiet >/dev/null 2>&1 \
-    || err "an HTML or Blazor root differs from what Svelte renders; run bin/check-aria-baseline"
-"$top/bin/check-generic-names" --quiet >/dev/null 2>&1 \
-    || err "an HTML or Blazor component names a generic root; run bin/check-generic-names"
-"$top/bin/check-port-logic" --quiet >/dev/null 2>&1 \
-    || err "an Angular or Blazor port has no logic where Svelte has behaviour; run bin/check-port-logic"
+"$top/bin/check-generated-files" >"$CHECKLOG" 2>&1 \
+    || check_err "the Generated files table in AGENTS/lily.md disagrees with bin/; run bin/check-generated-files"
+"$top/bin/check-port-parity" --quiet >"$CHECKLOG" 2>&1 \
+    || check_err "a port (Web Components, Alpine) drifted from its reference; run bin/check-port-parity"
+"$top/bin/check-aria-baseline" --quiet >"$CHECKLOG" 2>&1 \
+    || check_err "an HTML or Blazor root differs from what Svelte renders; run bin/check-aria-baseline"
+"$top/bin/check-generic-names" --quiet >"$CHECKLOG" 2>&1 \
+    || check_err "an HTML or Blazor component names a generic root; run bin/check-generic-names"
+"$top/bin/check-port-logic" --quiet >"$CHECKLOG" 2>&1 \
+    || check_err "an Angular or Blazor port has no logic where Svelte has behaviour; run bin/check-port-logic"
 if test -e "$top/lily-design-system-angular-headless/node_modules/.bin/vitest"; then
-    (cd "$top/lily-design-system-angular-headless" && pnpm exec vitest run --project prerender >/dev/null 2>&1) \
-        || err "an Angular component breaks while prerendering; run pnpm run test:prerender in lily-design-system-angular-headless"
+    (cd "$top/lily-design-system-angular-headless" && pnpm exec vitest run --project prerender >"$CHECKLOG" 2>&1) \
+        || check_err "an Angular component breaks while prerendering; run pnpm run test:prerender in lily-design-system-angular-headless"
 else
     printf %s\\n "bin/test: skipped the Angular prerender sweep (no node_modules; run pnpm install there)"
 fi
 
 # Coverage drift across the 7 headless catalogs, including components with a keyboard contract whose test sends no
 # key (tasks.md P12-T5; today's gaps are listed in bin/check-coverage.keys-allow.json and may only shrink).
-"$top/bin/check-worldwide" --quiet >/dev/null 2>&1 \
-    || err "a single-region default (currency, weekend or English locale) is back in shipped code; run bin/check-worldwide"
-"$top/bin/check-coverage" --quiet >/dev/null 2>&1 \
-    || err "headless coverage drifted (a missing file, or a keyboard contract without a key test); run bin/check-coverage"
-"$top/bin/check-links" >/dev/null 2>&1 \
-    || err "a relative markdown link does not resolve; run bin/check-links"
+"$top/bin/check-worldwide" --quiet >"$CHECKLOG" 2>&1 \
+    || check_err "a single-region default (currency, weekend or English locale) is back in shipped code; run bin/check-worldwide"
+"$top/bin/check-coverage" --quiet >"$CHECKLOG" 2>&1 \
+    || check_err "headless coverage drifted (a missing file, or a keyboard contract without a key test); run bin/check-coverage"
+"$top/bin/check-links" >"$CHECKLOG" 2>&1 \
+    || check_err "a relative markdown link does not resolve; run bin/check-links"
 # The generators under test read Markdown with the docs site's marked and format with the root Prettier.
 if test -e "$top/node_modules/prettier/package.json" && test -e "$top/lilydesignsystem.github.io/node_modules/marked/package.json"; then
-    "$top/bin/test-generators" >/dev/null 2>&1 \
-        || err "a generator's output differs from its golden; run bin/test-generators (then --update-goldens if intended)"
+    "$top/bin/test-generators" >"$CHECKLOG" 2>&1 \
+        || check_err "a generator's output differs from its golden; run bin/test-generators (then --update-goldens if intended)"
 else
     err "bin/test-generators needs the root install and the docs site's (marked); run pnpm install in both"
 fi
 # The publish scripts' --tag option (tasks.md P42-T10), checked with a fake npm: nothing is published.
-"$top/bin/test-publish-tag" >/dev/null 2>&1 \
-    || err "the --tag option of bin/publish-helpers or bin/publish-headless is wrong; run bin/test-publish-tag"
+"$top/bin/test-publish-tag" >"$CHECKLOG" 2>&1 \
+    || check_err "the --tag option of bin/publish-helpers or bin/publish-headless is wrong; run bin/test-publish-tag"
 # The Alpine snippets are generated (tasks.md P12-T5b). The generator formats with the root Prettier, so it needs the
 # root install; where that is missing (CI's verify job) the lint job runs the same check.
 if test -e "$top/node_modules/prettier/package.json"; then
-    node "$top/lily-design-system-alpine-headless/generate-components.mjs" --check >/dev/null 2>&1 \
-        || err "the Alpine snippets differ from their generator; run node lily-design-system-alpine-headless/generate-components.mjs --check"
+    node "$top/lily-design-system-alpine-headless/generate-components.mjs" --check >"$CHECKLOG" 2>&1 \
+        || check_err "the Alpine snippets differ from their generator; run node lily-design-system-alpine-headless/generate-components.mjs --check"
 else
     printf %s\\n "bin/test: skipped the Alpine generator check (no root node_modules; run pnpm install)"
 fi
