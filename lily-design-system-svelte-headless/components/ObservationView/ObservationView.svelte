@@ -23,10 +23,15 @@
     //   previousLabel — string, optional. The consumer's words for it ("was 5.1 until 3 Nov"); required with previousValue.
     //   It never infers an interpretation: with no interpretation there is no flag and no data-interpretation, even when
     //     a range is given, so a result whose range is missing or still loading is never shown as normal.
-    //   status — "final" | "preliminary" | "amended" | "corrected" | "entered-in-error" | "cancelled" | "masked" | "not-recorded" | "unavailable" | "not-applicable", default "final". Rendered as data-status.
-    //   statusLabel — string, optional. The consumer's words for a status that is not final ("Not recorded"). For
-    //     cancelled, masked, not-recorded, unavailable and not-applicable it replaces the value, so a missing result is never a blank or a
-    //     dash; for any other status but final it is shown beside the value.
+    //   status — "final" | "registered" | "preliminary" | "amended" | "corrected" | "entered-in-error" | "cancelled" | "unknown" | "masked" | "not-recorded" | "unavailable" | "not-applicable", default "final". Rendered as data-status.
+    //   statusLabel — string. The consumer's words for a status, required for any status but final ("Not recorded"). For
+    //     registered, cancelled, masked, not-recorded, unavailable and not-applicable it replaces the value, so a missing result
+    //     is never a blank or a dash; for any other status it is shown beside the value. Without it, a result that is not final
+    //     shows no value, unit, flag, range or meter, so it is never read as a plain result.
+    //   showWithdrawn — boolean, default false. An entered-in-error result shows only its words. In an authorised history view,
+    //     true shows the former value struck through after them, with no flag, range or meter.
+    //     A withheld or withdrawn result renders no data-interpretation, whatever interpretation it is given. Lily withholds
+    //     what is shown; the service must withhold a restricted value before it is sent.
     //   ...restProps — additional HTML attributes spread onto the <span>.
     //
     // Syntax:
@@ -44,9 +49,10 @@
     //   - FHIR Observation.interpretation: https://hl7.org/fhir/observation.html
     import { warnMissingProp } from "../dev-warning";
 
-    // FHIR statuses with no value to show: the consumer's words replace it. Every other status that is not final shows the
-    // value with its words beside it, so an amended, corrected or entered-in-error result never reads as a plain one.
+    // Statuses with no value to show: the consumer's words replace it. Any other status that is not final shows its value only
+    // beside its words, so a result without them is withheld rather than read as a plain one.
     const MISSING: readonly string[] = [
+        "registered",
         "cancelled",
         "masked",
         "not-recorded",
@@ -73,6 +79,7 @@
         previousLabel,
         status = "final",
         statusLabel,
+        showWithdrawn = false,
         ...restProps
     }: {
         label?: string;
@@ -92,20 +99,28 @@
         previousLabel?: string;
         status?:
             | "final"
+            | "registered"
             | "preliminary"
             | "amended"
             | "corrected"
             | "entered-in-error"
             | "cancelled"
+            | "unknown"
             | "masked"
             | "not-recorded"
             | "unavailable"
             | "not-applicable";
         statusLabel?: string;
+        showWithdrawn?: boolean;
         [key: string]: unknown;
     } = $props();
 
-    const missing = $derived(MISSING.includes(status));
+    const withdrawn = $derived(status === "entered-in-error");
+    const withheld = $derived(
+        MISSING.includes(status) ||
+            (status !== "final" && !statusLabel) ||
+            (withdrawn && !showWithdrawn),
+    );
     const showMeter = $derived(
         typeof meterValue === "number" &&
             typeof meterMin === "number" &&
@@ -118,7 +133,7 @@
                 "ObservationView",
                 "statusLabel",
                 statusLabel,
-                "A result that is not final must say so in words.",
+                "A result that is not final must say so in words; without them its value is not shown.",
             );
         if (previousValue)
             warnMissingProp(
@@ -140,11 +155,16 @@
 <!-- ObservationView.svelte -->
 <span
     class={`observation-view ${className}`}
-    data-interpretation={interpretation || undefined}
+    data-interpretation={withheld || withdrawn ? undefined : interpretation || undefined}
     data-status={status}
     {...restProps}
-    >{#if label}<span class="screen-reader-span">{`${label} `}</span>{/if}{#if missing}<span
+    >{#if label}<span class="screen-reader-span">{`${label} `}</span>{/if}{#if withheld}<span
             class="observation-view-status">{statusLabel}</span
+        >{:else if withdrawn}<span class="observation-view-status">{statusLabel}</span>{" "}<del
+            class="observation-view-withdrawn-value"
+            ><span class="observation-view-value">{value}</span>{#if unit}{" "}<span
+                    class="observation-view-unit">{unit}</span
+                >{/if}</del
         >{:else}<span class="observation-view-value">{value}</span>{#if unit}{" "}<span
                 class="observation-view-unit">{unit}</span
             >{/if}{#if flagLabel}{" "}<span class="observation-view-flag">{flagLabel}</span

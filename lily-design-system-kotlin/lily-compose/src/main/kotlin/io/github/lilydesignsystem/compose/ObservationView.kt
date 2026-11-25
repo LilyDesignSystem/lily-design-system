@@ -33,7 +33,8 @@ import io.github.lilydesignsystem.core.ObservationStatus
  * @param flagLabel the flag in the app's words ("High"); required when the interpretation is not "N".
  * @param range the reference range as text; [ranges] are further named ranges.
  * @param status a FHIR status or a Lily absence; default [ObservationStatus.Final].
- * @param statusLabel the status in words; required for any status but final, and shown instead of a missing value.
+ * @param statusLabel the status in words; required for any status but final: without them nothing of the result is shown.
+ * @param showWithdrawn for an authorised history view: an entered-in-error result's former value, struck through after its words.
  * @param previousValue a superseded value, struck through; [previousLabel] is the words for it ("was 5.1 until 3 Nov").
  * @param label spoken first, when no visible caption names the observation.
  * @param meter the value on its scale ([MeterReading], which refuses a value off the scale), for a bar hidden from TalkBack.
@@ -55,14 +56,17 @@ public fun ObservationView(
     label: String? = null,
     meter: MeterReading? = null,
     meterColor: Color = Color.Gray,
+    showWithdrawn: Boolean = false,
 ) {
     ObservationRules.warnings(interpretation, flagLabel, status, statusLabel, previousValue, previousLabel)
         .forEach { LilyWarnings.warn(it) }
     val styles = LocalLilyTextStyles.current
-    val replaced = ObservationRules.statusReplacesValue(status)
-    val shown = if (replaced) statusLabel else ObservationRules.shownValue(value, unit, status)
+    val replaced = ObservationRules.withholds(status, statusLabel, showWithdrawn)
+    val withdrawn = ObservationRules.isWithdrawn(status)
+    val shown = if (replaced || withdrawn) statusLabel else ObservationRules.shownValue(value, unit, status)
     val spoken = ObservationRules.spoken(
         label, value, unit, flagLabel, interpretation, range, ranges, status, statusLabel, previousLabel,
+        showWithdrawn,
     )
     Column(
         modifier = modifier.clearAndSetSemantics { contentDescription = spoken },
@@ -70,9 +74,16 @@ public fun ObservationView(
     ) {
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             shown?.let { BasicText(it, style = styles.strong) }
+            if (withdrawn && !replaced) {
+                ObservationRules.shownValue(value, unit, status)?.let {
+                    BasicText(it, style = styles.body.merge(TextStyle(textDecoration = TextDecoration.LineThrough)))
+                }
+            }
+            if (replaced || withdrawn) return@Row
             if (ObservationRules.isFlagged(interpretation)) flagLabel?.let { BasicText(it, style = styles.body) }
-            if (ObservationRules.showsStatus(status) && !replaced) statusLabel?.let { BasicText(it, style = styles.body) }
+            if (ObservationRules.showsStatus(status)) statusLabel?.let { BasicText(it, style = styles.body) }
         }
+        if (replaced || withdrawn) return@Column
         if (previousValue != null) {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 BasicText(previousValue, style = styles.body.merge(TextStyle(textDecoration = TextDecoration.LineThrough)))
@@ -81,7 +92,7 @@ public fun ObservationView(
         }
         range?.let { BasicText(it, style = styles.small) }
         ranges.forEach { BasicText(it.label + " " + it.text, style = styles.small) }
-        if (!replaced && meter != null) {
+        if (meter != null) {
             val fraction = ((meter.value - meter.scale.min) / (meter.scale.max - meter.scale.min)).toFloat()
             Canvas(Modifier.fillMaxWidth().height(8.dp)) {
                 drawRect(meterColor.copy(alpha = 0.25f), Offset.Zero, size)

@@ -5,7 +5,7 @@ package io.github.lilydesignsystem.core
 
 /** A FHIR Observation status, or one of Lily's absences. */
 public enum class ObservationStatus(public val key: String) {
-    Final("final"), Preliminary("preliminary"), Amended("amended"), Corrected("corrected"),
+    Final("final"), Registered("registered"), Unknown("unknown"), Preliminary("preliminary"), Amended("amended"), Corrected("corrected"),
     EnteredInError("entered-in-error"), Cancelled("cancelled"), Masked("masked"), NotRecorded("not-recorded"),
     Unavailable("unavailable"), NotApplicable("not-applicable"),
 }
@@ -18,8 +18,21 @@ public object ObservationRules {
 
     /** A missing result shows its status words instead of a value, so it is never blank or a dash. */
     public fun statusReplacesValue(status: ObservationStatus): Boolean = status in setOf(
-        ObservationStatus.Cancelled, ObservationStatus.Masked, ObservationStatus.NotRecorded, ObservationStatus.Unavailable,
+        ObservationStatus.Registered, ObservationStatus.Cancelled, ObservationStatus.Masked, ObservationStatus.NotRecorded,
+        ObservationStatus.Unavailable, ObservationStatus.NotApplicable,
     )
+
+    /**
+     * Whether nothing of the result but its status words is shown or spoken: no value, flag, range, meter or earlier value. A
+     * missing result, one with no words for a status that is not final, and an entered-in-error one, whose former value an
+     * authorised history view shows with [showWithdrawn].
+     */
+    public fun withholds(status: ObservationStatus, statusLabel: String?, showWithdrawn: Boolean = false): Boolean =
+        statusReplacesValue(status) || (showsStatus(status) && statusLabel.isNullOrEmpty()) ||
+            (isWithdrawn(status) && !showWithdrawn)
+
+    /** An entered-in-error result: its value, when shown at all, is a former one, with no flag, range or meter. */
+    public fun isWithdrawn(status: ObservationStatus): Boolean = status == ObservationStatus.EnteredInError
 
     /** Any status but final is shown, beside the value or instead of it. */
     public fun showsStatus(status: ObservationStatus): Boolean = status != ObservationStatus.Final
@@ -64,13 +77,20 @@ public object ObservationRules {
         status: ObservationStatus,
         statusLabel: String?,
         previousLabel: String?,
+        showWithdrawn: Boolean = false,
     ): String {
         val pieces = mutableListOf(label)
-        pieces += if (statusReplacesValue(status)) statusLabel else shownValue(value, unit, status)
+        if (withholds(status, statusLabel, showWithdrawn) || isWithdrawn(status)) {
+            pieces += statusLabel
+            // The words first, so a former value is never heard as a current one.
+            if (!withholds(status, statusLabel, showWithdrawn)) pieces += shownValue(value, unit, status)
+            return pieces.filterNotNull().filter { it.isNotEmpty() }.joinToString("\n")
+        }
+        pieces += shownValue(value, unit, status)
         if (isFlagged(interpretation)) pieces += flagLabel
         pieces += range
         ranges.forEach { pieces += it.label + NO_BREAK_SPACE + it.text }
-        if (showsStatus(status) && !statusReplacesValue(status)) pieces += statusLabel
+        if (showsStatus(status)) pieces += statusLabel
         pieces += previousLabel
         return pieces.filterNotNull().filter { it.isNotEmpty() }.joinToString("\n")
     }

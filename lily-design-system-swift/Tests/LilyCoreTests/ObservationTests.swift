@@ -5,7 +5,7 @@ import Testing
 @testable import LilyCore
 
 @Test func missingResultsShowTheirStatusWordsInsteadOfAValue() {
-    let replacing: Set<ObservationStatus> = [.cancelled, .masked, .notRecorded, .unavailable]
+    let replacing: Set<ObservationStatus> = [.registered, .cancelled, .masked, .notRecorded, .unavailable, .notApplicable]
     for status in ObservationStatus.allCases {
         #expect(ObservationRules.statusReplacesValue(status) == replacing.contains(status), "\(status)")
     }
@@ -72,4 +72,20 @@ import Testing
         ObservationRules.warnings(
             interpretation: nil, flagLabel: nil, status: .amended, statusLabel: nil, previousValue: nil, previousLabel: nil
         ) == ["ObservationView: status amended needs a statusLabel"])
+}
+
+// HC-C12, HC-C13, HC-C14 (spec/healthcare-ui/requirements.md): docs/audits/gpt-6-2-astra-high finding 2.
+@Test func withheldAndWithdrawnResultsSpeakOnlyTheirWords() {
+    func spoken(_ status: ObservationStatus, _ words: String?, _ show: Bool = false) -> String {
+        ObservationRules.spoken(
+            label: "Potassium", value: "5.9", unit: "mmol/L", flagLabel: "Critically high", interpretation: "HH", range: "3.5-5.3",
+            ranges: [("Critical", "above 6.5")], status: status, statusLabel: words, previousLabel: "was 5.1", showWithdrawn: show)
+    }
+    for status in [ObservationStatus.masked, .registered, .notApplicable, .enteredInError] {
+        #expect(spoken(status, "Words") == "Potassium\nWords")
+    }
+    #expect(spoken(.enteredInError, "Entered in error", true) == "Potassium\nEntered in error\n5.9\u{00A0}mmol/L")
+    for status in ObservationStatus.allCases where status != .final {
+        #expect(spoken(status, nil, true) == "Potassium")
+    }
 }

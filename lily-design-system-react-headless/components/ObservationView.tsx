@@ -5,6 +5,7 @@ import { warnMissingProp } from "./dev-warning";
 
 // FHIR statuses with no value to show: the consumer's words replace it (spec/healthcare-ui, tasks.md P28-T5).
 const MISSING: readonly string[] = [
+    "registered",
     "cancelled",
     "masked",
     "not-recorded",
@@ -42,17 +43,21 @@ export interface ObservationViewProps {
     previousLabel?: string;
     status?:
         | "final"
+        | "registered"
         | "preliminary"
         | "amended"
         | "corrected"
         | "entered-in-error"
         | "cancelled"
+        | "unknown"
         | "masked"
         | "not-recorded"
         | "unavailable"
         | "not-applicable";
-    /** The consumer's words for a status that is not final; replaces the value when not-recorded or unavailable. */
+    /** The consumer's words, required for any status but final: without them no value, flag, range or meter is shown. */
     statusLabel?: string;
+    /** For an authorised history view: an entered-in-error result's former value, struck through after its words. */
+    showWithdrawn?: boolean;
     [key: string]: unknown;
 }
 
@@ -75,6 +80,7 @@ export default function ObservationView({
     previousLabel,
     status = "final",
     statusLabel,
+    showWithdrawn = false,
     ...restProps
 }: ObservationViewProps) {
     if (status !== "final")
@@ -82,7 +88,7 @@ export default function ObservationView({
             "ObservationView",
             "statusLabel",
             statusLabel,
-            "A result that is not final must say so in words.",
+            "A result that is not final must say so in words; without them its value is not shown.",
         );
     if (interpretation && interpretation !== "N")
         warnMissingProp(
@@ -91,17 +97,34 @@ export default function ObservationView({
             flagLabel,
             "An abnormal flag needs words, not colour alone (WCAG 1.4.1).",
         );
-    const missing = MISSING.includes(status);
+    const withdrawn = status === "entered-in-error";
+    const withheld =
+        MISSING.includes(status) ||
+        (status !== "final" && !statusLabel) ||
+        (withdrawn && !showWithdrawn);
     return (
         <span
             className={`observation-view ${className}`}
-            data-interpretation={interpretation || undefined}
+            data-interpretation={withheld || withdrawn ? undefined : interpretation || undefined}
             data-status={status}
             {...restProps}
         >
             {label ? <span className="screen-reader-span">{`${label} `}</span> : null}
-            {missing ? (
+            {withheld ? (
                 <span className="observation-view-status">{statusLabel}</span>
+            ) : withdrawn ? (
+                <>
+                    <span className="observation-view-status">{statusLabel}</span>{" "}
+                    <del className="observation-view-withdrawn-value">
+                        <span className="observation-view-value">{value}</span>
+                        {unit ? (
+                            <>
+                                {" "}
+                                <span className="observation-view-unit">{unit}</span>
+                            </>
+                        ) : null}
+                    </del>
+                </>
             ) : (
                 <>
                     <span className="observation-view-value">{value}</span>

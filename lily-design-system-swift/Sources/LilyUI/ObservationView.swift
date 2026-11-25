@@ -103,6 +103,7 @@ public struct ObservationView: View {
     let previousLabel: String?
     let label: String?
     let meter: MeterReading?
+    let showWithdrawn: Bool
     @Environment(\.observationViewStyle) private var style
 
     /// - Parameters:
@@ -112,14 +113,16 @@ public struct ObservationView: View {
     ///   - flagLabel: the flag in the app's words ("High"); required when the interpretation is not "N".
     ///   - range, ranges: the reference range, and further named ranges, as text.
     ///   - status: a FHIR status or a Lily absence; default `.final`.
-    ///   - statusLabel: the status in words; required for any status but final, and shown instead of a missing value.
+    ///   - statusLabel: the status in words; required for any status but final: without them nothing of the result is shown.
+    ///   - showWithdrawn: for an authorised history view: an entered-in-error result's former value, struck through after its words.
     ///   - previousValue, previousLabel: a superseded value and the words for it ("was 5.1 until 3 Nov").
     ///   - label: spoken first, when no visible caption names the observation.
     ///   - meter: the value on its scale (`MeterReading`, which refuses a value off the scale), for a hidden Gauge.
     public init(
         value: String? = nil, unit: String? = nil, interpretation: String? = nil, flagLabel: String? = nil,
         range: String? = nil, ranges: [NamedRange] = [], status: ObservationStatus = .final, statusLabel: String? = nil,
-        previousValue: String? = nil, previousLabel: String? = nil, label: String? = nil, meter: MeterReading? = nil
+        previousValue: String? = nil, previousLabel: String? = nil, label: String? = nil, meter: MeterReading? = nil,
+        showWithdrawn: Bool = false
     ) {
         self.value = value
         self.unit = unit
@@ -133,6 +136,7 @@ public struct ObservationView: View {
         self.previousLabel = previousLabel
         self.label = label
         self.meter = meter
+        self.showWithdrawn = showWithdrawn
         LilySemantics.warn(
             ObservationRules.warnings(
                 interpretation: interpretation, flagLabel: flagLabel, status: status, statusLabel: statusLabel,
@@ -142,23 +146,28 @@ public struct ObservationView: View {
     var spoken: String {
         ObservationRules.spoken(
             label: label, value: value, unit: unit, flagLabel: flagLabel, interpretation: interpretation, range: range,
-            ranges: ranges.map { ($0.label, $0.text) }, status: status, statusLabel: statusLabel, previousLabel: previousLabel)
+            ranges: ranges.map { ($0.label, $0.text) }, status: status, statusLabel: statusLabel, previousLabel: previousLabel,
+            showWithdrawn: showWithdrawn)
     }
 
     public var body: some View {
-        let replaced = ObservationRules.statusReplacesValue(status)
+        let withheld = ObservationRules.withholds(status, statusLabel: statusLabel, showWithdrawn: showWithdrawn)
+        let withdrawn = ObservationRules.isWithdrawn(status)
+        // Nothing of the result but its words, and in a history view the former value struck through after them.
+        let replaced = withheld || withdrawn
         let shown = replaced ? statusLabel : ObservationRules.shownValue(value: value, unit: unit, status: status)
+        let former = withdrawn && !withheld ? ObservationRules.shownValue(value: value, unit: unit, status: status) : nil
         style.anyBody(
             ObservationViewStyleConfiguration(
                 value: shown.map { Text(verbatim: $0) },
-                flag: ObservationRules.isFlagged(interpretation) ? flagLabel.map { Text(verbatim: $0) } : nil,
-                interpretation: interpretation,
-                range: range.map { Text(verbatim: $0) },
-                ranges: ranges.map { (Text(verbatim: $0.label), Text(verbatim: $0.text)) },
+                flag: !replaced && ObservationRules.isFlagged(interpretation) ? flagLabel.map { Text(verbatim: $0) } : nil,
+                interpretation: replaced ? nil : interpretation,
+                range: replaced ? nil : range.map { Text(verbatim: $0) },
+                ranges: replaced ? [] : ranges.map { (Text(verbatim: $0.label), Text(verbatim: $0.text)) },
                 status: ObservationRules.showsStatus(status) && !replaced ? statusLabel.map { Text(verbatim: $0) } : nil,
                 observationStatus: status,
-                previousValue: previousValue.map { Text(verbatim: $0) },
-                previousLabel: previousLabel.map { Text(verbatim: $0) },
+                previousValue: (replaced ? former : previousValue).map { Text(verbatim: $0) },
+                previousLabel: replaced ? nil : previousLabel.map { Text(verbatim: $0) },
                 meter: meterView(replaced: replaced)))
             .accessibilityElement(children: .ignore)
             .accessibilityAddTraits(.isStaticText)

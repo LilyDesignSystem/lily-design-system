@@ -13,8 +13,9 @@ See `components/observation-view/index.md` for the canonical documentation, and 
 - `Interpretation`: string (optional) — a FHIR v3 ObservationInterpretation code, rendered as `data-interpretation`
 - `FlagLabel`: string (optional) — the flag in words ("High"); required when the flag is not normal
 - `Range`: string (optional) — the reference range as text
-- `Status`: "final" | "preliminary" | "amended" | "corrected" | "entered-in-error" | "cancelled" | "masked" | "not-recorded" | "unavailable" | "not-applicable" (optional) — default `final`, rendered as `data-status`
-- `StatusLabel`: string (optional) — the words for a status that is not final; replaces the value when it is missing
+- `Status`: "final" | "registered" | "preliminary" | "amended" | "corrected" | "entered-in-error" | "cancelled" | "unknown" | "masked" | "not-recorded" | "unavailable" | "not-applicable" (optional) — default `final`, rendered as `data-status`
+- `StatusLabel`: string (required for any status but `final`) — the words for the status; without them no value is shown
+- `ShowWithdrawn`: boolean (optional) — default `false`; in an authorised history view, shows an `entered-in-error` result's former value struck through after its words
 - `Label`: string (optional) — hidden text naming the observation, when no visible caption does
 
 ---

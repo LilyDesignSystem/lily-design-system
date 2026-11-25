@@ -16,8 +16,11 @@
       meterOptimum
     previousValue              a superseded value, in a <del>
     previousLabel              the consumer's words for it ("was 5.1 until 3 Nov"); give it with previousValue
-    status                     "final" (default) | "preliminary" | "amended" | "corrected" | "entered-in-error" | "cancelled" | "masked" | "not-recorded" | "unavailable" | "not-applicable"
-    statusLabel                the words for a status that is not final; replaces the value when missing
+    status                     "final" (default) | "registered" | "preliminary" | "amended" | "corrected" | "entered-in-error" | "cancelled" | "unknown" | "masked" | "not-recorded" | "unavailable" | "not-applicable"
+    statusLabel                the words, required for any status but final: without them no value, flag, range or meter is
+                               shown; replaces the value when there is none to show
+    showWithdrawn              boolean, default false, for an authorised history view: an entered-in-error result's former
+                               value, struck through after its words
     label, id, classes, attributes
 
   Usage:
@@ -27,13 +30,16 @@
 {%- macro observationView(params) -%}
 {%- set p = params | default({}) -%}
 {%- set status = p.status | default("final") -%}
+{%- set withdrawn = status == "entered-in-error" -%}
+{%- set withheld = status in ["registered", "cancelled", "masked", "not-recorded", "unavailable", "not-applicable"] or (status != "final" and not p.statusLabel) or (withdrawn and not p.showWithdrawn) -%}
 <span
   class="observation-view{% if p.classes %} {{ p.classes }}{% endif %}"
-  {%- if p.interpretation %} data-interpretation="{{ p.interpretation }}"{% endif %} data-status="{{ status }}"
+  {%- if p.interpretation and not withheld and not withdrawn %} data-interpretation="{{ p.interpretation }}"{% endif %} data-status="{{ status }}"
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >{% if p.label %}<span class="screen-reader-span">{{ p.label }} </span>{% endif %}
-{%- if status in ["cancelled", "masked", "not-recorded", "unavailable", "not-applicable"] -%}<span class="observation-view-status">{{ p.statusLabel }}</span>
+{%- if withheld -%}<span class="observation-view-status">{{ p.statusLabel }}</span>
+{%- elif withdrawn -%}<span class="observation-view-status">{{ p.statusLabel }}</span> <del class="observation-view-withdrawn-value"><span class="observation-view-value">{{ p.value | default("") }}</span>{% if p.unit %}&#160;<span class="observation-view-unit">{{ p.unit }}</span>{% endif %}</del>
 {%- else -%}<span class="observation-view-value">{{ p.value | default("") }}</span>
 {%- if p.unit %}&#160;<span class="observation-view-unit">{{ p.unit }}</span>{% endif -%}
 {%- if p.flagLabel %} <span class="observation-view-flag">{{ p.flagLabel }}</span>{% endif -%}

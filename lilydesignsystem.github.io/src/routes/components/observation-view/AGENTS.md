@@ -16,7 +16,9 @@
 - Renders `<span class="observation-view">` with parts `observation-view-value`, `-unit`, `-flag`, `-range` and `-status`
 - `interpretation` is a FHIR v3 ObservationInterpretation code (`N`, `L`, `H`, `LL`, `HH`, `A`, …), rendered as `data-interpretation` and never as text
 - `flagLabel` is the flag in the consumer's words; it is required whenever the flag is not normal, so the meaning is never colour alone (a development warning says so)
-- `status` is a FHIR Observation status (`final`, `preliminary`, `amended`, `corrected`, `entered-in-error`, `cancelled`), or `masked`, `not-recorded`, `unavailable` or `not-applicable`, rendered as `data-status`. `cancelled`, `masked`, `not-recorded` and `unavailable` show `statusLabel` instead of the value, so a missing result is never blank or a dash; every other status but `final` shows the value with `statusLabel` beside it, so an amended, corrected or entered-in-error result never reads as a plain one
+- `status` is a FHIR R4 Observation status (`final`, `registered`, `preliminary`, `amended`, `corrected`, `entered-in-error`, `cancelled`, `unknown`), or `masked`, `not-recorded`, `unavailable` or `not-applicable`, rendered as `data-status`. `registered`, `cancelled`, `masked`, `not-recorded`, `unavailable` and `not-applicable` show `statusLabel` instead of the value, so a missing result is never blank or a dash; the others show it beside the value. A result that is not final and has no `statusLabel` shows no value
+- An `entered-in-error` result shows only its words. With `showWithdrawn`, for an authorised history view, the former value follows them in `<del class="observation-view-withdrawn-value">`, with no flag, range or meter
+- A withheld or withdrawn result renders no `data-interpretation`, flag, range, meter or earlier value, whatever it is given; the service must still withhold a restricted value before sending it
 - The value and unit are joined by a no-break space, so they never wrap apart
 
 ## ARIA
@@ -40,8 +42,9 @@
 - `meterValue`, `meterMin`, `meterMax`: number (optional) — with all three, an `aria-hidden` native `<meter class="observation-view-meter">` shows where the value sits; `meterLow`, `meterHigh` and `meterOptimum` (optional) mark the reference range and best value for the theme. It is the picture of the words, never the only signal: the value, range and flag stay text. No meter for a missing result `meterScale(value, low?, high?, units?)` in the `clinical-format` module (C# `ClinicalFormat.MeterScale`) works out `meterMin`, `meterMax`, `meterLow` and `meterHigh` from a value and its reference range: half a range beyond each end of a two-sided range, zero to half as far again for a one-sided one, always wide enough to hold the value, and nothing (so no meter) only when there is no value or no range; a non-numeric value or end, a reversed range, a bound not above zero, or two different units throws a `MeterScaleError` (C# `MeterScaleException`) with a `reason`, never a quiet fallback (2026-11-21, P42-T8; 2026-11-22, checked arithmetic).
 - `previousValue`: string (optional) — a superseded value, shown in a `<del class="observation-view-previous-value">` so a reader who saw it knows it changed
 - `previousLabel`: string (optional; required with `previousValue`) — the consumer's words for it ("was 5.1 until 3 Nov"), since a screen reader may not announce `<del>`
-- `status`: "final" | "preliminary" | "amended" | "corrected" | "entered-in-error" | "cancelled" | "masked" | "not-recorded" | "unavailable" | "not-applicable" (optional) — default `final`, rendered as `data-status`
-- `statusLabel`: string (optional) — the words for a status that is not final; replaces the value when it is missing
+- `status`: "final" | "registered" | "preliminary" | "amended" | "corrected" | "entered-in-error" | "cancelled" | "unknown" | "masked" | "not-recorded" | "unavailable" | "not-applicable" (optional) — default `final`, rendered as `data-status`
+- `statusLabel`: string (required for any status but `final`) — the words for the status; without them no value is shown
+- `showWithdrawn`: boolean (optional) — default `false`; in an authorised history view, shows an `entered-in-error` result's former value struck through after its words
 - `label`: string (optional) — hidden text naming the observation, when no visible caption does
 - `...restProps`: any — additional HTML attributes spread onto the root
 

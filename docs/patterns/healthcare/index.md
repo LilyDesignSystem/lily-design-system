@@ -217,27 +217,52 @@ and the words for every state are your own.
 
 ### Codes
 
-| FHIR                                                                         | Lily                                                              |
-| ---------------------------------------------------------------------------- | ----------------------------------------------------------------- |
-| `Composition.section.emptyReason` `nilknown`                                 | the list's `status="none-known"`                                  |
-| `emptyReason` `notasked`, `notstarted`                                       | `status="not-recorded"`                                           |
-| `emptyReason` `unavailable`, `withheld`, `closed`                            | `status="unavailable"`, with words that say which                 |
-| IPS absent and unknown codes `no-known-allergies`, `no-known-medications`, … | `status="none-known"`                                             |
-| IPS absent and unknown codes `no-allergy-info`, `no-medication-info`, …      | `status="not-recorded"`                                           |
-| `AllergyIntolerance.criticality`                                             | `allergy-record-list-item` `criticality`                          |
-| `AllergyIntolerance.reaction.severity`                                       | `allergy-record-list-item` `severity`                             |
-| `AllergyIntolerance.clinicalStatus`, `.verificationStatus`                   | `clinicalStatus`, `verificationStatus` (same codes)               |
-| `Condition.clinicalStatus`, `.verificationStatus`                            | `problem-record-list-item` `clinicalStatus`, `verificationStatus` |
-| `MedicationStatement.status`                                                 | `medication-record-list-item` `status`                            |
-| `Dosage.text`                                                                | `medication-view` `dosageText`                                    |
-| `Immunization.status`, `Procedure.status`, `DeviceUseStatement.status`       | the item's `status` (same codes)                                  |
-| `Observation.status`                                                         | `observation-view` `status` (same codes)                          |
-| `Observation.interpretation` (v3 ObservationInterpretation)                  | `observation-view` `interpretation`, with `flagLabel`             |
-| `Observation.dataAbsentReason` `masked`                                      | `observation-view` `status="masked"`                              |
-| `dataAbsentReason` `asked-unknown`, `not-asked`, `not-performed`             | `status="not-recorded"`                                           |
-| `dataAbsentReason` `unknown`, `temp-unknown`, `error`                        | `status="unavailable"`                                            |
-| `dataAbsentReason` `not-applicable`                                          | `status="not-applicable"` (also on the record lists)              |
-| `Quantity.comparator`                                                        | `formatQuantity(value, unit, locale, comparator)`                 |
+| FHIR                                                                         | Lily                                                                       |
+| ---------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| `Composition.section.emptyReason` `nilknown`                                 | the list's `status="none-known"`                                           |
+| `emptyReason` `notasked`, `notstarted`                                       | `status="not-recorded"`                                                    |
+| `emptyReason` `unavailable`, `withheld`, `closed`                            | `status="unavailable"`, with words that say which                          |
+| IPS absent and unknown codes `no-known-allergies`, `no-known-medications`, … | `status="none-known"`                                                      |
+| IPS absent and unknown codes `no-allergy-info`, `no-medication-info`, …      | `status="not-recorded"`                                                    |
+| `AllergyIntolerance.criticality`                                             | `allergy-record-list-item` `criticality`                                   |
+| `AllergyIntolerance.reaction.severity`                                       | `allergy-record-list-item` `severity`                                      |
+| `AllergyIntolerance.clinicalStatus`, `.verificationStatus`                   | `clinicalStatus`, `verificationStatus` (same codes)                        |
+| `Condition.clinicalStatus`, `.verificationStatus`                            | `problem-record-list-item` `clinicalStatus`, `verificationStatus`          |
+| `MedicationStatement.status`                                                 | `medication-record-list-item` `status`                                     |
+| `Dosage.text`                                                                | `medication-view` `dosageText`                                             |
+| `Immunization.status`, `Procedure.status`, `DeviceUseStatement.status`       | the item's `status` (same codes)                                           |
+| `Observation.status`                                                         | `observation-view` `status`: see [Observation status](#observation-status) |
+| `Observation.interpretation` (v3 ObservationInterpretation)                  | `observation-view` `interpretation`, with `flagLabel`                      |
+| `Observation.dataAbsentReason` `masked`                                      | `observation-view` `status="masked"`                                       |
+| `dataAbsentReason` `asked-unknown`, `not-asked`, `not-performed`             | `status="not-recorded"`                                                    |
+| `dataAbsentReason` `unknown`, `temp-unknown`, `error`                        | `status="unavailable"`                                                     |
+| `dataAbsentReason` `not-applicable`                                          | `status="not-applicable"` (also on the record lists)                       |
+| `Quantity.comparator`                                                        | `formatQuantity(value, unit, locale, comparator)`                          |
+
+### Observation status
+
+Every FHIR R4 `Observation.status`, and what `observation-view` shows. **Any status but `final` needs `statusLabel`**, your words in
+the reader's language: without it the result shows no value, so a missing translation is never read as a plain result.
+
+| FHIR R4 status     | `status`           | What is shown                                                                  |
+| ------------------ | ------------------ | ------------------------------------------------------------------------------ |
+| `registered`       | `registered`       | the words only: there is no result yet                                         |
+| `preliminary`      | `preliminary`      | the value beside the words                                                     |
+| `final`            | `final`            | the value                                                                      |
+| `amended`          | `amended`          | the value beside the words; `previousValue` for what it replaced               |
+| `corrected`        | `corrected`        | the value beside the words; `previousValue` for what it replaced               |
+| `cancelled`        | `cancelled`        | the words only                                                                 |
+| `entered-in-error` | `entered-in-error` | the words only; with `showWithdrawn`, then the former value struck through     |
+| `unknown`          | `unknown`          | the value beside the words; a service may prefer `unavailable`, which hides it |
+
+- **Absence and masking come first.** When there is a `dataAbsentReason`, use the state in Codes above (`masked`, `not-recorded`,
+  `unavailable`, `not-applicable`) whatever the lifecycle status. A masked result that is later withdrawn stays `masked`: saying it
+  was withdrawn tells the reader something about a result they may not see. Your service decides otherwise if it must.
+- **A withheld or withdrawn result has no `data-interpretation`,** flag, range, meter or earlier value, even when your mapping
+  passes them. Lily hides what is shown; **your service must withhold a restricted value before it reaches the page**, where
+  anyone can read the source and the network.
+- **Current or history.** In a current-results view leave `showWithdrawn` off. Only an authorised history view turns it on, and it
+  shows a former value, never a flag: the words are read first.
 
 ### Fields
 

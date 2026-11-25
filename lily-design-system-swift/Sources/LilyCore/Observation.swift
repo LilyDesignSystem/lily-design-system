@@ -4,7 +4,7 @@
 
 /// A FHIR Observation status, or one of Lily's absences (spec/lessons/openehr, spec/lessons/openmrs).
 public enum ObservationStatus: String, Sendable, CaseIterable {
-    case final, preliminary, amended, corrected, cancelled, masked, unavailable
+    case final, registered, unknown, preliminary, amended, corrected, cancelled, masked, unavailable
     case enteredInError = "entered-in-error"
     case notRecorded = "not-recorded"
     case notApplicable = "not-applicable"
@@ -14,10 +14,21 @@ public enum ObservationRules {
     /// A missing result shows its status words instead of a value, so it is never blank or a dash.
     public static func statusReplacesValue(_ status: ObservationStatus) -> Bool {
         switch status {
-        case .cancelled, .masked, .notRecorded, .unavailable: true
+        case .registered, .cancelled, .masked, .notRecorded, .unavailable, .notApplicable: true
         default: false
         }
     }
+
+    /// Whether nothing of the result but its status words is shown or spoken: no value, flag, range, meter or earlier value. A
+    /// missing result, one with no words for a status that is not final, and an entered-in-error one, whose former value an
+    /// authorised history view shows with `showWithdrawn`.
+    public static func withholds(_ status: ObservationStatus, statusLabel: String?, showWithdrawn: Bool = false) -> Bool {
+        statusReplacesValue(status) || (showsStatus(status) && (statusLabel?.isEmpty ?? true))
+            || (isWithdrawn(status) && !showWithdrawn)
+    }
+
+    /// An entered-in-error result: its value, when shown at all, is a former one, with no flag, range or meter.
+    public static func isWithdrawn(_ status: ObservationStatus) -> Bool { status == .enteredInError }
 
     /// Any status but final is shown, beside the value or instead of it, so an amended result never reads as a plain one.
     public static func showsStatus(_ status: ObservationStatus) -> Bool { status != .final }
@@ -58,18 +69,22 @@ public enum ObservationRules {
     /// status beside the value, then the previous value's words. Pieces are joined by line breaks; Lily adds no words.
     public static func spoken(
         label: String?, value: String?, unit: String?, flagLabel: String?, interpretation: String?, range: String?,
-        ranges: [(label: String, text: String)] = [], status: ObservationStatus, statusLabel: String?, previousLabel: String?
+        ranges: [(label: String, text: String)] = [], status: ObservationStatus, statusLabel: String?, previousLabel: String?,
+        showWithdrawn: Bool = false
     ) -> String {
         var pieces: [String?] = [label]
-        if statusReplacesValue(status) {
+        let withheld = withholds(status, statusLabel: statusLabel, showWithdrawn: showWithdrawn)
+        if withheld || isWithdrawn(status) {
             pieces.append(statusLabel)
-        } else {
-            pieces.append(shownValue(value: value, unit: unit, status: status))
+            // The words first, so a former value is never heard as a current one.
+            if !withheld { pieces.append(shownValue(value: value, unit: unit, status: status)) }
+            return pieces.compactMap { $0 }.filter { !$0.isEmpty }.joined(separator: "\n")
         }
+        pieces.append(shownValue(value: value, unit: unit, status: status))
         if isFlagged(interpretation) { pieces.append(flagLabel) }
         pieces.append(range)
         for named in ranges { pieces.append(named.label + "\u{00A0}" + named.text) }
-        if showsStatus(status), !statusReplacesValue(status) { pieces.append(statusLabel) }
+        if showsStatus(status) { pieces.append(statusLabel) }
         pieces.append(previousLabel)
         return pieces.compactMap { $0 }.filter { !$0.isEmpty }.joined(separator: "\n")
     }

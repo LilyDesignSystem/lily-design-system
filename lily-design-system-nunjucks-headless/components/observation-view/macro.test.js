@@ -39,7 +39,6 @@ describe("observation-view", () => {
     it.each([
         ["amended", "Amended"],
         ["corrected", "Corrected"],
-        ["entered-in-error", "Entered in error"],
     ])("an %s result shows its value with its words beside it", (status, words) => {
         const { document } = render("observation-view", {
             value: "5.9",
@@ -139,5 +138,88 @@ describe("observation-view", () => {
                 meterMax: 8,
             }).document.querySelector("meter"),
         ).toBeNull();
+    });
+});
+
+const show = (props) =>
+    render("observation-view", props).document.querySelector(".observation-view");
+
+// docs/audits/gpt-6-2-astra-high finding 2: a result that is withdrawn, withheld or has no words is never read as a plain one.
+describe("ObservationView: withheld and withdrawn results", () => {
+    const stale = {
+        value: "5.9",
+        unit: "mmol/L",
+        interpretation: "HH",
+        flagLabel: "Critically high",
+        range: "3.5-5.3",
+        ranges: [{ label: "Critical", text: "above 6.5" }],
+        meterValue: 5.9,
+        meterMin: 2,
+        meterMax: 8,
+        previousValue: "5.1",
+        previousLabel: "was 5.1",
+    };
+    const expectNoRecord = (root) => {
+        for (const trace of ["5.9", "HH", "Critically", "3.5", "6.5", "5.1", "<meter", "<del"])
+            expect(root.outerHTML).not.toContain(trace);
+        expect(root.hasAttribute("data-interpretation")).toBe(false);
+    };
+
+    it.each([
+        ["masked", "Withheld"],
+        ["registered", "Not yet available"],
+        ["cancelled", "Test cancelled"],
+        ["unavailable", "Result unavailable"],
+        ["not-applicable", "Not applicable"],
+    ])(
+        "HC-C12: a %s result with a stale flag shows only its words, in text and attributes",
+        (status, statusLabel) => {
+            const root = show({ ...stale, status, statusLabel });
+            expect(root.textContent?.trim()).toBe(statusLabel);
+            expectNoRecord(root);
+        },
+    );
+
+    it("HC-C13: an entered-in-error result shows only its words", () => {
+        const root = show({
+            ...stale,
+            status: "entered-in-error",
+            statusLabel: "Entered in error",
+        });
+        expect(root.textContent?.trim()).toBe("Entered in error");
+        expectNoRecord(root);
+        expect(root.getAttribute("data-status")).toBe("entered-in-error");
+    });
+
+    it("HC-C13: in a history view the former value follows its words, struck through, with no flag, range or meter", () => {
+        const root = show({
+            ...stale,
+            status: "entered-in-error",
+            statusLabel: "Entered in error",
+            showWithdrawn: true,
+        });
+        expect(root.textContent?.trim()).toBe("Entered in error 5.9\u00a0mmol/L");
+        expect(root.querySelector("del.observation-view-withdrawn-value")?.textContent).toBe(
+            "5.9\u00a0mmol/L",
+        );
+        for (const trace of ["HH", "Critically", "3.5", "6.5", "<meter", "5.1"])
+            expect(root.outerHTML).not.toContain(trace);
+    });
+
+    it.each([
+        "preliminary",
+        "amended",
+        "corrected",
+        "unknown",
+        "entered-in-error",
+        "masked",
+        "registered",
+    ])("HC-C14: a %s result with no words shows no value, even in a history view", (status) => {
+        expectNoRecord(show({ ...stale, status, showWithdrawn: true }));
+    });
+
+    it("an unknown status shows its value beside its words", () => {
+        const root = show({ value: "5.9", status: "unknown", statusLabel: "Status not known" });
+        expect(root.textContent?.trim()).toBe("5.9 Status not known");
     });
 });

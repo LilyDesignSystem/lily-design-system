@@ -11,6 +11,7 @@ class ObservationTest {
     @Test fun missingResultsShowTheirStatusWordsInsteadOfAValue() {
         val replacing = setOf(
             ObservationStatus.Cancelled, ObservationStatus.Masked, ObservationStatus.NotRecorded, ObservationStatus.Unavailable,
+            ObservationStatus.Registered, ObservationStatus.NotApplicable,
         )
         ObservationStatus.entries.forEach { assertEquals(it in replacing, ObservationRules.statusReplacesValue(it), it.key) }
         assertNull(ObservationRules.shownValue("5.2", "mmol/L", ObservationStatus.Masked))
@@ -60,5 +61,21 @@ class ObservationTest {
             listOf("ObservationView: status amended needs a statusLabel"),
             ObservationRules.warnings(null, null, ObservationStatus.Amended, null, null, null),
         )
+    }
+
+    // HC-C12, HC-C13, HC-C14 (spec/healthcare-ui/requirements.md): docs/audits/gpt-6-2-astra-high finding 2.
+    @Test
+    fun withheldAndWithdrawnResultsSpeakOnlyTheirWords() {
+        fun spoken(status: ObservationStatus, words: String?, show: Boolean = false) = ObservationRules.spoken(
+            "Potassium", "5.9", "mmol/L", "Critically high", "HH", "3.5-5.3", listOf(NamedRange("Critical", "above 6.5")),
+            status, words, "was 5.1", show,
+        )
+        for (status in listOf(ObservationStatus.Masked, ObservationStatus.Registered, ObservationStatus.NotApplicable, ObservationStatus.EnteredInError)) {
+            assertEquals("Potassium\nWords", spoken(status, "Words"))
+        }
+        assertEquals("Potassium\nEntered in error\n5.9\u00a0mmol/L", spoken(ObservationStatus.EnteredInError, "Entered in error", true))
+        for (status in ObservationStatus.entries.filter { it != ObservationStatus.Final }) {
+            assertEquals("Potassium", spoken(status, null, true))
+        }
     }
 }

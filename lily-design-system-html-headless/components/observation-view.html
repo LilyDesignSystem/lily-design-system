@@ -6,9 +6,13 @@
   CSS class: observation-view (parts: observation-view-value, -unit, -flag, -range, -meter, -status)
   Spec: spec/healthcare-ui
   Attributes: data-interpretation (a FHIR v3 ObservationInterpretation code: N, L, H, LL, HH, A, ...), data-status
-    (final, preliminary, amended, corrected, entered-in-error, cancelled, masked, not-recorded, unavailable, not-applicable). The flag is the
-    consumer's words, never the code or a colour alone. A cancelled, masked, not-recorded, unavailable or not-applicable result shows its
-    words in .observation-view-status instead of a value, never a blank; any other status but final shows them beside it.
+    (final, registered, preliminary, amended, corrected, entered-in-error, cancelled, unknown, masked, not-recorded, unavailable,
+    not-applicable). The flag is the consumer's words, never the code or a colour alone. A registered, cancelled, masked,
+    not-recorded, unavailable or not-applicable result shows its words in .observation-view-status instead of a value, never a
+    blank, and so does an entered-in-error one in a current-results view; any other status but final shows them beside the
+    value. A result with no words for its status shows no value. Leave data-interpretation, the flag, range and meter out of
+    a withheld or withdrawn result. In an authorised history view, an entered-in-error result is its words, then
+    <del class="observation-view-withdrawn-value"> around the former value and unit.
     The value and unit are joined by a no-break space. Lily computes no flag and no range.
     Optional <meter class="observation-view-meter" aria-hidden="true" value min max low high optimum>: where the value sits
     against the reference range, for the theme to draw. It is aria-hidden because the value, range and flag are already

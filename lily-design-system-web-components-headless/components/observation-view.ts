@@ -10,6 +10,7 @@ import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 
 // FHIR statuses with no value to show: the consumer's words replace it (tasks.md P28-T5).
 const MISSING: readonly string[] = [
+    "registered",
     "cancelled",
     "masked",
     "not-recorded",
@@ -35,7 +36,26 @@ const HANDLED = new Set([
     "previous-label",
     "status",
     "status-label",
+    "show-withdrawn",
 ]);
+
+/** The attributes that hold the result itself. */
+const RECORD = [
+    "value",
+    "unit",
+    "interpretation",
+    "flag-label",
+    "range",
+    "ranges",
+    "meter-value",
+    "meter-min",
+    "meter-max",
+    "meter-low",
+    "meter-high",
+    "meter-optimum",
+    "previous-value",
+    "previous-label",
+];
 
 function part(name: string, text: string): HTMLSpanElement {
     const span = document.createElement("span");
@@ -51,7 +71,12 @@ export class ObservationView extends HTMLElement {
         const status = attr("status") || "final";
         const span = document.createElement("span");
         span.className = rootClassName(this, "observation-view");
-        if (attr("interpretation"))
+        const withdrawn = status === "entered-in-error";
+        const withheld =
+            MISSING.includes(status) ||
+            (status !== "final" && !attr("status-label")) ||
+            (withdrawn && !this.hasAttribute("show-withdrawn"));
+        if (attr("interpretation") && !withheld && !withdrawn)
             span.setAttribute("data-interpretation", attr("interpretation"));
         span.setAttribute("data-status", status);
         if (attr("label")) {
@@ -60,8 +85,14 @@ export class ObservationView extends HTMLElement {
             hidden.textContent = `${attr("label")} `;
             span.append(hidden);
         }
-        if (MISSING.includes(status)) {
+        if (withheld) {
             span.append(part("status", attr("status-label")));
+        } else if (withdrawn) {
+            const del = document.createElement("del");
+            del.className = "observation-view-withdrawn-value";
+            del.append(part("value", attr("value")));
+            if (attr("unit")) del.append(" ", part("unit", attr("unit")));
+            span.append(part("status", attr("status-label")), " ", del);
         } else {
             span.append(part("value", attr("value")));
             if (attr("unit")) span.append(" ", part("unit", attr("unit")));
@@ -115,6 +146,10 @@ export class ObservationView extends HTMLElement {
                 span.append(" ", part("status", attr("status-label")));
         }
         passThroughAttributes(this, span, HANDLED);
+        // What is not shown does not stay in the host's attributes either. The service must still withhold it before sending.
+        if (withheld || withdrawn)
+            for (const name of RECORD)
+                if (withheld || (name !== "value" && name !== "unit")) this.removeAttribute(name);
         this.appendChild(span);
     }
 }

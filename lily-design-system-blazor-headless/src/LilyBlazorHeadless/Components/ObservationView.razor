@@ -4,7 +4,7 @@
     (spec/healthcare-ui item 1). Shows what the consumer decided; computes no flag and no range.
     Props and rules: ObservationView.md.
 *@
-<span class="@($"observation-view {CssClass}".Trim())" data-interpretation="@(string.IsNullOrEmpty(Interpretation) ? null : Interpretation)" data-status="@Status" @attributes="AdditionalAttributes">@if (!string.IsNullOrEmpty(Label)) {<span class="screen-reader-span">@($"{Label} ")</span>}@if (Status is "cancelled" or "masked" or "not-recorded" or "unavailable" or "not-applicable") {<span class="observation-view-status">@StatusLabel</span>} else {<span class="observation-view-value">@Value</span>@if (!string.IsNullOrEmpty(Unit)) {@(" ")<span class="observation-view-unit">@Unit</span>}@if (!string.IsNullOrEmpty(FlagLabel)) {@(" ")<span class="observation-view-flag">@FlagLabel</span>}@if (!string.IsNullOrEmpty(Range)) {@(" ")<span class="observation-view-range">@Range</span>}@foreach (var named in Ranges ?? []) {@(" ")<span class="observation-view-range"><span class="observation-view-range-label">@named.Label</span>@(" ")@named.Text</span>}@if (MeterValue is not null && MeterMin is not null && MeterMax is not null) {@(" ")<meter class="observation-view-meter" aria-hidden="true" value="@Number(MeterValue)" min="@Number(MeterMin)" max="@Number(MeterMax)" low="@Number(MeterLow)" high="@Number(MeterHigh)" optimum="@Number(MeterOptimum)"></meter>}@if (!string.IsNullOrEmpty(PreviousValue)) {@(" ")<del class="observation-view-previous-value">@PreviousValue</del>@if (!string.IsNullOrEmpty(PreviousLabel)) {@(" ")<span class="observation-view-previous-label">@PreviousLabel</span>}}@if (Status != "final" && !string.IsNullOrEmpty(StatusLabel)) {@(" ")<span class="observation-view-status">@StatusLabel</span>}}</span>
+<span class="@($"observation-view {CssClass}".Trim())" data-interpretation="@(Withheld || Withdrawn || string.IsNullOrEmpty(Interpretation) ? null : Interpretation)" data-status="@Status" @attributes="AdditionalAttributes">@if (!string.IsNullOrEmpty(Label)) {<span class="screen-reader-span">@($"{Label} ")</span>}@if (Withheld) {<span class="observation-view-status">@StatusLabel</span>} else if (Withdrawn) {<span class="observation-view-status">@StatusLabel</span>@(" ")<del class="observation-view-withdrawn-value"><span class="observation-view-value">@Value</span>@if (!string.IsNullOrEmpty(Unit)) {@(" ")<span class="observation-view-unit">@Unit</span>}</del>} else {<span class="observation-view-value">@Value</span>@if (!string.IsNullOrEmpty(Unit)) {@(" ")<span class="observation-view-unit">@Unit</span>}@if (!string.IsNullOrEmpty(FlagLabel)) {@(" ")<span class="observation-view-flag">@FlagLabel</span>}@if (!string.IsNullOrEmpty(Range)) {@(" ")<span class="observation-view-range">@Range</span>}@foreach (var named in Ranges ?? []) {@(" ")<span class="observation-view-range"><span class="observation-view-range-label">@named.Label</span>@(" ")@named.Text</span>}@if (MeterValue is not null && MeterMin is not null && MeterMax is not null) {@(" ")<meter class="observation-view-meter" aria-hidden="true" value="@Number(MeterValue)" min="@Number(MeterMin)" max="@Number(MeterMax)" low="@Number(MeterLow)" high="@Number(MeterHigh)" optimum="@Number(MeterOptimum)"></meter>}@if (!string.IsNullOrEmpty(PreviousValue)) {@(" ")<del class="observation-view-previous-value">@PreviousValue</del>@if (!string.IsNullOrEmpty(PreviousLabel)) {@(" ")<span class="observation-view-previous-label">@PreviousLabel</span>}}@if (Status != "final" && !string.IsNullOrEmpty(StatusLabel)) {@(" ")<span class="observation-view-status">@StatusLabel</span>}}</span>
 @code {
     /// <summary>Further named ranges, each its own -range part with a -range-label.</summary>
     [Parameter] public IReadOnlyList<ObservationRange>? Ranges { get; set; }
@@ -33,9 +33,17 @@
     /// <summary>The consumer's words for the flag; required when it is not normal.</summary>
     [Parameter] public string? FlagLabel { get; set; }
     [Parameter] public string? Range { get; set; }
-    /// <summary>final, preliminary, amended, corrected, entered-in-error, cancelled, masked, not-recorded, unavailable or not-applicable.</summary>
+    /// <summary>final, registered, unknown, preliminary, amended, corrected, entered-in-error, cancelled, masked, not-recorded, unavailable or not-applicable.</summary>
     [Parameter] public string Status { get; set; } = "final";
+    /// <summary>The consumer's words, required for any status but final: without them no value, flag, range or meter is shown.</summary>
     [Parameter] public string? StatusLabel { get; set; }
+    /// <summary>For an authorised history view: an entered-in-error result's former value, struck through after its words.</summary>
+    [Parameter] public bool ShowWithdrawn { get; set; }
+    private bool Withdrawn => Status == "entered-in-error";
+    private bool Withheld =>
+        Status is "registered" or "cancelled" or "masked" or "not-recorded" or "unavailable" or "not-applicable"
+        || (Status != "final" && string.IsNullOrEmpty(StatusLabel))
+        || (Withdrawn && !ShowWithdrawn);
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 }

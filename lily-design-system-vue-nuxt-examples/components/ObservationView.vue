@@ -6,6 +6,7 @@ import { warnMissingProp } from "./dev-warning";
 
 // FHIR statuses with no value to show: the consumer's words replace it (tasks.md P28-T5).
 const MISSING: readonly string[] = [
+    "registered",
     "cancelled",
     "masked",
     "not-recorded",
@@ -40,18 +41,23 @@ const props = withDefaults(
         previousLabel?: string;
         status?:
             | "final"
+            | "registered"
             | "preliminary"
             | "amended"
             | "corrected"
             | "entered-in-error"
             | "cancelled"
+            | "unknown"
             | "masked"
             | "not-recorded"
             | "unavailable"
             | "not-applicable";
+        /** Required for any status but final: without it no value, flag, range or meter is shown. */
         statusLabel?: string;
+        /** For an authorised history view: an entered-in-error result's former value, struck through after its words. */
+        showWithdrawn?: boolean;
     }>(),
-    { value: "", status: "final" },
+    { value: "", status: "final", showWithdrawn: false },
 );
 
 if (props.status !== "final")
@@ -59,7 +65,7 @@ if (props.status !== "final")
         "ObservationView",
         "statusLabel",
         props.statusLabel,
-        "A result that is not final must say so in words.",
+        "A result that is not final must say so in words; without them its value is not shown.",
     );
 if (props.previousValue)
     warnMissingProp(
@@ -76,23 +82,39 @@ if (props.interpretation && props.interpretation !== "N")
         "An abnormal flag needs words, not colour alone (WCAG 1.4.1).",
     );
 
-const missing = computed(() => MISSING.includes(props.status ?? "final"));
+const current = computed(() => props.status ?? "final");
+const withdrawn = computed(() => current.value === "entered-in-error");
+const withheld = computed(
+    () =>
+        MISSING.includes(current.value) ||
+        (current.value !== "final" && !props.statusLabel) ||
+        (withdrawn.value && !props.showWithdrawn),
+);
 </script>
 
 <template>
     <!-- ObservationView.vue -->
     <span
         class="observation-view"
-        :data-interpretation="interpretation || undefined"
+        :data-interpretation="withheld || withdrawn ? undefined : interpretation || undefined"
         :data-status="status"
         ><span
             v-if="label"
             class="screen-reader-span"
             >{{ `${label} ` }}</span
         ><span
-            v-if="missing"
+            v-if="withheld"
             class="observation-view-status"
             >{{ statusLabel }}</span
+        ><template v-else-if="withdrawn"
+            ><span class="observation-view-status">{{ statusLabel }}</span
+            >{{ " "
+            }}<del class="observation-view-withdrawn-value"
+                ><span class="observation-view-value">{{ value }}</span
+                ><template v-if="unit"
+                    >{{ " " }}<span class="observation-view-unit">{{ unit }}</span></template
+                ></del
+            ></template
         ><template v-else
             ><span class="observation-view-value">{{ value }}</span
             ><template v-if="unit"

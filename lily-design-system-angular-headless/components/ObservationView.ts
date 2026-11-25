@@ -3,6 +3,7 @@ import { warnMissingProp } from "./dev-warning";
 
 // FHIR statuses with no value to show: the consumer's words replace it (tasks.md P28-T5).
 const MISSING: readonly string[] = [
+    "registered",
     "cancelled",
     "masked",
     "not-recorded",
@@ -17,7 +18,7 @@ const MISSING: readonly string[] = [
 @Component({
     selector: "lily-observation-view",
     standalone: true,
-    template: `<span class="observation-view {{ className() }}" [attr.data-interpretation]="interpretation() || null" [attr.data-status]="status()">@if (label()) {<span class="screen-reader-span">{{ label() + " " }}</span>}@if (missing()) {<span class="observation-view-status">{{ statusLabel() }}</span>} @else {<span class="observation-view-value">{{ value() }}</span>@if (unit()) {{{ " " }}<span class="observation-view-unit">{{ unit() }}</span>}@if (flagLabel()) {{{ " " }}<span class="observation-view-flag">{{ flagLabel() }}</span>}@if (range()) {{{ " " }}<span class="observation-view-range">{{ range() }}</span>}@for (named of ranges(); track named.label) {{{ " " }}<span class="observation-view-range"><span class="observation-view-range-label">{{ named.label }}</span>{{ " " }}{{ named.text }}</span>}@if (showMeter()) {{{ " " }}<meter class="observation-view-meter" aria-hidden="true" [value]="meterValue()" [min]="meterMin()" [max]="meterMax()" [attr.low]="meterLow() ?? null" [attr.high]="meterHigh() ?? null" [attr.optimum]="meterOptimum() ?? null"></meter>}@if (previousValue()) {{{ " " }}<del class="observation-view-previous-value">{{ previousValue() }}</del>@if (previousLabel()) {{{ " " }}<span class="observation-view-previous-label">{{ previousLabel() }}</span>}}@if (status() !== "final" && statusLabel()) {{{ " " }}<span class="observation-view-status">{{ statusLabel() }}</span>}}</span>`,
+    template: `<span class="observation-view {{ className() }}" [attr.data-interpretation]="withheld() || withdrawn() ? null : interpretation() || null" [attr.data-status]="status()">@if (label()) {<span class="screen-reader-span">{{ label() + " " }}</span>}@if (withheld()) {<span class="observation-view-status">{{ statusLabel() }}</span>} @else if (withdrawn()) {<span class="observation-view-status">{{ statusLabel() }}</span>{{ " " }}<del class="observation-view-withdrawn-value"><span class="observation-view-value">{{ value() }}</span>@if (unit()) {{{ " " }}<span class="observation-view-unit">{{ unit() }}</span>}</del>} @else {<span class="observation-view-value">{{ value() }}</span>@if (unit()) {{{ " " }}<span class="observation-view-unit">{{ unit() }}</span>}@if (flagLabel()) {{{ " " }}<span class="observation-view-flag">{{ flagLabel() }}</span>}@if (range()) {{{ " " }}<span class="observation-view-range">{{ range() }}</span>}@for (named of ranges(); track named.label) {{{ " " }}<span class="observation-view-range"><span class="observation-view-range-label">{{ named.label }}</span>{{ " " }}{{ named.text }}</span>}@if (showMeter()) {{{ " " }}<meter class="observation-view-meter" aria-hidden="true" [value]="meterValue()" [min]="meterMin()" [max]="meterMax()" [attr.low]="meterLow() ?? null" [attr.high]="meterHigh() ?? null" [attr.optimum]="meterOptimum() ?? null"></meter>}@if (previousValue()) {{{ " " }}<del class="observation-view-previous-value">{{ previousValue() }}</del>@if (previousLabel()) {{{ " " }}<span class="observation-view-previous-label">{{ previousLabel() }}</span>}}@if (status() !== "final" && statusLabel()) {{{ " " }}<span class="observation-view-status">{{ statusLabel() }}</span>}}</span>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ObservationView implements OnInit {
@@ -55,18 +56,29 @@ export class ObservationView implements OnInit {
     readonly previousLabel = input<string>("");
     readonly status = input<
         | "final"
+        | "registered"
         | "preliminary"
         | "amended"
         | "corrected"
         | "entered-in-error"
         | "cancelled"
+        | "unknown"
         | "masked"
         | "not-recorded"
         | "unavailable"
         | "not-applicable"
     >("final");
+    /** Required for any status but final: without it no value, flag, range or meter is shown. */
     readonly statusLabel = input<string>("");
-    protected readonly missing = computed(() => MISSING.includes(this.status()));
+    /** For an authorised history view: an entered-in-error result's former value, struck through after its words. */
+    readonly showWithdrawn = input<boolean>(false);
+    protected readonly withdrawn = computed(() => this.status() === "entered-in-error");
+    protected readonly withheld = computed(
+        () =>
+            MISSING.includes(this.status()) ||
+            (this.status() !== "final" && !this.statusLabel()) ||
+            (this.withdrawn() && !this.showWithdrawn()),
+    );
 
     ngOnInit(): void {
         if (this.status() !== "final")
@@ -74,7 +86,7 @@ export class ObservationView implements OnInit {
                 "ObservationView",
                 "statusLabel",
                 this.statusLabel(),
-                "A result that is not final must say so in words.",
+                "A result that is not final must say so in words; without them its value is not shown.",
             );
         if (this.previousValue())
             warnMissingProp(
