@@ -4660,8 +4660,8 @@ From [spec/quality-review](spec/quality-review/index.md); the numbers in bracket
 
 ### Gates
 
-- [ ] **P48-T4 Green `main` (1, 2, 4).** _(2026-11-24: `MutationObserver` in both jsdom blocks of `bin/smoke-packages`; exact-case
-      names in `bin/generate-framework-matrix`; the run on 57ec77c0b was green but Markdown-only, with 11 of 17 jobs skipped, so it proves nothing about the code; a Markdown push now skips them only on a commit that passed. On 098d843b6, a full run, 44 of 45 jobs passed, `consumer-smoke` included; the coverage floor failed, fixed since.)_ Whatever the later smoke checks find.
+- [x] **P48-T4 Green `main` (1, 2, 4).** _(2026-11-24: `MutationObserver` in both jsdom blocks of `bin/smoke-packages`; exact-case
+      names in `bin/generate-framework-matrix`; the run on 57ec77c0b was green but Markdown-only, with 11 of 17 jobs skipped, so it proves nothing about the code; a Markdown push now skips them only on a commit that passed. On 098d843b6, a full run, 44 of 45 jobs passed, `consumer-smoke` included; the coverage floor failed, fixed since. Green on 317a29055, 2026-11-25: 45 of 45 jobs, none skipped.)_
       Verify: a green `CI` run on `main`.
 - [ ] **P48-T5 `bin/test` shows why a check failed.** Keep a failing check's output and print its last lines.
       Verify: a check that crashes prints its error, not only "is stale".
