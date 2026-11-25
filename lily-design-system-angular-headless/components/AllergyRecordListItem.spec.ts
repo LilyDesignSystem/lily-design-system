@@ -19,6 +19,13 @@ class Host {}
 })
 class Unlabelled {}
 
+@Component({
+    standalone: true,
+    imports: [AllergyRecordListItem],
+    template: `<ul><li lily-allergy-record-list-item substance="Penicillin" clinicalStatus="active" clinicalStatusLabel="Active" verificationStatus="confirmed" verificationStatusLabel="Confirmed" subjectLabel="Mother"></li></ul>`,
+})
+class Relative {}
+
 afterEach(() => {
     vi.restoreAllMocks();
     resetDevWarnings();
@@ -86,5 +93,14 @@ describe("AllergyRecordListItem", () => {
                 String(call[0]).includes("AllergyRecordListItem has no severityLabel"),
             ),
         ).toBe(true);
+    });
+
+    test("HC-C11: subjectLabel says whose record it is, first, when it is not the patient's", () => {
+        const fixture = TestBed.createComponent(Relative);
+        fixture.detectChanges();
+        const root = fixture.nativeElement.querySelector("li") as HTMLElement;
+        const subject = root.querySelector(".allergy-record-list-item-subject");
+        expect(subject?.textContent).toBe("Mother");
+        expect(root.firstElementChild).toBe(subject);
     });
 });

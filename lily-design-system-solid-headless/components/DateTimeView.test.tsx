@@ -95,4 +95,11 @@ describe("DateTimeView", () => {
         const el: HTMLElement = screen.getByTestId("dt");
         expect(el.getAttribute("id")).toBe("pub");
     });
+
+    test("HC-F15: a leap second is kept exactly as given, in the text and the datetime attribute", () => {
+        const { container } = render(() => <Subject value="2016-12-31T23:59:60Z" />);
+        const root = container.querySelector("time.date-time-view") as HTMLElement;
+        expect(root.getAttribute("datetime")).toBe("2016-12-31T23:59:60Z");
+        expect(root.textContent?.trim()).toBe("2016-12-31T23:59:60Z");
+    });
 });

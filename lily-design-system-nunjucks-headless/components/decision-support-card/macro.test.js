@@ -43,7 +43,7 @@ describe("decision-support-card", () => {
         );
     });
 
-    it("the browser refuses to dismiss without a reason: the select is required", () => {
+    it("HC-C8: the browser refuses to dismiss without a reason: the select is required", () => {
         const { document } = render("decision-support-card", {
             ...base,
             dismissLabel: "Dismiss",

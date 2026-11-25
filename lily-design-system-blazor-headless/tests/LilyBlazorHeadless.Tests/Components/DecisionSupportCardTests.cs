@@ -17,6 +17,7 @@ public class DecisionSupportCardTests : TestContext
         });
     }
 
+    // HC-C7
     [Fact]
     public void Is_a_group_named_by_its_summary_not_a_live_region()
     {
@@ -41,6 +42,7 @@ public class DecisionSupportCardTests : TestContext
         Assert.Equal("cancel", chosen);
     }
 
+    // HC-C8
     [Fact]
     public void Dismissing_without_a_reason_is_refused_when_reasons_are_offered()
     {

@@ -65,4 +65,19 @@ describe("allergy-record-list-item", () => {
         expect(root.hasAttribute("data-clinical-status")).toBe(false);
         expect(root.hasAttribute("data-verification-status")).toBe(false);
     });
+
+    it("HC-C11: subjectLabel says whose record it is, first, when it is not the patient's", () => {
+        const { document } = render("allergy-record-list-item", {
+            substance: "Penicillin",
+            clinicalStatus: "active",
+            clinicalStatusLabel: "Active",
+            verificationStatus: "confirmed",
+            verificationStatusLabel: "Confirmed",
+            subjectLabel: "Mother",
+        });
+        const root = document.querySelector(".allergy-record-list-item");
+        const subject = root.querySelector(".allergy-record-list-item-subject");
+        expect(subject.textContent).toBe("Mother");
+        expect(root.firstElementChild).toBe(subject);
+    });
 });

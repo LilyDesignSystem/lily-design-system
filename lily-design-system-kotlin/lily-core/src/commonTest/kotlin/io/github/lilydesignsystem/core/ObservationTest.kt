@@ -8,6 +8,7 @@ import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 class ObservationTest {
+    // HC-C3
     @Test fun missingResultsShowTheirStatusWordsInsteadOfAValue() {
         val replacing = setOf(
             ObservationStatus.Cancelled, ObservationStatus.Masked, ObservationStatus.NotRecorded, ObservationStatus.Unavailable,
@@ -26,6 +27,7 @@ class ObservationTest {
         ObservationStatus.entries.forEach { assertEquals(it != ObservationStatus.Final, ObservationRules.showsStatus(it)) }
     }
 
+    // HC-C2
     @Test fun onlyANonNormalCodeIsAFlagAndNothingIsInferred() {
         assertFalse(ObservationRules.isFlagged(null))
         assertFalse(ObservationRules.isFlagged(""))
@@ -38,6 +40,7 @@ class ObservationTest {
         )
     }
 
+    // HC-F4
     @Test fun valueAndUnitAreJoinedByANoBreakSpace() {
         assertEquals("5 mg", ObservationRules.shownValue("5", "mg", ObservationStatus.Final))
         assertEquals("5", ObservationRules.shownValue("5", "", ObservationStatus.Final))

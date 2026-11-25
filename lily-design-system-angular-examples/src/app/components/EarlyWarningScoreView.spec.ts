@@ -41,4 +41,10 @@ describe("EarlyWarningScoreView", () => {
             true,
         );
     });
+
+    test("HC-C9: shows the score it is given and computes nothing", () => {
+        const root = mount({ score: "3" });
+        expect(root.querySelector(".early-warning-score-view-score")?.textContent).toBe("3");
+        expect(root.hasAttribute("data-band")).toBe(false);
+    });
 });

@@ -14,6 +14,7 @@ import Testing
     #expect(AllergyRules.listName(label: "", statusLabel: "Not recorded") == "Not recorded")
 }
 
+// HC-C5
 @Test func aMissingStatusLabelWarns() {
     #expect(AllergyRules.listWarnings(statusLabel: nil).count == 1)
     #expect(AllergyRules.listWarnings(statusLabel: "").count == 1)
@@ -30,6 +31,7 @@ import Testing
     #expect(AllergyRules.itemWarnings(codes: AllergyCodes(), words: AllergyWords(substance: "Penicillin")).isEmpty)
 }
 
+// HC-C11
 @Test func anItemSpeaksWhoseItIsFirstThenEveryPartInOrder() {
     let words = AllergyWords(
         subject: "Mother", substance: "Peanut", reaction: "Anaphylaxis", severity: "Severe", criticality: "High risk",

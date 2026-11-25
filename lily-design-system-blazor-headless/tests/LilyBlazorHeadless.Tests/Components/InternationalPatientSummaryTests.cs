@@ -37,6 +37,7 @@ public class InternationalPatientSummaryTests : TestContext
         Assert.Empty(cut.FindAll("section[data-status=omitted]"));
     }
 
+    // HC-C10
     [Fact]
     public void Adds_each_missing_required_section_in_words_after_the_given_ones()
     {

@@ -6,6 +6,7 @@ namespace LilyBlazorHeadless.Tests.Components;
 
 public class ObservationViewTests : TestContext
 {
+    // HC-F4
     [Fact]
     public void Renders_value_unit_flag_and_range_as_parts()
     {
@@ -21,6 +22,7 @@ public class ObservationViewTests : TestContext
         Assert.Contains("5.9 mmol/L", root.TextContent);
     }
 
+    // HC-C3
     [Theory]
     [InlineData("not-recorded", "Not recorded")]
     [InlineData("unavailable", "Result unavailable")]
@@ -30,6 +32,17 @@ public class ObservationViewTests : TestContext
         Assert.Equal(status, cut.Find(".observation-view").GetAttribute("data-status"));
         Assert.Equal(words, cut.Find(".observation-view-status").TextContent);
         Assert.Empty(cut.FindAll(".observation-view-value"));
+    }
+
+    // HC-C1
+    [Fact]
+    public void Interpretation_is_data_and_the_flag_is_only_the_consumers_words()
+    {
+        var cut = RenderComponent<ObservationView>(p => p.Add(x => x.Value, "2.1").Add(x => x.Interpretation, "LL").Add(x => x.FlagLabel, "Critically low"));
+        var root = cut.Find(".observation-view");
+        Assert.Equal("LL", root.GetAttribute("data-interpretation"));
+        Assert.DoesNotContain("LL", root.TextContent);
+        Assert.Contains("Critically low", root.TextContent);
     }
 
     [Theory]
@@ -69,6 +82,7 @@ public class ObservationViewTests : TestContext
         Assert.Empty(cut.FindAll(".observation-view-value"));
     }
 
+    // HC-C2, HC-C4
     [Fact]
     public void Never_infers_an_interpretation_renders_named_ranges_and_keeps_a_superseded_value()
     {

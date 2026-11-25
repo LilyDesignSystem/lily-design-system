@@ -19,6 +19,7 @@ public class EarlyWarningScoreViewTests : TestContext
         Assert.Equal("Urgent response", cut.Find(".early-warning-score-view-escalation").TextContent);
     }
 
+    // HC-C9
     [Fact]
     public void A_score_alone_shows_only_the_score_with_no_empty_band()
     {

@@ -22,6 +22,7 @@ From [an audit](docs/audits/gpt-6-2-astra-high/index.md). In the headless packag
   (1.1 was 1.1000000000000001%); no formatter error holds text it was given.
 - Web Components: the identifier inputs keep their value out of every attribute, and `age-view`, `duration-view` and
   `date-time-view` no longer leave what they were given on the element.
+- **Fixed:** Blazor `DateTimeView` takes `Value` and `Format` and writes `datetime`; it had neither, and wrote an empty `aria-label`.
 - The text-size names in ten label packs ([spec/label-packs](spec/label-packs/index.md#text-size-names)), still unreviewed.
 
 ## Release: the filters 0.2.0 and the Web Components identifiers 0.5.0 (2026-11-24)

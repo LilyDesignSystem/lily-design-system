@@ -19,6 +19,7 @@ public class MedicationViewTests : TestContext
         Assert.Equal("three times daily", cut.Find(".medication-view-frequency").TextContent);
     }
 
+    // HC-C6
     [Fact]
     public void Marks_the_consumers_tall_man_segments_and_none_of_its_own()
     {

@@ -125,7 +125,7 @@ date-input	automated evidence complete	yes	yes	yes	yes	8	8	yes	-
 date-range	key evidence incomplete	no	yes	yes	yes	1	5	no	-
 date-time-local-input	key evidence incomplete	no	yes	yes	yes	1	3	no	-
 date-time-now-input	key evidence incomplete	no	yes	yes	yes	1	8	no	-
-date-time-view	ARIA evidence incomplete	no	no	no	yes	1	6	no	-
+date-time-view	ARIA evidence incomplete	no	no	no	yes	1	7	no	-
 description-list	automated evidence complete	no	no	no	no	8	1	no	-
 description-list-item	automated evidence complete	no	no	no	no	8	3	no	-
 details	key evidence incomplete	no	yes	no	no	0	8	no	-

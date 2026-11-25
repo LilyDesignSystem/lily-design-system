@@ -4734,9 +4734,14 @@ and unreleased; T8 to T13 are open, and T9 to T12 need people.
 - [ ] **P49-T13 Which package was tested.** With P48-T3, P48-T6 and P48-T17: for each safety rule, runtime, package version,
       commit, job and outcome, skipped checks included, and one dated release matrix. Verify: one fix traced from its
       requirement to the installed package.
-- [ ] **P49-T14 Fill the register's blanks.** HC-C1, C9, C11 and F15 tested in React, Solid, Vue, Angular, Web Components and
-      Nunjucks, and the component rules cited in Blazor, Swift and Kotlin where they are implemented. Found by P48-T3's table.
+- [ ] **P49-T14 Fill the register's blanks.** _(2026-11-25: HC-C1, C9, C11 and F15 tested in six more catalogs and Blazor; a
+      mutation of each caught in React; existing Blazor, Swift and Kotlin tests cited.)_ Left: HC-C5 in Web Components, Nunjucks and
+      Blazor, where a missing status does not warn, and the Swift and Kotlin component rules.
       Verify: the table has no blank that is not explained.
+- [ ] **P49-T15 Blazor has every Svelte prop, or a recorded reason.** `bin/check-port-logic` compares props for Angular only.
+      Blazor's `DateTimeView` had no `Value` or `Format` (fixed 2026-11-25). A rough text match finds up to 141 components lacking a
+      prop, many of them plain attributes that pass through; `CollectionListItem`, `Byline` and `AspectRatioContainer` look real.
+      Verify: the check compares Blazor, with an allow-list that may only shrink.
 
 ---
 

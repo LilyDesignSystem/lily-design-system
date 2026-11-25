@@ -96,4 +96,21 @@ describe("AllergyRecordListItem", () => {
             ),
         ).toBe(true);
     });
+
+    test("HC-C11: subjectLabel says whose record it is, first, when it is not the patient's", () => {
+        const { container } = render(
+            <Subject
+                substance="Penicillin"
+                clinicalStatus="active"
+                clinicalStatusLabel="Active"
+                verificationStatus="confirmed"
+                verificationStatusLabel="Confirmed"
+                subjectLabel="Mother"
+            />,
+        );
+        const root = container.querySelector(".allergy-record-list-item") as HTMLElement;
+        const subject = root.querySelector(".allergy-record-list-item-subject");
+        expect(subject?.textContent).toBe("Mother");
+        expect(root.firstElementChild).toBe(subject);
+    });
 });

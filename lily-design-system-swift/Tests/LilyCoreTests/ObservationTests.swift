@@ -4,6 +4,7 @@ import Testing
 
 @testable import LilyCore
 
+// HC-C3
 @Test func missingResultsShowTheirStatusWordsInsteadOfAValue() {
     let replacing: Set<ObservationStatus> = [.registered, .cancelled, .masked, .notRecorded, .unavailable, .notApplicable]
     for status in ObservationStatus.allCases {
@@ -20,6 +21,7 @@ import Testing
     for status in ObservationStatus.allCases { #expect(ObservationRules.showsStatus(status) == (status != .final)) }
 }
 
+// HC-C2
 @Test func onlyANonNormalCodeIsAFlagAndNothingIsInferred() {
     #expect(!ObservationRules.isFlagged(nil))
     #expect(!ObservationRules.isFlagged(""))
@@ -33,6 +35,7 @@ import Testing
             status: .final, statusLabel: nil, previousLabel: nil) == "9\n3.5 to 5.5")
 }
 
+// HC-F4
 @Test func valueAndUnitAreJoinedByANoBreakSpace() {
     #expect(ObservationRules.shownValue(value: "5", unit: "mg", status: .final) == "5\u{00A0}mg")
     #expect(ObservationRules.shownValue(value: "5", unit: "", status: .final) == "5")

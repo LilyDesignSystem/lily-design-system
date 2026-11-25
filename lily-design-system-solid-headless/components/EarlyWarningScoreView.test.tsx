@@ -41,4 +41,11 @@ describe("EarlyWarningScoreView", () => {
             true,
         );
     });
+
+    test("HC-C9: shows the score it is given and computes nothing", () => {
+        const { container } = render(() => <Subject score="3" />);
+        const root = container.querySelector(".early-warning-score-view") as HTMLElement;
+        expect(root.querySelector(".early-warning-score-view-score")?.textContent).toBe("3");
+        expect(root.hasAttribute("data-band")).toBe(false);
+    });
 });

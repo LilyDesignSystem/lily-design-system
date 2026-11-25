@@ -19,4 +19,11 @@ describe("early-warning-score-view", () => {
             "Urgent response",
         );
     });
+
+    it("HC-C9: shows the score it is given and computes nothing", () => {
+        const { document } = render("early-warning-score-view", { score: "3" });
+        const root = document.querySelector(".early-warning-score-view");
+        expect(root.querySelector(".early-warning-score-view-score").textContent).toBe("3");
+        expect(root.hasAttribute("data-band")).toBe(false);
+    });
 });

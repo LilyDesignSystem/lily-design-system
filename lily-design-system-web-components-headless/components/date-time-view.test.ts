@@ -71,4 +71,11 @@ describe("DateTimeView", () => {
         expect(host.textContent).toBe(text);
         expect(host.childElementCount).toBe(1);
     });
+
+    test("HC-F15: a leap second is kept exactly as given, in the text and the datetime attribute", () => {
+        document.body.innerHTML = `<lily-date-time-view value="2016-12-31T23:59:60Z"></lily-date-time-view>`;
+        const root = document.querySelector("time.date-time-view") as HTMLElement;
+        expect(root.getAttribute("datetime")).toBe("2016-12-31T23:59:60Z");
+        expect(root.textContent?.trim()).toBe("2016-12-31T23:59:60Z");
+    });
 });

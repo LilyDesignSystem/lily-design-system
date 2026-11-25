@@ -29,6 +29,14 @@ describe("ObservationView", () => {
         expect(root.textContent).toContain("5.9 mmol/L");
     });
 
+    test("HC-C1: renders the interpretation code as data, and the flag only as the consumer's words", () => {
+        document.body.innerHTML = `<lily-observation-view value="2.1" interpretation="LL" flag-label="Critically low"></lily-observation-view>`;
+        const root = document.querySelector(".observation-view") as HTMLElement;
+        expect(root.getAttribute("data-interpretation")).toBe("LL");
+        expect(root.textContent).not.toContain("LL");
+        expect(root.textContent).toContain("Critically low");
+    });
+
     test("HC-C3: not-recorded and unavailable show different words, never a blank", () => {
         const a = render(
             `<lily-observation-view status="not-recorded" status-label="Not recorded"></lily-observation-view>`,

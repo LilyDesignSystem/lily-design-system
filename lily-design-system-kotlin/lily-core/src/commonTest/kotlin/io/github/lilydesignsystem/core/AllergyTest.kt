@@ -17,6 +17,7 @@ class AllergyTest {
         assertEquals("Not recorded", AllergyRules.listName("", "Not recorded"))
     }
 
+    // HC-C5
     @Test fun aMissingStatusLabelWarns() {
         assertEquals(1, AllergyRules.listWarnings(null).size)
         assertEquals(1, AllergyRules.listWarnings("").size)
@@ -32,6 +33,7 @@ class AllergyTest {
         assertTrue(AllergyRules.itemWarnings(AllergyCodes(), AllergyWords("Penicillin")).isEmpty())
     }
 
+    // HC-C11
     @Test fun anItemSpeaksWhoseItIsFirstThenEveryPartInOrder() {
         val words = AllergyWords("Peanut", "Mother", "Anaphylaxis", "Severe", "High risk", "Active", "Confirmed", "Allergy",
             "Food", "3 Nov 2026")

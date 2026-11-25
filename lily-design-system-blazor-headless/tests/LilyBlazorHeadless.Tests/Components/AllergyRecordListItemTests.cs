@@ -43,4 +43,14 @@ public class AllergyRecordListItemTests : TestContext
         Assert.Null(cut.Find("li").GetAttribute("data-clinical-status"));
         Assert.Null(cut.Find("li").GetAttribute("data-verification-status"));
     }
+
+    // HC-C11
+    [Fact]
+    public void SubjectLabel_says_whose_record_it_is_first()
+    {
+        var cut = RenderComponent<AllergyRecordListItem>(p => p.Add(x => x.Substance, "Penicillin").Add(x => x.SubjectLabel, "Mother"));
+        var subject = cut.Find(".allergy-record-list-item").FirstElementChild!;
+        Assert.Equal("allergy-record-list-item-subject", subject.ClassName);
+        Assert.Equal("Mother", subject.TextContent);
+    }
 }

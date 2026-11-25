@@ -33,6 +33,20 @@ describe("ObservationView", () => {
         expect(root.textContent).not.toContain(" H ");
     });
 
+    test("HC-C1: renders the interpretation code as data, and the flag only as the consumer's words", () => {
+        const { container } = render(
+            <Subject
+                value="2.1"
+                interpretation="LL"
+                flagLabel="Critically low"
+            />,
+        );
+        const root = container.querySelector(".observation-view") as HTMLElement;
+        expect(root.getAttribute("data-interpretation")).toBe("LL");
+        expect(root.textContent).not.toContain("LL");
+        expect(root.textContent).toContain("Critically low");
+    });
+
     test("HC-C3: not-recorded and unavailable show different words, never a blank", () => {
         const a = render(
             <Subject

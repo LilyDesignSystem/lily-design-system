@@ -2,13 +2,19 @@
 
 @*
     DateTimeView component
-    a read-only display of a formatted date and time
+    a read-only display of a formatted date and time: the text is ChildContent, else Format, else Value
 *@
 
-<time class="@($"date-time-view {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</time>
+<time class="@($"date-time-view {CssClass}".Trim())" datetime="@(string.IsNullOrEmpty(Value) ? null : Value)" aria-label="@(string.IsNullOrEmpty(Label) ? null : Label)" @attributes="AdditionalAttributes">@if (ChildContent is not null) {@ChildContent} else {@(string.IsNullOrEmpty(Format) ? Value : Format)}</time>
 
 @code {
-    [Parameter] public string Label { get; set; } = "";
+    /// <summary>The date and time, ISO 8601, written to datetime exactly as given.</summary>
+    [Parameter, EditorRequired] public string Value { get; set; } = "";
+    /// <summary>The date and time as the consumer formats it.</summary>
+    [Parameter] public string? Format { get; set; }
+    /// <summary>Accessible name, when the text alone is not enough.</summary>
+    [Parameter] public string? Label { get; set; }
+    /// <summary>Custom content; overrides Format.</summary>
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }

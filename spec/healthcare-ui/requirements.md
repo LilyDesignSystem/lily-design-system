@@ -102,7 +102,7 @@ have no test that cites one.
 | HC-F1  | yes    |        |       |       |     |         |                |          | yes    |       |        |         |
 | HC-F2  | yes    |        |       |       |     |         |                |          | yes    |       |        |         |
 | HC-F3  | yes    |        |       |       |     |         |                |          | yes    |       |        |         |
-| HC-F4  | yes    | yes    | yes   | yes   | yes | yes     | yes            | yes      |        |       |        |         |
+| HC-F4  | yes    | yes    | yes   | yes   | yes | yes     | yes            | yes      | yes    | yes   | yes    |         |
 | HC-F5  | yes    |        |       |       |     |         |                |          | yes    |       |        |         |
 | HC-F6  | yes    |        |       |       |     |         |                |          | yes    |       |        |         |
 | HC-F7  | yes    |        |       |       |     |         |                |          | yes    |       |        |         |
@@ -113,20 +113,20 @@ have no test that cites one.
 | HC-F12 | yes    |        |       |       |     |         |                |          | yes    |       |        |         |
 | HC-F13 | yes    |        |       |       |     |         |                |          |        |       |        |         |
 | HC-F14 | yes    |        |       |       |     |         |                |          | yes    |       |        |         |
-| HC-F15 | yes    | yes    |       |       |     |         |                |          |        |       |        |         |
+| HC-F15 | yes    | yes    | yes   | yes   | yes | yes     | yes            | yes      | yes    |       |        |         |
 | HC-F16 | yes    |        |       |       |     |         |                |          | yes    |       |        |         |
 | HC-F17 | yes    |        |       |       |     |         |                |          |        |       |        |         |
-| HC-C1  |        | yes    |       |       |     |         |                |          |        |       |        |         |
-| HC-C2  |        | yes    | yes   | yes   | yes | yes     | yes            | yes      |        |       |        |         |
-| HC-C3  |        | yes    | yes   | yes   | yes | yes     | yes            | yes      |        |       |        |         |
-| HC-C4  |        | yes    | yes   | yes   | yes | yes     | yes            | yes      |        |       |        |         |
-| HC-C5  |        | yes    | yes   | yes   | yes | yes     |                |          |        |       |        |         |
-| HC-C6  |        | yes    | yes   | yes   | yes | yes     | yes            | yes      |        |       |        |         |
-| HC-C7  |        | yes    | yes   | yes   | yes | yes     | yes            | yes      |        |       |        |         |
-| HC-C8  |        | yes    | yes   | yes   | yes | yes     | yes            |          |        |       |        |         |
-| HC-C9  |        | yes    |       |       |     |         |                |          |        |       |        |         |
-| HC-C10 |        | yes    | yes   | yes   | yes | yes     | yes            | yes      |        |       |        |         |
-| HC-C11 |        | yes    |       |       |     |         |                |          |        |       |        |         |
+| HC-C1  |        | yes    | yes   | yes   | yes | yes     | yes            | yes      | yes    |       |        |         |
+| HC-C2  |        | yes    | yes   | yes   | yes | yes     | yes            | yes      | yes    | yes   | yes    |         |
+| HC-C3  |        | yes    | yes   | yes   | yes | yes     | yes            | yes      | yes    | yes   | yes    |         |
+| HC-C4  |        | yes    | yes   | yes   | yes | yes     | yes            | yes      | yes    |       |        |         |
+| HC-C5  |        | yes    | yes   | yes   | yes | yes     |                |          |        | yes   | yes    |         |
+| HC-C6  |        | yes    | yes   | yes   | yes | yes     | yes            | yes      | yes    |       |        |         |
+| HC-C7  |        | yes    | yes   | yes   | yes | yes     | yes            | yes      | yes    |       |        |         |
+| HC-C8  |        | yes    | yes   | yes   | yes | yes     | yes            | yes      | yes    |       |        |         |
+| HC-C9  |        | yes    | yes   | yes   | yes | yes     | yes            | yes      | yes    |       |        |         |
+| HC-C10 |        | yes    | yes   | yes   | yes | yes     | yes            | yes      | yes    |       |        |         |
+| HC-C11 |        | yes    | yes   | yes   | yes | yes     | yes            | yes      | yes    | yes   | yes    |         |
 | HC-C12 |        | yes    | yes   | yes   | yes | yes     | yes            | yes      | yes    | yes   | yes    |         |
 | HC-C13 |        | yes    | yes   | yes   | yes | yes     | yes            | yes      | yes    | yes   | yes    |         |
 | HC-C14 |        | yes    | yes   | yes   | yes | yes     | yes            | yes      | yes    | yes   | yes    |         |
@@ -142,9 +142,9 @@ have no test that cites one.
 
 ## Gaps
 
-No rule lacks a test somewhere. By runtime, the blanks in the table above are gaps: HC-C1, HC-C9, HC-C11 and HC-F15 are cited only in
-Svelte (and HC-F15 in `shared/`), though the six other JavaScript catalogs with logic implement them, and Blazor, Swift and Kotlin cite few of the component
-rules (tasks.md P49-T14). HC-I2, the last rule with no test at all, was closed on 2026-11-24 by `bin/check-identifier-views` over all ten catalogs and a rendered test
+No rule lacks a test somewhere. By runtime, a blank in the table above is a rule no test
+there cites: some component rules in Blazor, Swift and Kotlin, HC-C5 in Web Components, Nunjucks and Blazor, and the formatting rules
+that Swift and Kotlin prove through the shared vectors (tasks.md P49-T14). HC-I2, the last rule with no test at all, was closed on 2026-11-24 by `bin/check-identifier-views` over all ten catalogs and a rendered test
 in Svelte and Web Components; it found that the Web Components views left the identifier in the host element's `value`
 attribute, now removed once read.
 
