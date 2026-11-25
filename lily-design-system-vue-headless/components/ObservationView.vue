@@ -15,48 +15,53 @@ const MISSING: readonly string[] = [
 ];
 
 const props = withDefaults(
-    defineProps<{
-        /** Hidden text naming the observation. */
-        label?: string;
-        value?: string;
-        unit?: string;
-        /** A FHIR v3 ObservationInterpretation code, rendered as data-interpretation. */
-        interpretation?: string;
-        /** The consumer's words for the flag; required when it is not normal. */
-        flagLabel?: string;
-        range?: string;
-        /** Further named ranges, each its own -range part with a -range-label. */
-        ranges?: { label: string; text: string }[];
-        /** With meterValue, meterMin and meterMax, a native <meter> shows where the value sits; aria-hidden, as the words say it. */
-        meterValue?: number;
-        meterMin?: number;
-        meterMax?: number;
-        /** The reference range and best value on the meter, for the theme. */
-        meterLow?: number;
-        meterHigh?: number;
-        meterOptimum?: number;
-        /** A superseded value, shown in a <del>. */
-        previousValue?: string;
-        /** The consumer's words for it; required with previousValue. */
-        previousLabel?: string;
-        status?:
-            | "final"
-            | "registered"
-            | "preliminary"
-            | "amended"
-            | "corrected"
-            | "entered-in-error"
-            | "cancelled"
-            | "unknown"
-            | "masked"
-            | "not-recorded"
-            | "unavailable"
-            | "not-applicable";
-        /** Required for any status but final: without it no value, flag, range or meter is shown. */
-        statusLabel?: string;
-        /** For an authorised history view: an entered-in-error result's former value, struck through after its words. */
-        showWithdrawn?: boolean;
-    }>(),
+    defineProps<
+        {
+            /** Hidden text naming the observation. */
+            label?: string;
+            value?: string;
+            unit?: string;
+            /** A FHIR v3 ObservationInterpretation code, rendered as data-interpretation. */
+            interpretation?: string;
+            /** The consumer's words for the flag; required when it is not normal. */
+            flagLabel?: string;
+            range?: string;
+            /** Further named ranges, each its own -range part with a -range-label. */
+            ranges?: { label: string; text: string }[];
+            /** With meterValue, meterMin and meterMax, a native <meter> shows where the value sits; aria-hidden, as the words say it. */
+            meterValue?: number;
+            meterMin?: number;
+            meterMax?: number;
+            /** The reference range and best value on the meter, for the theme. */
+            meterLow?: number;
+            meterHigh?: number;
+            meterOptimum?: number;
+            /** A superseded value, shown in a <del>. */
+            previousValue?: string;
+            /** The consumer's words for it; required with previousValue. */
+            previousLabel?: string;
+            /** For an authorised history view: an entered-in-error result's former value, struck through after its words. */
+            showWithdrawn?: boolean;
+        } & (
+            | { status?: "final"; statusLabel?: string }
+            | {
+                  status:
+                      | "registered"
+                      | "preliminary"
+                      | "amended"
+                      | "corrected"
+                      | "entered-in-error"
+                      | "cancelled"
+                      | "unknown"
+                      | "masked"
+                      | "not-recorded"
+                      | "unavailable"
+                      | "not-applicable";
+                  /** The consumer's words, required for any status but final: without them no value, flag, range or meter is shown. */
+                  statusLabel: string;
+              }
+        )
+    >(),
     { value: "", status: "final", showWithdrawn: false },
 );
 

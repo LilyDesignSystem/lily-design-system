@@ -97,23 +97,27 @@
         meterOptimum?: number;
         previousValue?: string;
         previousLabel?: string;
-        status?:
-            | "final"
-            | "registered"
-            | "preliminary"
-            | "amended"
-            | "corrected"
-            | "entered-in-error"
-            | "cancelled"
-            | "unknown"
-            | "masked"
-            | "not-recorded"
-            | "unavailable"
-            | "not-applicable";
-        statusLabel?: string;
         showWithdrawn?: boolean;
         [key: string]: unknown;
-    } = $props();
+    } & (
+        | { status?: "final"; statusLabel?: string }
+        | {
+              status:
+                  | "registered"
+                  | "preliminary"
+                  | "amended"
+                  | "corrected"
+                  | "entered-in-error"
+                  | "cancelled"
+                  | "unknown"
+                  | "masked"
+                  | "not-recorded"
+                  | "unavailable"
+                  | "not-applicable";
+              /** The consumer's words, required for any status but final: without them no value, flag, range or meter is shown. */
+              statusLabel: string;
+          }
+    ) = $props();
 
     const withdrawn = $derived(status === "entered-in-error");
     const withheld = $derived(

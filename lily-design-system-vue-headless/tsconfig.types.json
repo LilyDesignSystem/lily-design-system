@@ -1,0 +1,5 @@
+{
+  "extends": "./tsconfig.lib.json",
+  "compilerOptions": { "noEmit": true, "emitDeclarationOnly": false },
+  "include": ["type-tests/**/*.ts", "components/**/*.vue"]
+}

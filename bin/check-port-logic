@@ -124,10 +124,16 @@ const topLevel = (body) => {
   return parts.map((part) => part.trim()).filter(Boolean);
 };
 
-const svelteProps = (source) => {
+const unread = new Set();
+const svelteProps = (source, slug) => {
   const code = source.replace(/^\s*\/\/.*$/gm, "").replace(/\/\*[\s\S]*?\*\//g, "");
-  const match = code.match(/let\s*\{([\s\S]*?)\}\s*:\s*(?:\{([\s\S]*?)\}|\w+)\s*=\s*\$props\(\)/);
-  if (!match) return [];
+  // The type may be an intersection (`{ ... } & ({ ... } | { ... })`, as observation-view's): its first object is the one read.
+  const match = code.match(/let\s*\{([\s\S]*?)\}\s*:\s*(?:\{([\s\S]*?)\}|\w+)(?:\s*&\s*\([\s\S]*?\))?\s*=\s*\$props\(\)/);
+  if (!match) {
+    // A pattern this cannot read would drop the component from the comparison and still pass.
+    if (/=\s*\$props\(\)/.test(code)) unread.add(slug);
+    return [];
+  }
   const types = {};
   for (const part of topLevel(match[2] ?? "")) {
     const type = part.match(/^(\w+)\??\s*:\s*([\s\S]*)$/);
@@ -230,7 +236,7 @@ for (const [slug, name] of rows) {
   const ported = new Set(
     [...angular.matchAll(/\b(\w+)\s*=\s*(?:input|model|output)(?:\.required)?\s*[<(]/g)].map((match) => match[1]),
   );
-  for (const prop of svelteProps(read("lily-design-system-svelte-headless/components", name, `${name}.svelte`))) {
+  for (const prop of svelteProps(read("lily-design-system-svelte-headless/components", name, `${name}.svelte`), slug)) {
     if (ALWAYS_PORTED.has(prop.name)) continue;
     propsCompared += 1;
     if (hasProp(prop, ported, angular)) continue;
@@ -246,7 +252,7 @@ for (const [slug, name] of rows) {
   const names = blazorParameters(razorCode(razor) + tsCode(read(BLAZOR_DIR, `${name}.razor.cs`)));
   const source = read("lily-design-system-svelte-headless/components", name, `${name}.svelte`);
   const root = razor.includes('@attributes="AdditionalAttributes"') || /@inherits/.test(razor) ? svelteRoot(source) : "";
-  for (const prop of svelteProps(source)) {
+  for (const prop of svelteProps(source, slug)) {
     if (ALWAYS_PORTED.has(prop.name)) continue;
     propsCompared += 1;
     if (hasBlazorProp(prop, names, root)) continue;
@@ -262,6 +268,10 @@ if (baselineMode) {
 }
 
 let failures = 0;
+for (const slug of unread) {
+  console.log(`FAIL ${slug}: its Svelte props could not be read, so nothing compares them`);
+  failures += 1;
+}
 for (const key of gaps) {
   if (allow[key]) continue;
   console.log(`FAIL ${key}: ${key.includes(" prop ") ? "Svelte has this prop, this port does not" : "Svelte has behaviour, this port has no logic"}`);

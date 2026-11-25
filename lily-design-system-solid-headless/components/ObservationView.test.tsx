@@ -118,6 +118,7 @@ describe("ObservationView", () => {
                 interpretation="H"
             />
         ));
+        // @ts-expect-error the types refuse it; JavaScript callers still get the warning
         render(() => <Subject status="unavailable" />);
         const messages = spy.mock.calls.map((call) => String(call[0]));
         expect(messages.some((m) => m.includes("has no flagLabel"))).toBe(true);

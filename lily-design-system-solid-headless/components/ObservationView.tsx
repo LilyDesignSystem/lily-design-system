@@ -15,7 +15,8 @@ const MISSING: readonly string[] = [
     "not-applicable",
 ];
 
-export interface ObservationViewProps {
+/** A result that is not final must say so: statusLabel is required by type for any status but final (P49-T8). */
+export type ObservationViewProps = {
     class?: string;
     /** Hidden text naming the observation, when no visible caption does. */
     label?: string;
@@ -43,25 +44,28 @@ export interface ObservationViewProps {
     previousValue?: string;
     /** The consumer's words for it; required with previousValue. */
     previousLabel?: string;
-    status?:
-        | "final"
-        | "registered"
-        | "preliminary"
-        | "amended"
-        | "corrected"
-        | "entered-in-error"
-        | "cancelled"
-        | "unknown"
-        | "masked"
-        | "not-recorded"
-        | "unavailable"
-        | "not-applicable";
-    /** The consumer's words, required for any status but final: without them no value, flag, range or meter is shown. */
-    statusLabel?: string;
     /** For an authorised history view: an entered-in-error result's former value, struck through after its words. */
     showWithdrawn?: boolean;
     [key: string]: unknown;
-}
+} & (
+    | { status?: "final"; statusLabel?: string }
+    | {
+          status:
+              | "registered"
+              | "preliminary"
+              | "amended"
+              | "corrected"
+              | "entered-in-error"
+              | "cancelled"
+              | "unknown"
+              | "masked"
+              | "not-recorded"
+              | "unavailable"
+              | "not-applicable";
+          /** The consumer's words, required for any status but final: without them no value, flag, range or meter is shown. */
+          statusLabel: string;
+      }
+);
 
 export default function ObservationView(props: ObservationViewProps) {
     const p = withDefaults(

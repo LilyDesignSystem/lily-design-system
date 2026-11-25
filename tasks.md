@@ -4719,7 +4719,7 @@ and unreleased; T8 to T13 are open, and T9 to T12 need people.
       headline, chart, table and score; a corrected result.)_ Verify: the browser tests, print included.
 - [x] **P49-T7 A worked hazard log.** _(2026-11-25: docs/assurance/hazard-log-example.md, not reviewed by a clinician.)_
       Verify: a clinical safety lead's review (T10).
-- [ ] **P49-T8 `statusLabel` required by type.** For any status but `final`, in Svelte, React, Solid and Vue.
+- [x] **P49-T8 `statusLabel` required by type.** _(2026-11-25: a union in the four catalogs, with a type test in each that failed when the prop was made optional.)_ For any status but `final`, in Svelte, React, Solid and Vue.
       Verify: a type test that omits it fails to compile.
 - [ ] **P49-T9 Two assisted tasks with people (screen reader).** A clinician finds which of two similar names has a corrected
       result; a patient or carer says whether an allergy was ruled out or not known. Confirm the spoken order of a withdrawn
@@ -4747,6 +4747,12 @@ and unreleased; T8 to T13 are open, and T9 to T12 need people.
       and the HTML example's picker scripts, which predate the sorted theme names. Commit its output, run that app's browser tests,
       and give it a `--check`. Its picker scripts come from local `dist` builds, so the check must not depend on them.
       Verify: an edit to `AGENTS/tools.md` with no sync fails `bin/test`.
+- [ ] **P49-T17 Example-app tests that run nowhere.** `bin/ci` runs every Playwright spec for Nunjucks and Alpine, some for
+      SvelteKit, and one file (`accessibility.spec.ts`) for React, Vue, Angular, HTML, Blazor and Solid, which have up to 493. No job
+      runs the example apps' unit tests but Alpine's and, since 2026-11-25, Blazor's. Run locally that day, the unit tests pass in
+      Angular (2,477), SvelteKit (4,078), Next (99) and Nuxt (1,433), and HTML's full browser run had one stale failure, fixed; the
+      HTML app's wdio tests and the other apps' browser specs were not run. Decide which run on every push and which weekly.
+      Verify: `bin/ci --list` names every app's suites, or a file says why one is left out.
 
 ---
 
