@@ -657,7 +657,7 @@ export const load: PageServerLoad = ({ locals }) => {
       events={appointmentEvents(data.appointments)}
       eventFields={[{ id: "status", header: "Status", type: "text" }]}
     >
-      <!-- The calendar draws the days; what an appointment looks like is yours. Without this, none show. -->
+      <!-- The calendar draws the days; what an appointment looks like is yours. Without this, only the agenda shows any. -->
       {#snippet day({ events, fieldText })}
         {#each events as event (event.id)}
           <p>{event.title}: {fieldText(event, "status")}</p>
@@ -673,7 +673,7 @@ export const load: PageServerLoad = ({ locals }) => {
   }
 <` + `/style>`}</code></pre>
 
-  <p>The calendar draws the days, and you draw what is in them, in the <code>day</code> snippet. Leave it out and the calendar is empty, with no error.</p>
+  <p>The calendar draws the days, and you draw what is in them, in the <code>day</code> snippet. Leave it out and the week and month views show none, with no error: only the agenda lists them by itself.</p>
 
   <h2>Step 11: Show the waiting list</h2>
 

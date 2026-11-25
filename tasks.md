@@ -4794,7 +4794,9 @@ each was checked against the source on 2026-11-25, not reproduced in a browser h
       in development without the contents.
       Verify: patient A to B, and known to unavailable to known, with an old child still supplied; nothing is relabelled "None known".
       _(2026-11-25: Swift and Kotlin already hide the entries unless the status is `known`. Held for a decision: hiding them also
-      hides a real allergy when the status is wrong, and showing both lets a reader see the conflict.)_
+      hides a real allergy when the status is wrong, and showing both lets a reader see the conflict. Decided the same day, by the
+      maintainer: the entries with a required conflict message, never "None known", in every catalog, Swift and Kotlin included. To
+      be confirmed by a clinical safety lead.)_
 - [x] **P50-T3 An alert submits another alert's override reason (3).** _(2026-11-25: HC-C15, `cardId`; failing tests first in five web catalogs, then Blazor, Swift and Kotlin. Solid also showed an empty menu while keeping the reason. Web Components: with T1. Compose is not compiled on this machine.)_ `decision-support-card` keeps the chosen reason when its card is
       replaced, and accepts one the current card does not offer (React and Svelte, from the source).
       Verify: replacement with the same and with different reason codes, and an offered reason removed while open, in every stateful port.
@@ -4885,12 +4887,41 @@ Requested by the maintainer: tutorials that teach how to build three of our proj
 - [ ] **P51-T6 `labelsFor("calendar", en)` does not compile in strict TypeScript.** The documented call: a JSON pack's `direction` is
       `string`, and `LabelPack` asks for `"ltr" | "rtl"`. Published 0.6.0; not checked in 0.7.0. The tutorial casts.
       Verify: the documented call type-checks from a JSON import in each TypeScript catalog.
-- [ ] **P51-T7 A calendar given events and no `day` snippet draws none, and says nothing.** Its count still reads "2 of 2 match", and
-      axe passes. A development warning, or the titles by default. Verify: a test in each catalog.
+- [ ] **P51-T7 A calendar given events and no `day` snippet draws none in its week, four-week and month grids, and says nothing.** The
+      agenda lists them. The count still reads "2 of 2 match", and axe passes. A development warning, or the titles by default.
+      Verify: a test in each catalog. _(Measured in 0.7.2, 2026-11-25; the day view was not, having no event that day.)_
 - [ ] **P51-T8 The project tutorials' finished apps in the example apps?** Or a repository to clone. Decide with T5.
 - [ ] **P51-T9 The docs site's browser tests run nowhere.** Found 2026-11-25: 15 of 4,137 fail, all `framework-icons.spec.ts`, which
       expects ten icons on one row; Swift and Kotlin made twelve. (`locale-pages.spec.ts` expected nine, and is fixed.)
       Verify: the row at twelve icons is decided and tested, and the suite runs weekly.
+
+## Phase 52 — Test implementations: Playwright and Selenium (2026-11-25)
+
+Requested by the maintainer: two subprojects of annotated end-to-end tests of every Svelte headless component, for developers learning
+test automation to copy into their own code: `lily-design-system-svelte-headless-testing-with-playwright-typescript` and
+`lily-design-system-svelte-headless-testing-with-selenium-javascript`.
+
+Decided by the maintainer, 2026-11-25: the tests run against the SvelteKit example app, made live; the 473 core components first, then
+the 188 national identifiers; one self-contained file per component, with no shared helpers; Mocha for Selenium.
+
+Defaults, told to the maintainer: a pilot of about ten components is reviewed before the rest; not published to npm; weekly in CI;
+Playwright in Chromium, Firefox and WebKit, Selenium in Chrome and Firefox.
+
+- [ ] **P52-T1 The spec topic**, `spec/testing-implementations/index.md`: the file shape, what an annotation must explain, locators by
+      role and name, what each kind of component is tested for, and what is not (the theme, or Lily's internals).
+- [ ] **P52-T2 Make the SvelteKit example app live.** `/components/{slug}` renders `{@html}` from `component-demos.ts`, so nothing on it
+      behaves. One `src/lib/live/{slug}.svelte` per component, shown in place of the static demo with its own source; the static map
+      stays for the other example apps. A list of components still static, which may only shrink. The existing
+      `e2e/components/*.spec.ts` and the visual references move with each batch.
+      Verify: each live page passes its existing spec and axe, and renders the same root element as the static demo.
+- [ ] **P52-T3 The pilot, both projects.** About ten, one of each kind: `button`, `text-input`, `dialog`, `tab-bar`, `accordion-nav`,
+      `dropdown-menu`, `combobox`, `data-table`, `allergy-record-list`, `progress`. Verify: the maintainer's review.
+- [ ] **P52-T4 The rest of the 473**, in batches by category, live page first.
+- [ ] **P52-T5 The 188 national identifiers.**
+- [ ] **P52-T6 The checks.** Every component has a file in each project, no file imports a local helper, each test is proved to fail
+      against a planted fault, and both suites run weekly.
+- [ ] **P52-T7 Selenium needs Node 26.12.1 or 24.22.1** (`selenium-webdriver` 4.54); the maintainer's machine has 26.8.1. Upgrade, or
+      pin an older release whose engines allow it.
 
 ---
 

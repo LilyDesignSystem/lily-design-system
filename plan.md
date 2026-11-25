@@ -677,6 +677,12 @@ Three tutorials on the docs site that each build a small working version of a re
 viewer, the Electronic Patient Record, the Patient Administration System) and lead on to it, checked from a fresh scaffold by
 `bin/check-tutorials`. Tasks: [tasks.md](tasks.md#phase-51--project-tutorials-2026-11-25).
 
+## Phase 52 — Test implementations: Playwright and Selenium (2026-11-25)
+
+Annotated end-to-end tests of every Svelte headless component, in two subprojects, for people learning test automation. The SvelteKit
+example app becomes live first, since its component pages are static HTML. Tasks:
+[tasks.md](tasks.md#phase-52--test-implementations-playwright-and-selenium-2026-11-25).
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.

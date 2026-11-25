@@ -267,11 +267,11 @@ const FLOWS = {
         must((await go("/appointments")) === 403, "a patient is refused");
         await signIn("Sign in as staff");
         await go("/appointments");
-        await page.getByRole("button", { name: "Agenda" }).click();
+        // In the view the page opens in. One is tomorrow, which near the end of a month may be drawn as the next month's first days.
         await see(
-            page.locator("main"),
-            "Physiotherapy: Booked",
-            "appointments show on the calendar",
+            page.getByRole("gridcell"),
+            "Breast clinic: Booked",
+            "appointments show on the month view",
         );
         await accessible("the calendar");
         await go("/waitlist");
