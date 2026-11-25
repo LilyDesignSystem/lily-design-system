@@ -17,6 +17,7 @@
 - The indicator is also text (`indicatorLabel`), so urgency is never colour alone
 - Suggestions are real buttons; the consumer applies them and enforces CDS Hooks' `selectionBehavior`
 - Dismissing is a form: when `overrideReasons` are given the reason select is required, and a dismissal without one is refused (the select is marked `aria-invalid` and focused). The static catalogs (HTML, Nunjucks, Alpine) rely on the browser's own validation
+- A chosen reason belongs to one card: it is cleared when the card is replaced or the reason is no longer offered, and checked again on submitting (HC-C15). Give `cardId` whenever two cards can read alike, and check the card, the patient and the reason again in the receiving service
 - Not a live region: whether a critical card interrupts is the consumer's choice
 
 ## ARIA
@@ -37,6 +38,7 @@
 - `suggestions`: { id, label, isRecommended? }[] (optional) — each a button
 - `links`: { label, href }[] (optional) — links to more information
 - `dismissLabel`: string (optional) — the dismiss button's text; no button without it
+- `cardId`: string (optional) -- which card this is, for example the CDS Hooks `uuid` with the patient's id; a new one, or without one a new summary, indicator or source, clears the chosen reason
 - `overrideReasons`: { code, display }[] (optional) — when given, dismissing asks for one
 - `overrideReasonLabel`: string (optional) — the reason select's label
 - `overrideReasonPlaceholder`: string (optional) — the text of the select's empty first option

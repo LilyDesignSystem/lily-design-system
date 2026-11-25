@@ -29,6 +29,7 @@ public struct DecisionSupportCard<Detail: View>: View {
         }
     }
 
+    let cardId: String?
     let summary: String
     let indicator: DecisionSupportIndicator
     let indicatorLabel: String
@@ -50,6 +51,8 @@ public struct DecisionSupportCard<Detail: View>: View {
     @AccessibilityFocusState private var reasonFocused: Bool
 
     /// - Parameters:
+    ///   - cardId: which card this is (the CDS Hooks uuid with the patient's id). A new one, or without one a new summary,
+    ///     indicator or source, clears the chosen reason.
     ///   - summary: the one-sentence summary (under 140 characters); names the card.
     ///   - indicator, indicatorLabel: the urgency, and its words (required: urgency is never colour alone).
     ///   - sourceLabel, sourceURL: where the guidance comes from.
@@ -61,7 +64,7 @@ public struct DecisionSupportCard<Detail: View>: View {
     ///   - overrideReasonError: words announced when a dismissal is refused (mobile has no invalid state to set).
     ///   - onDismiss: called with the chosen reason's code, or nil when no reasons are offered.
     public init(
-        summary: String, indicator: DecisionSupportIndicator, indicatorLabel: String, sourceLabel: String,
+        cardId: String? = nil, summary: String, indicator: DecisionSupportIndicator, indicatorLabel: String, sourceLabel: String,
         sourceURL: URL? = nil, suggestions: [Suggestion] = [], links: [(label: String, url: URL)] = [],
         dismissLabel: String? = nil, overrideReasons: [Reason] = [], overrideReasonLabel: String? = nil,
         overrideReasonPlaceholder: String? = nil, overrideReasonError: String? = nil, label: String? = nil,
@@ -69,6 +72,7 @@ public struct DecisionSupportCard<Detail: View>: View {
         onDismiss: @escaping @MainActor (String?) -> Void = { _ in },
         @ViewBuilder detail: () -> Detail
     ) {
+        self.cardId = cardId
         self.summary = summary
         self.indicator = indicator
         self.indicatorLabel = indicatorLabel
@@ -93,7 +97,7 @@ public struct DecisionSupportCard<Detail: View>: View {
 
     /// Presses the dismiss button: dismisses, or refuses and moves VoiceOver to the reasons.
     func dismiss() {
-        switch DecisionSupportRules.dismiss(reasonsOffered: !overrideReasons.isEmpty, chosen: chosen) {
+        switch DecisionSupportRules.dismiss(offered: overrideReasons.map(\.code), chosen: chosen) {
         case .dismissed(let reason):
             refused = false
             onDismiss(reason)
@@ -135,6 +139,13 @@ public struct DecisionSupportCard<Detail: View>: View {
                 Button(action: dismiss) { Text(verbatim: dismissLabel) }
             }
         }
+        .onChange(of: DecisionSupportRules.identity(cardId: cardId, summary: summary, indicator: indicator, sourceLabel: sourceLabel)) {
+            chosen = ""
+            refused = false
+        }
+        .onChange(of: overrideReasons.map(\.code)) { _, offered in
+            if !offered.contains(chosen) { chosen = "" }
+        }
         .accessibilityElement(children: .contain)
         .accessibilityLabel(Text(verbatim: DecisionSupportRules.name(label: label, summary: summary)))
     }
@@ -142,7 +153,7 @@ public struct DecisionSupportCard<Detail: View>: View {
 
 extension DecisionSupportCard where Detail == EmptyView {
     public init(
-        summary: String, indicator: DecisionSupportIndicator, indicatorLabel: String, sourceLabel: String,
+        cardId: String? = nil, summary: String, indicator: DecisionSupportIndicator, indicatorLabel: String, sourceLabel: String,
         sourceURL: URL? = nil, suggestions: [Suggestion] = [], links: [(label: String, url: URL)] = [],
         dismissLabel: String? = nil, overrideReasons: [Reason] = [], overrideReasonLabel: String? = nil,
         overrideReasonPlaceholder: String? = nil, overrideReasonError: String? = nil, label: String? = nil,
@@ -150,7 +161,7 @@ extension DecisionSupportCard where Detail == EmptyView {
         onDismiss: @escaping @MainActor (String?) -> Void = { _ in }
     ) {
         self.init(
-            summary: summary, indicator: indicator, indicatorLabel: indicatorLabel, sourceLabel: sourceLabel,
+            cardId: cardId, summary: summary, indicator: indicator, indicatorLabel: indicatorLabel, sourceLabel: sourceLabel,
             sourceURL: sourceURL, suggestions: suggestions, links: links, dismissLabel: dismissLabel,
             overrideReasons: overrideReasons, overrideReasonLabel: overrideReasonLabel,
             overrideReasonPlaceholder: overrideReasonPlaceholder, overrideReasonError: overrideReasonError, label: label,

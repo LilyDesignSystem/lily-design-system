@@ -17,7 +17,8 @@ highlights.
 
 ## Prepared, not released: the headless libraries and the Web Components identifiers (2026-11-25)
 
-On hold for the safety findings in tasks.md Phase 50 (T1 to T5). The versions below are in the repository, not on npm or NuGet.
+On hold for the safety findings in tasks.md Phase 50 (T1 to T5). Fixed since, for this release: an alert's
+override reason is never submitted for another alert (`cardId` is new), and a label with no letter or number is not words. The versions below are in the repository, not on npm or NuGet.
 
 npm, under the `next` tag: Svelte, React and Vue 0.14.0, Angular and Web Components 0.16.0, HTML 0.15.0, Nunjucks 0.13.0, Alpine and Solid
 0.5.0, `web-components-headless-identifiers` 0.6.0. NuGet: `LilyDesignSystem.Blazor.Headless` 0.12.0. Invalid input to the patient

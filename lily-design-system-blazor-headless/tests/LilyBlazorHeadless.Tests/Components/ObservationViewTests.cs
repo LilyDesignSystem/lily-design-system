@@ -191,6 +191,20 @@ public class ObservationViewTests : TestContext
     [InlineData("masked")]
     public void A_result_with_no_words_shows_no_value(string status) => AssertNoRecord(Stale(status, null, showWithdrawn: true));
 
+    // HC-C14: a label of white space, invisible characters or a dash is not words.
+    [Theory]
+    [InlineData(" ")]
+    [InlineData("\u00a0")]
+    [InlineData("\u3000")]
+    [InlineData("\u200b")]
+    [InlineData("\u2060\ufeff")]
+    [InlineData("\u2014")]
+    public void A_blank_label_is_not_words(string words)
+    {
+        AssertNoRecord(Stale("preliminary", words));
+        AssertNoRecord(Stale("entered-in-error", words, showWithdrawn: true));
+    }
+
     // HC-C12, HC-C13 (spec/healthcare-ui/requirements.md)
     [Fact]
     public void A_result_that_becomes_masked_or_withdrawn_stops_showing_its_value()

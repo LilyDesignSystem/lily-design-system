@@ -93,4 +93,48 @@ public class DecisionSupportCardTests : TestContext
         Assert.Equal("https://example.org/formulary", linked.Find(".decision-support-card-source a").GetAttribute("href"));
         Assert.Equal("Reaction: anaphylaxis, 2019.", linked.Find(".decision-support-card-detail p").TextContent);
     }
+
+    private static readonly DecisionSupportOverrideReason[] ReasonsA = [new("aware", "Patient tolerated before"), new("error", "Recorded in error")];
+    private static readonly DecisionSupportOverrideReason[] ReasonsB = [new("renal", "Dose already reduced")];
+
+    private (IRenderedComponent<DecisionSupportCard> Cut, List<string?> Dismissed) Chosen(string? cardId)
+    {
+        var dismissed = new List<string?>();
+        var cut = Render(p => p.Add(x => x.CardId, cardId).Add(x => x.DismissLabel, "Dismiss").Add(x => x.OverrideReasons, ReasonsA)
+            .Add(x => x.OverrideReasonLabel, "Reason").Add(x => x.OnDismiss, (string? reason) => dismissed.Add(reason)));
+        cut.Find("select").Change("error");
+        return (cut, dismissed);
+    }
+
+    // HC-C15
+    [Fact]
+    public void Another_cards_reason_is_never_submitted()
+    {
+        foreach (var reasons in new[] { ReasonsA, ReasonsB })
+        {
+            var (cut, dismissed) = Chosen(null);
+            cut.SetParametersAndRender(p => p.Add(x => x.Summary, "Reduce the dose").Add(x => x.OverrideReasons, reasons));
+            Assert.Equal("", cut.Find("select").GetAttribute("value") ?? "");
+            cut.Find("form").Submit();
+            Assert.Empty(dismissed);
+        }
+        var (same, none) = Chosen("patient-1/card-9");
+        same.SetParametersAndRender(p => p.Add(x => x.CardId, "patient-2/card-9"));
+        same.Find("form").Submit();
+        Assert.Empty(none);
+    }
+
+    // HC-C15
+    [Fact]
+    public void A_reason_no_longer_offered_is_not_submitted_and_the_same_card_keeps_its_choice()
+    {
+        var (cut, dismissed) = Chosen("patient-1/card-9");
+        cut.SetParametersAndRender(p => p.Add(x => x.OverrideReasons, ReasonsB));
+        cut.Find("form").Submit();
+        Assert.Empty(dismissed);
+        var (kept, sent) = Chosen("patient-1/card-9");
+        kept.SetParametersAndRender(p => p.Add(x => x.OverrideReasons, ReasonsA.ToArray()).Add(x => x.Summary, "Penicillin allergy recorded today"));
+        kept.Find("form").Submit();
+        Assert.Equal(new string?[] { "error" }, sent);
+    }
 }

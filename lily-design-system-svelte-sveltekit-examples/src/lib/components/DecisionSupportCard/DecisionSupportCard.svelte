@@ -22,6 +22,8 @@
     //     is required, and onDismiss is not called until a reason is chosen.
     //   overrideReasonLabel — string, optional. The select's label ("Reason for dismissing").
     //   overrideReasonPlaceholder — string, optional. The text of the select's empty first option.
+    //   cardId — string, optional. Which card this is (the CDS Hooks uuid with the patient's id). A new one clears the chosen
+    //     reason; without one, a new summary, indicator or source does. Give it whenever two cards can read alike.
     //   onDismiss — (reason?: string) => void, optional. Called with the chosen reason's code.
     //   label — string, optional. The card's accessible name, when it should differ from summary.
     //   ...restProps — additional HTML attributes spread onto the root <div>.
@@ -38,10 +40,11 @@
     // References:
     //   - CDS Hooks 2.0, Card: https://cds-hooks.hl7.org/2.0/
     //   - AHRQ PSNet primer, alert fatigue: https://psnet.ahrq.gov/primer/alert-fatigue
-    import type { Snippet } from "svelte";
+    import { untrack, type Snippet } from "svelte";
 
     let {
         class: className = "",
+        cardId,
         summary,
         indicator,
         indicatorLabel,
@@ -59,6 +62,8 @@
         label,
         ...restProps
     }: {
+        /** Which card this is, for example the CDS Hooks uuid with the patient's id. A new one, or without one a new summary, indicator or source, clears the chosen reason. */
+        cardId?: string;
         summary: string;
         indicator: "info" | "warning" | "critical";
         indicatorLabel: string;
@@ -81,15 +86,29 @@
     let invalid = $state(false);
     let select: HTMLSelectElement | undefined = $state();
 
+    // A chosen reason belongs to one card, and to the reasons it offers.
+    const identity = $derived(cardId ?? JSON.stringify([summary, indicator, sourceLabel]));
+    const offered = $derived(overrideReasons.some((option) => option.code === reason));
+    $effect.pre(() => {
+        void identity;
+        untrack(() => {
+            reason = "";
+            invalid = false;
+        });
+    });
+    $effect.pre(() => {
+        if (reason && !offered) reason = "";
+    });
+
     function dismiss(event: SubmitEvent) {
         event.preventDefault();
-        if (overrideReasons.length > 0 && !reason) {
+        if (overrideReasons.length > 0 && !offered) {
             invalid = true;
             select?.focus();
             return;
         }
         invalid = false;
-        onDismiss?.(reason || undefined);
+        onDismiss?.(offered ? reason : undefined);
     }
 </script>
 

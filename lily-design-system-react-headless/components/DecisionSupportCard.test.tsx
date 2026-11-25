@@ -80,4 +80,190 @@ describe("DecisionSupportCard", () => {
         );
         expect(screen.queryByRole("button")).toBeNull();
     });
+
+    const A = [
+        { code: "aware", display: "Patient tolerated before" },
+        { code: "error", display: "Recorded in error" },
+    ];
+    const B = [{ code: "renal", display: "Dose already reduced" }];
+    const other = { summary: "Reduce the dose: renal function" };
+
+    const select = () => document.querySelector("select") as HTMLSelectElement;
+    const dismissButton = () =>
+        document.querySelector(".decision-support-card-dismiss") as HTMLButtonElement;
+
+    test("HC-C15: another card's reason is never submitted, when the new card offers other reasons", async () => {
+        const user = userEvent.setup();
+        const first = {
+            ...base,
+            cardId: "patient-1/card-9",
+            dismissLabel: "Dismiss",
+            overrideReasons: A,
+            overrideReasonLabel: "Reason for dismissing",
+            overrideReasonPlaceholder: "Choose a reason",
+        };
+        // A changed summary is a new card only when the host gives no cardId.
+        const without = { ...first, cardId: undefined as string | undefined };
+        const start = "cardId" in { ...other, overrideReasons: B } ? first : without;
+        const dismissed: (string | undefined)[] = [];
+        const onDismiss = (reason?: string) => void dismissed.push(reason);
+        const { rerender } = render(
+            <Subject
+                {...start}
+                onDismiss={onDismiss}
+            />,
+        );
+        await user.selectOptions(select(), "error");
+        rerender(
+            <Subject
+                {...start}
+                onDismiss={onDismiss}
+                {...{ ...other, overrideReasons: B }}
+            />,
+        );
+        expect(select().value).toBe("");
+        dismissButton().focus();
+        await user.keyboard("{Enter}");
+        expect(dismissed).toEqual([]);
+    });
+
+    test("HC-C15: another card's reason is never submitted, when the new card offers the same reasons", async () => {
+        const user = userEvent.setup();
+        const first = {
+            ...base,
+            cardId: "patient-1/card-9",
+            dismissLabel: "Dismiss",
+            overrideReasons: A,
+            overrideReasonLabel: "Reason for dismissing",
+            overrideReasonPlaceholder: "Choose a reason",
+        };
+        // A changed summary is a new card only when the host gives no cardId.
+        const without = { ...first, cardId: undefined as string | undefined };
+        const start = "cardId" in { ...other, overrideReasons: A } ? first : without;
+        const dismissed: (string | undefined)[] = [];
+        const onDismiss = (reason?: string) => void dismissed.push(reason);
+        const { rerender } = render(
+            <Subject
+                {...start}
+                onDismiss={onDismiss}
+            />,
+        );
+        await user.selectOptions(select(), "error");
+        rerender(
+            <Subject
+                {...start}
+                onDismiss={onDismiss}
+                {...{ ...other, overrideReasons: A }}
+            />,
+        );
+        expect(select().value).toBe("");
+        dismissButton().focus();
+        await user.keyboard("{Enter}");
+        expect(dismissed).toEqual([]);
+    });
+
+    test("HC-C15: a new cardId is a new card, even with the same words", async () => {
+        const user = userEvent.setup();
+        const first = {
+            ...base,
+            cardId: "patient-1/card-9",
+            dismissLabel: "Dismiss",
+            overrideReasons: A,
+            overrideReasonLabel: "Reason for dismissing",
+            overrideReasonPlaceholder: "Choose a reason",
+        };
+        // A changed summary is a new card only when the host gives no cardId.
+        const without = { ...first, cardId: undefined as string | undefined };
+        const start = "cardId" in { cardId: "patient-2/card-9" } ? first : without;
+        const dismissed: (string | undefined)[] = [];
+        const onDismiss = (reason?: string) => void dismissed.push(reason);
+        const { rerender } = render(
+            <Subject
+                {...start}
+                onDismiss={onDismiss}
+            />,
+        );
+        await user.selectOptions(select(), "error");
+        rerender(
+            <Subject
+                {...start}
+                onDismiss={onDismiss}
+                {...{ cardId: "patient-2/card-9" }}
+            />,
+        );
+        expect(select().value).toBe("");
+        dismissButton().focus();
+        await user.keyboard("{Enter}");
+        expect(dismissed).toEqual([]);
+    });
+
+    test("HC-C15: a reason no longer offered is not submitted", async () => {
+        const user = userEvent.setup();
+        const first = {
+            ...base,
+            cardId: "patient-1/card-9",
+            dismissLabel: "Dismiss",
+            overrideReasons: A,
+            overrideReasonLabel: "Reason for dismissing",
+            overrideReasonPlaceholder: "Choose a reason",
+        };
+        // A changed summary is a new card only when the host gives no cardId.
+        const without = { ...first, cardId: undefined as string | undefined };
+        const start = "cardId" in { overrideReasons: B } ? first : without;
+        const dismissed: (string | undefined)[] = [];
+        const onDismiss = (reason?: string) => void dismissed.push(reason);
+        const { rerender } = render(
+            <Subject
+                {...start}
+                onDismiss={onDismiss}
+            />,
+        );
+        await user.selectOptions(select(), "error");
+        rerender(
+            <Subject
+                {...start}
+                onDismiss={onDismiss}
+                {...{ overrideReasons: B }}
+            />,
+        );
+        expect(select().value).toBe("");
+        dismissButton().focus();
+        await user.keyboard("{Enter}");
+        expect(dismissed).toEqual([]);
+    });
+
+    test("HC-C15: the same card keeps its choice when it renders again", async () => {
+        const user = userEvent.setup();
+        const first = {
+            ...base,
+            cardId: "patient-1/card-9",
+            dismissLabel: "Dismiss",
+            overrideReasons: A,
+            overrideReasonLabel: "Reason for dismissing",
+            overrideReasonPlaceholder: "Choose a reason",
+        };
+        // A changed summary is a new card only when the host gives no cardId.
+        const without = { ...first, cardId: undefined as string | undefined };
+        const start = "cardId" in { overrideReasons: A.map((r) => ({ ...r })) } ? first : without;
+        const dismissed: (string | undefined)[] = [];
+        const onDismiss = (reason?: string) => void dismissed.push(reason);
+        const { rerender } = render(
+            <Subject
+                {...start}
+                onDismiss={onDismiss}
+            />,
+        );
+        await user.selectOptions(select(), "error");
+        rerender(
+            <Subject
+                {...start}
+                onDismiss={onDismiss}
+                {...{ overrideReasons: A.map((r) => ({ ...r })) }}
+            />,
+        );
+        expect(select().value).toBe("error");
+        dismissButton().focus();
+        await user.keyboard("{Enter}");
+        expect(dismissed).toEqual(["error"]);
+    });
 });

@@ -34,6 +34,8 @@
     }
 </div>
 @code {
+    /// <summary>Which card this is, for example the CDS Hooks uuid with the patient's id. A new one, or without one a new summary, indicator or source, clears the chosen reason.</summary>
+    [Parameter] public string? CardId { get; set; }
     /// <summary>The one-sentence summary; names the card.</summary>
     [Parameter, EditorRequired] public string Summary { get; set; } = "";
     /// <summary>info, warning or critical, rendered as data-indicator.</summary>
@@ -63,6 +65,22 @@
     private string reason = "";
     private bool invalid;
     private ElementReference select;
+    private object? identity;
+
+    private bool Offered => OverrideReasons?.Any(option => option.Code == reason) == true;
+
+    // A chosen reason belongs to one card, and to the reasons it offers.
+    protected override void OnParametersSet()
+    {
+        object current = CardId is not null ? CardId : (Summary, Indicator, SourceLabel);
+        if (!current.Equals(identity))
+        {
+            identity = current;
+            reason = "";
+            invalid = false;
+        }
+        else if (!Offered) reason = "";
+    }
 
     private void Choose(ChangeEventArgs e)
     {
@@ -72,13 +90,13 @@
 
     private async Task Dismiss()
     {
-        if (OverrideReasons is { Count: > 0 } && string.IsNullOrEmpty(reason))
+        if (OverrideReasons is { Count: > 0 } && !Offered)
         {
             invalid = true;
             await select.FocusAsync();
             return;
         }
         invalid = false;
-        await OnDismiss.InvokeAsync(string.IsNullOrEmpty(reason) ? null : reason);
+        await OnDismiss.InvokeAsync(Offered ? reason : null);
     }
 }

@@ -47,6 +47,7 @@
     //
     // References:
     //   - FHIR Observation.interpretation: https://hl7.org/fhir/observation.html
+    import { hasWords } from "../clinical-format";
     import { warnMissingProp } from "../dev-warning";
 
     // Statuses with no value to show: the consumer's words replace it. Any other status that is not final shows its value only
@@ -122,7 +123,7 @@
     const withdrawn = $derived(status === "entered-in-error");
     const withheld = $derived(
         MISSING.includes(status) ||
-            (status !== "final" && !statusLabel) ||
+            (status !== "final" && !hasWords(statusLabel)) ||
             (withdrawn && !showWithdrawn),
     );
     const showMeter = $derived(

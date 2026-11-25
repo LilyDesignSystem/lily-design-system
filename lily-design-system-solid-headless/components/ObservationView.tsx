@@ -3,6 +3,7 @@
 import { omit } from "solid-js";
 import { withDefaults } from "./defaults";
 import { attr } from "./attr";
+import { hasWords } from "./clinical-format";
 import { warnMissingProp } from "./dev-warning";
 
 // FHIR statuses with no value to show: the consumer's words replace it (spec/healthcare-ui, tasks.md P28-T5).
@@ -116,7 +117,7 @@ export default function ObservationView(props: ObservationViewProps) {
     const withdrawn = () => p.status === "entered-in-error";
     const withheld = () =>
         MISSING.includes(p.status) ||
-        (p.status !== "final" && !p.statusLabel) ||
+        (p.status !== "final" && !hasWords(p.statusLabel)) ||
         (withdrawn() && !p.showWithdrawn);
     return (
         <span

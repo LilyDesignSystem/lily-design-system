@@ -7640,6 +7640,7 @@
       "description": "A read-only display of a clinical observation or test result, with its unit, reference range and interpretation flag.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "registryDependencies": [
+        "@lily/clinical-format-utils",
         "@lily/dev-warning-utils"
       ],
       "categories": [

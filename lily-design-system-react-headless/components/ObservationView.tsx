@@ -1,6 +1,7 @@
 // ObservationView: a read-only clinical observation or result, with unit, flag and reference range (spec/healthcare-ui item 1).
 // Shows what the consumer decided; computes no flag and no range. Props and rules: ObservationView.md.
 import React from "react";
+import { hasWords } from "./clinical-format";
 import { warnMissingProp } from "./dev-warning";
 
 // FHIR statuses with no value to show: the consumer's words replace it (spec/healthcare-ui, tasks.md P28-T5).
@@ -104,7 +105,7 @@ export default function ObservationView({
     const withdrawn = status === "entered-in-error";
     const withheld =
         MISSING.includes(status) ||
-        (status !== "final" && !statusLabel) ||
+        (status !== "final" && !hasWords(statusLabel)) ||
         (withdrawn && !showWithdrawn);
     return (
         <span

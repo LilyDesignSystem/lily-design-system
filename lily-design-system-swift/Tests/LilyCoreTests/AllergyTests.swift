@@ -65,14 +65,19 @@ import Testing
             escalation: "Call the critical care outreach team") == "Early warning score\nNEWS2\n7\nHigh clinical risk\nCall the critical care outreach team")
 }
 
+// HC-C8, HC-C15
 @Test func decisionSupportNamesItselfAndRefusesADismissalWithoutAReason() {
     #expect(DecisionSupportRules.name(label: nil, summary: "Interaction: warfarin and aspirin") == "Interaction: warfarin and aspirin")
     #expect(DecisionSupportRules.name(label: "", summary: "S") == "S")
     #expect(DecisionSupportRules.name(label: "Alert", summary: "S") == "Alert")
-    #expect(DecisionSupportRules.dismiss(reasonsOffered: false, chosen: nil) == .dismissed(reason: nil))
-    #expect(DecisionSupportRules.dismiss(reasonsOffered: true, chosen: nil) == .refused)
-    #expect(DecisionSupportRules.dismiss(reasonsOffered: true, chosen: "") == .refused)
-    #expect(DecisionSupportRules.dismiss(reasonsOffered: true, chosen: "patient-declined") == .dismissed(reason: "patient-declined"))
+    #expect(DecisionSupportRules.dismiss(offered: [], chosen: nil) == .dismissed(reason: nil))
+    #expect(DecisionSupportRules.dismiss(offered: ["patient-declined"], chosen: nil) == .refused)
+    #expect(DecisionSupportRules.dismiss(offered: ["patient-declined"], chosen: "") == .refused)
+    #expect(DecisionSupportRules.dismiss(offered: ["patient-declined"], chosen: "patient-declined") == .dismissed(reason: "patient-declined"))
+    // HC-C15: a reason this card does not offer is refused.
+    #expect(DecisionSupportRules.dismiss(offered: ["renal"], chosen: "patient-declined") == .refused)
+    #expect(DecisionSupportRules.identity(cardId: "a", summary: "S", indicator: .info, sourceLabel: "R") == ["a"])
+    #expect(DecisionSupportRules.identity(cardId: nil, summary: "S", indicator: .info, sourceLabel: "R") != DecisionSupportRules.identity(cardId: nil, summary: "T", indicator: .info, sourceLabel: "R"))
     #expect(DecisionSupportRules.warnings(summary: String(repeating: "a", count: 141), indicatorLabel: "", sourceLabel: "").count == 3)
     #expect(DecisionSupportRules.warnings(summary: "Short", indicatorLabel: "Warning", sourceLabel: "Local formulary").isEmpty)
     #expect(DecisionSupportIndicator.allCases.map(\.rawValue) == ["info", "warning", "critical"])

@@ -87,6 +87,7 @@ private func call(_ fn: String, _ args: [Any]) throws -> Any {
         }
         return toIsoDuration(parts)
     case "partialDatePrecision": return try partialDatePrecision(string(0)).rawValue
+    case "hasWords": return hasWords(string(0))
     case "durationParts":
         let p = try durationParts(string(0))
         return [

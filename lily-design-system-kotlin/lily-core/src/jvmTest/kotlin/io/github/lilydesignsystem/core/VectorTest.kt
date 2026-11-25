@@ -73,6 +73,7 @@ class VectorTest {
             AgePart(it.jsonObject["value"]!!.jsonPrimitive.int, AgeUnit.fromKey(str(it.jsonObject["unit"]!!))!!)
         })
         "partialDatePrecision" -> partialDatePrecision(str(args[0])).key
+        "hasWords" -> hasWords(str(args[0]))
         "durationParts" -> durationParts(str(args[0])).let {
             json(
                 "years" to it.years, "months" to it.months, "weeks" to it.weeks, "days" to it.days, "hours" to it.hours,

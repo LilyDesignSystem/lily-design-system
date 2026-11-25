@@ -23,7 +23,7 @@ public enum ObservationRules {
     /// missing result, one with no words for a status that is not final, and an entered-in-error one, whose former value an
     /// authorised history view shows with `showWithdrawn`.
     public static func withholds(_ status: ObservationStatus, statusLabel: String?, showWithdrawn: Bool = false) -> Bool {
-        statusReplacesValue(status) || (showsStatus(status) && (statusLabel?.isEmpty ?? true))
+        statusReplacesValue(status) || (showsStatus(status) && !hasWords(statusLabel))
             || (isWithdrawn(status) && !showWithdrawn)
     }
 
@@ -48,7 +48,7 @@ public enum ObservationRules {
         if isFlagged(interpretation), flagLabel?.isEmpty ?? true {
             out.append("ObservationView: interpretation \(interpretation!) needs a flagLabel, or the flag is colour alone")
         }
-        if showsStatus(status), statusLabel?.isEmpty ?? true {
+        if showsStatus(status), !hasWords(statusLabel) {
             out.append("ObservationView: status \(status.rawValue) needs a statusLabel")
         }
         if previousValue != nil, previousLabel?.isEmpty ?? true {

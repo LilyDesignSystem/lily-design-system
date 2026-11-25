@@ -31,7 +31,9 @@
 {%- set p = params | default({}) -%}
 {%- set status = p.status | default("final") -%}
 {%- set withdrawn = status == "entered-in-error" -%}
-{%- set withheld = status in ["registered", "cancelled", "masked", "not-recorded", "unavailable", "not-applicable"] or (status != "final" and not p.statusLabel) or (withdrawn and not p.showWithdrawn) -%}
+{#- Words hold a letter or number in any script; white space, invisible characters and punctuation are not words (HC-C14). -#}
+{%- set hasWords = p.statusLabel and r/[0-9A-Za-z\u00aa\u00b5\u00ba\u00c0-\u00d6\u00d8-\u00f6\u00f8-\u167f\u1681-\u180d\u180f-\u1fff\u2c00-\u2dff\u3041-\ud7ff\ud800-\udfff\uf900-\ufdff\ufe70-\ufefc\uff10-\uff19\uff21-\uff3a\uff41-\uff5a\uff66-\uffdc]/.test(p.statusLabel) -%}
+{%- set withheld = status in ["registered", "cancelled", "masked", "not-recorded", "unavailable", "not-applicable"] or (status != "final" and not hasWords) or (withdrawn and not p.showWithdrawn) -%}
 <span
   class="observation-view{% if p.classes %} {{ p.classes }}{% endif %}"
   {%- if p.interpretation and not withheld and not withdrawn %} data-interpretation="{{ p.interpretation }}"{% endif %} data-status="{{ status }}"

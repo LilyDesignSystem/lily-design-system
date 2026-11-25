@@ -1,6 +1,6 @@
 {
   "module": "clinical-format",
-  "description": "The locale-independent functions of shared/clinical-format.ts: meterScale, ageParts, toIsoDuration, partialDatePrecision, durationParts and htmlDuration. Locale-formatted output (formatQuantity, formatRange, formatPartialDate, formatProportion) is not here, because each platform's ICU data may write it differently.",
+  "description": "The locale-independent functions of shared/clinical-format.ts: meterScale, ageParts, toIsoDuration, partialDatePrecision, hasWords, durationParts and htmlDuration. Locale-formatted output (formatQuantity, formatRange, formatPartialDate, formatProportion) is not here, because each platform's ICU data may write it differently.",
   "cases": [
     {
       "fn": "meterScale",
@@ -626,6 +626,91 @@
       "fn": "ageParts",
       "args": ["2026-01-01T10:00:00-23:59", "2026-06-01"],
       "throws": true
+    },
+    {
+      "fn": "hasWords",
+      "args": [""],
+      "expected": false
+    },
+    {
+      "fn": "hasWords",
+      "args": [" "],
+      "expected": false
+    },
+    {
+      "fn": "hasWords",
+      "args": [" "],
+      "expected": false
+    },
+    {
+      "fn": "hasWords",
+      "args": ["　"],
+      "expected": false
+    },
+    {
+      "fn": "hasWords",
+      "args": ["​"],
+      "expected": false
+    },
+    {
+      "fn": "hasWords",
+      "args": ["⁠﻿"],
+      "expected": false
+    },
+    {
+      "fn": "hasWords",
+      "args": ["\t\n"],
+      "expected": false
+    },
+    {
+      "fn": "hasWords",
+      "args": ["-"],
+      "expected": false
+    },
+    {
+      "fn": "hasWords",
+      "args": ["—"],
+      "expected": false
+    },
+    {
+      "fn": "hasWords",
+      "args": ["..."],
+      "expected": false
+    },
+    {
+      "fn": "hasWords",
+      "args": ["Preliminary"],
+      "expected": true
+    },
+    {
+      "fn": "hasWords",
+      "args": ["暂定"],
+      "expected": true
+    },
+    {
+      "fn": "hasWords",
+      "args": ["प्रारंभिक"],
+      "expected": true
+    },
+    {
+      "fn": "hasWords",
+      "args": ["مبدئي"],
+      "expected": true
+    },
+    {
+      "fn": "hasWords",
+      "args": ["1"],
+      "expected": true
+    },
+    {
+      "fn": "hasWords",
+      "args": [" ok "],
+      "expected": true
+    },
+    {
+      "fn": "hasWords",
+      "args": ["𠀀"],
+      "expected": true
     }
   ]
 }

@@ -8,6 +8,7 @@ import { describe, expect, it } from "vitest";
 import {
     ageParts,
     durationParts,
+    hasWords,
     htmlDuration,
     meterScale,
     partialDatePrecision,
@@ -54,6 +55,7 @@ const FUNCTIONS: Record<string, (...args: any[]) => unknown> = {
     toIsoDuration,
     partialDatePrecision,
     durationParts,
+    hasWords,
     htmlDuration,
     isTypeaheadKey,
     nextTypeaheadState,

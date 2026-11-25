@@ -2,6 +2,7 @@
 // ObservationView: a read-only clinical observation or result, with unit, flag and reference range (spec/healthcare-ui
 // item 1). Shows what the consumer decided; computes no flag and no range. Props and rules: ObservationView.md.
 import { computed } from "vue";
+import { hasWords } from "./clinical-format";
 import { warnMissingProp } from "./dev-warning";
 
 // FHIR statuses with no value to show: the consumer's words replace it (tasks.md P28-T5).
@@ -92,7 +93,7 @@ const withdrawn = computed(() => current.value === "entered-in-error");
 const withheld = computed(
     () =>
         MISSING.includes(current.value) ||
-        (current.value !== "final" && !props.statusLabel) ||
+        (current.value !== "final" && !hasWords(props.statusLabel)) ||
         (withdrawn.value && !props.showWithdrawn),
 );
 </script>

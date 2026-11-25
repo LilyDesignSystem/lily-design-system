@@ -242,6 +242,36 @@ describe("ObservationView: withheld and withdrawn results", () => {
         expectNoRecord(show({ ...stale, status, showWithdrawn: true }));
     });
 
+    test.each([
+        " ",
+        "   ",
+        "\u00a0",
+        "\u3000",
+        "\u200b",
+        "\u2060\ufeff",
+        "\t\n",
+        "-",
+        "\u2014",
+        "...",
+    ])(
+        "HC-C14: a label of %j is not words, so a preliminary result shows no value",
+        (statusLabel) => {
+            vi.spyOn(console, "warn").mockImplementation(() => {});
+            expectNoRecord(show({ ...stale, status: "preliminary", statusLabel }));
+            expectNoRecord(
+                show({ ...stale, status: "entered-in-error", statusLabel, showWithdrawn: true }),
+            );
+        },
+    );
+
+    test.each(["Preliminary", "暂定", "प्रारंभिक", "مبدئي", "初"])(
+        "HC-C14: a label in any script, %s, is words",
+        (statusLabel) => {
+            const root = show({ value: "5.9", status: "preliminary", statusLabel });
+            expect(root.textContent?.trim()).toBe(`5.9 ${statusLabel}`);
+        },
+    );
+
     test("an unknown status shows its value beside its words", () => {
         const root = show({ value: "5.9", status: "unknown", statusLabel: "Status not known" });
         expect(root.textContent?.trim()).toBe("5.9 Status not known");

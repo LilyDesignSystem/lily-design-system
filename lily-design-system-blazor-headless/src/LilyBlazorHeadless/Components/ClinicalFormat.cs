@@ -223,6 +223,12 @@ public static class ClinicalFormat
         return (year, month, day);
     }
 
+    /// <summary>
+    /// Whether a label holds words: at least one letter or number, in any script. White space, invisible characters and punctuation
+    /// on their own are not words, so a blank translation never passes for a status.
+    /// </summary>
+    public static bool HasWords(string? text) => text is not null && text.EnumerateRunes().Any(System.Text.Rune.IsLetterOrDigit);
+
     /// <summary>How precise a partial date (YYYY, YYYY-MM or YYYY-MM-DD) is.</summary>
     public static DatePrecision PartialDatePrecision(string iso)
     {

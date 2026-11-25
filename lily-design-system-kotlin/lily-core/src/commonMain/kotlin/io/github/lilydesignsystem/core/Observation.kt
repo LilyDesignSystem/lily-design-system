@@ -28,7 +28,7 @@ public object ObservationRules {
      * authorised history view shows with [showWithdrawn].
      */
     public fun withholds(status: ObservationStatus, statusLabel: String?, showWithdrawn: Boolean = false): Boolean =
-        statusReplacesValue(status) || (showsStatus(status) && statusLabel.isNullOrEmpty()) ||
+        statusReplacesValue(status) || (showsStatus(status) && !hasWords(statusLabel)) ||
             (isWithdrawn(status) && !showWithdrawn)
 
     /** An entered-in-error result: its value, when shown at all, is a former one, with no flag, range or meter. */
@@ -52,7 +52,7 @@ public object ObservationRules {
         if (isFlagged(interpretation) && flagLabel.isNullOrEmpty()) {
             add("ObservationView: interpretation $interpretation needs a flagLabel, or the flag is colour alone")
         }
-        if (showsStatus(status) && statusLabel.isNullOrEmpty()) add("ObservationView: status ${status.key} needs a statusLabel")
+        if (showsStatus(status) && !hasWords(statusLabel)) add("ObservationView: status ${status.key} needs a statusLabel")
         if (previousValue != null && previousLabel.isNullOrEmpty()) {
             add("ObservationView: previousValue needs a previousLabel, since the change may not be announced")
         }

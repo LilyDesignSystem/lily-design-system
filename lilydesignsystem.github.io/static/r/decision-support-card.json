@@ -35,6 +35,7 @@
     "`suggestions`: { id, label, isRecommended? }[] (optional) — each a button",
     "`links`: { label, href }[] (optional) — links to more information",
     "`dismissLabel`: string (optional) — the dismiss button's text; no button without it",
+    "`cardId`: string (optional) -- which card this is, for example the CDS Hooks `uuid` with the patient's id; a new one, or without one a new summary, indicator or source, clears the chosen reason",
     "`overrideReasons`: { code, display }[] (optional) — when given, dismissing asks for one",
     "`overrideReasonLabel`: string (optional) — the reason select's label",
     "`overrideReasonPlaceholder`: string (optional) — the text of the select's empty first option",

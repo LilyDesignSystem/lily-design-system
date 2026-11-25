@@ -10,6 +10,8 @@ export interface DecisionSupportSuggestion {
 
 export interface DecisionSupportCardProps {
     className?: string;
+    /** Which card this is, for example the CDS Hooks uuid with the patient's id. A new one, or without one a new summary, indicator or source, clears the chosen reason. */
+    cardId?: string;
     /** The one-sentence summary; names the card. */
     summary: string;
     indicator: "info" | "warning" | "critical";
@@ -35,6 +37,7 @@ export interface DecisionSupportCardProps {
 }
 
 export default function DecisionSupportCard({
+    cardId,
     className = "",
     summary,
     indicator,
@@ -57,15 +60,26 @@ export default function DecisionSupportCard({
     const [invalid, setInvalid] = useState(false);
     const select = useRef<HTMLSelectElement>(null);
 
+    // A chosen reason belongs to one card, and to the reasons it offers: both are checked while rendering, so a stale one is
+    // never shown, and again when submitted.
+    const identity = cardId ?? JSON.stringify([summary, indicator, sourceLabel]);
+    const [shown, setShown] = useState(identity);
+    const offered = overrideReasons.some((option) => option.code === reason);
+    if (shown !== identity) {
+        setShown(identity);
+        setReason("");
+        setInvalid(false);
+    } else if (reason && !offered) setReason("");
+
     function dismiss(event: React.FormEvent) {
         event.preventDefault();
-        if (overrideReasons.length > 0 && !reason) {
+        if (overrideReasons.length > 0 && !offered) {
             setInvalid(true);
             select.current?.focus();
             return;
         }
         setInvalid(false);
-        onDismiss?.(reason || undefined);
+        onDismiss?.(offered ? reason : undefined);
     }
 
     return (

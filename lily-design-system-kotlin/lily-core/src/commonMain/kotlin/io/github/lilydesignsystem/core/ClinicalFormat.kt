@@ -200,6 +200,14 @@ public enum class DatePrecision(public val key: String) { Year("year"), Month("m
 
 private val PARTIAL_DATE = Regex("""^(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?$""")
 
+/**
+ * Whether a label holds words: at least one letter or number, in any script. White space, invisible characters and punctuation on
+ * their own are not words, so a blank translation never passes for a status.
+ */
+public fun hasWords(text: String?): Boolean = text != null && WORDS.containsMatchIn(text)
+
+private val WORDS = Regex("[\\p{L}\\p{N}]")
+
 /** "year", "month" or "day": how precise a partial ISO 8601 date (YYYY, YYYY-MM or YYYY-MM-DD) is. */
 public fun partialDatePrecision(iso: String): DatePrecision {
     val match = PARTIAL_DATE.matchEntire(iso) ?: throw IllegalArgumentException("not a partial ISO 8601 date (YYYY, YYYY-MM or YYYY-MM-DD)")

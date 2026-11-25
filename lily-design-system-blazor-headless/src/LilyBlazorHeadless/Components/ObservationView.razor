@@ -42,7 +42,7 @@
     private bool Withdrawn => Status == "entered-in-error";
     private bool Withheld =>
         Status is "registered" or "cancelled" or "masked" or "not-recorded" or "unavailable" or "not-applicable"
-        || (Status != "final" && string.IsNullOrEmpty(StatusLabel))
+        || (Status != "final" && !ClinicalFormat.HasWords(StatusLabel))
         || (Withdrawn && !ShowWithdrawn);
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }

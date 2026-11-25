@@ -2,7 +2,7 @@
 // region: whether a critical card interrupts is the consumer's choice. Props and rules: DecisionSupportCard.md.
 
 import type { JSX } from "@solidjs/web";
-import { omit, createSignal } from "solid-js";
+import { omit, createSignal, createEffect, createMemo } from "solid-js";
 import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface DecisionSupportSuggestion {
@@ -13,6 +13,8 @@ export interface DecisionSupportSuggestion {
 
 export interface DecisionSupportCardProps {
     class?: string;
+    /** Which card this is, for example the CDS Hooks uuid with the patient's id. A new one, or without one a new summary, indicator or source, clears the chosen reason. */
+    cardId?: string;
     /** The one-sentence summary; names the card. */
     summary: string;
     indicator: "info" | "warning" | "critical";
@@ -51,6 +53,7 @@ export default function DecisionSupportCard(props: DecisionSupportCardProps) {
     const restProps = omit(
         p,
         "class",
+        "cardId",
         "summary",
         "indicator",
         "indicatorLabel",
@@ -71,15 +74,34 @@ export default function DecisionSupportCard(props: DecisionSupportCardProps) {
     const [invalid, setInvalid] = createSignal(false);
     const select: { current: HTMLSelectElement | null } = { current: null };
 
+    // A chosen reason belongs to one card, and to the reasons it offers.
+    const identity = createMemo(
+        () => p.cardId ?? JSON.stringify([p.summary, p.indicator, p.sourceLabel]),
+    );
+    const offered = () => p.overrideReasons.some((option) => option.code === reason());
+    createEffect(identity, () => {
+        setReason("");
+        setInvalid(false);
+    });
+    // New options reset the browser's select, so it is set again whenever they or the choice change.
+    createEffect(
+        () => [p.overrideReasons, reason()] as const,
+        ([reasons, code]) => {
+            const kept = reasons.some((option) => option.code === code) ? code : "";
+            if (kept !== code) setReason("");
+            if (select.current) select.current.value = kept;
+        },
+    );
+
     function dismiss(event: Event) {
         event.preventDefault();
-        if (p.overrideReasons.length > 0 && !reason()) {
+        if (p.overrideReasons.length > 0 && !offered()) {
             setInvalid(true);
             select.current?.focus();
             return;
         }
         setInvalid(false);
-        p.onDismiss?.(reason() || undefined);
+        p.onDismiss?.(offered() ? reason() : undefined);
     }
 
     return (

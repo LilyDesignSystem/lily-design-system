@@ -6,6 +6,7 @@
 //   meter-value, meter-min, meter-max (all three draw an aria-hidden <meter>), meter-low, meter-high, meter-optimum,
 //   status (final | preliminary | amended | corrected | entered-in-error | cancelled | masked | not-recorded | unavailable | not-applicable
 //   -> data-status), status-label.
+import { hasWords } from "../lib/clinical-format.js";
 import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 
 // FHIR statuses with no value to show: the consumer's words replace it (tasks.md P28-T5).
@@ -74,7 +75,7 @@ export class ObservationView extends HTMLElement {
         const withdrawn = status === "entered-in-error";
         const withheld =
             MISSING.includes(status) ||
-            (status !== "final" && !attr("status-label")) ||
+            (status !== "final" && !hasWords(attr("status-label"))) ||
             (withdrawn && !this.hasAttribute("show-withdrawn"));
         if (attr("interpretation") && !withheld && !withdrawn)
             span.setAttribute("data-interpretation", attr("interpretation"));

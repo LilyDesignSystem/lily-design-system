@@ -16,10 +16,14 @@ public object DecisionSupportRules {
     /** The card's accessible name: the label, else the summary. */
     public fun name(label: String?, summary: String): String = if (label.isNullOrEmpty()) summary else label
 
-    /** Whether a dismissal goes ahead. */
-    public fun dismiss(reasonsOffered: Boolean, chosen: String?): DismissOutcome = when {
-        !reasonsOffered -> DismissOutcome.Dismissed(null)
-        chosen.isNullOrEmpty() -> DismissOutcome.Refused
+    /** Which card this is: the app's id (the CDS Hooks uuid with the patient's id), else what it says. */
+    public fun identity(cardId: String?, summary: String, indicator: DecisionSupportIndicator, sourceLabel: String): List<String> =
+        if (cardId != null) listOf(cardId) else listOf(summary, indicator.key, sourceLabel)
+
+    /** Whether a dismissal goes ahead: the chosen reason must be one this card offers. */
+    public fun dismiss(offered: List<String>, chosen: String?): DismissOutcome = when {
+        offered.isEmpty() -> DismissOutcome.Dismissed(null)
+        chosen == null || chosen !in offered -> DismissOutcome.Refused
         else -> DismissOutcome.Dismissed(chosen)
     }
 

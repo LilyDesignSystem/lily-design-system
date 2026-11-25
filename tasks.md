@@ -4793,10 +4793,10 @@ each was checked against the source on 2026-11-25, not reproduced in a browser h
       the allergy, medication and problem lists did. Render them only when `known`, in every catalog and all the record lists, and warn
       in development without the contents.
       Verify: patient A to B, and known to unavailable to known, with an old child still supplied; nothing is relabelled "None known".
-- [ ] **P50-T3 An alert submits another alert's override reason (3).** `decision-support-card` keeps the chosen reason when its card is
+- [x] **P50-T3 An alert submits another alert's override reason (3).** _(2026-11-25: HC-C15, `cardId`; failing tests first in five web catalogs, then Blazor, Swift and Kotlin. Solid also showed an empty menu while keeping the reason. Web Components: with T1. Compose is not compiled on this machine.)_ `decision-support-card` keeps the chosen reason when its card is
       replaced, and accepts one the current card does not offer (React and Svelte, from the source).
       Verify: replacement with the same and with different reason codes, and an offered reason removed while open, in every stateful port.
-- [ ] **P50-T4 A blank label is not words (4).** `statusLabel="   "` shows a preliminary value with no qualification: the test is string
+- [x] **P50-T4 A blank label is not words (4).** _(2026-11-25: `hasWords`, in TypeScript, C#, Kotlin, Swift and Nunjucks; ten blank labels failed in all seven web catalogs first.)_ `statusLabel="   "` shows a preliminary value with no qualification: the test is string
       truthiness in Svelte, React, Vue and Solid. Check the other ports.
       Verify: an empty string, spaces, a no-break space and a real label, in every renderer.
 - [ ] **P50-T5 A partial date is not converted to another calendar (5).** `formatPartialDate("2026-01", "en-US-u-ca-hebrew")` gives

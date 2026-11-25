@@ -2,10 +2,12 @@
 // DecisionSupportCard: a clinical decision support card in the CDS Hooks shape (spec/healthcare-ui item 4). Not a live
 // region: whether a critical card interrupts is the consumer's choice. Emits "suggestion" (id) and "dismiss" (reason).
 // Props and rules: DecisionSupportCard.md.
-import { ref } from "vue";
+import { computed, ref, watch } from "vue";
 
 const props = withDefaults(
     defineProps<{
+        /** Which card this is, for example the CDS Hooks uuid with the patient's id. A new one, or without one a new summary, indicator or source, clears the chosen reason. */
+        cardId?: string;
         summary: string;
         indicator: "info" | "warning" | "critical";
         indicatorLabel: string;
@@ -33,14 +35,37 @@ const reason = ref("");
 const invalid = ref(false);
 const select = ref<HTMLSelectElement | null>(null);
 
+// A chosen reason belongs to one card, and to the reasons it offers.
+const identity = computed(
+    () => props.cardId ?? JSON.stringify([props.summary, props.indicator, props.sourceLabel]),
+);
+const offered = computed(() =>
+    props.overrideReasons.some((option) => option.code === reason.value),
+);
+watch(
+    identity,
+    () => {
+        reason.value = "";
+        invalid.value = false;
+    },
+    { flush: "sync" },
+);
+watch(
+    offered,
+    () => {
+        if (!offered.value) reason.value = "";
+    },
+    { flush: "sync" },
+);
+
 function dismiss() {
-    if (props.overrideReasons.length > 0 && !reason.value) {
+    if (props.overrideReasons.length > 0 && !offered.value) {
         invalid.value = true;
         select.value?.focus();
         return;
     }
     invalid.value = false;
-    emit("dismiss", reason.value || undefined);
+    emit("dismiss", offered.value ? reason.value : undefined);
 }
 </script>
 

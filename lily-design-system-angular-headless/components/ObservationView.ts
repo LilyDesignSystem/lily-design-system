@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, input } from "@angular/core";
+import { hasWords } from "./clinical-format";
 import { warnMissingProp } from "./dev-warning";
 
 // FHIR statuses with no value to show: the consumer's words replace it (tasks.md P28-T5).
@@ -76,7 +77,7 @@ export class ObservationView implements OnInit {
     protected readonly withheld = computed(
         () =>
             MISSING.includes(this.status()) ||
-            (this.status() !== "final" && !this.statusLabel()) ||
+            (this.status() !== "final" && !hasWords(this.statusLabel())) ||
             (this.withdrawn() && !this.showWithdrawn()),
     );
 

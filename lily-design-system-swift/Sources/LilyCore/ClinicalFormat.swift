@@ -207,6 +207,18 @@ public enum DatePrecision: String, Sendable {
     case year, month, day
 }
 
+/// Whether a label holds words: at least one letter or number, in any script. White space, invisible characters and punctuation on
+/// their own are not words, so a blank translation never passes for a status.
+public func hasWords(_ text: String?) -> Bool {
+    guard let text else { return false }
+    return text.unicodeScalars.contains { scalar in
+        switch scalar.properties.generalCategory {
+        case .uppercaseLetter, .lowercaseLetter, .titlecaseLetter, .modifierLetter, .otherLetter, .decimalNumber, .letterNumber, .otherNumber: true
+        default: false
+        }
+    }
+}
+
 /// "year", "month" or "day": how precise a partial ISO 8601 date (YYYY, YYYY-MM or YYYY-MM-DD) is.
 public func partialDatePrecision(_ iso: String) throws -> DatePrecision {
     guard let match = iso.wholeMatch(of: /(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?/) else {

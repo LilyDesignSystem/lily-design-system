@@ -20,10 +20,16 @@ public enum DecisionSupportRules {
         return summary
     }
 
-    /// Whether a dismissal goes ahead.
-    public static func dismiss(reasonsOffered: Bool, chosen: String?) -> DismissOutcome {
-        if !reasonsOffered { return .dismissed(reason: nil) }
-        guard let chosen, !chosen.isEmpty else { return .refused }
+    /// Which card this is: the app's id (the CDS Hooks uuid with the patient's id), else what it says.
+    public static func identity(cardId: String?, summary: String, indicator: DecisionSupportIndicator, sourceLabel: String) -> [String] {
+        cardId.map { [$0] } ?? [summary, indicator.rawValue, sourceLabel]
+    }
+
+    /// Whether a dismissal goes ahead: the chosen reason must be one this card offers.
+    public static func dismiss(offered: [String], chosen: String?) -> DismissOutcome {
+        if offered.isEmpty { return .dismissed(reason: nil) }
+        // A reason chosen on another card, or no longer offered, is no reason for this one.
+        guard let chosen, offered.contains(chosen) else { return .refused }
         return .dismissed(reason: chosen)
     }
 

@@ -404,6 +404,14 @@ function parsePartialDate(iso: string): { year: number; month?: number; day?: nu
     return { year, month, day };
 }
 
+/**
+ * Whether a label holds words: at least one letter or number, in any script. White space, invisible characters and punctuation on
+ * their own ("   ", a no-break space, "—") are not words, so a blank translation never passes for a status.
+ */
+export function hasWords(text: string | null | undefined): boolean {
+    return typeof text === "string" && /[\p{L}\p{N}]/u.test(text);
+}
+
 /** "year", "month" or "day": how precise a partial date (YYYY, YYYY-MM or YYYY-MM-DD) is. */
 export function partialDatePrecision(iso: string): DatePrecision {
     const { month, day } = parsePartialDate(iso);

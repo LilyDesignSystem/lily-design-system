@@ -71,14 +71,19 @@ class EarlyWarningScoreTest {
 }
 
 class DecisionSupportTest {
+    // HC-C8, HC-C15
     @Test fun namesItselfAndRefusesADismissalWithoutAReason() {
         assertEquals("S", DecisionSupportRules.name(null, "S"))
         assertEquals("S", DecisionSupportRules.name("", "S"))
         assertEquals("Alert", DecisionSupportRules.name("Alert", "S"))
-        assertEquals(DismissOutcome.Dismissed(null), DecisionSupportRules.dismiss(false, null))
-        assertEquals(DismissOutcome.Refused, DecisionSupportRules.dismiss(true, null))
-        assertEquals(DismissOutcome.Refused, DecisionSupportRules.dismiss(true, ""))
-        assertEquals(DismissOutcome.Dismissed("patient-declined"), DecisionSupportRules.dismiss(true, "patient-declined"))
+        assertEquals(DismissOutcome.Dismissed(null), DecisionSupportRules.dismiss(emptyList(), null))
+        assertEquals(DismissOutcome.Refused, DecisionSupportRules.dismiss(listOf("patient-declined"), null))
+        assertEquals(DismissOutcome.Refused, DecisionSupportRules.dismiss(listOf("patient-declined"), ""))
+        assertEquals(DismissOutcome.Dismissed("patient-declined"), DecisionSupportRules.dismiss(listOf("patient-declined"), "patient-declined"))
+        // HC-C15: a reason this card does not offer is refused.
+        assertEquals(DismissOutcome.Refused, DecisionSupportRules.dismiss(listOf("renal"), "patient-declined"))
+        assertEquals(listOf("a"), DecisionSupportRules.identity("a", "S", DecisionSupportIndicator.Info, "R"))
+        assertEquals(listOf("S", "info", "R"), DecisionSupportRules.identity(null, "S", DecisionSupportIndicator.Info, "R"))
         assertEquals(4, DecisionSupportRules.warnings("a".repeat(141), "", "", reasonsOffered = true).size)
         assertTrue(DecisionSupportRules.warnings("Short", "Warning", "Formulary", true, "Reason").isEmpty())
         assertTrue(DecisionSupportRules.warnings("Short", "Warning", "Formulary").isEmpty())

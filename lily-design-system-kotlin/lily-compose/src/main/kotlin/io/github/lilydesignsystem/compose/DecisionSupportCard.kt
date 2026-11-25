@@ -55,6 +55,8 @@ private fun LinkText(label: String, url: String) {
 /**
  * @param summary the one-sentence summary (under 140 characters); names the card.
  * @param indicator the urgency; [indicatorLabel] is its words (required: urgency is never colour alone).
+ * @param cardId which card this is (the CDS Hooks uuid with the patient's id). A new one, or without one a new summary, indicator
+ *   or source, clears the chosen reason.
  * @param sourceLabel where the guidance comes from; [sourceUrl] links to it.
  * @param suggestions each a button; [onSuggestion] gets its id.
  * @param dismissLabel the dismiss button's words; no button without them.
@@ -69,6 +71,7 @@ public fun DecisionSupportCard(
     indicatorLabel: String,
     sourceLabel: String,
     modifier: Modifier = Modifier,
+    cardId: String? = null,
     sourceUrl: String? = null,
     suggestions: List<Suggestion> = emptyList(),
     links: List<CardLink> = emptyList(),
@@ -84,8 +87,11 @@ public fun DecisionSupportCard(
     DecisionSupportRules.warnings(summary, indicatorLabel, sourceLabel, overrideReasons.isNotEmpty(), overrideReasonLabel)
         .forEach { LilyWarnings.warn(it) }
     val styles = LocalLilyTextStyles.current
-    var chosen by remember { mutableStateOf<String?>(null) }
-    var refused by remember { mutableStateOf(false) }
+    // A chosen reason belongs to one card, and to the reasons it offers.
+    val identity = DecisionSupportRules.identity(cardId, summary, indicator, sourceLabel)
+    var chosen by remember(identity) { mutableStateOf<String?>(null) }
+    var refused by remember(identity) { mutableStateOf(false) }
+    if (chosen != null && overrideReasons.none { it.code == chosen }) chosen = null
     val reasonsFocus = remember { FocusRequester() }
     Column(
         modifier = modifier.semantics {
@@ -141,7 +147,7 @@ public fun DecisionSupportCard(
                 modifier = Modifier
                     .defaultMinSize(minHeight = LilyMinimumTouchTarget)
                     .clickable(role = Role.Button) {
-                        when (val outcome = DecisionSupportRules.dismiss(overrideReasons.isNotEmpty(), chosen)) {
+                        when (val outcome = DecisionSupportRules.dismiss(overrideReasons.map { it.code }, chosen)) {
                             is DismissOutcome.Dismissed -> onDismiss(outcome.reason)
                             DismissOutcome.Refused -> {
                                 refused = true
