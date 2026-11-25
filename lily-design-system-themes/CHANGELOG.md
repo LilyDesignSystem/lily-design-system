@@ -5,6 +5,12 @@ The format is loosely based on [Keep a Changelog](https://keepachangelog.com/) a
 anything that can change how an existing page lays out. The monorepo's root
 [CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md) has the reasoning behind each change.
 
+## Unreleased
+
+- **Changed (layout):** from 48rem, a table data cell keeps whole words and numbers (`overflow-wrap: break-word`), so a price is not
+  split across lines. Links and code in a cell still wrap anywhere, and so does every cell on a narrower screen. **Watch for:** a column
+  holding a long unbroken value that is neither can be as wide as that value from 48rem. Components: `table`, `data-table`.
+
 ## 0.10.0 — 2026-11-25
 
 - **Fixed:** a `summary-list` whose items have no action showed values beside the wrong labels, in every theme and at every

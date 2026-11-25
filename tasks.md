@@ -4763,12 +4763,15 @@ and unreleased; T8 to T13 are open, and T9 to T12 need people.
       `e2e/clinical-reflow.spec.ts` in three engines, which fails 9 ways on the old pages and 9 on the old themes. Its first run on Linux found Handover 43px too wide in WebKit: a plain select as wide as its longest name; fixed, with a long-name test.)_
 - [ ] **P49-T19 Words and numbers that still split at 320px.** _(2026-11-25: five `/search-and-filter` pages put their table in a
       scroller, measured in three engines; the Nunjucks pages were right, once rebuilt.)_ Left: "System" in SvelteKit's dashboard
-      banner, "remaining" in HTML's. For the maintainer: data cells outside a scroller keep `overflow-wrap: anywhere`, so any plain
-      number there can split (prices did); `break-word` would stop it and let a long value widen a page that has no scroller.
+      banner, "remaining" in HTML's. Decided 2026-11-25: themes keep plain cells whole. At every width it made ordinary tables scroll a
+      320px page sideways (HTML's data-table demo, with words 30 percent longer), so it applies from 48rem; below that, for the maintainer.
       Verify: the `clinical-reflow` measure over those pages in each app.
 - [x] **P49-T20 A summary list showed values beside the wrong labels.** _(2026-11-25: found on SvelteKit's dashboard; all 65 themes,
       at every width, whenever an item has no action; since the grid was written. `e2e/summary-list-pairing.spec.ts` failed in 65 of
       65 themes before and passes in three engines.)_ Not released.
+- [ ] **P49-T21 Component pages that scroll sideways at 320px.** SvelteKit's `kanban-table` (473px), `calendar-month-table` (133),
+      `calendar-week-table` (133) and `heatmap-chart-with-year-of-days` (403). Found 2026-11-25; older than that.
+      Verify: no component page is wider than 320px, in every app.
 
 ---
 

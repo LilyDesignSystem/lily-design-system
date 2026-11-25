@@ -4182,6 +4182,15 @@
     overflow-wrap: break-word;
 }
 
+/* From 48rem every data cell keeps whole words and numbers: the width is there, so nothing needs to split a price. Below it a
+   data cell still wraps anywhere, so a table outside a horizontal-scroller does not widen a narrow page (WCAG 1.4.10). Links and
+   code in a cell keep anywhere at every width. */
+@media (min-width: 48rem) {
+    :where(td) {
+        overflow-wrap: break-word;
+    }
+}
+
 /* ============================================================================
  * Scoped overflow — shared verbatim by all themes.
  *
