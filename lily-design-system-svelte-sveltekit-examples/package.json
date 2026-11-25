@@ -10,7 +10,7 @@
     "dev": "vite dev",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "vitest run",
+    "test": "svelte-kit sync && vitest run",
     "test:e2e": "playwright test",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json"
   },

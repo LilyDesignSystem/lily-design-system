@@ -4692,6 +4692,8 @@ From [spec/quality-review](spec/quality-review/index.md); the numbers in bracket
 - [ ] **P48-T15 A release in dependency order (16, 17).** `bin/release` publishes the packages whose version is new, refreshes the
       dependants' lockfiles and waits for the registry between steps; `--only` in `bin/publish-headless`; a check that no
       lockfile disagrees with its `package.json`. Verify: a dry run of a theme-picker and picker-bar release.
+      _(2026-11-25: `publish-helpers --only lily-design-system-themes` does nothing and exits 0, because no script publishes themes; an
+      `--only` that matches no package must fail. `consumer-smoke` must refuse a checkout that already has installs.)_
 - [ ] **P48-T16 A changelog for every published version (18).** A section per version, or a recorded reason for a stub.
       Verify: a check in `bin/check-package-metadata`.
 - [ ] **P48-T17 Generated counts, smaller files (19).** Counts in `spec/index.md` and `AGENTS/*.md` from the repository; finished
