@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { describe, expect, test } from "vitest";
+import { describe, expect, test, vi } from "vitest";
 
 import { hasEntries, recordListState, watchEntries } from "./record-list-state";
 
@@ -104,5 +104,19 @@ describe("hasEntries", () => {
         stop();
         ul.innerHTML = "<li>Latex</li>";
         expect(await last()).toBe(false);
+    });
+
+    test("watchEntries reads once where nothing can be watched", () => {
+        vi.stubGlobal("MutationObserver", undefined);
+        try {
+            const seen: boolean[] = [];
+            const stop = watchEntries(list("<li>Penicillin</li>"), "x", (found) =>
+                seen.push(found),
+            );
+            expect(seen).toEqual([true]);
+            expect(() => stop()).not.toThrow();
+        } finally {
+            vi.unstubAllGlobals();
+        }
     });
 });

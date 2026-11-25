@@ -41,6 +41,8 @@ function isComponentSource(name) {
             "dev-warning.ts",
             "menu-keys.ts",
             "print-open.ts",
+            "record-list-entries.ts",
+            "record-list-state.ts",
         ].includes(name)
     )
         return false;
