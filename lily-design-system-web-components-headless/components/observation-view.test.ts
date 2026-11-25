@@ -16,7 +16,7 @@ function render(html: string): HTMLElement {
 }
 
 describe("ObservationView", () => {
-    test("renders a span with value, unit, flag and range", () => {
+    test("HC-F4: renders a span with value, unit, flag and range", () => {
         const body = render(
             `<lily-observation-view value="5.9" unit="mmol/L" interpretation="H" flag-label="High" range="3.5–5.3"></lily-observation-view>`,
         );
@@ -29,7 +29,7 @@ describe("ObservationView", () => {
         expect(root.textContent).toContain("5.9 mmol/L");
     });
 
-    test("not-recorded and unavailable show different words, never a blank", () => {
+    test("HC-C3: not-recorded and unavailable show different words, never a blank", () => {
         const a = render(
             `<lily-observation-view status="not-recorded" status-label="Not recorded"></lily-observation-view>`,
         );
@@ -74,7 +74,7 @@ describe("ObservationView", () => {
         expect(body.querySelector(".observation-view")?.hasAttribute("aria-label")).toBe(false);
     });
 
-    test("never infers an interpretation, renders named ranges, and keeps a superseded value", () => {
+    test("HC-C2, HC-C4: never infers an interpretation, renders named ranges, and keeps a superseded value", () => {
         document.body.innerHTML = `<lily-observation-view value="4.8" range="3.5–5.3" ranges='[{"label":"Critical","text":"below 2.5"}]' status="corrected" status-label="Corrected" previous-value="5.1" previous-label="was 5.1 until 3 Nov"></lily-observation-view>`;
         const root = document.querySelector("span.observation-view") as HTMLElement;
         expect(root.hasAttribute("data-interpretation")).toBe(false);

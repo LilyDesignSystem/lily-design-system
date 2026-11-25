@@ -39,7 +39,7 @@ describe("InternationalPatientSummary", () => {
         expect(article.querySelectorAll('[data-status="omitted"]')).toHaveLength(0);
     });
 
-    test("adds each missing required section, in words, after the given sections", () => {
+    test("HC-C10: adds each missing required section, in words, after the given sections", () => {
         const { container } = render(Subject, {
             props: {
                 ...base,

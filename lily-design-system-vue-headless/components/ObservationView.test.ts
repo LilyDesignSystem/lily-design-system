@@ -12,7 +12,7 @@ afterEach(() => {
 });
 
 describe("ObservationView", () => {
-    test("renders a span with value, unit, flag and range", () => {
+    test("HC-F4: renders a span with value, unit, flag and range", () => {
         const { container } = render(Subject, {
             props: {
                 value: "5.9",
@@ -32,7 +32,7 @@ describe("ObservationView", () => {
         expect(root.textContent).toContain("5.9 mmol/L");
     });
 
-    test("not-recorded and unavailable show different words, never a blank", () => {
+    test("HC-C3: not-recorded and unavailable show different words, never a blank", () => {
         const a = render(Subject, {
             props: { status: "not-recorded", statusLabel: "Not recorded" },
         });
@@ -92,7 +92,7 @@ describe("ObservationView", () => {
         expect(root.querySelector(".observation-view-value")).toBeNull();
     });
 
-    test("never infers an interpretation: with a range but no interpretation, no flag and no data", () => {
+    test("HC-C2: never infers an interpretation: with a range but no interpretation, no flag and no data", () => {
         const { container } = render(Subject, {
             props: { value: "5.9", unit: "mmol/L", range: "3.5–5.3" },
         });
@@ -114,7 +114,7 @@ describe("ObservationView", () => {
         expect(ranges[1].textContent).toBe("Critical below 2.5");
     });
 
-    test("a corrected result keeps the superseded value in a del, with words", () => {
+    test("HC-C4: a corrected result keeps the superseded value in a del, with words", () => {
         const { container } = render(Subject, {
             props: {
                 value: "4.8",

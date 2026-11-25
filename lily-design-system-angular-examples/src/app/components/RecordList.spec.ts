@@ -49,7 +49,7 @@ describe("RecordList", () => {
         expect(list.getAttribute("data-status")).toBe(status);
     });
 
-    test("warns when the status is missing", () => {
+    test("HC-C3: warns when the status is missing", () => {
         const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
         mount("", "Vital signs");
         expect(

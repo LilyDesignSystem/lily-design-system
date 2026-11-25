@@ -35,7 +35,7 @@ describe("international-patient-summary", () => {
         expect(article.querySelectorAll('section[data-status="omitted"]')).toHaveLength(0);
     });
 
-    it("adds each missing required section, in words, after the given sections", () => {
+    it("HC-C10: adds each missing required section, in words, after the given sections", () => {
         const { document } = render("international-patient-summary", {
             ...base,
             sections: [{ key: "problems", heading: "Problem list", status: "none-known" }],

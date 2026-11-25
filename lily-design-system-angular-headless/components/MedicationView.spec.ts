@@ -30,7 +30,7 @@ describe("MedicationView", () => {
             expect(root.querySelector(`.medication-view-${name}`)?.textContent).toBe(text);
     });
 
-    test("marks the consumer's tall man segments, and writes none of its own", () => {
+    test("HC-C6: marks the consumer's tall man segments, and writes none of its own", () => {
         const a = mount({ nameSegments: [{ text: "hydr" }, { text: "ALAZINE", tallMan: true }] });
         expect(a.querySelector(".medication-view-name")?.textContent).toBe("hydrALAZINE");
         const marked = a.querySelectorAll(".medication-view-tall-man");

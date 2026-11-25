@@ -4651,7 +4651,7 @@ From [spec/quality-review](spec/quality-review/index.md); the numbers in bracket
 - [x] **P48-T2 No identifier left in a Web Components attribute (8).** _(2026-11-25: `lib/private-value.ts` in all 94 inputs, HC-I3, checked in Chromium, Firefox and WebKit; the three views drop what they were given. Unreleased.)_ The identifier inputs, and `age-view`, `date-time-view`
       and `duration-view` on their hosts. Decide first whether an input may keep `defaultValue`, which form reset needs.
       Verify: a sentinel test over every identifier input and clinical view, as HC-I2 has for the identifier views.
-- [ ] **P48-T3 The register names the catalogs (9).** A catalogs column; `bin/check-healthcare-requirements` requires the id
+- [x] **P48-T3 The register names the catalogs (9).** _(2026-11-25: a generated table, rule by runtime; a citation counts only in a test's name or the comment above it; blanks are P49-T14.)_ A catalogs column; `bin/check-healthcare-requirements` requires the id
       in a test of each, and in a test name or the comment above a test rather than anywhere in the file.
       Verify: removing an id from one catalog's test fails the check.
 - [ ] **P48-T9 The corpus test reads every type back (10).** Dates, durations, proportions and ranges, and a second corpus
@@ -4734,6 +4734,9 @@ and unreleased; T8 to T13 are open, and T9 to T12 need people.
 - [ ] **P49-T13 Which package was tested.** With P48-T3, P48-T6 and P48-T17: for each safety rule, runtime, package version,
       commit, job and outcome, skipped checks included, and one dated release matrix. Verify: one fix traced from its
       requirement to the installed package.
+- [ ] **P49-T14 Fill the register's blanks.** HC-C1, C9, C11 and F15 tested in React, Solid, Vue, Angular, Web Components and
+      Nunjucks, and the component rules cited in Blazor, Swift and Kotlin where they are implemented. Found by P48-T3's table.
+      Verify: the table has no blank that is not explained.
 
 ---
 

@@ -44,7 +44,7 @@ describe("RecordList", () => {
         expect(items[0].textContent).toBe(words);
     });
 
-    test("warns when the status is missing", () => {
+    test("HC-C3: warns when the status is missing", () => {
         const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
         const props = { statusLabel: "Vital signs" } as unknown as Parameters<typeof Subject>[0];
         render(<Subject {...props} />);

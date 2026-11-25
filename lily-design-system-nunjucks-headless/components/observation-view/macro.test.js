@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { render } from "../../test/render.js";
 
 describe("observation-view", () => {
-    it("renders a span with value, unit, flag and range", () => {
+    it("HC-F4: renders a span with value, unit, flag and range", () => {
         const { document } = render("observation-view", {
             value: "5.9",
             unit: "mmol/L",
@@ -19,7 +19,7 @@ describe("observation-view", () => {
         expect(root.textContent).toContain("5.9 mmol/L");
     });
 
-    it("not-recorded and unavailable show different words, never a blank", () => {
+    it("HC-C3: not-recorded and unavailable show different words, never a blank", () => {
         const a = render("observation-view", {
             status: "not-recorded",
             statusLabel: "Not recorded",
@@ -80,7 +80,7 @@ describe("observation-view", () => {
         expect(root.querySelector(".observation-view-value")).toBeNull();
     });
 
-    it("never infers an interpretation, renders named ranges, and keeps a superseded value", () => {
+    it("HC-C2, HC-C4: never infers an interpretation, renders named ranges, and keeps a superseded value", () => {
         const { document } = render("observation-view", {
             value: "4.8",
             range: "3.5–5.3",

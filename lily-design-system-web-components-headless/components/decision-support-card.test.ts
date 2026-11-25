@@ -19,7 +19,7 @@ function render(html: string): HTMLElement {
 describe("DecisionSupportCard", () => {
     const base = `summary="Penicillin allergy recorded" indicator="critical" indicator-label="Critical" source-label="Local formulary"`;
 
-    test("renders a group named by its summary, not a live region, with its detail", () => {
+    test("HC-C7: renders a group named by its summary, not a live region, with its detail", () => {
         const body = render(
             `<lily-decision-support-card ${base}><p>Amoxicillin is a penicillin.</p></lily-decision-support-card>`,
         );
@@ -50,7 +50,7 @@ describe("DecisionSupportCard", () => {
         expect(chosen).toEqual(["cancel", "switch"]);
     });
 
-    test("dismissing without a reason is refused when reasons are offered", async () => {
+    test("HC-C8: dismissing without a reason is refused when reasons are offered", async () => {
         const user = userEvent.setup();
         const body = render(
             `<lily-decision-support-card ${base} dismiss-label="Dismiss" override-reasons=\x27[{"code":"error","display":"Allergy recorded in error"}]\x27 override-reason-label="Reason for dismissing" override-reason-placeholder="Choose a reason"></lily-decision-support-card>`,

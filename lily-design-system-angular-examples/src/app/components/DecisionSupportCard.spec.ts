@@ -21,7 +21,7 @@ function mount(inputs: Record<string, unknown>) {
 }
 
 describe("DecisionSupportCard", () => {
-    test("renders a group named by its summary, not a live region", () => {
+    test("HC-C7: renders a group named by its summary, not a live region", () => {
         const fixture = mount({});
         const card = fixture.nativeElement.querySelector(".decision-support-card") as HTMLElement;
         expect(card.getAttribute("role")).toBe("group");
@@ -55,7 +55,7 @@ describe("DecisionSupportCard", () => {
         expect(chosen).toEqual(["cancel", "switch"]);
     });
 
-    test("dismissing without a reason is refused when reasons are offered", async () => {
+    test("HC-C8: dismissing without a reason is refused when reasons are offered", async () => {
         const user = userEvent.setup();
         const fixture = mount({
             dismissLabel: "Dismiss",

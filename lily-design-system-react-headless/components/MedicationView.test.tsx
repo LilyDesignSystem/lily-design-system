@@ -26,7 +26,7 @@ describe("MedicationView", () => {
             expect(root.querySelector(`.medication-view-${name}`)?.textContent).toBe(text);
     });
 
-    test("marks the consumer's tall man segments, and writes none of its own", () => {
+    test("HC-C6: marks the consumer's tall man segments, and writes none of its own", () => {
         const a = render(
             <Subject nameSegments={[{ text: "hydr" }, { text: "ALAZINE", tallMan: true }]} />,
         );

@@ -12,7 +12,7 @@ const base = {
 };
 
 describe("DecisionSupportCard", () => {
-    test("renders a group named by its summary, not a live region", () => {
+    test("HC-C7: renders a group named by its summary, not a live region", () => {
         render(<Subject {...base} />);
         const card = screen.getByRole("group", { name: "Penicillin allergy recorded" });
         expect(card.getAttribute("data-indicator")).toBe("critical");
@@ -43,7 +43,7 @@ describe("DecisionSupportCard", () => {
         expect(onSuggestion).toHaveBeenLastCalledWith("switch");
     });
 
-    test("dismissing without a reason is refused when reasons are offered", async () => {
+    test("HC-C8: dismissing without a reason is refused when reasons are offered", async () => {
         const user = userEvent.setup();
         const onDismiss = vi.fn();
         render(

@@ -9,7 +9,7 @@ const base = {
 };
 
 describe("decision-support-card", () => {
-    it("renders a group named by its summary, not a live region", () => {
+    it("HC-C7: renders a group named by its summary, not a live region", () => {
         const { document } = render("decision-support-card", base);
         const card = document.querySelector(".decision-support-card");
         expect(card.getAttribute("role")).toBe("group");
