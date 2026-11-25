@@ -4743,7 +4743,7 @@ and unreleased; T8 to T13 are open, and T9 to T12 need people.
       134, `feature-photo`, `theme-provider` and `repeatable-fieldset` the largest. For the maintainer: Svelte's `Button` defaults to
       `type="button"` and Blazor's has no type, so it submits a form; changing it changes existing forms.
       Verify: no listed entry says only "Not ported yet".
-- [ ] **P49-T16 `bin/sync` is overdue and nothing notices.** Run on 2026-11-25 it rewrites 151 `AGENTS` copies, the site's `plan.md`
+- [x] **P49-T16 `bin/sync` is overdue and nothing notices.** _(2026-11-25: synced; `--check` in `bin/test` caught an edit to each kind of source and copy.)_ Run on 2026-11-25 it rewrites 151 `AGENTS` copies, the site's `plan.md`
       and the HTML example's picker scripts, which predate the sorted theme names. Commit its output, run that app's browser tests,
       and give it a `--check`. Its picker scripts come from local `dist` builds, so the check must not depend on them.
       Verify: an edit to `AGENTS/tools.md` with no sync fails `bin/test`.

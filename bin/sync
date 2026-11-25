@@ -1,6 +1,14 @@
 #!/bin/sh
 set -euf
+# bin/sync copies the canonical AGENTS/, themes/, NEWS.md, plan.md and the HTML example's picker scripts to where they are used.
+# bin/sync --check (in bin/test) changes nothing and fails when a copy differs (tasks.md P49-T16). It needs no install and no
+# dist/: each vendored picker script's first line holds a hash of its source and of its own text.
 top="$(git rev-parse --show-toplevel)"
+mode="${1:-}"
+case "$mode" in
+    "" | --check) ;;
+    *) echo "usage: bin/sync [--check]" >&2; exit 2 ;;
+esac
 
 # Helper packages (one top-level subproject each) keep the helper AGENTS/
 # set (conventions, testing, ssr, shared principles) they carried over from
@@ -9,33 +17,134 @@ helper_packages="$(for fw in angular blazor html nunjucks react solid svelte vue
     "$top/bin/list-helper-packages" "$fw"
 done)"
 
-"$top/bin/list-implementations" |
-while read -r implementation; do
+agents_targets="$("$top/bin/list-implementations" | while read -r implementation; do
     case "$implementation" in
-        *-helpers) continue ;;
+        (*-helpers) continue ;;
     esac
     if printf '%s\n' "$helper_packages" | grep -qx -- "$implementation"; then
         continue
     fi
-    rsync -av "$top/AGENTS/" "$top/$implementation/AGENTS/"
-done
+    printf '%s\n' "$implementation"
+done)"
+
+vendored_dir="$top/lily-design-system-html-css-js-examples/assets/js"
+
+# The theme directories, the vendored scripts, and both modes' comparison live in Python: one process, not thousands of cmp.
+copies() {
+    AGENTS_TARGETS="$agents_targets" THEME_TARGETS="$theme_targets" VENDORED="$vendored_dir" python3 - "$top" "$1" <<'PY'
+import hashlib, os, re, subprocess, sys
+from pathlib import Path
+
+top, mode = Path(sys.argv[1]), sys.argv[2]
+vendored = Path(os.environ["VENDORED"])
+STAMP = re.compile(r"^// Vendored by bin/sync from (\S+): source ([0-9a-f]{16}), text ([0-9a-f]{16})\. Do not edit\.\n")
+short = lambda data: hashlib.sha256(data).hexdigest()[:16]
+
+
+def source(name):
+    """Where a vendored script comes from, and a hash of everything in it that reaches the bundle."""
+    if name == "listbox-controller":
+        path = "lily-design-system-html-headless/components/listbox-controller.js"
+        return path, short((top / path).read_bytes())
+    package = f"lily-design-system-html-{name}"
+    files = [
+        f
+        for f in subprocess.run(["git", "ls-files", package], cwd=top, capture_output=True, text=True, check=True).stdout.split()
+        if f.endswith(".ts") and f.count("/") == 1 and not re.search(r"\.test\.ts$|/vitest", f)
+    ]
+    digest = b"".join(f.encode() + b"\0" + (top / f).read_bytes() + b"\0" for f in sorted(files))
+    return package, short(digest)
+
+
+NAMES = ["listbox-controller", "theme-picker", "locale-picker", "text-size-picker"]
+if mode == "stamp":
+    for name in NAMES:
+        file = vendored / f"{name}.js"
+        text = STAMP.sub("", file.read_text(encoding="utf-8"))
+        origin, digest = source(name)
+        file.write_text(
+            f"// Vendored by bin/sync from {origin}: source {digest}, text {short(text.encode())}. Do not edit.\n{text}", encoding="utf-8"
+        )
+    sys.exit(0)
+
+problems = []
+
+
+def same(origin, copy):
+    if not copy.is_file():
+        problems.append(f"missing: {copy.relative_to(top)}")
+    elif origin.read_bytes() != copy.read_bytes():
+        problems.append(f"differs: {copy.relative_to(top)}")
+
+
+def tree(root, pattern="*"):
+    return sorted(f.relative_to(root) for f in root.rglob(pattern) if f.is_file() and f.name != ".DS_Store")
+
+
+agents = tree(top / "AGENTS")
+for target in os.environ["AGENTS_TARGETS"].split():
+    for f in agents:
+        same(top / "AGENTS" / f, top / target / "AGENTS" / f)
+for line in os.environ["THEME_TARGETS"].split():
+    target = top / line
+    for f in tree(top / "themes"):
+        same(top / "themes" / f, target / f)
+    for f in set(tree(target)) - set(tree(top / "themes")):
+        problems.append(f"not in themes/: {(target / f).relative_to(top)}")
+site = top / "lilydesignsystem.github.io/static/assets/themes"
+css = [f for f in tree(top / "themes", "*.css") if len(f.parts) == 1]
+for f in css:
+    same(top / "themes" / f, site / f)
+for f in {f for f in tree(site, "*.css") if len(f.parts) == 1} - set(css):
+    problems.append(f"not in themes/: {(site / f).relative_to(top)}")
+for name in ("NEWS.md", "plan.md"):
+    same(top / name, top / "lilydesignsystem.github.io/src/lib/content" / name)
+for name in NAMES:
+    file = vendored / f"{name}.js"
+    text = file.read_text(encoding="utf-8") if file.is_file() else ""
+    stamp = STAMP.match(text)
+    if not stamp:
+        problems.append(f"no bin/sync stamp: {file.relative_to(top)}")
+        continue
+    origin, digest = source(name)
+    if stamp.group(2) != digest:
+        problems.append(f"older than {origin}: {file.relative_to(top)}")
+    if stamp.group(3) != short(text[stamp.end() :].encode()):
+        problems.append(f"edited by hand: {file.relative_to(top)}")
+for problem in problems[:20]:
+    print(f"sync: {problem}")
+if len(problems) > 20:
+    print(f"sync: and {len(problems) - 20} more")
+if problems:
+    sys.exit("sync: run bin/sync")
+print("sync: every copy matches")
+PY
+}
 
 # The reference themes are canonical at the repo root; the example apps
 # serve them as static assets so the theme-picker helper can swap the
 # managed <link> href at runtime (spec/theme, plan P3). rsync, not
 # symlinks: a copy stays correct when a subproject is packaged or copied out on its own.
-for themes_dest in \
-    "$top/lily-design-system-svelte-sveltekit-examples/static/themes" \
-    "$top/lily-design-system-react-next-examples/public/themes" \
-    "$top/lily-design-system-solid-examples/public/themes" \
-    "$top/lily-design-system-vue-nuxt-examples/public/themes" \
-    "$top/lily-design-system-angular-examples/public/themes" \
-    "$top/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/wwwroot/themes" \
-    "$top/lily-design-system-html-css-js-examples/pages/themes" \
-    "$top/lily-design-system-nunjucks-eleventy-examples/src/themes"
-do
-    mkdir -p "$themes_dest"
-    rsync -a --delete "$top/themes/" "$themes_dest/"
+theme_targets="lily-design-system-svelte-sveltekit-examples/static/themes
+lily-design-system-react-next-examples/public/themes
+lily-design-system-solid-examples/public/themes
+lily-design-system-vue-nuxt-examples/public/themes
+lily-design-system-angular-examples/public/themes
+lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/wwwroot/themes
+lily-design-system-html-css-js-examples/pages/themes
+lily-design-system-nunjucks-eleventy-examples/src/themes"
+
+if [ "$mode" = "--check" ]; then
+    copies check
+    exit $?
+fi
+
+for implementation in $agents_targets; do
+    rsync -av "$top/AGENTS/" "$top/$implementation/AGENTS/"
+done
+for themes_dest in $theme_targets; do
+    mkdir -p "$top/$themes_dest"
+    rsync -a --delete "$top/themes/" "$top/$themes_dest/"
 done
 
 # The docs site loads the same themes at runtime (static/assets/themes/, via
@@ -56,35 +165,31 @@ cp "$top/plan.md" "$top/lilydesignsystem.github.io/src/lib/content/plan.md"
 # its per-route hand-off copies to drift from the canonical component docs.
 "$top/bin/sync-site-component-docs"
 
-# The html example app vendors the picker custom elements (built dist)
-# the same way it vendors everything else: as copied files.
+# The html example app vendors the picker custom elements the same way it vendors everything else: as copied files. They are
+# built here first, so a stale dist/ is never copied.
 #
-# Each built picker imports html-headless's ListboxController by bare
-# package specifier, which a static page with no import map cannot
-# resolve -- the module fails to load and no picker ever registers. So
-# vendor listbox-controller.js alongside the pickers and rewrite the
-# bare import to that sibling file.
-mkdir -p "$top/lily-design-system-html-css-js-examples/pages/assets/js"
-cp "$top/lily-design-system-html-headless/components/listbox-controller.js" \
-    "$top/lily-design-system-html-css-js-examples/pages/assets/js/listbox-controller.js"
-for picker in theme-picker locale-picker text-size-picker; do
-    src="$top/lily-design-system-html-$picker/dist/index.js"
-    if [ -f "$src" ]; then
-        sed 's#"@lilydesignsystem/html-headless/components/listbox-controller.js"#"./listbox-controller.js"#' \
-            "$src" > "$top/lily-design-system-html-css-js-examples/pages/assets/js/$picker.js"
+# Each built picker imports html-headless's ListboxController by bare package specifier, which a static page with no import
+# map cannot resolve -- the module fails to load and no picker ever registers. So vendor listbox-controller.js alongside the
+# pickers and rewrite the bare import to that sibling file.
+#
+# The copies are committed formatted, but their sources are not: the pickers' dist/ is esbuild's two-space output, and
+# html-headless's listbox-controller.js keeps the blank padding that type stripping leaves. The root Prettier formats them.
+prettier="$top/node_modules/.bin/prettier"
+for need in "$prettier" "$top/lily-design-system-html-theme-picker/node_modules/.bin/tsup" \
+    "$top/lily-design-system-html-locale-picker/node_modules/.bin/tsup" \
+    "$top/lily-design-system-html-text-size-picker/node_modules/.bin/tsup"; do
+    if [ ! -x "$need" ]; then
+        echo "bin/sync: $need is missing (run pnpm install there); the vendored HTML example scripts are left as they were" >&2
+        exit 1
     fi
 done
-# The copies are committed formatted, but their sources are not: the pickers' dist/ is
-# esbuild's two-space output, and html-headless's listbox-controller.js keeps the blank padding
-# that type stripping leaves. Format them with the root Prettier, or each run rewrites thousands
-# of lines of whitespace.
-vendored_dir="$top/lily-design-system-html-css-js-examples/pages/assets/js"
-if [ -x "$top/node_modules/.bin/prettier" ]; then
-    for name in listbox-controller theme-picker locale-picker text-size-picker; do
-        if [ -f "$vendored_dir/$name.js" ]; then
-            "$top/node_modules/.bin/prettier" --log-level warn --write "$vendored_dir/$name.js"
-        fi
-    done
-else
-    echo "bin/sync: the root Prettier is not installed (run pnpm install); the vendored HTML example scripts are left unformatted" >&2
-fi
+mkdir -p "$vendored_dir"
+cp "$top/lily-design-system-html-headless/components/listbox-controller.js" "$vendored_dir/listbox-controller.js"
+for picker in theme-picker locale-picker text-size-picker; do
+    (cd "$top/lily-design-system-html-$picker" && node build.js >/dev/null)
+    sed 's#"@lilydesignsystem/html-headless/components/listbox-controller.js"#"./listbox-controller.js"#' \
+        "$top/lily-design-system-html-$picker/dist/index.js" > "$vendored_dir/$picker.js"
+done
+"$prettier" --log-level warn --write "$vendored_dir/listbox-controller.js" "$vendored_dir/theme-picker.js" \
+    "$vendored_dir/locale-picker.js" "$vendored_dir/text-size-picker.js"
+copies stamp

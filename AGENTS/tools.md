@@ -23,7 +23,7 @@ The `bin/` scripts and the Makefile, one line each. Part of the [AGENTS/lily.md]
 - [create-component-directory](../bin/create-component-directory): Scaffold one component directory
 - [create-implementation-directory](../bin/create-implementation-directory): Scaffold one implementation directory
 - [test](../bin/test): Run all tests
-- [sync](../bin/sync): rsync the root `AGENTS/` into every subproject except the helper packages (which keep their own helper `AGENTS/` set), `themes/` into the example apps and the docs site, and `NEWS.md` / `plan.md` into the site
+- [sync](../bin/sync): rsync the root `AGENTS/` into every subproject except the helper packages (which keep their own helper `AGENTS/` set), `themes/` into the example apps and the docs site, and `NEWS.md` / `plan.md` into the site; it builds the HTML example's picker scripts itself, and `--check` (in bin/test) fails when any copy differs, with no install or `dist` needed
 - [sync-special-files](../bin/sync-special-files): Sync the top-level special files (LICENSE, CONTRIBUTING, SECURITY, GOVERNANCE, …) into every subproject
 - [update](../bin/update): Start Claude Code with a standing "update, upgrade, fix, harmonize, audit, test" prompt over every subproject
 - [generate-storybook-stories.mjs](../bin/generate-storybook-stories.mjs): Generate Storybook stories

@@ -161,6 +161,7 @@ exemptions.
 | `themes/*.css`                                                                                       | `bin/generate-theme-contrast`       | `docs/theme-contrast.md`, the site's `src/routes/theme-contrast/+page.svelte`                                                                                                                                                                          | `bin/generate-theme-contrast --check`                                      |
 | the headless tests, the example apps' e2e configs, `docs/screen-reader-matrix.md`                    | `bin/generate-core`                 | `spec/competitive-position/core.json`, `docs/core.md`, `docs/accessibility-conformance-report.md`, `docs/aria-assessment.tsv`, the tables in `docs/aria-assessment.md`, the site's `src/routes/quality/+page.svelte`                                   | `bin/generate-core --check`                                                |
 | Blazor `.cs` and `.razor` source and test files                                                      | `bin/dotnet-format`                 | the same files, formatted in place with `dotnet format whitespace`                                                                                                                                                                                     | `bin/dotnet-format --check`                                                |
+| the root `AGENTS/`, `themes/`, `NEWS.md`, `plan.md`; the HTML picker sources                         | `bin/sync`                          | the `AGENTS/` copies in subprojects, the example apps' and site's themes, the site's `NEWS.md` and `plan.md`, the HTML example app's picker scripts                                                                                                    | `bin/sync --check`                                                         |
 
 `bin/test-generators` (in `bin/test`) runs golden tests over a three-component fixture for `generate-api-docs`,
 `generate-registries`, `generate-examples` and `generate-site-pages`; `--update-goldens` rewrites them.
@@ -170,8 +171,7 @@ The Alpine headless snippets (`lily-design-system-alpine-headless/components/*.{
 with the root Prettier; edit a family, never a snippet. `--check` runs in `bin/test` (when the root install is present) and in CI's
 lint job. Only `middle-truncation` and `wheel-picker` are written by hand.
 
-Also copied rather than generated: `bin/sync` rsyncs the root `AGENTS/` and `themes/` into subprojects, and
-`bin/generate-storybook-stories.mjs` writes Svelte story files. Neither has a `--check`.
+Also written, with no `--check`: `bin/generate-storybook-stories.mjs` writes Svelte story files.
 
 ## Tools
 

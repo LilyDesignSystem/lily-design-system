@@ -519,6 +519,8 @@ fi
     || check_err "a translated site page differs in structure or is missing; run bin/check-site-page-translations"
 "$top/bin/generate-locale-pages" --check >"$CHECKLOG" 2>&1 \
     || check_err "locale page routes are out of date; run bin/generate-locale-pages"
+"$top/bin/sync" --check >"$CHECKLOG" 2>&1 \
+    || check_err "a copy of AGENTS/, themes/, NEWS.md, plan.md or a vendored picker script differs; run bin/sync"
 "$top/bin/sync-special-files" --check >"$CHECKLOG" 2>&1 \
     || check_err "special files are out of sync; run bin/sync-special-files"
 "$top/bin/generate-registries" --check >"$CHECKLOG" 2>&1 \

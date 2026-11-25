@@ -642,7 +642,27 @@ Persistence, the audit chain, access control and redaction are declined. Finding
 [spec/lessons/openehr-rust](spec/lessons/openehr-rust/index.md). Tasks:
 [tasks.md](tasks.md#phase-47--lessons-from-openehr-rust-2026-11-24).
 
-Status (2026-11-24): researched; nothing built. T1 and T2 first; T5, T9 and T10 are maintainer decisions.
+Status (2026-11-24): done. T1 to T3, T5 to T8 and T11 built; T4 tested, and editing a leap second (T4b) declined; T9 and T10
+adopted by the maintainer and built. Limits found the same day are in Phase 48.
+
+## Phase 48 — Quality review (2026-11-24)
+
+A review of the week's commits and specs. The code is in good shape; the claims and the gates are the weak points. In order: correct
+the privacy answer that is wrong, make GitHub CI green with the consumer smoke test running to its end, close the remaining
+attribute leaks in Web Components, find the Blazor coverage flake, make the requirement register and the corpus run say what
+they check, give the filter an undo and a mounted, tested example, make a release one command, and generate the counts the specs
+state by hand. Findings and evidence: [spec/quality-review](spec/quality-review/index.md). Tasks:
+[tasks.md](tasks.md#phase-48--quality-review-2026-11-24).
+
+Status (2026-11-24): reviewed. The label-pack names (T18) are fixed; the rest is not started.
+
+## Phase 49 — Lessons from the project and healthcare audit (2026-11-25)
+
+An audit found the gaps where clinical information is incomplete, withdrawn, withheld or in transit. Its five safety findings,
+the two clinical pages and the hazard log are built; nothing is released. What is left needs people (screen-reader tasks,
+clinical review, a fluent reader, an outside team) or is release evidence. Audit:
+[docs/audits/gpt-6-2-astra-high](docs/audits/gpt-6-2-astra-high/index.md). Tasks:
+[tasks.md](tasks.md#phase-49--lessons-from-the-project-and-healthcare-audit-2026-11-25).
 
 ---
 

@@ -1,3 +1,4 @@
+// Vendored by bin/sync from lily-design-system-html-locale-picker: source d155c35f40b89bdb, text e6531081a76aefb9. Do not edit.
 // locales.ts
 var defaultLocaleLabels = {
     af_NA: "Afrikaans (Namibia)",
@@ -860,7 +861,8 @@ var LocalePicker = class extends HTMLElement {
         let initial = this.value;
         if (!initial && this.storageKey) {
             try {
-                initial = localStorage.getItem(this.storageKey) ?? "";
+                const stored = localStorage.getItem(this.storageKey) ?? "";
+                if (this.#locales.includes(stored)) initial = stored;
             } catch {}
         }
         if (!initial && this.detectFromNavigator && typeof navigator !== "undefined") {

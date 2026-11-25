@@ -1,3 +1,4 @@
+// Vendored by bin/sync from lily-design-system-html-theme-picker: source def18d87ca8e2887, text 035620a27c6f806c. Do not edit.
 // theme-picker.ts
 import { ListboxController } from "./listbox-controller.js";
 
@@ -64,6 +65,21 @@ function watchColorScheme(onChange) {
 function resolveTheme(choice, prefersDark, systemThemes = DEFAULT_SYSTEM_THEMES) {
     if (choice !== SYSTEM_THEME) return choice;
     return prefersDark ? systemThemes.dark : systemThemes.light;
+}
+function pageLanguage() {
+    return (typeof document !== "undefined" && document.documentElement.lang) || void 0;
+}
+function sortThemes(themes, labelOf, locale) {
+    const options = { sensitivity: "base", numeric: true };
+    let collator;
+    try {
+        collator = new Intl.Collator(locale || void 0, options);
+    } catch {
+        collator = new Intl.Collator(void 0, options);
+    }
+    return [...themes].sort(
+        (a, b) => collator.compare(labelOf(a), labelOf(b)) || (a < b ? -1 : a > b ? 1 : 0),
+    );
 }
 function themeChoices(themes, systemLabel) {
     return systemLabel ? [SYSTEM_THEME, ...themes] : [...themes];
@@ -147,6 +163,7 @@ var ThemePicker = class extends HTMLElement {
             "name",
             "extension",
             "theme-labels",
+            "sort-themes",
             "class",
             "open",
             "disabled",
@@ -156,6 +173,9 @@ var ThemePicker = class extends HTMLElement {
     // Backing storage for properties.
     #themes = [];
     #themeLabels = {};
+    // The page's language (`<html lang>`), kept current while connected, so a language change sorts the names again.
+    #language = void 0;
+    #languageObserver = null;
     #target = null;
     #initialised = false;
     // Rendered-DOM references. Null until #render() has run.
@@ -275,20 +295,33 @@ var ThemePicker = class extends HTMLElement {
     }
     /**
      * The first-party cookie that keeps the choice (`Path=/`, `SameSite=Lax`, `Secure` on https, 400 days), so a
-     * server can read it and send the page in the right theme. Attribute `cookie-name`; default `lily-{name}`
-     * (`lily-theme`), `cookie-name=""` sets no cookie. Written only when the choice changes, never on first load.
+     * server can read it and send the page in the right theme. Attribute `cookie-name`; off by default (P41-T5c): name
+     * one, such as `lily-theme`, to keep the choice in a cookie too. Written only when the choice changes, never on load.
      * Setting `null` restores the default.
      */
     get cookieName() {
-        return this.getAttribute("cookie-name") ?? `lily-${this.name}`;
+        return this.getAttribute("cookie-name") ?? "";
     }
     set cookieName(v) {
         if (v === null || v === void 0) this.removeAttribute("cookie-name");
         else this.setAttribute("cookie-name", v);
     }
-    /** The choices offered: "system" first when it has a label, then the themes. */
+    /**
+     * List the themes alphabetically by the name shown, in the page's language. On by default; `sort-themes="false"` keeps the
+     * order of `themes`, for an editorial order. "Follow this device" is first either way.
+     */
+    get sortThemes() {
+        return this.getAttribute("sort-themes") !== "false";
+    }
+    set sortThemes(v) {
+        this.setAttribute("sort-themes", v ? "true" : "false");
+    }
+    /** The choices offered: "system" first when it has a label, then the themes in alphabetical order of the name shown. */
     get #options() {
-        return themeChoices(this.#themes, this.systemLabel || void 0);
+        const themes = this.sortThemes
+            ? sortThemes(this.#themes, (theme) => this.labelFor(theme), this.#language)
+            : this.#themes;
+        return themeChoices(themes, this.systemLabel || void 0);
     }
     /**
      * Also set `<meta name="theme-color">` from the theme's `--lily-brand` once its stylesheet has loaded, so the
@@ -470,6 +503,15 @@ var ThemePicker = class extends HTMLElement {
         if (labelsAttr !== null && Object.keys(this.#themeLabels).length === 0) {
             this.#themeLabels = parseJsonObject(labelsAttr);
         }
+        this.#language = pageLanguage();
+        this.#languageObserver = new MutationObserver(() => {
+            this.#language = pageLanguage();
+            this.#render();
+        });
+        this.#languageObserver.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ["lang"],
+        });
         if (!this.#initialised) {
             this.#initialised = true;
             this.#resolveInitialValue();
@@ -497,6 +539,7 @@ var ThemePicker = class extends HTMLElement {
                 if (this.isConnected && value) this.#applyChoice(value);
                 break;
             case "system-label":
+            case "sort-themes":
                 this.#render();
                 break;
             case "system-themes":
@@ -515,6 +558,8 @@ var ThemePicker = class extends HTMLElement {
         }
     }
     disconnectedCallback() {
+        this.#languageObserver?.disconnect();
+        this.#languageObserver = null;
         this.#tooltip?.destroy();
         document.removeEventListener("click", this.#onDocumentClick);
         this.#listboxController?.destroy();
@@ -534,7 +579,8 @@ var ThemePicker = class extends HTMLElement {
         }
         if (!initial && this.storageKey) {
             try {
-                initial = localStorage.getItem(this.storageKey) ?? "";
+                const stored = localStorage.getItem(this.storageKey) ?? "";
+                if (this.#options.includes(stored)) initial = stored;
             } catch {}
         }
         if (!initial && this.detectFromSystem) {

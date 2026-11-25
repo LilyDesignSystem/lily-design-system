@@ -1,3 +1,4 @@
+// Vendored by bin/sync from lily-design-system-html-text-size-picker: source 0cbeac234785a630, text af07350b70d71b61. Do not edit.
 // text-size-picker.ts
 import { ListboxController } from "./listbox-controller.js";
 var SVG_NS = "http://www.w3.org/2000/svg";
@@ -276,7 +277,8 @@ var TextSizePicker = class extends HTMLElement {
         let initial = this.value;
         if (!initial && this.storageKey) {
             try {
-                initial = localStorage.getItem(this.storageKey) ?? "";
+                const stored = localStorage.getItem(this.storageKey) ?? "";
+                if (this.#sizes.includes(stored)) initial = stored;
             } catch {}
         }
         if (!initial) {

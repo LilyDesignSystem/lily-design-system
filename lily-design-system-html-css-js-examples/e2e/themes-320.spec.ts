@@ -5,7 +5,7 @@ import { test, expect } from "@playwright/test";
 // table raises its column's minimum width: a page whose layout is one `1fr` grid column holding a table grew 47px past a 320px
 // screen. The page below is the content a clinical page holds (a record list, a table in its labelled scroller, a disclosure and
 // long unbroken values) in a `minmax(0, 1fr)` column, which is how a page lays itself out so that none of it can widen the page. It
-// must not scroll sideways in any of the 63 themes. The themes wrap a long value where one lands (a table cell, a link, code, an
+// must not scroll sideways in any theme. The themes wrap a long value where one lands (a table cell, a link, code, an
 // identifier view), never on every paragraph, so each long value below is in one of those.
 const THEMES = readdirSync("../themes")
     .filter((f) => f.endsWith(".css"))
@@ -45,8 +45,12 @@ async function sideways(page: import("@playwright/test").Page, html: string): Pr
     );
 }
 
-test("there are 63 themes to test", () => {
-    expect(THEMES).toHaveLength(63);
+test("every theme with a token file is tested", () => {
+    const tokens = readdirSync("../themes/tokens")
+        .filter((f) => f.endsWith(".json") && f !== "lily.resolver.json")
+        .map((f) => f.replace(/\.json$/, ""));
+    expect(THEMES.length).toBeGreaterThan(0);
+    expect(tokens.sort()).toEqual(THEMES);
 });
 
 for (const theme of THEMES) {

@@ -1,3 +1,4 @@
+// Vendored by bin/sync from lily-design-system-html-headless/components/listbox-controller.js: source 7af9bcb3ea63509b, text bf709048620838b1. Do not edit.
 /**
  * ListboxController — shared WAI-ARIA APG listbox keyboard behaviour.
  *
@@ -72,21 +73,25 @@ function matchesSearch(text, query) {
 }
 
 /**
- * `text` cut into runs, marking the parts any term matches (for `<mark>`). Folding can change a string's length (a precomposed "é"
- * is one character, its folded form too, but a ligature may not be), so matching works on a per-character fold and falls back to
- * one unmarked segment if the two ever disagree.
+ * `text` cut into runs, marking the parts any term matches (for `<mark>`). Matching works per code point: each one is folded
+ * on its own, so a position in the folded text is a position in `text`. A code point that folds to anything but exactly one
+ * code point (a combining mark, which folds to nothing) cannot be mapped back, and then the whole text is one unmarked
+ * segment. An emoji or other astral character folds to itself, so it no longer turns highlighting off (2026-11-22).
  */
 function highlightSegments(text, query) {
     const terms = searchTerms(query);
     if (terms.length === 0 || text === "") return [{ text, match: false }];
     const chars = Array.from(text);
-    const folded = chars.map((c) => foldText(c));
+    const folded = chars.map((c) => Array.from(foldText(c)));
     if (folded.some((f) => f.length !== 1)) return [{ text, match: false }];
-    const flat = folded.join("");
+    const flat = folded.map((f) => f[0]);
     const marked = new Array(chars.length).fill(false);
     for (const term of terms) {
-        for (let at = flat.indexOf(term); at !== -1; at = flat.indexOf(term, at + 1)) {
-            for (let i = at; i < at + term.length; i++) marked[i] = true;
+        const needle = Array.from(term);
+        for (let at = 0; at + needle.length <= flat.length; at++) {
+            if (needle.every((c, k) => flat[at + k] === c)) {
+                for (let i = at; i < at + needle.length; i++) marked[i] = true;
+            }
         }
     }
     const out = [];
@@ -126,11 +131,28 @@ function nextTypeaheadState(previous, key, now, resetMs = TYPEAHEAD_RESET_MS) {
     return { prefix: (continuing ? previous.prefix : "") + key, at: now };
 }
 
+/** Thrown for a `from` that is neither -1 (no row) nor the index of a row: invalid data is an error, never wrapped round. */
+class TypeaheadError extends RangeError {
+    reason;
+    constructor(reason, message) {
+        super(`findTypeaheadMatch: ${message}`);
+        this.name = "TypeaheadError";
+        this.reason = reason;
+    }
+}
+
 /**
- * The index of the row to move to, or -1. Searches from the row after `from` and wraps. A prefix of one repeated letter ("ss") is
+ * The index of the row to move to, or -1. Searches from the row after `from` (-1: from the top) and wraps; a `from` that is
+ * not -1 or a row's index throws a TypeaheadError. A prefix of one repeated letter ("ss") is
  * treated as that single letter, so pressing it again steps through the rows starting with it.
  */
 function findTypeaheadMatch(labels, from, prefix) {
+    if (!Number.isInteger(from) || from < -1 || from >= labels.length) {
+        throw new TypeaheadError(
+            "from",
+            `from ${String(from)} is not -1 or a row of ${labels.length}`,
+        );
+    }
     // Fold each initial separately: a Hangul syllable folds to several Jamo and a CJK ideograph can occupy two UTF-16 units.
     const initials = Array.from(prefix.normalize("NFC"), foldText).filter(Boolean);
     if (initials.length === 0) return -1;
