@@ -213,3 +213,67 @@ test("a section that cannot load says so in words, offers a retry, and announces
     await expect(results).toContainText("Potassium 4.6 mmol/L");
     await expect(page.locator(".patient-summary-results-status")).toHaveText("Results loaded");
 });
+
+test.describe("the patient summary is one patient's (P50-T8)", () => {
+    const banner = (page: import("@playwright/test").Page, name: string) =>
+        page.getByRole("region", { name: `Patient details: ${name}` });
+    const ALEXANDRA = /943 476 5919|3 February 1949|Penicillin|metformin|4\.6 mmol/;
+    const ALEXANDER = /943 476 5870|3 February 1979|amlodipine|3\.9 mmol/;
+
+    test("the banner names the patient with two more identifiers, on screen and in print", async ({
+        page,
+    }) => {
+        await page.goto("/patient-summary");
+        for (const media of ["screen", "print"] as const) {
+            await page.emulateMedia({ media });
+            const details = banner(page, "EXAMPLE, Alexandra");
+            await expect(details).toBeVisible();
+            for (const text of ["EXAMPLE, Alexandra", "3 February 1949", "943 476 5919"])
+                await expect(details.getByText(text, { exact: true })).toBeVisible();
+            await expect(
+                page.getByRole("article", { name: "Patient summary" }).getByRole("region").first(),
+            ).toHaveAccessibleName("Patient details: EXAMPLE, Alexandra");
+        }
+    });
+
+    test("switching patient replaces the banner and every section", async ({ page }) => {
+        await page.goto("/patient-summary");
+        const article = page.getByRole("article", { name: "Patient summary" });
+        await expect(article).toContainText("943 476 5919");
+        await page.getByLabel("Patient", { exact: true }).selectOption("b");
+        await expect(banner(page, "EXAMPLE, Alexander")).toContainText("943 476 5870");
+        await expect(banner(page, "EXAMPLE, Alexandra")).toHaveCount(0);
+        await expect(article).not.toContainText(ALEXANDRA);
+        await expect(article).toContainText("No known allergies");
+        await expect(article).toContainText("amlodipine");
+        await expect(page.locator(".patient-summary-switched")).toHaveText(
+            "Now showing EXAMPLE, Alexander, born 3 February 1979",
+        );
+        expect(await article.innerHTML()).not.toMatch(ALEXANDRA);
+    });
+
+    test("a late answer is never shown under another patient, and a retry is that patient's", async ({
+        page,
+    }) => {
+        await page.goto("/patient-summary");
+        const results = page.getByRole("region", { name: "Results" });
+        const article = page.getByRole("article", { name: "Patient summary" });
+        await results.getByRole("button", { name: "Try again" }).click();
+        await expect(page.locator(".patient-summary-results-status")).toHaveText(
+            "Loading results for EXAMPLE, Alexandra",
+        );
+        await page.getByLabel("Patient", { exact: true }).selectOption("b");
+        await page.waitForTimeout(1200);
+        await expect(results).toHaveAttribute("data-status", "unavailable");
+        await expect(article).not.toContainText(ALEXANDRA);
+        await expect(page.locator(".patient-summary-results-status")).toHaveText("");
+        await results.getByRole("button", { name: "Try again" }).click();
+        await expect(results).toContainText("3.9 mmol/L");
+        await expect(results.locator("[data-results-for]")).toHaveAttribute(
+            "data-results-for",
+            "b",
+        );
+        await page.getByLabel("Patient", { exact: true }).selectOption("a");
+        await expect(article).not.toContainText(ALEXANDER);
+    });
+});

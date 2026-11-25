@@ -2,6 +2,7 @@
     // Ward board (spec/healthcare-ui item 9, P27-T9): every bed's state is words, not colour, and live updates are summarised
     // in one polite status region rather than announced cell by cell, so the board stays usable with a screen reader.
     // e2e/healthcare-pages.spec.ts checks it.
+    import { onMount } from "svelte";
     import Header from "#lib/components/Header/Header.svelte";
     import BackLink from "#lib/components/BackLink/BackLink.svelte";
     import Button from "#lib/components/Button/Button.svelte";
@@ -34,6 +35,10 @@
     const free = $derived(beds.filter((b) => b.state === "free").length);
     const cleaning = $derived(beds.filter((b) => b.state === "cleaning").length);
     const summary = $derived(`${free} free, ${cleaning} being cleaned, of ${beds.length} beds`);
+
+    // A press before the page's script is ready would be lost without a word, so the button waits for it.
+    let ready = $state(false);
+    onMount(() => (ready = true));
 
     function finishCleaning() {
         beds = beds.map((b) => (b.state === "cleaning" ? { ...b, state: "free" } : b));
@@ -99,5 +104,8 @@
         </Table>
     </HorizontalScroller>
 
-    <Button onclick={finishCleaning}>Mark cleaning finished</Button>
+    <Button
+        disabled={!ready}
+        onclick={finishCleaning}>Mark cleaning finished</Button
+    >
 </main>

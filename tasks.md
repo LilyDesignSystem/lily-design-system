@@ -4818,7 +4818,7 @@ each was checked against the source on 2026-11-25, not reproduced in a browser h
 
 ### Examples, privacy and release
 
-- [ ] **P50-T8 The patient summary names its patient.** Compose the patient banner into `/patient-summary`.
+- [x] **P50-T8 The patient summary names its patient.** _(2026-11-25: the banner, two similar invented patients, and a switch that drops a running request; the late-answer test fails without it, in three engines. The ward board's button waits for its script, as a press before it was lost, 1 in 8 in WebKit.)_ Compose the patient banner into `/patient-summary`.
       Verify: switching between two similar names with a request outstanding, in print too.
 - [ ] **P50-T9 What replay and error tools receive.** An independent check of custom-element host attributes and DOM updates
       (`check-phi-attributes` reads Svelte only), with synthetic sentinel values through a record switch, a mask and an error.
