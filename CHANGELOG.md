@@ -23,17 +23,23 @@ From [an audit](docs/audits/gpt-6-2-astra-high/index.md). In the headless packag
 - Web Components: the identifier inputs keep their value out of every attribute, and `age-view`, `duration-view` and
   `date-time-view` no longer leave what they were given on the element.
 - **Fixed:** Blazor `DateTimeView` takes `Value` and `Format` and writes `datetime`; it had neither, and wrote an empty `aria-label`.
-- **Fixed (safety):** in all 65 themes, a `summary-list` without actions showed values beside the wrong labels; each item now starts its own
-  row, and a test checks the pairing in every theme.
-- **Fixed:** the 65 themes no longer split a time or a clinical value across lines in a table cell; six SvelteKit clinical pages put their
-  wide tables in a labelled scroller (five of them scrolled sideways at 320px).
 - **Type change:** in Svelte, React, Solid and Vue, `observation-view` requires `statusLabel` for any `status` but `final`.
   `ObservationViewProps` (React, Solid) is now a type, so an `interface` can no longer extend it; intersect it instead.
 - **Fixed:** Blazor lacked Svelte props that matter to assistive technology: `Fieldset` `Legend`; `Caption` on the calendar, data,
   Gantt and kanban tables; `Scope` on the five header cells (`col` by default); `Pressed` on `Button` and `IconButton`; `Urgent` on
   `Notification` and `Toast`; `Heading`, `Role` and `Live` on `Alert`; `Decorative` on `Icon` and `Character`; `Status` on
   `StepListItem` and `ValidationListItem`. The other 134 gaps are listed (tasks.md P49-T15).
+
+## Release: themes 0.10.0 and the label packs 0.7.0 (2026-11-25)
+
+`@lilydesignsystem/themes` 0.10.0; the `locale-translations` packages 0.7.0 (Solid 0.3.0, Blazor 0.5.0).
+
+- **Fixed:** in all 65 themes, a `summary-list` without actions showed values beside the wrong labels; each item now starts its own
+  row, and a test checks the pairing in every theme.
+- **Fixed:** the 65 themes no longer split a time or a clinical value across lines in a table cell; six SvelteKit clinical pages put their
+  wide tables in a labelled scroller (five of them scrolled sideways at 320px).
 - The text-size names in ten label packs ([spec/label-packs](spec/label-packs/index.md#text-size-names)), still unreviewed.
+- The label packs hold the filter's summary and remove-all strings in all 64 languages (63 unreviewed drafts), for the filters 0.2.0.
 
 ## Release: the filters 0.2.0 and the Web Components identifiers 0.5.0 (2026-11-24)
 

@@ -5,11 +5,11 @@ The format is loosely based on [Keep a Changelog](https://keepachangelog.com/) a
 anything that can change how an existing page lays out. The monorepo's root
 [CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md) has the reasoning behind each change.
 
-## Unreleased
+## 0.10.0 — 2026-11-25
 
-- **Fixed (safety):** a `summary-list` whose items have no action showed values beside the wrong labels, in every theme and at every
+- **Fixed:** a `summary-list` whose items have no action showed values beside the wrong labels, in every theme and at every
   width: the grid has three columns, an item with no action has two cells, and the next label filled the empty one. Each item now
-  starts its own row. **If you use a summary list without actions, upgrade.** Components: `summary-list`, `summary-list-item`.
+  starts its own row. Components: `summary-list`, `summary-list-item`.
 
 - **Fixed (layout):** a `<time>`, a `<data>` or a clinical view component (`observation-view`, `medication-view`, `age-view`,
   `duration-view`, `early-warning-score-view`) in a table data cell keeps its words and numbers whole, and inside a

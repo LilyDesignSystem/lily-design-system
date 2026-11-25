@@ -4740,8 +4740,7 @@ and unreleased; T8 to T13 are open, and T9 to T12 need people.
       Verify: the table has no blank that is not explained.
 - [ ] **P49-T15 Blazor has every Svelte prop, or a recorded reason.** _(2026-11-25: `bin/check-port-logic` compares Blazor too, and
       134 gaps are listed, which may only shrink; the accessibility ones named in the changelog are fixed and tested.)_ Left: the
-      134, `feature-photo`, `theme-provider` and `repeatable-fieldset` the largest. For the maintainer: Svelte's `Button` defaults to
-      `type="button"` and Blazor's has no type, so it submits a form; changing it changes existing forms.
+      134, `feature-photo`, `theme-provider` and `repeatable-fieldset` the largest. Decided 2026-11-25: Blazor's `Button` keeps the browser's default type.
       Verify: no listed entry says only "Not ported yet".
 - [x] **P49-T16 `bin/sync` is overdue and nothing notices.** _(2026-11-25: synced; `--check` in `bin/test` caught an edit to each kind of source and copy.)_ Run on 2026-11-25 it rewrites 151 `AGENTS` copies, the site's `plan.md`
       and the HTML example's picker scripts, which predate the sorted theme names. Commit its output, run that app's browser tests,
