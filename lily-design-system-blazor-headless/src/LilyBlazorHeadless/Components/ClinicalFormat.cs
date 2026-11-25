@@ -239,15 +239,26 @@ public static class ClinicalFormat
     /// <summary>
     /// A partial date written with only the fields it has (openEHR DV_DATE partial forms, FHIR partial dates): a year, a month
     /// and year, or a full date without the weekday. The month is always a word, never a number, and nothing is invented.
+    /// A year or a month is Gregorian, as ISO 8601 records it, and can fall in two years or months of another calendar, so it is
+    /// not converted: it is written in the Gregorian calendar, with the era when the culture's own calendar is another. Calendars
+    /// whose years and months are Gregorian's (Thai Buddhist, Taiwan, Korean) convert it, and a full date always converts.
     /// </summary>
     public static string FormatPartialDate(string iso, CultureInfo culture, bool shortMonth = false)
     {
         ArgumentNullException.ThrowIfNull(culture);
         var (year, month, day) = ParsePartialDate(iso);
         var date = new DateTime(year, month ?? 1, day ?? 1, 0, 0, 0, DateTimeKind.Unspecified);
+        var format = culture.DateTimeFormat;
+        var keepsGregorian = day is null && format.Calendar is not (GregorianCalendar or ThaiBuddhistCalendar or TaiwanCalendar or KoreanCalendar);
+        if (keepsGregorian)
+        {
+            format = (DateTimeFormatInfo)format.Clone();
+            format.Calendar = culture.OptionalCalendars.OfType<GregorianCalendar>().FirstOrDefault()
+                ?? throw new ArgumentException("the culture has no Gregorian calendar to write a partial date in", nameof(culture));
+        }
         string pattern;
         if (month is null) pattern = "yyyy";
-        else if (day is null) pattern = culture.DateTimeFormat.YearMonthPattern;
+        else if (day is null) pattern = format.YearMonthPattern;
         else
         {
             // The culture's long date, without the weekday the record does not state, and without a leading zero on the day.
@@ -255,7 +266,8 @@ public static class ClinicalFormat
             pattern = System.Text.RegularExpressions.Regex.Replace(pattern, @"(?<!d)dd(?!d)", "d");
         }
         if (shortMonth) pattern = pattern.Replace("MMMM", "MMM");
-        return date.ToString(pattern, culture).Trim();
+        if (keepsGregorian && !pattern.Contains('g')) pattern += " g";
+        return date.ToString(pattern, keepsGregorian ? format : culture).Trim();
     }
 
     /// <summary>

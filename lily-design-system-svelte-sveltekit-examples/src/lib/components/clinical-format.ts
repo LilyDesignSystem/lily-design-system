@@ -412,6 +412,9 @@ export function hasWords(text: string | null | undefined): boolean {
     return typeof text === "string" && /[\p{L}\p{N}]/u.test(text);
 }
 
+// Calendars whose years and months start and end with the Gregorian ones.
+const ALIGNED_CALENDARS = ["gregory", "iso8601", "buddhist", "roc"];
+
 /** "year", "month" or "day": how precise a partial date (YYYY, YYYY-MM or YYYY-MM-DD) is. */
 export function partialDatePrecision(iso: string): DatePrecision {
     const { month, day } = parsePartialDate(iso);
@@ -424,6 +427,11 @@ export function partialDatePrecision(iso: string): DatePrecision {
  * A partial date written with only the fields it has, through Intl.DateTimeFormat: a year alone, a month and year, or a full
  * date. The month is a word ("long" by default, or "short"), never a number, so 03/04 can never be misread. It never adds a
  * day or a month the record does not have. Calendar dates have no time zone, so they are formatted in UTC.
+ *
+ * A year or a month is Gregorian, as ISO 8601 records it, and can fall in two years or months of another calendar (January 2026
+ * is in Tevet and in Shevat 5786), so it is not converted: it is written in the Gregorian calendar, with the era when the locale's
+ * own calendar is another. Calendars whose years and months are Gregorian's (Buddhist, ROC) convert it, and a full date always
+ * converts, since a day is one day in every calendar.
  */
 export function formatPartialDate(
     iso: string,
@@ -434,9 +442,13 @@ export function formatPartialDate(
     const { year, month, day } = parsePartialDate(iso);
     const date = new Date(Date.UTC(2000, (month ?? 1) - 1, day ?? 1));
     date.setUTCFullYear(year);
+    const keepsGregorian =
+        day === undefined &&
+        !ALIGNED_CALENDARS.includes(new Intl.DateTimeFormat(locale).resolvedOptions().calendar);
     return new Intl.DateTimeFormat(locale, {
         timeZone: "UTC",
         year: "numeric",
+        ...(keepsGregorian ? { calendar: "gregory", era: "short" } : {}),
         ...(month !== undefined ? { month: options.month ?? "long" } : {}),
         ...(day !== undefined ? { day: "numeric" } : {}),
     }).format(date);

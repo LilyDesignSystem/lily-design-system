@@ -307,6 +307,52 @@ describe("formatPartialDate", () => {
         expect(formatPartialDate("2019-12-31", "en-GB")).toBe("31 December 2019");
     });
 
+    // A partial date covers a whole Gregorian month or year, which can fall in two months or years of another calendar.
+    const inCalendar = (iso: string, locale: string, options: Intl.DateTimeFormatOptions) =>
+        new Intl.DateTimeFormat(locale, { timeZone: "UTC", ...options }).format(new Date(iso));
+
+    test.each([
+        "fa-IR",
+        "en-US-u-ca-hebrew",
+        "en-US-u-ca-persian",
+        "en-US-u-ca-islamic-umalqura",
+        "en-US-u-ca-ethiopic",
+        "en-US-u-ca-coptic",
+        "en-US-u-ca-indian",
+        "en-US-u-ca-chinese",
+        "en-US-u-ca-dangi",
+        "en-US-u-ca-japanese",
+    ])("HC-F9: %s: a month or a year keeps the calendar it was recorded in", (locale) => {
+        const gregorian = { calendar: "gregory", era: "short", year: "numeric" } as const;
+        expect(formatPartialDate("2026-01", locale)).toBe(
+            inCalendar("2026-01-15", locale, { ...gregorian, month: "long" }),
+        );
+        expect(formatPartialDate("2026", locale)).toBe(inCalendar("2026-06-15", locale, gregorian));
+        // The same words for the first and the last day, so neither interval is claimed.
+        expect(inCalendar("2026-01-01", locale, { ...gregorian, month: "long" })).toBe(
+            inCalendar("2026-01-31", locale, { ...gregorian, month: "long" }),
+        );
+    });
+
+    test("HC-F9: a full date still converts, since a day is one day in every calendar", () => {
+        expect(formatPartialDate("2026-01-31", "en-US-u-ca-hebrew")).toBe("13 Shevat 5786");
+        expect(formatPartialDate("2026-01-01", "fa-IR")).toBe(
+            inCalendar("2026-01-01", "fa-IR", { year: "numeric", month: "long", day: "numeric" }),
+        );
+    });
+
+    test("HC-F9: a calendar whose months and years are Gregorian's converts a partial date", () => {
+        expect(formatPartialDate("2026", "th-TH")).toContain("2569");
+        expect(formatPartialDate("2026-01", "en-US-u-ca-roc")).toContain("115");
+    });
+
+    test("HC-F9: a Gregorian locale writes no era", () => {
+        expect(formatPartialDate("2026-01", "en-GB")).toBe("January 2026");
+        expect(formatPartialDate("2026", "ar-EG")).toBe(
+            inCalendar("2026-06-15", "ar-EG", { year: "numeric" }),
+        );
+    });
+
     test("refuses what is not a partial date", () => {
         for (const bad of [
             "19",

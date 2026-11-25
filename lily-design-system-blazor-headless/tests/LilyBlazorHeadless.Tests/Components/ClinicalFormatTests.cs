@@ -120,6 +120,35 @@ public class ClinicalFormatTests
         Assert.Equal(expected, ClinicalFormat.FormatPartialDate(iso, CultureInfo.GetCultureInfo(culture)));
     }
 
+    // HC-F9: a year or a month keeps the calendar it was recorded in.
+    [Theory]
+    [InlineData("fa-IR")]
+    [InlineData("ar-SA")]
+    [InlineData("ps-AF")]
+    [InlineData("he-IL", "HebrewCalendar")]
+    [InlineData("ja-JP", "JapaneseCalendar")]
+    public void FormatPartialDate_does_not_convert_a_year_or_a_month(string name, string? calendar = null)
+    {
+        var culture = (CultureInfo)CultureInfo.GetCultureInfo(name).Clone();
+        if (calendar is not null) culture.DateTimeFormat.Calendar = culture.OptionalCalendars.Single(c => c.GetType().Name == calendar);
+        var gregorian = (DateTimeFormatInfo)culture.DateTimeFormat.Clone();
+        gregorian.Calendar = culture.OptionalCalendars.OfType<GregorianCalendar>().First();
+        var month = ClinicalFormat.FormatPartialDate("2026-01", culture);
+        Assert.Contains("2026", month);
+        Assert.Contains(gregorian.GetEraName(1), month);
+        Assert.Contains("2026", ClinicalFormat.FormatPartialDate("2026", culture));
+        // A full date still converts.
+        Assert.DoesNotContain("2026", ClinicalFormat.FormatPartialDate("2026-01-31", culture));
+    }
+
+    // HC-F9: a calendar whose months and years are Gregorian's converts a partial date; a Gregorian culture writes no era.
+    [Fact]
+    public void FormatPartialDate_converts_where_the_months_and_years_are_the_same()
+    {
+        Assert.Contains("2569", ClinicalFormat.FormatPartialDate("2026-01", CultureInfo.GetCultureInfo("th-TH")));
+        Assert.Equal("January 2026", ClinicalFormat.FormatPartialDate("2026-01", CultureInfo.GetCultureInfo("en-GB")));
+    }
+
     [Theory]
     [InlineData("19")]
     [InlineData("2019-3")]
