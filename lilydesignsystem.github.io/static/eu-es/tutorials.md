@@ -121,7 +121,25 @@ Eman erabiltzaileei gaia, hizkuntza, testu-tamaina, mugimendua, bilaketa, orri-e
 
 ~15 minutu
 
-](https://lilydesignsystem.com/eu-es/tutorials/helpers/)
+](https://lilydesignsystem.com/eu-es/tutorials/helpers/) [
+
+### International Patient Summary
+
+`SvelteKit` · `HL7 FHIR` · `IPS`
+
+](https://lilydesignsystem.com/tutorials/international-patient-summary/) [
+
+### Electronic Patient Record
+
+`SvelteKit` · `EPR`
+
+](https://lilydesignsystem.com/tutorials/electronic-patient-record/) [
+
+### Patient Administration System
+
+`SvelteKit` · `PAS`
+
+](https://lilydesignsystem.com/tutorials/patient-administration-system/)
 
 ## Tutorialen ondoren
 

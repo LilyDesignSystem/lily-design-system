@@ -121,7 +121,25 @@ Gitt de Benotzer Kontroll iwwer Thema, Sprooch, Textgréisst, Bewegung, Sich, S�
 
 ~15 Minutten
 
-](https://lilydesignsystem.com/lb-lu/tutorials/helpers/)
+](https://lilydesignsystem.com/lb-lu/tutorials/helpers/) [
+
+### International Patient Summary
+
+`SvelteKit` · `HL7 FHIR` · `IPS`
+
+](https://lilydesignsystem.com/tutorials/international-patient-summary/) [
+
+### Electronic Patient Record
+
+`SvelteKit` · `EPR`
+
+](https://lilydesignsystem.com/tutorials/electronic-patient-record/) [
+
+### Patient Administration System
+
+`SvelteKit` · `PAS`
+
+](https://lilydesignsystem.com/tutorials/patient-administration-system/)
 
 ## No den Tutorialen
 

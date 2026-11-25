@@ -119,7 +119,25 @@ Eleventy மற்றும் எந்த Node வார்ப்புரு 
 
 ~15 நிமிடங்கள்
 
-](https://lilydesignsystem.com/ta-001/tutorials/helpers/)
+](https://lilydesignsystem.com/ta-001/tutorials/helpers/) [
+
+### International Patient Summary
+
+`SvelteKit` · `HL7 FHIR` · `IPS`
+
+](https://lilydesignsystem.com/tutorials/international-patient-summary/) [
+
+### Electronic Patient Record
+
+`SvelteKit` · `EPR`
+
+](https://lilydesignsystem.com/tutorials/electronic-patient-record/) [
+
+### Patient Administration System
+
+`SvelteKit` · `PAS`
+
+](https://lilydesignsystem.com/tutorials/patient-administration-system/)
 
 ## பயிற்சிகளுக்குப் பிறகு
 

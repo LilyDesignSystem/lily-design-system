@@ -121,7 +121,25 @@ Eleventy మరియు ఏదైనా Node టెంప్లేట్ పై
 
 ~15 నిమిషాలు
 
-](https://lilydesignsystem.com/te-001/tutorials/helpers/)
+](https://lilydesignsystem.com/te-001/tutorials/helpers/) [
+
+### International Patient Summary
+
+`SvelteKit` · `HL7 FHIR` · `IPS`
+
+](https://lilydesignsystem.com/tutorials/international-patient-summary/) [
+
+### Electronic Patient Record
+
+`SvelteKit` · `EPR`
+
+](https://lilydesignsystem.com/tutorials/electronic-patient-record/) [
+
+### Patient Administration System
+
+`SvelteKit` · `PAS`
+
+](https://lilydesignsystem.com/tutorials/patient-administration-system/)
 
 ## ట్యుటోరియల్స్ తర్వాత
 

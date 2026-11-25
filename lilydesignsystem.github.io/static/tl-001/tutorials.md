@@ -121,7 +121,25 @@ Bigyan ang mga user ng kontrol sa tema, wika, laki ng teksto, galaw, paghahanap,
 
 ~15 minuto
 
-](https://lilydesignsystem.com/tl-001/tutorials/helpers/)
+](https://lilydesignsystem.com/tl-001/tutorials/helpers/) [
+
+### International Patient Summary
+
+`SvelteKit` · `HL7 FHIR` · `IPS`
+
+](https://lilydesignsystem.com/tutorials/international-patient-summary/) [
+
+### Electronic Patient Record
+
+`SvelteKit` · `EPR`
+
+](https://lilydesignsystem.com/tutorials/electronic-patient-record/) [
+
+### Patient Administration System
+
+`SvelteKit` · `PAS`
+
+](https://lilydesignsystem.com/tutorials/patient-administration-system/)
 
 ## Pagkatapos ng mga tutorial
 

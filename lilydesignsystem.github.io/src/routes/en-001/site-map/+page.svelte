@@ -58,6 +58,9 @@
         { href: '/tutorials/forms/', label: 'Forms' },
         { href: '/tutorials/theming/', label: 'Theming' },
         { href: '/tutorials/worldwide/', label: 'Worldwide' },
+        { href: '/tutorials/international-patient-summary/', label: 'International Patient Summary' },
+        { href: '/tutorials/electronic-patient-record/', label: 'Electronic patient record' },
+        { href: '/tutorials/patient-administration-system/', label: 'Patient administration system' },
         { href: '/tutorials/shadcn/', label: 'shadcn-compatible registry' },
         { href: '/training/', label: 'Training' }
       ]

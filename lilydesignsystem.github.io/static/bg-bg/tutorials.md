@@ -121,7 +121,25 @@ Description: Уроци за Lily стъпка по стъпка: първият
 
 ~15 минути
 
-](https://lilydesignsystem.com/bg-bg/tutorials/helpers/)
+](https://lilydesignsystem.com/bg-bg/tutorials/helpers/) [
+
+### International Patient Summary
+
+`SvelteKit` · `HL7 FHIR` · `IPS`
+
+](https://lilydesignsystem.com/tutorials/international-patient-summary/) [
+
+### Electronic Patient Record
+
+`SvelteKit` · `EPR`
+
+](https://lilydesignsystem.com/tutorials/electronic-patient-record/) [
+
+### Patient Administration System
+
+`SvelteKit` · `PAS`
+
+](https://lilydesignsystem.com/tutorials/patient-administration-system/)
 
 ## След уроците
 

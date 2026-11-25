@@ -121,7 +121,25 @@ Gi brukerne kontroll over tema, språk, tekststørrelse, bevegelse, søk, sidele
 
 ~15 minutter
 
-](https://lilydesignsystem.com/nb-no/tutorials/helpers/)
+](https://lilydesignsystem.com/nb-no/tutorials/helpers/) [
+
+### International Patient Summary
+
+`SvelteKit` · `HL7 FHIR` · `IPS`
+
+](https://lilydesignsystem.com/tutorials/international-patient-summary/) [
+
+### Electronic Patient Record
+
+`SvelteKit` · `EPR`
+
+](https://lilydesignsystem.com/tutorials/electronic-patient-record/) [
+
+### Patient Administration System
+
+`SvelteKit` · `PAS`
+
+](https://lilydesignsystem.com/tutorials/patient-administration-system/)
 
 ## Etter veiledningene
 

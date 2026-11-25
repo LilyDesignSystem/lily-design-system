@@ -30,7 +30,7 @@ JOBS=(verify lint helper-packages headless html-headless dotnet-tests dotnet-hel
     example-unit-tests eleventy-example alpine-examples consumer-smoke shadcn-registry spell-check shared-tests coverage-floor security-audit)
 # Run weekly (.github/workflows/example-browser-suites.yml) and by name, not by --full: every Playwright spec of every app takes
 # about an hour in three browsers (tasks.md P49-T17).
-WEEKLY_JOBS=(example-browser-suites)
+WEEKLY_JOBS=(example-browser-suites tutorials)
 HELPER_FRAMEWORKS=(svelte react vue angular html web-components nunjucks alpine solid)
 HEADLESS_CATALOGS=(lily-design-system-svelte-headless lily-design-system-svelte-headless-identifiers lily-design-system-react-headless lily-design-system-react-headless-identifiers lily-design-system-vue-headless lily-design-system-vue-headless-identifiers
     lily-design-system-angular-headless lily-design-system-angular-headless-identifiers lily-design-system-nunjucks-headless lily-design-system-nunjucks-headless-identifiers lily-design-system-web-components-headless lily-design-system-web-components-headless-identifiers
@@ -321,6 +321,16 @@ job_example_browser_suites() {
         step "example-browser-suites: $app" example_browser_suite "$app" || failed=1
     done
     return "$failed"
+}
+
+# The project tutorials as a reader follows them: scaffolds each app and installs from npm (spec/tutorials).
+tutorials() {
+    (cd lilydesignsystem.github.io && pnpm install --frozen-lockfile)
+    bin/check-tutorials
+}
+
+job_tutorials() {
+    step "tutorials" tutorials
 }
 
 eleventy_example() {

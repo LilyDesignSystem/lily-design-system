@@ -1,0 +1,393 @@
+#!/usr/bin/env node
+// bin/check-tutorials — the project tutorials work, as a reader would follow them (spec/tutorials).
+//
+// For each tutorial: scaffold a new SvelteKit app, install what the page says from npm, copy each code block that has a
+// `data-file` off the page into that file, then type-check, run the tutorial's own tests, make each mistake the page says a
+// test will catch (a test must fail), and drive the app in Chromium with axe at 320 pixels wide.
+//
+// It installs from npm, so it is not in bin/test: `bin/ci --job tutorials`, weekly. --syntax only reads the pages (in bin/test):
+// every block parses, no file is shown twice, and the next-step links name routes that exist.
+//
+// Usage: bin/check-tutorials [--syntax] [--repeat=N] [slug ...]   (--repeat drives each app N times)
+
+const fs = require("node:fs");
+const os = require("node:os");
+const path = require("node:path");
+const { spawn, spawnSync } = require("node:child_process");
+
+const top = path.join(__dirname, "..");
+const site = path.join(top, "lilydesignsystem.github.io");
+const pageOf = (slug) => path.join(site, "src/routes/tutorials", slug, "+page.svelte");
+
+// `mistakes` are [file, from, to]: the changes the pages promise a test will catch, and the rules the pages name.
+const TUTORIALS = {
+    "international-patient-summary": {
+        tests: 7,
+        mistakes: [
+            [
+                "src/lib/ips/summary.ts",
+                'case undefined:\n      return "not-recorded"',
+                'case undefined:\n      return "none-known"',
+            ],
+            ["src/lib/ips/summary.ts", 'entries.length > 0 && said === "none-known"', "false"],
+            ["src/lib/ips/summary.ts", "missing.push(reference)", "undefined"],
+        ],
+    },
+    "electronic-patient-record": {
+        tests: 9,
+        mistakes: [
+            ["src/lib/server/match.ts", 'x === "" || y === "" ? null : x === y', "x === y"],
+            ["src/lib/server/history.ts", "throw new StaleVersion()", "undefined"],
+            ["src/lib/server/store.ts", "this.#say(user, patientId, false);", ""],
+            ["src/lib/server/store.ts", "allergy.patientId !== patientId", "false"],
+        ],
+    },
+    "patient-administration-system": {
+        tests: 14,
+        serve: "dev",
+        mistakes: [
+            ["src/lib/server/pas.ts", 'appointment.urgent ? "held" : "cancelled"', '"cancelled"'],
+            ["src/lib/reminders.ts", 'appointment.status === "held"', "false"],
+            ["src/lib/server/links.ts", "!link.used && ", ""],
+            ["src/lib/views.ts", "    timeZone,\n    year", '    timeZone: "UTC",\n    year'],
+        ],
+    },
+};
+
+function readPage(slug) {
+    const source = fs.readFileSync(pageOf(slug), "utf8");
+    const files = new Map();
+    const problems = [];
+    const commands = [];
+    for (const [, attrs, expr] of source.matchAll(
+        /<pre([^>]*)><code>\{([\s\S]*?)\}<\/code><\/pre>/g,
+    )) {
+        const text = String(new Function("return (" + expr + ");")());
+        const file = (attrs.match(/data-file="([^"]+)"/) || [])[1];
+        if (!file) commands.push(text);
+        else if (files.has(file)) problems.push(`${file} is shown twice`);
+        else if (file.includes("..") || path.isAbsolute(file))
+            problems.push(`${file} is outside the app`);
+        else files.set(file, text.endsWith("\n") ? text : text + "\n");
+    }
+    for (const [, href] of source
+        .replace(/<pre[\s\S]*?<\/pre>/g, "")
+        .matchAll(/href="(\/[^"#]*)"/g))
+        if (!fs.existsSync(path.join(site, "src/routes", href, "+page.svelte")))
+            problems.push(`${href} is not a page`);
+    for (const [file, from] of TUTORIALS[slug].mistakes)
+        if ((files.get(file) ?? "").split(from).length !== 2)
+            problems.push(`${file}: a mistake to make is not there once: ${from}`);
+    return { files, commands, problems };
+}
+
+function run(cwd, command, args, quiet = true) {
+    const r = spawnSync(command, args, { cwd, encoding: "utf8", env: { ...process.env, CI: "1" } });
+    if (r.status !== 0 && quiet) console.error((r.stdout + r.stderr).slice(-3000));
+    return r;
+}
+
+function must(ok, what) {
+    if (!ok) throw new Error(what);
+    console.log(`  ok: ${what}`);
+}
+
+// The built app, not the dev server: that reloads a module now and then, which empties an app's in-memory store. The patient
+// administration app marks its cookie Secure when built, which a browser drops over http, so it alone runs in dev.
+async function browse(dir, port, mode, flow) {
+    const server = spawn(
+        "npx",
+        ["vite", mode, "--port", String(port), "--strictPort", "--host", "127.0.0.1"],
+        { cwd: dir, detached: true, stdio: "ignore" },
+    );
+    const { chromium } = require(path.join(site, "node_modules/@playwright/test"));
+    const { default: AxeBuilder } = require(path.join(site, "node_modules/@axe-core/playwright"));
+    const browser = await chromium.launch();
+    try {
+        const base = `http://127.0.0.1:${port}`;
+        for (let i = 0; ; i++) {
+            if (
+                await fetch(base).then(
+                    () => true,
+                    () => false,
+                )
+            )
+                break;
+            if (i > 60) throw new Error("the app did not start");
+            await new Promise((r) => setTimeout(r, 1000));
+        }
+        const context = await browser.newContext({
+            viewport: { width: 320, height: 800 },
+            locale: "en-GB",
+        });
+        const page = await context.newPage();
+        const crashes = [];
+        page.on("pageerror", (e) => crashes.push(e.message));
+        const go = async (url, on = page) => {
+            const response = await on.goto(base + url);
+            await on.waitForLoadState("networkidle");
+            return response.status();
+        };
+        const accessible = async (what) => {
+            const { violations } = await new AxeBuilder({ page })
+                .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
+                .analyze();
+            must(violations.length === 0, `${what} passes axe ${violations.map((v) => v.id)}`);
+            must(
+                await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
+                `${what} does not scroll sideways at 320px`,
+            );
+        };
+        const see = async (locator, text, what) => {
+            await locator
+                .filter({ hasText: text })
+                .first()
+                .waitFor({ timeout: 10_000 })
+                .catch(() => {});
+            const shown = (await locator.filter({ hasText: text }).count()) > 0;
+            if (!shown) {
+                const on = locator.page();
+                console.error(
+                    `  at ${on.url()}: ${(await on.locator("body").innerText()).replace(/\s+/g, " ").slice(0, 600)}`,
+                );
+            }
+            must(shown, what);
+        };
+        await flow({ page, context, browser, base, go, accessible, see });
+        must(crashes.length === 0, `no page crashed ${crashes}`);
+    } finally {
+        await browser.close();
+        try {
+            process.kill(-server.pid);
+        } catch {
+            // already gone
+        }
+    }
+}
+
+const FLOWS = {
+    async "international-patient-summary"({ page, go, accessible, see }) {
+        await go("/");
+        await page.getByRole("button", { name: "Open the example" }).click();
+        await see(
+            page.getByRole("region", { name: /EXAMPLE, Alexandra/ }),
+            "EX-000123",
+            "the banner has two identifiers",
+        );
+        await see(
+            page.locator("main"),
+            "Latex Refuted: not an allergy",
+            "a refuted allergy says so",
+        );
+        await see(
+            page.locator("main"),
+            "This does not mean there are none",
+            "an unavailable section says so",
+        );
+        await accessible("the summary");
+        await page
+            .locator("#file")
+            .setInputFiles({
+                name: "x.json",
+                mimeType: "application/json",
+                buffer: Buffer.from("no"),
+            });
+        await see(page.getByRole("alert"), "not JSON", "a bad file is refused in words");
+        must(
+            (await page.locator("article").count()) === 0,
+            "a bad file leaves no earlier patient on the page",
+        );
+    },
+    async "electronic-patient-record"({ page, context, go, accessible, see }) {
+        const register = async (values) => {
+            await go("/patients/new");
+            for (const [id, value] of Object.entries(values))
+                await page.locator("#" + id).fill(value);
+            await page.getByRole("button", { name: "Register" }).click();
+        };
+        await register({
+            family: "Example",
+            given: "Alexandra",
+            birthDate: "1949-02-03",
+            number: "EX-000123",
+        });
+        const banner = page.locator(".patient-banner");
+        await see(banner, "Allergies not recorded", "a new patient's allergies are not recorded");
+        await page.waitForLoadState("networkidle");
+        const address = new URL(page.url()).pathname;
+        await page.getByRole("button", { name: "Record no known allergies" }).click();
+        await see(banner, "No known allergies", "none known can be recorded");
+        await page.locator("#substance").fill("Penicillin");
+        await page.getByRole("button", { name: "Add allergy" }).click();
+        await see(banner, "Penicillin", "an allergy can be added");
+        must(
+            !(await banner.innerText()).includes("No known allergies"),
+            "the allergy ends the statement",
+        );
+        await page.getByRole("button", { name: "Record no known allergies" }).click();
+        await see(
+            page.getByRole("status"),
+            "active allergy",
+            "none known is refused beside an allergy",
+        );
+        const second = await context.newPage();
+        await go(address, second);
+        await page.getByLabel("Why change Penicillin?").fill("Tolerated since");
+        await page.getByRole("button", { name: "End Penicillin" }).click();
+        await see(page.getByRole("status"), "Saved", "an allergy can be ended");
+        await second.getByLabel("Why change Penicillin?").fill("Mistake");
+        await second.getByRole("button", { name: /entered in error/ }).click();
+        await see(second.getByRole("status"), "Nothing was saved", "a stale change is refused");
+        await accessible("the record");
+        await go(address + "/access");
+        await see(page.locator("li"), "Read, for direct care", "reads are audited");
+        await register({
+            family: "example",
+            given: "Alexander",
+            birthDate: "1949-02-03",
+            number: "",
+        });
+        await see(
+            page.getByRole("alert"),
+            "Hospital number: not enough to compare",
+            "a possible duplicate is explained",
+        );
+        await accessible("the duplicate check");
+        must((await go("/patients/nobody")) === 404, "an unknown patient is not found");
+    },
+    async "patient-administration-system"({ page, browser, base, go, accessible, see }) {
+        const signIn = async (who) => {
+            await go("/signin");
+            await page.getByRole("button", { name: who }).click();
+            await page.getByRole("heading", { name: "Patient administration" }).waitFor();
+        };
+        await go("/appointments");
+        must(page.url().endsWith("/signin"), "a staff page asks for sign-in");
+        await signIn("Sign in as a patient");
+        must((await go("/appointments")) === 403, "a patient is refused");
+        await signIn("Sign in as staff");
+        await go("/appointments");
+        await page.getByRole("button", { name: "Agenda" }).click();
+        await see(
+            page.locator("main"),
+            "Physiotherapy: Booked",
+            "appointments show on the calendar",
+        );
+        await accessible("the calendar");
+        await go("/waitlist");
+        await see(page.locator("main"), "Urgent", "the priority is a word");
+        await accessible("the waiting list");
+        await go("/reminders");
+        await page.getByRole("button", { name: "Make a reply link for Breast clinic" }).click();
+        const link = page.getByRole("link", { name: "open it as the patient" });
+        await link.waitFor();
+        const href = await link.getAttribute("href");
+        await accessible("the reminders");
+        const patient = await (await browser.newContext({ locale: "en-GB" })).newPage();
+        for (let i = 0; i < 2; i++) await go(href, patient);
+        await patient.getByRole("button", { name: "I cannot come" }).click();
+        await see(
+            patient.getByRole("status"),
+            "someone will phone",
+            "an urgent cancellation is held",
+        );
+        await go(href, patient);
+        await see(patient.locator("main"), "has been used", "a link works once");
+        await go("/reminders");
+        await see(
+            page.locator("li", { hasText: "Breast clinic" }),
+            "Phone the patient",
+            "someone is asked to phone",
+        );
+    },
+};
+
+async function check(slug, port, repeat) {
+    const { files, commands, problems } = readPage(slug);
+    if (problems.length) throw new Error(problems.join("; "));
+    const dir = path.join(fs.mkdtempSync(path.join(os.tmpdir(), "lily-tutorial-")), "app");
+    console.log(`${slug}: ${files.size} files in ${dir}`);
+    must(
+        run(top, "npx", [
+            "--yes",
+            "sv@latest",
+            "create",
+            dir,
+            "--template",
+            "minimal",
+            "--types",
+            "ts",
+            "--no-add-ons",
+            "--install",
+            "pnpm",
+        ]).status === 0,
+        "the app scaffolds",
+    );
+    const adds = [
+        ...commands
+            .join("\n")
+            .replace(/\\\n/g, " ")
+            .matchAll(/^\s*pnpm (add .+)$/gm),
+    ].map((m) => m[1].trim().split(/\s+/));
+    must(
+        adds.length > 0 && adds.every((args) => run(dir, "pnpm", args).status === 0),
+        "the packages on the page install",
+    );
+    for (const [file, text] of files) {
+        fs.mkdirSync(path.dirname(path.join(dir, file)), { recursive: true });
+        fs.writeFileSync(path.join(dir, file), text);
+    }
+    must(run(dir, "pnpm", ["run", "check"]).status === 0, "it type-checks");
+    const { tests, mistakes } = TUTORIALS[slug];
+    const result = run(dir, "npx", ["vitest", "run", "--no-color"]);
+    must(
+        result.status === 0 && new RegExp(`Tests\\s+${tests} passed`).test(result.stdout),
+        `its ${tests} tests pass`,
+    );
+    for (const [file, from, to] of mistakes) {
+        const target = path.join(dir, file);
+        fs.writeFileSync(
+            target,
+            files.get(file).replace(from, () => to),
+        );
+        const failed = /Tests\s+\d+ failed/.test(
+            run(dir, "npx", ["vitest", "run", "--no-color"], false).stdout,
+        );
+        fs.writeFileSync(target, files.get(file));
+        must(failed, `a test catches: ${from.split("\n").pop().trim()}`);
+    }
+    must(run(dir, "pnpm", ["run", "build"]).status === 0, "it builds");
+    await browse(dir, port, TUTORIALS[slug].serve ?? "preview", FLOWS[slug]);
+    for (let i = 1; i < repeat; i++)
+        await browse(dir, port, TUTORIALS[slug].serve ?? "preview", FLOWS[slug]);
+    console.log("  left in " + dir);
+}
+
+(async () => {
+    const args = process.argv.slice(2);
+    const slugs = args.filter((a) => !a.startsWith("-"));
+    const unknown = slugs.filter((s) => !TUTORIALS[s]);
+    if (unknown.length) {
+        console.error(`check-tutorials: no such tutorial: ${unknown}`);
+        process.exit(1);
+    }
+    let failed = 0;
+    for (const [i, slug] of (slugs.length ? slugs : Object.keys(TUTORIALS)).entries()) {
+        try {
+            if (args.includes("--syntax")) {
+                const { files, problems } = readPage(slug);
+                if (problems.length) throw new Error(problems.join("; "));
+                console.log(`check-tutorials: ${slug}: ${files.size} files`);
+            } else
+                await check(
+                    slug,
+                    4460 + i,
+                    Number((args.find((a) => a.startsWith("--repeat=")) ?? "=1").split("=")[1]),
+                );
+        } catch (e) {
+            failed++;
+            console.error(`check-tutorials: ${slug}: ${e.message}`);
+        }
+    }
+    process.exit(failed ? 1 : 0);
+})();

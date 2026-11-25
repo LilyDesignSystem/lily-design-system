@@ -121,7 +121,25 @@ Svelte 5 runes、代码片段搭 `bind:value` 双向绑定。
 
 约 15 分钟
 
-](https://lilydesignsystem.com/wuu-001/tutorials/helpers/)
+](https://lilydesignsystem.com/wuu-001/tutorials/helpers/) [
+
+### International Patient Summary
+
+`SvelteKit` · `HL7 FHIR` · `IPS`
+
+](https://lilydesignsystem.com/tutorials/international-patient-summary/) [
+
+### Electronic Patient Record
+
+`SvelteKit` · `EPR`
+
+](https://lilydesignsystem.com/tutorials/electronic-patient-record/) [
+
+### Patient Administration System
+
+`SvelteKit` · `PAS`
+
+](https://lilydesignsystem.com/tutorials/patient-administration-system/)
 
 ## 教程之后
 

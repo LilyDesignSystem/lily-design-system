@@ -4868,6 +4868,30 @@ Popover API, form reset, coarse-pointer targets, forced colours, reduced motion,
 comparison, component contracts on the site, training (P35-T5), the playground (P22-T22), stale counts (P48-T17), adopter lint rules.
 Declined: the assessments' metrics (stars, downloads, coverage, open issues), which cite no source; IE11; a 20-second `bin/test`.
 
+## Phase 51 — Project tutorials (2026-11-25)
+
+Requested by the maintainer: tutorials that teach how to build three of our projects, each leading on to the real one. Contract:
+[spec/tutorials](spec/tutorials/index.md).
+
+- [x] **P51-T1 `/tutorials/international-patient-summary/`.** Read a FHIR document, and show it without losing or guessing anything.
+- [x] **P51-T2 `/tutorials/electronic-patient-record/`.** Append-only versions, duplicates, allergies, an audit of reads.
+- [x] **P51-T3 `/tutorials/patient-administration-system/`.** Reminders that end with a person, reply links, calendar, waiting list.
+      _(T1 to T3, 2026-11-25: written from apps built against the published packages. `bin/check-tutorials` rebuilds each from a
+      fresh scaffold, runs its 7, 9 and 14 tests, makes eleven mistakes that a test must catch, and drives it with axe at 320px;
+      four times over, no failure. English only, listed on `/tutorials/` in 64 languages by the projects' own names. Writing them
+      found T6 to T8, and a fault in the PAS itself, reported to the maintainer.)_
+- [ ] **P51-T4 Publish the docs site** with the three pages (`make publish-github-pages`; the maintainer says when).
+- [ ] **P51-T5 A developer new to Lily follows one, start to end.** Verify: what stopped them, and the fix. _(Needs a person.)_
+- [ ] **P51-T6 `labelsFor("calendar", en)` does not compile in strict TypeScript.** The documented call: a JSON pack's `direction` is
+      `string`, and `LabelPack` asks for `"ltr" | "rtl"`. Published 0.6.0; not checked in 0.7.0. The tutorial casts.
+      Verify: the documented call type-checks from a JSON import in each TypeScript catalog.
+- [ ] **P51-T7 A calendar given events and no `day` snippet draws none, and says nothing.** Its count still reads "2 of 2 match", and
+      axe passes. A development warning, or the titles by default. Verify: a test in each catalog.
+- [ ] **P51-T8 The project tutorials' finished apps in the example apps?** Or a repository to clone. Decide with T5.
+- [ ] **P51-T9 The docs site's browser tests run nowhere.** Found 2026-11-25: 15 of 4,137 fail, all `framework-icons.spec.ts`, which
+      expects ten icons on one row; Swift and Kotlin made twelve. (`locale-pages.spec.ts` expected nine, and is fixed.)
+      Verify: the row at twelve icons is decided and tested, and the suite runs weekly.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.

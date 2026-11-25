@@ -36,6 +36,10 @@ actually live.
   guides — your first component, styling, ready-made themes, and
   preference helpers — for HTML, Svelte, React, Vue, Angular, Blazor, and
   Nunjucks, each under `/tutorials/{framework}/`.
+- [Project tutorials](https://lilydesignsystem.com/tutorials/): build a small
+  [International Patient Summary viewer](https://lilydesignsystem.com/tutorials/international-patient-summary/),
+  [electronic patient record](https://lilydesignsystem.com/tutorials/electronic-patient-record/) or
+  [patient administration system](https://lilydesignsystem.com/tutorials/patient-administration-system/), whole files, tested.
 - [Examples](https://lilydesignsystem.com/examples/): worked example
   apps showing how to style Lily components in every supported framework.
 - [Compare](https://lilydesignsystem.com/compare/): how Lily

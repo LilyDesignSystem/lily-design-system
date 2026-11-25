@@ -121,7 +121,25 @@ Rhowch reolaeth i ddefnyddwyr dros thema, iaith, maint testun, symudiad, chwilio
 
 ~15 munud
 
-](https://lilydesignsystem.com/cy-ar/tutorials/helpers/)
+](https://lilydesignsystem.com/cy-ar/tutorials/helpers/) [
+
+### International Patient Summary
+
+`SvelteKit` · `HL7 FHIR` · `IPS`
+
+](https://lilydesignsystem.com/tutorials/international-patient-summary/) [
+
+### Electronic Patient Record
+
+`SvelteKit` · `EPR`
+
+](https://lilydesignsystem.com/tutorials/electronic-patient-record/) [
+
+### Patient Administration System
+
+`SvelteKit` · `PAS`
+
+](https://lilydesignsystem.com/tutorials/patient-administration-system/)
 
 ## Ar ôl y tiwtorialau
 

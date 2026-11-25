@@ -121,7 +121,25 @@ theme-picker, locale-picker, text-size-picker, motion-picker, search-picker, lin
 
 ~15 ನಿಮಿಷಗಳು
 
-](https://lilydesignsystem.com/kn-001/tutorials/helpers/)
+](https://lilydesignsystem.com/kn-001/tutorials/helpers/) [
+
+### International Patient Summary
+
+`SvelteKit` · `HL7 FHIR` · `IPS`
+
+](https://lilydesignsystem.com/tutorials/international-patient-summary/) [
+
+### Electronic Patient Record
+
+`SvelteKit` · `EPR`
+
+](https://lilydesignsystem.com/tutorials/electronic-patient-record/) [
+
+### Patient Administration System
+
+`SvelteKit` · `PAS`
+
+](https://lilydesignsystem.com/tutorials/patient-administration-system/)
 
 ## ಟ್ಯುಟೋರಿಯಲ್‌ಗಳ ನಂತರ
 

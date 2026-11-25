@@ -121,7 +121,25 @@ Donnez aux utilisateurs le contrôle du thème, de la langue, de la taille du te
 
 ~15 minutes
 
-](https://lilydesignsystem.com/fr-fr/tutorials/helpers/)
+](https://lilydesignsystem.com/fr-fr/tutorials/helpers/) [
+
+### International Patient Summary
+
+`SvelteKit` · `HL7 FHIR` · `IPS`
+
+](https://lilydesignsystem.com/tutorials/international-patient-summary/) [
+
+### Electronic Patient Record
+
+`SvelteKit` · `EPR`
+
+](https://lilydesignsystem.com/tutorials/electronic-patient-record/) [
+
+### Patient Administration System
+
+`SvelteKit` · `PAS`
+
+](https://lilydesignsystem.com/tutorials/patient-administration-system/)
 
 ## Après les tutoriels
 

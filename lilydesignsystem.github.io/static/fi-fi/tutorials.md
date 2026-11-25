@@ -121,7 +121,25 @@ Anna käyttäjille hallinta teemaan, kieleen, tekstikokoon, liikkeeseen, hakuun,
 
 ~15 minuuttia
 
-](https://lilydesignsystem.com/fi-fi/tutorials/helpers/)
+](https://lilydesignsystem.com/fi-fi/tutorials/helpers/) [
+
+### International Patient Summary
+
+`SvelteKit` · `HL7 FHIR` · `IPS`
+
+](https://lilydesignsystem.com/tutorials/international-patient-summary/) [
+
+### Electronic Patient Record
+
+`SvelteKit` · `EPR`
+
+](https://lilydesignsystem.com/tutorials/electronic-patient-record/) [
+
+### Patient Administration System
+
+`SvelteKit` · `PAS`
+
+](https://lilydesignsystem.com/tutorials/patient-administration-system/)
 
 ## Opetusohjelmien jälkeen
 

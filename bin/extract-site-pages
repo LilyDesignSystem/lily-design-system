@@ -60,9 +60,12 @@ function extract(slug, route = slug, introOnly = false) {
   const codeSample = formattedCode
     ? /<pre([^>]*)>\s*<code([^>]*)>\s*\{([\s\S]*?)\}\s*<\/code\s*>\s*<\/pre\s*>/g
     : /<pre([^>]*)><code()>\{([\s\S]*?)\}<\/code><\/pre>/g;
+  const samples = [];
   body = body.replace(codeSample, (_, attrs, codeAttrs, expr) => {
     const value = new Function("return (" + expr + ");")();
-    return `<pre${attrs}><code${codeAttrs}>${esc(String(value))}</code></pre>`;
+    // Set the finished sample aside, so nothing below reads its text as Svelte or as an inline literal.
+    samples.push(`<pre${attrs}><code${codeAttrs}>${esc(String(value))}</code></pre>`);
+    return `\u0000${samples.length - 1}\u0000`;
   });
   const literal = /\{(`(?:[^`\\]|\\.)*`)\}/g;
   body = body.replace(/<!--[\s\S]*?-->/g, "");
@@ -75,6 +78,7 @@ function extract(slug, route = slug, introOnly = false) {
   if (/\{[#@:/]|\{\s*[A-Za-z_$]/.test(body.replace(/<pre[\s\S]*?<\/pre>/g, "").replace(literal, ""))) throw new Error(slug + ": unexpected Svelte syntax left in the body");
   // Inline literals: {`{framework}`} renders the text {framework}.
   body = body.replace(literal, (_, lit) => esc(String(new Function("return (" + lit + ");")())));
+  body = body.replace(/\u0000(\d+)\u0000/g, (_, i) => samples[Number(i)].replace(/[ \t]+$/gm, ""));
   body = body.replace(/\n{3,}/g, "\n\n").trim() + "\n";
   const clean = (s) => s.replace(/\s+/g, " ").trim();
   return `<!-- title: ${clean(title)} -->\n<!-- description: ${clean(desc || "")} -->\n${body}`;

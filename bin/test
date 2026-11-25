@@ -418,6 +418,8 @@ implemented_everywhere_or_err
 "$top/bin/check-picker-icons" >"$CHECKLOG" 2>&1 \
     || check_err "a picker icon breaks the icon contract; run bin/check-picker-icons"
 # The recipes layer (tasks.md P22-T27): real slugs, parsing markup, named controls, existing ids.
+"$top/bin/check-tutorials" --syntax >"$CHECKLOG" 2>&1 \
+    || check_err "a project tutorial page is not whole; run bin/check-tutorials --syntax"
 "$top/bin/check-recipes" >"$CHECKLOG" 2>&1 \
     || check_err "a recipe is not a sound composition of catalog components; run bin/check-recipes"
 "$top/bin/check-theme-references" --offline >"$CHECKLOG" 2>&1 \

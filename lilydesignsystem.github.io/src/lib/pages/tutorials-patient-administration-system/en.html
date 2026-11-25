@@ -1,0 +1,873 @@
+<!-- title: Patient administration system tutorial — Lily Design System -->
+<!-- description: Build a small patient administration system, step by step, with SvelteKit and Lily: appointments, a waiting list, reminders that escalate to a person, and safe reply links. -->
+<section class="page-intro">
+  <h1>Patient administration system tutorial</h1>
+  <p class="page-intro-tagline">Appointments, a waiting list, and reminders that never leave a silent patient behind. You finish with a small working app, and the way to the full project.</p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>What you'll build</h2>
+
+  <p>A small patient administration system: a clinic calendar, a waiting list, reminders that end with a person picking up the phone, and a link by which a patient confirms or cancels. It is administrative: it holds no diagnosis and no result. About 90 minutes.</p>
+
+  <p>It leads to the open-source <a href="https://github.com/patient-administration-system/patient-administration-system">Patient Administration System</a>, whose site is <a href="https://patient-administration-system.github.io/">patient-administration-system.github.io</a>. That project is built for the NHS in Wales, is tested, and is not yet in use with real patients.</p>
+
+  <div class="callout">
+    <p style="margin: 0;"><strong>For learning only.</strong> Use invented people, never a real person's details.</p>
+  </div>
+
+  <h2>Before you start</h2>
+
+  <p>You need Node 26, pnpm, and a little Svelte: the <a href="/tutorials/svelte/">Svelte tutorial</a> is enough. Make the app, then add Lily:</p>
+
+  <pre tabindex="0"><code>npx sv create pas --template minimal --types ts --no-add-ons --install pnpm
+cd pas
+pnpm add @lilydesignsystem/svelte-headless @lilydesignsystem/themes \
+  @lilydesignsystem/svelte-calendar @lilydesignsystem/svelte-kanban-board \
+  @lilydesignsystem/svelte-locale-translations
+pnpm add -D vitest @types/node</code></pre>
+
+  <p>Each code block below is one whole file, under the path shown above it. Copy it as it is, replacing the file if the new app already has one.</p>
+
+  <h2>Step 1: Choose a theme</h2>
+
+  <p><code>src/routes/+layout.svelte</code></p>
+
+  <pre tabindex="0" data-file="src/routes/+layout.svelte"><code>&lt;script lang="ts"&gt;
+  import "@lilydesignsystem/themes/light.css";
+  import type { LayoutProps } from "./$types";
+
+  let { children }: LayoutProps = $props();
+&lt;/script&gt;
+
+{@render children()}</code></pre>
+
+  <h2>Step 2: Describe the work</h2>
+
+  <p><code>src/lib/types.ts</code></p>
+
+  <pre tabindex="0" data-file="src/lib/types.ts"><code>// Administrative data only: no diagnosis, no result, no medicine. A person is an opaque id; who they
+// are belongs to the identity service.
+
+export interface Appointment {
+  id: string;
+  personId: string;
+  service: string;
+  /** An instant, in UTC. */
+  start: string;
+  status: "booked" | "confirmed" | "cancelled" | "held";
+  /** On an urgent pathway a cancellation is held for a person, never done by a link. */
+  urgent: boolean;
+}
+
+export interface Wait {
+  id: string;
+  personId: string;
+  service: string;
+  priority: "urgent" | "routine";
+  status: "waiting" | "booked" | "treated" | "removed";
+}
+
+export interface Contact {
+  optedOut: boolean;
+  /** Reminders already sent for the appointment, as days before it. */
+  sent: number[];
+  replied: boolean;
+}
+
+export type Role = "staff" | "patient";</code></pre>
+
+  <p>A person is an id and nothing more. Who they are belongs to another service, so a copy of this database names nobody.</p>
+
+  <h2>Step 3: Decide the next step</h2>
+
+  <p><code>src/lib/reminders.ts</code></p>
+
+  <pre tabindex="0" data-file="src/lib/reminders.ts"><code>import type { Appointment, Contact } from "./types.js";
+
+export type Step =
+  | { kind: "send"; daysBefore: number }
+  | { kind: "phone" }
+  | { kind: "nothing"; why: "cancelled" | "replied" | "opted-out" | "past" | "quiet" | "not-yet" };
+
+const DAY = 86_400_000;
+const LADDER = [7, 4, 3, 1];
+
+/** The hour in the clinic's own time zone, not the server's. */
+const hourIn = (timeZone: string, now: Date) =&gt;
+  Number(new Intl.DateTimeFormat("en-GB", { timeZone, hour: "2-digit", hourCycle: "h23" }).format(now));
+
+/** What to do next about one appointment. Pure: the clock is an argument, so every case is a test. */
+export function nextStep(
+  appointment: Appointment,
+  contact: Contact,
+  now: Date,
+  timeZone: string,
+): Step {
+  if (appointment.status === "cancelled") return { kind: "nothing", why: "cancelled" };
+  const daysLeft = (Date.parse(appointment.start) - now.getTime()) / DAY;
+  if (daysLeft &lt;= 0) return { kind: "nothing", why: "past" };
+  // The patient was told that someone will phone, so someone is asked to.
+  if (appointment.status === "held") return { kind: "phone" };
+  if (contact.replied) return { kind: "nothing", why: "replied" };
+
+  const due = LADDER.filter((days) =&gt; daysLeft &lt;= days);
+  const step = due.at(-1);
+  if (step === undefined) return { kind: "nothing", why: "not-yet" };
+
+  // An opt-out stops messages. It never stops a person from being looked after.
+  if (contact.optedOut) return step === 1 ? { kind: "phone" } : { kind: "nothing", why: "opted-out" };
+
+  if (!contact.sent.includes(step)) {
+    const hour = hourIn(timeZone, now);
+    if (hour &lt; 8 || hour &gt;= 20) return { kind: "nothing", why: "quiet" };
+    return { kind: "send", daysBefore: step };
+  }
+  // Every message has gone unanswered, so a person phones. Silence is never a reason to discharge.
+  return step === 1 ? { kind: "phone" } : { kind: "nothing", why: "not-yet" };
+}</code></pre>
+
+  <p>Read it as policy, because it is:</p>
+
+  <ul>
+    <li><strong>Silence goes to a person.</strong> When every message is unanswered, someone phones. A missed message never removes anyone from a list.</li>
+    <li><strong>An opt-out stops messages, not care.</strong></li>
+    <li><strong>Quiet hours are the clinic's</strong>, in its time zone, and not the server's.</li>
+    <li><strong>A held cancellation asks for a call</strong>, even though the patient replied, because the patient was told that someone would phone.</li>
+  </ul>
+
+  <h2>Step 4: Test the policy</h2>
+
+  <p>The clock is an argument, so every case is one line.</p>
+
+  <p><code>src/lib/reminders.test.ts</code></p>
+
+  <pre tabindex="0" data-file="src/lib/reminders.test.ts"><code>import { describe, expect, it } from "vitest";
+import { nextStep } from "./reminders.js";
+import type { Appointment, Contact } from "./types.js";
+
+const appointment: Appointment = {
+  id: "a1",
+  personId: "p1",
+  service: "Physiotherapy",
+  start: "2026-12-10T10:00:00Z",
+  status: "booked",
+  urgent: false,
+};
+const contact: Contact = { optedOut: false, sent: [], replied: false };
+const on = (now: string, c: Partial&lt;Contact&gt; = {}, a: Partial&lt;Appointment&gt; = {}) =&gt;
+  nextStep({ ...appointment, ...a }, { ...contact, ...c }, new Date(now), "Europe/London");
+
+describe("nextStep", () =&gt; {
+  it("waits, then sends the first reminder at seven days", () =&gt; {
+    expect(on("2026-12-01T10:00:00Z")).toEqual({ kind: "nothing", why: "not-yet" });
+    expect(on("2026-12-03T12:00:00Z")).toEqual({ kind: "send", daysBefore: 7 });
+  });
+
+  it("does not send one twice, and sends only the newest after a gap", () =&gt; {
+    expect(on("2026-12-03T12:00:00Z", { sent: [7] })).toEqual({ kind: "nothing", why: "not-yet" });
+    expect(on("2026-12-07T12:00:00Z", { sent: [7] })).toEqual({ kind: "send", daysBefore: 3 });
+  });
+
+  it("asks a person to phone when every message goes unanswered", () =&gt; {
+    expect(on("2026-12-09T12:00:00Z", { sent: [7, 4, 3, 1] })).toEqual({ kind: "phone" });
+  });
+
+  it("stops when the patient replies, cancels or has been seen", () =&gt; {
+    expect(on("2026-12-09T12:00:00Z", { replied: true })).toMatchObject({ why: "replied" });
+    expect(on("2026-12-09T12:00:00Z", {}, { status: "cancelled" })).toMatchObject({ why: "cancelled" });
+    expect(on("2026-12-10T10:00:00Z")).toMatchObject({ why: "past" });
+  });
+
+  it("asks a person to phone when a cancellation is held, though the patient replied", () =&gt; {
+    expect(on("2026-12-03T22:00:00Z", { replied: true }, { status: "held" })).toEqual({ kind: "phone" });
+  });
+
+  it("never messages someone who opted out, and still has a person phone", () =&gt; {
+    expect(on("2026-12-03T12:00:00Z", { optedOut: true })).toMatchObject({ why: "opted-out" });
+    expect(on("2026-12-09T12:00:00Z", { optedOut: true })).toEqual({ kind: "phone" });
+  });
+
+  it("keeps quiet hours in the clinic's time zone", () =&gt; {
+    expect(on("2026-12-03T22:00:00Z")).toMatchObject({ why: "quiet" });
+    const tokyo = nextStep(appointment, contact, new Date("2026-12-03T12:00:00Z"), "Asia/Tokyo");
+    expect(tokyo).toMatchObject({ why: "quiet" });
+  });
+});</code></pre>
+
+  <pre tabindex="0"><code>npx vitest run</code></pre>
+
+  <h2>Step 5: Make safe reply links</h2>
+
+  <p><code>src/lib/server/links.ts</code></p>
+
+  <pre tabindex="0" data-file="src/lib/server/links.ts"><code>import { createHash, randomBytes } from "node:crypto";
+
+interface Link {
+  appointmentId: string;
+  expires: number;
+  used: boolean;
+}
+
+const hash = (token: string) =&gt; createHash("sha256").update(token).digest("hex");
+
+/** Reply links. Only the hash is kept, so a copy of the table opens nobody's appointment. */
+export class Links {
+  #links = new Map&lt;string, Link&gt;();
+
+  issue(appointmentId: string, expires: Date): string {
+    const token = randomBytes(32).toString("base64url");
+    this.#links.set(hash(token), { appointmentId, expires: expires.getTime(), used: false });
+    return token;
+  }
+
+  /** Look, without using it up: a mail scanner that opens the link changes nothing. */
+  peek(token: string, now: Date): string | undefined {
+    const link = this.#links.get(hash(token));
+    return link &amp;&amp; !link.used &amp;&amp; now.getTime() &lt; link.expires ? link.appointmentId : undefined;
+  }
+
+  /** Use it, once. */
+  use(token: string, now: Date): string | undefined {
+    const appointmentId = this.peek(token, now);
+    if (appointmentId) this.#links.get(hash(token))!.used = true;
+    return appointmentId;
+  }
+}</code></pre>
+
+  <p>Only a hash is stored, so a copy of the table opens nobody's appointment. A link works once, and it expires.</p>
+
+  <h2>Step 6: Keep the appointments</h2>
+
+  <p><code>src/lib/server/pas.ts</code></p>
+
+  <pre tabindex="0" data-file="src/lib/server/pas.ts"><code>import type { Appointment, Contact, Wait } from "../types.js";
+import { Links } from "./links.js";
+
+const DAY = 86_400_000;
+const NOON = Math.floor(Date.now() / DAY) * DAY + DAY / 2;
+const inDays = (days: number) =&gt; new Date(NOON + days * DAY).toISOString();
+
+export type Outcome = "confirmed" | "cancelled" | "held";
+
+/** In memory, for learning: everything is lost when the server stops. */
+export class Pas {
+  links = new Links();
+  #appointments = new Map&lt;string, Appointment&gt;();
+  #contacts = new Map&lt;string, Contact&gt;();
+  waits: Wait[] = [];
+  audit: { at: string; what: string; id: string }[] = [];
+
+  book(appointment: Appointment, contact: Partial&lt;Contact&gt; = {}) {
+    this.#appointments.set(appointment.id, appointment);
+    this.#contacts.set(appointment.id, { optedOut: false, sent: [], replied: false, ...contact });
+  }
+
+  appointments(): Appointment[] {
+    return [...this.#appointments.values()];
+  }
+
+  appointment(id: string): Appointment | undefined {
+    return this.#appointments.get(id);
+  }
+
+  contact(id: string): Contact | undefined {
+    return this.#contacts.get(id);
+  }
+
+  /** A patient's reply, through a link that works once. */
+  reply(token: string, answer: "confirm" | "cancel", now: Date): Outcome | undefined {
+    const id = this.links.use(token, now);
+    const appointment = id ? this.#appointments.get(id) : undefined;
+    if (!appointment) return undefined;
+    const outcome: Outcome =
+      answer === "confirm" ? "confirmed" : appointment.urgent ? "held" : "cancelled";
+    this.#appointments.set(appointment.id, { ...appointment, status: outcome });
+    this.#contacts.set(appointment.id, { ...this.#contacts.get(appointment.id)!, replied: true });
+    this.audit.push({ at: now.toISOString(), what: `reply: ${outcome}`, id: appointment.id });
+    return outcome;
+  }
+}
+
+export const pas = new Pas();
+
+pas.book({ id: "a1", personId: "7d1f0c3a", service: "Physiotherapy", start: inDays(3), status: "booked", urgent: false });
+pas.book({ id: "a2", personId: "b52e9410", service: "Breast clinic", start: inDays(1), status: "booked", urgent: true }, { sent: [7, 4, 3, 1] });
+pas.waits = [
+  { id: "w1", personId: "7d1f0c3a", service: "Audiology", priority: "routine", status: "waiting" },
+  { id: "w2", personId: "c90a77e1", service: "Cardiology", priority: "urgent", status: "waiting" },
+  { id: "w3", personId: "b52e9410", service: "Dermatology", priority: "routine", status: "booked" },
+];</code></pre>
+
+  <p><code>src/lib/server/pas.test.ts</code></p>
+
+  <pre tabindex="0" data-file="src/lib/server/pas.test.ts"><code>import { beforeEach, describe, expect, it } from "vitest";
+import { Pas } from "./pas.js";
+
+const now = new Date("2026-12-03T12:00:00Z");
+const later = new Date("2026-12-10T10:00:00Z");
+const appointment = {
+  id: "a1",
+  personId: "p1",
+  service: "Physiotherapy",
+  start: later.toISOString(),
+  status: "booked" as const,
+  urgent: false,
+};
+
+let pas: Pas;
+let token: string;
+beforeEach(() =&gt; {
+  pas = new Pas();
+  pas.book(appointment);
+  token = pas.links.issue("a1", later);
+});
+
+describe("reply links", () =&gt; {
+  it("look without acting", () =&gt; {
+    expect(pas.links.peek(token, now)).toBe("a1");
+    expect(pas.links.peek(token, now)).toBe("a1");
+    expect(pas.appointment("a1")?.status).toBe("booked");
+  });
+
+  it("work once", () =&gt; {
+    expect(pas.reply(token, "cancel", now)).toBe("cancelled");
+    expect(pas.reply(token, "confirm", now)).toBeUndefined();
+    expect(pas.appointment("a1")?.status).toBe("cancelled");
+    expect(pas.contact("a1")?.replied).toBe(true);
+  });
+
+  it("expire, and cannot be guessed", () =&gt; {
+    expect(pas.reply(token, "confirm", later)).toBeUndefined();
+    expect(pas.reply("a1", "confirm", now)).toBeUndefined();
+    expect(pas.appointment("a1")?.status).toBe("booked");
+  });
+
+  it("hold a cancellation on an urgent pathway for a person", () =&gt; {
+    pas.book({ ...appointment, id: "a2", urgent: true });
+    const urgent = pas.links.issue("a2", later);
+    expect(pas.reply(urgent, "cancel", now)).toBe("held");
+    expect(pas.appointment("a2")?.status).toBe("held");
+  });
+
+  it("leave a trace", () =&gt; {
+    pas.reply(token, "confirm", now);
+    expect(pas.audit).toEqual([{ at: now.toISOString(), what: "reply: confirmed", id: "a1" }]);
+  });
+});</code></pre>
+
+  <div class="callout">
+    <p style="margin: 0;"><strong>Check your work:</strong> twelve tests pass in two files. Make <code>reply</code> cancel an urgent appointment outright and run them again: one fails. On an urgent pathway a wrong tap must not cancel a cancer clinic.</p>
+  </div>
+
+  <h2>Step 7: Write the words, and turn data into views</h2>
+
+  <p><code>src/lib/words.ts</code></p>
+
+  <pre tabindex="0" data-file="src/lib/words.ts"><code>import type { Step } from "./reminders.js";
+import type { Appointment, Wait } from "./types.js";
+
+export const locale = "en-GB";
+/** The clinic's time zone: every time on every page is the clinic's, never the reader's. */
+export const timeZone = "Europe/London";
+
+export const appointmentStatus: Record&lt;Appointment["status"], string&gt; = {
+  booked: "Booked",
+  confirmed: "Confirmed",
+  cancelled: "Cancelled",
+  held: "Cancellation asked for: waiting for a person",
+};
+
+export const waitColumns: { id: Wait["status"]; title: string }[] = [
+  { id: "waiting", title: "Waiting" },
+  { id: "booked", title: "Booked" },
+  { id: "treated", title: "Treated" },
+  { id: "removed", title: "Removed" },
+];
+
+export const priority: Record&lt;Wait["priority"], string&gt; = { urgent: "Urgent", routine: "Routine" };
+
+const why: Record&lt;Extract&lt;Step, { kind: "nothing" }&gt;["why"], string&gt; = {
+  cancelled: "Nothing: cancelled",
+  replied: "Nothing: the patient replied",
+  "opted-out": "Nothing yet: opted out of messages",
+  past: "Nothing: the time has passed",
+  quiet: "Wait: quiet hours",
+  "not-yet": "Nothing yet",
+};
+
+export function stepWords(step: Step): string {
+  if (step.kind === "phone") return "Phone the patient";
+  if (step.kind === "nothing") return why[step.why];
+  return `Send the reminder for day ${step.daysBefore}`;
+}
+
+export const when = (iso: string) =&gt;
+  new Intl.DateTimeFormat(locale, { dateStyle: "full", timeStyle: "short", timeZone }).format(new Date(iso));</code></pre>
+
+  <p><code>src/lib/views.ts</code></p>
+
+  <pre tabindex="0" data-file="src/lib/views.ts"><code>import type { CalendarEvent } from "@lilydesignsystem/svelte-calendar";
+import type { KanbanCard } from "@lilydesignsystem/svelte-kanban-board";
+import type { Appointment, Wait } from "./types.js";
+import { appointmentStatus, locale, priority, timeZone } from "./words.js";
+
+/** The clinic's calendar day of an instant, as YYYY-MM-DD. */
+export function clinicDay(iso: string): string {
+  const parts = new Intl.DateTimeFormat("en-GB", {
+    timeZone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(new Date(iso));
+  const part = (type: string) =&gt; parts.find((p) =&gt; p.type === type)!.value;
+  return `${part("year")}-${part("month")}-${part("day")}`;
+}
+
+const clinicTime = (iso: string) =&gt;
+  new Intl.DateTimeFormat(locale, { timeZone, timeStyle: "short" }).format(new Date(iso));
+
+export const appointmentEvents = (rows: Appointment[]): CalendarEvent[] =&gt;
+  rows.map((a) =&gt; ({
+    id: a.id,
+    date: clinicDay(a.start),
+    title: `${clinicTime(a.start)} ${a.service}`,
+    values: { status: appointmentStatus[a.status] },
+  }));
+
+/** Urgent first. The priority is a word on the card, so it never depends on colour. */
+export const waitCards = (rows: Wait[]): KanbanCard[] =&gt;
+  [...rows]
+    .sort((a, b) =&gt; Number(b.priority === "urgent") - Number(a.priority === "urgent"))
+    .map((w) =&gt; ({
+      id: w.id,
+      columnId: w.status,
+      title: w.service,
+      subtitle: `Patient ${w.personId}`,
+      badges: [priority[w.priority]],
+    }));</code></pre>
+
+  <p><code>src/lib/views.test.ts</code></p>
+
+  <pre tabindex="0" data-file="src/lib/views.test.ts"><code>import { expect, it } from "vitest";
+import { clinicDay, waitCards } from "./views.js";
+
+it("puts an appointment on the clinic's day, not the UTC one", () =&gt; {
+  // Half past midnight in London in June is the evening before, in UTC.
+  expect(clinicDay("2026-06-09T23:30:00Z")).toBe("2026-06-10");
+  expect(clinicDay("2026-12-09T23:30:00Z")).toBe("2026-12-09");
+});
+
+it("shows urgent waits first, in words", () =&gt; {
+  const wait = { personId: "p1", service: "Audiology", status: "waiting" } as const;
+  const cards = waitCards([
+    { ...wait, id: "1", priority: "routine" },
+    { ...wait, id: "2", priority: "urgent" },
+  ]);
+  expect(cards.map((c) =&gt; [c.id, c.badges])).toEqual([
+    ["2", ["Urgent"]],
+    ["1", ["Routine"]],
+  ]);
+});</code></pre>
+
+  <p>An appointment belongs to the clinic's day. Half past midnight in London in summer is still yesterday in UTC, and cutting the date from the text would show it on the wrong day.</p>
+
+  <h2>Step 8: Load the labels</h2>
+
+  <p>The calendar and the board need many short strings. Lily has them in 64 languages, as drafts: only English has been reviewed.</p>
+
+  <p><code>src/lib/labels.ts</code></p>
+
+  <pre tabindex="0" data-file="src/lib/labels.ts"><code>import { labelsFor, type LabelPack } from "@lilydesignsystem/svelte-locale-translations";
+import en from "@lilydesignsystem/svelte-locale-translations/en-001";
+
+const pack = en as LabelPack;
+
+export const calendarLabels = labelsFor("calendar", pack);
+export const boardLabels = labelsFor("kanban-board", pack);</code></pre>
+
+  <h2>Step 9: Guard the staff pages</h2>
+
+  <p><code>src/app.d.ts</code></p>
+
+  <pre tabindex="0" data-file="src/app.d.ts"><code>import type { Role } from "#lib/types.js";
+
+declare global {
+  namespace App {
+    interface Locals {
+      role: Role | null;
+    }
+  }
+}
+
+export {};</code></pre>
+
+  <p><code>src/lib/server/sessions.ts</code></p>
+
+  <pre tabindex="0" data-file="src/lib/server/sessions.ts"><code>import { randomBytes } from "node:crypto";
+import type { Role } from "../types.js";
+
+// A stand-in for OpenID Connect. The browser holds a random id and the server holds the role, so
+// nobody can make themselves staff by editing a cookie.
+const sessions = new Map&lt;string, Role&gt;();
+
+export function signIn(role: Role): string {
+  const id = randomBytes(32).toString("base64url");
+  sessions.set(id, role);
+  return id;
+}
+
+export const roleOf = (id: string | undefined): Role | null =&gt; sessions.get(id ?? "") ?? null;</code></pre>
+
+  <p><code>src/lib/server/guard.ts</code></p>
+
+  <pre tabindex="0" data-file="src/lib/server/guard.ts"><code>import { error, redirect } from "@sveltejs/kit";
+
+/** Every staff page calls this in its own load. Hiding a link protects nothing. */
+export function requireStaff(locals: App.Locals) {
+  if (!locals.role) redirect(303, "/signin");
+  if (locals.role !== "staff") error(403, "Staff only");
+}</code></pre>
+
+  <p><code>src/hooks.server.ts</code></p>
+
+  <pre tabindex="0" data-file="src/hooks.server.ts"><code>import type { Handle } from "@sveltejs/kit/hooks";
+import { roleOf } from "#lib/server/sessions.js";
+
+export const handle: Handle = async ({ event, resolve }) =&gt; {
+  event.locals.role = roleOf(event.cookies.get("session"));
+  const response = await resolve(event);
+  response.headers.set("cache-control", "no-store");
+  // A reply link is a secret: never send its address to another site.
+  response.headers.set("referrer-policy", "no-referrer");
+  return response;
+};</code></pre>
+
+  <p><code>src/routes/signin/+page.server.ts</code></p>
+
+  <pre tabindex="0" data-file="src/routes/signin/+page.server.ts"><code>import { redirect } from "@sveltejs/kit";
+import { dev } from "$app/env";
+import { signIn } from "#lib/server/sessions.js";
+import type { Actions } from "./$types";
+
+export const actions: Actions = {
+  default: async ({ request, cookies }) =&gt; {
+    const role = (await request.formData()).get("role") === "staff" ? "staff" : "patient";
+    cookies.set("session", signIn(role), {
+      path: "/",
+      httpOnly: true,
+      sameSite: "lax",
+      secure: !dev,
+    });
+    redirect(303, "/");
+  },
+};</code></pre>
+
+  <p><code>src/routes/signin/+page.svelte</code></p>
+
+  <pre tabindex="0" data-file="src/routes/signin/+page.svelte"><code>&lt;svelte:head&gt;&lt;title&gt;Sign in&lt;/title&gt;&lt;/svelte:head&gt;
+
+&lt;main&gt;
+  &lt;h1&gt;Sign in&lt;/h1&gt;
+  &lt;p&gt;For learning: there is no password. Use an identity provider for anything real.&lt;/p&gt;
+  &lt;form method="POST"&gt;
+    &lt;button class="button" name="role" value="staff"&gt;Sign in as staff&lt;/button&gt;
+    &lt;button class="button" name="role" value="patient"&gt;Sign in as a patient&lt;/button&gt;
+  &lt;/form&gt;
+&lt;/main&gt;</code></pre>
+
+  <p><code>src/routes/+page.svelte</code></p>
+
+  <pre tabindex="0" data-file="src/routes/+page.svelte"><code>&lt;svelte:head&gt;&lt;title&gt;Patient administration&lt;/title&gt;&lt;/svelte:head&gt;
+
+&lt;main&gt;
+  &lt;h1&gt;Patient administration&lt;/h1&gt;
+  &lt;p&gt;For learning. Never enter a real person's details.&lt;/p&gt;
+  &lt;nav aria-label="Staff pages"&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href="/appointments"&gt;Appointments&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href="/waitlist"&gt;Waiting list&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href="/reminders"&gt;Reminders&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/nav&gt;
+  &lt;p&gt;&lt;a href="/signin"&gt;Sign in&lt;/a&gt;&lt;/p&gt;
+&lt;/main&gt;</code></pre>
+
+  <h2>Step 10: Show the calendar</h2>
+
+  <p><code>src/routes/appointments/+page.server.ts</code></p>
+
+  <pre tabindex="0" data-file="src/routes/appointments/+page.server.ts"><code>import { requireStaff } from "#lib/server/guard.js";
+import { pas } from "#lib/server/pas.js";
+import { clinicDay } from "#lib/views.js";
+import type { PageServerLoad } from "./$types";
+
+export const load: PageServerLoad = ({ locals }) =&gt; {
+  requireStaff(locals);
+  return { appointments: pas.appointments(), today: clinicDay(new Date().toISOString()) };
+};</code></pre>
+
+  <p><code>src/routes/appointments/+page.svelte</code></p>
+
+  <pre tabindex="0" data-file="src/routes/appointments/+page.svelte"><code>&lt;script lang="ts"&gt;
+  import { CalendarView, type CalendarViewMode } from "@lilydesignsystem/svelte-calendar";
+  import { untrack } from "svelte";
+  import { calendarLabels } from "#lib/labels.js";
+  import { appointmentEvents } from "#lib/views.js";
+  import { locale } from "#lib/words.js";
+  import type { PageProps } from "./$types";
+
+  let { data }: PageProps = $props();
+
+  let view = $state&lt;CalendarViewMode&gt;("month");
+  let anchorDate = $state(untrack(() =&gt; data.today));
+
+  // Words from the label pack; weekday and month names from Intl.
+  const name = (options: Intl.DateTimeFormatOptions, date: Date) =&gt;
+    new Intl.DateTimeFormat(locale, { ...options, timeZone: "UTC" }).format(date);
+  // 2023-01-01 was a Sunday, which the calendar numbers 0.
+  const weekday = (n: number) =&gt; new Date(Date.UTC(2023, 0, 1 + n));
+  const labels = {
+    ...calendarLabels,
+    weekday: (n: number) =&gt; name({ weekday: "long" }, weekday(n)),
+    weekdayAbbr: (n: number) =&gt; name({ weekday: "short" }, weekday(n)),
+    periodTitle: (_view: string, _start: string, _end: string, anchor: string) =&gt;
+      name({ month: "long", year: "numeric" }, new Date(`${anchor}T00:00:00Z`)),
+  };
+&lt;/script&gt;
+
+&lt;svelte:head&gt;&lt;title&gt;Appointments&lt;/title&gt;&lt;/svelte:head&gt;
+
+&lt;main&gt;
+  &lt;h1&gt;Appointments&lt;/h1&gt;
+  &lt;!-- svelte-ignore a11y_no_noninteractive_tabindex (a region that scrolls must take the keyboard) --&gt;
+  &lt;div class="calendar" role="region" tabindex="0" aria-label="Appointment calendar"&gt;
+    &lt;CalendarView
+      label="Clinic appointments"
+      bind:view
+      bind:anchorDate
+      today={data.today}
+      {locale}
+      {labels}
+      events={appointmentEvents(data.appointments)}
+      eventFields={[{ id: "status", header: "Status", type: "text" }]}
+    &gt;
+      &lt;!-- The calendar draws the days; what an appointment looks like is yours. Without this, none show. --&gt;
+      {#snippet day({ events, fieldText })}
+        {#each events as event (event.id)}
+          &lt;p&gt;{event.title}: {fieldText(event, "status")}&lt;/p&gt;
+        {/each}
+      {/snippet}
+    &lt;/CalendarView&gt;
+  &lt;/div&gt;
+&lt;/main&gt;
+
+&lt;style&gt;
+  .calendar {
+    overflow-x: auto;
+  }
+&lt;/style&gt;</code></pre>
+
+  <p>The calendar draws the days, and you draw what is in them, in the <code>day</code> snippet. Leave it out and the calendar is empty, with no error.</p>
+
+  <h2>Step 11: Show the waiting list</h2>
+
+  <p><code>src/routes/waitlist/+page.server.ts</code></p>
+
+  <pre tabindex="0" data-file="src/routes/waitlist/+page.server.ts"><code>import { requireStaff } from "#lib/server/guard.js";
+import { pas } from "#lib/server/pas.js";
+import type { PageServerLoad } from "./$types";
+
+export const load: PageServerLoad = ({ locals }) =&gt; {
+  requireStaff(locals);
+  return { waits: pas.waits };
+};</code></pre>
+
+  <p><code>src/routes/waitlist/+page.svelte</code></p>
+
+  <pre tabindex="0" data-file="src/routes/waitlist/+page.svelte"><code>&lt;script lang="ts"&gt;
+  import { KanbanBoard } from "@lilydesignsystem/svelte-kanban-board";
+  import { boardLabels } from "#lib/labels.js";
+  import { waitCards } from "#lib/views.js";
+  import { waitColumns } from "#lib/words.js";
+  import type { PageProps } from "./$types";
+
+  let { data }: PageProps = $props();
+&lt;/script&gt;
+
+&lt;svelte:head&gt;&lt;title&gt;Waiting list&lt;/title&gt;&lt;/svelte:head&gt;
+
+&lt;main&gt;
+  &lt;h1&gt;Waiting list&lt;/h1&gt;
+  &lt;!-- Read only: a wait ends when someone books, treats or removes the patient, not when a card is dragged. --&gt;
+  &lt;!-- svelte-ignore a11y_no_noninteractive_tabindex (a region that scrolls must take the keyboard) --&gt;
+  &lt;div class="board" role="region" tabindex="0" aria-label="Waiting list board"&gt;
+    &lt;KanbanBoard
+      label="Waiting list"
+      columns={waitColumns}
+      cards={waitCards(data.waits)}
+      labels={boardLabels}
+      readonly
+    /&gt;
+  &lt;/div&gt;
+&lt;/main&gt;
+
+&lt;style&gt;
+  .board {
+    overflow-x: auto;
+  }
+&lt;/style&gt;</code></pre>
+
+  <h2>Step 12: Work through the reminders</h2>
+
+  <p><code>src/routes/reminders/+page.server.ts</code></p>
+
+  <pre tabindex="0" data-file="src/routes/reminders/+page.server.ts"><code>import { error } from "@sveltejs/kit";
+import { nextStep } from "#lib/reminders.js";
+import { requireStaff } from "#lib/server/guard.js";
+import { pas } from "#lib/server/pas.js";
+import { stepWords, timeZone } from "#lib/words.js";
+import type { Actions, PageServerLoad } from "./$types";
+
+export const load: PageServerLoad = ({ locals }) =&gt; {
+  requireStaff(locals);
+  const now = new Date();
+  return {
+    rows: pas.appointments().map((a) =&gt; ({
+      ...a,
+      step: stepWords(nextStep(a, pas.contact(a.id)!, now, timeZone)),
+    })),
+  };
+};
+
+export const actions: Actions = {
+  // A real service texts this link and never shows it to staff.
+  link: async ({ request, locals }) =&gt; {
+    requireStaff(locals);
+    const appointment = pas.appointment(String((await request.formData()).get("id")));
+    if (!appointment) error(404, "No such appointment");
+    return { link: `/r/${pas.links.issue(appointment.id, new Date(appointment.start))}` };
+  },
+};</code></pre>
+
+  <p><code>src/routes/reminders/+page.svelte</code></p>
+
+  <pre tabindex="0" data-file="src/routes/reminders/+page.svelte"><code>&lt;script lang="ts"&gt;
+  import { appointmentStatus, when } from "#lib/words.js";
+  import type { PageProps } from "./$types";
+
+  let { data, form }: PageProps = $props();
+&lt;/script&gt;
+
+&lt;svelte:head&gt;&lt;title&gt;Reminders&lt;/title&gt;&lt;/svelte:head&gt;
+
+&lt;main&gt;
+  &lt;h1&gt;Reminders&lt;/h1&gt;
+  {#if form?.link}&lt;p role="status"&gt;Reply link: &lt;a href={form.link}&gt;open it as the patient&lt;/a&gt;&lt;/p&gt;{/if}
+  &lt;ul&gt;
+    {#each data.rows as row (row.id)}
+      &lt;li&gt;
+        {row.service}, &lt;time datetime={row.start}&gt;{when(row.start)}&lt;/time&gt;.
+        {appointmentStatus[row.status]}. &lt;strong&gt;{row.step}&lt;/strong&gt;
+        &lt;form method="POST" action="?/link"&gt;
+          &lt;input type="hidden" name="id" value={row.id} /&gt;
+          &lt;button class="button"&gt;Make a reply link for {row.service}&lt;/button&gt;
+        &lt;/form&gt;
+      &lt;/li&gt;
+    {/each}
+  &lt;/ul&gt;
+&lt;/main&gt;</code></pre>
+
+  <h2>Step 13: Let the patient reply</h2>
+
+  <p><code>src/routes/r/[token]/+page.server.ts</code></p>
+
+  <pre tabindex="0" data-file="src/routes/r/[token]/+page.server.ts"><code>import { error } from "@sveltejs/kit";
+import { pas } from "#lib/server/pas.js";
+import type { Actions, PageServerLoad } from "./$types";
+
+// Reads only. Opening the link, or a mail scanner opening it, changes nothing.
+export const load: PageServerLoad = ({ params }) =&gt; {
+  const id = pas.links.peek(params.token, new Date());
+  const appointment = id ? pas.appointment(id) : undefined;
+  // The date and time, and no more: whoever holds the phone may not be the patient.
+  return { start: appointment?.start ?? null };
+};
+
+export const actions: Actions = {
+  default: async ({ request, params }) =&gt; {
+    const answer = (await request.formData()).get("answer");
+    if (answer !== "confirm" &amp;&amp; answer !== "cancel") error(400, "Unknown answer");
+    return { outcome: pas.reply(params.token, answer, new Date()) ?? null };
+  },
+};</code></pre>
+
+  <p><code>src/routes/r/[token]/+page.svelte</code></p>
+
+  <pre tabindex="0" data-file="src/routes/r/[token]/+page.svelte"><code>&lt;script lang="ts"&gt;
+  import { when } from "#lib/words.js";
+  import type { PageProps } from "./$types";
+
+  let { data, form }: PageProps = $props();
+  const outcomes = {
+    confirmed: "Thank you. Your appointment is confirmed.",
+    cancelled: "Your appointment is cancelled.",
+    held: "Please do not worry: someone will phone you about this before anything is cancelled.",
+  };
+&lt;/script&gt;
+
+&lt;svelte:head&gt;&lt;title&gt;Your appointment&lt;/title&gt;&lt;/svelte:head&gt;
+
+&lt;main&gt;
+  &lt;h1&gt;Your appointment&lt;/h1&gt;
+  {#if form?.outcome}
+    &lt;p role="status"&gt;{outcomes[form.outcome]}&lt;/p&gt;
+  {:else if data.start}
+    &lt;p&gt;&lt;time datetime={data.start}&gt;{when(data.start)}&lt;/time&gt;&lt;/p&gt;
+    &lt;form method="POST"&gt;
+      &lt;button class="button" name="answer" value="confirm"&gt;I will come&lt;/button&gt;
+      &lt;button class="button" name="answer" value="cancel"&gt;I cannot come&lt;/button&gt;
+    &lt;/form&gt;
+  {:else}
+    &lt;p&gt;This link has been used or is out of date. Please phone the clinic.&lt;/p&gt;
+  {/if}
+&lt;/main&gt;</code></pre>
+
+  <p>Opening the link reads, and only the button acts. Mail scanners open every link they see: if opening one cancelled, they would cancel your clinic.</p>
+
+  <div class="callout">
+    <p style="margin: 0;"><strong>Check your work:</strong> run <code>pnpm dev</code>. Open the appointments: you are sent to sign in. Sign in as a patient: you are refused. Sign in as staff: two appointments are on the calendar. On the reminders page make a link for the breast clinic, open it, and choose "I cannot come": nothing is cancelled, you are told that someone will phone, and the reminders page now says "Phone the patient". Open the link again: it has been used.</p>
+  </div>
+
+  <h2>What this does not do yet</h2>
+
+  <ul>
+    <li>It keeps everything in memory, and signing in has no password.</li>
+    <li>It sends nothing. A real service texts the link and never shows it to staff.</li>
+    <li>The built version marks its cookie as secure, so it needs https.</li>
+  </ul>
+
+  <h2>From here to the full project</h2>
+
+  <ul>
+    <li><strong>What it must do</strong>: <a href="https://github.com/patient-administration-system/patient-administration-system/blob/main/spec/06-functional-requirements.md">the functional requirements</a>, each with the test that proves it.</li>
+    <li><strong>Views</strong>: <a href="https://github.com/patient-administration-system/patient-administration-system/blob/main/patient-administration-system-ui-with-svelte/src/lib/views.ts">views.ts</a> maps the service's data to the calendar, the board and the chart.</li>
+    <li><strong>Who may see what</strong>: <a href="https://github.com/patient-administration-system/patient-administration-system/blob/main/patient-administration-system-ui-with-svelte/src/lib/access.ts">access.ts</a> and <a href="https://github.com/patient-administration-system/patient-administration-system/blob/main/patient-administration-system-ui-with-svelte/src/lib/server/guard.ts">guard.ts</a>.</li>
+    <li><strong>Signing in</strong>: <a href="https://github.com/patient-administration-system/patient-administration-system/blob/main/patient-administration-system-ui-with-svelte/src/lib/server/oidc.ts">oidc.ts</a>, with Keycloak.</li>
+    <li><strong>Reply links</strong>: <a href="https://github.com/patient-administration-system/patient-administration-system/blob/main/patient-administration-system-ui-with-svelte/src/lib/server/token-link.ts">token-link.ts</a>.</li>
+    <li><strong>The service</strong>: <a href="https://github.com/patient-administration-system/patient-administration-system/tree/main/patient-administration-system-with-rust">the API</a>, in Rust, with PostgreSQL.</li>
+    <li><strong>Misuse</strong>: <a href="https://github.com/patient-administration-system/patient-administration-system/blob/main/governance/chaos-testing.md">chaos testing</a> sends hostile input to every route.</li>
+    <li><strong>Fairness</strong>: <a href="https://github.com/patient-administration-system/patient-administration-system/blob/main/governance/noshow-model.md">the no-show model</a> is off until named people approve it, and may only ever add a phone call.</li>
+    <li><strong>Running it</strong>: <a href="https://github.com/patient-administration-system/patient-administration-system/blob/main/operations/runbook.md">the runbook</a> and <a href="https://github.com/patient-administration-system/patient-administration-system/blob/main/governance/path-to-production.md">the path to production</a>.</li>
+  </ul>
+
+  <p>A good next step is to offer another time when someone cancels, with a test first.</p>
+
+  <h2>Next steps</h2>
+
+  <ul>
+    <li><a href="/tutorials/electronic-patient-record/">Electronic patient record tutorial</a>: record what happens at the appointment.</li>
+    <li><a href="/tutorials/international-patient-summary/">International Patient Summary tutorial</a>: share it.</li>
+    <li><a href="/tutorials/worldwide/">A form that works worldwide</a>: names, addresses, dates and direction.</li>
+  </ul>
+</section>

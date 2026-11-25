@@ -121,7 +121,25 @@ Ba masu amfani iko akan jigo, harshe, girman rubutu, motsi, bincike, hanyoyin sh
 
 ~minti 15
 
-](https://lilydesignsystem.com/ha-001/tutorials/helpers/)
+](https://lilydesignsystem.com/ha-001/tutorials/helpers/) [
+
+### International Patient Summary
+
+`SvelteKit` · `HL7 FHIR` · `IPS`
+
+](https://lilydesignsystem.com/tutorials/international-patient-summary/) [
+
+### Electronic Patient Record
+
+`SvelteKit` · `EPR`
+
+](https://lilydesignsystem.com/tutorials/electronic-patient-record/) [
+
+### Patient Administration System
+
+`SvelteKit` · `PAS`
+
+](https://lilydesignsystem.com/tutorials/patient-administration-system/)
 
 ## Bayan koyarwar
 

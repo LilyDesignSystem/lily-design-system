@@ -121,7 +121,25 @@ Svelte 5 runes, snippets និង `bind:value` ការចងពីរទិ�
 
 ~១៥ នាទី
 
-](https://lilydesignsystem.com/km-kh/tutorials/helpers/)
+](https://lilydesignsystem.com/km-kh/tutorials/helpers/) [
+
+### International Patient Summary
+
+`SvelteKit` · `HL7 FHIR` · `IPS`
+
+](https://lilydesignsystem.com/tutorials/international-patient-summary/) [
+
+### Electronic Patient Record
+
+`SvelteKit` · `EPR`
+
+](https://lilydesignsystem.com/tutorials/electronic-patient-record/) [
+
+### Patient Administration System
+
+`SvelteKit` · `PAS`
+
+](https://lilydesignsystem.com/tutorials/patient-administration-system/)
 
 ## បន្ទាប់ពីមេរៀន
 
