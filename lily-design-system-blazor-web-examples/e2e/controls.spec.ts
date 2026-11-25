@@ -23,10 +23,10 @@ test("toggle button: Space and Enter toggle once each", async ({ page }) => {
     const toggle = page.getByTestId("toggle");
     await toggle.focus();
     await page.keyboard.press("Space");
-    await expect(toggle).toHaveAttribute("aria-checked", "true");
+    await expect(toggle).toHaveAttribute("aria-pressed", "true");
     await expect(page.getByTestId("toggle-state")).toHaveText("Pressed: True");
     await page.keyboard.press("Enter");
-    await expect(toggle).toHaveAttribute("aria-checked", "false");
+    await expect(toggle).toHaveAttribute("aria-pressed", "false");
 });
 
 test("slider: keeps a value above the default max, and arrows reach C#", async ({ page }) => {

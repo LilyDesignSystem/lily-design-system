@@ -100,10 +100,10 @@ test.describe("search and filter", () => {
     test("filters the product table by search text", async ({ page }) => {
         await gotoReady(page, "/search-and-filter");
 
-        await expect(page.getByRole("cell", { name: "Wireless Keyboard" })).toBeVisible();
+        await expect(page.getByRole("gridcell", { name: "Wireless Keyboard" })).toBeVisible();
         await page.getByLabel("Search products").fill("Desk Lamp");
-        await expect(page.getByRole("cell", { name: "Desk Lamp" })).toBeVisible();
-        await expect(page.getByRole("cell", { name: "Wireless Keyboard" })).toHaveCount(0);
+        await expect(page.getByRole("gridcell", { name: "Desk Lamp" })).toBeVisible();
+        await expect(page.getByRole("gridcell", { name: "Wireless Keyboard" })).toHaveCount(0);
     });
 
     test("filters by category via the combobox and adds a tag", async ({ page }) => {
@@ -113,7 +113,7 @@ test.describe("search and filter", () => {
         await combo.fill("Electr");
         await page.getByRole("option", { name: "Electronics" }).click();
         await expect(page.locator(".tag-group")).toContainText("Electronics");
-        await expect(page.getByRole("cell", { name: "Standing Desk" })).toHaveCount(0);
+        await expect(page.getByRole("gridcell", { name: "Standing Desk" })).toHaveCount(0);
 
         const tagInputDiv = page.getByLabel("Add filter tag");
         await tagInputDiv.fill("Furniture");
