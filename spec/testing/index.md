@@ -146,6 +146,11 @@ P38-T7 makes these checks permanent in CI for all eight current example apps. Th
 SvelteKit, Nunjucks and Alpine jobs run their accessibility or full-catalog axe suites. The new matrix passed 423
 checks locally on 2026-11-19.
 
+Since 2026-11-25 (P49-T17) CI also runs the example apps' unit tests on every push (`bin/ci --job example-unit-tests`: SvelteKit, Next,
+Nuxt, Angular and HTML; Alpine's and Blazor's run in their own jobs), and every Playwright spec of SvelteKit, React, Vue, Angular,
+HTML, Blazor and Solid weekly (`.github/workflows/example-browser-suites.yml`, `bin/ci --job example-browser-suites`). Nunjucks and
+Alpine run all of their specs on every push. The weekly run on Linux compares no screenshots: the references are macOS ones.
+
 | App                        | Clean | Status                                                                                                                                                                                                                                                                                    |
 | -------------------------- | ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | svelte-sveltekit-examples  | 31/31 | full pass (plus 581/581 on the separate full-catalog `axe-catalog.spec.ts` sweep, re-run 2026-10-25 after fixing three demos: `go-to-next-section` / `go-to-previous-section` (`aria-label` now equals the visible text) and `overlay-container` (dark text on the scrim) — — see §11.5a) |

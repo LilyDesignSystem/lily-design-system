@@ -285,6 +285,34 @@ jobs:
       # Accessibility, responsive, /components search, rtl-demo and book-an-appointment.
       - run: bin/ci --job example-smoke
 
+  example-unit-tests:
+    # These ran nowhere until 2026-11-25 (tasks.md P49-T17).
+    name: example-app unit tests (${{ matrix.app }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
+    strategy:
+      fail-fast: false
+      matrix:
+        app:
+          - lily-design-system-svelte-sveltekit-examples
+          - lily-design-system-react-next-examples
+          - lily-design-system-vue-nuxt-examples
+          - lily-design-system-angular-examples
+          - lily-design-system-html-css-js-examples
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 11
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 26
+          cache: pnpm
+          cache-dependency-path: ${{ matrix.app }}/pnpm-lock.yaml
+      - run: bin/ci --job example-unit-tests ${{ matrix.app }}
+
   accessibility-examples:
     name: axe accessibility (${{ matrix.app }})
     runs-on: ubuntu-latest

@@ -1,0 +1,51 @@
+# Every Playwright spec of the example apps, weekly (tasks.md P49-T17). On a push, CI runs each app's accessibility specs and
+# some of SvelteKit's; the rest went stale unseen, and the bugs of 2026-11-25 were in what they cover. Run it by hand from the
+# Actions tab, or locally with bin/ci --job example-browser-suites [app]. Nunjucks and Alpine run all of theirs on every push.
+name: example browser suites
+
+on:
+  schedule:
+    - cron: "17 4 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  example-browser-suites:
+    name: every browser spec (${{ matrix.app }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        app:
+          - lily-design-system-svelte-sveltekit-examples
+          - lily-design-system-react-next-examples
+          - lily-design-system-vue-nuxt-examples
+          - lily-design-system-angular-examples
+          - lily-design-system-html-css-js-examples
+          - lily-design-system-blazor-web-examples
+          - lily-design-system-solid-examples
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 11
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 26
+          cache: pnpm
+          cache-dependency-path: ${{ matrix.app }}/pnpm-lock.yaml
+      - uses: actions/setup-dotnet@v6
+        if: matrix.app == 'lily-design-system-blazor-web-examples'
+        with:
+          dotnet-version: "11.0.x"
+      - name: Install
+        working-directory: ${{ matrix.app }}
+        run: pnpm install --frozen-lockfile
+      - name: Install Playwright browsers
+        working-directory: ${{ matrix.app }}
+        timeout-minutes: 15
+        run: pnpm exec playwright install --with-deps chromium firefox webkit
+      - run: bin/ci --job example-browser-suites ${{ matrix.app }}

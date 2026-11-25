@@ -4746,7 +4746,7 @@ and unreleased; T8 to T13 are open, and T9 to T12 need people.
       and the HTML example's picker scripts, which predate the sorted theme names. Commit its output, run that app's browser tests,
       and give it a `--check`. Its picker scripts come from local `dist` builds, so the check must not depend on them.
       Verify: an edit to `AGENTS/tools.md` with no sync fails `bin/test`.
-- [ ] **P49-T17 Example-app tests that run nowhere.** `bin/ci` runs every Playwright spec for Nunjucks and Alpine, some for
+- [x] **P49-T17 Example-app tests that run nowhere.** `bin/ci` runs every Playwright spec for Nunjucks and Alpine, some for
       SvelteKit, and one file (`accessibility.spec.ts`) for React, Vue, Angular, HTML, Blazor and Solid, which have up to 493. No job
       runs the example apps' unit tests but Alpine's and, since 2026-11-25, Blazor's. Run locally that day, the unit tests pass in
       Angular (2,477), SvelteKit (4,078), Next (99) and Nuxt (1,433), and HTML's full browser run had one stale failure, fixed; the
@@ -4755,6 +4755,8 @@ and unreleased; T8 to T13 are open, and T9 to T12 need people.
       _(2026-11-25: the browser suites run in Chromium: Solid 62, React 1,320, Vue 1,320 and Angular 1,653 passed; Blazor had two
       stale tests and two that tested nothing, fixed; SvelteKit's three failures became P49-T18. `clinical-reflow` and
       `patient-dashboard` now run in CI.)_
+      _(Decided 2026-11-25: unit tests on every push (`example-unit-tests`, five apps, HTML's 13 WebDriver files included, all passing
+      locally), and every browser spec weekly (`example-browser-suites.yml`). Neither has run on GitHub yet.)_
 - [x] **P49-T18 A clinical value split across lines; clinical pages that scroll sideways.** _(2026-11-25: themes, six pages, and
       `e2e/clinical-reflow.spec.ts` in three engines, which fails 9 ways on the old pages and 9 on the old themes. Its first run on Linux found Handover 43px too wide in WebKit: a plain select as wide as its longest name; fixed, with a long-name test.)_
 - [ ] **P49-T19 Words and numbers that still split at 320px.** _(2026-11-25: five `/search-and-filter` pages put their table in a

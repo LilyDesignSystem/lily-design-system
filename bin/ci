@@ -27,7 +27,10 @@ top="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$top" || exit 1
 
 JOBS=(verify lint helper-packages headless html-headless dotnet-tests dotnet-helper-packages example-smoke accessibility-examples
-    eleventy-example alpine-examples consumer-smoke shadcn-registry spell-check shared-tests coverage-floor security-audit)
+    example-unit-tests eleventy-example alpine-examples consumer-smoke shadcn-registry spell-check shared-tests coverage-floor security-audit)
+# Run weekly (.github/workflows/example-browser-suites.yml) and by name, not by --full: every Playwright spec of every app takes
+# about an hour in three browsers (tasks.md P49-T17).
+WEEKLY_JOBS=(example-browser-suites)
 HELPER_FRAMEWORKS=(svelte react vue angular html web-components nunjucks alpine solid)
 HEADLESS_CATALOGS=(lily-design-system-svelte-headless lily-design-system-svelte-headless-identifiers lily-design-system-react-headless lily-design-system-react-headless-identifiers lily-design-system-vue-headless lily-design-system-vue-headless-identifiers
     lily-design-system-angular-headless lily-design-system-angular-headless-identifiers lily-design-system-nunjucks-headless lily-design-system-nunjucks-headless-identifiers lily-design-system-web-components-headless lily-design-system-web-components-headless-identifiers
@@ -274,6 +277,50 @@ job_accessibility_examples() {
 }
 
 job_security_audit() { step "security-audit" bin/security-audit; }
+
+# The example apps' unit tests. Alpine's and Blazor's run in their own jobs; Nunjucks and Solid have none.
+UNIT_TEST_APPS=(
+    lily-design-system-svelte-sveltekit-examples
+    lily-design-system-react-next-examples
+    lily-design-system-vue-nuxt-examples
+    lily-design-system-angular-examples
+    lily-design-system-html-css-js-examples
+)
+
+example_unit_tests() {
+    cd "$1"
+    pnpm install --frozen-lockfile
+    pnpm run test
+}
+
+job_example_unit_tests() {
+    local app failed=0
+    for app in "${@:-${UNIT_TEST_APPS[@]}}"; do
+        step "example-unit-tests: $app" example_unit_tests "$app" || failed=1
+    done
+    return "$failed"
+}
+
+# Every Playwright spec of an app, in its three browsers. Nunjucks and Alpine run all of theirs on every push. The reference
+# screenshots are macOS ones, so a Linux run compares none.
+BROWSER_SUITE_APPS=(
+    lily-design-system-svelte-sveltekit-examples
+    "${ACCESSIBILITY_APPS[@]}"
+)
+
+example_browser_suite() {
+    cd "$1"
+    pnpm install --frozen-lockfile
+    if [ "$(uname)" = "Darwin" ]; then pnpm exec playwright test; else pnpm exec playwright test --ignore-snapshots; fi
+}
+
+job_example_browser_suites() {
+    local app failed=0
+    for app in "${@:-${BROWSER_SUITE_APPS[@]}}"; do
+        step "example-browser-suites: $app" example_browser_suite "$app" || failed=1
+    done
+    return "$failed"
+}
 
 eleventy_example() {
     # The site serves the locale picker's and the date-time picker's dist/index.js.
@@ -554,6 +601,8 @@ build_units() {
         add_unit "$fw" "helper-packages $fw"
         add_unit "$fw" "headless lily-design-system-$fw-headless lily-design-system-$fw-headless-identifiers"
     done
+    add_unit sveltekit "example-unit-tests lily-design-system-svelte-sveltekit-examples"
+    for app in "${UNIT_TEST_APPS[@]:1}"; do add_unit "a11y-$app" "example-unit-tests $app"; done
     for app in "${ACCESSIBILITY_APPS[@]}"; do add_unit "a11y-$app" "accessibility-examples $app"; done
     add_unit shadcn "shadcn-registry"
     add_unit spell "spell-check"
@@ -700,6 +749,7 @@ run_job() {
 case "${1:-}" in
     --list)
         printf '%s\n' "${JOBS[@]}"
+        printf '%s (weekly; not in --full)\n' "${WEEKLY_JOBS[@]}"
         ;;
     --job)
         [ -n "${2:-}" ] || usage
