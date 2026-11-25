@@ -6,10 +6,12 @@
     a data table interactive grid for displaying and sorting tabular data <table>
 *@
 
-<table @ref="Root" class="@($"data-table {CssClass}".Trim())" role="grid" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</table>
+<table @ref="Root" class="@($"data-table {CssClass}".Trim())" role="grid" aria-label="@Label" @attributes="AdditionalAttributes">@if (!string.IsNullOrEmpty(Caption)) {<caption>@Caption</caption>}@ChildContent</table>
 
 @code {
     [Parameter] public string Label { get; set; } = "";
+    /// <summary>The table's visible caption.</summary>
+    [Parameter] public string? Caption { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }

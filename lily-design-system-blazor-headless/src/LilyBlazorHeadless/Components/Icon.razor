@@ -5,10 +5,12 @@
     a container for displaying an icon
 *@
 
-<span class="@($"icon {CssClass}".Trim())" role="img" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</span>
+<span class="@($"icon {CssClass}".Trim())" role="@(Decorative ? null : "img")" aria-label="@(string.IsNullOrEmpty(Label) ? null : Label)" aria-hidden="@(Decorative ? "true" : null)" @attributes="AdditionalAttributes">@ChildContent</span>
 
 @code {
     [Parameter] public string Label { get; set; } = "";
+    /// <summary>Adds nothing to the text beside it, so it is hidden from assistive technology.</summary>
+    [Parameter] public bool Decorative { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }

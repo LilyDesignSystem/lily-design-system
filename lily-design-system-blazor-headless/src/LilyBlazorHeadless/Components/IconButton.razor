@@ -21,10 +21,12 @@
     that form on click.
 *@
 
-<button type="@Type" class="@RootClass" aria-label="@Label" @ref="Element" @attributes="AdditionalAttributes">@ChildContent</button>
+<button type="@Type" class="@RootClass" aria-label="@Label" aria-pressed="@(Pressed is null ? null : Pressed.Value ? "true" : "false")" @ref="Element" @attributes="AdditionalAttributes">@ChildContent</button>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    /// <summary>A toggle button's state; null when it is not a toggle button.</summary>
+    [Parameter] public bool? Pressed { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter] public string Type { get; set; } = "button";

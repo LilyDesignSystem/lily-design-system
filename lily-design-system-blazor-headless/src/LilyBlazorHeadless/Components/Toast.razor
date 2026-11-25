@@ -5,10 +5,12 @@
     a brief auto-dismissing notification message
 *@
 
-<div class="@($"toast {CssClass}".Trim())" aria-live="polite" role="status" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"toast {CssClass}".Trim())" aria-live="@(Urgent ? "assertive" : "polite")" role="@(Urgent ? "alert" : "status")" aria-label="@(string.IsNullOrEmpty(Label) ? null : Label)" @attributes="AdditionalAttributes">@ChildContent</div>
 
 @code {
     [Parameter] public string Label { get; set; } = "";
+    /// <summary>An alert, which interrupts, instead of a status.</summary>
+    [Parameter] public bool Urgent { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }

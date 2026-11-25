@@ -8,6 +8,9 @@ namespace LilyBlazorWebExamples.Tests;
 
 public class PageTests : TestContext
 {
+    // Pages hold components that import a JavaScript module after render; a render test needs none of its answers.
+    public PageTests() => JSInterop.Mode = JSRuntimeMode.Loose;
+
     [Fact]
     public void Home_renders_h1()
     {

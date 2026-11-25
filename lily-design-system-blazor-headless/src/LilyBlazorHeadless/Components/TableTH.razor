@@ -5,10 +5,12 @@
     a table interactive grid header cell <th>
 *@
 
-<th class="@($"table-th {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</th>
+<th class="@($"table-th {CssClass}".Trim())" scope="@Scope" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</th>
 
 @code {
     [Parameter] public string Label { get; set; } = "";
+    /// <summary>"col", "row", "colgroup" or "rowgroup"; null writes none.</summary>
+    [Parameter] public string? Scope { get; set; } = "col";
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }

@@ -4738,10 +4738,15 @@ and unreleased; T8 to T13 are open, and T9 to T12 need people.
       mutation of each caught in React; existing Blazor, Swift and Kotlin tests cited.)_ Left: HC-C5 in Web Components, Nunjucks and
       Blazor, where a missing status does not warn, and the Swift and Kotlin component rules.
       Verify: the table has no blank that is not explained.
-- [ ] **P49-T15 Blazor has every Svelte prop, or a recorded reason.** `bin/check-port-logic` compares props for Angular only.
-      Blazor's `DateTimeView` had no `Value` or `Format` (fixed 2026-11-25). A rough text match finds up to 141 components lacking a
-      prop, many of them plain attributes that pass through; `CollectionListItem`, `Byline` and `AspectRatioContainer` look real.
-      Verify: the check compares Blazor, with an allow-list that may only shrink.
+- [ ] **P49-T15 Blazor has every Svelte prop, or a recorded reason.** _(2026-11-25: `bin/check-port-logic` compares Blazor too, and
+      134 gaps are listed, which may only shrink; the accessibility ones named in the changelog are fixed and tested.)_ Left: the
+      134, `feature-photo`, `theme-provider` and `repeatable-fieldset` the largest. For the maintainer: Svelte's `Button` defaults to
+      `type="button"` and Blazor's has no type, so it submits a form; changing it changes existing forms.
+      Verify: no listed entry says only "Not ported yet".
+- [ ] **P49-T16 `bin/sync` is overdue and nothing notices.** Run on 2026-11-25 it rewrites 151 `AGENTS` copies, the site's `plan.md`
+      and the HTML example's picker scripts, which predate the sorted theme names. Commit its output, run that app's browser tests,
+      and give it a `--check`. Its picker scripts come from local `dist` builds, so the check must not depend on them.
+      Verify: an edit to `AGENTS/tools.md` with no sync fails `bin/test`.
 
 ---
 

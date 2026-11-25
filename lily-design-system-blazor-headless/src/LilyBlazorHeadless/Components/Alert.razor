@@ -5,10 +5,16 @@
     a status message for important information or feedback
 *@
 
-<div class="@($"alert {CssClass}".Trim())" data-type="@Type" aria-live="assertive" aria-atomic="true" role="alert" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"alert {CssClass}".Trim())" data-type="@Type" aria-live="@(Live ?? (Role == "alert" ? "assertive" : "polite"))" aria-atomic="true" role="@Role" aria-label="@(string.IsNullOrEmpty(Label) ? null : Label)" @attributes="AdditionalAttributes">@if (!string.IsNullOrEmpty(Heading)) {<p><strong>@Heading</strong></p>}@ChildContent</div>
 
 @code {
     [Parameter] public string Label { get; set; } = "";
+    /// <summary>Heading text, shown first.</summary>
+    [Parameter] public string? Heading { get; set; }
+    /// <summary>"alert" (interrupts) or "status" (polite).</summary>
+    [Parameter] public string Role { get; set; } = "alert";
+    /// <summary>aria-live, when it should differ from what Role implies.</summary>
+    [Parameter] public string? Live { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     /// <summary>"info", "success", "warning" or "error", as data-type for the consumer's styles.</summary>
     [Parameter] public string Type { get; set; } = "info";

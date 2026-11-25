@@ -5,10 +5,12 @@
     a generic clickable button element
 *@
 
-<button class="@($"button {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</button>
+<button class="@($"button {CssClass}".Trim())" aria-pressed="@(Pressed is null ? null : Pressed.Value ? "true" : "false")" aria-label="@(string.IsNullOrEmpty(Label) ? null : Label)" @attributes="AdditionalAttributes">@ChildContent</button>
 
 @code {
     [Parameter] public string Label { get; set; } = "";
+    /// <summary>A toggle button's state; null when it is not a toggle button.</summary>
+    [Parameter] public bool? Pressed { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }

@@ -14,6 +14,10 @@
 // which every port handles its own way, and a native DOM event such as `onclick`, which the consumer binds as (click) on the
 // host. A prop with a reason not to port it goes in the same allow-list, as `angular prop {slug}.{prop}`.
 //
+// A third pass (tasks.md P49-T15) does the same for Blazor: every Svelte prop must be a [Parameter] of the component or of a
+// class it inherits. Left out too: a native attribute that Svelte writes on the root under its own name, with no
+// default (`disabled`, `colspan`), which Blazor's @attributes passes through. The allow-list key is `blazor prop {slug}.{prop}`.
+//
 // Usage: bin/check-port-logic [--quiet]
 //        bin/check-port-logic --baseline   print an allow-list for the current gaps (edit the reasons!)
 
@@ -131,9 +135,9 @@ const svelteProps = (source) => {
   }
   return topLevel(match[1])
     .filter((part) => !part.startsWith("..."))
-    .map((part) => part.match(/^\w+/)?.[0])
+    .map((part) => part.match(/^(\w+)(?:\s*=\s*([\s\S]+))?/))
     .filter(Boolean)
-    .map((name) => ({ name, type: types[name] ?? "" }));
+    .map(([, name, initial]) => ({ name, type: types[name] ?? "", initial: initial ?? "" }));
 };
 
 const NATIVE_EVENTS = new Set(
@@ -158,6 +162,40 @@ const hasProp = (prop, ported, angular) => {
     if (angular.includes(`select="[${kebab}]"`) || angular.includes(`select="[${prop.name}]"`)) return true;
   }
   return false;
+};
+
+const BLAZOR_DIR = "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components";
+const blazorBases = new Map(
+  fs
+    .readdirSync(path.join(top, BLAZOR_DIR))
+    .filter((file) => file.endsWith(".cs"))
+    .flatMap((file) => {
+      const code = tsCode(read(BLAZOR_DIR, file));
+      return [...code.matchAll(/\bclass\s+(\w+)(?:<\w+>)?(?:\s*:\s*(\w+))?/g)].map((m) => [m[1], { code, base: m[2] }]);
+    }),
+);
+const blazorParameters = (code) => {
+  const names = new Set();
+  const add = (text) => {
+    for (const m of text.matchAll(/\[(?:Parameter|CascadingParameter)\b[^\]]*\](?:\s*\[[^\]]*\])*\s*public\s+(?:(?:override|virtual|required|new)\s+)*[\w<>?,.\[\]() ]+?\s+(\w+)\s*(?:\{|=>)/g))
+      names.add(m[1].toLowerCase());
+  };
+  add(code);
+  for (let base = code.match(/@inherits\s+(\w+)/)?.[1]; base && blazorBases.has(base); base = blazorBases.get(base).base)
+    add(blazorBases.get(base).code);
+  return names;
+};
+// Svelte writes the prop on the root element as a plain attribute of the same name: `{disabled}` or `disabled={disabled}`.
+const svelteRoot = (source) => source.replace(/<script[\s\S]*?<\/script>/g, "").replace(/<!--[\s\S]*?-->/g, "").match(/<[a-z][\s\S]*?\{\.\.\.restProps\}/)?.[0] ?? "";
+const nativeOnRoot = ({ name, initial }, root) =>
+  ["", "undefined", "false", '""', "null"].includes(initial.trim()) &&
+  new RegExp(`(?:^|\\s)(?:\\{${name}\\}|${name.toLowerCase()}=\\{${name}(?: \\|\\| undefined)?\\})`).test(root);
+const hasBlazorProp = (prop, names, root) => {
+  if (names.has(prop.name.toLowerCase()) || nativeOnRoot(prop, root)) return true;
+  const event = prop.name.match(/^on([A-Za-z]+)$/)?.[1]?.toLowerCase();
+  if (!event) return false;
+  // A C# name may follow an event's own name, or the `XChanged` that @bind-X needs.
+  return NATIVE_EVENTS.has(event) || [event, `on${event}`, `${event}d`, `${event}ed`, `${event.replace(/change$/, "")}changed`].some((n) => names.has(n));
 };
 
 const ALWAYS_PORTED = new Set(["class", "children", "ref"]);
@@ -199,6 +237,22 @@ for (const [slug, name] of rows) {
     const key = `angular prop ${slug}.${prop.name}`;
     gaps.add(key);
     baseline[key] = "Not ported yet (tasks.md P25-T15).";
+  }
+}
+
+for (const [slug, name] of rows) {
+  const razor = read(BLAZOR_DIR, `${name}.razor`);
+  if (!razor) continue;
+  const names = blazorParameters(razorCode(razor) + tsCode(read(BLAZOR_DIR, `${name}.razor.cs`)));
+  const source = read("lily-design-system-svelte-headless/components", name, `${name}.svelte`);
+  const root = razor.includes('@attributes="AdditionalAttributes"') || /@inherits/.test(razor) ? svelteRoot(source) : "";
+  for (const prop of svelteProps(source)) {
+    if (ALWAYS_PORTED.has(prop.name)) continue;
+    propsCompared += 1;
+    if (hasBlazorProp(prop, names, root)) continue;
+    const key = `blazor prop ${slug}.${prop.name}`;
+    gaps.add(key);
+    baseline[key] = "Not ported yet (tasks.md P49-T15).";
   }
 }
 

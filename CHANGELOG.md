@@ -23,6 +23,10 @@ From [an audit](docs/audits/gpt-6-2-astra-high/index.md). In the headless packag
 - Web Components: the identifier inputs keep their value out of every attribute, and `age-view`, `duration-view` and
   `date-time-view` no longer leave what they were given on the element.
 - **Fixed:** Blazor `DateTimeView` takes `Value` and `Format` and writes `datetime`; it had neither, and wrote an empty `aria-label`.
+- **Fixed:** Blazor lacked Svelte props that matter to assistive technology: `Fieldset` `Legend`; `Caption` on the calendar, data,
+  Gantt and kanban tables; `Scope` on the five header cells (`col` by default); `Pressed` on `Button` and `IconButton`; `Urgent` on
+  `Notification` and `Toast`; `Heading`, `Role` and `Live` on `Alert`; `Decorative` on `Icon` and `Character`; `Status` on
+  `StepListItem` and `ValidationListItem`. The other 134 gaps are listed (tasks.md P49-T15).
 - The text-size names in ten label packs ([spec/label-packs](spec/label-packs/index.md#text-size-names)), still unreviewed.
 
 ## Release: the filters 0.2.0 and the Web Components identifiers 0.5.0 (2026-11-24)

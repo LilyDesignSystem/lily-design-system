@@ -5,10 +5,12 @@
     one validation rule in a validation list with a status of pending, passed, or failed
 *@
 
-<li class="@($"validation-list-item {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</li>
+<li class="@($"validation-list-item {CssClass}".Trim())" data-status="@Status" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</li>
 
 @code {
     [Parameter] public string Label { get; set; } = "";
+    /// <summary>"pending", "passed" or "failed", as data-status.</summary>
+    [Parameter] public string Status { get; set; } = "pending";
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }

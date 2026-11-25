@@ -6,10 +6,12 @@
     a calendar table interactive grid for managing dates, days, etc. <table>
 *@
 
-<table @ref="Root" class="@($"calendar-table {CssClass}".Trim())" role="grid" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</table>
+<table @ref="Root" class="@($"calendar-table {CssClass}".Trim())" role="grid" aria-label="@Label" @attributes="AdditionalAttributes">@if (!string.IsNullOrEmpty(Caption)) {<caption>@Caption</caption>}@ChildContent</table>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    /// <summary>The table's visible caption.</summary>
+    [Parameter] public string? Caption { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
