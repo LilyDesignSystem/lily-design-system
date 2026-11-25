@@ -21,5 +21,8 @@ export class AgeView extends HTMLElement {
         span.append(this.getAttribute("value") ?? "");
         passThroughAttributes(this, span, HANDLED);
         this.appendChild(span);
+        // Read once, so not left on the host too (PHI.md): data-duration stays, for a theme, and is listed there.
+        this.removeAttribute("value");
+        this.removeAttribute("duration");
     }
 }

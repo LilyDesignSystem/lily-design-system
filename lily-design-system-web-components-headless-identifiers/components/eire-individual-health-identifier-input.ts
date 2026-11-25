@@ -14,6 +14,7 @@
 //   - components/eire-individual-health-identifier-input/index.md (canonical contract)
 
 import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { PrivateValue } from "../lib/private-value.js";
 
 const HANDLED = new Set([
     "label",
@@ -27,16 +28,31 @@ const HANDLED = new Set([
 
 export class EireIndividualHealthIdentifierInput extends HTMLElement {
     #input: HTMLInputElement | null = null;
+    readonly #value = new PrivateValue(this);
+
+    static get observedAttributes(): string[] {
+        return ["value"];
+    }
+
+    attributeChangedCallback(_name: string, _old: string | null, next: string | null): void {
+        this.#value.attribute(next);
+    }
+
+    disconnectedCallback(): void {
+        this.#value.disconnect();
+    }
 
     connectedCallback(): void {
-        if (this.#input) return;
+        if (this.#input) {
+            this.#value.connect(this.#input);
+            return;
+        }
 
         const input = document.createElement("input");
         input.type = "text";
         input.className = rootClassName(this, "eire-individual-health-identifier-input");
         const label = this.getAttribute("label");
         if (label !== null) input.setAttribute("aria-label", label);
-        input.defaultValue = this.getAttribute("value") ?? "";
         if (this.hasAttribute("required")) input.required = true;
         if (this.hasAttribute("disabled")) input.disabled = true;
         input.setAttribute("pattern", "[0-9]{10}");
@@ -47,14 +63,14 @@ export class EireIndividualHealthIdentifierInput extends HTMLElement {
 
         this.appendChild(input);
         this.#input = input;
+        this.#value.connect(input);
     }
 
     get value(): string {
-        return this.#input?.value ?? this.getAttribute("value") ?? "";
+        return this.#value.value;
     }
 
     set value(v: string) {
-        if (this.#input) this.#input.value = v;
-        else this.setAttribute("value", v);
+        this.#value.value = v;
     }
 }

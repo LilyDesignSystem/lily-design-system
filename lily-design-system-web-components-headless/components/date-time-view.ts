@@ -42,5 +42,8 @@ export class DateTimeView extends HTMLElement {
         }
 
         this.appendChild(time);
+        // Read once, so not left on the host too (PHI.md): datetime stays, as semantics, and is listed there.
+        this.removeAttribute("value");
+        this.removeAttribute("format");
     }
 }

@@ -6,7 +6,8 @@ unmasked, so each identifier view (category "national" in components-categories.
 the identifier in text, never in an attribute (spec/healthcare-ui/requirements.md, HC-I2). Checked in the source of all
 ten catalogs: no data-*, title or aria-label/aria-description attribute, and in Web Components, whose value arrives as
 an attribute on the host element, the view must remove it once read. The rendered proof is the identifier-views test in
-the Svelte and Web Components identifier packages. Exits 1 on a gap.
+the Svelte and Web Components identifier packages. The Web Components identifier inputs are checked too (HC-I3). Exits 1 on
+a gap.
 """
 import csv
 import os
@@ -68,6 +69,13 @@ for catalog, pattern in CATALOGS.items():
             gaps.append(f"{catalog}:{slug}: writes an attribute ({found.group(0)}) that could hold the identifier")
         if catalog == "web-components" and 'this.removeAttribute("value")' not in source:
             gaps.append(f"{catalog}:{slug}: leaves the identifier in the host's value attribute")
+# A Web Components identifier input (HC-I3) takes its value through lib/private-value.ts, which keeps it out of every attribute.
+for r in csv.reader(open(os.path.join(TOP, "components-categories.tsv")), delimiter="\t"):
+    if len(r) > 2 and r[2] == "national" and r[0].endswith("-input"):
+        path = os.path.join(TOP, f"lily-design-system-web-components-headless-identifiers/components/{r[0]}.ts")
+        source = COMMENTS.sub("", open(path, encoding="utf-8").read())
+        if "new PrivateValue(this)" not in source or re.search(r"defaultValue|etAttribute\(\"value\"", source):
+            gaps.append(f"web-components:{r[0]}: does not keep its value out of attributes with PrivateValue")
 for gap in gaps:
     print(gap)
 print(

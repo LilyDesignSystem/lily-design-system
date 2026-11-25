@@ -26,5 +26,8 @@ export class DurationView extends HTMLElement {
         time.append(this.getAttribute("value") ?? "");
         passThroughAttributes(this, time, HANDLED);
         this.appendChild(time);
+        // Read once, so not left on the host too (PHI.md): datetime stays, as semantics, and is listed there.
+        this.removeAttribute("value");
+        this.removeAttribute("duration");
     }
 }

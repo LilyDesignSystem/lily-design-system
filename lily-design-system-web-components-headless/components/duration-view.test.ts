@@ -33,4 +33,14 @@ describe("DurationView", () => {
         document.body.innerHTML = `<lily-duration-view value="4 days" duration="P4D" label="Length of stay"></lily-duration-view>`;
         expect(root().textContent).toBe("Length of stay 4 days");
     });
+
+    test("what the host was given is not left in its attributes (P48-T2), and it survives being moved", () => {
+        document.body.innerHTML = `<lily-duration-view value="3 days" duration="P3D"></lily-duration-view><div></div>`;
+        const host = document.body.firstElementChild as HTMLElement;
+        const text = host.textContent;
+        for (const name of ["value", "duration"]) expect(host.hasAttribute(name)).toBe(false);
+        document.querySelector("div")?.append(host);
+        expect(host.textContent).toBe(text);
+        expect(host.childElementCount).toBe(1);
+    });
 });

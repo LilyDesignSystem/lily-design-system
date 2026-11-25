@@ -24,4 +24,14 @@ describe("AgeView", () => {
         expect(root.textContent).toBe("Age 3 weeks 2 days");
         expect(root.hasAttribute("aria-label")).toBe(false);
     });
+
+    test("what the host was given is not left in its attributes (P48-T2), and it survives being moved", () => {
+        document.body.innerHTML = `<lily-age-view value="3 weeks" duration="P21D"></lily-age-view><div></div>`;
+        const host = document.body.firstElementChild as HTMLElement;
+        const text = host.textContent;
+        for (const name of ["value", "duration"]) expect(host.hasAttribute(name)).toBe(false);
+        document.querySelector("div")?.append(host);
+        expect(host.textContent).toBe(text);
+        expect(host.childElementCount).toBe(1);
+    });
 });

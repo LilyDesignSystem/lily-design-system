@@ -33,11 +33,12 @@ page that shows a record. Corrected 2026-11-24: this page used to answer "No".
   `<meter>`'s value, an email address or telephone number in a link. The whole list for the components made for health records
   is [phi-attributes.tsv](phi-attributes.tsv), and `bin/check-phi-attributes` (in `bin/test`) fails when one is missing. It reads
   the Svelte source, which the other catalogs follow; it does not see attributes you pass through yourself.
-- **Form inputs.** A value you give an input may be in its `value` attribute, as in any HTML page. That includes identifier
-  inputs: render them empty, or mask them.
-- **Web Components** that take a value as an attribute keep it on the element (`age-view`, `date-time-view`, `duration-view`, the
-  identifier inputs and others); only the identifier views remove it. Set the property rather than the attribute where the
-  component has one, and mask the element (open work: tasks.md P48-T2).
+- **Form inputs.** A value you give an input may be in its `value` attribute, as in any HTML page, and always is when a server
+  renders it: render identifier inputs empty, or mask them. The Web Components identifier inputs are the exception: they keep
+  what they hold in no attribute, and still submit and reset (HC-I3).
+- **Web Components** that take a value as an attribute keep it on the element, except the identifier views and inputs,
+  `age-view`, `duration-view` and `date-time-view`, which remove it once read. Until the script runs, what you wrote in the markup
+  is there: set the property instead where the component has one.
 - **Angular:** bind a value (`[value]`). A static attribute on the host stays in the page.
 
 ## What you must still do

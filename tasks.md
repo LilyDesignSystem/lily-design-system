@@ -4648,7 +4648,7 @@ From [spec/quality-review](spec/quality-review/index.md); the numbers in bracket
       `data-duration`, `data-interpretation`, `data-severity` and the rest), say why it is there and how to mask it, and keep
       "No" only for the identifier views.
       Verify: a check that fails when a healthcare component renders an attribute from a prop that the list does not name.
-- [ ] **P48-T2 No identifier left in a Web Components attribute (8).** The identifier inputs, and `age-view`, `date-time-view`
+- [x] **P48-T2 No identifier left in a Web Components attribute (8).** _(2026-11-25: `lib/private-value.ts` in all 94 inputs, HC-I3, checked in Chromium, Firefox and WebKit; the three views drop what they were given. Unreleased.)_ The identifier inputs, and `age-view`, `date-time-view`
       and `duration-view` on their hosts. Decide first whether an input may keep `defaultValue`, which form reset needs.
       Verify: a sentinel test over every identifier input and clinical view, as HC-I2 has for the identifier views.
 - [ ] **P48-T3 The register names the catalogs (9).** A catalogs column; `bin/check-healthcare-requirements` requires the id
