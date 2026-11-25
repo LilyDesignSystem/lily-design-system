@@ -4793,6 +4793,8 @@ each was checked against the source on 2026-11-25, not reproduced in a browser h
       the allergy, medication and problem lists did. Render them only when `known`, in every catalog and all the record lists, and warn
       in development without the contents.
       Verify: patient A to B, and known to unavailable to known, with an old child still supplied; nothing is relabelled "None known".
+      _(2026-11-25: Swift and Kotlin already hide the entries unless the status is `known`. Held for a decision: hiding them also
+      hides a real allergy when the status is wrong, and showing both lets a reader see the conflict.)_
 - [x] **P50-T3 An alert submits another alert's override reason (3).** _(2026-11-25: HC-C15, `cardId`; failing tests first in five web catalogs, then Blazor, Swift and Kotlin. Solid also showed an empty menu while keeping the reason. Web Components: with T1. Compose is not compiled on this machine.)_ `decision-support-card` keeps the chosen reason when its card is
       replaced, and accepts one the current card does not offer (React and Svelte, from the source).
       Verify: replacement with the same and with different reason codes, and an offered reason removed while open, in every stateful port.
