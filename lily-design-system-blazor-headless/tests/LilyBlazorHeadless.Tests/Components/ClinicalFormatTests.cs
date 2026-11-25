@@ -58,6 +58,9 @@ public class ClinicalFormatTests
     [InlineData("2026-02-30")]
     [InlineData("2026-02-30T10:00:00Z")]
     [InlineData("2026-01-01T24:00:00Z")]
+    [InlineData("2026-01-01T10:00:00+14:30")]
+    [InlineData("2026-01-01T10:00:00-23:59")]
+    [InlineData("0001-01-01T00:00:00+14:00")] // before the first moment .NET can hold
     [InlineData("2026-01-01\n")]
     [InlineData("")]
     public void AgeParts_refuses_a_date_that_has_no_age_without_its_value(string bad)

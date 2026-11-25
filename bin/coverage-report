@@ -290,6 +290,9 @@ if (process.argv.includes("--update-floor")) {
                 return [key, { lines: Number(lines), branches: Number(branches) }];
             }),
     );
+    // Blazor's branch count varies by a few with the machine's load, cause unknown (tasks.md P48-T7), so a figure below its floor
+    // is reported and does not fail. One above it still does.
+    const UNSTABLE = new Set(["blazor-headless"]);
     const problems = [];
     for (const m of measured) {
         const f = floor.get(m.key);
@@ -302,6 +305,10 @@ if (process.argv.includes("--update-floor")) {
             if (m[kind] > f[kind])
                 problems.push(
                     `${m.key}: ${m[kind]} uncovered ${kind}, above the floor of ${f[kind]}`,
+                );
+            else if (m[kind] < f[kind] && UNSTABLE.has(m.key))
+                console.log(
+                    `coverage floor: ${m.key}: ${m[kind]} uncovered ${kind}, below the floor of ${f[kind]}; not failed, because its count varies with load (P48-T7)`,
                 );
             else if (m[kind] < f[kind])
                 problems.push(

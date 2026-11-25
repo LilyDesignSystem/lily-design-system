@@ -242,7 +242,7 @@ export function meterScale(
 
 const CIVIL_DATE = /^\d{4}-\d{2}-\d{2}$/;
 const TIMESTAMP =
-    /^\d{4}-\d{2}-\d{2}T(?:[01]\d|2[0-3]):[0-5]\d(?::[0-5]\d(?:\.\d+)?)?(?:Z|[+-](?:[01]\d|2[0-3]):[0-5]\d)$/;
+    /^\d{4}-\d{2}-\d{2}T(?:[01]\d|2[0-3]):[0-5]\d(?::[0-5]\d(?:\.\d+)?)?(?:Z|[+-](?:(?:0\d|1[0-3]):[0-5]\d|14:00))$/;
 
 /** A moment, and the calendar day it was written with. A date with no time is its day alone. */
 interface Moment {
@@ -257,7 +257,7 @@ const dayOf = (iso: string): number => {
     return date.setUTCFullYear(year);
 };
 
-// A year, or a year and month, has no age: JavaScript would read "2025" as 1 January and give an exact one. A time with no
+// No UTC offset is beyond 14:00. A year, or a year and month, has no age: JavaScript would read "2025" as 1 January and give an exact one. A time with no
 // offset is a different moment in each zone. Both are refused, and the message never holds the date.
 function toMoment(value: Date | string): Moment {
     if (value instanceof Date) {

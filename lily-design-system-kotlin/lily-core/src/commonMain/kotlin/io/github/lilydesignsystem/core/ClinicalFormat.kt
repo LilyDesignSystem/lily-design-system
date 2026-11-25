@@ -135,7 +135,7 @@ public fun ageParts(birthMillis: Long, atMillis: Long): List<AgePart> {
 }
 
 private val TIMESTAMP = Regex(
-    """^(\d{4})-(\d{2})-(\d{2})(?:T([01]\d|2[0-3]):([0-5]\d)(?::([0-5]\d)(?:\.(\d+))?)?(Z|[+-](?:[01]\d|2[0-3]):[0-5]\d))?$""",
+    """^(\d{4})-(\d{2})-(\d{2})(?:T([01]\d|2[0-3]):([0-5]\d)(?::([0-5]\d)(?:\.(\d+))?)?(Z|[+-](?:(?:0\d|1[0-3]):[0-5]\d|14:00)))?$""",
 )
 
 /** A moment in epoch milliseconds (null for a date with no time) and the day it was written with. */

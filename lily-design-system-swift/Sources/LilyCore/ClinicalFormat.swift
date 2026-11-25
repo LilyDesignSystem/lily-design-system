@@ -149,7 +149,7 @@ public func ageParts(birth: Date, at: Date) throws -> [AgePart] {
 /// A moment (nil for a date with no time) and the day it was written with, at midnight UTC.
 private func moment(_ text: String) throws -> (time: Date?, day: Date) {
     let pattern =
-        /(\d{4})-(\d{2})-(\d{2})(?:T([01]\d|2[0-3]):([0-5]\d)(?::([0-5]\d)(?:\.(\d+))?)?(?:(Z)|([+-])([01]\d|2[0-3]):([0-5]\d)))?/
+        /(\d{4})-(\d{2})-(\d{2})(?:T([01]\d|2[0-3]):([0-5]\d)(?::([0-5]\d)(?:\.(\d+))?)?(?:(Z)|([+-])(0\d|1[0-4]):([0-5]\d)))?/
     guard let m = text.wholeMatch(of: pattern), let month = Int(m.2), (1...12).contains(month),
         let year = Int(m.1), let dayOfMonth = Int(m.3),
         (1...daysInMonth(year: year, month: month)).contains(dayOfMonth),
@@ -160,6 +160,8 @@ private func moment(_ text: String) throws -> (time: Date?, day: Date) {
     if let s = m.6 { seconds += Double(Int(s)!) }
     if let f = m.7 { seconds += Double("0." + f)! }
     if let sign = m.9, let h = m.10, let min = m.11 {
+        // No UTC offset is beyond 14:00.
+        if h == "14", min != "00" { throw ClinicalFormatError.notADateWithAnAge }
         let offset = Double(Int(h)! * 3600 + Int(min)! * 60)
         seconds -= sign == "-" ? -offset : offset
     }

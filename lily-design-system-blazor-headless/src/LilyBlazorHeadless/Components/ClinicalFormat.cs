@@ -125,7 +125,7 @@ public static class ClinicalFormat
     }
 
     private static readonly System.Text.RegularExpressions.Regex Timestamp = new(
-        @"^\d{4}-\d{2}-\d{2}T(?:[01]\d|2[0-3]):[0-5]\d(?::[0-5]\d(?:\.\d+)?)?(?:Z|[+-](?:[01]\d|2[0-3]):[0-5]\d)\z");
+        @"^\d{4}-\d{2}-\d{2}T(?:[01]\d|2[0-3]):[0-5]\d(?::[0-5]\d(?:\.\d+)?)?(?:Z|[+-](?:(?:0\d|1[0-3]):[0-5]\d|14:00))\z");
 
     // A moment and the day it was written with; a date with no time is its day alone. The message never holds the date.
     private static (DateTimeOffset? Moment, DateOnly Day) ParseMoment(string text, string paramName)
