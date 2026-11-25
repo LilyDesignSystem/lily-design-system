@@ -6,6 +6,7 @@ import SearchInput from "@lily/SearchInput";
 import TagGroup from "@lily/TagGroup";
 import Tag from "@lily/Tag";
 import TagInputDiv from "@lily/TagInputDiv";
+import HorizontalScroller from "@lily/HorizontalScroller";
 import DataTable from "@lily/DataTable";
 import DataTableHead from "@lily/DataTableHead";
 import DataTableBody from "@lily/DataTableBody";
@@ -131,31 +132,33 @@ export default function SearchAndFilterPage() {
             </TagGroup>
 
             <h2>Results ({filtered.length})</h2>
-            <DataTable
-                label="Product catalog"
-                caption={`${filtered.length} products found`}
-            >
-                <DataTableHead>
-                    <DataTableRow>
-                        <th scope="col">Name</th>
-                        <th scope="col">Category</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Status</th>
-                    </DataTableRow>
-                </DataTableHead>
-                <DataTableBody>
-                    {filtered.map((p) => (
-                        <DataTableRow key={p.id}>
-                            <DataTableTD>{p.name}</DataTableTD>
-                            <DataTableTD>{p.category}</DataTableTD>
-                            <DataTableTD>${p.price.toFixed(2)}</DataTableTD>
-                            <DataTableTD>
-                                <Badge type={statusBadgeType(p.status)}>{p.status}</Badge>
-                            </DataTableTD>
+            <HorizontalScroller label="Product catalog">
+                <DataTable
+                    label="Product catalog"
+                    caption={`${filtered.length} products found`}
+                >
+                    <DataTableHead>
+                        <DataTableRow>
+                            <th scope="col">Name</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Status</th>
                         </DataTableRow>
-                    ))}
-                </DataTableBody>
-            </DataTable>
+                    </DataTableHead>
+                    <DataTableBody>
+                        {filtered.map((p) => (
+                            <DataTableRow key={p.id}>
+                                <DataTableTD>{p.name}</DataTableTD>
+                                <DataTableTD>{p.category}</DataTableTD>
+                                <DataTableTD>${p.price.toFixed(2)}</DataTableTD>
+                                <DataTableTD>
+                                    <Badge type={statusBadgeType(p.status)}>{p.status}</Badge>
+                                </DataTableTD>
+                            </DataTableRow>
+                        ))}
+                    </DataTableBody>
+                </DataTable>
+            </HorizontalScroller>
         </main>
     );
 }

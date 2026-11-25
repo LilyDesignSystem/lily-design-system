@@ -51,30 +51,32 @@
 }
 
 <section class="section">
-    <DataTable Label="Products">
-        <caption>@Filtered.Count() products found</caption>
-        <DataTableHead>
-            <DataTableRow>
-                <th>Name</th>
-                <th>Category</th>
-                <th>Price</th>
-                <th>Status</th>
-            </DataTableRow>
-        </DataTableHead>
-        <DataTableBody>
-            @foreach (var product in Filtered)
-            {
+    <HorizontalScroller Label="Products">
+        <DataTable Label="Products">
+            <caption>@Filtered.Count() products found</caption>
+            <DataTableHead>
                 <DataTableRow>
-                    <DataTableTD>@product.Name</DataTableTD>
-                    <DataTableTD>@product.Category</DataTableTD>
-                    <DataTableTD>@product.Price.ToString("C2")</DataTableTD>
-                    <DataTableTD>
-                        <Badge Label="@product.Status" data-status="@StatusBadgeType(product.Status)">@product.Status</Badge>
-                    </DataTableTD>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Status</th>
                 </DataTableRow>
-            }
-        </DataTableBody>
-    </DataTable>
+            </DataTableHead>
+            <DataTableBody>
+                @foreach (var product in Filtered)
+                {
+                    <DataTableRow>
+                        <DataTableTD>@product.Name</DataTableTD>
+                        <DataTableTD>@product.Category</DataTableTD>
+                        <DataTableTD>@product.Price.ToString("C2")</DataTableTD>
+                        <DataTableTD>
+                            <Badge Label="@product.Status" data-status="@StatusBadgeType(product.Status)">@product.Status</Badge>
+                        </DataTableTD>
+                    </DataTableRow>
+                }
+            </DataTableBody>
+        </DataTable>
+    </HorizontalScroller>
 </section>
 
 @code {

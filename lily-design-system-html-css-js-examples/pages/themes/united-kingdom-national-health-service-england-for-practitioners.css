@@ -1188,6 +1188,12 @@
         border: 0;
     }
 
+    /* Each item starts its own row. An item with no action has two cells in a grid of three columns, so without this the next
+       label filled the empty cell and every value after it was beside the wrong label (2026-11-25). */
+    :where(.summary-list-item > :first-child, .summary-list > dt) {
+        grid-column-start: 1;
+    }
+
     /* --- Icon / collection / document lists — flex rows with leading icon -- */
     :where(.icon-list-item, .collection-list-item, .document-list-item) {
         display: flex;

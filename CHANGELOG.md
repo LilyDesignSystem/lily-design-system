@@ -23,6 +23,8 @@ From [an audit](docs/audits/gpt-6-2-astra-high/index.md). In the headless packag
 - Web Components: the identifier inputs keep their value out of every attribute, and `age-view`, `duration-view` and
   `date-time-view` no longer leave what they were given on the element.
 - **Fixed:** Blazor `DateTimeView` takes `Value` and `Format` and writes `datetime`; it had neither, and wrote an empty `aria-label`.
+- **Fixed (safety):** in all 65 themes, a `summary-list` without actions showed values beside the wrong labels; each item now starts its own
+  row, and a test checks the pairing in every theme.
 - **Fixed:** the 65 themes no longer split a time or a clinical value across lines in a table cell; six SvelteKit clinical pages put their
   wide tables in a labelled scroller (five of them scrolled sideways at 320px).
 - **Type change:** in Svelte, React, Solid and Vue, `observation-view` requires `statusLabel` for any `status` but `final`.

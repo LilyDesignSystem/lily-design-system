@@ -421,7 +421,7 @@ submit-input	key evidence incomplete	no	yes	no	no	1	2	no	-
 success-panel	ARIA evidence incomplete	no	no	no	yes	8	6	no	-
 summary-box	ARIA evidence incomplete	no	no	no	yes	1	7	no	-
 summary-list	ARIA evidence incomplete	no	no	no	yes	8	6	yes	-
-summary-list-item	automated evidence complete	no	no	no	no	8	2	no	-
+summary-list-item	automated evidence complete	no	no	no	no	8	2	yes	-
 suomi-henkilotunnus-input	ARIA evidence incomplete	no	no	no	yes	1	3	no	-
 suomi-henkilotunnus-view	ARIA evidence incomplete	no	no	no	yes	1	6	no	-
 super-banner	key evidence incomplete	no	yes	no	yes	1	7	no	-

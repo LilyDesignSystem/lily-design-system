@@ -236,6 +236,7 @@ example_smoke() {
         e2e/components-index.spec.ts \
         e2e/rtl-demo.spec.ts \
         e2e/clinical-reflow.spec.ts \
+        e2e/summary-list-pairing.spec.ts \
         e2e/patient-dashboard.spec.ts \
         e2e/book-an-appointment.spec.ts
     # Every component page through axe, a second framework beside Nunjucks and Alpine. Chromium only: axe reads the DOM,

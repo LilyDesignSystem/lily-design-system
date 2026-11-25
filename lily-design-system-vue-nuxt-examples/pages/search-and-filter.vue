@@ -163,28 +163,30 @@ function removeTag(tag: string) {
         </TagGroup>
 
         <h2>Results ({{ filtered.length }})</h2>
-        <DataTable label="Product catalog">
-            <DataTableHead>
-                <DataTableRow>
-                    <th scope="col">Name</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Status</th>
-                </DataTableRow>
-            </DataTableHead>
-            <DataTableBody>
-                <DataTableRow
-                    v-for="p in filtered"
-                    :key="p.id"
-                >
-                    <DataTableTD>{{ p.name }}</DataTableTD>
-                    <DataTableTD>{{ p.category }}</DataTableTD>
-                    <DataTableTD>${{ p.price.toFixed(2) }}</DataTableTD>
-                    <DataTableTD>
-                        <Badge :type="statusBadgeType(p.status)">{{ p.status }}</Badge>
-                    </DataTableTD>
-                </DataTableRow>
-            </DataTableBody>
-        </DataTable>
+        <HorizontalScroller label="Product catalog">
+            <DataTable label="Product catalog">
+                <DataTableHead>
+                    <DataTableRow>
+                        <th scope="col">Name</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Status</th>
+                    </DataTableRow>
+                </DataTableHead>
+                <DataTableBody>
+                    <DataTableRow
+                        v-for="p in filtered"
+                        :key="p.id"
+                    >
+                        <DataTableTD>{{ p.name }}</DataTableTD>
+                        <DataTableTD>{{ p.category }}</DataTableTD>
+                        <DataTableTD>${{ p.price.toFixed(2) }}</DataTableTD>
+                        <DataTableTD>
+                            <Badge :type="statusBadgeType(p.status)">{{ p.status }}</Badge>
+                        </DataTableTD>
+                    </DataTableRow>
+                </DataTableBody>
+            </DataTable>
+        </HorizontalScroller>
     </main>
 </template>

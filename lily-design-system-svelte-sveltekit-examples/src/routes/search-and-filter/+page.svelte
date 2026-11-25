@@ -7,6 +7,7 @@
     import Tag from "#lib/components/Tag/Tag.svelte";
     import Select from "#lib/components/Select/Select.svelte";
     import Option from "#lib/components/Option/Option.svelte";
+    import HorizontalScroller from "#lib/components/HorizontalScroller/HorizontalScroller.svelte";
     import DataTable from "#lib/components/DataTable/DataTable.svelte";
     import DataTableHead from "#lib/components/DataTableHead/DataTableHead.svelte";
     import DataTableBody from "#lib/components/DataTableBody/DataTableBody.svelte";
@@ -178,39 +179,41 @@
     <h2>Results</h2>
     <p><Badge>{filteredServices.length}</Badge> services found</p>
 
-    <DataTable
-        label="Services"
-        caption="Hospital services directory"
-    >
-        <DataTableHead>
-            <DataTableRow>
-                <th>Service</th>
-                <th>Location</th>
-                <th>Status</th>
-                <th>Wait (weeks)</th>
-            </DataTableRow>
-        </DataTableHead>
-        <DataTableBody>
-            {#each filteredServices as service}
+    <HorizontalScroller label="Services">
+        <DataTable
+            label="Services"
+            caption="Hospital services directory"
+        >
+            <DataTableHead>
                 <DataTableRow>
-                    <DataTableTD>{service.name}</DataTableTD>
-                    <DataTableTD>{service.location}</DataTableTD>
-                    <DataTableTD>
-                        <Badge
-                            type={service.status === "Available"
-                                ? "success"
-                                : service.status === "Limited"
-                                  ? "warning"
-                                  : "error"}
-                        >
-                            {service.status}
-                        </Badge>
-                    </DataTableTD>
-                    <DataTableTD>{service.waitWeeks}</DataTableTD>
+                    <th>Service</th>
+                    <th>Location</th>
+                    <th>Status</th>
+                    <th>Wait (weeks)</th>
                 </DataTableRow>
-            {/each}
-        </DataTableBody>
-    </DataTable>
+            </DataTableHead>
+            <DataTableBody>
+                {#each filteredServices as service}
+                    <DataTableRow>
+                        <DataTableTD>{service.name}</DataTableTD>
+                        <DataTableTD>{service.location}</DataTableTD>
+                        <DataTableTD>
+                            <Badge
+                                type={service.status === "Available"
+                                    ? "success"
+                                    : service.status === "Limited"
+                                      ? "warning"
+                                      : "error"}
+                            >
+                                {service.status}
+                            </Badge>
+                        </DataTableTD>
+                        <DataTableTD>{service.waitWeeks}</DataTableTD>
+                    </DataTableRow>
+                {/each}
+            </DataTableBody>
+        </DataTable>
+    </HorizontalScroller>
 </main>
 
 <Footer label="Site footer">

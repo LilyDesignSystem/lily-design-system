@@ -113,20 +113,27 @@
       ></div>
 
       <h2>Results (<span id="result-count">8</span>)</h2>
-      <table
-        class="data-table"
+      <div
+        class="horizontal-scroller"
+        role="region"
         aria-label="Product catalog"
+        tabindex="0"
       >
-        <thead>
-          <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Category</th>
-            <th scope="col">Price</th>
-            <th scope="col">Status</th>
-          </tr>
-        </thead>
-        <tbody id="product-tbody"></tbody>
-      </table>
+        <table
+          class="data-table"
+          aria-label="Product catalog"
+        >
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Category</th>
+              <th scope="col">Price</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody id="product-tbody"></tbody>
+        </table>
+      </div>
     </main>
 
     <footer

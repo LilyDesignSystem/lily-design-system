@@ -7,6 +7,10 @@ anything that can change how an existing page lays out. The monorepo's root
 
 ## Unreleased
 
+- **Fixed (safety):** a `summary-list` whose items have no action showed values beside the wrong labels, in every theme and at every
+  width: the grid has three columns, an item with no action has two cells, and the next label filled the empty one. Each item now
+  starts its own row. **If you use a summary list without actions, upgrade.** Components: `summary-list`, `summary-list-item`.
+
 - **Fixed (layout):** a `<time>`, a `<data>` or a clinical view component (`observation-view`, `medication-view`, `age-view`,
   `duration-view`, `early-warning-score-view`) in a table data cell keeps its words and numbers whole, and inside a
   `horizontal-scroller` every data cell does: 09:00 was shown as "09:0" over "0". **Watch for:** such a column is now at least as wide
