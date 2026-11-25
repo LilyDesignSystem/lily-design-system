@@ -188,6 +188,61 @@ describe("ageParts", () => {
         expect(ageParts("2008-02-29", "2026-03-01")).toEqual([{ value: 18, unit: "years" }]);
     });
 
+    test("HC-F16: a partial birth date has no age: a year, or a year and month, is refused without its value", () => {
+        for (const partial of ["2025", "2025-03"]) {
+            expect(() => ageParts(partial, "2026-06-01")).toThrow(
+                /^ageParts: birth and at must each be a full date \(YYYY-MM-DD\) or a timestamp with an offset$/,
+            );
+            expect(() => ageParts("2024-01-01", partial)).toThrow(
+                /^ageParts: birth and at must each be/,
+            );
+        }
+    });
+
+    test("HC-F16: a date with no time gives whole days or longer, never hours or minutes", () => {
+        expect(ageParts("2026-01-01", "2026-01-01")).toEqual([{ value: 0, unit: "days" }]);
+        expect(ageParts("2026-01-01", "2026-01-02T23:59:00Z")).toEqual([
+            { value: 1, unit: "days" },
+        ]);
+        expect(ageParts("2026-01-01T23:50:00Z", "2026-01-02")).toEqual([
+            { value: 1, unit: "days" },
+        ]);
+        expect(ageParts("2026-01-01", "2026-01-29")).toEqual([
+            { value: 4, unit: "weeks" },
+            { value: 0, unit: "days" },
+        ]);
+        expect(ageParts("0099-01-01", "0117-01-01")).toEqual([{ value: 18, unit: "years" }]);
+    });
+
+    test("HC-F16: a timestamp is the moment its offset says, and the day it was written with beside a date", () => {
+        expect(ageParts("2026-01-01T23:30:00+02:00", "2026-01-01T22:30:00Z")).toEqual([
+            { value: 60, unit: "minutes" },
+        ]);
+        expect(ageParts("2026-01-01", "2026-01-03T01:00:00+13:00")).toEqual([
+            { value: 2, unit: "days" },
+        ]);
+        expect(
+            ageParts(new Date("2026-01-01T00:00:00Z"), new Date("2026-01-01T03:00:00Z")),
+        ).toEqual([{ value: 3, unit: "hours" }]);
+    });
+
+    test("HC-F16: refuses a time with no offset, an impossible date and an invalid Date", () => {
+        for (const bad of [
+            "2026-01-01T10:00",
+            "2026-02-30",
+            "2026-02-30T10:00:00Z",
+            "2026-01-01T24:00:00Z",
+            "2026-01-01T10:00:60Z",
+            "2026-01-01T10:00:00+25:00",
+            "January 2026",
+            "",
+            20260101 as never,
+            null as never,
+            new Date(Number.NaN),
+        ])
+            expect(() => ageParts(bad, "2027-01-01")).toThrow(RangeError);
+    });
+
     test("refuses a date in the wrong order or not a date", () => {
         expect(() => ageParts("2026-01-02", "2026-01-01")).toThrow(RangeError);
         expect(() => ageParts("not a date", "2026-01-01")).toThrow(RangeError);
@@ -222,6 +277,8 @@ describe("toIsoDuration", () => {
 
     test("writes zero as PT0M", () => {
         expect(toIsoDuration([{ value: 0, unit: "minutes" }])).toBe("PT0M");
+        expect(toIsoDuration([])).toBe("PT0M");
+        expect(toIsoDuration([{ value: 0, unit: "days" }])).toBe("P0D");
     });
 });
 
@@ -531,8 +588,43 @@ describe("HC-F8: errors never echo a clinical value (spec/lessons/openehr-rust i
         ["formatProportion, a zero denominator", () => formatProportion(NUMBER, 0, "ratio", "en")],
         ["formatProportion, a wrong percent", () => formatProportion(NUMBER, 10, "percent", "en")],
         ["durationParts, not a duration", () => durationParts(DURATION)],
+        ["ageParts, a partial date", () => ageParts("1987", "2026-01-01")],
+        ["formatQuantity, too many places", () => formatQuantity(9.87654e-21, "mg", "en")],
+        [
+            "formatQuantity, finer than its precision",
+            () => formatQuantity(NUMBER, "mg", "en", undefined, { precision: 1 }),
+        ],
     ])("%s", (_name, f) => {
         expect(leaks(thrown(f))).toBe(false);
+    });
+
+    // Text a caller could mis-map: a unit, a locale, a comparator or a kind may hold a name or an identifier.
+    const A = "SYNTHETIC-A";
+    const B = "SYNTHETIC-B";
+    test.each([
+        ["meterScale, both units", () => meterScale(5, 3, 6, { value: A, range: B })],
+        ["meterScale, the value's unit", () => meterScale(5, 3, 6, { value: A, range: "mg" })],
+        ["meterScale, the range's unit", () => meterScale(5, 3, 6, { value: "mg", range: B })],
+        ["formatQuantity, the unit", () => formatQuantity(Number.NaN, A, "en")],
+        ["formatQuantity, the comparator", () => formatQuantity(1, "mg", "en", A as never)],
+        ["formatRange, the unit", () => formatRange(2, 1, A, "en")],
+        ["formatProportion, the kind", () => formatProportion(1, 2, A as never, "en")],
+        ["ageParts, the birth", () => ageParts(A, "2026-01-01")],
+        ["ageParts, the assessment", () => ageParts("2026-01-01", B)],
+        ["partialDatePrecision", () => partialDatePrecision(A)],
+        ["formatPartialDate", () => formatPartialDate(A, "en")],
+        ["durationParts", () => durationParts(A)],
+    ])("free text: %s", (_name, f) => {
+        expect(thrown(f)).not.toContain("SYNTHETIC");
+    });
+
+    test("a unit mismatch keeps its reason, with a constant message", () => {
+        expect(() => meterScale(5, 3, 6, { value: A, range: B })).toThrow(
+            expect.objectContaining({
+                reason: "units",
+                message: "meterScale: the value and the range are in different units",
+            }),
+        );
     });
 });
 
@@ -569,5 +661,39 @@ describe("recorded precision (spec/lessons/openehr-rust item 2)", () => {
             expect(() => formatQuantity(1, "", "en", undefined, { precision })).toThrow(
                 /precision must be a whole number/,
             );
+    });
+});
+
+describe("HC-F17: a number is never written as another", () => {
+    test("a value of more than 20 decimal places is refused, on both sides of the boundary and of zero", () => {
+        expect(formatQuantity(1e-20, "g", "en-GB")).toBe("0.00000000000000000001\u00a0g");
+        expect(formatQuantity(-1e-20, "g", "en-GB")).toBe("-0.00000000000000000001\u00a0g");
+        for (const tiny of [1e-21, -1e-21, 1.5e-20, Number.MIN_VALUE]) {
+            expect(() => formatQuantity(tiny, "g", "en-GB")).toThrow(
+                "the value is too fine to write exactly",
+            );
+            expect(() => formatQuantity(tiny, "g", "en-GB", undefined, { precision: 20 })).toThrow(
+                RangeError,
+            );
+            expect(() => formatProportion(tiny, 1, "unitary", "en-GB")).toThrow(RangeError);
+        }
+        expect(() => formatRange(0, 1e-21, "g", "en-GB")).toThrow(RangeError);
+        expect(() => formatRange(-1e-21, 0, "g", "en-GB")).toThrow(RangeError);
+        expect(formatQuantity(0, "g", "en-GB")).toBe("0\u00a0g");
+        expect(formatQuantity(1e-20, "g", "de-DE")).toBe("0,00000000000000000001\u00a0g");
+    });
+
+    test("ends that differ are never written alike", () => {
+        expect(formatRange(0, 1e-20, "g", "en-GB")).toContain("0.00000000000000000001");
+        expect(formatRange(1e-20, 2e-20, "g", "en-GB")).toContain("0.00000000000000000002");
+        expect(() => formatRange(1e-21, 2e-21, "g", "en-GB")).toThrow(RangeError);
+    });
+
+    test("a percent keeps its digits: 1.1 is 1.1%, in a decimal-comma locale too", () => {
+        expect(formatProportion(1.1, 100, "percent", "en-GB")).toBe("1.1%");
+        expect(formatProportion(0.07, 100, "percent", "en-GB")).toBe("0.07%");
+        expect(formatProportion(1e-7, 100, "percent", "en-GB")).toBe("0.0000001%");
+        expect(formatProportion(1.1, 100, "percent", "de-DE")).toBe("1,1\u00a0%");
+        expect(formatProportion(45, 100, "percent", "en-GB")).toBe("45%");
     });
 });

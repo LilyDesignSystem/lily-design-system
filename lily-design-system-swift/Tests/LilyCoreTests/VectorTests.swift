@@ -78,7 +78,7 @@ private func call(_ fn: String, _ args: [Any]) throws -> Any {
         if let high = scale.high { out["high"] = high }
         return out
     case "ageParts":
-        return try ageParts(birth: date(args[0]), at: date(args[1])).map {
+        return try ageParts(birth: string(0), at: string(1)).map {
             ["value": $0.value, "unit": $0.unit.rawValue] as [String: Any]
         }
     case "toIsoDuration":

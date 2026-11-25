@@ -472,6 +472,125 @@
         "datetime": "PT1.5S",
         "negative": false
       }
+    },
+    {
+      "fn": "ageParts",
+      "args": ["2026-01-01", "2026-01-01"],
+      "expected": [
+        {
+          "value": 0,
+          "unit": "days"
+        }
+      ]
+    },
+    {
+      "fn": "ageParts",
+      "args": ["2026-01-01", "2026-01-02T23:59:00Z"],
+      "expected": [
+        {
+          "value": 1,
+          "unit": "days"
+        }
+      ]
+    },
+    {
+      "fn": "ageParts",
+      "args": ["2026-01-01T23:50:00Z", "2026-01-02"],
+      "expected": [
+        {
+          "value": 1,
+          "unit": "days"
+        }
+      ]
+    },
+    {
+      "fn": "ageParts",
+      "args": ["2026-01-01", "2026-01-03T01:00:00+13:00"],
+      "expected": [
+        {
+          "value": 2,
+          "unit": "days"
+        }
+      ]
+    },
+    {
+      "fn": "ageParts",
+      "args": ["2026-01-01T23:30:00+02:00", "2026-01-01T22:30:00Z"],
+      "expected": [
+        {
+          "value": 60,
+          "unit": "minutes"
+        }
+      ]
+    },
+    {
+      "fn": "ageParts",
+      "args": ["2025-03-15", "2026-06-01"],
+      "expected": [
+        {
+          "value": 14,
+          "unit": "months"
+        },
+        {
+          "value": 17,
+          "unit": "days"
+        }
+      ]
+    },
+    {
+      "fn": "toIsoDuration",
+      "args": [
+        [
+          {
+            "value": 0,
+            "unit": "days"
+          }
+        ]
+      ],
+      "expected": "P0D"
+    },
+    {
+      "fn": "ageParts",
+      "args": ["2025", "2026-06-01"],
+      "throws": true
+    },
+    {
+      "fn": "ageParts",
+      "args": ["2025-03", "2026-06-01"],
+      "throws": true
+    },
+    {
+      "fn": "ageParts",
+      "args": ["2025-03-15", "2026"],
+      "throws": true
+    },
+    {
+      "fn": "ageParts",
+      "args": ["2026-01-01T10:00", "2026-06-01"],
+      "throws": true
+    },
+    {
+      "fn": "ageParts",
+      "args": ["2026-02-30", "2026-06-01"],
+      "throws": true
+    },
+    {
+      "fn": "ageParts",
+      "args": ["2026-02-30T10:00:00Z", "2026-06-01"],
+      "throws": true
+    },
+    {
+      "fn": "meterScale",
+      "args": [
+        5,
+        3,
+        6,
+        {
+          "value": "SYNTHETIC-A",
+          "range": "SYNTHETIC-B"
+        }
+      ],
+      "throws": "units"
     }
   ]
 }

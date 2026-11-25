@@ -104,7 +104,7 @@ public static class ClinicalFormat
         if (low is not null && !Finite(low)) throw new MeterScaleException("range", nameof(low), "an end of the range is not a finite number");
         if (high is not null && !Finite(high)) throw new MeterScaleException("range", nameof(high), "an end of the range is not a finite number");
         if (!string.IsNullOrEmpty(valueUnit) && !string.IsNullOrEmpty(rangeUnit) && valueUnit != rangeUnit)
-            throw new MeterScaleException("units", nameof(rangeUnit), $"the value is in {valueUnit} but the range is in {rangeUnit}");
+            throw new MeterScaleException("units", nameof(rangeUnit), "the value and the range are in different units");
 
         double min, max;
         if (low is { } l && high is { } h)
@@ -124,7 +124,49 @@ public static class ClinicalFormat
         return new MeterScaleResult(Math.Min(min, value.Value), Math.Max(max, value.Value), low, high);
     }
 
-    /// <summary>The age at <paramref name="at"/> of someone born at <paramref name="birth"/>, in the CUI unit bands.</summary>
+    private static readonly System.Text.RegularExpressions.Regex Timestamp = new(
+        @"^\d{4}-\d{2}-\d{2}T(?:[01]\d|2[0-3]):[0-5]\d(?::[0-5]\d(?:\.\d+)?)?(?:Z|[+-](?:[01]\d|2[0-3]):[0-5]\d)\z");
+
+    // A moment and the day it was written with; a date with no time is its day alone. The message never holds the date.
+    private static (DateTimeOffset? Moment, DateOnly Day) ParseMoment(string text, string paramName)
+    {
+        ArgumentNullException.ThrowIfNull(text, paramName);
+        var isDate = System.Text.RegularExpressions.Regex.IsMatch(text, @"^\d{4}-\d{2}-\d{2}\z");
+        if ((isDate || Timestamp.IsMatch(text))
+            && DateOnly.TryParseExact(text[..10], "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var day))
+        {
+            if (isDate) return (null, day);
+            if (DateTimeOffset.TryParse(text, CultureInfo.InvariantCulture, DateTimeStyles.None, out var moment)) return (moment, day);
+        }
+        throw new ArgumentOutOfRangeException(paramName, "must be a full date (YYYY-MM-DD) or a timestamp with an offset");
+    }
+
+    /// <summary>
+    /// The age at <paramref name="at"/> of someone born at <paramref name="birth"/>, each a full date (YYYY-MM-DD) or a timestamp
+    /// with an offset. A partial date has no age and is refused: ask <see cref="PartialDatePrecision"/> first, and show
+    /// <see cref="FormatPartialDate"/> with the reader's words. When either is a date with no time, the age is whole days or
+    /// longer, never hours or minutes, and a timestamp counts as the day it was written with.
+    /// </summary>
+    public static IReadOnlyList<AgePart> AgeParts(string birth, string at)
+    {
+        var from = ParseMoment(birth, nameof(birth));
+        var to = ParseMoment(at, nameof(at));
+        return from.Moment is { } born && to.Moment is { } asked ? AgeParts(born, asked) : AgeParts(from.Day, to.Day);
+    }
+
+    /// <summary>The age in whole days or longer, for a birth recorded as a date with no time.</summary>
+    public static IReadOnlyList<AgePart> AgeParts(DateOnly birth, DateOnly at)
+    {
+        if (at < birth) throw new ArgumentOutOfRangeException(nameof(at), "at is before birth");
+        var days = at.DayNumber - birth.DayNumber;
+        if (days < 28) return [new(days, AgeUnit.Days)];
+        return AgeParts(
+            new DateTimeOffset(birth.ToDateTime(TimeOnly.MinValue), TimeSpan.Zero),
+            new DateTimeOffset(at.ToDateTime(TimeOnly.MinValue), TimeSpan.Zero));
+    }
+
+    /// <summary>The age at <paramref name="at"/> of someone born at the moment <paramref name="birth"/>, in the CUI unit bands.
+    /// For a birth recorded as a date alone, use the <see cref="DateOnly"/> form: this one gives hours and minutes.</summary>
     public static IReadOnlyList<AgePart> AgeParts(DateTimeOffset birth, DateTimeOffset at)
     {
         var elapsed = at - birth;
@@ -144,8 +186,11 @@ public static class ClinicalFormat
     public static string ToIsoDuration(IEnumerable<AgePart> parts)
     {
         int years = 0, months = 0, days = 0, hours = 0, minutes = 0;
+        bool counted = false, timed = false;
         foreach (var part in parts)
         {
+            counted = true;
+            timed |= part.Unit is AgeUnit.Hours or AgeUnit.Minutes;
             switch (part.Unit)
             {
                 case AgeUnit.Years: years += part.Value; break;
@@ -158,7 +203,8 @@ public static class ClinicalFormat
         }
         var date = $"{(years > 0 ? $"{years}Y" : "")}{(months > 0 ? $"{months}M" : "")}{(days > 0 ? $"{days}D" : "")}";
         var time = $"{(hours > 0 ? $"{hours}H" : "")}{(minutes > 0 ? $"{minutes}M" : "")}";
-        if (date.Length == 0 && time.Length == 0) return "PT0M";
+        // Zero is written in the unit it was counted in: an age from a date alone is P0D, never a precise PT0M.
+        if (date.Length == 0 && time.Length == 0) return counted && !timed ? "P0D" : "PT0M";
         return $"P{date}{(time.Length > 0 ? $"T{time}" : "")}";
     }
 

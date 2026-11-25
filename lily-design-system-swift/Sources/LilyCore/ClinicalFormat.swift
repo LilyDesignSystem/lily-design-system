@@ -11,6 +11,7 @@ public enum ClinicalFormatError: Error, Equatable, Sendable {
     case meterValueOffScale
     case atBeforeBirth
     case notAPartialDate
+    case notADateWithAnAge
     case notADuration
 }
 
@@ -145,6 +146,39 @@ public func ageParts(birth: Date, at: Date) throws -> [AgePart] {
     return [AgePart(value: years, unit: .years)]
 }
 
+/// A moment (nil for a date with no time) and the day it was written with, at midnight UTC.
+private func moment(_ text: String) throws -> (time: Date?, day: Date) {
+    let pattern =
+        /(\d{4})-(\d{2})-(\d{2})(?:T([01]\d|2[0-3]):([0-5]\d)(?::([0-5]\d)(?:\.(\d+))?)?(?:(Z)|([+-])([01]\d|2[0-3]):([0-5]\d)))?/
+    guard let m = text.wholeMatch(of: pattern), let month = Int(m.2), (1...12).contains(month),
+        let year = Int(m.1), let dayOfMonth = Int(m.3),
+        (1...daysInMonth(year: year, month: month)).contains(dayOfMonth),
+        let midnight = utc.date(from: DateComponents(year: year, month: month, day: dayOfMonth))
+    else { throw ClinicalFormatError.notADateWithAnAge }
+    guard let hourText = m.4, let minuteText = m.5 else { return (nil, midnight) }
+    var seconds = Double(Int(hourText)! * 3600 + Int(minuteText)! * 60)
+    if let s = m.6 { seconds += Double(Int(s)!) }
+    if let f = m.7 { seconds += Double("0." + f)! }
+    if let sign = m.9, let h = m.10, let min = m.11 {
+        let offset = Double(Int(h)! * 3600 + Int(min)! * 60)
+        seconds -= sign == "-" ? -offset : offset
+    }
+    return (midnight.addingTimeInterval(seconds), midnight)
+}
+
+/// The age at `at` of someone born at `birth`, each a full date (YYYY-MM-DD) or a timestamp with an offset. A partial date has no
+/// age and is refused: ask `partialDatePrecision` first. When either is a date with no time, the age is whole days or longer,
+/// never hours or minutes, and a timestamp counts as the day it was written with.
+public func ageParts(birth: String, at: String) throws -> [AgePart] {
+    let from = try moment(birth)
+    let to = try moment(at)
+    if let born = from.time, let asked = to.time { return try ageParts(birth: born, at: asked) }
+    let elapsed = milliseconds(to.day) - milliseconds(from.day)
+    if elapsed < 0 { throw ClinicalFormatError.atBeforeBirth }
+    if elapsed < 28 * day { return [AgePart(value: Int(elapsed / day), unit: .days)] }
+    return try ageParts(birth: from.day, at: to.day)
+}
+
 /// Age parts as an ISO 8601 duration; weeks are written as days.
 public func toIsoDuration(_ parts: [AgePart]) -> String {
     var years = 0, months = 0, days = 0, hours = 0, minutes = 0
@@ -160,7 +194,10 @@ public func toIsoDuration(_ parts: [AgePart]) -> String {
     }
     let date = (years != 0 ? "\(years)Y" : "") + (months != 0 ? "\(months)M" : "") + (days != 0 ? "\(days)D" : "")
     let time = (hours != 0 ? "\(hours)H" : "") + (minutes != 0 ? "\(minutes)M" : "")
-    if date.isEmpty && time.isEmpty { return "PT0M" }
+    // Zero is written in the unit it was counted in: an age from a date alone is P0D, never a precise PT0M.
+    if date.isEmpty && time.isEmpty {
+        return !parts.isEmpty && parts.allSatisfy { $0.unit != .hours && $0.unit != .minutes } ? "P0D" : "PT0M"
+    }
     return "P\(date)" + (time.isEmpty ? "" : "T\(time)")
 }
 

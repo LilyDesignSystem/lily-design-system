@@ -75,23 +75,37 @@ export interface QuantityOptions {
     precision?: number;
 }
 
-function decimalPlaces(
-    value: number,
-    precision: number | undefined,
-    caller: string,
-): Intl.NumberFormatOptions {
-    if (precision === undefined) return { maximumFractionDigits: 20 };
+/** The most decimal places a formatter here writes; a value that needs more is refused, never rounded (even to zero). */
+const MAX_PLACES = 20;
+
+/** How many decimal places the shortest text of a finite number has: 2 for 0.25, 21 for 1e-21. */
+function placesOf(value: number): number {
+    const [mantissa, exponent = "0"] = String(value).split("e");
+    return Math.max(0, (mantissa.split(".")[1] ?? "").length - Number(exponent));
+}
+
+function requireWritable(value: number): void {
+    if (placesOf(value) > MAX_PLACES)
+        throw new RangeError("the value is too fine to write exactly");
+}
+
+function decimalPlaces(value: number, precision: number | undefined): Intl.NumberFormatOptions {
+    requireWritable(value);
+    if (precision === undefined) return { maximumFractionDigits: MAX_PLACES };
     if (!Number.isInteger(precision) || precision < 0 || precision > 20)
-        throw new RangeError(`${caller}: precision must be a whole number from 0 to 20`);
+        throw new RangeError("precision must be a whole number from 0 to 20");
     // A value with more places than its precision would have to be rounded, which changes the value: refuse it instead.
     if (Number(value.toFixed(precision)) !== value)
-        throw new RangeError(`${caller}: the value has more decimal places than its precision`);
+        throw new RangeError("the value has more decimal places than its precision");
     return { minimumFractionDigits: precision, maximumFractionDigits: precision };
 }
 
 /**
  * A quantity and its unit, written the safe way: no trailing zero, a leading zero, grouping, a no-break space. A comparator
  * is written before the number as <, ≤, ≥, > or ≈, with no space. With `precision`, exactly that many decimal places.
+ *
+ * Writes any finite number of up to 20 decimal places. One with more is a RangeError, since Intl would round it (1e-21 to 0):
+ * show the record's own text instead, which every `value` prop takes as it is.
  */
 export function formatQuantity(
     value: number,
@@ -107,11 +121,11 @@ export function formatQuantity(
         comparator !== undefined &&
         !Object.prototype.hasOwnProperty.call(COMPARATOR_SIGN, comparator)
     )
-        throw new RangeError(`formatQuantity: not a comparator: ${String(comparator).slice(0, 8)}`);
+        throw new RangeError("formatQuantity: not a comparator FHIR or openEHR defines");
     // Without a precision, maximumFractionDigits keeps every digit the caller gave; Intl never writes trailing zeros and always
     // writes a leading one.
     const number = new Intl.NumberFormat(locale, {
-        ...decimalPlaces(value, options.precision, "formatQuantity"),
+        ...decimalPlaces(value, options.precision),
         useGrouping: true,
     }).format(value);
     const written = comparator ? `${COMPARATOR_SIGN[comparator]}${number}` : number;
@@ -135,9 +149,9 @@ export function formatRange(
     if (!locale) throw new RangeError("formatRange: a locale is required");
     if (low > high)
         throw new RangeError("formatRange: low is above high, so the range would read backwards");
-    decimalPlaces(low, options.precision, "formatRange");
+    decimalPlaces(low, options.precision);
     const format = new Intl.NumberFormat(locale, {
-        ...decimalPlaces(high, options.precision, "formatRange"),
+        ...decimalPlaces(high, options.precision),
         useGrouping: true,
     });
     // formatRange is ES2023; some packages' TypeScript lib settings predate it, though every supported runtime has it.
@@ -203,10 +217,8 @@ export function meterScale(
     if ((hasLow && !finite(low)) || (hasHigh && !finite(high)))
         throw new MeterScaleError("range", "an end of the range is not a finite number");
     if (units?.value && units?.range && units.value !== units.range)
-        throw new MeterScaleError(
-            "units",
-            `the value is in ${units.value} but the range is in ${units.range}`,
-        );
+        // Never the units themselves: they are free text, and a mis-mapped field could put anything in them.
+        throw new MeterScaleError("units", "the value and the range are in different units");
 
     let min: number;
     let max: number;
@@ -228,10 +240,40 @@ export function meterScale(
     return scale;
 }
 
-function toDate(value: Date | string): Date {
-    const date = value instanceof Date ? value : new Date(value);
-    if (Number.isNaN(date.getTime())) throw new RangeError("ageParts: not a date");
-    return date;
+const CIVIL_DATE = /^\d{4}-\d{2}-\d{2}$/;
+const TIMESTAMP =
+    /^\d{4}-\d{2}-\d{2}T(?:[01]\d|2[0-3]):[0-5]\d(?::[0-5]\d(?:\.\d+)?)?(?:Z|[+-](?:[01]\d|2[0-3]):[0-5]\d)$/;
+
+/** A moment, and the calendar day it was written with. A date with no time is its day alone. */
+interface Moment {
+    time: number;
+    day: number;
+    dateOnly: boolean;
+}
+
+const dayOf = (iso: string): number => {
+    const { year, month, day } = parsePartialDate(iso);
+    const date = new Date(Date.UTC(2000, (month as number) - 1, day));
+    return date.setUTCFullYear(year);
+};
+
+// A year, or a year and month, has no age: JavaScript would read "2025" as 1 January and give an exact one. A time with no
+// offset is a different moment in each zone. Both are refused, and the message never holds the date.
+function toMoment(value: Date | string): Moment {
+    if (value instanceof Date) {
+        const time = value.getTime();
+        if (Number.isNaN(time)) throw new RangeError("ageParts: not a date");
+        return { time, day: Math.floor(time / DAY) * DAY, dateOnly: false };
+    }
+    if (typeof value === "string" && CIVIL_DATE.test(value)) {
+        const day = dayOf(value);
+        return { time: day, day, dateOnly: true };
+    }
+    if (typeof value === "string" && TIMESTAMP.test(value))
+        return { day: dayOf(value.slice(0, 10)), time: Date.parse(value), dateOnly: false };
+    throw new RangeError(
+        "ageParts: birth and at must each be a full date (YYYY-MM-DD) or a timestamp with an offset",
+    );
 }
 
 function daysInMonth(year: number, monthIndex: number): number {
@@ -274,14 +316,27 @@ function calendarDifference(
     return { years: Math.floor(totalMonths / 12), months: totalMonths % 12, days };
 }
 
-/** The age at `at` of someone born at `birth`, in the Common User Interface's unit bands. */
+/**
+ * The age at `at` of someone born at `birth`, in the Common User Interface's unit bands. Each is a full date (`YYYY-MM-DD`), a
+ * timestamp with an offset, or a `Date`.
+ *
+ * - A partial date (a year, or a year and month) is a RangeError: it has no age. Ask `partialDatePrecision` first, and show
+ *   `formatPartialDate` with the reader's words for an age that is not known.
+ * - When either is a date with no time, the age is whole calendar days or longer, never hours or minutes, and a timestamp
+ *   counts as the day it was written with. A `Date` counts as its UTC day, so pass the local date as text near midnight.
+ */
 export function ageParts(birth: Date | string, at: Date | string): AgePart[] {
-    const from = toDate(birth);
-    const to = toDate(at);
+    const born = toMoment(birth);
+    const asked = toMoment(at);
+    const dateOnly = born.dateOnly || asked.dateOnly;
+    const from = new Date(dateOnly ? born.day : born.time);
+    const to = new Date(dateOnly ? asked.day : asked.time);
     const elapsed = to.getTime() - from.getTime();
     if (elapsed < 0) throw new RangeError("ageParts: `at` is before `birth`");
-    if (elapsed < 2 * HOUR) return [{ value: Math.floor(elapsed / MINUTE), unit: "minutes" }];
-    if (elapsed < 2 * DAY) return [{ value: Math.floor(elapsed / HOUR), unit: "hours" }];
+    if (!dateOnly && elapsed < 2 * HOUR)
+        return [{ value: Math.floor(elapsed / MINUTE), unit: "minutes" }];
+    if (!dateOnly && elapsed < 2 * DAY)
+        return [{ value: Math.floor(elapsed / HOUR), unit: "hours" }];
     const totalDays = Math.floor(elapsed / DAY);
     if (totalDays < 28) return [{ value: totalDays, unit: "days" }];
     const { years, months, days } = calendarDifference(from, to);
@@ -323,7 +378,11 @@ export function toIsoDuration(parts: AgePart[]): string {
     }
     const date = `${years ? `${years}Y` : ""}${months ? `${months}M` : ""}${days ? `${days}D` : ""}`;
     const time = `${hours ? `${hours}H` : ""}${minutes ? `${minutes}M` : ""}`;
-    if (!date && !time) return "PT0M";
+    // Zero is written in the unit it was counted in: an age from a date alone is P0D, never a precise PT0M.
+    if (!date && !time)
+        return parts.length > 0 && parts.every((p) => p.unit !== "hours" && p.unit !== "minutes")
+            ? "P0D"
+            : "PT0M";
     return `P${date}${time ? `T${time}` : ""}`;
 }
 
@@ -375,6 +434,12 @@ export function formatPartialDate(
     }).format(date);
 }
 
+/** A number divided by 100, as decimal text, so no digit changes. */
+function hundredth(value: number): string {
+    const [mantissa, exponent = "0"] = String(value).split("e");
+    return `${mantissa}e${Number(exponent) - 2}`;
+}
+
 /** openEHR PROPORTION_KIND: how a numerator and denominator are written. */
 export type ProportionKind = "ratio" | "unitary" | "percent" | "fraction" | "integer-fraction";
 
@@ -392,10 +457,13 @@ export function formatProportion(
     if (!locale) throw new RangeError("formatProportion: a locale is required");
     if (!Number.isFinite(numerator) || !Number.isFinite(denominator))
         throw new RangeError("formatProportion: numerator and denominator must be finite numbers");
+    requireWritable(numerator);
+    requireWritable(denominator);
     const number = (value: number) =>
-        new Intl.NumberFormat(locale, { maximumFractionDigits: 20, useGrouping: true }).format(
-            value,
-        );
+        new Intl.NumberFormat(locale, {
+            maximumFractionDigits: MAX_PLACES,
+            useGrouping: true,
+        }).format(value);
     switch (kind) {
         case "ratio":
             if (denominator === 0)
@@ -410,8 +478,10 @@ export function formatProportion(
                 throw new RangeError("formatProportion: a percent has denominator 100");
             return new Intl.NumberFormat(locale, {
                 style: "percent",
-                maximumFractionDigits: 20,
-            }).format(numerator / 100);
+                maximumFractionDigits: MAX_PLACES,
+                // As decimal text, exactly: dividing by 100 first turns 1.1 into 1.1000000000000001%. Intl reads a decimal string
+                // (ES2023), which some packages' TypeScript lib settings predate.
+            }).format(hundredth(numerator) as unknown as number);
         case "fraction":
         case "integer-fraction": {
             if (!Number.isInteger(numerator) || !Number.isInteger(denominator) || denominator <= 0)
@@ -427,9 +497,7 @@ export function formatProportion(
             return `${sign}${number(whole)}${NO_BREAK_SPACE}${number(rest)}/${number(denominator)}`;
         }
         default:
-            throw new RangeError(
-                `formatProportion: not a proportion kind: ${String(kind).slice(0, 20)}`,
-            );
+            throw new RangeError("formatProportion: not a proportion kind");
     }
 }
 

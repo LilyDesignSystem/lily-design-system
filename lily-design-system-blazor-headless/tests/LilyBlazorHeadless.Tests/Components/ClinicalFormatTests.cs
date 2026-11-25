@@ -38,6 +38,37 @@ public class ClinicalFormatTests
         Assert.Equal(expected, string.Join(" ", parts.Select(p => $"{p.Value} {p.Unit}")));
     }
 
+    // HC-F16 (spec/healthcare-ui/requirements.md)
+    [Theory]
+    [InlineData("2026-01-01", "2026-01-01", "0 Days")]
+    [InlineData("2026-01-01", "2026-01-02T23:59:00Z", "1 Days")]
+    [InlineData("2026-01-01T23:50:00Z", "2026-01-02", "1 Days")]
+    [InlineData("2026-01-01", "2026-01-03T01:00:00+13:00", "2 Days")]
+    [InlineData("2026-01-01", "2026-01-29", "4 Weeks 0 Days")]
+    [InlineData("2026-01-01T23:30:00+02:00", "2026-01-01T22:30:00Z", "60 Minutes")]
+    [InlineData("2025-03-15", "2026-06-01", "14 Months 17 Days")]
+    public void AgeParts_from_text_never_gives_hours_from_a_date_alone(string birth, string at, string expected)
+        => Assert.Equal(expected, string.Join(" ", ClinicalFormat.AgeParts(birth, at).Select(p => $"{p.Value} {p.Unit}")));
+
+    // HC-F16 (spec/healthcare-ui/requirements.md)
+    [Theory]
+    [InlineData("2025")]
+    [InlineData("2025-03")]
+    [InlineData("2026-01-01T10:00")]
+    [InlineData("2026-02-30")]
+    [InlineData("2026-02-30T10:00:00Z")]
+    [InlineData("2026-01-01T24:00:00Z")]
+    [InlineData("2026-01-01\n")]
+    [InlineData("")]
+    public void AgeParts_refuses_a_date_that_has_no_age_without_its_value(string bad)
+    {
+        var error = Assert.Throws<ArgumentOutOfRangeException>(() => ClinicalFormat.AgeParts(bad, "2027-01-01"));
+        Assert.Null(error.ActualValue);
+        if (bad.Length > 0) Assert.DoesNotContain(bad, error.Message);
+        Assert.Throws<ArgumentOutOfRangeException>(() => ClinicalFormat.AgeParts("2024-01-01", bad));
+        Assert.Throws<ArgumentOutOfRangeException>(() => ClinicalFormat.AgeParts("2026-01-02", "2026-01-01"));
+    }
+
     [Fact]
     public void ToIsoDuration_writes_each_band()
     {
@@ -45,6 +76,8 @@ public class ClinicalFormatTests
         Assert.Equal("P5Y2M", ClinicalFormat.ToIsoDuration([new(5, AgeUnit.Years), new(2, AgeUnit.Months)]));
         Assert.Equal("PT90M", ClinicalFormat.ToIsoDuration([new(90, AgeUnit.Minutes)]));
         Assert.Equal("PT0M", ClinicalFormat.ToIsoDuration([new(0, AgeUnit.Minutes)]));
+        Assert.Equal("PT0M", ClinicalFormat.ToIsoDuration([]));
+        Assert.Equal("P0D", ClinicalFormat.ToIsoDuration([new(0, AgeUnit.Days)]));
     }
 
     // HC-F5 (spec/healthcare-ui/requirements.md)
@@ -251,6 +284,8 @@ public class ClinicalFormatTests
         { "MeterScale reversed", () => ClinicalFormat.MeterScale(987654.321, 987654.321, 1) },
         { "MeterScale one-sided bound", () => ClinicalFormat.MeterScale(987654.321, -987654.321, null) },
         { "MeterScale non-finite end", () => ClinicalFormat.MeterScale(987654.321, double.NaN, 987654.321) },
+        { "MeterScale both units", () => ClinicalFormat.MeterScale(5, 3, 6, "SYNTHETIC-A-54", "SYNTHETIC-B-54") },
+        { "AgeParts partial birth", () => ClinicalFormat.AgeParts("1987", "2026-01-01") },
         { "FormatPartialDate bad day", () => ClinicalFormat.FormatPartialDate("1987-06-54", En) },
         { "FormatPartialDate bad month", () => ClinicalFormat.FormatPartialDate("1987-54", En) },
         { "FormatPartialDate not a date", () => ClinicalFormat.FormatPartialDate("1987/06/01", En) },

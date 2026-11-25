@@ -123,6 +123,10 @@ locale, undefined, { precision: 2 })`, because "4.5" claims less precision than 
 - Write the month as text so a date cannot be read two ways (`Intl.DateTimeFormat` with `month: "short"`).
 - Choose the clock on purpose: pass `hourCycle` explicitly. The NHS asks for the 24-hour clock; that is a UK rule, not a worldwide
   one, so Lily never picks it for you.
+- **An age needs a full birth date.** `ageParts()` refuses a year, or a year and month. Ask `partialDatePrecision(birth)` first:
+  when it is not `"day"`, show `formatPartialDate(birth, locale)` and your words for an age that is not known ("Age not
+  known"), and leave `age-view` out. A birth recorded as a date with no time gives whole days, never hours or minutes; pass a
+  timestamp with its offset only when the record holds the time.
 - Ages follow the Common User Interface bands through `ageParts()`; a service with another convention passes its own words.
 - A date known only to the month or year stays that way: ask for it with `date-field` `precision="month"` or `"year"`, store
   `2019-03` or `2019`, and write it with `formatPartialDate()`. Never invent a day.

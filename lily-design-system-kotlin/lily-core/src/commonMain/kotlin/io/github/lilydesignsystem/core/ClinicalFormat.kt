@@ -32,7 +32,7 @@ public fun meterScale(
         throw MeterScaleException("range", "an end of the range is not a finite number")
     }
     if (!valueUnit.isNullOrEmpty() && !rangeUnit.isNullOrEmpty() && valueUnit != rangeUnit) {
-        throw MeterScaleException("units", "the value is in $valueUnit but the range is in $rangeUnit")
+        throw MeterScaleException("units", "the value and the range are in different units")
     }
     val lower: Double
     val upper: Double
@@ -134,6 +134,47 @@ public fun ageParts(birthMillis: Long, atMillis: Long): List<AgePart> {
     return listOf(AgePart(years, AgeUnit.Years))
 }
 
+private val TIMESTAMP = Regex(
+    """^(\d{4})-(\d{2})-(\d{2})(?:T([01]\d|2[0-3]):([0-5]\d)(?::([0-5]\d)(?:\.(\d+))?)?(Z|[+-](?:[01]\d|2[0-3]):[0-5]\d))?$""",
+)
+
+/** A moment in epoch milliseconds (null for a date with no time) and the day it was written with. */
+private class Moment(val millis: Long?, val dayMillis: Long)
+
+private fun moment(text: String, name: String): Moment {
+    val match = TIMESTAMP.matchEntire(text)
+    val g = match?.groupValues
+    if (g != null) {
+        val (year, month, day) = Triple(g[1].toInt(), g[2].toInt(), g[3].toInt())
+        if (month in 1..12 && day in 1..daysInMonth(year, month)) {
+            val midnight = daysFromCivil(year, month, day) * DAY
+            if (g[8].isEmpty()) return Moment(null, midnight)
+            val fraction = g[7].padEnd(3, '0').take(3).toLong()
+            val seconds = if (g[6].isEmpty()) 0L else g[6].toLong()
+            val local = midnight + g[4].toLong() * HOUR + g[5].toLong() * MINUTE + seconds * 1000 + fraction
+            val z = g[8]
+            val offset = if (z == "Z") 0L else (z.substring(1, 3).toLong() * HOUR + z.substring(4).toLong() * MINUTE) * (if (z[0] == '-') -1 else 1)
+            return Moment(local - offset, midnight)
+        }
+    }
+    throw IllegalArgumentException("ageParts: $name must be a full date (YYYY-MM-DD) or a timestamp with an offset")
+}
+
+/**
+ * The age at [at] of someone born at [birth], each a full date (YYYY-MM-DD) or a timestamp with an offset. A partial date has no
+ * age and is refused: ask [partialDatePrecision] first. When either is a date with no time, the age is whole days or longer,
+ * never hours or minutes, and a timestamp counts as the day it was written with.
+ */
+public fun ageParts(birth: String, at: String): List<AgePart> {
+    val from = moment(birth, "birth")
+    val to = moment(at, "at")
+    if (from.millis != null && to.millis != null) return ageParts(from.millis, to.millis)
+    val elapsed = to.dayMillis - from.dayMillis
+    require(elapsed >= 0) { "ageParts: at is before birth" }
+    if (elapsed < 28 * DAY) return listOf(AgePart((elapsed / DAY).toInt(), AgeUnit.Days))
+    return ageParts(from.dayMillis, to.dayMillis)
+}
+
 /** Age parts as an ISO 8601 duration; weeks are written as days. */
 public fun toIsoDuration(parts: List<AgePart>): String {
     var years = 0; var months = 0; var days = 0; var hours = 0; var minutes = 0
@@ -149,7 +190,9 @@ public fun toIsoDuration(parts: List<AgePart>): String {
     }
     val date = (if (years != 0) "${years}Y" else "") + (if (months != 0) "${months}M" else "") + (if (days != 0) "${days}D" else "")
     val time = (if (hours != 0) "${hours}H" else "") + (if (minutes != 0) "${minutes}M" else "")
-    if (date.isEmpty() && time.isEmpty()) return "PT0M"
+    // Zero is written in the unit it was counted in: an age from a date alone is P0D, never a precise PT0M.
+    if (date.isEmpty() && time.isEmpty())
+        return if (parts.isNotEmpty() && parts.none { it.unit == AgeUnit.Hours || it.unit == AgeUnit.Minutes }) "P0D" else "PT0M"
     return "P$date" + if (time.isEmpty()) "" else "T$time"
 }
 

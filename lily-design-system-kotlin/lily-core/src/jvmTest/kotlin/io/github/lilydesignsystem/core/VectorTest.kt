@@ -68,7 +68,7 @@ class VectorTest {
                 }
             }
         }
-        "ageParts" -> ageParts(millis(args[0]), millis(args[1])).map { json("value" to it.value, "unit" to it.unit.key) }
+        "ageParts" -> ageParts(str(args[0]), str(args[1])).map { json("value" to it.value, "unit" to it.unit.key) }
         "toIsoDuration" -> toIsoDuration(args[0].jsonArray.map {
             AgePart(it.jsonObject["value"]!!.jsonPrimitive.int, AgeUnit.fromKey(str(it.jsonObject["unit"]!!))!!)
         })
