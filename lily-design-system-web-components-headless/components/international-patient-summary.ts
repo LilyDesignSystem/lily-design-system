@@ -7,6 +7,7 @@
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 import { ipsContents } from "../lib/ips-sections.js";
 import type { IpsSectionEntry } from "../lib/ips-sections.js";
+import { LiveElement, setOrRemove } from "../lib/live-element.js";
 import { buildIpsSection } from "./international-patient-summary-section.js";
 
 const HANDLED = new Set([
@@ -28,9 +29,54 @@ function parseJson<T>(text: string | null, fallback: T): T {
     }
 }
 
-export class InternationalPatientSummary extends HTMLElement {
-    connectedCallback(): void {
-        if (this.querySelector(":scope > article.international-patient-summary")) return;
+export class InternationalPatientSummary extends LiveElement {
+    // The sections this element added for the required ones the summary lacks.
+    #added: HTMLElement[] = [];
+
+    #contents(contents: ReturnType<typeof ipsContents>): HTMLElement | null {
+        const label = this.getAttribute("contents-label");
+        if (!label) return null;
+        const nav = document.createElement("nav");
+        nav.className = "international-patient-summary-contents";
+        nav.setAttribute("aria-label", label);
+        const ol = document.createElement("ol");
+        for (const entry of contents) {
+            const li = document.createElement("li");
+            li.setAttribute("data-section", entry.key);
+            li.setAttribute("data-status", entry.status);
+            const a = document.createElement("a");
+            a.href = `#${entry.id}`;
+            a.textContent = entry.heading;
+            li.append(a);
+            ol.append(li);
+        }
+        nav.append(ol);
+        return nav;
+    }
+
+    #omitted(contents: ReturnType<typeof ipsContents>): HTMLElement[] {
+        return contents
+            .filter((entry) => entry.added)
+            .map((entry) =>
+                buildIpsSection({
+                    section: entry.key,
+                    id: entry.id,
+                    heading: entry.heading,
+                    headingLevel: Number(this.getAttribute("heading-level") ?? 2),
+                    status: "omitted",
+                    statusLabel: this.text("omitted-label"),
+                }),
+            );
+    }
+
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    protected update(): void {
+        const existing = this.querySelector<HTMLElement>(
+            ":scope > article.international-patient-summary",
+        );
         const sections = parseJson<IpsSectionEntry[]>(this.getAttribute("sections"), []);
         const headings = parseJson<Record<string, string>>(
             this.getAttribute("required-headings"),
@@ -41,10 +87,19 @@ export class InternationalPatientSummary extends HTMLElement {
             headings,
             this.getAttribute("id-prefix") ?? undefined,
         );
-        const article = document.createElement("article");
+        const article = existing ?? document.createElement("article");
         article.className = rootClassName(this, "international-patient-summary");
-        const label = this.getAttribute("label");
-        if (label) article.setAttribute("aria-label", label);
+        setOrRemove(article, "aria-label", this.getAttribute("label"));
+        if (existing) {
+            existing.querySelector(":scope > .international-patient-summary-contents")?.remove();
+            const nav = this.#contents(contents);
+            const body = existing.querySelector(":scope > .international-patient-summary-sections");
+            if (nav) body?.before(nav);
+            for (const added of this.#added) added.remove();
+            this.#added = this.#omitted(contents);
+            body?.append(...this.#added);
+            return;
+        }
         passThroughAttributes(this, article, HANDLED);
 
         const bySlot = (name: string) =>
@@ -62,42 +117,13 @@ export class InternationalPatientSummary extends HTMLElement {
             div.append(...banner);
             article.append(div);
         }
-        const contentsLabel = this.getAttribute("contents-label");
-        if (contentsLabel) {
-            const nav = document.createElement("nav");
-            nav.className = "international-patient-summary-contents";
-            nav.setAttribute("aria-label", contentsLabel);
-            const ol = document.createElement("ol");
-            for (const entry of contents) {
-                const li = document.createElement("li");
-                li.setAttribute("data-section", entry.key);
-                li.setAttribute("data-status", entry.status);
-                const a = document.createElement("a");
-                a.href = `#${entry.id}`;
-                a.textContent = entry.heading;
-                li.append(a);
-                ol.append(li);
-            }
-            nav.append(ol);
-            article.append(nav);
-        }
+        const nav = this.#contents(contents);
+        if (nav) article.append(nav);
         const body = document.createElement("div");
         body.className = "international-patient-summary-sections";
         moveChildrenInto(this, body);
-        const level = Number(this.getAttribute("heading-level") ?? 2);
-        const omitted = this.getAttribute("omitted-label") ?? "";
-        for (const entry of contents.filter((e) => e.added)) {
-            body.append(
-                buildIpsSection({
-                    section: entry.key,
-                    id: entry.id,
-                    heading: entry.heading,
-                    headingLevel: level,
-                    status: "omitted",
-                    statusLabel: omitted,
-                }),
-            );
-        }
+        this.#added = this.#omitted(contents);
+        body.append(...this.#added);
         article.append(body);
         if (details.length) {
             const div = document.createElement("div");

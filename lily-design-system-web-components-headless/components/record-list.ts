@@ -1,34 +1,41 @@
 // <lily-record-list>: a list of records from one section of a patient's record, whose status is never blank (tasks.md P28-T3, spec/healthcare-ui).
 // Renders a light-DOM <ul class="record-list">. For any status but "known", status-label is the list's one item.
 // Attributes: status (known | none-known | not-recorded | unavailable | omitted | not-applicable -> data-status), status-label, label.
+// A change to any of them, or to class, is shown; the entries are the app's and stay.
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { LiveElement, setOrRemove } from "../lib/live-element.js";
 
 const HANDLED = new Set(["status", "status-label", "label", "coverage-label"]);
 
-export class RecordList extends HTMLElement {
-    connectedCallback(): void {
-        if (this.querySelector(":scope > ul.record-list")) return;
-        const status = this.getAttribute("status") ?? "";
-        const statusLabel = this.getAttribute("status-label") ?? "";
-        const ul = document.createElement("ul");
+export class RecordList extends LiveElement {
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    protected update(): void {
+        const existing = this.querySelector<HTMLUListElement>(":scope > ul.record-list");
+        const status = this.text("status");
+        const statusLabel = this.text("status-label");
+        const ul = existing ?? document.createElement("ul");
         ul.className = rootClassName(this, "record-list");
-        if (status) ul.setAttribute("data-status", status);
+        setOrRemove(ul, "data-status", status);
         ul.setAttribute("aria-label", this.getAttribute("label") ?? statusLabel);
-        passThroughAttributes(this, ul, HANDLED);
+        if (!existing) passThroughAttributes(this, ul, HANDLED);
+        const own = (name: string, text: string | null): void => {
+            const before = ul.querySelector(`:scope > li.record-list-${name}`);
+            if (text === null) {
+                before?.remove();
+                return;
+            }
+            const li = before ?? document.createElement("li");
+            li.className = `record-list-${name}`;
+            li.textContent = text;
+            if (!before) ul.prepend(li);
+        };
+        own("status", status === "known" ? null : statusLabel);
         // coverage-label: what the list is a view of, in the consumer's words; an item of its own, first.
-        const coverage = this.getAttribute("coverage-label");
-        if (coverage) {
-            const li = document.createElement("li");
-            li.className = "record-list-coverage";
-            li.textContent = coverage;
-            ul.append(li);
-        }
-        if (status !== "known") {
-            const li = document.createElement("li");
-            li.className = "record-list-status";
-            li.textContent = statusLabel;
-            ul.append(li);
-        }
+        own("coverage", this.getAttribute("coverage-label") || null);
+        if (existing) return;
         moveChildrenInto(this, ul);
         this.appendChild(ul);
     }

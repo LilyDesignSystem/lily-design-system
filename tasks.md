@@ -4782,7 +4782,7 @@ each was checked against the source on 2026-11-25, not reproduced in a browser h
 
 ### Safety: what happens between two valid states (audit 1 to 5)
 
-- [ ] **P50-T1 A mounted Web Component keeps a masked result on screen (1).** `lily-observation-view` builds once in `connectedCallback`
+- [x] **P50-T1 A mounted Web Component keeps a masked result on screen (1).** _(2026-11-25: HC-C16; sixteen elements, all stale; 29 tests failed first; before and after checked in the built package in Chromium, Firefox and WebKit. The 94 identifier views already updated. Record-list items replace themselves with an `<li>`, so they have no element to update: replace the item.)_ `lily-observation-view` builds once in `connectedCallback`
       and has no `observedAttributes`, so a result masked or withdrawn later still shows its value and flag, and the host keeps its
       `value`. Checked: `age-view`, `medication-view`, `allergy-record-list`, `record-list`, `decision-support-card`,
       `early-warning-score-view`, `duration-view` and `date-time-view` observe nothing either. Correct `components/observation-view`'s
@@ -4824,6 +4824,9 @@ each was checked against the source on 2026-11-25, not reproduced in a browser h
 - [ ] **P50-T11 Clinical users and assistive technology on a change.** A clinician and an assistive-technology user review a corrected
       result and an alert, by keyboard only, at high zoom, with a long translated label. With P49-T9. _(Needs people.)_
       Verify: what was identified, announced and misunderstood, and the retest.
+- [ ] **P50-T28 Other Web Components that never update.** `iban-view`, `statistic`, the measurement, rating and status views, `review-date`
+      and others build once; 84 of the catalog's elements react to a change. List each, make it live or document it.
+      Verify: a check that every element reacts to each attribute it documents, or is listed with a reason.
 
 ### From the Mistral audits: open
 

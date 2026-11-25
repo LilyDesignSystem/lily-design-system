@@ -13,7 +13,7 @@
 //   2. Bundle to `dist/` with tsup (ESM + .d.ts).
 //
 // The exported class name is DISCOVERED from each source file (the
-// `export class Foo extends HTMLElement` declaration) rather than
+// `export class Foo extends HTMLElement`, or LiveElement, declaration) rather than
 // derived by string-casing the filename, so a file whose class name
 // doesn't follow the mechanical kebab-to-Pascal mapping still builds
 // correctly and a genuinely missing export fails loudly instead of
@@ -48,9 +48,13 @@ const seenClasses = new Map();
 for (const file of files) {
     const slug = file.slice(0, -".ts".length);
     const source = fs.readFileSync(path.join(componentsDir, file), "utf8");
-    const match = source.match(/^export class ([A-Za-z0-9_]+) extends HTMLElement/m);
+    const match = source.match(
+        /^export class ([A-Za-z0-9_]+) extends (?:HTMLElement|LiveElement)/m,
+    );
     if (!match) {
-        throw new Error(`${file}: no "export class X extends HTMLElement" declaration found.`);
+        throw new Error(
+            `${file}: no "export class X extends HTMLElement" (or LiveElement) declaration found.`,
+        );
     }
     const className = match[1];
     const tag = `lily-${slug}`;

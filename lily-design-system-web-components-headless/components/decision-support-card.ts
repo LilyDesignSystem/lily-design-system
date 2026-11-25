@@ -3,12 +3,17 @@
 // Not a live region: whether a critical card interrupts is the consumer's choice.
 // Attributes: summary, indicator (info | warning | critical -> data-indicator), indicator-label, source-label,
 //   source-href, suggestions (JSON [{id,label,isRecommended}]), links (JSON [{label,href}]), dismiss-label,
-//   override-reasons (JSON [{code,display}]), override-reason-label, override-reason-placeholder, label.
+//   override-reasons (JSON [{code,display}]), override-reason-label, override-reason-placeholder, label, card-id (which card
+//   this is, for example the CDS Hooks uuid with the patient's id). A change to any of them, or to class, is shown. A chosen
+//   reason belongs to one card: a new card-id, or without one a new summary, indicator or source, clears it, and so does a
+//   change that no longer offers it.
 // Events: "suggestion" (detail { id }) and "dismiss" (detail { reason }), both bubbling. When reasons are offered, a
 //   dismissal without one is refused: the select is marked aria-invalid and focused, and no event fires.
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { LiveElement } from "../lib/live-element.js";
 
 const HANDLED = new Set([
+    "card-id",
     "summary",
     "indicator",
     "indicator-label",
@@ -44,16 +49,44 @@ function el<K extends keyof HTMLElementTagNameMap>(
     return node;
 }
 
-export class DecisionSupportCard extends HTMLElement {
-    connectedCallback(): void {
-        if (this.querySelector(":scope > div.decision-support-card")) return;
-        const attr = (name: string) => this.getAttribute(name) ?? "";
-        const div = el("div");
+export class DecisionSupportCard extends LiveElement {
+    #identity = "";
+
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    protected update(): void {
+        const attr = (name: string) => this.text(name);
+        const existing = this.querySelector<HTMLDivElement>(":scope > div.decision-support-card");
+        const identity =
+            this.getAttribute("card-id") ??
+            JSON.stringify([attr("summary"), attr("indicator"), attr("source-label")]);
+        const chosen =
+            identity === this.#identity
+                ? (existing?.querySelector<HTMLSelectElement>(
+                      "select.decision-support-card-override-reason",
+                  )?.value ?? "")
+                : "";
+        this.#identity = identity;
+        const detail = existing?.querySelector(":scope > .decision-support-card-detail");
+        // The focused control is found again by its class and place, so an update of the same card does not drop focus.
+        const focused = existing?.contains(document.activeElement)
+            ? (document.activeElement as HTMLElement)
+            : null;
+        const sameClass = (within: Element): HTMLElement[] =>
+            focused?.className
+                ? [...within.querySelectorAll<HTMLElement>(`.${focused.className.split(" ")[0]}`)]
+                : [];
+        const place = focused && existing ? sameClass(existing).indexOf(focused) : -1;
+
+        const div = existing ?? el("div");
+        div.replaceChildren();
         div.className = rootClassName(this, "decision-support-card");
         div.setAttribute("role", "group");
         div.setAttribute("aria-label", this.getAttribute("label") ?? attr("summary"));
         div.setAttribute("data-indicator", attr("indicator") || "info");
-        passThroughAttributes(this, div, HANDLED);
+        if (!existing) passThroughAttributes(this, div, HANDLED);
 
         const header = el("p", "decision-support-card-header");
         header.append(
@@ -63,10 +96,11 @@ export class DecisionSupportCard extends HTMLElement {
         );
         div.append(header);
 
-        if (this.childNodes.length > 0) {
-            const detail = el("div", "decision-support-card-detail");
-            moveChildrenInto(this, detail);
-            div.append(detail);
+        if (detail) div.append(detail);
+        else if (!existing && this.childNodes.length > 0) {
+            const box = el("div", "decision-support-card-detail");
+            moveChildrenInto(this, box);
+            div.append(box);
         }
 
         const source = el("p", "decision-support-card-source");
@@ -130,6 +164,7 @@ export class DecisionSupportCard extends HTMLElement {
                 select.append(new Option(attr("override-reason-placeholder"), ""));
                 for (const reason of reasons)
                     select.append(new Option(reason.display, reason.code));
+                if (reasons.some((reason) => reason.code === chosen)) select.value = chosen;
                 select.addEventListener("change", () => select?.removeAttribute("aria-invalid"));
                 label.append(" ", select);
                 form.append(label);
@@ -154,6 +189,7 @@ export class DecisionSupportCard extends HTMLElement {
             });
             div.append(form);
         }
-        this.appendChild(div);
+        if (!existing) this.appendChild(div);
+        else if (place >= 0) sameClass(div)[place]?.focus();
     }
 }

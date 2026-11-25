@@ -8,6 +8,7 @@
 //   -> data-status), status-label.
 import { hasWords } from "../lib/clinical-format.js";
 import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { LiveElement } from "../lib/live-element.js";
 
 // FHIR statuses with no value to show: the consumer's words replace it (tasks.md P28-T5).
 const MISSING: readonly string[] = [
@@ -65,12 +66,18 @@ function part(name: string, text: string): HTMLSpanElement {
     return span;
 }
 
-export class ObservationView extends HTMLElement {
-    connectedCallback(): void {
-        if (this.querySelector(":scope > span.observation-view")) return;
+export class ObservationView extends LiveElement {
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    protected update(): void {
+        const existing = this.querySelector<HTMLSpanElement>(":scope > span.observation-view");
         const attr = (name: string) => this.getAttribute(name) ?? "";
         const status = attr("status") || "final";
-        const span = document.createElement("span");
+        const span = existing ?? document.createElement("span");
+        span.replaceChildren();
+        span.removeAttribute("data-interpretation");
         span.className = rootClassName(this, "observation-view");
         const withdrawn = status === "entered-in-error";
         const withheld =
@@ -146,11 +153,11 @@ export class ObservationView extends HTMLElement {
             if (status !== "final" && attr("status-label"))
                 span.append(" ", part("status", attr("status-label")));
         }
-        passThroughAttributes(this, span, HANDLED);
+        if (!existing) passThroughAttributes(this, span, HANDLED);
         // What is not shown does not stay in the host's attributes either. The service must still withhold it before sending.
         if (withheld || withdrawn)
             for (const name of RECORD)
                 if (withheld || (name !== "value" && name !== "unit")) this.removeAttribute(name);
-        this.appendChild(span);
+        if (!existing) this.appendChild(span);
     }
 }

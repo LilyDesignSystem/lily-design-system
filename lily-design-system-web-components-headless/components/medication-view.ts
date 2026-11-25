@@ -4,6 +4,7 @@
 // Attributes: label, name, name-segments (JSON: [{"text":"hydr"},{"text":"ALAZINE","tallMan":true}]), strength, form,
 //   route, frequency, dosage-text (FHIR Dosage.text).
 import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { LiveElement } from "../lib/live-element.js";
 
 const HANDLED = new Set([
     "label",
@@ -26,11 +27,16 @@ function parseSegments(raw: string | null): { text: string; tallMan?: boolean }[
     }
 }
 
-export class MedicationView extends HTMLElement {
-    connectedCallback(): void {
-        if (this.querySelector(":scope > span.medication-view")) return;
+export class MedicationView extends LiveElement {
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    protected update(): void {
+        const existing = this.querySelector<HTMLSpanElement>(":scope > span.medication-view");
         const attr = (name: string) => this.getAttribute(name) ?? "";
-        const span = document.createElement("span");
+        const span = existing ?? document.createElement("span");
+        span.replaceChildren();
         span.className = rootClassName(this, "medication-view");
         if (attr("label")) {
             const hidden = document.createElement("span");
@@ -65,6 +71,7 @@ export class MedicationView extends HTMLElement {
             part.textContent = attr(key);
             span.append(" ", part);
         }
+        if (existing) return;
         passThroughAttributes(this, span, HANDLED);
         this.appendChild(span);
     }

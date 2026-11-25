@@ -135,6 +135,10 @@ restricted to the `list` / `listitem` rules — the exact rules that flagged
 angular-headless's defect — over a rendered three-crumb trail: zero
 violations (`breadcrumb-list-item.test.ts`).
 
+Elements that show clinical information are the exception to building once (HC-C16): the sixteen that extend
+`LiveElement` (`lib/live-element.ts`) follow their attributes after mounting, all the changes of one task together, so a
+result masked later leaves nothing on screen. Attributes an element does not document are copied at mount only.
+
 The cost, stated plainly: after upgrade there is no custom-element
 instance, so no `attributeChangedCallback` and no live reactivity. That is
 acceptable for BreadcrumbListItem because its canonical contract is

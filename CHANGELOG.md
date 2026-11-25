@@ -19,7 +19,8 @@ highlights.
 
 On hold for the safety findings in tasks.md Phase 50 (T1 to T5). Fixed since, for this release: an alert's
 override reason is never submitted for another alert (`cardId` is new), and a label with no letter or number is not words. `formatPartialDate` no longer converts
-a year or a month to a calendar where it falls in two (Persian, Hebrew, Islamic and others): it keeps the Gregorian one and names the era. The versions below are in the repository, not on npm or NuGet.
+a year or a month to a calendar where it falls in two (Persian, Hebrew, Islamic and others): it keeps the Gregorian one and names the era. Web Components: the sixteen clinical display elements
+follow their attributes after mounting, so a result masked later leaves nothing on screen (they were built once and never again). The versions below are in the repository, not on npm or NuGet.
 
 npm, under the `next` tag: Svelte, React and Vue 0.14.0, Angular and Web Components 0.16.0, HTML 0.15.0, Nunjucks 0.13.0, Alpine and Solid
 0.5.0, `web-components-headless-identifiers` 0.6.0. NuGet: `LilyDesignSystem.Blazor.Headless` 0.12.0. Invalid input to the patient

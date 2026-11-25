@@ -87,7 +87,10 @@ This headless component ships zero CSS and decides nothing visual. The consumer 
 
 - Each part renders, and the value and unit are joined by a no-break space
 - An interpretation code renders as `data-interpretation` and its consumer label as text
-- `not-recorded` and `unavailable` render different words and no value; `cancelled` and `masked` replace the value with their words; `amended`, `corrected` and `entered-in-error` show the value with their words
+- `not-recorded` and `unavailable` render different words and no value; `cancelled` and `masked` replace the value with their words; `amended` and `corrected` show the value with their words
+- `entered-in-error` shows only its words, and with `showWithdrawn` the former value struck through after them (HC-C13)
+- A label with no letter or number is not words, so a result that is not final shows no value (HC-C14)
+- One mounted instance, from final to masked, final to entered in error, preliminary to corrected, and back: nothing of the earlier record stays in text or attributes (HC-C16)
 - A missing `flagLabel` for an abnormal code, or a missing `statusLabel`, raises a development warning
 
 ## Advice

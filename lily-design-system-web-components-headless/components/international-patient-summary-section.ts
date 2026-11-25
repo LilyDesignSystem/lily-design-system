@@ -10,6 +10,7 @@ import {
     ipsSectionIsRequired,
     ipsSectionLevel,
 } from "../lib/ips-sections.js";
+import { LiveElement } from "../lib/live-element.js";
 
 const HANDLED = new Set([
     "section",
@@ -75,25 +76,66 @@ export function buildIpsSection(o: SectionOptions): HTMLElement {
     return section;
 }
 
-export class InternationalPatientSummarySection extends HTMLElement {
-    connectedCallback(): void {
-        if (this.querySelector(":scope > section.international-patient-summary-section")) return;
+// What buildIpsSection writes on its section, so an update can bring a mounted one in step.
+const OWN = [
+    "class",
+    "id",
+    "aria-labelledby",
+    "data-section",
+    "data-code",
+    "data-status",
+    "data-required",
+    "data-level",
+];
+
+export class InternationalPatientSummarySection extends LiveElement {
+    #id: string | null = null;
+
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    protected update(): void {
+        const existing = this.querySelector<HTMLElement>(
+            ":scope > section.international-patient-summary-section",
+        );
+        // The section carries the id, so the host gives it up and it is held for the next update.
+        if (this.hasAttribute("id")) {
+            this.#id = this.getAttribute("id");
+            this.removeAttribute("id");
+        }
         const required = this.getAttribute("required");
         const section = buildIpsSection({
-            section: this.getAttribute("section") ?? "",
-            heading: this.getAttribute("heading") ?? "",
+            section: this.text("section"),
+            heading: this.text("heading"),
             headingLevel: Number(this.getAttribute("heading-level") ?? 2),
             status: this.getAttribute("status") ?? "known",
-            statusLabel: this.getAttribute("status-label") ?? "",
+            statusLabel: this.text("status-label"),
             statusPlacement: this.getAttribute("status-placement") ?? "heading",
             code: this.getAttribute("code") ?? undefined,
             required: required === null ? undefined : required !== "false",
             level: this.getAttribute("level") ?? undefined,
-            id: this.getAttribute("id") ?? undefined,
+            id: this.#id ?? existing?.id ?? undefined,
             idPrefix: this.getAttribute("id-prefix") ?? undefined,
             className: rootClassName(this, "international-patient-summary-section"),
         });
-        this.removeAttribute("id");
+        if (existing) {
+            for (const name of OWN) {
+                const value = section.getAttribute(name);
+                if (value === null) existing.removeAttribute(name);
+                else existing.setAttribute(name, value);
+            }
+            for (const old of existing.querySelectorAll(
+                ":scope > .international-patient-summary-section-heading, :scope > .international-patient-summary-section-status",
+            ))
+                old.remove();
+            existing.prepend(...section.childNodes);
+            const summary = existing.querySelector(
+                ":scope > .international-patient-summary-section-narrative > summary",
+            );
+            if (summary) summary.textContent = this.text("narrative-label");
+            return;
+        }
         passThroughAttributes(this, section, HANDLED);
         const slotted = (name: string) =>
             [...this.children].filter((c) => c.getAttribute("slot") === name);
