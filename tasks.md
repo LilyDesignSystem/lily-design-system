@@ -4801,7 +4801,7 @@ each was checked against the source on 2026-11-25, not reproduced in a browser h
 - [x] **P50-T4 A blank label is not words (4).** _(2026-11-25: `hasWords`, in TypeScript, C#, Kotlin, Swift and Nunjucks; ten blank labels failed in all seven web catalogs first.)_ `statusLabel="   "` shows a preliminary value with no qualification: the test is string
       truthiness in Svelte, React, Vue and Solid. Check the other ports.
       Verify: an empty string, spaces, a no-break space and a real label, in every renderer.
-- [x] **P50-T5 A partial date is not converted to another calendar (5).** _(2026-11-25: TypeScript and C#; ten calendars failed first, and C# did it in Saudi Arabia's default culture. Swift and Kotlin have no such formatter. Full dates still convert, and Thai and Taiwanese partial ones, whose months and years are Gregorian's.)_ `formatPartialDate("2026-01", "en-US-u-ca-hebrew")` gives
+- [x] **P50-T5 A partial date is not converted to another calendar (5).** _(2026-11-25: TypeScript and C#; ten calendars failed first, and C# did it in Iran's default culture, and in Saudi Arabia's where the platform's default is Umm al-Qura (macOS, not Linux). Swift and Kotlin have no such formatter. Full dates still convert, and Thai and Taiwanese partial ones, whose months and years are Gregorian's.)_ `formatPartialDate("2026-01", "en-US-u-ca-hebrew")` gives
       Tevet 5786, though late January is Shevat. Wider than the audit says: `fa-IR`, with no calendar asked for, gives Dey 1404, though
       late January is Bahman. Keep the source calendar for a partial date, and localize its words and digits.
       Verify: year and month vectors across calendar boundaries, full dates still localized, in TypeScript, C#, Kotlin and Swift.
