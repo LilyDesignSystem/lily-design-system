@@ -132,8 +132,8 @@ have no test that cites one.
 | HC-C12 |        | yes    | yes   | yes   | yes | yes     | yes            | yes      | yes    | yes   | yes    |         |
 | HC-C13 |        | yes    | yes   | yes   | yes | yes     | yes            | yes      | yes    | yes   | yes    |         |
 | HC-C14 |        | yes    | yes   | yes   | yes | yes     | yes            | yes      | yes    | yes   | yes    |         |
-| HC-C15 |        | yes    | yes   | yes   | yes | yes     |                |          | yes    | yes   | yes    |         |
-| HC-C16 |        |        |       |       |     |         |                |          |        |       |        |         |
+| HC-C15 |        | yes    | yes   | yes   | yes | yes     | yes            |          | yes    | yes   | yes    |         |
+| HC-C16 |        |        |       |       |     |         | yes            |          |        |       |        |         |
 | HC-B1  |        |        |       |       |     |         |                |          |        |       |        | yes     |
 | HC-B2  |        |        |       |       |     |         |                |          |        |       |        | yes     |
 | HC-B3  |        |        |       |       |     |         |                |          |        |       |        | yes     |

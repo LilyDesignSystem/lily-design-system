@@ -4810,6 +4810,11 @@ each was checked against the source on 2026-11-25, not reproduced in a browser h
       hazard log, and ids to `spec/healthcare-ui/requirements.md`. Verify: each planted defect fails in each runtime that has the part.
 - [ ] **P50-T7 Say which published versions are affected.** Check the distributed packages for T1 to T5, and record affected and fixed
       versions in the changelogs. Verify: from the registry tarballs.
+      _(2026-11-25, from the registry's tarballs. Run in Chromium: React 0.13.1 (T2, T3, T4, T5) and Web Components 0.15.1 (T1, T3).
+      Found in the code of the rest, not run: every version with the clinical components, so Svelte, React, Vue from 0.9.0, Angular and
+      Web Components from 0.10.0, Nunjucks from 0.9.0 (T2, T4) and Solid from 0.1.0; T5 from Svelte, React, Vue 0.11.0, Angular 0.12.0
+      and Solid 0.1.0. None of them has the withheld and withdrawn rules of P49-T2 either. Blazor and Alpine not checked. Left: the
+      changelogs, with the fixed versions, at the release.)_
 
 ### Examples, privacy and release
 
