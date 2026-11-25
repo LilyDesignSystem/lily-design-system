@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.isTraversalGroup
@@ -18,8 +19,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import io.github.lilydesignsystem.core.RecordEntryState
+import io.github.lilydesignsystem.core.RecordListShown
 import io.github.lilydesignsystem.core.RecordListStatus
 import io.github.lilydesignsystem.core.RecordRules
+import io.github.lilydesignsystem.core.isWithdrawn
 
 /**
  * @param status known, none known, not recorded, unavailable, omitted or not applicable. Required.
@@ -33,19 +36,31 @@ public fun RecordList(
     modifier: Modifier = Modifier,
     label: String? = null,
     coverageLabel: String? = null,
+    conflictLabel: String? = null,
     content: @Composable () -> Unit = {},
 ) {
     RecordRules.listWarnings(statusLabel).forEach { LilyWarnings.warn(it) }
     val styles = LocalLilyTextStyles.current
+    val entries = remember { RecordEntries() }
+    val shown = RecordListShown.of(
+        isKnown = status == RecordListStatus.Known,
+        isNoneKnown = status == RecordListStatus.NoneKnown,
+        statusLabel = statusLabel,
+        conflictLabel = conflictLabel,
+        label = label,
+        hasEntries = entries.any,
+    )
+    shown.warnings("RecordList").forEach { LilyWarnings.warn(it) }
     Column(
         modifier = modifier.semantics {
             isTraversalGroup = true
-            contentDescription = RecordRules.listName(label, statusLabel)
+            shown.name?.let { contentDescription = it }
         },
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         coverageLabel?.let { BasicText(it, style = styles.small) }
-        if (RecordRules.showsStatusItem(status)) BasicText(statusLabel, style = styles.body) else content()
+        shown.item?.let { BasicText(it, style = styles.body) }
+        if (shown.entries) CompositionLocalProvider(LocalRecordEntries provides entries, content = content)
     }
 }
 
@@ -67,6 +82,7 @@ public fun RecordListItem(
     content: @Composable () -> Unit,
 ) {
     RecordRules.itemWarnings(status, statusLabel, entryState, entryStateLabel).forEach { LilyWarnings.warn(it) }
+    RecordEntry(counts = !RecordRules.isWithdrawn(status, entryState))
     val styles = LocalLilyTextStyles.current
     Column(
         modifier = modifier.semantics(mergeDescendants = true) {},

@@ -10,6 +10,7 @@ public struct RecordList<Content: View>: View {
     let status: RecordListStatus
     let statusLabel: String
     let label: String?
+    let conflictLabel: String?
     let coverageLabel: String?
     let content: Content
 
@@ -17,27 +18,26 @@ public struct RecordList<Content: View>: View {
     ///   - status: known, none known, not recorded, unavailable, omitted or not applicable. Required.
     ///   - statusLabel: the status in words; names the list, and is its one item unless known.
     ///   - label: the list's name, when it should differ from the status words.
+    ///   - conflictLabel: your words for a list that says none are known and holds an entry, shown instead; never both.
     ///   - coverageLabel: what the list is a view of (its window, its order, what is left out), shown first.
-    ///   - content: `RecordListItem`s, shown when the status is known.
+    ///   - content: `RecordListItem`s, shown when the status is known, and beside none known when there are any.
     public init(
-        status: RecordListStatus, statusLabel: String, label: String? = nil, coverageLabel: String? = nil,
+        status: RecordListStatus, statusLabel: String, label: String? = nil, coverageLabel: String? = nil, conflictLabel: String? = nil,
         @ViewBuilder content: () -> Content
     ) {
         self.status = status
         self.statusLabel = statusLabel
         self.label = label
+        self.conflictLabel = conflictLabel
         self.coverageLabel = coverageLabel
         self.content = content()
         LilySemantics.warn(RecordRules.listWarnings(statusLabel: statusLabel))
     }
 
     public var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            if let coverageLabel { Text(verbatim: coverageLabel).font(.footnote) }
-            if RecordRules.showsStatusItem(status) { Text(verbatim: statusLabel) } else { content }
-        }
-        .accessibilityElement(children: .contain)
-        .accessibilityLabel(Text(verbatim: RecordRules.listName(label: label, statusLabel: statusLabel)))
+        RecordListLayout(
+            component: "RecordList", isKnown: status == .known, isNoneKnown: status == .noneKnown, statusLabel: statusLabel,
+            conflictLabel: conflictLabel, label: label, coverageLabel: coverageLabel, content: content)
     }
 }
 
@@ -90,5 +90,6 @@ public struct RecordListItem<Content: View>: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .accessibilityElement(children: .combine)
+        .containerValue(\.lilyWithdrawnEntry, RecordRules.isWithdrawn(status: status, entryState: entryState))
     }
 }

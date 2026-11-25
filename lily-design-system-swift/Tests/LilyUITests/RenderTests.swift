@@ -358,3 +358,30 @@ private struct CustomScoreStyle: EarlyWarningScoreViewStyle {
         ) { EmptyView() }
     }
 }
+
+@MainActor private func size(_ view: some View) -> CGSize {
+    ImageRenderer(content: view.frame(width: 320)).nsImage?.size ?? .zero
+}
+
+// HC-C17: the list reads its entries from what it is given: an entry shows beside none known, and a refuted one, or an empty
+// loop, leaves the status words. The heights say which, since the conflict words are the longer ones.
+@MainActor @Test func noneKnownReadsItsEntries() {
+    let conflict = String(repeating: "The record also says none are known. ", count: 12)
+    func list(_ codes: [AllergyCodes]) -> some View {
+        AllergyRecordList(status: .noneKnown, statusLabel: "None", conflictLabel: conflict) {
+            ForEach(codes.indices, id: \.self) { AllergyRecordListItem(AllergyWords(substance: "Penicillin"), codes: codes[$0]) }
+        }
+    }
+    let empty = size(list([])).height
+    let refuted = size(list([AllergyCodes(verificationStatus: "refuted")])).height
+    let entry = size(list([AllergyCodes()])).height
+    #expect(empty > 0)
+    #expect(refuted > empty)
+    #expect(entry > refuted + 60)
+    let records = size(RecordList(status: .noneKnown, statusLabel: "None", conflictLabel: conflict) { RecordListItem { Text("x") } })
+    let inError = size(
+        RecordList(status: .noneKnown, statusLabel: "None", conflictLabel: conflict) {
+            RecordListItem(entryState: .enteredInError, entryStateLabel: "In error") { Text("x") }
+        })
+    #expect(records.height > inError.height + 60)
+}

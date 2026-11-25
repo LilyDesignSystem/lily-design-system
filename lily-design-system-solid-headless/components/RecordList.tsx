@@ -5,6 +5,7 @@ import { omit } from "solid-js";
 import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { warnMissingProp } from "./dev-warning";
+import { useRecordList } from "./use-record-list";
 
 export interface RecordListProps {
     /** What this list is a view of, in the consumer's words: its window and order, what it leaves out and why, and which sources did not answer. Rendered first, as an item of its own (spec/lessons/zoblocks). */
@@ -15,6 +16,8 @@ export interface RecordListProps {
     statusLabel: string;
     /** The accessible name, when it should differ from statusLabel. */
     label?: string;
+    /** Your words for a list that says none are known and holds an entry, shown instead of `statusLabel`; it never says both. */
+    conflictLabel?: string;
     children?: JSX.Element;
     [key: string]: unknown;
 }
@@ -27,6 +30,7 @@ export default function RecordList(props: RecordListProps) {
         "status",
         "statusLabel",
         "label",
+        "conflictLabel",
         "coverageLabel",
         "children",
     );
@@ -42,15 +46,19 @@ export default function RecordList(props: RecordListProps) {
         p.statusLabel,
         "The status needs words a person can read.",
     );
+    const list = useRecordList("RecordList", "record-list", p);
     return (
         <ul
             class={`record-list ${p.class}`}
-            data-status={attr(p.status)}
-            aria-label={p.label ?? p.statusLabel}
+            ref={list.ref}
+            data-status={attr(list.shown().status)}
+            aria-label={list.shown().name}
             {...restProps}
         >
             {p.coverageLabel ? <li class="record-list-coverage">{p.coverageLabel}</li> : null}
-            {p.status !== "known" ? <li class="record-list-status">{p.statusLabel}</li> : null}
+            {list.shown().showItem ? (
+                <li class="record-list-status">{list.shown().words}</li>
+            ) : null}
             {p.children}
         </ul>
     );

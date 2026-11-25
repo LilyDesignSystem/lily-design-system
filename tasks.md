@@ -4789,14 +4789,17 @@ each was checked against the source on 2026-11-25, not reproduced in a browser h
       testing guidance, which still says a withdrawn value is visible by default.
       Verify: one mounted instance from final to masked, final to entered-in-error, preliminary to corrected, and back; text, host and
       rendered attributes, flag, meter and previous value; from the packed package.
-- [ ] **P50-T2 A record list can claim "None known" beside an entry (2).** Svelte and React render the children whatever the status;
+- [x] **P50-T2 A record list can claim "None known" beside an entry (2).** Svelte and React render the children whatever the status;
       the allergy, medication and problem lists did. Render them only when `known`, in every catalog and all the record lists, and warn
       in development without the contents.
       Verify: patient A to B, and known to unavailable to known, with an old child still supplied; nothing is relabelled "None known".
       _(2026-11-25: Swift and Kotlin already hide the entries unless the status is `known`. Held for a decision: hiding them also
       hides a real allergy when the status is wrong, and showing both lets a reader see the conflict. Decided the same day, by the
       maintainer: the entries with a required conflict message, never "None known", in every catalog, Swift and Kotlin included. To
-      be confirmed by a clinical safety lead.)_
+      be confirmed by a clinical safety lead. Done the same day: HC-C17, `conflictLabel`, in the seven lists of eight web catalogs,
+      Swift and Kotlin; HTML and Alpine document it. Failing tests first in Svelte, React, Vue, Solid (21 of 28 each) and Nunjucks (56
+      of 98); in Angular, Web Components, Blazor the rule was switched off and 21, 29, 21 failed. A server's HTML shows the status as
+      given until the script runs in Svelte, React, Solid, Vue and Angular. Compose is not compiled on this machine.)_
 - [x] **P50-T3 An alert submits another alert's override reason (3).** _(2026-11-25: HC-C15, `cardId`; failing tests first in five web catalogs, then Blazor, Swift and Kotlin. Solid also showed an empty menu while keeping the reason. Web Components: with T1. Compose is not compiled on this machine.)_ `decision-support-card` keeps the chosen reason when its card is
       replaced, and accepts one the current card does not offer (React and Svelte, from the source).
       Verify: replacement with the same and with different reason codes, and an offered reason removed while open, in every stateful port.
@@ -4831,6 +4834,9 @@ each was checked against the source on 2026-11-25, not reproduced in a browser h
 - [ ] **P50-T11 Clinical users and assistive technology on a change.** A clinician and an assistive-technology user review a corrected
       result and an alert, by keyboard only, at high zoom, with a long translated label. With P49-T9. _(Needs people.)_
       Verify: what was identified, announced and misunderstood, and the retest.
+- [ ] **P50-T29 A patient summary section can say "none known" above a list that holds an entry.** Found with P50-T2:
+      `international-patient-summary-section` prints `statusLabel` under its heading from its own `status`, whatever the record
+      list inside holds. `statusPlacement="list"` avoids it. Verify: HC-C17's tests, with the list inside a section.
 - [ ] **P50-T28 Other Web Components that never update.** `iban-view`, `statistic`, the measurement, rating and status views, `review-date`
       and others build once; 84 of the catalog's elements react to a change. List each, make it live or document it.
       Verify: a check that every element reacts to each attribute it documents, or is listed with a reason.

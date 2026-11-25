@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
@@ -17,12 +19,15 @@ import io.github.lilydesignsystem.core.AllergyCodes
 import io.github.lilydesignsystem.core.AllergyListStatus
 import io.github.lilydesignsystem.core.AllergyRules
 import io.github.lilydesignsystem.core.AllergyWords
+import io.github.lilydesignsystem.core.RecordListShown
+import io.github.lilydesignsystem.core.isWithdrawn
 
 /**
  * @param status known, none known, not recorded, unavailable, omitted or not applicable. Required.
  * @param statusLabel the status in words ("No known allergies"); names the list, and is its one item unless known.
  * @param label the list's name, when it should differ from the status words.
- * @param content [AllergyRecordListItem]s, shown when the status is known.
+ * @param conflictLabel your words for a list that says none are known and holds an entry, shown instead; never both.
+ * @param content [AllergyRecordListItem]s, shown when the status is known, and beside none known when there are any.
  */
 @Composable
 public fun AllergyRecordList(
@@ -30,17 +35,30 @@ public fun AllergyRecordList(
     statusLabel: String,
     modifier: Modifier = Modifier,
     label: String? = null,
+    conflictLabel: String? = null,
     content: @Composable () -> Unit = {},
 ) {
     AllergyRules.listWarnings(statusLabel).forEach { LilyWarnings.warn(it) }
+    val styles = LocalLilyTextStyles.current
+    val entries = remember { RecordEntries() }
+    val shown = RecordListShown.of(
+        isKnown = status == AllergyListStatus.Known,
+        isNoneKnown = status == AllergyListStatus.NoneKnown,
+        statusLabel = statusLabel,
+        conflictLabel = conflictLabel,
+        label = label,
+        hasEntries = entries.any,
+    )
+    shown.warnings("AllergyRecordList").forEach { LilyWarnings.warn(it) }
     Column(
         modifier = modifier.semantics {
             isTraversalGroup = true
-            contentDescription = AllergyRules.listName(label, statusLabel)
+            shown.name?.let { contentDescription = it }
         },
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        if (AllergyRules.showsStatusItem(status)) BasicText(statusLabel, style = LocalLilyTextStyles.current.body) else content()
+        shown.item?.let { BasicText(it, style = styles.body) }
+        if (shown.entries) CompositionLocalProvider(LocalRecordEntries provides entries, content = content)
     }
 }
 
@@ -57,6 +75,7 @@ public fun AllergyRecordListItem(
     extra: @Composable () -> Unit = {},
 ) {
     AllergyRules.itemWarnings(codes ?: AllergyCodes(), words).forEach { LilyWarnings.warn(it) }
+    RecordEntry(counts = !AllergyRules.isWithdrawn(codes))
     val styles = LocalLilyTextStyles.current
     val details = listOf(
         words.reaction, words.severity, words.criticality, words.clinicalStatus, words.verificationStatus, words.type,

@@ -64,33 +64,31 @@ public struct AllergyRecordList<Content: View>: View {
     let status: AllergyListStatus
     let statusLabel: String
     let label: String?
+    let conflictLabel: String?
     let content: Content
 
     /// - Parameters:
     ///   - status: known, none known, not recorded, unavailable, omitted or not applicable. Required.
     ///   - statusLabel: the status in words ("No known allergies"); names the list, and is its one item unless known.
     ///   - label: the list's name, when it should differ from the status words.
-    ///   - content: `AllergyRecordListItem`s, shown when the status is known.
+    ///   - conflictLabel: your words for a list that says none are known and holds an entry, shown instead; never both.
+    ///   - content: `AllergyRecordListItem`s, shown when the status is known, and beside none known when there are any.
     public init(
-        status: AllergyListStatus, statusLabel: String, label: String? = nil, @ViewBuilder content: () -> Content
+        status: AllergyListStatus, statusLabel: String, label: String? = nil, conflictLabel: String? = nil,
+        @ViewBuilder content: () -> Content
     ) {
         self.status = status
         self.statusLabel = statusLabel
         self.label = label
+        self.conflictLabel = conflictLabel
         self.content = content()
         LilySemantics.warn(AllergyRules.listWarnings(statusLabel: statusLabel))
     }
 
     public var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            if AllergyRules.showsStatusItem(status) {
-                Text(verbatim: statusLabel)
-            } else {
-                content
-            }
-        }
-        .accessibilityElement(children: .contain)
-        .accessibilityLabel(Text(verbatim: AllergyRules.listName(label: label, statusLabel: statusLabel)))
+        RecordListLayout(
+            component: "AllergyRecordList", isKnown: status == .known, isNoneKnown: status == .noneKnown, statusLabel: statusLabel,
+            conflictLabel: conflictLabel, label: label, content: content)
     }
 }
 
@@ -135,6 +133,7 @@ public struct AllergyRecordListItem<Extra: View>: View {
             extra
         }
         .accessibilityElement(children: .contain)
+        .containerValue(\.lilyWithdrawnEntry, AllergyRules.isWithdrawn(codes))
     }
 }
 

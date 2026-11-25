@@ -3,18 +3,25 @@
     DeviceRecordList: a list of a patient's medical devices, whose status is never blank (tasks.md P28-T3, spec/healthcare-ui).
     For any status but "known", StatusLabel is the list's one item. Props and rules: DeviceRecordList.md.
 *@
-<ul class="@($"device-record-list {CssClass}".Trim())" data-status="@Status" aria-label="@(Label ?? StatusLabel)" @attributes="AdditionalAttributes">
-    @if (Status != "known") {<li class="device-record-list-status">@StatusLabel</li>}
-    @ChildContent
+<ul class="@($"device-record-list {CssClass}".Trim())" data-status="@Shown.Status" aria-label="@Shown.Name" @attributes="AdditionalAttributes">
+    @if (Shown.ShowItem) {<li class="device-record-list-status">@Shown.Words</li>}
+    <CascadingValue Value="entries" IsFixed="true">@ChildContent</CascadingValue>
 </ul>
 @code {
+    private readonly RecordListEntries entries;
     /// <summary>known, none-known, not-recorded, unavailable, omitted, not-applicable. Required.</summary>
     [Parameter, EditorRequired] public string Status { get; set; } = "";
     /// <summary>The consumer's words for the status; names the list. Required.</summary>
     [Parameter, EditorRequired] public string StatusLabel { get; set; } = "";
     /// <summary>The accessible name, when it should differ from StatusLabel.</summary>
     [Parameter] public string? Label { get; set; }
+    /// <summary>Your words for a list that says none are known and holds an entry, shown instead of StatusLabel; it never says both (HC-C17).</summary>
+    [Parameter] public string? ConflictLabel { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private RecordListState Shown => RecordListState.Of(Status, StatusLabel, ConflictLabel, Label, entries.Any);
+
+    public DeviceRecordList() => entries = new RecordListEntries(() => InvokeAsync(StateHasChanged));
 }

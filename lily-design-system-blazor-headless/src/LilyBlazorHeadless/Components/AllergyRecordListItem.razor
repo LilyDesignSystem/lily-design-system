@@ -1,4 +1,5 @@
 @namespace LilyBlazorHeadless.Components
+@implements IDisposable
 @*
     AllergyRecordListItem: one allergy or intolerance in an allergy record list, with substance, reaction, severity, criticality and status (tasks.md P28-T3, spec/healthcare-ui). Props: AllergyRecordListItem.md.
 *@
@@ -32,4 +33,11 @@
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    [CascadingParameter] private RecordListEntries? Entries { get; set; }
+
+    // The list must know it holds this entry, unless the entry is withdrawn (HC-C17).
+    protected override void OnParametersSet() => Entries?.Set(this, !(VerificationStatus is "entered-in-error" or "refuted"));
+
+    public void Dispose() => Entries?.Set(this, false);
 }

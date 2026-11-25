@@ -8,7 +8,7 @@ import { ProcedureRecordList } from "./ProcedureRecordList";
 @Component({
     standalone: true,
     imports: [ProcedureRecordList],
-    template: `<lily-procedure-record-list [status]="status()" [statusLabel]="statusLabel()"><li class="procedure-record-list-item">One record</li></lily-procedure-record-list>`,
+    template: `<lily-procedure-record-list [status]="status()" [statusLabel]="statusLabel()">@if (status() === 'known') {<li class="procedure-record-list-item">One record</li>}</lily-procedure-record-list>`,
 })
 class Host {
     readonly status = input<string>("known");

@@ -141,3 +141,37 @@ import Testing
             requiredHeadings: ["medications": "M", "allergies": "A", "problems": "P"]
         ).isEmpty)
 }
+
+// HC-C17: a record list never says "none known" beside an entry.
+@Test func noneKnownBesideAnEntrySaysTheConflict() {
+    func shown(_ conflictLabel: String?, label: String? = nil, entries: Bool = true, noneKnown: Bool = true) -> RecordListShown {
+        RecordListShown(
+            isKnown: false, isNoneKnown: noneKnown, statusLabel: "No known allergies", conflictLabel: conflictLabel, label: label,
+            hasEntries: entries)
+    }
+    #expect(shown("Check the source").item == "Check the source")
+    #expect(shown("Check the source").name == "Check the source")
+    #expect(shown("Check the source").entries)
+    for blank in [nil, "", "   ", "\u{a0}"] as [String?] {
+        #expect(shown(blank).item == nil)
+        #expect(shown(blank).name == nil)
+        #expect(shown(blank).entries)
+        #expect(shown(blank).warnings("AllergyRecordList").count == 1)
+    }
+    #expect(shown("Check", label: "Allergies").name == "Allergies")
+    #expect(shown("Check", label: "No known allergies").name == "Check")
+    #expect(shown("Check", entries: false).item == "No known allergies")
+    #expect(shown("Check", entries: false).warnings("AllergyRecordList").isEmpty)
+    #expect(shown("Check", noneKnown: false).item == "No known allergies")
+    #expect(!shown("Check", noneKnown: false).entries)
+}
+
+// HC-C17: a withdrawn entry does not contradict "none known".
+@Test func aWithdrawnEntryIsNotAConflict() {
+    #expect(AllergyRules.isWithdrawn(AllergyCodes(verificationStatus: "refuted")))
+    #expect(AllergyRules.isWithdrawn(AllergyCodes(verificationStatus: "entered-in-error")))
+    #expect(!AllergyRules.isWithdrawn(AllergyCodes(clinicalStatus: "resolved", verificationStatus: "confirmed")))
+    #expect(RecordRules.isWithdrawn(status: nil, entryState: .enteredInError))
+    #expect(RecordRules.isWithdrawn(status: "entered-in-error", entryState: nil))
+    #expect(!RecordRules.isWithdrawn(status: "active", entryState: .withheld))
+}

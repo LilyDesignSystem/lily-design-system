@@ -5,6 +5,7 @@ import { omit } from "solid-js";
 import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { warnMissingProp } from "./dev-warning";
+import { useRecordList } from "./use-record-list";
 
 export interface DeviceRecordListProps {
     class?: string;
@@ -13,13 +14,23 @@ export interface DeviceRecordListProps {
     statusLabel: string;
     /** The accessible name, when it should differ from statusLabel. */
     label?: string;
+    /** Your words for a list that says none are known and holds an entry, shown instead of `statusLabel`; it never says both. */
+    conflictLabel?: string;
     children?: JSX.Element;
     [key: string]: unknown;
 }
 
 export default function DeviceRecordList(props: DeviceRecordListProps) {
     const p = withDefaults({ class: "" as const }, props);
-    const restProps = omit(p, "class", "status", "statusLabel", "label", "children");
+    const restProps = omit(
+        p,
+        "class",
+        "status",
+        "statusLabel",
+        "label",
+        "conflictLabel",
+        "children",
+    );
     warnMissingProp(
         "DeviceRecordList",
         "status",
@@ -32,15 +43,17 @@ export default function DeviceRecordList(props: DeviceRecordListProps) {
         p.statusLabel,
         "The status needs words a person can read.",
     );
+    const list = useRecordList("DeviceRecordList", "device-record-list", p);
     return (
         <ul
             class={`device-record-list ${p.class}`}
-            data-status={attr(p.status)}
-            aria-label={p.label ?? p.statusLabel}
+            ref={list.ref}
+            data-status={attr(list.shown().status)}
+            aria-label={list.shown().name}
             {...restProps}
         >
-            {p.status !== "known" ? (
-                <li class="device-record-list-status">{p.statusLabel}</li>
+            {list.shown().showItem ? (
+                <li class="device-record-list-status">{list.shown().words}</li>
             ) : null}
             {p.children}
         </ul>

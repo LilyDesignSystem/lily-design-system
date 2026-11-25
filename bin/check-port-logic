@@ -49,6 +49,7 @@ const ANGULAR = [
   /\b(?:effect|afterNextRender|afterRenderEffect|afterRender)\(/,
   /\baddEventListener\(/,
   /\battach\w+\(/, // a behaviour module the catalogs share
+  /\brecordListShown\(/, // record-list-entries.ts, which watches the list (HC-C17)
 ];
 
 const BLAZOR = [
@@ -59,6 +60,7 @@ const BLAZOR = [
   /\bIJSRuntime\b/,
   /@inherits\s+\w+/,
   /\bOnAfterRender(?:Async)?\b/,
+  /\bnew RecordListEntries\(/, // the items register with their list (HC-C17)
   /\bOnParametersSet(?:Async)?\b/, // reacting to a parameter change, such as a counter waiting for typing to pause
 ];
 

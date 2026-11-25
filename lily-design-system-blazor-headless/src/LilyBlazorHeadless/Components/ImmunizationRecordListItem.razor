@@ -1,4 +1,5 @@
 @namespace LilyBlazorHeadless.Components
+@implements IDisposable
 @*
     ImmunizationRecordListItem: one immunization in an immunization record list, with vaccine, date, dose and status (tasks.md P28-T3, spec/healthcare-ui). Props: ImmunizationRecordListItem.md.
 *@
@@ -21,4 +22,11 @@
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    [CascadingParameter] private RecordListEntries? Entries { get; set; }
+
+    // The list must know it holds this entry, unless the entry is withdrawn (HC-C17).
+    protected override void OnParametersSet() => Entries?.Set(this, Status != "entered-in-error");
+
+    public void Dispose() => Entries?.Set(this, false);
 }

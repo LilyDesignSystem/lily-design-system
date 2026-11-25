@@ -8,7 +8,7 @@ import { RecordList } from "./RecordList";
 @Component({
     standalone: true,
     imports: [RecordList],
-    template: `<lily-record-list [status]="status()" [statusLabel]="statusLabel()"><li class="record-list-item">One record</li></lily-record-list>`,
+    template: `<lily-record-list [status]="status()" [statusLabel]="statusLabel()">@if (status() === 'known') {<li class="record-list-item">One record</li>}</lily-record-list>`,
 })
 class Host {
     readonly status = input<string>("known");

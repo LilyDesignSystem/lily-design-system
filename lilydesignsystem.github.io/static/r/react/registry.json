@@ -373,7 +373,8 @@
       "description": "A list of a patient's allergies and intolerances, whose status is never blank.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "registryDependencies": [
-        "@lily/dev-warning-utils"
+        "@lily/dev-warning-utils",
+        "@lily/use-record-list-utils"
       ],
       "categories": [
         "lists"
@@ -3204,7 +3205,8 @@
       "description": "A list of a patient's medical devices, whose status is never blank.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "registryDependencies": [
-        "@lily/dev-warning-utils"
+        "@lily/dev-warning-utils",
+        "@lily/use-record-list-utils"
       ],
       "categories": [
         "lists"
@@ -5470,7 +5472,8 @@
       "description": "A list of a patient's immunizations, whose status is never blank.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "registryDependencies": [
-        "@lily/dev-warning-utils"
+        "@lily/dev-warning-utils",
+        "@lily/use-record-list-utils"
       ],
       "categories": [
         "lists"
@@ -6751,7 +6754,8 @@
       "description": "A list of a patient's medicines, whose status is never blank.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "registryDependencies": [
-        "@lily/dev-warning-utils"
+        "@lily/dev-warning-utils",
+        "@lily/use-record-list-utils"
       ],
       "categories": [
         "lists"
@@ -8509,7 +8513,8 @@
       "description": "A list of a patient's problems and conditions, whose status is never blank.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "registryDependencies": [
-        "@lily/dev-warning-utils"
+        "@lily/dev-warning-utils",
+        "@lily/use-record-list-utils"
       ],
       "categories": [
         "lists"
@@ -8549,7 +8554,8 @@
       "description": "A list of a patient's procedures, whose status is never blank.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "registryDependencies": [
-        "@lily/dev-warning-utils"
+        "@lily/dev-warning-utils",
+        "@lily/use-record-list-utils"
       ],
       "categories": [
         "lists"
@@ -8859,7 +8865,8 @@
       "description": "A list of records from one section of a patient's record, whose status is never blank.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "registryDependencies": [
-        "@lily/dev-warning-utils"
+        "@lily/dev-warning-utils",
+        "@lily/use-record-list-utils"
       ],
       "categories": [
         "lists"
@@ -8889,6 +8896,23 @@
           "path": "lily-design-system-react-headless/components/RecordListItem.tsx",
           "type": "registry:component",
           "target": "@components/lily/RecordListItem.tsx"
+        }
+      ]
+    },
+    {
+      "name": "record-list-state-utils",
+      "type": "registry:lib",
+      "title": "record-list-state.ts",
+      "description": "Shared helper module record-list-state.ts, used by Lily React headless components.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/clinical-format-utils"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/record-list-state.ts",
+          "type": "registry:lib",
+          "target": "@components/lily/record-list-state.ts"
         }
       ]
     },
@@ -11902,6 +11926,24 @@
           "path": "lily-design-system-react-headless-identifiers/components/UruguayCedulaDeIdentidadView.tsx",
           "type": "registry:component",
           "target": "@components/lily/UruguayCedulaDeIdentidadView.tsx"
+        }
+      ]
+    },
+    {
+      "name": "use-record-list-utils",
+      "type": "registry:lib",
+      "title": "use-record-list.ts",
+      "description": "Shared helper module use-record-list.ts, used by Lily React headless components.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils",
+        "@lily/record-list-state-utils"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/use-record-list.ts",
+          "type": "registry:lib",
+          "target": "@components/lily/use-record-list.ts"
         }
       ]
     },

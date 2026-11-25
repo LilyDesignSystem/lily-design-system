@@ -8,7 +8,7 @@ import { AllergyRecordList } from "./AllergyRecordList";
 @Component({
     standalone: true,
     imports: [AllergyRecordList],
-    template: `<lily-allergy-record-list [status]="status()" [statusLabel]="statusLabel()"><li class="allergy-record-list-item">One record</li></lily-allergy-record-list>`,
+    template: `<lily-allergy-record-list [status]="status()" [statusLabel]="statusLabel()">@if (status() === 'known') {<li class="allergy-record-list-item">One record</li>}</lily-allergy-record-list>`,
 })
 class Host {
     readonly status = input<string>("known");

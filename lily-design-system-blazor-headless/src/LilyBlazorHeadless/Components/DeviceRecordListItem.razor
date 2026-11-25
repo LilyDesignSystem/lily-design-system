@@ -1,4 +1,5 @@
 @namespace LilyBlazorHeadless.Components
+@implements IDisposable
 @*
     DeviceRecordListItem: one medical device in a device record list, with its status and when it was used (tasks.md P28-T3, spec/healthcare-ui). Props: DeviceRecordListItem.md.
 *@
@@ -17,4 +18,11 @@
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    [CascadingParameter] private RecordListEntries? Entries { get; set; }
+
+    // The list must know it holds this entry, unless the entry is withdrawn (HC-C17).
+    protected override void OnParametersSet() => Entries?.Set(this, Status != "entered-in-error");
+
+    public void Dispose() => Entries?.Set(this, false);
 }

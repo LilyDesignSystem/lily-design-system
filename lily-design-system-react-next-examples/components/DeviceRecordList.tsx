@@ -2,6 +2,7 @@
 // For any status but "known", statusLabel is the list's one item. Props and rules: DeviceRecordList.md.
 import React from "react";
 import { warnMissingProp } from "./dev-warning";
+import { useRecordList } from "./use-record-list";
 
 export interface DeviceRecordListProps {
     className?: string;
@@ -10,6 +11,8 @@ export interface DeviceRecordListProps {
     statusLabel: string;
     /** The accessible name, when it should differ from statusLabel. */
     label?: string;
+    /** Your words for a list that says none are known and holds an entry, shown instead of `statusLabel`; it never says both. */
+    conflictLabel?: string;
     children?: React.ReactNode;
     [key: string]: unknown;
 }
@@ -19,6 +22,7 @@ export default function DeviceRecordList({
     status,
     statusLabel,
     label,
+    conflictLabel,
     children,
     ...restProps
 }: DeviceRecordListProps) {
@@ -34,16 +38,21 @@ export default function DeviceRecordList({
         statusLabel,
         "The status needs words a person can read.",
     );
+    const shown = useRecordList(
+        "DeviceRecordList",
+        "device-record-list",
+        { status, statusLabel, conflictLabel, label },
+        restProps.ref,
+    );
     return (
         <ul
             className={`device-record-list ${className}`}
-            data-status={status}
-            aria-label={label ?? statusLabel}
+            data-status={shown.status}
+            aria-label={shown.name}
             {...restProps}
+            ref={shown.ref}
         >
-            {status !== "known" ? (
-                <li className="device-record-list-status">{statusLabel}</li>
-            ) : null}
+            {shown.showItem ? <li className="device-record-list-status">{shown.words}</li> : null}
             {children}
         </ul>
     );

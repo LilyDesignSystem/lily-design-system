@@ -11,6 +11,7 @@ See `components/problem-record-list/index.md` for the canonical documentation, a
 - `status`: "known" | "none-known" | "not-recorded" | "unavailable" | "omitted" | "not-applicable" (required) — rendered as `data-status`
 - `statusLabel`: string (required) — the status in words; names the list, and is its one item unless status is `known`
 - `label`: string (optional) — the accessible name, when it should differ from `statusLabel`
+- `conflictLabel`: string (optional) — your words for a list that says none are known and holds an entry, shown instead of `statusLabel`; the list never says both
 - `content`: slot (optional) — `problem-record-list-item` items
 
 ---

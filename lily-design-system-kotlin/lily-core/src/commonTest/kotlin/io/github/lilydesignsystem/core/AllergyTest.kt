@@ -144,4 +144,32 @@ class WheelPickerDefaultsTest {
         assertEquals(WheelTypeahead(), WheelTypeahead("", 0))
         assertEquals(null, WheelMoveKey.fromKey("Enter"))
     }
+
+    // HC-C17: a record list never says "none known" beside an entry.
+    @Test fun noneKnownBesideAnEntrySaysTheConflict() {
+        fun shown(conflict: String?, label: String? = null, entries: Boolean = true, noneKnown: Boolean = true) =
+            RecordListShown.of(false, noneKnown, "No known allergies", conflict, label, entries)
+        assertEquals(RecordListShown("Check", "Check", entries = true, conflict = true), shown("Check"))
+        for (blank in listOf(null, "", "   ", "\u00a0")) {
+            assertEquals(RecordListShown(null, null, entries = true, conflict = true), shown(blank))
+            assertEquals(1, shown(blank).warnings("AllergyRecordList").size)
+        }
+        assertEquals("Allergies", shown("Check", label = "Allergies").name)
+        assertEquals("Check", shown("Check", label = "No known allergies").name)
+        assertEquals("No known allergies", shown("Check", entries = false).item)
+        assertEquals(emptyList(), shown("Check", entries = false).warnings("AllergyRecordList"))
+        assertEquals("No known allergies", shown("Check", noneKnown = false).item)
+        assertEquals(false, shown("Check", noneKnown = false).entries)
+    }
+
+    // HC-C17: a withdrawn entry does not contradict "none known".
+    @Test fun aWithdrawnEntryIsNotAConflict() {
+        assertEquals(true, AllergyRules.isWithdrawn(AllergyCodes(verificationStatus = "refuted")))
+        assertEquals(true, AllergyRules.isWithdrawn(AllergyCodes(verificationStatus = "entered-in-error")))
+        assertEquals(false, AllergyRules.isWithdrawn(AllergyCodes(clinicalStatus = "resolved", verificationStatus = "confirmed")))
+        assertEquals(false, AllergyRules.isWithdrawn(null))
+        assertEquals(true, RecordRules.isWithdrawn(null, RecordEntryState.EnteredInError))
+        assertEquals(true, RecordRules.isWithdrawn("entered-in-error", null))
+        assertEquals(false, RecordRules.isWithdrawn("active", RecordEntryState.Withheld))
+    }
 }

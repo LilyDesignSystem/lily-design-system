@@ -8,7 +8,7 @@ import { ImmunizationRecordList } from "./ImmunizationRecordList";
 @Component({
     standalone: true,
     imports: [ImmunizationRecordList],
-    template: `<lily-immunization-record-list [status]="status()" [statusLabel]="statusLabel()"><li class="immunization-record-list-item">One record</li></lily-immunization-record-list>`,
+    template: `<lily-immunization-record-list [status]="status()" [statusLabel]="statusLabel()">@if (status() === 'known') {<li class="immunization-record-list-item">One record</li>}</lily-immunization-record-list>`,
 })
 class Host {
     readonly status = input<string>("known");

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-record-list-utils",
+  "type": "registry:lib",
+  "title": "use-record-list.ts",
+  "description": "Shared helper module use-record-list.ts, used by Lily React headless components.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "registryDependencies": [
+    "@lily/dev-warning-utils",
+    "@lily/record-list-state-utils"
+  ],
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/use-record-list.ts",
+      "content": "import { useCallback, useEffect, useLayoutEffect, useRef, useState, type Ref } from \"react\";\nimport { warnMissingProp } from \"./dev-warning\";\nimport { recordListState, watchEntries, type RecordListState } from \"./record-list-state\";\n\n// Whether a record list that says \"none known\" holds an entry, and so what it shows (HC-C17, tasks.md P50-T2). The entries are read\n// from the page and watched. Internal: shared by the seven record lists.\n\n// A layout effect, so the words are right before the first paint. React 18 warns about one on a server, where nothing is painted.\nconst useBeforePaint = typeof window === \"undefined\" ? useEffect : useLayoutEffect;\n\nexport function useRecordList(\n    component: string,\n    base: string,\n    given: {\n        status: string | undefined;\n        statusLabel: string | undefined;\n        conflictLabel?: string;\n        label?: string;\n    },\n    forwarded: unknown,\n): RecordListState & { ref: Ref<HTMLUListElement> } {\n    const list = useRef<HTMLUListElement | null>(null);\n    const [entries, setEntries] = useState(false);\n    const { status, conflictLabel } = given;\n\n    useBeforePaint(() => {\n        if (status !== \"none-known\" || !list.current) {\n            setEntries(false);\n            return;\n        }\n        return watchEntries(list.current, base, setEntries);\n    }, [status, base]);\n\n    const state = recordListState(given, entries);\n    useEffect(() => {\n        if (state.conflict)\n            warnMissingProp(\n                component,\n                \"conflictLabel\",\n                conflictLabel,\n                \"It says none are known and holds an entry: only the entry is shown until you say so in words.\",\n            );\n    }, [state.conflict, component, conflictLabel]);\n\n    // A consumer's own ref still gets the list.\n    const ref = useCallback(\n        (element: HTMLUListElement | null) => {\n            list.current = element;\n            if (typeof forwarded === \"function\") forwarded(element);\n            else if (forwarded && typeof forwarded === \"object\")\n                (forwarded as { current: unknown }).current = element;\n        },\n        [forwarded],\n    );\n    return { ...state, ref };\n}\n",
+      "type": "registry:lib",
+      "target": "@components/lily/use-record-list.ts"
+    }
+  ]
+}

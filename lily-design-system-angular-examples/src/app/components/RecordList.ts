@@ -1,5 +1,13 @@
-import { ChangeDetectionStrategy, Component, OnInit, input } from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    Component,
+    ElementRef,
+    OnInit,
+    input,
+    viewChild,
+} from "@angular/core";
 import { warnMissingProp } from "./dev-warning";
+import { recordListShown } from "./record-list-entries";
 
 /**
  * RecordList: a list of records from one section of a patient's record, whose status is never blank (tasks.md P28-T3, spec/healthcare-ui). For any status but "known", statusLabel is the list's
@@ -8,7 +16,7 @@ import { warnMissingProp } from "./dev-warning";
 @Component({
     selector: "lily-record-list",
     standalone: true,
-    template: `<ul class="record-list {{ className() }}" [attr.data-status]="status() || null" [attr.aria-label]="label() || statusLabel() || null">@if (coverageLabel()) {<li class="record-list-coverage">{{ coverageLabel() }}</li>}@if (status() !== "known") {<li class="record-list-status">{{ statusLabel() }}</li>}<ng-content /></ul>`,
+    template: `<ul #list class="record-list {{ className() }}" [attr.data-status]="shown().status || null" [attr.aria-label]="shown().name || null">@if (coverageLabel()) {<li class="record-list-coverage">{{ coverageLabel() }}</li>}@if (shown().showItem) {<li class="record-list-status">{{ shown().words }}</li>}<ng-content /></ul>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RecordList implements OnInit {
@@ -20,8 +28,13 @@ export class RecordList implements OnInit {
     readonly statusLabel = input<string>("");
     /** The accessible name, when it should differ from statusLabel. */
     readonly label = input<string>("");
+    /** Your words for a list that says none are known and holds an entry, shown instead of `statusLabel`; it never says both. */
+    readonly conflictLabel = input<string>("");
     /** What this list is a view of, in the consumer's words: its window and order, what it leaves out and why, and which sources did not answer. Rendered first, as an item of its own (spec/lessons/zoblocks). */
     readonly coverageLabel = input<string>("");
+
+    private readonly list = viewChild<ElementRef<HTMLElement>>("list");
+    protected readonly shown = recordListShown("RecordList", "record-list", this.list, this);
 
     ngOnInit(): void {
         warnMissingProp(

@@ -8,7 +8,7 @@ import { DeviceRecordList } from "./DeviceRecordList";
 @Component({
     standalone: true,
     imports: [DeviceRecordList],
-    template: `<lily-device-record-list [status]="status()" [statusLabel]="statusLabel()"><li class="device-record-list-item">One record</li></lily-device-record-list>`,
+    template: `<lily-device-record-list [status]="status()" [statusLabel]="statusLabel()">@if (status() === 'known') {<li class="device-record-list-item">One record</li>}</lily-device-record-list>`,
 })
 class Host {
     readonly status = input<string>("known");

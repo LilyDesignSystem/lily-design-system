@@ -9,6 +9,7 @@
     status       "known" | "none-known" | "not-recorded" | "unavailable" | "omitted" | "not-applicable" (required), rendered as data-status
     statusLabel  the consumer's words for the status (required); names the list
     label        the accessible name, when it should differ from statusLabel
+    conflictLabel  the consumer's words for a list that says none are known and holds an entry: shown instead of statusLabel, never both (HC-C17)
     html, id, classes, attributes
 
   Body content: problemRecordListItem children via caller() or params.html.
@@ -19,15 +20,18 @@
 #}
 {%- macro problemRecordList(params) -%}
 {%- set p = params | default({}) -%}
+{%- if p.html %}{% set body = p.html %}{% elif caller %}{% set body = caller() %}{% else %}{% set body = "" %}{% endif -%}
+{#- An entry that is refuted or entered in error does not contradict "none known" (shared/record-list-state.ts). -#}
+{%- set conflict = p.status == "none-known" and r/<li(?![^>]*(data-entry-state="entered-in-error"|data-verification-status="(entered-in-error|refuted)"|data-status="entered-in-error"))[\s>]/.test(body) -%}
+{%- if conflict %}{% set words = p.conflictLabel if r/[0-9A-Za-z\u00aa\u00b5\u00ba\u00c0-\u00d6\u00d8-\u00f6\u00f8-\u167f\u1681-\u180d\u180f-\u1fff\u2c00-\u2dff\u3041-\ud7ff\ud800-\udfff\uf900-\ufdff\ufe70-\ufefc\uff10-\uff19\uff21-\uff3a\uff41-\uff5a\uff66-\uffdc]/.test(p.conflictLabel or "") else "" %}{% else %}{% set words = p.statusLabel %}{% endif -%}
+{%- set name = words if (not p.label or (conflict and p.label == p.statusLabel)) else p.label -%}
 <ul
   class="problem-record-list{% if p.classes %} {{ p.classes }}{% endif %}"
-  {%- if p.status %} data-status="{{ p.status }}"{% endif %} aria-label="{{ p.label or p.statusLabel }}"
+  {%- if p.status %} data-status="{{ "conflict" if conflict else p.status }}"{% endif %}{% if name or not conflict %} aria-label="{{ name }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
-  {%- if p.status != "known" %}<li class="problem-record-list-status">{{ p.statusLabel }}</li>{% endif -%}
-  {%- if p.html -%}{{ p.html | safe }}
-  {%- elif caller -%}{{ caller() }}
-  {%- endif -%}
+  {%- if p.status != "known" and (words or not conflict) %}<li class="problem-record-list-status">{{ words }}</li>{% endif -%}
+  {{- body | safe -}}
 </ul>
 {%- endmacro -%}
