@@ -26,8 +26,8 @@ export type LabelPack = {
     locale: string;
     /** Has a native speaker checked it? False for machine-drafted packs. */
     reviewed: boolean;
-    /** Writing direction of the locale's script. */
-    direction?: "ltr" | "rtl";
+    /** Writing direction of the locale's script: `ltr` or `rtl`. Typed `string` so a pack imported from JSON (whose literals widen) type-checks under strict TypeScript. */
+    direction?: string;
     /** The language's name in itself (`Cymraeg`). */
     endonym?: string;
     /** The language's name in each other pack's language, keyed by locale (`en-001`: `Welsh`). Bhojpuri has none yet. */

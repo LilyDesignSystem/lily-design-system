@@ -4890,7 +4890,7 @@ Requested by the maintainer: tutorials that teach how to build three of our proj
       found T6 to T8, and a fault in the PAS itself, reported to the maintainer.)_
 - [ ] **P51-T4 Publish the docs site** with the three pages (`make publish-github-pages`; the maintainer says when).
 - [ ] **P51-T5 A developer new to Lily follows one, start to end.** Verify: what stopped them, and the fix. _(Needs a person.)_
-- [ ] **P51-T6 `labelsFor("calendar", en)` does not compile in strict TypeScript.** The documented call: a JSON pack's `direction` is
+- [x] **P51-T6 `labelsFor("calendar", en)` does not compile in strict TypeScript.** _(Fixed 2026-11-26: `LabelPack.direction` is `string`; `shared/label-pack-json-import.test.ts` type-checks the call under `--strict`; copies synced.)_ The documented call: a JSON pack's `direction` is
       `string`, and `LabelPack` asks for `"ltr" | "rtl"`. Published 0.6.0; not checked in 0.7.0. The tutorial casts.
       Verify: the documented call type-checks from a JSON import in each TypeScript catalog.
 - [ ] **P51-T7 A calendar given events and no `day` snippet draws none in its week, four-week and month grids, and says nothing.** The
