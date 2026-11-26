@@ -5082,7 +5082,8 @@ T6 are props the types accept that lose meaning in text. The order the audit giv
       `flagLabel`, or a `previousValue` with no `previousLabel`, warns in development (as `bin/check-dev-warnings` does for labels) and
       the types pair them. Verify: the text copied from the page, and print, carry the flag and the earlier value's label.
 - [x] **P55-T6 An empty `nameSegments` hides the medicine name.** Fixed 2026-11-26 in Svelte, React, Solid and Vue (Angular, Nunjucks,
-      Web Components, Blazor, Swift and Kotlin already checked the length), with a test in each.
+      Web Components, Blazor, Swift and Kotlin already checked the length), with a test in each. The audit's revision of 21:37 (in
+      history at the commit that deleted it) confirms the fix and asks to extend the regression to blank and valid tall-man segments.
 - [ ] **P55-T6a The duration recipe throws on fractional seconds.** `Intl.DurationFormat` takes integer fields: give the recipe
       `milliseconds` (and smaller) and an explicit sign. Verify: `PT1.5S`, a decimal comma, `-PT90M`, run as written.
 - [ ] **P55-T7 One evidence account.** The ACR says Chromium only while Core counts cross-engine runs: generate both from the same
@@ -5148,7 +5149,7 @@ Kotlin build) and the full catalog through Blazor Hybrid, where the Blazor headl
       Checked against `shared/vectors/ips-sections.json`.
 - [x] **P56-T3 The first controls.** `LilyAlert`, `LilyBadge`, `Tag`, `InsetText`, `WarningText`, `ErrorSummary`, `Field`,
       `SummaryList` / `SummaryListItem`, `LilyCard`, with `ILilyAnnouncer`; 19 tests. Plain net11.0, no workload.
-- [ ] **P56-T4 The healthcare controls.** _(2026-11-26: `MedicationView`, `ObservationView`, `AgeView`, `DurationView` and `Disclosure` done, with `MedicationRules`, `ObservationRules` and `LilyWarnings`, and the `hasWords`, `htmlDuration` and `partialDatePrecision` vectors; 31 tests.)_ As Swift and Kotlin: `ObservationView`, `AgeView`, `DurationView`, `MedicationView`,
+- [x] **P56-T4 The healthcare controls.** _(Done 2026-11-26: `MedicationView`, `ObservationView`, `AgeView`, `DurationView`, `Disclosure`, `RecordList` / `RecordListItem`, `AllergyRecordList` / `AllergyRecordListItem` (HC-C17), `EarlyWarningScoreView`, `DecisionSupportCard` and `InternationalPatientSummary` / `InternationalPatientSummarySection`, whose status line steps aside above a list that holds an entry (P50-T29, MAUI only); their rules in Core and the `hasWords`, `htmlDuration` and `partialDatePrecision` vectors; 52 tests. Still open: the evidence column in the healthcare register.)_ As Swift and Kotlin: `ObservationView`, `AgeView`, `DurationView`, `MedicationView`,
       `AllergyRecordList` / `AllergyRecordListItem`, `RecordList` / `RecordListItem` (HC-C17), `EarlyWarningScoreView`,
       `DecisionSupportCard`, `InternationalPatientSummary` / `InternationalPatientSummarySection`, `Disclosure`. Verify: the
       healthcare register's rows for each, with MAUI added as an evidence column.
