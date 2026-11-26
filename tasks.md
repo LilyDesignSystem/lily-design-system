@@ -5078,7 +5078,7 @@ T6 are props the types accept that lose meaning in text. The order the audit giv
 - [ ] **P55-T4 HC-C17 in server HTML.** An adapter derives the status from the entries before rendering (React, Solid, Vue, Angular,
       Svelte), and `international-patient-summary-section` takes the same decision (with P50-T29). Until then the register says which
       rendering modes are tested. Verify: response HTML, hydrated DOM, no script, and print, for active, refuted and entered-in-error.
-- [ ] **P55-T5 A flag and a superseded value always have words.** `observation-view` with an abnormal `interpretation` and no
+- [ ] **P55-T5 A flag and a superseded value always have words.** _(2026-11-26: the development warnings already exist in all six TypeScript catalogs (`warnMissingProp`), silent in production. Pairing `previousValue` with `previousLabel` by a second union type was tried and reverted: TypeScript then refuses a `status` read from data (a non-literal union), which `type-tests/observation-view.ts` accepts today. The way to pair them by type is one prop, `previous: { value, label }`, beside the old two, in every catalog.)_ `observation-view` with an abnormal `interpretation` and no
       `flagLabel`, or a `previousValue` with no `previousLabel`, warns in development (as `bin/check-dev-warnings` does for labels) and
       the types pair them. Verify: the text copied from the page, and print, carry the flag and the earlier value's label.
 - [x] **P55-T6 An empty `nameSegments` hides the medicine name.** Fixed 2026-11-26 in Svelte, React, Solid and Vue (Angular, Nunjucks,
