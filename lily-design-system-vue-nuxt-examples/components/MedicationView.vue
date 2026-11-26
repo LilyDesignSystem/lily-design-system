@@ -27,7 +27,7 @@ withDefaults(
             class="screen-reader-span"
             >{{ `${label} ` }}</span
         ><span class="medication-view-name"
-            ><template v-if="nameSegments"
+            ><template v-if="nameSegments?.length"
                 ><template
                     v-for="(segment, i) in nameSegments"
                     :key="i"

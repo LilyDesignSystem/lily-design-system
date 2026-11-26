@@ -55,7 +55,7 @@ export default function MedicationView(props: MedicationViewProps) {
         >
             {p.label ? <span class="screen-reader-span">{`${p.label} `}</span> : null}
             <span class="medication-view-name">
-                {p.nameSegments
+                {p.nameSegments?.length
                     ? p.nameSegments.map((segment, i) =>
                           segment.tallMan ? (
                               <span class="medication-view-tall-man">{segment.text}</span>

@@ -5043,6 +5043,81 @@ Phase 53's healthcare pilots, which build the same receipt and denominator machi
       outstanding; grants recommended, awarded and disbursed kept apart; a modelled estimate with its version, units and
       uncertainties in the chart, table and download. Verify: a EUR 100 pledge with one EUR 25 payment shows 25 received, 75 outstanding.
 
+## Phase 55 — Lessons from the second healthcare production audit (2026-11-26)
+
+The audit was committed by accident in `7564681b9` and is deleted from the tree: `git show 7564681b9:docs/audits/gpt-6-2-astra/index.md`
+(a production audit for healthcare, at `a9761da28`, with probes run on synthetic records). It found the wrong-patient search
+independently of Phase 53 (fixed in P53-T1) and five more.
+
+Assessment, checked against the source on 2026-11-26: all six are true. T2 and T3 are in the IPS tutorial's reader, the code adopters
+copy, and are the most serious left: a scoped "no known food allergies" becomes "none known" for the whole section, the first coding
+wins (FHIR gives coding order no meaning), and an allergy belonging to another person in the bundle is shown as the banner patient's.
+T4 is HC-C17 promised as tested while server HTML still shows the contradiction (documented, but the register overstates it). T5 and
+T6 are props the types accept that lose meaning in text. The order the audit gives is right: identity at both boundaries first.
+
+- [x] **P55-T1 Old `?nhs=` addresses.** Done 2026-11-26: the summary treats them as unknown (no patient, a way back to the search),
+      never as the demo default; `e2e/clinic-pages.spec.ts` checks it.
+- [ ] **P55-T2 The IPS tutorial reads codes by system and code, not position.** Match the expected system and code across every coding;
+      keep a scoped negative ("no known food allergies") as an entry with its scope, and give the section-wide "none known" only for
+      an explicit whole-section assertion; keep an unknown coding as unresolved. Verify: run the tutorial's own code with a medication
+      allergy beside "no known food allergies", with the codings reversed, and with a local code spelled `nilknown`.
+- [ ] **P55-T3 The IPS tutorial checks whose entry it is.** Resolve each entry's `patient` or `subject` against the composition's
+      subject; a missing, unresolved or other person's subject gets an outcome agreed with a clinical reviewer, never a place under the
+      banner. Verify: a two-patient bundle, and one patient referenced two ways.
+- [ ] **P55-T4 HC-C17 in server HTML.** An adapter derives the status from the entries before rendering (React, Solid, Vue, Angular,
+      Svelte), and `international-patient-summary-section` takes the same decision (with P50-T29). Until then the register says which
+      rendering modes are tested. Verify: response HTML, hydrated DOM, no script, and print, for active, refuted and entered-in-error.
+- [ ] **P55-T5 A flag and a superseded value always have words.** `observation-view` with an abnormal `interpretation` and no
+      `flagLabel`, or a `previousValue` with no `previousLabel`, warns in development (as `bin/check-dev-warnings` does for labels) and
+      the types pair them. Verify: the text copied from the page, and print, carry the flag and the earlier value's label.
+- [x] **P55-T6 An empty `nameSegments` hides the medicine name.** Fixed 2026-11-26 in Svelte, React, Solid and Vue (Angular, Nunjucks,
+      Web Components, Blazor, Swift and Kotlin already checked the length), with a test in each.
+- [ ] **P55-T6a The duration recipe throws on fractional seconds.** `Intl.DurationFormat` takes integer fields: give the recipe
+      `milliseconds` (and smaller) and an explicit sign. Verify: `PT1.5S`, a decimal comma, `-PT90M`, run as written.
+- [ ] **P55-T7 One evidence account.** The ACR says Chromium only while Core counts cross-engine runs: generate both from the same
+      evidence, configured apart from executed. Add T2 to T5 to the worked hazard log with an owner and the affected release.
+
+## Phase 56 — Lessons from the DHCW design system factory (2026-11-26)
+
+DHCW's proof of concept takes a service request through nine Claude Code roles. Each role names its inputs, its output and
+who uses it next. The accessibility reviewer records checks a person still owes. The tester starts from the agreed scenarios
+and checks whether a regression test fails on the baseline and passes on the change. The factory has agent definitions,
+templates and two tool hooks. It has no `SKILL.md` files. [Factory workflow at 44adb5c](https://github.com/DHCW-Digital-Health-and-Care-Wales/dhcw-design-system-factory/blob/44adb5c848efd4060a75e41767cf95abaa892eb3/AGENTS.md)
+
+Lily already has component contracts, a component proposal form, task-shaped skills (P22-T7) and an opt-in Git pre-push check
+(P24-T3). Start with one existing service example where a maintainer can compare the intended journey with observed behaviour.
+Nine sequential handoffs, a second wireframe renderer and a patch-only development workflow would add maintenance to routine
+changes. Trial the dedicated agent and hook only where they help someone complete a specific job.
+
+- [ ] **P56-T1 Pilot a skill for composing a service journey.** Add a `lily-design-system-compose-journey/SKILL.md` playbook
+      following [Lily's skill conventions](spec/agent-skills/index.md). Try it on [Book an appointment](docs/patterns/book-an-appointment.md).
+      Its brief should name the user's goal, why they might go back, failure and recovery states, who supplies the words in
+      each locale, and what the service can truthfully confirm. Map each state to existing catalog components and the
+      SvelteKit example. Send a genuine component gap through the existing proposal form. **Verify** a contributor can follow
+      the playbook from the brief to the rendered validation, change-answer and confirmation states using synthetic data.
+      [DHCW brief template](https://github.com/DHCW-Digital-Health-and-Care-Wales/dhcw-design-system-factory/blob/44adb5c848efd4060a75e41767cf95abaa892eb3/templates/brief.md)
+- [ ] **P56-T2 Trace each pilot scenario to evidence.** In the appointment pattern, give each scenario a stable name and
+      link it to the exact Playwright test, a manual check with its result or outstanding status, or a responsibility of the
+      adopting service. Start with focus after validation, values retained on “Change”, and the delivery claim from P54-T3.
+      **Verify** one behavioural regression in a scratch copy fails the named test and restoring the behaviour passes it.
+      A reviewer can also locate the outstanding screen-reader check and the service evidence needed for a delivery claim.
+      [DHCW tester instructions](https://github.com/DHCW-Digital-Health-and-Care-Wales/dhcw-design-system-factory/blob/44adb5c848efd4060a75e41767cf95abaa892eb3/.claude/agents/tesni-test.md)
+- [ ] **P56-T3 Trial one read-only accessibility review agent.** After T2, try `.claude/agents/accessibility-reviewer.md`
+      as a thin entry point to a review procedure in the existing maintainer skill. Give it the component contract, changed
+      example, diff and test results. Ask for findings by file and state, observed keyboard and focus behaviour, and manual
+      checks still owed under Lily's accessibility guidance. **Verify** on paired good and deliberately regressed examples.
+      The reviewer should identify the broken focus transition, cite the evidence and leave the files untouched. Try the
+      same procedure directly from the skill before deciding whether a dedicated agent file earns its upkeep.
+      [DHCW accessibility reviewer](https://github.com/DHCW-Digital-Health-and-Care-Wales/dhcw-design-system-factory/blob/44adb5c848efd4060a75e41767cf95abaa892eb3/.claude/agents/ceri-contrast.md)
+- [ ] **P56-T4 Trial an opt-in hook for edits to generated copies.** DHCW attaches its hooks to the developer and tester
+      roles. Its path check covers file-editing tools and explicitly leaves shell writes outside its scope. Try a narrower
+      Lily use in `.claude/hooks/` during component maintenance. When an editor targets a generated docs-site component
+      Markdown copy, point to the canonical file and the generator in [Lily's generated-files table](AGENTS/lily.md#generated-files).
+      **Verify** with fixture edit events for the site's button contract, its source at `components/button/AGENTS.md`, and an
+      unrelated file. Only the site copy should prompt with the source path and `bin/sync-site-component-docs`. With the
+      hook disabled, make the copy stale in a scratch checkout and confirm `bin/sync-site-component-docs --check` catches it.
+      [DHCW write hook](https://github.com/DHCW-Digital-Health-and-Care-Wales/dhcw-design-system-factory/blob/44adb5c848efd4060a75e41767cf95abaa892eb3/.claude/hooks/restrict-writes.js) · [Hook tests](https://github.com/DHCW-Digital-Health-and-Care-Wales/dhcw-design-system-factory/blob/44adb5c848efd4060a75e41767cf95abaa892eb3/templates/dev/test-hooks.js)
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.

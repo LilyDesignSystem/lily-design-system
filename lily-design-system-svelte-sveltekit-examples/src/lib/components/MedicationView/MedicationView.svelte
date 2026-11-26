@@ -56,7 +56,7 @@
     {...restProps}
     >{#if label}<span class="screen-reader-span">{`${label} `}</span>{/if}<span
         class="medication-view-name"
-        >{#if nameSegments}{#each nameSegments as segment, i (i)}{#if segment.tallMan}<span
+        >{#if nameSegments?.length}{#each nameSegments as segment, i (i)}{#if segment.tallMan}<span
                         class="medication-view-tall-man">{segment.text}</span
                     >{:else}{segment.text}{/if}{/each}{:else}{name}{/if}</span
     >{#if strength}{" "}<span class="medication-view-strength">{strength}</span

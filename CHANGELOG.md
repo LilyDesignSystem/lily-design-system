@@ -24,6 +24,8 @@ highlights.
 - **Fixed (docs):** `currency-input` no longer promises formatting, symbols, separators or locale parsing it does not do, and says a
   decimal comma reads as no value (P54-T2). `government-banner`'s usage shows the `expanded` state and `ontoggle` handler without
   which its button does nothing (P54-T1).
+- **Fixed (healthcare):** `medication-view` with an empty `nameSegments` showed the strength with no medicine name in Svelte, React,
+  Solid and Vue; it falls back to `name` (P55-T6). The SvelteKit patient summary treats an old `?nhs=` address as unknown (P55-T1).
 - **Fixed (types):** `LabelPack.direction` is `string`, so `labelsFor(helper, pack)` type-checks with a pack imported from JSON
   (P51-T6).
 

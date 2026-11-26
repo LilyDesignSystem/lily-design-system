@@ -56,3 +56,12 @@ describe("MedicationView", () => {
         );
     });
 });
+
+describe("MedicationView name", () => {
+    test("an empty list of segments falls back to the plain name, so the strength is never shown without a medicine (P55-T6)", () => {
+        render(Subject, {
+            props: { name: "Example medicine", nameSegments: [], strength: "10 mg" },
+        });
+        expect(part("name")?.textContent).toBe("Example medicine");
+    });
+});

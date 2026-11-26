@@ -40,7 +40,11 @@
     // no one shows a way back to the search and no patient at all, never somebody else's record.
     const patients = DEMO_PATIENTS.map((p) => ({ ...p, id: p.key, name: demoPatientName(p) }));
     const requestedKey = $derived(page.url.searchParams.get("patient"));
-    const unknownKey = $derived(requestedKey !== null && demoPatient(requestedKey) === undefined);
+    // An address from before the keys (`?nhs=…`) is treated as unknown too, never as the bare demo default.
+    const unknownKey = $derived(
+        page.url.searchParams.has("nhs") ||
+            (requestedKey !== null && demoPatient(requestedKey) === undefined),
+    );
     type Patient = (typeof patients)[number];
     let patientId = $state(
         demoPatient(page.url.searchParams.get("patient"))?.key ?? patients[0].id,

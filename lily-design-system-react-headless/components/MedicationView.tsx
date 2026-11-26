@@ -52,7 +52,7 @@ export default function MedicationView({
         >
             {label ? <span className="screen-reader-span">{`${label} `}</span> : null}
             <span className="medication-view-name">
-                {nameSegments
+                {nameSegments?.length
                     ? nameSegments.map((segment, i) =>
                           segment.tallMan ? (
                               <span

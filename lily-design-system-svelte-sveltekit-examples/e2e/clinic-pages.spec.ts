@@ -86,9 +86,12 @@ test.describe("find a patient", () => {
         });
     }
 
-    test("a key that names no one shows no patient, and a way back to the search", async ({
+    test("a key that names no one, or an old ?nhs= address, shows no patient, and a way back to the search", async ({
         page,
     }) => {
+        await page.goto("/patient-summary?nhs=9434765897");
+        await expect(page.getByRole("heading", { name: "No patient record" })).toBeVisible();
+        await expect(page.locator(".patient-banner")).toHaveCount(0);
         await page.goto("/patient-summary?patient=nobody");
         await expect(page.getByRole("heading", { name: "No patient record" })).toBeVisible();
         await expect(page.getByRole("link", { name: "Find a patient" })).toHaveAttribute(
