@@ -143,7 +143,8 @@ const PACKAGES = [
         run: () =>
             vitestCoverage(
                 "lily-design-system-svelte-headless",
-                "components/**",
+                // Code only: each component directory also holds Markdown, which the coverage provider tries and fails to parse.
+                "components/**/*.{ts,svelte}",
                 sharedCopies("lily-design-system-svelte-headless"),
             ),
     },

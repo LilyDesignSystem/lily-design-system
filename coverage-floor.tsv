@@ -1,6 +1,6 @@
 # package	max uncovered lines	max uncovered branches
 # Written by bin/coverage-report --update-floor. A package may not go above its floor, and must lower it
 # (--update-floor) when it goes below, so a gain is kept. 100% coverage is a floor of 0.
-shared	24	277
+shared	24	226
 svelte-headless	2	146
 blazor-headless	14	231
