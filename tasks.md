@@ -5148,7 +5148,7 @@ Kotlin build) and the full catalog through Blazor Hybrid, where the Blazor headl
       Checked against `shared/vectors/ips-sections.json`.
 - [x] **P56-T3 The first controls.** `LilyAlert`, `LilyBadge`, `Tag`, `InsetText`, `WarningText`, `ErrorSummary`, `Field`,
       `SummaryList` / `SummaryListItem`, `LilyCard`, with `ILilyAnnouncer`; 19 tests. Plain net11.0, no workload.
-- [ ] **P56-T4 The healthcare controls.** As Swift and Kotlin: `ObservationView`, `AgeView`, `DurationView`, `MedicationView`,
+- [ ] **P56-T4 The healthcare controls.** _(2026-11-26: `MedicationView`, `ObservationView`, `AgeView`, `DurationView` and `Disclosure` done, with `MedicationRules`, `ObservationRules` and `LilyWarnings`, and the `hasWords`, `htmlDuration` and `partialDatePrecision` vectors; 31 tests.)_ As Swift and Kotlin: `ObservationView`, `AgeView`, `DurationView`, `MedicationView`,
       `AllergyRecordList` / `AllergyRecordListItem`, `RecordList` / `RecordListItem` (HC-C17), `EarlyWarningScoreView`,
       `DecisionSupportCard`, `InternationalPatientSummary` / `InternationalPatientSummarySection`, `Disclosure`. Verify: the
       healthcare register's rows for each, with MAUI added as an evidence column.

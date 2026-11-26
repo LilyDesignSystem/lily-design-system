@@ -52,4 +52,45 @@ public class VectorTests
             Assert.Equal(expected, IpsSections.MissingRequired(sections));
         }
     }
+
+    [Fact]
+    public void HasWords()
+    {
+        var cases = Cases("clinical-format", "hasWords").ToList();
+        Assert.NotEmpty(cases);
+        foreach (var c in cases)
+        {
+            var arg = c.GetProperty("args")[0];
+            Assert.Equal(c.GetProperty("expected").GetBoolean(), ClinicalFormat.HasWords(arg.ValueKind == JsonValueKind.Null ? null : arg.GetString()));
+        }
+    }
+
+    [Fact]
+    public void HtmlDuration()
+    {
+        var cases = Cases("clinical-format", "htmlDuration").ToList();
+        Assert.NotEmpty(cases);
+        foreach (var c in cases)
+        {
+            var arg = c.GetProperty("args")[0];
+            var got = ClinicalFormat.HtmlDuration(arg.ValueKind == JsonValueKind.Null ? null : arg.GetString());
+            var expected = c.GetProperty("expected");
+            if (expected.ValueKind == JsonValueKind.Null) Assert.Null(got);
+            else
+            {
+                Assert.NotNull(got);
+                Assert.Equal(expected.GetProperty("datetime").GetString(), got.Datetime);
+                Assert.Equal(expected.GetProperty("negative").GetBoolean(), got.Negative);
+            }
+        }
+    }
+
+    [Fact]
+    public void PartialDatePrecision()
+    {
+        var cases = Cases("clinical-format", "partialDatePrecision").Where(c => !c.TryGetProperty("throws", out _)).ToList();
+        Assert.NotEmpty(cases);
+        foreach (var c in cases)
+            Assert.Equal(c.GetProperty("expected").GetString(), ClinicalFormat.PartialDatePrecision(c.GetProperty("args")[0].GetString()!).ToString().ToLowerInvariant());
+    }
 }
