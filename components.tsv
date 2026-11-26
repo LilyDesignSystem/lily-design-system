@@ -104,7 +104,7 @@ contents-nav	ContentsNav	a contents navigation area
 context-menu	ContextMenu	a menu that appears on right-click or long-press
 context-menu-item	ContextMenuItem	one item in a context menu
 contextual-help	ContextualHelp	a help button that opens a popover with explanatory content
-currency-input	CurrencyInput	a locale-aware currency input with automatic formatting, symbols, separators
+currency-input	CurrencyInput	a text input for a money amount in a stated currency; formatting and locale parsing are the consumer's
 cymru-rhif-y-gwasanaeth-iechyd-gwladol-input	CymruRhifYGwasanaethIechydGwladolInput	an input for entering Wales's Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG)
 cymru-rhif-y-gwasanaeth-iechyd-gwladol-view	CymruRhifYGwasanaethIechydGwladolView	a read-only display of Wales's Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG)
 kypros-national-passport-number-input	KyprosNationalPassportNumberInput	an input for entering Kypros's National Passport Number

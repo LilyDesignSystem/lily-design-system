@@ -118,7 +118,7 @@ export const LILY_COMPONENTS: LilyComponent[] = [
   { name: "context-menu", pascal: "ContextMenu", description: "a menu that appears on right-click or long-press", purpose: "navigate", status: "stable" },
   { name: "context-menu-item", pascal: "ContextMenuItem", description: "one item in a context menu", purpose: "navigate", status: "stable" },
   { name: "contextual-help", pascal: "ContextualHelp", description: "a help button that opens a popover with explanatory content", purpose: "act", status: "beta" },
-  { name: "currency-input", pascal: "CurrencyInput", description: "a locale-aware currency input with automatic formatting, symbols, separators", purpose: "collect", status: "beta" },
+  { name: "currency-input", pascal: "CurrencyInput", description: "a text input for a money amount in a stated currency; formatting and locale parsing are the consumer's", purpose: "collect", status: "beta" },
   { name: "cymru-rhif-y-gwasanaeth-iechyd-gwladol-input", pascal: "CymruRhifYGwasanaethIechydGwladolInput", description: "an input for entering Wales's Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG)", purpose: "collect", status: "beta" },
   { name: "cymru-rhif-y-gwasanaeth-iechyd-gwladol-view", pascal: "CymruRhifYGwasanaethIechydGwladolView", description: "a read-only display of Wales's Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG)", purpose: "show", status: "beta" },
   { name: "kypros-national-passport-number-input", pascal: "KyprosNationalPassportNumberInput", description: "an input for entering Kypros's National Passport Number", purpose: "collect", status: "beta" },

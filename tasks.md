@@ -4997,6 +4997,52 @@ advice for adopters; Lily can supply evidence records, not certification.
       from Getting Started and Help, the old Help fragment kept for its links. Verify: links resolve; three first-time users (a developer
       with the offline example, one styling a component in an existing app, a designer finding a token) are watched without coaching.
 
+## Phase 54 — Lessons from the government and civil-society audit (2026-11-26)
+
+The audit is deleted from the tree and kept in history: `git show 5986edd6c:docs/audits/gpt-gov-research/index.md`. It reviews
+civic and nonprofit services worldwide (GOV.UK Notify, FixMyStreet and CPGRAMS, Novissi, Survey Solutions and KoboCollect, the US
+Census response rates, Brasil Participativo and Decidim, Uchaguzi and OCHA's 3W, electoral services in New Zealand, Los Angeles and
+Australia, volunteer services in Singapore and the UN, CiviCRM, EA Funds and GiveWell), at `49840e43b`.
+
+Assessment: its three findings in Lily are true, checked against the source on 2026-11-26. The government banner's documented usage
+gives a button that does nothing, in every catalog, not only React: no catalog's banner opens itself (T1). The currency input's
+overview promised formatting, symbols, separators and 40 currencies that no catalog has, and a decimal comma reads as no value (T2).
+Seven example apps said a confirmation had been sent when nothing was (T3). The five patterns (T4 to T8) repeat Phase 53's lesson for
+public services, saved is not received and a count needs its denominator, and are composed examples, not components; take them after
+Phase 53's healthcare pilots, which build the same receipt and denominator machinery.
+
+- [ ] **P54-T1 The government banner opens itself.** _(Docs fixed 2026-11-26: the usage shows `expanded` and `ontoggle`, and says
+      the button does nothing without them.)_ Make `expanded` bindable (Svelte) or uncontrolled with a controlled option (React,
+      Solid, Vue, Angular), and toggled by the component in HTML, Web Components, Alpine, Nunjucks and Blazor, as `details` is; add one
+      non-US example and one service run by a nonprofit for a council. Verify: in each catalog, the documented usage, copied as
+      written, opens and closes by keyboard.
+- [ ] **P54-T2 Currency entry with a decimal comma.** _(Docs fixed 2026-11-26: the overview and catalog description say what the input
+      does.)_ The input reads `12,50` as no value, the same as an empty field, so a French-language EUR form loses the amount without a
+      word. Either a `locale` prop that parses with that locale's separators, or a recipe that keeps the typed text and shows an error
+      beside it. Verify: blank, zero, `12,50` in `fr-FR` (12.5), a grouping separator, and a zero-decimal currency (JPY), each tested.
+- [x] **P54-T3 Example confirmations that claim a delivery.** Fixed 2026-11-26 in the seven web example apps: the page says the example
+      sends nothing, and that a real service says a confirmation is on its way only once its email service has accepted it. The Swift
+      and Kotlin alert examples still say "We have sent a confirmation"; they are an alert's sample text, not a flow.
+- [ ] **P54-T4 A resident report, its receipt and a right of reply.** The streetlight pilot from `address-input`, the error summary,
+      check your answers and `timeline-list`: a landmark or written location as well as a map; a preview of what the public sees and
+      what the council receives; a receipt naming the office, a reference, the next contact and an assisted route, only after the
+      service confirms it; a transfer, and a resident saying the repair did not work. Verify: a failed email leaves the case open; the
+      public view never shows private contact details.
+- [ ] **P54-T5 A fieldworker's queue and a district population report.** Draft, finalized on device, received and returned for
+      correction, each in words with a time; a district view with the unit, geography, period, source, denominator and last
+      synchronization, a table that works without map tiles. Verify: 80 of 100 is 80%; ten offline interviews leave it unchanged; a
+      new denominator of 125 gives 64% and its revision date; unavailable stays apart from zero. Share the machinery with P53-T4.
+- [ ] **P54-T6 Public participation and election information.** A proposal followed from submission to decision and delivery, with the
+      reason for a decline; an election information page (locality search, a text list of sites, hours, language and accessibility),
+      a practice ballot labelled as practice to the end, and results with the authority's publication state. Verify: no winner label
+      on a partial count; geolocation denied still works.
+- [ ] **P54-T7 Volunteer assignments and NGO casework.** Applied, confirmed and waiting as distinct states; open-ended work with no
+      shift; a verification and publication queue with a safe public preview. Verify: two applicants for the last place see a
+      confirmation and the real alternative.
+- [ ] **P54-T8 A funding ledger and a grant evidence page.** After T2: a pledge with original currency, schedule, received and
+      outstanding; grants recommended, awarded and disbursed kept apart; a modelled estimate with its version, units and
+      uncertainties in the chart, table and download. Verify: a EUR 100 pledge with one EUR 25 payment shows 25 received, 75 outstanding.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.

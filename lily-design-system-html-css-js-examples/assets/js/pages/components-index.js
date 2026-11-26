@@ -853,7 +853,7 @@
                     {
                         slug: "currency-input",
                         name: "CurrencyInput",
-                        description: "a locale-aware currency input with automatic formatting, symbols, separators",
+                        description: "a text input for a money amount in a stated currency; formatting and locale parsing are the consumer's",
                         tag: "input",
                         category: "forms",
                         purpose: "collect",

@@ -637,7 +637,7 @@ warning-text	automated evidence complete	no	no	no	yes	1	8	no	-
 observation-view	automated evidence complete	no	no	no	yes	1	8	yes	-
 allergy-record-list	ARIA evidence incomplete	no	no	no	yes	1	5	no	-
 allergy-record-list-item	automated evidence complete	no	no	no	no	1	0	yes	-
-medication-view	ARIA evidence incomplete	no	no	no	yes	1	0	no	-
+medication-view	ARIA evidence incomplete	no	no	no	yes	1	0	yes	-
 decision-support-card	key evidence incomplete	no	yes	no	yes	7	8	no	-
 early-warning-score-view	ARIA evidence incomplete	no	no	no	yes	1	0	yes	-
 age-view	automated evidence complete	no	no	no	yes	1	8	yes	-

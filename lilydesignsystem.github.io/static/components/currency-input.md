@@ -1,6 +1,6 @@
 # Currency Input
 
-CurrencyInput is a headless locale-aware text input for entering currency values with automatic formatting, currency symbols, thousand separators, and correct decimal places. It supports 40+ world currencies including USD, EUR, GBP, and JPY.
+CurrencyInput is a headless text input for a money amount in a currency the consumer states (any ISO 4217 code). It does not format, show a currency symbol or add separators: it reads what is typed as a plain number, so `12.50` is 12.5, and a decimal comma (`12,50`) or a grouping separator is not understood and reads as no value, the same as an empty field. For a form in a language that writes a decimal comma, parse the text yourself (with the locale's separators from `Intl.NumberFormat`) and keep what was typed on screen beside an error when it cannot be read.
 
 **Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
 

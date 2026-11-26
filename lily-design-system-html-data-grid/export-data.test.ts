@@ -328,3 +328,43 @@ describe("edges: invalid dates, the download link, a clipboard with no DOM", () 
         vi.unstubAllGlobals();
     });
 });
+
+describe("edge cases of each format", () => {
+    test("false is FALSE, and a table with no header and no rows is an empty file", () => {
+        expect(cellText(false)).toBe("FALSE");
+        expect(toCsv({ headers: ["A"], rows: [] }, { header: false })).toBe("");
+    });
+
+    test("a sheet name of only forbidden characters becomes Sheet1", () => {
+        const files = unzip(toXlsx({ headers: ["A"], rows: [] }, { sheetName: "[:*?/]" }));
+        expect(files["xl/workbook.xml"]).toContain('<sheet name="Sheet1"');
+    });
+
+    test("xlsx: a false result, a formula dated with a time of day, a timed date, an infinite number and a false cell", () => {
+        const at = new Date("2026-11-26T12:00:00Z");
+        const sheet = unzip(
+            toXlsx(
+                {
+                    headers: ["A", "B", "C", "D", "E"],
+                    rows: [
+                        [
+                            { formula: "=1>2", result: false },
+                            { formula: "=NOW()", result: at },
+                            at,
+                            Infinity,
+                            false,
+                        ],
+                    ],
+                },
+                { header: false },
+            ),
+        )["xl/worksheets/sheet1.xml"];
+        expect(sheet).toContain('<c r="A1" t="b"><f>1&gt;2</f><v>0</v></c>');
+        expect(sheet).toMatch(/<c r="B1" s="2"><f>NOW\(\)<\/f><v>[\d.]+<\/v><\/c>/);
+        expect(sheet).toMatch(/<c r="C1" s="2"><v>[\d.]+<\/v><\/c>/);
+        expect(sheet).not.toContain('r="D1"');
+        expect(sheet).toContain('<c r="E1" t="b"><v>0</v></c>');
+        // No header row: no frozen pane.
+        expect(sheet).not.toContain("<pane");
+    });
+});

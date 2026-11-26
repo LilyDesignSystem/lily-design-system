@@ -2732,7 +2732,7 @@
       "name": "currency-input",
       "type": "registry:component",
       "title": "CurrencyInput",
-      "description": "A locale-aware currency input with automatic formatting, symbols, separators.",
+      "description": "A text input for a money amount in a stated currency; formatting and locale parsing are the consumer's.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "categories": [
         "forms"

@@ -19,6 +19,11 @@ highlights.
   (P53-T1, from the worldwide healthcare audit).
 - **Fixed (docs):** `LICENSE.md` no longer says CC BY-SA 4.0 is non-commercial; `INSTALL.md` says Node 26, as every package's
   `engines` does; the Help page says the headless libraries are on npm (P53-T6 to T8).
+- **Fixed (examples):** the seven web example apps' appointment confirmation no longer says a confirmation was sent; the example sends
+  nothing, and now says so (P54-T3, from the government and civil-society audit).
+- **Fixed (docs):** `currency-input` no longer promises formatting, symbols, separators or locale parsing it does not do, and says a
+  decimal comma reads as no value (P54-T2). `government-banner`'s usage shows the `expanded` state and `ontoggle` handler without
+  which its button does nothing (P54-T1).
 - **Fixed (types):** `LabelPack.direction` is `string`, so `labelsFor(helper, pack)` type-checks with a pack imported from JSON
   (P51-T6).
 

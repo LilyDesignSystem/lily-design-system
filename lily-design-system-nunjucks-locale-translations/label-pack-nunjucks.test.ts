@@ -137,3 +137,27 @@ describe("nunjucksLabelsFor", () => {
         ).toBe("A could not move to B: offline");
     });
 });
+
+describe("a sparse pack", () => {
+    it("gives every helper an empty macro object rather than undefined keys", () => {
+        for (const helper of HELPERS) {
+            const { macro } = nunjucksLabelsFor(helper, { locale: "xx-001", reviewed: false });
+            expect(Object.values(macro).every((v) => v !== undefined)).toBe(true);
+        }
+    });
+
+    it("splits a two-state select into only the halves the pack has", () => {
+        const only = (value: Record<string, string>) =>
+            nunjucksLabelsFor("kanban-board", {
+                locale: "xx-001",
+                reviewed: false,
+                "kanban-board": { collapseColumn: value },
+            }).macro;
+        expect(only({ true: "Open {column}" })).toMatchObject({ expandColumn: "Open {column}" });
+        expect(only({ true: "Open {column}" })).not.toHaveProperty("collapseColumn");
+        expect(only({ false: "Close {column}" })).toMatchObject({
+            collapseColumn: "Close {column}",
+        });
+        expect(only({ false: "Close {column}" })).not.toHaveProperty("expandColumn");
+    });
+});

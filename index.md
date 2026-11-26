@@ -407,7 +407,7 @@ slug below links to the per-component documentation.
 - [context-menu](components/context-menu): a menu that appears on right-click or long-press
 - [context-menu-item](components/context-menu-item): one item in a context menu
 - [contextual-help](components/contextual-help): a help button that opens a popover with explanatory content
-- [currency-input](components/currency-input): a locale-aware currency input with automatic formatting, symbols, separators
+- [currency-input](components/currency-input): a text input for a money amount in a stated currency; formatting and locale parsing are the consumer's
 - [data-filter-form](components/data-filter-form): a form for filtering data by criteria
 - [data-table](components/data-table): a data table interactive grid for displaying and sorting tabular data <table>
 - [data-table-body](components/data-table-body): a data table interactive grid tbody for displaying and sorting tabular data <tbody>
