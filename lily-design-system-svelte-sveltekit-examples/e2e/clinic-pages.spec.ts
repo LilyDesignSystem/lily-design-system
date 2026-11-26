@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { DEMO_PATIENTS } from "../src/lib/demo-patients.ts";
 
 // The clinic example pages from the OpenEMR review (tasks.md P30-T2, P30-T3, P30-T4): each passes axe at WCAG 2.2 AA and keeps
 // its own safety rule.
@@ -53,6 +54,62 @@ test.describe("flow board", () => {
 });
 
 test.describe("find a patient", () => {
+    // P53-T1: every result opens the person it names, the two Mary Joneses born the same day included; reload and Back keep it.
+    for (const p of DEMO_PATIENTS) {
+        test(`the result for ${p.given} ${p.family}, ${p.number}, opens that patient's summary`, async ({
+            page,
+        }) => {
+            await page.goto("/find-patient");
+            await page.getByLabel("Family name").fill(p.family);
+            await page.getByLabel("Given name").fill(p.given);
+            await page.getByRole("button", { name: "Search" }).click();
+            await page.getByRole("link", { name: `NHS number ${p.number}`, exact: false }).click();
+            await expect(page).toHaveURL(new RegExp(`/patient-summary\\?patient=${p.key}$`));
+            expect(page.url()).not.toContain(p.number.replaceAll(" ", ""));
+            const firstMedicine = p.medicines[0].segments.map((s) => s.text).join("");
+            const check = async () => {
+                const banner = page.getByRole("region", {
+                    name: `Patient details: ${p.family}, ${p.given}`,
+                });
+                await expect(banner).toContainText(p.number);
+                await expect(banner.locator("time")).toHaveAttribute("datetime", p.born);
+                await expect(page.locator(".medication-view").first()).toContainText(
+                    firstMedicine,
+                    { ignoreCase: true },
+                );
+            };
+            await check();
+            await page.reload();
+            await check();
+            await page.goBack();
+            await expect(page).toHaveURL(/\/find-patient$/);
+        });
+    }
+
+    test("a key that names no one shows no patient, and a way back to the search", async ({
+        page,
+    }) => {
+        await page.goto("/patient-summary?patient=nobody");
+        await expect(page.getByRole("heading", { name: "No patient record" })).toBeVisible();
+        await expect(page.getByRole("link", { name: "Find a patient" })).toHaveAttribute(
+            "href",
+            "/find-patient",
+        );
+        await expect(page.locator(".patient-banner")).toHaveCount(0);
+        await expect(page.locator(".medication-view")).toHaveCount(0);
+    });
+
+    test("switching patient keeps the address in step, so a reload shows the same patient", async ({
+        page,
+    }) => {
+        await page.goto(`/patient-summary?patient=${DEMO_PATIENTS[0].key}`);
+        await page.getByLabel("Patient", { exact: true }).selectOption(DEMO_PATIENTS[5].key);
+        await expect(page).toHaveURL(new RegExp(`patient=${DEMO_PATIENTS[5].key}$`));
+        await page.reload();
+        await expect(
+            page.getByRole("region", { name: "Patient details: OKAFOR, Chidi" }),
+        ).toBeVisible();
+    });
     test("a single match is listed with two identifiers and not opened", async ({ page }) => {
         await page.goto("/find-patient");
         await page.getByLabel("Family name").fill("Okafor");
@@ -61,7 +118,7 @@ test.describe("find a patient", () => {
         await expect(page).toHaveURL(/\/find-patient$/);
         const row = page.getByRole("table", { name: "Matching patients" }).getByRole("row").nth(1);
         await expect(row).toContainText("12 Jul 1990");
-        await expect(row).toContainText("943 476 5870");
+        await expect(row).toContainText("943 476 5897");
     });
 
     test("possible duplicates are marked side by side, and no results is said in words", async ({

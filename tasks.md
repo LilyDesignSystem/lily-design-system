@@ -4946,7 +4946,7 @@ advice for adopters; Lily can supply evidence records, not certification.
 
 ### Safety
 
-- [ ] **P53-T1 A patient search opens the patient chosen, or no one.** One set of synthetic patients for `/find-patient` and
+- [x] **P53-T1 A patient search opens the patient chosen, or no one.** _(Done 2026-11-26: `src/lib/demo-patients.ts`, `e2e/clinic-pages.spec.ts`; each link also names the NHS number, so the two same-name rows' links differ.)_ One set of synthetic patients for `/find-patient` and
       `/patient-summary`; the search links with an opaque demo key (no health identifier in the address or browser history); the summary
       resolves the key before any banner or section, and an unknown key shows a link back to the search and no patient content. The
       switcher's late-result protection stays. Verify: a browser test follows every result row, the two same-name rows included, and

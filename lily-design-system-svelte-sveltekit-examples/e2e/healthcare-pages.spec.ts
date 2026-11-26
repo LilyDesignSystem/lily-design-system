@@ -240,7 +240,7 @@ test.describe("the patient summary is one patient's (P50-T8)", () => {
         await page.goto("/patient-summary");
         const article = page.getByRole("article", { name: "Patient summary" });
         await expect(article).toContainText("943 476 5919");
-        await page.getByLabel("Patient", { exact: true }).selectOption("b");
+        await page.getByLabel("Patient", { exact: true }).selectOption("q4m9");
         await expect(banner(page, "EXAMPLE, Alexander")).toContainText("943 476 5870");
         await expect(banner(page, "EXAMPLE, Alexandra")).toHaveCount(0);
         await expect(article).not.toContainText(ALEXANDRA);
@@ -262,7 +262,7 @@ test.describe("the patient summary is one patient's (P50-T8)", () => {
         await expect(page.locator(".patient-summary-results-status")).toHaveText(
             "Loading results for EXAMPLE, Alexandra",
         );
-        await page.getByLabel("Patient", { exact: true }).selectOption("b");
+        await page.getByLabel("Patient", { exact: true }).selectOption("q4m9");
         await page.waitForTimeout(1200);
         await expect(results).toHaveAttribute("data-status", "unavailable");
         await expect(article).not.toContainText(ALEXANDRA);
@@ -271,9 +271,9 @@ test.describe("the patient summary is one patient's (P50-T8)", () => {
         await expect(results).toContainText("3.9 mmol/L");
         await expect(results.locator("[data-results-for]")).toHaveAttribute(
             "data-results-for",
-            "b",
+            "q4m9",
         );
-        await page.getByLabel("Patient", { exact: true }).selectOption("a");
+        await page.getByLabel("Patient", { exact: true }).selectOption("r7k2");
         await expect(article).not.toContainText(ALEXANDER);
     });
 });

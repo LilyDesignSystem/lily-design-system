@@ -9,6 +9,19 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Unreleased (2026-11-26)
+
+- **Fixed (SvelteKit example, safety):** a result on `/find-patient` opened another patient's summary: the two pages kept separate
+  synthetic patients, and the summary ignored the link (two search patients even had the summary patients' NHS numbers). They now share
+  one list (`src/lib/demo-patients.ts`); the link carries an opaque demo key, not an NHS number; the summary resolves it before any
+  banner, shows no patient for an unknown key, and keeps the address in step when the patient is switched. Each result link names the
+  NHS number, so the two Mary Joneses born the same day have different link names. A test follows every row through reload and Back
+  (P53-T1, from the worldwide healthcare audit).
+- **Fixed (docs):** `LICENSE.md` no longer says CC BY-SA 4.0 is non-commercial; `INSTALL.md` says Node 26, as every package's
+  `engines` does; the Help page says the headless libraries are on npm (P53-T6 to T8).
+- **Fixed (types):** `LabelPack.direction` is `string`, so `labelsFor(helper, pack)` type-checks with a pack imported from JSON
+  (P51-T6).
+
 ## Release: themes 0.11.0, under `next` (2026-11-25)
 
 - **Changed (layout):** from 48rem, a table data cell keeps whole words and numbers, so a price is not split across lines. Links and code

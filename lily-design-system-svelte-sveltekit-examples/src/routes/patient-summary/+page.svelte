@@ -6,7 +6,10 @@
     // document's language. The patient banner is the summary's own banner (P50-T8): two patients with similar names, and
     // everything on the page is one patient's. A switch drops a results request that is still running, so a late answer is never
     // shown under another patient. e2e/healthcare-pages.spec.ts checks it.
-    import { onMount } from "svelte";
+    import { onMount, untrack } from "svelte";
+    import { page } from "$app/state";
+    import { goto } from "$app/navigation";
+    import { DEMO_PATIENTS, demoPatient, demoPatientName } from "#lib/demo-patients.ts";
     import Header from "#lib/components/Header/Header.svelte";
     import BackLink from "#lib/components/BackLink/BackLink.svelte";
     import AllergyRecordList from "#lib/components/AllergyRecordList/AllergyRecordList.svelte";
@@ -32,60 +35,16 @@
     let showCodes = $state(false);
     // Invented patients. The names are alike on purpose: the birth date and the number tell them apart.
     const today = "2026-11-25";
-    const patients = [
-        {
-            id: "a",
-            name: "EXAMPLE, Alexandra",
-            born: "1949-02-03",
-            number: "943 476 5919",
-            allergies: [
-                {
-                    substance: "Penicillin",
-                    reaction: "Anaphylaxis",
-                    code: "SNOMED CT 373270004",
-                },
-            ],
-            medicines: [
-                {
-                    segments: [{ text: "metformin" }],
-                    strength: 500,
-                    frequency: "twice daily",
-                    code: "ATC A10BA02",
-                },
-                {
-                    segments: [{ text: "hydr" }, { text: "ALAZINE", tallMan: true }],
-                    strength: 25,
-                    frequency: "twice daily",
-                    code: "ATC C02DB02",
-                },
-                {
-                    segments: [{ text: "levothyroxine" }],
-                    strength: 0.05,
-                    frequency: "once daily",
-                    code: "ATC H03AA01",
-                },
-            ],
-            result: "Potassium 4.6 mmol/L, 3 November 2026.",
-        },
-        {
-            id: "b",
-            name: "EXAMPLE, Alexander",
-            born: "1979-02-03",
-            number: "943 476 5870",
-            allergies: [],
-            medicines: [
-                {
-                    segments: [{ text: "amlodipine" }],
-                    strength: 5,
-                    frequency: "once daily",
-                    code: "ATC C08CA01",
-                },
-            ],
-            result: "Potassium 3.9 mmol/L, 5 November 2026.",
-        },
-    ];
+    // The patients are the find-a-patient page's (P53-T1): a search result links here with its opaque key, and the key is
+    // resolved before anything about a patient is shown. No key opens the first patient, as a demonstration; a key that names
+    // no one shows a way back to the search and no patient at all, never somebody else's record.
+    const patients = DEMO_PATIENTS.map((p) => ({ ...p, id: p.key, name: demoPatientName(p) }));
+    const requestedKey = $derived(page.url.searchParams.get("patient"));
+    const unknownKey = $derived(requestedKey !== null && demoPatient(requestedKey) === undefined);
     type Patient = (typeof patients)[number];
-    let patientId = $state("a");
+    let patientId = $state(
+        demoPatient(page.url.searchParams.get("patient"))?.key ?? patients[0].id,
+    );
     const patient: Patient = $derived(patients.find((p) => p.id === patientId) ?? patients[0]);
     let switched = $state("");
 
@@ -127,7 +86,26 @@
         resultsText = "";
         resultsStatus = "";
         switched = `Now showing ${patient.name}, born ${formatPartialDate(patient.born, locale)}`;
+        // The address follows the switch, so a reload or a shared link opens the patient on screen, not the one first opened.
+        const url = new URL(page.url.href);
+        url.searchParams.set("patient", patientId);
+        goto(url, { replace: true, shallow: true });
     }
+
+    // A new key in the address (a link, Back or Forward to another patient's page) opens that patient, with the same reset.
+    $effect(() => {
+        const key = requestedKey;
+        untrack(() => {
+            const wanted = demoPatient(key);
+            if (!wanted || wanted.key === patientId) return;
+            clearTimeout(request);
+            patientId = wanted.key;
+            results = "unavailable";
+            resultsFor = "";
+            resultsText = "";
+            resultsStatus = "";
+        });
+    });
 
     const sections = [
         { key: "allergies", heading: "Allergies and intolerances" },
@@ -155,193 +133,203 @@
         and problems, each always present, with a reason when it has nothing to show.
     </p>
 
-    <p class="patient-summary-switch">
-        <label for="patient-summary-patient">Patient</label>
-        <select
-            id="patient-summary-patient"
-            class="select"
-            bind:value={patientId}
-            disabled={!ready}
-            onchange={switchPatient}
+    {#if unknownKey}
+        <h2>No patient record</h2>
+        <p class="patient-summary-not-found">
+            This link does not name a patient. <a href="/find-patient">Find a patient</a> and choose them
+            from the results.
+        </p>
+    {:else}
+        <p class="patient-summary-switch">
+            <label for="patient-summary-patient">Patient</label>
+            <select
+                id="patient-summary-patient"
+                class="select"
+                bind:value={patientId}
+                disabled={!ready}
+                onchange={switchPatient}
+            >
+                {#each patients as p (p.id)}
+                    <option value={p.id}>{p.name}, born {formatPartialDate(p.born, locale)}</option>
+                {/each}
+            </select>
+        </p>
+        <p
+            class="patient-summary-switched"
+            role="status"
         >
-            {#each patients as p (p.id)}
-                <option value={p.id}>{p.name}, born {formatPartialDate(p.born, locale)}</option>
-            {/each}
-        </select>
-    </p>
-    <p
-        class="patient-summary-switched"
-        role="status"
-    >
-        {switched}
-    </p>
+            {switched}
+        </p>
 
-    <ToggleButton
-        label="Show codes"
-        bind:pressed={showCodes}>Show codes</ToggleButton
-    >
-
-    {#key patient.id}
-        <InternationalPatientSummary
-            label="Patient summary"
-            contentsLabel="Contents"
-            omittedLabel="Section missing from document"
-            requiredHeadings={{
-                medications: "Medication summary",
-                allergies: "Allergies and intolerances",
-                problems: "Problems",
-            }}
-            {sections}
-            lang={documentLanguage}
+        <ToggleButton
+            label="Show codes"
+            bind:pressed={showCodes}>Show codes</ToggleButton
         >
-            {#snippet banner()}
-                <section
-                    class="patient-banner"
-                    aria-label={`Patient details: ${patient.name}`}
-                >
-                    <dl>
-                        <div>
-                            <dt>Name</dt>
-                            <dd>{patient.name}</dd>
-                        </div>
-                        <div>
-                            <dt>Born</dt>
-                            <dd>
-                                <time datetime={patient.born}
-                                    >{formatPartialDate(patient.born, locale)}</time
-                                >
-                                (<AgeView value={ageWords(patient.born)} />)
-                            </dd>
-                        </div>
-                        <div>
-                            <dt>NHS No.</dt>
-                            <dd>
-                                <EnglandNationalHealthServiceNumberView value={patient.number} />
-                            </dd>
-                        </div>
-                    </dl>
-                </section>
-            {/snippet}
-            <InternationalPatientSummarySection
-                section="allergies"
-                heading="Allergies and intolerances"
-                status={patient.allergies.length ? "known" : "none-known"}
-                statusLabel={patient.allergies.length ? undefined : "No known allergies"}
-                statusPlacement="list"
-            >
-                <AllergyRecordList
-                    status={patient.allergies.length ? "known" : "none-known"}
-                    statusLabel={patient.allergies.length
-                        ? "Known allergies"
-                        : "No known allergies"}
-                >
-                    {#each patient.allergies as allergy (allergy.substance)}
-                        <AllergyRecordListItem
-                            substance={allergy.substance}
-                            reaction={allergy.reaction}
-                            severity="severe"
-                            severityLabel="Severe"
-                            criticality="high"
-                            criticalityLabel="High risk"
-                            verificationStatus="confirmed"
-                            verificationStatusLabel="Confirmed"
-                            updated="2026-11-03"
-                            updatedLabel="Updated 3 Nov 2026"
-                        >
-                            <span
-                                class="patient-summary-code"
-                                hidden={!showCodes}><code>{allergy.code}</code></span
-                            >
-                        </AllergyRecordListItem>
-                    {/each}
-                </AllergyRecordList>
-            </InternationalPatientSummarySection>
 
-            <InternationalPatientSummarySection
-                section="medications"
-                heading="Medication summary"
+        {#key patient.id}
+            <InternationalPatientSummary
+                label="Patient summary"
+                contentsLabel="Contents"
+                omittedLabel="Section missing from document"
+                requiredHeadings={{
+                    medications: "Medication summary",
+                    allergies: "Allergies and intolerances",
+                    problems: "Problems",
+                }}
+                {sections}
+                lang={documentLanguage}
             >
-                <MedicationRecordList
-                    status="known"
-                    statusLabel="Current medicines"
-                >
-                    {#each patient.medicines as medicine (medicine.code)}
-                        <MedicationRecordListItem
-                            status="active"
-                            statusLabel="Active"
-                        >
-                            <MedicationView
-                                nameSegments={medicine.segments}
-                                strength={formatQuantity(medicine.strength, "mg", locale)}
-                                form="tablet"
-                                route="oral"
-                                frequency={medicine.frequency}
-                            />
-                            <span
-                                class="patient-summary-code"
-                                hidden={!showCodes}><code>{medicine.code}</code></span
-                            >
-                        </MedicationRecordListItem>
-                    {/each}
-                </MedicationRecordList>
-            </InternationalPatientSummarySection>
-
-            <InternationalPatientSummarySection
-                section="problems"
-                heading="Problems"
-                status="not-recorded"
-                statusLabel="Not recorded"
-                narrativeLabel="Narrative from the document"
-                narrativeOpen
-            >
-                <ProblemRecordList
-                    status="not-recorded"
-                    statusLabel="No information about current problems is available"
-                />
-                {#snippet narrative()}
-                    <p>No problems were recorded at the last review.</p>
-                {/snippet}
-            </InternationalPatientSummarySection>
-
-            <InternationalPatientSummarySection
-                section="results"
-                heading="Results"
-                status={results}
-                statusLabel={results === "unavailable" ? "Unavailable" : undefined}
-            >
-                {#if results === "unavailable"}
-                    <p>
-                        The results service did not answer, so results cannot be shown. This does
-                        not mean there are none.
-                    </p>
-                    <button
-                        type="button"
-                        class="button"
-                        disabled={!ready}
-                        onclick={retryResults}>Try again</button
+                {#snippet banner()}
+                    <section
+                        class="patient-banner"
+                        aria-label={`Patient details: ${patient.name}`}
                     >
-                {:else}
-                    <p data-results-for={resultsFor}>{resultsText}</p>
-                {/if}
-                <p
-                    class="patient-summary-results-status"
-                    role="status"
+                        <dl>
+                            <div>
+                                <dt>Name</dt>
+                                <dd>{patient.name}</dd>
+                            </div>
+                            <div>
+                                <dt>Born</dt>
+                                <dd>
+                                    <time datetime={patient.born}
+                                        >{formatPartialDate(patient.born, locale)}</time
+                                    >
+                                    (<AgeView value={ageWords(patient.born)} />)
+                                </dd>
+                            </div>
+                            <div>
+                                <dt>NHS No.</dt>
+                                <dd>
+                                    <EnglandNationalHealthServiceNumberView
+                                        value={patient.number}
+                                    />
+                                </dd>
+                            </div>
+                        </dl>
+                    </section>
+                {/snippet}
+                <InternationalPatientSummarySection
+                    section="allergies"
+                    heading="Allergies and intolerances"
+                    status={patient.allergies.length ? "known" : "none-known"}
+                    statusLabel={patient.allergies.length ? undefined : "No known allergies"}
+                    statusPlacement="list"
                 >
-                    {resultsStatus}
-                </p>
-            </InternationalPatientSummarySection>
+                    <AllergyRecordList
+                        status={patient.allergies.length ? "known" : "none-known"}
+                        statusLabel={patient.allergies.length
+                            ? "Known allergies"
+                            : "No known allergies"}
+                    >
+                        {#each patient.allergies as allergy (allergy.substance)}
+                            <AllergyRecordListItem
+                                substance={allergy.substance}
+                                reaction={allergy.reaction}
+                                severity="severe"
+                                severityLabel="Severe"
+                                criticality="high"
+                                criticalityLabel="High risk"
+                                verificationStatus="confirmed"
+                                verificationStatusLabel="Confirmed"
+                                updated="2026-11-03"
+                                updatedLabel="Updated 3 Nov 2026"
+                            >
+                                <span
+                                    class="patient-summary-code"
+                                    hidden={!showCodes}><code>{allergy.code}</code></span
+                                >
+                            </AllergyRecordListItem>
+                        {/each}
+                    </AllergyRecordList>
+                </InternationalPatientSummarySection>
 
-            {#snippet details()}
-                <h2>About this document</h2>
-                <dl>
-                    <dt>Date</dt>
-                    <dd><time datetime="2026-11-03">3 November 2026</time></dd>
-                    <dt>Author</dt>
-                    <dd>Example General Practice</dd>
-                    <dt>IPS version</dt>
-                    <dd>2.0.1</dd>
-                </dl>
-            {/snippet}
-        </InternationalPatientSummary>
-    {/key}
+                <InternationalPatientSummarySection
+                    section="medications"
+                    heading="Medication summary"
+                >
+                    <MedicationRecordList
+                        status="known"
+                        statusLabel="Current medicines"
+                    >
+                        {#each patient.medicines as medicine (medicine.code)}
+                            <MedicationRecordListItem
+                                status="active"
+                                statusLabel="Active"
+                            >
+                                <MedicationView
+                                    nameSegments={medicine.segments}
+                                    strength={formatQuantity(medicine.strength, "mg", locale)}
+                                    form="tablet"
+                                    route="oral"
+                                    frequency={medicine.frequency}
+                                />
+                                <span
+                                    class="patient-summary-code"
+                                    hidden={!showCodes}><code>{medicine.code}</code></span
+                                >
+                            </MedicationRecordListItem>
+                        {/each}
+                    </MedicationRecordList>
+                </InternationalPatientSummarySection>
+
+                <InternationalPatientSummarySection
+                    section="problems"
+                    heading="Problems"
+                    status="not-recorded"
+                    statusLabel="Not recorded"
+                    narrativeLabel="Narrative from the document"
+                    narrativeOpen
+                >
+                    <ProblemRecordList
+                        status="not-recorded"
+                        statusLabel="No information about current problems is available"
+                    />
+                    {#snippet narrative()}
+                        <p>No problems were recorded at the last review.</p>
+                    {/snippet}
+                </InternationalPatientSummarySection>
+
+                <InternationalPatientSummarySection
+                    section="results"
+                    heading="Results"
+                    status={results}
+                    statusLabel={results === "unavailable" ? "Unavailable" : undefined}
+                >
+                    {#if results === "unavailable"}
+                        <p>
+                            The results service did not answer, so results cannot be shown. This
+                            does not mean there are none.
+                        </p>
+                        <button
+                            type="button"
+                            class="button"
+                            disabled={!ready}
+                            onclick={retryResults}>Try again</button
+                        >
+                    {:else}
+                        <p data-results-for={resultsFor}>{resultsText}</p>
+                    {/if}
+                    <p
+                        class="patient-summary-results-status"
+                        role="status"
+                    >
+                        {resultsStatus}
+                    </p>
+                </InternationalPatientSummarySection>
+
+                {#snippet details()}
+                    <h2>About this document</h2>
+                    <dl>
+                        <dt>Date</dt>
+                        <dd><time datetime="2026-11-03">3 November 2026</time></dd>
+                        <dt>Author</dt>
+                        <dd>Example General Practice</dd>
+                        <dt>IPS version</dt>
+                        <dd>2.0.1</dd>
+                    </dl>
+                {/snippet}
+            </InternationalPatientSummary>
+        {/key}
+    {/if}
 </main>

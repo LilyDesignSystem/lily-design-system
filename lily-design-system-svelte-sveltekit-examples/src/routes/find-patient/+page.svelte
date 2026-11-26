@@ -12,44 +12,13 @@
     import TableRow from "#lib/components/TableRow/TableRow.svelte";
     import TableTH from "#lib/components/TableTH/TableTH.svelte";
     import TableTD from "#lib/components/TableTD/TableTD.svelte";
+    import { formatPartialDate } from "#lib/components/clinical-format.ts";
+    import { DEMO_PATIENTS, type DemoPatient } from "#lib/demo-patients.ts";
 
-    type Person = {
-        family: string;
-        given: string;
-        born: string;
-        bornLabel: string;
-        number: string;
-    };
-    const PEOPLE: Person[] = [
-        {
-            family: "JONES",
-            given: "Mary",
-            born: "1958-03-04",
-            bornLabel: "4 Mar 1958",
-            number: "943 476 5919",
-        },
-        {
-            family: "JONES",
-            given: "Mary",
-            born: "1958-03-04",
-            bornLabel: "4 Mar 1958",
-            number: "943 476 5994",
-        },
-        {
-            family: "JONES",
-            given: "Martin",
-            born: "1949-11-21",
-            bornLabel: "21 Nov 1949",
-            number: "943 476 5873",
-        },
-        {
-            family: "OKAFOR",
-            given: "Chidi",
-            born: "1990-07-12",
-            bornLabel: "12 Jul 1990",
-            number: "943 476 5870",
-        },
-    ];
+    // One list with the patient summary, so a result opens the person it names (P53-T1).
+    type Person = DemoPatient;
+    const PEOPLE: Person[] = DEMO_PATIENTS;
+    const bornLabel = (p: Person) => formatPartialDate(p.born, "en-GB", { month: "short" });
 
     let family = $state("");
     let given = $state("");
@@ -141,11 +110,12 @@
                                         >Possible duplicate record</strong
                                     >{/if}
                             </TableTH>
-                            <TableTD><time datetime={p.born}>{p.bornLabel}</time></TableTD>
+                            <TableTD><time datetime={p.born}>{bornLabel(p)}</time></TableTD>
                             <TableTD>{p.number}</TableTD>
                             <TableTD
-                                ><a href={`/patient-summary?nhs=${p.number.replaceAll(" ", "")}`}
-                                    >Open record for {p.given} {p.family}, {p.bornLabel}</a
+                                ><a href={`/patient-summary?patient=${p.key}`}
+                                    >Open record for {p.given}
+                                    {p.family}, {bornLabel(p)}, NHS number {p.number}</a
                                 ></TableTD
                             >
                         </TableRow>
