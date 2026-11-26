@@ -4931,7 +4931,7 @@ Playwright in Chromium, Firefox and WebKit, Selenium in Chrome and Firefox.
 
 ## Phase 53 — Lessons from the worldwide healthcare audit and the FAQ (2026-11-26)
 
-Two audits, deleted from the tree and kept in history: `git show 7292d3ada:docs/audits/<path>`. `gpt-world-research/index.md` is a
+Two audits, deleted from the tree and kept in history: `git show 7292d3ada:docs/audits/<path>`, and their revisions of 21:05 at `fb5b99cd8` (T11 to T13 come from those). `gpt-world-research/index.md` is a
 healthcare software audit against ten systems worldwide (KenyaEMR, Bahmni, NHS e-Referral and TrakCare, Dr@Hakeem, e-SUS APS, DHIS2,
 the Community Health Toolkit, ABHA, MyKanta and My Health Record, the NHI) and four certification programmes, at `a9761da28`.
 `gpt-faq/index.md` is a newcomer FAQ with its research, at `7ff0e2b41`. Each finding below was checked against the source on
@@ -4996,6 +4996,17 @@ advice for adopters; Lily can supply evidence records, not certification.
 - [ ] **P53-T9 An FAQ page.** The audit's eighteen questions, its research kept here, as `docs/faq/index.md` and a docs-site page linked
       from Getting Started and Help, the old Help fragment kept for its links. Verify: links resolve; three first-time users (a developer
       with the offline example, one styling a component in an existing app, a designer finding a token) are watched without coaching.
+
+- [ ] **P53-T11 Accurate views with different scopes.** From the audit's revision of 21:05 (WelshPAS and the NHS Wales App): a
+      patient's empty appointments screen and a clerk's active wait can both be true when their scopes differ. Each list in the
+      examples names its scope (health board, service, period) beside it. Verify: an empty list says what it covered.
+- [ ] **P53-T12 A booking that changes.** The appointment example with a patient view and a clerk view of one event: a request
+      to move with an interpreter, the first alternative taken before acceptance, the original kept visible, then the new time,
+      the clinic's time zone and the interpreter's status shown apart. Verify: a failed rebooking, a pending interpreter, and a
+      patient view that cannot load, which offers recovery and never says the visit was cancelled.
+- [x] **P53-T13 INSTALL.md counts and the Help page's Node.** _(Fixed 2026-11-26: INSTALL said 608 components and the Help
+      troubleshooting answer Node 22; now 661 in the catalog, 473 per headless package with the 188 identifiers as an add-on, and
+      Node 26.)_ Still open: one generated source for such counts (P48-T17).
 
 ## Phase 54 — Lessons from the government and civil-society audit (2026-11-26)
 

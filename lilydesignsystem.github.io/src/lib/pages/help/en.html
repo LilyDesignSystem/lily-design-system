@@ -357,7 +357,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
   <details class="faq-item">
     <summary>pnpm install fails with a peer or version error</summary>
     <p>
-      Use a current pnpm (v10+) and Node 22+. Each subproject pins its framework versions in its own <code>package.json</code>; if your global toolchain is
+      Use a current pnpm (v10+) and Node 26+, which every package's engines require. Each subproject pins its framework versions in its own <code>package.json</code>; if your global toolchain is
       older, <code>pnpm env use --global lts</code> is the quickest fix.
     </p>
   </details>

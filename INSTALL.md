@@ -9,7 +9,7 @@ little you have to commit to.
 3. **Install a helper package.** A complete interaction — theme picker, locale
    picker, date-time picker — wired end to end.
 
-Full documentation, a searchable catalog of all 608 components, and per-framework
+Full documentation, a searchable catalog of all 661 components, and per-framework
 tutorials are at **<https://lilydesignsystem.com/>**.
 
 ## Requirements
@@ -89,7 +89,8 @@ every component in the catalog, so you can start from it rather than from nothin
 
 ## Path 2 — Install a headless package
 
-Each package exports all 608 components from one barrel, ships `dist/` with types,
+Each package exports its 473 core components from one barrel (the 188 national identifier
+components are a separate `-headless-identifiers` add-on), ships `dist/` with types,
 and is marked `sideEffects: false` so your bundler can tree-shake what you do not
 import.
 
@@ -170,7 +171,8 @@ import { BreadcrumbNav, BreadcrumbList, BreadcrumbListItem } from "@lilydesignsy
 npm install @lilydesignsystem/html-headless
 ```
 
-The payload is 608 annotated semantic-HTML snippet files under
+The payload is 473 annotated semantic-HTML snippet files (the identifiers are in
+`@lilydesignsystem/alpine-headless-identifiers`) under
 `components/*.html` — copy them or template them; a small node helper
 (`componentsDir`, `readComponent(slug)`, `listComponents()`) locates them from
 build tooling.
@@ -258,7 +260,7 @@ public-sector and open design systems.
 ## Run the example applications
 
 Seven fully styled reference applications, one per framework. Each has a home
-page, a searchable catalog of all 608 components, and a live demo page per
+page, a searchable catalog of all 661 components, and a live demo page per
 component.
 
 ```sh

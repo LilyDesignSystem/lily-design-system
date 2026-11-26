@@ -240,7 +240,7 @@ It should — theme selectors are wrapped in `:where(...)`, which has zero speci
 
 pnpm install fails with a peer or version error
 
-Use a current pnpm (v10+) and Node 22+. Each subproject pins its framework versions in its own `package.json`; if your global toolchain is older, `pnpm env use --global lts` is the quickest fix.
+Use a current pnpm (v10+) and Node 26+, which every package's engines require. Each subproject pins its framework versions in its own `package.json`; if your global toolchain is older, `pnpm env use --global lts` is the quickest fix.
 
 Screen reader announces the wrong name for a control
 
