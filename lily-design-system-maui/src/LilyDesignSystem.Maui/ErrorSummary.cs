@@ -36,7 +36,7 @@ public class ErrorSummary : VerticalStackLayout
         Problems.CollectionChanged += OnProblemsChanged;
         Loaded += (_, _) =>
         {
-            if (FocusOnLoaded) title.SetSemanticFocus();
+            if (FocusOnLoaded && title.Handler is not null) title.SetSemanticFocus();
         };
     }
 
