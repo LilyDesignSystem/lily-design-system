@@ -45,6 +45,18 @@ Compose equivalent. Columns: `kind` (`attribute`, `role` or `element`), `name`, 
 Where there is no equivalent the column says `none` and the note says what to do instead; mobile has no landmarks and no
 id references, so several rows are `none`.
 
+## .NET MAUI
+
+MAUI draws each platform's own widgets, so it has no column of its own; a row decides MAUI like this
+([spec/dotnet-maui](../spec/dotnet-maui/index.md)):
+
+- **`lily` on either platform**: a control in `LilyDesignSystem.Maui` with the Swift and Kotlin name, when one exists; until
+  then, Blazor Hybrid.
+- **`native` on both**: MAUI's own control (`Switch`, `CheckBox`, `RadioButton`, `DatePicker`, `TimePicker`, `SearchBar`,
+  `Slider`, `Stepper`, `ProgressBar`, `Picker`, `Editor`, `Entry`); Lily ships nothing.
+- **`pattern`**: the same composition, of MAUI parts.
+- **`none` on both**: not a mobile concern; a web-shaped screen in a `BlazorWebView` still has the Blazor component.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.

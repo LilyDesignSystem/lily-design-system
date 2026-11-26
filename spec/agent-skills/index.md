@@ -2,7 +2,7 @@
 
 ## Summary
 
-Thirty-four repository top-level [Claude Skill](https://code.claude.com/docs/en/skills)
+Thirty-five repository top-level [Claude Skill](https://code.claude.com/docs/en/skills)
 packages give AI coding agents a curated, loadable entry point into Lily
 Design System, in four groups: [`lily-design-system-skill`](../../lily-design-system-skill/)
 for people building _with_ the system in general and
@@ -13,7 +13,7 @@ and nineteen framework-specific skills, one headless-skill and one
 helpers-skill per framework, added 2026-09-04, plus
 `lily-design-system-alpine-headless-skill` (2026-10-21; it also covers the four Alpine helpers and the
 example app, so there is no separate helpers-skill or umbrella yet); and four
-task-shaped playbooks added 2026-11-19. All thirty-four follow the
+task-shaped playbooks added 2026-11-19; and `lily-design-system-maui-skill` for .NET MAUI, added 2026-11-26. All thirty-five follow the
 same `lily-design-system-` naming convention and get identical
 full-subproject treatment — see "Naming-split retirement" and
 "Framework-specific skills reversal" below for how each tier arrived.
@@ -67,10 +67,10 @@ full-subproject treatment — see "Naming-split retirement" and
 
 ## Principles and rules
 
-- **Thirty-four skills, one naming convention.** `lily-design-system-skill`
+- **Thirty-five skills, one naming convention.** `lily-design-system-skill`
   is portable in spirit — useful in any project that consumes Lily Design
-  System, not just this monorepo — while the other thirty-three are bound
-  to this repository's own subprojects and conventions. All thirty-four
+  System, not just this monorepo — while the other thirty-four are bound
+  to this repository's own subprojects and conventions. All thirty-five
   nonetheless share the `lily-design-system-` prefix, because a
   directory's naming convention is a statement about repository plumbing
   (is it swept into `bin/list-implementations`/`bin/sync-special-files`?),
@@ -83,7 +83,7 @@ full-subproject treatment — see "Naming-split retirement" and
   `spec/index.md`, the 14 special files), per
   [architecture](../architecture/index.md) and
   [special-files-for-public-repos](../special-files-for-public-repos/index.md).
-  All thirty-four skills carry the full set.
+  All thirty-five skills carry the full set.
 - **Content, not code.** No skill folder ships components, tests, or a
   build step — a skill package is documentation for an AI agent, so
   `bin/test`'s per-framework checks (Storybook, vitest, Playwright) don't
@@ -129,7 +129,7 @@ the record of intent):
 
 ### File shape by skill
 
-Identical across all thirty-four skills:
+Identical across all thirty-five skills:
 
 | File                  | General/maintainer skills                                                                                    | Umbrella / framework-specific skills                                                   |
 | --------------------- | ------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------- |
@@ -305,14 +305,14 @@ subproject's remote carries remains a maintainer step.
 
 ## Acceptance criteria
 
-- [x] All thirty-four skill folders exist at the repository root, all
+- [x] All thirty-five skill folders exist at the repository root, all
       named under the `lily-design-system-` prefix.
 - [x] Each has a `SKILL.md` with `name` + `description` frontmatter
       naming concrete trigger phrases.
-- [x] All thirty-four skills carry the full required-files set
+- [x] All thirty-five skills carry the full required-files set
       (`index.md`, `README.md` symlink to `index.md`, `AGENTS.md`, `spec/index.md`, the 14 special
       files via `bin/sync-special-files`) and pass `bin/test`.
-- [x] `bin/sync-special-files`'s generated files for all thirty-four
+- [x] `bin/sync-special-files`'s generated files for all thirty-five
       skills (and for the two pre-existing `web-components-*`
       subprojects caught by the same classification fix) describe a
       Claude Skill or the correct real-subproject kind, not a

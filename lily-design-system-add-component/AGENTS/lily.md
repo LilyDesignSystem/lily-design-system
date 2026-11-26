@@ -118,16 +118,17 @@ The [themes/](../themes) directory ships 65 standalone theme stylesheets (NHS En
 
 ## Agent skills
 
-Thirty-four top-level Claude Skill packages, including four cross-framework task playbooks, spec: [spec/agent-skills/index.md](../spec/agent-skills/index.md).
+Thirty-five top-level Claude Skill packages, including four cross-framework task playbooks and a .NET MAUI skill, spec: [spec/agent-skills/index.md](../spec/agent-skills/index.md).
 
 - [lily-design-system-skill](../lily-design-system-skill) — general-purpose: concepts, terminology, naming conventions, composition patterns, for people building _with_ Lily.
 - [lily-design-system-maintainer-skill](../lily-design-system-maintainer-skill) — technical: required files, `bin/` tooling, the spec-driven workflow, for people working _on_ this monorepo.
 - Nine framework-umbrella skills (2026-09-05; Solid 2026-11-18), one `{framework}-skill` per framework family, each mapping that framework's three layers (headless library, helper packages, example app — the one layer neither sibling skill below covers) and pointing down into them: `lily-design-system-angular-skill`, `lily-design-system-blazor-skill`, `lily-design-system-html-skill`, `lily-design-system-nunjucks-skill`, `lily-design-system-react-skill`, `lily-design-system-svelte-skill`, `lily-design-system-vue-skill`, `lily-design-system-web-components-skill` (two layers only: there is no Web Components example app), and `lily-design-system-solid-skill` (2026-11-18).
 - [lily-design-system-alpine-headless-skill](../lily-design-system-alpine-headless-skill) (2026-10-21) — the Alpine.js headless catalog: the snippet-plus-plugin idiom, behaviours, events. Alpine now has an example app and six helpers, but no helpers-skill or umbrella skill yet.
 - Eighteen framework-specific skills (2026-09-04; Solid 2026-11-18), one `{framework}-headless-skill` and one `{framework}-helpers-skill` per framework family, each scoped to that framework's headless library or its helper packages: `lily-design-system-angular-headless-skill`, `lily-design-system-angular-helpers-skill`, `lily-design-system-blazor-headless-skill`, `lily-design-system-blazor-helpers-skill`, `lily-design-system-html-headless-skill`, `lily-design-system-html-helpers-skill`, `lily-design-system-nunjucks-headless-skill`, `lily-design-system-nunjucks-helpers-skill`, `lily-design-system-react-headless-skill`, `lily-design-system-react-helpers-skill`, `lily-design-system-svelte-headless-skill`, `lily-design-system-svelte-helpers-skill`, `lily-design-system-vue-headless-skill`, `lily-design-system-vue-helpers-skill`, `lily-design-system-web-components-headless-skill` (covers its full achievable scope), `lily-design-system-web-components-helpers-skill`, and (2026-11-18) `lily-design-system-solid-headless-skill`, `lily-design-system-solid-helpers-skill`.
+- [lily-design-system-maui-skill](../lily-design-system-maui-skill) (2026-11-26) — .NET MAUI: the native controls of `lily-design-system-maui`, and the full catalog through Blazor Hybrid.
 - Four task-shaped skills (2026-11-19): `lily-design-system-install`, `lily-design-system-add-component`, `lily-design-system-theme`, and `lily-design-system-migrate-from-bootstrap`. They are local playbooks; public registry publication remains separately gated.
 
-All thirty-four follow the `lily-design-system-` prefix and get full subproject treatment (see [spec/agent-skills/index.md](../spec/agent-skills/index.md)).
+All thirty-five follow the `lily-design-system-` prefix and get full subproject treatment (see [spec/agent-skills/index.md](../spec/agent-skills/index.md)).
 
 ## AI guidance files
 

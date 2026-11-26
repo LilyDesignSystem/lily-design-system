@@ -5159,7 +5159,7 @@ Kotlin build) and the full catalog through Blazor Hybrid, where the Blazor headl
       Blazor Hybrid page rendering the Blazor catalog with a reference theme. Needs the MAUI workload: `dotnet workload install maui`
       (the maintainer's machine has none as of 2026-11-26). Verify: runs on Android, iOS, Mac Catalyst and Windows; a TalkBack,
       VoiceOver and Narrator session recorded in docs/screen-reader-matrix.md.
-- [ ] **P56-T7 Publishing and docs.** NuGet packages from the monorepo (receipt first), `bin/check-package-metadata` covering them, a
+- [ ] **P56-T7 Publishing and docs.** _(2026-11-26: `bin/check-package-metadata` already covers both packages; `lily-design-system-maui-skill` added; MAUI's reading of `mobile/components-mobile.tsv` is a rule in `mobile/index.md`, not a column. Open: NuGet, the docs-site tab, the framework comparison.)_ NuGet packages from the monorepo (receipt first), `bin/check-package-metadata` covering them, a
       `lily-design-system-maui-skill`, a MAUI column in `mobile/components-mobile.tsv` (or a rule that MAUI follows the stricter of
       Apple and Android), a MAUI tab on the docs site, and the framework comparison.
 
