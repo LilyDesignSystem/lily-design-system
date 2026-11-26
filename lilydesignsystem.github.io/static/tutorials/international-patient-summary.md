@@ -183,6 +183,8 @@ export interface SummarySection {
   missing: string[];
   /** The document says none are known and lists some. The reader must be told. */
   conflict: boolean;
+  /** Entries about someone else, or about no one. Never shown under this patient's banner; say how many. */
+  otherSubject: string[];
 }
 
 export interface Summary {
@@ -208,27 +210,47 @@ const REQUIRED: Record<SectionKey, string> = {
   problems: "11450-4",
 };
 
+const LOINC = "http://loinc.org";
 const ABSENT = "http://hl7.org/fhir/uv/ips/CodeSystem/absent-unknown-uv-ips";
+const EMPTY_REASON = "http://terminology.hl7.org/CodeSystem/list-empty-reason";
 
-const codeOf = (concept: CodeableConcept | undefined) =>
-  concept?.coding?.find((coding) => coding.code)?.code;
+// A code is a system and a code together, in any of a concept's codings: their order means nothing.
+const codeIn = (concept: CodeableConcept | undefined, system: string) =>
+  concept?.coding?.find((coding) => coding.system === system && coding.code)?.code;
+const has = (concept: CodeableConcept | undefined, system: string, code: string) =>
+  concept?.coding?.some((coding) => coding.system === system && coding.code === code) ?? false;
+
+// The statements about a whole section. A narrower one, such as "no known food allergies", is not here:
+// it says nothing about medicines, so it is kept as an entry, with its own words.
+const WHOLE: Record<SectionKey, Record<string, "none-known" | "not-recorded">> = {
+  allergies: { "no-known-allergies": "none-known", "no-allergy-info": "not-recorded" },
+  medications: { "no-known-medications": "none-known", "no-medication-info": "not-recorded" },
+  problems: { "no-known-problems": "none-known", "no-problem-info": "not-recorded" },
+};
+
+const conceptOf = (resource: FhirResource) =>
+  resource.resourceType === "MedicationStatement"
+    ? resource.medicationCodeableConcept
+    : resource.resourceType === "AllergyIntolerance" || resource.resourceType === "Condition"
+      ? resource.code
+      : undefined;
 
 /** "No known allergies" is a statement someone made, so it is data, not an empty list. */
-function absence(resource: FhirResource): "none-known" | "not-recorded" | undefined {
-  const concept =
-    resource.resourceType === "MedicationStatement"
-      ? resource.medicationCodeableConcept
-      : resource.resourceType === "AllergyIntolerance" || resource.resourceType === "Condition"
-        ? resource.code
-        : undefined;
-  const code = concept?.coding?.find((coding) => coding.system === ABSENT)?.code;
-  if (code?.startsWith("no-known-")) return "none-known";
-  if (code?.endsWith("-info")) return "not-recorded";
-  return undefined;
+function absence(key: SectionKey, resource: FhirResource) {
+  const code = codeIn(conceptOf(resource), ABSENT);
+  return code ? WHOLE[key][code] : undefined;
 }
 
+/** Whose record an entry is: the patient of an allergy, the subject of a medicine or a problem. */
+const subjectOf = (resource: FhirResource) =>
+  resource.resourceType === "AllergyIntolerance"
+    ? resource.patient?.reference
+    : resource.resourceType === "MedicationStatement" || resource.resourceType === "Condition"
+      ? resource.subject?.reference
+      : undefined;
+
 function emptyStatus(reason: CodeableConcept | undefined): SectionStatus {
-  switch (codeOf(reason)) {
+  switch (codeIn(reason, EMPTY_REASON)) {
     case "nilknown":
       return "none-known";
     case "notasked":
@@ -263,27 +285,31 @@ export function readSummary(data: unknown): Summary {
   if (patient?.resourceType !== "Patient") throw new DocumentError("noPatient");
 
   const sections = (Object.keys(REQUIRED) as SectionKey[]).map((key): SummarySection => {
-    const section = composition.section?.find((s) => codeOf(s.code) === REQUIRED[key]);
-    if (!section) return { key, status: "omitted", entries: [], missing: [], conflict: false };
+    const section = composition.section?.find((s) => has(s.code, LOINC, REQUIRED[key]));
+    if (!section)
+      return { key, status: "omitted", entries: [], missing: [], conflict: false, otherSubject: [] };
 
     const entries: FhirResource[] = [];
     const missing: string[] = [];
+    const otherSubject: string[] = [];
     let said: SectionStatus | undefined;
     for (const { reference = "" } of section.entry ?? []) {
       const resource = resolve(reference);
       if (!resource) missing.push(reference);
-      else if (absence(resource)) said = absence(resource);
+      // The same patient by any reference resolves to the same resource; anyone else, or no one, is not shown here.
+      else if (resolve(subjectOf(resource)) !== patient) otherSubject.push(reference);
+      else if (absence(key, resource)) said = absence(key, resource);
       else entries.push(resource);
     }
     // Real entries win: a list that holds one is never "none known".
     const status: SectionStatus =
       entries.length > 0
         ? "known"
-        : missing.length > 0
+        : missing.length > 0 || otherSubject.length > 0
           ? "unavailable"
           : (said ?? emptyStatus(section.emptyReason));
     const conflict = entries.length > 0 && said === "none-known";
-    return { key, status, entries, missing, conflict };
+    return { key, status, entries, missing, conflict, otherSubject };
   });
 
   return { composition, patient, sections, resolve };
@@ -296,6 +322,8 @@ Four rules decide what is shown:
 - **A statement is data.** "No known allergies" is a code that a person recorded, so it is read as that and not as an allergy called "no known allergies".
 - **Entries win, and the conflict is told.** When a document says none are known and also lists one, the entry is shown, and so is a warning.
 - **Nothing is dropped.** A reference to something the document does not carry is kept, so that the page can say so.
+- **A code is a system and a code.** A concept can carry several codings in any order, so the reader looks for the one it knows, by system and code, never at the first. A statement about part of a section, such as "no known food allergies", is kept as an entry: it says nothing about medicines.
+- **Every entry is checked for whose it is.** An entry about someone else, or about no one, is never shown under this patient's banner. The page counts it, so the reader knows to check the source.
 
 ## Step 4: Test the rules
 
@@ -366,6 +394,69 @@ describe("readSummary", () => {
     });
   });
 
+  it("keeps 'no known food allergies' beside a medicine allergy, never as none known", () => {
+    const bundle = copy();
+    bundle.entry!.push({
+      fullUrl: "urn:uuid:no-food",
+      resource: {
+        resourceType: "AllergyIntolerance",
+        patient: { reference: "urn:uuid:patient" },
+        code: {
+          coding: [
+            {
+              system: "http://hl7.org/fhir/uv/ips/CodeSystem/absent-unknown-uv-ips",
+              code: "no-known-food-allergies",
+              display: "No known food allergies",
+            },
+          ],
+        },
+      },
+    });
+    composition(bundle).section![0].entry = [{ reference: "urn:uuid:no-food" }];
+    expect(section(bundle, "allergies")).toMatchObject({ status: "known", conflict: false });
+    composition(bundle).section![0].entry!.push({ reference: "urn:uuid:penicillin" });
+    expect(section(bundle, "allergies").entries).toHaveLength(2);
+  });
+
+  it("finds a section by its LOINC code in any coding, whatever comes first", () => {
+    const bundle = copy();
+    composition(bundle).section![0].code!.coding!.unshift({ system: "https://example.org/local", code: "ALG" });
+    expect(section(bundle, "allergies")).toMatchObject({ status: "known" });
+    expect(section(bundle, "allergies").entries).toHaveLength(2);
+  });
+
+  it("reads an empty reason only from its own code system", () => {
+    const bundle = copy();
+    composition(bundle).section![0].entry = [];
+    composition(bundle).section![0].emptyReason = {
+      coding: [{ system: "https://example.org/local", code: "nilknown" }],
+    };
+    expect(section(bundle, "allergies").status).toBe("not-recorded");
+  });
+
+  it("never shows another person's entry under this patient", () => {
+    const bundle = copy();
+    bundle.entry!.push({ fullUrl: "urn:uuid:someone-else", resource: { resourceType: "Patient" } });
+    const penicillin = bundle.entry!.find((e) => e.fullUrl === "urn:uuid:penicillin")!;
+    (penicillin.resource as { patient: { reference: string } }).patient.reference = "urn:uuid:someone-else";
+    composition(bundle).section![0].entry = [{ reference: "urn:uuid:penicillin" }];
+    expect(section(bundle, "allergies")).toMatchObject({
+      status: "unavailable",
+      entries: [],
+      otherSubject: ["urn:uuid:penicillin"],
+    });
+  });
+
+  it("accepts the same patient referred to another way", () => {
+    const bundle = copy();
+    const patient = bundle.entry!.find((e) => e.fullUrl === "urn:uuid:patient")!;
+    patient.resource!.id = "ex-1";
+    const penicillin = bundle.entry!.find((e) => e.fullUrl === "urn:uuid:penicillin")!;
+    (penicillin.resource as { patient: { reference: string } }).patient.reference = "Patient/ex-1";
+    expect(section(bundle, "allergies").otherSubject).toEqual([]);
+    expect(section(bundle, "allergies").entries).toHaveLength(2);
+  });
+
   it.each([
     ["not a document", {}, "notDocument"],
     ["no composition first", { resourceType: "Bundle", type: "document" }, "noComposition"],
@@ -380,7 +471,7 @@ describe("readSummary", () => {
 npx vitest run
 ```
 
-**Check your work:** seven tests pass. Now make an empty section return "none-known" and run them again: one fails. That is the mistake that hurts people, and the test is what stops it.
+**Check your work:** twelve tests pass. Now make an empty section return "none-known" and run them again: one fails. That is the mistake that hurts people, and the test is what stops it.
 
 ## Step 5: Write the words
 
@@ -608,6 +699,9 @@ Each record list takes a `status`, and words for it.
 
 {#if section.missing.length > 0}
   <p>Entries this document names but does not include: {section.missing.length}.</p>
+{/if}
+{#if section.otherSubject.length > 0}
+  <p>Entries about someone else, or about no one, not shown here: {section.otherSubject.length}. Check the source document.</p>
 {/if}
 ```
 

@@ -5068,11 +5068,11 @@ T6 are props the types accept that lose meaning in text. The order the audit giv
 
 - [x] **P55-T1 Old `?nhs=` addresses.** Done 2026-11-26: the summary treats them as unknown (no patient, a way back to the search),
       never as the demo default; `e2e/clinic-pages.spec.ts` checks it.
-- [ ] **P55-T2 The IPS tutorial reads codes by system and code, not position.** Match the expected system and code across every coding;
+- [x] **P55-T2 The IPS tutorial reads codes by system and code, not position.** _(Done 2026-11-26: `has` / `codeIn` match a system and a code in any coding; only the six whole-section codes (`no-known-allergies`, `no-allergy-info` and the medicine and problem pairs) set the section's status, and a narrower one is kept as an entry; three tests, each proved by `bin/check-tutorials` to fail on the old code.)_ Match the expected system and code across every coding;
       keep a scoped negative ("no known food allergies") as an entry with its scope, and give the section-wide "none known" only for
       an explicit whole-section assertion; keep an unknown coding as unresolved. Verify: run the tutorial's own code with a medication
       allergy beside "no known food allergies", with the codings reversed, and with a local code spelled `nilknown`.
-- [ ] **P55-T3 The IPS tutorial checks whose entry it is.** Resolve each entry's `patient` or `subject` against the composition's
+- [x] **P55-T3 The IPS tutorial checks whose entry it is.** _(Done 2026-11-26: an entry whose patient or subject does not resolve to the composition's patient goes to `otherSubject`, is never shown, and is counted on the page; the section is then unavailable unless it has entries of its own. Tests for a two-patient bundle and for `Patient/ex-1`. The outcome wording still wants a clinical reviewer.)_ Resolve each entry's `patient` or `subject` against the composition's
       subject; a missing, unresolved or other person's subject gets an outcome agreed with a clinical reviewer, never a place under the
       banner. Verify: a two-patient bundle, and one patient referenced two ways.
 - [ ] **P55-T4 HC-C17 in server HTML.** An adapter derives the status from the entries before rendering (React, Solid, Vue, Angular,

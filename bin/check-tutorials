@@ -22,8 +22,21 @@ const pageOf = (slug) => path.join(site, "src/routes/tutorials", slug, "+page.sv
 // `mistakes` are [file, from, to]: the changes the pages promise a test will catch, and the rules the pages name.
 const TUTORIALS = {
     "international-patient-summary": {
-        tests: 7,
+        tests: 12,
         mistakes: [
+            // P55-T2: a narrower negative is not the whole section; a code is matched by system, in any coding.
+            [
+                "src/lib/ips/summary.ts",
+                "return code ? WHOLE[key][code] : undefined;",
+                'return code?.startsWith("no-known-") ? "none-known" : undefined;',
+            ],
+            [
+                "src/lib/ips/summary.ts",
+                "has(s.code, LOINC, REQUIRED[key])",
+                "s.code?.coding?.find((c) => c.code)?.code === REQUIRED[key]",
+            ],
+            // P55-T3: an entry about someone else is never shown under this patient.
+            ["src/lib/ips/summary.ts", "resolve(subjectOf(resource)) !== patient", "false"],
             [
                 "src/lib/ips/summary.ts",
                 'case undefined:\n      return "not-recorded"',
