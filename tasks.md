@@ -5153,7 +5153,7 @@ Kotlin build) and the full catalog through Blazor Hybrid, where the Blazor headl
       `AllergyRecordList` / `AllergyRecordListItem`, `RecordList` / `RecordListItem` (HC-C17), `EarlyWarningScoreView`,
       `DecisionSupportCard`, `InternationalPatientSummary` / `InternationalPatientSummarySection`, `Disclosure`. Verify: the
       healthcare register's rows for each, with MAUI added as an evidence column.
-- [ ] **P56-T5 Tokens.** `bin/generate-mobile-tokens` also writes `LilyDesignSystem.Maui.Themes`: a `ResourceDictionary` per mobile
+- [x] **P56-T5 Tokens.** _(Done 2026-11-26: `Themes/LilyTokens.cs` and `LilyTheme.Apply`; the six mobile themes, light and dark pairs and the link at 4.5:1 in `ThemeTests`; in the same project as the controls, not a separate `.Themes` package.)_ `bin/generate-mobile-tokens` also writes `LilyDesignSystem.Maui.Themes`: a `ResourceDictionary` per mobile
       theme (colours, radii, border), light and dark pairs tested at 4.5:1. Verify: `--check` in `bin/test`.
 - [ ] **P56-T6 The example app.** `lily-design-system-maui-examples`: a page per control with its code, a searchable catalog, and a
       Blazor Hybrid page rendering the Blazor catalog with a reference theme. Needs the MAUI workload: `dotnet workload install maui`

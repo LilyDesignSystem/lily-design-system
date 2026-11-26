@@ -1,18 +1,19 @@
 #!/usr/bin/env python3
-"""bin/generate-mobile-tokens — Swift and Kotlin tokens from the DTCG theme files (tasks.md P43-T5).
+"""bin/generate-mobile-tokens — Swift, Kotlin and .NET MAUI tokens from the DTCG theme files (tasks.md P43-T5).
 
 Reads themes/tokens/{slug}.json (strict DTCG 2025.10, the source bin/generate-theme-tokens also reads) for the themes in
 MOBILE_THEMES and writes:
 
   lily-design-system-swift/Sources/LilyThemes/LilyTokens.swift
   lily-design-system-kotlin/lily-compose-themes/src/main/kotlin/io/github/lilydesignsystem/compose/themes/LilyTokens.kt
+  lily-design-system-maui/src/LilyDesignSystem.Maui/Themes/LilyTokens.cs
 
-Colours are converted to sRGB (OKLCH through OKLab and linear sRGB, out-of-gamut channels clipped), because SwiftUI's and
-Compose's Color take sRGB. Dimensions in rem become points or dp at 16 per rem; px stay as they are. Fluid spacing uses its
+Colours are converted to sRGB (OKLCH through OKLab and linear sRGB, out-of-gamut channels clipped), because SwiftUI's,
+Compose's and MAUI's Color take sRGB. Dimensions in rem become points or dp at 16 per rem; px stay as they are. Fluid spacing uses its
 rem floor. Type is not a token here: mobile text uses the platform's text styles, so Dynamic Type and font scale apply.
 
-  (default)  write both files
-  --check    fail if either file differs from what the JSON produces (wired into bin/test)
+  (default)  write the three files
+  --check    fail if any file differs from what the JSON produces (wired into bin/test)
 """
 
 import json
@@ -27,6 +28,8 @@ KOTLIN = os.path.join(
     TOP, "lily-design-system-kotlin", "lily-compose-themes", "src", "main", "kotlin", "io", "github", "lilydesignsystem",
     "compose", "themes", "LilyTokens.kt",
 )
+
+MAUI = os.path.join(TOP, "lily-design-system-maui", "src", "LilyDesignSystem.Maui", "Themes", "LilyTokens.cs")
 
 # The first mobile themes (spec/apple-swift, advice 4): the two general-purpose ones, then public-sector references from
 # three countries, then one non-Anglophone public-sector theme. Add a slug here to ship another.
@@ -222,9 +225,48 @@ def kotlin(themes):
     return "\n".join(out) + "\n"
 
 
+def pascal(name):
+    return "".join(part.capitalize() for part in name.split("-"))
+
+
+def csharp(themes):
+    out = [f"// {HEADER}", "using Microsoft.Maui.Graphics;", "", "namespace LilyDesignSystem.Maui.Themes;", ""]
+    out.append("/// <summary>A theme's colours (sRGB) and sizes (device-independent units), from the DTCG tokens the web themes use.</summary>")
+    out.append("public sealed record LilyTokens(")
+    params = ["    string Slug"]
+    params += [f"    Color {pascal(r)}" for r in COLOR_ROLES]
+    params += ["    Color Link"]
+    params += [f"    double {pascal(g + '-' + n)}" for g, n in DIMENSIONS]
+    out.append(",\n".join(params) + ")")
+    out.append("{")
+    for name, slug, colors, sizes in themes:
+        out.append(f"    /// <summary>themes/{slug}.css</summary>")
+        out.append(f"    public static readonly LilyTokens {name[0].upper() + name[1:]} = new(")
+        args = [f'"{slug}"']
+        args += [f'Color.FromArgb("#{colors[r]}")' for r in COLOR_ROLES]
+        args += [f'Color.FromArgb("#{colors["link"]}")']
+        args += [number(v) for v in sizes.values()]
+        out.append("        " + ",\n        ".join(args) + ");")
+        out.append("")
+    out.append("    /// <summary>Every generated theme, in the order above.</summary>")
+    out.append("    public static readonly IReadOnlyList<LilyTokens> All = [" + ", ".join(n[0].upper() + n[1:] for n, *_ in themes) + "];")
+    out.append("")
+    out.append("    /// <summary>The colours and sizes by resource key (<c>lily-color-primary</c>, <c>lily-radius-box</c>), for a ResourceDictionary.</summary>")
+    out.append("    public IReadOnlyDictionary<string, object> Resources() => new Dictionary<string, object>")
+    out.append("    {")
+    for r in COLOR_ROLES:
+        out.append(f'        ["lily-color-{r}"] = {pascal(r)},')
+    out.append('        ["lily-link"] = Link,')
+    for g, n in DIMENSIONS:
+        out.append(f'        ["lily-{g}-{n}"] = {pascal(g + "-" + n)},')
+    out.append("    };")
+    out.append("}")
+    return "\n".join(out) + "\n"
+
+
 def main():
     themes = [(name, slug, *load(slug)) for name, slug in MOBILE_THEMES]
-    outputs = {SWIFT: swift(themes), KOTLIN: kotlin(themes)}
+    outputs = {SWIFT: swift(themes), KOTLIN: kotlin(themes), MAUI: csharp(themes)}
     check = "--check" in sys.argv[1:]
     stale = []
     for path, text in outputs.items():

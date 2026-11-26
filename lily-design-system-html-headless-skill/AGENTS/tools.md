@@ -71,7 +71,7 @@ The `bin/` scripts and the Makefile, one line each. Part of the [AGENTS/lily.md]
 - [benchmark](../bin/benchmark): Performance benchmarks, each mean against a per-machine baseline: the shared pure modules at helper sizes (a 10,000-row grid, a 1,000-task Gantt chart) and, with `--suite render`, the Svelte data grid mounted, sorted and given new rows; fails beyond twice the baseline (machine-dependent, so not in bin/test)
 - [render-benchmark](../bin/render-benchmark): Render-and-unmount cost of a Svelte headless button, input, listbox and table against equivalent hand-written markup, with the Lily/native ratio; fails beyond twice a per-machine baseline (machine-dependent, so not in bin/test)
 - [generate-zone-names](../bin/generate-zone-names): `shared/zone-names/*.json`, CLDR time zone names per label-pack locale (`--check` in bin/test)
-- [generate-mobile-tokens](../bin/generate-mobile-tokens): Swift and Kotlin tokens (sRGB colours, points and dp) for the first mobile themes, from `themes/tokens/*.json` (`--check` in bin/test)
+- [generate-mobile-tokens](../bin/generate-mobile-tokens): Swift, Kotlin and .NET MAUI tokens (sRGB colours, points, dp and device-independent units) for the first mobile themes, from `themes/tokens/*.json` (`--check` in bin/test)
 - [generate-theme-tokens](../bin/generate-theme-tokens): DTCG token source under themes/tokens/ — extract, generate, drift-check
 - [generate-component-categories](../bin/generate-component-categories): Regenerate components-categories.tsv (per-component HTML tag + category) from components.tsv
 - [generate-page-markdown](../bin/generate-page-markdown): Localized `.md` twins for every site text page, plus a route audit whose reasoned exceptions may not go stale (`--check` in `bin/test`)

@@ -515,7 +515,7 @@ fi
 "$top/bin/sync-maui-core" --check >"$CHECKLOG" 2>&1 \
     || check_err "the .NET MAUI core's copy of a Blazor module drifted; run bin/sync-maui-core"
 "$top/bin/generate-mobile-tokens" --check >"$CHECKLOG" 2>&1 \
-    || check_err "the Swift or Kotlin theme tokens are stale; run bin/generate-mobile-tokens"
+    || check_err "the Swift, Kotlin or .NET MAUI theme tokens are stale; run bin/generate-mobile-tokens"
 "$top/bin/generate-page-markdown" --check >"$CHECKLOG" 2>&1 \
     || check_err "a site page's .md twin is missing or stale; run bin/generate-page-markdown"
 "$top/bin/extract-site-pages" --check >"$CHECKLOG" 2>&1 \
