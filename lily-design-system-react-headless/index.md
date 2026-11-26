@@ -1055,7 +1055,7 @@ Many components expose data attributes for CSS-based styling:
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 26+
 - pnpm 9+
 
 ### Setup

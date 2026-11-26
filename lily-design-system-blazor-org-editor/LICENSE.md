@@ -49,8 +49,9 @@ it was replaced with the list above.
 On 2026-11-24 the `CC-BY-NC-SA-4.0` entry in that list was itself replaced by `CC-BY-SA-4.0`, which allows commercial use.
 
 `CC-BY-SA-4.0` is now offered again, as one option among seven rather than as
-the sole license. It restricts use to non-commercial purposes; anyone who needs
-commercial use chooses another license from the list, such as `MIT`. If you
+the sole license. It allows commercial use under its attribution and share-alike
+terms; anyone who wants terms without share-alike chooses another license from
+the list, such as `MIT`. If you
 obtained Lily under the earlier notice and that raises a question for you,
 contact <joel@joelparkerhenderson.com>.
 

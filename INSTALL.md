@@ -17,7 +17,7 @@ tutorials are at **<https://lilydesignsystem.com/>**.
 | Path            | Needs                                                          |
 | --------------- | -------------------------------------------------------------- |
 | Copy the markup | a browser                                                      |
-| npm packages    | Node.js 18+ and npm, pnpm, or yarn                             |
+| npm packages    | Node.js 26+ (every package's `engines`) and npm, pnpm, or yarn |
 | Svelte          | Svelte 5                                                       |
 | React           | React 18 or 19 (`react` and `react-dom` are peer dependencies) |
 | Vue             | Vue 3.4+                                                       |

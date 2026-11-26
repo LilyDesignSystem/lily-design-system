@@ -4929,6 +4929,74 @@ Playwright in Chromium, Firefox and WebKit, Selenium in Chrome and Firefox.
 - [ ] **P52-T7 Selenium needs Node 26.12.1 or 24.22.1** (`selenium-webdriver` 4.54); the maintainer's machine has 26.8.1. Upgrade, or
       pin an older release whose engines allow it.
 
+## Phase 53 — Lessons from the worldwide healthcare audit and the FAQ (2026-11-26)
+
+Two audits, deleted from the tree and kept in history: `git show 7292d3ada:docs/audits/<path>`. `gpt-world-research/index.md` is a
+healthcare software audit against ten systems worldwide (KenyaEMR, Bahmni, NHS e-Referral and TrakCare, Dr@Hakeem, e-SUS APS, DHIS2,
+the Community Health Toolkit, ABHA, MyKanta and My Health Record, the NHI) and four certification programmes, at `a9761da28`.
+`gpt-faq/index.md` is a newcomer FAQ with its research, at `7ff0e2b41`. Each finding below was checked against the source on
+2026-11-26.
+
+Assessment: the one reproduced defect (T1) is real and worse than reported. The search's Mary Jones has the summary's Alexandra's
+NHS number and Chidi Okafor has Alexander's, so the example teaches a link that lands on a different person with the same number.
+Fix it first. The four FAQ findings (T6 to T9) are true and small. The workflow examples (T2 to T5) are sound and in Lily's lane:
+composed example pages from existing components, with clinical meaning, permissions and storage left to the service. No new
+component is proposed, and none is needed until two workflows need semantics the catalog lacks. The certification table (T10) is
+advice for adopters; Lily can supply evidence records, not certification.
+
+### Safety
+
+- [ ] **P53-T1 A patient search opens the patient chosen, or no one.** One set of synthetic patients for `/find-patient` and
+      `/patient-summary`; the search links with an opaque demo key (no health identifier in the address or browser history); the summary
+      resolves the key before any banner or section, and an unknown key shows a link back to the search and no patient content. The
+      switcher's late-result protection stays. Verify: a browser test follows every result row, the two same-name rows included, and
+      compares the destination's name, date of birth, number and one clinical entry with the row; then reload and Back.
+- [ ] **P53-T1a An evidence record for T1.** The worked wrong-patient hazard linked to the journey, the control, the commit, the test and
+      its date, browser and locale; a manual duplicate-name result by a registrar and a screen-reader user recorded separately, or
+      recorded as not yet observed.
+
+### Workflow examples (SvelteKit example app, synthetic data, no new package)
+
+- [ ] **P53-T2 Responsibility through referral, admission and discharge.** One pathway over the flow board, ward board and handover:
+      a referral returned for more information, accepted, waiting for a bed, transferred, discharged with a result outstanding. Each
+      handoff shows the sending and receiving service, who owns the next action, when it is due and when the status changed; the
+      current bed stays until the move is confirmed. The results inbox keeps "reviewed by" and adds a follow-up owner, due time and
+      outcome (an amended result after discharge is the case; a bulk review leaves the callback visible). A medicines reconciliation
+      variant: prior list, ward chart, discharge list, each source labelled, an omitted dose with the prescription still active.
+      Verify: keyboard and screen-reader users name the location, team and next action after a refresh and after a declined transfer.
+- [ ] **P53-T3 A community visit through interrupted synchronization.** A visit list using `record-provenance-view`: time observed,
+      recorded and last confirmed by the server; a conflict with a clinic correction shown as a read-only comparison of who wrote what.
+      Verify: a lost acknowledgment, reconnect and retry leave the visit unconfirmed until its own receipt; a late receipt for the
+      previous patient never completes the next one's visit; narrow screen, keyboard and screen reader.
+- [ ] **P53-T4 A population indicator with a denominator to inspect.** A district immunization coverage example (definition, source,
+      period, geography, completeness, last update, the inputs in a table beside the chart) and a permission-limited follow-up list.
+      Verify: 80 of 100 shows 80%; an estimated 125 shows 64% and names its source; zero reported, a missing report, a zero denominator
+      and a suppressed cell are distinct, and a suppressed cell stays suppressed in the table, totals, export and drill-down.
+- [ ] **P53-T5 Registration beyond a known national identity, and delegated access.** After T1: a patient known locally, one with one
+      name, a partial birth date and a provisional identity; each identifier with its issuer and verification state; possible
+      duplicates kept for human review. A representative sharing selected records for a purpose and period, with who acts, whose
+      records, the recipient, the scope and the dates; past access separate from future permission. Qualify the healthcare guide's
+      count of withheld entries for a service that must not reveal one exists. Verify: a registrar finds a one-name patient by year of
+      birth with no invented surname, day or number; switching to a dependent's record changes the heading and confirmation.
+
+### Assurance
+
+- [ ] **P53-T10 Certification-ready evidence.** For each hazard, the display control Lily tests apart from the service behaviour and the
+      residual risk a local owner holds (DCB0129 and DCB0160); evidence tagged by care setting, role, language and activity (SBIS);
+      a versioned task script for an adopter's usability study (ONC 170.315(g)(3)). Decline a certificate-verification component
+      until an adopter has passing and failing examples.
+
+### Onboarding (the FAQ)
+
+- [x] **P53-T6 The Help page says the headless libraries are not on a registry.** _(English fixed 2026-11-26; the 63 translations of that answer still say it, and need redrafting.)_ They are: `@lilydesignsystem/react-headless` 0.13.1
+      is on npm. Rewrite the answer with the registry command, not a hard-coded version.
+- [x] **P53-T7 `LICENSE.md` says CC BY-SA 4.0 restricts use to non-commercial purposes.** It does not; the paragraph above it says so.
+      Reconcile the scope note.
+- [x] **P53-T8 `INSTALL.md` says Node.js 18+; every package's `engines` says 26.** Make them agree.
+- [ ] **P53-T9 An FAQ page.** The audit's eighteen questions, its research kept here, as `docs/faq/index.md` and a docs-site page linked
+      from Getting Started and Help, the old Help fragment kept for its links. Verify: links resolve; three first-time users (a developer
+      with the offline example, one styling a component in an existing app, a designer finding a token) are watched without coaching.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.

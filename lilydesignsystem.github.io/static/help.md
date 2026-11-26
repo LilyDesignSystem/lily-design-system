@@ -294,7 +294,7 @@ Yes. The kebab-case class names on the root element work as semantic CSS hooks. 
 
 Is there an npm package?
 
-The [preference helpers](#helpers) ship as packages with an npm/NuGet publish pipeline. The headless component libraries are designed to be cloned or vendored — the source is the deliverable, so you can read, trim, and own exactly what you ship. Registry publishing for the headless libraries remains on the roadmap.
+Yes. The headless component libraries and the [helpers](#helpers) are published on npm under @lilydesignsystem (Blazor on NuGet under LilyDesignSystem.Blazor). Ask the registry for the current version, for example with npm view @lilydesignsystem/react-headless version. You can still copy the source instead, and read, trim and own exactly what you ship.
 
 Why multi-licensed?
 

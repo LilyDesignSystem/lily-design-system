@@ -28,7 +28,7 @@ macros and dressed in the NHS UK Design System's look and feel.
 
 ## Prerequisites
 
-- Node.js 20+
+- Node.js 26+
 - PNPM
 
 ## Commands
