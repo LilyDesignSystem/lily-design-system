@@ -80,6 +80,8 @@
   "alpine/calendar class:calendar-view-agenda-day": "Alpine helpers are a subset of the Svelte reference; not yet ported",
   "alpine/calendar class:calendar-view-agenda-empty": "Alpine helpers are a subset of the Svelte reference; not yet ported",
   "alpine/calendar class:calendar-view-agenda-events": "Alpine helpers are a subset of the Svelte reference; not yet ported",
+  "alpine/calendar class:calendar-view-day-event": "P51-T7, added to Svelte 2026-11-26: the ports follow (a day's event titles with no day snippet)",
+  "alpine/calendar class:calendar-view-day-events": "P51-T7, added to Svelte 2026-11-26: the ports follow (a day's event titles with no day snippet)",
   "alpine/calendar class:calendar-view-event": "Alpine helpers are a subset of the Svelte reference; not yet ported",
   "alpine/calendar class:calendar-view-event-field": "Alpine helpers are a subset of the Svelte reference; not yet ported",
   "alpine/calendar class:calendar-view-event-field-name": "Alpine helpers are a subset of the Svelte reference; not yet ported",

@@ -4893,7 +4893,7 @@ Requested by the maintainer: tutorials that teach how to build three of our proj
 - [x] **P51-T6 `labelsFor("calendar", en)` does not compile in strict TypeScript.** _(Fixed 2026-11-26: `LabelPack.direction` is `string`; `shared/label-pack-json-import.test.ts` type-checks the call under `--strict`; copies synced.)_ The documented call: a JSON pack's `direction` is
       `string`, and `LabelPack` asks for `"ltr" | "rtl"`. Published 0.6.0; not checked in 0.7.0. The tutorial casts.
       Verify: the documented call type-checks from a JSON import in each TypeScript catalog.
-- [ ] **P51-T7 A calendar given events and no `day` snippet draws none in its week, four-week and month grids, and says nothing.** The
+- [ ] **P51-T7 A calendar given events and no `day` snippet draws none in its week, four-week and month grids, and says nothing.** _(Svelte fixed 2026-11-26: each day lists its events' titles, and the cell is described by the list; three tests that fail on the old code. Open: the other seven catalogs, allow-listed in `bin/check-port-parity.allow.json` for Alpine.)_ The
       agenda lists them. The count still reads "2 of 2 match", and axe passes. A development warning, or the titles by default.
       Verify: a test in each catalog. _(Measured in 0.7.2, 2026-11-25; the day view was not, having no event that day.)_
 - [ ] **P51-T8 The project tutorials' finished apps in the example apps?** Or a repository to clone. Decide with T5.

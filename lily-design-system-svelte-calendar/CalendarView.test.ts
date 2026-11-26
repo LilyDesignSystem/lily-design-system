@@ -2197,3 +2197,42 @@ describe("CalendarView — clinic scheduling: free slots, categories and repeats
         ]);
     });
 });
+
+describe("CalendarView — events with no day snippet (tasks.md P51-T7)", () => {
+    for (const view of ["week", "four-week", "month"] as const) {
+        test(`the ${view} grid shows each event's title, and the day cell is described by them`, () => {
+            const { container } = render(CalendarView, {
+                props: {
+                    view,
+                    anchorDate: "2026-01-06",
+                    events: EVENTS,
+                    labels: LABELS,
+                    label: "Calendar",
+                },
+            });
+            const day = (e: CalendarEvent) => (e.date ?? e.start)!;
+            const shown = EVENTS.filter((e) => day(e) >= "2026-01-05" && day(e) <= "2026-01-11");
+            expect(shown).toHaveLength(2);
+            for (const e of shown) {
+                const cell = container.querySelector(`td[data-date="${day(e)}"]`)!;
+                const list = cell.querySelector(".calendar-view-day-events")!;
+                expect(list.textContent).toContain(e.title);
+                expect(cell.getAttribute("aria-describedby")?.split(" ")).toContain(list.id);
+            }
+        });
+    }
+
+    test("a day with no events has no event list and no description", () => {
+        const { container } = render(CalendarView, {
+            props: {
+                view: "week",
+                anchorDate: "2026-01-06",
+                events: [],
+                labels: LABELS,
+                label: "Calendar",
+            },
+        });
+        expect(container.querySelector(".calendar-view-day-events")).toBeNull();
+        expect(container.querySelector("td[aria-describedby]")).toBeNull();
+    });
+});
