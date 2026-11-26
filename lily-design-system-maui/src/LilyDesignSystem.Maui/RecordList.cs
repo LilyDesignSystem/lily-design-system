@@ -87,6 +87,9 @@ public class RecordList : VerticalStackLayout
     /// <summary>Whether an item that counts is in the list.</summary>
     public bool HasEntries => items.Children.OfType<IRecordEntry>().Any(e => e.Counts);
 
+    /// <summary>Raised when what the list shows may have changed: its status, words or entries.</summary>
+    public event EventHandler? Changed;
+
     /// <summary>Whether the list says none are known while holding an entry.</summary>
     public bool IsConflict { get; private set; }
 
@@ -118,6 +121,7 @@ public class RecordList : VerticalStackLayout
         statusItem.IsVisible = item is not null;
         items.IsVisible = RecordRules.ShowsEntries(Status);
         SemanticProperties.SetDescription(this, name);
+        Changed?.Invoke(this, EventArgs.Empty);
     }
 }
 
