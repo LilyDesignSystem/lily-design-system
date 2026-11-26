@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Lily's pure logic for .NET MAUI: no UI, no platform. Most of it is copied from the Blazor headless library by
+       bin/sync-maui-core (Shared/); LilySemantics is MAUI's own. Tested on plain net11.0. -->
+  <PropertyGroup>
+    <TargetFramework>net11.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <PackageId>LilyDesignSystem.Maui.Core</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>Joel Parker Henderson</Authors>
+    <Description>Lily Design System's pure logic for .NET MAUI: clinical formatting, IPS sections, record-list state, and the accessibility decisions of the controls.</Description>
+    <PackageProjectUrl>https://lilydesignsystem.com/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/LilyDesignSystem/lily-design-system</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>lily;design-system;maui;dotnet-maui;accessibility;wcag;a11y</PackageTags>
+    <PackageLicenseExpression>MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause</PackageLicenseExpression>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <RootNamespace>LilyDesignSystem.Maui.Core</RootNamespace>
+    <!-- The Shared/ copies keep Blazor's comments, as Blazor does: some members have none, and a cref may name a Blazor component. -->
+    <NoWarn>CS1591;CS1574</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+</Project>

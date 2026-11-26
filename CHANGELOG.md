@@ -11,6 +11,14 @@ highlights.
 
 ## Unreleased (2026-11-26)
 
+- **Added: .NET MAUI** (`lily-design-system-maui`, [spec/dotnet-maui](spec/dotnet-maui/index.md), tasks.md Phase 56). Native controls
+  for Android, iOS, macOS and Windows on `Microsoft.Maui.Controls` only: `LilyAlert`, `LilyBadge`, `Tag`, `InsetText`, `WarningText`,
+  `ErrorSummary`, `Field`, `SummaryList` / `SummaryListItem`, `LilyCard`, with `StyleClass` hooks named after the web's classes,
+  spoken names through `SemanticProperties` and announcements through `ILilyAnnouncer`. `LilyDesignSystem.Maui.Core` holds the pure
+  logic, copied from Blazor by the new `bin/sync-maui-core` (`--check` in `bin/test`) and checked against `shared/vectors/`. Both
+  target plain net11.0, so they build and test without the MAUI workload. The full catalog reaches MAUI through Blazor Hybrid.
+  Unreleased.
+
 - **Fixed (SvelteKit example, safety):** a result on `/find-patient` opened another patient's summary: the two pages kept separate
   synthetic patients, and the summary ignored the link (two search patients even had the summary patients' NHS numbers). They now share
   one list (`src/lib/demo-patients.ts`); the link carries an opaque demo key, not an NHS number; the summary resolves it before any

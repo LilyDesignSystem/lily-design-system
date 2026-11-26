@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Lily's .NET MAUI controls. They are pure Microsoft.Maui.Controls (no handlers, no platform code), so the library
+       targets plain net11.0: it builds and is unit-tested without the MAUI workload, and an Android, iOS, Mac Catalyst or
+       Windows app consumes it unchanged. spec/dotnet-maui. -->
+  <PropertyGroup>
+    <TargetFramework>net11.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <PackageId>LilyDesignSystem.Maui</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>Joel Parker Henderson</Authors>
+    <Description>Lily Design System controls for .NET MAUI: native, accessible, unstyled (StyleClass hooks), with consumer-supplied text. Android, iOS, macOS and Windows.</Description>
+    <PackageProjectUrl>https://lilydesignsystem.com/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/LilyDesignSystem/lily-design-system</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>lily;design-system;maui;dotnet-maui;accessibility;wcag;a11y</PackageTags>
+    <PackageLicenseExpression>MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause</PackageLicenseExpression>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <RootNamespace>LilyDesignSystem.Maui</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Maui.Controls" Version="11.0.10" />
+    <ProjectReference Include="../LilyDesignSystem.Maui.Core/LilyDesignSystem.Maui.Core.csproj" />
+  </ItemGroup>
+
+</Project>

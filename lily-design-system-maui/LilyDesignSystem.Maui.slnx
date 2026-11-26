@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/LilyDesignSystem.Maui.Core/LilyDesignSystem.Maui.Core.csproj" />
+    <Project Path="src/LilyDesignSystem.Maui/LilyDesignSystem.Maui.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/LilyDesignSystem.Maui.Tests/LilyDesignSystem.Maui.Tests.csproj" />
+  </Folder>
+</Solution>

@@ -511,6 +511,9 @@ fi
 # Every component has an Apple and an Android decision, and every ARIA name has a mobile mapping (spec/apple-swift, P43-T1, T2).
 "$top/bin/check-mobile-catalog" >"$CHECKLOG" 2>&1 \
     || check_err "a mobile decision or semantics mapping is missing; run bin/check-mobile-catalog"
+# The .NET MAUI core's copies of Blazor's pure C# equal their sources but for the namespace (spec/dotnet-maui, P56-T2).
+"$top/bin/sync-maui-core" --check >"$CHECKLOG" 2>&1 \
+    || check_err "the .NET MAUI core's copy of a Blazor module drifted; run bin/sync-maui-core"
 "$top/bin/generate-mobile-tokens" --check >"$CHECKLOG" 2>&1 \
     || check_err "the Swift or Kotlin theme tokens are stale; run bin/generate-mobile-tokens"
 "$top/bin/generate-page-markdown" --check >"$CHECKLOG" 2>&1 \

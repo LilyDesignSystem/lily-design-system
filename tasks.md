@@ -5079,6 +5079,9 @@ T6 are props the types accept that lose meaning in text. The order the audit giv
 
 ## Phase 56 — Lessons from the DHCW design system factory (2026-11-26)
 
+The [factory source review](spec/lessons/dhcw-design-system-factory/index.md) records the release used by the agents, the evidence
+available in the public checkout and how to evaluate these pilots in Lily.
+
 DHCW's proof of concept takes a service request through nine Claude Code roles. Each role names its inputs, its output and
 who uses it next. The accessibility reviewer records checks a person still owes. The tester starts from the agreed scenarios
 and checks whether a regression test fails on the baseline and passes on the change. The factory has agent definitions,
@@ -5102,6 +5105,10 @@ changes. Trial the dedicated agent and hook only where they help someone complet
       **Verify** one behavioural regression in a scratch copy fails the named test and restoring the behaviour passes it.
       A reviewer can also locate the outstanding screen-reader check and the service evidence needed for a delivery claim.
       [DHCW tester instructions](https://github.com/DHCW-Digital-Health-and-Care-Wales/dhcw-design-system-factory/blob/44adb5c848efd4060a75e41767cf95abaa892eb3/.claude/agents/tesni-test.md)
+- [ ] **P56-T2a Review one booking error in English and Welsh.** Alongside T2, record the field label, inline error, summary link
+      and recovery action for one booking validation state. Identify the service or label pack that supplies each string.
+      **Verify** the summary and field give the same instruction and the link reaches the field. Record the Welsh reviewer's name
+      and review date, or mark the wording as awaiting review. P41-T1 tracks the reusable pack.
 - [ ] **P56-T3 Trial one read-only accessibility review agent.** After T2, try `.claude/agents/accessibility-reviewer.md`
       as a thin entry point to a review procedure in the existing maintainer skill. Give it the component contract, changed
       example, diff and test results. Ask for findings by file and state, observed keyboard and focus behaviour, and manual
@@ -5117,6 +5124,78 @@ changes. Trial the dedicated agent and hook only where they help someone complet
       unrelated file. Only the site copy should prompt with the source path and `bin/sync-site-component-docs`. With the
       hook disabled, make the copy stale in a scratch checkout and confirm `bin/sync-site-component-docs --check` catches it.
       [DHCW write hook](https://github.com/DHCW-Digital-Health-and-Care-Wales/dhcw-design-system-factory/blob/44adb5c848efd4060a75e41767cf95abaa892eb3/.claude/hooks/restrict-writes.js) · [Hook tests](https://github.com/DHCW-Digital-Health-and-Care-Wales/dhcw-design-system-factory/blob/44adb5c848efd4060a75e41767cf95abaa892eb3/templates/dev/test-hooks.js)
+
+## Phase 56 — .NET MAUI (2026-11-26)
+
+Requested by the maintainer: a .NET MAUI implementation "on par with Blazor, React, Vue". Topic and decisions:
+[spec/dotnet-maui](spec/dotnet-maui/index.md). On par means two layers: native controls for the mobile subset (the rows Swift and
+Kotlin build) and the full catalog through Blazor Hybrid, where the Blazor headless library runs in a `BlazorWebView`.
+
+- [x] **P56-T1 The topic.** `spec/dotnet-maui/index.md`: what on par means, the rules, testing, packaging, the order of work.
+- [x] **P56-T2 Core and the sync.** `LilyDesignSystem.Maui.Core` (net11.0): `LilySemantics` and, copied from Blazor by
+      `bin/sync-maui-core` (`--check` in `bin/test`), clinical formatting, IPS sections, record-list state, wheel-picker keys.
+      Checked against `shared/vectors/ips-sections.json`.
+- [x] **P56-T3 The first controls.** `LilyAlert`, `LilyBadge`, `Tag`, `InsetText`, `WarningText`, `ErrorSummary`, `Field`,
+      `SummaryList` / `SummaryListItem`, `LilyCard`, with `ILilyAnnouncer`; 19 tests. Plain net11.0, no workload.
+- [ ] **P56-T4 The healthcare controls.** As Swift and Kotlin: `ObservationView`, `AgeView`, `DurationView`, `MedicationView`,
+      `AllergyRecordList` / `AllergyRecordListItem`, `RecordList` / `RecordListItem` (HC-C17), `EarlyWarningScoreView`,
+      `DecisionSupportCard`, `InternationalPatientSummary` / `InternationalPatientSummarySection`, `Disclosure`. Verify: the
+      healthcare register's rows for each, with MAUI added as an evidence column.
+- [ ] **P56-T5 Tokens.** `bin/generate-mobile-tokens` also writes `LilyDesignSystem.Maui.Themes`: a `ResourceDictionary` per mobile
+      theme (colours, radii, border), light and dark pairs tested at 4.5:1. Verify: `--check` in `bin/test`.
+- [ ] **P56-T6 The example app.** `lily-design-system-maui-examples`: a page per control with its code, a searchable catalog, and a
+      Blazor Hybrid page rendering the Blazor catalog with a reference theme. Needs the MAUI workload: `dotnet workload install maui`
+      (the maintainer's machine has none as of 2026-11-26). Verify: runs on Android, iOS, Mac Catalyst and Windows; a TalkBack,
+      VoiceOver and Narrator session recorded in docs/screen-reader-matrix.md.
+- [ ] **P56-T7 Publishing and docs.** NuGet packages from the monorepo (receipt first), `bin/check-package-metadata` covering them, a
+      `lily-design-system-maui-skill`, a MAUI column in `mobile/components-mobile.tsv` (or a rule that MAUI follows the stricter of
+      Apple and Android), a MAUI tab on the docs site, and the framework comparison.
+
+## Phase 57 — Lessons from the DHCW prototype kit (2026-11-26)
+
+The [prototype kit review](spec/lessons/dhcw-prototype-kit/index.md) compares DHCW’s editable question journey and reset flow
+with Lily’s booking and Eleventy examples. Start with the participant who abandons a booking halfway through.
+
+- [ ] **P57-T1 Mark the booking as a prototype and let a participant start over mid-journey.** In the SvelteKit booking,
+      use `PhaseBanner` to ask for made-up details before entry. Keep the notice and reset reachable through the journey.
+      Reuse `startOver` behind a confirmation. **Verify** a keyboard user can cancel from review and recover focus and answers,
+      or confirm and reach the start with answers, consent, errors and reference cleared.
+- [ ] **P57-T2 Write an Eleventy first-page recipe with two outcomes.** In the Nunjucks example README, show how to use the
+      current layout and macros for an appointment enquiry, link to make or change an appointment, and return from either path.
+      Give the editable filenames, URLs and dev/build commands. **Verify** a contributor can change a heading, rebuild and
+      follow both paths and their back links from the generated site with JavaScript disabled.
+
+## Phase 58 — DHCW design system source review (2026-11-26)
+
+The [November source review](spec/lessons/dhcw-design-system/index.md#source-review-2026-11-26) builds on the completed October
+theme and component work. The first task fixes a failure reproduced by rendering the documented sample.
+
+- [ ] **P58-T1 Make the Nunjucks error-summary example safe to copy.** Replace the empty macro call in its package usage
+      and the framework-mismatched Usage block in the Eleventy demo through their owning sources. Show the title, errors and
+      fields together. **Verify** the published snippet renders through Lily’s real macro environment, its accessible-name
+      reference resolves, and activating each error link reaches its field. A removed heading or broken target must fail.
+- [ ] **P58-T2 Exercise session expiry and renewal with TimeoutDialog.** Align its contract with the Svelte API and compose
+      the dialog, a caller-owned clock, localized messages and a simulated renewal response in the dialog-flow example.
+      **Verify** with a controlled clock that the visible countdown advances, the live region announces only at chosen intervals,
+      successful renewal returns focus with entered work retained, and rejection, expiry or a late response cannot show the
+      session as extended. Record a screen-reader listening check separately.
+
+## Phase 59 — Lessons from DHCW Single Record (2026-11-26)
+
+The [Single Record review](spec/lessons/dhcw-single-record-design-system/index.md) compares the clinical banner, patient search
+and synthetic records with Lily’s existing SvelteKit examples. Start with the clinical statement inferred from missing data.
+
+- [ ] **P59-T1 Give synthetic allergy records an explicit status.** Carry the status from `DemoPatient` to the patient
+      summary’s section and list. **Verify** three empty lists render distinct confirmed-none, not-recorded and unavailable
+      states when switching patients. Only the first says “No known allergies”. A populated record shows its reaction.
+- [ ] **P59-T2 Add exact NHS-number lookup to the patient search example.** Keep name search, reuse the identifier validator
+      and preserve the opaque record link from P53-T1. **Verify** grouped and ungrouped input find the same patient, an
+      invalid number retains the input and explains the error, and a valid unmatched number gives an empty result. Keyboard
+      focus reaches the results and even a single match requires an explicit choice. The number stays out of the URL.
+- [ ] **P59-T3 Preserve a Welsh patient’s spelling from search to summary.** Add an invented patient with an accented given
+      name and a mixed-case surname particle to the shared fixture. Normalize the query and stored comparison keys together.
+      **Verify** case variants and canonically equivalent Unicode spellings find the same record, and its row, accessible link
+      name and summary preserve the original spelling. Keep the same-name fixtures and their identity checks.
 
 ---
 

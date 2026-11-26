@@ -17,7 +17,8 @@ projects() {
     printf '%s\n' \
         "$top/lily-design-system-blazor-headless/LilyBlazorHeadless.slnx" \
         "$top/lily-design-system-blazor-headless-identifiers/LilyBlazorHeadless.Identifiers.slnx" \
-        "$top/lily-design-system-blazor-web-examples/LilyBlazorWebExamples.slnx"
+        "$top/lily-design-system-blazor-web-examples/LilyBlazorWebExamples.slnx" \
+        "$top/lily-design-system-maui/LilyDesignSystem.Maui.slnx"
     "$top/bin/list-helper-packages" blazor |
     while IFS= read -r package; do
         find "$top/$package" -maxdepth 3 -name '*.csproj' -print
