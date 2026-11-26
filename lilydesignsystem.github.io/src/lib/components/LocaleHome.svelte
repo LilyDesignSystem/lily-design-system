@@ -197,6 +197,20 @@
                 <span>Kotlin</span>
             </a>
         </li>
+        <li>
+            <a
+                class="framework-icon-link"
+                href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-maui"
+            >
+                <img
+                    src="/assets/images/icons/maui/64x64.png"
+                    alt=""
+                    width="40"
+                    height="40"
+                />
+                <span>MAUI</span>
+            </a>
+        </li>
     </ul>
 </section>
 

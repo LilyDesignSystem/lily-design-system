@@ -2,7 +2,7 @@ import { test, expect, type Page } from '@playwright/test';
 
 // The home page's framework icon row: labels, order, and that every icon sits on one row.
 
-const LABELS = ['Svelte', 'React', 'Solid', 'Vue', 'Angular', 'Blazor', 'Nunjucks', 'Alpine', 'HTML', 'Web'];
+const LABELS = ['Svelte', 'React', 'Solid', 'Vue', 'Angular', 'Blazor', 'Nunjucks', 'Alpine', 'HTML', 'Web', 'Swift', 'Kotlin', 'MAUI'];
 
 // Home pages that render the row: the English home and a locale home (LocaleHome.svelte).
 const PAGES = ['/', '/cy-gb/', '/en-us/'];
@@ -27,7 +27,7 @@ async function rowBoxes(page: Page) {
 
 for (const path of PAGES) {
   test.describe(`framework icon row on ${path}`, () => {
-    test('is labelled Svelte, React, Solid, Vue, Angular, Blazor, Nunjucks, Alpine, HTML, Web, in that order', async ({ page }) => {
+    test('is labelled Svelte, React, Solid, Vue, Angular, Blazor, Nunjucks, Alpine, HTML, Web, Swift, Kotlin, MAUI, in that order', async ({ page }) => {
       await page.goto(path);
       const boxes = await rowBoxes(page);
       expect(boxes.map((b) => b.label)).toEqual(LABELS);
@@ -52,8 +52,8 @@ for (const path of PAGES) {
       expect(boxes.filter((b) => !b.imgLoaded).map((b) => b.label)).toEqual([]);
     });
 
-    for (const width of [1920, 1280, 1024, 900]) {
-      test(`all ten icons render on one row at ${width}px wide`, async ({ page }) => {
+    for (const width of [1920, 1280, 1024]) {
+      test(`all thirteen icons render on one row at ${width}px wide`, async ({ page }) => {
         await page.setViewportSize({ width, height: 900 });
         await page.goto(path);
         const boxes = await rowBoxes(page);
@@ -63,6 +63,19 @@ for (const path of PAGES) {
         // And none is clipped off the right edge.
         expect(Math.max(...boxes.map((b) => b.right))).toBeLessThanOrEqual(width);
         // Breaking out of the intro column must not make the page scroll sideways.
+        const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+        expect(overflow).toBeLessThanOrEqual(0);
+      });
+    }
+
+    for (const width of [900, 320]) {
+      test(`at ${width}px the row wraps, every icon visible, with no sideways scroll`, async ({ page }) => {
+        await page.setViewportSize({ width, height: 900 });
+        await page.goto(path);
+        const boxes = await rowBoxes(page);
+        expect(boxes).toHaveLength(LABELS.length);
+        expect(Math.max(...boxes.map((b) => b.right))).toBeLessThanOrEqual(width);
+        expect(Math.min(...boxes.map((b) => b.left))).toBeGreaterThanOrEqual(0);
         const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
         expect(overflow).toBeLessThanOrEqual(0);
       });

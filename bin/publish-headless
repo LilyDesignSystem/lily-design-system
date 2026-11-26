@@ -200,4 +200,20 @@ else
   echo "(dry run: NuGet pack validated, nothing pushed)"
 fi
 
+# .NET MAUI (spec/dotnet-maui, 2026-11-26): the core first, then the controls that depend on it.
+echo "== .NET MAUI NuGet packages =="
+for proj in "$ROOT/lily-design-system-maui/src/LilyDesignSystem.Maui.Core/LilyDesignSystem.Maui.Core.csproj" \
+            "$ROOT/lily-design-system-maui/src/LilyDesignSystem.Maui/LilyDesignSystem.Maui.csproj"; do
+  echo "--> pack $(basename "$proj")"
+  dotnet pack "$proj" -c Release -o "$NUPKG_OUT"
+done
+if [ -z "$DRY" ]; then
+  for pkg in "$NUPKG_OUT"/LilyDesignSystem.Maui.Core.*.nupkg "$NUPKG_OUT"/LilyDesignSystem.Maui.[0-9]*.nupkg; do
+    echo "--> push $(basename "$pkg")"
+    dotnet nuget push "$pkg" --source https://api.nuget.org/v3/index.json --api-key "$NUGET_API_KEY" --skip-duplicate
+  done
+else
+  echo "(dry run: MAUI packs validated, nothing pushed)"
+fi
+
 echo "done"

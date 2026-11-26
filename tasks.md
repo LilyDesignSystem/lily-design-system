@@ -4897,7 +4897,7 @@ Requested by the maintainer: tutorials that teach how to build three of our proj
       agenda lists them. The count still reads "2 of 2 match", and axe passes. A development warning, or the titles by default.
       Verify: a test in each catalog. _(Measured in 0.7.2, 2026-11-25; the day view was not, having no event that day.)_
 - [ ] **P51-T8 The project tutorials' finished apps in the example apps?** Or a repository to clone. Decide with T5.
-- [ ] **P51-T9 The docs site's browser tests run nowhere.** Found 2026-11-25: 15 of 4,137 fail, all `framework-icons.spec.ts`, which
+- [ ] **P51-T9 The docs site's browser tests run nowhere.** _(2026-11-26: the row is decided at thirteen icons (MAUI added): one row from 1024px, wrapping centred below with no sideways scroll, at 4.25rem each; `framework-icons.spec.ts` and `locale-pages.spec.ts` updated and passing. Open: running the suite weekly.)_ Found 2026-11-25: 15 of 4,137 fail, all `framework-icons.spec.ts`, which
       expects ten icons on one row; Swift and Kotlin made twelve. (`locale-pages.spec.ts` expected nine, and is fixed.)
       Verify: the row at twelve icons is decided and tested, and the suite runs weekly.
 
