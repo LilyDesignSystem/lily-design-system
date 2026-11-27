@@ -15,11 +15,25 @@
 //   - components/document-list/index.md (canonical contract)
 //   - MDN ul element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul
 
-import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import {
+    moveChildrenInto,
+    passThroughAttributes,
+    rootClassName,
+    followLabel,
+} from "../lib/dom-utils.js";
 
 const HANDLED = new Set(["label"]);
 
 export class DocumentList extends HTMLElement {
+    // A change to label or class is shown (tasks.md P50-T28); the content is the consumer's children.
+    static get observedAttributes(): string[] {
+        return ["label", "class"];
+    }
+
+    attributeChangedCallback(): void {
+        followLabel(this, "ul.document-list", "document-list");
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > ul.document-list")) return;
 

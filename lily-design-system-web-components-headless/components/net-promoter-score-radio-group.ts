@@ -12,11 +12,29 @@
 // References:
 //   - components/net-promoter-score-radio-group/index.md (canonical contract)
 
-import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import {
+    moveChildrenInto,
+    passThroughAttributes,
+    rootClassName,
+    followLabel,
+} from "../lib/dom-utils.js";
 
 const HANDLED = new Set(["label"]);
 
 export class NetPromoterScoreRadioGroup extends HTMLElement {
+    // A change to label or class is shown (tasks.md P50-T28); the content is the consumer's children.
+    static get observedAttributes(): string[] {
+        return ["label", "class"];
+    }
+
+    attributeChangedCallback(): void {
+        followLabel(
+            this,
+            "fieldset.net-promoter-score-radio-group",
+            "net-promoter-score-radio-group",
+        );
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > fieldset.net-promoter-score-radio-group")) return;
 

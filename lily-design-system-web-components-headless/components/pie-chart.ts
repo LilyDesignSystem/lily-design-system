@@ -17,11 +17,25 @@
 // References:
 //   - components/pie-chart/index.md (canonical contract)
 
-import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import {
+    moveChildrenInto,
+    passThroughAttributes,
+    rootClassName,
+    followLabel,
+} from "../lib/dom-utils.js";
 
 const HANDLED = new Set(["label"]);
 
 export class PieChart extends HTMLElement {
+    // A change to label or class is shown (tasks.md P50-T28); the content is the consumer's children.
+    static get observedAttributes(): string[] {
+        return ["label", "class"];
+    }
+
+    attributeChangedCallback(): void {
+        followLabel(this, "figure.pie-chart", "pie-chart", ".pie-chart-graphic");
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > figure.pie-chart")) return;
 

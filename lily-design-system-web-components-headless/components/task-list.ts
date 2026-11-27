@@ -13,11 +13,25 @@
 //   - components/task-list/index.md (canonical contract)
 //   - WAI-ARIA list role: https://www.w3.org/TR/wai-aria-1.2/#list
 
-import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import {
+    moveChildrenInto,
+    passThroughAttributes,
+    rootClassName,
+    followLabel,
+} from "../lib/dom-utils.js";
 
 const HANDLED = new Set(["label"]);
 
 export class TaskList extends HTMLElement {
+    // A change to label or class is shown (tasks.md P50-T28); the content is the consumer's children.
+    static get observedAttributes(): string[] {
+        return ["label", "class"];
+    }
+
+    attributeChangedCallback(): void {
+        followLabel(this, "ol.task-list", "task-list");
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > ol.task-list")) return;
 

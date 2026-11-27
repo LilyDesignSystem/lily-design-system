@@ -46,6 +46,27 @@ export function rootClassName(host: Element, baseClass: string): string {
  * element" — every other component here has a real native tag (`<button>`,
  * `<a>`, `<dialog>`, `<fieldset>`, …) that is worth rendering for real.
  */
+/**
+ * Bring a built root in step with its host's label and class (tasks.md P50-T28): the class list, and aria-label from label (gone
+ * when label is). For an element whose only attribute of its own is label; nothing happens before the root is built.
+ */
+export function followLabel(
+    host: HTMLElement,
+    selector: string,
+    baseClass: string,
+    labelled?: string,
+): void {
+    const root = host.querySelector(`:scope > ${selector}`);
+    if (!root) return;
+    root.className = rootClassName(host, baseClass);
+    // A chart names its graphic, not its figure: labelled selects the element inside the root that carries the name.
+    const target = labelled ? root.querySelector(`:scope > ${labelled}`) : root;
+    if (!target) return;
+    const label = host.getAttribute("label");
+    if (label !== null) target.setAttribute("aria-label", label);
+    else target.removeAttribute("aria-label");
+}
+
 export function applySelfClassName(host: HTMLElement, baseClass: string): void {
     // The base class is dropped from what the host already has, so applying it again, after a change, never repeats it.
     const extra = (host.getAttribute("class") ?? "")

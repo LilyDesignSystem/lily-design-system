@@ -12,11 +12,25 @@
 // References:
 //   - components/emoji-character-radio-group/index.md (canonical contract)
 
-import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import {
+    moveChildrenInto,
+    passThroughAttributes,
+    rootClassName,
+    followLabel,
+} from "../lib/dom-utils.js";
 
 const HANDLED = new Set(["label"]);
 
 export class EmojiCharacterRadioGroup extends HTMLElement {
+    // A change to label or class is shown (tasks.md P50-T28); the content is the consumer's children.
+    static get observedAttributes(): string[] {
+        return ["label", "class"];
+    }
+
+    attributeChangedCallback(): void {
+        followLabel(this, "fieldset.emoji-character-radio-group", "emoji-character-radio-group");
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > fieldset.emoji-character-radio-group")) return;
 

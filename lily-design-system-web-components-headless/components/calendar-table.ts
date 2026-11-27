@@ -31,12 +31,26 @@
 // References:
 //   - components/calendar-table/index.md (canonical contract)
 
-import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import {
+    moveChildrenInto,
+    passThroughAttributes,
+    rootClassName,
+    followLabel,
+} from "../lib/dom-utils.js";
 import { attachGrid } from "../lib/widget-keys.js";
 
 const HANDLED = new Set(["label"]);
 
 export class CalendarTable extends HTMLElement {
+    // A change to label or class is shown (tasks.md P50-T28); the content is the consumer's children.
+    static get observedAttributes(): string[] {
+        return ["label", "class"];
+    }
+
+    attributeChangedCallback(): void {
+        followLabel(this, "table.calendar-table", "calendar-table");
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > table.calendar-table")) return;
 

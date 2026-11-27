@@ -17,11 +17,25 @@
 // References:
 //   - components/composed-chart/index.md (canonical contract)
 
-import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import {
+    moveChildrenInto,
+    passThroughAttributes,
+    rootClassName,
+    followLabel,
+} from "../lib/dom-utils.js";
 
 const HANDLED = new Set(["label"]);
 
 export class ComposedChart extends HTMLElement {
+    // A change to label or class is shown (tasks.md P50-T28); the content is the consumer's children.
+    static get observedAttributes(): string[] {
+        return ["label", "class"];
+    }
+
+    attributeChangedCallback(): void {
+        followLabel(this, "figure.composed-chart", "composed-chart", ".composed-chart-graphic");
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > figure.composed-chart")) return;
 

@@ -12,11 +12,25 @@
 //   - MDN ul element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul
 //   - WAI list role: https://www.w3.org/WAI/ARIA/apd/roles/list/
 
-import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import {
+    moveChildrenInto,
+    passThroughAttributes,
+    rootClassName,
+    followLabel,
+} from "../lib/dom-utils.js";
 
 const HANDLED = new Set(["label"]);
 
 export class DoList extends HTMLElement {
+    // A change to label or class is shown (tasks.md P50-T28); the content is the consumer's children.
+    static get observedAttributes(): string[] {
+        return ["label", "class"];
+    }
+
+    attributeChangedCallback(): void {
+        followLabel(this, "ul.do-list", "do-list");
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > ul.do-list")) return;
 

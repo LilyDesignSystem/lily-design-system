@@ -21,11 +21,25 @@
 // References:
 //   - components/gauge-chart/index.md (canonical contract)
 
-import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import {
+    moveChildrenInto,
+    passThroughAttributes,
+    rootClassName,
+    followLabel,
+} from "../lib/dom-utils.js";
 
 const HANDLED = new Set(["label"]);
 
 export class GaugeChart extends HTMLElement {
+    // A change to label or class is shown (tasks.md P50-T28); the content is the consumer's children.
+    static get observedAttributes(): string[] {
+        return ["label", "class"];
+    }
+
+    attributeChangedCallback(): void {
+        followLabel(this, "figure.gauge-chart", "gauge-chart", ".gauge-chart-graphic");
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > figure.gauge-chart")) return;
 

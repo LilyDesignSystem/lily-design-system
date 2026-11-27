@@ -12,11 +12,25 @@
 //   - components/chat-message/index.md (canonical contract)
 //   - MDN HTML article element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article
 
-import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import {
+    moveChildrenInto,
+    passThroughAttributes,
+    rootClassName,
+    followLabel,
+} from "../lib/dom-utils.js";
 
 const HANDLED = new Set(["label"]);
 
 export class ChatMessage extends HTMLElement {
+    // A change to label or class is shown (tasks.md P50-T28); the content is the consumer's children.
+    static get observedAttributes(): string[] {
+        return ["label", "class"];
+    }
+
+    attributeChangedCallback(): void {
+        followLabel(this, "article.chat-message", "chat-message");
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > article.chat-message")) return;
 
