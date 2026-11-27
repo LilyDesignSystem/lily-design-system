@@ -60,4 +60,20 @@ describe("Tag", () => {
         expect(span.classList.contains("tag")).toBe(true);
         expect(span.classList.contains("my-tag")).toBe(true);
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", async () => {
+        document.body.innerHTML = `<lily-tag label="Remove">Draft</lily-tag>`;
+        const el = document.querySelector("lily-tag")!;
+        const span = el.querySelector("span.tag")!;
+        el.setAttribute("label", "Delete");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(el.querySelector("span.tag")).toBe(span);
+        expect(span.textContent).toBe("DraftDelete");
+        expect(span.querySelectorAll(".screen-reader-span").length).toBe(1);
+        el.setAttribute("live", "");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(span.getAttribute("role")).toBe("status");
+        expect(span.getAttribute("aria-label")).toBe("Delete");
+        expect(span.textContent).toBe("Draft");
+    });
 });

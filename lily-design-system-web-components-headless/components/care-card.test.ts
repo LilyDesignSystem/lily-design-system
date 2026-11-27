@@ -77,4 +77,18 @@ describe("CareCard", () => {
         const root = host.querySelector("div.care-card")!;
         expect(root.lastChild!.textContent).toBe("Difficulty breathing.");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", async () => {
+        document.body.innerHTML = `<lily-care-card type="non-urgent" heading="Self care">Rest</lily-care-card>`;
+        const el = document.querySelector("lily-care-card")!;
+        const span = el.querySelector("div.care-card")!;
+        el.setAttribute("type", "emergency");
+        el.setAttribute("heading", "Call 999");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(el.querySelector("div.care-card")).toBe(span);
+        expect(span.getAttribute("data-type")).toBe("emergency");
+        expect(span.querySelector("h2")!.textContent).toBe("Call 999");
+        expect(span.getAttribute("aria-label")).toBe("Call 999");
+        expect(span.textContent).toBe("Call 999Rest");
+    });
 });

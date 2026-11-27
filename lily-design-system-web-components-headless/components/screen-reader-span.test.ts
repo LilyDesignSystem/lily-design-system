@@ -65,4 +65,14 @@ describe("ScreenReaderSpan", () => {
 
         expect(host.querySelector("span")!.className).toBe("screen-reader-span visually-hidden");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", async () => {
+        document.body.innerHTML = `<lily-screen-reader-span >hidden</lily-screen-reader-span>`;
+        const el = document.querySelector("lily-screen-reader-span")!;
+        const span = el.querySelector("span.screen-reader-span")!;
+        el.className = "mine";
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(el.querySelector("span.screen-reader-span")).toBe(span);
+        expect(span.className).toBe("screen-reader-span mine");
+    });
 });

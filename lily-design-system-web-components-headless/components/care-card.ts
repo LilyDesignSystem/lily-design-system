@@ -16,26 +16,33 @@
 //   - NHS England Care Cards: https://service-manual.nhs.uk/design-system/components/care-cards
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { LiveElement } from "../lib/live-element.js";
 
 const HANDLED = new Set(["type", "heading", "label"]);
 
-export class CareCard extends HTMLElement {
-    connectedCallback(): void {
-        if (this.querySelector(":scope > div.care-card")) return;
+// A change to its attributes, or to class, is shown (tasks.md P50-T28).
+export class CareCard extends LiveElement {
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
 
-        const div = document.createElement("div");
+    protected update(): void {
+        const existing = this.querySelector<HTMLDivElement>(":scope > div.care-card");
+        const div = existing ?? document.createElement("div");
         div.className = rootClassName(this, "care-card");
         div.setAttribute("role", "group");
-        const heading = this.getAttribute("heading") ?? "";
-        const label = this.getAttribute("label");
-        div.setAttribute("aria-label", label ?? heading);
+        const heading = this.text("heading");
+        div.setAttribute("aria-label", this.getAttribute("label") ?? heading);
         div.setAttribute("data-type", this.getAttribute("type") ?? "non-urgent");
+        if (existing) {
+            const h2 = div.querySelector(":scope > h2");
+            if (h2) h2.textContent = heading;
+            return;
+        }
         passThroughAttributes(this, div, HANDLED);
-
         const h2 = document.createElement("h2");
         h2.textContent = heading;
         div.appendChild(h2);
-
         moveChildrenInto(this, div);
         this.appendChild(div);
     }

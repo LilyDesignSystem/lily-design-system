@@ -22,8 +22,18 @@
 
 import { applySelfClassName, moveChildrenInto } from "../lib/dom-utils.js";
 
+// Its content is the consumer's children; a change to class is shown (tasks.md P50-T28).
 export class WarningText extends HTMLElement {
     #built = false;
+
+    static get observedAttributes(): string[] {
+        return ["class"];
+    }
+
+    attributeChangedCallback(): void {
+        if (this.#built && !this.classList.contains("warning-text"))
+            applySelfClassName(this, "warning-text");
+    }
 
     connectedCallback(): void {
         if (this.#built) return;

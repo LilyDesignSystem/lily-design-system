@@ -104,4 +104,21 @@ describe("InfoState", () => {
 
         expect(host.querySelector("section")!.className).toBe("info-state extra");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", async () => {
+        document.body.innerHTML = `<lily-info-state title="No results" level="info"></lily-info-state>`;
+        const el = document.querySelector("lily-info-state")!;
+        const span = el.querySelector("section.info-state")!;
+        el.setAttribute("title", "Error");
+        el.setAttribute("level", "error");
+        el.setAttribute("description", "Try again");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(el.querySelector("section.info-state")).toBe(span);
+        expect(span.getAttribute("data-level")).toBe("error");
+        expect(span.querySelector(".info-state-title")!.textContent).toBe("Error");
+        expect(span.querySelector(".info-state-description")!.textContent).toBe("Try again");
+        el.removeAttribute("description");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(span.querySelector(".info-state-description")).toBeNull();
+    });
 });

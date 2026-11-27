@@ -38,4 +38,15 @@ describe("ErrorMessage", () => {
 
         expect(host.querySelector("p")!.id).toBe("password-error");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", async () => {
+        document.body.innerHTML = `<lily-error-message >Enter a name</lily-error-message>`;
+        const el = document.querySelector("lily-error-message")!;
+        const span = el.querySelector("p.error-message")!;
+        el.className = "mine";
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(el.querySelector("p.error-message")).toBe(span);
+        expect(span.className).toBe("error-message mine");
+        expect(span.textContent).toBe("Enter a name");
+    });
 });

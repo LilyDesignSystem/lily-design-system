@@ -17,14 +17,17 @@
 //   - components/alert/index.md (canonical contract)
 
 import { applySelfClassName } from "../lib/dom-utils.js";
+import { LiveElement } from "../lib/live-element.js";
 
-export class Alert extends HTMLElement {
-    #built = false;
+// A change to type, heading, live or class is shown (tasks.md P50-T28); the content is the consumer's children.
+export class Alert extends LiveElement {
+    #heading: HTMLParagraphElement | null = null;
 
-    connectedCallback(): void {
-        if (this.#built) return;
-        this.#built = true;
+    static get observedAttributes(): string[] {
+        return ["type", "heading", "live", "class"];
+    }
 
+    protected update(): void {
         applySelfClassName(this, "alert");
         const role = this.getAttribute("role") ?? "alert";
         this.setAttribute("role", role);
@@ -34,12 +37,16 @@ export class Alert extends HTMLElement {
         this.setAttribute("data-type", this.getAttribute("type") ?? "info");
 
         const heading = this.getAttribute("heading");
-        if (heading !== null) {
-            const p = document.createElement("p");
-            const strong = document.createElement("strong");
-            strong.textContent = heading;
-            p.appendChild(strong);
-            this.insertBefore(p, this.firstChild);
+        if (heading === null) {
+            this.#heading?.remove();
+            this.#heading = null;
+            return;
         }
+        if (!this.#heading) {
+            this.#heading = document.createElement("p");
+            this.#heading.append(document.createElement("strong"));
+            this.insertBefore(this.#heading, this.firstChild);
+        }
+        this.#heading.firstElementChild!.textContent = heading;
     }
 }

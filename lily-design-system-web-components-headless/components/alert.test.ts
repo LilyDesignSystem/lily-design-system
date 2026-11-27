@@ -69,4 +69,21 @@ describe("Alert", () => {
 
         expect(host.querySelectorAll("p").length).toBe(1);
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", async () => {
+        document.body.innerHTML = `<lily-alert type="info" heading="Saved">Done</lily-alert>`;
+        const el = document.querySelector("lily-alert")!;
+
+        el.setAttribute("type", "error");
+        el.setAttribute("heading", "Not saved");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+
+        expect(el.getAttribute("data-type")).toBe("error");
+        expect(el.querySelector("strong")!.textContent).toBe("Not saved");
+        expect(el.querySelectorAll("strong").length).toBe(1);
+        el.removeAttribute("heading");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(el.querySelector("strong")).toBeNull();
+        expect(el.textContent).toBe("Done");
+    });
 });

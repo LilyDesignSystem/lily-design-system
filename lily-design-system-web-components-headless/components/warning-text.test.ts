@@ -66,4 +66,14 @@ describe("WarningText", () => {
         (host as unknown as WarningText).connectedCallback();
         expect(host.querySelectorAll("strong.warning-text-text").length).toBe(1);
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", async () => {
+        document.body.innerHTML = `<lily-warning-text >Careful</lily-warning-text>`;
+        const el = document.querySelector("lily-warning-text")!;
+
+        el.className = "mine";
+        await new Promise((resolve) => setTimeout(resolve, 0));
+
+        expect(el.className).toBe("warning-text mine");
+    });
 });

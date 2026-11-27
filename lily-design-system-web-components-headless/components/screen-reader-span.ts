@@ -16,17 +16,25 @@
 //   - WebAIM: https://webaim.org/techniques/css/invisiblecontent/
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { LiveElement } from "../lib/live-element.js";
 
 const HANDLED = new Set(["label"]);
 
-export class ScreenReaderSpan extends HTMLElement {
-    connectedCallback(): void {
-        if (this.querySelector(":scope > span.screen-reader-span")) return;
+// Its content is the consumer's children, which they change directly; a change to class is shown (tasks.md P50-T28).
+export class ScreenReaderSpan extends LiveElement {
+    static get observedAttributes(): string[] {
+        return ["class"];
+    }
 
+    protected update(): void {
+        const existing = this.querySelector<HTMLElement>(":scope > span.screen-reader-span");
+        if (existing) {
+            existing.className = rootClassName(this, "screen-reader-span");
+            return;
+        }
         const span = document.createElement("span");
         span.className = rootClassName(this, "screen-reader-span");
         passThroughAttributes(this, span, HANDLED);
-
         moveChildrenInto(this, span);
         this.appendChild(span);
     }

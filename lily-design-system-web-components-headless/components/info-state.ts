@@ -21,20 +21,40 @@
 //   - WAI-ARIA status role: https://www.w3.org/TR/wai-aria-1.2/#status
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { LiveElement } from "../lib/live-element.js";
 
 const HANDLED = new Set(["title", "description", "level", "label"]);
 
-export class InfoState extends HTMLElement {
-    connectedCallback(): void {
-        if (this.querySelector(":scope > section.info-state")) return;
+// A change to its attributes, or to class, is shown (tasks.md P50-T28).
+export class InfoState extends LiveElement {
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
 
-        const section = document.createElement("section");
+    protected update(): void {
+        const existing = this.querySelector<HTMLElement>(":scope > section.info-state");
+        const section = existing ?? document.createElement("section");
         section.className = rootClassName(this, "info-state");
         section.setAttribute("role", "status");
-        const title = this.getAttribute("title") ?? "";
-        const label = this.getAttribute("label");
-        section.setAttribute("aria-label", label ?? title);
+        const title = this.text("title");
+        section.setAttribute("aria-label", this.getAttribute("label") ?? title);
         section.setAttribute("data-level", this.getAttribute("level") ?? "info");
+        if (existing) {
+            const h2 = section.querySelector(":scope > .info-state-title");
+            if (h2) h2.textContent = title;
+            const description = this.getAttribute("description");
+            let p = section.querySelector<HTMLParagraphElement>(":scope > .info-state-description");
+            if (description === null) p?.remove();
+            else {
+                if (!p) {
+                    p = document.createElement("p");
+                    p.className = "info-state-description";
+                    h2?.after(p);
+                }
+                p.textContent = description;
+            }
+            return;
+        }
         passThroughAttributes(this, section, HANDLED);
 
         for (const child of Array.from(this.children)) {
