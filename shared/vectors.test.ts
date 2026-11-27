@@ -15,6 +15,17 @@ import {
     toIsoDuration,
 } from "./clinical-format";
 import { splitGraphemes, truncateMiddle, type TruncateMiddleOptions } from "./middle-truncation";
+import {
+    canAddItem,
+    canRemoveItem,
+    datePartsShown,
+    dateSequence,
+    isCalendarDate,
+    joinDateParts,
+    quantityProblem,
+    splitDateValue,
+    stepStatus,
+} from "./form-parts";
 import { logicalKey } from "./direction";
 import {
     ipsContents,
@@ -71,6 +82,15 @@ const FUNCTIONS: Record<string, (...args: any[]) => unknown> = {
     nextWheelIndex,
     nextWheelPrefix,
     wheelTypeaheadIndex,
+    datePartsShown,
+    dateSequence,
+    splitDateValue,
+    joinDateParts,
+    isCalendarDate,
+    quantityProblem,
+    canAddItem,
+    canRemoveItem,
+    stepStatus,
 };
 /* eslint-enable @typescript-eslint/no-explicit-any */
 

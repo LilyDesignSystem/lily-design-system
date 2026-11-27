@@ -32,6 +32,12 @@ private func date(_ value: Any) throws -> Date {
 
 private func number(_ value: Any) -> Double? { (value as? NSNumber)?.doubleValue }
 
+/// A precision the type cannot hold ("week") is the module's precision error, as the TypeScript throws.
+private func precision(_ value: Any) throws -> DateFieldPrecision {
+    guard let p = DateFieldPrecision(rawValue: value as! String) else { throw FormPartsError.precision }
+    return p
+}
+
 /// A JSON number for an `Int` parameter. Swift's `Int` cannot hold 1.5, so the API rules a non-whole index out by its type;
 /// the runner stands in for that by throwing the module's error, so the shared "throws" vectors still apply.
 private func whole(_ value: Any, or error: some LilyRangeError) throws -> Int {
@@ -159,6 +165,29 @@ private func call(_ fn: String, _ args: [Any]) throws -> Any {
     case "wheelTypeaheadIndex":
         return try wheelTypeaheadIndex(
             wheelOptions(args[0]), current: whole(args[1], or: WheelPickerError.current), prefix: string(2))
+    case "datePartsShown":
+        return datePartsShown(try precision(args[0])).map(\.rawValue)
+    case "dateSequence":
+        guard let order = DateFieldOrder(rawValue: string(0)) else { throw FormPartsError.order }
+        return dateSequence(order, try precision(args[1])).map(\.rawValue)
+    case "splitDateValue":
+        let parts = splitDateValue(string(0), try precision(args[1]))
+        return ["year": parts.year, "month": parts.month, "day": parts.day]
+    case "joinDateParts":
+        let p = args[0] as! [String: String]
+        return joinDateParts(DateParts(year: p["year"]!, month: p["month"]!, day: p["day"]!), try precision(args[1]))
+    case "isCalendarDate": return isCalendarDate(string(0))
+    case "quantityProblem":
+        return try quantityProblem(string(0), min: number(args[1]), max: number(args[2]))?.rawValue as Any? ?? NSNull()
+    case "canAddItem":
+        return try canAddItem(
+            count: whole(args[0], or: FormPartsError.count),
+            max: args[1] is NSNull ? nil : whole(args[1], or: FormPartsError.limit))
+    case "canRemoveItem":
+        return try canRemoveItem(count: whole(args[0], or: FormPartsError.count), min: whole(args[1], or: FormPartsError.limit))
+    case "stepStatus":
+        return try stepStatus(index: whole(args[0], or: FormPartsError.index), current: whole(args[1], or: FormPartsError.index))
+            .rawValue
     default: throw Unknown(description: "unknown vector function \(fn)")
     }
 }
@@ -173,7 +202,10 @@ private func same(_ a: Any, _ b: Any) throws -> Bool {
 
 @Test func everyVectorFileIsReadAndPasses() throws {
     let files = try loadVectorFiles()
-    #expect(Set(files.map(\.name)) == ["clinical-format.json", "ips-sections.json", "middle-truncation.json", "search-text.json", "typeahead.json", "wheel-picker.json"])
+    #expect(Set(files.map(\.name)) == [
+        "clinical-format.json", "form-parts.json", "ips-sections.json", "middle-truncation.json", "search-text.json", "typeahead.json",
+        "wheel-picker.json",
+    ])
     var count = 0
     for file in files {
         for (index, c) in file.cases.enumerated() {

@@ -18,5 +18,8 @@ public class TypeaheadException(reason: String, message: String) : LilyRangeExce
 /** Thrown by the wheel-picker functions: reason current, pageSize, middles or centre. */
 public class WheelPickerException(reason: String, message: String) : LilyRangeException(reason, "wheel-picker: $message")
 
+/** Thrown by the form-parts functions: reason precision, order, count, limit or index. */
+public class FormPartsException(reason: String, message: String) : LilyRangeException(reason, "form-parts: $message")
+
 /** Thrown by [ipsSectionId] and [ipsContents]: reason key, id, idPrefix or heading. */
 public class IpsSectionsException(reason: String, message: String) : LilyRangeException(reason, "ips-sections: $message")

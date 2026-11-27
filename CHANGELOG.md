@@ -11,6 +11,10 @@ highlights.
 
 ## Unreleased (2026-11-26)
 
+- **Added (mobile):** the rules of the date field, quantity input, repeatable fieldset and step list for Swift, Kotlin and
+  .NET MAUI, stated once in `shared/form-parts.ts` and proved alike on every platform by `shared/vectors/form-parts.json`, with
+  a calendar check the web date field leaves to the app (P62-T3, part).
+
 - **Added (docs):** the book-an-appointment tutorials for phones, `/tutorials/book-appointment/` in Swift, Kotlin and .NET MAUI:
   one booking screen with a top bar, a heading, inset text, four labelled choices and a tab bar, each page the whole app with a
   screenshot from a real build in a simulator or emulator (P62-T6).

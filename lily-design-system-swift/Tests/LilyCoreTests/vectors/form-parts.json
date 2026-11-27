@@ -1,0 +1,331 @@
+{
+  "module": "form-parts",
+  "description": "datePartsShown, dateSequence, splitDateValue, joinDateParts, isCalendarDate, quantityProblem, canAddItem, canRemoveItem and stepStatus from shared/form-parts.ts: the rules of date-field, quantity-input-div, repeatable-fieldset and step-list that the mobile catalogs draw natively (tasks.md P62-T3). null stands for an absent limit.",
+  "cases": [
+    {
+      "fn": "datePartsShown",
+      "args": ["day"],
+      "expected": ["year", "month", "day"]
+    },
+    {
+      "fn": "datePartsShown",
+      "args": ["month"],
+      "expected": ["year", "month"]
+    },
+    {
+      "fn": "datePartsShown",
+      "args": ["year"],
+      "expected": ["year"]
+    },
+    {
+      "fn": "datePartsShown",
+      "args": ["week"],
+      "throws": "precision"
+    },
+    {
+      "fn": "dateSequence",
+      "args": ["dmy", "day"],
+      "expected": ["day", "month", "year"]
+    },
+    {
+      "fn": "dateSequence",
+      "args": ["mdy", "day"],
+      "expected": ["month", "day", "year"]
+    },
+    {
+      "fn": "dateSequence",
+      "args": ["ymd", "month"],
+      "expected": ["year", "month"]
+    },
+    {
+      "fn": "dateSequence",
+      "args": ["dmy", "month"],
+      "expected": ["month", "year"]
+    },
+    {
+      "fn": "dateSequence",
+      "args": ["ydm", "day"],
+      "throws": "order"
+    },
+    {
+      "fn": "splitDateValue",
+      "args": ["1949-02-03", "day"],
+      "expected": {
+        "year": "1949",
+        "month": "02",
+        "day": "03"
+      }
+    },
+    {
+      "fn": "splitDateValue",
+      "args": ["1949-2", "month"],
+      "expected": {
+        "year": "1949",
+        "month": "2",
+        "day": ""
+      }
+    },
+    {
+      "fn": "splitDateValue",
+      "args": ["1949-02", "day"],
+      "expected": {
+        "year": "",
+        "month": "",
+        "day": ""
+      }
+    },
+    {
+      "fn": "splitDateValue",
+      "args": ["", "day"],
+      "expected": {
+        "year": "",
+        "month": "",
+        "day": ""
+      }
+    },
+    {
+      "fn": "splitDateValue",
+      "args": ["3/2/1949", "day"],
+      "expected": {
+        "year": "",
+        "month": "",
+        "day": ""
+      }
+    },
+    {
+      "fn": "joinDateParts",
+      "args": [
+        {
+          "year": "1949",
+          "month": "2",
+          "day": "3"
+        },
+        "day"
+      ],
+      "expected": "1949-02-03"
+    },
+    {
+      "fn": "joinDateParts",
+      "args": [
+        {
+          "year": "49",
+          "month": "2",
+          "day": "3"
+        },
+        "day"
+      ],
+      "expected": "0049-02-03"
+    },
+    {
+      "fn": "joinDateParts",
+      "args": [
+        {
+          "year": "1949",
+          "month": "",
+          "day": "3"
+        },
+        "day"
+      ],
+      "expected": ""
+    },
+    {
+      "fn": "joinDateParts",
+      "args": [
+        {
+          "year": "1949",
+          "month": "2",
+          "day": ""
+        },
+        "month"
+      ],
+      "expected": "1949-02"
+    },
+    {
+      "fn": "joinDateParts",
+      "args": [
+        {
+          "year": "19a9",
+          "month": "",
+          "day": ""
+        },
+        "year"
+      ],
+      "expected": ""
+    },
+    {
+      "fn": "isCalendarDate",
+      "args": ["1949-02-28"],
+      "expected": true
+    },
+    {
+      "fn": "isCalendarDate",
+      "args": ["1949-02-29"],
+      "expected": false
+    },
+    {
+      "fn": "isCalendarDate",
+      "args": ["2000-02-29"],
+      "expected": true
+    },
+    {
+      "fn": "isCalendarDate",
+      "args": ["1900-02-29"],
+      "expected": false
+    },
+    {
+      "fn": "isCalendarDate",
+      "args": ["2026-04-31"],
+      "expected": false
+    },
+    {
+      "fn": "isCalendarDate",
+      "args": ["2026-13"],
+      "expected": false
+    },
+    {
+      "fn": "isCalendarDate",
+      "args": ["2026-00-10"],
+      "expected": false
+    },
+    {
+      "fn": "isCalendarDate",
+      "args": ["2026"],
+      "expected": true
+    },
+    {
+      "fn": "isCalendarDate",
+      "args": ["26-01-01"],
+      "expected": false
+    },
+    {
+      "fn": "quantityProblem",
+      "args": ["70", 1, 400],
+      "expected": null
+    },
+    {
+      "fn": "quantityProblem",
+      "args": [" 70.5 ", 1, 400],
+      "expected": null
+    },
+    {
+      "fn": "quantityProblem",
+      "args": ["", 1, 400],
+      "expected": "empty"
+    },
+    {
+      "fn": "quantityProblem",
+      "args": ["  ", null, null],
+      "expected": "empty"
+    },
+    {
+      "fn": "quantityProblem",
+      "args": ["seventy", 1, 400],
+      "expected": "not-a-number"
+    },
+    {
+      "fn": "quantityProblem",
+      "args": ["70,5", 1, 400],
+      "expected": "not-a-number"
+    },
+    {
+      "fn": "quantityProblem",
+      "args": ["0.5", 1, 400],
+      "expected": "below-minimum"
+    },
+    {
+      "fn": "quantityProblem",
+      "args": ["401", 1, 400],
+      "expected": "above-maximum"
+    },
+    {
+      "fn": "quantityProblem",
+      "args": ["-3", null, null],
+      "expected": null
+    },
+    {
+      "fn": "quantityProblem",
+      "args": [".5", 0, 1],
+      "expected": null
+    },
+    {
+      "fn": "quantityProblem",
+      "args": ["5", 10, 1],
+      "throws": "limit"
+    },
+    {
+      "fn": "canAddItem",
+      "args": [0, null],
+      "expected": true
+    },
+    {
+      "fn": "canAddItem",
+      "args": [2, 3],
+      "expected": true
+    },
+    {
+      "fn": "canAddItem",
+      "args": [3, 3],
+      "expected": false
+    },
+    {
+      "fn": "canAddItem",
+      "args": [-1, null],
+      "throws": "count"
+    },
+    {
+      "fn": "canAddItem",
+      "args": [1.5, 3],
+      "throws": "count"
+    },
+    {
+      "fn": "canAddItem",
+      "args": [1, -2],
+      "throws": "limit"
+    },
+    {
+      "fn": "canRemoveItem",
+      "args": [1, 1],
+      "expected": false
+    },
+    {
+      "fn": "canRemoveItem",
+      "args": [2, 1],
+      "expected": true
+    },
+    {
+      "fn": "canRemoveItem",
+      "args": [0, 0],
+      "expected": false
+    },
+    {
+      "fn": "canRemoveItem",
+      "args": [2, 0.5],
+      "throws": "limit"
+    },
+    {
+      "fn": "stepStatus",
+      "args": [0, 2],
+      "expected": "finished"
+    },
+    {
+      "fn": "stepStatus",
+      "args": [2, 2],
+      "expected": "in-progress"
+    },
+    {
+      "fn": "stepStatus",
+      "args": [3, 2],
+      "expected": "waiting"
+    },
+    {
+      "fn": "stepStatus",
+      "args": [-1, 0],
+      "throws": "index"
+    },
+    {
+      "fn": "stepStatus",
+      "args": [0, 1.5],
+      "throws": "index"
+    }
+  ]
+}

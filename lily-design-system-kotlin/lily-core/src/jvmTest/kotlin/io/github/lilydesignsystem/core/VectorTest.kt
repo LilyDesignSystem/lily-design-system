@@ -39,6 +39,28 @@ class VectorTest {
 
     /** Calls the named function and returns a JSON-shaped Kotlin value (null, Boolean, Number, String, List, Map). */
     private fun call(fn: String, args: JsonArray): Any? = when (fn) {
+        "datePartsShown" -> datePartsShown(DateFieldPrecision.fromKey(str(args[0]))).map { it.key }
+        "dateSequence" -> dateSequence(DateFieldOrder.fromKey(str(args[0])), DateFieldPrecision.fromKey(str(args[1]))).map { it.key }
+        "splitDateValue" -> splitDateValue(str(args[0]), DateFieldPrecision.fromKey(str(args[1]))).let {
+            json("year" to it.year, "month" to it.month, "day" to it.day)
+        }
+        "joinDateParts" -> args[0].jsonObject.let { p ->
+            joinDateParts(DateParts(str(p["year"]!!), str(p["month"]!!), str(p["day"]!!)), DateFieldPrecision.fromKey(str(args[1])))
+        }
+        "isCalendarDate" -> isCalendarDate(str(args[0]))
+        "quantityProblem" -> quantityProblem(str(args[0]), num(args[1]), num(args[2]))?.key
+        "canAddItem" -> canAddItem(
+            whole(args[0]) { FormPartsException("count", "not whole") },
+            if (args[1] is JsonNull) null else whole(args[1]) { FormPartsException("limit", "not whole") },
+        )
+        "canRemoveItem" -> canRemoveItem(
+            whole(args[0]) { FormPartsException("count", "not whole") },
+            whole(args[1]) { FormPartsException("limit", "not whole") },
+        )
+        "stepStatus" -> stepStatus(
+            whole(args[0]) { FormPartsException("index", "not whole") },
+            whole(args[1]) { FormPartsException("index", "not whole") },
+        ).key
         "foldText" -> foldText(str(args[0]))
         "searchTerms" -> searchTerms(str(args[0]))
         "matchesSearch" -> matchesSearch(str(args[0]), str(args[1]))
@@ -175,7 +197,7 @@ class VectorTest {
     fun everyVectorFileIsReadAndPasses() {
         val files = files()
         assertEquals(
-            listOf("clinical-format.json", "ips-sections.json", "middle-truncation.json", "search-text.json", "typeahead.json", "wheel-picker.json"),
+            listOf("clinical-format.json", "form-parts.json", "ips-sections.json", "middle-truncation.json", "search-text.json", "typeahead.json", "wheel-picker.json"),
             files.map { it.first },
         )
         val failures = mutableListOf<String>()
