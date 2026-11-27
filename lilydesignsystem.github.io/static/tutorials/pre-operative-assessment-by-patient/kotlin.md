@@ -1260,4 +1260,5 @@ class QuestionnaireTest {
 ## Next steps
 
 - [Swift version](https://lilydesignsystem.com/tutorials/pre-operative-assessment-by-patient/swift/): the same questionnaire on iPhone, with SwiftUI.
+- [.NET MAUI version](https://lilydesignsystem.com/tutorials/pre-operative-assessment-by-patient/maui/): the same questionnaire in C#, for iPhone and Android.
 - [Kotlin tutorial](https://lilydesignsystem.com/tutorials/kotlin/): the rest of Lily's Compose components.

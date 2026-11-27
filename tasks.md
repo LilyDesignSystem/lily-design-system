@@ -5234,7 +5234,9 @@ catalogs lack four parts the mobile catalog marks as Lily's.
       driven by a UI test with the accessibility audit, its rules' seven tests passing; it needs the Swift package tagged 0.2.0,
       which waits for the maintainer. Kotlin done the same day: `…/kotlin/`, a module of the repository's Gradle build, seven rule
       tests on the JVM and an instrumented test of the first section with the Accessibility Test Framework, which a planted
-      unlabelled 8dp control fails. Open: MAUI.)_
+      unlabelled 8dp control fails. MAUI done the same day: `…/maui/`, built for iOS and Android and run in the iPhone 17
+      simulator, seven rule tests on plain .NET, no screen-driving test (said on the page); it added `QuantityInput.UnitChanged`.
+      Open: tag the Swift package 0.2.0, which the maintainer approved; then this is done.)_
 - [ ] **P62-T5 The clinician form**, later: findings, vital signs, six scoring instruments and a sign-off, where the ASA grade does
       belong. Decide with T2's reader feedback.
 - [x] **P62-T6 Book an appointment, on phones.** _(Done 2026-11-27: `/tutorials/book-appointment/` and its `swift/`, `kotlin/` and

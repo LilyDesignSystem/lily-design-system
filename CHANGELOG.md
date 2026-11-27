@@ -22,7 +22,8 @@ highlights.
   iPhone app with SwiftUI and Lily: the web tutorial's rules, with Swift Testing tests, a draft saved on the phone, and a
   screenshot from the iPhone 17 simulator (P62-T4, part). It asks for the Swift package 0.2.0, not yet tagged. And
   `…/kotlin/`, the same app in Jetpack Compose, with the rules tested on the JVM and the first section driven in the emulator
-  under the Accessibility Test Framework.
+  under the Accessibility Test Framework. And `…/maui/`, the same app in C# with .NET MAUI for iOS and Android, its rules tested on
+  plain .NET.
 
 - **Added (docs):** the book-an-appointment tutorials for phones, `/tutorials/book-appointment/` in Swift, Kotlin and .NET MAUI:
   one booking screen with a top bar, a heading, inset text, four labelled choices and a tab bar, each page the whole app with a

@@ -70,7 +70,9 @@ the web. Each code block is the file that was built in the iPhone 17 simulator a
 accessibility audit; `tests/pre-operative-mobile-tutorials.spec.ts` checks the page. It needs the Swift package 0.2.0, the
 first release with those four views. `…/kotlin/` is the same app in Jetpack Compose, a module of the repository's Gradle build
 (no release needed): its rules' tests run on the JVM, and an instrumented test drives the first section in the Pixel 10 emulator
-with the Accessibility Test Framework on. .NET MAUI follows.
+with the Accessibility Test Framework on. `…/maui/` is the same app in C# for iOS and Android, referencing the library from a
+clone as the book-appointment MAUI tutorial does: its rules' tests run on plain .NET; it was built for both platforms and run in
+the iPhone 17 simulator, and has no screen-driving test yet.
 
 ## Acceptance criteria
 

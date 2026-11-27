@@ -1466,6 +1466,10 @@ class QuestionnaireTest {
             same questionnaire on iPhone, with SwiftUI.
         </li>
         <li>
+            <a href="/tutorials/pre-operative-assessment-by-patient/maui/">.NET MAUI version</a>:
+            the same questionnaire in C#, for iPhone and Android.
+        </li>
+        <li>
             <a href="/tutorials/kotlin/">Kotlin tutorial</a>: the rest of Lily's Compose components.
         </li>
     </ul>

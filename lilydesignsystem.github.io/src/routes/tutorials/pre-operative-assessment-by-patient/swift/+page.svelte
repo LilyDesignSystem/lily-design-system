@@ -972,6 +972,10 @@ struct PreOperativeAssessmentApp: App {
             same questionnaire on Android, with Jetpack Compose.
         </li>
         <li>
+            <a href="/tutorials/pre-operative-assessment-by-patient/maui/">.NET MAUI version</a>:
+            the same questionnaire in C#, for iPhone and Android.
+        </li>
+        <li>
             <a href="/tutorials/swift/">Swift tutorial</a>: the rest of Lily's SwiftUI components.
         </li>
     </ul>

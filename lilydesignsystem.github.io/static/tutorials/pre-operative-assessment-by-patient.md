@@ -1140,6 +1140,7 @@ A good next step is to replace `send` with a request to a server, and keep every
 
 - [Swift version](https://lilydesignsystem.com/tutorials/pre-operative-assessment-by-patient/swift/): the same questionnaire and rules on iPhone, with SwiftUI.
 - [Kotlin version](https://lilydesignsystem.com/tutorials/pre-operative-assessment-by-patient/kotlin/): the same on Android, with Jetpack Compose.
+- [.NET MAUI version](https://lilydesignsystem.com/tutorials/pre-operative-assessment-by-patient/maui/): the same in C#, for iPhone and Android.
 - [Electronic patient record tutorial](https://lilydesignsystem.com/tutorials/electronic-patient-record/): record the allergies the patient told you about.
 - [International Patient Summary tutorial](https://lilydesignsystem.com/tutorials/international-patient-summary/): read the summary a patient brings from elsewhere.
 - [Patient administration system tutorial](https://lilydesignsystem.com/tutorials/patient-administration-system/): book the assessment.

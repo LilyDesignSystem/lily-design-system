@@ -14,6 +14,11 @@ const PLATFORMS = [
         title: "Pre-operative assessment in Kotlin",
         file: "pre-operative-assessment/src/main/kotlin/com/example/preoperativeassessment/Rules.kt",
     },
+    {
+        slug: "maui",
+        title: "Pre-operative assessment in .NET MAUI",
+        file: "Rules.cs",
+    },
 ];
 const BASE = "/tutorials/pre-operative-assessment-by-patient";
 
@@ -31,6 +36,8 @@ for (const { slug, title, file } of PLATFORMS) {
         for (const pre of await main.locator("pre").all())
             await expect(pre).toHaveAttribute("tabindex", "0");
         await expect(main.locator(`a[href="${BASE}/"]`).first()).toBeVisible();
+        for (const other of PLATFORMS.filter((p) => p.slug !== slug))
+            await expect(main.locator(`a[href="${BASE}/${other.slug}/"]`)).toHaveCount(1);
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
             true,
         );
