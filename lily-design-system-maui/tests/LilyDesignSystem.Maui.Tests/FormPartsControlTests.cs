@@ -39,7 +39,11 @@ public class FormPartsControlTests
         Assert.Equal("Your weight\nWeight", SemanticProperties.GetDescription(input.Magnitude));
         input.Magnitude.Text = "500";
         Assert.Equal("above-maximum", input.Problem);
+        var unitChanges = 0;
+        input.UnitChanged += (_, _) => unitChanges++;
         input.Unit = "lb";
+        input.Unit = "lb";
+        Assert.Equal(1, unitChanges);
         Assert.Null(input.Problem);
         input.Magnitude.Text = "";
         Assert.Equal("empty", input.Problem);

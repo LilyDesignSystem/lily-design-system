@@ -55,7 +55,21 @@ public class QuantityInput : VerticalStackLayout
     public IReadOnlyList<QuantityUnit> Units { get => units; set { units = value; Update(); } }
 
     /// <summary>The chosen unit's <see cref="QuantityUnit.Value"/>; the first unit's until one is chosen.</summary>
-    public string Unit { get; set { field = value; Update(); } } = "";
+    public string Unit
+    {
+        get;
+        set
+        {
+            if (field == value) return;
+            field = value;
+            Update();
+            UnitChanged?.Invoke(this, EventArgs.Empty);
+        }
+    } = "";
+
+    /// <summary>Raised when <see cref="Unit"/> changes, by the person's choice or the app's, as Swift's binding and Compose's
+    /// <c>onUnitChange</c> tell the app.</summary>
+    public event EventHandler? UnitChanged;
 
     /// <summary>The error, in the app's language; shown and spoken after the number's name, and announced when it is set.</summary>
     public string? Error { get => errorText; set { errorText = value; Update(); if (IsLoaded && !string.IsNullOrEmpty(value)) LilyAnnouncer.Current.Announce(value); } }
