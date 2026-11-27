@@ -33,6 +33,10 @@
     "slug": "tutorials-pre-operative-assessment-by-patient-swift",
     "route": "tutorials/pre-operative-assessment-by-patient/swift"
   },
+  {
+    "slug": "tutorials-pre-operative-assessment-by-patient-kotlin",
+    "route": "tutorials/pre-operative-assessment-by-patient/kotlin"
+  },
   { "slug": "tutorials-book-appointment", "route": "tutorials/book-appointment" },
   { "slug": "tutorials-book-appointment-swift", "route": "tutorials/book-appointment/swift" },
   { "slug": "tutorials-book-appointment-kotlin", "route": "tutorials/book-appointment/kotlin" },

@@ -5232,7 +5232,9 @@ catalogs lack four parts the mobile catalog marks as Lily's.
       page yet. Verify: each builds from the page, as the Swift and Kotlin tutorials do. _(Swift done 2026-11-27:
       `/tutorials/pre-operative-assessment-by-patient/swift/`, built in the iPhone 17 simulator against the repository's package,
       driven by a UI test with the accessibility audit, its rules' seven tests passing; it needs the Swift package tagged 0.2.0,
-      which waits for the maintainer. Open: Kotlin and MAUI.)_
+      which waits for the maintainer. Kotlin done the same day: `…/kotlin/`, a module of the repository's Gradle build, seven rule
+      tests on the JVM and an instrumented test of the first section with the Accessibility Test Framework, which a planted
+      unlabelled 8dp control fails. Open: MAUI.)_
 - [ ] **P62-T5 The clinician form**, later: findings, vital signs, six scoring instruments and a sign-off, where the ASA grade does
       belong. Decide with T2's reader feedback.
 - [x] **P62-T6 Book an appointment, on phones.** _(Done 2026-11-27: `/tutorials/book-appointment/` and its `swift/`, `kotlin/` and

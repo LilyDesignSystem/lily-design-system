@@ -68,7 +68,9 @@ rules as an iPhone app: the five sections and the check screen, Lily's `DateFiel
 `StepList` and `ErrorSummary`, a draft saved on the phone, and the rules with Swift Testing tests. The clinic's view stays on
 the web. Each code block is the file that was built in the iPhone 17 simulator and driven by a UI test with the platform's
 accessibility audit; `tests/pre-operative-mobile-tutorials.spec.ts` checks the page. It needs the Swift package 0.2.0, the
-first release with those four views. Kotlin and .NET MAUI follow.
+first release with those four views. `…/kotlin/` is the same app in Jetpack Compose, a module of the repository's Gradle build
+(no release needed): its rules' tests run on the JVM, and an instrumented test drives the first section in the Pixel 10 emulator
+with the Accessibility Test Framework on. .NET MAUI follows.
 
 ## Acceptance criteria
 

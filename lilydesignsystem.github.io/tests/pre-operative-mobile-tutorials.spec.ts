@@ -9,6 +9,11 @@ const PLATFORMS = [
         title: "Pre-operative assessment in Swift",
         file: "PreOperativeAssessment/Rules.swift",
     },
+    {
+        slug: "kotlin",
+        title: "Pre-operative assessment in Kotlin",
+        file: "pre-operative-assessment/src/main/kotlin/com/example/preoperativeassessment/Rules.kt",
+    },
 ];
 const BASE = "/tutorials/pre-operative-assessment-by-patient";
 

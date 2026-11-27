@@ -836,4 +836,5 @@ struct PreOperativeAssessmentApp: App {
 ## Next steps
 
 - [Web version](https://lilydesignsystem.com/tutorials/pre-operative-assessment-by-patient/): the same questionnaire in SvelteKit, with the clinic's view.
+- [Kotlin version](https://lilydesignsystem.com/tutorials/pre-operative-assessment-by-patient/kotlin/): the same questionnaire on Android, with Jetpack Compose.
 - [Swift tutorial](https://lilydesignsystem.com/tutorials/swift/): the rest of Lily's SwiftUI components.

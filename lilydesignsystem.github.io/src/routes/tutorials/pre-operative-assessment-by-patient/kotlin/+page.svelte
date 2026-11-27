@@ -1,0 +1,1472 @@
+<svelte:head>
+    <title>Pre-operative assessment in Kotlin — Lily Design System</title>
+    <meta
+        name="description"
+        content="Build the patient's pre-operative questionnaire for Android with Jetpack Compose and Lily: a date field, quantities with units, add-another lists, steps, an error summary and a saved draft."
+    />
+</svelte:head>
+
+<section class="page-intro">
+    <h1>Pre-operative assessment in Kotlin</h1>
+    <p class="page-intro-tagline">
+        The questions a patient answers before an operation, on Android, with Jetpack Compose and
+        Lily: the same questionnaire and rules as the web tutorial.
+    </p>
+</section>
+
+<section
+    class="section prose"
+    style="margin: 0 auto;"
+>
+    <h2>What you'll build</h2>
+
+    <p>
+        The <a href="/tutorials/pre-operative-assessment-by-patient/">web tutorial</a>'s
+        questionnaire, as an Android app: five short sections (about you, heart and lungs,
+        medicines, allergies and anaesthetics), then a screen to check the answers before they are
+        sent. A date of birth typed in parts, a weight and a height in the patient's own units, a
+        list of medicines that grows as the patient adds them, the steps they have done, and an
+        error summary that takes them to each missing answer. The answers are saved on the phone as
+        they go. About an hour.
+    </p>
+
+    <figure class="device-screenshot">
+        <img
+            src="/assets/images/tutorials/pre-operative-assessment-by-patient/kotlin.png"
+            width="490"
+            height="1100"
+            alt="The Kotlin app on a phone: the heading Before your operation, a line of introduction, inset text saying the answers are saved on this device, the six steps with About you marked Now and the rest To do, and the first section's questions: date of birth in day, month and year boxes, and weight with kilograms or pounds."
+        />
+        <figcaption>The first screen, in the Pixel 10 emulator.</figcaption>
+    </figure>
+
+    <p>
+        It asks; it does not judge. No answer gives the patient a grade or a score: the anaesthetist
+        assigns the ASA grade at the assessment, from these answers and their own findings.
+    </p>
+
+    <h2>Before you start</h2>
+
+    <p>
+        You need Android Studio, JDK 17 or later, an emulator or a phone with Android 14 or later
+        for the last test, and the <a href="/tutorials/kotlin/">Kotlin tutorial</a>'s first steps.
+        Lily's Kotlin libraries are not on Maven Central yet, so the app is a module of the
+        repository's own Gradle build:
+    </p>
+
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre tabindex="0"><code
+            >{`git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-kotlin`}</code
+        ></pre>
+
+    <p>
+        Add <code>":pre-operative-assessment"</code> to the <code>include(…)</code> line of
+        <code>settings.gradle.kts</code>. Each code block below is one whole file, under the path
+        shown above it.
+    </p>
+
+    <h2>Step 1: Make the module</h2>
+
+    <p>
+        Lily's components are built on <code>compose.foundation</code> only. The app adds Material 3 for
+        its radio buttons, text fields and buttons, the Android convention for each, and dresses them
+        in the Lily theme's colours.
+    </p>
+
+    <p><code>pre-operative-assessment/build.gradle.kts</code></p>
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre
+        tabindex="0"
+        data-file="pre-operative-assessment/build.gradle.kts"><code
+            >{`// The pre-operative assessment app: the patient's questionnaire, drawn with Lily's Compose components and Material 3's
+// radio buttons, text fields and buttons.
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
+plugins {
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.compose)
+}
+
+android {
+    namespace = "com.example.preoperativeassessment"
+    compileSdk { version = release(37) { minorApiLevel = 2 } }
+    defaultConfig {
+        applicationId = "com.example.preoperativeassessment"
+        minSdk = 26
+        targetSdk = 37
+        versionCode = 1
+        versionName = "1.0"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+}
+
+kotlin { compilerOptions { jvmTarget.set(JvmTarget.JVM_17) } }
+
+dependencies {
+    implementation(project(":lily-compose"))
+    implementation(project(":lily-compose-themes"))
+    implementation(platform(libs.compose.bom))
+    implementation(libs.compose.foundation)
+    implementation("androidx.compose.material3:material3")
+    implementation(libs.activity.compose)
+    testImplementation(libs.junit)
+    androidTestImplementation(platform(libs.compose.bom))
+    androidTestImplementation(libs.compose.ui.test.junit4)
+    androidTestImplementation(libs.compose.ui.test.junit4.accessibility)
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    debugImplementation(platform(libs.compose.bom))
+    debugImplementation(libs.compose.ui.test.manifest)
+}`}</code
+        ></pre>
+
+    <p><code>pre-operative-assessment/src/main/AndroidManifest.xml</code></p>
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre
+        tabindex="0"
+        data-file="pre-operative-assessment/src/main/AndroidManifest.xml"><code
+            >{`<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:allowBackup="false"
+        android:theme="@android:style/Theme.Material.Light.NoActionBar">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>`}</code
+        ></pre>
+
+    <h2>Step 2: Write the words</h2>
+
+    <p>
+        Every word the app shows is a string resource, so a translation is another
+        <code>values-</code> folder. The order of a date's parts is a word too: a reader elsewhere may
+        write the year first. The step statuses are words, so a step never says where the patient is by
+        colour or a tick alone.
+    </p>
+
+    <p><code>pre-operative-assessment/src/main/res/values/strings.xml</code></p>
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre
+        tabindex="0"
+        data-file="pre-operative-assessment/src/main/res/values/strings.xml"><code
+            >{`<?xml version="1.0" encoding="utf-8"?>
+<!-- Every word the app shows. Lily's components have none of their own. -->
+<resources>
+    <string name="app_name">Before your operation</string>
+    <!-- The language the app writes in, and the clinic's time zone: whose "today" a date of birth is checked against. -->
+    <string name="locale" translatable="false">en-GB</string>
+    <string name="clinic_time_zone" translatable="false">Europe/London</string>
+    <!-- The parts of a date in the order this app's readers write one: ymd, dmy or mdy. -->
+    <string name="date_order">dmy</string>
+    <string name="title">Before your operation</string>
+    <string name="intro">These questions help the team plan your anaesthetic. The clinic reads your answers before your assessment.</string>
+    <string name="saved">Your answers are saved on this device as you go.</string>
+    <string name="restored">We filled in the answers you saved on this device.</string>
+    <string name="keep">Keep my answers</string>
+    <string name="start_again">Start again</string>
+    <string name="steps">Questions</string>
+    <string-array name="step_names">
+        <item>About you</item>
+        <item>Heart and lungs</item>
+        <item>Medicines</item>
+        <item>Allergies</item>
+        <item>Anaesthetics</item>
+        <item>Check your answers</item>
+    </string-array>
+    <string name="status_finished">Done</string>
+    <string name="status_in_progress">Now</string>
+    <string name="status_waiting">To do</string>
+    <string name="back">Back</string>
+    <string name="next">Continue</string>
+    <string name="send">Send to the clinic</string>
+    <string name="problem">There is a problem</string>
+    <string name="answer_unanswered">Not answered</string>
+    <string name="answer_yes">Yes</string>
+    <string name="answer_no">No</string>
+    <string name="answer_not_sure">Not sure</string>
+    <string name="date_label">Date of birth</string>
+    <string name="day">Day</string>
+    <string name="month">Month</string>
+    <string name="year">Year</string>
+    <string name="date_hint">For example, 3 2 1949</string>
+    <string name="weight_label">Your weight</string>
+    <string name="weight">Weight</string>
+    <string name="weight_unit">Weight unit</string>
+    <string name="height_label">Your height</string>
+    <string name="height">Height</string>
+    <string name="height_unit">Height unit</string>
+    <string name="kilograms">kilograms</string>
+    <string name="pounds">pounds</string>
+    <string name="centimetres">centimetres</string>
+    <string name="inches">inches</string>
+    <string name="operation">What operation are you having?</string>
+    <string name="operation_hint">In your own words, as the hospital told you</string>
+    <string name="could_be_pregnant">Could you be pregnant?</string>
+    <string name="high_blood_pressure">Have you been told you have high blood pressure?</string>
+    <string name="breathless_on_stairs">Do you get chest pain or very short of breath climbing one flight of stairs?</string>
+    <string name="blood_thinner">Do you take medicine to thin your blood?</string>
+    <string name="blood_thinner_name">Which medicine?</string>
+    <string name="blood_thinner_hint">For example, warfarin or apixaban</string>
+    <string name="any_medicines">Do you take any medicines?</string>
+    <string name="any_medicines_hint">Include ones you buy yourself, and inhalers, creams and injections</string>
+    <string name="medicines">Your medicines</string>
+    <string name="medicine">Medicine %1$d</string>
+    <string name="add_medicine">Add a medicine</string>
+    <string name="remove_medicine">Remove medicine %1$d</string>
+    <string name="medicine_added">Medicine %1$d added</string>
+    <string name="medicine_removed">Medicine %1$d removed</string>
+    <string name="medicine_name">Name</string>
+    <string name="medicine_dose">How much, and how often</string>
+    <string name="any_allergies">Are you allergic to anything?</string>
+    <string name="any_allergies_hint">Medicines, foods, plasters, latex or anything else</string>
+    <string name="allergies">Your allergies</string>
+    <string name="allergy">Allergy %1$d</string>
+    <string name="add_allergy">Add an allergy</string>
+    <string name="remove_allergy">Remove allergy %1$d</string>
+    <string name="allergy_added">Allergy %1$d added</string>
+    <string name="allergy_removed">Allergy %1$d removed</string>
+    <string name="substance">What are you allergic to?</string>
+    <string name="reaction">What happens?</string>
+    <string name="severe">Has it ever made it hard to breathe, or made your face or throat swell?</string>
+    <string name="severe_short">Severe reaction</string>
+    <string name="anaesthesia_before">Have you had an anaesthetic before?</string>
+    <string name="anaesthesia_problem">Did you have a problem with it?</string>
+    <string name="anaesthesia_problem_details">What happened?</string>
+    <string name="family_anaesthesia_problem">Has a blood relative had a serious problem with an anaesthetic?</string>
+    <string name="error_birth_date">Enter your date of birth as a real date that has passed</string>
+    <string name="error_weight">Enter your weight</string>
+    <string name="error_height">Enter your height</string>
+    <string name="error_operation">Enter the operation you are having</string>
+    <string name="error_could_be_pregnant">Answer whether you could be pregnant</string>
+    <string name="error_high_blood_pressure">Answer the question about blood pressure</string>
+    <string name="error_breathless_on_stairs">Answer the question about chest pain or breathlessness</string>
+    <string name="error_blood_thinner">Answer the question about blood-thinning medicine</string>
+    <string name="error_any_medicines">Answer whether you take any medicines</string>
+    <string name="error_medicine_list">Add the medicines you take, or answer no</string>
+    <string name="error_any_allergies">Answer whether you are allergic to anything</string>
+    <string name="error_allergy_list">Add what you are allergic to, or answer no</string>
+    <string name="error_anaesthesia_before">Answer whether you have had an anaesthetic before</string>
+    <string name="error_anaesthesia_problem">Answer whether you had a problem with it</string>
+    <string name="error_family_anaesthesia_problem">Answer the question about your family</string>
+    <string name="change">Change</string>
+    <string name="change_section">Change %1$s</string>
+    <string name="sent_title">Your answers have been sent</string>
+    <string name="sent_body">Thank you. Bring your medicines, or a list of them, to your assessment.</string>
+</resources>`}</code
+        ></pre>
+
+    <h2>Step 3: Hold the answers</h2>
+
+    <p>
+        Every question starts unanswered, which is not the same as "no". A follow-up's answer is
+        kept while the patient changes their mind, and left out when it is sent.
+    </p>
+
+    <p>
+        <code
+            >pre-operative-assessment/src/main/kotlin/com/example/preoperativeassessment/Answers.kt</code
+        >
+    </p>
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre
+        tabindex="0"
+        data-file="pre-operative-assessment/src/main/kotlin/com/example/preoperativeassessment/Answers.kt"><code
+            >{`// What the patient says. Every question starts unanswered, which is not the same as "no".
+package com.example.preoperativeassessment
+
+enum class Answer(val key: String) { Unanswered(""), Yes("yes"), No("no"), NotSure("not-sure") }
+
+data class Quantity(val magnitude: String = "", val unit: String)
+
+data class Medicine(val name: String = "", val dose: String = "")
+
+data class Allergy(
+    val substance: String = "",
+    val reaction: String = "",
+    /** Did it ever make it hard to breathe, or swell the face or throat? */
+    val severe: Answer = Answer.Unanswered,
+)
+
+data class Answers(
+    /** YYYY-MM-DD once all three parts are filled, else "". */
+    val birthDate: String = "",
+    val weight: Quantity = Quantity(unit = "kg"),
+    val height: Quantity = Quantity(unit = "cm"),
+    val operation: String = "",
+    /** Asked of everyone: "no" covers anyone who cannot be. */
+    val couldBePregnant: Answer = Answer.Unanswered,
+    val highBloodPressure: Answer = Answer.Unanswered,
+    val breathlessOnStairs: Answer = Answer.Unanswered,
+    val bloodThinner: Answer = Answer.Unanswered,
+    /** Asked only when bloodThinner is yes. */
+    val bloodThinnerName: String = "",
+    val anyMedicines: Answer = Answer.Unanswered,
+    /** Asked only when anyMedicines is yes. */
+    val medicines: List<Medicine> = emptyList(),
+    val anyAllergies: Answer = Answer.Unanswered,
+    /** Asked only when anyAllergies is yes. */
+    val allergies: List<Allergy> = emptyList(),
+    val anaesthesiaBefore: Answer = Answer.Unanswered,
+    /** Asked only when anaesthesiaBefore is yes. */
+    val anaesthesiaProblem: Answer = Answer.Unanswered,
+    /** Asked only when anaesthesiaProblem is yes. */
+    val anaesthesiaProblemDetails: String = "",
+    val familyAnaesthesiaProblem: Answer = Answer.Unanswered,
+)`}</code
+        ></pre>
+
+    <h2>Step 4: Write the rules, with tests</h2>
+
+    <p>
+        The rules are pure functions, the same as the web tutorial's: what is sent, what is missing,
+        and whether a date of birth is a real day that has passed. "Today" is the clinic's day, in
+        its time zone, not the phone's. <code>isCalendarDate</code> comes from Lily's
+        <code>lily-core</code>, so 31 February is never a birthday.
+    </p>
+
+    <p>
+        <code
+            >pre-operative-assessment/src/main/kotlin/com/example/preoperativeassessment/Rules.kt</code
+        >
+    </p>
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre
+        tabindex="0"
+        data-file="pre-operative-assessment/src/main/kotlin/com/example/preoperativeassessment/Rules.kt"><code
+            >{`// The rules, as pure functions, the same as the web tutorial's. None of them grades the patient: the anaesthetist assigns the
+// ASA grade, from these answers and their own findings. These say what to send and what is missing.
+package com.example.preoperativeassessment
+
+import io.github.lilydesignsystem.core.isCalendarDate
+import java.time.Instant
+import java.time.ZoneId
+
+enum class Section { About, Heart, Medicines, Allergies, Anaesthesia }
+
+object Rules {
+    private const val POUND = 0.45359237
+    private const val INCH = 0.0254
+
+    private fun positive(magnitude: String): Double? =
+        magnitude.toDoubleOrNull()?.takeIf { it.isFinite() && it > 0 }
+
+    /** Weight in kilograms, or null when it is not a number above zero. */
+    fun kilograms(weight: Quantity): Double? =
+        positive(weight.magnitude)?.let { if (weight.unit == "lb") it * POUND else it }
+
+    /** Height in metres, or null when it is not a number above zero. */
+    fun metres(height: Quantity): Double? =
+        positive(height.magnitude)?.let { if (height.unit == "in") it * INCH else it / 100 }
+
+    /** What is sent: an answer the patient can no longer see is left out, and so is an entry with no name. */
+    fun sent(a: Answers): Answers {
+        val problem = if (a.anaesthesiaBefore == Answer.Yes) a.anaesthesiaProblem else Answer.Unanswered
+        return a.copy(
+            bloodThinnerName = if (a.bloodThinner == Answer.Yes) a.bloodThinnerName else "",
+            medicines = if (a.anyMedicines == Answer.Yes) a.medicines.filter { it.name.isNotBlank() } else emptyList(),
+            allergies = if (a.anyAllergies == Answer.Yes) a.allergies.filter { it.substance.isNotBlank() } else emptyList(),
+            anaesthesiaProblem = problem,
+            anaesthesiaProblemDetails = if (problem == Answer.Yes) a.anaesthesiaProblemDetails else "",
+        )
+    }
+
+    /** Today, YYYY-MM-DD, in the clinic's time zone: a date of birth is checked against the clinic's day, not the phone's. */
+    fun today(timeZone: String, now: Instant = Instant.now()): String =
+        now.atZone(ZoneId.of(timeZone)).toLocalDate().toString()
+
+    /** Whether a date of birth is a real day on or before today. The date field checks only that its parts are numbers. */
+    fun isBirthDate(iso: String, onOrBefore: String): Boolean =
+        iso.length == 10 && isCalendarDate(iso) && iso <= onOrBefore
+
+    /** The questions in a section that still need an answer, by their id. \`on\` is today, from [today]. */
+    fun missing(section: Section, a: Answers, on: String): List<String> {
+        fun need(id: String, answered: Boolean) = if (answered) emptyList() else listOf(id)
+        return when (section) {
+            Section.About ->
+                need("birth-date", isBirthDate(a.birthDate, on)) +
+                    need("weight", kilograms(a.weight) != null) +
+                    need("height", metres(a.height) != null) +
+                    need("operation", a.operation.isNotBlank()) +
+                    need("could-be-pregnant", a.couldBePregnant != Answer.Unanswered)
+            Section.Heart ->
+                need("high-blood-pressure", a.highBloodPressure != Answer.Unanswered) +
+                    need("breathless-on-stairs", a.breathlessOnStairs != Answer.Unanswered) +
+                    need("blood-thinner", a.bloodThinner != Answer.Unanswered)
+            Section.Medicines ->
+                need("any-medicines", a.anyMedicines != Answer.Unanswered) +
+                    need("medicine-list", a.anyMedicines != Answer.Yes || sent(a).medicines.isNotEmpty())
+            Section.Allergies ->
+                need("any-allergies", a.anyAllergies != Answer.Unanswered) +
+                    need("allergy-list", a.anyAllergies != Answer.Yes || sent(a).allergies.isNotEmpty())
+            Section.Anaesthesia ->
+                need("anaesthesia-before", a.anaesthesiaBefore != Answer.Unanswered) +
+                    need("anaesthesia-problem", a.anaesthesiaBefore != Answer.Yes || a.anaesthesiaProblem != Answer.Unanswered) +
+                    need("family-anaesthesia-problem", a.familyAnaesthesiaProblem != Answer.Unanswered)
+        }
+    }
+}`}</code
+        ></pre>
+
+    <p>
+        <code
+            >pre-operative-assessment/src/test/kotlin/com/example/preoperativeassessment/RulesTest.kt</code
+        >
+    </p>
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre
+        tabindex="0"
+        data-file="pre-operative-assessment/src/test/kotlin/com/example/preoperativeassessment/RulesTest.kt"><code
+            >{`// The rules, checked on the JVM without an emulator: each test names one rule.
+package com.example.preoperativeassessment
+
+import java.time.Instant
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
+import org.junit.Test
+
+class RulesTest {
+    @Test fun weightIsInKilogramsAndPoundsAreConverted() {
+        assertEquals(70.0, Rules.kilograms(Quantity("70", "kg"))!!, 0.0)
+        assertEquals(69.853, Rules.kilograms(Quantity("154", "lb"))!!, 0.001)
+        assertNull(Rules.kilograms(Quantity("0", "kg")))
+        assertNull(Rules.kilograms(Quantity("heavy", "kg")))
+    }
+
+    @Test fun heightIsInMetres() {
+        assertEquals(1.7, Rules.metres(Quantity("170", "cm"))!!, 1e-9)
+        assertEquals(1.7018, Rules.metres(Quantity("67", "in"))!!, 1e-4)
+    }
+
+    @Test fun aDateOfBirthIsARealDayThatHasPassed() {
+        assertTrue(Rules.isBirthDate("1949-02-03", onOrBefore = "2026-11-27"))
+        assertFalse(Rules.isBirthDate("1949-02-31", onOrBefore = "2026-11-27"))
+        assertFalse(Rules.isBirthDate("2030-01-01", onOrBefore = "2026-11-27"))
+        assertFalse(Rules.isBirthDate("", onOrBefore = "2026-11-27"))
+    }
+
+    @Test fun todayIsTheClinicsDay() {
+        val lateInLondon = Instant.parse("2026-12-31T23:50:00Z")
+        assertEquals("2026-12-31", Rules.today("Europe/London", lateInLondon))
+        assertEquals("2027-01-01", Rules.today("Asia/Tokyo", lateInLondon))
+    }
+
+    @Test fun aHiddenAnswerIsNotSent() {
+        val s = Rules.sent(
+            Answers(
+                bloodThinner = Answer.No,
+                bloodThinnerName = "warfarin",
+                anyMedicines = Answer.Yes,
+                medicines = listOf(Medicine("Ramipril", "5 mg daily"), Medicine()),
+                anaesthesiaBefore = Answer.No,
+                anaesthesiaProblem = Answer.Yes,
+                anaesthesiaProblemDetails = "Sick",
+            ),
+        )
+        assertEquals("", s.bloodThinnerName)
+        assertEquals(listOf(Medicine("Ramipril", "5 mg daily")), s.medicines)
+        assertEquals(Answer.Unanswered, s.anaesthesiaProblem)
+        assertEquals("", s.anaesthesiaProblemDetails)
+    }
+
+    @Test fun notSureIsAnAnswerButAnEmptyListAfterYesIsNot() {
+        assertEquals(listOf("any-medicines"), Rules.missing(Section.Medicines, Answers(), "2026-11-27"))
+        assertEquals(listOf("medicine-list"), Rules.missing(Section.Medicines, Answers(anyMedicines = Answer.Yes), "2026-11-27"))
+        assertEquals(emptyList<String>(), Rules.missing(Section.Medicines, Answers(anyMedicines = Answer.NotSure), "2026-11-27"))
+    }
+
+    @Test fun theFirstSectionNamesEachMissingAnswerInOrder() {
+        assertEquals(
+            listOf("birth-date", "weight", "height", "operation", "could-be-pregnant"),
+            Rules.missing(Section.About, Answers(), "2026-11-27"),
+        )
+    }
+}`}</code
+        ></pre>
+
+    <div class="callout">
+        <p style="margin: 0;">
+            <strong>Check your work:</strong> run
+            <code>./gradlew :pre-operative-assessment:testDebugUnitTest</code>. All seven tests
+            pass, on the JVM, with no emulator.
+        </p>
+    </div>
+
+    <h2>Step 5: Save a draft</h2>
+
+    <p>
+        The answers are saved on the phone as the patient goes, so closing the app loses nothing,
+        and cleared once they are sent. Android's own <code>org.json</code> writes them, so the app needs
+        no other library.
+    </p>
+
+    <p>
+        <code
+            >pre-operative-assessment/src/main/kotlin/com/example/preoperativeassessment/Draft.kt</code
+        >
+    </p>
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre
+        tabindex="0"
+        data-file="pre-operative-assessment/src/main/kotlin/com/example/preoperativeassessment/Draft.kt"><code
+            >{`// The answers so far, kept on this device as the patient goes, so closing the app loses nothing. Cleared when they are sent.
+package com.example.preoperativeassessment
+
+import android.content.Context
+import org.json.JSONArray
+import org.json.JSONObject
+
+class Draft(context: Context) {
+    private val prefs = context.getSharedPreferences("pre-operative-assessment", Context.MODE_PRIVATE)
+
+    fun load(): Answers? = prefs.getString(KEY, null)?.let { runCatching { read(JSONObject(it)) }.getOrNull() }
+
+    fun save(answers: Answers) {
+        if (answers == Answers()) clear() else prefs.edit().putString(KEY, write(answers).toString()).apply()
+    }
+
+    fun clear() {
+        prefs.edit().remove(KEY).apply()
+    }
+
+    private companion object {
+        const val KEY = "answers"
+
+        fun answer(o: JSONObject, name: String) = Answer.entries.firstOrNull { it.key == o.optString(name) } ?: Answer.Unanswered
+
+        fun quantity(o: JSONObject?, unit: String) = Quantity(o?.optString("magnitude").orEmpty(), o?.optString("unit") ?: unit)
+
+        fun <T> list(a: JSONArray?, item: (JSONObject) -> T) = (0 until (a?.length() ?: 0)).map { item(a!!.getJSONObject(it)) }
+
+        fun read(o: JSONObject) = Answers(
+            birthDate = o.optString("birthDate"),
+            weight = quantity(o.optJSONObject("weight"), "kg"),
+            height = quantity(o.optJSONObject("height"), "cm"),
+            operation = o.optString("operation"),
+            couldBePregnant = answer(o, "couldBePregnant"),
+            highBloodPressure = answer(o, "highBloodPressure"),
+            breathlessOnStairs = answer(o, "breathlessOnStairs"),
+            bloodThinner = answer(o, "bloodThinner"),
+            bloodThinnerName = o.optString("bloodThinnerName"),
+            anyMedicines = answer(o, "anyMedicines"),
+            medicines = list(o.optJSONArray("medicines")) { Medicine(it.optString("name"), it.optString("dose")) },
+            anyAllergies = answer(o, "anyAllergies"),
+            allergies = list(o.optJSONArray("allergies")) {
+                Allergy(it.optString("substance"), it.optString("reaction"), answer(it, "severe"))
+            },
+            anaesthesiaBefore = answer(o, "anaesthesiaBefore"),
+            anaesthesiaProblem = answer(o, "anaesthesiaProblem"),
+            anaesthesiaProblemDetails = o.optString("anaesthesiaProblemDetails"),
+            familyAnaesthesiaProblem = answer(o, "familyAnaesthesiaProblem"),
+        )
+
+        fun write(a: Answers): JSONObject = JSONObject()
+            .put("birthDate", a.birthDate)
+            .put("weight", JSONObject().put("magnitude", a.weight.magnitude).put("unit", a.weight.unit))
+            .put("height", JSONObject().put("magnitude", a.height.magnitude).put("unit", a.height.unit))
+            .put("operation", a.operation)
+            .put("couldBePregnant", a.couldBePregnant.key)
+            .put("highBloodPressure", a.highBloodPressure.key)
+            .put("breathlessOnStairs", a.breathlessOnStairs.key)
+            .put("bloodThinner", a.bloodThinner.key)
+            .put("bloodThinnerName", a.bloodThinnerName)
+            .put("anyMedicines", a.anyMedicines.key)
+            .put("medicines", JSONArray(a.medicines.map { JSONObject().put("name", it.name).put("dose", it.dose) }))
+            .put("anyAllergies", a.anyAllergies.key)
+            .put(
+                "allergies",
+                JSONArray(
+                    a.allergies.map {
+                        JSONObject().put("substance", it.substance).put("reaction", it.reaction).put("severe", it.severe.key)
+                    },
+                ),
+            )
+            .put("anaesthesiaBefore", a.anaesthesiaBefore.key)
+            .put("anaesthesiaProblem", a.anaesthesiaProblem.key)
+            .put("anaesthesiaProblemDetails", a.anaesthesiaProblemDetails)
+            .put("familyAnaesthesiaProblem", a.familyAnaesthesiaProblem.key)
+    }
+}`}</code
+        ></pre>
+
+    <h2>Step 6: Ask a question</h2>
+
+    <p>
+        Yes, no or not sure: "Not sure" is an answer the clinic can act on, and a guess is not. The
+        options are Material 3 radio buttons in a selectable group, each row the whole touch target.
+        A follow-up sits straight after "Yes", so TalkBack reads it next. Lily's <code>Field</code> gives
+        the question, the hint and the error, and speaks them as the control's name.
+    </p>
+
+    <p>
+        <code
+            >pre-operative-assessment/src/main/kotlin/com/example/preoperativeassessment/Question.kt</code
+        >
+    </p>
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre
+        tabindex="0"
+        data-file="pre-operative-assessment/src/main/kotlin/com/example/preoperativeassessment/Question.kt"><code
+            >{`// A question answered yes, no or not sure, as Material 3 radio buttons in a selectable group. A follow-up, when given, is asked
+// only after "Yes": it sits straight after that answer, so TalkBack reads it next, and the rules leave its answer out when
+// "Yes" is taken back. Lily's Field gives the question, the hint and the error.
+package com.example.preoperativeassessment
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import io.github.lilydesignsystem.compose.Field
+
+@Composable
+fun answerText(answer: Answer): String = stringResource(
+    when (answer) {
+        Answer.Unanswered -> R.string.answer_unanswered
+        Answer.Yes -> R.string.answer_yes
+        Answer.No -> R.string.answer_no
+        Answer.NotSure -> R.string.answer_not_sure
+    },
+)
+
+@Composable
+fun Question(
+    question: String,
+    value: Answer,
+    onValueChange: (Answer) -> Unit,
+    modifier: Modifier = Modifier,
+    hint: String? = null,
+    error: String? = null,
+    followUp: (@Composable () -> Unit)? = null,
+) {
+    Field(label = question, modifier = modifier, description = hint, error = error) { control ->
+        Column(control.selectableGroup()) {
+            listOf(Answer.Yes, Answer.No, Answer.NotSure).forEach { option ->
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(min = 48.dp)
+                        .selectable(selected = value == option, role = Role.RadioButton) { onValueChange(option) },
+                ) {
+                    RadioButton(selected = value == option, onClick = null)
+                    Text(answerText(option), modifier = Modifier.padding(start = 12.dp))
+                }
+                if (option == Answer.Yes && value == Answer.Yes && followUp != null) {
+                    Column(Modifier.padding(start = 16.dp, bottom = 8.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                        followUp()
+                    }
+                }
+            }
+        }
+    }
+}
+
+/** A line of text the patient writes, in Lily's Field. */
+@Composable
+fun TextQuestion(label: String, text: String, onTextChange: (String) -> Unit, hint: String? = null, error: String? = null) {
+    Field(label = label, description = hint, error = error) { control ->
+        OutlinedTextField(value = text, onValueChange = onTextChange, modifier = control.fillMaxWidth())
+    }
+}
+
+/** An error under a list, for "add one, or answer no". */
+@Composable
+fun ListError(message: String?) {
+    if (message != null) Text(message, fontWeight = FontWeight.Bold)
+}`}</code
+        ></pre>
+
+    <h2>Step 7: The five sections</h2>
+
+    <p>
+        Each section is one composable. Each question carries the id the rules use, through
+        <code>target</code>, so the error summary can scroll to it. <code>DateField</code> joins its
+        parts into an ISO date only when every part is a number; <code>QuantityInput</code> keeps the
+        number and its unit together.
+    </p>
+
+    <p>
+        <code
+            >pre-operative-assessment/src/main/kotlin/com/example/preoperativeassessment/AboutYou.kt</code
+        >
+    </p>
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre
+        tabindex="0"
+        data-file="pre-operative-assessment/src/main/kotlin/com/example/preoperativeassessment/AboutYou.kt"><code
+            >{`package com.example.preoperativeassessment
+
+import androidx.compose.foundation.layout.Box
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import io.github.lilydesignsystem.compose.DateField
+import io.github.lilydesignsystem.compose.QuantityInput
+import io.github.lilydesignsystem.compose.QuantityUnit
+import io.github.lilydesignsystem.core.DateFieldOrder
+import io.github.lilydesignsystem.core.DateFieldPart
+
+@Composable
+fun AboutYou(answers: Answers, onChange: (Answers) -> Unit, errors: Map<String, String>, target: (String) -> Modifier) {
+    val order = stringResource(R.string.date_order)
+    DateField(
+        label = stringResource(R.string.date_label),
+        partLabels = mapOf(
+            DateFieldPart.Day to stringResource(R.string.day),
+            DateFieldPart.Month to stringResource(R.string.month),
+            DateFieldPart.Year to stringResource(R.string.year),
+        ),
+        order = DateFieldOrder.entries.first { it.key == order },
+        value = answers.birthDate,
+        onValueChange = { onChange(answers.copy(birthDate = it)) },
+        description = stringResource(R.string.date_hint),
+        error = errors["birth-date"],
+        modifier = target("birth-date"),
+    )
+    QuantityInput(
+        label = stringResource(R.string.weight_label),
+        magnitudeLabel = stringResource(R.string.weight),
+        unitLabel = stringResource(R.string.weight_unit),
+        units = listOf(QuantityUnit("kg", stringResource(R.string.kilograms)), QuantityUnit("lb", stringResource(R.string.pounds))),
+        magnitude = answers.weight.magnitude,
+        onMagnitudeChange = { onChange(answers.copy(weight = answers.weight.copy(magnitude = it))) },
+        unit = answers.weight.unit,
+        onUnitChange = { onChange(answers.copy(weight = answers.weight.copy(unit = it))) },
+        error = errors["weight"],
+        modifier = target("weight"),
+    )
+    QuantityInput(
+        label = stringResource(R.string.height_label),
+        magnitudeLabel = stringResource(R.string.height),
+        unitLabel = stringResource(R.string.height_unit),
+        units = listOf(QuantityUnit("cm", stringResource(R.string.centimetres)), QuantityUnit("in", stringResource(R.string.inches))),
+        magnitude = answers.height.magnitude,
+        onMagnitudeChange = { onChange(answers.copy(height = answers.height.copy(magnitude = it))) },
+        unit = answers.height.unit,
+        onUnitChange = { onChange(answers.copy(height = answers.height.copy(unit = it))) },
+        error = errors["height"],
+        modifier = target("height"),
+    )
+    Box(target("operation")) {
+        TextQuestion(
+            label = stringResource(R.string.operation),
+            text = answers.operation,
+            onTextChange = { onChange(answers.copy(operation = it)) },
+            hint = stringResource(R.string.operation_hint),
+            error = errors["operation"],
+        )
+    }
+    Question(
+        question = stringResource(R.string.could_be_pregnant),
+        value = answers.couldBePregnant,
+        onValueChange = { onChange(answers.copy(couldBePregnant = it)) },
+        error = errors["could-be-pregnant"],
+        modifier = target("could-be-pregnant"),
+    )
+}`}</code
+        ></pre>
+
+    <p>
+        <code
+            >pre-operative-assessment/src/main/kotlin/com/example/preoperativeassessment/HeartAndLungs.kt</code
+        >
+    </p>
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre
+        tabindex="0"
+        data-file="pre-operative-assessment/src/main/kotlin/com/example/preoperativeassessment/HeartAndLungs.kt"><code
+            >{`package com.example.preoperativeassessment
+
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+
+@Composable
+fun HeartAndLungs(answers: Answers, onChange: (Answers) -> Unit, errors: Map<String, String>, target: (String) -> Modifier) {
+    Question(
+        question = stringResource(R.string.high_blood_pressure),
+        value = answers.highBloodPressure,
+        onValueChange = { onChange(answers.copy(highBloodPressure = it)) },
+        error = errors["high-blood-pressure"],
+        modifier = target("high-blood-pressure"),
+    )
+    Question(
+        question = stringResource(R.string.breathless_on_stairs),
+        value = answers.breathlessOnStairs,
+        onValueChange = { onChange(answers.copy(breathlessOnStairs = it)) },
+        error = errors["breathless-on-stairs"],
+        modifier = target("breathless-on-stairs"),
+    )
+    Question(
+        question = stringResource(R.string.blood_thinner),
+        value = answers.bloodThinner,
+        onValueChange = { onChange(answers.copy(bloodThinner = it)) },
+        error = errors["blood-thinner"],
+        modifier = target("blood-thinner"),
+    ) {
+        TextQuestion(
+            label = stringResource(R.string.blood_thinner_name),
+            text = answers.bloodThinnerName,
+            onTextChange = { onChange(answers.copy(bloodThinnerName = it)) },
+            hint = stringResource(R.string.blood_thinner_hint),
+        )
+    }
+}`}</code
+        ></pre>
+
+    <p>
+        <code>RepeatableFieldset</code> is the "add another" pattern: each medicine is a named group with
+        its own remove button, and TalkBack hears each add and remove in the app's words.
+    </p>
+
+    <p>
+        <code
+            >pre-operative-assessment/src/main/kotlin/com/example/preoperativeassessment/Medicines.kt</code
+        >
+    </p>
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre
+        tabindex="0"
+        data-file="pre-operative-assessment/src/main/kotlin/com/example/preoperativeassessment/Medicines.kt"><code
+            >{`package com.example.preoperativeassessment
+
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import io.github.lilydesignsystem.compose.RepeatableFieldset
+
+@Composable
+fun Medicines(answers: Answers, onChange: (Answers) -> Unit, errors: Map<String, String>, target: (String) -> Modifier) {
+    val context = androidx.compose.ui.platform.LocalContext.current
+    Question(
+        question = stringResource(R.string.any_medicines),
+        hint = stringResource(R.string.any_medicines_hint),
+        value = answers.anyMedicines,
+        onValueChange = { onChange(answers.copy(anyMedicines = it)) },
+        error = errors["any-medicines"],
+        modifier = target("any-medicines"),
+    ) {
+        ListError(errors["medicine-list"])
+        RepeatableFieldset(
+            legend = stringResource(R.string.medicines),
+            items = answers.medicines,
+            onItemsChange = { onChange(answers.copy(medicines = it)) },
+            newItem = { Medicine() },
+            itemLegend = { context.getString(R.string.medicine, it) },
+            addLabel = stringResource(R.string.add_medicine),
+            removeLabel = { context.getString(R.string.remove_medicine, it) },
+            max = 30,
+            addedLabel = { context.getString(R.string.medicine_added, it) },
+            removedLabel = { context.getString(R.string.medicine_removed, it) },
+            modifier = target("medicine-list"),
+        ) { medicine, index ->
+            fun update(changed: Medicine) =
+                onChange(answers.copy(medicines = answers.medicines.toMutableList().also { it[index] = changed }))
+            TextQuestion(stringResource(R.string.medicine_name), medicine.name, { update(medicine.copy(name = it)) })
+            TextQuestion(stringResource(R.string.medicine_dose), medicine.dose, { update(medicine.copy(dose = it)) })
+        }
+    }
+}`}</code
+        ></pre>
+
+    <p>
+        <code
+            >pre-operative-assessment/src/main/kotlin/com/example/preoperativeassessment/Allergies.kt</code
+        >
+    </p>
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre
+        tabindex="0"
+        data-file="pre-operative-assessment/src/main/kotlin/com/example/preoperativeassessment/Allergies.kt"><code
+            >{`package com.example.preoperativeassessment
+
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import io.github.lilydesignsystem.compose.RepeatableFieldset
+
+@Composable
+fun Allergies(answers: Answers, onChange: (Answers) -> Unit, errors: Map<String, String>, target: (String) -> Modifier) {
+    val context = androidx.compose.ui.platform.LocalContext.current
+    Question(
+        question = stringResource(R.string.any_allergies),
+        hint = stringResource(R.string.any_allergies_hint),
+        value = answers.anyAllergies,
+        onValueChange = { onChange(answers.copy(anyAllergies = it)) },
+        error = errors["any-allergies"],
+        modifier = target("any-allergies"),
+    ) {
+        ListError(errors["allergy-list"])
+        RepeatableFieldset(
+            legend = stringResource(R.string.allergies),
+            items = answers.allergies,
+            onItemsChange = { onChange(answers.copy(allergies = it)) },
+            newItem = { Allergy() },
+            itemLegend = { context.getString(R.string.allergy, it) },
+            addLabel = stringResource(R.string.add_allergy),
+            removeLabel = { context.getString(R.string.remove_allergy, it) },
+            max = 30,
+            addedLabel = { context.getString(R.string.allergy_added, it) },
+            removedLabel = { context.getString(R.string.allergy_removed, it) },
+            modifier = target("allergy-list"),
+        ) { allergy, index ->
+            fun update(changed: Allergy) =
+                onChange(answers.copy(allergies = answers.allergies.toMutableList().also { it[index] = changed }))
+            TextQuestion(stringResource(R.string.substance), allergy.substance, { update(allergy.copy(substance = it)) })
+            TextQuestion(stringResource(R.string.reaction), allergy.reaction, { update(allergy.copy(reaction = it)) })
+            Question(stringResource(R.string.severe), allergy.severe, { update(allergy.copy(severe = it)) })
+        }
+    }
+}`}</code
+        ></pre>
+
+    <p>
+        <code
+            >pre-operative-assessment/src/main/kotlin/com/example/preoperativeassessment/Anaesthesia.kt</code
+        >
+    </p>
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre
+        tabindex="0"
+        data-file="pre-operative-assessment/src/main/kotlin/com/example/preoperativeassessment/Anaesthesia.kt"><code
+            >{`package com.example.preoperativeassessment
+
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+
+@Composable
+fun Anaesthesia(answers: Answers, onChange: (Answers) -> Unit, errors: Map<String, String>, target: (String) -> Modifier) {
+    Question(
+        question = stringResource(R.string.anaesthesia_before),
+        value = answers.anaesthesiaBefore,
+        onValueChange = { onChange(answers.copy(anaesthesiaBefore = it)) },
+        error = errors["anaesthesia-before"],
+        modifier = target("anaesthesia-before"),
+    ) {
+        Question(
+            question = stringResource(R.string.anaesthesia_problem),
+            value = answers.anaesthesiaProblem,
+            onValueChange = { onChange(answers.copy(anaesthesiaProblem = it)) },
+            error = errors["anaesthesia-problem"],
+            modifier = target("anaesthesia-problem"),
+        ) {
+            TextQuestion(
+                label = stringResource(R.string.anaesthesia_problem_details),
+                text = answers.anaesthesiaProblemDetails,
+                onTextChange = { onChange(answers.copy(anaesthesiaProblemDetails = it)) },
+            )
+        }
+    }
+    Question(
+        question = stringResource(R.string.family_anaesthesia_problem),
+        value = answers.familyAnaesthesiaProblem,
+        onValueChange = { onChange(answers.copy(familyAnaesthesiaProblem = it)) },
+        error = errors["family-anaesthesia-problem"],
+        modifier = target("family-anaesthesia-problem"),
+    )
+}`}</code
+        ></pre>
+
+    <h2>Step 8: Check the answers</h2>
+
+    <p>
+        The answers as they will be sent, through the same <code>sent</code> rule, so a hidden answer
+        is not shown either. Each section has a change button whose spoken name says which section.
+    </p>
+
+    <p>
+        <code
+            >pre-operative-assessment/src/main/kotlin/com/example/preoperativeassessment/CheckAnswers.kt</code
+        >
+    </p>
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre
+        tabindex="0"
+        data-file="pre-operative-assessment/src/main/kotlin/com/example/preoperativeassessment/CheckAnswers.kt"><code
+            >{`// The answers as they will be sent, so a hidden answer is not shown either, with a change button per section.
+package com.example.preoperativeassessment
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.unit.dp
+import io.github.lilydesignsystem.compose.SummaryList
+import io.github.lilydesignsystem.compose.SummaryListItem
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
+import java.util.Locale
+
+@Composable
+fun CheckAnswers(answers: Answers, change: (Int) -> Unit) {
+    val s = Rules.sent(answers)
+    val names = stringArrayResource(R.array.step_names)
+    val unanswered = answerText(Answer.Unanswered)
+    val locale = Locale.forLanguageTag(stringResource(R.string.locale))
+    // A date of birth is a calendar date, not a moment: LocalDate has no time zone to move it a day.
+    val date = runCatching {
+        LocalDate.parse(s.birthDate).format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG).withLocale(locale))
+    }.getOrDefault(unanswered)
+    val units = mapOf(
+        "kg" to stringResource(R.string.kilograms),
+        "lb" to stringResource(R.string.pounds),
+        "cm" to stringResource(R.string.centimetres),
+        "in" to stringResource(R.string.inches),
+    )
+    fun quantity(q: Quantity) = if (q.magnitude.isEmpty()) unanswered else "\${q.magnitude} \${units[q.unit] ?: q.unit}"
+    fun joined(vararg parts: String, separator: String = ", ") = parts.filter { it.isNotEmpty() }.joinToString(separator)
+
+    val sections = listOf(
+        listOf(
+            stringResource(R.string.date_label) to date,
+            stringResource(R.string.weight_label) to quantity(s.weight),
+            stringResource(R.string.height_label) to quantity(s.height),
+            stringResource(R.string.operation) to s.operation.ifEmpty { unanswered },
+            stringResource(R.string.could_be_pregnant) to answerText(s.couldBePregnant),
+        ),
+        listOf(
+            stringResource(R.string.high_blood_pressure) to answerText(s.highBloodPressure),
+            stringResource(R.string.breathless_on_stairs) to answerText(s.breathlessOnStairs),
+            stringResource(R.string.blood_thinner) to joined(answerText(s.bloodThinner), s.bloodThinnerName, separator = ": "),
+        ),
+        listOf(stringResource(R.string.any_medicines) to answerText(s.anyMedicines)) +
+            s.medicines.mapIndexed { i, m -> stringResource(R.string.medicine, i + 1) to joined(m.name, m.dose) },
+        listOf(stringResource(R.string.any_allergies) to answerText(s.anyAllergies)) +
+            s.allergies.mapIndexed { i, x ->
+                val severe = if (x.severe == Answer.Yes) stringResource(R.string.severe_short) else ""
+                stringResource(R.string.allergy, i + 1) to joined(x.substance, x.reaction, severe)
+            },
+        listOf(stringResource(R.string.anaesthesia_before) to answerText(s.anaesthesiaBefore)) +
+            (if (s.anaesthesiaBefore == Answer.Yes) {
+                listOf(
+                    stringResource(R.string.anaesthesia_problem) to
+                        joined(answerText(s.anaesthesiaProblem), s.anaesthesiaProblemDetails, separator = ": "),
+                )
+            } else {
+                emptyList()
+            }) +
+            listOf(stringResource(R.string.family_anaesthesia_problem) to answerText(s.familyAnaesthesiaProblem)),
+    )
+    sections.forEachIndexed { step, rows ->
+        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
+                Text(names[step], style = MaterialTheme.typography.titleMedium, modifier = Modifier.semantics { heading() })
+                val spoken = stringResource(R.string.change_section, names[step])
+                TextButton(onClick = { change(step) }, modifier = Modifier.semantics { contentDescription = spoken }) {
+                    Text(stringResource(R.string.change))
+                }
+            }
+            SummaryList(label = names[step]) {
+                rows.forEach { (term, value) -> SummaryListItem(term) { Text(value) } }
+            }
+        }
+    }
+}`}</code
+        ></pre>
+
+    <h2>Step 9: Put the questionnaire together</h2>
+
+    <p>
+        One section a screen, with the steps above it. Continue checks the section: when something
+        is missing, <code>ErrorSummary</code> lists it and moves focus to its title, and each problem
+        scrolls to its question.
+    </p>
+
+    <p>
+        <code
+            >pre-operative-assessment/src/main/kotlin/com/example/preoperativeassessment/Questionnaire.kt</code
+        >
+    </p>
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre
+        tabindex="0"
+        data-file="pre-operative-assessment/src/main/kotlin/com/example/preoperativeassessment/Questionnaire.kt"><code
+            >{`// The questionnaire: one section a screen, with the steps above it, an error summary when a section is not finished, and the
+// check-your-answers screen last. Each change is saved on this device.
+package com.example.preoperativeassessment
+
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.relocation.BringIntoViewRequester
+import androidx.compose.foundation.relocation.bringIntoViewRequester
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.unit.dp
+import io.github.lilydesignsystem.compose.AlertKind
+import io.github.lilydesignsystem.compose.ErrorSummary
+import io.github.lilydesignsystem.compose.InsetText
+import io.github.lilydesignsystem.compose.LilyAlert
+import io.github.lilydesignsystem.compose.Politeness
+import io.github.lilydesignsystem.compose.Problem
+import io.github.lilydesignsystem.compose.StepList
+import io.github.lilydesignsystem.compose.themes.LocalLilyTokens
+import io.github.lilydesignsystem.core.StepStatus
+import kotlinx.coroutines.launch
+
+fun errorText(id: String): Int = when (id) {
+    "birth-date" -> R.string.error_birth_date
+    "weight" -> R.string.error_weight
+    "height" -> R.string.error_height
+    "operation" -> R.string.error_operation
+    "could-be-pregnant" -> R.string.error_could_be_pregnant
+    "high-blood-pressure" -> R.string.error_high_blood_pressure
+    "breathless-on-stairs" -> R.string.error_breathless_on_stairs
+    "blood-thinner" -> R.string.error_blood_thinner
+    "any-medicines" -> R.string.error_any_medicines
+    "medicine-list" -> R.string.error_medicine_list
+    "any-allergies" -> R.string.error_any_allergies
+    "allergy-list" -> R.string.error_allergy_list
+    "anaesthesia-before" -> R.string.error_anaesthesia_before
+    "anaesthesia-problem" -> R.string.error_anaesthesia_problem
+    else -> R.string.error_family_anaesthesia_problem
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun Questionnaire(draft: Draft) {
+    var answers by remember { mutableStateOf(draft.load() ?: Answers()) }
+    var restored by remember { mutableStateOf(draft.load() != null) }
+    var step by rememberSaveable { mutableIntStateOf(0) }
+    var problems by remember { mutableStateOf(emptyList<String>()) }
+    var sent by rememberSaveable { mutableStateOf(false) }
+    val scroll = rememberScrollState()
+    val scope = rememberCoroutineScope()
+    // Each question's place on the screen, by the id the rules use, so a problem in the summary can scroll to it.
+    val targets = remember { mutableMapOf<String, BringIntoViewRequester>() }
+    val target: (String) -> Modifier = { id -> Modifier.bringIntoViewRequester(targets.getOrPut(id) { BringIntoViewRequester() }) }
+    val errors = problems.associateWith { stringResource(errorText(it)) }
+    val names = stringArrayResource(R.array.step_names)
+    val today = Rules.today(stringResource(R.string.clinic_time_zone))
+    val statusWords = mapOf(
+        StepStatus.Finished to stringResource(R.string.status_finished),
+        StepStatus.InProgress to stringResource(R.string.status_in_progress),
+        StepStatus.Waiting to stringResource(R.string.status_waiting),
+    )
+    LaunchedEffect(answers) { if (!sent) draft.save(answers) }
+
+    fun go(next: Int) {
+        problems = emptyList()
+        step = next
+        scope.launch { scroll.scrollTo(0) }
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(LocalLilyTokens.current.base100)
+            .safeDrawingPadding()
+            .imePadding()
+            .verticalScroll(scroll)
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(24.dp),
+    ) {
+        Text(stringResource(R.string.title), style = MaterialTheme.typography.headlineLarge, modifier = Modifier.semantics { heading() })
+        if (sent) {
+            LilyAlert(stringResource(R.string.sent_body), kind = AlertKind.Success, heading = stringResource(R.string.sent_title))
+            return@Column
+        }
+        if (step == 0) {
+            Text(stringResource(R.string.intro))
+            InsetText { Text(stringResource(R.string.saved)) }
+        }
+        if (restored) {
+            LilyAlert(stringResource(R.string.restored), politeness = Politeness.Polite)
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                TextButton(onClick = { restored = false }) { Text(stringResource(R.string.keep)) }
+                TextButton(onClick = {
+                    answers = Answers()
+                    restored = false
+                    go(0)
+                }) { Text(stringResource(R.string.start_again)) }
+            }
+        }
+        StepList(label = stringResource(R.string.steps), steps = names.toList(), current = step, statusLabel = { statusWords.getValue(it) })
+        if (problems.isNotEmpty()) {
+            ErrorSummary(
+                title = stringResource(R.string.problem),
+                problems = problems.map { id -> Problem(errors.getValue(id)) { scope.launch { targets[id]?.bringIntoView() } } },
+            )
+        }
+        Text(names[step], style = MaterialTheme.typography.headlineSmall, modifier = Modifier.semantics { heading() })
+        val change: (Answers) -> Unit = { answers = it }
+        when (Section.entries.getOrNull(step)) {
+            Section.About -> AboutYou(answers, change, errors, target)
+            Section.Heart -> HeartAndLungs(answers, change, errors, target)
+            Section.Medicines -> Medicines(answers, change, errors, target)
+            Section.Allergies -> Allergies(answers, change, errors, target)
+            Section.Anaesthesia -> Anaesthesia(answers, change, errors, target)
+            null -> CheckAnswers(answers) { go(it) }
+        }
+        Row(Modifier.fillMaxWidth()) {
+            if (step > 0) OutlinedButton(onClick = { go(step - 1) }) { Text(stringResource(R.string.back)) }
+            Spacer(Modifier.weight(1f))
+            val section = Section.entries.getOrNull(step)
+            if (section != null) {
+                Button(onClick = {
+                    problems = Rules.missing(section, answers, today)
+                    if (problems.isEmpty()) go(step + 1) else scope.launch { scroll.scrollTo(0) }
+                }) { Text(stringResource(R.string.next)) }
+            } else {
+                Button(onClick = {
+                    draft.clear()
+                    sent = true
+                }) { Text(stringResource(R.string.send)) }
+            }
+        }
+    }
+}`}</code
+        ></pre>
+
+    <h2>Step 10: Start the app</h2>
+
+    <p>
+        Lily's light theme, Material 3 in its colours, and the app's type scale: Lily's labels and
+        hints at the size this service reads at.
+    </p>
+
+    <p>
+        <code
+            >pre-operative-assessment/src/main/kotlin/com/example/preoperativeassessment/MainActivity.kt</code
+        >
+    </p>
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre
+        tabindex="0"
+        data-file="pre-operative-assessment/src/main/kotlin/com/example/preoperativeassessment/MainActivity.kt"><code
+            >{`package com.example.preoperativeassessment
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.lightColorScheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.unit.sp
+import io.github.lilydesignsystem.compose.LocalLilyTextStyles
+import io.github.lilydesignsystem.compose.themes.LilyTheme
+import io.github.lilydesignsystem.compose.themes.LilyTokens
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        val draft = Draft(this)
+        setContent { AppTheme { Questionnaire(draft) } }
+    }
+}
+
+/** Lily's light theme, with Material 3's radio buttons, fields and buttons in its colours, and the app's type scale. */
+@Composable
+fun AppTheme(content: @Composable () -> Unit) {
+    val tokens = LilyTokens.light
+    LilyTheme(tokens) {
+        val styles = LocalLilyTextStyles.current
+        MaterialTheme(
+            colorScheme = lightColorScheme(
+                primary = tokens.primary,
+                onPrimary = tokens.primaryContent,
+                background = tokens.base100,
+                onBackground = tokens.baseContent,
+                surface = tokens.base100,
+                onSurface = tokens.baseContent,
+                onSurfaceVariant = tokens.baseContent,
+                outline = tokens.baseContent,
+                error = tokens.error,
+            ),
+        ) {
+            CompositionLocalProvider(
+                LocalLilyTextStyles provides styles.copy(
+                    body = styles.body.copy(fontSize = 17.sp),
+                    small = styles.small.copy(fontSize = 15.sp),
+                ),
+                content = content,
+            )
+        }
+    }
+}`}</code
+        ></pre>
+
+    <h2>Step 11: Test it on a device</h2>
+
+    <p>
+        The first section as a patient goes through it, with the Accessibility Test Framework
+        checking before every action and each screen as shown: a control too small to touch, or one
+        with no name, fails the test.
+    </p>
+
+    <p>
+        <code
+            >pre-operative-assessment/src/androidTest/kotlin/com/example/preoperativeassessment/QuestionnaireTest.kt</code
+        >
+    </p>
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre
+        tabindex="0"
+        data-file="pre-operative-assessment/src/androidTest/kotlin/com/example/preoperativeassessment/QuestionnaireTest.kt"><code
+            >{`// The first section as a patient goes through it, on a device or an emulator, with the Accessibility Test Framework checking
+// before every action and on each screen as shown.
+package com.example.preoperativeassessment
+
+import androidx.compose.ui.test.assertCountEquals
+import androidx.compose.ui.test.hasSetTextAction
+import androidx.compose.ui.test.junit4.accessibility.enableAccessibilityChecks
+import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onAllNodesWithText
+import androidx.compose.ui.test.onFirst
+import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.onRoot
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollTo
+import androidx.compose.ui.test.performTextInput
+import androidx.compose.ui.test.tryPerformAccessibilityChecks
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
+import org.junit.runner.RunWith
+
+@RunWith(AndroidJUnit4::class)
+class QuestionnaireTest {
+    @get:Rule val rule = createAndroidComposeRule<MainActivity>()
+
+    @Before fun startAfresh() {
+        rule.enableAccessibilityChecks()
+        // A draft from an earlier run fills the answers in; start again so the test begins with none.
+        if (rule.onAllNodesWithText("Start again").fetchSemanticsNodes().isNotEmpty()) {
+            rule.onNodeWithText("Start again").performClick()
+        }
+    }
+
+    @Test fun theFirstSectionAsksAgainForMissingAnswersThenMovesOn() {
+        rule.onRoot().tryPerformAccessibilityChecks()
+        rule.onNodeWithText("Continue").performScrollTo().performClick()
+        rule.onNodeWithText("There is a problem").assertExists()
+        rule.onNodeWithText("Enter your weight").assertExists()
+        rule.onRoot().tryPerformAccessibilityChecks()
+
+        val fields = rule.onAllNodes(hasSetTextAction())
+        listOf("3", "2", "1949", "70", "170", "Knee replacement").forEachIndexed { i, text ->
+            fields[i].performScrollTo().performTextInput(text)
+        }
+        rule.onAllNodesWithText("No").onFirst().performScrollTo().performClick()
+        rule.onNodeWithText("Continue").performScrollTo().performClick()
+        // Lily's Field speaks the question as the control's name, so that is what TalkBack, and the test, find.
+        rule.onNodeWithContentDescription("Do you take medicine to thin your blood?", substring = true).assertExists()
+        rule.onAllNodesWithText("There is a problem").assertCountEquals(0)
+        rule.onRoot().tryPerformAccessibilityChecks()
+    }
+}`}</code
+        ></pre>
+
+    <div class="callout">
+        <p style="margin: 0;">
+            <strong>Check your work:</strong> with an emulator running, run
+            <code>./gradlew :pre-operative-assessment:connectedDebugAndroidTest</code>. Then run the
+            app: press Continue without answering and the error summary lists five problems; type 31
+            2 1990 and the date is not accepted; answer Yes to medicines, add two, close the app and
+            open it again, and your answers are still there.
+        </p>
+    </div>
+
+    <h2>What this does not do yet</h2>
+
+    <ul>
+        <li>
+            Send sends nowhere: a real app sends the answers to the clinic's service, over a secure
+            connection, and keeps nothing on the phone once it has.
+        </li>
+        <li>
+            The clinic's view, with what to look at first, is in the
+            <a href="/tutorials/pre-operative-assessment-by-patient/">web tutorial</a>.
+        </li>
+        <li>
+            It has one language. The words are string resources, so adding another touches no code.
+        </li>
+    </ul>
+
+    <h2>Next steps</h2>
+
+    <ul>
+        <li>
+            <a href="/tutorials/pre-operative-assessment-by-patient/swift/">Swift version</a>: the
+            same questionnaire on iPhone, with SwiftUI.
+        </li>
+        <li>
+            <a href="/tutorials/kotlin/">Kotlin tutorial</a>: the rest of Lily's Compose components.
+        </li>
+    </ul>
+</section>
