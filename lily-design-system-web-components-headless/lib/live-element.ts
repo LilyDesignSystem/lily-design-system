@@ -36,6 +36,11 @@ export abstract class LiveElement extends HTMLElement {
         });
     }
 
+    /** Show the attributes now, not in a microtask: for a property setter whose caller reads the DOM straight after. */
+    protected flush(): void {
+        if (this.#built) this.#run();
+    }
+
     /** The text of an attribute, or "". */
     protected text(name: string): string {
         return this.getAttribute(name) ?? "";

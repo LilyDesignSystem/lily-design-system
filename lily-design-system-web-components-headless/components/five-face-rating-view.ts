@@ -18,6 +18,7 @@
 //   - WAI-ARIA img role: https://www.w3.org/WAI/ARIA/apd/roles/img/
 
 import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { LiveElement } from "../lib/live-element.js";
 
 const DEFAULT_LABELS = ["1", "2", "3", "4", "5"];
 const HANDLED = new Set(["value", "label", "labels"]);
@@ -34,25 +35,26 @@ function parseLabels(raw: string | null): string[] {
     return DEFAULT_LABELS;
 }
 
-export class FiveFaceRatingView extends HTMLElement {
-    #span: HTMLSpanElement | null = null;
+// A change to value, label, labels or class is shown (tasks.md P50-T28).
+export class FiveFaceRatingView extends LiveElement {
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
 
-    connectedCallback(): void {
-        if (this.#span) return;
-
-        const span = document.createElement("span");
+    protected update(): void {
+        const existing = this.querySelector<HTMLSpanElement>(":scope > span.five-face-rating-view");
+        const span = existing ?? document.createElement("span");
         span.className = rootClassName(this, "five-face-rating-view");
         span.setAttribute("role", "img");
         const label = this.getAttribute("label");
         if (label !== null) span.setAttribute("aria-label", label);
+        else span.removeAttribute("aria-label");
         const value = this.getAttribute("value") ?? "";
         span.setAttribute("data-value", value);
-        const labels = parseLabels(this.getAttribute("labels"));
-        span.textContent = labels[Number(value) - 1] ?? "";
+        span.textContent = parseLabels(this.getAttribute("labels"))[Number(value) - 1] ?? "";
+        if (existing) return;
         passThroughAttributes(this, span, HANDLED);
-
         this.appendChild(span);
-        this.#span = span;
     }
 
     get value(): number {
@@ -61,10 +63,6 @@ export class FiveFaceRatingView extends HTMLElement {
 
     set value(v: number) {
         this.setAttribute("value", String(v));
-        if (this.#span) {
-            this.#span.setAttribute("data-value", String(v));
-            const labels = parseLabels(this.getAttribute("labels"));
-            this.#span.textContent = labels[v - 1] ?? "";
-        }
+        this.flush();
     }
 }

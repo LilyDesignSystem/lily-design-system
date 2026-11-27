@@ -104,4 +104,15 @@ describe("NetPromoterScoreView", () => {
 
         expect(host.querySelector("span")!.className).toBe("net-promoter-score-view extra");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", async () => {
+        document.body.innerHTML = `<lily-net-promoter-score-view value="7"></lily-net-promoter-score-view>`;
+        const el = document.querySelector("lily-net-promoter-score-view")!;
+        const span = el.querySelector("span.net-promoter-score-view")!;
+        el.setAttribute("value", "9");
+        el.setAttribute("label", "Score");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(el.querySelector("span.net-promoter-score-view")).toBe(span);
+        expect(span.textContent).toBe("Score 9");
+    });
 });

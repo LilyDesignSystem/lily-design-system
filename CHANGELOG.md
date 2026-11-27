@@ -11,6 +11,10 @@ highlights.
 
 ## Unreleased (2026-11-26)
 
+- **Fixed (Web Components):** fifteen elements that built once now show a change to their attributes: `iban-view`, `statistic`,
+  `split-view`, `review-date`, `theme-view`, `postal-code-view`, `record-provenance-view`, the measurement views and the rating
+  and status views (P50-T28, part). Their `value` and `text` properties still update the element at once.
+
 - **Fixed (healthcare):** `international-patient-summary-section` no longer prints "none known" above a record list that holds an
   entry, in every catalog; the list's own conflict words speak (HC-C17, P50-T29). `watchConflict` in `shared/record-list-state.ts`
   serves the TypeScript catalogs; Nunjucks looks in the rendered entries; Blazor's record lists report to their section through a

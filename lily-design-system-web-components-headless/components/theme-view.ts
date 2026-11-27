@@ -10,28 +10,27 @@
 // References:
 //   - components/theme-view/index.md (canonical contract)
 //   - WAI-ARIA Accessible Name: https://www.w3.org/TR/accname-1.2/
-
 import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { LiveElement, part } from "../lib/live-element.js";
 
 const HANDLED = new Set(["label", "value"]);
 
-export class ThemeView extends HTMLElement {
-    connectedCallback(): void {
-        if (this.querySelector(":scope > span.theme-view")) return;
+// A change to label, value or class is shown (tasks.md P50-T28).
+export class ThemeView extends LiveElement {
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
 
-        const span = document.createElement("span");
+    protected update(): void {
+        const existing = this.querySelector<HTMLSpanElement>(":scope > span.theme-view");
+        const span = existing ?? document.createElement("span");
         span.className = rootClassName(this, "theme-view");
-        const label = this.getAttribute("label");
-        if (label) {
-            const hidden = document.createElement("span");
-            hidden.className = "screen-reader-span";
-            hidden.textContent = `${label} `;
-            span.append(hidden);
-        }
-        span.append(this.getAttribute("value") ?? "");
+        const value = this.text("value");
+        span.replaceChildren();
+        if (this.text("label")) span.append(part("screen-reader-span", `${this.text("label")} `));
+        span.append(value);
+        if (existing) return;
         passThroughAttributes(this, span, HANDLED);
-
-        this.replaceChildren();
-        this.appendChild(span);
+        this.replaceChildren(span);
     }
 }

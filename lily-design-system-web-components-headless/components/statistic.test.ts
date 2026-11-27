@@ -102,4 +102,22 @@ describe("Statistic", () => {
         expect(host.querySelector(".statistic-change")).toBeNull();
         expect(host.querySelector("[data-trend]")).toBeNull();
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", async () => {
+        document.body.innerHTML =
+            '<lily-statistic title="Patients" value="12" class="mine"></lily-statistic>';
+        const el = document.querySelector("lily-statistic")!;
+        el.setAttribute("value", "14");
+        el.setAttribute("change", "Up 2 on last week");
+        el.setAttribute("trend", "up");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(el.getAttribute("aria-label")).toBe("Patients: 14");
+        expect(el.querySelector(".statistic-value")!.textContent).toBe("14");
+        expect(el.querySelectorAll(".statistic-value").length).toBe(1);
+        expect(el.querySelector(".statistic-change")!.getAttribute("data-trend")).toBe("up");
+        expect(el.className).toBe("statistic mine");
+        el.removeAttribute("change");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(el.querySelector(".statistic-change")).toBeNull();
+    });
 });

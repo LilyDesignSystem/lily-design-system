@@ -19,27 +19,27 @@
 //   - ISO 8601: https://en.wikipedia.org/wiki/ISO_8601
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { LiveElement, part, setOrRemove } from "../lib/live-element.js";
 
 const HANDLED = new Set(["label", "datetime"]);
 
-export class ReviewDate extends HTMLElement {
-    connectedCallback(): void {
-        if (this.querySelector(":scope > time.review-date")) return;
+// A change to label, datetime or class is shown (tasks.md P50-T28); the date's words are the consumer's children.
+export class ReviewDate extends LiveElement {
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
 
-        const time = document.createElement("time");
+    protected update(): void {
+        const existing = this.querySelector<HTMLTimeElement>(":scope > time.review-date");
+        const time = existing ?? document.createElement("time");
         time.className = rootClassName(this, "review-date");
-        const datetime = this.getAttribute("datetime");
-        if (datetime !== null) time.setAttribute("datetime", datetime);
-        passThroughAttributes(this, time, HANDLED);
-
-        moveChildrenInto(this, time);
-        const label = this.getAttribute("label");
-        if (label) {
-            const hidden = document.createElement("span");
-            hidden.className = "screen-reader-span";
-            hidden.textContent = `${label} `;
-            time.prepend(hidden);
+        setOrRemove(time, "datetime", this.getAttribute("datetime"));
+        if (!existing) {
+            passThroughAttributes(this, time, HANDLED);
+            moveChildrenInto(this, time);
         }
-        this.appendChild(time);
+        time.querySelector(":scope > .screen-reader-span")?.remove();
+        if (this.text("label")) time.prepend(part("screen-reader-span", `${this.text("label")} `));
+        if (!existing) this.appendChild(time);
     }
 }

@@ -15,47 +15,39 @@
 // References:
 //   - components/red-amber-green-view/index.md (canonical contract)
 //   - RAG Status: https://en.wikipedia.org/wiki/Traffic_light_rating_system
-
 import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { LiveElement, part } from "../lib/live-element.js";
 
 const HANDLED = new Set(["label", "value"]);
 
-export class RedAmberGreenView extends HTMLElement {
-    #span: HTMLSpanElement | null = null;
-    #text: Text | null = null;
+// A change to label, value or class is shown (tasks.md P50-T28).
+export class RedAmberGreenView extends LiveElement {
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
 
-    connectedCallback(): void {
-        if (this.#span) return;
-
-        const span = document.createElement("span");
+    protected update(): void {
+        const existing = this.querySelector<HTMLSpanElement>(":scope > span.red-amber-green-view");
+        const span = existing ?? document.createElement("span");
         span.className = rootClassName(this, "red-amber-green-view");
-        const label = this.getAttribute("label");
-        if (label) {
-            const hidden = document.createElement("span");
-            hidden.className = "screen-reader-span";
-            hidden.textContent = `${label} `;
-            span.append(hidden);
-        }
-        this.#text = document.createTextNode(this.getAttribute("value") ?? "");
+        const value = this.text("value");
         // The status as data-value, for the consumer's colour (the themes key on it).
-        if (this.#text.data) span.setAttribute("data-value", this.#text.data);
-        span.append(this.#text);
+        if (value) span.setAttribute("data-value", value);
+        else span.removeAttribute("data-value");
+        span.replaceChildren();
+        if (this.text("label")) span.append(part("screen-reader-span", `${this.text("label")} `));
+        span.append(value);
+        if (existing) return;
         passThroughAttributes(this, span, HANDLED);
-
         this.appendChild(span);
-        this.#span = span;
     }
 
     get value(): string {
-        return this.#text?.data ?? this.getAttribute("value") ?? "";
+        return this.text("value");
     }
 
     set value(v: string) {
-        if (this.#span) {
-            if (v) this.#span.setAttribute("data-value", v);
-            else this.#span.removeAttribute("data-value");
-        }
-        if (this.#text) this.#text.data = v;
-        else this.setAttribute("value", v);
+        this.setAttribute("value", v);
+        this.flush();
     }
 }

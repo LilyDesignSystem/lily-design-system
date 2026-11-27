@@ -96,4 +96,14 @@ describe("MeasurementSystemView", () => {
         expect(span.className).toBe("measurement-system-view extra");
         expect(span.getAttribute("data-testid")).toBe("system");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", async () => {
+        document.body.innerHTML = `<lily-measurement-system-view value="metric"></lily-measurement-system-view>`;
+        const el = document.querySelector("lily-measurement-system-view")!;
+        const span = el.querySelector("span.measurement-system-view")!;
+        el.setAttribute("value", "imperial");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(el.querySelector("span.measurement-system-view")).toBe(span);
+        expect(span.textContent).toBe("imperial");
+    });
 });

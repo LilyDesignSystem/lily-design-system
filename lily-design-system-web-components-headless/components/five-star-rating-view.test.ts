@@ -89,4 +89,17 @@ describe("FiveStarRatingView", () => {
         const stars = Array.from(host.querySelectorAll("span > span"));
         expect(stars.every((s) => s.getAttribute("data-filled") === "true")).toBe(true);
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", async () => {
+        document.body.innerHTML = `<lily-five-star-rating-view value="2" label="2 of 5"></lily-five-star-rating-view>`;
+        const el = document.querySelector("lily-five-star-rating-view")!;
+        const span = el.querySelector("span.five-star-rating-view")!;
+        el.setAttribute("value", "4");
+        el.setAttribute("label", "4 of 5");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(el.querySelector("span.five-star-rating-view")).toBe(span);
+        expect(span.getAttribute("data-value")).toBe("4");
+        expect(span.getAttribute("aria-label")).toBe("4 of 5");
+        expect(span.querySelectorAll('[data-filled="true"]').length).toBe(4);
+    });
 });

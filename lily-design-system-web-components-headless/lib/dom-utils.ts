@@ -47,7 +47,11 @@ export function rootClassName(host: Element, baseClass: string): string {
  * `<a>`, `<dialog>`, `<fieldset>`, …) that is worth rendering for real.
  */
 export function applySelfClassName(host: HTMLElement, baseClass: string): void {
-    const extra = host.getAttribute("class") ?? "";
+    // The base class is dropped from what the host already has, so applying it again, after a change, never repeats it.
+    const extra = (host.getAttribute("class") ?? "")
+        .split(/\s+/)
+        .filter((token) => token && token !== baseClass)
+        .join(" ");
     host.className = `${baseClass} ${extra}`.trim();
 }
 

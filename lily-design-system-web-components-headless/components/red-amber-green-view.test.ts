@@ -96,4 +96,18 @@ describe("RedAmberGreenView", () => {
 
         expect(host.querySelector("span")!.className).toBe("red-amber-green-view my-view");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", async () => {
+        document.body.innerHTML = `<lily-red-amber-green-view value="red"></lily-red-amber-green-view>`;
+        const el = document.querySelector("lily-red-amber-green-view")!;
+        const span = el.querySelector("span.red-amber-green-view")!;
+        el.setAttribute("value", "green");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(el.querySelector("span.red-amber-green-view")).toBe(span);
+        expect(span.textContent).toBe("green");
+        expect(span.getAttribute("data-value")).toBe("green");
+        el.setAttribute("value", "");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(span.hasAttribute("data-value")).toBe(false);
+    });
 });

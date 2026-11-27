@@ -35,6 +35,39 @@ import { applySelfClassName } from "../lib/dom-utils.js";
 export class SplitView extends HTMLElement {
     #built = false;
 
+    // A change to label, orientation or split-percent is shown (tasks.md P50-T28); the panels are the consumer's.
+    static get observedAttributes(): string[] {
+        return ["label", "orientation", "split-percent", "class"];
+    }
+
+    attributeChangedCallback(name: string, before: string | null, after: string | null): void {
+        if (!this.#built || before === after) return;
+        if (name === "class") {
+            if (!this.classList.contains("split-view")) applySelfClassName(this, "split-view");
+            return;
+        }
+        this.#show();
+    }
+
+    #show(): void {
+        const orientation = this.getAttribute("orientation") ?? "horizontal";
+        const splitPercent = this.getAttribute("split-percent") ?? "50";
+        const label = this.getAttribute("label");
+        if (label !== null) {
+            this.setAttribute("aria-label", label);
+            if (!this.hasAttribute("role")) this.setAttribute("role", "group");
+        } else this.removeAttribute("aria-label");
+        this.setAttribute("data-orientation", orientation);
+        this.setAttribute("data-split-percent", splitPercent);
+        const divider = this.querySelector<HTMLElement>(
+            ":scope > .split-view-divider[role='separator']",
+        );
+        if (divider) {
+            divider.setAttribute("aria-orientation", orientation);
+            divider.setAttribute("aria-valuenow", splitPercent);
+        }
+    }
+
     connectedCallback(): void {
         if (this.#built) return;
         this.#built = true;
@@ -47,13 +80,6 @@ export class SplitView extends HTMLElement {
         const splitPercent = this.getAttribute("split-percent") ?? "50";
 
         applySelfClassName(this, "split-view");
-        const label = this.getAttribute("label");
-        if (label !== null) {
-            this.setAttribute("aria-label", label);
-            if (!this.hasAttribute("role")) this.setAttribute("role", "group");
-        }
-        this.setAttribute("data-orientation", orientation);
-        this.setAttribute("data-split-percent", splitPercent);
 
         const primary = document.createElement("section");
         primary.className = "split-view-primary";
@@ -79,6 +105,7 @@ export class SplitView extends HTMLElement {
         }
 
         this.replaceChildren(primary, divider, secondary);
+        this.#show();
         attachSplitView(this);
     }
 }

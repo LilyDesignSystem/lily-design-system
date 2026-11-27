@@ -58,4 +58,16 @@ describe("PostalCodeView", () => {
 
         expect(host.querySelector("span")!.className).toBe("postal-code-view my-view");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", async () => {
+        document.body.innerHTML = `<lily-postal-code-view text="SW1A 1AA"></lily-postal-code-view>`;
+        const el = document.querySelector("lily-postal-code-view")!;
+        const span = el.querySelector("span.postal-code-view")!;
+        el.setAttribute("text", "10115");
+        el.className = "mine";
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(el.querySelector("span.postal-code-view")).toBe(span);
+        expect(span.textContent).toBe("10115");
+        expect(span.className).toBe("postal-code-view mine");
+    });
 });

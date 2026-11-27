@@ -67,4 +67,19 @@ describe("ReviewDate", () => {
 
         expect(host.querySelector("time")!.className).toBe("review-date my-date");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", async () => {
+        document.body.innerHTML = `<lily-review-date datetime="2027-01-01" label="Review by">1 June 2027</lily-review-date>`;
+        const el = document.querySelector("lily-review-date")!;
+        const span = el.querySelector("time.review-date")!;
+        el.setAttribute("datetime", "2027-06-01");
+        el.setAttribute("label", "Next review");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(el.querySelector("time.review-date")).toBe(span);
+        expect(span.getAttribute("datetime")).toBe("2027-06-01");
+        expect(span.textContent).toBe("Next review 1 June 2027");
+        el.removeAttribute("label");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(span.textContent).toBe("1 June 2027");
+    });
 });

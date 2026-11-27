@@ -115,4 +115,22 @@ describe("SplitView", () => {
         expect(host.getAttribute("role")).toBe("group");
         expect(host.getAttribute("aria-label")).toBe("Story");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", async () => {
+        document.body.innerHTML =
+            '<lily-split-view label="Panes"><div slot="primary">A</div><div slot="secondary">B</div></lily-split-view>';
+        const el = document.querySelector("lily-split-view")!;
+        el.setAttribute("split-percent", "30");
+        el.setAttribute("orientation", "vertical");
+        el.setAttribute("label", "Files and editor");
+        const divider = el.querySelector(".split-view-divider")!;
+        expect(el.getAttribute("data-split-percent")).toBe("30");
+        expect(el.getAttribute("data-orientation")).toBe("vertical");
+        expect(el.getAttribute("aria-label")).toBe("Files and editor");
+        expect(divider.getAttribute("aria-valuenow")).toBe("30");
+        expect(divider.getAttribute("aria-orientation")).toBe("vertical");
+        el.className = "mine";
+        expect(el.className).toBe("split-view mine");
+        expect(el.textContent).toBe("AB");
+    });
 });

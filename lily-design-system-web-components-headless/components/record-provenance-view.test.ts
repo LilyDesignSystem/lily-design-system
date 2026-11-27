@@ -73,4 +73,21 @@ describe("RecordProvenanceView", () => {
         expect(root.hasAttribute("data-sync")).toBe(false);
         expect(root.children).toHaveLength(1);
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", async () => {
+        document.body.innerHTML = `<lily-record-provenance-view sync="current" sync-label="Up to date"></lily-record-provenance-view>`;
+        const el = document.querySelector("lily-record-provenance-view")!;
+        const span = el.querySelector("span.record-provenance-view")!;
+        el.setAttribute("sync", "stale");
+        el.setAttribute("sync-label", "Out of date");
+        el.setAttribute("author-label", "Dr Okoro");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(el.querySelector("span.record-provenance-view")).toBe(span);
+        expect(span.getAttribute("data-sync")).toBe("stale");
+        expect(span.querySelector(".record-provenance-view-sync")!.textContent).toBe("Out of date");
+        expect(span.querySelector(".record-provenance-view-author")!.textContent).toBe("Dr Okoro");
+        el.removeAttribute("sync");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(span.hasAttribute("data-sync")).toBe(false);
+    });
 });

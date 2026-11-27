@@ -76,4 +76,15 @@ describe("ThemeView", () => {
         expect(span.classList.contains("theme-view")).toBe(true);
         expect(span.classList.contains("my-view")).toBe(true);
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", async () => {
+        document.body.innerHTML = `<lily-theme-view value="Light"></lily-theme-view>`;
+        const el = document.querySelector("lily-theme-view")!;
+        const span = el.querySelector("span.theme-view")!;
+        el.setAttribute("value", "Dark");
+        el.setAttribute("label", "Theme");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(el.querySelector("span.theme-view")).toBe(span);
+        expect(span.textContent).toBe("Theme Dark");
+    });
 });

@@ -96,4 +96,14 @@ describe("MeasurementUnitView", () => {
 
         expect(host.querySelector("span")!.className).toBe("measurement-unit-view extra");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", async () => {
+        document.body.innerHTML = `<lily-measurement-unit-view value="kg"></lily-measurement-unit-view>`;
+        const el = document.querySelector("lily-measurement-unit-view")!;
+        const span = el.querySelector("span.measurement-unit-view")!;
+        el.setAttribute("value", "lb");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(el.querySelector("span.measurement-unit-view")).toBe(span);
+        expect(span.textContent).toBe("lb");
+    });
 });

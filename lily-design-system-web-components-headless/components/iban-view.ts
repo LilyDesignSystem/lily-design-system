@@ -11,41 +11,36 @@
 // References:
 //   - components/iban-view/index.md (canonical contract)
 //   - https://en.wikipedia.org/wiki/International_Bank_Account_Number
-
 import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { LiveElement, part } from "../lib/live-element.js";
 
 const HANDLED = new Set(["label", "value"]);
 
-export class IbanView extends HTMLElement {
-    #span: HTMLSpanElement | null = null;
-    #text: Text | null = null;
+// A change to label, value or class is shown (tasks.md P50-T28).
+export class IbanView extends LiveElement {
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
 
-    connectedCallback(): void {
-        if (this.#span) return;
-
-        const span = document.createElement("span");
+    protected update(): void {
+        const existing = this.querySelector<HTMLSpanElement>(":scope > span.iban-view");
+        const span = existing ?? document.createElement("span");
         span.className = rootClassName(this, "iban-view");
-        const label = this.getAttribute("label");
-        if (label) {
-            const hidden = document.createElement("span");
-            hidden.className = "screen-reader-span";
-            hidden.textContent = `${label} `;
-            span.append(hidden);
-        }
-        this.#text = document.createTextNode(this.getAttribute("value") ?? "");
-        span.append(this.#text);
+        const value = this.text("value");
+        span.replaceChildren();
+        if (this.text("label")) span.append(part("screen-reader-span", `${this.text("label")} `));
+        span.append(value);
+        if (existing) return;
         passThroughAttributes(this, span, HANDLED);
-
         this.appendChild(span);
-        this.#span = span;
     }
 
     get value(): string {
-        return this.#text?.data ?? this.getAttribute("value") ?? "";
+        return this.text("value");
     }
 
     set value(v: string) {
-        if (this.#text) this.#text.data = v;
-        else this.setAttribute("value", v);
+        this.setAttribute("value", v);
+        this.flush();
     }
 }

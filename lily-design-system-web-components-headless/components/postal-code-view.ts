@@ -15,32 +15,43 @@
 //
 // References:
 //   - components/postal-code-view/index.md (canonical contract)
-
 import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 
 const HANDLED = new Set(["text"]);
 
+// A change to text or class is shown (tasks.md P50-T28). Not a LiveElement: its public `text` property would hide that class's
+// text() helper.
 export class PostalCodeView extends HTMLElement {
     #span: HTMLSpanElement | null = null;
 
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
     connectedCallback(): void {
         if (this.#span) return;
-
         const span = document.createElement("span");
-        span.className = rootClassName(this, "postal-code-view");
-        span.textContent = this.getAttribute("text") ?? "";
-        passThroughAttributes(this, span, HANDLED);
-
-        this.appendChild(span);
         this.#span = span;
+        this.#show();
+        passThroughAttributes(this, span, HANDLED);
+        this.appendChild(span);
+    }
+
+    attributeChangedCallback(): void {
+        this.#show();
+    }
+
+    #show(): void {
+        if (!this.#span) return;
+        this.#span.className = rootClassName(this, "postal-code-view");
+        this.#span.textContent = this.getAttribute("text") ?? "";
     }
 
     get text(): string {
-        return this.#span?.textContent ?? this.getAttribute("text") ?? "";
+        return this.getAttribute("text") ?? "";
     }
 
     set text(v: string) {
-        if (this.#span) this.#span.textContent = v;
-        else this.setAttribute("text", v);
+        this.setAttribute("text", v);
     }
 }

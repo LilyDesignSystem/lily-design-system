@@ -98,4 +98,14 @@ describe("RedOrangeYellowGreenBlueView", () => {
             "red-orange-yellow-green-blue-view my-view",
         );
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", async () => {
+        document.body.innerHTML = `<lily-red-orange-yellow-green-blue-view value="red"></lily-red-orange-yellow-green-blue-view>`;
+        const el = document.querySelector("lily-red-orange-yellow-green-blue-view")!;
+        const span = el.querySelector("span.red-orange-yellow-green-blue-view")!;
+        el.setAttribute("value", "blue");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(el.querySelector("span.red-orange-yellow-green-blue-view")).toBe(span);
+        expect(span.textContent).toBe("blue");
+    });
 });

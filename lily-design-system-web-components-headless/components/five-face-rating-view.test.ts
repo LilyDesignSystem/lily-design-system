@@ -77,4 +77,17 @@ describe("FiveFaceRatingView", () => {
         expect(host.querySelector("span")!.textContent).toBe("3");
         expect(host.querySelector("span")!.getAttribute("data-value")).toBe("3");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", async () => {
+        document.body.innerHTML = `<lily-five-face-rating-view value="1" label="Rating" labels='["a","b","c","d","e"]'></lily-five-face-rating-view>`;
+        const el = document.querySelector("lily-five-face-rating-view")!;
+        const span = el.querySelector("span.five-face-rating-view")!;
+        el.setAttribute("value", "3");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(el.querySelector("span.five-face-rating-view")).toBe(span);
+        expect(span.textContent).toBe("c");
+        el.setAttribute("labels", '["v","w","x","y","z"]');
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(span.textContent).toBe("x");
+    });
 });

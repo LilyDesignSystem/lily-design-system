@@ -96,4 +96,15 @@ describe("MeasurementInstanceView", () => {
         expect(span.className).toBe("measurement-instance-view extra");
         expect(span.getAttribute("data-testid")).toBe("weight");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", async () => {
+        document.body.innerHTML = `<lily-measurement-instance-view value="5 kg"></lily-measurement-instance-view>`;
+        const el = document.querySelector("lily-measurement-instance-view")!;
+        const span = el.querySelector("span.measurement-instance-view")!;
+        el.setAttribute("value", "6 kg");
+        el.setAttribute("label", "Weight");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(el.querySelector("span.measurement-instance-view")).toBe(span);
+        expect(span.textContent).toBe("Weight 6 kg");
+    });
 });

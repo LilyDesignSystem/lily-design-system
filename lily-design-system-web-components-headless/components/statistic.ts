@@ -19,21 +19,38 @@
 //   - Ant Design Statistic: https://ant.design/components/statistic
 
 import { applySelfClassName } from "../lib/dom-utils.js";
+import { LiveElement, part, setOrRemove } from "../lib/live-element.js";
 
-export class Statistic extends HTMLElement {
-    #built = false;
+const SHOWN = [
+    "title",
+    "value",
+    "label",
+    "prefix",
+    "suffix",
+    "change",
+    "trend",
+    "as-of",
+    "as-of-label",
+];
 
-    connectedCallback(): void {
-        if (this.#built) return;
-        this.#built = true;
+// A change to any attribute it shows, or to class, is shown (tasks.md P50-T28).
+export class Statistic extends LiveElement {
+    static get observedAttributes(): string[] {
+        return [...SHOWN, "class"];
+    }
 
+    protected update(): void {
         applySelfClassName(this, "statistic");
         this.setAttribute("role", "group");
 
-        const title = this.getAttribute("title") ?? "";
-        const value = this.getAttribute("value") ?? "";
-        const label = this.getAttribute("label");
-        this.setAttribute("aria-label", label ?? `${title}: ${value}`);
+        const title = this.text("title");
+        const value = this.text("value");
+        this.setAttribute("aria-label", this.getAttribute("label") ?? `${title}: ${value}`);
+
+        for (const old of this.querySelectorAll(
+            ":scope > .statistic-title, :scope > .statistic-value, :scope > .statistic-change, :scope > .statistic-as-of",
+        ))
+            old.remove();
 
         const titleEl = document.createElement("div");
         titleEl.className = "statistic-title";
@@ -42,25 +59,11 @@ export class Statistic extends HTMLElement {
 
         const valueEl = document.createElement("div");
         valueEl.className = "statistic-value";
-
         const prefix = this.getAttribute("prefix");
-        if (prefix !== null) {
-            const prefixEl = document.createElement("span");
-            prefixEl.className = "statistic-prefix";
-            prefixEl.textContent = prefix;
-            valueEl.appendChild(prefixEl);
-        }
-
-        valueEl.appendChild(document.createTextNode(value));
-
+        if (prefix !== null) valueEl.append(part("statistic-prefix", prefix));
+        valueEl.append(value);
         const suffix = this.getAttribute("suffix");
-        if (suffix !== null) {
-            const suffixEl = document.createElement("span");
-            suffixEl.className = "statistic-suffix";
-            suffixEl.textContent = suffix;
-            valueEl.appendChild(suffixEl);
-        }
-
+        if (suffix !== null) valueEl.append(part("statistic-suffix", suffix));
         this.appendChild(valueEl);
 
         // The change, in words that name its comparison; its direction is data-trend for the theme, never an arrow here.
@@ -68,8 +71,7 @@ export class Statistic extends HTMLElement {
         if (change) {
             const changeEl = document.createElement("div");
             changeEl.className = "statistic-change";
-            const trend = this.getAttribute("trend");
-            if (trend) changeEl.setAttribute("data-trend", trend);
+            setOrRemove(changeEl, "data-trend", this.getAttribute("trend"));
             changeEl.textContent = change;
             this.appendChild(changeEl);
         }
@@ -79,8 +81,7 @@ export class Statistic extends HTMLElement {
         if (asOfLabel) {
             const time = document.createElement("time");
             time.className = "statistic-as-of";
-            const asOf = this.getAttribute("as-of");
-            if (asOf) time.setAttribute("datetime", asOf);
+            setOrRemove(time, "datetime", this.getAttribute("as-of"));
             time.textContent = asOfLabel;
             this.appendChild(time);
         }

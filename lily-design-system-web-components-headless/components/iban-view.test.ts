@@ -68,4 +68,17 @@ describe("IbanView", () => {
         ).toBe("DE89370400440532013000");
         expect(host.value).toBe("DE89370400440532013000");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", async () => {
+        document.body.innerHTML = `<lily-iban-view label="IBAN" value="GB82WEST12345698765432"></lily-iban-view>`;
+        const el = document.querySelector("lily-iban-view")!;
+        const span = el.querySelector("span.iban-view")!;
+        el.setAttribute("value", "DE89370400440532013000");
+        el.setAttribute("label", "Account");
+        el.className = "mine";
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(el.querySelector("span.iban-view")).toBe(span);
+        expect(span.textContent).toBe("Account DE89370400440532013000");
+        expect(span.className).toBe("iban-view mine");
+    });
 });
