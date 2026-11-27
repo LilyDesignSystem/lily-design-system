@@ -127,4 +127,19 @@ describe("InternationalPatientSummarySection", () => {
             expect(section.querySelector("[slot]")).toBeNull();
         });
     });
+
+    test("never prints none known above a record list in conflict, and says it again when the entry goes (HC-C17, P50-T29)", async () => {
+        document.body.innerHTML =
+            '<lily-international-patient-summary-section section="allergies" heading="Allergies" status="none-known" status-label="No known allergies"><ul class="allergy-record-list" data-status="conflict"><li>Penicillin</li></ul></lily-international-patient-summary-section>';
+        const status = () =>
+            document.querySelector(".international-patient-summary-section-status");
+        expect(status()).toBeNull();
+        expect(document.body.textContent).toContain("Penicillin");
+        document.querySelector("ul")!.setAttribute("data-status", "none-known");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(status()?.textContent).toBe("No known allergies");
+        document.querySelector("ul")!.setAttribute("data-status", "conflict");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(status()).toBeNull();
+    });
 });

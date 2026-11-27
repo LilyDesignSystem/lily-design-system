@@ -46,6 +46,10 @@
 {%- set code = p.code or IPS_CODES[p.section] -%}
 {%- set required = p.required if (p.required === true or p.required === false) else (p.section in IPS_REQUIRED) -%}
 {%- set level = p.headingLevel or 2 -%}
+{#- The entries are rendered first, so the section can see a record list in conflict inside them: "none known" is never printed
+    above a list that holds an entry (HC-C17, tasks.md P50-T29); the list says the conflict in the consumer's words. -#}
+{%- set body = (p.html | safe) if p.html else (caller() if caller else "") -%}
+{%- set listInConflict = status == "none-known" and (body | string).indexOf('data-status="conflict"') != -1 -%}
 {%- set ipsLevel = p.level or ("required" if p.section in IPS_REQUIRED else ("recommended" if p.section in IPS_RECOMMENDED else ("optional" if IPS_CODES[p.section] else ""))) -%}
 <section
   class="international-patient-summary-section{% if p.classes %} {{ p.classes }}{% endif %}"
@@ -59,7 +63,7 @@
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
   <h{{ level }} id="{{ sectionId }}-heading" class="international-patient-summary-section-heading">{{ p.heading }}</h{{ level }}>
-  {%- if status != "known" and p.statusLabel and p.statusPlacement != "list" %}
+  {%- if status != "known" and p.statusLabel and p.statusPlacement != "list" and not listInConflict %}
   <p class="international-patient-summary-section-status">{{ p.statusLabel }}</p>
   {%- endif %}
   {%- if p.meta %}
@@ -68,7 +72,7 @@
   {%- if p.warning %}
   <div class="international-patient-summary-section-warning">{{ p.warning | safe }}</div>
   {%- endif %}
-  {%- if p.html %}{{ p.html | safe }}{% elif caller %}{{ caller() }}{% endif %}
+  {{- body }}
   {%- if p.narrative %}
   <details class="international-patient-summary-section-narrative"{% if p.narrativeOpen %} open{% endif %}><summary>{{ p.narrativeLabel }}</summary>{{ p.narrative | safe }}</details>
   {%- endif %}

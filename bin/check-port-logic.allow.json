@@ -12,7 +12,6 @@
   "angular prop tool-call.summary": "Projected as `[toolCallSummary]`: a `[summary]` selector would read as the native <summary>.",
   "angular prop tree-select.onSelect": "The Angular output is `selectionChange`; `select` would shadow the native event.",
   "angular prop wheel-picker.onChange": "The `value` model emits `valueChange`.",
-  "blazor international-patient-summary-section": "P50-T29, Svelte 2026-11-27: the section's none-known line steps aside above a record list in conflict; the Blazor port follows.",
   "blazor middle-truncation": "Documented deviation in MiddleTruncation.md: C# measures no pixel width, so MaxCharacters is a character budget. Fitting the container needs a JS module (tasks.md P23-T16 stage 7).",
   "blazor prop action-bar-button.type": "As button.type.",
   "blazor prop action-group.onOverflowToggle": "Not ported yet (tasks.md P49-T15).",

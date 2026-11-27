@@ -61,6 +61,7 @@ const BLAZOR = [
   /@inherits\s+\w+/,
   /\bOnAfterRender(?:Async)?\b/,
   /\bnew RecordListEntries\(/, // the items register with their list (HC-C17)
+  /\bnew SectionConflicts\(/, // the record lists tell their IPS section they are in conflict (HC-C17, P50-T29)
   /\bOnParametersSet(?:Async)?\b/, // reacting to a parameter change, such as a counter waiting for typing to pause
 ];
 

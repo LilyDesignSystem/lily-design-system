@@ -12,6 +12,8 @@
     div.international-patient-summary-section-warning (a notice about the entries) go after the heading and status and before
     the entries; leave them out when there is nothing to say.
     The author's narrative, sanitised by the consumer, sits in details.international-patient-summary-section-narrative.
+    Never print "none known" above a record list in conflict (HC-C17): when data-status="none-known" and a list inside has
+    data-status="conflict", leave out the status paragraph; the list says the conflict in your words.
 -->
 
 <section

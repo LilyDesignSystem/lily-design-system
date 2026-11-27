@@ -17,10 +17,10 @@
         case 6: <h6 id="@HeadingId" class="international-patient-summary-section-heading">@Heading</h6> break;
         default: <h2 id="@HeadingId" class="international-patient-summary-section-heading">@Heading</h2> break;
     }
-    @if (Status != "known" && !string.IsNullOrEmpty(StatusLabel) && StatusPlacement != "list") {<p class="international-patient-summary-section-status">@StatusLabel</p>}
+    @if (Status != "known" && !string.IsNullOrEmpty(StatusLabel) && StatusPlacement != "list" && !(Status == "none-known" && conflicts.Any)) {<p class="international-patient-summary-section-status">@StatusLabel</p>}
     @if (Meta is not null) {<div class="international-patient-summary-section-meta">@Meta</div>}
     @if (Warning is not null) {<div class="international-patient-summary-section-warning">@Warning</div>}
-    @ChildContent
+    <CascadingValue Value="conflicts" IsFixed="true">@ChildContent</CascadingValue>
     @if (Narrative is not null) {<details class="international-patient-summary-section-narrative" open="@NarrativeOpen"><summary>@NarrativeLabel</summary>@Narrative</details>}
 </section>
 @code {
@@ -55,6 +55,11 @@
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    // "None known" is never printed above a record list in conflict (HC-C17, P50-T29); the list says it in the consumer's words.
+    private readonly SectionConflicts conflicts;
+
+    public InternationalPatientSummarySection() => conflicts = new SectionConflicts(() => InvokeAsync(StateHasChanged));
 
     private string SectionId => IpsSections.Id(Section, Id, IdPrefix);
     private string HeadingId => $"{SectionId}-heading";

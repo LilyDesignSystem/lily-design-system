@@ -11,6 +11,7 @@ import {
     ipsSectionLevel,
 } from "../lib/ips-sections.js";
 import { LiveElement } from "../lib/live-element.js";
+import { watchConflict } from "../lib/record-list-state.js";
 
 const HANDLED = new Set([
     "section",
@@ -90,12 +91,31 @@ const OWN = [
 
 export class InternationalPatientSummarySection extends LiveElement {
     #id: string | null = null;
+    // Whether a record list inside is in conflict: "none known" is never printed above a list that holds an entry (HC-C17,
+    // tasks.md P50-T29); the list says the conflict in the consumer's words.
+    #conflict = false;
+    #watching = false;
 
     static get observedAttributes(): string[] {
         return [...HANDLED, "class"];
     }
 
     protected update(): void {
+        this.#render();
+        if (this.#watching) return;
+        const section = this.querySelector(
+            ":scope > section.international-patient-summary-section",
+        );
+        if (!section) return;
+        this.#watching = true;
+        watchConflict(section, (conflict) => {
+            if (conflict === this.#conflict) return;
+            this.#conflict = conflict;
+            this.#render();
+        });
+    }
+
+    #render(): void {
         const existing = this.querySelector<HTMLElement>(
             ":scope > section.international-patient-summary-section",
         );
@@ -110,7 +130,10 @@ export class InternationalPatientSummarySection extends LiveElement {
             heading: this.text("heading"),
             headingLevel: Number(this.getAttribute("heading-level") ?? 2),
             status: this.getAttribute("status") ?? "known",
-            statusLabel: this.text("status-label"),
+            statusLabel:
+                this.#conflict && (this.getAttribute("status") ?? "known") === "none-known"
+                    ? ""
+                    : this.text("status-label"),
             statusPlacement: this.getAttribute("status-placement") ?? "heading",
             code: this.getAttribute("code") ?? undefined,
             required: required === null ? undefined : required !== "false",

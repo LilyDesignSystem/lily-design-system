@@ -128,4 +128,34 @@ public class InternationalPatientSummarySectionTests : TestContext
         }, order);
         Assert.Equal("Required", section.QuerySelector(".international-patient-summary-section-meta")!.TextContent);
     }
+
+    [Fact]
+    public void Never_prints_none_known_above_a_record_list_in_conflict()
+    {
+        Microsoft.AspNetCore.Components.RenderFragment list(bool entry) => b =>
+        {
+            b.OpenComponent<AllergyRecordList>(0);
+            b.AddAttribute(1, "Status", "none-known");
+            b.AddAttribute(2, "StatusLabel", "No known allergies");
+            if (entry)
+                b.AddAttribute(3, "ChildContent", (Microsoft.AspNetCore.Components.RenderFragment)(c =>
+                {
+                    c.OpenComponent<AllergyRecordListItem>(0);
+                    c.AddAttribute(1, "ChildContent", (Microsoft.AspNetCore.Components.RenderFragment)(t => t.AddContent(0, "Penicillin")));
+                    c.CloseComponent();
+                }));
+            b.CloseComponent();
+        };
+        IRenderedComponent<InternationalPatientSummarySection> mount(bool entry) =>
+            RenderComponent<InternationalPatientSummarySection>(p =>
+                p.Add(x => x.Section, "allergies").Add(x => x.Heading, "Allergies")
+                    .Add(x => x.Status, "none-known").Add(x => x.StatusLabel, "No known allergies")
+                    .Add(x => x.ChildContent, list(entry)));
+        var inConflict = mount(true);
+        inConflict.WaitForAssertion(() =>
+            Assert.Empty(inConflict.FindAll(".international-patient-summary-section-status")));
+        Assert.Contains("Penicillin", inConflict.Markup);
+        var noEntry = mount(false);
+        Assert.Equal("No known allergies", noEntry.Find(".international-patient-summary-section-status").TextContent);
+    }
 }

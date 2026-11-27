@@ -146,4 +146,30 @@ describe("international-patient-summary-section", () => {
             ).toBe("Required");
         });
     });
+
+    it("never prints none known above a record list in conflict (HC-C17, P50-T29)", () => {
+        const params = {
+            section: "allergies",
+            heading: "Allergies",
+            status: "none-known",
+            statusLabel: "No known allergies",
+        };
+        const inConflict = render(
+            "international-patient-summary-section",
+            params,
+            '<ul class="allergy-record-list" data-status="conflict"><li class="allergy-record-list-status">Check the source</li><li>Penicillin</li></ul>',
+        ).document;
+        expect(
+            inConflict.querySelector(".international-patient-summary-section-status"),
+        ).toBeNull();
+        expect(inConflict.body.textContent).toContain("Penicillin");
+        const noEntry = render(
+            "international-patient-summary-section",
+            params,
+            '<ul class="allergy-record-list" data-status="none-known"><li class="allergy-record-list-status">No known allergies</li></ul>',
+        ).document;
+        expect(
+            noEntry.querySelector(".international-patient-summary-section-status")?.textContent,
+        ).toBe("No known allergies");
+    });
 });

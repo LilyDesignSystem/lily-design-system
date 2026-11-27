@@ -11,9 +11,10 @@ highlights.
 
 ## Unreleased (2026-11-26)
 
-- **Fixed (healthcare):** `international-patient-summary-section` in Svelte, React, Solid, Vue and Angular no longer prints "none known" above a record list
-  that holds an entry; the list's own conflict words speak (HC-C17, P50-T29). `watchConflict` in `shared/record-list-state.ts`
-  is copied to every TypeScript catalog for the other ports.
+- **Fixed (healthcare):** `international-patient-summary-section` no longer prints "none known" above a record list that holds an
+  entry, in every catalog; the list's own conflict words speak (HC-C17, P50-T29). `watchConflict` in `shared/record-list-state.ts`
+  serves the TypeScript catalogs; Nunjucks looks in the rendered entries; Blazor's record lists report to their section through a
+  cascaded value; the HTML snippet documents the rule.
 
 - **Fixed:** `government-banner` opens and closes itself in every catalog (P54-T1). Angular, Blazor, HTML, Web Components and
   Alpine already did; Svelte (`expanded` is now bindable), React and Solid (uncontrolled unless `expanded` is given, with

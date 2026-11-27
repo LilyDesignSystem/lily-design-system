@@ -20,6 +20,25 @@ internal readonly record struct RecordListState(string? Status, string? Name, bo
     }
 }
 
+/// <summary>
+/// The record lists in conflict inside one IPS section (HC-C17, tasks.md P50-T29): a section never prints "none known" above a
+/// list that holds an entry. Each Lily record list tells its section, after it renders, whether it is in conflict.
+/// </summary>
+internal sealed class SectionConflicts(Func<Task> changed)
+{
+    private readonly HashSet<object> lists = [];
+
+    public bool Any => lists.Count > 0;
+
+    public void Set(object list, bool conflict)
+    {
+        var before = Any;
+        if (conflict) lists.Add(list);
+        else lists.Remove(list);
+        if (before != Any) _ = changed();
+    }
+}
+
 /// <summary>The entries of one record list. Each Lily item tells its list whether it counts; a bare li cannot.</summary>
 internal sealed class RecordListEntries(Func<Task> changed)
 {

@@ -1,4 +1,5 @@
 @namespace LilyBlazorHeadless.Components
+@implements IDisposable
 @*
     ProcedureRecordList: a list of a patient's procedures, whose status is never blank (tasks.md P28-T3, spec/healthcare-ui).
     For any status but "known", StatusLabel is the list's one item. Props and rules: ProcedureRecordList.md.
@@ -20,6 +21,13 @@
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    // The section this list sits in, told after each render whether the list is in conflict (P50-T29).
+    [CascadingParameter] private SectionConflicts? Section { get; set; }
+
+    protected override void OnAfterRender(bool firstRender) => Section?.Set(this, Shown.Status == "conflict");
+
+    public void Dispose() => Section?.Set(this, false);
 
     private RecordListState Shown => RecordListState.Of(Status, StatusLabel, ConflictLabel, Label, entries.Any);
 
