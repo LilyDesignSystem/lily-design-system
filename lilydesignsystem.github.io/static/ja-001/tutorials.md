@@ -155,7 +155,7 @@ theme-picker、locale-picker、text-size-picker、motion-picker、search-picker�
 
 ### Patient App
 
-`Swift` · `iPhone` · `iPad`
+`Swift` · `Kotlin`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/)
 

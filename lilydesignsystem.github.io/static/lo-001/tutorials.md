@@ -155,7 +155,7 @@ Svelte 5 runes, snippets, ແລະ `bind:value` ການຜູກສອງທ�
 
 ### Patient App
 
-`Swift` · `iPhone` · `iPad`
+`Swift` · `Kotlin`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/)
 

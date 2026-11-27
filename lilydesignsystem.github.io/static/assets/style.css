@@ -369,6 +369,7 @@ html[data-text-size='largest'] { font-size: 150%; }
   margin: 1.5rem 0;
 }
 
+.component-icon-row,
 .framework-icon-row {
   /* Nine icons need about 49rem; .page-intro is only 48rem wide (less its padding), and a
      max-width can never exceed the parent, so the ninth icon wrapped onto a second row at every
@@ -388,6 +389,7 @@ html[data-text-size='largest'] { font-size: 150%; }
   list-style: none;
 }
 /* Right to left starts the row at the right edge, so centring it mirrors: right, not left, and the opposite translation. */
+.component-icon-row:dir(rtl),
 .framework-icon-row:dir(rtl) {
   left: auto;
   right: 50%;

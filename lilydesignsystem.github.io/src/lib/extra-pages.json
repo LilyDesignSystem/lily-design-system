@@ -44,6 +44,7 @@
   { "slug": "tutorials-book-appointment", "route": "tutorials/book-appointment" },
   { "slug": "tutorials-patient-app", "route": "tutorials/patient-app" },
   { "slug": "tutorials-patient-app-swift", "route": "tutorials/patient-app/swift" },
+  { "slug": "tutorials-patient-app-kotlin", "route": "tutorials/patient-app/kotlin" },
   { "slug": "tutorials-book-appointment-swift", "route": "tutorials/book-appointment/swift" },
   { "slug": "tutorials-book-appointment-kotlin", "route": "tutorials/book-appointment/kotlin" },
   { "slug": "tutorials-book-appointment-maui", "route": "tutorials/book-appointment/maui" },

@@ -155,7 +155,7 @@ Agħti lill-utenti kontroll tat-tema, il-lingwa, id-daqs tat-test, il-moviment, 
 
 ### Patient App
 
-`Swift` · `iPhone` · `iPad`
+`Swift` · `Kotlin`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/)
 

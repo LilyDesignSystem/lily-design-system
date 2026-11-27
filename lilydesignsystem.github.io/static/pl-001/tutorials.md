@@ -155,7 +155,7 @@ Daj użytkownikom kontrolę nad motywem, językiem, rozmiarem tekstu, ruchem, wy
 
 ### Patient App
 
-`Swift` · `iPhone` · `iPad`
+`Swift` · `Kotlin`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/)
 

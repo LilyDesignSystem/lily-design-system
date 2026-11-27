@@ -155,7 +155,7 @@ Eleventy ਅਤੇ ਕਿਸੇ ਵੀ Node ਟੈਂਪਲੇਟ ਪਾਈਪ�
 
 ### Patient App
 
-`Swift` · `iPhone` · `iPad`
+`Swift` · `Kotlin`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/)
 

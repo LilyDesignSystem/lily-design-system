@@ -155,7 +155,7 @@ Runes του Svelte 5, snippets και αμφίδρομη δέσμευση με 
 
 ### Patient App
 
-`Swift` · `iPhone` · `iPad`
+`Swift` · `Kotlin`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/)
 

@@ -155,7 +155,7 @@ Gie uisers control o theme, leid, text size, motion, seek, page links, sharin, a
 
 ### Patient App
 
-`Swift` · `iPhone` · `iPad`
+`Swift` · `Kotlin`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/)
 

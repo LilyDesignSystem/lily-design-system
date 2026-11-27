@@ -155,7 +155,7 @@ Svelte 5 runes สนิปเป็ต และการผูกสองท�
 
 ### Patient App
 
-`Swift` · `iPhone` · `iPad`
+`Swift` · `Kotlin`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/)
 

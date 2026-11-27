@@ -155,7 +155,7 @@ Eleventy आणि कोणत्याही Node टेम्प्लेट 
 
 ### Patient App
 
-`Swift` · `iPhone` · `iPad`
+`Swift` · `Kotlin`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/)
 

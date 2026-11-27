@@ -155,7 +155,7 @@ Ba masu amfani iko akan jigo, harshe, girman rubutu, motsi, bincike, hanyoyin sh
 
 ### Patient App
 
-`Swift` · `iPhone` · `iPad`
+`Swift` · `Kotlin`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/)
 

@@ -155,7 +155,7 @@ Anna kasutajatele kontroll teema, keele, teksti suuruse, liikumise, otsingu, leh
 
 ### Patient App
 
-`Swift` · `iPhone` · `iPad`
+`Swift` · `Kotlin`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/)
 

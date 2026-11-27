@@ -155,7 +155,7 @@ Trao cho người dùng quyền kiểm soát giao diện, ngôn ngữ, cỡ ch�
 
 ### Patient App
 
-`Swift` · `iPhone` · `iPad`
+`Swift` · `Kotlin`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/)
 

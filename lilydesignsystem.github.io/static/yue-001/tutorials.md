@@ -155,7 +155,7 @@ Razor 元件,附帶參數、 `ChildContent`,同 bUnit 測試。
 
 ### Patient App
 
-`Swift` · `iPhone` · `iPad`
+`Swift` · `Kotlin`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/)
 

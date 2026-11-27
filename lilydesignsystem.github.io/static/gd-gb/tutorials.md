@@ -155,7 +155,7 @@ Thoir smachd do chleachdaichean air ùrlar, cànan, meud teacsa, gluasad, lorg, 
 
 ### Patient App
 
-`Swift` · `iPhone` · `iPad`
+`Swift` · `Kotlin`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/)
 

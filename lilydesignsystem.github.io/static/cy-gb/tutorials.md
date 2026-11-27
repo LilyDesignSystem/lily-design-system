@@ -155,7 +155,7 @@ Rhowch reolaeth i ddefnyddwyr dros thema, iaith, maint testun, symudiad, chwilio
 
 ### Patient App
 
-`Swift` · `iPhone` · `iPad`
+`Swift` · `Kotlin`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/)
 

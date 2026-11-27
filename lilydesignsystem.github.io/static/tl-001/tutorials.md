@@ -155,7 +155,7 @@ Bigyan ang mga user ng kontrol sa tema, wika, laki ng teksto, galaw, paghahanap,
 
 ### Patient App
 
-`Swift` · `iPhone` · `iPad`
+`Swift` · `Kotlin`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/)
 

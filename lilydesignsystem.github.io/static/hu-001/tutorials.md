@@ -155,7 +155,7 @@ Adj a felhasználóknak kontrollt a téma, a nyelv, a szövegméret, a mozgás, 
 
 ### Patient App
 
-`Swift` · `iPhone` · `iPad`
+`Swift` · `Kotlin`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/)
 

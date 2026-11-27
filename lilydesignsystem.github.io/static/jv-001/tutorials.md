@@ -155,7 +155,7 @@ Wènèhana pangguna kontrol tema, basa, ukuran tèks, gerakan, panelusuran, taut
 
 ### Patient App
 
-`Swift` · `iPhone` · `iPad`
+`Swift` · `Kotlin`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/)
 

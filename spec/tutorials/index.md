@@ -70,7 +70,9 @@ under a fictional name, Example Health, with no NHS name, logo or wordmark, and 
 theme lends a look, never another body's identity (AGENTS/visual-identity.md). Built against the published Swift 0.1.0; a UI
 test walks the seven screens with the platform's accessibility audit and keeps each screenshot, on an iPhone 17 and an iPad Pro
 11-inch, and the page shows each screen on both. The audit's clipped-text check is waived only for a long word SwiftUI hyphenates
-at the largest sizes, which a second test shows whole. `tests/patient-app-tutorials.spec.ts` checks the pages.
+at the largest sizes, which a second test shows whole. `…/kotlin/` is the same app in Jetpack Compose, a module of the
+repository's Gradle build, its instrumented test walking the seven screens with the Accessibility Test Framework on a Pixel 10
+and a Pixel Tablet emulator in portrait, saving a screenshot of each. `tests/patient-app-tutorials.spec.ts` checks the pages.
 
 ### The pre-operative assessment on phones
 

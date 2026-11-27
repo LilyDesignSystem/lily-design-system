@@ -155,7 +155,7 @@ Suteikite vartotojams temos, kalbos, teksto dydžio, judesio, paieškos, puslapi
 
 ### Patient App
 
-`Swift` · `iPhone` · `iPad`
+`Swift` · `Kotlin`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/)
 

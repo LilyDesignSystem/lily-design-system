@@ -155,7 +155,7 @@ Rewgh dhe'n devnydhyoryon governans a deb, yeth, myns an skrif, gwayans, whelas,
 
 ### Patient App
 
-`Swift` · `iPhone` · `iPad`
+`Swift` · `Kotlin`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/)
 

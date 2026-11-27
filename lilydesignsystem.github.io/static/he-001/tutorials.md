@@ -155,7 +155,7 @@ Runes של Svelte 5, snippets, ו `bind:value` קשירה דו-כיוונית.
 
 ### Patient App
 
-`Swift` · `iPhone` · `iPad`
+`Swift` · `Kotlin`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/)
 

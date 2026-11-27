@@ -155,7 +155,7 @@ Kullanıcılara tema, dil, metin boyutu, hareket, arama, sayfa bağlantıları, 
 
 ### Patient App
 
-`Swift` · `iPhone` · `iPad`
+`Swift` · `Kotlin`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/)
 

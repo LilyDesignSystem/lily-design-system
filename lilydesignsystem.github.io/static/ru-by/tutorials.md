@@ -155,7 +155,7 @@ Description: Пошаговые учебники по Lily: ваш первый 
 
 ### Patient App
 
-`Swift` · `iPhone` · `iPad`
+`Swift` · `Kotlin`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/)
 

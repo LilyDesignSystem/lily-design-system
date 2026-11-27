@@ -155,7 +155,7 @@ Tabhair rialú d’úsáideoirí ar théama, teanga, méid téacs, gluaiseacht, 
 
 ### Patient App
 
-`Swift` · `iPhone` · `iPad`
+`Swift` · `Kotlin`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/)
 

@@ -155,7 +155,7 @@ Runes Svelte 5, snippets і `bind:value` двостороннє зв’язув�
 
 ### Patient App
 
-`Swift` · `iPhone` · `iPad`
+`Swift` · `Kotlin`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/)
 

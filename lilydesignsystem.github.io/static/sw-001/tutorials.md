@@ -155,7 +155,7 @@ Wape watumiaji udhibiti wa mandhari, lugha, ukubwa wa maandishi, mwendo, utafuta
 
 ### Patient App
 
-`Swift` · `iPhone` · `iPad`
+`Swift` · `Kotlin`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/)
 

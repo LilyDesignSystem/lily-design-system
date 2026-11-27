@@ -155,7 +155,7 @@ Gitt de Benotzer Kontroll iwwer Thema, Sprooch, Textgréisst, Bewegung, Sich, S�
 
 ### Patient App
 
-`Swift` · `iPhone` · `iPad`
+`Swift` · `Kotlin`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/)
 
