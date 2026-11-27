@@ -1023,7 +1023,7 @@ public class MainPage : ContentPage
     {
         var stack = stacks[tab];
         host.Content = stack.Count > 0
-            ? stack[^1](Back)
+            ? stack[^1].Invoke(Back)
             : tab switch
             {
                 Tab.Home => Screens.Home(Open),

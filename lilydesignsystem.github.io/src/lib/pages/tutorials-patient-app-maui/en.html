@@ -1014,7 +1014,7 @@ public class MainPage : ContentPage
     {
         var stack = stacks[tab];
         host.Content = stack.Count &gt; 0
-            ? stack[^1](Back)
+            ? stack[^1].Invoke(Back)
             : tab switch
             {
                 Tab.Home =&gt; Screens.Home(Open),
