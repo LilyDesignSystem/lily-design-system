@@ -67,7 +67,23 @@ This headless component ships zero CSS and decides nothing visual. The consumer 
 
 ## Advice
 
-- Write the words in the reader's language: `new Intl.DurationFormat(locale, { style: "long" }).format(durationParts(iso))`, leaving out `negative`.
+- Write the words in the reader's language with `Intl.DurationFormat`. It takes whole numbers only, so split fractional seconds into
+  milliseconds, and it takes no sign, so say the direction yourself (P55-T6a; `shared/duration-recipe.test.ts` runs this as written):
+
+  ```ts
+  function durationWords(iso: string, locale: string) {
+    const { negative, seconds, ...rest } = durationParts(iso); // "PT1.5S" and "PT1,5S" both give seconds 1.5
+    const whole = Math.trunc(seconds);
+    const milliseconds = Math.round((seconds - whole) * 1000);
+    const words = new Intl.DurationFormat(locale, { style: "long" }).format({
+      ...rest,
+      seconds: whole,
+      milliseconds,
+    });
+    return { negative, words }; // put the direction in your own words: "3 days early", "90 minutes ago"
+  }
+  ```
+
 - Keep the units the record has: 90 minutes is not 1.5 hours, and Lily converts nothing.
 - Do not round a clinical duration for display without saying so.
 

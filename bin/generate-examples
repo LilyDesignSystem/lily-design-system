@@ -193,7 +193,7 @@ write("lily-design-system-angular-examples/src/app/component-examples.ts", tsFor
       const e = exampleFor("blazor", c);
       if (!Object.keys(e).length) return null;
       const variants = (e.variants || []).map((v) => `new(${csLit(v.title)}, ${csLit(v.html)})`).join(", ");
-      return `        [${csLit(c.slug)}] = new(${csLit(e.usage ? e.usage.lang : "")}, ${csLit(e.usage ? e.usage.code : "")}, new List<ExampleVariant> { ${variants} }),`;
+      return `        [${csLit(c.slug)}] = new(${csLit(e.usage ? e.usage.lang : "")}, ${csLit(e.usage ? e.usage.code : "")}, new List<ExampleVariant> ${variants ? `{ ${variants} }` : "{ }"}),`;
     })
     .filter(Boolean)
     .join("\n");

@@ -5084,7 +5084,7 @@ T6 are props the types accept that lose meaning in text. The order the audit giv
 - [x] **P55-T6 An empty `nameSegments` hides the medicine name.** Fixed 2026-11-26 in Svelte, React, Solid and Vue (Angular, Nunjucks,
       Web Components, Blazor, Swift and Kotlin already checked the length), with a test in each. The audit's revision of 21:37 (in
       history at the commit that deleted it) confirms the fix and asks to extend the regression to blank and valid tall-man segments.
-- [ ] **P55-T6a The duration recipe throws on fractional seconds.** `Intl.DurationFormat` takes integer fields: give the recipe
+- [x] **P55-T6a The duration recipe throws on fractional seconds.** _(Done 2026-11-27: the guide's recipe splits fractional seconds into milliseconds and returns the sign apart; `shared/duration-recipe.test.ts` runs it as written with `PT1.5S`, `PT1,5S` and `-PT90M`.)_ `Intl.DurationFormat` takes integer fields: give the recipe
       `milliseconds` (and smaller) and an explicit sign. Verify: `PT1.5S`, a decimal comma, `-PT90M`, run as written.
 - [ ] **P55-T7 One evidence account.** The ACR says Chromium only while Core counts cross-engine runs: generate both from the same
       evidence, configured apart from executed. Add T2 to T5 to the worked hazard log with an owner and the affected release.
