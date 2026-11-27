@@ -129,7 +129,7 @@ export function blank(): Answers {
   <ul>
     <li><strong>The body mass index</strong>, in whichever units the patient used.</li>
     <li><strong>What is sent.</strong> A follow-up the patient can no longer see, because they changed the answer above it, is left out.</li>
-    <li><strong>What is missing</strong> from each step.</li>
+    <li><strong>What is missing</strong> from each step, including a date of birth that is not a real day or is still to come. The date field checks only that its parts are numbers, so 31 February is the app's to refuse, against the clinic's today in the clinic's time zone.</li>
     <li><strong>What the clinic should look at first</strong>, from what is sent, so an answer the patient took back never raises a flag.</li>
   </ul>
 
@@ -185,15 +185,33 @@ export function allergyStatus(a: Answers): "known" | "none-known" | "not-recorde
   return s.allergies.length > 0 ? "known" : "not-recorded";
 }
 
+/** Today, YYYY-MM-DD, in the clinic's time zone: a date of birth is checked against the clinic's day, not the server's. */
+export function today(timeZone: string, now = new Date()): string {
+  const parts = new Intl.DateTimeFormat("en", { timeZone, year: "numeric", month: "2-digit", day: "2-digit" }).formatToParts(now);
+  const part = (type: string) => parts.find((p) => p.type === type)?.value ?? "";
+  return \`\${part("year")}-\${part("month")}-\${part("day")}\`;
+}
+
+/** Whether a date of birth is a real day on or before today. The date field checks only that its parts are numbers. */
+export function isBirthDate(iso: string, onOrBefore: string): boolean {
+  const m = /^(\\d{4})-(\\d{2})-(\\d{2})$/.exec(iso);
+  if (!m) return false;
+  const [year, month, day] = [Number(m[1]), Number(m[2]), Number(m[3])];
+  const date = new Date(0);
+  date.setUTCFullYear(year, month - 1, day);
+  const real = date.getUTCFullYear() === year && date.getUTCMonth() === month - 1 && date.getUTCDate() === day;
+  return real && iso <= onOrBefore;
+}
+
 export type Section = "about" | "heart" | "medicines" | "allergies" | "anaesthesia";
 
-/** The questions in a section that still need an answer, by the id of their field. */
-export function missing(section: Section, a: Answers): string[] {
+/** The questions in a section that still need an answer, by the id of their field. \`on\` is today, from \`today\`. */
+export function missing(section: Section, a: Answers, on: string): string[] {
   const need = (id: string, answered: boolean) => (answered ? [] : [id]);
   switch (section) {
     case "about":
       return [
-        ...need("birth-date", a.birthDate !== ""),
+        ...need("birth-date", isBirthDate(a.birthDate, on)),
         ...need("weight", kilograms(a.weight) !== undefined),
         ...need("height", metres(a.height) !== undefined),
         ...need("operation", a.operation.trim() !== ""),
@@ -270,7 +288,7 @@ export function flags(a: Answers): Flag[] {
   <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
   <pre tabindex="0" data-file="src/lib/rules.test.ts"><code>{`import { describe, expect, it } from "vitest";
 import { blank, type Answers } from "./answers.js";
-import { allergyStatus, bmi, flags, missing, sent } from "./rules.js";
+import { allergyStatus, bmi, flags, isBirthDate, missing, sent } from "./rules.js";
 
 const with_ = (change: Partial<Answers>): Answers => ({ ...blank(), ...change });
 
@@ -322,13 +340,19 @@ describe("allergyStatus", () => {
 });
 
 describe("missing", () => {
+  it("asks again for a date of birth that is not a real day, or is still to come", () => {
+    expect(isBirthDate("1949-02-03", "2026-11-27")).toBe(true);
+    expect(isBirthDate("1949-02-31", "2026-11-27")).toBe(false);
+    expect(isBirthDate("2027-01-01", "2026-11-27")).toBe(false);
+  });
+
   it("asks for an allergy when the answer is yes and the list is empty", () => {
-    expect(missing("allergies", with_({ anyAllergies: "yes" }))).toEqual(["allergy-list"]);
+    expect(missing("allergies", with_({ anyAllergies: "yes" }), "2026-11-27")).toEqual(["allergy-list"]);
   });
 
   it("asks what went wrong only after a previous anaesthetic", () => {
-    expect(missing("anaesthesia", with_({ anaesthesiaBefore: "no", familyAnaesthesiaProblem: "no" }))).toEqual([]);
-    expect(missing("anaesthesia", with_({ anaesthesiaBefore: "yes", familyAnaesthesiaProblem: "no" }))).toEqual([
+    expect(missing("anaesthesia", with_({ anaesthesiaBefore: "no", familyAnaesthesiaProblem: "no" }), "2026-11-27")).toEqual([]);
+    expect(missing("anaesthesia", with_({ anaesthesiaBefore: "yes", familyAnaesthesiaProblem: "no" }), "2026-11-27")).toEqual([
       "anaesthesia-problem",
     ]);
   });
@@ -354,7 +378,7 @@ describe("flags", () => {
   });
 });`}</code></pre>
 
-  <p>Run <code>npx vitest run</code>: 14 tests pass. Now break the rules, one at a time, and watch a test fail each time:</p>
+  <p>Run <code>npx vitest run</code>: 15 tests pass. Now break the rules, one at a time, and watch a test fail each time:</p>
 
   <ul>
     <li>In <code>allergyStatus</code>, return <code>"none-known"</code> when the list is empty rather than when the patient says no.</li>
@@ -377,6 +401,8 @@ import type { Flag } from "./rules.js";
 export const words = {
   /** The language the app writes in, for Intl. */
   locale: "en-GB",
+  /** The clinic's time zone, IANA: whose "today" a date of birth is checked against. */
+  timeZone: "Europe/London",
   title: "Before your operation",
   intro: "These questions help the team plan your anaesthetic. The clinic reads your answers before your assessment.",
   saved: "Your answers are saved on this device as you go.",
@@ -436,7 +462,7 @@ export const words = {
   anaesthesiaProblemDetails: "What happened?",
   familyAnaesthesiaProblem: "Has a blood relative had a serious problem with an anaesthetic?",
   errors: {
-    "birth-date": "Enter your date of birth",
+    "birth-date": "Enter your date of birth as a real date that has passed",
     weight: "Enter your weight",
     height: "Enter your height",
     operation: "Enter the operation you are having",
@@ -901,7 +927,7 @@ export function sentAnswers(): Answers | undefined {
   import HeartAndLungs from "#lib/components/HeartAndLungs.svelte";
   import Medicines from "#lib/components/Medicines.svelte";
   import { draft, save, send, startAgain } from "#lib/draft.svelte.js";
-  import { missing, sent, type Section } from "#lib/rules.js";
+  import { missing, sent, today, type Section } from "#lib/rules.js";
   import { words } from "#lib/words.js";
 
   const steps: (Section | "check")[] = ["about", "heart", "medicines", "allergies", "anaesthesia", "check"];
@@ -937,7 +963,7 @@ export function sentAnswers(): Answers | undefined {
       send(sent(draft.answers));
       return;
     }
-    errors = missing(step, draft.answers);
+    errors = missing(step, draft.answers, today(words.timeZone));
     if (errors.length > 0) {
       await tick();
       document.querySelector<HTMLElement>(".error-summary")?.focus();
