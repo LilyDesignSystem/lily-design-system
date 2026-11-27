@@ -518,3 +518,4 @@ OCHA's
 Civi
 CiviCRM
 CiviVolunteer
+apixaban

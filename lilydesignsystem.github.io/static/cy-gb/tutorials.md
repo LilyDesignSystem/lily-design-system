@@ -139,7 +139,13 @@ Rhowch reolaeth i ddefnyddwyr dros thema, iaith, maint testun, symudiad, chwilio
 
 `SvelteKit` · `PAS`
 
-](https://lilydesignsystem.com/tutorials/patient-administration-system/)
+](https://lilydesignsystem.com/tutorials/patient-administration-system/) [
+
+### Pre-operative Assessment by Patient
+
+`SvelteKit` · `Form Examples`
+
+](https://lilydesignsystem.com/tutorials/pre-operative-assessment-by-patient/)
 
 ## Ar ôl y tiwtorialau
 

@@ -874,5 +874,6 @@ export const actions: Actions = {
     <li><a href="/tutorials/electronic-patient-record/">Electronic patient record tutorial</a>: record what happens at the appointment.</li>
     <li><a href="/tutorials/international-patient-summary/">International Patient Summary tutorial</a>: share it.</li>
     <li><a href="/tutorials/worldwide/">A form that works worldwide</a>: names, addresses, dates and direction.</li>
+    <li><a href="/tutorials/pre-operative-assessment-by-patient/">Pre-operative assessment by patient tutorial</a>: the questions a patient answers before an operation.</li>
   </ul>
 </section>

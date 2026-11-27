@@ -903,3 +903,4 @@ A good next step is to replace `Store` with a database, and keep every test as i
 - [International Patient Summary tutorial](https://lilydesignsystem.com/tutorials/international-patient-summary/): share what you have recorded.
 - [Patient administration system tutorial](https://lilydesignsystem.com/tutorials/patient-administration-system/): bring the patient to the clinic.
 - [Healthcare patterns](https://lilydesignsystem.com/patterns/healthcare/): patient banners, record lists and the states of an entry.
+- [Pre-operative assessment by patient tutorial](https://lilydesignsystem.com/tutorials/pre-operative-assessment-by-patient/): the questions a patient answers before an operation.

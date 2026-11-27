@@ -139,7 +139,13 @@ Svelte 5 runes、代码片段搭 `bind:value` 双向绑定。
 
 `SvelteKit` · `PAS`
 
-](https://lilydesignsystem.com/tutorials/patient-administration-system/)
+](https://lilydesignsystem.com/tutorials/patient-administration-system/) [
+
+### Pre-operative Assessment by Patient
+
+`SvelteKit` · `Form Examples`
+
+](https://lilydesignsystem.com/tutorials/pre-operative-assessment-by-patient/)
 
 ## 教程之后
 

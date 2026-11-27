@@ -5211,7 +5211,7 @@ and synthetic records with Lily’s existing SvelteKit examples. Start with the 
 
 ## Phase 62 — A pre-operative assessment tutorial (2026-11-27)
 
-A project tutorial, `/tutorials/pre-operative-assessment/`: a patient fills in a short pre-operative questionnaire, leading to
+A project tutorial, `/tutorials/pre-operative-assessment-by-patient/`: a patient fills in a short pre-operative questionnaire, leading to
 [Form Examples](https://github.com/FormExamples/form-examples) (`forms/pre-operative-assessment-by-patient`). From a review of
 that form and its clinician counterpart: Lily already has every web part it needs (`repeatable-fieldset`, `date-field`,
 `quantity-input-div`, `radio-group`, `step-list`, `error-summary`, `summary-list`), so no new web component; the mobile
@@ -5220,7 +5220,7 @@ catalogs lack four parts the mobile catalog marks as Lily's.
 - [x] **P62-T1 A conditional question, and a restored draft.** _(Done 2026-11-27: `recipes/radio-group/conditional-question.html`
       and `recipes/alert/restored-draft.html`, and the Conditional question pattern in `AGENTS/components.md`.)_ Both form apps
       hand-write them. Verify: `bin/check-recipes`.
-- [ ] **P62-T2 The Svelte tutorial.** Five sections, not the source's sixteen: about you (`date-field`, `quantity-input-div` with
+- [x] **P62-T2 The Svelte tutorial.** _(Done 2026-11-27: five steps, medicines asked as a question before the list as allergies are, 14 tests and four mistakes; `bin/check-tutorials pre-operative-assessment-by-patient` passes from a fresh scaffold, and the site's `project-tutorials.spec.ts` checks the page. Linked from `/tutorials/` in all 64 languages, the site map, the sitemap, `llms.txt` and the other three project tutorials.)_ Five sections, not the source's sixteen: about you (`date-field`, `quantity-input-div` with
       the person's units), heart and lungs (yes, no or not sure, with a follow-up), medicines (`repeatable-fieldset`), allergies (a
       "No" is said, never assumed from an empty list), previous anaesthesia; then check your answers and a summary for the clinic.
       The rules (BMI, the flags for the clinic, what a hidden follow-up sends) are pure code with tests. The patient never sees an

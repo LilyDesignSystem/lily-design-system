@@ -38,8 +38,9 @@ actually live.
   Nunjucks, each under `/tutorials/{framework}/`.
 - [Project tutorials](https://lilydesignsystem.com/tutorials/): build a small
   [International Patient Summary viewer](https://lilydesignsystem.com/tutorials/international-patient-summary/),
-  [electronic patient record](https://lilydesignsystem.com/tutorials/electronic-patient-record/) or
-  [patient administration system](https://lilydesignsystem.com/tutorials/patient-administration-system/), whole files, tested.
+  [electronic patient record](https://lilydesignsystem.com/tutorials/electronic-patient-record/),
+  [patient administration system](https://lilydesignsystem.com/tutorials/patient-administration-system/) or
+  [pre-operative assessment by patient](https://lilydesignsystem.com/tutorials/pre-operative-assessment-by-patient/), whole files, tested.
 - [Examples](https://lilydesignsystem.com/examples/): worked example
   apps showing how to style Lily components in every supported framework.
 - [Compare](https://lilydesignsystem.com/compare/): how Lily

@@ -11,6 +11,12 @@ highlights.
 
 ## Unreleased (2026-11-26)
 
+- **Added (docs):** the pre-operative assessment by patient tutorial, `/tutorials/pre-operative-assessment-by-patient/`: a short
+  questionnaire a patient answers before an operation, with questions answered yes, no or not sure, a follow-up only after "Yes",
+  medicines and allergies asked before their lists, a saved draft, and what the clinic looks at first. It never shows the patient
+  a grade. It leads to Form Examples, and `bin/check-tutorials` builds and drives it (P62-T2). Two recipes, a conditional
+  question and a restored draft, came from the same review (P62-T1).
+
 - **Fixed (Web Components):** fifteen elements that built once now show a change to their attributes: `iban-view`, `statistic`,
   `badge`, `status-tag`, `status-light`, `meter`, `progress`, `alert`, `care-card`, `info-state`, `tag`, `error-message`,
   `screen-reader-span`, `warning-text`, `split-view`, `review-date`, `theme-view`, `postal-code-view`, `record-provenance-view`, the measurement views and the rating

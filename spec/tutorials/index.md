@@ -2,8 +2,9 @@
 
 ## Summary
 
-The docs site's tutorials at `/tutorials/`: one per framework, some by topic, and since 2026-11-25 three **project tutorials**,
-each of which builds a small working version of a real open-source project that uses Lily, and leads on to it.
+The docs site's tutorials at `/tutorials/`: one per framework, some by topic, and since 2026-11-25 **project tutorials**
+(four since 2026-11-27), each of which builds a small working version of a real open-source project that uses Lily, and leads
+on to it.
 
 ## Scope
 
@@ -13,11 +14,12 @@ are [examples](../examples/index.md); the components' own guidance is [component
 
 ## The project tutorials
 
-| Route                                       | Leads to                                                                                                        |
-| ------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| `/tutorials/international-patient-summary/` | [International Patient Summary](https://github.com/international-patient-summary/international-patient-summary) |
-| `/tutorials/electronic-patient-record/`     | [Electronic Patient Record](https://github.com/electronic-patient-record/electronic-patient-record)             |
-| `/tutorials/patient-administration-system/` | [Patient Administration System](https://github.com/patient-administration-system/patient-administration-system) |
+| Route                                             | Leads to                                                                                                        |
+| ------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| `/tutorials/international-patient-summary/`       | [International Patient Summary](https://github.com/international-patient-summary/international-patient-summary) |
+| `/tutorials/electronic-patient-record/`           | [Electronic Patient Record](https://github.com/electronic-patient-record/electronic-patient-record)             |
+| `/tutorials/patient-administration-system/`       | [Patient Administration System](https://github.com/patient-administration-system/patient-administration-system) |
+| `/tutorials/pre-operative-assessment-by-patient/` | [Form Examples](https://github.com/FormExamples/form-examples): `forms/pre-operative-assessment-by-patient`     |
 
 ## Principles and rules
 
@@ -52,7 +54,8 @@ so `/tutorials/` lists them in all 64. Translating the pages is the same decisio
 
 ## Acceptance criteria
 
-- [x] Three project tutorials, each built and driven by `bin/check-tutorials` from a fresh scaffold.
+- [x] Four project tutorials, each built and driven by `bin/check-tutorials` from a fresh scaffold (the pre-operative
+      assessment since 2026-11-27, tasks.md P62-T2).
 - [x] Each is linked from `/tutorials/`, the site map and the sitemap, and has a Markdown twin.
 - [x] Every repository link resolves to a public file (checked 2026-11-25).
 - [ ] A developer new to Lily follows one from start to end, and what stopped them is fixed (tasks.md P51-T5).

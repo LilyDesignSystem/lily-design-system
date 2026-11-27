@@ -7,9 +7,14 @@ const TUTORIALS = [
     { slug: "international-patient-summary", title: "International Patient Summary tutorial" },
     { slug: "electronic-patient-record", title: "Electronic patient record tutorial" },
     { slug: "patient-administration-system", title: "Patient administration system tutorial" },
+    {
+        slug: "pre-operative-assessment-by-patient",
+        title: "Pre-operative assessment by patient tutorial",
+        repo: "https://github.com/FormExamples/form-examples",
+    },
 ];
 
-for (const { slug, title } of TUTORIALS) {
+for (const { slug, title, repo } of TUTORIALS) {
     test(`/tutorials/${slug}/ is a complete tutorial`, async ({ page }) => {
         await page.setViewportSize({ width: 320, height: 800 });
         await page.goto(`/tutorials/${slug}/`);
@@ -17,7 +22,7 @@ for (const { slug, title } of TUTORIALS) {
         await expect(page.getByRole("heading", { level: 1 })).toHaveText(title);
         await expect(main).toContainText("For learning only.");
         await expect(
-            main.locator(`a[href="https://github.com/${slug}/${slug}"]`).first(),
+            main.locator(`a[href="${repo ?? `https://github.com/${slug}/${slug}`}"]`).first(),
         ).toBeVisible();
         for (const other of TUTORIALS.filter((t) => t.slug !== slug))
             await expect(main.locator(`a[href="/tutorials/${other.slug}/"]`)).toHaveCount(1);

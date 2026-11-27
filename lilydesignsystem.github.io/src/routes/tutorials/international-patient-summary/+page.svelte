@@ -825,5 +825,6 @@ export const errors: Record<DocumentError["code"] | "notJson", string> = {
     <li><a href="/tutorials/electronic-patient-record/">Electronic patient record tutorial</a>: record what a summary is made from.</li>
     <li><a href="/tutorials/patient-administration-system/">Patient administration system tutorial</a>: appointments, waiting lists and reminders.</li>
     <li><a href="/patterns/healthcare/">Healthcare patterns</a>: the rules behind these components, and the map from FHIR to Lily.</li>
+    <li><a href="/tutorials/pre-operative-assessment-by-patient/">Pre-operative assessment by patient tutorial</a>: the questions a patient answers before an operation.</li>
   </ul>
 </section>

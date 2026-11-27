@@ -139,7 +139,13 @@ Dodiet lietotājiem kontroli pār tēmu, valodu, teksta izmēru, kustību, mekl�
 
 `SvelteKit` · `PAS`
 
-](https://lilydesignsystem.com/tutorials/patient-administration-system/)
+](https://lilydesignsystem.com/tutorials/patient-administration-system/) [
+
+### Pre-operative Assessment by Patient
+
+`SvelteKit` · `Form Examples`
+
+](https://lilydesignsystem.com/tutorials/pre-operative-assessment-by-patient/)
 
 ## Pēc apmācībām
 

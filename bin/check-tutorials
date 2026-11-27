@@ -55,6 +55,30 @@ const TUTORIALS = {
             ["src/lib/server/store.ts", "allergy.patientId !== patientId", "false"],
         ],
     },
+    "pre-operative-assessment-by-patient": {
+        tests: 14,
+        mistakes: [
+            // An empty list is not "none known"; only a "No" is (HC-C17).
+            [
+                "src/lib/rules.ts",
+                'if (s.anyAllergies === "no") return "none-known";',
+                'if (s.allergies.length === 0) return "none-known";',
+            ],
+            // A follow-up the patient can no longer see is not sent.
+            [
+                "src/lib/rules.ts",
+                'bloodThinnerName: a.bloodThinner === "yes" ? a.bloodThinnerName : "",',
+                "bloodThinnerName: a.bloodThinnerName,",
+            ],
+            ["src/lib/rules.ts", "const POUND = 0.45359237;", "const POUND = 1;"],
+            // The flags come from what is sent, so an answer taken back raises none.
+            [
+                "src/lib/rules.ts",
+                "const s = sent(a);\n  const unsure",
+                "const s = a;\n  const unsure",
+            ],
+        ],
+    },
     "patient-administration-system": {
         tests: 14,
         serve: "dev",
@@ -198,13 +222,11 @@ const FLOWS = {
             "an unavailable section says so",
         );
         await accessible("the summary");
-        await page
-            .locator("#file")
-            .setInputFiles({
-                name: "x.json",
-                mimeType: "application/json",
-                buffer: Buffer.from("no"),
-            });
+        await page.locator("#file").setInputFiles({
+            name: "x.json",
+            mimeType: "application/json",
+            buffer: Buffer.from("no"),
+        });
         await see(page.getByRole("alert"), "not JSON", "a bad file is refused in words");
         must(
             (await page.locator("article").count()) === 0,
@@ -267,6 +289,69 @@ const FLOWS = {
         );
         await accessible("the duplicate check");
         must((await go("/patients/nobody")) === 404, "an unknown patient is not found");
+    },
+    async "pre-operative-assessment-by-patient"({ page, go, accessible, see }) {
+        const next = () => page.getByRole("button", { name: "Continue" }).click();
+        await go("/");
+        await next();
+        await see(
+            page.locator(".error-summary"),
+            "Enter your date of birth",
+            "a missing answer is listed in the error summary",
+        );
+        await accessible("the first step, with errors");
+        await page.getByLabel("Day").fill("3");
+        await page.getByLabel("Month").fill("2");
+        await page.getByLabel("Year").fill("1949");
+        await page.getByLabel("Weight", { exact: true }).fill("150");
+        await page.getByLabel("Weight unit").selectOption("lb");
+        await page.getByLabel("Height", { exact: true }).fill("160");
+        await page
+            .getByLabel("What operation are you having?", { exact: true })
+            .fill("Knee replacement");
+        await page.locator("#could-be-pregnant-no").check();
+        await next();
+        await page.locator("#high-blood-pressure-yes").check();
+        await page.locator("#breathless-on-stairs-no").check();
+        await page.locator("#blood-thinner-yes").check();
+        await page.getByLabel("Which medicine?", { exact: true }).fill("Apixaban");
+        await accessible("a follow-up question");
+        await next();
+        await page.locator("#any-medicines-yes").check();
+        await page.getByLabel("Name", { exact: true }).fill("Apixaban");
+        await next();
+        await page.locator("#any-allergies-yes").check();
+        await page.getByLabel("What are you allergic to?", { exact: true }).fill("Penicillin");
+        await page.locator("#allergy-0-severe-yes").check();
+        await accessible("the allergies");
+        await next();
+        await page.locator("#anaesthesia-before-yes").check();
+        await page.locator("#anaesthesia-problem-yes").check();
+        await page.locator("#anaesthesia-before-no").check();
+        await page.locator("#family-anaesthesia-problem-no").check();
+        await next();
+        await see(
+            page.locator("main"),
+            "3 February 1949",
+            "the date of birth is written for the reader",
+        );
+        await accessible("check your answers");
+        await page.reload();
+        await see(page.getByRole("status"), "answers you saved", "a restored draft is said");
+        await page.getByRole("button", { name: "Send to the clinic" }).click();
+        await page.getByRole("link", { name: "See what the clinic sees" }).click();
+        await see(
+            page.locator("ol"),
+            "A severe allergic reaction",
+            "a severe allergy is looked at first",
+        );
+        must(
+            !(await page.locator("main").innerText()).includes(
+                "A problem with a previous anaesthetic",
+            ),
+            "an answer taken back raises no flag",
+        );
+        await accessible("the clinic's page");
     },
     async "patient-administration-system"({ page, browser, base, go, accessible, see }) {
         const signIn = async (who) => {

@@ -139,7 +139,13 @@ Razor 元件,附帶參數、 `ChildContent`,同 bUnit 測試。
 
 `SvelteKit` · `PAS`
 
-](https://lilydesignsystem.com/tutorials/patient-administration-system/)
+](https://lilydesignsystem.com/tutorials/patient-administration-system/) [
+
+### Pre-operative Assessment by Patient
+
+`SvelteKit` · `Form Examples`
+
+](https://lilydesignsystem.com/tutorials/pre-operative-assessment-by-patient/)
 
 ## 教學之後
 

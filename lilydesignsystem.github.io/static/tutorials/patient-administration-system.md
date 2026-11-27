@@ -914,3 +914,4 @@ A good next step is to offer another time when someone cancels, with a test firs
 - [Electronic patient record tutorial](https://lilydesignsystem.com/tutorials/electronic-patient-record/): record what happens at the appointment.
 - [International Patient Summary tutorial](https://lilydesignsystem.com/tutorials/international-patient-summary/): share it.
 - [A form that works worldwide](https://lilydesignsystem.com/tutorials/worldwide/): names, addresses, dates and direction.
+- [Pre-operative assessment by patient tutorial](https://lilydesignsystem.com/tutorials/pre-operative-assessment-by-patient/): the questions a patient answers before an operation.

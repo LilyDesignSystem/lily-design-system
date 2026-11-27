@@ -139,7 +139,13 @@ Runes של Svelte 5, snippets, ו `bind:value` קשירה דו-כיוונית.
 
 `SvelteKit` · `PAS`
 
-](https://lilydesignsystem.com/tutorials/patient-administration-system/)
+](https://lilydesignsystem.com/tutorials/patient-administration-system/) [
+
+### Pre-operative Assessment by Patient
+
+`SvelteKit` · `Form Examples`
+
+](https://lilydesignsystem.com/tutorials/pre-operative-assessment-by-patient/)
 
 ## אחרי המדריכים
 

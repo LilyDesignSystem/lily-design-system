@@ -165,6 +165,10 @@
       <h3 class="card-heading">Patient Administration System</h3>
       <p class="card-description"><code>SvelteKit</code> · <code>PAS</code></p>
     </a>
+    <a class="card" href="/tutorials/pre-operative-assessment-by-patient/">
+      <h3 class="card-heading">Pre-operative Assessment by Patient</h3>
+      <p class="card-description"><code>SvelteKit</code> · <code>Form Examples</code></p>
+    </a>
   </div>
 </section>
 

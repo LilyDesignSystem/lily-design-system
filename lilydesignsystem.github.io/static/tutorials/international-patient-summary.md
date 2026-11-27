@@ -827,3 +827,4 @@ A good next step is to add the immunizations section to yours, with a test first
 - [Electronic patient record tutorial](https://lilydesignsystem.com/tutorials/electronic-patient-record/): record what a summary is made from.
 - [Patient administration system tutorial](https://lilydesignsystem.com/tutorials/patient-administration-system/): appointments, waiting lists and reminders.
 - [Healthcare patterns](https://lilydesignsystem.com/patterns/healthcare/): the rules behind these components, and the map from FHIR to Lily.
+- [Pre-operative assessment by patient tutorial](https://lilydesignsystem.com/tutorials/pre-operative-assessment-by-patient/): the questions a patient answers before an operation.
