@@ -1,3 +1,9 @@
+## Unreleased
+
+- **Fixed:** with no `day` render prop, the week, four-week and month grids drew no events while the agenda listed them (tasks.md
+  P51-T7). Each day now lists its events' titles (`calendar-view-day-events`, one `calendar-view-day-event` each), and the day
+  cell is described by that list, as in Svelte.
+
 # Changelog
 
 This subproject is a directory of the canonical Lily Design System™ monorepo,

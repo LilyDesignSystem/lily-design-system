@@ -1559,7 +1559,16 @@ function buildCellView(d: string) {
                         :aria-disabled="cellView(d).disabled ? 'true' : undefined"
                         :aria-label="labels?.day?.(d, cellView(d).weekday, cellView(d).outside)"
                         :aria-describedby="
-                            cellView(d).rangeLabels ? `${baseId}-rg-${d}` : undefined
+                            [
+                                cellView(d).rangeLabels ? `${baseId}-rg-${d}` : '',
+                                !$slots.day &&
+                                cellView(d).events.length > 0 &&
+                                !(hideOutsideDays && cellView(d).outside)
+                                    ? `${baseId}-ev-${d}`
+                                    : '',
+                            ]
+                                .filter(Boolean)
+                                .join(' ') || undefined
                         "
                         @click="(e: MouseEvent) => onDayCellClick(d, e)"
                         @dragover="onDayDragOver"
@@ -1602,7 +1611,22 @@ function buildCellView(d: string) {
                                     class="calendar-view-range-label"
                                     >{{ range.label }}</span
                                 ></template
-                            ></slot
+                            ><!-- With no day slot a day still shows its events' titles, and its cell is described by them, so a grid
+                                 never hides events the agenda lists (tasks.md P51-T7). -->
+                            <ul
+                                v-if="cellView(d).events.length > 0"
+                                class="calendar-view-day-events"
+                                :id="`${baseId}-ev-${d}`"
+                            >
+                                <li
+                                    v-for="calendarEvent in cellView(d).events"
+                                    :key="calendarEvent.id"
+                                    class="calendar-view-day-event"
+                                    :data-event-key="calendarEvent.id"
+                                >
+                                    {{ eventTitle(calendarEvent) }}
+                                </li>
+                            </ul></slot
                         >
                     </CalendarTableTD>
                 </CalendarTableRow>

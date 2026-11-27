@@ -2489,3 +2489,40 @@ describe("CalendarView — renders in another language with no English left over
         ).toEqual([]);
     });
 });
+
+describe("CalendarView — events with no day render prop (tasks.md P51-T7)", () => {
+    for (const view of ["week", "four-week", "month"] as const) {
+        test(`the ${view} grid shows each event's title, and the day cell is described by them`, () => {
+            const { container } = render(
+                <CalendarView
+                    label="Calendar"
+                    defaultView={view}
+                    defaultAnchorDate="2026-01-06"
+                    events={EVENTS}
+                    labels={LABELS}
+                />,
+            );
+            const day = (e: CalendarEvent) => (e.date ?? e.start)!;
+            for (const e of EVENTS) {
+                const cell = container.querySelector(`td[data-date="${day(e)}"]`)!;
+                const list = cell.querySelector(".calendar-view-day-events")!;
+                expect(list.textContent).toContain(e.title);
+                expect(cell.getAttribute("aria-describedby")?.split(" ")).toContain(list.id);
+            }
+        });
+    }
+
+    test("a day with no events has no event list and no description", () => {
+        const { container } = render(
+            <CalendarView
+                label="Calendar"
+                defaultView="week"
+                defaultAnchorDate="2026-01-06"
+                events={[]}
+                labels={LABELS}
+            />,
+        );
+        expect(container.querySelector(".calendar-view-day-events")).toBeNull();
+        expect(container.querySelector("td[aria-describedby]")).toBeNull();
+    });
+});

@@ -1725,9 +1725,18 @@ export function CalendarView({
                                             aria-disabled={disabled || undefined}
                                             aria-label={labels?.day?.(d, weekday, outside)}
                                             aria-describedby={
-                                                rangeLabels(dayRanges)
-                                                    ? `${baseId}-rg-${d}`
-                                                    : undefined
+                                                [
+                                                    rangeLabels(dayRanges)
+                                                        ? `${baseId}-rg-${d}`
+                                                        : "",
+                                                    !day &&
+                                                    dayEvents.length > 0 &&
+                                                    !(hideOutsideDays && outside)
+                                                        ? `${baseId}-ev-${d}`
+                                                        : "",
+                                                ]
+                                                    .filter(Boolean)
+                                                    .join(" ") || undefined
                                             }
                                             onClick={(e: React.MouseEvent) => onDayCellClick(d, e)}
                                             onDragOver={(e: React.DragEvent) => {
@@ -1792,6 +1801,26 @@ export function CalendarView({
                                                                 </span>
                                                             ),
                                                     )}
+                                                    {/* With no day snippet a day still shows its events' titles, and its cell is described by
+                                                        them, so a grid never hides events the agenda lists (tasks.md P51-T7). */}
+                                                    {dayEvents.length > 0 ? (
+                                                        <ul
+                                                            className="calendar-view-day-events"
+                                                            id={`${baseId}-ev-${d}`}
+                                                        >
+                                                            {dayEvents.map((calendarEvent) => (
+                                                                <li
+                                                                    key={calendarEvent.id}
+                                                                    className="calendar-view-day-event"
+                                                                    data-event-key={
+                                                                        calendarEvent.id
+                                                                    }
+                                                                >
+                                                                    {eventTitle(calendarEvent)}
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    ) : null}
                                                 </>
                                             )}
                                         </CalendarTableTD>

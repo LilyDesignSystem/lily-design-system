@@ -4,6 +4,12 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+- **Fixed:** with no `day` render prop, the week, four-week and month grids drew no events while the agenda listed them (tasks.md
+  P51-T7). Each day now lists its events' titles (`calendar-view-day-events`, one `calendar-view-day-event` each), and the day
+  cell is described by that list, as in Svelte.
+
 ## 0.7.2 — 2026-11-06
 
 - Depends on `vue-headless` ^0.8.0.

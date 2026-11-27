@@ -1204,3 +1204,42 @@ describe("CalendarView — typed event fields, editing, export (§8.69–§8.82)
         }
     });
 });
+
+describe("CalendarView — events with no day slot (tasks.md P51-T7)", () => {
+    for (const view of ["week", "four-week", "month"] as const) {
+        test(`the ${view} grid shows each event's title, and the day cell is described by them`, () => {
+            const w = mount(CalendarView, {
+                props: {
+                    label: "Calendar",
+                    view,
+                    anchorDate: "2026-01-06",
+                    events: EVENTS,
+                    labels: LABELS,
+                },
+            });
+            const day = (e: CalendarEvent) => (e.date ?? e.start)!;
+            for (const e of EVENTS) {
+                const cell = w.element.querySelector(`td[data-date="${day(e)}"]`)!;
+                const list = cell.querySelector(".calendar-view-day-events")!;
+                expect(list.textContent).toContain(e.title);
+                expect(cell.getAttribute("aria-describedby")?.split(" ")).toContain(list.id);
+            }
+            w.unmount();
+        });
+    }
+
+    test("a day with no events has no event list and no description", () => {
+        const w = mount(CalendarView, {
+            props: {
+                label: "Calendar",
+                view: "week",
+                anchorDate: "2026-01-06",
+                events: [],
+                labels: LABELS,
+            },
+        });
+        expect(w.element.querySelector(".calendar-view-day-events")).toBeNull();
+        expect(w.element.querySelector("td[aria-describedby]")).toBeNull();
+        w.unmount();
+    });
+});
