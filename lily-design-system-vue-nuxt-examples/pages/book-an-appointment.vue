@@ -613,7 +613,8 @@ function statusFor(n: 1 | 2 | 3 | 4): "waiting" | "in-progress" | "finished" {
                 <p>
                     Your appointment reference number is
                     <strong>{{ referenceNumber }}</strong
-                    >. This example sends nothing: a real service says a confirmation is on its way to {{ email }} only once its email service has accepted it.
+                    >. This example sends nothing: a real service says a confirmation is on its way
+                    to {{ email }} only once its email service has accepted it.
                 </p>
             </SuccessPanel>
 

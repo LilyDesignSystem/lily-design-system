@@ -647,7 +647,8 @@
         <SuccessPanel label="Booking confirmed">
             <p>
                 Your appointment reference number is
-                <strong>{referenceNumber}</strong>. This example sends nothing: a real service says a confirmation is on its way to {email} only once its email service has accepted it.
+                <strong>{referenceNumber}</strong>. This example sends nothing: a real service says
+                a confirmation is on its way to {email} only once its email service has accepted it.
             </p>
         </SuccessPanel>
 
