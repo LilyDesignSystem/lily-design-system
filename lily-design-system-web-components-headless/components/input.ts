@@ -14,11 +14,23 @@
 // References:
 //   - components/input/index.md (canonical contract)
 
-import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { passThroughAttributes, rootClassName, followInput } from "../lib/dom-utils.js";
 
 const HANDLED = new Set(["label", "type", "value", "required", "disabled"]);
 
 export class Input extends HTMLElement {
+    // A change to its attributes, or to class, is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const el = this.querySelector<HTMLInputElement>(":scope > input.input");
+        if (!el) return;
+        el.type = this.getAttribute("type") ?? "text";
+        followInput(this, el, "input");
+    }
+
     #input: HTMLInputElement | null = null;
 
     connectedCallback(): void {

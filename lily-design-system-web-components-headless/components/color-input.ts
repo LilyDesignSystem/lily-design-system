@@ -14,10 +14,25 @@
 //   - MDN input type="color": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color
 
 import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { setOrRemove } from "../lib/live-element.js";
 
 const HANDLED = new Set(["label", "value", "disabled"]);
 
 export class ColorInput extends HTMLElement {
+    // A change to its attributes, or to class, is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const el = this.querySelector<HTMLInputElement>(":scope > input.color-input");
+        if (!el) return;
+        el.className = rootClassName(this, "color-input");
+        setOrRemove(el, "aria-label", this.getAttribute("label"));
+        el.defaultValue = this.getAttribute("value") ?? "#000000";
+        el.disabled = this.hasAttribute("disabled");
+    }
+
     #input: HTMLInputElement | null = null;
 
     connectedCallback(): void {

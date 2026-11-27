@@ -62,4 +62,13 @@ describe("Watermark", () => {
         expect(host.children[0].classList.contains("watermark-overlay")).toBe(true);
         expect(host.children[1].tagName).toBe("ARTICLE");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-watermark text="Draft">Body</lily-watermark>`;
+        const el = document.querySelector("lily-watermark")!;
+        el.setAttribute("text", "Copy");
+        el.setAttribute("rotate", "-45");
+        expect(el.querySelector(".watermark-overlay")!.getAttribute("data-text")).toBe("Copy");
+        expect(el.getAttribute("data-rotate")).toBe("-45");
+    });
 });

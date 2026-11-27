@@ -73,4 +73,18 @@ describe("TextAreaInput", () => {
 
         expect(host.querySelector("textarea")!.className).toBe("text-area-input extra");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-text-area-input label="Notes" value="a"></lily-text-area-input>`;
+        const el = document.querySelector("lily-text-area-input")!;
+        const t = el.querySelector("textarea")!;
+        t.value = "typed";
+        el.setAttribute("value", "b");
+        el.setAttribute("required", "");
+        el.setAttribute("rows", "8");
+        expect(t.defaultValue).toBe("b");
+        expect(t.value).toBe("typed");
+        expect(t.required).toBe(true);
+        expect(t.rows).toBe(8);
+    });
 });

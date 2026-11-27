@@ -62,4 +62,11 @@ describe("ResetInput", () => {
 
         expect(host.querySelector("input")!.className).toBe("reset-input extra");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-reset-input value="Clear"></lily-reset-input>`;
+        const el = document.querySelector("lily-reset-input")!;
+        el.setAttribute("value", "Start again");
+        expect(el.querySelector("input")!.value).toBe("Start again");
+    });
 });

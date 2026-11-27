@@ -73,4 +73,20 @@ describe("CallToAction", () => {
 
         expect(host.querySelectorAll("button").length).toBe(1);
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-call-to-action href="/start">Start</lily-call-to-action>`;
+        const el = document.querySelector("lily-call-to-action")!;
+        el.setAttribute("href", "/begin");
+        expect(el.querySelector("a")!.getAttribute("href")).toBe("/begin");
+        el.removeAttribute("href");
+        const b = el.querySelector("button.call-to-action")!;
+        expect(b).not.toBeNull();
+        expect(el.querySelector("a")).toBeNull();
+        expect(b.textContent).toBe("Start");
+        el.setAttribute("disabled", "");
+        expect((b as HTMLButtonElement).disabled).toBe(true);
+        el.setAttribute("href", "/again");
+        expect(el.querySelector("a.call-to-action")!.textContent).toBe("Start");
+    });
 });

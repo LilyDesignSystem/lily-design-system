@@ -62,4 +62,16 @@ describe("SubmitInput", () => {
 
         expect(host.querySelector("input")!.className).toBe("submit-input extra");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-submit-input value="Send"></lily-submit-input>`;
+        const el = document.querySelector("lily-submit-input")!;
+        el.setAttribute("value", "Send now");
+        el.setAttribute("disabled", "");
+        const i = el.querySelector("input")!;
+        expect(i.value).toBe("Send now");
+        expect(i.disabled).toBe(true);
+        el.removeAttribute("value");
+        expect(i.hasAttribute("value")).toBe(false);
+    });
 });

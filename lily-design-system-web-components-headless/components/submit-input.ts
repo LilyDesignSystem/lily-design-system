@@ -22,6 +22,22 @@ import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 const HANDLED = new Set(["value", "disabled"]);
 
 export class SubmitInput extends HTMLElement {
+    // A change to its attributes, or to class, is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const el = this.querySelector<HTMLInputElement>(":scope > input.submit-input");
+        if (!el) return;
+        el.className = rootClassName(this, "submit-input");
+        // No value: the browser shows its own word, in the reader's language.
+        const value = this.getAttribute("value");
+        if (value !== null) el.defaultValue = value;
+        else el.removeAttribute("value");
+        el.disabled = this.hasAttribute("disabled");
+    }
+
     #input: HTMLInputElement | null = null;
 
     connectedCallback(): void {

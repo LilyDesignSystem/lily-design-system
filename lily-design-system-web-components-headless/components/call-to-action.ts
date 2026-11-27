@@ -24,10 +24,41 @@
 //   - components/call-to-action/index.md (canonical contract)
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { setOrRemove } from "../lib/live-element.js";
 
 const HANDLED = new Set(["href", "label", "disabled"]);
 
 export class CallToAction extends HTMLElement {
+    // A change to href, label, disabled or class is shown (tasks.md P50-T28): gaining or losing href turns it into a link or a
+    // button, holding the same content.
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(): void {
+        let el = this.querySelector<HTMLElement>(
+            ":scope > a.call-to-action, :scope > button.call-to-action",
+        );
+        if (!el) return;
+        const href = this.getAttribute("href");
+        const tag = href !== null ? "A" : "BUTTON";
+        if (el.tagName !== tag) {
+            const next = document.createElement(tag);
+            for (const { name, value } of Array.from(el.attributes))
+                if (!["href", "type", "disabled"].includes(name)) next.setAttribute(name, value);
+            next.append(...el.childNodes);
+            el.replaceWith(next);
+            el = next;
+        }
+        el.className = rootClassName(this, "call-to-action");
+        if (el instanceof HTMLAnchorElement) el.href = href ?? "";
+        else if (el instanceof HTMLButtonElement) {
+            el.type = "button";
+            el.disabled = this.hasAttribute("disabled");
+        }
+        setOrRemove(el, "aria-label", this.getAttribute("label"));
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > a.call-to-action, :scope > button.call-to-action")) return;
 

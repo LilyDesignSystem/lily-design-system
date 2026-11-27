@@ -14,11 +14,22 @@
 //   - components/iban-input/index.md (canonical contract)
 //   - https://en.wikipedia.org/wiki/International_Bank_Account_Number
 
-import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { passThroughAttributes, rootClassName, followInput } from "../lib/dom-utils.js";
 
 const HANDLED = new Set(["label", "value", "required", "disabled", "autocomplete"]);
 
 export class IbanInput extends HTMLElement {
+    // A change to its attributes, or to class, is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const el = this.querySelector<HTMLInputElement>(":scope > input.iban-input");
+        if (!el) return;
+        followInput(this, el, "iban-input");
+    }
+
     #input: HTMLInputElement | null = null;
 
     connectedCallback(): void {

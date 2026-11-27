@@ -17,10 +17,36 @@
 //   - components/color-radio-input/index.md (canonical contract)
 
 import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { setOrRemove } from "../lib/live-element.js";
 
 const HANDLED = new Set(["color", "label", "name", "value", "checked", "disabled"]);
 
 export class ColorRadioInput extends HTMLElement {
+    // A change to its attributes, or to class, is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const el = this.querySelector<HTMLInputElement>(":scope > input.color-radio-input");
+        if (!el) return;
+        el.className = rootClassName(this, "color-radio-input");
+        setOrRemove(el, "aria-label", this.getAttribute("label"));
+        setOrRemove(el, "name", this.getAttribute("name"));
+        const color = this.getAttribute("color");
+        if (color !== null) {
+            el.dataset.color = color;
+            el.style.setProperty("--color-radio-input-color", color);
+        } else {
+            delete el.dataset.color;
+            el.style.removeProperty("--color-radio-input-color");
+        }
+        const value = this.getAttribute("value") ?? color;
+        if (value !== null) el.value = value;
+        el.defaultChecked = this.hasAttribute("checked");
+        el.disabled = this.hasAttribute("disabled");
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > input.color-radio-input")) return;
 

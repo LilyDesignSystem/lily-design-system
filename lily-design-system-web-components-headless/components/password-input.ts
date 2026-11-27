@@ -13,11 +13,23 @@
 // References:
 //   - components/password-input/index.md (canonical contract)
 
-import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { passThroughAttributes, rootClassName, followInput } from "../lib/dom-utils.js";
 
 const HANDLED = new Set(["label", "value", "autocomplete", "required", "disabled"]);
 
 export class PasswordInput extends HTMLElement {
+    // A change to its attributes, or to class, is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const el = this.querySelector<HTMLInputElement>(":scope > input.password-input");
+        if (!el) return;
+        followInput(this, el, "password-input");
+        el.setAttribute("autocomplete", this.getAttribute("autocomplete") ?? "current-password");
+    }
+
     #input: HTMLInputElement | null = null;
 
     connectedCallback(): void {

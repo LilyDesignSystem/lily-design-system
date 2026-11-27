@@ -22,9 +22,29 @@
 //   - Ant Design Watermark: https://ant.design/components/watermark
 
 import { applySelfClassName } from "../lib/dom-utils.js";
+import { setOrRemove } from "../lib/live-element.js";
 
 export class Watermark extends HTMLElement {
     #built = false;
+
+    // A change to rotate, gap, text, image-url or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["rotate", "gap", "text", "image-url", "class"];
+    }
+
+    attributeChangedCallback(name: string): void {
+        if (!this.#built) return;
+        if (name === "class") {
+            if (!this.classList.contains("watermark")) applySelfClassName(this, "watermark");
+            return;
+        }
+        this.setAttribute("data-rotate", this.getAttribute("rotate") ?? "-22");
+        this.setAttribute("data-gap", this.getAttribute("gap") ?? "100px");
+        const overlay = this.querySelector(":scope > .watermark-overlay");
+        if (!overlay) return;
+        setOrRemove(overlay, "data-text", this.getAttribute("text"));
+        setOrRemove(overlay, "data-image-url", this.getAttribute("image-url"));
+    }
 
     connectedCallback(): void {
         if (this.#built) return;

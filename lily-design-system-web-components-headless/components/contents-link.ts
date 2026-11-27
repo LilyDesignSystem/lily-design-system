@@ -12,10 +12,40 @@
 //   - components/contents-link/index.md (canonical contract)
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { setOrRemove } from "../lib/live-element.js";
 
 const HANDLED = new Set(["href", "label", "current", "count", "count-label"]);
 
 export class ContentsLink extends HTMLElement {
+    // A change to its attributes, or to class, is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const el = this.querySelector<HTMLAnchorElement>(":scope > a.contents-link");
+        if (!el) return;
+        el.className = rootClassName(this, "contents-link");
+        setOrRemove(el, "href", this.getAttribute("href"));
+        setOrRemove(el, "aria-label", this.getAttribute("label"));
+        if (this.hasAttribute("current")) el.setAttribute("aria-current", "true");
+        else el.removeAttribute("aria-current");
+        const count = this.getAttribute("count");
+        setOrRemove(el, "data-count", count === "" ? null : count);
+        el.toggleAttribute("data-complete", count !== null && count !== "" && Number(count) === 0);
+        const countLabel = this.getAttribute("count-label");
+        let span = el.querySelector<HTMLSpanElement>(":scope > .contents-link-count");
+        if (!countLabel) span?.remove();
+        else {
+            if (!span) {
+                span = document.createElement("span");
+                span.className = "contents-link-count";
+                el.appendChild(span);
+            }
+            span.textContent = countLabel;
+        }
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > a.contents-link")) return;
 

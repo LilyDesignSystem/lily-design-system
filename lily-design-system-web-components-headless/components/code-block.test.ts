@@ -65,4 +65,18 @@ describe("CodeBlock", () => {
 
         expect(host.querySelectorAll("pre").length).toBe(1);
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-code-block >x = 1</lily-code-block>`;
+        const el = document.querySelector("lily-code-block")!;
+        el.setAttribute("label", "Example");
+        el.setAttribute("line-numbers", "");
+        const pre = el.querySelector("pre")!;
+        expect(pre.getAttribute("role")).toBe("region");
+        expect(pre.getAttribute("aria-label")).toBe("Example");
+        expect(pre.getAttribute("data-line-numbers")).toBe("true");
+        el.removeAttribute("label");
+        expect(pre.hasAttribute("role")).toBe(false);
+        expect(pre.textContent).toBe("x = 1");
+    });
 });

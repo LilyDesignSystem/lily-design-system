@@ -80,4 +80,16 @@ describe("ColorRadioInput", () => {
         expect(input.style.getPropertyValue("--color-radio-input-color")).toBe("#005eb8");
         expect(input.value).toBe("#005eb8");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-color-radio-input color="#ff0000" name="c" label="Red"></lily-color-radio-input>`;
+        const el = document.querySelector("lily-color-radio-input")!;
+        el.setAttribute("color", "#0000ff");
+        el.setAttribute("label", "Blue");
+        const i = el.querySelector("input")!;
+        expect(i.dataset.color).toBe("#0000ff");
+        expect(i.value).toBe("#0000ff");
+        expect(i.getAttribute("aria-label")).toBe("Blue");
+        expect(i.style.getPropertyValue("--color-radio-input-color")).toBe("#0000ff");
+    });
 });

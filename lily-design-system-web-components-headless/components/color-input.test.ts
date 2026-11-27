@@ -61,4 +61,15 @@ describe("ColorInput", () => {
 
         expect((host.querySelector("input") as HTMLInputElement).disabled).toBe(true);
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-color-input label="Colour" value="#ff0000" required></lily-color-input>`;
+        const el = document.querySelector("lily-color-input")!;
+        el.setAttribute("value", "#00ff00");
+        el.setAttribute("disabled", "");
+        const i = el.querySelector("input")!;
+        expect(i.defaultValue).toBe("#00ff00");
+        expect(i.disabled).toBe(true);
+        expect(i.required).toBe(true);
+    });
 });

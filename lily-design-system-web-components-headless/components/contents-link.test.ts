@@ -106,4 +106,18 @@ describe("ContentsLink count", () => {
         expect(none.hasAttribute("data-count")).toBe(false);
         expect(none.hasAttribute("data-complete")).toBe(false);
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-contents-link href="#a" count="2" count-label="2 to do">Allergies</lily-contents-link>`;
+        const el = document.querySelector("lily-contents-link")!;
+        el.setAttribute("count", "0");
+        el.setAttribute("count-label", "Done");
+        el.setAttribute("current", "");
+        const a = el.querySelector("a")!;
+        expect(a.getAttribute("data-count")).toBe("0");
+        expect(a.hasAttribute("data-complete")).toBe(true);
+        expect(a.textContent).toBe("AllergiesDone");
+        expect(a.getAttribute("aria-current")).toBe("true");
+        expect(a.querySelectorAll(".contents-link-count").length).toBe(1);
+    });
 });

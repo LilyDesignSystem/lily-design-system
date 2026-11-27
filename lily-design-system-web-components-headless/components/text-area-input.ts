@@ -16,10 +16,28 @@
 //   - components/text-area-input/index.md (canonical contract)
 
 import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { setOrRemove } from "../lib/live-element.js";
 
 const HANDLED = new Set(["label", "value", "rows", "required", "disabled"]);
 
 export class TextAreaInput extends HTMLElement {
+    // A change to its attributes, or to class, is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const el = this.querySelector<HTMLTextAreaElement>(":scope > textarea.text-area-input");
+        if (!el) return;
+        el.className = rootClassName(this, "text-area-input");
+        setOrRemove(el, "aria-label", this.getAttribute("label"));
+        // The default, as a native textarea's content is: what the person typed stays.
+        el.defaultValue = this.getAttribute("value") ?? "";
+        setOrRemove(el, "rows", this.getAttribute("rows"));
+        el.required = this.hasAttribute("required");
+        el.disabled = this.hasAttribute("disabled");
+    }
+
     #textarea: HTMLTextAreaElement | null = null;
 
     connectedCallback(): void {
