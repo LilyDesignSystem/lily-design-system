@@ -18,7 +18,8 @@ highlights.
   62 more that take only a label (the landmarks, lists, groups and charts) follow a change to it and to class, and 14 native
   inputs follow their label, `required`, `disabled`, class and default value; a value the person has typed is never overwritten. The date inputs follow `min` and `max`, six links their `href`, and
   seven radios their name, value and default checked state, never unticking what the person ticked. 54 that are their own root (the toolbars, groups, banners, mockups and
-  layout parts) follow their label and class.
+  layout parts) follow their label and class. `progress-bar` and `progress-circle` move their `aria-valuenow` with `value`;
+  `notification`, `toast`, `error-summary` and `phase-banner` follow their attributes too.
   `bin/check-web-components-live` (in `bin/test`) fails on an element that observes no attribute unless it is listed with a reason.
 
 - **Fixed (healthcare):** `international-patient-summary-section` no longer prints "none known" above a record list that holds an

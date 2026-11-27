@@ -59,4 +59,15 @@ describe("Notification", () => {
 
         expect(host.className).toBe("notification extra");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", async () => {
+        document.body.innerHTML = `<lily-notification label="Saved"></lily-notification>`;
+        const el = document.querySelector("lily-notification")!;
+        el.setAttribute("urgent", "");
+        el.removeAttribute("label");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(el.getAttribute("role")).toBe("alert");
+        expect(el.getAttribute("aria-live")).toBe("assertive");
+        expect(el.hasAttribute("aria-label")).toBe(false);
+    });
 });

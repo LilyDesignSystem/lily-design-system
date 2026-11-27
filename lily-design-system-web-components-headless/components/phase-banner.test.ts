@@ -58,4 +58,17 @@ describe("PhaseBanner", () => {
 
         expect(host.querySelectorAll("strong.phase-banner-phase").length).toBe(1);
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", async () => {
+        document.body.innerHTML = `<lily-phase-banner phase="Alpha" label="Service phase">New service</lily-phase-banner>`;
+        const el = document.querySelector("lily-phase-banner")!;
+        el.setAttribute("phase", "Beta");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(el.querySelectorAll(".phase-banner-phase").length).toBe(1);
+        expect(el.querySelector(".phase-banner-phase")!.textContent).toBe("Beta");
+        el.removeAttribute("phase");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(el.querySelector(".phase-banner-phase")).toBeNull();
+        expect(el.textContent).toBe("New service");
+    });
 });

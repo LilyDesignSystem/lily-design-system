@@ -48,4 +48,13 @@ describe("Toast", () => {
 
         expect(host.querySelector("p")?.textContent).toBe("3 new messages.");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", async () => {
+        document.body.innerHTML = `<lily-toast urgent></lily-toast>`;
+        const el = document.querySelector("lily-toast")!;
+        el.removeAttribute("urgent");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(el.getAttribute("role")).toBe("status");
+        expect(el.getAttribute("aria-live")).toBe("polite");
+    });
 });

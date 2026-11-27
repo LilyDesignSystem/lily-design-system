@@ -65,4 +65,14 @@ describe("ProgressCircle", () => {
 
         expect(host.getAttribute("class")).toBe("progress-circle my-progress");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", async () => {
+        document.body.innerHTML = `<lily-progress-circle label="Upload" value="10"></lily-progress-circle>`;
+        const el = document.querySelector("lily-progress-circle")!;
+        el.setAttribute("value", "75");
+        el.setAttribute("min", "5");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(el.getAttribute("aria-valuenow")).toBe("75");
+        expect(el.getAttribute("aria-valuemin")).toBe("5");
+    });
 });

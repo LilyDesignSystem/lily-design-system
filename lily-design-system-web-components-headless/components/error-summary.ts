@@ -20,26 +20,27 @@
 //   - WAI-ARIA Alert Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/alert/
 
 import { applySelfClassName, nextId } from "../lib/dom-utils.js";
+import { LiveElement } from "../lib/live-element.js";
 
-export class ErrorSummary extends HTMLElement {
-    #built = false;
+// A change to title or class is shown (tasks.md P50-T28); the list of errors is the consumer's children.
+export class ErrorSummary extends LiveElement {
+    #heading: HTMLHeadingElement | null = null;
 
-    connectedCallback(): void {
-        if (this.#built) return;
-        this.#built = true;
+    static get observedAttributes(): string[] {
+        return ["title", "class"];
+    }
 
-        const titleId = nextId("lily-error-summary-title");
-        const heading = document.createElement("h2");
-        heading.id = titleId;
-        heading.textContent = this.getAttribute("title") ?? "";
-
-        // Insert the heading before the consumer's existing content (e.g.
-        // a <ul> of error links), which stays exactly where it is.
-        this.insertBefore(heading, this.firstChild);
-
+    protected update(): void {
+        if (!this.#heading) {
+            this.#heading = document.createElement("h2");
+            this.#heading.id = nextId("lily-error-summary-title");
+            // Insert the heading before the consumer's existing content (e.g. a <ul> of error links), which stays exactly where it is.
+            this.insertBefore(this.#heading, this.firstChild);
+            this.setAttribute("role", "alert");
+            this.setAttribute("aria-labelledby", this.#heading.id);
+            this.tabIndex = -1;
+        }
+        this.#heading.textContent = this.text("title");
         applySelfClassName(this, "error-summary");
-        this.setAttribute("role", "alert");
-        this.setAttribute("aria-labelledby", titleId);
-        this.tabIndex = -1;
     }
 }

@@ -65,4 +65,16 @@ describe("ProgressBar", () => {
 
         expect(host.className).toBe("progress-bar extra");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", async () => {
+        document.body.innerHTML = `<lily-progress-bar label="Upload" value="10"></lily-progress-bar>`;
+        const el = document.querySelector("lily-progress-bar")!;
+        el.setAttribute("value", "60");
+        el.setAttribute("max", "200");
+        el.setAttribute("label", "Uploading");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(el.getAttribute("aria-valuenow")).toBe("60");
+        expect(el.getAttribute("aria-valuemax")).toBe("200");
+        expect(el.getAttribute("aria-label")).toBe("Uploading");
+    });
 });

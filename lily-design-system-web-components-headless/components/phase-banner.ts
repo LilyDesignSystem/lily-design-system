@@ -13,28 +13,36 @@
 //   - components/phase-banner/index.md (canonical contract)
 
 import { applySelfClassName } from "../lib/dom-utils.js";
+import { LiveElement } from "../lib/live-element.js";
 
-export class PhaseBanner extends HTMLElement {
-    #built = false;
+// A change to phase, label or class is shown (tasks.md P50-T28); the rest of the banner is the consumer's children.
+export class PhaseBanner extends LiveElement {
+    #phase: HTMLElement | null = null;
 
-    connectedCallback(): void {
-        if (this.#built) return;
-        this.#built = true;
+    static get observedAttributes(): string[] {
+        return ["phase", "label", "class"];
+    }
 
+    protected update(): void {
         applySelfClassName(this, "phase-banner");
 
         const label = this.getAttribute("label");
         if (label !== null) {
             this.setAttribute("role", "group");
             this.setAttribute("aria-label", label);
-        }
+        } else this.removeAttribute("aria-label");
 
         const phase = this.getAttribute("phase");
-        if (phase !== null) {
-            const strong = document.createElement("strong");
-            strong.className = "phase-banner-phase";
-            strong.textContent = phase;
-            this.insertBefore(strong, this.firstChild);
+        if (phase === null) {
+            this.#phase?.remove();
+            this.#phase = null;
+            return;
         }
+        if (!this.#phase) {
+            this.#phase = document.createElement("strong");
+            this.#phase.className = "phase-banner-phase";
+            this.insertBefore(this.#phase, this.firstChild);
+        }
+        this.#phase.textContent = phase;
     }
 }

@@ -16,18 +16,18 @@
 //   - components/progress-bar/index.md (canonical contract)
 
 import { applySelfClassName } from "../lib/dom-utils.js";
+import { LiveElement, setOrRemove } from "../lib/live-element.js";
 
-export class ProgressBar extends HTMLElement {
-    #built = false;
+// A change to value, min, max, label or class is shown (tasks.md P50-T28): a progress that moves is the point of it.
+export class ProgressBar extends LiveElement {
+    static get observedAttributes(): string[] {
+        return ["label", "value", "min", "max", "class"];
+    }
 
-    connectedCallback(): void {
-        if (this.#built) return;
-        this.#built = true;
-
+    protected update(): void {
         applySelfClassName(this, "progress-bar");
         this.setAttribute("role", "progressbar");
-        const label = this.getAttribute("label");
-        if (label !== null) this.setAttribute("aria-label", label);
+        setOrRemove(this, "aria-label", this.getAttribute("label"));
         this.setAttribute("aria-valuenow", this.getAttribute("value") ?? "0");
         this.setAttribute("aria-valuemin", this.getAttribute("min") ?? "0");
         this.setAttribute("aria-valuemax", this.getAttribute("max") ?? "100");

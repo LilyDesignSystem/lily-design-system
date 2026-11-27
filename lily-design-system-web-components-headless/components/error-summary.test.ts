@@ -49,4 +49,15 @@ describe("ErrorSummary", () => {
         expect(list.previousElementSibling).toBe(heading);
         expect(list.querySelector("a")!.textContent).toBe("Enter your name");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", async () => {
+        document.body.innerHTML = `<lily-error-summary title="There is a problem"><ul><li>Enter a name</li></ul></lily-error-summary>`;
+        const el = document.querySelector("lily-error-summary")!;
+        el.setAttribute("title", "There are 2 problems");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(el.querySelectorAll("h2").length).toBe(1);
+        expect(el.querySelector("h2")!.textContent).toBe("There are 2 problems");
+        expect(el.getAttribute("aria-labelledby")).toBe(el.querySelector("h2")!.id);
+        expect(el.textContent).toContain("Enter a name");
+    });
 });
