@@ -155,7 +155,7 @@ Dejte uživatelům kontrolu nad motivem, jazykem, velikostí textu, pohybem, hle
 
 ### Patient App
 
-`Swift` · `Kotlin`
+`Swift` · `Kotlin` · `.NET MAUI`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/) [
 

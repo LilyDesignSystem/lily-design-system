@@ -155,7 +155,7 @@ Tabhair rialú d’úsáideoirí ar théama, teanga, méid téacs, gluaiseacht, 
 
 ### Patient App
 
-`Swift` · `Kotlin`
+`Swift` · `Kotlin` · `.NET MAUI`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/) [
 

@@ -28,7 +28,7 @@ highlights.
 - **Added (docs):** `/tutorials/patient-app/` and its Swift page: a national health service's patient app for iPhone and iPad,
   seven screens (start, home, messages, profile, appointments, requested medicines, test results) in Lily's NHS England patient
   theme under a fictional name, with no NHS marks, each screen shown on a phone and a tablet from a real build (P62-T7). And
-  its Kotlin page, the same app in Jetpack Compose for Android phones and tablets.
+  its Kotlin page, the same app in Jetpack Compose for Android phones and tablets, and its .NET MAUI page, the same app in C#.
 
 - **Added (docs):** `/tutorials/pre-operative-assessment-by-patient/swift/`, the patient's pre-operative questionnaire as an
   iPhone app with SwiftUI and Lily: the web tutorial's rules, with Swift Testing tests, a draft saved on the phone, and a

@@ -155,7 +155,7 @@ Eleventy અને કોઈપણ Node ટેમ્પ્લેટ પાઇપ
 
 ### Patient App
 
-`Swift` · `Kotlin`
+`Swift` · `Kotlin` · `.NET MAUI`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/) [
 

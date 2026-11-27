@@ -155,7 +155,7 @@ Svelte 5 runes、代码片段和 `bind:value` 双向绑定。
 
 ### Patient App
 
-`Swift` · `Kotlin`
+`Swift` · `Kotlin` · `.NET MAUI`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/) [
 

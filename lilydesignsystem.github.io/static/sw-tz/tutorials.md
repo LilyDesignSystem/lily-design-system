@@ -155,7 +155,7 @@ Wape watumiaji udhibiti wa mandhari, lugha, ukubwa wa maandishi, mwendo, utafuta
 
 ### Patient App
 
-`Swift` · `Kotlin`
+`Swift` · `Kotlin` · `.NET MAUI`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/) [
 

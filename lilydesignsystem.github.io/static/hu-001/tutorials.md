@@ -155,7 +155,7 @@ Adj a felhasználóknak kontrollt a téma, a nyelv, a szövegméret, a mozgás, 
 
 ### Patient App
 
-`Swift` · `Kotlin`
+`Swift` · `Kotlin` · `.NET MAUI`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/) [
 

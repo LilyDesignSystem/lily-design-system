@@ -969,5 +969,6 @@ class PatientAppTest {
 
 ## Next steps
 
+- [.NET MAUI version](https://lilydesignsystem.com/tutorials/patient-app/maui/): the same app in C#, for iPhone, iPad and Android.
 - [Swift version](https://lilydesignsystem.com/tutorials/patient-app/swift/): the same app on iPhone and iPad.
 - [Book an appointment in Kotlin](https://lilydesignsystem.com/tutorials/book-appointment/kotlin/): a booking screen behind the Appointments link.

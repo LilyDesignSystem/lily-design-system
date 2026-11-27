@@ -155,7 +155,7 @@ Suteikite vartotojams temos, kalbos, teksto dydžio, judesio, paieškos, puslapi
 
 ### Patient App
 
-`Swift` · `Kotlin`
+`Swift` · `Kotlin` · `.NET MAUI`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/) [
 

@@ -155,7 +155,7 @@ Da a los usuarios el control del tema, el idioma, el tamaño del texto, el movim
 
 ### Patient App
 
-`Swift` · `Kotlin`
+`Swift` · `Kotlin` · `.NET MAUI`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/) [
 

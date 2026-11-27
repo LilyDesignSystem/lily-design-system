@@ -5247,13 +5247,15 @@ catalogs lack four parts the mobile catalog marks as Lily's.
       service's own navy band and gold line, never text in a brand colour. `tests/book-appointment-tutorials.spec.ts` checks each
       page's screenshot, code and links. The route is `/tutorials/`, as every tutorial's is.)_ Asked for 2026-11-27: one booking
       screen like a public-service app's (top bar, heading, inset text, four choices, tab bar), not medical.
-- [ ] **P62-T7 A patient app**, asked for 2026-11-27: the screens of the NHS App (its Play Store screenshots, phone and tablet,
+- [x] **P62-T7 A patient app**, asked for 2026-11-27: the screens of the NHS App (its Play Store screenshots, phone and tablet,
       saved by the maintainer) built with Lily, in the NHS England patient theme under a fictional name with no NHS marks, and
       no original screenshots reproduced (the maintainer's choice, after Lily's look-alike and marks rules). Verify: each page
       is the whole app, built, with a screenshot of every screen on a phone and a tablet. _(Swift done 2026-11-27:
       `/tutorials/patient-app/swift/`, against the published 0.1.0, a UI test of the seven screens with the accessibility audit
       on an iPhone 17 and an iPad Pro 11-inch. Kotlin done the same day: `…/kotlin/`, an instrumented test of the seven screens
-      with the Accessibility Test Framework on a Pixel 10 and a Pixel Tablet emulator. Open: .NET MAUI.)_
+      with the Accessibility Test Framework on a Pixel 10 and a Pixel Tablet emulator. .NET MAUI done the same day: `…/maui/`,
+      built for iOS and Android, four record tests on plain .NET, and an XCUITest outside the app walking the seven screens with
+      Apple's accessibility audit on an iPhone 17 and an iPad Pro 11-inch.)_
 - [x] **P62-T8 A public health information page.** _(Done 2026-11-27: `/tutorials/public-health-information-page/`, asked for
       the same day: a page that looks very much like the NHS website's paracetamol page, with a fake logo, no NHS or UK, and
       placeholder text. SvelteKit with Lily's components and the NHS England patient theme, a fictional service, Example Health,

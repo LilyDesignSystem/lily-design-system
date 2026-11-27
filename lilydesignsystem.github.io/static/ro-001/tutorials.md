@@ -155,7 +155,7 @@ Dă utilizatorilor control asupra temei, limbii, dimensiunii textului, mișcări
 
 ### Patient App
 
-`Swift` · `Kotlin`
+`Swift` · `Kotlin` · `.NET MAUI`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/) [
 

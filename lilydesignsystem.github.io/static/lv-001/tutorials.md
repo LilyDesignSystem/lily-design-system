@@ -155,7 +155,7 @@ Dodiet lietotājiem kontroli pār tēmu, valodu, teksta izmēru, kustību, mekl�
 
 ### Patient App
 
-`Swift` · `Kotlin`
+`Swift` · `Kotlin` · `.NET MAUI`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/) [
 

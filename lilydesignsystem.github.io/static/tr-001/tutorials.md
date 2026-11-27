@@ -155,7 +155,7 @@ Kullanıcılara tema, dil, metin boyutu, hareket, arama, sayfa bağlantıları, 
 
 ### Patient App
 
-`Swift` · `Kotlin`
+`Swift` · `Kotlin` · `.NET MAUI`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/) [
 

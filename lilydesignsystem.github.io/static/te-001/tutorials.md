@@ -155,7 +155,7 @@ Eleventy మరియు ఏదైనా Node టెంప్లేట్ పై
 
 ### Patient App
 
-`Swift` · `Kotlin`
+`Swift` · `Kotlin` · `.NET MAUI`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/) [
 

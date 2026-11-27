@@ -155,7 +155,7 @@ Svelte 5 runes, snippets និង `bind:value` ការចងពីរទិ�
 
 ### Patient App
 
-`Swift` · `Kotlin`
+`Swift` · `Kotlin` · `.NET MAUI`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/) [
 

@@ -175,7 +175,7 @@
     </a>
     <a class="card" href="/tutorials/patient-app/">
       <h3 class="card-heading">Patient App</h3>
-      <p class="card-description"><code>Swift</code> · <code>Kotlin</code></p>
+      <p class="card-description"><code>Swift</code> · <code>Kotlin</code> · <code>.NET MAUI</code></p>
     </a>
     <a class="card" href="/tutorials/public-health-information-page/">
       <h3 class="card-heading">Public Health Information Page</h3>

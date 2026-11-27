@@ -1210,6 +1210,10 @@ class PatientAppTest {
 
     <ul>
         <li>
+            <a href="/tutorials/patient-app/maui/">.NET MAUI version</a>: the same app in C#, for
+            iPhone, iPad and Android.
+        </li>
+        <li>
             <a href="/tutorials/patient-app/swift/">Swift version</a>: the same app on iPhone and
             iPad.
         </li>

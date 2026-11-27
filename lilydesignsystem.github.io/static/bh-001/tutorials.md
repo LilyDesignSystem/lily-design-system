@@ -155,7 +155,7 @@ Eleventy आ कवनो Node टेम्पलेट पाइपलाइन
 
 ### Patient App
 
-`Swift` · `Kotlin`
+`Swift` · `Kotlin` · `.NET MAUI`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/) [
 

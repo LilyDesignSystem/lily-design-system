@@ -155,7 +155,7 @@ HTML معنایی را با قلاب‌های کلاس رونوشت کنید و 
 
 ### Patient App
 
-`Swift` · `Kotlin`
+`Swift` · `Kotlin` · `.NET MAUI`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/) [
 

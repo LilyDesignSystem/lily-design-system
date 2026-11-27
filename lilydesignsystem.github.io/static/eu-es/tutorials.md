@@ -155,7 +155,7 @@ Eman erabiltzaileei gaia, hizkuntza, testu-tamaina, mugimendua, bilaketa, orri-e
 
 ### Patient App
 
-`Swift` · `Kotlin`
+`Swift` · `Kotlin` · `.NET MAUI`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/) [
 

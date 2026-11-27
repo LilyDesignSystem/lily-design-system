@@ -155,7 +155,7 @@ Runes Svelte 5, snippets і `bind:value` двостороннє зв’язув�
 
 ### Patient App
 
-`Swift` · `Kotlin`
+`Swift` · `Kotlin` · `.NET MAUI`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/) [
 

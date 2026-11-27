@@ -155,7 +155,7 @@ Rhowch reolaeth i ddefnyddwyr dros thema, iaith, maint testun, symudiad, chwilio
 
 ### Patient App
 
-`Swift` · `Kotlin`
+`Swift` · `Kotlin` · `.NET MAUI`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/) [
 

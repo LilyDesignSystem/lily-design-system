@@ -155,7 +155,7 @@ Trao cho người dùng quyền kiểm soát giao diện, ngôn ngữ, cỡ ch�
 
 ### Patient App
 
-`Swift` · `Kotlin`
+`Swift` · `Kotlin` · `.NET MAUI`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/) [
 

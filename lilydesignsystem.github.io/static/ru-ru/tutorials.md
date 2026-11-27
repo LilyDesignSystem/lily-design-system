@@ -155,7 +155,7 @@ Description: Пошаговые учебники по Lily: ваш первый 
 
 ### Patient App
 
-`Swift` · `Kotlin`
+`Swift` · `Kotlin` · `.NET MAUI`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/) [
 

@@ -834,6 +834,7 @@ final class PatientAppTests: XCTestCase {
 
 ## Next steps
 
+- [.NET MAUI version](https://lilydesignsystem.com/tutorials/patient-app/maui/): the same app in C#, for iPhone, iPad and Android.
 - [Kotlin version](https://lilydesignsystem.com/tutorials/patient-app/kotlin/): the same app on Android phones and tablets.
 - [Book an appointment in Swift](https://lilydesignsystem.com/tutorials/book-appointment/swift/): a booking screen behind the Appointments link.
 - [Pre-operative assessment in Swift](https://lilydesignsystem.com/tutorials/pre-operative-assessment-by-patient/swift/): a questionnaire a patient fills in before an operation.

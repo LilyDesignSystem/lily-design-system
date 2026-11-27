@@ -72,7 +72,9 @@ test walks the seven screens with the platform's accessibility audit and keeps e
 11-inch, and the page shows each screen on both. The audit's clipped-text check is waived only for a long word SwiftUI hyphenates
 at the largest sizes, which a second test shows whole. `…/kotlin/` is the same app in Jetpack Compose, a module of the
 repository's Gradle build, its instrumented test walking the seven screens with the Accessibility Test Framework on a Pixel 10
-and a Pixel Tablet emulator in portrait, saving a screenshot of each. `tests/patient-app-tutorials.spec.ts` checks the pages.
+and a Pixel Tablet emulator in portrait, saving a screenshot of each. `…/maui/` is the same app in C# with .NET MAUI, built for
+iOS and Android, its records tested on plain .NET; an XCUITest outside the app walks its seven screens with Apple's accessibility
+audit on an iPhone 17 and an iPad Pro 11-inch and takes the screenshots. `tests/patient-app-tutorials.spec.ts` checks the pages.
 
 ### A public health information page
 

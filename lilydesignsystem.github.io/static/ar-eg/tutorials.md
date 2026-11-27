@@ -155,7 +155,7 @@ Description: دروس Lily خطوة بخطوة: مكوّنك الأول، وال
 
 ### Patient App
 
-`Swift` · `Kotlin`
+`Swift` · `Kotlin` · `.NET MAUI`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/) [
 

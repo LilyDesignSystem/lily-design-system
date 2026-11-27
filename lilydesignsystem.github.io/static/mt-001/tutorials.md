@@ -155,7 +155,7 @@ Agħti lill-utenti kontroll tat-tema, il-lingwa, id-daqs tat-test, il-moviment, 
 
 ### Patient App
 
-`Swift` · `Kotlin`
+`Swift` · `Kotlin` · `.NET MAUI`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/) [
 

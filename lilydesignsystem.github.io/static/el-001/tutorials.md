@@ -155,7 +155,7 @@ Runes του Svelte 5, snippets και αμφίδρομη δέσμευση με 
 
 ### Patient App
 
-`Swift` · `Kotlin`
+`Swift` · `Kotlin` · `.NET MAUI`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/) [
 

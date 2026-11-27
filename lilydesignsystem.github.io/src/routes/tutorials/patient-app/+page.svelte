@@ -31,5 +31,9 @@
             <a href="/tutorials/patient-app/kotlin/">Kotlin</a>: Android phones and tablets, with
             Jetpack Compose.
         </li>
+        <li>
+            <a href="/tutorials/patient-app/maui/">.NET MAUI</a>: iPhone, iPad and Android from one
+            C# project.
+        </li>
     </ul>
 </section>

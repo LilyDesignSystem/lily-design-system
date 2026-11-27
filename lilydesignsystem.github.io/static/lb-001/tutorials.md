@@ -155,7 +155,7 @@ Gitt de Benotzer Kontroll iwwer Thema, Sprooch, Textgréisst, Bewegung, Sich, S�
 
 ### Patient App
 
-`Swift` · `Kotlin`
+`Swift` · `Kotlin` · `.NET MAUI`
 
 ](https://lilydesignsystem.com/tutorials/patient-app/) [
 

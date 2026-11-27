@@ -26,6 +26,12 @@ const PLATFORMS = [
         alt: /The Kotlin app on an Android (phone|tablet): /,
         file: "patient-app/src/main/kotlin/com/example/patientapp/AppShell.kt",
     },
+    {
+        slug: "maui",
+        title: "A patient app in .NET MAUI",
+        alt: /The \.NET MAUI app on an (iPhone|iPad): /,
+        file: "MainPage.cs",
+    },
 ];
 
 for (const { slug, title, alt, file } of PLATFORMS) {
