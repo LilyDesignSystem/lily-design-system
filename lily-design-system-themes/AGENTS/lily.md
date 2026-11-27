@@ -68,7 +68,7 @@ There is no Web Components example app.
 
 - [Lily Design System: Swift](../lily-design-system-swift) — SwiftUI, iOS and iPadOS ([spec/apple-swift](../spec/apple-swift/index.md))
 - [Lily Design System: Kotlin](../lily-design-system-kotlin) — Jetpack Compose, Android ([spec/android-kotlin](../spec/android-kotlin/index.md))
-- [Lily Design System: .NET MAUI](../lily-design-system-maui) — native controls for Android, iOS, macOS and Windows, and the full catalog through Blazor Hybrid ([spec/dotnet-maui](../spec/dotnet-maui/index.md))
+- [Lily Design System: .NET MAUI](../lily-design-system-maui) — native controls for Android, iOS, macOS and Windows, and the full catalog through Blazor Hybrid ([spec/dotnet-maui](../spec/dotnet-maui/index.md)); its example app is [`lily-design-system-maui-examples`](../lily-design-system-maui-examples)
 
 ## Subprojects for framework helpers
 

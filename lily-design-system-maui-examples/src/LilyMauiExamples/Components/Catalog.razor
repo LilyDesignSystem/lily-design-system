@@ -1,0 +1,19 @@
+@* A few of the 473 Blazor headless components, rendered by Blazor Hybrid and styled by the light reference theme. *@
+@using LilyBlazorHeadless.Components
+
+<main>
+    <h1>Blazor catalog</h1>
+    <p>These are the Blazor headless components, unchanged, inside the MAUI app. Every component in the catalog works here.</p>
+
+    <Alert Type="info">A web-shaped screen, such as a long form, can use the whole catalog.</Alert>
+
+    <Details Summary="What is Blazor Hybrid?">
+        <p>A BlazorWebView renders Razor components with the platform's web view, so HTML, ARIA and the themes work as on the web.</p>
+    </Details>
+
+    <Button type="button" @onclick="@(() => count++)">Pressed @count times</Button>
+</main>
+
+@code {
+    private int count;
+}
