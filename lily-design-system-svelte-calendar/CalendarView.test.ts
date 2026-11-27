@@ -2200,7 +2200,8 @@ describe("CalendarView — clinic scheduling: free slots, categories and repeats
 
 describe("CalendarView — events with no day snippet (tasks.md P51-T7)", () => {
     for (const view of ["week", "four-week", "month"] as const) {
-        test(`the ${view} grid shows each event's title, and the day cell is described by them`, () => {
+        test(`the ${view} grid shows each event as a button in its day, which opens it`, async () => {
+            const opened: string[] = [];
             const { container } = render(CalendarView, {
                 props: {
                     view,
@@ -2208,21 +2209,23 @@ describe("CalendarView — events with no day snippet (tasks.md P51-T7)", () => 
                     events: EVENTS,
                     labels: LABELS,
                     label: "Calendar",
+                    onEventClick: (e: CalendarEvent) => opened.push(e.id),
                 },
             });
             const day = (e: CalendarEvent) => (e.date ?? e.start)!;
-            const shown = EVENTS.filter((e) => day(e) >= "2026-01-05" && day(e) <= "2026-01-11");
-            expect(shown).toHaveLength(2);
-            for (const e of shown) {
+            for (const e of EVENTS) {
                 const cell = container.querySelector(`td[data-date="${day(e)}"]`)!;
-                const list = cell.querySelector(".calendar-view-day-events")!;
-                expect(list.textContent).toContain(e.title);
-                expect(cell.getAttribute("aria-describedby")?.split(" ")).toContain(list.id);
+                const button = cell.querySelector<HTMLButtonElement>(
+                    `button.calendar-view-event[data-event-key="${e.id}"]`,
+                )!;
+                expect(button.textContent).toBe(e.title);
+                await fireEvent.click(button);
             }
+            expect(opened).toEqual(EVENTS.map((e) => e.id));
         });
     }
 
-    test("a day with no events has no event list and no description", () => {
+    test("a day with no events has no event button", () => {
         const { container } = render(CalendarView, {
             props: {
                 view: "week",
@@ -2232,7 +2235,6 @@ describe("CalendarView — events with no day snippet (tasks.md P51-T7)", () => 
                 label: "Calendar",
             },
         });
-        expect(container.querySelector(".calendar-view-day-events")).toBeNull();
-        expect(container.querySelector("td[aria-describedby]")).toBeNull();
+        expect(container.querySelector("td .calendar-view-event")).toBeNull();
     });
 });

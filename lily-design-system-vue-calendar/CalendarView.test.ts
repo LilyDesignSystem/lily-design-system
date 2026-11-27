@@ -1207,7 +1207,8 @@ describe("CalendarView — typed event fields, editing, export (§8.69–§8.82)
 
 describe("CalendarView — events with no day slot (tasks.md P51-T7)", () => {
     for (const view of ["week", "four-week", "month"] as const) {
-        test(`the ${view} grid shows each event's title, and the day cell is described by them`, () => {
+        test(`the ${view} grid shows each event as a button in its day, which opens it`, async () => {
+            const opened: string[] = [];
             const w = mount(CalendarView, {
                 props: {
                     label: "Calendar",
@@ -1215,20 +1216,25 @@ describe("CalendarView — events with no day slot (tasks.md P51-T7)", () => {
                     anchorDate: "2026-01-06",
                     events: EVENTS,
                     labels: LABELS,
+                    onEventClick: (e: CalendarEvent) => opened.push(e.id),
                 },
             });
             const day = (e: CalendarEvent) => (e.date ?? e.start)!;
             for (const e of EVENTS) {
                 const cell = w.element.querySelector(`td[data-date="${day(e)}"]`)!;
-                const list = cell.querySelector(".calendar-view-day-events")!;
-                expect(list.textContent).toContain(e.title);
-                expect(cell.getAttribute("aria-describedby")?.split(" ")).toContain(list.id);
+                const button = cell.querySelector<HTMLButtonElement>(
+                    `button.calendar-view-event[data-event-key="${e.id}"]`,
+                )!;
+                expect(button.textContent?.trim()).toBe(e.title);
+                button.click();
             }
+            await nextTick();
+            expect(opened).toEqual(EVENTS.map((e) => e.id));
             w.unmount();
         });
     }
 
-    test("a day with no events has no event list and no description", () => {
+    test("a day with no events has no event button", () => {
         const w = mount(CalendarView, {
             props: {
                 label: "Calendar",
@@ -1238,8 +1244,7 @@ describe("CalendarView — events with no day slot (tasks.md P51-T7)", () => {
                 labels: LABELS,
             },
         });
-        expect(w.element.querySelector(".calendar-view-day-events")).toBeNull();
-        expect(w.element.querySelector("td[aria-describedby]")).toBeNull();
+        expect(w.element.querySelector("td .calendar-view-event")).toBeNull();
         w.unmount();
     });
 });

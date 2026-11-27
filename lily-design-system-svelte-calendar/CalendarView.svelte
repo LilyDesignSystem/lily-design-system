@@ -1466,14 +1466,9 @@
                                     : undefined}
                                 aria-disabled={disabled || undefined}
                                 aria-label={labels?.day?.(d, weekday, outside)}
-                                aria-describedby={[
-                                    rangeLabels(dayRanges) ? `${baseId}-rg-${d}` : "",
-                                    !day && dayEvents.length > 0 && !(hideOutsideDays && outside)
-                                        ? `${baseId}-ev-${d}`
-                                        : "",
-                                ]
-                                    .filter(Boolean)
-                                    .join(" ") || undefined}
+                                aria-describedby={rangeLabels(dayRanges)
+                                    ? `${baseId}-rg-${d}`
+                                    : undefined}
                                 onclick={(e: MouseEvent) => onDayCellClick(d, e)}
                                 ondragover={onDayDragOver}
                                 ondrop={(e: DragEvent) => onDayDrop(d, e)}
@@ -1516,23 +1511,20 @@
                                                 >{range.label}</span
                                             >{/if}
                                     {/each}
-                                    <!-- With no day snippet a day still shows its events' titles, and its cell is described by them, so a
-                                         grid never hides events the agenda lists (tasks.md P51-T7). Opening one is the snippet's job. -->
-                                    {#if dayEvents.length > 0}
-                                        <ul
-                                            class="calendar-view-day-events"
-                                            id={`${baseId}-ev-${d}`}
+                                    <!-- With no day snippet each event is a button in its day, as in the Angular, HTML, Nunjucks, Blazor and
+                                         Alpine catalogs, so a grid never hides events the agenda lists (tasks.md P51-T7). -->
+                                    {#each dayEvents as calendarEvent (calendarEvent.id)}
+                                        <button
+                                            type="button"
+                                            class="calendar-view-event"
+                                            data-event-key={calendarEvent.id}
+                                            {...eventProps(calendarEvent)}
+                                            onclick={(e: MouseEvent) => {
+                                                e.stopPropagation();
+                                                openEvent(calendarEvent);
+                                            }}>{eventTitle(calendarEvent)}</button
                                         >
-                                            {#each dayEvents as calendarEvent (calendarEvent.id)}
-                                                <li
-                                                    class="calendar-view-day-event"
-                                                    data-event-key={calendarEvent.id}
-                                                >
-                                                    {eventTitle(calendarEvent)}
-                                                </li>
-                                            {/each}
-                                        </ul>
-                                    {/if}
+                                    {/each}
                                 {/if}
                             </CalendarTableTD>
                         {/each}

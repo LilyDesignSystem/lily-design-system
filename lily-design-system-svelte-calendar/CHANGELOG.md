@@ -6,10 +6,9 @@ and the project follows [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
-- **Fixed:** with no `day` snippet, the week, four-week and month grids drew no events at all while the agenda listed them, and
-  nothing said so (tasks.md P51-T7). Each day now lists its events' titles (`calendar-view-day-events`, one
-  `calendar-view-day-event` each), and the day cell is described by that list (`aria-describedby`), since the cell's own
-  `aria-label` names it. Opening an event is still the `day` snippet's job.
+- **Fixed:** with no `day` snippet, the week, four-week and month grids drew no events while the agenda listed them (tasks.md
+  P51-T7). Each event is now a `calendar-view-event` button in its day that opens it (`onEventClick`), as in the Angular, HTML,
+  Nunjucks, Blazor and Alpine calendars.
 
 ## 0.7.2 — 2026-11-06
 

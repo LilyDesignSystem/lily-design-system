@@ -2492,7 +2492,8 @@ describe("CalendarView — renders in another language with no English left over
 
 describe("CalendarView — events with no day render prop (tasks.md P51-T7)", () => {
     for (const view of ["week", "four-week", "month"] as const) {
-        test(`the ${view} grid shows each event's title, and the day cell is described by them`, () => {
+        test(`the ${view} grid shows each event as a button in its day, which opens it`, () => {
+            const opened: string[] = [];
             const { container } = render(
                 <CalendarView
                     label="Calendar"
@@ -2500,19 +2501,23 @@ describe("CalendarView — events with no day render prop (tasks.md P51-T7)", ()
                     defaultAnchorDate="2026-01-06"
                     events={EVENTS}
                     labels={LABELS}
+                    onEventClick={(e) => opened.push(e.id)}
                 />,
             );
             const day = (e: CalendarEvent) => (e.date ?? e.start)!;
             for (const e of EVENTS) {
                 const cell = container.querySelector(`td[data-date="${day(e)}"]`)!;
-                const list = cell.querySelector(".calendar-view-day-events")!;
-                expect(list.textContent).toContain(e.title);
-                expect(cell.getAttribute("aria-describedby")?.split(" ")).toContain(list.id);
+                const button = cell.querySelector<HTMLButtonElement>(
+                    `button.calendar-view-event[data-event-key="${e.id}"]`,
+                )!;
+                expect(button.textContent).toBe(e.title);
+                fireEvent.click(button);
             }
+            expect(opened).toEqual(EVENTS.map((e) => e.id));
         });
     }
 
-    test("a day with no events has no event list and no description", () => {
+    test("a day with no events has no event button", () => {
         const { container } = render(
             <CalendarView
                 label="Calendar"
@@ -2522,7 +2527,6 @@ describe("CalendarView — events with no day render prop (tasks.md P51-T7)", ()
                 labels={LABELS}
             />,
         );
-        expect(container.querySelector(".calendar-view-day-events")).toBeNull();
-        expect(container.querySelector("td[aria-describedby]")).toBeNull();
+        expect(container.querySelector("td .calendar-view-event")).toBeNull();
     });
 });
