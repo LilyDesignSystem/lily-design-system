@@ -120,7 +120,7 @@ data-table-head	native	Table (iPad regular width); List on iPhone	none		Phone sc
 data-table-row	native	Table (iPad regular width); List on iPhone	none		Phone screens have no tables; a table becomes a list. iPad has Table; Compose has none (use a list).
 data-table-td	native	Table (iPad regular width); List on iPhone	none		Phone screens have no tables; a table becomes a list. iPad has Table; Compose has none (use a list).
 data-table-th	native	Table (iPad regular width); List on iPhone	none		Phone screens have no tables; a table becomes a list. iPad has Table; Compose has none (use a list).
-date-field	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+date-field	lily	DateField	lily	DateField	Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
 date-input	native	DatePicker	native	DatePicker / TimePicker (Material 3)	Use the platform picker.
 date-range	pattern	Section with a header	pattern	Column with a heading() legend in a traversal group	A labelled group of native controls.
 date-time-local-input	native	DatePicker	native	DatePicker / TimePicker (Material 3)	Use the platform picker.
@@ -414,7 +414,7 @@ splitter	none		none		Web layout, editorial or desktop-only component.
 statistic	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
 status-light	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
 status-tag	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
-step-list	lily		lily		A semantic list whose items say their state in words.
+step-list	lily	StepList	lily	StepList	A semantic list whose items say their state in words.
 step-list-item	lily		lily		A semantic list whose items say their state in words.
 sticky-promo-banner	none		none		Web site banners; an app shows these in its own release notes or settings.
 submit-input	native	Button	native	Button (Material 3)	Use the platform button; Lily supplies a style.
@@ -656,7 +656,7 @@ immunization-record-list-item	pattern	RecordListItem holding the record (Medicat
 procedure-record-list-item	pattern	RecordListItem holding the record (MedicationView, ObservationView, text)	pattern	RecordListItem holding the record (MedicationView, ObservationView, text)	The generic record list carries the rules (never blank, withheld and entered-in-error never silent, whose record first); the record itself is a Lily view, so a type per kind adds API, not safety.
 device-record-list-item	pattern	RecordListItem holding the record (MedicationView, ObservationView, text)	pattern	RecordListItem holding the record (MedicationView, ObservationView, text)	The generic record list carries the rules (never blank, withheld and entered-in-error never silent, whose record first); the record itself is a Lily view, so a type per kind adds API, not safety.
 duration-view	lily		lily		Clinical display contract (status in words, ranges, provenance); see spec/healthcare-ui.
-quantity-input-div	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+quantity-input-div	lily	QuantityInput	lily	QuantityInput	Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
 record-provenance-view	lily		lily		Clinical display contract (status in words, ranges, provenance); see spec/healthcare-ui.
-repeatable-fieldset	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
+repeatable-fieldset	lily	RepeatableFieldset	lily	RepeatableFieldset	Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
 range-fieldset	lily		lily		Lily's contract (semantics, consumer words, worldwide rules) with no platform equivalent.
