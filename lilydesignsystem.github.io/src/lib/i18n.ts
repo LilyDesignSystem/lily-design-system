@@ -154,7 +154,7 @@ const es: UiStrings = {
     home: {
         heroTitle: "Diseña mejor para la web.",
         heroTagline:
-            "Lily es un sistema de diseño gratuito, de código abierto y accesible, con cientos de componentes para siete frameworks.",
+            "Lily es un sistema de diseño gratuito, de código abierto y accesible, con cientos de componentes para 13 frameworks principales.",
         frameworks: "Frameworks compatibles",
         tutorials: {
             heading: "Tutoriales",
@@ -218,7 +218,7 @@ const fr: UiStrings = {
     home: {
         heroTitle: "Concevez mieux pour le web.",
         heroTagline:
-            "Lily est un système de conception gratuit, open source et accessible, avec des centaines de composants pour sept frameworks.",
+            "Lily est un système de conception gratuit, open source et accessible, avec des centaines de composants pour 13 frameworks majeurs.",
         frameworks: "Frameworks pris en charge",
         tutorials: {
             heading: "Tutoriels",
@@ -284,7 +284,7 @@ const pt: UiStrings = {
     home: {
         heroTitle: "Crie designs melhores para a web.",
         heroTagline:
-            "Lily é um sistema de design gratuito, de código aberto e acessível, com centenas de componentes para sete frameworks.",
+            "Lily é um sistema de design gratuito, de código aberto e acessível, com centenas de componentes para 13 frameworks principais.",
         frameworks: "Frameworks compatíveis",
         tutorials: {
             heading: "Tutoriais",
@@ -348,7 +348,7 @@ const ru: UiStrings = {
     home: {
         heroTitle: "Создавайте веб-дизайн лучше.",
         heroTagline:
-            "Lily — бесплатная система дизайна с открытым исходным кодом и сотнями доступных компонентов для семи фреймворков.",
+            "Lily — бесплатная система дизайна с открытым исходным кодом и сотнями доступных компонентов для 13 основных фреймворков.",
         frameworks: "Поддерживаемые фреймворки",
         tutorials: {
             heading: "Уроки",
@@ -411,7 +411,7 @@ const hi: UiStrings = {
     home: {
         heroTitle: "वेब डिज़ाइन को बेहतर बनाइए।",
         heroTagline:
-            "Lily एक निःशुल्क, ओपन-सोर्स, सुगम्य डिज़ाइन सिस्टम है जिसमें सात फ्रेमवर्क के लिए सैकड़ों कॉम्पोनेंट्स हैं।",
+            "Lily एक निःशुल्क, ओपन-सोर्स, सुगम्य डिज़ाइन सिस्टम है जिसमें 13 प्रमुख फ्रेमवर्क के लिए सैकड़ों कॉम्पोनेंट्स हैं।",
         frameworks: "समर्थित फ़्रेमवर्क",
         tutorials: {
             heading: "ट्यूटोरियल",
@@ -474,7 +474,7 @@ const id: UiStrings = {
     home: {
         heroTitle: "Rancang desain web yang lebih baik.",
         heroTagline:
-            "Lily adalah sistem desain gratis, sumber terbuka, dan aksesibel dengan ratusan komponen untuk tujuh framework.",
+            "Lily adalah sistem desain gratis, sumber terbuka, dan aksesibel dengan ratusan komponen untuk 13 framework utama.",
         frameworks: "Framework yang didukung",
         tutorials: {
             heading: "Tutorial",
@@ -537,7 +537,7 @@ const cy: UiStrings = {
     home: {
         heroTitle: "Dylunio gwefannau yn well.",
         heroTagline:
-            "Mae Lily yn system ddylunio ffynhonnell agored am ddim a hygyrch, gyda channoedd o gydrannau ar gyfer saith fframwaith.",
+            "Mae Lily yn system ddylunio ffynhonnell agored am ddim a hygyrch, gyda channoedd o gydrannau ar gyfer 13 o brif fframweithiau.",
         frameworks: "Fframweithiau a gefnogir",
         tutorials: {
             heading: "Tiwtorialau",
@@ -601,7 +601,7 @@ const ar: UiStrings = {
     home: {
         heroTitle: "صمّم الويب بشكل أفضل.",
         heroTagline:
-            "Lily نظام تصميم مجاني ومفتوح المصدر ويسهل الوصول إليه، يضم مئات المكوّنات لسبعة أطر عمل.",
+            "Lily نظام تصميم مجاني ومفتوح المصدر ويسهل الوصول إليه، يضم مئات المكوّنات لـ13 إطار عمل رئيسيًا.",
         frameworks: "أطر العمل المدعومة",
         tutorials: {
             heading: "الدروس",
@@ -663,7 +663,7 @@ const ur: UiStrings = {
     home: {
         heroTitle: "ویب ڈیزائن کو بہتر بنائیں۔",
         heroTagline:
-            "Lily ایک مفت، اوپن سورس اور قابلِ رسائی ڈیزائن سسٹم ہے جس میں سات فریم ورکس کے لیے سیکڑوں اجزاء شامل ہیں۔",
+            "Lily ایک مفت، اوپن سورس اور قابلِ رسائی ڈیزائن سسٹم ہے جس میں 13 بڑے فریم ورکس کے لیے سیکڑوں اجزاء شامل ہیں۔",
         frameworks: "معاون فریم ورکس",
         tutorials: {
             heading: "سبق",
@@ -725,7 +725,7 @@ const bn: UiStrings = {
     home: {
         heroTitle: "ওয়েব ডিজাইন আরও ভালো করুন।",
         heroTagline:
-            "Lily একটি বিনামূল্যের, ওপেন-সোর্স, প্রবেশযোগ্য ডিজাইন সিস্টেম, যাতে সাতটি ফ্রেমওয়ার্কের জন্য শত শত কম্পোনেন্ট রয়েছে।",
+            "Lily একটি বিনামূল্যের, ওপেন-সোর্স, প্রবেশযোগ্য ডিজাইন সিস্টেম, যাতে ১৩টি প্রধান ফ্রেমওয়ার্কের জন্য শত শত কম্পোনেন্ট রয়েছে।",
         frameworks: "সমর্থিত ফ্রেমওয়ার্ক",
         tutorials: {
             heading: "টিউটোরিয়াল",
@@ -787,7 +787,7 @@ const zh: UiStrings = {
     },
     home: {
         heroTitle: "更好地设计网页。",
-        heroTagline: "Lily 是一个免费、开源、无障碍的设计系统,为七种框架提供数百个组件。",
+        heroTagline: "Lily 是一个免费、开源、无障碍的设计系统,为 13 种主流框架提供数百个组件。",
         frameworks: "支持的框架",
         tutorials: {
             heading: "教程",
@@ -842,7 +842,7 @@ const ja: UiStrings = {
     home: {
         heroTitle: "ウェブデザインをもっと良く。",
         heroTagline:
-            "Lily は、7 つのフレームワーク向けに数百のコンポーネントを備えた、無料でオープンソースのアクセシブルなデザインシステムです。",
+            "Lily は、13 の主要フレームワーク向けに数百のコンポーネントを備えた、無料でオープンソースのアクセシブルなデザインシステムです。",
         frameworks: "対応フレームワーク",
         tutorials: {
             heading: "チュートリアル",
@@ -905,7 +905,7 @@ const ko: UiStrings = {
     home: {
         heroTitle: "웹 디자인을 더 잘 만드세요.",
         heroTagline:
-            "Lily는 일곱 가지 프레임워크를 위한 수백 개의 컴포넌트를 갖춘 무료 오픈 소스 접근성 디자인 시스템입니다.",
+            "Lily는 13가지 주요 프레임워크를 위한 수백 개의 컴포넌트를 갖춘 무료 오픈 소스 접근성 디자인 시스템입니다.",
         frameworks: "지원 프레임워크",
         tutorials: {
             heading: "튜토리얼",
@@ -967,7 +967,7 @@ const sw: UiStrings = {
     home: {
         heroTitle: "Buni tovuti kwa ubora zaidi.",
         heroTagline:
-            "Lily ni mfumo wa usanifu huria, wa chanzo wazi na unaofikika, wenye mamia ya vipengele kwa mifumo saba ya kazi.",
+            "Lily ni mfumo wa usanifu huria, wa chanzo wazi na unaofikika, wenye mamia ya vipengele kwa mifumo mikuu 13 ya kazi.",
         frameworks: "Mifumo ya kazi inayotumika",
         tutorials: {
             heading: "Mafunzo",
@@ -1030,7 +1030,7 @@ const sv: UiStrings = {
     home: {
         heroTitle: "Bygg bättre webbdesign.",
         heroTagline:
-            "Lily är ett gratis, tillgängligt designsystem med öppen källkod och hundratals komponenter för sju ramverk.",
+            "Lily är ett gratis, tillgängligt designsystem med öppen källkod och hundratals komponenter för 13 stora ramverk.",
         frameworks: "Ramverk som stöds",
         tutorials: {
             heading: "Handledningar",
@@ -1094,7 +1094,7 @@ const nl: UiStrings = {
     home: {
         heroTitle: "Ontwerp betere websites.",
         heroTagline:
-            "Lily is een gratis, toegankelijk designsysteem met open source en honderden componenten voor zeven frameworks.",
+            "Lily is een gratis, toegankelijk designsysteem met open source en honderden componenten voor 13 grote frameworks.",
         frameworks: "Ondersteunde frameworks",
         tutorials: {
             heading: "Handleidingen",
@@ -1158,7 +1158,7 @@ const de: UiStrings = {
     home: {
         heroTitle: "Webdesign besser machen.",
         heroTagline:
-            "Lily ist ein kostenloses, barrierefreies Open-Source-Designsystem mit Hunderten von Komponenten für sieben Frameworks.",
+            "Lily ist ein kostenloses, barrierefreies Open-Source-Designsystem mit Hunderten von Komponenten für 13 wichtige Frameworks.",
         frameworks: "Unterstützte Frameworks",
         tutorials: {
             heading: "Anleitungen",
@@ -1222,7 +1222,7 @@ const da: UiStrings = {
     home: {
         heroTitle: "Design bedre til nettet.",
         heroTagline:
-            "Lily er et gratis, tilgængeligt designsystem med åben kildekode og hundredvis af komponenter til syv frameworks.",
+            "Lily er et gratis, tilgængeligt designsystem med åben kildekode og hundredvis af komponenter til 13 store frameworks.",
         frameworks: "Understøttede frameworks",
         tutorials: {
             heading: "Vejledninger",
@@ -1286,7 +1286,7 @@ const th: UiStrings = {
     home: {
         heroTitle: "ออกแบบเว็บให้ดียิ่งขึ้น",
         heroTagline:
-            "Lily เป็นระบบการออกแบบโอเพนซอร์สฟรีที่เข้าถึงได้ พร้อมคอมโพเนนต์หลายร้อยรายการสำหรับเจ็ดเฟรมเวิร์ก",
+            "Lily เป็นระบบการออกแบบโอเพนซอร์สฟรีที่เข้าถึงได้ พร้อมคอมโพเนนต์หลายร้อยรายการสำหรับ 13 เฟรมเวิร์กหลัก",
         frameworks: "เฟรมเวิร์กที่รองรับ",
         tutorials: {
             heading: "บทเรียน",
@@ -1348,7 +1348,7 @@ const et: UiStrings = {
     home: {
         heroTitle: "Kujunda veebi paremini.",
         heroTagline:
-            "Lily on tasuta ja avatud lähtekoodiga juurdepääsetav disainisüsteem sadade komponentidega seitsmele raamistikule.",
+            "Lily on tasuta ja avatud lähtekoodiga juurdepääsetav disainisüsteem sadade komponentidega 13 peamisele raamistikule.",
         frameworks: "Toetatud raamistikud",
         tutorials: {
             heading: "Õpetused",
@@ -1411,7 +1411,7 @@ const fi: UiStrings = {
     home: {
         heroTitle: "Suunnittele verkkoa paremmin.",
         heroTagline:
-            "Lily on ilmainen, avoimen lähdekoodin saavutettava suunnittelujärjestelmä, jossa on satoja komponentteja seitsemälle kehykselle.",
+            "Lily on ilmainen, avoimen lähdekoodin saavutettava suunnittelujärjestelmä, jossa on satoja komponentteja 13 tärkeälle kehykselle.",
         frameworks: "Tuetut kehykset",
         tutorials: {
             heading: "Opetusohjelmat",
@@ -1475,7 +1475,7 @@ const it: UiStrings = {
     home: {
         heroTitle: "Progetta meglio per il web.",
         heroTagline:
-            "Lily è un design system gratuito, open source e accessibile, con centinaia di componenti per sette framework.",
+            "Lily è un design system gratuito, open source e accessibile, con centinaia di componenti per 13 framework principali.",
         frameworks: "Framework supportati",
         tutorials: {
             heading: "Tutorial",
@@ -1538,7 +1538,7 @@ const tr: UiStrings = {
     home: {
         heroTitle: "Web tasarımını daha iyi yapın.",
         heroTagline:
-            "Lily, yedi çerçeve için yüzlerce bileşen sunan ücretsiz, açık kaynaklı ve erişilebilir bir tasarım sistemidir.",
+            "Lily, 13 büyük çerçeve için yüzlerce bileşen sunan ücretsiz, açık kaynaklı ve erişilebilir bir tasarım sistemidir.",
         frameworks: "Desteklenen çerçeveler",
         tutorials: {
             heading: "Eğitimler",
@@ -1603,7 +1603,7 @@ const vi: UiStrings = {
     home: {
         heroTitle: "Thiết kế web tốt hơn.",
         heroTagline:
-            "Lily là hệ thống thiết kế miễn phí, mã nguồn mở và dễ tiếp cận, với hàng trăm thành phần cho bảy framework.",
+            "Lily là hệ thống thiết kế miễn phí, mã nguồn mở và dễ tiếp cận, với hàng trăm thành phần cho 13 framework chính.",
         frameworks: "Các framework được hỗ trợ",
         tutorials: {
             heading: "Hướng dẫn",
@@ -1667,7 +1667,7 @@ const pl: UiStrings = {
     home: {
         heroTitle: "Projektuj lepsze strony internetowe.",
         heroTagline:
-            "Lily to darmowy, dostępny system projektowy open source z setkami komponentów dla siedmiu frameworków.",
+            "Lily to darmowy, dostępny system projektowy open source z setkami komponentów dla 13 głównych frameworków.",
         frameworks: "Obsługiwane frameworki",
         tutorials: {
             heading: "Samouczki",
@@ -1730,7 +1730,7 @@ const ro: UiStrings = {
     home: {
         heroTitle: "Proiectează mai bine pentru web.",
         heroTagline:
-            "Lily este un sistem de design gratuit, open source și accesibil, cu sute de componente pentru șapte framework-uri.",
+            "Lily este un sistem de design gratuit, open source și accesibil, cu sute de componente pentru 13 framework-uri importante.",
         frameworks: "Framework-uri acceptate",
         tutorials: {
             heading: "Tutoriale",
@@ -1794,7 +1794,7 @@ const cs: UiStrings = {
     home: {
         heroTitle: "Navrhujte weby lépe.",
         heroTagline:
-            "Lily je bezplatný, přístupný designový systém s otevřeným zdrojovým kódem a stovkami komponent pro sedm frameworků.",
+            "Lily je bezplatný, přístupný designový systém s otevřeným zdrojovým kódem a stovkami komponent pro 13 hlavních frameworků.",
         frameworks: "Podporované frameworky",
         tutorials: {
             heading: "Návody",
@@ -1857,7 +1857,7 @@ const hu: UiStrings = {
     home: {
         heroTitle: "Tervezz jobb weboldalakat.",
         heroTagline:
-            "A Lily ingyenes, nyílt forráskódú, akadálymentes tervezőrendszer, több száz komponenssel hét keretrendszerhez.",
+            "A Lily ingyenes, nyílt forráskódú, akadálymentes tervezőrendszer, több száz komponenssel 13 fő keretrendszerhez.",
         frameworks: "Támogatott keretrendszerek",
         tutorials: {
             heading: "Oktatóanyagok",
@@ -1921,7 +1921,7 @@ const el: UiStrings = {
     home: {
         heroTitle: "Σχεδιάστε καλύτερα για το διαδίκτυο.",
         heroTagline:
-            "Το Lily είναι ένα δωρεάν, προσβάσιμο σύστημα σχεδίασης ανοιχτού κώδικα με εκατοντάδες στοιχεία για επτά πλαίσια.",
+            "Το Lily είναι ένα δωρεάν, προσβάσιμο σύστημα σχεδίασης ανοιχτού κώδικα με εκατοντάδες στοιχεία για 13 κύρια πλαίσια.",
         frameworks: "Υποστηριζόμενα πλαίσια",
         tutorials: {
             heading: "Οδηγοί",
@@ -1984,7 +1984,7 @@ const bg: UiStrings = {
     home: {
         heroTitle: "Проектирайте по-добре за уеб.",
         heroTagline:
-            "Lily е безплатна, достъпна дизайн система с отворен код със стотици компоненти за седем фреймуърка.",
+            "Lily е безплатна, достъпна дизайн система с отворен код със стотици компоненти за 13 основни фреймуърка.",
         frameworks: "Поддържани фреймуърци",
         tutorials: {
             heading: "Уроци",
@@ -2047,7 +2047,7 @@ const sk: UiStrings = {
     home: {
         heroTitle: "Navrhujte weby lepšie.",
         heroTagline:
-            "Lily je bezplatný, prístupný dizajnový systém s otvoreným zdrojovým kódom a stovkami komponentov pre sedem frameworkov.",
+            "Lily je bezplatný, prístupný dizajnový systém s otvoreným zdrojovým kódom a stovkami komponentov pre 13 hlavných frameworkov.",
         frameworks: "Podporované frameworky",
         tutorials: {
             heading: "Návody",
@@ -2110,7 +2110,7 @@ const hr: UiStrings = {
     home: {
         heroTitle: "Dizajnirajte bolje za web.",
         heroTagline:
-            "Lily je besplatan, pristupačan dizajnerski sustav otvorenog koda sa stotinama komponenti za sedam okvira.",
+            "Lily je besplatan, pristupačan dizajnerski sustav otvorenog koda sa stotinama komponenti za 13 glavnih okvira.",
         frameworks: "Podržani okviri",
         tutorials: {
             heading: "Vodiči",
@@ -2173,7 +2173,7 @@ const lt: UiStrings = {
     home: {
         heroTitle: "Kurkite geresnį žiniatinklį.",
         heroTagline:
-            "Lily yra nemokama, prieinama atvirojo kodo dizaino sistema su šimtais komponentų septyniems karkasams.",
+            "Lily yra nemokama, prieinama atvirojo kodo dizaino sistema su šimtais komponentų trylikai pagrindinių karkasų.",
         frameworks: "Palaikomi karkasai",
         tutorials: {
             heading: "Vadovėliai",
@@ -2237,7 +2237,7 @@ const sl: UiStrings = {
     home: {
         heroTitle: "Oblikujte boljša spletna mesta.",
         heroTagline:
-            "Lily je brezplačen, dostopen odprtokodni oblikovalski sistem s stotinami komponent za sedem ogrodij.",
+            "Lily je brezplačen, dostopen odprtokodni oblikovalski sistem s stotinami komponent za 13 glavnih ogrodij.",
         frameworks: "Podprta ogrodja",
         tutorials: {
             heading: "Vodniki",
@@ -2301,7 +2301,7 @@ const lv: UiStrings = {
     home: {
         heroTitle: "Veidojiet labāku tīmekli.",
         heroTagline:
-            "Lily ir bezmaksas, pieejama atvērtā koda dizaina sistēma ar simtiem komponentu septiņiem ietvariem.",
+            "Lily ir bezmaksas, pieejama atvērtā koda dizaina sistēma ar simtiem komponentu 13 galvenajiem ietvariem.",
         frameworks: "Atbalstītie ietvari",
         tutorials: {
             heading: "Pamācības",
@@ -2364,7 +2364,7 @@ const mt: UiStrings = {
     home: {
         heroTitle: "Iddisinja aħjar għall-web.",
         heroTagline:
-            "Lily hija sistema tad-disinn b’xejn, aċċessibbli u b’sors miftuħ, b’mijiet ta’ komponenti għal seba’ framework.",
+            "Lily hija sistema tad-disinn b’xejn, aċċessibbli u b’sors miftuħ, b’mijiet ta’ komponenti għal 13-il framework ewlieni.",
         frameworks: "Frameworks appoġġjati",
         tutorials: {
             heading: "Tutorjals",
@@ -2415,7 +2415,7 @@ const ga: UiStrings = {
     home: {
         heroTitle: "Dear don ghréasán níos fearr.",
         heroTagline:
-            "Is córas dearaidh saor in aisce, inrochtana, foinse oscailte é Lily, le céadta comhpháirteanna do sheacht gcreat.",
+            "Is córas dearaidh saor in aisce, inrochtana, foinse oscailte é Lily, le céadta comhpháirteanna do 13 phríomhchreat.",
         frameworks: "Creataí tacaithe",
         tutorials: {
             heading: "Teagasc",
@@ -2479,7 +2479,7 @@ const lb: UiStrings = {
     home: {
         heroTitle: "Besser Webdesign maachen.",
         heroTagline:
-            "Lily ass en gratis, zougänglecht Open-Source-Designsystem mat Honnerte vu Komponenten fir siwen Frameworks.",
+            "Lily ass en gratis, zougänglecht Open-Source-Designsystem mat Honnerte vu Komponenten fir 13 wichteg Frameworks.",
         frameworks: "Ënnerstëtzte Frameworks",
         tutorials: {
             heading: "Tutorialen",
@@ -2530,7 +2530,7 @@ const pa: UiStrings = {
     home: {
         heroTitle: "ਵੈੱਬ ਲਈ ਬਿਹਤਰ ਡਿਜ਼ਾਈਨ ਕਰੋ।",
         heroTagline:
-            "Lily ਇੱਕ ਮੁਫ਼ਤ, ਓਪਨ-ਸੋਰਸ, ਪਹੁੰਚਯੋਗ ਡਿਜ਼ਾਈਨ ਸਿਸਟਮ ਹੈ, ਜਿਸ ਵਿੱਚ ਸੱਤ ਫ੍ਰੇਮਵਰਕਾਂ ਲਈ ਸੈਂਕੜੇ ਕੰਪੋਨੈਂਟ ਹਨ।",
+            "Lily ਇੱਕ ਮੁਫ਼ਤ, ਓਪਨ-ਸੋਰਸ, ਪਹੁੰਚਯੋਗ ਡਿਜ਼ਾਈਨ ਸਿਸਟਮ ਹੈ, ਜਿਸ ਵਿੱਚ 13 ਪ੍ਰਮੁੱਖ ਫ੍ਰੇਮਵਰਕਾਂ ਲਈ ਸੈਂਕੜੇ ਕੰਪੋਨੈਂਟ ਹਨ।",
         frameworks: "ਸਮਰਥਿਤ ਫ੍ਰੇਮਵਰਕ",
         tutorials: {
             heading: "ਟਿਊਟੋਰਿਅਲ",
@@ -2592,7 +2592,7 @@ const mr: UiStrings = {
     home: {
         heroTitle: "वेबसाठी अधिक चांगले डिझाइन करा.",
         heroTagline:
-            "Lily ही मोफत, ओपन-सोर्स, सुलभ डिझाइन प्रणाली आहे, ज्यात सात फ्रेमवर्कसाठी शेकडो घटक आहेत.",
+            "Lily ही मोफत, ओपन-सोर्स, सुलभ डिझाइन प्रणाली आहे, ज्यात 13 प्रमुख फ्रेमवर्कसाठी शेकडो घटक आहेत.",
         frameworks: "समर्थित फ्रेमवर्क",
         tutorials: {
             heading: "ट्यूटोरियल",
@@ -2654,7 +2654,7 @@ const te: UiStrings = {
     home: {
         heroTitle: "వెబ్ కోసం మెరుగ్గా డిజైన్ చేయండి.",
         heroTagline:
-            "Lily అనేది ఏడు ఫ్రేమ్‌వర్క్‌ల కోసం వందలాది భాగాలతో కూడిన ఉచిత, ఓపెన్ సోర్స్, అందుబాటులో ఉండే డిజైన్ సిస్టమ్.",
+            "Lily అనేది 13 ప్రధాన ఫ్రేమ్‌వర్క్‌ల కోసం వందలాది భాగాలతో కూడిన ఉచిత, ఓపెన్ సోర్స్, అందుబాటులో ఉండే డిజైన్ సిస్టమ్.",
         frameworks: "మద్దతు ఉన్న ఫ్రేమ్‌వర్క్‌లు",
         tutorials: {
             heading: "ట్యుటోరియల్స్",
@@ -2717,7 +2717,7 @@ const ha: UiStrings = {
     home: {
         heroTitle: "Ƙera ƙirar yanar gizo da kyau.",
         heroTagline:
-            "Lily tsarin ƙira ne na kyauta, mai buɗaɗɗen tushe, kuma mai sauƙin isa, mai ɗauke da ɗaruruwan abubuwan haɗawa don tsare-tsare bakwai.",
+            "Lily tsarin ƙira ne na kyauta, mai buɗaɗɗen tushe, kuma mai sauƙin isa, mai ɗauke da ɗaruruwan abubuwan haɗawa don manyan tsare-tsare 13.",
         frameworks: "Tsare-tsaren da ake tallafawa",
         tutorials: {
             heading: "Darussa",
@@ -2768,7 +2768,7 @@ const ta: UiStrings = {
     home: {
         heroTitle: "இணையத்திற்கு சிறப்பாக வடிவமைக்கவும்.",
         heroTagline:
-            "Lily என்பது ஏழு கட்டமைப்புகளுக்கான நூற்றுக்கணக்கான கூறுகளுடன் கூடிய இலவச, திறந்த மூல, அணுகக்கூடிய வடிவமைப்பு அமைப்பு.",
+            "Lily என்பது 13 முக்கிய கட்டமைப்புகளுக்கான நூற்றுக்கணக்கான கூறுகளுடன் கூடிய இலவச, திறந்த மூல, அணுகக்கூடிய வடிவமைப்பு அமைப்பு.",
         frameworks: "ஆதரிக்கப்படும் கட்டமைப்புகள்",
         tutorials: {
             heading: "பயிற்சிகள்",
@@ -2834,7 +2834,7 @@ const fa: UiStrings = {
     home: {
         heroTitle: "وب را بهتر طراحی کنید.",
         heroTagline:
-            "Lily یک سیستم طراحی رایگان، متن‌باز و در دسترس است با صدها مؤلفه برای هفت چارچوب.",
+            "Lily یک سیستم طراحی رایگان، متن‌باز و در دسترس است با صدها مؤلفه برای ۱۳ چارچوب اصلی.",
         frameworks: "چارچوب‌های پشتیبانی‌شده",
         tutorials: {
             heading: "آموزش‌ها",
@@ -2896,7 +2896,7 @@ const jv: UiStrings = {
     home: {
         heroTitle: "Rancang web luwih becik.",
         heroTagline:
-            "Lily iku sistem desain gratis, sumber terbuka, lan gampang diakses, kanthi atusan komponen kanggo pitung framework.",
+            "Lily iku sistem desain gratis, sumber terbuka, lan gampang diakses, kanthi atusan komponen kanggo 13 framework utama.",
         frameworks: "Framework sing didhukung",
         tutorials: {
             heading: "Tutorial",
@@ -2947,7 +2947,7 @@ const gu: UiStrings = {
     home: {
         heroTitle: "વેબ માટે વધુ સારી ડિઝાઇન કરો.",
         heroTagline:
-            "Lily એ સાત ફ્રેમવર્ક માટે સેંકડો ઘટકો ધરાવતી મફત, ઓપન-સોર્સ, સુલભ ડિઝાઇન સિસ્ટમ છે.",
+            "Lily એ 13 મુખ્ય ફ્રેમવર્ક માટે સેંકડો ઘટકો ધરાવતી મફત, ઓપન-સોર્સ, સુલભ ડિઝાઇન સિસ્ટમ છે.",
         frameworks: "સમર્થિત ફ્રેમવર્ક",
         tutorials: {
             heading: "ટ્યુટોરિયલ",
@@ -3010,7 +3010,7 @@ const bh: UiStrings = {
     home: {
         heroTitle: "वेब खातिर बढ़िया डिजाइन करीं।",
         heroTagline:
-            "Lily एगो मुफ्त, ओपन-सोर्स, सुलभ डिजाइन सिस्टम हs, जेमें सात फ्रेमवर्क खातिर सैकड़न घटक बाड़ें।",
+            "Lily एगो मुफ्त, ओपन-सोर्स, सुलभ डिजाइन सिस्टम हs, जेमें 13 प्रमुख फ्रेमवर्क खातिर सैकड़न घटक बाड़ें।",
         frameworks: "समर्थित फ्रेमवर्क",
         tutorials: {
             heading: "ट्यूटोरियल",
@@ -3060,7 +3060,7 @@ const gd: UiStrings = {
     home: {
         heroTitle: "Dèan dealbhadh-lìn nas fheàrr.",
         heroTagline:
-            "’S e siostam dealbhaidh an-asgaidh, le tùs fosgailte agus so-ruigsinneach a th’ ann an Lily le ceudan de cho-phàirtean airson seachd frèamaichean.",
+            "’S e siostam dealbhaidh an-asgaidh, le tùs fosgailte agus so-ruigsinneach a th’ ann an Lily le ceudan de cho-phàirtean airson 13 prìomh fhrèamaichean.",
         frameworks: "Frèamaichean le taic",
         tutorials: {
             heading: "Oideachaidhean",
@@ -3111,7 +3111,7 @@ const is: UiStrings = {
     home: {
         heroTitle: "Hannaðu vefinn betur.",
         heroTagline:
-            "Lily er ókeypis, opið og aðgengilegt hönnunarkerfi með hundruðum íhluta fyrir sjö rammaforrit.",
+            "Lily er ókeypis, opið og aðgengilegt hönnunarkerfi með hundruðum íhluta fyrir 13 helstu rammaforrit.",
         frameworks: "Rammar sem eru studdir",
         tutorials: {
             heading: "Kennsluefni",
@@ -3173,7 +3173,7 @@ const eu: UiStrings = {
     home: {
         heroTitle: "Diseinatu weba hobeto.",
         heroTagline:
-            "Lily diseinu-sistema librea, irekia eta irisgarria da, ehunka osagai dituena zazpi framework-erako.",
+            "Lily diseinu-sistema librea, irekia eta irisgarria da, ehunka osagai dituena 13 framework nagusitarako.",
         frameworks: "Onartutako framework-ak",
         tutorials: {
             heading: "Tutorialak",
@@ -3238,7 +3238,7 @@ const uk: UiStrings = {
     home: {
         heroTitle: "Створюйте вебдизайн краще.",
         heroTagline:
-            "Lily — безкоштовна, відкрита та доступна дизайн-система з сотнями компонентів для семи фреймворків.",
+            "Lily — безкоштовна, відкрита та доступна дизайн-система з сотнями компонентів для 13 основних фреймворків.",
         frameworks: "Підтримувані фреймворки",
         tutorials: {
             heading: "Посібники",
@@ -3302,7 +3302,7 @@ const ms: UiStrings = {
     home: {
         heroTitle: "Bina reka bentuk web dengan lebih baik.",
         heroTagline:
-            "Lily ialah sistem reka bentuk percuma, sumber terbuka dan mudah diakses dengan beratus-ratus komponen untuk tujuh rangka kerja.",
+            "Lily ialah sistem reka bentuk percuma, sumber terbuka dan mudah diakses dengan beratus-ratus komponen untuk 13 rangka kerja utama.",
         frameworks: "Rangka kerja yang disokong",
         tutorials: {
             heading: "Tutorial",
@@ -3367,7 +3367,7 @@ const he: UiStrings = {
     home: {
         heroTitle: "בנו עיצובי אינטרנט טוב יותר.",
         heroTagline:
-            "Lily היא מערכת עיצוב חופשית, בקוד פתוח ונגישה, עם מאות רכיבים לשבע מסגרות עבודה.",
+            "Lily היא מערכת עיצוב חופשית, בקוד פתוח ונגישה, עם מאות רכיבים ל-13 מסגרות עבודה מרכזיות.",
         frameworks: "מסגרות נתמכות",
         tutorials: {
             heading: "מדריכים",
@@ -3474,7 +3474,7 @@ const yue: UiStrings = {
     },
     home: {
         heroTitle: "令網頁設計做得更好。",
-        heroTagline: "Lily 係一套免費、開源、無障礙嘅設計系統,有幾百個元件,支援七個框架。",
+        heroTagline: "Lily 係一套免費、開源、無障礙嘅設計系統,有幾百個元件,支援 13 個主流框架。",
         frameworks: "支援嘅框架",
         tutorials: { heading: "教學", description: "一步一步學 Lily,你用邊個框架都得。" },
         components: {
@@ -3523,7 +3523,7 @@ const tl: UiStrings = {
     home: {
         heroTitle: "Gawing mas mahusay ang disenyo ng web.",
         heroTagline:
-            "Ang Lily ay libre, open-source, at naa-access na design system na may daan-daang component para sa pitong framework.",
+            "Ang Lily ay libre, open-source, at naa-access na design system na may daan-daang component para sa 13 pangunahing framework.",
         frameworks: "Mga sinusuportahang framework",
         tutorials: {
             heading: "Mga Tutorial",
@@ -3587,7 +3587,7 @@ const kn: UiStrings = {
     home: {
         heroTitle: "ವೆಬ್ ವಿನ್ಯಾಸವನ್ನು ಉತ್ತಮವಾಗಿ ರೂಪಿಸಿ.",
         heroTagline:
-            "Lily ಏಳು ಫ್ರೇಮ್‌ವರ್ಕ್‌ಗಳಿಗೆ ನೂರಾರು ಘಟಕಗಳನ್ನು ಹೊಂದಿರುವ ಉಚಿತ, ಮುಕ್ತ ಮೂಲ, ಪ್ರವೇಶಿಸಬಹುದಾದ ವಿನ್ಯಾಸ ವ್ಯವಸ್ಥೆ.",
+            "Lily 13 ಪ್ರಮುಖ ಫ್ರೇಮ್‌ವರ್ಕ್‌ಗಳಿಗೆ ನೂರಾರು ಘಟಕಗಳನ್ನು ಹೊಂದಿರುವ ಉಚಿತ, ಮುಕ್ತ ಮೂಲ, ಪ್ರವೇಶಿಸಬಹುದಾದ ವಿನ್ಯಾಸ ವ್ಯವಸ್ಥೆ.",
         frameworks: "ಬೆಂಬಲಿತ ಫ್ರೇಮ್‌ವರ್ಕ್‌ಗಳು",
         tutorials: {
             heading: "ಟ್ಯುಟೋರಿಯಲ್‌ಗಳು",
@@ -3652,7 +3652,7 @@ const nb: UiStrings = {
     home: {
         heroTitle: "Bygg nettdesign bedre.",
         heroTagline:
-            "Lily er et gratis, åpen kildekode og tilgjengelig designsystem med hundrevis av komponenter for syv rammeverk.",
+            "Lily er et gratis, åpen kildekode og tilgjengelig designsystem med hundrevis av komponenter for 13 store rammeverk.",
         frameworks: "Støttede rammeverk",
         tutorials: {
             heading: "Veiledninger",
@@ -3715,7 +3715,7 @@ const km: UiStrings = {
     home: {
         heroTitle: "បង្កើតការរចនាគេហទំព័រឱ្យកាន់តែប្រសើរ។",
         heroTagline:
-            "Lily ជាប្រព័ន្ធរចនាឥតគិតថ្លៃ ប្រភពបើកចំហ និងអាចចូលប្រើបាន ដែលមានសមាសភាគរាប់រយសម្រាប់ក្របខណ្ឌប្រាំពីរ។",
+            "Lily ជាប្រព័ន្ធរចនាឥតគិតថ្លៃ ប្រភពបើកចំហ និងអាចចូលប្រើបាន ដែលមានសមាសភាគរាប់រយសម្រាប់ក្របខណ្ឌសំខាន់ៗចំនួន ១៣។",
         frameworks: "ក្របខណ្ឌដែលគាំទ្រ",
         tutorials: {
             heading: "មេរៀន",
@@ -3765,7 +3765,7 @@ const lo: UiStrings = {
     home: {
         heroTitle: "ສ້າງການອອກແບບເວັບໃຫ້ດີຂຶ້ນ.",
         heroTagline:
-            "Lily ແມ່ນລະບົບການອອກແບບຟຣີ, ໂອເພນຊອດ ແລະເຂົ້າເຖິງໄດ້ງ່າຍ ທີ່ມີອົງປະກອບຫຼາຍຮ້ອຍອັນສຳລັບເຈັດເຟຣມເວີກ.",
+            "Lily ແມ່ນລະບົບການອອກແບບຟຣີ, ໂອເພນຊອດ ແລະເຂົ້າເຖິງໄດ້ງ່າຍ ທີ່ມີອົງປະກອບຫຼາຍຮ້ອຍອັນສຳລັບ 13 ເຟຣມເວີກຫຼັກ.",
         frameworks: "ເຟຣມເວີກທີ່ຮອງຮັບ",
         tutorials: {
             heading: "ບົດສອນ",
@@ -3815,7 +3815,8 @@ const wuu: UiStrings = {
     },
     home: {
         heroTitle: "拿网页设计做得更好。",
-        heroTagline: "Lily 是一套免费、开源、人人用得来个设计系统,有几百个组件,支持七个框架。",
+        heroTagline:
+            "Lily 是一套免费、开源、人人用得来个设计系统,有几百个组件,支持 13 个主流框架。",
         frameworks: "支持个框架",
         tutorials: { heading: "教程", description: "一步一步学 Lily,侬用啥框架都可以。" },
         components: {
@@ -3858,7 +3859,7 @@ const sco: UiStrings = {
     home: {
         heroTitle: "Big wab design better.",
         heroTagline:
-            "Lily is a free, open-source, accessible design system wi hunders o components for seiven frameworks.",
+            "Lily is a free, open-source, accessible design system wi hunders o components for 13 major frameworks.",
         frameworks: "Supportit frameworks",
         tutorials: {
             heading: "Tutorials",
@@ -3908,7 +3909,7 @@ const kw: UiStrings = {
     home: {
         heroTitle: "Gwruwgh dyllans an gwiasva yn wella.",
         heroTagline:
-            "Lily yw system dyllans rydh, ygor-fenten ha hedhesys gans cans darnow rag seyth framwyth.",
+            "Lily yw system dyllans rydh, ygor-fenten ha hedhesys gans cans darnow rag 13 framwyth meur.",
         frameworks: "Framwyth skoodhys",
         tutorials: {
             heading: "Dyskansow",
