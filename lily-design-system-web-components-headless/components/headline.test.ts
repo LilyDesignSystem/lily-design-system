@@ -71,4 +71,13 @@ describe("Headline", () => {
 
         expect(host.className).toBe("headline editorial");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", async () => {
+        document.body.innerHTML = `<lily-headline level="2">Results</lily-headline>`;
+        const el = document.querySelector("lily-headline")!;
+        el.setAttribute("level", "3");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(el.querySelector("h2")).toBeNull();
+        expect(el.querySelector("h3.headline-heading")!.textContent).toBe("Results");
+    });
 });

@@ -17,28 +17,36 @@
 //   - components/banner/index.md (canonical contract)
 
 import { applySelfClassName } from "../lib/dom-utils.js";
+import { LiveElement, setOrRemove } from "../lib/live-element.js";
 
-export class Banner extends HTMLElement {
-    #built = false;
+// A change to type, dismissible, close-label or class is shown (tasks.md P50-T28): dismissible added later
+// brings the close button, and removed takes it away. The message is the consumer's children.
+export class Banner extends LiveElement {
+    #dismiss: HTMLButtonElement | null = null;
 
-    connectedCallback(): void {
-        if (this.#built) return;
-        this.#built = true;
+    static get observedAttributes(): string[] {
+        return ["type", "dismissible", "close-label", "class"];
+    }
 
+    protected update(): void {
         applySelfClassName(this, "banner");
         this.setAttribute("role", "region");
         this.setAttribute("aria-live", "polite");
         this.setAttribute("data-type", this.getAttribute("type") ?? "info");
 
-        if (this.hasAttribute("dismissible")) {
-            const button = document.createElement("button");
-            button.type = "button";
-            button.className = "banner-dismiss";
-            const closeLabel = this.getAttribute("close-label");
-            if (closeLabel !== null) button.setAttribute("aria-label", closeLabel);
-            button.addEventListener("click", this.#onDismiss);
-            this.appendChild(button);
+        if (!this.hasAttribute("dismissible")) {
+            this.#dismiss?.remove();
+            this.#dismiss = null;
+            return;
         }
+        if (!this.#dismiss) {
+            this.#dismiss = document.createElement("button");
+            this.#dismiss.type = "button";
+            this.#dismiss.className = "banner-dismiss";
+            this.#dismiss.addEventListener("click", this.#onDismiss);
+            this.appendChild(this.#dismiss);
+        }
+        setOrRemove(this.#dismiss, "aria-label", this.getAttribute("close-label"));
     }
 
     #onDismiss = (): void => {

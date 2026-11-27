@@ -24,8 +24,33 @@
 
 import { applySelfClassName } from "../lib/dom-utils.js";
 
+const levelOf = (value: string | null): number => {
+    const level = Number(value);
+    return level >= 1 && level <= 6 ? level : 1;
+};
+
 export class Headline extends HTMLElement {
     #built = false;
+
+    // A change to level or class is shown (tasks.md P50-T28): a new level is a new heading element, holding the same content.
+    static get observedAttributes(): string[] {
+        return ["level", "class"];
+    }
+
+    attributeChangedCallback(name: string): void {
+        if (!this.#built) return;
+        if (name === "class") {
+            if (!this.classList.contains("headline")) applySelfClassName(this, "headline");
+            return;
+        }
+        const old = this.querySelector(":scope > .headline-heading");
+        const tag = `H${levelOf(this.getAttribute("level"))}`;
+        if (!old || old.tagName === tag) return;
+        const heading = document.createElement(tag);
+        heading.className = "headline-heading";
+        heading.append(...old.childNodes);
+        old.replaceWith(heading);
+    }
 
     connectedCallback(): void {
         if (this.#built) return;
@@ -33,8 +58,7 @@ export class Headline extends HTMLElement {
 
         applySelfClassName(this, "headline");
 
-        const levelAttr = Number(this.getAttribute("level"));
-        const level = levelAttr >= 1 && levelAttr <= 6 ? levelAttr : 1;
+        const level = levelOf(this.getAttribute("level"));
 
         const subtitle = this.querySelector('[slot="subtitle"]');
         const byline = this.querySelector('[slot="byline"]');

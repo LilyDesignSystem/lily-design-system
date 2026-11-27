@@ -20,7 +20,8 @@ highlights.
   seven radios their name, value and default checked state, never unticking what the person ticked. 54 that are their own root (the toolbars, groups, banners, mockups and
   layout parts) follow their label and class. `progress-bar` and `progress-circle` move their `aria-valuenow` with `value`;
   `notification`, `toast`, `error-summary`, `phase-banner`, `checkbox-input`, `select` (its value is the default option),
-  `skip-link` and the `go-to-*` links follow their attributes too.
+  `skip-link`, the `go-to-*` links, `medical-banner` and `banner` (a later `dismissible` adds the close button), `draft`,
+  `headline` (a new `level` is a new heading) and `menu-group` follow their attributes too.
   `bin/check-web-components-live` (in `bin/test`) fails on an element that observes no attribute unless it is listed with a reason.
 
 - **Fixed (healthcare):** `international-patient-summary-section` no longer prints "none known" above a record list that holds an

@@ -13,21 +13,19 @@
 //   - components/draft/index.md (canonical contract)
 
 import { applySelfClassName } from "../lib/dom-utils.js";
+import { LiveElement, setOrRemove } from "../lib/live-element.js";
 
-export class Draft extends HTMLElement {
-    #built = false;
+// A change to label, status or class is shown (tasks.md P50-T28).
+export class Draft extends LiveElement {
+    static get observedAttributes(): string[] {
+        return ["label", "status", "class"];
+    }
 
-    connectedCallback(): void {
-        if (this.#built) return;
-        this.#built = true;
-
+    protected update(): void {
         applySelfClassName(this, "draft");
         const label = this.getAttribute("label");
-        if (label !== null) {
-            this.setAttribute("aria-label", label);
-            if (!this.hasAttribute("role")) this.setAttribute("role", "group");
-        }
-        const status = this.getAttribute("status");
-        if (status !== null) this.setAttribute("data-status", status);
+        setOrRemove(this, "aria-label", label);
+        if (label !== null && !this.hasAttribute("role")) this.setAttribute("role", "group");
+        setOrRemove(this, "data-status", this.getAttribute("status"));
     }
 }

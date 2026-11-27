@@ -19,31 +19,38 @@
 //   - components/medical-banner/index.md (canonical contract)
 
 import { applySelfClassName } from "../lib/dom-utils.js";
+import { LiveElement, setOrRemove } from "../lib/live-element.js";
 
-export class MedicalBanner extends HTMLElement {
-    #built = false;
+// A change to type, label, dismissible, close-label or class is shown (tasks.md P50-T28): dismissible added later
+// brings the close button, and removed takes it away. The message is the consumer's children.
+export class MedicalBanner extends LiveElement {
+    #dismiss: HTMLButtonElement | null = null;
 
-    connectedCallback(): void {
-        if (this.#built) return;
-        this.#built = true;
+    static get observedAttributes(): string[] {
+        return ["type", "label", "dismissible", "close-label", "class"];
+    }
 
+    protected update(): void {
         applySelfClassName(this, "medical-banner");
         this.setAttribute("role", "region");
         this.setAttribute("aria-live", "polite");
         this.setAttribute("data-context", "medical");
-        const label = this.getAttribute("label");
-        if (label !== null) this.setAttribute("aria-label", label);
+        setOrRemove(this, "aria-label", this.getAttribute("label"));
         this.setAttribute("data-type", this.getAttribute("type") ?? "info");
 
-        if (this.hasAttribute("dismissible")) {
-            const button = document.createElement("button");
-            button.type = "button";
-            button.className = "medical-banner-dismiss";
-            const closeLabel = this.getAttribute("close-label");
-            if (closeLabel !== null) button.setAttribute("aria-label", closeLabel);
-            button.addEventListener("click", this.#onDismiss);
-            this.appendChild(button);
+        if (!this.hasAttribute("dismissible")) {
+            this.#dismiss?.remove();
+            this.#dismiss = null;
+            return;
         }
+        if (!this.#dismiss) {
+            this.#dismiss = document.createElement("button");
+            this.#dismiss.type = "button";
+            this.#dismiss.className = "medical-banner-dismiss";
+            this.#dismiss.addEventListener("click", this.#onDismiss);
+            this.appendChild(this.#dismiss);
+        }
+        setOrRemove(this.#dismiss, "aria-label", this.getAttribute("close-label"));
     }
 
     #onDismiss = (): void => {

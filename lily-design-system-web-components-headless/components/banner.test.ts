@@ -56,4 +56,14 @@ describe("Banner", () => {
         expect(handler).toHaveBeenCalled();
         expect(host.hidden).toBe(true);
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", async () => {
+        document.body.innerHTML = `<lily-banner type="info">Note</lily-banner>`;
+        const el = document.querySelector("lily-banner")!;
+        el.setAttribute("type", "warning");
+        el.setAttribute("dismissible", "");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(el.getAttribute("data-type")).toBe("warning");
+        expect(el.querySelectorAll("button.banner-dismiss").length).toBe(1);
+    });
 });

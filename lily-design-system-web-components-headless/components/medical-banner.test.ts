@@ -80,4 +80,20 @@ describe("MedicalBanner", () => {
         expect(handler).toHaveBeenCalled();
         expect(host.hidden).toBe(true);
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", async () => {
+        document.body.innerHTML = `<lily-medical-banner type="info" label="Allergy">Penicillin</lily-medical-banner>`;
+        const el = document.querySelector("lily-medical-banner")!;
+        el.setAttribute("type", "danger");
+        el.setAttribute("dismissible", "");
+        el.setAttribute("close-label", "Close");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(el.getAttribute("data-type")).toBe("danger");
+        expect(el.querySelectorAll("button.medical-banner-dismiss").length).toBe(1);
+        expect(el.querySelector("button")!.getAttribute("aria-label")).toBe("Close");
+        el.removeAttribute("dismissible");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(el.querySelector("button")).toBeNull();
+        expect(el.textContent).toBe("Penicillin");
+    });
 });

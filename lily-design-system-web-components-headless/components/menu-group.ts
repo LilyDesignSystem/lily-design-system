@@ -17,23 +17,27 @@
 //   - components/menu-group/index.md (canonical contract)
 
 import { applySelfClassName } from "../lib/dom-utils.js";
+import { LiveElement } from "../lib/live-element.js";
 
-export class MenuGroup extends HTMLElement {
-    #built = false;
+// A change to label or class is shown (tasks.md P50-T28), in the group's name and its visible heading.
+export class MenuGroup extends LiveElement {
+    #heading: HTMLDivElement | null = null;
 
-    connectedCallback(): void {
-        if (this.#built) return;
-        this.#built = true;
+    static get observedAttributes(): string[] {
+        return ["label", "class"];
+    }
 
+    protected update(): void {
         applySelfClassName(this, "menu-group");
         this.setAttribute("role", "group");
-        const label = this.getAttribute("label") ?? "";
+        const label = this.text("label");
         this.setAttribute("aria-label", label);
-
-        const heading = document.createElement("div");
-        heading.className = "menu-group-heading";
-        heading.setAttribute("aria-hidden", "true");
-        heading.textContent = label;
-        this.insertBefore(heading, this.firstChild);
+        if (!this.#heading) {
+            this.#heading = document.createElement("div");
+            this.#heading.className = "menu-group-heading";
+            this.#heading.setAttribute("aria-hidden", "true");
+            this.insertBefore(this.#heading, this.firstChild);
+        }
+        this.#heading.textContent = label;
     }
 }

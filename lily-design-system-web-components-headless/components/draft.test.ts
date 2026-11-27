@@ -59,4 +59,15 @@ describe("Draft", () => {
 
         expect(host.hasAttribute("role")).toBe(false);
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", async () => {
+        document.body.innerHTML = `<lily-draft status="draft">Text</lily-draft>`;
+        const el = document.querySelector("lily-draft")!;
+        el.setAttribute("status", "final");
+        el.setAttribute("label", "Letter");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(el.getAttribute("data-status")).toBe("final");
+        expect(el.getAttribute("aria-label")).toBe("Letter");
+        expect(el.getAttribute("role")).toBe("group");
+    });
 });

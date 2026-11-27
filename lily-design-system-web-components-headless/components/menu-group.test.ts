@@ -53,4 +53,14 @@ describe("MenuGroup", () => {
 
         expect(host.className).toBe("menu-group my-extra");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", async () => {
+        document.body.innerHTML = `<lily-menu-group label="Edit"><button>Cut</button></lily-menu-group>`;
+        const el = document.querySelector("lily-menu-group")!;
+        el.setAttribute("label", "Clipboard");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(el.getAttribute("aria-label")).toBe("Clipboard");
+        expect(el.querySelectorAll(".menu-group-heading").length).toBe(1);
+        expect(el.querySelector(".menu-group-heading")!.textContent).toBe("Clipboard");
+    });
 });
