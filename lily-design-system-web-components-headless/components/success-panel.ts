@@ -19,10 +19,19 @@
 //   - components/success-panel/index.md (canonical contract)
 //   - GOV.UK Confirmation pages pattern: https://design-system.service.gov.uk/patterns/confirmation-pages/
 
-import { applySelfClassName } from "../lib/dom-utils.js";
+import { applySelfClassName, followSelf } from "../lib/dom-utils.js";
 
 export class SuccessPanel extends HTMLElement {
     #built = false;
+
+    // A change to label or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["label", "class"];
+    }
+
+    attributeChangedCallback(name: string): void {
+        if (this.#built) followSelf(this, "success-panel", name);
+    }
 
     connectedCallback(): void {
         if (this.#built) return;

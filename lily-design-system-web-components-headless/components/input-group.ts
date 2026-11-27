@@ -24,10 +24,19 @@
 // References:
 //   - components/input-group/index.md (canonical contract)
 
-import { applySelfClassName } from "../lib/dom-utils.js";
+import { applySelfClassName, followSelf } from "../lib/dom-utils.js";
 
 export class InputGroup extends HTMLElement {
     #built = false;
+
+    // A change to label or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["label", "class"];
+    }
+
+    attributeChangedCallback(name: string): void {
+        if (this.#built) followSelf(this, "input-group", name);
+    }
 
     connectedCallback(): void {
         if (this.#built) return;

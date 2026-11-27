@@ -130,6 +130,30 @@ export function followChoice(host: HTMLElement, selector: string, baseClass: str
     input.disabled = host.hasAttribute("disabled");
 }
 
+/**
+ * For an element that is its own root (tasks.md P50-T28): keep its base class when class changes, and aria-label in step with
+ * label. role is the role the element takes on when it is named, added if a label comes later; it is never removed.
+ */
+export function followSelf(
+    host: HTMLElement,
+    baseClass: string,
+    name: string,
+    role?: string,
+): void {
+    if (name === "class") {
+        if (!host.classList.contains(baseClass)) applySelfClassName(host, baseClass);
+        return;
+    }
+    if (name !== "label") return;
+    const label = host.getAttribute("label");
+    if (label === null) {
+        host.removeAttribute("aria-label");
+        return;
+    }
+    host.setAttribute("aria-label", label);
+    if (role && !host.hasAttribute("role")) host.setAttribute("role", role);
+}
+
 export function applySelfClassName(host: HTMLElement, baseClass: string): void {
     // The base class is dropped from what the host already has, so applying it again, after a change, never repeats it.
     const extra = (host.getAttribute("class") ?? "")

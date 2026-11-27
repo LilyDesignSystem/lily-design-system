@@ -14,10 +14,19 @@
 //   - components/file-manager/index.md (canonical contract)
 //   - WAI-ARIA region role: https://www.w3.org/TR/wai-aria-1.2/#region
 
-import { applySelfClassName } from "../lib/dom-utils.js";
+import { applySelfClassName, followSelf } from "../lib/dom-utils.js";
 
 export class FileManager extends HTMLElement {
     #built = false;
+
+    // A change to label or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["label", "class"];
+    }
+
+    attributeChangedCallback(name: string): void {
+        if (this.#built) followSelf(this, "file-manager", name);
+    }
 
     connectedCallback(): void {
         if (this.#built) return;

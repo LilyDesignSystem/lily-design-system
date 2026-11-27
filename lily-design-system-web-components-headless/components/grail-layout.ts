@@ -18,10 +18,19 @@
 //   - CSS Grid Layout: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout
 //   - Holy Grail Layout: https://en.wikipedia.org/wiki/Holy_grail_(web_design)
 
-import { applySelfClassName } from "../lib/dom-utils.js";
+import { applySelfClassName, followSelf } from "../lib/dom-utils.js";
 
 export class GrailLayout extends HTMLElement {
     #built = false;
+
+    // A change to class is shown (tasks.md P50-T28); the content is the consumer's children.
+    static get observedAttributes(): string[] {
+        return ["class"];
+    }
+
+    attributeChangedCallback(name: string): void {
+        if (this.#built) followSelf(this, "grail-layout", name);
+    }
 
     connectedCallback(): void {
         if (this.#built) return;

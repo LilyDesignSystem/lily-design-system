@@ -12,10 +12,19 @@
 // References:
 //   - components/medical-banner-box-for-danger/index.md (canonical contract)
 
-import { applySelfClassName } from "../lib/dom-utils.js";
+import { applySelfClassName, followSelf } from "../lib/dom-utils.js";
 
 export class MedicalBannerBoxForDanger extends HTMLElement {
     #built = false;
+
+    // A change to label or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["label", "class"];
+    }
+
+    attributeChangedCallback(name: string): void {
+        if (this.#built) followSelf(this, "medical-banner-box-for-danger", name);
+    }
 
     connectedCallback(): void {
         if (this.#built) return;

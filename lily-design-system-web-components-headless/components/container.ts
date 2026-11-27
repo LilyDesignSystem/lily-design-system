@@ -10,10 +10,19 @@
 // References:
 //   - components/container/index.md (canonical contract)
 
-import { applySelfClassName } from "../lib/dom-utils.js";
+import { applySelfClassName, followSelf } from "../lib/dom-utils.js";
 
 export class Container extends HTMLElement {
     #built = false;
+
+    // A change to class is shown (tasks.md P50-T28); the content is the consumer's children.
+    static get observedAttributes(): string[] {
+        return ["class"];
+    }
+
+    attributeChangedCallback(name: string): void {
+        if (this.#built) followSelf(this, "container", name);
+    }
 
     connectedCallback(): void {
         if (this.#built) return;

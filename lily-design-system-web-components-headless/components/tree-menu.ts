@@ -22,10 +22,19 @@
 //   - components/tree-menu/index.md (canonical contract)
 //   - WAI-ARIA Tree View Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/treeview/
 
-import { applySelfClassName } from "../lib/dom-utils.js";
+import { applySelfClassName, followSelf } from "../lib/dom-utils.js";
 
 export class TreeMenu extends HTMLElement {
     #built = false;
+
+    // A change to label or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["label", "class"];
+    }
+
+    attributeChangedCallback(name: string): void {
+        if (this.#built) followSelf(this, "tree-menu", name);
+    }
 
     connectedCallback(): void {
         if (this.#built) return;

@@ -14,10 +14,19 @@
 //   - components/framer/index.md (canonical contract)
 //   - Reuters Graphics Framer component: https://github.com/reuters-graphics/graphics-components
 
-import { applySelfClassName } from "../lib/dom-utils.js";
+import { applySelfClassName, followSelf } from "../lib/dom-utils.js";
 
 export class Framer extends HTMLElement {
     #built = false;
+
+    // A change to label or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["label", "class"];
+    }
+
+    attributeChangedCallback(name: string): void {
+        if (this.#built) followSelf(this, "framer", name, "group");
+    }
 
     connectedCallback(): void {
         if (this.#built) return;

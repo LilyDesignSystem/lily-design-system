@@ -21,11 +21,20 @@
 //   - components/tool-bar/index.md (canonical contract)
 //   - WAI-ARIA Toolbar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/
 
-import { applySelfClassName } from "../lib/dom-utils.js";
+import { applySelfClassName, followSelf } from "../lib/dom-utils.js";
 import { attachToolbar } from "../lib/widget-keys.js";
 
 export class ToolBar extends HTMLElement {
     #built = false;
+
+    // A change to label or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["label", "class"];
+    }
+
+    attributeChangedCallback(name: string): void {
+        if (this.#built) followSelf(this, "tool-bar", name);
+    }
 
     connectedCallback(): void {
         if (this.#built) return;

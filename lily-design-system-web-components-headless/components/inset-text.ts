@@ -14,10 +14,19 @@
 //   - GOV.UK Inset Text: https://design-system.service.gov.uk/components/inset-text/
 //   - NHS England Inset Text: https://service-manual.nhs.uk/design-system/components/inset-text
 
-import { applySelfClassName } from "../lib/dom-utils.js";
+import { applySelfClassName, followSelf } from "../lib/dom-utils.js";
 
 export class InsetText extends HTMLElement {
     #built = false;
+
+    // A change to class is shown (tasks.md P50-T28); the content is the consumer's children.
+    static get observedAttributes(): string[] {
+        return ["class"];
+    }
+
+    attributeChangedCallback(name: string): void {
+        if (this.#built) followSelf(this, "inset-text", name);
+    }
 
     connectedCallback(): void {
         if (this.#built) return;

@@ -20,10 +20,19 @@
 // References:
 //   - components/tile/index.md (canonical contract)
 
-import { applySelfClassName } from "../lib/dom-utils.js";
+import { applySelfClassName, followSelf } from "../lib/dom-utils.js";
 
 export class Tile extends HTMLElement {
     #built = false;
+
+    // A change to label or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["label", "class"];
+    }
+
+    attributeChangedCallback(name: string): void {
+        if (this.#built) followSelf(this, "tile", name, "group");
+    }
 
     connectedCallback(): void {
         if (this.#built) return;

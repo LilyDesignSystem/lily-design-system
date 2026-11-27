@@ -13,10 +13,19 @@
 //   - components/qr-code-image/index.md (canonical contract)
 //   - WAI-ARIA img Role: https://www.w3.org/TR/wai-aria-1.2/#img
 
-import { applySelfClassName } from "../lib/dom-utils.js";
+import { applySelfClassName, followSelf } from "../lib/dom-utils.js";
 
 export class QrCodeImage extends HTMLElement {
     #built = false;
+
+    // A change to label or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["label", "class"];
+    }
+
+    attributeChangedCallback(name: string): void {
+        if (this.#built) followSelf(this, "qr-code-image", name);
+    }
 
     connectedCallback(): void {
         if (this.#built) return;

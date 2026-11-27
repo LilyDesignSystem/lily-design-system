@@ -14,10 +14,19 @@
 //   - components/progress-spinner/index.md (canonical contract)
 //   - WAI-ARIA status role: https://www.w3.org/WAI/ARIA/apd/roles/status/
 
-import { applySelfClassName } from "../lib/dom-utils.js";
+import { applySelfClassName, followSelf } from "../lib/dom-utils.js";
 
 export class ProgressSpinner extends HTMLElement {
     #built = false;
+
+    // A change to label or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["label", "class"];
+    }
+
+    attributeChangedCallback(name: string): void {
+        if (this.#built) followSelf(this, "progress-spinner", name);
+    }
 
     connectedCallback(): void {
         if (this.#built) return;

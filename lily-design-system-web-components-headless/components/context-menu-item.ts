@@ -11,10 +11,19 @@
 //   - components/context-menu-item/index.md (canonical contract)
 //   - WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menu/
 
-import { applySelfClassName } from "../lib/dom-utils.js";
+import { applySelfClassName, followSelf } from "../lib/dom-utils.js";
 
 export class ContextMenuItem extends HTMLElement {
     #built = false;
+
+    // A change to class is shown (tasks.md P50-T28); the content is the consumer's children.
+    static get observedAttributes(): string[] {
+        return ["class"];
+    }
+
+    attributeChangedCallback(name: string): void {
+        if (this.#built) followSelf(this, "context-menu-item", name);
+    }
 
     connectedCallback(): void {
         if (this.#built) return;
