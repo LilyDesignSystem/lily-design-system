@@ -16,11 +16,25 @@
 //   - components/menu-bar-button/index.md (canonical contract)
 //   - WAI-ARIA Menu Bar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menubar/
 
-import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import {
+    moveChildrenInto,
+    passThroughAttributes,
+    rootClassName,
+    followClass,
+} from "../lib/dom-utils.js";
 
 const HANDLED: ReadonlySet<string> = new Set();
 
 export class MenuBarButton extends HTMLElement {
+    // Its content is the consumer's children, which they change directly; a change to class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["class"];
+    }
+
+    attributeChangedCallback(): void {
+        followClass(this, "button.menu-bar-button", "menu-bar-button");
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > button.menu-bar-button")) return;
 

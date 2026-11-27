@@ -10,11 +10,25 @@
 //   - components/code/index.md (canonical contract)
 //   - MDN <code> element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/code
 
-import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import {
+    moveChildrenInto,
+    passThroughAttributes,
+    rootClassName,
+    followClass,
+} from "../lib/dom-utils.js";
 
 const HANDLED = new Set<string>();
 
 export class Code extends HTMLElement {
+    // Its content is the consumer's children, which they change directly; a change to class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["class"];
+    }
+
+    attributeChangedCallback(): void {
+        followClass(this, "code.code", "code");
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > code.code")) return;
 

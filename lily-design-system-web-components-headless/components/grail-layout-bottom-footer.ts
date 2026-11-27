@@ -11,11 +11,25 @@
 // References:
 //   - components/grail-layout-bottom-footer/index.md (canonical contract)
 
-import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import {
+    moveChildrenInto,
+    passThroughAttributes,
+    rootClassName,
+    followClass,
+} from "../lib/dom-utils.js";
 
 const HANDLED: ReadonlySet<string> = new Set();
 
 export class GrailLayoutBottomFooter extends HTMLElement {
+    // Its content is the consumer's children, which they change directly; a change to class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["class"];
+    }
+
+    attributeChangedCallback(): void {
+        followClass(this, "footer.grail-layout-bottom-footer", "grail-layout-bottom-footer");
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > footer.grail-layout-bottom-footer")) return;
 

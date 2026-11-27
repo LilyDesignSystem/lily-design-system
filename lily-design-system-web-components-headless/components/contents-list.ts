@@ -18,11 +18,25 @@
 //   - components/contents-list/index.md (canonical contract)
 //   - MDN ol element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol
 
-import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import {
+    moveChildrenInto,
+    passThroughAttributes,
+    rootClassName,
+    followClass,
+} from "../lib/dom-utils.js";
 
 const HANDLED: ReadonlySet<string> = new Set();
 
 export class ContentsList extends HTMLElement {
+    // Its content is the consumer's children, which they change directly; a change to class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["class"];
+    }
+
+    attributeChangedCallback(): void {
+        followClass(this, "ol.contents-list", "contents-list");
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > ol.contents-list")) return;
 

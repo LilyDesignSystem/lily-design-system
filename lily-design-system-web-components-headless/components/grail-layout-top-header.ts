@@ -13,11 +13,25 @@
 // References:
 //   - components/grail-layout-top-header/index.md (canonical contract)
 
-import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import {
+    moveChildrenInto,
+    passThroughAttributes,
+    rootClassName,
+    followClass,
+} from "../lib/dom-utils.js";
 
 const HANDLED: ReadonlySet<string> = new Set();
 
 export class GrailLayoutTopHeader extends HTMLElement {
+    // Its content is the consumer's children, which they change directly; a change to class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["class"];
+    }
+
+    attributeChangedCallback(): void {
+        followClass(this, "header.grail-layout-top-header", "grail-layout-top-header");
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > header.grail-layout-top-header")) return;
 

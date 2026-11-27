@@ -154,6 +154,12 @@ export function followSelf(
     if (role && !host.hasAttribute("role")) host.setAttribute("role", role);
 }
 
+/** Bring a built root's class list in step with its host's (tasks.md P50-T28), for an element with no attribute of its own. */
+export function followClass(host: HTMLElement, selector: string, baseClass: string): void {
+    const root = host.querySelector(`:scope > ${selector}`);
+    if (root) root.className = rootClassName(host, baseClass);
+}
+
 export function applySelfClassName(host: HTMLElement, baseClass: string): void {
     // The base class is dropped from what the host already has, so applying it again, after a change, never repeats it.
     const extra = (host.getAttribute("class") ?? "")

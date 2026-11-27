@@ -13,11 +13,25 @@
 //   - components/hint/index.md (canonical contract)
 //   - WAI Forms Tutorial - Instructions: https://www.w3.org/WAI/tutorials/forms/instructions/
 
-import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import {
+    moveChildrenInto,
+    passThroughAttributes,
+    rootClassName,
+    followClass,
+} from "../lib/dom-utils.js";
 
 const HANDLED = new Set<string>([]);
 
 export class Hint extends HTMLElement {
+    // Its content is the consumer's children, which they change directly; a change to class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["class"];
+    }
+
+    attributeChangedCallback(): void {
+        followClass(this, "p.hint", "hint");
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > p.hint")) return;
 

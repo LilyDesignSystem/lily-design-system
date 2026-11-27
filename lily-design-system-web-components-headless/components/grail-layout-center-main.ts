@@ -17,11 +17,25 @@
 // References:
 //   - components/grail-layout-center-main/index.md (canonical contract)
 
-import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import {
+    moveChildrenInto,
+    passThroughAttributes,
+    rootClassName,
+    followClass,
+} from "../lib/dom-utils.js";
 
 const HANDLED: ReadonlySet<string> = new Set();
 
 export class GrailLayoutCenterMain extends HTMLElement {
+    // Its content is the consumer's children, which they change directly; a change to class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["class"];
+    }
+
+    attributeChangedCallback(): void {
+        followClass(this, "main.grail-layout-center-main", "grail-layout-center-main");
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > main.grail-layout-center-main")) return;
 
