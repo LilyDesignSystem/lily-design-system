@@ -18,6 +18,10 @@ highlights.
   with a default, so existing decorations keep working. The .NET MAUI ones in LilyDesignSystem.Maui, `RepeatableFieldset<T>` generic
   over the app's items.
 
+- **Added (docs):** `/tutorials/pre-operative-assessment-by-patient/swift/`, the patient's pre-operative questionnaire as an
+  iPhone app with SwiftUI and Lily: the web tutorial's rules, with Swift Testing tests, a draft saved on the phone, and a
+  screenshot from the iPhone 17 simulator (P62-T4, part). It asks for the Swift package 0.2.0, not yet tagged.
+
 - **Added (docs):** the book-an-appointment tutorials for phones, `/tutorials/book-appointment/` in Swift, Kotlin and .NET MAUI:
   one booking screen with a top bar, a heading, inset text, four labelled choices and a tab bar, each page the whole app with a
   screenshot from a real build in a simulator or emulator (P62-T6).

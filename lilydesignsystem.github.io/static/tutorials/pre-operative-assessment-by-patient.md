@@ -1138,6 +1138,7 @@ A good next step is to replace `send` with a request to a server, and keep every
 
 ## Next steps
 
+- [Swift version](https://lilydesignsystem.com/tutorials/pre-operative-assessment-by-patient/swift/): the same questionnaire and rules on iPhone, with SwiftUI.
 - [Electronic patient record tutorial](https://lilydesignsystem.com/tutorials/electronic-patient-record/): record the allergies the patient told you about.
 - [International Patient Summary tutorial](https://lilydesignsystem.com/tutorials/international-patient-summary/): read the summary a patient brings from elsewhere.
 - [Patient administration system tutorial](https://lilydesignsystem.com/tutorials/patient-administration-system/): book the assessment.

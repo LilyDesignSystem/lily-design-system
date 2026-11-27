@@ -61,6 +61,15 @@ take the screenshot again. `tests/book-appointment-tutorials.spec.ts` checks the
 The pages are English only. The index cards are the projects' own names and abbreviations, which are the same in every language,
 so `/tutorials/` lists them in all 64. Translating the pages is the same decision as tasks.md P29-T11b.
 
+### The pre-operative assessment on phones
+
+`/tutorials/pre-operative-assessment-by-patient/swift/` (2026-11-27, tasks.md P62-T4) is the web tutorial's questionnaire and
+rules as an iPhone app: the five sections and the check screen, Lily's `DateField`, `QuantityInput`, `RepeatableFieldset`,
+`StepList` and `ErrorSummary`, a draft saved on the phone, and the rules with Swift Testing tests. The clinic's view stays on
+the web. Each code block is the file that was built in the iPhone 17 simulator and driven by a UI test with the platform's
+accessibility audit; `tests/pre-operative-mobile-tutorials.spec.ts` checks the page. It needs the Swift package 0.2.0, the
+first release with those four views. Kotlin and .NET MAUI follow.
+
 ## Acceptance criteria
 
 - [x] Four project tutorials, each built and driven by `bin/check-tutorials` from a fresh scaffold (the pre-operative
