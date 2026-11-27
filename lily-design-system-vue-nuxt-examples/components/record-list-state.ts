@@ -61,6 +61,25 @@ export function watchEntries(
     return () => observer.disconnect();
 }
 
+/**
+ * Watches `section` for a record list inside it that says none are known and holds an entry (`data-status="conflict"`), so an
+ * International Patient Summary section never prints "none known" above it (HC-C17, tasks.md P50-T29). Returns a function that
+ * stops watching; where nothing can be watched it reads once.
+ */
+export function watchConflict(section: Element, changed: (conflict: boolean) => void): () => void {
+    const read = () => changed(section.querySelector('[data-status="conflict"]') !== null);
+    read();
+    if (typeof MutationObserver === "undefined") return () => {};
+    const observer = new MutationObserver(read);
+    observer.observe(section, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ["data-status"],
+    });
+    return () => observer.disconnect();
+}
+
 /** What the list shows, given whether it holds an entry. Pure. */
 export function recordListState(
     given: {

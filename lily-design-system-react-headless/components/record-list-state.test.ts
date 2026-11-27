@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { describe, expect, test, vi } from "vitest";
 
-import { hasEntries, recordListState, watchEntries } from "./record-list-state";
+import { hasEntries, recordListState, watchConflict, watchEntries } from "./record-list-state";
 
 const NONE = { status: "none-known", statusLabel: "No known allergies" };
 const list = (items: string) => {
@@ -113,6 +113,42 @@ describe("hasEntries", () => {
             const stop = watchEntries(list("<li>Penicillin</li>"), "x", (found) =>
                 seen.push(found),
             );
+            expect(seen).toEqual([true]);
+            expect(() => stop()).not.toThrow();
+        } finally {
+            vi.unstubAllGlobals();
+        }
+    });
+});
+
+describe("watchConflict (P50-T29)", () => {
+    test("follows a record list inside a section into and out of conflict, and stops", async () => {
+        const section = document.createElement("section");
+        section.innerHTML = '<ul class="allergy-record-list" data-status="none-known"></ul>';
+        const seen: boolean[] = [];
+        const stop = watchConflict(section, (conflict) => seen.push(conflict));
+        const last = async () => {
+            await Promise.resolve();
+            await new Promise((resolve) => setTimeout(resolve, 0));
+            return seen[seen.length - 1];
+        };
+        expect(await last()).toBe(false);
+        section.firstElementChild!.setAttribute("data-status", "conflict");
+        expect(await last()).toBe(true);
+        section.firstElementChild!.setAttribute("data-status", "none-known");
+        expect(await last()).toBe(false);
+        stop();
+        section.firstElementChild!.setAttribute("data-status", "conflict");
+        expect(await last()).toBe(false);
+    });
+
+    test("reads once where nothing can be watched", () => {
+        vi.stubGlobal("MutationObserver", undefined);
+        try {
+            const section = document.createElement("section");
+            section.innerHTML = '<ul data-status="conflict"></ul>';
+            const seen: boolean[] = [];
+            const stop = watchConflict(section, (c) => seen.push(c));
             expect(seen).toEqual([true]);
             expect(() => stop()).not.toThrow();
         } finally {

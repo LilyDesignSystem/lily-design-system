@@ -31,6 +31,7 @@
     //   - IPS Composition sections: https://hl7.org/fhir/uv/ips/Structure-of-the-International-Patient-Summary.html
     import type { Snippet } from "svelte";
     import { warnMissingProp } from "../dev-warning";
+    import { watchConflict } from "../record-list-state";
     import {
         ipsSectionCode,
         ipsSectionId,
@@ -112,10 +113,23 @@
                 "The narrative's disclosure needs a summary.",
             );
     });
+
+    // "None known" is never printed above a record list that holds an entry (HC-C17, tasks.md P50-T29): the list says the
+    // conflict in the app's words, so the section's own line steps aside while one inside is in conflict.
+    let root: HTMLElement;
+    let listInConflict = $state(false);
+    $effect(() => {
+        if (status !== "none-known") {
+            listInConflict = false;
+            return;
+        }
+        return watchConflict(root, (found) => (listInConflict = found));
+    });
 </script>
 
 <!-- InternationalPatientSummarySection.svelte -->
 <section
+    bind:this={root}
     class={`international-patient-summary-section ${className}`}
     id={sectionId}
     aria-labelledby={headingId}
@@ -131,7 +145,7 @@
         id={headingId}
         class="international-patient-summary-section-heading">{heading}</svelte:element
     >
-    {#if status !== "known" && statusLabel && statusPlacement !== "list"}
+    {#if status !== "known" && statusLabel && statusPlacement !== "list" && !listInConflict}
         <p class="international-patient-summary-section-status">{statusLabel}</p>
     {/if}
     {#if meta}

@@ -4834,7 +4834,7 @@ each was checked against the source on 2026-11-25, not reproduced in a browser h
 - [ ] **P50-T11 Clinical users and assistive technology on a change.** A clinician and an assistive-technology user review a corrected
       result and an alert, by keyboard only, at high zoom, with a long translated label. With P49-T9. _(Needs people.)_
       Verify: what was identified, announced and misunderstood, and the retest.
-- [ ] **P50-T29 A patient summary section can say "none known" above a list that holds an entry.** Found with P50-T2:
+- [ ] **P50-T29 A patient summary section can say "none known" above a list that holds an entry.** _(2026-11-27: `watchConflict` in `shared/record-list-state.ts` (copied to every TypeScript catalog); Svelte's section uses it and its line steps aside, tested both ways; MAUI did it 2026-11-26. Open: React, Solid, Vue, Angular, HTML, Web Components, Nunjucks, Alpine, Blazor.)_ Found with P50-T2:
       `international-patient-summary-section` prints `statusLabel` under its heading from its own `status`, whatever the record
       list inside holds. `statusPlacement="list"` avoids it. Verify: HC-C17's tests, with the list inside a section.
 - [ ] **P50-T28 Other Web Components that never update.** `iban-view`, `statistic`, the measurement, rating and status views, `review-date`
