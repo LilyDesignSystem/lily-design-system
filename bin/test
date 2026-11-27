@@ -550,6 +550,8 @@ test "$dry_before" = "$(git -C "$top" status --porcelain | cksum)" \
     || check_err "an HTML or Blazor component names a generic root; run bin/check-generic-names"
 "$top/bin/check-port-logic" --quiet >"$CHECKLOG" 2>&1 \
     || check_err "an Angular or Blazor port has no logic where Svelte has behaviour; run bin/check-port-logic"
+"$top/bin/check-web-components-live" --quiet >"$CHECKLOG" 2>&1 \
+    || check_err "a Web Components element observes no attribute and is not listed; run bin/check-web-components-live"
 if test -e "$top/lily-design-system-angular-headless/node_modules/.bin/vitest"; then
     (cd "$top/lily-design-system-angular-headless" && pnpm exec vitest run --project prerender >"$CHECKLOG" 2>&1) \
         || check_err "an Angular component breaks while prerendering; run pnpm run test:prerender in lily-design-system-angular-headless"
