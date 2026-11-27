@@ -95,4 +95,9 @@ public class TokenDecoration(private val tokens: LilyTokens) : LilyDecoration {
     }
 
     override fun insetText(): Modifier = rail(tokens.neutral)
+
+    override fun field(): Modifier = Modifier
+        .border(tokens.borderBorder * 2, tokens.baseContent, RoundedCornerShape(tokens.radiusField))
+        .background(tokens.base100, RoundedCornerShape(tokens.radiusField))
+        .padding(horizontal = 8.dp, vertical = 10.dp)
 }

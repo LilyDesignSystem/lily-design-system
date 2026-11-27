@@ -26,6 +26,9 @@ public interface LilyDecoration {
 
     /** The inset text's container. */
     public fun insetText(): Modifier
+
+    /** A text field's box: the date field's parts and the quantity input's number. None by default, so older decorations keep working. */
+    public fun field(): Modifier = Modifier
 }
 
 /** Draws nothing: the platform's text and no decoration. */
