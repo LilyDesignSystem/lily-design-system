@@ -59,7 +59,7 @@
         label,
         headerText,
         expandLabel,
-        expanded = false,
+        expanded = $bindable(false),
         ontoggle = undefined,
         panelId = makePanelId(),
         children = undefined,
@@ -73,7 +73,7 @@
         headerText: string;
         /** Toggle button text (REQUIRED) */
         expandLabel: string;
-        /** Whether the panel is expanded */
+        /** Whether the panel is expanded; bindable, and toggled by the button */
         expanded?: boolean;
         /** Toggle handler invoked with the next expanded state */
         ontoggle?: (next: boolean) => void;
@@ -84,9 +84,10 @@
         [key: string]: unknown;
     } = $props();
 
+    // The banner opens itself, like a native disclosure (tasks.md P54-T1); bind:expanded or ontoggle to follow it.
     function handleToggle() {
-        const next = !expanded;
-        ontoggle?.(next);
+        expanded = !expanded;
+        ontoggle?.(expanded);
     }
 </script>
 

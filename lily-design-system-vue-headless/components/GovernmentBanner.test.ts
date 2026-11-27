@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/vue";
+import { fireEvent, render, screen } from "@testing-library/vue";
 import { userEvent, type UserEvent } from "@testing-library/user-event";
 import { describe, expect, test, vi } from "vitest";
 
@@ -93,5 +93,26 @@ describe("GovernmentBanner", () => {
         const button: HTMLElement = screen.getByRole("button");
         await user.click(button);
         expect(onToggle).toHaveBeenCalledOnce();
+    });
+});
+
+describe("GovernmentBanner opens itself (P54-T1)", () => {
+    test("with no v-model the toggle opens and closes the details", async () => {
+        const { container } = render(Subject, {
+            props: {
+                label: "Official",
+                headerText: "An official website",
+                expandLabel: "Here's how you know",
+            },
+            slots: { default: "<p>Details</p>" },
+        });
+        const button = container.querySelector("button")!;
+        const details = container.querySelector(".government-banner-details") as HTMLElement;
+        expect(details.hidden).toBe(true);
+        await fireEvent.click(button);
+        expect(button.getAttribute("aria-expanded")).toBe("true");
+        expect(details.hidden).toBe(false);
+        await fireEvent.click(button);
+        expect(details.hidden).toBe(true);
     });
 });

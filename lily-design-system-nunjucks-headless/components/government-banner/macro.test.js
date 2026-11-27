@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
+import { initGovernmentBanner } from "./government-banner.js";
 
 describe("government-banner", () => {
     const baseParams = {
@@ -115,5 +116,21 @@ describe("government-banner", () => {
     it("contains no <style> tag", () => {
         const { html } = render("government-banner", baseParams);
         expect(html).not.toContain("<style");
+    });
+
+    it("the toggle opens and closes the details once wired (P54-T1)", () => {
+        const { document } = render("government-banner", baseParams);
+        const unwire = initGovernmentBanner(document.querySelector(".government-banner"));
+        const button = document.querySelector(".government-banner-toggle");
+        const details = document.getElementById(button.getAttribute("aria-controls"));
+        expect(details.hidden).toBe(true);
+        button.click();
+        expect(button.getAttribute("aria-expanded")).toBe("true");
+        expect(details.hidden).toBe(false);
+        button.click();
+        expect(details.hidden).toBe(true);
+        unwire();
+        button.click();
+        expect(details.hidden).toBe(true);
     });
 });

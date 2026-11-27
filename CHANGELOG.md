@@ -11,6 +11,13 @@ highlights.
 
 ## Unreleased (2026-11-26)
 
+- **Fixed:** `government-banner` opens and closes itself in every catalog (P54-T1). Angular, Blazor, HTML, Web Components and
+  Alpine already did; Svelte (`expanded` is now bindable), React and Solid (uncontrolled unless `expanded` is given, with
+  `defaultExpanded`; `onToggle` gets the new state), Vue (`v-model:expanded`) and Nunjucks (`government-banner.js`, `autoInit()`)
+  now do. Before, their documented usage gave a button that did nothing. A test in each fails on the old code.
+- **Fixed:** with no `day` snippet, the Svelte, React, Solid and Vue calendars draw each event as a button in its day, as the
+  other five calendars do (P51-T7).
+
 - **Added: .NET MAUI** (`lily-design-system-maui`, [spec/dotnet-maui](spec/dotnet-maui/index.md), tasks.md Phase 56). Native controls
   for Android, iOS, macOS and Windows on `Microsoft.Maui.Controls` only: `LilyAlert`, `LilyBadge`, `Tag`, `InsetText`, `WarningText`,
   `ErrorSummary`, `Field`, `SummaryList` / `SummaryListItem`, `LilyCard`, with `StyleClass` hooks named after the web's classes,

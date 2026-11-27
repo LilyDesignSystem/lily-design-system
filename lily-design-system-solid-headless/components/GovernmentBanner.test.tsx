@@ -1,6 +1,7 @@
-import { render, screen } from "@solidjs/testing-library";
+import { fireEvent, render, screen } from "@solidjs/testing-library";
 import userEvent, { type UserEvent } from "@testing-library/user-event";
 import { describe, expect, test, vi } from "vitest";
+import { flush } from "solid-js";
 
 import Subject from "./GovernmentBanner";
 
@@ -140,5 +141,32 @@ describe("GovernmentBanner", () => {
 
         await user.click(screen.getByRole("button"));
         expect(handleToggle).toHaveBeenCalledOnce();
+    });
+});
+
+describe("GovernmentBanner opens itself (P54-T1)", () => {
+    test("with no expanded prop the toggle opens and closes the details, and onToggle hears the new state", () => {
+        const heard: boolean[] = [];
+        const { container } = render(() => (
+            <Subject
+                label="Official"
+                headerText="An official website"
+                expandLabel="Here's how you know"
+                onToggle={(open) => heard.push(open)}
+            >
+                <p>Details</p>
+            </Subject>
+        ));
+        const button = container.querySelector("button")!;
+        const details = container.querySelector(".government-banner-details") as HTMLElement;
+        expect(details.hidden).toBe(true);
+        fireEvent.click(button);
+        flush();
+        expect(button.getAttribute("aria-expanded")).toBe("true");
+        expect(details.hidden).toBe(false);
+        fireEvent.click(button);
+        flush();
+        expect(details.hidden).toBe(true);
+        expect(heard).toEqual([true, false]);
     });
 });

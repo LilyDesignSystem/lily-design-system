@@ -12,9 +12,10 @@
 //   class    — string, optional. CSS class name appended to the root.
 //   label        — string, REQUIRED. aria-label for the banner section.
 //   headerText   — string, REQUIRED. Top headline (e.g., "An official website...").
-//   expanded     — boolean, default false. Whether the details panel is open.
+//   expanded     — boolean, optional. Controls the panel; leave it out and the banner opens itself.
+//   defaultExpanded — boolean, default false. Whether an uncontrolled banner starts open.
 //   expandLabel  — string, REQUIRED. Toggle button text (e.g., "Here's how you know").
-//   onToggle     — () => void, optional. Called when the toggle button is clicked.
+//   onToggle     — (expanded: boolean) => void, optional. Called with the new state when the toggle is pressed.
 //   children     — ReactNode, optional. Details panel content.
 //   ...restProps — additional HTML attributes spread onto the <aside>.
 //
@@ -49,7 +50,7 @@
 //   - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
 
 import type { JSX } from "@solidjs/web";
-import { omit, createUniqueId } from "solid-js";
+import { omit, createUniqueId, createSignal, untrack } from "solid-js";
 import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface GovernmentBannerProps {
@@ -58,30 +59,41 @@ export interface GovernmentBannerProps {
     label: string;
     /** Top headline text (required) */
     headerText: string;
-    /** Whether the details panel is open */
+    /** Whether the details panel is open. Leave it out and the banner opens itself; pass it to control the banner. */
     expanded?: boolean;
+    /** Whether an uncontrolled banner starts open. */
+    defaultExpanded?: boolean;
     /** Toggle button text (required) */
     expandLabel: string;
-    /** Toggle handler */
-    onToggle?: () => void;
+    /** Called with the new state when the toggle is pressed. */
+    onToggle?: (expanded: boolean) => void;
     /** Details panel content */
     children?: JSX.Element;
     [key: string]: unknown;
 }
 
 export default function GovernmentBanner(props: GovernmentBannerProps) {
-    const p = withDefaults({ class: "" as const, expanded: false }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(
         p,
         "class",
         "label",
         "headerText",
         "expanded",
+        "defaultExpanded",
         "expandLabel",
         "onToggle",
         "children",
     );
     const panelId = createUniqueId();
+    // Uncontrolled unless `expanded` is given: the banner opens itself, like a native disclosure (tasks.md P54-T1).
+    const [own, setOwn] = createSignal(untrack(() => p.defaultExpanded ?? false));
+    const expanded = () => p.expanded ?? own();
+    const toggle = () => {
+        const next = !expanded();
+        if (p.expanded === undefined) setOwn(next);
+        p.onToggle?.(next);
+    };
 
     return (
         <aside
@@ -94,9 +106,9 @@ export default function GovernmentBanner(props: GovernmentBannerProps) {
                 <button
                     type="button"
                     class="government-banner-toggle"
-                    aria-expanded={attr(p.expanded)}
+                    aria-expanded={attr(expanded())}
                     aria-controls={panelId}
-                    onClick={p.onToggle}
+                    onClick={toggle}
                 >
                     {p.expandLabel}
                 </button>
@@ -104,7 +116,7 @@ export default function GovernmentBanner(props: GovernmentBannerProps) {
             <div
                 class="government-banner-details"
                 id={panelId}
-                hidden={!p.expanded}
+                hidden={!expanded()}
             >
                 {p.children}
             </div>

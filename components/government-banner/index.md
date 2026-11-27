@@ -33,17 +33,17 @@ official status to visitors and provide trust context on demand.
 
 ## Usage
 
-The banner does not open itself: the consumer holds `expanded` and changes it in `ontoggle` (`onToggle` in React), as for any
-controlled disclosure. Without that the button does nothing. The words, and the rules for recognising an official site, are the
-government's own; the example below is the United States one.
+The banner opens and closes itself, like a native disclosure, in every catalog (tasks.md P54-T1). To follow or control it,
+bind `expanded` (`bind:expanded` in Svelte, `v-model:expanded` in Vue, `[(expanded)]` in Angular, `@bind-Expanded` in
+Blazor) or listen to `ontoggle` (`onToggle` in React and Solid, which take `expanded` to control it). In Nunjucks, call
+`autoInit()` from `components/government-banner/government-banner.js`. The words, and the rules for recognising an
+official site, are the government's own; the example below is the United States one.
 
 ```html
 <GovernmentBanner
   label="Official government website"
   headerText="An official website of the United States government"
   expandLabel="Here's how you know"
-  expanded="{open}"
-  ontoggle="{(next) => (open = next)}"
 >
   <div>
     <h3>Official websites use .gov</h3>

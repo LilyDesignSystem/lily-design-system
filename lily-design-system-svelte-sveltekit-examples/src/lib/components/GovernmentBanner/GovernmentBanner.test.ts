@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/svelte";
+import { fireEvent, render, screen } from "@testing-library/svelte";
 import { userEvent, type UserEvent } from "@testing-library/user-event";
 import { describe, expect, test, vi } from "vitest";
 
@@ -102,5 +102,28 @@ describe("GovernmentBanner", () => {
         const button = container.querySelector("button.government-banner-toggle") as HTMLElement;
         expect(panel.getAttribute("id")).toBe("fixed-panel");
         expect(button.getAttribute("aria-controls")).toBe("fixed-panel");
+    });
+});
+
+describe("GovernmentBanner opens itself (P54-T1)", () => {
+    test("with no handler the toggle opens and closes the details, and ontoggle hears the new state", async () => {
+        const heard: boolean[] = [];
+        const { container } = render(Subject, {
+            props: {
+                label: "Official",
+                headerText: "An official website",
+                expandLabel: "Here's how you know",
+                ontoggle: (open: boolean) => heard.push(open),
+            },
+        });
+        const button = container.querySelector("button")!;
+        const details = container.querySelector(".government-banner-details") as HTMLElement;
+        expect(details.hidden).toBe(true);
+        await fireEvent.click(button);
+        expect(button.getAttribute("aria-expanded")).toBe("true");
+        expect(details.hidden).toBe(false);
+        await fireEvent.click(button);
+        expect(details.hidden).toBe(true);
+        expect(heard).toEqual([true, false]);
     });
 });

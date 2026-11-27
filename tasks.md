@@ -5022,7 +5022,7 @@ Seven example apps said a confirmation had been sent when nothing was (T3). The 
 public services, saved is not received and a count needs its denominator, and are composed examples, not components; take them after
 Phase 53's healthcare pilots, which build the same receipt and denominator machinery.
 
-- [ ] **P54-T1 The government banner opens itself.** _(Docs fixed 2026-11-26: the usage shows `expanded` and `ontoggle`, and says
+- [x] **P54-T1 The government banner opens itself.** _(Done 2026-11-27: Svelte, React, Solid, Vue and Nunjucks now toggle it, as Angular, Blazor, HTML, Web Components and Alpine did; a test in each that fails on the old code. Still open: a non-US example and one run by a nonprofit.)_ _(Docs fixed 2026-11-26: the usage shows `expanded` and `ontoggle`, and says
       the button does nothing without them.)_ Make `expanded` bindable (Svelte) or uncontrolled with a controlled option (React,
       Solid, Vue, Angular), and toggled by the component in HTML, Web Components, Alpine, Nunjucks and Blazor, as `details` is; add one
       non-US example and one service run by a nonprofit for a council. Verify: in each catalog, the documented usage, copied as

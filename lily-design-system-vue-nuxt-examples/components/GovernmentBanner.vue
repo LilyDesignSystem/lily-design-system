@@ -43,25 +43,26 @@
 // References:
 //   - USWDS Banner: https://designsystem.digital.gov/components/banner/
 
-withDefaults(
-    defineProps<{
-        /** aria-label for the aside (REQUIRED). */
-        label: string;
-        /** Top headline text (REQUIRED). */
-        headerText: string;
-        /** Toggle button label (REQUIRED). */
-        expandLabel: string;
-        /** Whether the details panel is open. */
-        expanded?: boolean;
-    }>(),
-    {
-        expanded: false,
-    },
-);
+defineProps<{
+    /** aria-label for the aside (REQUIRED). */
+    label: string;
+    /** Top headline text (REQUIRED). */
+    headerText: string;
+    /** Toggle button label (REQUIRED). */
+    expandLabel: string;
+}>();
 
-defineEmits<{
+/** Whether the details panel is open: `v-model:expanded`, or left alone, when the banner opens itself (tasks.md P54-T1). */
+const expanded = defineModel<boolean>("expanded", { default: false });
+
+const emit = defineEmits<{
     (e: "toggle", event: MouseEvent): void;
 }>();
+
+function onToggle(event: MouseEvent) {
+    expanded.value = !expanded.value;
+    emit("toggle", event);
+}
 
 const panelId: string = `government-banner-panel-${Math.random().toString(36).slice(2, 9)}`;
 </script>
@@ -79,7 +80,7 @@ const panelId: string = `government-banner-panel-${Math.random().toString(36).sl
                 class="government-banner-toggle"
                 :aria-expanded="expanded"
                 :aria-controls="panelId"
-                @click="$emit('toggle', $event)"
+                @click="onToggle"
             >
                 {{ expandLabel }}
             </button>
