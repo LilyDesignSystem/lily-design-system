@@ -1,5 +1,16 @@
-import { ChangeDetectionStrategy, Component, OnInit, computed, input } from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    Component,
+    ElementRef,
+    OnInit,
+    computed,
+    effect,
+    inject,
+    input,
+    signal,
+} from "@angular/core";
 import { warnMissingProp } from "./dev-warning";
+import { watchConflict } from "./record-list-state";
 import {
     ipsSectionCode,
     ipsSectionId,
@@ -35,7 +46,7 @@ import type { IpsSectionStatus } from "./ips-sections";
       @case (5) {<h5 [attr.id]="headingId()" class="international-patient-summary-section-heading">{{ heading() }}</h5>}
       @case (6) {<h6 [attr.id]="headingId()" class="international-patient-summary-section-heading">{{ heading() }}</h6>}
       @default {<h2 [attr.id]="headingId()" class="international-patient-summary-section-heading">{{ heading() }}</h2>}
-    }@if (status() !== "known" && statusLabel() && statusPlacement() !== "list") {<p class="international-patient-summary-section-status">{{ statusLabel() }}</p>}<ng-content select="[meta]" /><ng-content select="[warning]" /><ng-content />@if (narrativeLabel()) {<details class="international-patient-summary-section-narrative" [open]="narrativeOpen()"><summary>{{ narrativeLabel() }}</summary><ng-content select="[narrative]" /></details>}</section>`,
+    }@if (status() !== "known" && statusLabel() && statusPlacement() !== "list" && !listInConflict()) {<p class="international-patient-summary-section-status">{{ statusLabel() }}</p>}<ng-content select="[meta]" /><ng-content select="[warning]" /><ng-content />@if (narrativeLabel()) {<details class="international-patient-summary-section-narrative" [open]="narrativeOpen()"><summary>{{ narrativeLabel() }}</summary><ng-content select="[narrative]" /></details>}</section>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InternationalPatientSummarySection implements OnInit {
@@ -61,6 +72,22 @@ export class InternationalPatientSummarySection implements OnInit {
     /** The narrative's summary; the <details> renders only with it. */
     readonly narrativeLabel = input<string>("");
     readonly narrativeOpen = input<boolean>(false);
+
+    // "None known" is never printed above a record list that holds an entry (HC-C17, tasks.md P50-T29).
+    protected readonly listInConflict = signal(false);
+    private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+
+    constructor() {
+        effect((onCleanup) => {
+            if (this.status() !== "none-known") {
+                this.listInConflict.set(false);
+                return;
+            }
+            onCleanup(
+                watchConflict(this.host.nativeElement, (found) => this.listInConflict.set(found)),
+            );
+        });
+    }
 
     protected readonly sectionId = computed(() =>
         ipsSectionId(this.section(), this.id(), this.idPrefix()),

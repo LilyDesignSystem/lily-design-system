@@ -5675,7 +5675,8 @@
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "registryDependencies": [
         "@lily/dev-warning-utils",
-        "@lily/ips-sections-utils"
+        "@lily/ips-sections-utils",
+        "@lily/record-list-state-utils"
       ],
       "categories": [
         "navigation"

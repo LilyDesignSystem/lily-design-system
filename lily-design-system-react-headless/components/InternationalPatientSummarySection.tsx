@@ -4,8 +4,9 @@
 // section's key, LOINC code, status and whether the IPS requires it, as data. Its entries are the consumer's; its status is
 // never blank, and for any status but "known" the consumer's words are shown under the heading. The author's narrative, when
 // given, sits in a <details> after the entries. See components/international-patient-summary-section/index.md.
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { warnMissingProp } from "./dev-warning";
+import { watchConflict } from "./record-list-state";
 import {
     ipsSectionCode,
     ipsSectionId,
@@ -93,8 +94,19 @@ export default function InternationalPatientSummarySection({
     const headingId = `${sectionId}-heading`;
     const isRequired = required ?? ipsSectionIsRequired(section);
     const Heading = `h${headingLevel}` as "h2";
+    // "None known" is never printed above a record list that holds an entry (HC-C17, tasks.md P50-T29).
+    const root = useRef<HTMLElement>(null);
+    const [listInConflict, setListInConflict] = useState(false);
+    useEffect(() => {
+        if (status !== "none-known" || !root.current) {
+            setListInConflict(false);
+            return;
+        }
+        return watchConflict(root.current, setListInConflict);
+    }, [status]);
     return (
         <section
+            ref={root}
             className={`international-patient-summary-section ${className}`}
             id={sectionId}
             aria-labelledby={headingId}
@@ -111,7 +123,7 @@ export default function InternationalPatientSummarySection({
             >
                 {heading}
             </Heading>
-            {status !== "known" && statusLabel && statusPlacement !== "list" ? (
+            {status !== "known" && statusLabel && statusPlacement !== "list" && !listInConflict ? (
                 <p className="international-patient-summary-section-status">{statusLabel}</p>
             ) : null}
             {meta ? <div className="international-patient-summary-section-meta">{meta}</div> : null}

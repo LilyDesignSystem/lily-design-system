@@ -5,10 +5,11 @@
 // never blank, and for any status but "known" the consumer's words are shown under the heading. The author's narrative, when
 // given, sits in a <details> after the entries. See components/international-patient-summary-section/index.md.
 import { dynamic, type JSX } from "@solidjs/web";
-import { omit } from "solid-js";
+import { createEffect, createSignal, omit } from "solid-js";
 import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { warnMissingProp } from "./dev-warning";
+import { watchConflict } from "./record-list-state";
 import {
     ipsSectionCode,
     ipsSectionId,
@@ -103,8 +104,22 @@ export default function InternationalPatientSummarySection(
     const headingId = () => `${sectionId()}-heading`;
     const isRequired = () => p.required ?? ipsSectionIsRequired(p.section);
     const Heading = dynamic(() => `h${p.headingLevel}` as "h2");
+    // "None known" is never printed above a record list that holds an entry (HC-C17, tasks.md P50-T29).
+    let root: HTMLElement | undefined;
+    const [listInConflict, setListInConflict] = createSignal(false);
+    createEffect(
+        () => p.status,
+        (status) => {
+            if (status !== "none-known" || !root) {
+                setListInConflict(false);
+                return;
+            }
+            return watchConflict(root, setListInConflict);
+        },
+    );
     return (
         <section
+            ref={root}
             class={`international-patient-summary-section ${p.class}`}
             id={sectionId()}
             aria-labelledby={headingId()}
@@ -121,7 +136,10 @@ export default function InternationalPatientSummarySection(
             >
                 {p.heading}
             </Heading>
-            {p.status !== "known" && p.statusLabel && p.statusPlacement !== "list" ? (
+            {p.status !== "known" &&
+            p.statusLabel &&
+            p.statusPlacement !== "list" &&
+            !listInConflict() ? (
                 <p class="international-patient-summary-section-status">{p.statusLabel}</p>
             ) : null}
             {p.meta ? <div class="international-patient-summary-section-meta">{p.meta}</div> : null}

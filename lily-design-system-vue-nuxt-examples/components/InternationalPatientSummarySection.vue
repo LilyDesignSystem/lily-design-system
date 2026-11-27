@@ -5,8 +5,9 @@
 // section's key, LOINC code, status and whether the IPS requires it, as data. For any status but "known" the consumer's words
 // are shown under the heading. The optional "meta" and "warning" slots sit between the heading and the entries. The "narrative" slot, when given, sits in a <details> after the entries.
 // See components/international-patient-summary-section/index.md.
-import { computed, useSlots } from "vue";
+import { computed, ref, useSlots, watchEffect } from "vue";
 import { warnMissingProp } from "./dev-warning";
+import { watchConflict } from "./record-list-state";
 import {
     ipsSectionCode,
     ipsSectionId,
@@ -74,11 +75,22 @@ if (slots.narrative) {
         "The narrative's disclosure needs a summary.",
     );
 }
+// "None known" is never printed above a record list that holds an entry (HC-C17, tasks.md P50-T29).
+const root = ref<HTMLElement | null>(null);
+const listInConflict = ref(false);
+watchEffect((onCleanup) => {
+    if (props.status !== "none-known" || !root.value) {
+        listInConflict.value = false;
+        return;
+    }
+    onCleanup(watchConflict(root.value, (found) => (listInConflict.value = found)));
+});
 </script>
 
 <template>
     <!-- InternationalPatientSummarySection.vue -->
     <section
+        ref="root"
         class="international-patient-summary-section"
         :id="sectionId"
         :aria-labelledby="`${sectionId}-heading`"
@@ -95,7 +107,9 @@ if (slots.narrative) {
             >{{ heading }}</component
         >
         <p
-            v-if="status !== 'known' && statusLabel && statusPlacement !== 'list'"
+            v-if="
+                status !== 'known' && statusLabel && statusPlacement !== 'list' && !listInConflict
+            "
             class="international-patient-summary-section-status"
         >
             {{ statusLabel }}

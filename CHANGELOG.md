@@ -11,7 +11,7 @@ highlights.
 
 ## Unreleased (2026-11-26)
 
-- **Fixed (healthcare):** the Svelte `international-patient-summary-section` no longer prints "none known" above a record list
+- **Fixed (healthcare):** `international-patient-summary-section` in Svelte, React, Solid, Vue and Angular no longer prints "none known" above a record list
   that holds an entry; the list's own conflict words speak (HC-C17, P50-T29). `watchConflict` in `shared/record-list-state.ts`
   is copied to every TypeScript catalog for the other ports.
 
