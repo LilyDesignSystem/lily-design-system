@@ -5027,7 +5027,7 @@ Phase 53's healthcare pilots, which build the same receipt and denominator machi
       Solid, Vue, Angular), and toggled by the component in HTML, Web Components, Alpine, Nunjucks and Blazor, as `details` is; add one
       non-US example and one service run by a nonprofit for a council. Verify: in each catalog, the documented usage, copied as
       written, opens and closes by keyboard.
-- [ ] **P54-T2 Currency entry with a decimal comma.** _(Docs fixed 2026-11-26: the overview and catalog description say what the input
+- [ ] **P54-T2 Currency entry with a decimal comma.** _(2026-11-27: `shared/amount-text.ts`, a tested `readAmount(text, locale, currencyCode)` the currency-input docs point to: decimal commas and grouping by locale, empty apart from invalid, too many decimals for the currency refused. Open: a `locale` prop on `currency-input` in every catalog that uses it.)_ _(Docs fixed 2026-11-26: the overview and catalog description say what the input
       does.)_ The input reads `12,50` as no value, the same as an empty field, so a French-language EUR form loses the amount without a
       word. Either a `locale` prop that parses with that locale's separators, or a recipe that keeps the typed text and shows an error
       beside it. Verify: blank, zero, `12,50` in `fr-FR` (12.5), a grouping separator, and a zero-decimal currency (JPY), each tested.
