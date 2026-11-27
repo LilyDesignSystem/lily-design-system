@@ -18,6 +18,21 @@ import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/d
 const HANDLED = new Set(["heading", "label"]);
 
 export class SummaryBox extends HTMLElement {
+    // A change to heading, label or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["heading", "label", "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const el = this.querySelector<HTMLElement>(":scope > aside.summary-box");
+        if (!el) return;
+        el.className = rootClassName(this, "summary-box");
+        const heading = this.getAttribute("heading") ?? "";
+        el.setAttribute("aria-label", this.getAttribute("label") ?? heading);
+        const h3 = el.querySelector(":scope > .summary-box-heading");
+        if (h3) h3.textContent = heading;
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > aside.summary-box")) return;
 

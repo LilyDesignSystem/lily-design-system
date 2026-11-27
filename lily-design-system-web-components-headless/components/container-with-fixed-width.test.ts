@@ -55,4 +55,11 @@ describe("ContainerWithFixedWidth", () => {
 
         expect(host.querySelector("article")!.textContent).toBe("Body");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-container-with-fixed-width >Text</lily-container-with-fixed-width>`;
+        const el = document.querySelector("lily-container-with-fixed-width")!;
+        el.setAttribute("max-width", "60rem");
+        expect(el.getAttribute("data-max-width")).toBe("60rem");
+    });
 });

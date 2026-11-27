@@ -15,10 +15,24 @@
 //   - HTML hidden input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/hidden
 
 import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { setOrRemove } from "../lib/live-element.js";
 
 const HANDLED = new Set(["name", "value"]);
 
 export class HiddenInput extends HTMLElement {
+    // A change to name, value or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["name", "value", "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const el = this.querySelector<HTMLInputElement>(":scope > input.hidden-input");
+        if (!el) return;
+        el.className = rootClassName(this, "hidden-input");
+        setOrRemove(el, "name", this.getAttribute("name"));
+        el.defaultValue = this.getAttribute("value") ?? "";
+    }
+
     #input: HTMLInputElement | null = null;
 
     connectedCallback(): void {

@@ -69,4 +69,17 @@ describe("TimelineList", () => {
             "Last 12 months, newest first. The GP record did not answer.",
         );
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-timeline-list label="History"><li>One</li></lily-timeline-list>`;
+        const el = document.querySelector("lily-timeline-list")!;
+        el.setAttribute("coverage-label", "Last 30 days");
+        const ol = el.querySelector("ol")!;
+        expect(ol.firstElementChild!.textContent).toBe("Last 30 days");
+        el.setAttribute("coverage-label", "Last year");
+        expect(ol.querySelectorAll(".timeline-list-coverage").length).toBe(1);
+        el.removeAttribute("coverage-label");
+        expect(ol.querySelector(".timeline-list-coverage")).toBeNull();
+        expect(ol.textContent).toBe("One");
+    });
 });

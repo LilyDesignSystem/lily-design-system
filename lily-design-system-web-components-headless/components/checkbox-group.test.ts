@@ -49,4 +49,14 @@ describe("CheckboxGroup", () => {
 
         expect((host.querySelector("fieldset") as HTMLFieldSetElement).disabled).toBe(true);
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-checkbox-group label="Contact"></lily-checkbox-group>`;
+        const el = document.querySelector("lily-checkbox-group")!;
+        el.setAttribute("disabled", "");
+        el.setAttribute("label", "How to reach you");
+        const fs = el.querySelector("fieldset")!;
+        expect(fs.disabled).toBe(true);
+        expect(fs.getAttribute("aria-label")).toBe("How to reach you");
+    });
 });

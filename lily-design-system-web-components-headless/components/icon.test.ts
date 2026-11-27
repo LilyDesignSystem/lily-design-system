@@ -55,4 +55,15 @@ describe("Icon", () => {
         expect(span.className).toBe("icon extra");
         expect(span.getAttribute("data-testid")).toBe("search-icon");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-icon decorative>*</lily-icon>`;
+        const el = document.querySelector("lily-icon")!;
+        el.removeAttribute("decorative");
+        el.setAttribute("label", "Star");
+        const s = el.querySelector("span.icon")!;
+        expect(s.getAttribute("role")).toBe("img");
+        expect(s.getAttribute("aria-label")).toBe("Star");
+        expect(s.hasAttribute("aria-hidden")).toBe(false);
+    });
 });

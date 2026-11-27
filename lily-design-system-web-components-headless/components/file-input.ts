@@ -16,10 +16,27 @@
 //   - MDN input type="file": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file
 
 import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { setOrRemove } from "../lib/live-element.js";
 
 const HANDLED = new Set(["label", "accept", "multiple", "required", "disabled"]);
 
 export class FileInput extends HTMLElement {
+    // A change to label, accept, multiple, required, disabled or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["label", "accept", "multiple", "required", "disabled", "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const el = this.querySelector<HTMLInputElement>(":scope > input.file-input");
+        if (!el) return;
+        el.className = rootClassName(this, "file-input");
+        setOrRemove(el, "aria-label", this.getAttribute("label"));
+        setOrRemove(el, "accept", this.getAttribute("accept"));
+        el.multiple = this.hasAttribute("multiple");
+        el.required = this.hasAttribute("required");
+        el.disabled = this.hasAttribute("disabled");
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > input.file-input")) return;
 

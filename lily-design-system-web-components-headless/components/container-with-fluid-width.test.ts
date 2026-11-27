@@ -55,4 +55,11 @@ describe("ContainerWithFluidWidth", () => {
 
         expect(host.querySelector("section")!.textContent).toBe("Body");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-container-with-fluid-width >Text</lily-container-with-fluid-width>`;
+        const el = document.querySelector("lily-container-with-fluid-width")!;
+        el.setAttribute("padding-inline", "2rem");
+        expect(el.getAttribute("data-padding-inline")).toBe("2rem");
+    });
 });

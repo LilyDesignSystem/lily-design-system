@@ -47,4 +47,15 @@ describe("Blockquote", () => {
 
         expect(host.querySelector("blockquote")!.getAttribute("aria-label")).toBe("A famous quote");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-blockquote >Words</lily-blockquote>`;
+        const el = document.querySelector("lily-blockquote")!;
+        el.setAttribute("citation-text", "A. Writer");
+        const q = el.querySelector("blockquote")!;
+        expect(q.lastElementChild!.textContent).toBe("A. Writer");
+        el.removeAttribute("citation-text");
+        expect(q.querySelector("footer")).toBeNull();
+        expect(q.textContent).toBe("Words");
+    });
 });

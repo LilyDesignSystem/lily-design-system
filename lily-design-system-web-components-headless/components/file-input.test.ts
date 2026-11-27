@@ -53,4 +53,14 @@ describe("FileInput", () => {
         expect(input.required).toBe(true);
         expect(input.disabled).toBe(true);
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-file-input label="Files"></lily-file-input>`;
+        const el = document.querySelector("lily-file-input")!;
+        el.setAttribute("multiple", "");
+        el.setAttribute("accept", ".pdf");
+        const i = el.querySelector("input")!;
+        expect(i.multiple).toBe(true);
+        expect(i.accept).toBe(".pdf");
+    });
 });

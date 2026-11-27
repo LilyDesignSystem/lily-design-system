@@ -70,4 +70,14 @@ describe("ImageInput", () => {
 
         expect(host.querySelector("input")!.id).toBe("submit-image");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-image-input src="/a.png" alt="Go"></lily-image-input>`;
+        const el = document.querySelector("lily-image-input")!;
+        el.setAttribute("alt", "Search");
+        el.setAttribute("disabled", "");
+        const i = el.querySelector("input")!;
+        expect(i.alt).toBe("Search");
+        expect(i.disabled).toBe(true);
+    });
 });

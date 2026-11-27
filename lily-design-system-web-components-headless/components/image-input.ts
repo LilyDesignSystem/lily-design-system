@@ -15,10 +15,25 @@
 //   - components/image-input/index.md (canonical contract)
 
 import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { setOrRemove } from "../lib/live-element.js";
 
 const HANDLED = new Set(["src", "alt", "width", "height", "disabled"]);
 
 export class ImageInput extends HTMLElement {
+    // A change to src, alt, width, height, disabled or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["src", "alt", "width", "height", "disabled", "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const el = this.querySelector<HTMLInputElement>(":scope > input.image-input");
+        if (!el) return;
+        el.className = rootClassName(this, "image-input");
+        for (const name of ["src", "alt", "width", "height"])
+            setOrRemove(el, name, this.getAttribute(name));
+        el.disabled = this.hasAttribute("disabled");
+    }
+
     #input: HTMLInputElement | null = null;
 
     connectedCallback(): void {

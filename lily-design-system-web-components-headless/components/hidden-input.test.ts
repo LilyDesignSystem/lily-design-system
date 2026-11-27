@@ -61,4 +61,14 @@ describe("HiddenInput", () => {
 
         expect(host.querySelector("input")!.getAttribute("id")).toBe("csrf");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-hidden-input name="a" value="1"></lily-hidden-input>`;
+        const el = document.querySelector("lily-hidden-input")!;
+        el.setAttribute("value", "2");
+        el.setAttribute("name", "b");
+        const i = el.querySelector("input")!;
+        expect(i.value).toBe("2");
+        expect(i.name).toBe("b");
+    });
 });

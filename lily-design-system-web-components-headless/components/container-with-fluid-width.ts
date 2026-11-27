@@ -35,6 +35,21 @@ import { applySelfClassName } from "../lib/dom-utils.js";
 export class ContainerWithFluidWidth extends HTMLElement {
     #built = false;
 
+    // A change to padding-inline or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["padding-inline", "class"];
+    }
+
+    attributeChangedCallback(name: string): void {
+        if (!this.#built) return;
+        if (name === "class") {
+            if (!this.classList.contains("container-with-fluid-width"))
+                applySelfClassName(this, "container-with-fluid-width");
+            return;
+        }
+        this.setAttribute("data-padding-inline", this.getAttribute("padding-inline") ?? "1rem");
+    }
+
     connectedCallback(): void {
         if (this.#built) return;
         this.#built = true;

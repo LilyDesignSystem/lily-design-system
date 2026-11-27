@@ -24,7 +24,9 @@ highlights.
   `headline` (a new `level` is a new heading), `menu-group`, `accordion-list`, `address-input`, `citation`, `file-tree`, `flair`
   (named, an image; unnamed, hidden), `kbd`, the five-colour radio group, the task-bar and tool-bar buttons, the images,
   `label`, `option`, `emoji`, `fieldset`, `email-link`, `tel-link`, `section-link`, and twelve more (the layout containers,
-  `avatar-group`'s overflow count, the tab, action-bar and button inputs, the DOI link) follow their attributes too.
+  `avatar-group`'s overflow count, the tab, action-bar and button inputs, the DOI link), and twelve more (the timeline's
+  coverage line, a blockquote's citation, decorative icons and characters, `super-banner`'s close button) follow their
+  attributes too.
   `bin/check-web-components-live` (in `bin/test`) fails on an element that observes no attribute unless it is listed with a reason.
 
 - **Fixed (healthcare):** `international-patient-summary-section` no longer prints "none known" above a record list that holds an

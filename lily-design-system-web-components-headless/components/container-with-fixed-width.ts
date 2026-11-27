@@ -35,6 +35,21 @@ import { applySelfClassName } from "../lib/dom-utils.js";
 export class ContainerWithFixedWidth extends HTMLElement {
     #built = false;
 
+    // A change to max-width or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["max-width", "class"];
+    }
+
+    attributeChangedCallback(name: string): void {
+        if (!this.#built) return;
+        if (name === "class") {
+            if (!this.classList.contains("container-with-fixed-width"))
+                applySelfClassName(this, "container-with-fixed-width");
+            return;
+        }
+        this.setAttribute("data-max-width", this.getAttribute("max-width") ?? "1200px");
+    }
+
     connectedCallback(): void {
         if (this.#built) return;
         this.#built = true;

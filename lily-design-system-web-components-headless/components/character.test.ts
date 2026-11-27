@@ -46,4 +46,16 @@ describe("Character", () => {
 
         expect(host.querySelectorAll("span.character").length).toBe(1);
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-character label="Wizard">W</lily-character>`;
+        const el = document.querySelector("lily-character")!;
+        el.setAttribute("decorative", "");
+        const s = el.querySelector("span.character")!;
+        expect(s.getAttribute("aria-hidden")).toBe("true");
+        expect(s.hasAttribute("aria-label")).toBe(false);
+        el.removeAttribute("decorative");
+        expect(s.getAttribute("role")).toBe("img");
+        expect(s.getAttribute("aria-label")).toBe("Wizard");
+    });
 });

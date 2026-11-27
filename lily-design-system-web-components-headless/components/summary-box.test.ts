@@ -69,4 +69,13 @@ describe("SummaryBox", () => {
 
         expect(host.querySelector("aside")!.className).toBe("summary-box extra");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-summary-box heading="Key facts">Body</lily-summary-box>`;
+        const el = document.querySelector("lily-summary-box")!;
+        el.setAttribute("heading", "Summary");
+        const a = el.querySelector("aside")!;
+        expect(a.querySelector(".summary-box-heading")!.textContent).toBe("Summary");
+        expect(a.getAttribute("aria-label")).toBe("Summary");
+    });
 });

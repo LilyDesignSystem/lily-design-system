@@ -17,27 +17,43 @@
 //   - components/super-banner/index.md (canonical contract)
 
 import { applySelfClassName } from "../lib/dom-utils.js";
+import { setOrRemove } from "../lib/live-element.js";
 
 export class SuperBanner extends HTMLElement {
     #built = false;
+    #dismiss: HTMLButtonElement | null = null;
+
+    // A change to label, dismissable or class is shown (tasks.md P50-T28): dismissable added later brings the close button.
+    static get observedAttributes(): string[] {
+        return ["label", "dismissable", "class"];
+    }
+
+    attributeChangedCallback(): void {
+        if (this.#built) this.#show();
+    }
 
     connectedCallback(): void {
         if (this.#built) return;
         this.#built = true;
-
-        applySelfClassName(this, "super-banner");
         this.setAttribute("role", "alert");
         this.setAttribute("aria-live", "assertive");
-        const label = this.getAttribute("label");
-        if (label !== null) this.setAttribute("aria-label", label);
+        this.#show();
+    }
 
-        if (this.hasAttribute("dismissable")) {
-            const button = document.createElement("button");
-            button.type = "button";
-            button.className = "super-banner-dismiss";
-            button.addEventListener("click", this.#onDismiss);
-            this.appendChild(button);
+    #show(): void {
+        if (!this.classList.contains("super-banner")) applySelfClassName(this, "super-banner");
+        setOrRemove(this, "aria-label", this.getAttribute("label"));
+        if (!this.hasAttribute("dismissable")) {
+            this.#dismiss?.remove();
+            this.#dismiss = null;
+            return;
         }
+        if (this.#dismiss) return;
+        this.#dismiss = document.createElement("button");
+        this.#dismiss.type = "button";
+        this.#dismiss.className = "super-banner-dismiss";
+        this.#dismiss.addEventListener("click", this.#onDismiss);
+        this.appendChild(this.#dismiss);
     }
 
     #onDismiss = (): void => {

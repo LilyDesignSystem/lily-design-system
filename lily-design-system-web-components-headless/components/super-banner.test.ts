@@ -60,4 +60,16 @@ describe("SuperBanner", () => {
         expect(handler).toHaveBeenCalled();
         expect(host.hidden).toBe(true);
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-super-banner label="Warning">Storm</lily-super-banner>`;
+        const el = document.querySelector("lily-super-banner")!;
+        el.setAttribute("dismissable", "");
+        el.setAttribute("label", "Alert");
+        expect(el.querySelectorAll("button.super-banner-dismiss").length).toBe(1);
+        expect(el.getAttribute("aria-label")).toBe("Alert");
+        el.removeAttribute("dismissable");
+        expect(el.querySelector("button")).toBeNull();
+        expect(el.textContent).toBe("Storm");
+    });
 });
