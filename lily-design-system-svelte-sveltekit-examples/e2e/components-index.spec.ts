@@ -28,6 +28,8 @@ function slugFromHref(href: string | null): string {
 test.describe("/components search filters", () => {
     test("search narrows the list and clear resets it", async ({ page }) => {
         await page.goto("/components");
+        // Let Svelte hydrate first, or a filter chosen before it is lost.
+        await page.waitForLoadState("networkidle");
         await expect(page.getByRole("status")).toContainText(`${TOTAL} of ${TOTAL} components`);
 
         await page.getByLabel("Filter components").fill("breadcrumb");
@@ -39,7 +41,7 @@ test.describe("/components search filters", () => {
         expect(shown).toBeLessThan(TOTAL);
 
         const items = page.locator(".component-index-list-item");
-        expect(await items.count()).toBe(shown);
+        await expect(items).toHaveCount(shown);
         for (let i = 0; i < shown; i++) {
             await expect(items.nth(i)).toContainText(/breadcrumb/i);
         }
@@ -54,10 +56,12 @@ test.describe("/components search filters", () => {
         );
         expect(navigateSlugs.size).toBeGreaterThan(0);
         await page.goto("/components");
+        // Let Svelte hydrate first, or a filter chosen before it is lost.
+        await page.waitForLoadState("networkidle");
         await page.getByLabel("Purpose").selectOption("navigate");
 
         const items = page.locator(".component-index-list-item a");
-        expect(await items.count()).toBe(navigateSlugs.size);
+        await expect(items).toHaveCount(navigateSlugs.size);
         const hrefs = await items.evaluateAll((as) => as.map((a) => a.getAttribute("href")));
         for (const href of hrefs) expect(navigateSlugs.has(slugFromHref(href))).toBe(true);
 
@@ -67,10 +71,12 @@ test.describe("/components search filters", () => {
 
     test("category filter shows exactly the components in that category", async ({ page }) => {
         await page.goto("/components");
+        // Let Svelte hydrate first, or a filter chosen before it is lost.
+        await page.waitForLoadState("networkidle");
         await page.getByLabel("Category").selectOption("tables");
 
         const items = page.locator(".component-index-list-item a");
-        expect(await items.count()).toBe(tableSlugs.size);
+        await expect(items).toHaveCount(tableSlugs.size);
 
         const hrefs = await items.evaluateAll((as) => as.map((a) => a.getAttribute("href")));
         for (const href of hrefs) {
@@ -82,10 +88,12 @@ test.describe("/components search filters", () => {
         page,
     }) => {
         await page.goto("/components");
+        // Let Svelte hydrate first, or a filter chosen before it is lost.
+        await page.waitForLoadState("networkidle");
         await page.getByLabel("Suffix pattern").selectOption("list-item");
 
         const items = page.locator(".component-index-list-item a");
-        expect(await items.count()).toBe(listItemSlugs.size);
+        await expect(items).toHaveCount(listItemSlugs.size);
 
         const hrefs = await items.evaluateAll((as) => as.map((a) => a.getAttribute("href")));
         for (const href of hrefs) {
@@ -97,6 +105,8 @@ test.describe("/components search filters", () => {
         test.skip(taskListItemSlugs.size === 0, "no task list item in the current catalog");
 
         await page.goto("/components");
+        // Let Svelte hydrate first, or a filter chosen before it is lost.
+        await page.waitForLoadState("networkidle");
         await page.getByLabel("Category").selectOption("lists");
         await page.getByLabel("Suffix pattern").selectOption("list-item");
         await page.getByLabel("Filter components").fill("task");

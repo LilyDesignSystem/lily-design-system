@@ -46,6 +46,8 @@ test("every field is visible and unclipped at 320 pixels", async ({ page }) => {
 test.describe("workspace panel", () => {
     test("opens beside the chart, saves, and returns focus to the opener", async ({ page }) => {
         await page.goto("/patient-dashboard");
+        // Let Svelte hydrate first, or the opener's click is lost.
+        await page.waitForLoadState("networkidle");
         const opener = page.getByRole("button", { name: "Add an allergy" });
         await opener.click();
         const panel = page.getByRole("complementary", { name: "Add an allergy" });
@@ -63,6 +65,8 @@ test.describe("workspace panel", () => {
 
     test("minimise keeps the draft, and restoring brings it back", async ({ page }) => {
         await page.goto("/patient-dashboard");
+        // Let Svelte hydrate first, or the opener's click is lost.
+        await page.waitForLoadState("networkidle");
         await page.getByRole("button", { name: "Add an allergy" }).click();
         await page.getByLabel("Substance").fill("Iodine");
         await page.getByRole("button", { name: "Minimise" }).click();
@@ -74,6 +78,8 @@ test.describe("workspace panel", () => {
 
     test("closing with unsaved changes asks first; keep editing keeps them", async ({ page }) => {
         await page.goto("/patient-dashboard");
+        // Let Svelte hydrate first, or the opener's click is lost.
+        await page.waitForLoadState("networkidle");
         await page.getByRole("button", { name: "Add an allergy" }).click();
         await page.getByLabel("Substance").fill("Iodine");
         await page.getByRole("button", { name: "Close" }).click();
@@ -92,6 +98,8 @@ test("the vital signs trend gives each sign's last, lowest and highest in words,
     page,
 }) => {
     await page.goto("/patient-dashboard");
+    // Let Svelte hydrate first, or the opener's click is lost.
+    await page.waitForLoadState("networkidle");
     const pulse = page.getByRole("row", { name: /^Pulse/ });
     await expect(pulse).toContainText("94 beats a minute");
     await expect(pulse).toContainText("72 beats a minute");
