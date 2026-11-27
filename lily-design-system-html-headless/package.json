@@ -19,7 +19,7 @@
     "@wdio/local-runner": "^10.2.0",
     "@wdio/mocha-framework": "^10.2.0",
     "@wdio/spec-reporter": "^10.2.0",
-    "chromedriver": "^157.0.2",
+    "chromedriver": "^158.0.0",
     "storybook": "^10.6.7",
     "typescript": "^7.0.2",
     "vite": "^8.3.8",
