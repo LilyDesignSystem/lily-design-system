@@ -43,5 +43,12 @@
   },
   "docs": "https://lilydesignsystem.com/components/alert/",
   "markdown": "https://lilydesignsystem.com/components/alert.md",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/alert/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/alert/AGENTS.md",
+  "recipes": [
+    {
+      "title": "Alert: a draft restored from an earlier visit",
+      "path": "recipes/alert/restored-draft.html",
+      "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/alert/restored-draft.html"
+    }
+  ]
 }

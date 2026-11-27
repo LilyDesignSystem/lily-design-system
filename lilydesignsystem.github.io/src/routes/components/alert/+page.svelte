@@ -100,5 +100,9 @@
       <li><code>children</code>: slot (required) -- the alert content</li>
       <li><code>...restProps</code>: Any additional HTML attributes spread onto the <code>&lt;div&gt;</code></li>
     </ul>
+    <h3>Recipes</h3>
+    <ul>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/alert/restored-draft.html">Alert: a draft restored from an earlier visit</a></li>
+    </ul>
 </section>
 <!-- END generated: canonical contract -->

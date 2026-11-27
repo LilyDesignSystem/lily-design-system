@@ -3,6 +3,38 @@
 Small copy-paste compositions of Lily catalog components, between one component and a whole page.
 Replace the placeholder words with your own. Generated from the repository's `recipes/` directory.
 
+## Alert: a draft restored from an earlier visit
+
+Uses [alert](https://lilydesignsystem.com/components/alert/), [button](https://lilydesignsystem.com/components/button/). Tags: form, draft, status. [Source](https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/alert/restored-draft.html).
+
+```html
+<!-- Say so when a form fills itself from a saved draft, rather than showing answers the person does not remember giving. A
+     polite status, not an interruption: role="status" and aria-live="polite". "Start again" clears the draft through the app's
+     own code; "Keep my answers" only hides this notice. Where the draft is kept (this device only, or the person's account) is
+     the app's to say, in its own words. -->
+<div
+  class="alert"
+  data-type="info"
+  role="status"
+  aria-live="polite"
+  aria-atomic="true"
+>
+  <p>We filled in the answers you saved on this device on 24 November.</p>
+  <button
+    class="button"
+    type="button"
+  >
+    Keep my answers
+  </button>
+  <button
+    class="button"
+    type="button"
+  >
+    Start again
+  </button>
+</div>
+```
+
 ## Card: the whole card as one link
 
 Uses [card](https://lilydesignsystem.com/components/card/), [button](https://lilydesignsystem.com/components/button/). Tags: card, navigation, link. [Source](https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/card/whole-card-link.html).
@@ -608,6 +640,82 @@ Uses [form](https://lilydesignsystem.com/components/form/), [error-summary](http
     Book appointment
   </button>
 </form>
+```
+
+## Radio group: a follow-up question shown for one answer
+
+Uses [radio-group](https://lilydesignsystem.com/components/radio-group/), [radio-input](https://lilydesignsystem.com/components/radio-input/), [label](https://lilydesignsystem.com/components/label/), [field](https://lilydesignsystem.com/components/field/), [hint](https://lilydesignsystem.com/components/hint/), [text-input](https://lilydesignsystem.com/components/text-input/). Tags: form, choice, conditional. [Source](https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/radio-group/conditional-question.html).
+
+```html
+<!-- A conditional question: the follow-up is asked only when "Yes" is chosen. It sits straight after the "Yes" label, inside the
+     group, so it is read and tabbed to next. Toggle it with the hidden attribute, never by removing the radio group's own
+     controls. Keep it to one simple question (GOV.UK's research: complicated reveals confused testers); a second question with
+     its own reveal belongs on its own page. When the answer changes back to "No" or "Not sure", the follow-up is hidden: leave
+     its answer out when you save, so a hidden answer is never sent. Offer "Not sure" where a person may not know. -->
+<fieldset
+  class="radio-group"
+  role="radiogroup"
+  aria-labelledby="anticoagulant-legend"
+>
+  <legend id="anticoagulant-legend">Do you take medicine to thin your blood?</legend>
+  <input
+    class="radio-input"
+    type="radio"
+    id="anticoagulant-yes"
+    name="anticoagulant"
+    value="yes"
+    checked
+  />
+  <label
+    class="label"
+    for="anticoagulant-yes"
+    >Yes</label
+  >
+  <div class="field">
+    <label
+      class="label"
+      for="anticoagulant-name"
+      >Which medicine?</label
+    >
+    <p
+      class="hint"
+      id="anticoagulant-name-hint"
+    >
+      For example, warfarin or apixaban
+    </p>
+    <input
+      class="text-input"
+      type="text"
+      id="anticoagulant-name"
+      name="anticoagulant-name"
+      aria-describedby="anticoagulant-name-hint"
+    />
+  </div>
+  <input
+    class="radio-input"
+    type="radio"
+    id="anticoagulant-no"
+    name="anticoagulant"
+    value="no"
+  />
+  <label
+    class="label"
+    for="anticoagulant-no"
+    >No</label
+  >
+  <input
+    class="radio-input"
+    type="radio"
+    id="anticoagulant-not-sure"
+    name="anticoagulant"
+    value="not-sure"
+  />
+  <label
+    class="label"
+    for="anticoagulant-not-sure"
+    >Not sure</label
+  >
+</fieldset>
 ```
 
 ## Radio group: one choice

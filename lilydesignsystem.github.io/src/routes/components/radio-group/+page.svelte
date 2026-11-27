@@ -101,6 +101,7 @@
     <h3>Recipes</h3>
     <ul>
       <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/form/complete-form.html">Form: a complete form</a></li>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/radio-group/conditional-question.html">Radio group: a follow-up question shown for one answer</a></li>
       <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/radio-group/one-choice.html">Radio group: one choice</a></li>
     </ul>
 </section>

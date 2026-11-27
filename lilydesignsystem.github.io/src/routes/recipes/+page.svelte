@@ -19,6 +19,38 @@
     class="section prose"
     style="margin: 0 auto; max-width: 64rem;"
 >
+    <article class="recipe" aria-labelledby="alert-restored-draft">
+        <h2 id="alert-restored-draft">Alert: a draft restored from an earlier visit</h2>
+        <p>Uses <a href="/components/alert/">alert</a>, <a href="/components/button/">button</a>. Tags: form, draft, status. <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/alert/restored-draft.html">Source</a>.</p>
+        <!-- A scrolling code block must be reachable by keyboard (axe scrollable-region-focusable). -->
+        <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+        <pre tabindex="0" aria-label="Alert: a draft restored from an earlier visit markup"><code>&lt;!-- Say so when a form fills itself from a saved draft, rather than showing answers the person does not remember giving. A
+     polite status, not an interruption: role=&quot;status&quot; and aria-live=&quot;polite&quot;. &quot;Start again&quot; clears the draft through the app&#x27;s
+     own code; &quot;Keep my answers&quot; only hides this notice. Where the draft is kept (this device only, or the person&#x27;s account) is
+     the app&#x27;s to say, in its own words. --&gt;
+&lt;div
+  class=&quot;alert&quot;
+  data-type=&quot;info&quot;
+  role=&quot;status&quot;
+  aria-live=&quot;polite&quot;
+  aria-atomic=&quot;true&quot;
+&gt;
+  &lt;p&gt;We filled in the answers you saved on this device on 24 November.&lt;/p&gt;
+  &lt;button
+    class=&quot;button&quot;
+    type=&quot;button&quot;
+  &gt;
+    Keep my answers
+  &lt;/button&gt;
+  &lt;button
+    class=&quot;button&quot;
+    type=&quot;button&quot;
+  &gt;
+    Start again
+  &lt;/button&gt;
+&lt;/div&gt;
+</code></pre>
+    </article>
     <article class="recipe" aria-labelledby="card-whole-card-link">
         <h2 id="card-whole-card-link">Card: the whole card as one link</h2>
         <p>Uses <a href="/components/card/">card</a>, <a href="/components/button/">button</a>. Tags: card, navigation, link. <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/card/whole-card-link.html">Source</a>.</p>
@@ -624,6 +656,82 @@
     Book appointment
   &lt;/button&gt;
 &lt;/form&gt;
+</code></pre>
+    </article>
+    <article class="recipe" aria-labelledby="radio-group-conditional-question">
+        <h2 id="radio-group-conditional-question">Radio group: a follow-up question shown for one answer</h2>
+        <p>Uses <a href="/components/radio-group/">radio-group</a>, <a href="/components/radio-input/">radio-input</a>, <a href="/components/label/">label</a>, <a href="/components/field/">field</a>, <a href="/components/hint/">hint</a>, <a href="/components/text-input/">text-input</a>. Tags: form, choice, conditional. <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/radio-group/conditional-question.html">Source</a>.</p>
+        <!-- A scrolling code block must be reachable by keyboard (axe scrollable-region-focusable). -->
+        <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+        <pre tabindex="0" aria-label="Radio group: a follow-up question shown for one answer markup"><code>&lt;!-- A conditional question: the follow-up is asked only when &quot;Yes&quot; is chosen. It sits straight after the &quot;Yes&quot; label, inside the
+     group, so it is read and tabbed to next. Toggle it with the hidden attribute, never by removing the radio group&#x27;s own
+     controls. Keep it to one simple question (GOV.UK&#x27;s research: complicated reveals confused testers); a second question with
+     its own reveal belongs on its own page. When the answer changes back to &quot;No&quot; or &quot;Not sure&quot;, the follow-up is hidden: leave
+     its answer out when you save, so a hidden answer is never sent. Offer &quot;Not sure&quot; where a person may not know. --&gt;
+&lt;fieldset
+  class=&quot;radio-group&quot;
+  role=&quot;radiogroup&quot;
+  aria-labelledby=&quot;anticoagulant-legend&quot;
+&gt;
+  &lt;legend id=&quot;anticoagulant-legend&quot;&gt;Do you take medicine to thin your blood?&lt;/legend&gt;
+  &lt;input
+    class=&quot;radio-input&quot;
+    type=&quot;radio&quot;
+    id=&quot;anticoagulant-yes&quot;
+    name=&quot;anticoagulant&quot;
+    value=&quot;yes&quot;
+    checked
+  /&gt;
+  &lt;label
+    class=&quot;label&quot;
+    for=&quot;anticoagulant-yes&quot;
+    &gt;Yes&lt;/label
+  &gt;
+  &lt;div class=&quot;field&quot;&gt;
+    &lt;label
+      class=&quot;label&quot;
+      for=&quot;anticoagulant-name&quot;
+      &gt;Which medicine?&lt;/label
+    &gt;
+    &lt;p
+      class=&quot;hint&quot;
+      id=&quot;anticoagulant-name-hint&quot;
+    &gt;
+      For example, warfarin or apixaban
+    &lt;/p&gt;
+    &lt;input
+      class=&quot;text-input&quot;
+      type=&quot;text&quot;
+      id=&quot;anticoagulant-name&quot;
+      name=&quot;anticoagulant-name&quot;
+      aria-describedby=&quot;anticoagulant-name-hint&quot;
+    /&gt;
+  &lt;/div&gt;
+  &lt;input
+    class=&quot;radio-input&quot;
+    type=&quot;radio&quot;
+    id=&quot;anticoagulant-no&quot;
+    name=&quot;anticoagulant&quot;
+    value=&quot;no&quot;
+  /&gt;
+  &lt;label
+    class=&quot;label&quot;
+    for=&quot;anticoagulant-no&quot;
+    &gt;No&lt;/label
+  &gt;
+  &lt;input
+    class=&quot;radio-input&quot;
+    type=&quot;radio&quot;
+    id=&quot;anticoagulant-not-sure&quot;
+    name=&quot;anticoagulant&quot;
+    value=&quot;not-sure&quot;
+  /&gt;
+  &lt;label
+    class=&quot;label&quot;
+    for=&quot;anticoagulant-not-sure&quot;
+    &gt;Not sure&lt;/label
+  &gt;
+&lt;/fieldset&gt;
 </code></pre>
     </article>
     <article class="recipe" aria-labelledby="radio-group-one-choice">

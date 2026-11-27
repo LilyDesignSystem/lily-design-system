@@ -53,6 +53,11 @@
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/button/AGENTS.md",
   "recipes": [
     {
+      "title": "Alert: a draft restored from an earlier visit",
+      "path": "recipes/alert/restored-draft.html",
+      "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/alert/restored-draft.html"
+    },
+    {
       "title": "Card: the whole card as one link",
       "path": "recipes/card/whole-card-link.html",
       "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/card/whole-card-link.html"

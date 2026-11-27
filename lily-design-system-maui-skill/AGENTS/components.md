@@ -242,6 +242,18 @@ because that loses form submission, reset and the radio/checkbox keyboard model.
 accessible name; an icon-only choice needs an `aria-label` on the input. A visually hidden input must remain in the
 accessibility tree and tab order, so never use `display: none` or `hidden`.
 
+### Conditional question pattern: RadioGroup → a follow-up after one answer
+
+A composition of `RadioGroup` and a `Field`, not a component: a follow-up question shown only for one answer, such as "Which
+medicine?" after "Yes". Recipe: `recipes/radio-group/conditional-question.html`.
+
+- The follow-up sits straight after that answer's label, inside the group, so it is read and tabbed to next; toggle it with
+  `hidden`.
+- One simple question only (GOV.UK's research); anything more is its own page.
+- A hidden follow-up's answer is left out when the form is saved, so an answer the person took back is never sent.
+- Offer "Not sure" beside "Yes" and "No" where a person may not know, and keep "No" distinct from no answer.
+- For checkboxes, use `AccordionCheckbox`.
+
 ### Summary card pattern: Card → title + header actions + SummaryList
 
 A composition of `Card` and `SummaryList`, not a component: the card title, optional header actions, and a summary list in the body.

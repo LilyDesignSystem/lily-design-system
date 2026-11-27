@@ -35,25 +35,27 @@ tags: [form, required]
 
 ## The recipes
 
-| Recipe                                                                            | Shows                                                                   |
-| --------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
-| [field/required](field/required.html)                                             | A required text field with a hint                                       |
-| [field/disabled](field/disabled.html)                                             | A disabled field that says why it cannot change                         |
-| [field/with-error](field/with-error.html)                                         | An error message linked with `aria-describedby` and `aria-errormessage` |
-| [field/with-validity](field/with-validity.html)                                   | Native validation with `:user-invalid`, the error linked once shown     |
-| [field/input-group](field/input-group.html)                                       | A number with a currency sign beside it                                 |
-| [field/autocomplete](field/autocomplete.html)                                     | `autocomplete` tokens for names (WCAG 1.3.5)                            |
-| [field/combobox](field/combobox.html)                                             | A labelled combobox with a hint                                         |
-| [field/textarea](field/textarea.html)                                             | A text area with a hint                                                 |
-| [field/select](field/select.html)                                                 | A labelled select                                                       |
-| [field/checkbox](field/checkbox.html)                                             | One checkbox with its label                                             |
-| [field/switch](field/switch.html)                                                 | A switch named by visible text                                          |
-| [field/slider](field/slider.html)                                                 | A range with its scale explained in the hint                            |
-| [field/number-field](field/number-field.html)                                     | A number with limits                                                    |
-| [checkbox-group/select-all-that-apply](checkbox-group/select-all-that-apply.html) | Several checkboxes in a fieldset with a hint                            |
-| [radio-group/one-choice](radio-group/one-choice.html)                             | One choice in a radio group                                             |
-| [card/whole-card-link](card/whole-card-link.html)                                 | The whole card as one link, with a button that keeps its own target     |
-| [form/complete-form](form/complete-form.html)                                     | An error summary linking to the field in error, and a submit button     |
+| Recipe                                                                            | Shows                                                                    |
+| --------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| [field/required](field/required.html)                                             | A required text field with a hint                                        |
+| [field/disabled](field/disabled.html)                                             | A disabled field that says why it cannot change                          |
+| [field/with-error](field/with-error.html)                                         | An error message linked with `aria-describedby` and `aria-errormessage`  |
+| [field/with-validity](field/with-validity.html)                                   | Native validation with `:user-invalid`, the error linked once shown      |
+| [field/input-group](field/input-group.html)                                       | A number with a currency sign beside it                                  |
+| [field/autocomplete](field/autocomplete.html)                                     | `autocomplete` tokens for names (WCAG 1.3.5)                             |
+| [field/combobox](field/combobox.html)                                             | A labelled combobox with a hint                                          |
+| [field/textarea](field/textarea.html)                                             | A text area with a hint                                                  |
+| [field/select](field/select.html)                                                 | A labelled select                                                        |
+| [field/checkbox](field/checkbox.html)                                             | One checkbox with its label                                              |
+| [field/switch](field/switch.html)                                                 | A switch named by visible text                                           |
+| [field/slider](field/slider.html)                                                 | A range with its scale explained in the hint                             |
+| [field/number-field](field/number-field.html)                                     | A number with limits                                                     |
+| [checkbox-group/select-all-that-apply](checkbox-group/select-all-that-apply.html) | Several checkboxes in a fieldset with a hint                             |
+| [radio-group/one-choice](radio-group/one-choice.html)                             | One choice in a radio group                                              |
+| [radio-group/conditional-question](radio-group/conditional-question.html)         | A follow-up question shown for one answer, with "Not sure"               |
+| [alert/restored-draft](alert/restored-draft.html)                                 | A notice that a saved draft filled in the form, with keep or start again |
+| [card/whole-card-link](card/whole-card-link.html)                                 | The whole card as one link, with a button that keeps its own target      |
+| [form/complete-form](form/complete-form.html)                                     | An error summary linking to the field in error, and a submit button      |
 
 Each component's page on the site lists the recipes that use it, and its `/r/{slug}.json` manifest has a `recipes`
 array, and the site's `/recipes/` page (with its `/recipes.md` twin) lists them all; `bin/generate-api-docs` writes

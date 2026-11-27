@@ -1,0 +1,75 @@
+---
+title: "Radio group: a follow-up question shown for one answer"
+components: [radio-group, radio-input, label, field, hint, text-input]
+tags: [form, choice, conditional]
+---
+
+<!-- A conditional question: the follow-up is asked only when "Yes" is chosen. It sits straight after the "Yes" label, inside the
+     group, so it is read and tabbed to next. Toggle it with the hidden attribute, never by removing the radio group's own
+     controls. Keep it to one simple question (GOV.UK's research: complicated reveals confused testers); a second question with
+     its own reveal belongs on its own page. When the answer changes back to "No" or "Not sure", the follow-up is hidden: leave
+     its answer out when you save, so a hidden answer is never sent. Offer "Not sure" where a person may not know. -->
+<fieldset
+  class="radio-group"
+  role="radiogroup"
+  aria-labelledby="anticoagulant-legend"
+>
+  <legend id="anticoagulant-legend">Do you take medicine to thin your blood?</legend>
+  <input
+    class="radio-input"
+    type="radio"
+    id="anticoagulant-yes"
+    name="anticoagulant"
+    value="yes"
+    checked
+  />
+  <label
+    class="label"
+    for="anticoagulant-yes"
+    >Yes</label
+  >
+  <div class="field">
+    <label
+      class="label"
+      for="anticoagulant-name"
+      >Which medicine?</label
+    >
+    <p
+      class="hint"
+      id="anticoagulant-name-hint"
+    >
+      For example, warfarin or apixaban
+    </p>
+    <input
+      class="text-input"
+      type="text"
+      id="anticoagulant-name"
+      name="anticoagulant-name"
+      aria-describedby="anticoagulant-name-hint"
+    />
+  </div>
+  <input
+    class="radio-input"
+    type="radio"
+    id="anticoagulant-no"
+    name="anticoagulant"
+    value="no"
+  />
+  <label
+    class="label"
+    for="anticoagulant-no"
+    >No</label
+  >
+  <input
+    class="radio-input"
+    type="radio"
+    id="anticoagulant-not-sure"
+    name="anticoagulant"
+    value="not-sure"
+  />
+  <label
+    class="label"
+    for="anticoagulant-not-sure"
+    >Not sure</label
+  >
+</fieldset>

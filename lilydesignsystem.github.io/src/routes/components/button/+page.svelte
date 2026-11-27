@@ -107,6 +107,7 @@
     </ul>
     <h3>Recipes</h3>
     <ul>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/alert/restored-draft.html">Alert: a draft restored from an earlier visit</a></li>
       <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/card/whole-card-link.html">Card: the whole card as one link</a></li>
       <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/form/complete-form.html">Form: a complete form</a></li>
     </ul>

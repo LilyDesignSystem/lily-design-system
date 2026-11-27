@@ -48,6 +48,11 @@
       "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/form/complete-form.html"
     },
     {
+      "title": "Radio group: a follow-up question shown for one answer",
+      "path": "recipes/radio-group/conditional-question.html",
+      "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/radio-group/conditional-question.html"
+    },
+    {
       "title": "Radio group: one choice",
       "path": "recipes/radio-group/one-choice.html",
       "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/radio-group/one-choice.html"

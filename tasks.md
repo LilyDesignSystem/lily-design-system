@@ -5209,6 +5209,30 @@ and synthetic records with Lily’s existing SvelteKit examples. Start with the 
       **Verify** case variants and canonically equivalent Unicode spellings find the same record, and its row, accessible link
       name and summary preserve the original spelling. Keep the same-name fixtures and their identity checks.
 
+## Phase 62 — A pre-operative assessment tutorial (2026-11-27)
+
+A project tutorial, `/tutorials/pre-operative-assessment/`: a patient fills in a short pre-operative questionnaire, leading to
+[Form Examples](https://github.com/FormExamples/form-examples) (`forms/pre-operative-assessment-by-patient`). From a review of
+that form and its clinician counterpart: Lily already has every web part it needs (`repeatable-fieldset`, `date-field`,
+`quantity-input-div`, `radio-group`, `step-list`, `error-summary`, `summary-list`), so no new web component; the mobile
+catalogs lack four parts the mobile catalog marks as Lily's.
+
+- [x] **P62-T1 A conditional question, and a restored draft.** _(Done 2026-11-27: `recipes/radio-group/conditional-question.html`
+      and `recipes/alert/restored-draft.html`, and the Conditional question pattern in `AGENTS/components.md`.)_ Both form apps
+      hand-write them. Verify: `bin/check-recipes`.
+- [ ] **P62-T2 The Svelte tutorial.** Five sections, not the source's sixteen: about you (`date-field`, `quantity-input-div` with
+      the person's units), heart and lungs (yes, no or not sure, with a follow-up), medicines (`repeatable-fieldset`), allergies (a
+      "No" is said, never assumed from an empty list), previous anaesthesia; then check your answers and a summary for the clinic.
+      The rules (BMI, the flags for the clinic, what a hidden follow-up sends) are pure code with tests. The patient never sees an
+      ASA grade: the anaesthetist assigns it. Pregnancy is asked of anyone who could be pregnant, not inferred from sex and age.
+      Verify: `bin/check-tutorials pre-operative-assessment` builds it from a fresh scaffold and drives it at 320px with axe.
+- [ ] **P62-T3 The mobile parts.** `DateField`, `QuantityInput`, `RepeatableFieldset` and `StepList` in Swift, Kotlin and MAUI,
+      each with its rules in Core and tests. Verify: each library's tests, and `mobile/components-mobile.tsv` names them.
+- [ ] **P62-T4 The Swift, Kotlin and MAUI tutorials**, the same questionnaire and rules on each platform. MAUI has no tutorial
+      page yet. Verify: each builds from the page, as the Swift and Kotlin tutorials do.
+- [ ] **P62-T5 The clinician form**, later: findings, vital signs, six scoring instruments and a sign-off, where the ASA grade does
+      belong. Decide with T2's reader feedback.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.

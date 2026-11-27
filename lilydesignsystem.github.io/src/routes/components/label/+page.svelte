@@ -113,6 +113,7 @@
       <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/with-error.html">Field: with an error</a></li>
       <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/field/with-validity.html">Field: native validity</a></li>
       <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/form/complete-form.html">Form: a complete form</a></li>
+      <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/radio-group/conditional-question.html">Radio group: a follow-up question shown for one answer</a></li>
       <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/recipes/radio-group/one-choice.html">Radio group: one choice</a></li>
     </ul>
 </section>
