@@ -79,6 +79,18 @@ const TUTORIALS = {
             ],
         ],
     },
+    "public-health-information-page": {
+        tests: 8,
+        mistakes: [
+            // A 29 February lands on 28 February in a year with none.
+            ["src/lib/page.ts", "  if (month === 2 && day === 29 && !leap(to)) day = 28;\n", ""],
+            ["src/lib/page.ts", "    .toLowerCase()\n", ""],
+            // Bad input is an error, never a quiet guess.
+            ["src/lib/page.ts", "if (!Number.isInteger(years) || years < 0)", "if (Number.isNaN(years))"],
+            // The service is fictional: the content names no real service.
+            ["src/lib/words.ts", 'service: "Example Health",', 'service: "NHS",'],
+        ],
+    },
     "patient-administration-system": {
         tests: 14,
         serve: "dev",
@@ -289,6 +301,21 @@ const FLOWS = {
         );
         await accessible("the duplicate check");
         must((await go("/patients/nobody")) === 404, "an unknown patient is not found");
+    },
+    async "public-health-information-page"({ page, go, accessible, see }) {
+        await go("/medicines/paracetamol-for-adults/");
+        await see(page.locator("h1"), "Paracetamol for adults", "the medicine page has its heading");
+        await see(page.locator(".care-card"), "Urgent advice", "urgent advice is in a care card");
+        await see(page.locator("time.review-date"), "24 March 2029", "the next review is three years on");
+        await page.keyboard.press("Tab");
+        must(
+            await page.locator(".skip-link").evaluate((e) => e === document.activeElement),
+            "the skip link is the first thing Tab reaches",
+        );
+        await accessible("the medicine page");
+        await page.getByRole("link", { name: "Back to Medicines A to Z" }).click();
+        await see(page.locator("h1"), "Medicines A to Z", "the back link goes to the list");
+        await accessible("the list");
     },
     async "pre-operative-assessment-by-patient"({ page, go, accessible, see }) {
         const next = () => page.getByRole("button", { name: "Continue" }).click();

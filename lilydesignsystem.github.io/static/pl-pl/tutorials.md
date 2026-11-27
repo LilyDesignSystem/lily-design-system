@@ -157,7 +157,13 @@ Daj użytkownikom kontrolę nad motywem, językiem, rozmiarem tekstu, ruchem, wy
 
 `Swift` · `Kotlin`
 
-](https://lilydesignsystem.com/tutorials/patient-app/)
+](https://lilydesignsystem.com/tutorials/patient-app/) [
+
+### Public Health Information Page
+
+`SvelteKit`
+
+](https://lilydesignsystem.com/tutorials/public-health-information-page/)
 
 ## Po samouczkach
 

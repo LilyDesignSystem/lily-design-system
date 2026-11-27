@@ -74,6 +74,16 @@ at the largest sizes, which a second test shows whole. `…/kotlin/` is the same
 repository's Gradle build, its instrumented test walking the seven screens with the Accessibility Test Framework on a Pixel 10
 and a Pixel Tablet emulator in portrait, saving a screenshot of each. `tests/patient-app-tutorials.spec.ts` checks the pages.
 
+### A public health information page
+
+`/tutorials/public-health-information-page/` (2026-11-27, tasks.md P62-T8): a public health service's medicine page for
+paracetamol, laid out as such services lay theirs out (modelled on the NHS website's medicine page): a header with the service's
+mark, search and menu, breadcrumbs and a back link, the name and brands, a lede, inset text, urgent advice in a care card, an
+important note, review dates and a footer. Every sentence is placeholder text, and the service, Example Health, is fictional, with
+a mark drawn for the tutorial; a test checks the content names no real service or country. SvelteKit with Lily's Svelte
+components and the NHS England patient theme from npm; `bin/check-tutorials` builds it from a fresh scaffold, runs its eight
+tests, makes four mistakes and drives it with axe at 320px. It is not a project tutorial: it leads to no repository.
+
 ### The pre-operative assessment on phones
 
 `/tutorials/pre-operative-assessment-by-patient/swift/` (2026-11-27, tasks.md P62-T4) is the web tutorial's questionnaire and

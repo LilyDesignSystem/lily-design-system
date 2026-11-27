@@ -157,7 +157,13 @@ Rewgh dhe'n devnydhyoryon governans a deb, yeth, myns an skrif, gwayans, whelas,
 
 `Swift` · `Kotlin`
 
-](https://lilydesignsystem.com/tutorials/patient-app/)
+](https://lilydesignsystem.com/tutorials/patient-app/) [
+
+### Public Health Information Page
+
+`SvelteKit`
+
+](https://lilydesignsystem.com/tutorials/public-health-information-page/)
 
 ## Wosa an dyskansow
 

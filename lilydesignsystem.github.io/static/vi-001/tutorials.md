@@ -157,7 +157,13 @@ Trao cho người dùng quyền kiểm soát giao diện, ngôn ngữ, cỡ ch�
 
 `Swift` · `Kotlin`
 
-](https://lilydesignsystem.com/tutorials/patient-app/)
+](https://lilydesignsystem.com/tutorials/patient-app/) [
+
+### Public Health Information Page
+
+`SvelteKit`
+
+](https://lilydesignsystem.com/tutorials/public-health-information-page/)
 
 ## Sau các hướng dẫn
 

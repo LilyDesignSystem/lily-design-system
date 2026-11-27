@@ -157,7 +157,13 @@ Donnez aux utilisateurs le contrôle du thème, de la langue, de la taille du te
 
 `Swift` · `Kotlin`
 
-](https://lilydesignsystem.com/tutorials/patient-app/)
+](https://lilydesignsystem.com/tutorials/patient-app/) [
+
+### Public Health Information Page
+
+`SvelteKit`
+
+](https://lilydesignsystem.com/tutorials/public-health-information-page/)
 
 ## Après les tutoriels
 

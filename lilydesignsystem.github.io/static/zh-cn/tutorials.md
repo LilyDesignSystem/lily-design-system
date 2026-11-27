@@ -157,7 +157,13 @@ Svelte 5 runes、代码片段和 `bind:value` 双向绑定。
 
 `Swift` · `Kotlin`
 
-](https://lilydesignsystem.com/tutorials/patient-app/)
+](https://lilydesignsystem.com/tutorials/patient-app/) [
+
+### Public Health Information Page
+
+`SvelteKit`
+
+](https://lilydesignsystem.com/tutorials/public-health-information-page/)
 
 ## 教程之后
 

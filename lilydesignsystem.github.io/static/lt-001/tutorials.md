@@ -157,7 +157,13 @@ Suteikite vartotojams temos, kalbos, teksto dydžio, judesio, paieškos, puslapi
 
 `Swift` · `Kotlin`
 
-](https://lilydesignsystem.com/tutorials/patient-app/)
+](https://lilydesignsystem.com/tutorials/patient-app/) [
+
+### Public Health Information Page
+
+`SvelteKit`
+
+](https://lilydesignsystem.com/tutorials/public-health-information-page/)
 
 ## Po mokymų
 

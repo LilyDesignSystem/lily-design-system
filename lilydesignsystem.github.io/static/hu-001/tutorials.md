@@ -157,7 +157,13 @@ Adj a felhasználóknak kontrollt a téma, a nyelv, a szövegméret, a mozgás, 
 
 `Swift` · `Kotlin`
 
-](https://lilydesignsystem.com/tutorials/patient-app/)
+](https://lilydesignsystem.com/tutorials/patient-app/) [
+
+### Public Health Information Page
+
+`SvelteKit`
+
+](https://lilydesignsystem.com/tutorials/public-health-information-page/)
 
 ## Az oktatóanyagok után
 

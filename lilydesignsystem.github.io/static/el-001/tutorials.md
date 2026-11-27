@@ -157,7 +157,13 @@ Runes του Svelte 5, snippets και αμφίδρομη δέσμευση με 
 
 `Swift` · `Kotlin`
 
-](https://lilydesignsystem.com/tutorials/patient-app/)
+](https://lilydesignsystem.com/tutorials/patient-app/) [
+
+### Public Health Information Page
+
+`SvelteKit`
+
+](https://lilydesignsystem.com/tutorials/public-health-information-page/)
 
 ## Μετά τα σεμινάρια
 

@@ -155,7 +155,13 @@ Eleventy மற்றும் எந்த Node வார்ப்புரு 
 
 `Swift` · `Kotlin`
 
-](https://lilydesignsystem.com/tutorials/patient-app/)
+](https://lilydesignsystem.com/tutorials/patient-app/) [
+
+### Public Health Information Page
+
+`SvelteKit`
+
+](https://lilydesignsystem.com/tutorials/public-health-information-page/)
 
 ## பயிற்சிகளுக்குப் பிறகு
 

@@ -42,6 +42,10 @@
     "route": "tutorials/pre-operative-assessment-by-patient/maui"
   },
   { "slug": "tutorials-book-appointment", "route": "tutorials/book-appointment" },
+  {
+    "slug": "tutorials-public-health-information-page",
+    "route": "tutorials/public-health-information-page"
+  },
   { "slug": "tutorials-patient-app", "route": "tutorials/patient-app" },
   { "slug": "tutorials-patient-app-swift", "route": "tutorials/patient-app/swift" },
   { "slug": "tutorials-patient-app-kotlin", "route": "tutorials/patient-app/kotlin" },

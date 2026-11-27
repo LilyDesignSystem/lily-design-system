@@ -157,7 +157,13 @@ Dai agli utenti il controllo di tema, lingua, dimensione del testo, movimento, r
 
 `Swift` · `Kotlin`
 
-](https://lilydesignsystem.com/tutorials/patient-app/)
+](https://lilydesignsystem.com/tutorials/patient-app/) [
+
+### Public Health Information Page
+
+`SvelteKit`
+
+](https://lilydesignsystem.com/tutorials/public-health-information-page/)
 
 ## Dopo i tutorial
 

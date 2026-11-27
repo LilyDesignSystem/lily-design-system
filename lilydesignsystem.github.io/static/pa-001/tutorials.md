@@ -157,7 +157,13 @@ Eleventy ਅਤੇ ਕਿਸੇ ਵੀ Node ਟੈਂਪਲੇਟ ਪਾਈਪ�
 
 `Swift` · `Kotlin`
 
-](https://lilydesignsystem.com/tutorials/patient-app/)
+](https://lilydesignsystem.com/tutorials/patient-app/) [
+
+### Public Health Information Page
+
+`SvelteKit`
+
+](https://lilydesignsystem.com/tutorials/public-health-information-page/)
 
 ## ਟਿਊਟੋਰਿਅਲਾਂ ਤੋਂ ਬਾਅਦ
 

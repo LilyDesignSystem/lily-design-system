@@ -157,7 +157,13 @@ HTML معنایی را با قلاب‌های کلاس رونوشت کنید و 
 
 `Swift` · `Kotlin`
 
-](https://lilydesignsystem.com/tutorials/patient-app/)
+](https://lilydesignsystem.com/tutorials/patient-app/) [
+
+### Public Health Information Page
+
+`SvelteKit`
+
+](https://lilydesignsystem.com/tutorials/public-health-information-page/)
 
 ## پس از آموزش‌ها
 

@@ -157,7 +157,13 @@ Beri pengguna kendali atas tema, bahasa, ukuran teks, gerak, pencarian, tautan h
 
 `Swift` · `Kotlin`
 
-](https://lilydesignsystem.com/tutorials/patient-app/)
+](https://lilydesignsystem.com/tutorials/patient-app/) [
+
+### Public Health Information Page
+
+`SvelteKit`
+
+](https://lilydesignsystem.com/tutorials/public-health-information-page/)
 
 ## Setelah tutorial
 

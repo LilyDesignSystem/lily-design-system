@@ -45,6 +45,8 @@ actually live.
   .NET MAUI, whole files, with a screenshot of each.
 - [Patient app](https://lilydesignsystem.com/tutorials/patient-app/): a health service's patient app for phones and tablets in
   Swift or Kotlin, seven screens, whole files, with a screenshot of each.
+- [Public health information page](https://lilydesignsystem.com/tutorials/public-health-information-page/): a public health service's medicine page in
+  SvelteKit, placeholder text, whole files, tested.
 - [Examples](https://lilydesignsystem.com/examples/): worked example
   apps showing how to style Lily components in every supported framework.
 - [Compare](https://lilydesignsystem.com/compare/): how Lily

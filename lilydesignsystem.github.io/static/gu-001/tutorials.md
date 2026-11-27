@@ -157,7 +157,13 @@ Eleventy અને કોઈપણ Node ટેમ્પ્લેટ પાઇપ
 
 `Swift` · `Kotlin`
 
-](https://lilydesignsystem.com/tutorials/patient-app/)
+](https://lilydesignsystem.com/tutorials/patient-app/) [
+
+### Public Health Information Page
+
+`SvelteKit`
+
+](https://lilydesignsystem.com/tutorials/public-health-information-page/)
 
 ## ટ્યુટોરિયલ પછી
 

@@ -18,6 +18,9 @@ highlights.
   with a default, so existing decorations keep working. The .NET MAUI ones in LilyDesignSystem.Maui, `RepeatableFieldset<T>` generic
   over the app's items.
 
+- **Added (docs):** `/tutorials/public-health-information-page/`: a public health service's medicine page for paracetamol in
+  SvelteKit, with placeholder text and a fictional service, checked by `bin/check-tutorials` from a fresh scaffold (P62-T8).
+
 - **Added (docs):** `/tutorials/patient-app/` and its Swift page: a national health service's patient app for iPhone and iPad,
   seven screens (start, home, messages, profile, appointments, requested medicines, test results) in Lily's NHS England patient
   theme under a fictional name, with no NHS marks, each screen shown on a phone and a tablet from a real build (P62-T7). And

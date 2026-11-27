@@ -157,7 +157,13 @@ theme-picker, locale-picker, text-size-picker, motion-picker, search-picker, lin
 
 `Swift` · `Kotlin`
 
-](https://lilydesignsystem.com/tutorials/patient-app/)
+](https://lilydesignsystem.com/tutorials/patient-app/) [
+
+### Public Health Information Page
+
+`SvelteKit`
+
+](https://lilydesignsystem.com/tutorials/public-health-information-page/)
 
 ## টিউটোরিয়ালের পর
 

@@ -5253,6 +5253,11 @@ catalogs lack four parts the mobile catalog marks as Lily's.
       `/tutorials/patient-app/swift/`, against the published 0.1.0, a UI test of the seven screens with the accessibility audit
       on an iPhone 17 and an iPad Pro 11-inch. Kotlin done the same day: `…/kotlin/`, an instrumented test of the seven screens
       with the Accessibility Test Framework on a Pixel 10 and a Pixel Tablet emulator. Open: .NET MAUI.)_
+- [x] **P62-T8 A public health information page.** _(Done 2026-11-27: `/tutorials/public-health-information-page/`, asked for
+      the same day: a page that looks very much like the NHS website's paracetamol page, with a fake logo, no NHS or UK, and
+      placeholder text. SvelteKit with Lily's components and the NHS England patient theme, a fictional service, Example Health,
+      with its own wave mark; eight tests, one that the content names no real service or country; `bin/check-tutorials` builds
+      it from npm, makes four mistakes and drives it with axe at 320px. Screenshots from that build, wide and narrow.)_
 
 ---
 
