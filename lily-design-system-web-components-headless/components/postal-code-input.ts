@@ -13,12 +13,21 @@
 // References:
 //   - components/postal-code-input/index.md (canonical contract)
 
-import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { followInput, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 
 const HANDLED = new Set(["label", "value", "required", "disabled"]);
 
 export class PostalCodeInput extends HTMLElement {
     #input: HTMLInputElement | null = null;
+
+    // A change to label, value (the default), required, disabled or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(): void {
+        if (this.#input) followInput(this, this.#input, "postal-code-input");
+    }
 
     connectedCallback(): void {
         if (this.#input) return;

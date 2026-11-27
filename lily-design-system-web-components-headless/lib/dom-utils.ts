@@ -67,6 +67,21 @@ export function followLabel(
     else target.removeAttribute("aria-label");
 }
 
+/**
+ * Bring a built native input in step with its host (tasks.md P50-T28): class, aria-label from label, required, disabled, and the
+ * value attribute as the input's default. Setting the default is what a native input's value attribute does: it changes what is
+ * shown only until the person types, so a change never overwrites their input.
+ */
+export function followInput(host: HTMLElement, input: HTMLInputElement, baseClass: string): void {
+    input.className = rootClassName(host, baseClass);
+    const label = host.getAttribute("label");
+    if (label !== null) input.setAttribute("aria-label", label);
+    else input.removeAttribute("aria-label");
+    input.defaultValue = host.getAttribute("value") ?? "";
+    input.required = host.hasAttribute("required");
+    input.disabled = host.hasAttribute("disabled");
+}
+
 export function applySelfClassName(host: HTMLElement, baseClass: string): void {
     // The base class is dropped from what the host already has, so applying it again, after a change, never repeats it.
     const extra = (host.getAttribute("class") ?? "")
