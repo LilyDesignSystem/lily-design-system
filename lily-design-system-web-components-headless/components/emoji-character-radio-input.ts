@@ -16,11 +16,20 @@
 // References:
 //   - components/emoji-character-radio-input/index.md (canonical contract)
 
-import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { passThroughAttributes, rootClassName, followChoice } from "../lib/dom-utils.js";
 
 const HANDLED = new Set(["label", "name", "value", "checked", "disabled"]);
 
 export class EmojiCharacterRadioInput extends HTMLElement {
+    // A change to label, name, value, checked (the default), disabled or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(): void {
+        followChoice(this, "input.emoji-character-radio-input", "emoji-character-radio-input");
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > input.emoji-character-radio-input")) return;
 

@@ -17,12 +17,21 @@
 //   - components/date-time-local-input/index.md (canonical contract)
 //   - MDN datetime-local input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/datetime-local
 
-import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { passThroughAttributes, rootClassName, followInput } from "../lib/dom-utils.js";
 
 const HANDLED = new Set(["label", "value", "min", "max", "required", "disabled"]);
 
 export class DateTimeLocalInput extends HTMLElement {
     #input: HTMLInputElement | null = null;
+
+    // A change to label, value (the default), min, max, required, disabled or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(): void {
+        if (this.#input) followInput(this, this.#input, "date-time-local-input", { range: true });
+    }
 
     connectedCallback(): void {
         if (this.#input) return;

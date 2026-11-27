@@ -21,6 +21,8 @@ const USERS = fs
 
 // Three values each input type accepts: a browser clears one it cannot read, such as "1" in a month input.
 const VALUES: Record<string, [string, string, string]> = {
+    "date-input": ["2026-01-01", "2026-01-02", "2026-01-03"],
+    "date-time-local-input": ["2026-01-01T09:00", "2026-01-01T10:00", "2026-01-01T11:00"],
     "month-input": ["2026-01", "2026-02", "2026-03"],
     "week-input": ["2026-W01", "2026-W02", "2026-W03"],
     "time-input": ["09:00", "10:00", "11:00"],

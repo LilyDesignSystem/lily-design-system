@@ -72,13 +72,61 @@ export function followLabel(
  * value attribute as the input's default. Setting the default is what a native input's value attribute does: it changes what is
  * shown only until the person types, so a change never overwrites their input.
  */
-export function followInput(host: HTMLElement, input: HTMLInputElement, baseClass: string): void {
+export function followInput(
+    host: HTMLElement,
+    input: HTMLInputElement,
+    baseClass: string,
+    options: { range?: boolean } = {},
+): void {
     input.className = rootClassName(host, baseClass);
     const label = host.getAttribute("label");
     if (label !== null) input.setAttribute("aria-label", label);
     else input.removeAttribute("aria-label");
     input.defaultValue = host.getAttribute("value") ?? "";
     input.required = host.hasAttribute("required");
+    input.disabled = host.hasAttribute("disabled");
+    // Only an element that takes min and max as its own follows them; elsewhere they pass through once, as any attribute does.
+    if (options.range)
+        for (const name of ["min", "max"]) {
+            const value = host.getAttribute(name);
+            if (value !== null) input.setAttribute(name, value);
+            else input.removeAttribute(name);
+        }
+}
+
+/** Bring a built link in step with its host (tasks.md P50-T28): class, href, and aria-label from label. */
+export function followLink(host: HTMLElement, selector: string, baseClass: string): void {
+    const a = host.querySelector<HTMLAnchorElement>(`:scope > ${selector}`);
+    if (!a) return;
+    a.className = rootClassName(host, baseClass);
+    for (const [from, to] of [
+        ["href", "href"],
+        ["label", "aria-label"],
+    ]) {
+        const value = host.getAttribute(from);
+        if (value !== null) a.setAttribute(to, value);
+        else a.removeAttribute(to);
+    }
+}
+
+/**
+ * Bring a built radio or checkbox in step with its host (tasks.md P50-T28): class, aria-label from label, name, value, disabled,
+ * and checked as the default, so a change follows a form reset's rule and never unticks what the person ticked.
+ */
+export function followChoice(host: HTMLElement, selector: string, baseClass: string): void {
+    const input = host.querySelector<HTMLInputElement>(`:scope > ${selector}`);
+    if (!input) return;
+    input.className = rootClassName(host, baseClass);
+    for (const [from, to] of [
+        ["label", "aria-label"],
+        ["name", "name"],
+        ["value", "value"],
+    ]) {
+        const value = host.getAttribute(from);
+        if (value !== null) input.setAttribute(to, value);
+        else if (from !== "value") input.removeAttribute(to);
+    }
+    input.defaultChecked = host.hasAttribute("checked");
     input.disabled = host.hasAttribute("disabled");
 }
 

@@ -9,11 +9,25 @@
 // References:
 //   - components/action-link/index.md (canonical contract)
 
-import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import {
+    moveChildrenInto,
+    passThroughAttributes,
+    rootClassName,
+    followLink,
+} from "../lib/dom-utils.js";
 
 const HANDLED = new Set(["href", "label"]);
 
 export class ActionLink extends HTMLElement {
+    // A change to href, label or class is shown (tasks.md P50-T28); the link's text is the consumer's children.
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(): void {
+        followLink(this, "a.action-link", "action-link");
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > a.action-link")) return;
 

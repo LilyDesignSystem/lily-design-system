@@ -16,7 +16,8 @@ highlights.
   `screen-reader-span`, `warning-text`, `split-view`, `review-date`, `theme-view`, `postal-code-view`, `record-provenance-view`, the measurement views and the rating
   and status views (P50-T28, part). Their `value` and `text` properties still update the element at once.
   62 more that take only a label (the landmarks, lists, groups and charts) follow a change to it and to class, and 14 native
-  inputs follow their label, `required`, `disabled`, class and default value; a value the person has typed is never overwritten.
+  inputs follow their label, `required`, `disabled`, class and default value; a value the person has typed is never overwritten. The date inputs follow `min` and `max`, six links their `href`, and
+  seven radios their name, value and default checked state, never unticking what the person ticked.
   `bin/check-web-components-live` (in `bin/test`) fails on an element that observes no attribute unless it is listed with a reason.
 
 - **Fixed (healthcare):** `international-patient-summary-section` no longer prints "none known" above a record list that holds an
