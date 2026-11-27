@@ -52,4 +52,19 @@ describe("Meter", () => {
 
         expect(host.querySelector("meter")!.textContent).toBe("72");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", async () => {
+        document.body.innerHTML = `<lily-meter label="Fuel" value="20"></lily-meter>`;
+        const el = document.querySelector("lily-meter")!;
+        const span = el.querySelector("meter.meter")!;
+        el.setAttribute("max", "500");
+        el.setAttribute("value", "300");
+        el.setAttribute("low", "100");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(el.querySelector("meter.meter")).toBe(span);
+        expect((span as HTMLMeterElement).value).toBe(300);
+        expect((span as HTMLMeterElement).max).toBe(500);
+        expect(span.getAttribute("low")).toBe("100");
+        expect(span.textContent).toBe("300");
+    });
 });

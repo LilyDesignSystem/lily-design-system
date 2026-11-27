@@ -41,4 +41,20 @@ describe("Badge", () => {
 
         expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("3 unread messages");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", async () => {
+        document.body.innerHTML = `<lily-badge type="info">3</lily-badge>`;
+        const el = document.querySelector("lily-badge")!;
+        const span = el.querySelector("span.badge")!;
+        el.setAttribute("type", "error");
+        el.setAttribute("label", "3 errors");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(el.querySelector("span.badge")).toBe(span);
+        expect(span.getAttribute("data-type")).toBe("error");
+        expect(span.getAttribute("aria-label")).toBe("3 errors");
+        expect(span.textContent).toBe("3");
+        el.removeAttribute("label");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(span.hasAttribute("aria-label")).toBe(false);
+    });
 });

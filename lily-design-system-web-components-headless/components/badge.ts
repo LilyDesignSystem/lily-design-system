@@ -11,21 +11,25 @@
 //   - components/badge/index.md (canonical contract)
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { LiveElement, setOrRemove } from "../lib/live-element.js";
 
 const HANDLED = new Set(["type", "label"]);
 
-export class Badge extends HTMLElement {
-    connectedCallback(): void {
-        if (this.querySelector(":scope > span.badge")) return;
+// A change to its attributes, or to class, is shown (tasks.md P50-T28).
+export class Badge extends LiveElement {
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
 
-        const span = document.createElement("span");
+    protected update(): void {
+        const existing = this.querySelector<HTMLSpanElement>(":scope > span.badge");
+        const span = existing ?? document.createElement("span");
         span.className = rootClassName(this, "badge");
         span.setAttribute("role", "status");
         span.setAttribute("data-type", this.getAttribute("type") ?? "default");
-        const label = this.getAttribute("label");
-        if (label !== null) span.setAttribute("aria-label", label);
+        setOrRemove(span, "aria-label", this.getAttribute("label"));
+        if (existing) return;
         passThroughAttributes(this, span, HANDLED);
-
         moveChildrenInto(this, span);
         this.appendChild(span);
     }

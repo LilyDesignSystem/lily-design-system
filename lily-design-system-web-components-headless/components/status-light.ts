@@ -18,29 +18,33 @@
 //   - WCAG 1.4.1 Use of Color: https://www.w3.org/WAI/WCAG22/Understanding/use-of-color
 
 import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { LiveElement, part } from "../lib/live-element.js";
 
 const HANDLED = new Set(["variant", "label"]);
 
-export class StatusLight extends HTMLElement {
-    connectedCallback(): void {
-        if (this.querySelector(":scope > span.status-light")) return;
+// A change to its attributes, or to class, is shown (tasks.md P50-T28).
+export class StatusLight extends LiveElement {
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
 
-        const span = document.createElement("span");
+    protected update(): void {
+        const existing = this.querySelector<HTMLSpanElement>(":scope > span.status-light");
+        const span = existing ?? document.createElement("span");
         span.className = rootClassName(this, "status-light");
         span.setAttribute("data-variant", this.getAttribute("variant") ?? "neutral");
         span.setAttribute("role", "status");
+        if (existing) {
+            const label = span.querySelector(":scope > .status-light-label");
+            if (label) label.textContent = this.text("label");
+            return;
+        }
         passThroughAttributes(this, span, HANDLED);
-
         const dot = document.createElement("span");
         dot.className = "status-light-dot";
         dot.setAttribute("aria-hidden", "true");
         span.appendChild(dot);
-
-        const label = document.createElement("span");
-        label.className = "status-light-label";
-        label.textContent = this.getAttribute("label") ?? "";
-        span.appendChild(label);
-
+        span.appendChild(part("status-light-label", this.text("label")));
         this.appendChild(span);
     }
 }

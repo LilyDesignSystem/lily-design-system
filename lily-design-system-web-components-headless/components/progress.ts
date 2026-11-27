@@ -12,22 +12,28 @@
 //   - components/progress/index.md (canonical contract)
 
 import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { LiveElement, setOrRemove } from "../lib/live-element.js";
 
 const HANDLED = new Set(["label", "value", "max"]);
 
-export class Progress extends HTMLElement {
-    connectedCallback(): void {
-        if (this.querySelector(":scope > progress.progress")) return;
+// A change to its attributes, or to class, is shown (tasks.md P50-T28).
+export class Progress extends LiveElement {
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
 
-        const progress = document.createElement("progress");
+    protected update(): void {
+        const existing = this.querySelector<HTMLProgressElement>(":scope > progress.progress");
+        const progress = existing ?? document.createElement("progress");
         progress.className = rootClassName(this, "progress");
-        const label = this.getAttribute("label");
-        if (label !== null) progress.setAttribute("aria-label", label);
+        setOrRemove(progress, "aria-label", this.getAttribute("label"));
+        progress.max = Number(this.getAttribute("max") ?? "100");
+        // No value is indeterminate, so the attribute goes, not just the number.
         const value = this.getAttribute("value");
         if (value !== null) progress.value = Number(value);
-        progress.max = Number(this.getAttribute("max") ?? "100");
+        else progress.removeAttribute("value");
+        if (existing) return;
         passThroughAttributes(this, progress, HANDLED);
-
         this.appendChild(progress);
     }
 }

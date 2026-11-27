@@ -54,4 +54,17 @@ describe("Progress", () => {
 
         expect((host.querySelector("progress") as HTMLProgressElement).max).toBe(10);
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", async () => {
+        document.body.innerHTML = `<lily-progress label="Upload" value="20"></lily-progress>`;
+        const el = document.querySelector("lily-progress")!;
+        const span = el.querySelector("progress.progress")!;
+        el.setAttribute("value", "60");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(el.querySelector("progress.progress")).toBe(span);
+        expect((span as HTMLProgressElement).value).toBe(60);
+        el.removeAttribute("value");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(span.hasAttribute("value")).toBe(false);
+    });
 });

@@ -20,31 +20,32 @@
 //   - GOV.UK Tag pattern: https://design-system.service.gov.uk/components/tag/
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { LiveElement, part, setOrRemove } from "../lib/live-element.js";
 
 const HANDLED = new Set(["label", "type", "tone"]);
 const FROM_TONE: Record<string, string> = { neutral: "default", danger: "error" };
 
-export class StatusTag extends HTMLElement {
-    connectedCallback(): void {
-        if (this.querySelector(":scope > span.status-tag")) return;
+// A change to its attributes, or to class, is shown (tasks.md P50-T28).
+export class StatusTag extends LiveElement {
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
 
-        const span = document.createElement("span");
+    protected update(): void {
+        const existing = this.querySelector<HTMLSpanElement>(":scope > span.status-tag");
+        const span = existing ?? document.createElement("span");
         span.className = rootClassName(this, "status-tag");
         const tone = this.getAttribute("tone");
         span.setAttribute(
             "data-type",
             this.getAttribute("type") ?? (tone ? (FROM_TONE[tone] ?? tone) : "default"),
         );
-        passThroughAttributes(this, span, HANDLED);
-
-        moveChildrenInto(this, span);
-        const label = this.getAttribute("label");
-        if (label) {
-            const hidden = document.createElement("span");
-            hidden.className = "screen-reader-span";
-            hidden.textContent = `${label} `;
-            span.prepend(hidden);
+        if (!existing) {
+            passThroughAttributes(this, span, HANDLED);
+            moveChildrenInto(this, span);
         }
-        this.appendChild(span);
+        span.querySelector(":scope > .screen-reader-span")?.remove();
+        if (this.text("label")) span.prepend(part("screen-reader-span", `${this.text("label")} `));
+        if (!existing) this.appendChild(span);
     }
 }

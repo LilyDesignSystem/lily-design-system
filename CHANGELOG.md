@@ -12,7 +12,7 @@ highlights.
 ## Unreleased (2026-11-26)
 
 - **Fixed (Web Components):** fifteen elements that built once now show a change to their attributes: `iban-view`, `statistic`,
-  `split-view`, `review-date`, `theme-view`, `postal-code-view`, `record-provenance-view`, the measurement views and the rating
+  `badge`, `status-tag`, `status-light`, `meter`, `progress`, `split-view`, `review-date`, `theme-view`, `postal-code-view`, `record-provenance-view`, the measurement views and the rating
   and status views (P50-T28, part). Their `value` and `text` properties still update the element at once.
   `bin/check-web-components-live` (in `bin/test`) fails on an element that observes no attribute unless it is listed with a reason.
 

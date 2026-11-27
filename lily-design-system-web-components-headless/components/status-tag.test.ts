@@ -72,4 +72,16 @@ describe("StatusTag", () => {
 
         expect(host.querySelector("span")!.hasAttribute("role")).toBe(false);
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", async () => {
+        document.body.innerHTML = `<lily-status-tag type="info" label="Status">Pending</lily-status-tag>`;
+        const el = document.querySelector("lily-status-tag")!;
+        const span = el.querySelector("span.status-tag")!;
+        el.setAttribute("type", "success");
+        el.setAttribute("label", "Now");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(el.querySelector("span.status-tag")).toBe(span);
+        expect(span.getAttribute("data-type")).toBe("success");
+        expect(span.textContent).toBe("Now Pending");
+    });
 });

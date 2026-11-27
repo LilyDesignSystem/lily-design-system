@@ -60,4 +60,17 @@ describe("StatusLight", () => {
         expect(span.classList.contains("status-light")).toBe(true);
         expect(span.classList.contains("my-light")).toBe(true);
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", async () => {
+        document.body.innerHTML = `<lily-status-light variant="positive" label="Online"></lily-status-light>`;
+        const el = document.querySelector("lily-status-light")!;
+        const span = el.querySelector("span.status-light")!;
+        el.setAttribute("variant", "negative");
+        el.setAttribute("label", "Offline");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(el.querySelector("span.status-light")).toBe(span);
+        expect(span.getAttribute("data-variant")).toBe("negative");
+        expect(span.textContent).toBe("Offline");
+        expect(span.querySelectorAll(".status-light-dot").length).toBe(1);
+    });
 });
