@@ -19,6 +19,21 @@ import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 const HANDLED = new Set(["emoji", "label"]);
 
 export class Emoji extends HTMLElement {
+    // A change to label, emoji or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["label", "emoji", "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const el = this.querySelector<HTMLSpanElement>(":scope > span.emoji");
+        if (!el) return;
+        el.className = rootClassName(this, "emoji");
+        const label = this.getAttribute("label");
+        if (label !== null) el.setAttribute("aria-label", label);
+        else el.removeAttribute("aria-label");
+        el.textContent = this.getAttribute("emoji") ?? "";
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > span.emoji")) return;
 

@@ -43,4 +43,14 @@ describe("Emoji", () => {
 
         expect(host.querySelector("span")!.getAttribute("data-testid")).toBe("warn");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-emoji emoji="A" label="Letter A"></lily-emoji>`;
+        const el = document.querySelector("lily-emoji")!;
+        el.setAttribute("emoji", "B");
+        el.setAttribute("label", "Letter B");
+        const span = el.querySelector("span.emoji")!;
+        expect(span.textContent).toBe("B");
+        expect(span.getAttribute("aria-label")).toBe("Letter B");
+    });
 });

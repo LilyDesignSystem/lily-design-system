@@ -50,4 +50,11 @@ describe("BarcodeImage", () => {
 
         expect(host.querySelectorAll("img").length).toBe(1);
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-barcode-image src="/a.png" alt="Code A"></lily-barcode-image>`;
+        const el = document.querySelector("lily-barcode-image")!;
+        el.setAttribute("alt", "Code B");
+        expect(el.querySelector("img")!.alt).toBe("Code B");
+    });
 });

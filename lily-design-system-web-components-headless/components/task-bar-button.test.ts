@@ -53,4 +53,13 @@ describe("TaskBarButton", () => {
 
         expect(host.querySelector("button")!.getAttribute("data-testid")).toBe("tbb");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-task-bar-button >Save</lily-task-bar-button>`;
+        const el = document.querySelector("lily-task-bar-button")!;
+        el.setAttribute("disabled", "");
+        expect(el.querySelector("button")!.disabled).toBe(true);
+        el.removeAttribute("disabled");
+        expect(el.querySelector("button")!.disabled).toBe(false);
+    });
 });

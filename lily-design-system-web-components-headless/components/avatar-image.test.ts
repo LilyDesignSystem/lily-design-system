@@ -41,4 +41,11 @@ describe("AvatarImage", () => {
 
         expect(host.querySelectorAll("img").length).toBe(1);
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-avatar-image src="/a.png" alt=""></lily-avatar-image>`;
+        const el = document.querySelector("lily-avatar-image")!;
+        el.setAttribute("src", "/b.png");
+        expect(el.querySelector("img")!.getAttribute("src")).toBe("/b.png");
+    });
 });

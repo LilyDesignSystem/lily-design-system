@@ -17,6 +17,20 @@ import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/d
 const HANDLED = new Set(["legend", "disabled"]);
 
 export class Fieldset extends HTMLElement {
+    // A change to disabled, legend or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["disabled", "legend", "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const el = this.querySelector<HTMLFieldSetElement>(":scope > fieldset.fieldset");
+        if (!el) return;
+        el.className = rootClassName(this, "fieldset");
+        el.disabled = this.hasAttribute("disabled");
+        const legend = el.querySelector(":scope > legend");
+        if (legend) legend.textContent = this.getAttribute("legend") ?? "";
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > fieldset.fieldset")) return;
 

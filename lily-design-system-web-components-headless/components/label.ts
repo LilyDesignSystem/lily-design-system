@@ -16,6 +16,20 @@ import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/d
 const HANDLED = new Set(["for"]);
 
 export class Label extends HTMLElement {
+    // A change to for or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["for", "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const el = this.querySelector<HTMLLabelElement>(":scope > label.label");
+        if (!el) return;
+        el.className = rootClassName(this, "label");
+        const forAttr = this.getAttribute("for");
+        if (forAttr !== null) el.setAttribute("for", forAttr);
+        else el.removeAttribute("for");
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > label.label")) return;
 

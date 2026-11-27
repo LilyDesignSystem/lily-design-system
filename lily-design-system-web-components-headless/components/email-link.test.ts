@@ -54,4 +54,13 @@ describe("EmailLink", () => {
 
         expect(host.querySelectorAll("a.email-link").length).toBe(1);
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-email-link email="a@example.com"></lily-email-link>`;
+        const el = document.querySelector("lily-email-link")!;
+        el.setAttribute("email", "b@example.com");
+        const a = el.querySelector("a")!;
+        expect(a.getAttribute("href")).toBe("mailto:b@example.com");
+        expect(a.textContent).toBe("b@example.com");
+    });
 });

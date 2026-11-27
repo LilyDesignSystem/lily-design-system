@@ -14,6 +14,18 @@ import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/d
 const HANDLED = new Set(["disabled"]);
 
 export class TaskBarButton extends HTMLElement {
+    // A change to disabled or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["disabled", "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const el = this.querySelector<HTMLButtonElement>(":scope > button.task-bar-button");
+        if (!el) return;
+        el.className = rootClassName(this, "task-bar-button");
+        el.disabled = this.hasAttribute("disabled");
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > button.task-bar-button")) return;
 

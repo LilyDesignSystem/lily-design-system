@@ -55,4 +55,16 @@ describe("Option", () => {
 
         expect(host.querySelector("option")!.id).toBe("opt-ada");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-option value="a">A</lily-option>`;
+        const el = document.querySelector("lily-option")!;
+        el.setAttribute("value", "b");
+        el.setAttribute("disabled", "");
+        el.setAttribute("selected", "");
+        const o = el.querySelector("option")!;
+        expect(o.value).toBe("b");
+        expect(o.disabled).toBe(true);
+        expect(o.defaultSelected).toBe(true);
+    });
 });

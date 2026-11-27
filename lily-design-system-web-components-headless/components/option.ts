@@ -17,6 +17,23 @@ import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/d
 const HANDLED = new Set(["value", "selected", "disabled"]);
 
 export class Option extends HTMLElement {
+    // A change to value, selected, disabled or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["value", "selected", "disabled", "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const el = this.querySelector<HTMLOptionElement>(":scope > option.option");
+        if (!el) return;
+        el.className = rootClassName(this, "option");
+        const value = this.getAttribute("value");
+        if (value !== null) el.value = value;
+        else el.removeAttribute("value");
+        // selected is the default, as a native option's selected attribute is.
+        el.defaultSelected = this.hasAttribute("selected");
+        el.disabled = this.hasAttribute("disabled");
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > option.option")) return;
 

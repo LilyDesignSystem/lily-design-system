@@ -54,4 +54,14 @@ describe("TelLink", () => {
 
         expect(host.querySelectorAll("a.tel-link").length).toBe(1);
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-tel-link phone="+441234"></lily-tel-link>`;
+        const el = document.querySelector("lily-tel-link")!;
+        el.setAttribute("phone", "+445678");
+        el.setAttribute("label", "Call the ward");
+        const a = el.querySelector("a")!;
+        expect(a.getAttribute("href")).toBe("tel:+445678");
+        expect(a.getAttribute("aria-label")).toBe("Call the ward");
+    });
 });

@@ -17,6 +17,28 @@ import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 const HANDLED = new Set(["email", "label"]);
 
 export class EmailLink extends HTMLElement {
+    // A change to email, label or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["email", "label", "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const el = this.querySelector<HTMLAnchorElement>(":scope > a.email-link");
+        if (!el) return;
+        el.className = rootClassName(this, "email-link");
+        const email = this.getAttribute("email");
+        if (email !== null) {
+            el.href = `mailto:${email}`;
+            el.textContent = email;
+        } else {
+            el.removeAttribute("href");
+            el.textContent = "";
+        }
+        const label = this.getAttribute("label");
+        if (label !== null) el.setAttribute("aria-label", label);
+        else el.removeAttribute("aria-label");
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > a.email-link")) return;
 

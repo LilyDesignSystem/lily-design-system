@@ -19,6 +19,28 @@ import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 const HANDLED = new Set(["phone", "label"]);
 
 export class TelLink extends HTMLElement {
+    // A change to phone, label or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["phone", "label", "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const el = this.querySelector<HTMLAnchorElement>(":scope > a.tel-link");
+        if (!el) return;
+        el.className = rootClassName(this, "tel-link");
+        const phone = this.getAttribute("phone");
+        if (phone !== null) {
+            el.href = `tel:${phone}`;
+            el.textContent = phone;
+        } else {
+            el.removeAttribute("href");
+            el.textContent = "";
+        }
+        const label = this.getAttribute("label");
+        if (label !== null) el.setAttribute("aria-label", label);
+        else el.removeAttribute("aria-label");
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > a.tel-link")) return;
 

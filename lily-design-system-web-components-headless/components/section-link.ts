@@ -17,6 +17,22 @@ import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/d
 const HANDLED = new Set(["href", "current"]);
 
 export class SectionLink extends HTMLElement {
+    // A change to href, current or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["href", "current", "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const el = this.querySelector<HTMLAnchorElement>(":scope > a.section-link");
+        if (!el) return;
+        el.className = rootClassName(this, "section-link");
+        const href = this.getAttribute("href");
+        if (href !== null) el.href = href;
+        else el.removeAttribute("href");
+        if (this.hasAttribute("current")) el.setAttribute("aria-current", "page");
+        else el.removeAttribute("aria-current");
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > a.section-link")) return;
 

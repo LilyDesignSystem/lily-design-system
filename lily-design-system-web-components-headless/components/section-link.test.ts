@@ -68,4 +68,16 @@ describe("SectionLink", () => {
 
         expect(host.querySelectorAll("a.section-link").length).toBe(1);
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-section-link href="#a">A</lily-section-link>`;
+        const el = document.querySelector("lily-section-link")!;
+        el.setAttribute("href", "#b");
+        el.setAttribute("current", "");
+        const a = el.querySelector("a")!;
+        expect(a.getAttribute("href")).toBe("#b");
+        expect(a.getAttribute("aria-current")).toBe("page");
+        el.removeAttribute("current");
+        expect(a.hasAttribute("aria-current")).toBe(false);
+    });
 });

@@ -55,4 +55,13 @@ describe("Image", () => {
 
         expect(host.querySelectorAll("img").length).toBe(1);
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-image src="/a.png" alt="A" loading="lazy"></lily-image>`;
+        const el = document.querySelector("lily-image")!;
+        el.setAttribute("alt", "B");
+        el.removeAttribute("loading");
+        expect(el.querySelector("img")!.alt).toBe("B");
+        expect(el.querySelector("img")!.hasAttribute("loading")).toBe(false);
+    });
 });

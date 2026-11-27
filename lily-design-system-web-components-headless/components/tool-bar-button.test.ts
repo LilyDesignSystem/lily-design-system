@@ -55,4 +55,11 @@ describe("ToolBarButton", () => {
 
         expect(host.querySelector("button")!.getAttribute("aria-label")).toBe("Pen tool");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-tool-bar-button >Bold</lily-tool-bar-button>`;
+        const el = document.querySelector("lily-tool-bar-button")!;
+        el.setAttribute("disabled", "");
+        expect(el.querySelector("button")!.disabled).toBe(true);
+    });
 });

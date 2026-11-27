@@ -51,4 +51,12 @@ describe("Label", () => {
 
         expect(host.querySelector("label")!.id).toBe("name-label");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-label for="a">Name</lily-label>`;
+        const el = document.querySelector("lily-label")!;
+        el.setAttribute("for", "b");
+        expect(el.querySelector("label")!.getAttribute("for")).toBe("b");
+        expect(el.textContent).toBe("Name");
+    });
 });

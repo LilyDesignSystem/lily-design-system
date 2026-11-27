@@ -45,4 +45,15 @@ describe("Fieldset", () => {
 
         expect(host.querySelector("fieldset")!.className).toBe("fieldset extra");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-fieldset legend="Contact"><input></lily-fieldset>`;
+        const el = document.querySelector("lily-fieldset")!;
+        el.setAttribute("legend", "Address");
+        el.setAttribute("disabled", "");
+        const fs = el.querySelector("fieldset")!;
+        expect(fs.querySelector("legend")!.textContent).toBe("Address");
+        expect(fs.disabled).toBe(true);
+        expect(fs.querySelectorAll("legend").length).toBe(1);
+    });
 });
