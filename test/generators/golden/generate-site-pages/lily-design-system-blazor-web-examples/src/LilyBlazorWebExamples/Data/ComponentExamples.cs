@@ -9,7 +9,7 @@ public static class ComponentExamples
     public static readonly Dictionary<string, ComponentExample> All = new()
     {
         ["button"] = new("html", "<div class=\"button\">Example</div>\n", new List<ExampleVariant> { new("Submit", "<button class=\"button\" type=\"submit\">Send</button>") }),
-        ["check-list"] = new("html", "<div class=\"check-list\">Example</div>\n", new List<ExampleVariant> {  }),
-        ["mark"] = new("html", "<div class=\"mark\">Example</div>\n", new List<ExampleVariant> {  }),
+        ["check-list"] = new("html", "<div class=\"check-list\">Example</div>\n", new List<ExampleVariant> { }),
+        ["mark"] = new("html", "<div class=\"mark\">Example</div>\n", new List<ExampleVariant> { }),
     };
 }
