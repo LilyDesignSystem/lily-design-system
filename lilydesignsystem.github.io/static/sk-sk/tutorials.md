@@ -151,7 +151,13 @@ Dajte používateľom kontrolu nad témou, jazykom, veľkosťou textu, pohybom, 
 
 `Swift` · `Kotlin` · `.NET MAUI`
 
-](https://lilydesignsystem.com/tutorials/book-appointment/)
+](https://lilydesignsystem.com/tutorials/book-appointment/) [
+
+### Patient App
+
+`Swift` · `iPhone` · `iPad`
+
+](https://lilydesignsystem.com/tutorials/patient-app/)
 
 ## Po návodoch
 

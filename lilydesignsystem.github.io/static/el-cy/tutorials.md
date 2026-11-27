@@ -151,7 +151,13 @@ Runes του Svelte 5, snippets και αμφίδρομη δέσμευση με 
 
 `Swift` · `Kotlin` · `.NET MAUI`
 
-](https://lilydesignsystem.com/tutorials/book-appointment/)
+](https://lilydesignsystem.com/tutorials/book-appointment/) [
+
+### Patient App
+
+`Swift` · `iPhone` · `iPad`
+
+](https://lilydesignsystem.com/tutorials/patient-app/)
 
 ## Μετά τα σεμινάρια
 

@@ -151,7 +151,13 @@ Wape watumiaji udhibiti wa mandhari, lugha, ukubwa wa maandishi, mwendo, utafuta
 
 `Swift` · `Kotlin` · `.NET MAUI`
 
-](https://lilydesignsystem.com/tutorials/book-appointment/)
+](https://lilydesignsystem.com/tutorials/book-appointment/) [
+
+### Patient App
+
+`Swift` · `iPhone` · `iPad`
+
+](https://lilydesignsystem.com/tutorials/patient-app/)
 
 ## Baada ya mafunzo
 

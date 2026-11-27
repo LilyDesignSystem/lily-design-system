@@ -151,7 +151,13 @@ Agħti lill-utenti kontroll tat-tema, il-lingwa, id-daqs tat-test, il-moviment, 
 
 `Swift` · `Kotlin` · `.NET MAUI`
 
-](https://lilydesignsystem.com/tutorials/book-appointment/)
+](https://lilydesignsystem.com/tutorials/book-appointment/) [
+
+### Patient App
+
+`Swift` · `iPhone` · `iPad`
+
+](https://lilydesignsystem.com/tutorials/patient-app/)
 
 ## Wara t-tutorjals
 

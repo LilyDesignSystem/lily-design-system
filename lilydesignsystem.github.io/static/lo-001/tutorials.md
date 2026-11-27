@@ -151,7 +151,13 @@ Svelte 5 runes, snippets, ແລະ `bind:value` ການຜູກສອງທ�
 
 `Swift` · `Kotlin` · `.NET MAUI`
 
-](https://lilydesignsystem.com/tutorials/book-appointment/)
+](https://lilydesignsystem.com/tutorials/book-appointment/) [
+
+### Patient App
+
+`Swift` · `iPhone` · `iPad`
+
+](https://lilydesignsystem.com/tutorials/patient-app/)
 
 ## ຫຼັງບົດສອນ
 

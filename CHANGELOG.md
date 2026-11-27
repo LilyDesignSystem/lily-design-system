@@ -18,6 +18,10 @@ highlights.
   with a default, so existing decorations keep working. The .NET MAUI ones in LilyDesignSystem.Maui, `RepeatableFieldset<T>` generic
   over the app's items.
 
+- **Added (docs):** `/tutorials/patient-app/` and its Swift page: a national health service's patient app for iPhone and iPad,
+  seven screens (start, home, messages, profile, appointments, requested medicines, test results) in Lily's NHS England patient
+  theme under a fictional name, with no NHS marks, each screen shown on a phone and a tablet from a real build (P62-T7).
+
 - **Added (docs):** `/tutorials/pre-operative-assessment-by-patient/swift/`, the patient's pre-operative questionnaire as an
   iPhone app with SwiftUI and Lily: the web tutorial's rules, with Swift Testing tests, a draft saved on the phone, and a
   screenshot from the iPhone 17 simulator (P62-T4, part). It asks for the Swift package 0.2.0, not yet tagged. And

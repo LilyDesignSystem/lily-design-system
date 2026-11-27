@@ -151,7 +151,13 @@ Gefðu notendum stjórn á þema, tungumáli, textastærð, hreyfingu, leit, sí
 
 `Swift` · `Kotlin` · `.NET MAUI`
 
-](https://lilydesignsystem.com/tutorials/book-appointment/)
+](https://lilydesignsystem.com/tutorials/book-appointment/) [
+
+### Patient App
+
+`Swift` · `iPhone` · `iPad`
+
+](https://lilydesignsystem.com/tutorials/patient-app/)
 
 ## Eftir kennsluefnin
 

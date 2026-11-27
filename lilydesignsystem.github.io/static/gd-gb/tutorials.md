@@ -151,7 +151,13 @@ Thoir smachd do chleachdaichean air ùrlar, cànan, meud teacsa, gluasad, lorg, 
 
 `Swift` · `Kotlin` · `.NET MAUI`
 
-](https://lilydesignsystem.com/tutorials/book-appointment/)
+](https://lilydesignsystem.com/tutorials/book-appointment/) [
+
+### Patient App
+
+`Swift` · `iPhone` · `iPad`
+
+](https://lilydesignsystem.com/tutorials/patient-app/)
 
 ## An dèidh nan oideachaidhean
 

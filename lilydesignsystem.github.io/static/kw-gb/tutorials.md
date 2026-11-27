@@ -151,7 +151,13 @@ Rewgh dhe'n devnydhyoryon governans a deb, yeth, myns an skrif, gwayans, whelas,
 
 `Swift` · `Kotlin` · `.NET MAUI`
 
-](https://lilydesignsystem.com/tutorials/book-appointment/)
+](https://lilydesignsystem.com/tutorials/book-appointment/) [
+
+### Patient App
+
+`Swift` · `iPhone` · `iPad`
+
+](https://lilydesignsystem.com/tutorials/patient-app/)
 
 ## Wosa an dyskansow
 

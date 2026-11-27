@@ -151,7 +151,13 @@ Rhowch reolaeth i ddefnyddwyr dros thema, iaith, maint testun, symudiad, chwilio
 
 `Swift` · `Kotlin` · `.NET MAUI`
 
-](https://lilydesignsystem.com/tutorials/book-appointment/)
+](https://lilydesignsystem.com/tutorials/book-appointment/) [
+
+### Patient App
+
+`Swift` · `iPhone` · `iPad`
+
+](https://lilydesignsystem.com/tutorials/patient-app/)
 
 ## Ar ôl y tiwtorialau
 

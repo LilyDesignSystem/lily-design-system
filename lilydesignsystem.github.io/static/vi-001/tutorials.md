@@ -151,7 +151,13 @@ Trao cho người dùng quyền kiểm soát giao diện, ngôn ngữ, cỡ ch�
 
 `Swift` · `Kotlin` · `.NET MAUI`
 
-](https://lilydesignsystem.com/tutorials/book-appointment/)
+](https://lilydesignsystem.com/tutorials/book-appointment/) [
+
+### Patient App
+
+`Swift` · `iPhone` · `iPad`
+
+](https://lilydesignsystem.com/tutorials/patient-app/)
 
 ## Sau các hướng dẫn
 

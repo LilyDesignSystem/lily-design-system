@@ -151,7 +151,13 @@ Tabhair rialú d’úsáideoirí ar théama, teanga, méid téacs, gluaiseacht, 
 
 `Swift` · `Kotlin` · `.NET MAUI`
 
-](https://lilydesignsystem.com/tutorials/book-appointment/)
+](https://lilydesignsystem.com/tutorials/book-appointment/) [
+
+### Patient App
+
+`Swift` · `iPhone` · `iPad`
+
+](https://lilydesignsystem.com/tutorials/patient-app/)
 
 ## Tar éis na dteagasc
 

@@ -151,7 +151,13 @@ Eman erabiltzaileei gaia, hizkuntza, testu-tamaina, mugimendua, bilaketa, orri-e
 
 `Swift` · `Kotlin` · `.NET MAUI`
 
-](https://lilydesignsystem.com/tutorials/book-appointment/)
+](https://lilydesignsystem.com/tutorials/book-appointment/) [
+
+### Patient App
+
+`Swift` · `iPhone` · `iPad`
+
+](https://lilydesignsystem.com/tutorials/patient-app/)
 
 ## Tutorialen ondoren
 

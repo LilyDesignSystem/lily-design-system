@@ -741,3 +741,22 @@ details.faq-item p { margin-top: 0.75rem; }
   margin-block-start: 0.5rem;
   text-align: center;
 }
+/* A screen on a phone and on a tablet, side by side where there is room, one above the other where there is not. */
+.device-pair {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 1.5rem;
+}
+.device-pair .device-screenshot {
+  margin: 0;
+  flex: 1 1 12rem;
+}
+.device-pair .device-screenshot.tablet {
+  flex: 1 1 16rem;
+  max-inline-size: 22rem;
+}
+.device-pair .device-screenshot.tablet img {
+  border-radius: 1.25rem;
+}

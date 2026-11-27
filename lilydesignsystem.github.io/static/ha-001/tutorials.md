@@ -151,7 +151,13 @@ Ba masu amfani iko akan jigo, harshe, girman rubutu, motsi, bincike, hanyoyin sh
 
 `Swift` · `Kotlin` · `.NET MAUI`
 
-](https://lilydesignsystem.com/tutorials/book-appointment/)
+](https://lilydesignsystem.com/tutorials/book-appointment/) [
+
+### Patient App
+
+`Swift` · `iPhone` · `iPad`
+
+](https://lilydesignsystem.com/tutorials/patient-app/)
 
 ## Bayan koyarwar
 

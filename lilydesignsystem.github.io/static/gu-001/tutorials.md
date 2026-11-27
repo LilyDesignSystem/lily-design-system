@@ -151,7 +151,13 @@ Eleventy અને કોઈપણ Node ટેમ્પ્લેટ પાઇપ
 
 `Swift` · `Kotlin` · `.NET MAUI`
 
-](https://lilydesignsystem.com/tutorials/book-appointment/)
+](https://lilydesignsystem.com/tutorials/book-appointment/) [
+
+### Patient App
+
+`Swift` · `iPhone` · `iPad`
+
+](https://lilydesignsystem.com/tutorials/patient-app/)
 
 ## ટ્યુટોરિયલ પછી
 

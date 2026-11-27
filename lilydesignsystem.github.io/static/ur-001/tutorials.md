@@ -151,7 +151,13 @@ theme-picker، locale-picker، text-size-picker، motion-picker، search-picker�
 
 `Swift` · `Kotlin` · `.NET MAUI`
 
-](https://lilydesignsystem.com/tutorials/book-appointment/)
+](https://lilydesignsystem.com/tutorials/book-appointment/) [
+
+### Patient App
+
+`Swift` · `iPhone` · `iPad`
+
+](https://lilydesignsystem.com/tutorials/patient-app/)
 
 ## ٹیوٹوریلز کے بعد
 

@@ -173,6 +173,10 @@
       <h3 class="card-heading">Book an Appointment</h3>
       <p class="card-description"><code>Swift</code> · <code>Kotlin</code> · <code>.NET MAUI</code></p>
     </a>
+    <a class="card" href="/tutorials/patient-app/">
+      <h3 class="card-heading">Patient App</h3>
+      <p class="card-description"><code>Swift</code> · <code>iPhone</code> · <code>iPad</code></p>
+    </a>
   </div>
 </section>
 

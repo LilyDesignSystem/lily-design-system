@@ -61,6 +61,17 @@ take the screenshot again. `tests/book-appointment-tutorials.spec.ts` checks the
 The pages are English only. The index cards are the projects' own names and abbreviations, which are the same in every language,
 so `/tutorials/` lists them in all 64. Translating the pages is the same decision as tasks.md P29-T11b.
 
+### A patient app
+
+`/tutorials/patient-app/` and `…/swift/` (2026-11-27, tasks.md P62-T7): the screens of a national health service's patient app,
+modelled on the NHS App's published screenshots (phone and tablet, portrait), as an iPhone and iPad app: a start screen, home,
+messages and profile in a tab bar, appointments, requested medicines and test results. It wears Lily's NHS England patient theme
+under a fictional name, Example Health, with no NHS name, logo or wordmark, and the original screenshots are not reproduced: a
+theme lends a look, never another body's identity (AGENTS/visual-identity.md). Built against the published Swift 0.1.0; a UI
+test walks the seven screens with the platform's accessibility audit and keeps each screenshot, on an iPhone 17 and an iPad Pro
+11-inch, and the page shows each screen on both. The audit's clipped-text check is waived only for a long word SwiftUI hyphenates
+at the largest sizes, which a second test shows whole. `tests/patient-app-tutorials.spec.ts` checks the pages.
+
 ### The pre-operative assessment on phones
 
 `/tutorials/pre-operative-assessment-by-patient/swift/` (2026-11-27, tasks.md P62-T4) is the web tutorial's questionnaire and
