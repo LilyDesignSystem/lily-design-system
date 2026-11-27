@@ -93,6 +93,15 @@
       }
     },
     {
+      "fn": "splitDateValue",
+      "args": ["1949", "year"],
+      "expected": {
+        "year": "1949",
+        "month": "",
+        "day": ""
+      }
+    },
+    {
       "fn": "joinDateParts",
       "args": [
         {
@@ -195,6 +204,16 @@
     {
       "fn": "isCalendarDate",
       "args": ["26-01-01"],
+      "expected": false
+    },
+    {
+      "fn": "isCalendarDate",
+      "args": ["1949-02"],
+      "expected": true
+    },
+    {
+      "fn": "isCalendarDate",
+      "args": ["1949-13"],
       "expected": false
     },
     {

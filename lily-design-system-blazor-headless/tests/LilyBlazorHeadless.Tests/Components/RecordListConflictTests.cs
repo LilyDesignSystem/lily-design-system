@@ -107,4 +107,35 @@ public class RecordListConflictTests : TestContext
         Assert.Equal("Unavailable", cut.Find($".{css}-status").TextContent);
         Assert.Equal("unavailable", cut.Find($"ul.{css}").GetAttribute("data-status"));
     }
+
+    // HC-C17, P50-T29: inside an IPS section, every list tells the section of its conflict, and the section stops saying "none
+    // known" above it; a list that goes away takes its conflict with it.
+    [Theory]
+    [MemberData(nameof(Lists))]
+    public void A_section_steps_aside_above_a_list_in_conflict(Type list, string css, Type item, string parameter, string value)
+    {
+        RenderFragment Listed(RenderFragment? content) => builder =>
+        {
+            builder.OpenComponent<DynamicComponent>(0);
+            builder.AddAttribute(1, "Type", list);
+            builder.AddAttribute(2, "Parameters", Given("none-known", None, Conflict, content));
+            builder.CloseComponent();
+        };
+        var cut = RenderComponent<InternationalPatientSummarySection>(p => p
+            .Add(x => x.Section, "allergies")
+            .Add(x => x.Heading, "Allergies")
+            .Add(x => x.Status, "none-known")
+            .Add(x => x.StatusLabel, None)
+            .Add(x => x.ChildContent, Listed(Item(item))));
+        cut.WaitForAssertion(() => Assert.Empty(cut.FindAll(".international-patient-summary-section-status")));
+        Assert.Equal(Conflict, cut.Find($".{css}-status").TextContent);
+
+        cut.SetParametersAndRender(p => p.Add(x => x.ChildContent, Listed(Item(item, parameter, value))));
+        cut.WaitForAssertion(() => Assert.Equal(None, cut.Find(".international-patient-summary-section-status").TextContent));
+
+        cut.SetParametersAndRender(p => p.Add(x => x.ChildContent, Listed(Item(item, parameter, null)))); // omitted, it would stay withdrawn
+        cut.WaitForAssertion(() => Assert.Empty(cut.FindAll(".international-patient-summary-section-status")));
+        cut.SetParametersAndRender(p => p.Add(x => x.ChildContent, (RenderFragment)(_ => { })));
+        cut.WaitForAssertion(() => Assert.Equal(None, cut.Find(".international-patient-summary-section-status").TextContent));
+    }
 }
