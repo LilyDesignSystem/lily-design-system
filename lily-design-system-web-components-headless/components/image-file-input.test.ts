@@ -76,4 +76,14 @@ describe("ImageFileInput", () => {
 
         expect(host.querySelector("input")!.id).toBe("avatar-input");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-image-file-input label="Photo"></lily-image-file-input>`;
+        const el = document.querySelector("lily-image-file-input")!;
+        el.setAttribute("accept", "image/png");
+        el.setAttribute("required", "");
+        const i = el.querySelector("input")!;
+        expect(i.accept).toBe("image/png");
+        expect(i.required).toBe(true);
+    });
 });

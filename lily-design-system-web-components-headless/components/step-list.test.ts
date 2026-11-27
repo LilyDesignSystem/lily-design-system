@@ -71,4 +71,11 @@ describe("StepList", () => {
 
         expect(host.querySelectorAll("ol").length).toBe(1);
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-step-list label="Steps" current="1"></lily-step-list>`;
+        const el = document.querySelector("lily-step-list")!;
+        el.setAttribute("current", "2");
+        expect(el.querySelector("ol")!.getAttribute("data-current")).toBe("2");
+    });
 });

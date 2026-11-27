@@ -68,4 +68,14 @@ describe("ActionBarButton", () => {
 
         expect(host.querySelector("button")!.className).toBe("action-bar-button extra");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-action-bar-button >Delete</lily-action-bar-button>`;
+        const el = document.querySelector("lily-action-bar-button")!;
+        el.setAttribute("disabled", "");
+        el.setAttribute("label", "Delete 3 items");
+        const b = el.querySelector("button")!;
+        expect(b.disabled).toBe(true);
+        expect(b.getAttribute("aria-label")).toBe("Delete 3 items");
+    });
 });

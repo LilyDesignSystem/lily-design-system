@@ -48,4 +48,13 @@ describe("Masonry", () => {
 
         expect(host.getAttribute("style")).toBeNull();
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-masonry columns="3"></lily-masonry>`;
+        const el = document.querySelector("lily-masonry")!;
+        el.setAttribute("columns", "4");
+        el.setAttribute("gap", "2rem");
+        expect(el.getAttribute("data-columns")).toBe("4");
+        expect(el.getAttribute("data-gap")).toBe("2rem");
+    });
 });

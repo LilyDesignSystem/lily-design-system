@@ -48,4 +48,11 @@ describe("Avatar", () => {
 
         expect(host.querySelectorAll("span.avatar").length).toBe(1);
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-avatar alt="Ada">AL</lily-avatar>`;
+        const el = document.querySelector("lily-avatar")!;
+        el.setAttribute("alt", "Ada Lovelace");
+        expect(el.querySelector("span.avatar")!.getAttribute("aria-label")).toBe("Ada Lovelace");
+    });
 });

@@ -20,6 +20,21 @@ import { applySelfClassName } from "../lib/dom-utils.js";
 export class ContentBlock extends HTMLElement {
     #built = false;
 
+    // A change to width or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["width", "class"];
+    }
+
+    attributeChangedCallback(name: string): void {
+        if (!this.#built) return;
+        if (name === "class") {
+            if (!this.classList.contains("content-block"))
+                applySelfClassName(this, "content-block");
+            return;
+        }
+        this.setAttribute("data-width", this.getAttribute("width") ?? "normal");
+    }
+
     connectedCallback(): void {
         if (this.#built) return;
         this.#built = true;

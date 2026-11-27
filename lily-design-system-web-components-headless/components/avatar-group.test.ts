@@ -51,4 +51,15 @@ describe("AvatarGroup", () => {
         expect(el.lastElementChild?.className).toBe("avatar-group-overflow");
         expect(el.lastElementChild?.textContent).toBe("and 12 more");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-avatar-group label="Team"><span>A</span></lily-avatar-group>`;
+        const el = document.querySelector("lily-avatar-group")!;
+        el.setAttribute("overflow-label", "and 3 more");
+        expect(el.lastElementChild!.textContent).toBe("and 3 more");
+        el.setAttribute("overflow-label", "and 4 more");
+        expect(el.querySelectorAll(".avatar-group-overflow").length).toBe(1);
+        el.removeAttribute("overflow-label");
+        expect(el.querySelector(".avatar-group-overflow")).toBeNull();
+    });
 });

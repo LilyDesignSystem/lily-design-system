@@ -49,4 +49,11 @@ describe("ButtonInput", () => {
 
         expect(host.querySelector("input")!.getAttribute("name")).toBe("action");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-button-input value="Go"></lily-button-input>`;
+        const el = document.querySelector("lily-button-input")!;
+        el.setAttribute("value", "Stop");
+        expect(el.querySelector("input")!.value).toBe("Stop");
+    });
 });

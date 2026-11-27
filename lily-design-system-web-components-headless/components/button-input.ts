@@ -17,10 +17,26 @@
 //   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
 import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { setOrRemove } from "../lib/live-element.js";
 
 const HANDLED = new Set(["value", "disabled", "label"]);
 
 export class ButtonInput extends HTMLElement {
+    // A change to value, disabled, label or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["value", "disabled", "label", "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const el = this.querySelector<HTMLInputElement>(":scope > input.button-input");
+        if (!el) return;
+        el.className = rootClassName(this, "button-input");
+        const value = this.getAttribute("value");
+        if (value !== null) el.value = value;
+        el.disabled = this.hasAttribute("disabled");
+        setOrRemove(el, "aria-label", this.getAttribute("label"));
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > input.button-input")) return;
 

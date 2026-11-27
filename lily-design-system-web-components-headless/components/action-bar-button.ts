@@ -17,10 +17,25 @@
 //   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { setOrRemove } from "../lib/live-element.js";
 
 const HANDLED = new Set(["label", "type", "disabled"]);
 
 export class ActionBarButton extends HTMLElement {
+    // A change to type, disabled, label or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["type", "disabled", "label", "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const el = this.querySelector<HTMLButtonElement>(":scope > button.action-bar-button");
+        if (!el) return;
+        el.className = rootClassName(this, "action-bar-button");
+        el.type = (this.getAttribute("type") as "button" | "submit" | "reset" | null) ?? "button";
+        el.disabled = this.hasAttribute("disabled");
+        setOrRemove(el, "aria-label", this.getAttribute("label"));
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > button.action-bar-button")) return;
 

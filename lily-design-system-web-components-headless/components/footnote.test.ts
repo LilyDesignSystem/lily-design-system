@@ -54,4 +54,11 @@ describe("Footnote", () => {
 
         expect(host.querySelector("span.footnote")!.className).toBe("footnote citation");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-footnote >Note</lily-footnote>`;
+        const el = document.querySelector("lily-footnote")!;
+        el.className = "mine";
+        expect(el.querySelector("span")!.className).toBe("footnote mine");
+    });
 });

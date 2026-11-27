@@ -75,4 +75,18 @@ describe("DigitalObjectIdentifierLink", () => {
 
         expect(host.querySelectorAll("a.digital-object-identifier-link").length).toBe(1);
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-digital-object-identifier-link doi="10.1/a"></lily-digital-object-identifier-link>`;
+        const el = document.querySelector("lily-digital-object-identifier-link")!;
+        el.setAttribute("doi", "10.1/b");
+        const a = el.querySelector("a")!;
+        expect(a.getAttribute("href")).toBe("https://doi.org/10.1/b");
+        expect(a.textContent).toBe("10.1/b");
+        document.body.innerHTML =
+            '<lily-digital-object-identifier-link doi="10.1/a">The paper</lily-digital-object-identifier-link>';
+        const own = document.querySelector("lily-digital-object-identifier-link")!;
+        own.setAttribute("doi", "10.1/c");
+        expect(own.querySelector("a")!.textContent).toBe("The paper");
+    });
 });

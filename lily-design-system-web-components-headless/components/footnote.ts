@@ -18,6 +18,17 @@ import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/d
 const HANDLED = new Set(["id"]);
 
 export class Footnote extends HTMLElement {
+    // A change to class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["class"];
+    }
+
+    attributeChangedCallback(): void {
+        const el = this.querySelector<HTMLSpanElement>(":scope > span.footnote");
+        if (!el) return;
+        el.className = rootClassName(this, "footnote");
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > span.footnote")) return;
 

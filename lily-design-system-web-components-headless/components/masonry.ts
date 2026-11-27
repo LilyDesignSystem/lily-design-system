@@ -28,6 +28,21 @@ import { applySelfClassName } from "../lib/dom-utils.js";
 export class Masonry extends HTMLElement {
     #built = false;
 
+    // A change to columns, gap or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["columns", "gap", "class"];
+    }
+
+    attributeChangedCallback(name: string): void {
+        if (!this.#built) return;
+        if (name === "class") {
+            if (!this.classList.contains("masonry")) applySelfClassName(this, "masonry");
+            return;
+        }
+        this.setAttribute("data-columns", this.getAttribute("columns") ?? "3");
+        this.setAttribute("data-gap", this.getAttribute("gap") ?? "1rem");
+    }
+
     connectedCallback(): void {
         if (this.#built) return;
         this.#built = true;

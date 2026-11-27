@@ -77,4 +77,16 @@ describe("TabBarButton", () => {
 
         expect(host.querySelector("button")!.getAttribute("data-testid")).toBe("tbb");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-tab-bar-button controls="p1">One</lily-tab-bar-button>`;
+        const el = document.querySelector("lily-tab-bar-button")!;
+        el.setAttribute("selected", "");
+        const b = el.querySelector("button")!;
+        expect(b.getAttribute("aria-selected")).toBe("true");
+        expect(b.tabIndex).toBe(0);
+        el.removeAttribute("selected");
+        expect(b.getAttribute("aria-selected")).toBe("false");
+        expect(b.tabIndex).toBe(-1);
+    });
 });

@@ -17,10 +17,23 @@
 //   - WAI-ARIA img role: https://www.w3.org/TR/wai-aria-1.2/#img
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { setOrRemove } from "../lib/live-element.js";
 
 const HANDLED = new Set(["alt"]);
 
 export class Avatar extends HTMLElement {
+    // A change to alt or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["alt", "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const el = this.querySelector<HTMLSpanElement>(":scope > span.avatar");
+        if (!el) return;
+        el.className = rootClassName(this, "avatar");
+        setOrRemove(el, "aria-label", this.getAttribute("alt"));
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > span.avatar")) return;
 

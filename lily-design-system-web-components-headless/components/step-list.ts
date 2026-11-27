@@ -15,10 +15,24 @@
 //   - Ant Design Steps: https://ant.design/components/steps
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { setOrRemove } from "../lib/live-element.js";
 
 const HANDLED = new Set(["label", "current"]);
 
 export class StepList extends HTMLElement {
+    // A change to label, current or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["label", "current", "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const el = this.querySelector<HTMLOListElement>(":scope > ol.step-list");
+        if (!el) return;
+        el.className = rootClassName(this, "step-list");
+        setOrRemove(el, "aria-label", this.getAttribute("label"));
+        setOrRemove(el, "data-current", this.getAttribute("current"));
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > ol.step-list")) return;
 

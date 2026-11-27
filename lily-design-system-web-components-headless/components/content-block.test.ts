@@ -39,4 +39,11 @@ describe("ContentBlock", () => {
 
         expect(host.querySelector("p")!.textContent).toBe("Article body");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-content-block width="normal">Text</lily-content-block>`;
+        const el = document.querySelector("lily-content-block")!;
+        el.setAttribute("width", "wide");
+        expect(el.getAttribute("data-width")).toBe("wide");
+    });
 });

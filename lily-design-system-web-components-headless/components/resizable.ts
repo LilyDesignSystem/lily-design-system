@@ -15,9 +15,25 @@
 //   - WAI-ARIA Window Splitter Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/
 
 import { applySelfClassName } from "../lib/dom-utils.js";
+import { setOrRemove } from "../lib/live-element.js";
 
 export class Resizable extends HTMLElement {
     #built = false;
+
+    // A change to label, direction or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["label", "direction", "class"];
+    }
+
+    attributeChangedCallback(name: string): void {
+        if (!this.#built) return;
+        if (name === "class") {
+            if (!this.classList.contains("resizable")) applySelfClassName(this, "resizable");
+            return;
+        }
+        setOrRemove(this, "aria-label", this.getAttribute("label"));
+        this.setAttribute("data-resize", this.getAttribute("direction") ?? "both");
+    }
 
     connectedCallback(): void {
         if (this.#built) return;

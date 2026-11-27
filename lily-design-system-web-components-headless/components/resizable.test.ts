@@ -61,4 +61,13 @@ describe("Resizable", () => {
 
         expect(host.getAttribute("class")).toBe("resizable my-resizable");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-resizable label="Notes" direction="both"></lily-resizable>`;
+        const el = document.querySelector("lily-resizable")!;
+        el.setAttribute("direction", "vertical");
+        el.setAttribute("label", "Letter");
+        expect(el.getAttribute("data-resize")).toBe("vertical");
+        expect(el.getAttribute("aria-label")).toBe("Letter");
+    });
 });
