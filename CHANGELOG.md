@@ -48,9 +48,12 @@ highlights.
   in a cell still wrap anywhere, and so does every cell on a narrower screen, where the full rule made ordinary tables scroll the page
   sideways. A test checks it in all 65 themes.
 
-## Prepared, not released: the headless libraries and the Web Components identifiers (2026-11-25)
+## Release: the headless libraries under `next`, Blazor headless 0.12.0 and the Web Components identifiers 0.6.0 (2026-11-27)
 
-The versions below are in the repository, not yet on npm or NuGet. From a second audit of 2026-11-25 (tasks.md Phase 50), fixed here.
+Published 2026-11-27 under the npm dist-tag `next` (svelte, react and vue 0.14.0; html 0.15.0; nunjucks 0.13.0; angular and
+web-components 0.16.0; alpine and solid 0.5.0; web-components-headless-identifiers 0.6.0); `latest` is unchanged until it is
+promoted. Blazor headless 0.12.0 on NuGet. Built from 3f110f567, after a green `bin/ci --full` and GitHub CI. They also carry
+the `medication-view` fix listed under Unreleased (P55-T6). The other identifier packages were unchanged, so not republished. From a second audit of 2026-11-25 (tasks.md Phase 50), fixed here.
 "Since" is the first version with the fault, from the published packages: React 0.13.1 and Web Components 0.15.1 were run, the others
 read; Blazor and Alpine were not checked.
 
