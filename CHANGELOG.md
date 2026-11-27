@@ -11,6 +11,10 @@ highlights.
 
 ## Unreleased (2026-11-26)
 
+- **Released:** the Swift package 0.2.0 (2026-11-27), with `DateField`, `QuantityInput`, `RepeatableFieldset` and `StepList` in
+  LilyUI and `FormParts` in LilyCore, from a clean, green `bin/ci --full` receipt; SwiftPM resolves it from the export
+  repository.
+
 - **Added (mobile):** the rules of the date field, quantity input, repeatable fieldset and step list for Swift, Kotlin and
   .NET MAUI, stated once in `shared/form-parts.ts` and proved alike on every platform by `shared/vectors/form-parts.json`, with
   a calendar check the web date field leaves to the app (P62-T3, part). The SwiftUI views: `DateField`, `QuantityInput`,
@@ -28,7 +32,7 @@ highlights.
 
 - **Added (docs):** `/tutorials/pre-operative-assessment-by-patient/swift/`, the patient's pre-operative questionnaire as an
   iPhone app with SwiftUI and Lily: the web tutorial's rules, with Swift Testing tests, a draft saved on the phone, and a
-  screenshot from the iPhone 17 simulator (P62-T4, part). It asks for the Swift package 0.2.0, not yet tagged. And
+  screenshot from the iPhone 17 simulator (P62-T4, part). It asks for the Swift package 0.2.0, tagged the same day. And
   `…/kotlin/`, the same app in Jetpack Compose, with the rules tested on the JVM and the first section driven in the emulator
   under the Accessibility Test Framework. And `…/maui/`, the same app in C# with .NET MAUI for iOS and Android, its rules tested on
   plain .NET.

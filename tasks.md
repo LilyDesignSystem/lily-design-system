@@ -5228,7 +5228,7 @@ catalogs lack four parts the mobile catalog marks as Lily's.
       Verify: `bin/check-tutorials pre-operative-assessment` builds it from a fresh scaffold and drives it at 320px with axe.
 - [x] **P62-T3 The mobile parts.** _(Done 2026-11-27: `shared/form-parts.ts` states the date field's split, join and order, a calendar check, the quantity input's limits, the repeatable fieldset's add and remove, and the step status, with `shared/vectors/form-parts.json`, which `FormParts.swift`, `FormParts.kt` and `FormParts.cs` pass. The views: `DateField`, `QuantityInput`, `RepeatableFieldset` and `StepList` in LilyUI (SwiftUI), lily-compose (Compose on foundation, units as a radio group, a `field()` hook on `LilyDecoration`) and LilyDesignSystem.Maui, each with tests; `mobile/components-mobile.tsv` names them.)_ `DateField`, `QuantityInput`, `RepeatableFieldset` and `StepList` in Swift, Kotlin and MAUI,
       each with its rules in Core and tests. Verify: each library's tests, and `mobile/components-mobile.tsv` names them.
-- [ ] **P62-T4 The Swift, Kotlin and MAUI tutorials**, the same questionnaire and rules on each platform. MAUI has no tutorial
+- [x] **P62-T4 The Swift, Kotlin and MAUI tutorials**, the same questionnaire and rules on each platform. MAUI has no tutorial
       page yet. Verify: each builds from the page, as the Swift and Kotlin tutorials do. _(Swift done 2026-11-27:
       `/tutorials/pre-operative-assessment-by-patient/swift/`, built in the iPhone 17 simulator against the repository's package,
       driven by a UI test with the accessibility audit, its rules' seven tests passing; it needs the Swift package tagged 0.2.0,
@@ -5236,7 +5236,8 @@ catalogs lack four parts the mobile catalog marks as Lily's.
       tests on the JVM and an instrumented test of the first section with the Accessibility Test Framework, which a planted
       unlabelled 8dp control fails. MAUI done the same day: `…/maui/`, built for iOS and Android and run in the iPhone 17
       simulator, seven rule tests on plain .NET, no screen-driving test (said on the page); it added `QuantityInput.UnitChanged`.
-      Open: tag the Swift package 0.2.0, which the maintainer approved; then this is done.)_
+      The Swift package 0.2.0 was tagged the same day (f50abe08f), after a clean, green bin/ci --full and consumer-smoke on
+      316c38eb3; SwiftPM resolves it and builds the four views.)_
 - [ ] **P62-T5 The clinician form**, later: findings, vital signs, six scoring instruments and a sign-off, where the ASA grade does
       belong. Decide with T2's reader feedback.
 - [x] **P62-T6 Book an appointment, on phones.** _(Done 2026-11-27: `/tutorials/book-appointment/` and its `swift/`, `kotlin/` and
