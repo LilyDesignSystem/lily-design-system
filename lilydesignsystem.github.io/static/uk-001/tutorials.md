@@ -145,7 +145,13 @@ Runes Svelte 5, snippets і `bind:value` двостороннє зв’язув�
 
 `SvelteKit` · `Form Examples`
 
-](https://lilydesignsystem.com/tutorials/pre-operative-assessment-by-patient/)
+](https://lilydesignsystem.com/tutorials/pre-operative-assessment-by-patient/) [
+
+### Book an Appointment
+
+`Swift` · `Kotlin` · `.NET MAUI`
+
+](https://lilydesignsystem.com/tutorials/book-appointment/)
 
 ## Після посібників
 

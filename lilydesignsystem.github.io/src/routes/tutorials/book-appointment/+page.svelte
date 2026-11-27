@@ -1,0 +1,36 @@
+<svelte:head>
+    <title>Book an appointment tutorials — Lily Design System</title>
+    <meta
+        name="description"
+        content="Build the same book-an-appointment screen for phones in Swift, Kotlin or .NET MAUI, with Lily."
+    />
+</svelte:head>
+
+<section class="page-intro">
+    <h1>Book an appointment tutorials</h1>
+    <p class="page-intro-tagline">
+        The same booking screen for phones, three ways: pick your platform.
+    </p>
+</section>
+
+<section
+    class="section prose"
+    style="margin: 0 auto;"
+>
+    <p>
+        Each tutorial builds one screen of a booking app: a top bar of labelled buttons, a large
+        heading, a line of guidance, four labelled choices and a tab bar. Each is the whole app,
+        file by file, with a screenshot of the result.
+    </p>
+
+    <ul>
+        <li><a href="/tutorials/book-appointment/swift/">Swift</a>: iOS, with SwiftUI.</li>
+        <li>
+            <a href="/tutorials/book-appointment/kotlin/">Kotlin</a>: Android, with Jetpack Compose.
+        </li>
+        <li>
+            <a href="/tutorials/book-appointment/maui/">.NET MAUI</a>: iOS and Android from one C#
+            project.
+        </li>
+    </ul>
+</section>

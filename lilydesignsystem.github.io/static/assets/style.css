@@ -724,3 +724,20 @@ details.faq-item p { margin-top: 0.75rem; }
     scroll-behavior: auto !important;
   }
 }
+
+/* A phone screenshot on the book-an-appointment tutorials: a dark rounded frame round the screen, as on a device. */
+.device-screenshot {
+  margin: 1.5rem auto;
+  max-inline-size: 18rem;
+}
+.device-screenshot img {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+  border: 0.6rem solid #111;
+  border-radius: 2.25rem;
+}
+.device-screenshot figcaption {
+  margin-block-start: 0.5rem;
+  text-align: center;
+}

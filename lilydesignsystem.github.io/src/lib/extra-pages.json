@@ -16,10 +16,23 @@
   { "slug": "tutorials-swift", "route": "tutorials/swift" },
   { "slug": "tutorials-kotlin", "route": "tutorials/kotlin" },
   { "slug": "tutorials-worldwide", "route": "tutorials/worldwide" },
-  { "slug": "tutorials-international-patient-summary", "route": "tutorials/international-patient-summary" },
+  {
+    "slug": "tutorials-international-patient-summary",
+    "route": "tutorials/international-patient-summary"
+  },
   { "slug": "tutorials-electronic-patient-record", "route": "tutorials/electronic-patient-record" },
-  { "slug": "tutorials-patient-administration-system", "route": "tutorials/patient-administration-system" },
-  { "slug": "tutorials-pre-operative-assessment-by-patient", "route": "tutorials/pre-operative-assessment-by-patient" },
+  {
+    "slug": "tutorials-patient-administration-system",
+    "route": "tutorials/patient-administration-system"
+  },
+  {
+    "slug": "tutorials-pre-operative-assessment-by-patient",
+    "route": "tutorials/pre-operative-assessment-by-patient"
+  },
+  { "slug": "tutorials-book-appointment", "route": "tutorials/book-appointment" },
+  { "slug": "tutorials-book-appointment-swift", "route": "tutorials/book-appointment/swift" },
+  { "slug": "tutorials-book-appointment-kotlin", "route": "tutorials/book-appointment/kotlin" },
+  { "slug": "tutorials-book-appointment-maui", "route": "tutorials/book-appointment/maui" },
   { "slug": "getting-started", "route": "getting-started" },
   { "slug": "how-the-pieces-fit", "route": "how-the-pieces-fit" },
   { "slug": "label-packs", "route": "label-packs" },

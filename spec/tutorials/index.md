@@ -21,6 +21,15 @@ are [examples](../examples/index.md); the components' own guidance is [component
 | `/tutorials/patient-administration-system/`       | [Patient Administration System](https://github.com/patient-administration-system/patient-administration-system) |
 | `/tutorials/pre-operative-assessment-by-patient/` | [Form Examples](https://github.com/FormExamples/form-examples): `forms/pre-operative-assessment-by-patient`     |
 
+## The book-an-appointment tutorials
+
+`/tutorials/book-appointment/` (2026-11-27, tasks.md P62-T6) builds one phone screen three times: `swift/` (SwiftUI, the published
+package), `kotlin/` (Jetpack Compose, a module of the repository's Gradle build until the libraries are on Maven Central) and
+`maui/` (.NET MAUI, a project reference until `LilyDesignSystem.Maui` is on NuGet). Each page is the whole app and a screenshot
+of it from a simulator or emulator, in `static/assets/images/tutorials/book-appointment/`. They follow the rules below where a
+native app can; `bin/check-tutorials` does not build them, so when Lily's mobile packages change, rebuild each from its page and
+take the screenshot again. `tests/book-appointment-tutorials.spec.ts` checks the pages.
+
 ## Principles and rules
 
 - **The whole app is on the page.** Every file a reader writes is one code block, `<pre tabindex="0" data-file="path">`, holding the

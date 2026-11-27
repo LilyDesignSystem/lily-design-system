@@ -1,0 +1,592 @@
+<!-- title: Book an appointment in .NET MAUI — Lily Design System -->
+<!-- description: Build a book-an-appointment screen with .NET MAUI and Lily: a top bar, a heading, inset text, four labelled choices and a tab bar, for iOS and Android. -->
+<section class="page-intro">
+    <h1>Book an appointment in .NET MAUI</h1>
+    <p class="page-intro-tagline">
+        A booking screen for iOS and Android from one C# project, with .NET MAUI and Lily: labelled
+        choices, a line of guidance, and the bars a phone app has.
+    </p>
+</section>
+
+<section
+    class="section prose"
+    style="margin: 0 auto;"
+>
+    <h2>What you'll build</h2>
+
+    <p>
+        One screen of a booking app, on iOS and Android, with .NET MAUI: a top bar of labelled
+        buttons, a large heading, a line of guidance, four choices (where, what type, with whom, and
+        what time of day), and a tab bar. It is generic: a service anyone might book, with example
+        places and people. About 30 minutes.
+    </p>
+
+    <figure class="device-screenshot">
+        <img
+            src="/assets/images/tutorials/book-appointment/maui.png"
+            width="506"
+            height="1100"
+            alt="The .NET MAUI app on a phone: a navy top bar with Home, Language, Example Services, Help and Messages; the heading Book an appointment; a line of inset text; four dropdowns for location, type of appointment, staff member and time of day; and a tab bar with Appointments selected, Orders, Account and More."
+        />
+        <figcaption>The finished screen, in the iPhone 17 simulator.</figcaption>
+    </figure>
+
+    <h2>Before you start</h2>
+
+    <p>
+        You need the .NET 11 SDK with the MAUI workload (<code>dotnet workload install maui</code>),
+        and Xcode for iOS or the Android SDK for Android. <code>LilyDesignSystem.Maui</code> is not on
+        NuGet yet, so the app references it from a clone of the repository, beside the app:
+    </p>
+
+    <pre tabindex="0"><code
+            >git clone https://github.com/LilyDesignSystem/lily-design-system
+dotnet new maui -n BookAppointment
+cd BookAppointment
+rm App.xaml App.xaml.cs AppShell.xaml AppShell.xaml.cs MainPage.xaml MainPage.xaml.cs
+rm -r Resources/Styles Resources/Images/dotnet_bot.png</code
+        ></pre>
+
+    <p>
+        The app is written in C#, so the template's XAML pages and styles go. Each code block below
+        is one whole file in <code>BookAppointment</code>; replace the file the template made where
+        the names match.
+    </p>
+
+    <h2>Step 1: The project</h2>
+
+    <p><code>BookAppointment.csproj</code></p>
+
+    <pre
+        tabindex="0"
+        data-file="BookAppointment.csproj"><code
+            >&lt;Project Sdk="Microsoft.NET.Sdk"&gt;
+
+  &lt;PropertyGroup&gt;
+    &lt;TargetFrameworks&gt;net11.0-android;net11.0-ios&lt;/TargetFrameworks&gt;
+    &lt;OutputType&gt;Exe&lt;/OutputType&gt;
+    &lt;RootNamespace&gt;BookAppointment&lt;/RootNamespace&gt;
+    &lt;UseMaui&gt;true&lt;/UseMaui&gt;
+    &lt;SingleProject&gt;true&lt;/SingleProject&gt;
+    &lt;ImplicitUsings&gt;enable&lt;/ImplicitUsings&gt;
+    &lt;Nullable&gt;enable&lt;/Nullable&gt;
+    &lt;ApplicationTitle&gt;Example Services&lt;/ApplicationTitle&gt;
+    &lt;ApplicationId&gt;com.example.bookappointment&lt;/ApplicationId&gt;
+    &lt;ApplicationDisplayVersion&gt;1.0&lt;/ApplicationDisplayVersion&gt;
+    &lt;ApplicationVersion&gt;1&lt;/ApplicationVersion&gt;
+    &lt;SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'"&gt;17.0&lt;/SupportedOSPlatformVersion&gt;
+    &lt;SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'"&gt;24.0&lt;/SupportedOSPlatformVersion&gt;
+  &lt;/PropertyGroup&gt;
+
+  &lt;ItemGroup&gt;
+    &lt;MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#1F2A44" /&gt;
+    &lt;MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#1F2A44" BaseSize="128,128" /&gt;
+    &lt;MauiImage Include="Resources\Images\*.svg" BaseSize="24,24" /&gt;
+  &lt;/ItemGroup&gt;
+
+  &lt;ItemGroup&gt;
+    &lt;PackageReference Include="Microsoft.Maui.Controls" Version="11.0.10" /&gt;
+  &lt;/ItemGroup&gt;
+
+  &lt;ItemGroup&gt;
+
+    &lt;ProjectReference Include="../lily-design-system/lily-design-system-maui/src/LilyDesignSystem.Maui/LilyDesignSystem.Maui.csproj" /&gt;
+  &lt;/ItemGroup&gt;
+
+&lt;/Project&gt;</code
+        ></pre>
+
+    <p>
+        For white status-bar text on the navy band, add these two keys to the first <code
+            >&lt;dict&gt;</code
+        >
+        in <code>Platforms/iOS/Info.plist</code>:
+    </p>
+
+    <pre tabindex="0"><code
+            >&lt;key&gt;UIStatusBarStyle&lt;/key&gt;
+&lt;string&gt;UIStatusBarStyleLightContent&lt;/string&gt;
+&lt;key&gt;UIViewControllerBasedStatusBarAppearance&lt;/key&gt;
+&lt;false/&gt;
+</code
+        ></pre>
+
+    <h2>Step 2: Write the words</h2>
+
+    <p><code>Words.cs</code></p>
+
+    <pre
+        tabindex="0"
+        data-file="Words.cs"><code
+            >namespace BookAppointment;
+
+/// &lt;summary&gt;Every word the app shows, in one place, so the app can be translated without touching a page.&lt;/summary&gt;
+public static class Words
+{
+    public const string AppName = "Example Services";
+    public const string Home = "Home";
+    public const string Language = "Language";
+    public const string Help = "Help";
+    public const string Messages = "Messages";
+    public const string Title = "Book an appointment";
+    public const string Intro = "Choose a place and a type of appointment, then pick a time that suits you.";
+    public const string Location = "Location";
+    public const string Type = "Type of appointment";
+    public const string Person = "Staff member (optional)";
+    public const string TimeOfDay = "Filter by time of day";
+    public const string FindTimes = "Find times";
+    public const string Appointments = "Appointments";
+    public const string Orders = "Orders";
+    public const string Account = "Account";
+    public const string More = "More";
+    /// &lt;summary&gt;What a screen reader hears for the selected tab: MAUI has no selected trait for a button.&lt;/summary&gt;
+    public static string Selected(string tab) =&gt; $"{tab}, selected";
+}</code
+        ></pre>
+
+    <h2>Step 3: Describe the booking</h2>
+
+    <p><code>Booking.cs</code></p>
+
+    <pre
+        tabindex="0"
+        data-file="Booking.cs"><code
+            >namespace BookAppointment;
+
+/// &lt;summary&gt;One choice in a list: the id the service knows it by, and the words the person sees.&lt;/summary&gt;
+public record Choice(string Id, string Label);
+
+/// &lt;summary&gt;What the person has chosen, and the choices offered. The choices come from the service; these are examples.&lt;/summary&gt;
+public class Booking
+{
+    public string Location { get; set; } = "main";
+    public string Type { get; set; } = "";
+    public string Person { get; set; } = "any";
+    public string TimeOfDay { get; set; } = "";
+
+    /// &lt;summary&gt;Times can be looked for once a type is chosen: the type decides how long the appointment is.&lt;/summary&gt;
+    public bool CanFindTimes =&gt; Type.Length &gt; 0;
+
+    public static readonly Choice[] Locations = [new("main", "Main office"), new("north", "North branch"), new("online", "Online")];
+    public static readonly Choice[] Types =
+        [new("", "Select type"), new("first", "First visit"), new("follow-up", "Follow-up"), new("advice", "Advice by phone")];
+    public static readonly Choice[] People = [new("any", "No preference"), new("sam", "Sam Okoro"), new("alex", "Alex Kim")];
+    public static readonly Choice[] TimesOfDay =
+        [new("", "Select an option"), new("morning", "Morning"), new("afternoon", "Afternoon"), new("evening", "Evening")];
+}</code
+        ></pre>
+
+    <h2>Step 4: Choose the colours and styles</h2>
+
+    <p>
+        Lily ships no brand, and its MAUI controls set no colour or size: an app styles them by
+        style class, as the web themes style class names.
+    </p>
+
+    <p><code>Brand.cs</code></p>
+
+    <pre
+        tabindex="0"
+        data-file="Brand.cs"><code
+            >namespace BookAppointment;
+
+/// &lt;summary&gt;
+/// The service's own colours. A brand colour colours a band or a line, never text on the page; the text on the band is white,
+/// well above 4.5:1 on this navy (AGENTS/visual-identity.md). Lily ships no brand: these are yours.
+/// &lt;/summary&gt;
+public static class Brand
+{
+    public static readonly Color Band = Color.FromArgb("#1F2A44");
+    public static readonly Color OnBand = Colors.White;
+    public static readonly Color Line = Color.FromArgb("#C89B3C");
+}</code
+        ></pre>
+
+    <p><code>AppStyles.cs</code></p>
+
+    <pre
+        tabindex="0"
+        data-file="AppStyles.cs"><code
+            >namespace BookAppointment;
+
+/// &lt;summary&gt;
+/// The app's styles for Lily's class hooks. Lily's controls set no colour, size or font; an app styles them by StyleClass, as
+/// the web themes style the kebab-case classes.
+/// &lt;/summary&gt;
+public static class AppStyles
+{
+    public static ResourceDictionary Create()
+    {
+        var styles = new ResourceDictionary();
+        void Class&lt;T&gt;(string name, BindableProperty property, object value)
+            where T : BindableObject
+        {
+            var style = new Style(typeof(T)) { Class = name, ApplyToDerivedTypes = true };
+            style.Setters.Add(new Setter { Property = property, Value = value });
+            styles.Add(style);
+        }
+
+        Class&lt;Label&gt;("field-label", Label.FontSizeProperty, 17d);
+        Class&lt;Label&gt;("inset-text-text", Label.FontSizeProperty, 17d);
+        return styles;
+    }
+}</code
+        ></pre>
+
+    <h2>Step 5: Ask for a choice</h2>
+
+    <p>
+        Lily's <code>Field</code> draws the label and gives the control its spoken name. The box and
+        chevron are the app's; the platform's own field border is taken off in
+        <code>MauiProgram.cs</code>.
+    </p>
+
+    <p><code>ChoiceField.cs</code></p>
+
+    <pre
+        tabindex="0"
+        data-file="ChoiceField.cs"><code
+            >using LilyDesignSystem.Maui;
+
+namespace BookAppointment;
+
+/// &lt;summary&gt;A labelled choice drawn as a box with a chevron, like a web select. Lily's Field gives the label and the spoken name.&lt;/summary&gt;
+public static class ChoiceField
+{
+    public static Field Create(string label, Choice[] choices, string selected, Action&lt;string&gt; onSelect)
+    {
+        var picker = new Picker
+        {
+            ItemsSource = choices.Select(c =&gt; c.Label).ToList(),
+            SelectedIndex = Math.Max(0, Array.FindIndex(choices, c =&gt; c.Id == selected)),
+            FontSize = 17,
+            TextColor = Colors.Black,
+        };
+        picker.SelectedIndexChanged += (_, _) =&gt; onSelect(choices[picker.SelectedIndex].Id);
+        var chevron = new Image { Source = "chevron.png", WidthRequest = 22, HeightRequest = 22, VerticalOptions = LayoutOptions.Center };
+        AutomationProperties.SetIsInAccessibleTree(chevron, false);
+        var box = new Border
+        {
+            Stroke = Colors.Black,
+            StrokeThickness = 2,
+            BackgroundColor = Colors.White,
+            Padding = new Thickness(16, 4),
+            MaximumWidthRequest = 300,
+            HorizontalOptions = LayoutOptions.Start,
+            WidthRequest = 300,
+            HeightRequest = 52,
+            Content = new Grid
+            {
+                ColumnDefinitions = [new ColumnDefinition(GridLength.Star), new ColumnDefinition(GridLength.Auto)],
+                Children = { picker, chevron },
+            },
+        };
+        Grid.SetColumn(chevron, 1);
+        return new Field { Label = label, Control = box };
+    }
+}</code
+        ></pre>
+
+    <h2>Step 6: Draw the icons</h2>
+
+    <p>
+        MAUI turns each SVG in <code>Resources/Images</code> into an image for every platform, named
+        <code>…png</code>.
+    </p>
+
+    <p><code>Resources/Images/home.svg</code></p>
+
+    <pre
+        tabindex="0"
+        data-file="Resources/Images/home.svg"><code
+            >&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"&gt;&lt;path d="M3 11 12 3l9 8"/&gt;&lt;path d="M5 10v10h5v-6h4v6h5V10"/&gt;&lt;/svg&gt;</code
+        ></pre>
+    <p><code>Resources/Images/language.svg</code></p>
+
+    <pre
+        tabindex="0"
+        data-file="Resources/Images/language.svg"><code
+            >&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"&gt;&lt;rect x="3" y="3" width="18" height="18" rx="3"/&gt;&lt;path d="M8 17l4-10 4 10M9.5 13.5h5"/&gt;&lt;/svg&gt;</code
+        ></pre>
+    <p><code>Resources/Images/help.svg</code></p>
+
+    <pre
+        tabindex="0"
+        data-file="Resources/Images/help.svg"><code
+            >&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"&gt;&lt;circle cx="12" cy="12" r="9"/&gt;&lt;path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6"/&gt;&lt;path d="M12 17.5h.01"/&gt;&lt;/svg&gt;</code
+        ></pre>
+    <p><code>Resources/Images/messages.svg</code></p>
+
+    <pre
+        tabindex="0"
+        data-file="Resources/Images/messages.svg"><code
+            >&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"&gt;&lt;path d="M4 5h16v11H9l-5 4z"/&gt;&lt;/svg&gt;</code
+        ></pre>
+    <p><code>Resources/Images/logo.svg</code></p>
+
+    <pre
+        tabindex="0"
+        data-file="Resources/Images/logo.svg"><code
+            >&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="#FFFFFF"&gt;&lt;circle cx="12" cy="12" r="3"/&gt;&lt;circle cx="12" cy="5" r="3"/&gt;&lt;circle cx="12" cy="19" r="3"/&gt;&lt;circle cx="6" cy="8.5" r="3"/&gt;&lt;circle cx="18" cy="8.5" r="3"/&gt;&lt;circle cx="6" cy="15.5" r="3"/&gt;&lt;circle cx="18" cy="15.5" r="3"/&gt;&lt;/svg&gt;</code
+        ></pre>
+    <p><code>Resources/Images/calendar.svg</code></p>
+
+    <pre
+        tabindex="0"
+        data-file="Resources/Images/calendar.svg"><code
+            >&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#1F2A44" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"&gt;&lt;rect x="3" y="5" width="18" height="16" rx="2"/&gt;&lt;path d="M3 10h18M8 3v4M16 3v4"/&gt;&lt;/svg&gt;</code
+        ></pre>
+    <p><code>Resources/Images/bag.svg</code></p>
+
+    <pre
+        tabindex="0"
+        data-file="Resources/Images/bag.svg"><code
+            >&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#18181B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"&gt;&lt;path d="M6 8h12l-1 13H7z"/&gt;&lt;path d="M9 8V6a3 3 0 0 1 6 0v2"/&gt;&lt;/svg&gt;</code
+        ></pre>
+    <p><code>Resources/Images/account.svg</code></p>
+
+    <pre
+        tabindex="0"
+        data-file="Resources/Images/account.svg"><code
+            >&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#18181B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"&gt;&lt;circle cx="12" cy="12" r="9"/&gt;&lt;circle cx="12" cy="10" r="3"/&gt;&lt;path d="M6.5 18.5a6.5 6.5 0 0 1 11 0"/&gt;&lt;/svg&gt;</code
+        ></pre>
+    <p><code>Resources/Images/more.svg</code></p>
+
+    <pre
+        tabindex="0"
+        data-file="Resources/Images/more.svg"><code
+            >&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="#18181B"&gt;&lt;circle cx="6" cy="12" r="1.8"/&gt;&lt;circle cx="12" cy="12" r="1.8"/&gt;&lt;circle cx="18" cy="12" r="1.8"/&gt;&lt;/svg&gt;</code
+        ></pre>
+    <p><code>Resources/Images/chevron.svg</code></p>
+
+    <pre
+        tabindex="0"
+        data-file="Resources/Images/chevron.svg"><code
+            >&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#18181B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"&gt;&lt;path d="M6 9l6 6 6-6"/&gt;&lt;/svg&gt;</code
+        ></pre>
+
+    <h2>Step 7: Draw the page</h2>
+
+    <p>
+        Both bars are drawn here to match the service's design, and each paints its own edge of the
+        screen. MAUI has no selected trait for a button, so the selected tab says "selected" in its
+        spoken name, from <code>Words</code>.
+    </p>
+
+    <p><code>BookAppointmentPage.cs</code></p>
+
+    <pre
+        tabindex="0"
+        data-file="BookAppointmentPage.cs"><code
+            >using LilyDesignSystem.Maui;
+
+namespace BookAppointment;
+
+/// &lt;summary&gt;
+/// The app's one page: a top bar of labelled buttons, the form, and a tab bar. Both bars are drawn here so they match the
+/// service's design.
+/// &lt;/summary&gt;
+public class BookAppointmentPage : ContentPage
+{
+    private readonly Booking booking = new();
+
+    public BookAppointmentPage()
+    {
+        // Each bar paints its own edge of the screen: the top bar under the status bar, the tab bar under the home indicator.
+        SafeAreaEdges = SafeAreaEdges.None;
+        BackgroundColor = Colors.White;
+        var find = new Button { Text = Words.FindTimes, IsEnabled = false, HorizontalOptions = LayoutOptions.Start };
+        void Changed() =&gt; find.IsEnabled = booking.CanFindTimes;
+
+        var title = new Label { Text = Words.Title, FontSize = 40, FontAttributes = FontAttributes.Bold, TextColor = Colors.Black };
+        SemanticProperties.SetHeadingLevel(title, SemanticHeadingLevel.Level1);
+        // Lily's InsetText is the words; the rail at its leading edge is the app's drawing.
+        var inset = new Grid { ColumnDefinitions = [new ColumnDefinition(4), new ColumnDefinition(GridLength.Star)], ColumnSpacing = 12 };
+        inset.Add(new BoxView { Color = Colors.Black }, 0);
+        inset.Add(new InsetText { Text = Words.Intro }, 1);
+
+        var form = new VerticalStackLayout
+        {
+            Spacing = 20,
+            Padding = new Thickness(20, 16),
+            Children =
+            {
+                title,
+                inset,
+                ChoiceField.Create(Words.Location, Booking.Locations, booking.Location, v =&gt; { booking.Location = v; Changed(); }),
+                ChoiceField.Create(Words.Type, Booking.Types, booking.Type, v =&gt; { booking.Type = v; Changed(); }),
+                ChoiceField.Create(Words.Person, Booking.People, booking.Person, v =&gt; { booking.Person = v; Changed(); }),
+                ChoiceField.Create(Words.TimeOfDay, Booking.TimesOfDay, booking.TimeOfDay, v =&gt; { booking.TimeOfDay = v; Changed(); }),
+                find,
+            },
+        };
+
+        var content = new Grid
+        {
+            SafeAreaEdges = SafeAreaEdges.None,
+            RowDefinitions = [new RowDefinition(GridLength.Auto), new RowDefinition(GridLength.Star), new RowDefinition(GridLength.Auto)],
+        };
+        content.Add(TopBar(), 0, 0);
+        content.Add(new ScrollView { Content = form, BackgroundColor = Color.FromArgb("#F8F8F8") }, 0, 1);
+        content.Add(TabBar(), 0, 2);
+        Content = content;
+    }
+
+    private static Button BarButton(string icon, string label, Color color) =&gt; new()
+    {
+        ImageSource = icon,
+        Text = label,
+        FontSize = 11,
+        TextColor = color,
+        BackgroundColor = Colors.Transparent,
+        Padding = new Thickness(4),
+        MinimumHeightRequest = 48,
+        MinimumWidthRequest = 52,
+        ContentLayout = new Button.ButtonContentLayout(Button.ButtonContentLayout.ImagePosition.Top, 2),
+    };
+
+    private static View TopBar()
+    {
+        var logo = new HorizontalStackLayout
+        {
+            Spacing = 6,
+            HorizontalOptions = LayoutOptions.Center,
+            VerticalOptions = LayoutOptions.Center,
+            Children =
+            {
+                new Image { Source = "logo.png", HeightRequest = 28, WidthRequest = 28 },
+                new Label { Text = Words.AppName, TextColor = Brand.OnBand, FontSize = 12, FontAttributes = FontAttributes.Bold, VerticalOptions = LayoutOptions.Center },
+            },
+        };
+        SemanticProperties.SetDescription(logo, Words.AppName);
+        SemanticProperties.SetHeadingLevel(logo, SemanticHeadingLevel.Level2);
+        var bar = new Grid
+        {
+            SafeAreaEdges = new SafeAreaEdges(SafeAreaRegions.None, SafeAreaRegions.All, SafeAreaRegions.None, SafeAreaRegions.None),
+            BackgroundColor = Brand.Band,
+            Padding = new Thickness(4, 0, 4, 8),
+            ColumnDefinitions =
+            [
+                new ColumnDefinition(GridLength.Auto), new ColumnDefinition(GridLength.Auto), new ColumnDefinition(GridLength.Star),
+                new ColumnDefinition(GridLength.Auto), new ColumnDefinition(GridLength.Auto),
+            ],
+        };
+        bar.Add(BarButton("home.png", Words.Home, Brand.OnBand), 0);
+        bar.Add(BarButton("language.png", Words.Language, Brand.OnBand), 1);
+        bar.Add(logo, 2);
+        bar.Add(BarButton("help.png", Words.Help, Brand.OnBand), 3);
+        bar.Add(BarButton("messages.png", Words.Messages, Brand.OnBand), 4);
+        // The band reaches the top of the screen, under the status bar; the buttons stay below it.
+        return new ContentView { BackgroundColor = Brand.Band, SafeAreaEdges = SafeAreaEdges.None, Content = bar };
+    }
+
+    private static View TabBar()
+    {
+        (string Label, string Icon)[] tabs =
+            [(Words.Appointments, "calendar.png"), (Words.Orders, "bag.png"), (Words.Account, "account.png"), (Words.More, "more.png")];
+        var bar = new Grid { BackgroundColor = Colors.White, Padding = new Thickness(0, 6, 0, 0) };
+        for (var i = 0; i &lt; tabs.Length; i++)
+        {
+            bar.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Star));
+            var button = BarButton(tabs[i].Icon, tabs[i].Label, i == 0 ? Brand.Band : Colors.Black);
+            if (i == 0)
+            {
+                button.FontAttributes = FontAttributes.Bold;
+                SemanticProperties.SetDescription(button, Words.Selected(tabs[i].Label));
+            }
+            bar.Add(button, i);
+        }
+        return new VerticalStackLayout
+        {
+            SafeAreaEdges = new SafeAreaEdges(SafeAreaRegions.None, SafeAreaRegions.None, SafeAreaRegions.None, SafeAreaRegions.All),
+            Children = { new BoxView { Color = Brand.Line, HeightRequest = 2 }, bar },
+            BackgroundColor = Colors.White,
+        };
+    }
+}</code
+        ></pre>
+
+    <h2>Step 8: Start the app</h2>
+
+    <p><code>MauiProgram.cs</code></p>
+
+    <pre
+        tabindex="0"
+        data-file="MauiProgram.cs"><code
+            >using LilyDesignSystem.Maui.Themes;
+
+namespace BookAppointment;
+
+public static class MauiProgram
+{
+    public static MauiApp CreateMauiApp()
+    {
+        var builder = MauiApp.CreateBuilder();
+        builder.UseMauiApp&lt;App&gt;();
+        // The box round each choice is the app's (ChoiceField), so the platform's own field border is taken off.
+        Microsoft.Maui.Handlers.PickerHandler.Mapper.AppendToMapping("NoBorder", (handler, _) =&gt;
+        {
+#if IOS
+            handler.PlatformView.BorderStyle = UIKit.UITextBorderStyle.None;
+#elif ANDROID
+            handler.PlatformView.Background = null;
+#endif
+        });
+        return builder.Build();
+    }
+}
+
+public class App : Application
+{
+    public App()
+    {
+        // The light theme's tokens, for {DynamicResource lily-color-…}, and the app's styles for Lily's class hooks.
+        LilyTheme.Apply(Resources, LilyTokens.Light);
+        Resources.MergedDictionaries.Add(AppStyles.Create());
+    }
+
+    protected override Window CreateWindow(IActivationState? activationState) =&gt;
+        new(new BookAppointmentPage()) { Title = Words.AppName };
+}</code
+        ></pre>
+
+    <p>
+        Run it with <code>dotnet build -t:Run -f net11.0-ios</code>, or
+        <code>-f net11.0-android</code> with an emulator running.
+    </p>
+
+    <div class="callout">
+        <p style="margin: 0;">
+            <strong>Check your work:</strong> turn on VoiceOver or TalkBack and move through the screen:
+            each choice says its label, then its value, and the Appointments tab says it is selected.
+            "Find times" is dimmed until you choose a type.
+        </p>
+    </div>
+
+    <h2>What this does not do yet</h2>
+
+    <ul>
+        <li>
+            The buttons in the bars and "Find times" do nothing: the screen is the lesson, not the
+            booking.
+        </li>
+        <li>
+            The choices are fixed examples. A real app asks its service for them, in the person's
+            language.
+        </li>
+        <li>It has one language. The words are in one place, so adding another touches no view.</li>
+    </ul>
+
+    <h2>Next steps</h2>
+
+    <ul>
+        <li>
+            <a href="/tutorials/book-appointment/swift/">Swift version</a>: the same screen on iOS
+            with SwiftUI.
+        </li>
+        <li>
+            <a href="/tutorials/book-appointment/kotlin/">Kotlin version</a>: the same screen on
+            Android with Jetpack Compose.
+        </li>
+    </ul>
+</section>

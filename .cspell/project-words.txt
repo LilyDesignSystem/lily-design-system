@@ -519,3 +519,9 @@ Civi
 CiviCRM
 CiviVolunteer
 apixaban
+bookappointment
+automirrored
+appiconfg
+Argb
+hexagongrid
+questionmark

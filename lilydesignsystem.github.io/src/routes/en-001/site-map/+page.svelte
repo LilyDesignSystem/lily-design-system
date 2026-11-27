@@ -62,6 +62,7 @@
         { href: '/tutorials/electronic-patient-record/', label: 'Electronic patient record' },
         { href: '/tutorials/patient-administration-system/', label: 'Patient administration system' },
         { href: '/tutorials/pre-operative-assessment-by-patient/', label: 'Pre-operative assessment by patient' },
+        { href: '/tutorials/book-appointment/', label: 'Book an appointment: Swift, Kotlin, .NET MAUI' },
         { href: '/tutorials/shadcn/', label: 'shadcn-compatible registry' },
         { href: '/training/', label: 'Training' }
       ]

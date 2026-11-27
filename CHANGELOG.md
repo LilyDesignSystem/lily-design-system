@@ -11,6 +11,10 @@ highlights.
 
 ## Unreleased (2026-11-26)
 
+- **Added (docs):** the book-an-appointment tutorials for phones, `/tutorials/book-appointment/` in Swift, Kotlin and .NET MAUI:
+  one booking screen with a top bar, a heading, inset text, four labelled choices and a tab bar, each page the whole app with a
+  screenshot from a real build in a simulator or emulator (P62-T6).
+
 - **Added (docs):** the pre-operative assessment by patient tutorial, `/tutorials/pre-operative-assessment-by-patient/`: a short
   questionnaire a patient answers before an operation, with questions answered yes, no or not sure, a follow-up only after "Yes",
   medicines and allergies asked before their lists, a saved draft, and what the clinic looks at first. It never shows the patient

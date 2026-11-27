@@ -5232,6 +5232,13 @@ catalogs lack four parts the mobile catalog marks as Lily's.
       page yet. Verify: each builds from the page, as the Swift and Kotlin tutorials do.
 - [ ] **P62-T5 The clinician form**, later: findings, vital signs, six scoring instruments and a sign-off, where the ASA grade does
       belong. Decide with T2's reader feedback.
+- [x] **P62-T6 Book an appointment, on phones.** _(Done 2026-11-27: `/tutorials/book-appointment/` and its `swift/`, `kotlin/` and
+      `maui/` pages, each the whole app with a screenshot from a real build: the Swift app built against the published 0.1.0 package
+      in the iPhone 17 simulator, the Kotlin app as a module of the repository's Gradle build in the Pixel 10 emulator, and the MAUI
+      app from `dotnet new maui` with a project reference, built for iOS and Android. Generic: example places and people, the
+      service's own navy band and gold line, never text in a brand colour. `tests/book-appointment-tutorials.spec.ts` checks each
+      page's screenshot, code and links. The route is `/tutorials/`, as every tutorial's is.)_ Asked for 2026-11-27: one booking
+      screen like a public-service app's (top bar, heading, inset text, four choices, tab bar), not medical.
 
 ---
 

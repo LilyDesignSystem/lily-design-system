@@ -1,0 +1,433 @@
+<svelte:head>
+    <title>Book an appointment in Swift — Lily Design System</title>
+    <meta
+        name="description"
+        content="Build a book-an-appointment screen for iOS with SwiftUI and Lily: a top bar, a heading, inset text, four labelled choices and a tab bar."
+    />
+</svelte:head>
+
+<section class="page-intro">
+    <h1>Book an appointment in Swift</h1>
+    <p class="page-intro-tagline">
+        A booking screen for iPhone, with SwiftUI and Lily: labelled choices, a line of guidance,
+        and the bars a phone app has.
+    </p>
+</section>
+
+<section
+    class="section prose"
+    style="margin: 0 auto;"
+>
+    <h2>What you'll build</h2>
+
+    <p>
+        One screen of a booking app, on iPhone, with SwiftUI: a top bar of labelled buttons, a large
+        heading, a line of guidance, four choices (where, what type, with whom, and what time of
+        day), and a tab bar. It is generic: a service anyone might book, with example places and
+        people. About 30 minutes.
+    </p>
+
+    <figure class="device-screenshot">
+        <img
+            src="/assets/images/tutorials/book-appointment/swift.png"
+            width="506"
+            height="1100"
+            alt="The Swift app on a phone: a navy top bar with Home, Language, Example Services, Help and Messages; the heading Book an appointment; a line of inset text; four dropdowns for location, type of appointment, staff member and time of day; and a tab bar with Appointments selected, Orders, Account and More."
+        />
+        <figcaption>The finished screen, in the iPhone 17 simulator.</figcaption>
+    </figure>
+
+    <h2>Before you start</h2>
+
+    <p>
+        You need Xcode 26 or later and the <a href="/tutorials/swift/">Swift tutorial</a>'s first
+        steps. In Xcode, choose <strong>File ▸ New ▸ Project ▸ iOS ▸ App</strong>, name it
+        <code>BookAppointment</code>, with SwiftUI. Then
+        <strong>File ▸ Add Package Dependencies…</strong>, enter this address, and add
+        <code>LilyUI</code>
+        and <code>LilyThemes</code> to the app:
+    </p>
+
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre tabindex="0"><code
+            >{`https://github.com/LilyDesignSystem/lily-design-system-swift.git`}</code
+        ></pre>
+
+    <p>
+        Version 0.1.0 or later. Each code block below is one whole file in the app's <code
+            >BookAppointment</code
+        >
+        folder; replace the file Xcode made where the names match, and delete
+        <code>ContentView.swift</code>.
+    </p>
+
+    <h2>Step 1: Write the words</h2>
+
+    <p>Every word the app shows is in one file, so translating the app touches no view.</p>
+
+    <p><code>BookAppointment/Words.swift</code></p>
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre
+        tabindex="0"
+        data-file="BookAppointment/Words.swift"><code
+            >{`// Every word the app shows, in one place, so the app can be translated without touching a view.
+
+enum Words {
+    static let appName = "Example Services"
+    static let home = "Home"
+    static let language = "Language"
+    static let help = "Help"
+    static let messages = "Messages"
+    static let title = "Book an appointment"
+    static let intro = "Choose a place and a type of appointment, then pick a time that suits you."
+    static let location = "Location"
+    static let type = "Type of appointment"
+    static let person = "Staff member (optional)"
+    static let timeOfDay = "Filter by time of day"
+    static let findTimes = "Find times"
+    static let choose = "Choose a type of appointment"
+    static let tabs = "Sections"
+    static let appointments = "Appointments"
+    static let orders = "Orders"
+    static let account = "Account"
+    static let more = "More"
+}`}</code
+        ></pre>
+
+    <h2>Step 2: Describe the booking</h2>
+
+    <p>
+        What the person has chosen, the choices offered, and one rule: times can be looked for once
+        a type is chosen.
+    </p>
+
+    <p><code>BookAppointment/Booking.swift</code></p>
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre
+        tabindex="0"
+        data-file="BookAppointment/Booking.swift"><code
+            >{`// What the person has chosen, and the choices offered. The choices come from the service; these are examples.
+
+struct Choice: Identifiable, Hashable {
+    let id: String
+    let label: String
+}
+
+struct Booking {
+    var location = "main"
+    var type = ""
+    var person = "any"
+    var timeOfDay = ""
+
+    static let locations = [
+        Choice(id: "main", label: "Main office"),
+        Choice(id: "north", label: "North branch"),
+        Choice(id: "online", label: "Online"),
+    ]
+    static let types = [
+        Choice(id: "", label: "Select type"),
+        Choice(id: "first", label: "First visit"),
+        Choice(id: "follow-up", label: "Follow-up"),
+        Choice(id: "advice", label: "Advice by phone"),
+    ]
+    static let people = [
+        Choice(id: "any", label: "No preference"),
+        Choice(id: "sam", label: "Sam Okoro"),
+        Choice(id: "alex", label: "Alex Kim"),
+    ]
+    static let timesOfDay = [
+        Choice(id: "", label: "Select an option"),
+        Choice(id: "morning", label: "Morning"),
+        Choice(id: "afternoon", label: "Afternoon"),
+        Choice(id: "evening", label: "Evening"),
+    ]
+
+    /// Times can be looked for once a type is chosen: the type decides how long the appointment is.
+    var canFindTimes: Bool { !type.isEmpty }
+}`}</code
+        ></pre>
+
+    <h2>Step 3: Choose the colours</h2>
+
+    <p>
+        Lily ships no brand. The navy band and the gold line are the service's own; the text on the
+        band is white, well above 4.5:1, and the brand colour is never the colour of text on the
+        page.
+    </p>
+
+    <p><code>BookAppointment/Brand.swift</code></p>
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre
+        tabindex="0"
+        data-file="BookAppointment/Brand.swift"><code
+            >{`import SwiftUI
+
+// The service's own colours. A brand colour colours a band or a line, never text on the page; the text on the band is
+// white, well above 4.5:1 on this navy (AGENTS/visual-identity.md). Lily ships no brand: these are yours.
+enum Brand {
+    static let band = Color(red: 0x1F / 255, green: 0x2A / 255, blue: 0x44 / 255)
+    static let onBand = Color.white
+    static let line = Color(red: 0xC8 / 255, green: 0x9B / 255, blue: 0x3C / 255)
+}`}</code
+        ></pre>
+
+    <h2>Step 4: Ask for a choice</h2>
+
+    <p>
+        Lily's <code>Field</code> draws the label above the control and gives the control its spoken
+        name, so VoiceOver says "Location" before "Main office". The box with a chevron is a
+        <code>Menu</code>
+        holding a <code>Picker</code>.
+    </p>
+
+    <p><code>BookAppointment/ChoiceField.swift</code></p>
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre
+        tabindex="0"
+        data-file="BookAppointment/ChoiceField.swift"><code
+            >{`import LilyThemes
+import LilyUI
+import SwiftUI
+
+/// A labelled choice drawn as a box with a chevron, like a web select. Lily's Field gives the label, which is also what
+/// VoiceOver says before the current choice.
+struct ChoiceField: View {
+    let label: String
+    let choices: [Choice]
+    @Binding var selection: String
+    @Environment(\\.lilyTokens) private var tokens
+
+    var body: some View {
+        Field(label: label) {
+            Menu {
+                Picker(selection: $selection) {
+                    ForEach(choices) { Text($0.label).tag($0.id) }
+                } label: {
+                    EmptyView()
+                }
+            } label: {
+                HStack {
+                    Text(choices.first { $0.id == selection }?.label ?? "")
+                    Spacer()
+                    Image(systemName: "chevron.down").accessibilityHidden(true)
+                }
+                .foregroundStyle(tokens.baseContent)
+                .padding(.horizontal, 16)
+                .frame(maxWidth: 300, minHeight: 50)
+                .background(tokens.base100)
+                .overlay(Rectangle().strokeBorder(tokens.baseContent, lineWidth: 2))
+            }
+        }
+    }
+}`}</code
+        ></pre>
+
+    <h2>Step 5: Draw the screen</h2>
+
+    <p>
+        The heading is marked as a header for VoiceOver's rotor. Lily's <code>InsetText</code> sets the
+        guidance apart, with the theme's rail at its edge.
+    </p>
+
+    <p><code>BookAppointment/BookAppointmentView.swift</code></p>
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre
+        tabindex="0"
+        data-file="BookAppointment/BookAppointmentView.swift"><code
+            >{`import LilyThemes
+import LilyUI
+import SwiftUI
+
+struct BookAppointmentView: View {
+    @State private var booking = Booking()
+    @Environment(\\.lilyTokens) private var tokens
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 24) {
+                Text(Words.title)
+                    .font(.system(size: 40, weight: .bold))
+                    .accessibilityAddTraits(.isHeader)
+                InsetText { Text(Words.intro) }
+                ChoiceField(label: Words.location, choices: Booking.locations, selection: $booking.location)
+                ChoiceField(label: Words.type, choices: Booking.types, selection: $booking.type)
+                ChoiceField(label: Words.person, choices: Booking.people, selection: $booking.person)
+                ChoiceField(label: Words.timeOfDay, choices: Booking.timesOfDay, selection: $booking.timeOfDay)
+                Button(Words.findTimes) {}
+                    .buttonStyle(.borderedProminent)
+                    .disabled(!booking.canFindTimes)
+                    .accessibilityHint(booking.canFindTimes ? "" : Words.choose)
+            }
+            .padding(.horizontal, 20)
+            .padding(.vertical, 16)
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .foregroundStyle(tokens.baseContent)
+        .background(tokens.base200)
+    }
+}`}</code
+        ></pre>
+
+    <h2>Step 6: Add the bars</h2>
+
+    <p>
+        Both bars are drawn here so they match the service's design, rather than iOS's own floating
+        tab bar. A tab bar drawn by hand must still say which tab is selected, so the selected
+        button has the <code>.isSelected</code> trait.
+    </p>
+
+    <p><code>BookAppointment/AppShell.swift</code></p>
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre
+        tabindex="0"
+        data-file="BookAppointment/AppShell.swift"><code
+            >{`import LilyThemes
+import SwiftUI
+
+/// The app's frame: a top bar of labelled buttons, the screen, and a tab bar. Both bars are drawn here so they match the
+/// service's own design; a tab bar drawn by hand must still say which tab is selected, as TabView does.
+struct AppShell: View {
+    @State private var tab = Words.appointments
+
+    var body: some View {
+        VStack(spacing: 0) {
+            TopBar()
+            BookAppointmentView()
+            TabBar(selection: $tab)
+        }
+    }
+}
+
+private struct BarButton: View {
+    let icon: String
+    let label: String
+    var body: some View {
+        Button {} label: {
+            VStack(spacing: 2) {
+                Image(systemName: icon).font(.title2).accessibilityHidden(true)
+                Text(label).font(.caption2)
+            }
+            .frame(minWidth: 52, minHeight: 44)
+        }
+    }
+}
+
+private struct TopBar: View {
+    var body: some View {
+        HStack {
+            BarButton(icon: "house", label: Words.home)
+            BarButton(icon: "character.bubble", label: Words.language)
+            Spacer()
+            HStack(spacing: 6) {
+                Image(systemName: "circle.hexagongrid.fill").font(.title).accessibilityHidden(true)
+                Text(Words.appName).font(.caption.bold())
+            }
+            .accessibilityElement(children: .combine)
+            .accessibilityAddTraits(.isHeader)
+            Spacer()
+            BarButton(icon: "questionmark.circle", label: Words.help)
+            BarButton(icon: "message", label: Words.messages)
+        }
+        .padding(.horizontal, 8)
+        .padding(.bottom, 8)
+        .foregroundStyle(Brand.onBand)
+        .tint(Brand.onBand)
+        .background(Brand.band.ignoresSafeArea(edges: .top))
+    }
+}
+
+private struct TabBar: View {
+    @Binding var selection: String
+    @Environment(\\.lilyTokens) private var tokens
+    private let tabs = [
+        (Words.appointments, "calendar"), (Words.orders, "bag"), (Words.account, "person.crop.circle"),
+        (Words.more, "ellipsis"),
+    ]
+
+    var body: some View {
+        HStack {
+            ForEach(tabs, id: \\.0) { label, icon in
+                let selected = label == selection
+                Button { selection = label } label: {
+                    VStack(spacing: 4) {
+                        Image(systemName: icon).font(.title3).symbolVariant(selected ? .fill : .none)
+                            .accessibilityHidden(true)
+                        Text(label).font(.caption2).fontWeight(selected ? .bold : .regular)
+                    }
+                    .frame(maxWidth: .infinity, minHeight: 48)
+                    .foregroundStyle(selected ? Brand.band : tokens.baseContent)
+                }
+                .accessibilityAddTraits(selected ? [.isSelected] : [])
+            }
+        }
+        .padding(.top, 6)
+        .background(tokens.base100.ignoresSafeArea(edges: .bottom))
+        .overlay(alignment: .top) { Rectangle().fill(Brand.line).frame(height: 2) }
+        .accessibilityElement(children: .contain)
+        .accessibilityLabel(Words.tabs)
+    }
+}`}</code
+        ></pre>
+
+    <h2>Step 7: Start the app</h2>
+
+    <p><code>.lilyTheme(.light)</code> draws every Lily component in the light theme's tokens.</p>
+
+    <p><code>BookAppointment/BookAppointmentApp.swift</code></p>
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre
+        tabindex="0"
+        data-file="BookAppointment/BookAppointmentApp.swift"><code
+            >{`import LilyThemes
+import SwiftUI
+
+@main
+struct BookAppointmentApp: App {
+    var body: some Scene {
+        WindowGroup {
+            AppShell()
+                .lilyTheme(.light)
+        }
+    }
+}`}</code
+        ></pre>
+
+    <div class="callout">
+        <p style="margin: 0;">
+            <strong>Check your work:</strong> run the app in an iPhone simulator. Turn on VoiceOver (or
+            the Accessibility Inspector) and move through the screen: each choice says its label, then
+            its value, and the Appointments tab says it is selected. "Find times" is dimmed until you
+            choose a type.
+        </p>
+    </div>
+
+    <h2>What this does not do yet</h2>
+
+    <ul>
+        <li>
+            The buttons in the bars and "Find times" do nothing: the screen is the lesson, not the
+            booking.
+        </li>
+        <li>
+            The choices are fixed examples. A real app asks its service for them, in the person's
+            language.
+        </li>
+        <li>It has one language. The words are in one place, so adding another touches no view.</li>
+    </ul>
+
+    <h2>Next steps</h2>
+
+    <ul>
+        <li>
+            <a href="/tutorials/book-appointment/kotlin/">Kotlin version</a>: the same screen on
+            Android with Jetpack Compose.
+        </li>
+        <li>
+            <a href="/tutorials/book-appointment/maui/">.NET MAUI version</a>: the same screen on
+            .NET MAUI.
+        </li>
+        <li>
+            <a href="/tutorials/swift/">Swift tutorial</a>: the rest of Lily's SwiftUI components.
+        </li>
+    </ul>
+</section>
