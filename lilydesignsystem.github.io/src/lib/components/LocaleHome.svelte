@@ -11,6 +11,7 @@
 <script lang="ts">
     import { ui } from "#lib/i18n.js";
     import { localeLabel } from "#lib/locales.js";
+    import HomeComponentIcons from "#lib/components/HomeComponentIcons.svelte";
     import HomeTiles from "#lib/components/HomeTiles.svelte";
 
     let { locale }: { locale: string } = $props();
@@ -25,6 +26,7 @@
 <section class="page-intro">
     <h1>{strings.home.heroTitle}</h1>
     <p class="page-intro-tagline">{strings.home.heroTagline}</p>
+    <HomeComponentIcons label={strings.nav.components} />
     <ul
         class="framework-icon-row"
         aria-label={strings.home.frameworks}

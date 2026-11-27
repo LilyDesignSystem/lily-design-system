@@ -46,6 +46,10 @@ framework stacks through tutorials.
   overriding it, and runtime switching with theme-picker) and `helpers`
   (all eight pickers — theme, locale, text-size, motion, share, search,
   date-time — plus `picker-bar`, the tooltips, and a combined settings panel).
+- The default and localized home pages show twelve component links above the framework icons.
+  Each link pairs the component name with a transparent 64 × 64 PNG from
+  `/assets/images/icons/<component>/64x64.png` and opens its component documentation. Chat Bubble links to
+  the Chat Message catalog page.
 - The home page's framework icon row includes an 8th icon, Web
   Components, which links directly to its GitHub repo rather than a
   `/tutorials/` page — there is no Web Components tutorial or example

@@ -1,5 +1,6 @@
 <script lang="ts">
   import { LILY_COMPONENTS, type LilyComponent } from '#lib/components.js';
+  import HomeComponentIcons from '#lib/components/HomeComponentIcons.svelte';
   import HomeTiles from '#lib/components/HomeTiles.svelte';
   import { locales } from '#lib/locales.js';
   import { firstVisitThisSession, pickLocaleRoute } from '#lib/locale-redirect.js';
@@ -48,6 +49,7 @@
     hundreds of components. You can use headless
     where you bring your own CSS, or styled customizable themes.
   </p>
+  <HomeComponentIcons label="Components" />
   <ul class="framework-icon-row" aria-label="Supported frameworks">
     <li>
       <a class="framework-icon-link" href="/tutorials/svelte/">
