@@ -24,7 +24,7 @@
 
 A headless Alpine.js kanban board: drag and drop plus a keyboard move menu, WIP limits, APG grid navigation — a subset of the Svelte reference.
 
-Alpine helpers are TypeScript built with tsup: a plugin registering `Alpine.data("…")`, plus `snippet.html`, the markup that
+Alpine helpers are TypeScript (type-checked with TypeScript 7), built with tsup and rollup-plugin-dts: a plugin registering `Alpine.data("…")`, plus `snippet.html`, the markup that
 uses it. Svelte is the canonical contract ([spec/helpers](../spec/helpers/index.md)); this package implements the subset its
 `spec/index.md` lists and says plainly what is not built.
 

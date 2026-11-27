@@ -11,6 +11,11 @@ highlights.
 
 ## Unreleased (2026-11-26)
 
+- **Changed (Alpine helpers):** the six Alpine helpers move to TypeScript 7. Its native compiler has no JavaScript API, so tsup's
+  `--dts` cannot run: each `build.js` now bundles the JavaScript with tsup and the declarations with rollup-plugin-dts, which uses
+  the TypeScript 6 API package `@typescript/typescript6`; `npm run check` type-checks with TypeScript 7. Each package's
+  `dist/index.d.ts` is the same file it was.
+
 - **Released:** the Swift package 0.2.0 (2026-11-27), with `DateField`, `QuantityInput`, `RepeatableFieldset` and `StepList` in
   LilyUI and `FormParts` in LilyCore, from a clean, green `bin/ci --full` receipt; SwiftPM resolves it from the export
   repository.
