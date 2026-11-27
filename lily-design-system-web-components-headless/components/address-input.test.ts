@@ -67,4 +67,11 @@ describe("AddressInput", () => {
         expect(host.querySelectorAll("div.address-input").length).toBe(1);
         expect(root(host).querySelectorAll("input").length).toBe(2);
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-address-input label="Home"></lily-address-input>`;
+        const el = document.querySelector("lily-address-input")!;
+        el.setAttribute("label", "Work");
+        expect(el.querySelector("div.address-input")!.getAttribute("aria-label")).toBe("Work");
+    });
 });

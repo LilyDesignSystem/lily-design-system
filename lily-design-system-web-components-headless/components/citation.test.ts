@@ -41,4 +41,15 @@ describe("Citation", () => {
 
         expect(host.querySelectorAll("cite").length).toBe(1);
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-citation label="Source">Smith 2020</lily-citation>`;
+        const el = document.querySelector("lily-citation")!;
+        el.setAttribute("label", "Cited from");
+        const cite = el.querySelector("cite")!;
+        expect(cite.textContent).toBe("Cited from Smith 2020");
+        expect(cite.querySelectorAll(".screen-reader-span").length).toBe(1);
+        el.removeAttribute("label");
+        expect(cite.textContent).toBe("Smith 2020");
+    });
 });

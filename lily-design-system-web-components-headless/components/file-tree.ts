@@ -27,12 +27,26 @@
 //   - components/file-tree/index.md (canonical contract)
 //   - WAI-ARIA Tree View Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/treeview/
 
-import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import {
+    moveChildrenInto,
+    passThroughAttributes,
+    rootClassName,
+    followLabel,
+} from "../lib/dom-utils.js";
 
 const HANDLED = new Set(["label"]);
 const ITEM = "[role='treeitem']";
 
 export class FileTree extends HTMLElement {
+    // A change to label or class is shown (tasks.md P50-T28); the content is the consumer's children.
+    static get observedAttributes(): string[] {
+        return ["label", "class"];
+    }
+
+    attributeChangedCallback(): void {
+        followLabel(this, "ul.file-tree", "file-tree");
+    }
+
     #ul: HTMLUListElement | null = null;
     #observer: MutationObserver | null = null;
     #buffer = "";

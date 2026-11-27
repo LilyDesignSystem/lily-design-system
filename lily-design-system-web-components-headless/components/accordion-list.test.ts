@@ -63,4 +63,13 @@ describe("AccordionList", () => {
         expect(host.querySelectorAll("ol.accordion-list").length).toBe(1);
         expect(list(host).children.length).toBe(1);
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-accordion-list label="Sections"></lily-accordion-list>`;
+        const el = document.querySelector("lily-accordion-list")!;
+        el.setAttribute("label", "Chapters");
+        expect(el.querySelector("ol")!.getAttribute("aria-label")).toBe("Chapters");
+        el.setAttribute("label", "");
+        expect(el.querySelector("ol")!.hasAttribute("aria-label")).toBe(false);
+    });
 });

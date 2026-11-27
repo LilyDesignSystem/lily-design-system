@@ -44,4 +44,16 @@ describe("Kbd", () => {
 
         expect(host.querySelectorAll("kbd").length).toBe(1);
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-kbd >Ctrl</lily-kbd>`;
+        const el = document.querySelector("lily-kbd")!;
+        el.setAttribute("label", "Control");
+        const k = el.querySelector("kbd")!;
+        expect(k.querySelector(".screen-reader-span")!.textContent).toBe("Control ");
+        expect(k.querySelector(".kbd-text")!.getAttribute("aria-hidden")).toBe("true");
+        el.removeAttribute("label");
+        expect(k.querySelector(".screen-reader-span")).toBeNull();
+        expect(k.querySelector(".kbd-text")!.hasAttribute("aria-hidden")).toBe(false);
+    });
 });

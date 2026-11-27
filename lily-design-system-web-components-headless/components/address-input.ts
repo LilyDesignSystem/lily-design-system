@@ -19,6 +19,21 @@ import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/d
 const HANDLED = new Set(["label"]);
 
 export class AddressInput extends HTMLElement {
+    // A change to label or class is shown (tasks.md P50-T28); the content is the consumer's children.
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const root = this.querySelector(":scope > div.address-input");
+        if (!root) return;
+        root.className = rootClassName(this, "address-input");
+        // An empty label names nothing, as when it is built.
+        const label = this.getAttribute("label");
+        if (label) root.setAttribute("aria-label", label);
+        else root.removeAttribute("aria-label");
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > div.address-input")) return;
 

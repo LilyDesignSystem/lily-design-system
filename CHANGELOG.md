@@ -21,7 +21,8 @@ highlights.
   layout parts) follow their label and class. `progress-bar` and `progress-circle` move their `aria-valuenow` with `value`;
   `notification`, `toast`, `error-summary`, `phase-banner`, `checkbox-input`, `select` (its value is the default option),
   `skip-link`, the `go-to-*` links, `medical-banner` and `banner` (a later `dismissible` adds the close button), `draft`,
-  `headline` (a new `level` is a new heading) and `menu-group` follow their attributes too.
+  `headline` (a new `level` is a new heading), `menu-group`, `accordion-list`, `address-input`, `citation`, `file-tree`, `flair`
+  (named, an image; unnamed, hidden), `kbd` and the five-colour radio group follow their attributes too.
   `bin/check-web-components-live` (in `bin/test`) fails on an element that observes no attribute unless it is listed with a reason.
 
 - **Fixed (healthcare):** `international-patient-summary-section` no longer prints "none known" above a record list that holds an

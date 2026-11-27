@@ -11,10 +11,25 @@
 //   - MDN <cite> element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/cite
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { part } from "../lib/live-element.js";
 
 const HANDLED = new Set<string>(["label"]);
 
 export class Citation extends HTMLElement {
+    // A change to label or class is shown (tasks.md P50-T28); the content is the consumer's children.
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const root = this.querySelector(":scope > cite.citation");
+        if (!root) return;
+        root.className = rootClassName(this, "citation");
+        root.querySelector(":scope > .screen-reader-span")?.remove();
+        const label = this.getAttribute("label");
+        if (label) root.prepend(part("screen-reader-span", `${label} `));
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > cite.citation")) return;
 

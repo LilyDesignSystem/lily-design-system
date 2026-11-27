@@ -53,4 +53,17 @@ describe("Flair", () => {
         expect(span.className).toBe("flair extra");
         expect(span.getAttribute("data-testid")).toBe("flair");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-flair >*</lily-flair>`;
+        const el = document.querySelector("lily-flair")!;
+        el.setAttribute("label", "New");
+        const span = el.querySelector("span.flair")!;
+        expect(span.getAttribute("role")).toBe("img");
+        expect(span.getAttribute("aria-label")).toBe("New");
+        expect(span.hasAttribute("aria-hidden")).toBe(false);
+        el.removeAttribute("label");
+        expect(span.getAttribute("aria-hidden")).toBe("true");
+        expect(span.hasAttribute("role")).toBe(false);
+    });
 });

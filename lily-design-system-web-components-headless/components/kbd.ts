@@ -9,10 +9,28 @@
 //   - MDN kbd element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/kbd
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { part } from "../lib/live-element.js";
 
 const HANDLED = new Set<string>(["label"]);
 
 export class Kbd extends HTMLElement {
+    // A change to label or class is shown (tasks.md P50-T28); the content is the consumer's children.
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const root = this.querySelector(":scope > kbd.kbd");
+        if (!root) return;
+        root.className = rootClassName(this, "kbd");
+        root.querySelector(":scope > .screen-reader-span")?.remove();
+        const label = this.getAttribute("label");
+        const text = root.querySelector(":scope > .kbd-text");
+        if (label) text?.setAttribute("aria-hidden", "true");
+        else text?.removeAttribute("aria-hidden");
+        if (label) root.prepend(part("screen-reader-span", `${label} `));
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > kbd.kbd")) return;
 

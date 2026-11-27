@@ -19,6 +19,28 @@ import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/d
 const HANDLED = new Set(["label"]);
 
 export class Flair extends HTMLElement {
+    // A change to label or class is shown (tasks.md P50-T28); the content is the consumer's children.
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const span = this.querySelector(":scope > span.flair");
+        if (!span) return;
+        span.className = rootClassName(this, "flair");
+        // Named, it is an image; unnamed, it is decoration and hidden.
+        const label = this.getAttribute("label");
+        if (label !== null) {
+            span.setAttribute("aria-label", label);
+            span.setAttribute("role", "img");
+            span.removeAttribute("aria-hidden");
+        } else {
+            span.removeAttribute("aria-label");
+            span.removeAttribute("role");
+            span.setAttribute("aria-hidden", "true");
+        }
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > span.flair")) return;
 
