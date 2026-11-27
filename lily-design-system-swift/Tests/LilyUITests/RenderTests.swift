@@ -385,3 +385,35 @@ private struct CustomScoreStyle: EarlyWarningScoreViewStyle {
         })
     #expect(records.height > inError.height + 60)
 }
+
+@MainActor @Test func formPartsRenderAndFollowTheSharedRules() throws {
+    var date = "1949-02-03"
+    let dateBinding = Binding(get: { date }, set: { date = $0 })
+    #expect(render(DateField(label: "Date of birth", dayLabel: "Day", monthLabel: "Month", yearLabel: "Year", order: .dmy, value: dateBinding)))
+    #expect(render(DateField(label: "Year", yearLabel: "Year", order: .mdy, precision: .year, value: dateBinding, description: "e.g.", error: "Enter it")))
+    #expect(DateField.warnings(precision: .day, labels: [.year: "Year"]).count == 2)
+    #expect(DateField.warnings(precision: .year, labels: [.year: "Year"]).isEmpty)
+
+    var magnitude = "70", unit = "kg"
+    let units = [QuantityUnit(value: "kg", label: "kilograms", min: 1, max: 400), QuantityUnit(value: "lb", label: "pounds", min: 2, max: 880)]
+    #expect(render(QuantityInput(label: "Weight", magnitudeLabel: "Weight", unitLabel: "Unit", units: units, magnitude: Binding(get: { magnitude }, set: { magnitude = $0 }), unit: Binding(get: { unit }, set: { unit = $0 }), error: "Too heavy")))
+    #expect(render(QuantityInput(label: "Height", magnitudeLabel: "Height", units: [units[0]], magnitude: Binding(get: { magnitude }, set: { magnitude = $0 }), unit: Binding(get: { unit }, set: { unit = $0 }))))
+    #expect(try QuantityInput.problem(magnitude: "500", unit: "kg", units: units) == .aboveMaximum)
+    #expect(try QuantityInput.problem(magnitude: "500", unit: "lb", units: units) == nil)
+    #expect(try QuantityInput.problem(magnitude: "500", unit: "stone", units: units) == nil)
+
+    var medicines = ["Ramipril"]
+    let fieldset = RepeatableFieldset(
+        legend: "Medicines", items: Binding(get: { medicines }, set: { medicines = $0 }), newItem: { "" },
+        itemLegend: { "Medicine \($0)" }, addLabel: "Add", removeLabel: { "Remove \($0)" }, min: 1, max: 3,
+        addedLabel: { "Added \($0)" }, removedLabel: { "Removed \($0)" }
+    ) { item, _ in TextField("Name", text: item) }
+    #expect(render(fieldset))
+    #expect(RepeatableFieldset<String, Text>.allowed(count: 1, min: 1, max: 3) == (true, false))
+    #expect(RepeatableFieldset<String, Text>.allowed(count: 3, min: 1, max: 3) == (false, true))
+    #expect(RepeatableFieldset<String, Text>.allowed(count: 2, min: -1, max: nil) == (false, false))
+
+    #expect(render(StepList(label: "Questions", steps: ["About you", "Medicines", "Check"], current: 1) { "\($0.rawValue)" }))
+    #expect(StepList.statuses(count: 3, current: 1) == [.finished, .inProgress, .waiting])
+    #expect(StepList.statuses(count: 2, current: -1) == [.waiting, .waiting])
+}
