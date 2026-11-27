@@ -69,4 +69,19 @@ describe("CheckboxInput", () => {
         expect(input.getAttribute("name")).toBe("ch");
         expect(input.getAttribute("value")).toBe("email");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-checkbox-input label="Agree"></lily-checkbox-input>`;
+        const el = document.querySelector("lily-checkbox-input")!;
+        const input = el.querySelector("input")!;
+        el.setAttribute("required", "");
+        el.setAttribute("label", "I agree");
+        expect(input.required).toBe(true);
+        expect(input.getAttribute("aria-label")).toBe("I agree");
+        input.checked = true;
+        el.setAttribute("checked", "");
+        el.removeAttribute("checked");
+        expect(input.defaultChecked).toBe(false);
+        expect(input.checked).toBe(true);
+    });
 });

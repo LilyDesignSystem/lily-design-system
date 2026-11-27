@@ -19,11 +19,31 @@
 //   - components/select/index.md (canonical contract)
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { setOrRemove } from "../lib/live-element.js";
 
 const HANDLED = new Set(["label", "value", "required", "disabled"]);
 
 export class Select extends HTMLElement {
     #select: HTMLSelectElement | null = null;
+
+    // A change to label, value (the default option), required, disabled or class is shown (tasks.md P50-T28). value makes the
+    // matching option the default, which shows only until the person picks one, as a native select's selected attribute does.
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(name: string): void {
+        const select = this.#select;
+        if (!select) return;
+        select.className = rootClassName(this, "select");
+        setOrRemove(select, "aria-label", this.getAttribute("label"));
+        select.required = this.hasAttribute("required");
+        select.disabled = this.hasAttribute("disabled");
+        if (name !== "value") return;
+        const value = this.getAttribute("value");
+        for (const option of Array.from(select.options))
+            option.defaultSelected = option.value === value;
+    }
 
     connectedCallback(): void {
         if (this.#select) return;

@@ -70,4 +70,15 @@ describe("Select", () => {
 
         expect(host.querySelector("select")!.className).toBe("select extra");
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-select label="Colour" value="red"><option value="red">Red</option><option value="blue">Blue</option></lily-select>`;
+        const el = document.querySelector("lily-select")!;
+        const select = el.querySelector("select")!;
+        el.setAttribute("value", "blue");
+        el.setAttribute("disabled", "");
+        expect(select.value).toBe("blue");
+        expect(select.disabled).toBe(true);
+        expect(select.options[1].defaultSelected).toBe(true);
+    });
 });

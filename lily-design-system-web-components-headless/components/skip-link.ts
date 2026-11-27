@@ -20,6 +20,19 @@ import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 const HANDLED = new Set(["href", "label"]);
 
 export class SkipLink extends HTMLElement {
+    // A change to href, label (the link's text) or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const a = this.querySelector<HTMLAnchorElement>(":scope > a.skip-link");
+        if (!a) return;
+        a.className = rootClassName(this, "skip-link");
+        a.href = this.getAttribute("href") ?? "#content";
+        a.textContent = this.getAttribute("label") ?? "";
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > a.skip-link")) return;
 

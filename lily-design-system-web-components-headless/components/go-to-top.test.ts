@@ -62,4 +62,11 @@ describe("GoToTop", () => {
 
         expect(host.querySelectorAll("a.go-to-top").length).toBe(1);
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-go-to-top label="Top"></lily-go-to-top>`;
+        const el = document.querySelector("lily-go-to-top")!;
+        el.setAttribute("label", "Back to top");
+        expect(el.querySelector("a.go-to-top")!.textContent).toBe("Back to top");
+    });
 });

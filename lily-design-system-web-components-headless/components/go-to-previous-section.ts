@@ -19,6 +19,21 @@ import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 const HANDLED = new Set(["href", "label"]);
 
 export class GoToPreviousSection extends HTMLElement {
+    // A change to href, label (the link's text) or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const a = this.querySelector<HTMLAnchorElement>(":scope > a.go-to-previous-section");
+        if (!a) return;
+        a.className = rootClassName(this, "go-to-previous-section");
+        const href = this.getAttribute("href");
+        if (href !== null) a.href = href;
+        else a.removeAttribute("href");
+        a.textContent = this.getAttribute("label") ?? "";
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > a.go-to-previous-section")) return;
 

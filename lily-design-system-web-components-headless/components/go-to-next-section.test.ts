@@ -68,4 +68,14 @@ describe("GoToNextSection", () => {
 
         expect(host.querySelectorAll("a.go-to-next-section").length).toBe(1);
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-go-to-next-section href="#b" label="Next"></lily-go-to-next-section>`;
+        const el = document.querySelector("lily-go-to-next-section")!;
+        el.setAttribute("href", "#c");
+        el.setAttribute("label", "Next: Results");
+        const a = el.querySelector("a.go-to-next-section")!;
+        expect(a.getAttribute("href")).toBe("#c");
+        expect(a.textContent).toBe("Next: Results");
+    });
 });

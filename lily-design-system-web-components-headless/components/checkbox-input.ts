@@ -18,11 +18,28 @@
 //   - WAI-ARIA Checkbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/
 
 import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { setOrRemove } from "../lib/live-element.js";
 
 const HANDLED = new Set(["label", "checked", "required", "disabled"]);
 
 export class CheckboxInput extends HTMLElement {
     #input: HTMLInputElement | null = null;
+
+    // A change to label, checked (the default), required, disabled or class is shown (tasks.md P50-T28); a box the person ticked
+    // stays ticked.
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const input = this.#input;
+        if (!input) return;
+        input.className = rootClassName(this, "checkbox-input");
+        setOrRemove(input, "aria-label", this.getAttribute("label"));
+        input.defaultChecked = this.hasAttribute("checked");
+        input.required = this.hasAttribute("required");
+        input.disabled = this.hasAttribute("disabled");
+    }
 
     connectedCallback(): void {
         if (this.#input) return;

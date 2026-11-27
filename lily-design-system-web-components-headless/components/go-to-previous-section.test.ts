@@ -68,4 +68,11 @@ describe("GoToPreviousSection", () => {
 
         expect(host.querySelectorAll("a.go-to-previous-section").length).toBe(1);
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-go-to-previous-section href="#a" label="Previous"></lily-go-to-previous-section>`;
+        const el = document.querySelector("lily-go-to-previous-section")!;
+        el.removeAttribute("href");
+        expect(el.querySelector("a.go-to-previous-section")!.hasAttribute("href")).toBe(false);
+    });
 });

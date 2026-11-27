@@ -54,4 +54,16 @@ describe("SkipLink", () => {
 
         expect(host.querySelectorAll("a.skip-link").length).toBe(1);
     });
+
+    test("shows a change to its attributes after it is mounted (P50-T28)", () => {
+        document.body.innerHTML = `<lily-skip-link href="#main" label="Skip to content"></lily-skip-link>`;
+        const el = document.querySelector("lily-skip-link")!;
+        el.setAttribute("href", "#start");
+        el.setAttribute("label", "Skip to the form");
+        const a = el.querySelector("a.skip-link")!;
+        expect(a.getAttribute("href")).toBe("#start");
+        expect(a.textContent).toBe("Skip to the form");
+        el.removeAttribute("href");
+        expect(a.getAttribute("href")).toBe("#content");
+    });
 });
