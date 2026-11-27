@@ -2,6 +2,8 @@ node_modules
 dist
 build
 .svelte-kit
+# svelte-package's staging folder, which a package build makes and deletes while a parallel lint may be listing files.
+.svelte-package-src
 *.lock
 pnpm-lock.yaml
 # Generated or synced files: edit the source (see AGENTS/lily.md "Generated files").

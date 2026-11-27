@@ -119,7 +119,7 @@ export default function InternationalPatientSummarySection(
     );
     return (
         <section
-            ref={root}
+            ref={(element) => (root = element)}
             class={`international-patient-summary-section ${p.class}`}
             id={sectionId()}
             aria-labelledby={headingId()}

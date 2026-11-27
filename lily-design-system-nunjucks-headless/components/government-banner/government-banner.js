@@ -17,5 +17,7 @@ export function initGovernmentBanner(root) {
 
 /** Wire every `.government-banner` on the page, once. */
 export function autoInit(doc = document) {
-    return [...doc.querySelectorAll(".government-banner")].map(initGovernmentBanner).filter(Boolean);
+    return [...doc.querySelectorAll(".government-banner")]
+        .map(initGovernmentBanner)
+        .filter(Boolean);
 }
