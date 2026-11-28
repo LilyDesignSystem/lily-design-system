@@ -104,3 +104,47 @@ describe("ScrollerVideo", () => {
         expect(host.getAttribute("aria-label")).toBe("Story");
     });
 });
+
+describe("scroller-video follows its attributes (P50-T28)", () => {
+    test("shows a change to label, alt, src and class, and tracks the steps again with a new offset", () => {
+        let made = 0;
+        class CountingObserver {
+            disconnected = false;
+            constructor() {
+                made += 1;
+            }
+            observe(): void {}
+            disconnect(): void {
+                this.disconnected = true;
+            }
+            unobserve(): void {}
+            takeRecords(): [] {
+                return [];
+            }
+        }
+        vi.stubGlobal(
+            "IntersectionObserver",
+            CountingObserver as unknown as typeof IntersectionObserver,
+        );
+        const host = render(
+            '<lily-scroller-video src="/a.mp4" alt="Old"><div>Step 1</div></lily-scroller-video>',
+        );
+        expect(made).toBe(1);
+        host.setAttribute("label", "Story");
+        host.setAttribute("class", "wide");
+        expect(host.className).toBe("scroller-video wide");
+        expect(host.getAttribute("aria-label")).toBe("Story");
+        expect(host.getAttribute("role")).toBe("group");
+        host.setAttribute("offset", "0.3");
+        expect(made).toBe(2);
+        host.removeAttribute("label");
+        expect(host.hasAttribute("aria-label")).toBe(false);
+        host.setAttribute("alt", "A walk through the ward");
+        host.setAttribute("src", "/b.mp4");
+        expect(host.querySelector(".scroller-video-background")?.getAttribute("aria-label")).toBe(
+            "A walk through the ward",
+        );
+        expect(host.querySelector("video")?.getAttribute("src")).toBe("/b.mp4");
+        vi.unstubAllGlobals();
+    });
+});

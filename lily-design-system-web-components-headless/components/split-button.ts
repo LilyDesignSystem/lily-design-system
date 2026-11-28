@@ -49,6 +49,33 @@ export class SplitButton extends HTMLElement {
     #trigger: HTMLButtonElement | null = null;
     #menu: HTMLDivElement | null = null;
     #menuId = nextId("lily-split-button-menu");
+    #primary: HTMLButtonElement | null = null;
+
+    // A change to label, primary-label, menu-label, disabled, menu-open or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["label", "primary-label", "menu-label", "disabled", "menu-open", "class"];
+    }
+
+    attributeChangedCallback(name: string): void {
+        const primary = this.#primary;
+        const trigger = this.#trigger;
+        if (!this.#built || !primary || !trigger) return;
+        if (name === "menu-open") {
+            this.menuOpen = this.hasAttribute("menu-open");
+            return;
+        }
+        if (!this.classList.contains("split-button")) applySelfClassName(this, "split-button");
+        const label = this.getAttribute("label");
+        if (label !== null) this.setAttribute("aria-label", label);
+        else this.removeAttribute("aria-label");
+        primary.textContent = this.getAttribute("primary-label") ?? "";
+        const menuLabel = this.getAttribute("menu-label");
+        if (menuLabel !== null) trigger.setAttribute("aria-label", menuLabel);
+        else trigger.removeAttribute("aria-label");
+        const disabled = this.hasAttribute("disabled");
+        primary.disabled = disabled;
+        trigger.disabled = disabled;
+    }
 
     connectedCallback(): void {
         if (this.#built) return;
@@ -149,6 +176,7 @@ export class SplitButton extends HTMLElement {
 
         this.#trigger = trigger;
         this.#menu = menu;
+        this.#primary = primary;
     }
 
     get menuOpen(): boolean {

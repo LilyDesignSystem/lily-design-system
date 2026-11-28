@@ -35,6 +35,46 @@ export class ScrollerVideo extends HTMLElement {
     #index = 0;
     #progress = 0;
 
+    // A change to label, offset, alt, src or class is shown (tasks.md P50-T28): a new offset tracks the steps again, a new src loads the new video.
+    static get observedAttributes(): string[] {
+        return ["label", "offset", "alt", "src", "class"];
+    }
+
+    attributeChangedCallback(name: string): void {
+        if (!this.#built) return;
+        if (name === "class") {
+            if (!this.classList.contains("scroller-video"))
+                applySelfClassName(this, "scroller-video");
+            return;
+        }
+        if (name === "label") {
+            const label = this.getAttribute("label");
+            if (label === null) {
+                this.removeAttribute("aria-label");
+                return;
+            }
+            this.setAttribute("aria-label", label);
+            if (!this.hasAttribute("role")) this.setAttribute("role", "group");
+            return;
+        }
+        if (name === "alt") {
+            const background = this.querySelector(":scope > .scroller-video-background");
+            const alt = this.getAttribute("alt");
+            if (alt !== null) background?.setAttribute("aria-label", alt);
+            else background?.removeAttribute("aria-label");
+            return;
+        }
+        if (name === "src") {
+            const src = this.getAttribute("src") ?? "";
+            if (this.#video && this.#video.getAttribute("src") !== src) this.#video.src = src;
+            return;
+        }
+        this.#observer?.disconnect();
+        this.#observer = null;
+        if (typeof window !== "undefined") window.removeEventListener("scroll", this.#onScroll);
+        if (this.isConnected) this.#setupStepTracking();
+    }
+
     connectedCallback(): void {
         if (this.#built) return;
         this.#built = true;

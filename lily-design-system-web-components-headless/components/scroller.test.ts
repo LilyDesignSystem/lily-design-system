@@ -102,3 +102,39 @@ describe("Scroller", () => {
         expect(host.hasAttribute("role")).toBe(false);
     });
 });
+
+describe("scroller follows its attributes (P50-T28)", () => {
+    test("shows a change to label and class, and tracks the steps again with a new offset", () => {
+        let made = 0;
+        class CountingObserver {
+            disconnected = false;
+            constructor() {
+                made += 1;
+            }
+            observe(): void {}
+            disconnect(): void {
+                this.disconnected = true;
+            }
+            unobserve(): void {}
+            takeRecords(): [] {
+                return [];
+            }
+        }
+        vi.stubGlobal(
+            "IntersectionObserver",
+            CountingObserver as unknown as typeof IntersectionObserver,
+        );
+        const host = render("<lily-scroller><div>Step 1</div></lily-scroller>");
+        expect(made).toBe(1);
+        host.setAttribute("label", "Story");
+        host.setAttribute("class", "wide");
+        expect(host.className).toBe("scroller wide");
+        expect(host.getAttribute("aria-label")).toBe("Story");
+        expect(host.getAttribute("role")).toBe("group");
+        host.setAttribute("offset", "0.3");
+        expect(made).toBe(2);
+        host.removeAttribute("label");
+        expect(host.hasAttribute("aria-label")).toBe(false);
+        vi.unstubAllGlobals();
+    });
+});

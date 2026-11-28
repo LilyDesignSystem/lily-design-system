@@ -52,3 +52,26 @@ describe("RepeatableFieldset", () => {
         expect(add().disabled).toBe(true);
     });
 });
+
+describe("RepeatableFieldset follows its attributes (P50-T28)", () => {
+    test("shows a change to its labels, min, max and class, keeping the items", () => {
+        const host = make('count="2"');
+        (items()[0].querySelector("input") as HTMLInputElement).value = "Aspirin";
+        host.setAttribute("legend", "Your medicines");
+        host.setAttribute("item-legend", "Item {n}");
+        host.setAttribute("add-label", "Add one more");
+        host.setAttribute("min", "3");
+        host.setAttribute("max", "3");
+        host.setAttribute("class", "wide");
+        const root = host.querySelector("fieldset.repeatable-fieldset") as HTMLFieldSetElement;
+        expect(root.className).toBe("repeatable-fieldset wide");
+        expect(root.querySelector(":scope > legend")?.textContent).toBe("Your medicines");
+        expect(add().textContent).toBe("Add one more");
+        expect(legends()).toEqual(["Item 1", "Item 2", "Item 3"]);
+        expect((items()[0].querySelector("input") as HTMLInputElement).value).toBe("Aspirin");
+        expect(add().disabled).toBe(true);
+        host.removeAttribute("added-label");
+        host.removeAttribute("removed-label");
+        expect(document.querySelector('[role="status"]')).toBeNull();
+    });
+});

@@ -42,6 +42,33 @@ export class Scroller extends HTMLElement {
     #index = 0;
     #progress = 0;
 
+    // A change to label, offset or class is shown (tasks.md P50-T28): a new offset tracks the steps again.
+    static get observedAttributes(): string[] {
+        return ["label", "offset", "class"];
+    }
+
+    attributeChangedCallback(name: string): void {
+        if (!this.#built) return;
+        if (name === "class") {
+            if (!this.classList.contains("scroller")) applySelfClassName(this, "scroller");
+            return;
+        }
+        if (name === "label") {
+            const label = this.getAttribute("label");
+            if (label === null) {
+                this.removeAttribute("aria-label");
+                return;
+            }
+            this.setAttribute("aria-label", label);
+            if (!this.hasAttribute("role")) this.setAttribute("role", "group");
+            return;
+        }
+        this.#observer?.disconnect();
+        this.#observer = null;
+        if (typeof window !== "undefined") window.removeEventListener("scroll", this.#onScroll);
+        if (this.isConnected) this.#setupStepTracking();
+    }
+
     connectedCallback(): void {
         if (this.#built) return;
         this.#built = true;

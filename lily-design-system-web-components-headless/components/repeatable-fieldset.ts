@@ -30,6 +30,35 @@ export class RepeatableFieldset extends HTMLElement {
         return this.#items().length;
     }
 
+    // A change to legend, item-legend, add-label, remove-label, added-label, removed-label, min, max or class is shown (tasks.md
+    // P50-T28): a raised min adds items up to it. count is the starting number only, so it is read once and never takes away
+    // items the person added.
+    static get observedAttributes(): string[] {
+        return [...HANDLED].filter((name) => name !== "count").concat("class");
+    }
+
+    attributeChangedCallback(): void {
+        const root = this.#root;
+        const add = this.#add;
+        if (!root || !add) return;
+        root.className = rootClassName(this, "repeatable-fieldset");
+        const legend = root.querySelector(":scope > legend");
+        if (legend) legend.textContent = this.getAttribute("legend") ?? "";
+        add.textContent = this.getAttribute("add-label") ?? "";
+        const wantStatus = this.hasAttribute("added-label") || this.hasAttribute("removed-label");
+        if (wantStatus && !this.#status) {
+            this.#status = document.createElement("p");
+            this.#status.className = "repeatable-fieldset-status";
+            this.#status.setAttribute("role", "status");
+            root.append(this.#status);
+        } else if (!wantStatus && this.#status) {
+            this.#status.remove();
+            this.#status = null;
+        }
+        while (this.count < this.#min()) this.#append();
+        this.#renumber();
+    }
+
     connectedCallback(): void {
         if (this.#root) return;
         this.#template = this.querySelector(":scope > template");

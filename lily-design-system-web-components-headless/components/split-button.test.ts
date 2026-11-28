@@ -134,3 +134,27 @@ describe("SplitButton", () => {
         expect((handler.mock.calls[0][0] as CustomEvent).detail).toEqual({ open: true });
     });
 });
+
+describe("SplitButton follows its attributes (P50-T28)", () => {
+    test("shows a change to its labels, disabled, menu-open and class", () => {
+        const host = render(
+            '<lily-split-button label="Old" primary-label="Save" menu-label="More"><button>Save as</button></lily-split-button>',
+        );
+        const primary = host.querySelector(".split-button-primary") as HTMLButtonElement;
+        const trigger = host.querySelector(".split-button-menu-trigger") as HTMLButtonElement;
+        host.setAttribute("label", "Save options");
+        host.setAttribute("primary-label", "Save draft");
+        host.setAttribute("menu-label", "More ways to save");
+        host.setAttribute("class", "wide");
+        expect(host.className).toBe("split-button wide");
+        expect(host.getAttribute("aria-label")).toBe("Save options");
+        expect(primary.textContent).toBe("Save draft");
+        expect(trigger.getAttribute("aria-label")).toBe("More ways to save");
+        host.setAttribute("menu-open", "");
+        expect(trigger.getAttribute("aria-expanded")).toBe("true");
+        host.removeAttribute("menu-open");
+        expect(trigger.getAttribute("aria-expanded")).toBe("false");
+        host.setAttribute("disabled", "");
+        expect(primary.disabled && trigger.disabled).toBe(true);
+    });
+});
