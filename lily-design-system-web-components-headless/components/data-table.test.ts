@@ -71,3 +71,22 @@ describe("DataTable", () => {
         expect(host.querySelectorAll("table").length).toBe(1);
     });
 });
+
+describe("DataTable follows its attributes (P50-T28)", () => {
+    test("names the table by its caption, or by label when there is none", () => {
+        const host = render('<lily-data-table label="Patients"></lily-data-table>');
+        const table = host.querySelector("table") as HTMLTableElement;
+        table.createTBody().insertRow().insertCell().textContent = "1";
+        host.setAttribute("caption", "Ward 4");
+        host.setAttribute("class", "wide");
+        expect(table.className).toBe("data-table wide");
+        expect(table.caption?.textContent).toBe("Ward 4");
+        expect(table.hasAttribute("aria-label")).toBe(false);
+        host.removeAttribute("caption");
+        expect(table.caption).toBeNull();
+        expect(table.getAttribute("aria-label")).toBe("Patients");
+        host.setAttribute("label", "People");
+        expect(table.getAttribute("aria-label")).toBe("People");
+        expect(table.querySelector("td")?.textContent).toBe("1");
+    });
+});

@@ -17,12 +17,27 @@
 // References:
 //   - components/calendar-month-table/index.md (canonical contract)
 
-import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import {
+    followTable,
+    moveChildrenInto,
+    passThroughAttributes,
+    rootClassName,
+} from "../lib/dom-utils.js";
 import { attachGrid } from "../lib/widget-keys.js";
 
 const HANDLED = new Set(["label", "caption", "role", "data-view"]);
 
 export class CalendarMonthTable extends HTMLElement {
+    // A change to label, caption or class is shown (tasks.md P50-T28); the consumer's rows are left alone.
+    static get observedAttributes(): string[] {
+        return ["label", "caption", "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const table = this.querySelector<HTMLTableElement>(":scope > table.calendar-month-table");
+        if (table) followTable(this, table, "calendar-month-table");
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > table.calendar-month-table")) return;
 

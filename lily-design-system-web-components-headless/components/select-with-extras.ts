@@ -21,9 +21,25 @@
 //   - HTML <select> element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select
 
 import { applySelfClassName, moveChildrenInto } from "../lib/dom-utils.js";
+import { defaultValues, followSelect } from "../lib/list-values.js";
 
 export class SelectWithExtras extends HTMLElement {
     #select: HTMLSelectElement | null = null;
+
+    // A change to label, value (the default choice), required, disabled or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["label", "value", "required", "disabled", "class"];
+    }
+
+    attributeChangedCallback(name: string): void {
+        const select = this.#select;
+        if (!select) return;
+        if (!this.classList.contains("select-with-extras"))
+            applySelfClassName(this, "select-with-extras");
+        followSelect(this, select);
+        const value = this.getAttribute("value");
+        if (name === "value" && value !== null) defaultValues(select, [value]);
+    }
 
     connectedCallback(): void {
         if (this.#select) return;

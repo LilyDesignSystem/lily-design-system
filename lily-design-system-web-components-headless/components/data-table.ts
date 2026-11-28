@@ -30,12 +30,28 @@
 // References:
 //   - components/data-table/index.md (canonical contract)
 
-import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import {
+    followTable,
+    moveChildrenInto,
+    passThroughAttributes,
+    rootClassName,
+} from "../lib/dom-utils.js";
 import { attachGrid } from "../lib/widget-keys.js";
 
 const HANDLED = new Set(["label", "caption"]);
 
 export class DataTable extends HTMLElement {
+    // A change to label, caption or class is shown (tasks.md P50-T28): a caption names the table, so label names it only when there
+    // is no caption. The consumer's rows are left alone.
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const table = this.querySelector<HTMLTableElement>(":scope > table.data-table");
+        if (table) followTable(this, table, "data-table", true);
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > table.data-table")) return;
 

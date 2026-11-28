@@ -85,3 +85,41 @@ describe("MultiSelect", () => {
         expect(select.className).toBe("multi-select extra");
     });
 });
+
+describe("multi-select follows its attributes (P50-T28)", () => {
+    test("shows a change to label, size, required, disabled and class", () => {
+        const host = render(
+            '<lily-multi-select label="Old"><option value="a">A</option><option value="b">B</option><option value="c">C</option></lily-multi-select>',
+        );
+        host.setAttribute("label", "New");
+        host.setAttribute("size", "3");
+        host.setAttribute("required", "");
+        host.setAttribute("disabled", "");
+        host.setAttribute("class", "wide");
+        const select = host.querySelector("select") as HTMLSelectElement;
+        expect(select.getAttribute("aria-label")).toBe("New");
+        expect(select.getAttribute("size")).toBe("3");
+        expect(select.required).toBe(true);
+        expect(select.disabled).toBe(true);
+        expect(select.className).toBe("multi-select wide");
+        host.removeAttribute("disabled");
+        expect(select.disabled).toBe(false);
+    });
+
+    test("a new value is the default choice, as a form reset restores it", () => {
+        const form = document.createElement("form");
+        document.body.replaceChildren(form);
+        form.innerHTML =
+            '<lily-multi-select value="a"><option value="a">A</option><option value="b">B</option><option value="c">C</option></lily-multi-select>';
+        const host = form.firstElementChild as HTMLElement;
+        const select = host.querySelector("select") as HTMLSelectElement;
+        host.setAttribute("value", '["b","c"]');
+        expect(
+            Array.from(select.options)
+                .filter((o) => o.defaultSelected)
+                .map((o) => o.value),
+        ).toEqual(["b", "c"]);
+        form.reset();
+        expect(Array.from(select.selectedOptions).map((o) => o.value)).toEqual(["b", "c"]);
+    });
+});

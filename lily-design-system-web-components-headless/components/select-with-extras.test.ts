@@ -85,3 +85,41 @@ describe("SelectWithExtras", () => {
         expect(children[children.length - 1].tagName).toBe("SPAN");
     });
 });
+
+describe("select-with-extras follows its attributes (P50-T28)", () => {
+    test("shows a change to label, required, disabled and class", () => {
+        const host = render(
+            '<lily-select-with-extras label="Old"><option value="a">A</option><option value="b">B</option><option value="c">C</option></lily-select-with-extras>',
+        );
+        host.setAttribute("label", "New");
+
+        host.setAttribute("required", "");
+        host.setAttribute("disabled", "");
+        host.setAttribute("class", "wide");
+        const select = host.querySelector("select") as HTMLSelectElement;
+        expect(select.getAttribute("aria-label")).toBe("New");
+
+        expect(select.required).toBe(true);
+        expect(select.disabled).toBe(true);
+        expect(host.className).toBe("select-with-extras wide");
+        host.removeAttribute("disabled");
+        expect(select.disabled).toBe(false);
+    });
+
+    test("a new value is the default choice, as a form reset restores it", () => {
+        const form = document.createElement("form");
+        document.body.replaceChildren(form);
+        form.innerHTML =
+            '<lily-select-with-extras value="a"><option value="a">A</option><option value="b">B</option><option value="c">C</option></lily-select-with-extras>';
+        const host = form.firstElementChild as HTMLElement;
+        const select = host.querySelector("select") as HTMLSelectElement;
+        host.setAttribute("value", "b");
+        expect(
+            Array.from(select.options)
+                .filter((o) => o.defaultSelected)
+                .map((o) => o.value),
+        ).toEqual(["b"]);
+        form.reset();
+        expect(Array.from(select.selectedOptions).map((o) => o.value)).toEqual(["b"]);
+    });
+});

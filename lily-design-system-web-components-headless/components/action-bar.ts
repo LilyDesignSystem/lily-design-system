@@ -27,36 +27,62 @@
 
 import { attachToolbar } from "../lib/widget-keys.js";
 import { applySelfClassName } from "../lib/dom-utils.js";
+import { setOrRemove } from "../lib/live-element.js";
 
 export class ActionBar extends HTMLElement {
     #built = false;
+    #count: HTMLSpanElement | null = null;
+    #clear: HTMLButtonElement | null = null;
+
+    // A change to label, selected-count, selected-count-label, clear-selection-label or class is shown (tasks.md P50-T28): the
+    // clear button comes and goes with its label.
+    static get observedAttributes(): string[] {
+        return [
+            "label",
+            "selected-count",
+            "selected-count-label",
+            "clear-selection-label",
+            "class",
+        ];
+    }
+
+    attributeChangedCallback(): void {
+        if (this.#built) this.#apply();
+    }
 
     connectedCallback(): void {
         if (this.#built) return;
         this.#built = true;
 
-        applySelfClassName(this, "action-bar");
         this.setAttribute("role", "toolbar");
-        const label = this.getAttribute("label");
-        if (label !== null) this.setAttribute("aria-label", label);
-        this.setAttribute("data-selected-count", this.getAttribute("selected-count") ?? "0");
+        this.#count = document.createElement("span");
+        this.#count.className = "action-bar-count";
+        this.insertBefore(this.#count, this.firstChild);
+        this.#apply();
+        attachToolbar(this, { dismiss: ".action-bar-clear" });
+    }
 
-        const count = document.createElement("span");
-        count.className = "action-bar-count";
-        count.textContent = this.getAttribute("selected-count-label") ?? "";
-        this.insertBefore(count, this.firstChild);
+    #apply(): void {
+        if (!this.classList.contains("action-bar")) applySelfClassName(this, "action-bar");
+        setOrRemove(this, "aria-label", this.getAttribute("label"));
+        this.setAttribute("data-selected-count", this.getAttribute("selected-count") ?? "0");
+        if (this.#count) this.#count.textContent = this.getAttribute("selected-count-label") ?? "";
 
         const clearLabel = this.getAttribute("clear-selection-label");
-        if (clearLabel !== null) {
-            const button = document.createElement("button");
-            button.type = "button";
-            button.className = "action-bar-clear";
-            button.setAttribute("aria-label", clearLabel);
-            button.textContent = "×";
-            button.addEventListener("click", this.#onClear);
-            this.appendChild(button);
+        if (clearLabel === null) {
+            this.#clear?.remove();
+            this.#clear = null;
+            return;
         }
-        attachToolbar(this, { dismiss: ".action-bar-clear" });
+        if (!this.#clear) {
+            this.#clear = document.createElement("button");
+            this.#clear.type = "button";
+            this.#clear.className = "action-bar-clear";
+            this.#clear.textContent = "×";
+            this.#clear.addEventListener("click", this.#onClear);
+            this.appendChild(this.#clear);
+        }
+        this.#clear.setAttribute("aria-label", clearLabel);
     }
 
     #onClear = (): void => {

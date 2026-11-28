@@ -87,3 +87,28 @@ describe("ActionBar", () => {
         expect(host.querySelector("#del")).toBeTruthy();
     });
 });
+
+describe("ActionBar follows its attributes (P50-T28)", () => {
+    test("shows a change to its labels, count and class; the clear button comes and goes", () => {
+        const host = render(
+            '<lily-action-bar label="Old" selected-count="1" selected-count-label="1 selected"><button>Delete</button></lily-action-bar>',
+        );
+        host.setAttribute("label", "New");
+        host.setAttribute("selected-count", "3");
+        host.setAttribute("selected-count-label", "3 selected");
+        host.setAttribute("clear-selection-label", "Clear");
+        host.setAttribute("class", "wide");
+        expect(host.className).toBe("action-bar wide");
+        expect(host.getAttribute("aria-label")).toBe("New");
+        expect(host.getAttribute("data-selected-count")).toBe("3");
+        expect(host.querySelector(".action-bar-count")?.textContent).toBe("3 selected");
+        const clear = host.querySelector(".action-bar-clear") as HTMLButtonElement;
+        expect(clear.getAttribute("aria-label")).toBe("Clear");
+        host.setAttribute("clear-selection-label", "Deselect");
+        expect(host.querySelectorAll(".action-bar-clear")).toHaveLength(1);
+        expect(clear.getAttribute("aria-label")).toBe("Deselect");
+        host.removeAttribute("clear-selection-label");
+        expect(host.querySelector(".action-bar-clear")).toBeNull();
+        expect(host.querySelectorAll(".action-bar-count")).toHaveLength(1);
+    });
+});

@@ -86,3 +86,24 @@ describe("CalendarWeekTable", () => {
         expect(host.querySelectorAll("table").length).toBe(1);
     });
 });
+
+describe("calendar-week-table follows its attributes (P50-T28)", () => {
+    test("shows a change to label, caption and class, keeping the rows", () => {
+        const host = render('<lily-calendar-week-table label="Old"></lily-calendar-week-table>');
+        host.setAttribute("label", "New");
+        host.setAttribute("caption", "November");
+        host.setAttribute("class", "wide");
+        const table = host.querySelector("table") as HTMLTableElement;
+        table.createTBody().insertRow().insertCell().textContent = "1";
+        expect(table.className).toBe("calendar-week-table wide");
+        expect(table.getAttribute("aria-label")).toBe("New");
+        expect(table.firstElementChild?.tagName).toBe("CAPTION");
+        expect(table.caption?.textContent).toBe("November");
+        host.setAttribute("caption", "December");
+        expect(table.querySelectorAll("caption")).toHaveLength(1);
+        expect(table.caption?.textContent).toBe("December");
+        host.removeAttribute("caption");
+        expect(table.caption).toBeNull();
+        expect(table.querySelector("td")?.textContent).toBe("1");
+    });
+});

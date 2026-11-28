@@ -20,10 +20,24 @@
 //   - components/multi-select-with-extras/index.md (canonical contract)
 
 import { applySelfClassName, moveChildrenInto } from "../lib/dom-utils.js";
-import { parseValues, selectValues } from "../lib/list-values.js";
+import { defaultValues, followSelect, parseValues, selectValues } from "../lib/list-values.js";
 
 export class MultiSelectWithExtras extends HTMLElement {
     #select: HTMLSelectElement | null = null;
+
+    // A change to label, value (the default choice), size, required, disabled or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["label", "value", "size", "required", "disabled", "class"];
+    }
+
+    attributeChangedCallback(name: string): void {
+        const select = this.#select;
+        if (!select) return;
+        if (!this.classList.contains("multi-select-with-extras"))
+            applySelfClassName(this, "multi-select-with-extras");
+        followSelect(this, select);
+        if (name === "value") defaultValues(select, parseValues(this.getAttribute("value")));
+    }
 
     connectedCallback(): void {
         if (this.#select) return;

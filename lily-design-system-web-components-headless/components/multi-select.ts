@@ -20,12 +20,25 @@
 //   - components/multi-select/index.md (canonical contract)
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
-import { parseValues, selectValues } from "../lib/list-values.js";
+import { defaultValues, followSelect, parseValues, selectValues } from "../lib/list-values.js";
 
 const HANDLED = new Set(["label", "value", "size", "required", "disabled"]);
 
 export class MultiSelect extends HTMLElement {
     #select: HTMLSelectElement | null = null;
+
+    // A change to label, value (the default choice), size, required, disabled or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(name: string): void {
+        const select = this.#select;
+        if (!select) return;
+        select.className = rootClassName(this, "multi-select");
+        followSelect(this, select);
+        if (name === "value") defaultValues(select, parseValues(this.getAttribute("value")));
+    }
 
     connectedCallback(): void {
         if (this.#select) return;

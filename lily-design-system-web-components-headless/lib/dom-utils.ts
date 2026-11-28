@@ -188,6 +188,29 @@ export function followChart(
     graphic.setAttribute("aria-describedby", descriptionId);
 }
 
+/**
+ * Bring a built table in step with its host (tasks.md P50-T28): its class, aria-label from label, and its caption, the table's first
+ * child, added, changed or removed with the caption attribute. captionNames: a caption is the table's name, so label is used only
+ * when there is none (data-table).
+ */
+export function followTable(
+    host: HTMLElement,
+    table: HTMLTableElement,
+    baseClass: string,
+    captionNames = false,
+): void {
+    table.className = rootClassName(host, baseClass);
+    const caption = host.getAttribute("caption");
+    const label = host.getAttribute("label");
+    if (label !== null && !(captionNames && caption !== null))
+        table.setAttribute("aria-label", label);
+    else table.removeAttribute("aria-label");
+    // data-table shows any caption attribute, even an empty one; the calendar tables only one with text.
+    if (captionNames ? caption !== null : caption) {
+        (table.caption ?? table.createCaption()).textContent = caption;
+    } else table.deleteCaption();
+}
+
 /** Bring a built root's class list in step with its host's (tasks.md P50-T28), for an element with no attribute of its own. */
 export function followClass(host: HTMLElement, selector: string, baseClass: string): void {
     const root = host.querySelector(`:scope > ${selector}`);
