@@ -18,7 +18,7 @@
     "@lilydesignsystem/solid-headless": "0.1.1",
     "@lilydesignsystem/solid-locale-picker": "0.1.0",
     "@lilydesignsystem/solid-text-size-picker": "0.1.0",
-    "@lilydesignsystem/solid-theme-picker": "0.1.0",
+    "@lilydesignsystem/solid-theme-picker": "0.3.0",
     "@solidjs/router": "^2.0.0",
     "@solidjs/web": "^2.0.0",
     "solid-js": "^2.0.0"

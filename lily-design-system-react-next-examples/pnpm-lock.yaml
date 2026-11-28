@@ -18,8 +18,8 @@ importers:
         specifier: 0.3.2
         version: 0.3.2(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       '@lilydesignsystem/react-theme-picker':
-        specifier: 0.4.0
-        version: 0.4.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+        specifier: 0.6.0
+        version: 0.6.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       next:
         specifier: ^16.4.6
         version: 16.4.6(@babel/core@7.29.13)(@playwright/test@1.65.1)(@types/node@26.6.6)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -558,8 +558,8 @@ packages:
       react: '>=18'
       react-dom: '>=18'
 
-  '@lilydesignsystem/react-theme-picker@0.4.0':
-    resolution: {integrity: sha512-aJ0fraKz0m3AOn0H9RBsklSowP+gxDwC9kfmXW3vUffZhanWqbpmeW5AFGEUZfeRYBC4uwKfHK0HnF99p7aoPw==}
+  '@lilydesignsystem/react-theme-picker@0.6.0':
+    resolution: {integrity: sha512-WngksH+zDhKha/tUFNWxccw3DMbFhbJSCWO2i+jD6lRHGHGl1nK7xMYoRXeeK3xBmaEmRV9EEBZUf7KCXFbYkg==}
     engines: {node: '>=26'}
     peerDependencies:
       react: '>=18'
@@ -2450,7 +2450,7 @@ snapshots:
       react: 19.3.1
       react-dom: 19.3.1(react@19.3.1)
 
-  '@lilydesignsystem/react-theme-picker@0.4.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
+  '@lilydesignsystem/react-theme-picker@0.6.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
     dependencies:
       '@lilydesignsystem/react-headless': 0.8.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       react: 19.3.1

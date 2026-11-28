@@ -43,7 +43,7 @@
   "dependencies": {
     "@lilydesignsystem/svelte-locale-picker": "0.3.3",
     "@lilydesignsystem/svelte-text-size-picker": "0.3.2",
-    "@lilydesignsystem/svelte-theme-picker": "0.4.0"
+    "@lilydesignsystem/svelte-theme-picker": "0.6.0"
   },
   "imports": {
     "#lib": "./src/lib/index.js",

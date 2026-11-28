@@ -20,8 +20,8 @@ importers:
         specifier: 0.3.2
         version: 0.3.2(vue@3.5.46(typescript@5.9.3))
       '@lilydesignsystem/vue-theme-picker':
-        specifier: 0.4.0
-        version: 0.4.0(vue@3.5.46(typescript@5.9.3))
+        specifier: 0.6.0
+        version: 0.6.0(vue@3.5.46(typescript@5.9.3))
       nuxt:
         specifier: ^4.6.4
         version: 4.6.4(a975a20a9f241ce454ddab6f254edad6)
@@ -611,8 +611,8 @@ packages:
     peerDependencies:
       vue: ^3.0.0
 
-  '@lilydesignsystem/vue-theme-picker@0.4.0':
-    resolution: {integrity: sha512-UO0RCUognDgjQVT5wdyk5EMb5JQ2L+0KL3tX0DzRC3istXb2X2JxfZgT1Kui18KaLgfObL4A2cXOTNFeRzDCDw==}
+  '@lilydesignsystem/vue-theme-picker@0.6.0':
+    resolution: {integrity: sha512-/zSoC7xi4ojTtLH5TO4CGcY7BFdPUAaP1Xux+IFbq85zUB7rDdjvLe4m+SrSzpt9mRquyhhlx/dw4eGZvEe7Xg==}
     engines: {node: '>=26'}
     peerDependencies:
       vue: ^3.0.0
@@ -4813,7 +4813,7 @@ snapshots:
       '@lilydesignsystem/vue-headless': 0.8.0(vue@3.5.46(typescript@5.9.3))
       vue: 3.5.46(typescript@5.9.3)
 
-  '@lilydesignsystem/vue-theme-picker@0.4.0(vue@3.5.46(typescript@5.9.3))':
+  '@lilydesignsystem/vue-theme-picker@0.6.0(vue@3.5.46(typescript@5.9.3))':
     dependencies:
       '@lilydesignsystem/vue-headless': 0.8.0(vue@3.5.46(typescript@5.9.3))
       vue: 3.5.46(typescript@5.9.3)

@@ -18,8 +18,8 @@ importers:
         specifier: 0.1.0
         version: 0.1.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)
       '@lilydesignsystem/solid-theme-picker':
-        specifier: 0.1.0
-        version: 0.1.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)
+        specifier: 0.3.0
+        version: 0.3.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)
       '@solidjs/router':
         specifier: ^2.0.0
         version: 2.0.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)
@@ -113,8 +113,8 @@ packages:
       '@solidjs/web': ^2.0.0
       solid-js: ^2.0.0
 
-  '@lilydesignsystem/solid-theme-picker@0.1.0':
-    resolution: {integrity: sha512-+HB0axjYePezwlIAfWWDaMZ/1QG9Kq9WOYQt0KxKvg8JfczoAgMh0S4TN2aYWYp8RHlRt6LGn7a24bLDQX9MWA==}
+  '@lilydesignsystem/solid-theme-picker@0.3.0':
+    resolution: {integrity: sha512-LbUY4FgCJ9HEhbSjFxzFtRLor2BFgP9xW6DSFKTyzWtKgM0Kyx8LeIDbJNWB/Mhw021qQavi1JBIKUw2XFHFqA==}
     engines: {node: '>=26'}
     peerDependencies:
       '@solidjs/web': ^2.0.0
@@ -627,7 +627,7 @@ snapshots:
       '@solidjs/web': 2.0.0(solid-js@2.0.0)
       solid-js: 2.0.0
 
-  '@lilydesignsystem/solid-theme-picker@0.1.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)':
+  '@lilydesignsystem/solid-theme-picker@0.3.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)':
     dependencies:
       '@lilydesignsystem/solid-headless': 0.1.1(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)
       '@solidjs/web': 2.0.0(solid-js@2.0.0)
