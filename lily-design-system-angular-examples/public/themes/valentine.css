@@ -4348,6 +4348,11 @@
     margin-inline: 0;
 }
 
+/* The selects are 100% wide with padding: count the padding inside, whatever box-sizing the app sets elsewhere. */
+:where(select.theme-select, .select, .select-with-extras, .tree-select) {
+    box-sizing: border-box;
+}
+
 /* ============================================================================
  * Helper packages — layout and look, shared verbatim by all themes.
  *
