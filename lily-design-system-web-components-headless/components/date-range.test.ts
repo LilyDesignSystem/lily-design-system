@@ -60,3 +60,25 @@ describe("DateRange", () => {
         expect((inputs[1] as HTMLInputElement).value).toBe("2026-07-14");
     });
 });
+
+describe("DateRange follows its attributes (P50-T28)", () => {
+    test("shows a change to its labels, dates and class, never overwriting what was typed", () => {
+        const host = render(
+            '<lily-date-range label="Old" start-label="From" end-label="To"></lily-date-range>',
+        );
+        const [start, end] = Array.from(host.querySelectorAll("input"));
+        host.setAttribute("label", "Stay");
+        host.setAttribute("start-label", "Arrive");
+        host.removeAttribute("end-label");
+        host.setAttribute("start", "2026-12-01");
+        host.setAttribute("class", "wide");
+        expect(host.querySelector("fieldset")?.className).toBe("date-range wide");
+        expect(host.querySelector("fieldset")?.getAttribute("aria-label")).toBe("Stay");
+        expect(start.getAttribute("aria-label")).toBe("Arrive");
+        expect(end.hasAttribute("aria-label")).toBe(false);
+        expect(start.value).toBe("2026-12-01");
+        end.value = "2026-12-09";
+        host.setAttribute("end", "2026-12-05");
+        expect(end.value).toBe("2026-12-09");
+    });
+});

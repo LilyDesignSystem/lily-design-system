@@ -17,6 +17,7 @@
 //   - components/signature-pad/index.md (canonical contract)
 
 import { nextId, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { setOrRemove } from "../lib/live-element.js";
 
 const HANDLED = new Set([
     "label",
@@ -29,52 +30,89 @@ const HANDLED = new Set([
 
 export class SignaturePad extends HTMLElement {
     #uid = nextId("lily-signature-pad");
+    #attestation: HTMLParagraphElement | null = null;
+    #canvas: HTMLCanvasElement | null = null;
+    #typed: HTMLParagraphElement | null = null;
+    #outcome: HTMLParagraphElement | null = null;
+
+    // A change to any attribute is shown (tasks.md P50-T28): the attestation, the typed-name field and the outcome come and go
+    // with their attributes. The canvas, and so the signature drawn on it, and a typed name stay.
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const root = this.querySelector<HTMLElement>(":scope > div.signature-pad");
+        if (root) this.#apply(root);
+    }
 
     connectedCallback(): void {
         if (this.querySelector(":scope > div.signature-pad")) return;
-        const attr = (name: string) => this.getAttribute(name) ?? "";
         const root = document.createElement("div");
-        root.className = rootClassName(this, "signature-pad");
         root.setAttribute("role", "group");
-        if (this.hasAttribute("label")) root.setAttribute("aria-label", attr("label"));
-        if (attr("outcome")) root.setAttribute("data-outcome", attr("outcome"));
         passThroughAttributes(this, root, HANDLED);
+        this.#canvas = document.createElement("canvas");
+        this.#canvas.className = "signature-pad-canvas";
+        root.append(this.#canvas);
+        this.#apply(root);
+        this.appendChild(root);
+    }
+
+    #apply(root: HTMLElement): void {
+        const attr = (name: string) => this.getAttribute(name) ?? "";
+        root.className = rootClassName(this, "signature-pad");
+        setOrRemove(root, "aria-label", this.getAttribute("label"));
+        setOrRemove(root, "data-outcome", attr("outcome"));
 
         if (attr("attestation")) {
-            const p = document.createElement("p");
-            p.className = "signature-pad-attestation";
-            p.id = `${this.#uid}-attestation`;
-            p.textContent = attr("attestation");
-            root.append(p);
-            root.setAttribute("aria-describedby", p.id);
+            if (!this.#attestation) {
+                this.#attestation = document.createElement("p");
+                this.#attestation.className = "signature-pad-attestation";
+                this.#attestation.id = `${this.#uid}-attestation`;
+                root.prepend(this.#attestation);
+            }
+            this.#attestation.textContent = attr("attestation");
+            root.setAttribute("aria-describedby", this.#attestation.id);
+        } else {
+            this.#attestation?.remove();
+            this.#attestation = null;
+            root.removeAttribute("aria-describedby");
         }
 
-        const canvas = document.createElement("canvas");
-        canvas.className = "signature-pad-canvas";
-        root.append(canvas);
-
         if (attr("typed-name-label")) {
-            const p = document.createElement("p");
-            p.className = "signature-pad-typed";
-            const label = document.createElement("label");
-            label.htmlFor = `${this.#uid}-typed`;
+            if (!this.#typed) {
+                this.#typed = document.createElement("p");
+                this.#typed.className = "signature-pad-typed";
+                const label = document.createElement("label");
+                label.htmlFor = `${this.#uid}-typed`;
+                const input = document.createElement("input");
+                input.id = `${this.#uid}-typed`;
+                input.type = "text";
+                input.autocomplete = "name";
+                this.#typed.append(label, input);
+                this.#canvas?.after(this.#typed);
+            }
+            const [label, input] = Array.from(this.#typed.children) as [
+                HTMLLabelElement,
+                HTMLInputElement,
+            ];
             label.textContent = attr("typed-name-label");
-            const input = document.createElement("input");
-            input.id = `${this.#uid}-typed`;
-            input.type = "text";
-            input.autocomplete = "name";
-            if (attr("name")) input.name = attr("name");
-            p.append(label, input);
-            root.append(p);
+            setOrRemove(input, "name", attr("name"));
+        } else {
+            this.#typed?.remove();
+            this.#typed = null;
         }
 
         if (attr("outcome") && attr("outcome-label")) {
-            const p = document.createElement("p");
-            p.className = "signature-pad-outcome";
-            p.textContent = attr("outcome-label");
-            root.append(p);
+            if (!this.#outcome) {
+                this.#outcome = document.createElement("p");
+                this.#outcome.className = "signature-pad-outcome";
+                root.append(this.#outcome);
+            }
+            this.#outcome.textContent = attr("outcome-label");
+        } else {
+            this.#outcome?.remove();
+            this.#outcome = null;
         }
-
-        this.appendChild(root);
     }
 }

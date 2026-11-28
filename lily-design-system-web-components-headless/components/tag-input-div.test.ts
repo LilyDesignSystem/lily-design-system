@@ -120,3 +120,27 @@ describe("TagInputDiv", () => {
         expect(handler).not.toHaveBeenCalled();
     });
 });
+
+describe("TagInputDiv follows its attributes (P50-T28)", () => {
+    test("shows a change to its attributes", () => {
+        const host = render('<lily-tag-input-div label="Old"></lily-tag-input-div>');
+        host.setAttribute("label", "Tags");
+        host.setAttribute("placeholder", "Add a tag");
+        host.setAttribute("name", "tags");
+        host.setAttribute("required", "");
+        host.setAttribute("disabled", "");
+        host.setAttribute("value", "draft");
+        host.setAttribute("class", "wide");
+        const root = host.querySelector("div.tag-input-div") as HTMLElement;
+        const input = host.querySelector("input") as HTMLInputElement;
+        expect(root.className).toBe("tag-input-div wide");
+        expect(root.getAttribute("aria-label")).toBe("Tags");
+        expect(input.getAttribute("aria-label")).toBe("Tags");
+        expect(input.placeholder).toBe("Add a tag");
+        expect(input.name).toBe("tags");
+        expect(input.required && input.disabled).toBe(true);
+        expect(input.value).toBe("draft");
+        host.removeAttribute("placeholder");
+        expect(input.hasAttribute("placeholder")).toBe(false);
+    });
+});

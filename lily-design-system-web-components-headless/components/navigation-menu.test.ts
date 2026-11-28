@@ -155,3 +155,19 @@ describe("NavigationMenu overflow", () => {
         expect(host.querySelector(".navigation-menu-list")!.children.length).toBe(6);
     });
 });
+
+describe("NavigationMenu follows its attributes (P50-T28)", () => {
+    test("shows a change to label, more-label and class", () => {
+        const host = render(
+            '<lily-navigation-menu label="Old" overflow more-label="More"><li><a href="/">Home</a></li></lily-navigation-menu>',
+        );
+        host.setAttribute("label", "Main");
+        host.setAttribute("more-label", "Other pages");
+        host.setAttribute("class", "wide");
+        const nav = host.querySelector("nav") as HTMLElement;
+        expect(nav.className).toBe("navigation-menu wide");
+        expect(nav.getAttribute("aria-label")).toBe("Main");
+        expect(nav.querySelector(".navigation-menu-more-button")?.textContent).toBe("Other pages");
+        expect(nav.querySelector("a")?.textContent).toBe("Home");
+    });
+});

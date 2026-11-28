@@ -58,3 +58,44 @@ describe("SignaturePad", () => {
         expect(root.querySelector(".signature-pad-outcome")?.textContent).toBe("Declined to sign");
     });
 });
+
+describe("SignaturePad follows its attributes (P50-T28)", () => {
+    test("adds, changes and removes its parts, keeping the canvas and a typed name", () => {
+        const host = render(
+            '<lily-signature-pad label="Old" typed-name-label="Name"></lily-signature-pad>',
+        );
+        const root = host.querySelector("div.signature-pad") as HTMLElement;
+        const canvas = root.querySelector("canvas");
+        const typed = root.querySelector("input") as HTMLInputElement;
+        typed.value = "Sam Okoro";
+        host.setAttribute("label", "Sign");
+        host.setAttribute("attestation", "I agree");
+        host.setAttribute("typed-name-label", "Full name");
+        host.setAttribute("name", "signer");
+        host.setAttribute("outcome", "signed");
+        host.setAttribute("outcome-label", "Signed");
+        host.setAttribute("class", "wide");
+        expect(root.className).toBe("signature-pad wide");
+        expect(root.getAttribute("aria-label")).toBe("Sign");
+        expect(root.firstElementChild?.textContent).toBe("I agree");
+        expect(root.getAttribute("aria-describedby")).toBe(root.firstElementChild?.id);
+        expect(root.querySelector("canvas")).toBe(canvas);
+        expect(root.querySelector("label")?.textContent).toBe("Full name");
+        expect(root.querySelector("input")).toBe(typed);
+        expect(typed.value).toBe("Sam Okoro");
+        expect(typed.name).toBe("signer");
+        expect(root.getAttribute("data-outcome")).toBe("signed");
+        expect(root.lastElementChild?.textContent).toBe("Signed");
+        host.removeAttribute("attestation");
+        host.removeAttribute("typed-name-label");
+        host.removeAttribute("outcome");
+        expect(root.hasAttribute("aria-describedby")).toBe(false);
+        expect(
+            root.querySelector(
+                ".signature-pad-attestation, .signature-pad-typed, .signature-pad-outcome",
+            ),
+        ).toBeNull();
+        expect(root.hasAttribute("data-outcome")).toBe(false);
+        expect(root.querySelector("canvas")).toBe(canvas);
+    });
+});

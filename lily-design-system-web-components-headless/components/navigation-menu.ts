@@ -34,6 +34,23 @@ const HANDLED = new Set(["label", "overflow", "more-label"]);
 export class NavigationMenu extends HTMLElement {
     private overflowHandle: OverflowNavigation | null = null;
 
+    // A change to label, more-label or class is shown (tasks.md P50-T28). overflow decides the element's structure (a list with a
+    // "More" item, or the consumer's own content), so it is read once, when the element is built.
+    static get observedAttributes(): string[] {
+        return ["label", "more-label", "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const nav = this.querySelector<HTMLElement>(":scope > nav.navigation-menu");
+        if (!nav) return;
+        nav.className = rootClassName(this, "navigation-menu");
+        const label = this.getAttribute("label");
+        if (label !== null) nav.setAttribute("aria-label", label);
+        else nav.removeAttribute("aria-label");
+        const more = nav.querySelector(".navigation-menu-more-button");
+        if (more) more.textContent = this.getAttribute("more-label") ?? "";
+    }
+
     connectedCallback(): void {
         const existing = this.querySelector<HTMLElement>(":scope > nav.navigation-menu");
         if (existing) {

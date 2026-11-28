@@ -22,11 +22,32 @@
 //   - WAI-ARIA textbox role (implicit via input type="text"): https://www.w3.org/TR/wai-aria-1.2/#textbox
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { setOrRemove } from "../lib/live-element.js";
 
 const HANDLED = new Set(["label", "value", "disabled", "required", "placeholder", "name"]);
 
 export class TagInputDiv extends HTMLElement {
     #input: HTMLInputElement | null = null;
+
+    // A change to label, value (the default), disabled, required, placeholder, name or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const input = this.#input;
+        const root = this.querySelector<HTMLElement>(":scope > div.tag-input-div");
+        if (!input || !root) return;
+        root.className = rootClassName(this, "tag-input-div");
+        const label = this.getAttribute("label");
+        setOrRemove(root, "aria-label", label);
+        setOrRemove(input, "aria-label", label);
+        input.defaultValue = this.getAttribute("value") ?? "";
+        input.disabled = this.hasAttribute("disabled");
+        input.required = this.hasAttribute("required");
+        for (const name of ["placeholder", "name"])
+            setOrRemove(input, name, this.getAttribute(name));
+    }
 
     connectedCallback(): void {
         if (this.#input) return;

@@ -32,3 +32,34 @@ describe("BodyMap", () => {
         expect(document.querySelectorAll('input[name="sites"]:checked')).toHaveLength(2);
     });
 });
+
+describe("BodyMap follows its attributes (P50-T28)", () => {
+    test("builds the regions again, keeping what the person ticked", () => {
+        document.body.innerHTML = `<lily-body-map label="Old" regions='[{"id":"head","label":"Head"},{"id":"chest","label":"Chest"}]' selected='["head"]'><svg><circle data-region="head"></circle><rect data-region="knee"></rect></svg></lily-body-map>`;
+        const host = document.querySelector("lily-body-map") as BodyMap;
+        const box = (id: string) =>
+            document.querySelector(`input[value="${id}"]`) as HTMLInputElement;
+        box("chest").checked = true;
+        host.setAttribute("label", "Where does it hurt?");
+        host.setAttribute(
+            "regions",
+            '[{"id":"head","label":"Head"},{"id":"chest","label":"Chest"},{"id":"knee","label":"Knee"}]',
+        );
+        host.setAttribute("selected", '["knee"]');
+        host.setAttribute("class", "wide");
+        expect(document.querySelector("fieldset")?.className).toBe("body-map wide");
+        expect(document.querySelector("legend")?.textContent).toBe("Where does it hurt?");
+        expect(document.querySelectorAll(".body-map-regions input")).toHaveLength(3);
+        expect(box("chest").checked).toBe(true);
+        expect(box("head").checked).toBe(false);
+        expect(box("knee").checked).toBe(true);
+        expect(host.selected).toEqual(["chest", "knee"]);
+        expect(document.querySelector('[data-region="knee"]')?.getAttribute("data-selected")).toBe(
+            "true",
+        );
+        (document.querySelector('rect[data-region="knee"]') as Element).dispatchEvent(
+            new MouseEvent("click", { bubbles: true }),
+        );
+        expect(box("knee").checked).toBe(false);
+    });
+});

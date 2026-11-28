@@ -23,6 +23,7 @@
 //   - MDN fieldset element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/fieldset
 
 import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { setOrRemove } from "../lib/live-element.js";
 
 const HANDLED = new Set(["label", "start-label", "end-label", "start", "end"]);
 
@@ -30,6 +31,24 @@ export class DateRange extends HTMLElement {
     #root: HTMLFieldSetElement | null = null;
     #start: HTMLInputElement | null = null;
     #end: HTMLInputElement | null = null;
+
+    // A change to label, start-label, end-label, start, end (the defaults) or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const root = this.#root;
+        const start = this.#start;
+        const end = this.#end;
+        if (!root || !start || !end) return;
+        root.className = rootClassName(this, "date-range");
+        setOrRemove(root, "aria-label", this.getAttribute("label"));
+        setOrRemove(start, "aria-label", this.getAttribute("start-label"));
+        setOrRemove(end, "aria-label", this.getAttribute("end-label"));
+        start.defaultValue = this.getAttribute("start") ?? "";
+        end.defaultValue = this.getAttribute("end") ?? "";
+    }
 
     connectedCallback(): void {
         if (this.#root) return;

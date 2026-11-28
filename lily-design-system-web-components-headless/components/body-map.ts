@@ -21,6 +21,27 @@ function parseList<T>(raw: string | null): T[] {
 export class BodyMap extends HTMLElement {
     #fieldset: HTMLFieldSetElement | null = null;
 
+    // A change to label, regions, selected, name or class is shown (tasks.md P50-T28): the regions are built again. selected is
+    // the default, as a checkbox's checked attribute is: a region the person ticked or unticked keeps their choice.
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const fieldset = this.#fieldset;
+        const list = fieldset?.querySelector<HTMLElement>(":scope > .body-map-regions");
+        if (!fieldset || !list) return;
+        fieldset.className = rootClassName(this, "body-map");
+        const legend = fieldset.querySelector(":scope > .body-map-legend");
+        if (legend) legend.textContent = this.getAttribute("label") ?? "";
+        // What the person changed: a box whose state is not its default.
+        const changed = new Map<string, boolean>();
+        for (const box of list.querySelectorAll<HTMLInputElement>("input"))
+            if (box.checked !== box.defaultChecked) changed.set(box.value, box.checked);
+        list.replaceWith(this.#regions(changed));
+        this.#mirror();
+    }
+
     connectedCallback(): void {
         if (this.#fieldset) return;
         const fieldset = document.createElement("fieldset");
@@ -40,6 +61,26 @@ export class BodyMap extends HTMLElement {
             fieldset.append(figure);
         }
 
+        fieldset.append(this.#regions(new Map()));
+
+        figure?.addEventListener("click", (event) => {
+            const id = (event.target as Element | null)
+                ?.closest("[data-region]")
+                ?.getAttribute("data-region");
+            const box = id
+                ? fieldset.querySelector<HTMLInputElement>(`input[value="${CSS.escape(id)}"]`)
+                : null;
+            if (!box) return;
+            box.checked = !box.checked;
+            box.dispatchEvent(new Event("change", { bubbles: true }));
+        });
+
+        this.appendChild(fieldset);
+        this.#fieldset = fieldset;
+        this.#mirror();
+    }
+
+    #regions(changed: Map<string, boolean>): HTMLUListElement {
         const regions = parseList<{ id: string; label: string }>(this.getAttribute("regions"));
         const chosen = new Set(parseList<string>(this.getAttribute("selected")));
         const list = document.createElement("ul");
@@ -52,29 +93,14 @@ export class BodyMap extends HTMLElement {
             input.type = "checkbox";
             if (this.getAttribute("name")) input.name = this.getAttribute("name") as string;
             input.value = region.id;
-            input.checked = chosen.has(region.id);
+            input.defaultChecked = chosen.has(region.id);
+            input.checked = changed.get(region.id) ?? input.defaultChecked;
             input.addEventListener("change", () => this.#mirror());
             label.append(input, ` ${region.label}`);
             li.append(label);
             list.append(li);
         }
-        fieldset.append(list);
-
-        figure?.addEventListener("click", (event) => {
-            const id = (event.target as Element | null)
-                ?.closest("[data-region]")
-                ?.getAttribute("data-region");
-            const box = id
-                ? list.querySelector<HTMLInputElement>(`input[value="${CSS.escape(id)}"]`)
-                : null;
-            if (!box) return;
-            box.checked = !box.checked;
-            box.dispatchEvent(new Event("change", { bubbles: true }));
-        });
-
-        this.appendChild(fieldset);
-        this.#fieldset = fieldset;
-        this.#mirror();
+        return list;
     }
 
     get selected(): string[] {
