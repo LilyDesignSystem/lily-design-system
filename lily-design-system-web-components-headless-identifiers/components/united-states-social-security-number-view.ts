@@ -12,55 +12,8 @@
 //   - components/united-states-social-security-number-view/index.md (canonical contract)
 //   - https://www.ssa.gov/history/ssn/geocard.html
 
-import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { IdentifierView } from "../lib/identifier-view.js";
 
-const HANDLED = new Set(["label", "value"]);
-
-export class UnitedStatesSocialSecurityNumberView extends HTMLElement {
-    #span: HTMLSpanElement | null = null;
-    #text: Text | null = null;
-    // HC-I2 (spec/healthcare-ui/requirements.md): the identifier is kept in text only. A value attribute is read, then
-    // removed, so a session-replay tool that records attributes never sees it; before connection it waits here.
-    #pending: string | null = null;
-
-    static get observedAttributes(): string[] {
-        return ["value"];
-    }
-
-    attributeChangedCallback(name: string, _old: string | null, next: string | null): void {
-        if (name !== "value" || next === null || !this.#text) return;
-        this.#text.data = next;
-        this.removeAttribute("value");
-    }
-
-    connectedCallback(): void {
-        if (this.#span) return;
-
-        const span = document.createElement("span");
-        span.className = rootClassName(this, "united-states-social-security-number-view");
-        const label = this.getAttribute("label");
-        if (label) {
-            const hidden = document.createElement("span");
-            hidden.className = "screen-reader-span";
-            hidden.textContent = `${label} `;
-            span.append(hidden);
-        }
-        this.#text = document.createTextNode(this.#pending ?? this.getAttribute("value") ?? "");
-        this.#pending = null;
-        span.append(this.#text);
-        passThroughAttributes(this, span, HANDLED);
-        this.removeAttribute("value");
-
-        this.appendChild(span);
-        this.#span = span;
-    }
-
-    get value(): string {
-        return this.#text?.data ?? this.#pending ?? this.getAttribute("value") ?? "";
-    }
-
-    set value(v: string) {
-        if (this.#text) this.#text.data = v;
-        else this.#pending = v;
-    }
+export class UnitedStatesSocialSecurityNumberView extends IdentifierView {
+    protected readonly baseClass = "united-states-social-security-number-view";
 }

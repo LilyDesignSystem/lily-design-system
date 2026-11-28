@@ -48,9 +48,14 @@ const seenClasses = new Map();
 for (const file of files) {
     const slug = file.slice(0, -".ts".length);
     const source = fs.readFileSync(path.join(componentsDir, file), "utf8");
-    const match = source.match(/^export class ([A-Za-z0-9_]+) extends HTMLElement/m);
+    // A national identifier view extends the shared IdentifierView (lib/identifier-view.ts, tasks.md P48-T10).
+    const match = source.match(
+        /^export class ([A-Za-z0-9_]+) extends (?:HTMLElement|IdentifierView)\b/m,
+    );
     if (!match) {
-        throw new Error(`${file}: no "export class X extends HTMLElement" declaration found.`);
+        throw new Error(
+            `${file}: no "export class X extends HTMLElement" (or IdentifierView) declaration found.`,
+        );
     }
     const className = match[1];
     const tag = `lily-${slug}`;

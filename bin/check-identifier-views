@@ -56,6 +56,13 @@ slugs = [
     for r in csv.reader(open(os.path.join(TOP, "components-categories.tsv")), delimiter="\t")
     if len(r) > 2 and r[2] == "national" and r[0].endswith("-view")
 ]
+VIEW_BASE = COMMENTS.sub(
+    "",
+    open(
+        os.path.join(TOP, "lily-design-system-web-components-headless-identifiers/lib/identifier-view.ts"),
+        encoding="utf-8",
+    ).read(),
+)
 gaps = []
 for catalog, pattern in CATALOGS.items():
     for slug in slugs:
@@ -67,7 +74,10 @@ for catalog, pattern in CATALOGS.items():
         found = ATTRIBUTE.search(source)
         if found:
             gaps.append(f"{catalog}:{slug}: writes an attribute ({found.group(0)}) that could hold the identifier")
-        if catalog == "web-components" and 'this.removeAttribute("value")' not in source:
+        # A Web Components view takes its value through lib/identifier-view.ts (P48-T10), which removes the attribute.
+        if catalog == "web-components" and 'this.removeAttribute("value")' not in source and not (
+            "extends IdentifierView" in source and 'this.removeAttribute("value")' in VIEW_BASE
+        ):
             gaps.append(f"{catalog}:{slug}: leaves the identifier in the host's value attribute")
 # A Web Components identifier input (HC-I3) takes its value through lib/private-value.ts, which keeps it out of every attribute.
 for r in csv.reader(open(os.path.join(TOP, "components-categories.tsv")), delimiter="\t"):

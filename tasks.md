@@ -4677,7 +4677,7 @@ From [spec/quality-review](spec/quality-review/index.md); the numbers in bracket
 
 ### Code
 
-- [ ] **P48-T10 One base for the Web Components identifier views (11).** Verify: each view file holds only its name and class.
+- [x] **P48-T10 One base for the Web Components identifier views (11).** Verify: each view file holds only its name and class. _(Done 2026-11-28: `lib/identifier-view.ts` holds the span, the hidden label and HC-I2's value handling, tested once in `lib/identifier-view.test.ts`; each of the 94 view files keeps its documentation, its class and its base class. `build.mjs` and `bin/check-identifier-views` accept a view that extends `IdentifierView`, and the check still fails when the base keeps the value attribute.)_
 - [ ] **P48-T11 Undo for "Remove all conditions" (12).** One level, in all nine catalogs, announced, with a label-pack string.
       Verify: undo restores the same filter object's content, by keyboard.
 - [ ] **P48-T12 Mount the filter in an example app and style it (13).** With axe, keyboard, 320px and forced-colours checks, and
