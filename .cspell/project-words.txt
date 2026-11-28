@@ -541,3 +541,4 @@ unstub
 jsdom
 Naijá
 esbuild
+antiforgery
