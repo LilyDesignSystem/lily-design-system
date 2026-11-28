@@ -123,3 +123,35 @@ describe("DownloadButton", () => {
         expect(host.querySelectorAll("a.download-button").length).toBe(1);
     });
 });
+
+describe("DownloadButton follows its attributes (P50-T28)", () => {
+    test("shows a change to href, label, metadata, download and class", () => {
+        const host = render(
+            '<lily-download-button href="/a.pdf" label="Old" file-size="1 MB"></lily-download-button>',
+        );
+        host.setAttribute("href", "/b.pdf");
+        host.setAttribute("label", "New");
+        host.removeAttribute("file-size");
+        host.setAttribute("file-format", "PDF");
+        host.setAttribute("download", "report.pdf");
+        host.setAttribute("class", "wide");
+        const a = host.querySelector("a") as HTMLAnchorElement;
+        expect(a.getAttribute("href")).toBe("/b.pdf");
+        expect(a.getAttribute("aria-label")).toBe("New");
+        expect(a.textContent).toBe("New");
+        expect(a.hasAttribute("data-file-size")).toBe(false);
+        expect(a.getAttribute("data-file-format")).toBe("PDF");
+        expect(a.getAttribute("download")).toBe("report.pdf");
+        expect(a.className).toBe("download-button wide");
+        host.setAttribute("download", "false");
+        expect(a.hasAttribute("download")).toBe(false);
+    });
+
+    test("keeps the consumer's text when the label changes", () => {
+        const host = render(
+            '<lily-download-button href="/a.pdf" label="Old">Report</lily-download-button>',
+        );
+        host.setAttribute("label", "New");
+        expect(host.querySelector("a")?.textContent).toBe("Report");
+    });
+});

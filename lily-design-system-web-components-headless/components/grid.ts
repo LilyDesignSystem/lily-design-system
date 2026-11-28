@@ -35,11 +35,23 @@ import { applySelfClassName } from "../lib/dom-utils.js";
 export class Grid extends HTMLElement {
     #built = false;
 
+    // A change to columns, min-column-width, gap or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["columns", "min-column-width", "gap", "class"];
+    }
+
+    attributeChangedCallback(): void {
+        if (this.#built) this.#apply();
+    }
+
     connectedCallback(): void {
         if (this.#built) return;
         this.#built = true;
+        this.#apply();
+    }
 
-        applySelfClassName(this, "grid");
+    #apply(): void {
+        if (!this.classList.contains("grid")) applySelfClassName(this, "grid");
         this.setAttribute("data-columns", this.getAttribute("columns") ?? "12");
         const min = this.getAttribute("min-column-width");
         if (min) {
@@ -48,6 +60,10 @@ export class Grid extends HTMLElement {
                 "--grid-template-columns",
                 `repeat(auto-fit, minmax(min(${min}, 100%), 1fr))`,
             );
+        } else {
+            this.removeAttribute("data-min-column-width");
+            this.style.removeProperty("--grid-template-columns");
+            if (!this.style.length) this.removeAttribute("style");
         }
         this.setAttribute("data-gap", this.getAttribute("gap") ?? "1rem");
     }

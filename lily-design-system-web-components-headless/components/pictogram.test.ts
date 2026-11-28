@@ -84,3 +84,26 @@ describe("Pictogram", () => {
         expect(host.querySelectorAll("figure").length).toBe(1);
     });
 });
+
+describe("Pictogram follows its attributes (P50-T28)", () => {
+    test("shows a change to layout, heading, description, label and class", () => {
+        const host = render(
+            '<lily-pictogram description="Old"><svg slot="icon"></svg></lily-pictogram>',
+        );
+        host.setAttribute("layout", "side");
+        host.setAttribute("heading", "Title");
+        host.setAttribute("description", "New");
+        host.setAttribute("label", "Named");
+        host.setAttribute("class", "wide");
+        const figure = host.querySelector("figure") as HTMLElement;
+        expect(figure.className).toBe("pictogram wide");
+        expect(figure.getAttribute("data-layout")).toBe("side");
+        expect(figure.getAttribute("aria-label")).toBe("Named");
+        const caption = figure.querySelector("figcaption") as HTMLElement;
+        expect(caption.firstElementChild?.textContent).toBe("Title");
+        expect(caption.querySelector(".pictogram-description")?.textContent).toBe("New");
+        host.removeAttribute("heading");
+        host.removeAttribute("description");
+        expect(caption.children).toHaveLength(0);
+    });
+});

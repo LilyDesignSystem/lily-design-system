@@ -36,21 +36,32 @@
 //   - MDN flexbox: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout
 
 import { applySelfClassName } from "../lib/dom-utils.js";
+import { setOrRemove } from "../lib/live-element.js";
 
 export class FlexStack extends HTMLElement {
     #built = false;
 
+    // A change to direction, gap, align, justify or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["direction", "gap", "align", "justify", "class"];
+    }
+
+    attributeChangedCallback(): void {
+        if (this.#built) this.#apply();
+    }
+
     connectedCallback(): void {
         if (this.#built) return;
         this.#built = true;
+        this.#apply();
+    }
 
-        applySelfClassName(this, "flex-stack");
+    #apply(): void {
+        if (!this.classList.contains("flex-stack")) applySelfClassName(this, "flex-stack");
         const direction = this.getAttribute("direction") === "row" ? "row" : "column";
         this.setAttribute("data-direction", direction);
         this.setAttribute("data-gap", this.getAttribute("gap") ?? "1rem");
-        const align = this.getAttribute("align");
-        if (align !== null) this.setAttribute("data-align", align);
-        const justify = this.getAttribute("justify");
-        if (justify !== null) this.setAttribute("data-justify", justify);
+        setOrRemove(this, "data-align", this.getAttribute("align"));
+        setOrRemove(this, "data-justify", this.getAttribute("justify"));
     }
 }

@@ -78,3 +78,34 @@ describe("Card", () => {
         expect(article.lastChild!.textContent).toBe("Body content.");
     });
 });
+
+describe("Card follows its attributes (P50-T28)", () => {
+    test("shows a change to heading, level, href, label and class, keeping the content", () => {
+        const host = render('<lily-card heading="Old"><p>Body</p></lily-card>');
+        host.setAttribute("heading", "New");
+        host.setAttribute("heading-level", "2");
+        host.setAttribute("href", "/next");
+        host.setAttribute("whole-card-link", "");
+        host.setAttribute("label", "Visit");
+        host.setAttribute("class", "wide");
+        const root = host.querySelector("div.card") as HTMLElement;
+        expect(root.className).toBe("card wide");
+        expect(root.getAttribute("role")).toBe("group");
+        expect(root.getAttribute("aria-label")).toBe("Visit");
+        expect(root.firstElementChild?.tagName).toBe("H2");
+        const link = root.querySelector("h2 > a") as HTMLAnchorElement;
+        expect(link.textContent).toBe("New");
+        expect(link.getAttribute("href")).toBe("/next");
+        expect(link.hasAttribute("data-lily-card-link")).toBe(true);
+        expect(root.querySelector("p")?.textContent).toBe("Body");
+        expect(root.querySelectorAll("h2, h3")).toHaveLength(1);
+
+        host.removeAttribute("heading");
+        host.removeAttribute("label");
+        expect(root.querySelector("h2")).toBeNull();
+        expect(root.hasAttribute("role")).toBe(false);
+        expect(root.querySelector("p")?.textContent).toBe("Body");
+        host.setAttribute("heading", "Back");
+        expect(root.firstElementChild?.textContent).toBe("Back");
+    });
+});

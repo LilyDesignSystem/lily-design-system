@@ -87,3 +87,22 @@ describe("SectionHeading", () => {
         expect(host.querySelector("header")!.getAttribute("data-testid")).toBe("sh");
     });
 });
+
+describe("SectionHeading follows its attributes (P50-T28)", () => {
+    test("shows a change to heading, eyebrow, subtitle, level and class", () => {
+        const host = render(
+            '<lily-section-heading heading="Old" subtitle="Gone"></lily-section-heading>',
+        );
+        host.setAttribute("heading", "New");
+        host.setAttribute("eyebrow", "Above");
+        host.removeAttribute("subtitle");
+        host.setAttribute("level", "3");
+        host.setAttribute("class", "wide");
+        const header = host.querySelector("header.section-heading") as HTMLElement;
+        expect(header.className).toBe("section-heading wide");
+        expect(header.querySelector("h3.section-heading-heading")?.textContent).toBe("New");
+        expect(header.querySelector("h2")).toBeNull();
+        expect(header.querySelector(".section-heading-eyebrow")?.textContent).toBe("Above");
+        expect(header.querySelector(".section-heading-subtitle")).toBeNull();
+    });
+});

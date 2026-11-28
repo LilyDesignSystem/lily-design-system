@@ -70,3 +70,20 @@ describe("Grid", () => {
         expect(host.style.getPropertyValue("--grid-template-columns")).toBe("");
     });
 });
+
+describe("Grid follows its attributes (P50-T28)", () => {
+    test("shows a change to columns, min-column-width, gap and class", () => {
+        const host = render('<lily-grid min-column-width="10rem">A</lily-grid>');
+        host.setAttribute("columns", "3");
+        host.setAttribute("gap", "2rem");
+        host.removeAttribute("min-column-width");
+        host.setAttribute("class", "wide");
+        expect(host.getAttribute("data-columns")).toBe("3");
+        expect(host.getAttribute("data-gap")).toBe("2rem");
+        expect(host.hasAttribute("data-min-column-width")).toBe(false);
+        expect(host.style.getPropertyValue("--grid-template-columns")).toBe("");
+        expect(host.className).toBe("grid wide");
+        host.setAttribute("min-column-width", "12rem");
+        expect(host.style.getPropertyValue("--grid-template-columns")).toContain("12rem");
+    });
+});

@@ -26,13 +26,42 @@
 //   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { setOrRemove } from "../lib/live-element.js";
 
 const HANDLED = new Set(["type", "disabled", "pressed", "label", "base-class"]);
 
 export class IconButton extends HTMLElement {
+    #button: HTMLButtonElement | null = null;
+
+    // A change to label, type, disabled, pressed, base-class or class is shown (tasks.md P50-T28). A label removed after the
+    // button is built removes its name, as a missing label would; the error is for a button built with none.
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const button = this.#button;
+        if (!button) return;
+        button.className = rootClassName(this, this.getAttribute("base-class") ?? "icon-button");
+        button.type =
+            (this.getAttribute("type") as "button" | "submit" | "reset" | null) ?? "button";
+        button.disabled = this.hasAttribute("disabled");
+        const pressed = this.getAttribute("pressed");
+        setOrRemove(
+            button,
+            "aria-pressed",
+            pressed === null ? null : pressed === "false" ? "false" : "true",
+        );
+        setOrRemove(button, "aria-label", this.getAttribute("label"));
+    }
+
     connectedCallback(): void {
         const baseClass = this.getAttribute("base-class") ?? "icon-button";
-        if (this.querySelector(`:scope > button.${baseClass}`)) return;
+        const existing = this.querySelector<HTMLButtonElement>(`:scope > button.${baseClass}`);
+        if (existing) {
+            this.#button = existing;
+            return;
+        }
 
         const button = document.createElement("button");
         button.className = rootClassName(this, baseClass);
@@ -51,5 +80,6 @@ export class IconButton extends HTMLElement {
 
         moveChildrenInto(this, button);
         this.appendChild(button);
+        this.#button = button;
     }
 }

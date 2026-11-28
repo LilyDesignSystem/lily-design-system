@@ -20,13 +20,31 @@ import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 const HANDLED = new Set(["heading", "eyebrow", "subtitle", "level"]);
 
 export class SectionHeading extends HTMLElement {
+    // A change to heading, eyebrow, subtitle, level or class is shown (tasks.md P50-T28): everything inside is built from the
+    // attributes, so it is built again.
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const header = this.querySelector<HTMLElement>(":scope > header.section-heading");
+        if (!header) return;
+        header.className = rootClassName(this, "section-heading");
+        header.replaceChildren();
+        this.#fill(header);
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > header.section-heading")) return;
 
         const header = document.createElement("header");
         header.className = rootClassName(this, "section-heading");
         passThroughAttributes(this, header, HANDLED);
+        this.#fill(header);
+        this.appendChild(header);
+    }
 
+    #fill(header: HTMLElement): void {
         const eyebrow = this.getAttribute("eyebrow");
         if (eyebrow !== null) {
             const p = document.createElement("p");
@@ -48,7 +66,5 @@ export class SectionHeading extends HTMLElement {
             p.textContent = subtitle;
             header.appendChild(p);
         }
-
-        this.appendChild(header);
     }
 }

@@ -71,3 +71,24 @@ describe("IconButton", () => {
         expect((host.querySelector("button") as HTMLButtonElement).className).toBe("icon-button");
     });
 });
+
+describe("IconButton follows its attributes (P50-T28)", () => {
+    test("shows a change to label, type, disabled, pressed and class", () => {
+        const host = render(
+            '<lily-icon-button label="Old" pressed="true"><svg aria-hidden="true"></svg></lily-icon-button>',
+        );
+        host.setAttribute("label", "New");
+        host.setAttribute("type", "submit");
+        host.setAttribute("disabled", "");
+        host.removeAttribute("pressed");
+        host.setAttribute("class", "wide");
+        const button = host.querySelector("button") as HTMLButtonElement;
+        expect(button.getAttribute("aria-label")).toBe("New");
+        expect(button.type).toBe("submit");
+        expect(button.disabled).toBe(true);
+        expect(button.hasAttribute("aria-pressed")).toBe(false);
+        expect(button.className).toBe("icon-button wide");
+        host.setAttribute("pressed", "false");
+        expect(button.getAttribute("aria-pressed")).toBe("false");
+    });
+});

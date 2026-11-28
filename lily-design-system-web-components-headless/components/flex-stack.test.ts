@@ -72,3 +72,19 @@ describe("FlexStack", () => {
         expect(host.getAttribute("style")).toBeNull();
     });
 });
+
+describe("FlexStack follows its attributes (P50-T28)", () => {
+    test("shows a change to direction, gap, align, justify and class", () => {
+        const host = render('<lily-flex-stack align="start">A</lily-flex-stack>');
+        host.setAttribute("direction", "row");
+        host.setAttribute("gap", "2rem");
+        host.removeAttribute("align");
+        host.setAttribute("justify", "end");
+        host.setAttribute("class", "wide");
+        expect(host.getAttribute("data-direction")).toBe("row");
+        expect(host.getAttribute("data-gap")).toBe("2rem");
+        expect(host.hasAttribute("data-align")).toBe(false);
+        expect(host.getAttribute("data-justify")).toBe("end");
+        expect(host.className).toBe("flex-stack wide");
+    });
+});
