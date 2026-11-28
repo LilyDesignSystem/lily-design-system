@@ -24,10 +24,30 @@
 //   - components/heatmap-chart-with-year-of-days/index.md (canonical contract)
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { setOrRemove } from "../lib/live-element.js";
 
 const HANDLED = new Set(["label", "year", "week-start"]);
 
 export class HeatmapChartWithYearOfDays extends HTMLElement {
+    // A change to label, year, week-start or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const figure = this.querySelector<HTMLElement>(
+            ":scope > figure.heatmap-chart-with-year-of-days",
+        );
+        const graphic = figure?.querySelector<HTMLElement>(
+            ":scope > .heatmap-chart-with-year-of-days-graphic",
+        );
+        if (!figure || !graphic) return;
+        figure.className = rootClassName(this, "heatmap-chart-with-year-of-days");
+        setOrRemove(figure, "data-year", this.getAttribute("year"));
+        setOrRemove(figure, "data-week-start", this.getAttribute("week-start"));
+        setOrRemove(graphic, "aria-label", this.getAttribute("label"));
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > figure.heatmap-chart-with-year-of-days")) return;
 

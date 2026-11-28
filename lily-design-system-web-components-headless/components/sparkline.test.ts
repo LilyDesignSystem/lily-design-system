@@ -72,3 +72,25 @@ describe("Sparkline", () => {
         );
     });
 });
+
+describe("Sparkline follows its attributes (P50-T28)", () => {
+    test("shows a change to its point count, keeping the graphic", () => {
+        const host = render(
+            '<lily-sparkline label="Old" minimum-points="3" point-count="5" insufficient-label="Too few"><svg></svg></lily-sparkline>',
+        );
+        const span = host.querySelector("span.sparkline") as HTMLElement;
+        host.setAttribute("point-count", "1");
+        expect(span.hasAttribute("data-insufficient")).toBe(true);
+        expect(span.hasAttribute("role")).toBe(false);
+        expect(span.textContent).toBe("Too few");
+        expect(span.querySelector("svg")).toBeNull();
+        host.setAttribute("point-count", "4");
+        host.setAttribute("label", "New");
+        host.setAttribute("class", "wide");
+        expect(span.hasAttribute("data-insufficient")).toBe(false);
+        expect(span.getAttribute("role")).toBe("img");
+        expect(span.getAttribute("aria-label")).toBe("New");
+        expect(span.className).toBe("sparkline wide");
+        expect(span.querySelector("svg")).toBeTruthy();
+    });
+});

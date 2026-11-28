@@ -20,7 +20,7 @@
 // References:
 //   - components/column-chart/index.md (canonical contract)
 
-import { nextId, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { followChart, nextId, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 
 const SVG_NS = "http://www.w3.org/2000/svg";
 const HANDLED = new Set(["label", "description", "categories"]);
@@ -43,6 +43,19 @@ export class ColumnChart extends HTMLElement {
     #graphic: HTMLElement | null = null;
     #categories: ColumnChartCategory[] = [];
     #descriptionId = nextId("lily-column-chart-description");
+
+    // A change to label, description, categories or class is shown (tasks.md P50-T28): a new categories is drawn again, as setting the
+    // property does.
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(name: string): void {
+        if (!this.#figure || !this.#graphic) return;
+        followChart(this, this.#figure, this.#graphic, "column-chart", this.#descriptionId);
+        if (name === "categories")
+            this.categories = parseCategories(this.getAttribute("categories"));
+    }
 
     connectedCallback(): void {
         if (this.#figure) return;

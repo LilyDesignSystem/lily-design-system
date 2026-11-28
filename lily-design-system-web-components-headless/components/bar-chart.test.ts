@@ -100,3 +100,28 @@ describe("BarChart", () => {
         expect(host.categories).toEqual([]);
     });
 });
+
+describe("bar-chart follows its attributes (P50-T28)", () => {
+    test("shows a change to label, description, categories and class", () => {
+        const host = render(
+            `<lily-bar-chart label="Old" categories='[{"label":"A","value":1}]'></lily-bar-chart>`,
+        );
+        const graphic = host.querySelector(".bar-chart-graphic") as HTMLElement;
+        const before = graphic.querySelectorAll("rect").length;
+        host.setAttribute("label", "New");
+        host.setAttribute("description", "Described");
+        host.setAttribute("categories", '[{"label":"A","value":1},{"label":"B","value":2}]');
+        host.setAttribute("class", "wide");
+        expect(host.querySelector("figure")?.className).toBe("bar-chart wide");
+        expect(graphic.getAttribute("aria-label")).toBe("New");
+        const caption = graphic.firstElementChild as HTMLElement;
+        expect(caption.tagName).toBe("FIGCAPTION");
+        expect(caption.textContent).toBe("Described");
+        expect(graphic.getAttribute("aria-describedby")).toBe(caption.id);
+        expect(graphic.querySelectorAll("svg")).toHaveLength(1);
+        expect(graphic.querySelectorAll("rect").length).toBeGreaterThan(before);
+        host.removeAttribute("description");
+        expect(graphic.querySelector("figcaption")).toBeNull();
+        expect(graphic.hasAttribute("aria-describedby")).toBe(false);
+    });
+});

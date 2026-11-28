@@ -21,7 +21,7 @@
 // References:
 //   - components/line-chart/index.md (canonical contract)
 
-import { nextId, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { followChart, nextId, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 
 const SVG_NS = "http://www.w3.org/2000/svg";
 const HANDLED = new Set(["label", "description", "series"]);
@@ -68,6 +68,18 @@ export class LineChart extends HTMLElement {
     #graphic: HTMLElement | null = null;
     #series: ChartSeries[] = [];
     #descriptionId = nextId("lily-line-chart-description");
+
+    // A change to label, description, series or class is shown (tasks.md P50-T28): a new series is drawn again, as setting the
+    // property does.
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(name: string): void {
+        if (!this.#figure || !this.#graphic) return;
+        followChart(this, this.#figure, this.#graphic, "line-chart", this.#descriptionId);
+        if (name === "series") this.series = parseSeries(this.getAttribute("series"));
+    }
 
     connectedCallback(): void {
         if (this.#figure) return;

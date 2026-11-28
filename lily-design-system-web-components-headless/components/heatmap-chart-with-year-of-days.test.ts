@@ -98,3 +98,22 @@ describe("HeatmapChartWithYearOfDays", () => {
         expect(fig.getAttribute("data-week-start")).toBe("1");
     });
 });
+
+describe("HeatmapChartWithYearOfDays follows its attributes (P50-T28)", () => {
+    test("shows a change to label, year, week-start and class", () => {
+        const host = render(
+            '<lily-heatmap-chart-with-year-of-days label="Old" year="2025"><svg></svg></lily-heatmap-chart-with-year-of-days>',
+        );
+        host.setAttribute("label", "New");
+        host.setAttribute("year", "2026");
+        host.setAttribute("week-start", "1");
+        host.setAttribute("class", "wide");
+        const figure = host.querySelector("figure") as HTMLElement;
+        expect(figure.className).toBe("heatmap-chart-with-year-of-days wide");
+        expect(figure.getAttribute("data-year")).toBe("2026");
+        expect(figure.getAttribute("data-week-start")).toBe("1");
+        expect(figure.querySelector("[role=img]")?.getAttribute("aria-label")).toBe("New");
+        host.removeAttribute("year");
+        expect(figure.hasAttribute("data-year")).toBe(false);
+    });
+});

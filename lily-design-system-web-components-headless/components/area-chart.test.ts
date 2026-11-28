@@ -111,3 +111,31 @@ describe("AreaChart", () => {
         expect(host.series).toEqual([]);
     });
 });
+
+describe("area-chart follows its attributes (P50-T28)", () => {
+    test("shows a change to label, description, series and class", () => {
+        const host = render(
+            `<lily-area-chart label="Old" series='[{"name":"A","points":[{"x":0,"y":1},{"x":1,"y":2}]}]'></lily-area-chart>`,
+        );
+        const graphic = host.querySelector(".area-chart-graphic") as HTMLElement;
+        const before = graphic.querySelectorAll("polygon, path").length;
+        host.setAttribute("label", "New");
+        host.setAttribute("description", "Described");
+        host.setAttribute(
+            "series",
+            '[{"name":"A","points":[{"x":0,"y":1},{"x":1,"y":2}]},{"name":"B","points":[{"x":0,"y":3},{"x":1,"y":1}]}]',
+        );
+        host.setAttribute("class", "wide");
+        expect(host.querySelector("figure")?.className).toBe("area-chart wide");
+        expect(graphic.getAttribute("aria-label")).toBe("New");
+        const caption = graphic.firstElementChild as HTMLElement;
+        expect(caption.tagName).toBe("FIGCAPTION");
+        expect(caption.textContent).toBe("Described");
+        expect(graphic.getAttribute("aria-describedby")).toBe(caption.id);
+        expect(graphic.querySelectorAll("svg")).toHaveLength(1);
+        expect(graphic.querySelectorAll("polygon, path").length).toBeGreaterThan(before);
+        host.removeAttribute("description");
+        expect(graphic.querySelector("figcaption")).toBeNull();
+        expect(graphic.hasAttribute("aria-describedby")).toBe(false);
+    });
+});

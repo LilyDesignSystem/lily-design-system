@@ -154,6 +154,40 @@ export function followSelf(
     if (role && !host.hasAttribute("role")) host.setAttribute("role", role);
 }
 
+/**
+ * Bring a built chart in step with its host (tasks.md P50-T28): the figure's class, the graphic's aria-label from label, and the
+ * description: a figcaption first in the graphic, with the id aria-describedby names, added, changed or removed with the attribute.
+ */
+export function followChart(
+    host: HTMLElement,
+    figure: HTMLElement,
+    graphic: HTMLElement,
+    baseClass: string,
+    descriptionId: string,
+): void {
+    figure.className = rootClassName(host, baseClass);
+    const label = host.getAttribute("label");
+    if (label !== null) graphic.setAttribute("aria-label", label);
+    else graphic.removeAttribute("aria-label");
+    const description = host.getAttribute("description");
+    let caption = graphic.querySelector<HTMLElement>(
+        `:scope > figcaption.${baseClass}-description`,
+    );
+    if (description === null) {
+        caption?.remove();
+        graphic.removeAttribute("aria-describedby");
+        return;
+    }
+    if (!caption) {
+        caption = document.createElement("figcaption");
+        caption.className = `${baseClass}-description`;
+        caption.id = descriptionId;
+        graphic.prepend(caption);
+    }
+    caption.textContent = description;
+    graphic.setAttribute("aria-describedby", descriptionId);
+}
+
 /** Bring a built root's class list in step with its host's (tasks.md P50-T28), for an element with no attribute of its own. */
 export function followClass(host: HTMLElement, selector: string, baseClass: string): void {
     const root = host.querySelector(`:scope > ${selector}`);
