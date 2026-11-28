@@ -75,3 +75,24 @@ describe("GraphicBlock", () => {
         expect(host.querySelectorAll("figure").length).toBe(1);
     });
 });
+
+describe("GraphicBlock follows its attributes (P50-T28)", () => {
+    test("shows a change to label, title, description, notes and class", () => {
+        const host = render(
+            '<lily-graphic-block label="Old" notes="Gone"><svg></svg></lily-graphic-block>',
+        );
+        host.setAttribute("label", "New");
+        host.setAttribute("description", "Described");
+        host.removeAttribute("notes");
+        host.setAttribute("class", "wide");
+        const figure = host.querySelector("figure") as HTMLElement;
+        expect(figure.className).toBe("graphic-block wide");
+        expect(figure.getAttribute("aria-label")).toBe("New");
+        expect(figure.querySelector(".graphic-block-description")?.textContent).toBe("Described");
+        expect(figure.querySelector(".graphic-block-notes")).toBeNull();
+        expect(figure.querySelectorAll("figcaption")).toHaveLength(1);
+        expect(figure.querySelector(".graphic-block-content svg")).toBeTruthy();
+        host.removeAttribute("description");
+        expect(figure.querySelector("figcaption")).toBeNull();
+    });
+});

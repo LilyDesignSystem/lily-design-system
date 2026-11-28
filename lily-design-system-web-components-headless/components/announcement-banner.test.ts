@@ -80,3 +80,29 @@ describe("AnnouncementBanner", () => {
         expect(host.hidden).toBe(true);
     });
 });
+
+describe("AnnouncementBanner follows its attributes (P50-T28)", () => {
+    test("shows a change to label, live, dismissible, dismiss-label and class", () => {
+        const host = render(
+            '<lily-announcement-banner label="Old" live>News</lily-announcement-banner>',
+        );
+        host.setAttribute("label", "New");
+        host.removeAttribute("live");
+        host.setAttribute("dismissible", "");
+        host.setAttribute("dismiss-label", "Close");
+        host.setAttribute("class", "wide");
+        expect(host.className).toBe("announcement-banner wide");
+        expect(host.getAttribute("aria-label")).toBe("New");
+        expect(host.hasAttribute("aria-live")).toBe(false);
+        const button = host.querySelector(
+            "button.announcement-banner-dismiss",
+        ) as HTMLButtonElement;
+        expect(button.getAttribute("aria-label")).toBe("Close");
+        host.setAttribute("dismiss-label", "Hide");
+        expect(host.querySelectorAll("button")).toHaveLength(1);
+        expect(button.getAttribute("aria-label")).toBe("Hide");
+        host.removeAttribute("dismissible");
+        expect(host.querySelector("button")).toBeNull();
+        expect(host.textContent).toBe("News");
+    });
+});

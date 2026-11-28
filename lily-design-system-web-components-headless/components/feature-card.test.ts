@@ -90,3 +90,28 @@ describe("FeatureCard", () => {
         expect(host.querySelector("article")!.className).toBe("feature-card extra");
     });
 });
+
+describe("FeatureCard follows its attributes (P50-T28)", () => {
+    test("shows a change to its attributes, keeping the content", () => {
+        const host = render(
+            '<lily-feature-card heading="Old" description="Gone"><p>Body</p></lily-feature-card>',
+        );
+        host.setAttribute("heading", "New");
+        host.removeAttribute("description");
+        host.setAttribute("image-url", "/a.png");
+        host.setAttribute("image-alt", "A");
+        host.setAttribute("image-position", "end");
+        host.setAttribute("class", "wide");
+        const article = host.querySelector("article") as HTMLElement;
+        expect(article.className).toBe("feature-card wide");
+        expect(article.getAttribute("aria-label")).toBe("New");
+        expect(article.getAttribute("data-image-position")).toBe("end");
+        expect(article.firstElementChild?.tagName).toBe("IMG");
+        expect(article.querySelector(".feature-card-heading")?.textContent).toBe("New");
+        expect(article.querySelector(".feature-card-description")).toBeNull();
+        expect(article.querySelectorAll("header")).toHaveLength(1);
+        expect(article.lastElementChild?.textContent).toBe("Body");
+        host.setAttribute("label", "Named");
+        expect(article.getAttribute("aria-label")).toBe("Named");
+    });
+});

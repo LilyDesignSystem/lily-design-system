@@ -32,23 +32,57 @@ const HANDLED = new Set([
 ]);
 
 export class FeatureCard extends HTMLElement {
+    // The image, header and description this element built, before the consumer's content.
+    #parts: HTMLElement[] = [];
+
+    // A change to heading, image-position, image-url, image-alt, description, label or class is shown (tasks.md P50-T28): the
+    // built parts are built again in place, and the consumer's content is left alone.
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const article = this.querySelector<HTMLElement>(":scope > article.feature-card");
+        if (!article) return;
+        this.#name(article);
+        for (const part of this.#parts) part.remove();
+        this.#parts = this.#build();
+        article.prepend(...this.#parts);
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > article.feature-card")) return;
 
         const article = document.createElement("article");
-        article.className = rootClassName(this, "feature-card");
-        article.setAttribute("data-image-position", this.getAttribute("image-position") ?? "start");
-        const heading = this.getAttribute("heading") ?? "";
-        article.setAttribute("aria-label", this.getAttribute("label") ?? heading);
+        this.#name(article);
         passThroughAttributes(this, article, HANDLED);
 
+        this.#parts = this.#build();
+        article.append(...this.#parts);
+
+        moveChildrenInto(this, article);
+        this.appendChild(article);
+    }
+
+    #name(article: HTMLElement): void {
+        article.className = rootClassName(this, "feature-card");
+        article.setAttribute("data-image-position", this.getAttribute("image-position") ?? "start");
+        article.setAttribute(
+            "aria-label",
+            this.getAttribute("label") ?? this.getAttribute("heading") ?? "",
+        );
+    }
+
+    #build(): HTMLElement[] {
+        const parts: HTMLElement[] = [];
+        const heading = this.getAttribute("heading") ?? "";
         const imageUrl = this.getAttribute("image-url");
         if (imageUrl !== null) {
             const img = document.createElement("img");
             img.className = "feature-card-image";
             img.src = imageUrl;
             img.alt = this.getAttribute("image-alt") ?? "";
-            article.appendChild(img);
+            parts.push(img);
         }
 
         const header = document.createElement("header");
@@ -57,17 +91,15 @@ export class FeatureCard extends HTMLElement {
         h3.className = "feature-card-heading";
         h3.textContent = heading;
         header.appendChild(h3);
-        article.appendChild(header);
+        parts.push(header);
 
         const description = this.getAttribute("description");
         if (description !== null) {
             const p = document.createElement("p");
             p.className = "feature-card-description";
             p.textContent = description;
-            article.appendChild(p);
+            parts.push(p);
         }
-
-        moveChildrenInto(this, article);
-        this.appendChild(article);
+        return parts;
     }
 }

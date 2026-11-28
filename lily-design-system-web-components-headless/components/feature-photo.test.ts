@@ -73,3 +73,26 @@ describe("FeaturePhoto", () => {
         expect(host.querySelector("figcaption")).toBeNull();
     });
 });
+
+describe("FeaturePhoto follows its attributes (P50-T28)", () => {
+    test("shows a change to src, alt, loading, size and class, keeping the caption", () => {
+        const host = render(
+            '<lily-feature-photo src="/a.png" alt="Old" width="10"><span slot="caption">Cap</span></lily-feature-photo>',
+        );
+        host.setAttribute("src", "/b.png");
+        host.setAttribute("alt", "New");
+        host.setAttribute("loading", "eager");
+        host.removeAttribute("width");
+        host.setAttribute("height", "20");
+        host.setAttribute("class", "wide");
+        const figure = host.querySelector("figure") as HTMLElement;
+        const img = figure.querySelector("img") as HTMLImageElement;
+        expect(figure.className).toBe("feature-photo wide");
+        expect(img.getAttribute("src")).toBe("/b.png");
+        expect(img.alt).toBe("New");
+        expect(img.loading).toBe("eager");
+        expect(img.hasAttribute("width")).toBe(false);
+        expect(img.getAttribute("height")).toBe("20");
+        expect(figure.querySelector("figcaption")?.textContent).toBe("Cap");
+    });
+});

@@ -18,29 +18,48 @@
 //   - components/announcement-banner/index.md (canonical contract)
 
 import { applySelfClassName } from "../lib/dom-utils.js";
+import { setOrRemove } from "../lib/live-element.js";
 
 export class AnnouncementBanner extends HTMLElement {
     #built = false;
+    #dismiss: HTMLButtonElement | null = null;
+
+    // A change to label, live, dismissible, dismiss-label or class is shown (tasks.md P50-T28): the dismiss button comes and goes
+    // with dismissible.
+    static get observedAttributes(): string[] {
+        return ["label", "live", "dismissible", "dismiss-label", "class"];
+    }
+
+    attributeChangedCallback(): void {
+        if (this.#built) this.#apply();
+    }
 
     connectedCallback(): void {
         if (this.#built) return;
         this.#built = true;
-
-        applySelfClassName(this, "announcement-banner");
         this.setAttribute("role", "region");
-        const label = this.getAttribute("label");
-        if (label !== null) this.setAttribute("aria-label", label);
-        if (this.hasAttribute("live")) this.setAttribute("aria-live", "polite");
+        this.#apply();
+    }
 
-        if (this.hasAttribute("dismissible")) {
-            const button = document.createElement("button");
-            button.type = "button";
-            button.className = "announcement-banner-dismiss";
-            const dismissLabel = this.getAttribute("dismiss-label");
-            if (dismissLabel !== null) button.setAttribute("aria-label", dismissLabel);
-            button.addEventListener("click", this.#onDismiss);
-            this.appendChild(button);
+    #apply(): void {
+        if (!this.classList.contains("announcement-banner"))
+            applySelfClassName(this, "announcement-banner");
+        setOrRemove(this, "aria-label", this.getAttribute("label"));
+        setOrRemove(this, "aria-live", this.hasAttribute("live") ? "polite" : null);
+
+        if (!this.hasAttribute("dismissible")) {
+            this.#dismiss?.remove();
+            this.#dismiss = null;
+            return;
         }
+        if (!this.#dismiss) {
+            this.#dismiss = document.createElement("button");
+            this.#dismiss.type = "button";
+            this.#dismiss.className = "announcement-banner-dismiss";
+            this.#dismiss.addEventListener("click", this.#onDismiss);
+            this.appendChild(this.#dismiss);
+        }
+        setOrRemove(this.#dismiss, "aria-label", this.getAttribute("dismiss-label"));
     }
 
     #onDismiss = (): void => {

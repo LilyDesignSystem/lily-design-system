@@ -53,3 +53,23 @@ describe("FloatButton", () => {
         expect(host.querySelector("button")!.getAttribute("style")).toContain("position: fixed");
     });
 });
+
+describe("FloatButton follows its attributes (P50-T28)", () => {
+    test("shows a change to label, position, type, disabled and class", () => {
+        const host = render('<lily-float-button label="Old">+</lily-float-button>');
+        host.setAttribute("label", "New");
+        host.setAttribute("position", "top-left");
+        host.setAttribute("type", "submit");
+        host.setAttribute("disabled", "");
+        host.setAttribute("class", "wide");
+        const button = host.querySelector("button") as HTMLButtonElement;
+        expect(button.getAttribute("aria-label")).toBe("New");
+        expect(button.getAttribute("data-position")).toBe("top-left");
+        expect(button.style.top).toBe("1rem");
+        expect(button.style.left).toBe("1rem");
+        expect(button.style.bottom).toBe("");
+        expect(button.type).toBe("submit");
+        expect(button.disabled).toBe(true);
+        expect(button.className).toBe("float-button wide");
+    });
+});

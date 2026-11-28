@@ -26,7 +26,31 @@ import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 
 const HANDLED = new Set(["src", "alt", "loading", "width", "height"]);
 
+function applyImage(host: HTMLElement, img: HTMLImageElement): void {
+    img.src = host.getAttribute("src") ?? "";
+    img.alt = host.getAttribute("alt") ?? "";
+    img.loading = (host.getAttribute("loading") as "lazy" | "eager" | null) ?? "lazy";
+    for (const name of ["width", "height"]) {
+        const value = host.getAttribute(name);
+        if (value !== null) img.setAttribute(name, String(Number(value)));
+        else img.removeAttribute(name);
+    }
+}
+
 export class FeaturePhoto extends HTMLElement {
+    // A change to src, alt, loading, width, height or class is shown (tasks.md P50-T28); the caption and credit stay.
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const figure = this.querySelector<HTMLElement>(":scope > figure.feature-photo");
+        const img = figure?.querySelector<HTMLImageElement>(":scope > img");
+        if (!figure || !img) return;
+        figure.className = rootClassName(this, "feature-photo");
+        applyImage(this, img);
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > figure.feature-photo")) return;
 
@@ -35,13 +59,7 @@ export class FeaturePhoto extends HTMLElement {
         passThroughAttributes(this, figure, HANDLED);
 
         const img = document.createElement("img");
-        img.src = this.getAttribute("src") ?? "";
-        img.alt = this.getAttribute("alt") ?? "";
-        img.loading = (this.getAttribute("loading") as "lazy" | "eager" | null) ?? "lazy";
-        const width = this.getAttribute("width");
-        if (width !== null) img.width = Number(width);
-        const height = this.getAttribute("height");
-        if (height !== null) img.height = Number(height);
+        applyImage(this, img);
         figure.appendChild(img);
 
         const caption = this.querySelector('[slot="caption"]');

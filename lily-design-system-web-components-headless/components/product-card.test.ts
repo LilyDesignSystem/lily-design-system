@@ -93,3 +93,23 @@ describe("ProductCard", () => {
         expect(host.querySelector("article")!.className).toBe("product-card extra");
     });
 });
+
+describe("ProductCard follows its attributes (P50-T28)", () => {
+    test("shows a change to its attributes, keeping the content", () => {
+        const host = render(
+            '<lily-product-card name="Old" price="£1" image-url="/a.png"><p>Body</p></lily-product-card>',
+        );
+        host.setAttribute("name", "New");
+        host.setAttribute("price", "£2");
+        host.removeAttribute("image-url");
+        host.setAttribute("class", "wide");
+        const article = host.querySelector("article") as HTMLElement;
+        expect(article.className).toBe("product-card wide");
+        expect(article.getAttribute("aria-label")).toBe("New");
+        expect(article.querySelector("img")).toBeNull();
+        expect(article.querySelector(".product-card-name")?.textContent).toBe("New");
+        expect(article.querySelector(".product-card-price")?.textContent).toBe("£2");
+        expect(article.querySelectorAll("header")).toHaveLength(1);
+        expect(article.lastElementChild?.textContent).toBe("Body");
+    });
+});

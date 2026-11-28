@@ -18,6 +18,7 @@
 //   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { setOrRemove } from "../lib/live-element.js";
 
 type Position = "top-left" | "top-right" | "bottom-left" | "bottom-right";
 
@@ -31,6 +32,25 @@ function cornerStyle(position: Position): string {
 }
 
 export class FloatButton extends HTMLElement {
+    // A change to label, position, type, disabled or class is shown (tasks.md P50-T28). A label removed after the button is built
+    // removes its name; the error is for a button built with none.
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const button = this.querySelector<HTMLButtonElement>(":scope > button.float-button");
+        if (!button) return;
+        const position = (this.getAttribute("position") as Position | null) ?? "bottom-right";
+        button.className = rootClassName(this, "float-button");
+        button.type =
+            (this.getAttribute("type") as "button" | "submit" | "reset" | null) ?? "button";
+        button.disabled = this.hasAttribute("disabled");
+        setOrRemove(button, "aria-label", this.getAttribute("label"));
+        button.setAttribute("data-position", position);
+        button.setAttribute("style", cornerStyle(position));
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > button.float-button")) return;
 
