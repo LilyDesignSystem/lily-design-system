@@ -13,8 +13,8 @@ package	packed bytes	unpacked bytes
 @lilydesignsystem/angular-date-time-picker	140797	515691
 @lilydesignsystem/angular-filter	106479	357987
 @lilydesignsystem/angular-gantt-chart	169561	601952
-@lilydesignsystem/angular-headless	666861	3151059
-@lilydesignsystem/angular-headless-identifiers	232244	1300038
+@lilydesignsystem/angular-headless	666971	3151369
+@lilydesignsystem/angular-headless-identifiers	232368	1300348
 @lilydesignsystem/angular-kanban-board	155413	561818
 @lilydesignsystem/angular-link-picker	84514	262920
 @lilydesignsystem/angular-locale-picker	104759	355614
@@ -34,7 +34,7 @@ package	packed bytes	unpacked bytes
 @lilydesignsystem/html-color-picker	14083	43145
 @lilydesignsystem/html-data-grid	44137	167450
 @lilydesignsystem/html-date-time-picker	29379	108994
-@lilydesignsystem/html-filter	18326	64855
+@lilydesignsystem/html-filter	20588	74955
 @lilydesignsystem/html-gantt-chart	48835	176966
 @lilydesignsystem/html-headless	303754	1243274
 @lilydesignsystem/html-headless-identifiers	24374	157438
@@ -83,7 +83,7 @@ package	packed bytes	unpacked bytes
 @lilydesignsystem/react-color-picker	13395	43680
 @lilydesignsystem/react-data-grid	42909	163002
 @lilydesignsystem/react-date-time-picker	22760	82892
-@lilydesignsystem/react-filter	16683	60251
+@lilydesignsystem/react-filter	18872	70219
 @lilydesignsystem/react-gantt-chart	42213	162039
 @lilydesignsystem/react-headless	145083	811488
 @lilydesignsystem/react-headless-identifiers	31531	304178
@@ -129,7 +129,7 @@ package	packed bytes	unpacked bytes
 @lilydesignsystem/svelte-color-picker	14024	46114
 @lilydesignsystem/svelte-data-grid	63955	241203
 @lilydesignsystem/svelte-date-time-picker	34881	118097
-@lilydesignsystem/svelte-filter	21456	78660
+@lilydesignsystem/svelte-filter	25268	94859
 @lilydesignsystem/svelte-gantt-chart	61038	221295
 @lilydesignsystem/svelte-headless	393368	1904468
 @lilydesignsystem/svelte-headless-identifiers	70650	591174
@@ -153,7 +153,7 @@ package	packed bytes	unpacked bytes
 @lilydesignsystem/vue-color-picker	13167	38289
 @lilydesignsystem/vue-data-grid	39045	136047
 @lilydesignsystem/vue-date-time-picker	22199	68235
-@lilydesignsystem/vue-filter	16618	54399
+@lilydesignsystem/vue-filter	19237	63685
 @lilydesignsystem/vue-gantt-chart	42029	137815
 @lilydesignsystem/vue-headless	148254	914382
 @lilydesignsystem/vue-headless-identifiers	34427	322350
@@ -176,7 +176,7 @@ package	packed bytes	unpacked bytes
 @lilydesignsystem/web-components-color-picker	14169	43440
 @lilydesignsystem/web-components-data-grid	43959	165964
 @lilydesignsystem/web-components-date-time-picker	30255	111796
-@lilydesignsystem/web-components-filter	18343	65000
+@lilydesignsystem/web-components-filter	20605	75100
 @lilydesignsystem/web-components-gantt-chart	48332	176024
 @lilydesignsystem/web-components-headless	110847	707980
 @lilydesignsystem/web-components-headless-identifiers	32799	302425
