@@ -1,0 +1,99 @@
+#!/usr/bin/env node
+// bin/check-package-sizes — every published npm package's size is recorded, and an unexplained rise fails (tasks.md P50-T19).
+//
+// For each published package (`@lilydesignsystem/*`, not private) whose build is present, `npm pack --dry-run --json` gives
+// the size of the tarball and of its unpacked files. package-sizes.tsv records them. A package that packs more than
+// GROWTH larger than its record (and at least SLACK bytes larger) fails, as does one with no row: run with --update and
+// say why in the commit, which is the explanation. A package whose build is missing (a "files" entry under dist/ with no
+// dist/) is skipped, not failed, so the check runs where the packages were just built (bin/ci's consumer-smoke job).
+//
+// Usage: bin/check-package-sizes [--update]
+"use strict";
+
+const fs = require("node:fs");
+const path = require("node:path");
+const { execFile } = require("node:child_process");
+
+const top = path.resolve(__dirname, "..");
+const TSV = path.join(top, "package-sizes.tsv");
+const GROWTH = 0.1;
+const SLACK = 2048;
+const update = process.argv.includes("--update");
+
+const packages = [];
+for (const dir of fs.readdirSync(top).filter((d) => d.startsWith("lily-design-system-")).sort()) {
+    const pj = path.join(top, dir, "package.json");
+    if (!fs.existsSync(pj)) continue;
+    const p = JSON.parse(fs.readFileSync(pj, "utf-8"));
+    if (p.private || !String(p.name || "").startsWith("@lilydesignsystem/")) continue;
+    const needsDist = (p.files || []).some((f) => f.replace(/^\.\//, "").startsWith("dist"));
+    packages.push({ dir, name: p.name, built: !needsDist || fs.existsSync(path.join(top, dir, "dist")) });
+}
+
+const pack = (dir) =>
+    new Promise((resolve) =>
+        execFile(
+            "npm",
+            ["pack", "--dry-run", "--json", "--ignore-scripts"],
+            { cwd: path.join(top, dir), maxBuffer: 64 * 1024 * 1024 },
+            (err, stdout) => {
+                try {
+                    const [r] = JSON.parse(stdout.slice(stdout.indexOf("[")));
+                    resolve({ size: r.size, unpacked: r.unpackedSize });
+                } catch {
+                    resolve(null);
+                }
+            },
+        ),
+    );
+
+(async () => {
+    const recorded = new Map();
+    if (fs.existsSync(TSV))
+        for (const line of fs.readFileSync(TSV, "utf-8").trim().split("\n").slice(1)) {
+            const [name, size, unpacked] = line.split("\t");
+            recorded.set(name, { size: Number(size), unpacked: Number(unpacked) });
+        }
+    const measured = new Map();
+    const queue = packages.filter((p) => p.built);
+    const skipped = packages.filter((p) => !p.built).map((p) => p.name);
+    await Promise.all(
+        Array.from({ length: 8 }, async () => {
+            while (queue.length) {
+                const p = queue.shift();
+                const m = await pack(p.dir);
+                if (m) measured.set(p.name, m);
+                else skipped.push(p.name);
+            }
+        }),
+    );
+
+    if (update) {
+        const all = new Map([...recorded, ...measured]);
+        for (const name of [...all.keys()]) if (!packages.some((p) => p.name === name)) all.delete(name);
+        const rows = [...all.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+        fs.writeFileSync(
+            TSV,
+            "package\tpacked bytes\tunpacked bytes\n" + rows.map(([n, m]) => `${n}\t${m.size}\t${m.unpacked}`).join("\n") + "\n",
+        );
+        console.log(`check-package-sizes: recorded ${rows.length} packages (${measured.size} measured now)`);
+        return;
+    }
+
+    const failures = [];
+    for (const [name, m] of measured) {
+        const r = recorded.get(name);
+        if (!r) failures.push(`${name}: no row in package-sizes.tsv; run bin/check-package-sizes --update`);
+        else if (m.size > r.size * (1 + GROWTH) && m.size - r.size >= SLACK)
+            failures.push(
+                `${name}: packs to ${m.size} bytes, ${(100 * (m.size / r.size - 1)).toFixed(1)}% above its record of ${r.size}; if the rise is meant, run bin/check-package-sizes --update and say why in the commit`,
+            );
+    }
+    for (const name of recorded.keys())
+        if (!packages.some((p) => p.name === name)) failures.push(`package-sizes.tsv: ${name} is not a published package; run --update`);
+    for (const f of failures) console.log("FAIL " + f);
+    console.log(
+        `check-package-sizes: ${measured.size} packages measured, ${skipped.length} without a build skipped: ${failures.length ? failures.length + " problem(s)" : "OK"}`,
+    );
+    process.exit(failures.length ? 1 : 0);
+})();

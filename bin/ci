@@ -373,6 +373,8 @@ consumer_smoke() {
             (cd "$d" && npm install --no-audit --no-fund --legacy-peer-deps && npm run build && rm -rf node_modules)
         done
     done
+    # Every package just built packs no larger than package-sizes.tsv records, give or take 10% (tasks.md P50-T19).
+    bin/check-package-sizes
     bin/smoke-packages
 }
 
