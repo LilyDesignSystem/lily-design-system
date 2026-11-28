@@ -469,6 +469,8 @@ test -s "$top/AGENTS/visual-identity.md" && test -s "$top/spec/visual-identity/i
     || check_err "compare/index.md differs from compare/compare.tsv; run bin/generate-comparisons"
 "$top/bin/generate-browser-support" --check >"$CHECKLOG" 2>&1 \
     || check_err "docs/supported-browsers.md is stale; run bin/generate-browser-support"
+"$top/bin/generate-third-party-licences" --check >"$CHECKLOG" 2>&1 \
+    || check_err "a third-party dependency is unrecorded or not allowed, or docs/third-party-licences.md is stale; run bin/generate-third-party-licences"
 # These two format their output with the root Prettier. Without the root install they cannot run, which is not the same
 # as stale output, so say which it is (a clean worktree found the misleading message, tasks.md P24-T6).
 if test -e "$top/node_modules/prettier/package.json"; then

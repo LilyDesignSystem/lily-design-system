@@ -1,0 +1,15 @@
+ecosystem	package	licence	verified	note
+npm	@angular/common	MIT	2026-11-28	framework peer, installed by the consumer
+npm	@angular/core	MIT	2026-11-28	framework peer, installed by the consumer
+npm	@solidjs/web	MIT	2026-11-28	framework peer, installed by the consumer
+npm	alpinejs	MIT	2026-11-28	framework peer, installed by the consumer
+npm	aria-query	Apache-2.0	2026-11-28	a declared dependency since 2026-03-15 that no built file imports; a candidate for removal
+npm	nunjucks	BSD-2-Clause	2026-11-28	the template engine of the Nunjucks packages
+npm	react	MIT	2026-11-28	framework peer, installed by the consumer
+npm	react-dom	MIT	2026-11-28	framework peer, installed by the consumer
+npm	rxjs	Apache-2.0	2026-11-28	Angular's peer, installed by the consumer
+npm	solid-js	MIT	2026-11-28	framework peer, installed by the consumer
+npm	svelte	MIT	2026-11-28	framework peer, installed by the consumer
+npm	vue	MIT	2026-11-28	framework peer, installed by the consumer
+nuget	Microsoft.AspNetCore.Components.Web	MIT	2026-11-28	the Blazor framework
+nuget	Microsoft.Maui.Controls	MIT	2026-11-28	the .NET MAUI framework

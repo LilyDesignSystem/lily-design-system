@@ -4850,7 +4850,7 @@ each was checked against the source on 2026-11-25, not reproduced in a browser h
 - [ ] **P50-T16 Help for adopters.** A searchable FAQ and troubleshooting page, a best-practices guide, and accessibility recipes.
 - [ ] **P50-T17 Screen-reader testing for newcomers.** Fold what is useful in the Mistral guide (one component, one combination) into
       `docs/screen-reader-session.md`, after checking its VoiceOver commands, some of which look wrong. Verify: followed once for real.
-- [ ] **P50-T18 Third-party licences.** A list of what each published package depends on, and a check of the licences.
+- [x] **P50-T18 Third-party licences.** A list of what each published package depends on, and a check of the licences. _(Done 2026-11-28: `bin/generate-third-party-licences` reads the 196 published npm packages and 25 NuGet packages into `docs/third-party-licences.md`, from `docs/third-party-licences.tsv` (each licence checked against its registry): 14 dependencies, all MIT, Apache-2.0 or BSD-2-Clause, none bundled. `--check` in `bin/test` fails on an unrecorded dependency, a licence outside the permissive list, or an unused row. Found: `aria-query`, a runtime dependency of the Svelte and Vue headless packages and their identifier add-ons since 2026-03-15, is imported by no built file; removing it is a release change, left for the next one.)_
 - [ ] **P50-T19 Bundle size.** Measure each published package, record it, and fail on an unexplained rise; `sideEffects` is declared in 50
       of 205 packages. Verify: a bundle that imports one component holds only it.
 - [ ] **P50-T20 Lighthouse on the docs site.** Performance and SEO, beside the axe checks. Verify: a recorded baseline that may not fall.
