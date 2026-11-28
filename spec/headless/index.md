@@ -67,6 +67,25 @@ The framework-specific rest-props mechanism:
 | `IntersectionObserver` / scroll listeners that belong to the component (`Visible`, `Scroller*`, `VideoPlayer.autoplay`) | Animation choreography       |
 | ARIA, roles, states, properties on its own elements                                                                     | Page-level routing           |
 
+## Render errors
+
+Lily catches nothing (tasks.md P50-T24). A headless component renders no fallback of its own and wraps no child in an error
+boundary: an error thrown while rendering a child of a Lily component, or the component itself, reaches the consumer's error
+handling unchanged. What a framework then shows is the consumer's choice, as any error is:
+
+| Framework                              | Where the error goes                                                                                     | Tested                                                                |
+| -------------------------------------- | -------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| React                                  | the nearest error boundary (`getDerivedStateFromError`, `componentDidCatch`); with none, `render` throws | `lily-design-system-react-headless/components/render-errors.test.tsx` |
+| Vue                                    | the nearest `onErrorCaptured`, then `app.config.errorHandler`                                            | `lily-design-system-vue-headless/components/render-errors.test.ts`    |
+| Svelte                                 | the nearest `<svelte:boundary>`; with none, `mount` throws                                               | `lily-design-system-svelte-headless/components/render-errors.test.ts` |
+| Solid                                  | the nearest `<Errored>` (Solid 2's error boundary)                                                       | `lily-design-system-solid-headless/components/render-errors.test.tsx` |
+| Angular                                | the application's `ErrorHandler`                                                                         | not tested                                                            |
+| Blazor                                 | the nearest `<ErrorBoundary>`; with none, the circuit's error UI                                         | not tested                                                            |
+| HTML, Web Components, Alpine, Nunjucks | the consumer's own code that renders or upgrades the markup                                              | not applicable                                                        |
+
+So a page that must keep working when one part fails puts its own boundary round that part; Lily never hides a failure
+behind a partly rendered control.
+
 ## Visual decisions and the one allowed inline style
 
 - No stylesheets shipped; no inline `style="..."` attributes **except** where structurally required — e.g. `display: contents` on `ThemeProvider`, or CSS custom properties applied as variables.

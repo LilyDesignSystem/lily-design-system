@@ -25,6 +25,7 @@ All components are unstyled and focus on semantic HTML, ARIA accessibility, and 
 
 - Components handle: focus management inside the component, keyboard navigation between own children, opening/closing internal state with bindable props, and IntersectionObserver / scroll listeners that belong to the component (`Visible`, `Scroller*`, `VideoPlayer.autoplay`).
 - Components do not handle: data fetching, network state, locale-specific formatting, persistence, animation choreography, or page-level routing. Those belong to the consumer.
+- Components catch no errors and render no fallback: an error thrown by a child reaches the consumer's error boundary unchanged (React, Vue, Svelte and Solid tested; [spec/headless](../spec/headless/index.md#render-errors)).
 
 ### Visual decisions
 
