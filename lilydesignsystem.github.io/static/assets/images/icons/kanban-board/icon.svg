@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <title>Kanban</title>
+  <rect x="6" y="8" width="52" height="48" rx="6" fill="#EFF8FF"/>
+  <path d="M23.3 8 V56 M40.7 8 V56" stroke="#0A66E0" stroke-width="3"/>
+  <g fill="#2F8BFF"><rect x="10" y="13" width="9.5" height="3" rx="1.5"/><rect x="27.3" y="13" width="9.5" height="3" rx="1.5"/><rect x="44.7" y="13" width="9.5" height="3" rx="1.5"/></g>
+  <rect x="10" y="21" width="9.5" height="9" rx="2" fill="#0A66E0"/>
+  <rect x="10" y="34" width="9.5" height="9" rx="2" fill="#2F8BFF"/>
+  <rect x="27.3" y="21" width="9.5" height="16" rx="2" fill="#2F8BFF"/>
+  <rect x="44.7" y="21" width="9.5" height="9" rx="2" fill="#0A66E0"/>
+  <rect x="6" y="8" width="52" height="48" rx="6" stroke="#0A66E0" stroke-width="4"/>
+</svg>

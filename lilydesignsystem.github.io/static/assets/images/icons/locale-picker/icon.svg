@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <title>Locales</title>
+  <circle cx="32" cy="32" r="26" fill="#EFF8FF"/>
+  <ellipse cx="32" cy="32" rx="11" ry="26" stroke="#0A66E0" stroke-width="3"/>
+  <path d="M32 6 V58 M6 32 H58 M10 20 Q32 26 54 20 M10 44 Q32 38 54 44" stroke="#0A66E0" stroke-width="3"/>
+  <circle cx="32" cy="32" r="26" stroke="#0A66E0" stroke-width="4"/>
+</svg>

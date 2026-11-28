@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <title>Places</title>
+  <path d="M12 27 V55 H52 V27 L32 11 Z" fill="#EFF8FF"/>
+  <rect x="26" y="37" width="12" height="18" rx="2" fill="#2F8BFF"/>
+  <rect x="40" y="31" width="7" height="7" rx="1.5" fill="#A2D4FC" stroke="#0A66E0" stroke-width="2.5"/>
+  <path d="M12 27 V55 H52 V27" stroke="#0A66E0" stroke-width="4"/>
+  <path d="M6 31 L32 9 L58 31" stroke="#0A66E0" stroke-width="5"/>
+  <path d="M44 13 V20" stroke="#0A66E0" stroke-width="5"/>
+</svg>

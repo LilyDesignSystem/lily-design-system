@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <title>Data Grid</title>
+  <rect x="6" y="10" width="52" height="44" rx="5" fill="#EFF8FF"/>
+  <path d="M6 22 V15 A5 5 0 0 1 11 10 H53 A5 5 0 0 1 58 15 V22 Z" fill="#2F8BFF"/>
+  <rect x="23" y="22" width="17" height="11" fill="#A2D4FC"/>
+  <path d="M6 22 H58 M6 33 H58 M6 44 H58 M23 22 V54 M40 22 V54" stroke="#0A66E0" stroke-width="3"/>
+  <rect x="6" y="10" width="52" height="44" rx="5" stroke="#0A66E0" stroke-width="4"/>
+  <path d="M12 16 H22 M46 14.5 L49 17.5 L52 14.5" stroke="#FFFFFF" stroke-width="2.5"/>
+</svg>

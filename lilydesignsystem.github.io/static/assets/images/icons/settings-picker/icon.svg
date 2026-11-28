@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <title>Settings</title>
+  <path d="M51.87 25.20 L59.66 27.62 L59.66 36.38 L51.87 38.80 L50.86 41.24 L54.65 48.46 L48.46 54.65 L41.24 50.86 L38.80 51.87 L36.38 59.66 L27.62 59.66 L25.20 51.87 L22.76 50.86 L15.54 54.65 L9.35 48.46 L13.14 41.24 L12.13 38.80 L4.34 36.38 L4.34 27.62 L12.13 25.20 L13.14 22.76 L9.35 15.54 L15.54 9.35 L22.76 13.14 L25.20 12.13 L27.62 4.34 L36.38 4.34 L38.80 12.13 L41.24 13.14 L48.46 9.35 L54.65 15.54 L50.86 22.76 Z" fill="#A2D4FC" stroke="#0A66E0" stroke-width="4"/>
+  <circle cx="32" cy="32" r="8" fill="#EFF8FF" stroke="#0A66E0" stroke-width="4"/>
+</svg>

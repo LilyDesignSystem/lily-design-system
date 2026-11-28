@@ -23,7 +23,7 @@
     <title>Lily Design System&trade; — {localeLabel(locale)}</title>
 </svelte:head>
 
-<section class="page-intro">
+<section class="page-intro home-intro">
     <h1>{strings.home.heroTitle}</h1>
     <p class="page-intro-tagline">{strings.home.heroTagline}</p>
     <HomeComponentIcons label={strings.nav.components} />

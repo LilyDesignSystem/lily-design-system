@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <title>Chat</title>
+  <path d="M17 8 H47 A11 11 0 0 1 58 19 V33 A11 11 0 0 1 47 44 H30 L16 56 L18 44 H17 A11 11 0 0 1 6 33 V19 A11 11 0 0 1 17 8 Z" fill="#EFF8FF" stroke="#0A66E0" stroke-width="4"/>
+  <circle cx="21" cy="26" r="4" fill="#2F8BFF"/><circle cx="32" cy="26" r="4" fill="#2F8BFF"/><circle cx="43" cy="26" r="4" fill="#2F8BFF"/>
+</svg>

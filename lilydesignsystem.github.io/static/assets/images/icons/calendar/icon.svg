@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <title>Calendar</title>
+  <rect x="7" y="12" width="50" height="45" rx="7" fill="#EFF8FF"/>
+  <path d="M7 25 V19 A7 7 0 0 1 14 12 H50 A7 7 0 0 1 57 19 V25 Z" fill="#2F8BFF"/>
+  <rect x="7" y="12" width="50" height="45" rx="7" stroke="#0A66E0" stroke-width="4"/>
+  <path d="M7 25 H57" stroke="#0A66E0" stroke-width="3"/>
+  <path d="M20 6 V16 M44 6 V16" stroke="#0A66E0" stroke-width="4.5"/>
+  <g fill="#0A66E0">
+    <rect x="15" y="31" width="7" height="6" rx="1.5"/><rect x="28.5" y="31" width="7" height="6" rx="1.5"/><rect x="42" y="31" width="7" height="6" rx="1.5"/>
+    <rect x="15" y="43" width="7" height="6" rx="1.5"/><rect x="28.5" y="43" width="7" height="6" rx="1.5"/>
+  </g>
+  <rect x="40" y="41" width="11" height="10" rx="2" fill="#2F8BFF"/>
+</svg>

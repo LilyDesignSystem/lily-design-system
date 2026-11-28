@@ -42,7 +42,7 @@
   />
 </svelte:head>
 
-<section class="page-intro">
+<section class="page-intro home-intro">
   <h1>Build web designs better.</h1>
   <p class="page-intro-tagline">
     Lily™ is a free open-source design system with

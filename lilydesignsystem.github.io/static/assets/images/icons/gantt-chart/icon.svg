@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <title>Gantt</title>
+  <path d="M34 18 V46" stroke="#A2D4FC" stroke-width="3"/>
+  <rect x="14" y="10" width="17" height="8" rx="2.5" fill="#0A66E0"/>
+  <rect x="24" y="24" width="21" height="8" rx="2.5" fill="#2F8BFF"/>
+  <rect x="38" y="38" width="17" height="8" rx="2.5" fill="#0A66E0"/>
+  <path d="M8 6 V56 H58" stroke="#0A66E0" stroke-width="4"/>
+</svg>
