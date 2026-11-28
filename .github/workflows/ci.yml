@@ -136,6 +136,19 @@ jobs:
       # The repo root (its @types/node types every package's tests), the headless library they depend on, then each package
       # installed, built, checked and tested in dependency order.
       - run: bin/ci --job helper-packages ${{ matrix.framework }}
+      # A failed run keeps its evidence: the Playwright HTML report and the traces of failed tests (tasks.md P50-T21).
+      - name: Upload Playwright report and traces
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-helper-packages-${{ matrix.framework }}
+          path: |
+            lily-design-system-*/playwright-report/
+            lily-design-system-*/test-results/
+            lilydesignsystem.github.io/playwright-report/
+            lilydesignsystem.github.io/test-results/
+          if-no-files-found: ignore
+          retention-days: 14
 
   headless:
     name: headless tests (${{ matrix.catalog }})
@@ -284,6 +297,19 @@ jobs:
         run: pnpm exec playwright install-deps chromium firefox webkit
       # Accessibility, responsive, /components search, rtl-demo and book-an-appointment.
       - run: bin/ci --job example-smoke
+      # A failed run keeps its evidence: the Playwright HTML report and the traces of failed tests (tasks.md P50-T21).
+      - name: Upload Playwright report and traces
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-example-smoke-main
+          path: |
+            lily-design-system-*/playwright-report/
+            lily-design-system-*/test-results/
+            lilydesignsystem.github.io/playwright-report/
+            lilydesignsystem.github.io/test-results/
+          if-no-files-found: ignore
+          retention-days: 14
 
   example-unit-tests:
     # These ran nowhere until 2026-11-25 (tasks.md P49-T17).
@@ -363,6 +389,19 @@ jobs:
         timeout-minutes: 10
         run: pnpm exec playwright install-deps chromium firefox webkit
       - run: bin/ci --job accessibility-examples ${{ matrix.app }}
+      # A failed run keeps its evidence: the Playwright HTML report and the traces of failed tests (tasks.md P50-T21).
+      - name: Upload Playwright report and traces
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-accessibility-examples-${{ matrix.app }}
+          path: |
+            lily-design-system-*/playwright-report/
+            lily-design-system-*/test-results/
+            lilydesignsystem.github.io/playwright-report/
+            lilydesignsystem.github.io/test-results/
+          if-no-files-found: ignore
+          retention-days: 14
 
   eleventy-example:
     # Nothing built this app in CI, and it went unbuildable for weeks
@@ -405,6 +444,19 @@ jobs:
         run: pnpm exec playwright install-deps chromium firefox webkit
       # Builds the locale and date-time pickers the site serves, builds the site, and runs every Playwright spec.
       - run: bin/ci --job eleventy-example
+      # A failed run keeps its evidence: the Playwright HTML report and the traces of failed tests (tasks.md P50-T21).
+      - name: Upload Playwright report and traces
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-eleventy-example-main
+          path: |
+            lily-design-system-*/playwright-report/
+            lily-design-system-*/test-results/
+            lilydesignsystem.github.io/playwright-report/
+            lilydesignsystem.github.io/test-results/
+          if-no-files-found: ignore
+          retention-days: 14
 
   alpine-examples:
     # The Alpine.js example site is generated from components.tsv, the Alpine headless snippets and the four Alpine
@@ -445,6 +497,19 @@ jobs:
         run: pnpm exec playwright install-deps chromium
       # Build, unit-test (every demo mounted under Alpine), then axe on every page and the helpers' flows.
       - run: bin/ci --job alpine-examples
+      # A failed run keeps its evidence: the Playwright HTML report and the traces of failed tests (tasks.md P50-T21).
+      - name: Upload Playwright report and traces
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-alpine-examples-main
+          path: |
+            lily-design-system-*/playwright-report/
+            lily-design-system-*/test-results/
+            lilydesignsystem.github.io/playwright-report/
+            lilydesignsystem.github.io/test-results/
+          if-no-files-found: ignore
+          retention-days: 14
 
   consumer-smoke:
     name: consumer smoke (packed tarballs import as a consumer would)

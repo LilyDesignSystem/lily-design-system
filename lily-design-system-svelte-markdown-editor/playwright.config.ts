@@ -7,8 +7,9 @@ const port = e2ePort();
 export default defineConfig({
     testDir: "./e2e",
     testMatch: "*.spec.ts",
-    reporter: "list",
-    use: { baseURL: e2eURL(port) },
+    // In CI an HTML report, and the trace of a failed test: CI uploads both when a job fails (tasks.md P50-T21).
+    reporter: process.env.CI ? [["list"], ["html", { open: "never" }]] : "list",
+    use: { baseURL: e2eURL(port), trace: "retain-on-failure" },
     projects: [
         { name: "chromium", use: { ...devices["Desktop Chrome"] } },
         { name: "firefox", use: { ...devices["Desktop Firefox"] } },

@@ -9,7 +9,8 @@ export default defineConfig({
     workers: process.env.LILY_CI_WORKERS ? Number(process.env.LILY_CI_WORKERS) : undefined,
     forbidOnly: !!process.env.CI,
     retries: process.env.CI ? 2 : 0,
-    reporter: process.env.CI ? "github" : "list",
+    // In CI an HTML report beside the annotations: bin/ci uploads it, with the traces, when a job fails (tasks.md P50-T21).
+    reporter: process.env.CI ? [["github"], ["html", { open: "never" }]] : "list",
     use: {
         baseURL: e2eURL(port),
         trace: "on-first-retry",

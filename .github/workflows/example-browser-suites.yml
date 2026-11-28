@@ -49,6 +49,19 @@ jobs:
         timeout-minutes: 15
         run: pnpm exec playwright install --with-deps chromium firefox webkit
       - run: bin/ci --job example-browser-suites ${{ matrix.app }}
+      # A failed run keeps its evidence: the Playwright HTML report and the traces of failed tests (tasks.md P50-T21).
+      - name: Upload Playwright report and traces
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-example-browser-suites-${{ matrix.app }}
+          path: |
+            lily-design-system-*/playwright-report/
+            lily-design-system-*/test-results/
+            lilydesignsystem.github.io/playwright-report/
+            lilydesignsystem.github.io/test-results/
+          if-no-files-found: ignore
+          retention-days: 14
 
   # The project tutorials, built from what is on npm that week (spec/tutorials).
   tutorials:
@@ -73,3 +86,16 @@ jobs:
         timeout-minutes: 15
         run: pnpm exec playwright install --with-deps chromium
       - run: bin/ci --job tutorials
+      # A failed run keeps its evidence: the Playwright HTML report and the traces of failed tests (tasks.md P50-T21).
+      - name: Upload Playwright report and traces
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-tutorials
+          path: |
+            lily-design-system-*/playwright-report/
+            lily-design-system-*/test-results/
+            lilydesignsystem.github.io/playwright-report/
+            lilydesignsystem.github.io/test-results/
+          if-no-files-found: ignore
+          retention-days: 14
