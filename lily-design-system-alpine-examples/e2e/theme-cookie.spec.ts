@@ -7,7 +7,10 @@ const themeKeys = () => Object.keys(localStorage).filter((key) => /theme/i.test(
 // A framework's own cookie (ASP.NET's antiforgery token in Blazor) is not the picker's; only a theme cookie counts.
 const themeCookies = async (context: import("@playwright/test").BrowserContext) =>
     (await context.cookies()).filter((cookie) => /theme/i.test(cookie.name));
-test("a first visit stores nothing, and choosing a theme sets no cookie", async ({ page, context }) => {
+test("a first visit stores nothing, and choosing a theme sets no cookie", async ({
+    page,
+    context,
+}) => {
     await page.goto("/");
     await page.waitForLoadState("networkidle");
     expect(await themeCookies(context)).toEqual([]);
