@@ -2,6 +2,7 @@
   position: relative;
   display: inline-flex;
   width: 20rem;
+  max-inline-size: 100%; /* no sideways scroll at 320px (P49-T21) */
   height: 3rem;
   background: var(--nhsuk-pale-grey);
   border: 2px solid var(--nhsuk-black);

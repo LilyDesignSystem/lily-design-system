@@ -1,5 +1,7 @@
 .date-time-now-input {
   display: inline-flex;
+  flex-wrap: wrap; /* date, time and "now" stack on a narrow screen (P49-T21) */
+  max-inline-size: 100%;
   gap: var(--nhsuk-spacing-2);
   align-items: center;
 }

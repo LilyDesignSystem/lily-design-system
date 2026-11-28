@@ -4344,6 +4344,11 @@
     block-size: auto;
 }
 
+/* A video player is a <figure> at 100% width: the browser's 40px figure margins would push it past the edge. */
+:where(figure.video-player) {
+    margin-inline: 0;
+}
+
 /* ============================================================================
  * Helper packages — layout and look, shared verbatim by all themes.
  *

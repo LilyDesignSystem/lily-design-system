@@ -13,6 +13,7 @@ description: a Gantt chart table interactive grid for planning schedule visualiz
 {% from "components/gantt-table-td/macro.njk" import ganttTableTd %}
 
 <h2>Default — appointment list</h2>
+<div class="horizontal-scroller" role="region" aria-label="Your upcoming appointments, scrolls sideways" tabindex="0">
 {% call ganttTable({ caption: "Your upcoming appointments" }) %}
   {% call ganttTableThead() %}
     {% call ganttTableTr() %}
@@ -43,8 +44,10 @@ description: a Gantt chart table interactive grid for planning schedule visualiz
     {% endcall %}
   {% endcall %}
 {% endcall %}
+</div>
 
 <h2>Numeric columns — weather observations</h2>
+<div class="horizontal-scroller" role="region" aria-label="Recent weather observations, scrolls sideways" tabindex="0">
 {% call ganttTable({ caption: "Recent weather observations" }) %}
   {% call ganttTableThead() %}
     {% call ganttTableTr() %}
@@ -83,11 +86,13 @@ description: a Gantt chart table interactive grid for planning schedule visualiz
     {% endcall %}
   {% endcall %}
 {% endcall %}
+</div>
 
 <h2>Row headers</h2>
 <p>Use <code>TableTD</code> with <code>scope="row"</code> to mark a
   row header, so screen readers announce it together with each data
   cell in the row.</p>
+<div class="horizontal-scroller" role="region" aria-label="Dosage schedule, scrolls sideways" tabindex="0">
 {% call ganttTable({ caption: "Dosage schedule" }) %}
   {% call ganttTableThead() %}
     {% call ganttTableTr() %}
@@ -109,6 +114,7 @@ description: a Gantt chart table interactive grid for planning schedule visualiz
     {% endcall %}
   {% endcall %}
 {% endcall %}
+</div>
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>

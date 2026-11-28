@@ -1,5 +1,8 @@
 .date-range {
   display: inline-flex;
+  flex-wrap: wrap; /* the two dates stack on a narrow screen (P49-T21) */
+  min-inline-size: 0;
+  max-inline-size: 100%;
   gap: var(--nhsuk-spacing-1);
   align-items: baseline;
   font-variant-numeric: tabular-nums;

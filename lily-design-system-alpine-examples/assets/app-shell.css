@@ -38,6 +38,27 @@ body {
 .site-header h1 {
   margin: 0;
   font-size: 1.25rem;
+  /* A component's name is one long word (InternationalPatientSummarySection): it breaks rather than widen the page. */
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+}
+
+/* A theme name can be longer than a phone is wide: the select shrinks to the row, so no page scrolls sideways at 320px
+   (WCAG 1.4.10, tasks.md P49-T21). */
+.site-header-pickers {
+  max-inline-size: 100%;
+}
+
+.site-header-pickers label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.5rem;
+}
+
+.site-header-pickers select {
+  min-inline-size: 0;
+  max-inline-size: 100%;
 }
 
 .site-nav ul {
