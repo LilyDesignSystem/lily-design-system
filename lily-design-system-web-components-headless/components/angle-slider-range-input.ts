@@ -21,12 +21,29 @@
 //   - components/angle-slider-range-input/index.md (canonical contract)
 //   - WAI-ARIA Slider Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/slider/
 
-import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { followInput, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 
 const HANDLED = new Set(["label", "value", "min", "max", "step", "value-text-suffix", "disabled"]);
 
 export class AngleSliderRangeInput extends HTMLElement {
     #input: HTMLInputElement | null = null;
+
+    // A change to label, value (the default), min, max, step, value-text-suffix, disabled or class is shown (tasks.md P50-T28),
+    // and the value text is written again.
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const input = this.#input;
+        if (!input) return;
+        followInput(this, input, "angle-slider-range-input");
+        input.min = this.getAttribute("min") ?? "0";
+        input.max = this.getAttribute("max") ?? "360";
+        input.step = this.getAttribute("step") ?? "1";
+        input.defaultValue = this.getAttribute("value") ?? "0";
+        this.#updateValueText();
+    }
 
     connectedCallback(): void {
         if (this.#input) return;

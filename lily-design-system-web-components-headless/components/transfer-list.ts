@@ -29,6 +29,7 @@
 //   - Ant Design Transfer: https://ant.design/components/transfer
 
 import { applySelfClassName } from "../lib/dom-utils.js";
+import { setOrRemove } from "../lib/live-element.js";
 
 function distribute(host: Element, slotName: string, target: Element): void {
     const nodes = Array.from(host.querySelectorAll(`:scope > [slot="${slotName}"]`));
@@ -37,6 +38,21 @@ function distribute(host: Element, slotName: string, target: Element): void {
 
 export class TransferList extends HTMLElement {
     #built = false;
+
+    // A change to label, source-label, target-label or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["label", "source-label", "target-label", "class"];
+    }
+
+    attributeChangedCallback(): void {
+        if (!this.#built) return;
+        if (!this.classList.contains("transfer-list")) applySelfClassName(this, "transfer-list");
+        setOrRemove(this, "aria-label", this.getAttribute("label"));
+        const source = this.querySelector(":scope > .transfer-list-source");
+        const target = this.querySelector(":scope > .transfer-list-target");
+        if (source) setOrRemove(source, "aria-label", this.getAttribute("source-label"));
+        if (target) setOrRemove(target, "aria-label", this.getAttribute("target-label"));
+    }
 
     connectedCallback(): void {
         if (this.#built) return;

@@ -91,3 +91,21 @@ describe("TransferList", () => {
         ]);
     });
 });
+
+describe("TransferList follows its attributes (P50-T28)", () => {
+    test("shows a change to its labels and class", () => {
+        const host = render(
+            '<lily-transfer-list label="Old" source-label="From" target-label="To"><ul slot="source"></ul><ul slot="target"></ul></lily-transfer-list>',
+        );
+        host.setAttribute("label", "New");
+        host.setAttribute("source-label", "Available");
+        host.removeAttribute("target-label");
+        host.setAttribute("class", "wide");
+        expect(host.className).toBe("transfer-list wide");
+        expect(host.getAttribute("aria-label")).toBe("New");
+        expect(host.querySelector(".transfer-list-source")?.getAttribute("aria-label")).toBe(
+            "Available",
+        );
+        expect(host.querySelector(".transfer-list-target")?.hasAttribute("aria-label")).toBe(false);
+    });
+});

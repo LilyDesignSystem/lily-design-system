@@ -111,3 +111,29 @@ describe("PasswordInputOrTextInputDiv", () => {
         expect(host.className).toBe("password-input-or-text-input-div extra");
     });
 });
+
+describe("PasswordInputOrTextInputDiv follows its attributes (P50-T28)", () => {
+    test("shows a change to its attributes; the toggle comes and goes", () => {
+        const host = render(
+            '<lily-password-input-or-text-input-div label="Old" toggle-label="Show"></lily-password-input-or-text-input-div>',
+        );
+        const input = host.querySelector("input") as HTMLInputElement;
+        host.setAttribute("label", "New");
+        host.setAttribute("required", "");
+        host.setAttribute("toggle-label", "Show password");
+        host.setAttribute("class", "wide");
+        expect(host.className).toBe("password-input-or-text-input-div wide");
+        expect(input.getAttribute("aria-label")).toBe("New");
+        expect(input.required).toBe(true);
+        const toggle = host.querySelector("button") as HTMLButtonElement;
+        expect(toggle.textContent).toBe("Show password");
+        toggle.click();
+        expect(input.type).toBe("text");
+        host.setAttribute("show-toggle", "false");
+        expect(host.querySelector("button")).toBeNull();
+        expect(input.type).toBe("password");
+        host.removeAttribute("show-toggle");
+        expect(host.querySelectorAll("button")).toHaveLength(1);
+        expect(host.querySelector("button")?.getAttribute("aria-pressed")).toBe("false");
+    });
+});

@@ -112,3 +112,25 @@ describe("AngleSliderRangeInput", () => {
         expect((host.querySelector("input") as HTMLInputElement).disabled).toBe(true);
     });
 });
+
+describe("AngleSliderRangeInput follows its attributes (P50-T28)", () => {
+    test("shows a change to its attributes and writes the value text again", () => {
+        const host = render(
+            '<lily-angle-slider-range-input label="Old" value="90"></lily-angle-slider-range-input>',
+        );
+        host.setAttribute("label", "New");
+        host.setAttribute("max", "180");
+        host.setAttribute("value", "45");
+        host.setAttribute("value-text-suffix", " degrees");
+        host.setAttribute("disabled", "");
+        host.setAttribute("class", "wide");
+        const input = host.querySelector("input") as HTMLInputElement;
+        expect(input.getAttribute("aria-label")).toBe("New");
+        expect(input.max).toBe("180");
+        expect(input.getAttribute("aria-valuemax")).toBe("180");
+        expect(input.value).toBe("45");
+        expect(input.getAttribute("aria-valuetext")).toBe("45 degrees");
+        expect(input.disabled).toBe(true);
+        expect(input.className).toBe("angle-slider-range-input wide");
+    });
+});

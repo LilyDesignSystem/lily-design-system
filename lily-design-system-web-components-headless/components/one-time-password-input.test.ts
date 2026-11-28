@@ -88,3 +88,30 @@ describe("OneTimePasswordInput", () => {
         expect(input.className).toBe("one-time-password-input extra");
     });
 });
+
+describe("OneTimePasswordInput follows its attributes (P50-T28)", () => {
+    test("shows a change to its attributes", () => {
+        const host = render(
+            '<lily-one-time-password-input label="Old" length="4"></lily-one-time-password-input>',
+        );
+        host.setAttribute("label", "New");
+        host.setAttribute("length", "6");
+        host.setAttribute("inputmode", "text");
+        host.setAttribute("pattern", "[A-Z0-9]*");
+        host.setAttribute("name", "code");
+        host.setAttribute("value", "123");
+        host.setAttribute("required", "");
+        host.setAttribute("class", "wide");
+        const input = host.querySelector("input") as HTMLInputElement;
+        expect(input.getAttribute("aria-label")).toBe("New");
+        expect(input.getAttribute("maxlength")).toBe("6");
+        expect(input.getAttribute("data-length")).toBe("6");
+        expect(input.getAttribute("inputmode")).toBe("text");
+        expect(input.getAttribute("pattern")).toBe("[A-Z0-9]*");
+        expect(input.name).toBe("code");
+        expect(input.value).toBe("123");
+        expect(input.required).toBe(true);
+        expect(input.className).toBe("one-time-password-input wide");
+        expect(input.getAttribute("autocomplete")).toBe("one-time-code");
+    });
+});

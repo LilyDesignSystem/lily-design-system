@@ -20,7 +20,8 @@
 // References:
 //   - components/one-time-password-input/index.md (canonical contract)
 
-import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { followInput, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { setOrRemove } from "../lib/live-element.js";
 
 const HANDLED = new Set([
     "label",
@@ -35,6 +36,24 @@ const HANDLED = new Set([
 
 export class OneTimePasswordInput extends HTMLElement {
     #input: HTMLInputElement | null = null;
+
+    // A change to label, length, value (the default), inputmode, pattern, name, required, disabled or class is shown (tasks.md
+    // P50-T28).
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const input = this.#input;
+        if (!input) return;
+        followInput(this, input, "one-time-password-input");
+        input.setAttribute("inputmode", this.getAttribute("inputmode") ?? "numeric");
+        const length = this.getAttribute("length");
+        setOrRemove(input, "maxlength", length);
+        setOrRemove(input, "data-length", length);
+        input.setAttribute("pattern", this.getAttribute("pattern") ?? "[0-9]*");
+        setOrRemove(input, "name", this.getAttribute("name"));
+    }
 
     connectedCallback(): void {
         if (this.#input) return;

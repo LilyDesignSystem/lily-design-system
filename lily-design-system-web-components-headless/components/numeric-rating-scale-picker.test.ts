@@ -37,3 +37,36 @@ describe("NumericRatingScalePicker", () => {
         ).toBe("4");
     });
 });
+
+describe("NumericRatingScalePicker follows its attributes (P50-T28)", () => {
+    test("builds the scale again, keeping a score the person chose", () => {
+        document.body.innerHTML =
+            '<lily-numeric-rating-scale-picker label="Old" value="2"></lily-numeric-rating-scale-picker>';
+        const host = document.querySelector("lily-numeric-rating-scale-picker") as HTMLElement;
+        const radios = () =>
+            Array.from(document.querySelectorAll<HTMLInputElement>('input[type="radio"]'));
+        const checked = () => radios().find((r) => r.checked)?.value;
+        expect(checked()).toBe("2");
+        host.setAttribute("label", "Pain now");
+        host.setAttribute("max", "5");
+        host.setAttribute("min-label", "None");
+        host.setAttribute("class", "wide");
+        expect(document.querySelector("legend")?.textContent).toBe("Pain now");
+        expect(radios()).toHaveLength(6);
+        expect(document.querySelector("fieldset")?.className).toBe(
+            "numeric-rating-scale-picker wide",
+        );
+        expect(
+            document.getElementById(radios()[0].getAttribute("aria-describedby") ?? "")
+                ?.textContent,
+        ).toBe("None");
+        expect(checked()).toBe("2");
+        host.setAttribute("value", "3");
+        expect(checked()).toBe("3");
+        radios()[4].checked = true;
+        host.setAttribute("value", "1");
+        host.setAttribute("label", "Pain today");
+        expect(checked()).toBe("4");
+        expect(radios().find((r) => r.defaultChecked)?.value).toBe("1");
+    });
+});

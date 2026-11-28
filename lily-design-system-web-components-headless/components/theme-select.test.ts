@@ -93,3 +93,23 @@ describe("ThemeSelect", () => {
         expect((host.querySelector("select") as HTMLSelectElement).disabled).toBe(true);
     });
 });
+
+describe("ThemeSelect follows its attributes (P50-T28)", () => {
+    test("shows a change to label and class; a new value is the default choice", () => {
+        const host = render(
+            '<lily-theme-select label="Old" value="light"><option value="light">Light</option><option value="dark">Dark</option></lily-theme-select>',
+        );
+        host.setAttribute("label", "New");
+        host.setAttribute("class", "wide");
+        host.setAttribute("value", "dark");
+        const select = host.querySelector("select") as HTMLSelectElement;
+        expect(select.getAttribute("aria-label")).toBe("New");
+        expect(select.className).toBe("theme-select wide");
+        expect(select.value).toBe("dark");
+        expect(
+            Array.from(select.options)
+                .filter((o) => o.defaultSelected)
+                .map((o) => o.value),
+        ).toEqual(["dark"]);
+    });
+});

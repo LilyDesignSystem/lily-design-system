@@ -19,15 +19,42 @@ let nextId = 0;
 export class NumericRatingScalePicker extends HTMLElement {
     #fieldset: HTMLFieldSetElement | null = null;
 
+    #id = `numeric-rating-scale-picker-${++nextId}`;
+
+    // A change to any attribute is shown (tasks.md P50-T28): the scale is built again. value is the default, as a radio's checked
+    // attribute is: a score the person chose stays chosen while it is still on the scale.
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(name: string, before: string | null): void {
+        const fieldset = this.#fieldset;
+        if (!fieldset) return;
+        const checked = fieldset.querySelector<HTMLInputElement>("input:checked")?.value ?? null;
+        const oldDefault = name === "value" ? before : this.getAttribute("value");
+        fieldset.className = rootClassName(this, "numeric-rating-scale-picker");
+        fieldset.replaceChildren();
+        this.#fill(fieldset);
+        if (checked === null || checked === oldDefault) return;
+        const kept = fieldset.querySelector<HTMLInputElement>(`input[value="${checked}"]`);
+        if (kept) kept.checked = true;
+    }
+
     connectedCallback(): void {
         if (this.#fieldset) return;
-        const attr = (name: string) => this.getAttribute(name) ?? "";
-        const min = Number(this.getAttribute("min") ?? 0);
-        const max = Number(this.getAttribute("max") ?? 10);
-        const id = `numeric-rating-scale-picker-${++nextId}`;
         const fieldset = document.createElement("fieldset");
         fieldset.className = rootClassName(this, "numeric-rating-scale-picker");
         passThroughAttributes(this, fieldset, HANDLED);
+        this.#fill(fieldset);
+        this.appendChild(fieldset);
+        this.#fieldset = fieldset;
+    }
+
+    #fill(fieldset: HTMLFieldSetElement): void {
+        const attr = (name: string) => this.getAttribute(name) ?? "";
+        const min = Number(this.getAttribute("min") ?? 0);
+        const max = Number(this.getAttribute("max") ?? 10);
+        const id = this.#id;
         const legend = document.createElement("legend");
         legend.className = "numeric-rating-scale-picker-legend";
         legend.textContent = attr("label");
@@ -49,7 +76,7 @@ export class NumericRatingScalePicker extends HTMLElement {
             input.type = "radio";
             input.name = attr("name") || "rating";
             input.value = String(step);
-            input.checked = attr("value") === String(step);
+            input.defaultChecked = attr("value") === String(step);
             if (step === min && this.hasAttribute("required")) input.required = true;
             if (step === min && attr("min-label"))
                 input.setAttribute("aria-describedby", `${id}-min`);
@@ -60,8 +87,6 @@ export class NumericRatingScalePicker extends HTMLElement {
         }
         fieldset.append(options);
         if (attr("max-label")) fieldset.append(anchor("max"));
-        this.appendChild(fieldset);
-        this.#fieldset = fieldset;
     }
 
     get value(): string {

@@ -28,11 +28,28 @@
 //   - components/theme-select-option.ts (child upgrade timing)
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { defaultValues } from "../lib/list-values.js";
 
 const HANDLED = new Set(["label", "value"]);
 
 export class ThemeSelect extends HTMLElement {
     #select: HTMLSelectElement | null = null;
+
+    // A change to label, value (the default choice) or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(name: string): void {
+        const select = this.#select;
+        if (!select) return;
+        select.className = rootClassName(this, "theme-select");
+        const label = this.getAttribute("label");
+        if (label !== null) select.setAttribute("aria-label", label);
+        else select.removeAttribute("aria-label");
+        const value = this.getAttribute("value");
+        if (name === "value" && value !== null) defaultValues(select, [value]);
+    }
 
     connectedCallback(): void {
         if (this.#select) return;

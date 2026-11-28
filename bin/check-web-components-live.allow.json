@@ -1,6 +1,5 @@
 {
   "allergy-record-list-item": "upgrades in place: it replaces itself with its native element, so there is nothing left to follow a change; change that element, or replace it",
-  "angle-slider-range-input": "not yet sorted (P50-T28): reads its attributes once",
   "body-map": "not yet sorted (P50-T28): reads its attributes once",
   "breadcrumb-list-item": "upgrades in place: it replaces itself with its native element, so there is nothing left to follow a change; change that element, or replace it",
   "collection-list-item": "upgrades in place: it replaces itself with its native element, so there is nothing left to follow a change; change that element, or replace it",
@@ -15,10 +14,7 @@
   "immunization-record-list-item": "upgrades in place: it replaces itself with its native element, so there is nothing left to follow a change; change that element, or replace it",
   "medication-record-list-item": "upgrades in place: it replaces itself with its native element, so there is nothing left to follow a change; change that element, or replace it",
   "navigation-menu": "not yet sorted (P50-T28): reads its attributes once",
-  "numeric-rating-scale-picker": "not yet sorted (P50-T28): reads its attributes once",
-  "one-time-password-input": "not yet sorted (P50-T28): reads its attributes once",
   "pagination-list-item": "upgrades in place: it replaces itself with its native element, so there is nothing left to follow a change; change that element, or replace it",
-  "password-input-or-text-input-div": "not yet sorted (P50-T28): reads its attributes once",
   "pin-input-div": "not yet sorted (P50-T28): reads its attributes once",
   "problem-record-list-item": "upgrades in place: it replaces itself with its native element, so there is nothing left to follow a change; change that element, or replace it",
   "procedure-record-list-item": "upgrades in place: it replaces itself with its native element, so there is nothing left to follow a change; change that element, or replace it",
@@ -36,10 +32,8 @@
   "tag-input-div": "not yet sorted (P50-T28): reads its attributes once",
   "task-list-item": "upgrades in place: it replaces itself with its native element, so there is nothing left to follow a change; change that element, or replace it",
   "theme-select-option": "upgrades in place: it replaces itself with its native element, so there is nothing left to follow a change; change that element, or replace it",
-  "theme-select": "not yet sorted (P50-T28): reads its attributes once",
   "timeline-list-item": "upgrades in place: it replaces itself with its native element, so there is nothing left to follow a change; change that element, or replace it",
   "tour-list-item": "upgrades in place: it replaces itself with its native element, so there is nothing left to follow a change; change that element, or replace it",
-  "transfer-list": "not yet sorted (P50-T28): reads its attributes once",
   "tree-select": "not yet sorted (P50-T28): reads its attributes once",
   "validation-list-item": "upgrades in place: it replaces itself with its native element, so there is nothing left to follow a change; change that element, or replace it",
   "video-player": "not yet sorted (P50-T28): reads its attributes once"

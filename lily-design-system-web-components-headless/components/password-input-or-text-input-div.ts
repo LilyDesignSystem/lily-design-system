@@ -23,11 +23,51 @@
 //   - WAI-ARIA Button Pattern (toggle): https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
 import { applySelfClassName } from "../lib/dom-utils.js";
+import { setOrRemove } from "../lib/live-element.js";
 
 export class PasswordInputOrTextInputDiv extends HTMLElement {
     #input: HTMLInputElement | null = null;
     #toggle: HTMLButtonElement | null = null;
     #visible = false;
+
+    // A change to label, value (the default), required, disabled, show-toggle, toggle-label or class is shown (tasks.md
+    // P50-T28). The toggle comes and goes with show-toggle; hiding it hides the password again.
+    static get observedAttributes(): string[] {
+        return ["label", "value", "required", "disabled", "show-toggle", "toggle-label", "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const input = this.#input;
+        if (!input) return;
+        if (!this.classList.contains("password-input-or-text-input-div"))
+            applySelfClassName(this, "password-input-or-text-input-div");
+        setOrRemove(input, "aria-label", this.getAttribute("label"));
+        input.defaultValue = this.getAttribute("value") ?? "";
+        input.required = this.hasAttribute("required");
+        input.disabled = this.hasAttribute("disabled");
+        if (this.getAttribute("show-toggle") === "false") {
+            this.#toggle?.remove();
+            this.#toggle = null;
+            if (this.#visible) this.#onToggle();
+            return;
+        }
+        if (!this.#toggle) this.#addToggle();
+        const toggleLabel = this.getAttribute("toggle-label");
+        setOrRemove(this.#toggle!, "aria-label", toggleLabel);
+        this.#toggle!.textContent = toggleLabel ?? "";
+    }
+
+    #addToggle(): void {
+        const toggleLabel = this.getAttribute("toggle-label");
+        const toggle = document.createElement("button");
+        toggle.type = "button";
+        if (toggleLabel !== null) toggle.setAttribute("aria-label", toggleLabel);
+        toggle.setAttribute("aria-pressed", this.#visible ? "true" : "false");
+        toggle.textContent = toggleLabel ?? "";
+        toggle.addEventListener("click", this.#onToggle);
+        this.appendChild(toggle);
+        this.#toggle = toggle;
+    }
 
     connectedCallback(): void {
         if (this.#input) return;
@@ -47,18 +87,7 @@ export class PasswordInputOrTextInputDiv extends HTMLElement {
         this.appendChild(input);
         this.#input = input;
 
-        const showToggle = this.getAttribute("show-toggle") !== "false";
-        if (showToggle) {
-            const toggleLabel = this.getAttribute("toggle-label");
-            const toggle = document.createElement("button");
-            toggle.type = "button";
-            if (toggleLabel !== null) toggle.setAttribute("aria-label", toggleLabel);
-            toggle.setAttribute("aria-pressed", "false");
-            toggle.textContent = toggleLabel ?? "";
-            toggle.addEventListener("click", this.#onToggle);
-            this.appendChild(toggle);
-            this.#toggle = toggle;
-        }
+        if (this.getAttribute("show-toggle") !== "false") this.#addToggle();
     }
 
     get value(): string {
