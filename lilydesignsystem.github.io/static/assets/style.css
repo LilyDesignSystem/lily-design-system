@@ -467,12 +467,20 @@ a.card:hover { color: inherit; }
    not by auto-fit. One, two and three columns follow the width of the container (the main column is capped at
    --lily-content-max, so it cannot tell 1280px from 1920px); the sixth step is a page-shell decision on the viewport. */
 .tile-section { container-type: inline-size; }
-/* The home page sits closer than other pages: the hero headline near the header, and the tile cards near the framework
-   icons. */
-.site-main:has(.home-intro) {
+/* The home and components pages sit closer than other pages: the headline near the header, and the content near the
+   headline (on the home page, the tile cards near the framework icons). */
+.site-main:has(.home-intro, .compact-intro) {
   padding-top: 1.5rem;
 }
-.home-intro {
+.home-intro,
+.compact-intro {
+  padding-top: 0;
+}
+.compact-intro {
+  padding-bottom: 0;
+}
+.compact-intro + .section {
+  margin-top: 0;
   padding-top: 0;
 }
 .home-intro + .tile-section {
@@ -620,16 +628,7 @@ a.card:hover { color: inherit; }
   color: var(--lily-text-muted);
   margin-inline-start: 0.35rem;
 }
-/* Tag list (chips for categories) */
-
-.tag-list {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  list-style: none;
-  padding: 0;
-  margin: 0 0 1.5rem;
-}
+/* Tag (a chip) */
 .tag {
   display: inline-block;
   font-size: 0.8125rem;

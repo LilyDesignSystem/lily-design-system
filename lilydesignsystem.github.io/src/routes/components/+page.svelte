@@ -17,19 +17,6 @@
         if (q) query = q;
     });
 
-    const tags: { label: string; filter: string }[] = [
-        { label: "buttons", filter: "button" },
-        { label: "inputs", filter: "input" },
-        { label: "lists", filter: "list" },
-        { label: "tables", filter: "table" },
-        { label: "navigation", filter: "nav" },
-        { label: "dialogs", filter: "dialog" },
-        { label: "pickers", filter: "picker" },
-        { label: "layouts", filter: "layout" },
-        { label: "cards", filter: "card" },
-        { label: "all", filter: "" },
-    ];
-
     const matches: LilyComponent[] = $derived.by(() => {
         const q = query.trim().toLowerCase();
         return LILY_COMPONENTS.filter(
@@ -41,10 +28,6 @@
                     c.description.toLowerCase().includes(q)),
         );
     });
-
-    function applyTag(filter: string) {
-        query = filter;
-    }
 </script>
 
 <svelte:head>
@@ -55,31 +38,26 @@
     />
 </svelte:head>
 
-<section class="page-intro">
+<section class="page-intro compact-intro">
     <h1>All Lily components</h1>
 </section>
 
 <section class="section">
-    <ul
-        class="tag-list"
-        aria-label="Common categories"
+    <select
+        id="component-purpose"
+        class="component-purpose"
+        aria-label="Purpose"
+        bind:value={purpose}
     >
-        {#each tags as tag (tag.label)}
-            <li>
-                <button
-                    type="button"
-                    class="tag"
-                    onclick={() => applyTag(tag.filter)}
-                >
-                    {tag.label}
-                </button>
-            </li>
+        <option value="">All purposes ({LILY_COMPONENTS.length})</option>
+        {#each purposeOptions as opt (opt.id)}
+            <option value={opt.id}>{opt.label} ({opt.count})</option>
         {/each}
-    </ul>
+    </select>
 
     <label
         for="component-search"
-        style="display: block; font-weight: 600; margin-bottom: 0.5rem;"
+        style="display: block; font-weight: 600; margin: 1rem 0 0.5rem;"
     >
         Search components
     </label>
@@ -91,30 +69,6 @@
         autocomplete="off"
         bind:value={query}
     />
-
-    <label
-        for="component-purpose"
-        style="display: block; font-weight: 600; margin: 1rem 0 0.5rem;"
-    >
-        Purpose
-    </label>
-    <select
-        id="component-purpose"
-        class="component-purpose"
-        bind:value={purpose}
-    >
-        <option value="">All purposes ({LILY_COMPONENTS.length})</option>
-        {#each purposeOptions as opt (opt.id)}
-            <option value={opt.id}>{opt.label} ({opt.count})</option>
-        {/each}
-    </select>
-
-    <p
-        role="status"
-        aria-live="polite"
-    >
-        {matches.length} of {LILY_COMPONENTS.length} components
-    </p>
 
     <ul
         class="component-list component-list-stacked"
