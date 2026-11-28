@@ -4769,7 +4769,7 @@ and unreleased; T8 to T13 are open, and T9 to T12 need people.
 - [x] **P49-T20 A summary list showed values beside the wrong labels.** _(2026-11-25: found on SvelteKit's dashboard; all 65 themes,
       at every width, whenever an item has no action; since the grid was written. `e2e/summary-list-pairing.spec.ts` failed in 65 of
       65 themes before and passes in three engines.)_ Not released.
-- [ ] **P49-T21 Component pages that scroll sideways at 320px.** SvelteKit's `kanban-table` (473px), `calendar-month-table` (133),
+- [ ] **P49-T21 Component pages that scroll sideways at 320px.** _(2026-11-28: eight SvelteKit pages measured wide (`kanban-table` 793px, `heatmap-chart-with-year-of-days` 723, `calendar-month-table` and `calendar-week-table` 453, `tool-call` 427, `video-player` 389, `picture` 369, `signature-pad` 367). Fixed: the three tables' demos sit in a labelled, focusable `horizontal-scroller`; the themes' "Scoped overflow" section lets `.tool-call-content`'s children shrink and caps fixed-width media (the signature canvas, the video, a picture's image, chart SVGs). All 661 SvelteKit pages fit in three engines, and `e2e/reflow-catalog.spec.ts` checks them; all 661 HTML pages fit. Open: every Alpine page is 441px (its header's `site-header-pickers` row); eight Nunjucks pages from its More examples (`date-range`, `date-time-now-input`, `gantt-table`, `kanban-table`, `resizable`, `slider-button`, `table`, `video-player`); React, Vue, Angular, Blazor and Solid not yet measured.)_ SvelteKit's `kanban-table` (473px), `calendar-month-table` (133),
       `calendar-week-table` (133) and `heatmap-chart-with-year-of-days` (403). Found 2026-11-25; older than that.
       Verify: no component page is wider than 320px, in every app.
 

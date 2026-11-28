@@ -4328,9 +4328,19 @@
     .action-bar,
     .tool-bar,
     .menu-bar,
-    .tab-bar
+    .tab-bar,
+    .tool-call-content
 ) > :where(*) {
     min-inline-size: 0;
+}
+
+/* Media with a fixed width (a canvas, a video, an image or a chart's SVG) shrinks to the space it is given, keeping its
+   proportions, so a 300px canvas inside a padded card does not scroll a 320px page sideways (tasks.md P49-T21). */
+:where(.signature-pad-canvas, .video-player-element),
+:where(.picture) > :where(img),
+:where([class$="-chart-graphic"], .heatmap-chart-with-year-of-days-graphic) > :where(svg) {
+    max-inline-size: 100%;
+    block-size: auto;
 }
 
 /* ============================================================================
