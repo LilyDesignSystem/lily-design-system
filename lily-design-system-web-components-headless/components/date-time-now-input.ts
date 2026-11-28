@@ -35,12 +35,56 @@ import { applySelfClassName } from "../lib/dom-utils.js";
 /** aria-label from an attribute, or none: an unnamed control rather than a name in another language. */
 function setLabel(el: HTMLElement, label: string | null): void {
     if (label) el.setAttribute("aria-label", label);
+    else el.removeAttribute("aria-label");
 }
 
 export class DateTimeNowInput extends HTMLElement {
     #built = false;
     #dateInput: HTMLInputElement | null = null;
     #timeInput: HTMLInputElement | null = null;
+    #nowButton: HTMLButtonElement | null = null;
+
+    // A change to any attribute is shown (tasks.md P50-T28). date-value and time-value are the defaults, as a native input's value
+    // attribute is: the element writes them back as the person types, which changes nothing they see.
+    static get observedAttributes(): string[] {
+        return [
+            "label",
+            "date-label",
+            "time-label",
+            "now-label",
+            "date-value",
+            "time-value",
+            "required",
+            "disabled",
+            "class",
+        ];
+    }
+
+    attributeChangedCallback(): void {
+        const date = this.#dateInput;
+        const time = this.#timeInput;
+        const now = this.#nowButton;
+        if (!this.#built || !date || !time || !now) return;
+        if (!this.classList.contains("date-time-now-input"))
+            applySelfClassName(this, "date-time-now-input");
+        const label = this.getAttribute("label");
+        if (label !== null) this.setAttribute("aria-label", label);
+        else this.removeAttribute("aria-label");
+        const disabled = this.hasAttribute("disabled");
+        const required = this.hasAttribute("required");
+        setLabel(date, this.getAttribute("date-label"));
+        setLabel(time, this.getAttribute("time-label"));
+        date.defaultValue = this.getAttribute("date-value") ?? "";
+        time.defaultValue = this.getAttribute("time-value") ?? "";
+        for (const input of [date, time]) {
+            input.required = required;
+            input.disabled = disabled;
+        }
+        const nowLabel = this.getAttribute("now-label");
+        setLabel(now, nowLabel);
+        now.textContent = nowLabel ?? "";
+        now.disabled = disabled;
+    }
 
     connectedCallback(): void {
         if (this.#built) return;
@@ -79,6 +123,7 @@ export class DateTimeNowInput extends HTMLElement {
         nowButton.textContent = nowLabel ?? "";
         nowButton.disabled = disabled;
         nowButton.addEventListener("click", this.#onNow);
+        this.#nowButton = nowButton;
 
         this.appendChild(dateInput);
         this.appendChild(timeInput);

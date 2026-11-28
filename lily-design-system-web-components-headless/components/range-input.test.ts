@@ -74,3 +74,24 @@ describe("RangeInput", () => {
         expect(host.querySelector("input")!.className).toBe("range-input extra");
     });
 });
+
+describe("RangeInput follows its attributes (P50-T28)", () => {
+    test("shows a change to label, value, range, step, disabled and class", () => {
+        const host = render('<lily-range-input label="Old" value="20"></lily-range-input>');
+        host.setAttribute("label", "New");
+        host.setAttribute("min", "10");
+        host.setAttribute("max", "40");
+        host.setAttribute("step", "5");
+        host.setAttribute("value", "30");
+        host.setAttribute("disabled", "");
+        host.setAttribute("class", "wide");
+        const input = host.querySelector("input") as HTMLInputElement;
+        expect(input.getAttribute("aria-label")).toBe("New");
+        expect(input.min).toBe("10");
+        expect(input.max).toBe("40");
+        expect(input.step).toBe("5");
+        expect(input.value).toBe("30");
+        expect(input.disabled).toBe(true);
+        expect(input.className).toBe("range-input wide");
+    });
+});

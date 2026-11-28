@@ -24,9 +24,30 @@
 //   - WAI-ARIA aria-hidden: https://www.w3.org/TR/wai-aria-1.2/#aria-hidden
 
 import { applySelfClassName } from "../lib/dom-utils.js";
+import { setOrRemove } from "../lib/live-element.js";
 
 export class InputWithMask extends HTMLElement {
     #input: HTMLInputElement | null = null;
+
+    // A change to mask, label, value (the default), placeholder, disabled or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["mask", "label", "value", "placeholder", "disabled", "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const input = this.#input;
+        const display = this.querySelector(":scope > .input-with-mask-display");
+        if (!input || !display) return;
+        if (!this.classList.contains("input-with-mask"))
+            applySelfClassName(this, "input-with-mask");
+        const mask = this.getAttribute("mask") ?? "";
+        this.setAttribute("data-mask", mask);
+        display.textContent = mask;
+        setOrRemove(input, "aria-label", this.getAttribute("label"));
+        input.defaultValue = this.getAttribute("value") ?? "";
+        setOrRemove(input, "placeholder", this.getAttribute("placeholder"));
+        input.disabled = this.hasAttribute("disabled");
+    }
 
     connectedCallback(): void {
         if (this.#input) return;

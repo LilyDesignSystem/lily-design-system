@@ -102,3 +102,33 @@ describe("DateTimeNowInput", () => {
         expect(host.timeValue).toBe("09:30");
     });
 });
+
+describe("DateTimeNowInput follows its attributes (P50-T28)", () => {
+    test("shows a change to its labels, values, required, disabled and class", () => {
+        const host = render(
+            '<lily-date-time-now-input label="Old" date-label="Day" time-label="Hour" now-label="Now"></lily-date-time-now-input>',
+        );
+        host.setAttribute("label", "New");
+        host.setAttribute("date-label", "Date");
+        host.setAttribute("time-label", "Time");
+        host.setAttribute("now-label", "Today");
+        host.setAttribute("date-value", "2026-11-28");
+        host.setAttribute("time-value", "09:30");
+        host.setAttribute("required", "");
+        host.setAttribute("disabled", "");
+        host.setAttribute("class", "wide");
+        const [date, time] = Array.from(host.querySelectorAll("input"));
+        const button = host.querySelector("button") as HTMLButtonElement;
+        expect(host.className).toBe("date-time-now-input wide");
+        expect(host.getAttribute("aria-label")).toBe("New");
+        expect(date.getAttribute("aria-label")).toBe("Date");
+        expect(time.getAttribute("aria-label")).toBe("Time");
+        expect(button.textContent).toBe("Today");
+        expect(date.value).toBe("2026-11-28");
+        expect(time.value).toBe("09:30");
+        expect(date.required && time.required).toBe(true);
+        expect(date.disabled && time.disabled && button.disabled).toBe(true);
+        host.removeAttribute("disabled");
+        expect(date.disabled || time.disabled || button.disabled).toBe(false);
+    });
+});

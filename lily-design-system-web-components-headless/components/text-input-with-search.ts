@@ -25,10 +25,46 @@
 //   - WAI-ARIA search role: https://www.w3.org/TR/wai-aria-1.2/#search
 
 import { applySelfClassName } from "../lib/dom-utils.js";
+import { setOrRemove } from "../lib/live-element.js";
 
 export class TextInputWithSearch extends HTMLElement {
     #built = false;
     #input: HTMLInputElement | null = null;
+    #button: HTMLButtonElement | null = null;
+
+    // A change to label, input-label, search-label, value (the default), placeholder, required, disabled or class is shown
+    // (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return [
+            "label",
+            "input-label",
+            "search-label",
+            "value",
+            "placeholder",
+            "required",
+            "disabled",
+            "class",
+        ];
+    }
+
+    attributeChangedCallback(): void {
+        const input = this.#input;
+        const button = this.#button;
+        if (!input || !button) return;
+        if (!this.classList.contains("text-input-with-search"))
+            applySelfClassName(this, "text-input-with-search");
+        setOrRemove(this, "aria-label", this.getAttribute("label"));
+        setOrRemove(input, "aria-label", this.getAttribute("input-label"));
+        input.defaultValue = this.getAttribute("value") ?? "";
+        setOrRemove(input, "placeholder", this.getAttribute("placeholder"));
+        input.required = this.hasAttribute("required");
+        const disabled = this.hasAttribute("disabled");
+        input.disabled = disabled;
+        button.disabled = disabled;
+        const searchLabel = this.getAttribute("search-label");
+        setOrRemove(button, "aria-label", searchLabel);
+        button.textContent = searchLabel ?? "";
+    }
 
     connectedCallback(): void {
         if (this.#built) return;
@@ -67,6 +103,7 @@ export class TextInputWithSearch extends HTMLElement {
         this.appendChild(input);
         this.appendChild(button);
         this.#input = input;
+        this.#button = button;
     }
 
     get value(): string {

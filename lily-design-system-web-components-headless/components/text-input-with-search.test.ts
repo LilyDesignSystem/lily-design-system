@@ -100,3 +100,30 @@ describe("TextInputWithSearch", () => {
         expect((host.querySelector("button") as HTMLButtonElement).disabled).toBe(true);
     });
 });
+
+describe("TextInputWithSearch follows its attributes (P50-T28)", () => {
+    test("shows a change to its labels, value, placeholder, required, disabled and class", () => {
+        const host = render(
+            '<lily-text-input-with-search label="Old" input-label="Term" search-label="Go"></lily-text-input-with-search>',
+        );
+        host.setAttribute("label", "New");
+        host.setAttribute("input-label", "Search term");
+        host.setAttribute("search-label", "Search");
+        host.setAttribute("value", "cats");
+        host.setAttribute("placeholder", "Type");
+        host.setAttribute("required", "");
+        host.setAttribute("disabled", "");
+        host.setAttribute("class", "wide");
+        const input = host.querySelector("input") as HTMLInputElement;
+        const button = host.querySelector("button") as HTMLButtonElement;
+        expect(host.className).toBe("text-input-with-search wide");
+        expect(host.getAttribute("aria-label")).toBe("New");
+        expect(input.getAttribute("aria-label")).toBe("Search term");
+        expect(input.value).toBe("cats");
+        expect(input.placeholder).toBe("Type");
+        expect(input.required).toBe(true);
+        expect(input.disabled && button.disabled).toBe(true);
+        expect(button.textContent).toBe("Search");
+        expect(button.getAttribute("aria-label")).toBe("Search");
+    });
+});

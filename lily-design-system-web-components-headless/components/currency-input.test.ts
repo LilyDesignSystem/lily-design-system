@@ -80,3 +80,29 @@ describe("CurrencyInput", () => {
         expect(input.disabled).toBe(true);
     });
 });
+
+describe("CurrencyInput follows its attributes (P50-T28)", () => {
+    test("shows a change to its attributes, never overwriting what was typed", () => {
+        const host = render(
+            '<lily-currency-input label="Old" currency-code="EUR" value="1"></lily-currency-input>',
+        );
+        const input = host.querySelector("input") as HTMLInputElement;
+        host.setAttribute("label", "New");
+        host.setAttribute("currency-code", "JPY");
+        host.setAttribute("min", "0");
+        host.setAttribute("required", "");
+        host.setAttribute("value", "2");
+        host.setAttribute("class", "wide");
+        expect(input.getAttribute("aria-label")).toBe("New");
+        expect(input.getAttribute("data-currency-code")).toBe("JPY");
+        expect(input.getAttribute("min")).toBe("0");
+        expect(input.required).toBe(true);
+        expect(input.value).toBe("2");
+        expect(input.className).toBe("currency-input wide");
+        input.value = "9";
+        host.setAttribute("value", "3");
+        expect(input.value).toBe("9");
+        host.removeAttribute("currency-code");
+        expect(input.hasAttribute("data-currency-code")).toBe(false);
+    });
+});

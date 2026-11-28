@@ -20,12 +20,28 @@
 //   - components/range-input/index.md (canonical contract)
 //   - WAI-ARIA Slider Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/slider/
 
-import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { followInput, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 
 const HANDLED = new Set(["label", "value", "min", "max", "step", "disabled"]);
 
 export class RangeInput extends HTMLElement {
     #input: HTMLInputElement | null = null;
+
+    // A change to label, value, min, max, step, disabled or class is shown (tasks.md P50-T28). value is the default, as a native
+    // input's value attribute is: it moves the thumb only until the person does.
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const input = this.#input;
+        if (!input) return;
+        followInput(this, input, "range-input");
+        input.defaultValue = this.getAttribute("value") ?? "50";
+        input.min = this.getAttribute("min") ?? "0";
+        input.max = this.getAttribute("max") ?? "100";
+        input.step = this.getAttribute("step") ?? "1";
+    }
 
     connectedCallback(): void {
         if (this.#input) return;

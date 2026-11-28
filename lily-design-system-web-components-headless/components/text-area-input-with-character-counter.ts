@@ -23,6 +23,7 @@
 //   - MDN textarea: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea
 
 import { applySelfClassName, nextId } from "../lib/dom-utils.js";
+import { setOrRemove } from "../lib/live-element.js";
 
 export class TextAreaInputWithCharacterCounter extends HTMLElement {
     #built = false;
@@ -33,6 +34,39 @@ export class TextAreaInputWithCharacterCounter extends HTMLElement {
     #shown: HTMLSpanElement | null = null;
     #status: HTMLSpanElement | null = null;
     #timer: ReturnType<typeof setTimeout> | undefined;
+
+    // A change to label, value (the default), max-length, rows, placeholder, required, disabled, counter-template or class is
+    // shown (tasks.md P50-T28), and the count is written again.
+    static get observedAttributes(): string[] {
+        return [
+            "label",
+            "value",
+            "max-length",
+            "rows",
+            "placeholder",
+            "required",
+            "disabled",
+            "counter-template",
+            "class",
+        ];
+    }
+
+    attributeChangedCallback(): void {
+        const textarea = this.#textarea;
+        if (!textarea) return;
+        if (!this.classList.contains("text-area-input-with-character-counter"))
+            applySelfClassName(this, "text-area-input-with-character-counter");
+        setOrRemove(textarea, "aria-label", this.getAttribute("label"));
+        textarea.defaultValue = this.getAttribute("value") ?? "";
+        this.#maxLength = Number(this.getAttribute("max-length") ?? "0") || 0;
+        textarea.maxLength = this.#maxLength;
+        setOrRemove(textarea, "rows", this.getAttribute("rows"));
+        setOrRemove(textarea, "placeholder", this.getAttribute("placeholder"));
+        textarea.required = this.hasAttribute("required");
+        textarea.disabled = this.hasAttribute("disabled");
+        this.#template = this.getAttribute("counter-template") ?? "{count} / {max}";
+        this.#updateCounter();
+    }
 
     connectedCallback(): void {
         if (this.#built) return;

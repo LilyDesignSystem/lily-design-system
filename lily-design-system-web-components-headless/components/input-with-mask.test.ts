@@ -76,3 +76,23 @@ describe("InputWithMask", () => {
         expect(host.querySelector("input")!.value).toBe("4567890123");
     });
 });
+
+describe("InputWithMask follows its attributes (P50-T28)", () => {
+    test("shows a change to mask, label, value, placeholder, disabled and class", () => {
+        const host = render('<lily-input-with-mask mask="99" label="Old"></lily-input-with-mask>');
+        host.setAttribute("mask", "999-999");
+        host.setAttribute("label", "New");
+        host.setAttribute("value", "123");
+        host.setAttribute("placeholder", "000-000");
+        host.setAttribute("disabled", "");
+        host.setAttribute("class", "wide");
+        const input = host.querySelector("input") as HTMLInputElement;
+        expect(host.className).toBe("input-with-mask wide");
+        expect(host.getAttribute("data-mask")).toBe("999-999");
+        expect(host.querySelector(".input-with-mask-display")?.textContent).toBe("999-999");
+        expect(input.getAttribute("aria-label")).toBe("New");
+        expect(input.value).toBe("123");
+        expect(input.placeholder).toBe("000-000");
+        expect(input.disabled).toBe(true);
+    });
+});

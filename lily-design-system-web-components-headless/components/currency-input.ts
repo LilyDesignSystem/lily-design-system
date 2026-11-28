@@ -22,12 +22,25 @@
 //   - Intl.NumberFormat: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat
 //   - ISO 4217 Currency Codes: https://www.iso.org/iso-4217-currency-codes.html
 
-import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { followInput, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { setOrRemove } from "../lib/live-element.js";
 
 const HANDLED = new Set(["label", "value", "currency-code", "min", "max", "required", "disabled"]);
 
 export class CurrencyInput extends HTMLElement {
     #input: HTMLInputElement | null = null;
+
+    // A change to label, value (the default), currency-code, min, max, required, disabled or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const input = this.#input;
+        if (!input) return;
+        followInput(this, input, "currency-input", { range: true });
+        setOrRemove(input, "data-currency-code", this.getAttribute("currency-code"));
+    }
 
     connectedCallback(): void {
         if (this.#input) return;

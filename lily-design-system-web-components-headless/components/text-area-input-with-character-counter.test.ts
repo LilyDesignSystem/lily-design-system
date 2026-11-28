@@ -120,3 +120,30 @@ describe("TextAreaInputWithCharacterCounter", () => {
         expect(textarea.disabled).toBe(true);
     });
 });
+
+describe("TextAreaInputWithCharacterCounter follows its attributes (P50-T28)", () => {
+    test("shows a change to its attributes and writes the count again", () => {
+        const host = render(
+            '<lily-text-area-input-with-character-counter label="Old" max-length="10" value="abc"></lily-text-area-input-with-character-counter>',
+        );
+        host.setAttribute("label", "New");
+        host.setAttribute("max-length", "20");
+        host.setAttribute("counter-template", "{count} of {max}");
+        host.setAttribute("rows", "4");
+        host.setAttribute("placeholder", "Write");
+        host.setAttribute("required", "");
+        host.setAttribute("disabled", "");
+        host.setAttribute("class", "wide");
+        const textarea = host.querySelector("textarea") as HTMLTextAreaElement;
+        expect(host.className).toBe("text-area-input-with-character-counter wide");
+        expect(textarea.getAttribute("aria-label")).toBe("New");
+        expect(textarea.maxLength).toBe(20);
+        expect(textarea.rows).toBe(4);
+        expect(textarea.placeholder).toBe("Write");
+        expect(textarea.required && textarea.disabled).toBe(true);
+        expect(host.querySelector('[aria-hidden="true"]')?.textContent).toBe("3 of 20");
+        host.setAttribute("value", "abcdef");
+        expect(textarea.value).toBe("abcdef");
+        expect(host.querySelector('[aria-hidden="true"]')?.textContent).toBe("6 of 20");
+    });
+});
