@@ -33,6 +33,7 @@
 //   - WAI-ARIA scrollbar role: https://www.w3.org/TR/wai-aria-1.2/#scrollbar
 
 import { applySelfClassName } from "../lib/dom-utils.js";
+import { setOrRemove } from "../lib/live-element.js";
 
 export class ScrollBar extends HTMLElement {
     #built = false;
@@ -42,6 +43,31 @@ export class ScrollBar extends HTMLElement {
     #step = 1;
     #pageStep = 10;
 
+    // A change to label, orientation, controls, min, max, step, page-step, value or class is shown (tasks.md P50-T28). A new
+    // value attribute moves the scroll bar there; a new range keeps the current value inside it.
+    static get observedAttributes(): string[] {
+        return [
+            "label",
+            "orientation",
+            "controls",
+            "min",
+            "max",
+            "step",
+            "page-step",
+            "value",
+            "class",
+        ];
+    }
+
+    attributeChangedCallback(name: string): void {
+        if (!this.#built) return;
+        if (name === "class") {
+            if (!this.classList.contains("scroll-bar")) applySelfClassName(this, "scroll-bar");
+            return;
+        }
+        this.#read(name === "value" ? this.#number("value", 0) : this.#value);
+    }
+
     connectedCallback(): void {
         if (this.#built) return;
         this.#built = true;
@@ -49,20 +75,19 @@ export class ScrollBar extends HTMLElement {
         applySelfClassName(this, "scroll-bar");
         this.setAttribute("role", "scrollbar");
         this.tabIndex = 0;
-        const label = this.getAttribute("label");
-        if (label !== null) this.setAttribute("aria-label", label);
-        const orientation = this.getAttribute("orientation") ?? "vertical";
-        this.setAttribute("aria-orientation", orientation);
-        const controls = this.getAttribute("controls");
-        if (controls) this.setAttribute("aria-controls", controls);
+        this.#read(this.#number("value", 0));
+        this.addEventListener("keydown", this.#onKeydown);
+    }
 
+    #read(value: number): void {
+        setOrRemove(this, "aria-label", this.getAttribute("label"));
+        this.setAttribute("aria-orientation", this.getAttribute("orientation") ?? "vertical");
+        setOrRemove(this, "aria-controls", this.getAttribute("controls"));
         this.#min = this.#number("min", 0);
         this.#max = this.#number("max", 100);
         this.#step = this.#number("step", 1);
         this.#pageStep = this.#number("page-step", 10);
-        this.#value = this.#clamp(this.#number("value", 0));
-
-        this.addEventListener("keydown", this.#onKeydown);
+        this.#value = this.#clamp(value);
         this.#sync();
     }
 

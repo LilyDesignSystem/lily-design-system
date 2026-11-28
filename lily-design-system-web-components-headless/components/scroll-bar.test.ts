@@ -132,3 +132,27 @@ describe("ScrollBar keyboard", () => {
         expect((host as ScrollBar).value).toBe(40);
     });
 });
+
+describe("ScrollBar follows its attributes (P50-T28)", () => {
+    test("shows a change to label, orientation, controls, range, value and class", () => {
+        const host = render(
+            '<lily-scroll-bar label="Old" value="50" controls="a"></lily-scroll-bar>',
+        );
+        host.setAttribute("label", "New");
+        host.setAttribute("orientation", "horizontal");
+        host.removeAttribute("controls");
+        host.setAttribute("class", "wide");
+        expect(host.getAttribute("aria-label")).toBe("New");
+        expect(host.getAttribute("aria-orientation")).toBe("horizontal");
+        expect(host.hasAttribute("aria-controls")).toBe(false);
+        expect(host.className).toBe("scroll-bar wide");
+        host.setAttribute("max", "40");
+        expect(host.getAttribute("aria-valuemax")).toBe("40");
+        expect(host.getAttribute("aria-valuenow")).toBe("40");
+        host.setAttribute("value", "10");
+        expect(host.getAttribute("aria-valuenow")).toBe("10");
+        host.setAttribute("step", "5");
+        host.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown" }));
+        expect(host.getAttribute("aria-valuenow")).toBe("15");
+    });
+});

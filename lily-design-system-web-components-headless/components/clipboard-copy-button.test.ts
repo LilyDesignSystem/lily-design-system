@@ -107,3 +107,18 @@ describe("ClipboardCopyButton", () => {
         expect(host.querySelector("button")!.getAttribute("aria-label")).toBe("Copy link");
     });
 });
+
+describe("ClipboardCopyButton follows its attributes (P50-T28)", () => {
+    test("shows a change to label and class", () => {
+        const host = render(
+            '<lily-clipboard-copy-button text="x" label="Old">Copy</lily-clipboard-copy-button>',
+        );
+        host.setAttribute("label", "New");
+        host.setAttribute("class", "wide");
+        const button = host.querySelector("button") as HTMLButtonElement;
+        expect(button.getAttribute("aria-label")).toBe("New");
+        expect(button.className).toBe("clipboard-copy-button wide");
+        host.removeAttribute("label");
+        expect(button.hasAttribute("aria-label")).toBe(false);
+    });
+});

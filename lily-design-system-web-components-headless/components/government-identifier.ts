@@ -37,6 +37,25 @@ const HANDLED = new Set([
 ]);
 
 export class GovernmentIdentifier extends HTMLElement {
+    // A change to label, agency-name, agency-href, logo-url, logo-alt, description or class is shown (tasks.md P50-T28): the
+    // masthead is built again in place, and the links the consumer gave are left alone.
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const section = this.querySelector<HTMLElement>(":scope > section.government-identifier");
+        const masthead = section?.querySelector(":scope > .government-identifier-masthead");
+        if (!section || !masthead) return;
+        const label = this.getAttribute("label") ?? "";
+        section.className = rootClassName(this, "government-identifier");
+        section.setAttribute("aria-label", label);
+        section
+            .querySelector(":scope > nav.government-identifier-links")
+            ?.setAttribute("aria-label", label);
+        masthead.replaceWith(this.#masthead());
+    }
+
     connectedCallback(): void {
         if (this.querySelector(":scope > section.government-identifier")) return;
 
@@ -48,6 +67,20 @@ export class GovernmentIdentifier extends HTMLElement {
         section.setAttribute("aria-label", label);
         passThroughAttributes(this, section, HANDLED);
 
+        section.appendChild(this.#masthead());
+
+        if (hasChildren) {
+            const nav = document.createElement("nav");
+            nav.className = "government-identifier-links";
+            nav.setAttribute("aria-label", label);
+            moveChildrenInto(this, nav);
+            section.appendChild(nav);
+        }
+
+        this.appendChild(section);
+    }
+
+    #masthead(): HTMLElement {
         const masthead = document.createElement("div");
         masthead.className = "government-identifier-masthead";
 
@@ -83,17 +116,6 @@ export class GovernmentIdentifier extends HTMLElement {
             p.textContent = description;
             masthead.appendChild(p);
         }
-
-        section.appendChild(masthead);
-
-        if (hasChildren) {
-            const nav = document.createElement("nav");
-            nav.className = "government-identifier-links";
-            nav.setAttribute("aria-label", label);
-            moveChildrenInto(this, nav);
-            section.appendChild(nav);
-        }
-
-        this.appendChild(section);
+        return masthead;
     }
 }

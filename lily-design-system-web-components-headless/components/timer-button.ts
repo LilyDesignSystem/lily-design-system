@@ -19,6 +19,7 @@
 //   - components/timer-button/index.md (canonical contract)
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { setOrRemove } from "../lib/live-element.js";
 
 const HANDLED = new Set(["label", "disabled", "duration"]);
 
@@ -27,6 +28,26 @@ export class TimerButton extends HTMLElement {
     #remaining = 0;
     #interval: ReturnType<typeof setInterval> | null = null;
     #activated = false;
+
+    // A change to label, disabled or class is shown (tasks.md P50-T28). A new duration starts the count again from it, unless the
+    // button has already fired: it fires once.
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(name: string): void {
+        const button = this.#button;
+        if (!button) return;
+        button.className = rootClassName(this, "timer-button");
+        setOrRemove(button, "aria-label", this.getAttribute("label"));
+        button.disabled = this.hasAttribute("disabled");
+        if (name !== "duration" || this.#activated) return;
+        if (this.#interval !== null) clearInterval(this.#interval);
+        this.#interval = null;
+        this.#remaining = Number(this.getAttribute("duration") ?? "0");
+        button.setAttribute("data-remaining-seconds", String(this.#remaining));
+        this.#startTimer();
+    }
 
     connectedCallback(): void {
         if (this.#button) return;

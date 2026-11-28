@@ -98,3 +98,18 @@ describe("SliderButton", () => {
         expect(handler).toHaveBeenCalled();
     });
 });
+
+describe("SliderButton follows its attributes (P50-T28)", () => {
+    test("shows a change to label, disabled and class", () => {
+        const host = render('<lily-slider-button label="Old">Slide</lily-slider-button>');
+        host.setAttribute("label", "New");
+        host.setAttribute("disabled", "");
+        host.setAttribute("class", "wide");
+        const button = host.querySelector("button") as HTMLButtonElement;
+        expect(button.getAttribute("aria-label")).toBe("New");
+        expect(button.disabled).toBe(true);
+        expect(button.className).toBe("slider-button wide");
+        host.removeAttribute("disabled");
+        expect(button.disabled).toBe(false);
+    });
+});

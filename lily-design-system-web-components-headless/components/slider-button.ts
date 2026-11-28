@@ -19,12 +19,25 @@
 //   - components/slider-button/index.md (canonical contract)
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { setOrRemove } from "../lib/live-element.js";
 
 const HANDLED = new Set(["label", "disabled"]);
 
 export class SliderButton extends HTMLElement {
     #button: HTMLButtonElement | null = null;
     #value = 0;
+
+    // A change to label, disabled or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(): void {
+        if (!this.#button) return;
+        this.#button.className = rootClassName(this, "slider-button");
+        setOrRemove(this.#button, "aria-label", this.getAttribute("label"));
+        this.#button.disabled = this.hasAttribute("disabled");
+    }
 
     connectedCallback(): void {
         if (this.#button) return;

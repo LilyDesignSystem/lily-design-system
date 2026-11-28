@@ -32,13 +32,33 @@ export class Visible extends HTMLElement {
     #observer: IntersectionObserver | null = null;
     #visible = false;
 
+    // A change to once, threshold, root-margin or class is shown (tasks.md P50-T28): the observer is made again with the new
+    // options, and what is visible now is reported afresh.
+    static get observedAttributes(): string[] {
+        return ["once", "threshold", "root-margin", "class"];
+    }
+
+    attributeChangedCallback(name: string): void {
+        if (!this.#built) return;
+        if (name === "class") {
+            if (!this.classList.contains("visible")) applySelfClassName(this, "visible");
+            return;
+        }
+        this.#observer?.disconnect();
+        this.#observer = null;
+        if (this.isConnected) this.#observe();
+    }
+
     connectedCallback(): void {
         if (this.#built) return;
         this.#built = true;
 
         applySelfClassName(this, "visible");
         this.setAttribute("data-visible", "false");
+        this.#observe();
+    }
 
+    #observe(): void {
         if (typeof IntersectionObserver === "undefined") return;
         const once = this.hasAttribute("once");
         const threshold = Number(this.getAttribute("threshold") ?? "0") || 0;

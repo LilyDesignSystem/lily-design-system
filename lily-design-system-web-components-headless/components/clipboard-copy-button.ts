@@ -17,6 +17,7 @@
 //   - Clipboard API: https://developer.mozilla.org/en-US/docs/Web/API/Clipboard/writeText
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { setOrRemove } from "../lib/live-element.js";
 
 const RESET_MS = 2000;
 const HANDLED = new Set(["text", "label"]);
@@ -24,6 +25,17 @@ const HANDLED = new Set(["text", "label"]);
 export class ClipboardCopyButton extends HTMLElement {
     #button: HTMLButtonElement | null = null;
     #resetTimer: ReturnType<typeof setTimeout> | undefined;
+
+    // A change to label or class is shown (tasks.md P50-T28); text is read when the button is pressed, so it always follows.
+    static get observedAttributes(): string[] {
+        return ["label", "class"];
+    }
+
+    attributeChangedCallback(): void {
+        if (!this.#button) return;
+        this.#button.className = rootClassName(this, "clipboard-copy-button");
+        setOrRemove(this.#button, "aria-label", this.getAttribute("label"));
+    }
 
     connectedCallback(): void {
         if (this.#button) return;

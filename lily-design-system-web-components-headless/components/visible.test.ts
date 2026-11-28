@@ -138,3 +138,27 @@ describe("Visible", () => {
         expect(handler).not.toHaveBeenCalled();
     });
 });
+
+describe("Visible follows its attributes (P50-T28)", () => {
+    test("makes its observer again with new options, and keeps its class", () => {
+        vi.stubGlobal(
+            "IntersectionObserver",
+            FakeIntersectionObserver as unknown as typeof IntersectionObserver,
+        );
+        FakeIntersectionObserver.instances = [];
+        const host = render("<lily-visible>Content</lily-visible>");
+        const first = FakeIntersectionObserver.instances.at(-1)!;
+        host.setAttribute("threshold", "0.5");
+        host.setAttribute("root-margin", "10px");
+        expect(first.disconnected).toBe(true);
+        const latest = FakeIntersectionObserver.instances.at(-1)!;
+        expect(latest).not.toBe(first);
+        expect(latest.observed).toBe(host);
+        expect(FakeIntersectionObserver.lastOptions).toEqual({
+            threshold: 0.5,
+            rootMargin: "10px",
+        });
+        host.setAttribute("class", "wide");
+        expect(host.className).toBe("visible wide");
+    });
+});

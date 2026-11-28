@@ -98,3 +98,30 @@ describe("GovernmentIdentifier", () => {
         expect(host.querySelector("section")!.className).toBe("government-identifier extra");
     });
 });
+
+describe("GovernmentIdentifier follows its attributes (P50-T28)", () => {
+    test("shows a change to its attributes, keeping the links", () => {
+        const host = render(
+            '<lily-government-identifier label="Old" agency-name="Agency"><a href="/a">About</a></lily-government-identifier>',
+        );
+        host.setAttribute("label", "New");
+        host.setAttribute("agency-name", "Ministry");
+        host.setAttribute("agency-href", "/ministry");
+        host.setAttribute("description", "An official site");
+        host.setAttribute("class", "wide");
+        const section = host.querySelector("section") as HTMLElement;
+        expect(section.className).toBe("government-identifier wide");
+        expect(section.getAttribute("aria-label")).toBe("New");
+        expect(section.querySelector("nav")?.getAttribute("aria-label")).toBe("New");
+        const agency = section.querySelector(
+            ".government-identifier-agency a",
+        ) as HTMLAnchorElement;
+        expect(agency.textContent).toBe("Ministry");
+        expect(agency.getAttribute("href")).toBe("/ministry");
+        expect(section.querySelector(".government-identifier-description")?.textContent).toBe(
+            "An official site",
+        );
+        expect(section.querySelectorAll(".government-identifier-masthead")).toHaveLength(1);
+        expect(section.querySelector("nav a")?.textContent).toBe("About");
+    });
+});

@@ -94,3 +94,27 @@ describe("TimerButton", () => {
         expect(handler).toHaveBeenCalledTimes(1);
     });
 });
+
+describe("TimerButton follows its attributes (P50-T28)", () => {
+    test("shows a change to label, disabled and class, and counts again from a new duration", () => {
+        vi.useFakeTimers();
+        const host = render('<lily-timer-button label="Old" duration="10">Go</lily-timer-button>');
+        vi.advanceTimersByTime(3000);
+        host.setAttribute("label", "New");
+        host.setAttribute("disabled", "");
+        host.setAttribute("class", "wide");
+        host.setAttribute("duration", "5");
+        const button = host.querySelector("button") as HTMLButtonElement;
+        expect(button.getAttribute("aria-label")).toBe("New");
+        expect(button.disabled).toBe(true);
+        expect(button.className).toBe("timer-button wide");
+        expect(button.getAttribute("data-remaining-seconds")).toBe("5");
+        const fired = vi.fn();
+        host.addEventListener("lily-activate", fired);
+        vi.advanceTimersByTime(5000);
+        expect(fired).toHaveBeenCalledTimes(1);
+        host.setAttribute("duration", "8");
+        vi.advanceTimersByTime(9000);
+        expect(fired).toHaveBeenCalledTimes(1);
+    });
+});
