@@ -538,3 +538,4 @@ patientapp
 mkdirs
 lede
 unstub
+jsdom

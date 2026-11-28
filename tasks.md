@@ -4855,7 +4855,7 @@ each was checked against the source on 2026-11-25, not reproduced in a browser h
       of 205 packages. Verify: a bundle that imports one component holds only it.
 - [ ] **P50-T20 Lighthouse on the docs site.** Performance and SEO, beside the axe checks. Verify: a recorded baseline that may not fall.
 - [ ] **P50-T21 Failed CI keeps its evidence.** Upload Playwright traces and reports on failure. Verify: a failed run's trace opens.
-- [ ] **P50-T22 A supported-browser table.** From the engines the tests run. Verify: generated from the configurations.
+- [x] **P50-T22 A supported-browser table.** From the engines the tests run. Verify: generated from the configurations. _(Done 2026-11-28: `bin/generate-browser-support` reads the 13 Playwright and 3 WebdriverIO configurations into `docs/supported-browsers.md`: Chromium in all 16, Firefox and WebKit in 11, every spec in the three Svelte helper suites and named specs in the eight example apps, desktop only; `--check` in `bin/test`.)_
 - [ ] **P50-T23 Large data and rapid change.** Stress tests of the data grid, Gantt chart and kanban board beyond the benchmarks.
 - [ ] **P50-T24 Render errors.** What each framework's components do when a child throws, documented and tested.
 - [ ] **P50-T25 More shared behaviour.** Tabs, disclosure, dialog focus and roving tabindex, after the listbox, menu and combobox modules

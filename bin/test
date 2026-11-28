@@ -467,6 +467,8 @@ test -s "$top/AGENTS/visual-identity.md" && test -s "$top/spec/visual-identity/i
     || err "AGENTS/visual-identity.md or spec/visual-identity/index.md is missing, or AGENTS.md does not load it"
 "$top/bin/generate-comparisons" --check >"$CHECKLOG" 2>&1 \
     || check_err "compare/index.md differs from compare/compare.tsv; run bin/generate-comparisons"
+"$top/bin/generate-browser-support" --check >"$CHECKLOG" 2>&1 \
+    || check_err "docs/supported-browsers.md is stale; run bin/generate-browser-support"
 # These two format their output with the root Prettier. Without the root install they cannot run, which is not the same
 # as stale output, so say which it is (a clean worktree found the misleading message, tasks.md P24-T6).
 if test -e "$top/node_modules/prettier/package.json"; then

@@ -79,6 +79,8 @@ docs/core.md
 docs/accessibility-conformance-report.md
 # Written by bin/generate-theme-contrast
 docs/theme-contrast.md
+# Written by bin/generate-browser-support
+docs/supported-browsers.md
 # Rewritten by each package build.mjs
 lily-design-system-angular-headless/index.ts
 lily-design-system-angular-headless-identifiers/index.ts
