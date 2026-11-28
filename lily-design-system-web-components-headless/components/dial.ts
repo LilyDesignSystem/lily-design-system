@@ -40,21 +40,39 @@ export class Dial extends HTMLElement {
     #max = 100;
     #step = 1;
 
+    // A change to label, min, max, step, value, disabled or class is shown (tasks.md P50-T28). A new value attribute moves the
+    // dial there; a new range keeps the current value inside it.
+    static get observedAttributes(): string[] {
+        return ["label", "min", "max", "step", "value", "disabled", "class"];
+    }
+
+    attributeChangedCallback(name: string): void {
+        if (!this.#built) return;
+        if (name === "class") {
+            if (!this.classList.contains("dial")) applySelfClassName(this, "dial");
+            return;
+        }
+        this.#read(name === "value" ? Number(this.getAttribute("value") ?? "0") || 0 : this.#value);
+    }
+
     connectedCallback(): void {
         if (this.#built) return;
         this.#built = true;
 
         applySelfClassName(this, "dial");
         this.setAttribute("role", "slider");
+        this.addEventListener("keydown", this.#onKeydown);
+        this.#read(Number(this.getAttribute("value") ?? "0") || 0);
+    }
+
+    #read(value: number): void {
         const label = this.getAttribute("label");
         if (label !== null) this.setAttribute("aria-label", label);
-
+        else this.removeAttribute("aria-label");
         this.#min = Number(this.getAttribute("min") ?? "0") || 0;
         this.#max = Number(this.getAttribute("max") ?? "100") || 100;
         this.#step = Number(this.getAttribute("step") ?? "1") || 1;
-        this.#value = this.#clamp(Number(this.getAttribute("value") ?? "0") || 0);
-
-        this.addEventListener("keydown", this.#onKeydown);
+        this.#value = this.#clamp(value);
         this.#sync();
     }
 

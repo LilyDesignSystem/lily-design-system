@@ -103,3 +103,24 @@ describe("Dial", () => {
         expect(event.detail).toEqual({ value: 51 });
     });
 });
+
+describe("Dial follows its attributes (P50-T28)", () => {
+    test("shows a change to label, range, value, disabled and class", () => {
+        const host = render('<lily-dial label="Old" value="50"></lily-dial>');
+        host.setAttribute("label", "Volume");
+        host.setAttribute("class", "wide");
+        host.setAttribute("max", "40");
+        expect(host.className).toBe("dial wide");
+        expect(host.getAttribute("aria-label")).toBe("Volume");
+        expect(host.getAttribute("aria-valuemax")).toBe("40");
+        expect(host.getAttribute("aria-valuenow")).toBe("40");
+        host.setAttribute("value", "10");
+        expect(host.getAttribute("aria-valuenow")).toBe("10");
+        host.setAttribute("step", "5");
+        host.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowUp" }));
+        expect(host.getAttribute("aria-valuenow")).toBe("15");
+        host.setAttribute("disabled", "");
+        expect(host.getAttribute("aria-disabled")).toBe("true");
+        expect(host.tabIndex).toBe(-1);
+    });
+});

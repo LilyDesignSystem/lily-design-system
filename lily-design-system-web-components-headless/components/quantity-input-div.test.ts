@@ -48,3 +48,37 @@ describe("QuantityInputDiv", () => {
         );
     });
 });
+
+describe("QuantityInputDiv follows its attributes (P50-T28)", () => {
+    test("builds its parts again, keeping the amount typed and the unit chosen", () => {
+        document.body.innerHTML = `<lily-quantity-input-div label="Old" magnitude-label="Amount" unit-label="Unit" units='${UNITS}'></lily-quantity-input-div>`;
+        const host = document.querySelector("lily-quantity-input-div") as QuantityInputDiv;
+        const number = () =>
+            host.querySelector(".quantity-input-div-magnitude") as HTMLInputElement;
+        const select = () =>
+            host.querySelector("select.quantity-input-div-unit") as HTMLSelectElement;
+        number().value = "70";
+        select().value = "[lb_av]";
+        host.setAttribute("label", "Weight");
+        host.setAttribute("magnitude-label", "How much");
+        host.setAttribute("name", "weight");
+        host.setAttribute("required", "");
+        host.setAttribute("magnitude", "5");
+        host.setAttribute("class", "wide");
+        const group = host.querySelector("div.quantity-input-div") as HTMLElement;
+        expect(group.className).toBe("quantity-input-div wide");
+        expect(group.getAttribute("aria-label")).toBe("Weight");
+        expect(group.querySelector("label")?.textContent).toBe("How much");
+        expect(number().name).toBe("weight-magnitude");
+        expect(number().required).toBe(true);
+        expect(number().value).toBe("70");
+        expect(number().defaultValue).toBe("5");
+        expect(select().value).toBe("[lb_av]");
+        expect(number().max).toBe("660");
+        expect(host.unit).toBe("[lb_av]");
+        host.setAttribute("units", JSON.stringify([{ value: "g", label: "grams", max: 1000 }]));
+        expect(host.querySelector("select")).toBeNull();
+        expect(host.querySelector("span.quantity-input-div-unit")?.textContent).toBe("grams");
+        expect(number().max).toBe("1000");
+    });
+});

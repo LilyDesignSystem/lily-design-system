@@ -24,6 +24,7 @@ export class QuantityInputDiv extends HTMLElement {
     #root: HTMLDivElement | null = null;
     #number: HTMLInputElement | null = null;
     #select: HTMLSelectElement | null = null;
+    #baseId = "";
 
     #units(): Unit[] {
         try {
@@ -43,20 +44,57 @@ export class QuantityInputDiv extends HTMLElement {
         return this.getAttribute("unit") || this.#units()[0]?.value || "";
     }
 
+    // A change to any attribute is shown (tasks.md P50-T28): the parts are built again. magnitude and unit are the defaults: an
+    // amount the person typed and a unit they chose stay, while that unit is still offered.
+    static get observedAttributes(): string[] {
+        return [...HANDLED].filter((name) => name !== "id").concat("class");
+    }
+
+    attributeChangedCallback(): void {
+        const root = this.#root;
+        const number = this.#number;
+        if (!root || !number) return;
+        const typed = number.value !== number.defaultValue ? number.value : null;
+        const select = this.#select;
+        const chosen = select && !select.selectedOptions[0]?.defaultSelected ? select.value : null;
+        root.className = rootClassName(this, "quantity-input-div");
+        root.setAttribute("aria-label", this.getAttribute("label") ?? "");
+        root.replaceChildren();
+        this.#select = null;
+        this.#fill(root);
+        if (typed !== null) this.#number!.value = typed;
+        if (chosen !== null && this.#select) {
+            const option = Array.from((this.#select as HTMLSelectElement).options).find(
+                (o) => o.value === chosen,
+            );
+            if (option) option.selected = true;
+        }
+        this.#limit();
+    }
+
     connectedCallback(): void {
         if (this.#root) return;
-        const baseId = this.getAttribute("id") || nextId("lily-quantity-input-div");
+        this.#baseId = this.getAttribute("id") || nextId("lily-quantity-input-div");
         if (this.hasAttribute("id")) this.removeAttribute("id");
-        const units = this.#units();
-        const name = this.getAttribute("name");
-        const required = this.hasAttribute("required");
-        const disabled = this.hasAttribute("disabled");
 
         const root = document.createElement("div");
         root.className = rootClassName(this, "quantity-input-div");
         root.setAttribute("role", "group");
         root.setAttribute("aria-label", this.getAttribute("label") ?? "");
         passThroughAttributes(this, root, HANDLED);
+        this.#fill(root);
+        this.#root = root;
+        this.appendChild(root);
+        this.closest("form")?.addEventListener("reset", () => setTimeout(() => this.#limit(), 0));
+        this.#limit();
+    }
+
+    #fill(root: HTMLDivElement): void {
+        const baseId = this.#baseId;
+        const units = this.#units();
+        const name = this.getAttribute("name");
+        const required = this.hasAttribute("required");
+        const disabled = this.hasAttribute("disabled");
 
         const label = document.createElement("label");
         label.htmlFor = `${baseId}-magnitude`;
@@ -108,11 +146,7 @@ export class QuantityInputDiv extends HTMLElement {
                 root.append(hidden);
             }
         }
-        this.#root = root;
         this.#number = number;
-        this.appendChild(root);
-        this.closest("form")?.addEventListener("reset", () => setTimeout(() => this.#limit(), 0));
-        this.#limit();
     }
 
     /** The number takes the limits of the unit chosen. */

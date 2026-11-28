@@ -54,6 +54,39 @@ export class PinInputDiv extends HTMLElement {
             : (this.getAttribute("label") ?? "");
     }
 
+    // A change to label, length, value (the default digits), disabled or class is shown (tasks.md P50-T28). A new length builds the
+    // boxes again, keeping the digits typed so far.
+    static get observedAttributes(): string[] {
+        return ["label", "length", "value", "disabled", "class"];
+    }
+
+    attributeChangedCallback(name: string): void {
+        if (this.#inputs.length === 0) return;
+        if (!this.classList.contains("pin-input-div")) applySelfClassName(this, "pin-input-div");
+        const label = this.getAttribute("label");
+        if (label !== null) this.setAttribute("aria-label", label);
+        else this.removeAttribute("aria-label");
+        if (name === "length") {
+            const typed = this.#inputs.map((input) =>
+                input.value !== input.defaultValue ? input.value : null,
+            );
+            for (const input of this.#inputs) input.remove();
+            this.#inputs = [];
+            this.#build();
+            typed.forEach((digit, index) => {
+                const input = this.#inputs[index];
+                if (input && digit !== null) input.value = digit;
+            });
+            return;
+        }
+        const initial = this.getAttribute("value") ?? "";
+        this.#inputs.forEach((input, index) => {
+            input.setAttribute("aria-label", this.#inputLabel(index));
+            input.defaultValue = initial[index] ?? "";
+            input.disabled = this.hasAttribute("disabled");
+        });
+    }
+
     connectedCallback(): void {
         if (this.#inputs.length > 0) return;
 
@@ -61,7 +94,11 @@ export class PinInputDiv extends HTMLElement {
         this.setAttribute("role", "group");
         const label = this.getAttribute("label");
         if (label !== null) this.setAttribute("aria-label", label);
+        this.#build();
+    }
 
+    #build(): void {
+        const label = this.getAttribute("label");
         const length = Math.max(1, Number(this.getAttribute("length") ?? "4") || 4);
         const initial = this.getAttribute("value") ?? "";
         const disabled = this.hasAttribute("disabled");

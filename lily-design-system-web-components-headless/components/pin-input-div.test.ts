@@ -149,3 +149,33 @@ describe("form reset", () => {
         expect(el.value).toBe("1");
     });
 });
+
+describe("PinInputDiv follows its attributes (P50-T28)", () => {
+    test("shows a change to label, value, disabled and class; a new length keeps the digits typed", () => {
+        const host = render('<lily-pin-input-div label="Old" length="4"></lily-pin-input-div>');
+        const inputs = () => Array.from(host.querySelectorAll("input"));
+        inputs()[0].value = "7";
+        inputs()[1].value = "3";
+        host.setAttribute("label", "Code");
+        host.setAttribute("value", "1234");
+        host.setAttribute("disabled", "");
+        host.setAttribute("class", "wide");
+        expect(host.className).toBe("pin-input-div wide");
+        expect(host.getAttribute("aria-label")).toBe("Code");
+        expect(inputs()[0].getAttribute("aria-label")).toBe("Code");
+        expect(
+            inputs()
+                .map((i) => i.value)
+                .join(""),
+        ).toBe("7334");
+        expect(inputs().every((i) => i.disabled)).toBe(true);
+        host.setAttribute("length", "6");
+        expect(inputs()).toHaveLength(6);
+        expect(
+            inputs()
+                .map((i) => i.value)
+                .join(""),
+        ).toBe("7334");
+        expect(inputs().every((i) => i.disabled)).toBe(true);
+    });
+});
