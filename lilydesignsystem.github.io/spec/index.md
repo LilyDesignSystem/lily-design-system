@@ -46,13 +46,14 @@ framework stacks through tutorials.
   overriding it, and runtime switching with theme-picker) and `helpers`
   (all eight pickers — theme, locale, text-size, motion, share, search,
   date-time — plus `picker-bar`, the tooltips, and a combined settings panel).
-- The default and localized home pages show twelve component links above the framework icons, on one row
-  from about 750px wide, with no bullets: Places, Avatars, Charts, Calendar, Chat, Data Grid, Gantt, Kanban,
-  Locales, Search Picker, Settings, Themes. Each link pairs the name with an SVG icon,
-  `/assets/images/icons/<component>/icon.svg` (64 × 64 viewBox, bright blue `#0A66E0` outlines), and opens its
-  component documentation or helper package. Chat links to the Chat Message catalog page; Places is
-  `link-picker`. `tests/home-component-icons.spec.ts` checks it. The home page sits closer than other pages
-  (`.home-intro`): less space above the headline and between the framework icons and the tile cards.
+- The default and localized home pages show twelve component links and More above the framework icons, with the framework
+  row's spacing (3.5rem cells, 0.25rem gaps; thirteen in each row), so each icon sits above a framework icon and both rows fit
+  on one line from about 810px wide, with no bullets: Link, Avatar, Chart, Calendar, Chat, Data, Gantt, Kanban, Locale,
+  Search, Settings, Theme, More. Each pairs the name with an SVG icon, `/assets/images/icons/<component>/icon.svg` (64 × 64
+  viewBox, bright blue `#0A66E0` outlines), and opens its component documentation or helper package; Chat links to the Chat
+  Message catalog page, Link is `link-picker`, and More opens the whole catalog. `tests/home-component-icons.spec.ts` checks
+  it. The home page sits closer than other pages (`.home-intro`): less space above the headline and between the framework
+  icons and the tile cards.
 - The home page's framework icon row includes an 8th icon, Web
   Components, which links directly to its GitHub repo rather than a
   `/tutorials/` page — there is no Web Components tutorial or example

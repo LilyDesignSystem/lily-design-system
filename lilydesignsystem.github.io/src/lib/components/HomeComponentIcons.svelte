@@ -1,20 +1,21 @@
 <script lang="ts">
     let { label }: { label: string } = $props();
 
-    // Twelve of Lily's components, each with its own SVG icon in /assets/images/icons/{slug}/icon.svg.
+    // Twelve of Lily's components, each with its own SVG icon in /assets/images/icons/{slug}/icon.svg, and More, the whole catalog.
     const components = [
-        ["link-picker", "Places"],
-        ["avatar-image", "Avatars", "/components/avatar-image/"],
-        ["bar-chart", "Charts", "/components/bar-chart/"],
+        ["link-picker", "Link"],
+        ["avatar-image", "Avatar", "/components/avatar-image/"],
+        ["bar-chart", "Chart", "/components/bar-chart/"],
         ["calendar", "Calendar"],
         ["chat-bubble", "Chat", "/components/chat-message/"],
-        ["data-grid", "Data Grid"],
+        ["data-grid", "Data"],
         ["gantt-chart", "Gantt"],
         ["kanban-board", "Kanban"],
-        ["locale-picker", "Locales"],
-        ["search-picker", "Search Picker"],
+        ["locale-picker", "Locale"],
+        ["search-picker", "Search"],
         ["settings-picker", "Settings"],
-        ["theme-picker", "Themes"],
+        ["theme-picker", "Theme"],
+        ["more", "More", "/components/"],
     ] as const;
 </script>
 
@@ -43,8 +44,9 @@
 
 <style>
     /* Scoped here, not in static/assets/style.css: these styles ship with the page under a content hash, so a cached stylesheet
-     can never show the list as a plain bulleted column. Twelve items of 3.5rem with 0.25rem gaps are about 45rem, so they sit on
-     one row from about 750px wide; below that the row wraps, centred, and never scrolls sideways. Like the framework row, it
+     can never show the list as a plain bulleted column. Thirteen items, as many as the framework row below, and the same
+     spacing: 3.5rem cells (.framework-icon-link) and 0.25rem gaps, so each icon sits above a framework icon and both rows fit on
+     one line from about 810px wide; below that the row wraps, centred, and never scrolls sideways. Like the framework row, it
      breaks out of the 48rem intro column, centred on it. */
     .component-icon-row {
         display: flex;
@@ -72,8 +74,5 @@
         left: auto;
         right: 50%;
         transform: translateX(50%);
-    }
-    .component-icon-row :global(.framework-icon-link) {
-        width: 3.5rem;
     }
 </style>

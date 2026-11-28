@@ -376,7 +376,7 @@ html[data-text-size='largest'] { font-size: 150%; }
      column instead: as wide as the viewport allows (less a gutter), up to the content width,
      centred on the column. */
   display: flex;
-  gap: 0.5rem;
+  gap: 0.25rem;
   flex-wrap: wrap;
   justify-content: center;
   width: min(calc(100vw - 2rem), var(--lily-content-max));
@@ -398,9 +398,10 @@ html[data-text-size='largest'] { font-size: 150%; }
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  /* Thirteen icons (Swift and Kotlin 2026-11-22, MAUI 2026-11-26) on one row down to 1024px: 4.25rem each with 0.5rem gaps is
-     about 980px. Below that the row wraps, centred, and never scrolls sideways (tests/framework-icons.spec.ts, tasks.md P51-T9). */
-  width: 4.25rem;
+  /* Thirteen icons in each home-page row, the framework row with the component row's spacing (2026-11-28): 3.5rem each with
+     0.25rem gaps is 48.5rem, and the row is the viewport less 2rem, so one row from about 810px. Below that the row wraps, centred, and never scrolls sideways
+     (tests/framework-icons.spec.ts, tests/home-component-icons.spec.ts, tasks.md P51-T9). */
+  width: 3.5rem;
   padding: 0.75rem 0.25rem;
   border-radius: var(--lily-radius);
   color: var(--lily-text-muted);
