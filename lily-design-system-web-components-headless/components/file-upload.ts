@@ -37,6 +37,28 @@ export class FileUpload extends HTMLElement {
     #built = false;
     #input: HTMLInputElement | null = null;
     #status: HTMLSpanElement | null = null;
+    #button: HTMLButtonElement | null = null;
+
+    // A change to label, disabled, accept, multiple, drop-zone or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["label", "disabled", "accept", "multiple", "drop-zone", "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const button = this.#button;
+        const input = this.#input;
+        if (!this.#built || !button || !input) return;
+        if (!this.classList.contains("file-upload")) applySelfClassName(this, "file-upload");
+        const label = this.getAttribute("label") ?? "";
+        button.setAttribute("aria-label", label);
+        button.textContent = label;
+        button.disabled = this.hasAttribute("disabled");
+        const accept = this.getAttribute("accept");
+        if (accept !== null) input.accept = accept;
+        else input.removeAttribute("accept");
+        input.multiple = this.hasAttribute("multiple");
+        if (!this.hasAttribute("drop-zone")) this.removeAttribute("data-drag-over");
+    }
 
     connectedCallback(): void {
         if (this.#built) return;
@@ -53,6 +75,7 @@ export class FileUpload extends HTMLElement {
         button.textContent = label;
         button.disabled = disabled;
         button.addEventListener("click", this.#onClick);
+        this.#button = button;
 
         const input = document.createElement("input");
         input.type = "file";
@@ -72,16 +95,21 @@ export class FileUpload extends HTMLElement {
         this.appendChild(input);
         this.appendChild(status);
 
-        if (this.hasAttribute("drop-zone")) {
+        // The listeners are always there and ask drop-zone each time, so it can be turned on or off later.
+        {
             this.addEventListener("dragover", (event) => {
-                if (this.hasAttribute("disabled") || !event.dataTransfer?.types.includes("Files"))
+                if (
+                    !this.hasAttribute("drop-zone") ||
+                    this.hasAttribute("disabled") ||
+                    !event.dataTransfer?.types.includes("Files")
+                )
                     return;
                 event.preventDefault();
                 this.setAttribute("data-drag-over", "");
             });
             this.addEventListener("dragleave", () => this.removeAttribute("data-drag-over"));
             this.addEventListener("drop", (event) => {
-                if (this.hasAttribute("disabled")) return;
+                if (!this.hasAttribute("drop-zone") || this.hasAttribute("disabled")) return;
                 event.preventDefault();
                 this.removeAttribute("data-drag-over");
                 const files = event.dataTransfer?.files;

@@ -160,3 +160,35 @@ describe("VideoPlayer", () => {
         expect(FakeIntersectionObserver.instances.length).toBe(0);
     });
 });
+
+describe("VideoPlayer follows its attributes (P50-T28)", () => {
+    test("shows a change to src, label, poster, muted, loop, controls, autoplay and class", () => {
+        vi.stubGlobal(
+            "IntersectionObserver",
+            FakeIntersectionObserver as unknown as typeof IntersectionObserver,
+        );
+        FakeIntersectionObserver.instances = [];
+        const host = render('<lily-video-player src="/a.mp4" label="Old"></lily-video-player>');
+        const figure = host.querySelector("figure") as HTMLElement;
+        const video = host.querySelector("video") as HTMLVideoElement;
+        host.setAttribute("src", "/b.mp4");
+        host.setAttribute("label", "Exercise");
+        host.setAttribute("poster", "/b.png");
+        host.setAttribute("muted", "");
+        host.setAttribute("loop", "");
+        host.setAttribute("controls", "false");
+        host.setAttribute("class", "wide");
+        expect(figure.className).toBe("video-player wide");
+        expect(figure.getAttribute("aria-label")).toBe("Exercise");
+        expect(video.getAttribute("src")).toBe("/b.mp4");
+        expect(video.getAttribute("poster")).toBe("/b.png");
+        expect(video.muted && video.loop).toBe(true);
+        expect(video.controls).toBe(false);
+        expect(FakeIntersectionObserver.instances).toHaveLength(0);
+        host.setAttribute("autoplay", "");
+        const observer = FakeIntersectionObserver.instances.at(-1)!;
+        expect(observer.observed).toBe(video);
+        host.removeAttribute("autoplay");
+        expect(observer.disconnected).toBe(true);
+    });
+});

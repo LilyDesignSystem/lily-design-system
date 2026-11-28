@@ -118,3 +118,39 @@ describe("FileUpload", () => {
         expect(host.querySelector("[data-file-count]")?.textContent).toBe("1 files");
     });
 });
+
+describe("FileUpload follows its attributes (P50-T28)", () => {
+    test("shows a change to label, disabled, accept, multiple, drop-zone and class", () => {
+        const host = render('<lily-file-upload label="Old"></lily-file-upload>');
+        const button = host.querySelector("button") as HTMLButtonElement;
+        const input = host.querySelector("input") as HTMLInputElement;
+        host.setAttribute("label", "Choose files");
+        host.setAttribute("accept", ".pdf");
+        host.setAttribute("multiple", "");
+        host.setAttribute("disabled", "");
+        host.setAttribute("class", "wide");
+        expect(host.className).toBe("file-upload wide");
+        expect(button.textContent).toBe("Choose files");
+        expect(button.getAttribute("aria-label")).toBe("Choose files");
+        expect(button.disabled).toBe(true);
+        expect(input.accept).toBe(".pdf");
+        expect(input.multiple).toBe(true);
+        host.removeAttribute("accept");
+        expect(input.hasAttribute("accept")).toBe(false);
+
+        host.removeAttribute("disabled");
+        const over = () => {
+            const event = new Event("dragover", { cancelable: true }) as DragEvent;
+            Object.defineProperty(event, "dataTransfer", { value: { types: ["Files"] } });
+            host.dispatchEvent(event);
+            return event.defaultPrevented;
+        };
+        expect(over()).toBe(false);
+        host.setAttribute("drop-zone", "");
+        expect(over()).toBe(true);
+        expect(host.hasAttribute("data-drag-over")).toBe(true);
+        host.removeAttribute("drop-zone");
+        expect(host.hasAttribute("data-drag-over")).toBe(false);
+        expect(over()).toBe(false);
+    });
+});

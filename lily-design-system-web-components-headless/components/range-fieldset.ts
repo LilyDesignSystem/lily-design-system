@@ -23,6 +23,7 @@
 //   - WAI-ARIA Multi-Thumb Slider: https://www.w3.org/WAI/ARIA/apg/patterns/slider-multithumb/
 
 import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { setOrRemove } from "../lib/live-element.js";
 
 const HANDLED = new Set([
     "legend",
@@ -42,6 +43,36 @@ export class RangeFieldset extends HTMLElement {
     #root: HTMLFieldSetElement | null = null;
     #lower: HTMLInputElement | null = null;
     #upper: HTMLInputElement | null = null;
+
+    // A change to any attribute is shown (tasks.md P50-T28). minimum and maximum are the defaults, as a native range's value
+    // attribute is: they move a thumb only until the person does.
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(): void {
+        const root = this.#root;
+        const lower = this.#lower;
+        const upper = this.#upper;
+        if (!root || !lower || !upper) return;
+        root.className = rootClassName(this, "range-fieldset");
+        root.disabled = this.hasAttribute("disabled");
+        const legend = root.querySelector(":scope > .range-fieldset-legend");
+        if (legend) legend.textContent = this.getAttribute("legend") ?? "";
+        const min = this.getAttribute("min") ?? "0";
+        const max = this.getAttribute("max") ?? "100";
+        for (const [part, input, fallback] of [
+            ["minimum", lower, min],
+            ["maximum", upper, max],
+        ] as const) {
+            setOrRemove(input, "aria-label", this.getAttribute(`${part}-label`));
+            setOrRemove(input, "name", this.getAttribute(`${part}-name`));
+            input.min = min;
+            input.max = max;
+            input.step = this.getAttribute("step") ?? "1";
+            input.defaultValue = this.getAttribute(part) ?? fallback;
+        }
+    }
 
     connectedCallback(): void {
         if (this.#root) return;

@@ -149,3 +149,34 @@ describe("TreeSelect", () => {
         expect(panel.querySelector("li")?.textContent).toBe("Cardiology");
     });
 });
+
+describe("TreeSelect follows its attributes (P50-T28)", () => {
+    test("shows a change to label, value, placeholder, disabled, multiple, expanded and class", () => {
+        const host = render(
+            '<lily-tree-select label="Old" placeholder="Choose"><ul role="tree"></ul></lily-tree-select>',
+        );
+        const trigger = host.querySelector(".tree-select-trigger") as HTMLButtonElement;
+        expect(trigger.textContent).toBe("Choose");
+        host.setAttribute("label", "Ward");
+        host.setAttribute("placeholder", "Pick a ward");
+        host.setAttribute("multiple", "");
+        host.setAttribute("disabled", "");
+        host.setAttribute("class", "wide");
+        expect(host.className).toBe("tree-select wide");
+        expect(trigger.getAttribute("aria-label")).toBe("Ward");
+        expect(trigger.textContent).toBe("Pick a ward");
+        expect(host.getAttribute("data-multiple")).toBe("true");
+        expect(trigger.disabled).toBe(true);
+        host.setAttribute("value", "Ward 4");
+        expect(trigger.textContent).toBe("Ward 4");
+        host.removeAttribute("multiple");
+        expect(host.hasAttribute("data-multiple")).toBe(false);
+        const changed = vi.fn();
+        host.addEventListener("lily-expanded-change", changed);
+        host.setAttribute("expanded", "");
+        expect(trigger.getAttribute("aria-expanded")).toBe("true");
+        host.removeAttribute("expanded");
+        expect(trigger.getAttribute("aria-expanded")).toBe("false");
+        expect(changed).toHaveBeenCalledTimes(2);
+    });
+});

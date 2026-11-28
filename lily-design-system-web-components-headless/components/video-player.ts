@@ -35,12 +35,37 @@
 //   - AGENTS/headless.md ("VideoPlayer.autoplay" named as a component-owned behaviour)
 
 import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { setOrRemove } from "../lib/live-element.js";
 
 const HANDLED = new Set(["src", "label", "poster", "autoplay", "muted", "loop", "controls"]);
 
 export class VideoPlayer extends HTMLElement {
     #video: HTMLVideoElement | null = null;
     #observer: IntersectionObserver | null = null;
+
+    // A change to src, label, poster, autoplay, muted, loop, controls or class is shown (tasks.md P50-T28). A new src loads the new
+    // video; autoplay starts or stops playing it as it scrolls into view.
+    static get observedAttributes(): string[] {
+        return [...HANDLED, "class"];
+    }
+
+    attributeChangedCallback(name: string): void {
+        const video = this.#video;
+        const figure = this.querySelector<HTMLElement>(":scope > figure.video-player");
+        if (!video || !figure) return;
+        figure.className = rootClassName(this, "video-player");
+        setOrRemove(figure, "aria-label", this.getAttribute("label"));
+        const src = this.getAttribute("src") ?? "";
+        if (name === "src" && video.getAttribute("src") !== src) video.src = src;
+        setOrRemove(video, "poster", this.getAttribute("poster"));
+        video.muted = this.hasAttribute("muted");
+        video.loop = this.hasAttribute("loop");
+        video.controls = this.getAttribute("controls") !== "false";
+        if (name !== "autoplay") return;
+        this.#observer?.disconnect();
+        this.#observer = null;
+        if (this.hasAttribute("autoplay")) this.#observeAutoplay();
+    }
 
     connectedCallback(): void {
         if (this.querySelector(":scope > figure.video-player")) return;

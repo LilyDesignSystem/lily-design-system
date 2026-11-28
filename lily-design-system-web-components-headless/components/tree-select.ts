@@ -41,6 +41,28 @@ export class TreeSelect extends HTMLElement {
     #trigger: HTMLButtonElement | null = null;
     #panel: HTMLDivElement | null = null;
 
+    // A change to label, value, placeholder, disabled, multiple, expanded or class is shown (tasks.md P50-T28).
+    static get observedAttributes(): string[] {
+        return ["label", "value", "placeholder", "disabled", "multiple", "expanded", "class"];
+    }
+
+    attributeChangedCallback(name: string): void {
+        const trigger = this.#trigger;
+        if (!this.#built || !trigger) return;
+        if (name === "expanded") {
+            this.expanded = this.hasAttribute("expanded");
+            return;
+        }
+        if (!this.classList.contains("tree-select")) applySelfClassName(this, "tree-select");
+        if (this.hasAttribute("multiple")) this.setAttribute("data-multiple", "true");
+        else this.removeAttribute("data-multiple");
+        const label = this.getAttribute("label");
+        if (label !== null) trigger.setAttribute("aria-label", label);
+        else trigger.removeAttribute("aria-label");
+        trigger.textContent = this.getAttribute("value") ?? this.getAttribute("placeholder") ?? "";
+        trigger.disabled = this.hasAttribute("disabled");
+    }
+
     connectedCallback(): void {
         if (this.#built) return;
         this.#built = true;

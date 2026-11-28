@@ -100,3 +100,34 @@ describe("RangeFieldset", () => {
         expect(root.getAttribute("data-test")).toBe("v");
     });
 });
+
+describe("RangeFieldset follows its attributes (P50-T28)", () => {
+    test("shows a change to its attributes, never moving a thumb the person moved", () => {
+        document.body.innerHTML =
+            '<lily-range-fieldset legend="Old" minimum-label="From" maximum-label="To"></lily-range-fieldset>';
+        const host = document.querySelector("lily-range-fieldset") as HTMLElement;
+        const root = host.querySelector("fieldset") as HTMLFieldSetElement;
+        const lower = host.querySelector(".range-fieldset-minimum") as HTMLInputElement;
+        const upper = host.querySelector(".range-fieldset-maximum") as HTMLInputElement;
+        host.setAttribute("legend", "Age");
+        host.setAttribute("minimum-label", "Youngest");
+        host.setAttribute("maximum-name", "to");
+        host.setAttribute("max", "120");
+        host.setAttribute("step", "5");
+        host.setAttribute("minimum", "20");
+        host.setAttribute("disabled", "");
+        host.setAttribute("class", "wide");
+        expect(root.className).toBe("range-fieldset wide");
+        expect(root.disabled).toBe(true);
+        expect(root.querySelector("legend")?.textContent).toBe("Age");
+        expect(lower.getAttribute("aria-label")).toBe("Youngest");
+        expect(upper.name).toBe("to");
+        expect(lower.max).toBe("120");
+        expect(upper.step).toBe("5");
+        expect(lower.value).toBe("20");
+        expect(upper.value).toBe("120");
+        upper.value = "65";
+        host.setAttribute("maximum", "90");
+        expect(upper.value).toBe("65");
+    });
+});
