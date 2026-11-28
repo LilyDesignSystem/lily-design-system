@@ -1,13 +1,11 @@
-# Changelog
+# Changelog — @lilydesignsystem/solid-share-picker
 
-This subproject is a directory of the canonical Lily Design System™ monorepo,
-and does not keep a separate change history.
+Changes to this package, newest first. The monorepo's [CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md) records every change to the whole
+system, with its reasoning.
 
-**The canonical changelog is
-[CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md).** It records every change to
-this subproject, with reasoning, alongside the rest of the system.
+## 0.1.0 — 2026-11-18
 
-Release highlights and project news: [NEWS.md](NEWS.md).
+- First release. The Solid port of the Svelte helper. Solid share picker: an icon button opening the native share sheet, or a disclosure of consumer-supplied links plus copy-to-clipboard. Headless, SSR-safe, no CSS.
 
 ---
 

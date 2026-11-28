@@ -1,0 +1,9 @@
+{
+  "lily-design-system-alpine-calendar": "not yet published to npm (2026-11-28); its first release adds a section",
+  "lily-design-system-alpine-data-grid": "not yet published to npm (2026-11-28); its first release adds a section",
+  "lily-design-system-alpine-gantt-chart": "not yet published to npm (2026-11-28); its first release adds a section",
+  "lily-design-system-alpine-kanban-board": "not yet published to npm (2026-11-28); its first release adds a section",
+  "lily-design-system-alpine-markdown-editor": "not yet published to npm (2026-11-28); its first release adds a section",
+  "lily-design-system-alpine-org-editor": "not yet published to npm (2026-11-28); its first release adds a section",
+  "lily-design-system-maui": "LilyDesignSystem.Maui and .Maui.Core are not yet on nuget.org (2026-11-28: the first push needs the maintainer's key); the first release adds a section"
+}

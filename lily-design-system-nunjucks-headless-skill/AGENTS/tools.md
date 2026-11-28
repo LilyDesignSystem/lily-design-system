@@ -21,7 +21,7 @@ The `bin/` scripts and the Makefile, one line each. Part of the [AGENTS/lily.md]
 - [check-aria-baseline](../bin/check-aria-baseline): HTML and Blazor roots against `shared/aria-baseline.json`, what Svelte renders; the other catalogs compare in their render sweeps. The list may only shrink (in bin/test)
 - [check-generic-names](../bin/check-generic-names): No HTML or Blazor component names a generic root, unless allow-listed with a reason; the list may only shrink (in bin/test). The other catalogs have a rendered `generic-name` test
 - [check-generated-files](../bin/check-generated-files): The Generated files table above lists every generator and its `--check`, and none is missing or invented
-- [check-package-metadata](../bin/check-package-metadata): Every published npm/NuGet package names the monorepo as its source repository — packages publish from the monorepo
+- [check-package-metadata](../bin/check-package-metadata): Every published npm/NuGet package names the monorepo as its source repository — packages publish from the monorepo — and has a section in its `CHANGELOG.md` for its version, unless `bin/check-package-metadata.changelog-allow.json` says it is not yet published
 - [create-component-directory](../bin/create-component-directory): Scaffold one component directory
 - [create-implementation-directory](../bin/create-implementation-directory): Scaffold one implementation directory
 - [test](../bin/test): Run all tests

@@ -61,6 +61,13 @@ wording) is the worked example.
   [spec/special-files-for-public-repos/](../spec/special-files-for-public-repos/index.md)).
 - Helper CHANGELOGs preserve pre-rename history under a provenance
   heading rather than deleting it.
+- Every published version has a section in its subproject's
+  `CHANGELOG.md` (a heading such as `## 0.7.0 — 2026-11-25`), npm and
+  NuGet alike: bump the version and write the section in the same commit.
+  `bin/check-package-metadata` (in `bin/test`) fails otherwise. A package
+  not yet published is listed with a reason in
+  `bin/check-package-metadata.changelog-allow.json`, and leaves the list
+  with its first release (tasks.md P48-T16).
 
 ## Two ways to consume, one source
 

@@ -12,7 +12,10 @@ subtree mirrors were deleted 2026-10-10). So:
     repository the publishing workflow ran in, and rejects a mismatch
     (E422), so any other URL here breaks provenance publishing outright;
   * every packable .csproj (one with a <PackageId>) has
-    <RepositoryUrl> = the monorepo.
+    <RepositoryUrl> = the monorepo;
+  * every published version, npm or NuGet, has a section in its
+    subproject's CHANGELOG.md, unless the package is not yet published and
+    bin/check-package-metadata.changelog-allow.json says so (tasks.md P48-T16).
 
 Usage: bin/check-package-metadata   (exit 1 and a list on any mismatch)
 Spec: spec/trusted-publishing/index.md § Monorepo publishing.
@@ -55,9 +58,49 @@ for p in sorted(glob.glob("lily-design-system-*/**/*.csproj", recursive=True)):
     if lic and lic.group(1) != NUGET_LICENSE:
         errors.append(f"{p}: <PackageLicenseExpression> must be {NUGET_LICENSE} (nuget.org accepts only OSI/FSF licenses), found {lic.group(1)}")
 
+# Every published version has a section in the CHANGELOG.md of its subproject (tasks.md P48-T16): a heading that names it,
+# such as "## 0.7.0 — 2026-11-25". A package not yet published is listed with a reason in
+# bin/check-package-metadata.changelog-allow.json, and leaves the list once it has a section, which only shrinks.
+CHANGELOG_ALLOW = json.load(open("bin/check-package-metadata.changelog-allow.json"))
+changelogs, seen_allow = 0, set()
+
+
+def changelog_has(sub, version, what):
+    global changelogs
+    if sub in CHANGELOG_ALLOW:
+        seen_allow.add(sub)
+        return
+    changelogs += 1
+    path = os.path.join(sub, "CHANGELOG.md")
+    text = open(path).read() if os.path.exists(path) else ""
+    if not re.search(r"^#+ .*(?<![\d.])" + re.escape(version) + r"(?![\d.])", text, re.M):
+        errors.append(f"{path}: no section for {what} {version}; add one (\"## {version} — date\"), or list it in bin/check-package-metadata.changelog-allow.json with a reason")
+
+
+for p in sorted(glob.glob("lily-design-system-*/package.json")):
+    d = json.load(open(p))
+    if d.get("private") or not str(d.get("name", "")).startswith("@lilydesignsystem/"):
+        continue
+    changelog_has(os.path.dirname(p), d.get("version", ""), d["name"])
+for p in sorted(glob.glob("lily-design-system-*/**/*.csproj", recursive=True)):
+    if "/bin/" in p or "/obj/" in p:
+        continue
+    t = open(p).read()
+    if "<PackageId>" not in t:
+        continue
+    v = re.search(r"<Version>([^<]*)</Version>", t)
+    pid = re.search(r"<PackageId>([^<]*)</PackageId>", t).group(1)
+    changelog_has(p.split("/")[0], v.group(1) if v else "", pid)
+for sub in sorted(set(CHANGELOG_ALLOW) - seen_allow):
+    errors.append(f"bin/check-package-metadata.changelog-allow.json: {sub} publishes nothing; remove it")
+for sub in sorted(seen_allow):
+    path = os.path.join(sub, "CHANGELOG.md")
+    if os.path.exists(path) and re.search(r"^## \d", open(path).read(), re.M):
+        errors.append(f"bin/check-package-metadata.changelog-allow.json: {sub} has version sections now; remove it from the list")
+
 if errors:
     print(f"check-package-metadata: {len(errors)} problem(s)")
     for e in errors:
         print("  " + e)
     sys.exit(1)
-print(f"check-package-metadata: OK ({npm} npm packages, {nuget} NuGet packages name the monorepo)")
+print(f"check-package-metadata: OK ({npm} npm packages, {nuget} NuGet packages name the monorepo; {changelogs} changelogs have a section for their version, {len(CHANGELOG_ALLOW)} not yet published)")

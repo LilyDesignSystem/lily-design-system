@@ -4694,7 +4694,7 @@ From [spec/quality-review](spec/quality-review/index.md); the numbers in bracket
       lockfile disagrees with its `package.json`. Verify: a dry run of a theme-picker and picker-bar release.
       _(2026-11-25: `publish-helpers --only lily-design-system-themes` does nothing and exits 0, because no script publishes themes; an
       `--only` that matches no package must fail. `consumer-smoke` must refuse a checkout that already has installs.)_
-- [ ] **P48-T16 A changelog for every published version (18).** A section per version, or a recorded reason for a stub.
+- [x] **P48-T16 A changelog for every published version (18).** A section per version, or a recorded reason for a stub. _(Done 2026-11-28: 42 npm and 4 NuGet packages had the stub at a published version; each now has a section for it, dated from the registry, and names its earlier versions as recorded only in the root changelog. `bin/check-package-metadata` fails on a version with no section; the seven not yet published (six Alpine helpers and MAUI) are listed with that reason, and leave the list with their first release.)_
       Verify: a check in `bin/check-package-metadata`.
 - [ ] **P48-T17 Generated counts, smaller files (19).** Counts in `spec/index.md` and `AGENTS/*.md` from the repository; finished
       phases of `tasks.md` to an archive; renumber the second Phase 43; `spec/index.md` under 40 KB, as the AGENTS files are.
