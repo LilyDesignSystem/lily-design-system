@@ -1,0 +1,84 @@
+#!/usr/bin/env node
+// bin/check-tree-shaking — a bundle that imports one component holds only it (tasks.md P50-T19).
+//
+// For each headless catalog whose build a bundler can tree-shake on its own (React, Vue, Solid: `"sideEffects": false` and
+// plain ES modules), bundle `import { Button }` from the built package with the package's own esbuild, the framework left
+// external, and fail when the Lily code in it is more than LIMIT of the whole library's, or when it holds another
+// component's class name. Leftover import statements of the external framework are not counted: a real build bundles the
+// framework and merges them away.
+//
+// Not checked here, by design: Angular, whose compiled static fields only Angular's own build optimizer drops, and Web
+// Components, whose entry registers every element (customElements.define) when it loads.
+//
+// A top-level call such as React.forwardRef(...) or Object.freeze(...) is kept by every bundler unless marked
+// /* @__PURE__ */; that is what this check finds.
+//
+// Usage: bin/check-tree-shaking [catalog directory ...]   (default: the three; a catalog with no dist is skipped)
+"use strict";
+
+const fs = require("node:fs");
+const path = require("node:path");
+
+const top = path.resolve(__dirname, "..");
+const LIMIT = 0.02;
+const CATALOGS = {
+    "lily-design-system-react-headless": { entry: "dist/index.js", external: ["react", "react-dom", "react/jsx-runtime"] },
+    "lily-design-system-vue-headless": { entry: "dist/index.mjs", external: ["vue"] },
+    "lily-design-system-solid-headless": {
+        entry: "dist/index.js",
+        external: ["solid-js", "solid-js/web", "solid-js/store", "@solidjs/web"],
+    },
+};
+const slugs = fs
+    .readFileSync(path.join(top, "components.tsv"), "utf-8")
+    .split("\n")
+    .map((l) => l.split("\t")[0])
+    // Hyphenated slugs only: a one-word slug (input, label, option) is also an HTML element or a prop name in a template.
+    .filter((s) => s && s.includes("-"));
+
+const asked = process.argv.slice(2).map((a) => path.basename(path.resolve(a)));
+const run = asked.length ? asked.filter((d) => CATALOGS[d]) : Object.keys(CATALOGS);
+
+(async () => {
+    let failures = 0;
+    for (const dir of run) {
+        const { entry, external } = CATALOGS[dir];
+        const file = path.join(top, dir, entry);
+        if (!fs.existsSync(file)) {
+            console.log(`check-tree-shaking: ${dir}: not built, skipped`);
+            continue;
+        }
+        let esbuild;
+        try {
+            esbuild = require(require.resolve("esbuild", { paths: [path.join(top, dir)] }));
+        } catch {
+            console.log(`check-tree-shaking: ${dir}: no esbuild in its install, skipped`);
+            continue;
+        }
+        const size = async (code) => {
+            const r = await esbuild.build({
+                stdin: { contents: code, resolveDir: path.dirname(file), loader: "js" },
+                bundle: true,
+                write: false,
+                format: "esm",
+                minify: true,
+                external,
+                logLevel: "silent",
+            });
+            const text = r.outputFiles[0].text.replace(/import\s*[^;]*?from\s*"[^"]+";?|import\s*"[^"]+";?/g, "");
+            return { text, length: text.length };
+        };
+        const one = await size(`import { Button } from ${JSON.stringify(file)}; console.log(Button);`);
+        const all = await size(`import * as L from ${JSON.stringify(file)}; console.log(L);`);
+        const strays = slugs.filter((s) => new RegExp(`["'\`]${s}["'\` ]`).test(one.text));
+        const share = one.length / all.length;
+        const ok = share <= LIMIT && strays.length === 0;
+        if (!ok) failures++;
+        console.log(
+            `check-tree-shaking: ${dir}: Button ${one.length} of ${all.length} bytes (${(100 * share).toFixed(2)}%)` +
+                (strays.length ? `, holds ${strays.slice(0, 8).join(", ")}${strays.length > 8 ? " …" : ""}` : "") +
+                (ok ? ": OK" : `: FAIL (over ${100 * LIMIT}% or another component kept; mark a top-level call /* @__PURE__ */)`),
+        );
+    }
+    process.exit(failures ? 1 : 0);
+})();

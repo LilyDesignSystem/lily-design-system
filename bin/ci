@@ -179,6 +179,8 @@ headless_one() {
     local dir="$1"
     (cd "$dir" && pnpm install --frozen-lockfile --prefer-offline && pnpm run check) || return 1
     cached_build "$dir" || return 1
+    # A bundle that imports one component holds only it (React, Vue and Solid; others are skipped, tasks.md P50-T19).
+    bin/check-tree-shaking "$dir" || return 1
     cd "$dir" && pnpm exec vitest run
 }
 

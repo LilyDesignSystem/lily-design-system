@@ -540,3 +540,4 @@ lede
 unstub
 jsdom
 Naijá
+esbuild

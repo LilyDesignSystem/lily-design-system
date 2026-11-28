@@ -80,35 +80,38 @@ export interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEl
     children: React.ReactNode;
 }
 
-const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(function IconButton(
-    {
-        className = "",
-        baseClass = "icon-button",
-        label,
-        type = "button",
-        disabled = false,
-        pressed = undefined,
-        onClick = undefined,
-        children,
-        ...restProps
-    }: IconButtonProps,
-    ref: React.ForwardedRef<HTMLButtonElement>,
-) {
-    warnMissingName("IconButton", label, restProps["aria-labelledby"]);
-    return (
-        <button
-            className={`${baseClass} ${className}`}
-            type={type}
-            disabled={disabled}
-            aria-label={label}
-            aria-pressed={pressed}
-            onClick={onClick}
-            ref={ref}
-            {...restProps}
-        >
-            {children}
-        </button>
-    );
-});
+// PURE: a bundle that does not use IconButton drops it (tasks.md P50-T19).
+const IconButton = /* @__PURE__ */ React.forwardRef<HTMLButtonElement, IconButtonProps>(
+    function IconButton(
+        {
+            className = "",
+            baseClass = "icon-button",
+            label,
+            type = "button",
+            disabled = false,
+            pressed = undefined,
+            onClick = undefined,
+            children,
+            ...restProps
+        }: IconButtonProps,
+        ref: React.ForwardedRef<HTMLButtonElement>,
+    ) {
+        warnMissingName("IconButton", label, restProps["aria-labelledby"]);
+        return (
+            <button
+                className={`${baseClass} ${className}`}
+                type={type}
+                disabled={disabled}
+                aria-label={label}
+                aria-pressed={pressed}
+                onClick={onClick}
+                ref={ref}
+                {...restProps}
+            >
+                {children}
+            </button>
+        );
+    },
+);
 
 export default IconButton;

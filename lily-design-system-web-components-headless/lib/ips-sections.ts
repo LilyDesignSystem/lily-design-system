@@ -42,7 +42,7 @@ export interface IpsContentsEntry {
 }
 
 /** The IPS 2.0.1 Composition sections, in the IG's order. */
-export const IPS_SECTIONS: readonly IpsSectionDefinition[] = Object.freeze([
+export const IPS_SECTIONS: readonly IpsSectionDefinition[] = /* @__PURE__ */ Object.freeze([
     { key: "medications", code: "10160-0", level: "required" },
     { key: "allergies", code: "48765-2", level: "required" },
     { key: "problems", code: "11450-4", level: "required" },
@@ -62,9 +62,9 @@ export const IPS_SECTIONS: readonly IpsSectionDefinition[] = Object.freeze([
 ] as IpsSectionDefinition[]);
 
 /** The keys of the three required sections, in registry order. */
-export const IPS_REQUIRED_SECTIONS: readonly string[] = Object.freeze(
-    IPS_SECTIONS.filter((s) => s.level === "required").map((s) => s.key),
-);
+// The arrow is marked pure so that a bundle which never reads this list drops it and IPS_SECTIONS (tasks.md P50-T19).
+export const IPS_REQUIRED_SECTIONS: readonly string[] = /* @__PURE__ */ (() =>
+    Object.freeze(IPS_SECTIONS.filter((s) => s.level === "required").map((s) => s.key)))();
 
 /** A section's LOINC code, or undefined for a key that is not an IPS section. */
 export function ipsSectionCode(key: string): string | undefined {

@@ -148,7 +148,8 @@ export interface ListboxProps extends React.HTMLAttributes<HTMLElement> {
     onTabOut?: (event: React.KeyboardEvent) => void;
 }
 
-const Listbox = React.forwardRef<HTMLElement, ListboxProps>(function Listbox(
+// PURE: a bundle that does not use Listbox drops it (tasks.md P50-T19).
+const Listbox = /* @__PURE__ */ React.forwardRef<HTMLElement, ListboxProps>(function Listbox(
     {
         className = "",
         baseClass = "listbox",
